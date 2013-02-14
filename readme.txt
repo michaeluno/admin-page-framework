@@ -73,6 +73,9 @@ This framework class PHP library provides plugin and theme developers with easie
 = What is this for? =
 This is	a PHP class library that enables to create option pages and form fields in the administration panel. Also it helps manage to save, export, and import options.
 
+= I've written a useful class and functions. Do you want to include it? = 
+The GitHub repository is avaiable. Create an issue first and we'll see if changes can be made. 
+
 == Screenshots ==
 
 1. **Text Fields**
