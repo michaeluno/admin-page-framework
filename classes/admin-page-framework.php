@@ -3,7 +3,7 @@
 		Library Name: Admin Page Framework
 		Author:  Michael Uno
 		Author URL: http://michaeluno.jp
-		Version: 1.0.0.0
+		Version: 1.0.0.1
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
@@ -35,7 +35,8 @@
 		// Flags
 		protected $bShowPageHeadingTabs = False;
 		protected $bAddedCSSStyleAdjuster = False;	// indicates whether the custom stylesheet has been added into the header or not.
-		protected $bIsImported = False;		// used to determine if the import file was uploaded and processed
+		protected $bIsImported = False;				// used to determine if the import file was uploaded and processed
+		protected $bHasRegisteredSetting = False; 	// indicates whether the register_setting() has been used.
 		
 		// Containter arrays
 		protected $arrSections = array();		// stores registerd form(settings) sections.
@@ -78,6 +79,10 @@
 		protected $strScript = '';			// the default JavaScript 
 		protected $arrPluginDescriptionLinks = array();	// stores links which will be added to the description column in the plugin lising page.
 		protected $arrPluginTitleLinks = array();	// stores links which will be added to the title column in the plugin lising page.
+		
+		// for debugs
+		// protected $numCalled = 0;
+		// protected $arrCallbacks = array();
 		
 		function __construct( $strOptionKey=null, $strCapability=null ){
 			/*
@@ -261,13 +266,17 @@
 			add_action( $this->prefix_do_before	. $strPageSlug , array( $this, $this->prefix_do_before	. $strPageSlug ) );
 			add_action( $this->prefix_do_after	. $strPageSlug , array( $this, $this->prefix_do_after	. $strPageSlug ) );
 		
+			// if this is a Settings API loading page behind the scene, which is options.php, do not register unnecessary callbacks.
+			if ( isset( $_POST['pageslug'] ) && $_POST['pageslug'] != $strPageSlug ) return;	
+			
+			$strOptionName = ( empty( $this->strOptionKey ) ) ? $strPageSlug : $this->strOptionKey;
 			register_setting(	get_class( $this ),	     	// the caller class name to be the option group name.
-								( empty( $this->strOptionKey ) ) ? $strPageSlug : $this->strOptionKey,				// the option key name stored in the option table in the database									
+								$strOptionName,				// the option key name stored in the option table in the database.
 								array( $this, $this->prefix_validation . 'pre_' . $strPageSlug )	  // validation method	
-			);   
+			);  
 			
 		}
-		function AddFormSections( $arrSections ) {
+		protected function AddFormSections( $arrSections ) {
 		
 			/*
 			 * Adds Form Section for Settings API for pages created with this class.
@@ -301,9 +310,9 @@
 				$arrSection['pageslug'] = $this->SanitizeSlug( $arrSection['pageslug'] );	
 				$arrSection['tabslug'] = $this->SanitizeSlug( $arrSection['tabslug'] );
 				
-				// If the page slug does not match the current page, there is no need to register form sections and fields.
-				$strCurrentPage = isset( $_GET['page'] ) ? $_GET['page'] : null;
-				if ( (string) $strCurrentPage !== (string) $arrSection['pageslug'] ) continue;
+				// If the page slug does not match the current loading page, there is no need to register form sections and fields.
+				$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
+				if ( !$strCurrentPageSlug || (string) $strCurrentPageSlug !== (string) $arrSection['pageslug'] ) continue;	
 				
 				// If the tab slug is specified, determine if the current page is the default tab or the current tab matches the given tab slug.
 				if ( !$this->IsTabSpecifiedForFormSection( $arrSection ) ) continue;		
@@ -313,14 +322,13 @@
 																'pageslug' => $arrSection['pageslug'],
 																'description' => $arrSection['description']
 														);
-				
-				// Add sections
+														
+				// Add the given section
 				add_settings_section( 	$arrSection['id'],
 										$arrSection['title'],
 										array( $this, $this->prefix_section . 'pre_' . $arrSection['id'] ),  // callback function
-										// array( $this, $this->prefix_section . $arrSection['id'] ),  // callback function
 										$arrSection['pageslug'] );
-				// Add form fields
+				// Add the given form fields
 				if ( is_array( $arrSection['fields'] ) ) {
 					$this->AddFormFields(	$arrSection['pageslug'],
 											$arrSection['id'],
@@ -442,7 +450,6 @@
 																);		
 																
 				$strFieldTitleTDTag = isset( $arrField['tip'] ) ? '<span title="' . strip_tags( $arrField['tip'] ) . '">' . $strTitle . '</span>' : '<span>' . $strTitle . '</span>';
-				// $strFieldTitleTDTag .= $arrField['description'] ? '<p style="margin-left:1em; color:#666">' . $arrField['tip'] : '</p>';			
 				add_settings_field( $arrField['id'],
 									$strFieldTitleTDTag,
 									array( $this, $this->prefix_field . 'pre_' . $arrField['id'] ),	// callback function
@@ -732,23 +739,24 @@
 			return $strOutput;	
 		}
 		function MergeOptionArray( $strMethodName, $arrInput ) {
-			
+		
 			// For debug
-			// add_settings_error( $_POST['pageslug'], 
-				// 'can_be_any_string',  
-				// '<h3>Submitted Values</h3>' .
-				// '<h4>$_POST</h4><pre>' . print_r( $_POST, true ) . '</pre>' .
-				// '<h4>$arrInput</h4><pre>' . print_r( $arrInput, true ) . '</pre>'
-			// , 'update');
+			// $this->numCalled++;			
+			// $this->arrCallbacks[$strMethodName] = $_POST['pageslug'];	
 
-
-					
-			// $strMethodName is like validation_pre + page slug
-			// This method is called multiple times as many as added sub pages. So check if it is the necessary page to apply the validation.
+			// $strMethodName is made up of validation_pre + page slug
 			$strPageSlug = substr( $strMethodName, strlen( $this->prefix_validation ) + 4 );
 			// Do not cast array. Check it manually since casted array will have the index of 0 and will add it when it is merged.
 			$arrOriginal = get_option( empty( $this->strOptionKey ) ? $strPageSlug : $this->strOptionKey );
+
 		
+			
+			// In case the method is called unexpectedly from a different page, just return the original array or the original value is not an array, return the passed value.
+			// Since the hidden input named 'pageslug' submits the page slug, check the value $_POST['pageslug'].
+			// This must be done before the line returns null for deleting options.
+			if ( $_POST['pageslug'] != $strPageSlug ) return ( array ) $arrOriginal;
+				// return ( is_array( $arrOriginal ) ) ? array_replace_recursive( $arrInput, $arrOriginal ) : $arrInput;
+
 			/*
 			 * For the custom field types, import and export 
 			 * */
@@ -812,21 +820,25 @@
 			}
 			
 			// For Debug
+			// $strOptionKeySet = empty( $this->strOptionKey ) ? 'No' : 'Yes';
 			// add_settings_error( $_POST['pageslug'], 
 					// 'can_be_any_string',  
 					// '<h3>Submitted Values</h3>' .
 					// '<h4>$arrKeys</h4><pre>' . print_r( $arrKeys, true ) . '</pre>' .
 					// '<h4>Has Deleted?</h4><pre>' . $bDeleted . '</pre>' .
-					// '<h4>Submitted Data - $_POST</h4><pre>' . print_r( $_POST, true ) . '</pre>' .
+					// '<h4>Is Option Key Set?</h4><pre>' . $strOptionKeySet . '</pre>' .
+					// '<h4>This Page Slug</h4><pre>' . $_GET['page'] . '</pre>' .
+					// '<h4>The Current Processing URL</h4><pre>' . $_SERVER['REQUEST_URI'] . '</pre>' .
+					// '<h4>Removed Callbacks</h4><pre>' . print_r( $this->arrDebug, true ) . '</pre>' .
+					// '<h4>Number of times this method was called</h4><pre>' . $this->numCalled . '</pre>' .
+					// '<h4>Registered Sections (to Settings API)</h4><pre>' . print_r( $this->arrSections, true ) . '</pre>' . // <-- does not work beacause the validation callback is triggered in a diffeprent page load
+					// '<h4>Called methods</h4><pre>' . print_r( $this->arrCallbacks, true ) . '</pre>' .
 					// '<h4>Passed Data - $arrInput</h4><pre>' . print_r( $arrInput, true ) . '</pre>' .
+					// '<h4>Submitted Data - $_POST</h4><pre>' . print_r( $_POST, true ) . '</pre>' .
 					// '<h4>Currently Saved Data - $arrOptions</h4><pre>' . print_r( $arrOriginal, true ) . '</pre>',
 					// 'updated'
 				// );	
-	
-			// Since hidden input named pageslug sends the page slug, check the value $_POST['pageslug'] in case the method is called unexpectedly.
-			if ( $_POST['pageslug'] != $strPageSlug )
-				return ( is_array( $arrOriginal ) ) ? array_replace_recursive( $arrOriginal, $arrInput ) : $arrInput;	// $arrInput + $arrOriginal : $arrInput;
-			
+				
 			// For in-page tabs
 			if ( isset( $_POST['tabslug'] ) && !empty( $_POST['tabslug'] ) ) {
 				$strFilter = $this->prefix_validation . $strPageSlug . '_' . $_POST['tabslug'];
@@ -886,13 +898,31 @@
 			if ( substr( $strMethodName, 0, strlen( $this->prefix_section ) )		== $this->prefix_section )			return $arrArgs[0];  // section_	
 
 			// the callback of add_submenu_page() - render the page contents.
-			$strPageSlug = $strMethodName;		// the passed method name is the page slug.
-			$this->RenderPage( $strPageSlug, $strTabSlug );
+			if ( isset( $_GET['page'] ) && $_GET['page'] == $strMethodName ) $this->RenderPage( $strMethodName, $strTabSlug );
+							
+		}
+		protected function RemoveValidationCallbacksExcept( $strPageSlug ) {
+			
+			// Removes the Settings API validation callbacks except for the given page. 
+			// Returns an array holding the results with the key of the callback method and the value of True/False.
+			// True to be removed; otherwise, False.
+			
+			$arrRemoved = array();
+			foreach ( $this->arrPageTitles as $strStoredPageSlug => $strStoredPageTitle ) {
+				$strOptionName = ( empty( $this->strOptionKey ) ) ? $strStoredPageSlug : $this->strOptionKey;
+				$strValidationMethodName = $this->prefix_validation . 'pre_' . $strStoredPageSlug;
+				$arrRemoved[$strValidationMethodName] = 0;
+				if ( $strStoredPageSlug == $strPageSlug ) continue;				
+				$arrRemoved[$strValidationMethodName] = remove_filter( "sanitize_option_{$strOptionName}", array( $this, $strValidationMethodName ) );
+			}		
+			return $arrRemoved;
 		}
 		protected function RenderPage( $strPageSlug, $strTabSlug=null ) {
-			
+	
+			// this helps to prevent multiple validation callbacks for the case that the user sets custom option key.
+			$this->RemoveValidationCallbacksExcept( $strPageSlug );	
+	
 			// variables
-			// $strPageSlug = $this->GetCurrentSlug();
 			$strHeader = '';
 			
 			// Do actions before rendering the page. In this order, global -> page -> in-page tab

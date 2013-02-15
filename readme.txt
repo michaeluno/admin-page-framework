@@ -116,5 +116,9 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
 
 == Changelog ==
-= 1.0.0.0 - 2/14/2013 = 
+
+= 1.0.0.1 - 02/15/2013 =
+* Fixed a bug that the options of different pages got deleted when another page's options were saved.
+
+= 1.0.0.0 - 02/14/2013 = 
 * Initial Release
