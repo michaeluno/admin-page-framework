@@ -534,6 +534,7 @@
 			$arrField['error'] = isset( $arrField['error'] ) ? $arrField['error'] : '';
 			$arrField['filename'] = isset( $arrField['filename'] ) ? $arrField['filename'] : '';
 			$arrField['option_key'] = isset( $arrField['option_key'] ) ? $arrField['option_key'] : '';
+			$arrField['selecters '] = isset( $arrField['selecters '] ) ? $arrField['selecters'] : '';
 			
 			$strOutput = $arrErrors[$arrField['section_ID']][$arrField['field_ID']] ? '<span style="color:red;">*&nbsp;' . $arrField['error'] . '</span><br />' : '';
 			
