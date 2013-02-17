@@ -20,7 +20,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Settings API Implemented** - it uses the WordPress Settings API for the creating the form so the standard option design will be implemented.
-* **Validate Data and Display Errors** - with the pre-defined validation callbacks, it helps manipulate the user's submitting data. It also lets you easily display error messages as well.
+* **Validation and Error Checks** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 
 = Supported Field Types =
 * Text 
