@@ -119,8 +119,12 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.0.2 - 02/17/2013 =
+* Fixd a warining in debug mode, undefined index, selectors.
+* Added a brief instruction in the demo plugin code and fixed some inaccurate descriptions.
+
 = 1.0.0.1 - 02/15/2013 =
-* Fixed a bug that the options of different pages got deleted when another page's options were saved.
+* Fixed a bug that the options were not properly saved when the forms were created in multiple pages.
 
 = 1.0.0.0 - 02/14/2013 = 
 * Initial Release
