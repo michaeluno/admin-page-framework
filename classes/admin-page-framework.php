@@ -3,7 +3,7 @@
 		Library Name: Admin Page Framework
 		Author:  Michael Uno
 		Author URL: http://michaeluno.jp
-		Version: 1.0.0.1
+		Version: 1.0.0.2
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
