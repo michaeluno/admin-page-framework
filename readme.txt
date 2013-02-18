@@ -19,7 +19,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 * **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
-* **Settings API Implemented** - it uses the WordPress Settings API for the creating the form so the standard option design will be implemented.
+* **Settings API Implemented** - it uses the WordPress Settings API for creating the form so the standard option design will be implemented.
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 
 = Supported Field Types =
@@ -46,7 +46,7 @@ It provides plugin and theme developers with easier means of creating option pag
 
 == Screenshots ==
 1. **Text Fields**
-2. **Selecter and Checkboxes**
+2. **Selector and Checkboxes**
 3. **Image and Upload**
 4. **Form Verification**
 5. **Import and Export**
