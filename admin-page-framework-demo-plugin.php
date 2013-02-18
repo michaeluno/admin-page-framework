@@ -5,22 +5,22 @@
 		Description: Demonstrates the features of the Admin Page Framework class.
 		Author: Michael Uno
 		Author URI: http://michaeluno.jp
-		Version: 1.0.0.2
+		Version: 1.0.0.3
 	*/
 
 	/*
 	 * Brief Instruction: How to Use the Framework - Basic Five Steps
 	 * 	1. Include the library.
 	 * 	2. Extend the library class.
-	 * 	3. Define the SetUp() method. Include the following methods in the definition.
+	 * 	3. Define the SetUp() method. Include the following methods in the definition. Decide the page title and the slug.
 	 * 		SetRootMenu() - use it to specify the root menu.
-	 * 	 	AddSubMenu() - use it to specify the sub menu and the page. This page will be the actual page your users will going to access.
+	 * 	 	AddSubMenu() - use it to specify the sub menu and the page. This page will be the actual page your users will be going to access.
 	 * 			IMPORTANT: Decide the page slug witout hyphens and dots. This is very important since the page slug serves as the callback methods name.
 	 * 		for other methods and more details, visit, http://en.michaeluno.jp/admin-page-framework/methods/
 	 * 	4. Define callback methods.
 	 * 	5. Instantiate the extended class.
 	 * 	
-	 * for Getting Started, visit http://en.michaeluno.jp/admin-page-framework/get-started
+	 * To get started, visit http://en.michaeluno.jp/admin-page-framework/get-started . It has the simplest example so you'll see how it works.
 	 * */ 
 	 
 	// 1. Include the library
@@ -37,6 +37,9 @@
 			$this->SetRootMenu( 'Admin Page Framework Demo Plugin' );	
 			
 			// Add the sub menus and the pages
+			// You need to decide what page title and the slug to use. 
+			// Important: do not use dots and hyphens in the page slug. Alphabets and numbers only! 
+			// You are going to use the page slug later on for the callback method.
 			$this->AddSubMenu(	'My First Page',	// page and menu title
 								'myfirstpage',		// page slug - this will be the option name saved in the database
 								plugins_url( 'img/demo_01_32x32.png', __FILE__ ) );	// set the screen icon, it should be 32 x 32.
@@ -50,7 +53,8 @@
 								'myfourthpage',
 								plugins_url( 'img/demo_04_32x32.png', __FILE__ ) );
 			
-			// Enable heading page tabs.
+			// There are two kinds of tabs supported by this framework: page heading tabs and in-page tabs.
+			// Enable page heading tabs. 
 			$this->ShowPageHeadingTabs( True );
 			
 			// Add in-page tabs in the third page.			
@@ -65,7 +69,7 @@
 								
 			// Add form elements.
 			// Here we have four sections as an example.
-			// If you wonder what keys are need to be passed, please refer to http://en.michaeluno.jp/admin-page-framework/methods/
+			// If you wonder what array keys are need to be used, please refer to http://en.michaeluno.jp/admin-page-framework/methods/
 			$this->AddFormSections( 
 				// Section Arrays
 				array( 	
@@ -304,10 +308,9 @@
 
 			// Show the saved option value. The option key is the string passed to the first parameter to the constructor of the class (at the end of this plugin).
 			// If the option key is not set, the page slug will be used. 
-			if ( $options = ( array ) get_option( 'demo_my_option_key' ) )
-				echo '<h3>Saved values</h3><h4>option table key: demo_my_option_key</h4><pre>'
-					. print_r( $options, true ) 
-					. '</pre>';
+			if ( $options = get_option( 'demo_my_option_key' ) )
+				echo '<h3>Saved values</h3><h4>option table key: demo_my_option_key</h4>'
+					. '<pre>' . print_r( ( array ) $options, true ) . '</pre>';	
 					
 		}
 	
@@ -319,7 +322,7 @@
 			// ( Or altenatively retrieve the saved option array from the database and return it. )
 			if ( isset( $arrInput['myfirstpage']['buttons']['reload'] ) ) return array();
 
-			// To discard all the savd option values, return null.
+			// To discard all the saved option values, return null.
 			if ( isset( $arrInput['myfirstpage']['buttons']['update']['delete'] ) ) {
 				add_settings_error( $_POST['pageslug'], 
 					'can_be_any_string',  
@@ -329,7 +332,7 @@
 				return null;		
 			}
 			
-			// This is useful to check the submitted values.
+			// add_settings_error() is useful to display the submitted values.
 			add_settings_error( $_POST['pageslug'], 
 					'can_be_any_string',  
 					'<h3>Check Submitted Values</h3>' .
@@ -358,9 +361,6 @@
 		}
 		// The verification callback method for the fourth tab in the first sub page.
 		function validation_myfirstpage_fourthtab( $arrInput ) {	// 'validation_' + page slug + tab slug
-	
-			// if the validation fails, return the originally stored value.
-			$arrOriginal = (array) get_option( 'demo_my_option_key' );
 			
 			// Set the flag 
 			$bIsValid = True;
@@ -391,9 +391,8 @@
 			// This displays the error message
 			add_settings_error( $_POST['pageslug'], 'can_be_any_string',  __( 'The value must be numeric.' )  . '<br />Submitted Data: ' . print_r( $arrInput, true )  );	
 			
-			// This will sent to Settings API and it will be saved in the database. 
-			// So the orgiginal data will be stored, meaning nothing changes.
-			return $arrOriginal;
+			// Returning an empty array will not change options.
+			return array();
 		}			
 		
 		/*
@@ -407,14 +406,14 @@
 		}
 		function content_mysecondpage( $strContent ) {	// 'content_' + page slug
 			
-			return $strContent . '<p>After saving some values in the firs page. Try exporting the options and change some values. Then import the file and see if the settings gets reverted.</p>';
+			return $strContent . '<p>After saving some values in the first page. Try exporting the options and change some values. Then import the file and see if the settings gets reverted.</p>';
 
 		}		
 		
 		/*
 		 * The third sub page.
 		 * */
-		// Apply the custom style to the third page only
+		// Apply the custom style to the third page only.
 		function style_mythirdpage( $strRules ) {	// 'style_' + page slug 
 			
 			return $strRules . '#wpwrap {background-color: #EEE;}';
