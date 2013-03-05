@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration panel, admin panel, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, development tool, developers
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.0.0.1
+Stable tag: 1.0.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,7 +117,18 @@ This is	a PHP class library that enables to create option pages and form fields 
 = I've written a useful class and functions. Do you want to include it? = 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
 
+== To do ==
+
+
 == Changelog ==
+
+= 1.0.1 - 03/05/2013 =
+* Removed: array_replace_recursive() to support PHP below 5.3.
+* Changed: to use md5() for the error transient name, class name + page slug, to prevent WordPress from failing to retrieve or save options for the character lengths exceeding 45 characters.
+* Changed: to echo the value in a user-defined custom field type.
+* Added: the *pre_html* and *post_html* keys for input fields that adds extra HTML code before/after the field input and the description.
+* Added: the *value* key for input fields that precedes the option values saved in the database.
+* Added: the *disable* key for input fields to add disabled="Disabled".
 
 = 1.0.0.2 - 02/17/2013 =
 * Fixd a warining in debug mode, undefined index, selectors.

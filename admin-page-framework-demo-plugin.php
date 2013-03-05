@@ -5,7 +5,7 @@
 		Description: Demonstrates the features of the Admin Page Framework class.
 		Author: Michael Uno
 		Author URI: http://michaeluno.jp
-		Version: 1.0.0.3
+		Version: 1.0.1
 	*/
 
 	/*
@@ -380,13 +380,13 @@
 			if ( $bIsValid ) {		
 				// this displays message
 				add_settings_error( $_POST['pageslug'], 'can_be_any_string',  __( 'The options were updated.' ), 'updated' );
-				delete_transient( get_class( $this ) . '_' . $_POST['pageslug'] ); // delete the temporary data for errors.
+				delete_transient( md5( get_class( $this ) . '_' . $_POST['pageslug'] ) ); // delete the temporary data for errors.
 				return $arrInput;
 			}
 
 			// This line is reached if there are invalid values.
-			// Store the error array in the transient with the name of the extended class name + _ + page slug.
-			set_transient( get_class( $this ) . '_' . $_POST['pageslug'], $arrErrors, 60*5 );	// store it for 5 minutes ( 60 seconds * 5 )
+			// Store the error array in the transient with the name of a MD5 hash string that consists of the extended class name + _ + page slug.
+			set_transient( md5( get_class( $this ) . '_' . $_POST['pageslug'] ), $arrErrors, 60*5 );	// store it for 5 minutes ( 60 seconds * 5 )
 			
 			// This displays the error message
 			add_settings_error( $_POST['pageslug'], 'can_be_any_string',  __( 'The value must be numeric.' )  . '<br />Submitted Data: ' . print_r( $arrInput, true )  );	
