@@ -5,7 +5,7 @@
 		Description: Demonstrates the features of the Admin Page Framework class.
 		Author: Michael Uno
 		Author URI: http://michaeluno.jp
-		Version: 1.0.1
+		Version: 1.0.1.1
 	*/
 
 	/*
@@ -40,32 +40,41 @@
 			// You need to decide what page title and the slug to use. 
 			// Important: do not use dots and hyphens in the page slug. Alphabets and numbers only! 
 			// You are going to use the page slug later on for the callback method.
-			$this->AddSubMenu(	'My First Page',	// page and menu title
-								'myfirstpage',		// page slug - this will be the option name saved in the database
-								plugins_url( 'img/demo_01_32x32.png', __FILE__ ) );	// set the screen icon, it should be 32 x 32.
-			$this->AddSubMenu(	'Import and Export Options', 
-								'mysecondpage',
-								plugins_url( 'img/demo_02_32x32.png', __FILE__ ) );
-			$this->AddSubMenu(	'Change Style',
-								'mythirdpage',
-								plugins_url( 'img/demo_03_32x32.png', __FILE__ ) );
-			$this->AddSubMenu(	'Information',
-								'myfourthpage',
-								plugins_url( 'img/demo_04_32x32.png', __FILE__ ) );
+			$this->AddSubMenu(
+				'My First Page',	// page and menu title
+				'myfirstpage',		// page slug - this will be the option name saved in the database
+				plugins_url( 'img/demo_01_32x32.png', __FILE__ )
+			);	// set the screen icon, it should be 32 x 32.
+			$this->AddSubMenu(
+				'Import and Export Options', 
+				'mysecondpage',
+				plugins_url( 'img/demo_02_32x32.png', __FILE__ ) 
+			);
+			$this->AddSubMenu(
+				'Change Style',
+				'mythirdpage',
+				plugins_url( 'img/demo_03_32x32.png', __FILE__ )
+			);
+			$this->AddSubMenu(
+				'Information',
+				'myfourthpage',
+				plugins_url( 'img/demo_04_32x32.png', __FILE__ )
+			);
 			
 			// There are two kinds of tabs supported by this framework: page heading tabs and in-page tabs.
 			// Enable page heading tabs. 
 			$this->ShowPageHeadingTabs( True );
 			
 			// Add in-page tabs in the third page.			
-			$this->AddInPageTabs( 'myfirstpage',	
-						array(	// slug => title
-							'firsttab' => 'Text Fields', 		
-							'secondtab' => 'Selecters and Checkboxes', 		
-							'thirdtab' => 'Image and Upload',
-							'fourthtab' => 'Verify Form Data',
-						) 
-					);	
+			$this->AddInPageTabs(
+				'myfirstpage',	
+				array(	// slug => title
+					'firsttab' => 'Text Fields', 		
+					'secondtab' => 'Selectors and Checkboxes', 		
+					'thirdtab' => 'Image and Upload',
+					'fourthtab' => 'Verify Form Data',
+				) 
+			);	
 								
 			// Add form elements.
 			// Here we have four sections as an example.
@@ -87,7 +96,6 @@
 								array(  
 									'id' => 'text', 
 									'title' => 'Text',
-									'tip' => 'Type somethig here.',		// appears on mouse hover on the title
 									'description' => 'Type somethig here.',	// additional notes besides the form field
 									'type' => 'text',
 									'default' => 123456,
@@ -105,7 +113,6 @@
 								array(  
 									'id' => 'textarea',
 									'title' => 'Text Area', 
-									'tip' => 'Type a text string here.',
 									'description' => 'Type a text string here.',
 									'type' => 'textarea',
 									'rows' => 6,
@@ -118,9 +125,9 @@
 					array(  
 						'pageslug' => 'myfirstpage',
 						'tabslug' => 'secondtab',
-						'id' => 'selecters', 
-						'title' => 'Selecters and Checkboxes',
-						'description' => 'These are selecter type options.',
+						'id' => 'selectors', 
+						'title' => 'Selectors and Checkboxes',
+						'description' => 'These are selector type options.',
 						'fields' => 
 							// Field Arrays
 							array(
@@ -128,7 +135,6 @@
 								array(  
 									'id' => 'select',
 									'title' => 'Drop Down List',
-									'tip' => 'This is a drop down list.',
 									'description' => 'This is a drop down list.',
 									'type' => 'select',
 									'default' => 0,
@@ -138,7 +144,6 @@
 								array(  
 									'id' => 'radio',
 									'title' => 'Radio Button', 
-									'tip' => 'Choose one from the radio buttons.',
 									'description' => 'Choose one from the radio buttons.',
 									'type' => 'radio',
 									'label' => array( 'a' => 'apple', 'b' => 'banana', 'c' => 'cherry' ),
@@ -148,7 +153,6 @@
 								array( 
 									'id' => 'checkboxs',
 									'title' => 'Multiple Checkboxes', 
-									'tip' => 'The description key can be omitted though.',
 									'description' => 'The description key can be omitted though.',
 									'type' => 'checkbox',
 									'label' => array( 'moon' => 'Moon', 'earth' => 'Earth', 'sun' => 'Sun', 'mars' => 'Mars' ),
@@ -233,9 +237,9 @@
 									'id' => 'update',
 									'type' => 'submit',		// the submit type creates a button
 									'label' => array( 
-												'save' => 'Update the Options',
-												'delete' => 'Delete the Options'
-												)
+										'save' => 'Update the Options',
+										'delete' => 'Delete the Options'
+									)
 								),									
 							)
 					),
@@ -283,14 +287,15 @@
 						'description' => 'Submitted data can be verified. If it fails, show an error message.',
 						'fields' => 
 							array(
-								array(  'id' => 'field_verify_text', 		// the option key name saved in the database. You will need this when retrieving the saved value later.
-										'title' => 'Verify Text Form Field',
-										'tip' => 'Try entering something that is not a number.',		// appears on mouse hover on the title
-										'error' => 'Please enter a number! This message is set in the field array with the error key.',
-										'description' => 'Try entering something that is not a number.',	// additional notes besides the form field
-										'type' => 'text',	// set the input field type to be text
-										'default' => 'xyz',	// the default value is set here.
-									),
+								array(  
+									'id' => 'field_verify_text', 		// the option key name saved in the database. You will need this when retrieving the saved value later.
+									'title' => 'Verify Text Form Field',
+									'tip' => 'Try entering something that is not a number.',		// appears on mouse hover on the title
+									'error' => 'Please enter a number! This message is set in the field array with the error key. The invalid Value: ',
+									'description' => 'Try entering something that is not a number.',	// additional notes besides the form field
+									'type' => 'text',	// set the input field type to be text
+									'default' => 'xyz',	// the default value is set here.
+								),
 							)
 					),				
 				)
@@ -324,7 +329,8 @@
 
 			// To discard all the saved option values, return null.
 			if ( isset( $arrInput['myfirstpage']['buttons']['update']['delete'] ) ) {
-				add_settings_error( $_POST['pageslug'], 
+				add_settings_error( 
+					$_POST['pageslug'], 
 					'can_be_any_string',  
 					__( 'Options were deleted.', 'admin-page-framework' ),
 					'updated'
@@ -333,7 +339,8 @@
 			}
 			
 			// add_settings_error() is useful to display the submitted values.
-			add_settings_error( $_POST['pageslug'], 
+			add_settings_error( 
+					$_POST['pageslug'], 
 					'can_be_any_string',  
 					'<h3>Check Submitted Values</h3>' .
 					'<h4>$arrInput - the passed value to the validation callback</h4><pre>' . print_r( $arrInput, true ) . '</pre>' .
@@ -350,12 +357,13 @@
 			$arrErrors = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_multiple_fields'];
 			$arrErrors[] = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_single_field'];
 			if ( in_array( 0, $arrErrors ) )
-				add_settings_error( $_POST['pageslug'], 
-						'can_be_any_string',  
-						'<h3>File was uploaded</h3>' .
-						'<h4>$_FILES</h4><pre>' . print_r( $_FILES, true ) . '</pre>',
-						'updated'
-					);
+				add_settings_error( 
+					$_POST['pageslug'], 
+					'can_be_any_string',  
+					'<h3>File was uploaded</h3>' .
+					'<h4>$_FILES</h4><pre>' . print_r( $_FILES, true ) . '</pre>',
+					'updated'
+				);
 	
 			return $arrInput;
 		}

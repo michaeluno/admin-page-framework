@@ -119,11 +119,17 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == To do ==
 
-
 == Changelog ==
 
+= 1.0.1.1 =
+* Fixed: typos in the demo plugin.
+* Changed: error message for a field to display the field value as well in addition to the specified error message.
+* Changed: the post_html key to be inserted after the description key.
+* Changed: tip key to use the description key if it is not set.
+
+
 = 1.0.1 - 03/05/2013 =
-* Removed: array_replace_recursive() to support PHP below 5.3.
+* Removed: array_replace_recursive() to support PHP below 5.3 and applied an alternative.
 * Changed: to use md5() for the error transient name, class name + page slug, to prevent WordPress from failing to retrieve or save options for the character lengths exceeding 45 characters.
 * Changed: to echo the value in a user-defined custom field type.
 * Added: the *pre_html* and *post_html* keys for input fields that adds extra HTML code before/after the field input and the description.

@@ -3,7 +3,7 @@
 		Library Name: Admin Page Framework
 		Author:  Michael Uno
 		Author URL: http://michaeluno.jp
-		Version: 1.0.1
+		Version: 1.0.1.1
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
@@ -213,14 +213,15 @@ class Admin_Page_Framework {
 
 	protected function CreateRootMenu( $strTitle, $strPathIcon16x16=null ) {
 		$strPathIcon16x16 = ( $strPathIcon16x16 ) ? $strPathIcon16x16 : $this->strPathIcon16x16;
-		add_menu_page(  $this->strPageTitle,					// Page title - will be invisible anyway
-						$strTitle,								// Menu title 
-						$this->strCapability,					// Capability - accsess right
-						$this->strPageSlug,						// Menu ID 
-						array( $this, $this->strPageSlug ), 	// Menu display function	
-						$strPathIcon16x16,						// icon
-						empty( $this->numPosition ) ? null : $this->numPosition 	// menu position
-					);
+		add_menu_page(  
+			$this->strPageTitle,					// Page title - will be invisible anyway
+			$strTitle,								// Menu title 
+			$this->strCapability,					// Capability - accsess right
+			$this->strPageSlug,						// Menu ID 
+			array( $this, $this->strPageSlug ), 	// Menu display function	
+			$strPathIcon16x16,						// icon
+			empty( $this->numPosition ) ? null : $this->numPosition 	// menu position
+		);
 					
 		// Store the page title and icon, and how many times a top level page has been created.
 		$this->numRootPages++;
@@ -235,12 +236,14 @@ class Admin_Page_Framework {
 	
 		// add the sub-menu and sub-page
 		$strPageSlug = $this->SanitizeSlug( $strPageSlug );	// - => _, . => _
-		add_submenu_page( trim( $this->strPageSlug )		// $parent_slug
-						, $strSubTitle						// $page_title
-						, $strSubTitle						// $menu_title
-						, $this->strCapability 				// $strCapability
-						, $strPageSlug						// $menu_slug
-						, array( $this, $strPageSlug ) );	// triggers the __Call method with the method name of this slug.
+		add_submenu_page( 
+			trim( $this->strPageSlug )		// $parent_slug
+			, $strSubTitle						// $page_title
+			, $strSubTitle						// $menu_title
+			, $this->strCapability 				// $strCapability
+			, $strPageSlug						// $menu_slug
+			, array( $this, $strPageSlug ) 
+		);	// triggers the __Call method with the method name of this slug.
 						
 		// Set the default page link so that it can be referred from the methods add the link to the page including AddLinkInPluginListingPage()
 		if ( $this->numRootPages == 1 && $this->numSubPages == 0 )	// means only the single root menu has been added so far
@@ -269,9 +272,10 @@ class Admin_Page_Framework {
 		if ( isset( $_POST['pageslug'] ) && $_POST['pageslug'] != $strPageSlug ) return;	
 		
 		$strOptionName = ( empty( $this->strOptionKey ) ) ? $strPageSlug : $this->strOptionKey;
-		register_setting(	get_class( $this ),	     	// the caller class name to be the option group name.
-							$strOptionName,				// the option key name stored in the option table in the database.
-							array( $this, $this->prefix_validation . 'pre_' . $strPageSlug )	  // validation method	
+		register_setting(	
+			get_class( $this ),	     	// the caller class name to be the option group name.
+			$strOptionName,				// the option key name stored in the option table in the database.
+			array( $this, $this->prefix_validation . 'pre_' . $strPageSlug )	  // validation method	
 		);  
 		
 	}
@@ -298,13 +302,13 @@ class Admin_Page_Framework {
 			
 			// Set keys in case some are not set - this prevents PHP invalid index warnings
 			$arrSection = ( array ) $arrSection + array( 
-										'pageslug' => null,
-										'tabslug' => null,
-										'title' => null,
-										'description' => null,
-										'id' => null,
-										'fields' => null
-										);
+				'pageslug' => null,
+				'tabslug' => null,
+				'title' => null,
+				'description' => null,
+				'id' => null,
+				'fields' => null
+			);
 
 			$arrSection['pageslug'] = $this->SanitizeSlug( $arrSection['pageslug'] );	
 			$arrSection['tabslug'] = $this->SanitizeSlug( $arrSection['tabslug'] );
@@ -317,21 +321,25 @@ class Admin_Page_Framework {
 			if ( !$this->IsTabSpecifiedForFormSection( $arrSection ) ) continue;		
 
 			// Store the registered sections internally in the class object.
-			$this->arrSections[$arrSection['id']] = array(  'title' => $arrSection['title'],
-															'pageslug' => $arrSection['pageslug'],
-															'description' => $arrSection['description']
-													);
-													
+			$this->arrSections[$arrSection['id']] = array(  
+				'title' => $arrSection['title'],
+				'pageslug' => $arrSection['pageslug'],
+				'description' => $arrSection['description']
+			);
+			
 			// Add the given section
-			add_settings_section( 	$arrSection['id'],
-									$arrSection['title'],
-									array( $this, $this->prefix_section . 'pre_' . $arrSection['id'] ),  // callback function
-									$arrSection['pageslug'] );
+			add_settings_section( 	
+				$arrSection['id'],
+				$arrSection['title'],
+				array( $this, $this->prefix_section . 'pre_' . $arrSection['id'] ),  // callback function
+				$arrSection['pageslug'] 
+			);
 			// Add the given form fields
 			if ( is_array( $arrSection['fields'] ) ) {
-				$this->AddFormFields(	$arrSection['pageslug'],
-										$arrSection['id'],
-										$arrSection['fields']
+				$this->AddFormFields(	
+					$arrSection['pageslug'],
+					$arrSection['id'],
+					$arrSection['fields']
 				);	
 			}
 		}
@@ -349,9 +357,10 @@ class Admin_Page_Framework {
 		return array_merge( $arrLinks, $this->arrPluginTitleLinks );
 	}
 	function AddLinkInPluginListingPage( $arrLinks ) {		// this is a callback method so should not be protected	
-		array_unshift(	$arrLinks,
-						'<a href="admin.php?page=' . $this->strDefaultPageLink . '">' . __( 'Settings', 'admin-page-framework' ) . '</a>'
-					); 
+		array_unshift(	
+			$arrLinks,
+			'<a href="admin.php?page=' . $this->strDefaultPageLink . '">' . __( 'Settings', 'admin-page-framework' ) . '</a>'
+		); 
 		return $arrLinks;
 	}	
 	function IsTabSpecifiedForFormSection( $arrSection ) {
@@ -441,21 +450,25 @@ class Admin_Page_Framework {
 			} 
 			 
 			// Store the registered field internally in the class object.
-			$strTitle = isset( $arrField['title'] ) ? $arrField['title'] : '';
-			$this->arrFields[$arrField['id']] = $arrField + array(  'field_title'	=> $strTitle, 
-																	'page_slug' 	=> $strPageSlug,
-																	'field_ID' 		=> $arrField['id'],
-																	'section_ID' 	=> $strSectionID,
-															);		
-															
-			$strFieldTitleTDTag = isset( $arrField['tip'] ) ? '<span title="' . strip_tags( $arrField['tip'] ) . '">' . $strTitle . '</span>' : '<span>' . $strTitle . '</span>';
-			add_settings_field( $arrField['id'],
-								$strFieldTitleTDTag,
-								array( $this, $this->prefix_field . 'pre_' . $arrField['id'] ),	// callback function
-								$strPageSlug,
-								$strSectionID,
-								$this->arrFields[$arrField['id']] 
-							);				
+			$arrField = $arrField + array(
+				'title' => '',
+				'description' => '',
+			);
+			$this->arrFields[$arrField['id']] = $arrField + array(  
+				'field_title'	=> $arrField['title'], 
+				'page_slug' 	=> $strPageSlug,
+				'field_ID' 		=> $arrField['id'],
+				'section_ID' 	=> $strSectionID,
+			);		
+			
+			add_settings_field( 
+				$arrField['id'],
+				'<span title="' . strip_tags( isset( $arrField['tip'] ) ? $arrField['tip'] : $arrField['description'] ) . '">' . $arrField['title'] . '</span>',
+				array( $this, $this->prefix_field . 'pre_' . $arrField['id'] ),	// callback function
+				$strPageSlug,
+				$strSectionID,
+				$this->arrFields[$arrField['id']] 
+			);				
 		}
 	}	
 	function RemoveRootSubMenu() {
@@ -508,14 +521,8 @@ class Admin_Page_Framework {
 		 *  default : this is similar to the above label key but used to specify the default values.
 		 * 
 		 * */
-					
-		// $strValue - the retrieved value from the database option table in which currently saved 
-		$strValue = isset( $arrOptions[$arrField['section_ID']][$arrField['field_ID']] ) ? $arrOptions[$arrField['section_ID']][$arrField['field_ID']] : null;
-		if ( $strValue === null && isset( $arrField['default'] ) ) $strValue = $arrField['default'];
-		$strValue = isset( $arrField['value'] ) ? $arrField['value'] : $strValue;	// override the value if it is explicitly set
-
-		// Avoid unset index warning
-		$arrAvailableFieldKeys = array(
+		// Avoid unset index warnings
+		$arrField = $arrField + array(
 			'class' => null,
 			'description' => null,
 			'default' => null,
@@ -523,27 +530,22 @@ class Admin_Page_Framework {
 			'error' => null,
 			'filename' => null,
 			'option_key' => null,
-			'option_key' => null,
-			'selecters' => null,
+			'selectors' => null,
 			'disable' => null,
 			'max' => null,
 			'min' => null,
 			'step' => null,
 			'pre_html' => null,
 			'post_html' => null,
+			'value' => null,
 		);
-		$arrField = $arrField + $arrAvailableFieldKeys;
-		// $arrField['class'] = isset( $arrField['class'] ) ? $arrField['class'] : '';
-		// $arrField['description'] = isset( $arrField['description'] ) ? $arrField['description'] : '';
-		// $arrField['default'] = isset( $arrField['default'] ) ? $arrField['default'] : '';
-		// $arrField['label'] = isset( $arrField['label'] ) ? $arrField['label'] : '';
-		// $arrField['error'] = isset( $arrField['error'] ) ? $arrField['error'] : '';
-		// $arrField['filename'] = isset( $arrField['filename'] ) ? $arrField['filename'] : '';
-		// $arrField['option_key'] = isset( $arrField['option_key'] ) ? $arrField['option_key'] : '';
-		// $arrField['selecters'] = isset( $arrField['selecters'] ) ? $arrField['selecters'] : '';
-		// $arrField['disable'] = isset( $arrField['disable'] ) ? $arrField['disable'] : '';
-		$bIsDisabled = $arrField['disable'] ? 'disabled="disabled"' : '';
+					
+		// $strValue - the retrieved value from the database option table in which currently saved 
+		$strValue = isset( $arrOptions[$arrField['section_ID']][$arrField['field_ID']] ) ? $arrOptions[$arrField['section_ID']][$arrField['field_ID']] : null;
+		if ( $strValue === null && isset( $arrField['default'] ) ) $strValue = $arrField['default'];
+		$strValue = isset( $arrField['value'] ) ? $arrField['value'] : $strValue;	// override the value if it is explicitly set
 
+		$bIsDisabled = $arrField['disable'] ? 'disabled="Disabled"' : '';
 		
 		// $strFieldName - case 1: the option key is set, case 2: the option key is not set by the user and the page slug is used 
 		$tmp = $this->strOptionKey;	// something looking like a bug occurs with the direct assignment in the ternary below.
@@ -556,9 +558,8 @@ class Admin_Page_Framework {
 			"{$strOptionKey}|{$arrField['page_slug']}|{$arrField['section_ID']}|{$arrField['field_ID']}";
 		$strTagID = "{$arrField['section_ID']}_{$arrField['field_ID']}";
 		
-				
 		// Error message handling
-		$strOutput = isset( $arrErrors[$arrField['section_ID']][$arrField['field_ID']] ) ? '<span style="color:red;">*&nbsp;' . $arrField['error'] . '</span><br />' : '';
+		$strOutput = isset( $arrErrors[ $arrField['section_ID'] ][ $arrField['field_ID'] ] ) ? '<span style="color:red;">*&nbsp;' . $arrField['error'] . $arrErrors[$arrField['section_ID']][$arrField['field_ID']] . '</span><br />' : '';
 		// $strOutput = isset( $arrErrors[$arrField['page_slug']][$arrField['section_ID']][$arrField['field_ID']] ) ? '<span style="color:red;">*&nbsp;' . $arrField['error'] . '</span><br />' : '';
 		
 		// Start diverging
@@ -597,8 +598,8 @@ class Admin_Page_Framework {
 				$strOutput .= "</div>";
 				break;
 			case 'checkbox':	// support multiple creation with array of label
-				$arrValues = $strValue;
 				if ( is_array( $arrField['label'] ) ) {
+					$arrValues = ( array ) $strValue;
 					$strOutput .= "<div id='{$strTagID}'>";
 					foreach ( $arrField['label'] as $strKey => $strLabel ) {	
 						$strChecked = ( $arrValues[$strKey] == 1 ) ? 'Checked' : '';
@@ -609,7 +610,7 @@ class Admin_Page_Framework {
 					break;
 				}
 				// if the labels key is not an array,
-				$strChecked = ( $strValue == 1 ) ? 'Checked' : '';
+				$strChecked = ( $strValue == 1 ) ? 'Checked' : '';			
 				$strOutput .= "<input type='hidden' name='{$strFieldName}' value='0' />";
 				$strOutput .= "<input id='{$strTagID}' class='{$arrField['class']}' type='checkbox' name='{$strFieldName}' value='1' {$strChecked} {$bIsDisabled} />&nbsp;&nbsp;{$arrField['label']}<br />";
 				break;
@@ -663,9 +664,9 @@ class Admin_Page_Framework {
 				$strOutput .= "<input id='{$strTagID}' class='{$strClass}' name='{$strFieldName}' type='submit' value='{$strLabel}' {$bIsDisabled} />";
 				break;
 			default:	
-				// for anything else, do nothing.
+				// for anything else, 
 				$strOutput .= $strValue;
-				break;	// do not continue on the flow of execution outside the switch 
+				break;
 			case 'import':	// import options
 				$strLabel = ( $arrField['label'] ) ? $arrField['label'] : __( 'Import Options', 'admin-page-framework' );
 				$strClass = ( $arrField['class'] ) ? $arrField['class'] : 'button button-primary';
@@ -688,9 +689,9 @@ class Admin_Page_Framework {
 				break;
 
 		}
-		$strOutput = $arrField['pre_html'] . $strOutput . $arrField['post_html'];
+		$strOutput = $arrField['pre_html'] . $strOutput;
 		$strOutput .= !isset( $arrField['description'] ) &&  trim( $arrField['description'] ) == '' ? null : '<p class="field_description"><span class="description">' .  $arrField['description'] . '</span></p>';
-		return $strOutput;
+		return $strOutput . $arrField['post_html'];
 	}
 	protected function FormImageField( $strFieldName, $strOptionKeyForReference, &$arrOptions, &$arrField ) {
 		
@@ -1200,6 +1201,21 @@ class Admin_Page_Framework {
 	/*
 		Misc Methods
 	*/
+	function FixNumber( $numToFix, $numDefault, $numMin="", $numMax="" ) {
+	
+		// checks if the passed value is a number and set it to the default if not.
+		// if it is a number and exceeds the set maximum number, it sets it to the max value.
+		// if it is a number and is below the minimum number, it sets to the minimium value.
+		// set a blank value for no limit
+		if ( !is_numeric( trim( $numToFix ) ) ) return $numDefault;
+			
+		if ( $numMin != "" && $numToFix < $numMin) return $numMin;
+			
+		if ( $numMax != "" && $numToFix > $numMax ) return $numMax;
+
+		return $numToFix;
+		
+	}	
 	function UniteArraysRecursive( $arrPrecedence, $arrDefault ) {
 		
 		if ( is_null( $arrPrecedence ) )
