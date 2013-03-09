@@ -121,10 +121,10 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
-= 1.0.1.2 =
+= 1.0.1.2 - 03/09/2013 =
 * Fixed: a typo which caused a page not to be added to the Appearance menu.
 
-= 1.0.1.1 =
+= 1.0.1.1 - 03/08/2013 =
 * Fixed: typos in the demo plugin.
 * Changed: error message for a field to display the field value as well in addition to the specified error message.
 * Changed: the post_html key to be inserted after the description key.
