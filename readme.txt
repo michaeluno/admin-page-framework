@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration panel, admin panel, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, development tool, developers
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.0.0.2
+Stable tag: 1.0.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,9 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == To do ==
 
 == Changelog ==
+
+= 1.0.1.2 =
+* Fixed: a typo which caused a page not to be added to the Appearance menu.
 
 = 1.0.1.1 =
 * Fixed: typos in the demo plugin.
