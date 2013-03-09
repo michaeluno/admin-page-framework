@@ -5,7 +5,7 @@
 		Description: Demonstrates the features of the Admin Page Framework class.
 		Author: Michael Uno
 		Author URI: http://michaeluno.jp
-		Version: 1.0.1.1
+		Version: 1.0.1.2
 	*/
 
 	/*
