@@ -3,7 +3,7 @@
 		Library Name: Admin Page Framework
 		Author:  Michael Uno
 		Author URL: http://michaeluno.jp
-		Version: 1.0.1.1
+		Version: 1.0.1.2
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
@@ -46,14 +46,14 @@ class Admin_Page_Framework {
 	
 	// For referencing
 	protected $arrRootMenuSlugs = array(
-		// all keys must be lower case to support caese insensitive lookups.
+		// all keys must be lower case to support case-insensitive lookups.
 		'dashboard' => 			'index.php',
 		'posts' => 				'edit.php',
 		'media' => 				'upload.php',
 		'links' => 				'link-manager.php',
 		'pages' => 				'edit.php?post_type=page',
 		'comments' => 			'edit-comments.php',
-		'appearence' => 		'themes.php',
+		'appearance' => 		'themes.php',
 		'plugins' => 			'plugins.php',
 		'users' => 				'users.php',
 		'tools' => 				'tools.php',
