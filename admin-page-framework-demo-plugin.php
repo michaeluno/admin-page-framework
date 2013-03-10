@@ -319,7 +319,7 @@
 					
 		}
 	
-		// This is a valiadation callback method with the name of validation_ + page slug + _ + tab slug.
+		// This is a valiadation callback method with the name of 'validation_' + page slug + _ + tab slug.
 		// Whennever you need to check the submitted data, use this method. The returned array will be saved in the database.
 		function validation_myfirstpage_firsttab( $arrInput ) {
 		
@@ -351,7 +351,7 @@
 			// The returned value will be saved in the database.
 			return $arrInput;
 		}
-		function validation_myfirstpage_thirdtab( $arrInput ) {		// 'validation_' + page slug + tab slug
+		function validation_myfirstpage_thirdtab( $arrInput ) {		// 'validation_' + page slug + _ + tab slug
 
 			// This is useful to check the submitted values.
 			$arrErrors = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_multiple_fields'];
@@ -368,13 +368,13 @@
 			return $arrInput;
 		}
 		// The verification callback method for the fourth tab in the first sub page.
-		function validation_myfirstpage_fourthtab( $arrInput ) {	// 'validation_' + page slug + tab slug
+		function validation_myfirstpage_fourthtab( $arrInput ) {	// 'validation_' + page slug + _ + tab slug
 			
 			// Set the flag 
 			$bIsValid = True;
 			
 			// We store values that have an error in an array and going to store it in a temporary area of the database called transient.
-			// The used name of the transient is 'extended class name' + '_' + 'page slug'. The library class will serch for this transient 
+			// The used name of the transient is a md5 hash of 'extended class name' + '_' + 'page slug'. The library class will serch for this transient 
 			// when it renders the fields and if it is found, it will display the error message set in the field array.
 			$arrErrors = array();
 			
