@@ -551,8 +551,8 @@ class Admin_Page_Framework {
 			'error' => null,
 			'file_name' => null,	// used by the export custom field 
 			'transient' => null,	// used by the export custom field to look up exporting data, since 1.0.2
-			'option_key' => null,
-			'selectors' => null,
+			'option_key' => null,	// not implemented yet
+			'selectors' => null,	// <-- not sure about this.
 			'disable' => null,
 			'max' => null,
 			'min' => null,
