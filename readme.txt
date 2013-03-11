@@ -121,7 +121,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
-= 1.0.2 =
+= 1.0.2 - 03/12/2013 =
 * Added: the *export_{suffix}* and *import_{suffix}* filters and the corresponding callback methods to capture exporting/importing array to modify before processing it.
 * Suppoerted: multiple export buttons per page.
 * Added: the *delimiter* key which delimits multiple fields passed as array including the field types of checkbox, radio, submit, export, import, and file.
