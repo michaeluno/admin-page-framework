@@ -121,6 +121,16 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.2 =
+* Added: the *export_{suffix}* and *import_{prefix}* filters and the corresponding callback methods to capture exporting/importing array to modify before processing it.
+* Suppoerted: multiple export buttons per page.
+* Added: the *delimiter* key which delimits multiple fields passed as array including the field types of checkbox, radio, submit, export, import, and file.
+* Fixed: to apply the value of the *disable* key to the *import* and *export* custom field.
+* Fixed: a bug that an empty string was applied for the *description* key even when it is not set.
+* Added: the transient key for the *export* custom field to set a custom exporting array.
+* Added: *do_form* action hooks ( tag, page, global ) which are triggered before rendering the form elements after the form opening tag.
+* Fixed: a bug that the *file_name* key for the *export* field key did not take effect.
+
 = 1.0.1.2 - 03/09/2013 =
 * Fixed: a typo which caused a page not to be added to the Appearance menu.
 
