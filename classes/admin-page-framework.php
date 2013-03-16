@@ -3,7 +3,7 @@
 		Library Name: Admin Page Framework
 		Author:  Michael Uno
 		Author URL: http://michaeluno.jp
-		Version: 1.0.2
+		Version: 1.0.2.1
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
@@ -48,7 +48,8 @@ class Admin_Page_Framework {
 	// Containter arrays
 	protected $arrSections = array();		// stores registerd form(settings) sections.
 	protected $arrFields = array();			// stores registerd form(settings) fields.
-	protected $arrTabs = array();			// stores the added in-page tabs with key of the sub-menu page slug.
+	protected $arrTabs = array();			// a two-dimensional array with the keys of sub-page slug in the first dimension and with the key of tab slug in the second dimension.
+	protected $arrHiddenTabs = array();		// since 1.0.2.1 - a two-dimensional array similar to the above $arrTabs but stores the tab which should be hidden ( still accessible with the direct url. )
 	protected $arrPageTitles = array();		// stores the added page titles with key of the page slug.
 	protected $arrIcons = array();			// stores the page screen 32x32 icons. For the main root page, which is invisible, 16x16 icon url will be stored.
 	
@@ -195,13 +196,35 @@ class Admin_Page_Framework {
 		$this->numPosition = $numPosition;			
 	}
 	protected function SetCapability( $strCapability ) {
+		
 		// Sets the access right to the menu. This also can be set in the constructor.
 		$this->strCapability = $strCapability;
+		
+		// This lets the Settings API to allow the custom capability. The Settings API requires manage_options by default.
+		// the option_page_capability_{} filter is supported since WordPress 3.2 
+		add_filter( "option_page_capability_{$this->strPageSlug}", array( $this, 'GetCapability' ) );
+
+	}
+	public function GetCapability( $strCapability ) {
+// return 'read';
+		return $this->strCapability;
+		
 	}
 	protected function SetMenuIcon( $strPathIcon16x16 ) {
 		// Sets the menu icon.  This also can be set in the constructor.
 		$this->strPathIcon16x16 = $strPathIcon16x16;
 		$this->arrIcons[$this->strPageSlug] = $strPathIcon16x16;
+	}
+	protected function HideInPageTab( $strSubPageSlug, $strTabSlug, $strAltTab='' ) {
+		
+		// Just hides the in-page tab link; the page will be still accessible by the direct url.
+		// If $strAltTab is set, the given tab will be rendered as activated in stead of the hidden tab.
+		// since 1.0.2.1
+		
+		$this->arrHiddenTabs[ $strSubPageSlug ][ $strTabSlug ] = $strAltTab;
+		// if ( isset( $this->arrTabs[ $strSubPageSlug ][ $strTabSlug ] ) )
+			// unset( $this->arrTabs[ $strSubPageSlug ][ $strTabSlug ] );
+		
 	}
 	protected function AddInPageTabs( $strSubPageSlug, $arrTabs ) {
 
@@ -318,14 +341,15 @@ class Admin_Page_Framework {
 			// Therefore, it is not possible to support pages using dots and hyphens. That means only pages created by this class should be the ones specified by 
 			// this method.
 			
-			// Set keys in case some are not set - this prevents PHP invalid index warnings
+			// Set keys in case some are not set - this prevents PHP invalid (undefined) index warnings
 			$arrSection = ( array ) $arrSection + array( 
 				'pageslug' => null,
 				'tabslug' => null,
 				'title' => null,
 				'description' => null,
 				'id' => null,
-				'fields' => null
+				'fields' => null,
+				'capability' => null,				
 			);
 
 			$arrSection['pageslug'] = $this->SanitizeSlug( $arrSection['pageslug'] );	
@@ -338,6 +362,9 @@ class Admin_Page_Framework {
 			// If the tab slug is specified, determine if the current page is the default tab or the current tab matches the given tab slug.
 			if ( !$this->IsTabSpecifiedForFormSection( $arrSection ) ) continue;		
 
+			// If the access level is set and it is not sufficient, skip.
+			if ( isset( $arrSection['capability'] ) && ! current_user_can( $arrSection['capability'] ) ) continue;	// since 1.0.2.1
+			
 			// Store the registered sections internally in the class object.
 			$this->arrSections[$arrSection['id']] = array(  
 				'title' => $arrSection['title'],
@@ -420,7 +447,11 @@ class Admin_Page_Framework {
 		$strPageSlug = $this->SanitizeSlug( $strPageSlug );	// - => _, . => _
 		foreach( ( array ) $arrFields as $index => $arrField ) {
 			
-			if ( !isset( $arrField['id'] ) || !isset( $arrField['type'] ) ) continue;		// the id and type keys are mandatory.
+			// The id and type keys are mandatory.
+			if ( !isset( $arrField['id'] ) || !isset( $arrField['type'] ) ) continue;		
+			
+			// If the access level is not sufficient, skip.
+			if ( isset( $arrField['capability'] ) && ! current_user_can( $arrField['capability'] ) ) continue;	// since 1.0.2.1
 			
 			// Sanitize the id since it is used as a callback method name.
 			$arrField['id'] = $this->SanitizeSlug( $arrField['id'] );
@@ -519,14 +550,14 @@ class Admin_Page_Framework {
 		// the 'settings-updated' key will be set in the $_GET array when redirected by Settings API 
 		$arrErrors = get_transient( md5( $this->strClassName . '_' . $arrField['page_slug'] ) );
 		$arrErrors = ( isset( $_GET['settings-updated'] ) &&  $arrErrors ) ? $arrErrors  : null;		
-		$strOutput = $this->RenderFormFieldByType( $arrOptions, $arrField, $arrErrors ); 
+		$strOutput = $this->GetFormFieldsByType( $arrOptions, $arrField, $arrErrors ); 
 
 		// Render the input field
 		add_filter( $this->prefix_field . $arrField['field_ID'] , array( $this, $this->prefix_field . $arrField['field_ID'] ), 10, 2 );
 		echo apply_filters( $this->prefix_field . $arrField['field_ID'], $strOutput, $arrField );	// the output and the field array is passed 
 
 	}
-	function RenderFormFieldByType( &$arrOptions, &$arrField, &$arrErrors=null ) {
+	function GetFormFieldsByType( &$arrOptions, &$arrField, &$arrErrors=null ) {
 		/* 
 		 * Tag Attributes:
 		 * 	name	: the key name of the $_POST, $_GET, or $_FILES array. $strFieldName will be assigned. 
@@ -551,8 +582,8 @@ class Admin_Page_Framework {
 			'error' => null,
 			'file_name' => null,	// used by the export custom field 
 			'transient' => null,	// used by the export custom field to look up exporting data, since 1.0.2
-			'option_key' => null,	// not implemented yet
-			'selectors' => null,	// <-- not sure about this.
+			'option_key' => null,
+			'selectors' => null,
 			'disable' => null,
 			'max' => null,
 			'min' => null,
@@ -563,6 +594,7 @@ class Admin_Page_Framework {
 			'delimiter' => '<br />', // used by filed types which accept label as array and this delimiter value will be used to delimit the elements, since 1.0.2
 			'update_message' => null,	// used by the import custom field
 			'error_message' => null,	// used by the import custom field
+			'capability' => null,	// since 1.0.2.1, used to determine whether the field should be displayed to the user; this should not be used in this method but the AddFormFields() method
 		);
 					
 		// $strValue - the retrieved value from the database option table in which currently saved 
@@ -670,7 +702,7 @@ class Admin_Page_Framework {
 				if ( is_array( $arrField['label'] ) ) {
 					$strOutput .= "<div id='{$strTagID}'>";
 					foreach( $arrField['label'] as $strKey => $strValue ) 
-						$strOutput .= "<input id='{$strTagID}_{$strKey}' class='{$arrField['class']}' type='file' name='{$strFieldName}[{$strValue}]' />" . $arrField['delimiter'];
+						$strOutput .= "<input id='{$strTagID}_{$strKey}' class='{$arrField['class']}' type='file' name='{$strFieldName}[{$strValue}]' />";
 					$strOutput .= "</div>";
 					break;
 				}						
@@ -814,11 +846,7 @@ class Admin_Page_Framework {
 		return $strOutput;	
 	}
 	function MergeOptionArray( $strMethodName, $arrInput ) {
-		
-		/*
-		 *  The pre-validation callback method that determine where to redirect or pass the input array to the necessary callbacks etc.
-		 *  The naming is a bit misleading so it may be changed in the future.
-		 * */
+	
 		// For debug
 		// $this->numCalled++;			
 		// $this->arrCallbacks[$strMethodName] = $_POST['pageslug'];	
@@ -920,7 +948,7 @@ class Admin_Page_Framework {
 			);				
 
 		// For pages.
-		// Do not cast array here either. Let the validation callback return non-array and make it consider as deleting the option.
+		// Do not cast array here either. Let the validation callback return non-array and make it consider as delete the option.
 		$arrInput = $this->AddAndApplyFilter( 
 			$this->prefix_validation . $strPageSlug, 
 			$arrInput 
@@ -958,7 +986,7 @@ class Admin_Page_Framework {
 		
 		/*
 		 *  Undefined but called by the callback methods automatically inserted by the class will trigger this magic method, __call.
-		 *  So determine which call back method triggered this and if nothing found, render the page by considering it as the callback of add_submenu_page().
+		 *  So determine which call back method triggered this and if nothing found, do nothing.
 		 * */
 		 
 		// Variables
@@ -1046,7 +1074,7 @@ class Admin_Page_Framework {
 				$strHeader .= ( $this->bShowPageHeadingTabs ) ? $this->AddPageHeadingTabs( $strPageSlug ) : '<h2>' . $this->arrPageTitles[$strPageSlug] . '</h2>';
 
 				// in-page tabs
-				if ( isset( $this->arrTabs[$strPageSlug] ) ) $strHeader .= $this->RenderInPageTabs( $strPageSlug );
+				if ( isset( $this->arrTabs[$strPageSlug] ) ) $strHeader .= $this->GetInPageTabs( $strPageSlug );
 				
 				// Apply filters in this order, in-page tab -> page -> global.
 				$strHeader = apply_filters( $this->prefix_head . $strPageSlug . '_' . $strTabSlug, $strHeader );
@@ -1129,21 +1157,34 @@ class Admin_Page_Framework {
 		return $strHeadingTabs;
 		
 	}	// end of tab menu
-	protected function RenderInPageTabs( $strCurrentPageSlug, $strHeadingTag='h3' ) {
+	protected function GetInPageTabs( $strCurrentPageSlug, $strHeadingTag='h3' ) {
 		
 		$strCurrentPageSlug = $this->SanitizeSlug( $strCurrentPageSlug );
 		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : null;
 		$strInPageHeadingTabs = '<div><' . $strHeadingTag . ' class="nav-tab-wrapper in-page-tab">';			
-			foreach( $this->arrTabs[$strCurrentPageSlug] as $strTabSlug => $strTabTitle ) {
+		
+		// First check if a hidden tab is specified
+		if ( isset( $this->arrHiddenTabs[ $strCurrentPageSlug ][ $strCurrentTabSlug ] ) ) {
+			
+			$strCurrentTabSlug = $this->arrHiddenTabs[ $strCurrentPageSlug ][ $strCurrentTabSlug ];
+			$strCurrentTabSlug = empty( $strCurrentTabSlug ) ? null : $strCurrentTabSlug;
+			
+		}
 				
-				// if the tab slug is not included in the loading url, set the first iterating slug to the default.
-				if ( $strCurrentTabSlug === null ) $strCurrentTabSlug = $strTabSlug;
-				
-				// checks if the current tab slug matches the iteration slug. 
-				// If not match, assign blank; otherwise, put the active class name.
-				$strClassActive = ( (string) $strCurrentTabSlug === (string) $strTabSlug ) ? 'nav-tab-active' : '';		
-				$strInPageHeadingTabs .= '<a class="nav-tab ' . $strClassActive . '" href="?page=' . $strCurrentPageSlug . '&tab=' . $strTabSlug . '">' . $strTabTitle . '</a>';
-			}
+		foreach( $this->arrTabs[$strCurrentPageSlug] as $strTabSlug => $strTabTitle ) {
+			
+			// If the hide tab is set, skip
+			if ( isset( $this->arrHiddenTabs[ $strCurrentPageSlug ][ $strTabSlug ] ) ) continue;
+			
+			// if the tab slug is not included in the loading url, set the first iterating slug to the default.
+			if ( $strCurrentTabSlug === null ) $strCurrentTabSlug = $strTabSlug;
+			
+			// checks if the current tab slug matches the iteration slug. 
+			// If not match, assign blank; otherwise, put the active class name.
+			$strClassActive = ( (string) $strCurrentTabSlug === (string) $strTabSlug ) ? 'nav-tab-active' : '';		
+			$strInPageHeadingTabs .= '<a class="nav-tab ' . $strClassActive . '" href="?page=' . $strCurrentPageSlug . '&tab=' . $strTabSlug . '">' . $strTabTitle . '</a>';
+		
+		}
 		$strInPageHeadingTabs .= '</' . $strHeadingTag . '></div>';								
 		return $strInPageHeadingTabs;
 		

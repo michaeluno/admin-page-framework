@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration panel, admin panel, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, development tool, developers
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.0.1.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,14 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == To do ==
 
 == Changelog ==
+
+= 1.0.2.1 - 03/16/2013 =
+* Added: the capability key for section and field arrays which sets access rights to the form elements.
+* Added: a hidden tab page which belongs to the first page with a link back-and-forth in the demo plugin. 
+* Changed: the required WordPress version to 3.2 as the newly used filter option_page_capability_{$pageslug} requires it.
+* Fixed: an issue that setting a custom capability caused the "Creatin' huh?" message and the user could not change the options.
+* Added: the HideInPageTab() method which hides a specified in-page tab yet still accessible by the direct url.
+* changed: the method name RenderInPageTabs() to GetInPageTabs() since it did not print anything but returned the output string. 
 
 = 1.0.2 - 03/11/2013 =
 * Added: the *export_{suffix}* and *import_{suffix}* filters and the corresponding callback methods to capture exporting/importing array to modify before processing it.

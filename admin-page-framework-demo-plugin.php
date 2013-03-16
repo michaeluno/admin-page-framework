@@ -5,7 +5,8 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.2
+	Version: 1.0.2.1
+	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
 	/*
@@ -69,13 +70,18 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		$this->AddInPageTabs(
 			'myfirstpage',	
 			array(	// slug => title
-				'firsttab' => 'Text Fields', 		
-				'secondtab' => 'Selectors and Checkboxes', 		
-				'thirdtab' => 'Image and Upload',
-				'fourthtab' => 'Verify Form Data',
+				'firsttab'		=> 'Text Fields', 		
+				'secondtab'		=> 'Selectors and Checkboxes', 		
+				'thirdtab'		=> 'Image and Upload',
+				'fourthtab'		=> 'Verify Form Data',
+				'fifthtab'		=> 'Hidden Tab',			
 			) 
 		);	
-							
+		
+		// This hides the fifth tab. But the page is still accessible. This is useful when you need to create a proceeding page for advanced sections 
+		// that the user reaches after submitting a initial set up in the same page.
+		$this->HideInPageTab( 'myfirstpage', 'fifthtab', 'firsttab' );	// since 1.0.2.1
+		
 		// Add form elements.
 		// Here we have four sections as an example.
 		// If you wonder what array keys are need to be used, please refer to http://en.michaeluno.jp/admin-page-framework/methods/
@@ -311,7 +317,11 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 	// Notice that the name of the method is 'do_' + page slug.
 	// If you wonder what else we have for this kind of pre-defined methods and callbacks, 
 	// please refer to http://en.michaeluno.jp/admin-page-framework/hooks-and-callbacks/
-	function do_myfirstpage() {		
+	function do_myfirstpage() {	
+
+		// Disable the below output in the fifth tab.
+		if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'fifthtab' ) return;
+	
 		submit_button();	// the save button
 
 		// Show the saved option value. The option key is the string passed to the first parameter to the constructor of the class (at the end of this plugin).
@@ -321,7 +331,28 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 				. '<pre>' . print_r( ( array ) $options, true ) . '</pre>';	
 				
 	}
-
+	/*
+	 * First Tab
+	 * */
+	function do_myfirstpage_firsttab() {
+		
+		$strURL = admin_url( 'admin.php?page=myfirstpage&tab=fifthtab' );
+		echo '<p><a href="' . $strURL . '">' . __( 'Go to the hidden page.', 'admin-page-framework' ). '</a></p>';
+		
+	}
+	/*
+	 * * Fifth Tab - a hidden tab page which belongs to the first tab.
+	*/ 
+	function head_myfirstpage_fifthtab( $strHTML ) {	 // 'head_' + page slug + tab slug
+		
+		$strURL = admin_url( 'admin.php?page=myfirstpage&tab=firsttab' );
+		return $strHTML 
+			. '<h3>Hidden Page</h3>'
+			. '<p>This is a hidden page.</p>'
+			. '<p><a href="' . $strURL . '">' . __( 'Go Back', 'admin-page-framework' ) . '</a></p>';
+		
+	}
+	
 	// This is a valiadation callback method with the name of 'validation_' + page slug + _ + tab slug.
 	// Whennever you need to check the submitted data, use this method. The returned array will be saved in the database.
 	function validation_myfirstpage_firsttab( $arrInput ) {
@@ -432,7 +463,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 	}
 	function do_mythirdpage() {	 // 'do_' + page slug
 		
-		echo 'See, the background color is changed.';
+		echo '<p>See, the background color is changed.</p>';
 		
 	}
 	
@@ -457,7 +488,6 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		return $strRules . ' ul.admin-page-framework { list-style:disc; padding-left: 20px; }';
 		
 	}
-		
 }
 
 // Step 5. Instantiate the class object.
