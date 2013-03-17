@@ -1,8 +1,9 @@
 <?php 
 	/*
-		Library Name: Admin Page Framework
+		Name: Admin Page Framework
+		Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 		Author:  Michael Uno
-		Author URL: http://michaeluno.jp
+		Author URI: http://michaeluno.jp
 		Version: 1.0.2.2
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
