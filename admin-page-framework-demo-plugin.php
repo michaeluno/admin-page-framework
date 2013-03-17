@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.2.2
+	Version: 1.0.2.3
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
@@ -41,6 +41,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		// You need to decide what page title and the slug to use. 
 		// Important: do not use dots and hyphens in the page slug. Alphabets and numbers only! 
 		// You are going to use the page slug later on for the callback method.
+		$this->SetCapability( 'read' );		// allow subscribers to access the pages
 		$this->AddSubMenu(
 			'My First Page',	// page and menu title
 			'myfirstpage',		// page slug - this will be the option name saved in the database
@@ -49,7 +50,8 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		$this->AddSubMenu(
 			'Import and Export Options', 
 			'mysecondpage',
-			plugins_url( 'img/demo_02_32x32.png', __FILE__ ) 
+			plugins_url( 'img/demo_02_32x32.png', __FILE__ ),
+			'manage_options'	// restrict the access rights to only administrators.
 		);
 		$this->AddSubMenu(
 			'Change Style',

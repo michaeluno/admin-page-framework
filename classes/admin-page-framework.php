@@ -4,7 +4,7 @@
 		Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 		Author:  Michael Uno
 		Author URI: http://michaeluno.jp
-		Version: 1.0.2.2
+		Version: 1.0.2.3
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
@@ -293,15 +293,19 @@ class Admin_Page_Framework {
 			add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkInPluginListingPage' ) );
 	
 	}	
-	protected function AddSubMenu( $strSubTitle, $strPageSlug, $strPathIcon32x32=null ) {
+	protected function AddSubMenu( $strSubTitle, $strPageSlug, $strPathIcon32x32=null, $strCapability=null ) {
 	
+		$strCapability = isset( $strCapability ) ? $strCapability : $this->strCapability;
+		
+		if ( ! current_user_can( $strCapability ) ) return;
+		
 		// add the sub-menu and sub-page
 		$strPageSlug = $this->SanitizeSlug( $strPageSlug );	// - => _, . => _
 		add_submenu_page( 
-			trim( $this->strPageSlug )		// $parent_slug
+			trim( $this->strPageSlug )			// $parent_slug
 			, $strSubTitle						// $page_title
 			, $strSubTitle						// $menu_title
-			, $this->strCapability 				// $strCapability
+			, $strCapability				 	// $strCapability
 			, $strPageSlug						// $menu_slug
 			, array( $this, $strPageSlug ) 
 		);	// triggers the __Call method with the method name of this slug.

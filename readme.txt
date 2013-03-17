@@ -121,6 +121,9 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.2.3 - 03/17/2013 =
+* Added: the ability to set access rights ( capability ) to adding pages individually, which can be set in the newly added fourth parameter of the AddSubMenu() method.
+
 = 1.0.2.2 - 03/17/2013 =
 * Changed: the second parameter of the constructor from capability to script path; the capability can be set via the SetCapability() method.
 * Added: the ability to automatically insert script information ( plugin/theme name, version, and author ) into the footer if the second parameter is set in the constructor.
