@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.2.1
+	Version: 1.0.2.2
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
@@ -491,8 +491,10 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 }
 
 // Step 5. Instantiate the class object.
-// Passing a string to the constructor specifies the option key to use. If not set, each page slug will be used for the key.
-new APF_AdminPageFrameworkDemo( 'demo_my_option_key' );	
+new APF_AdminPageFrameworkDemo( 
+	'demo_my_option_key',	// the first parameter specifies the option key to use. If not set, each page slug will be used for the key.
+	__FILE__	// this tells the framework the caller script path so that the script info will be embedded in the footer.
+);	
 
 /*
  * 

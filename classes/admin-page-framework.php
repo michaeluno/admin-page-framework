@@ -3,7 +3,7 @@
 		Library Name: Admin Page Framework
 		Author:  Michael Uno
 		Author URL: http://michaeluno.jp
-		Version: 1.0.2.1
+		Version: 1.0.2.2
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
 	*/
@@ -52,6 +52,7 @@ class Admin_Page_Framework {
 	protected $arrHiddenTabs = array();		// since 1.0.2.1 - a two-dimensional array similar to the above $arrTabs but stores the tab which should be hidden ( still accessible with the direct url. )
 	protected $arrPageTitles = array();		// stores the added page titles with key of the page slug.
 	protected $arrIcons = array();			// stores the page screen 32x32 icons. For the main root page, which is invisible, 16x16 icon url will be stored.
+	protected $arrCallerInfo = array();		// stores the caller script information.
 	
 	// For referencing
 	protected $arrRootMenuSlugs = array(
@@ -87,24 +88,25 @@ class Admin_Page_Framework {
 	protected $strScript = '';			// the default JavaScript 
 	protected $arrPluginDescriptionLinks = array();	// stores links which will be added to the description column in the plugin lising page.
 	protected $arrPluginTitleLinks = array();	// stores links which will be added to the title column in the plugin lising page.
-	
+	protected $strCallerPath;	// stores the caller path which can be manually set by the user. If not set, the framework will try to set it. since 1.0.2.2
+
 	// for debugs
 	// protected $numCalled = 0;
 	// protected $arrCallbacks = array();
 	
-	function __construct( $strOptionKey=null, $strCapability=null ){
+	function __construct( $strOptionKey=null, $strCallerPath=null ){
 		/*
 		 * $strOptionKey :	Specifies the option key name to store in the option database table. 
 		 * 					If this is set, all the options will be stored in an array to the key of this passed string.
-		 * $strCapability :	Determins the access right
+		 * $strCallerPath :	used to retrieve the plugin ( if it's a plugin ) to retrieve the plugin data to auto-insert credit info into the footer.
 		 * */
 		
 		// Do not set the extended class name for this. It uses a page slug name if not set.
 		$this->strClassName 	= get_class( $this );
 		$this->strOptionKey 	= ( empty( $strOptionKey ) ) ? null : $strOptionKey;	
 		$this->strPageTitle 	= ( !empty( $strOptionKey ) ) ? $strOptionKey : $this->strClassName;
-		$this->strCapability 	= ( $strCapability ) ? $strCapability : $this->strCapability;
 		$this->strPageSlug 		= $this->strClassName;	// will be invisible anyway
+		$this->strCallerPath	= $strCallerPath;	
 		
 		// Schedule removing the root sub-menu because it will be just a duplicate item to the root label.
 		add_action( 'admin_menu', array( $this, 'RemoveRootSubMenu' ), 999 );
@@ -120,7 +122,7 @@ class Admin_Page_Framework {
 		add_filter( 'gettext', array( $this, 'ReplaceThickBoxText' ) , 1, 2 );	
 		
 		// Store the information of the caller file.
-		$this->arrCallerInfo = debug_backtrace();
+		$this->arrCallerInfo = $this->GetCallerInfo( $strCallerPath ); 	
 		
 		// Create global filter hooks
 		add_filter( $this->filter_global_head 	 . $this->strClassName , array( $this, $this->filter_global_head . $this->strClassName ) );
@@ -134,13 +136,16 @@ class Admin_Page_Framework {
 		// For earlier loading than $this->Setup
 		add_action( $this->prefix_start	. $this->strClassName , array( $this, $this->prefix_start . $this->strClassName ) );
 		do_action( $this->prefix_start	. $this->strClassName );
+						
 	}	
 	
 	/*
 		Extensible Methods - should be customized in the extended class.
 	*/
 	protected function SetUp() {
+		
 		$this->CreateRootMenu( $this->strPageTitle );
+		
 	}
 	
 	/*
@@ -150,19 +155,23 @@ class Admin_Page_Framework {
 	 *	Add Links 
 	 * */
 	protected function AddLinkToPluginDescription( $vLinks ) {
+		
 		if ( !is_array( $vLinks ) )
 			$this->arrPluginDescriptionLinks[] = $vLinks;
 		else
 			$this->arrPluginDescriptionLinks = array_merge( $this->arrPluginDescriptionLinks , $vLinks );
 		add_filter( 'plugin_row_meta', array( $this, 'AddLinkToPluginDescription_Callback' ), 10, 2 );
+
 	}
 	protected function AddLinkToPluginTitle( $vLinks ) {
+		
 		if ( !is_array( $vLinks ) )
 			$this->arrPluginTitleLinks[] = $vLinks;
 		else
 			$this->arrPluginTitleLinks = array_merge( $this->arrPluginTitleLinks, $vLinks );
 		add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkToPluginTitle_Callback' ) );
-	}
+
+		}
 	/*
 	 * Add Menu and pages
 	 * */
@@ -176,6 +185,7 @@ class Admin_Page_Framework {
 			// do not use SetRootMenuBySlug since options-general contains a hyphen and it should not be converted to underscore.
 			$this->strPageSlug = $this->arrRootMenuSlugs[ strtolower( $strRootMenu ) ];
 			return $this->strPageSlug;
+			
 		}
 
 		// If it does not match the existent menus.
@@ -184,16 +194,23 @@ class Admin_Page_Framework {
 		$this->CreateRootMenu( $strRootMenu, $strPathIcon16x16 );
 
 		return $this->strPageSlug;
+		
 	}
 	protected function SetRootMenuBySlug( $strSlug ) {
+		
 		$this->strPageSlug = $strSlug;
+		
 	}
 	protected function ShowPageHeadingTabs( $bShowPageHeadingTabs ) {
+		
 		// Sets whether the tab in the top part of the page should be visible or not visible. True / False.
 		$this->bShowPageHeadingTabs = $bShowPageHeadingTabs;
+		
 	}
 	protected function SetRootMenuPosition( $numPosition ) {
+		
 		$this->numPosition = $numPosition;			
+		
 	}
 	protected function SetCapability( $strCapability ) {
 		
@@ -206,14 +223,14 @@ class Admin_Page_Framework {
 
 	}
 	public function GetCapability( $strCapability ) {
-// return 'read';
+
 		return $this->strCapability;
 		
 	}
 	protected function SetMenuIcon( $strPathIcon16x16 ) {
 		// Sets the menu icon.  This also can be set in the constructor.
 		$this->strPathIcon16x16 = $strPathIcon16x16;
-		$this->arrIcons[$this->strPageSlug] = $strPathIcon16x16;
+		$this->arrIcons[ $this->strPageSlug ] = $strPathIcon16x16;
 	}
 	protected function HideInPageTab( $strSubPageSlug, $strTabSlug, $strAltTab='' ) {
 		
@@ -233,7 +250,7 @@ class Admin_Page_Framework {
 		$strSubPageSlug = $this->SanitizeSlug( $strSubPageSlug );
 	
 		// Adds in-page tab, which does not have a menu.
-		$this->arrTabs[$strSubPageSlug] = $arrTabs;	
+		$this->arrTabs[ $strSubPageSlug ] = $arrTabs;	
 		
 		// add hooks for in-page tabs
 		foreach ( $arrTabs as $strTabSlug => $strTabTitle ) {
@@ -248,10 +265,12 @@ class Admin_Page_Framework {
 			add_action( $this->prefix_do		. $strSubPageSlug . '_' . $strTabSlug,	array( $this, $this->prefix_do			. $strSubPageSlug . '_' . $strTabSlug ) );
 			add_action( $this->prefix_do_after	. $strSubPageSlug . '_' . $strTabSlug,	array( $this, $this->prefix_do_after	. $strSubPageSlug . '_' . $strTabSlug ) );			
 			add_action( $this->prefix_do_form	. $strSubPageSlug . '_' . $strTabSlug,	array( $this, $this->prefix_do_form		. $strSubPageSlug . '_' . $strTabSlug ) );	// since 1.0.2
+
 		}
 	}
 
 	protected function CreateRootMenu( $strTitle, $strPathIcon16x16=null ) {
+		
 		$strPathIcon16x16 = ( $strPathIcon16x16 ) ? $strPathIcon16x16 : $this->strPathIcon16x16;
 		add_menu_page(  
 			$this->strPageTitle,					// Page title - will be invisible anyway
@@ -265,12 +284,13 @@ class Admin_Page_Framework {
 					
 		// Store the page title and icon, and how many times a top level page has been created.
 		$this->numRootPages++;
-		$this->arrPageTitles[$this->strPageSlug] 	= trim( $this->strPageTitle );
-		$this->arrIcons[$this->strPageSlug]			= $strPathIcon16x16;
+		$this->arrPageTitles[ $this->strPageSlug ] 	= trim( $this->strPageTitle );
+		$this->arrIcons[ $this->strPageSlug ]			= $strPathIcon16x16;
 		
-		// For themes, nothing would happen but it should have a conditonal statement to detect if the caller is from a theme or plugin
 		// Add a setting link in the plugin listing 
-		add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkInPluginListingPage' ) );
+		if ( $this->arrCallerInfo['type'] == 'plugin' )
+			add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkInPluginListingPage' ) );
+	
 	}	
 	protected function AddSubMenu( $strSubTitle, $strPageSlug, $strPathIcon32x32=null ) {
 	
@@ -288,16 +308,24 @@ class Admin_Page_Framework {
 		// Set the default page link so that it can be referred from the methods add the link to the page including AddLinkInPluginListingPage()
 		if ( $this->numRootPages == 1 && $this->numSubPages == 0 )	// means only the single root menu has been added so far
 			$this->strDefaultPageLink = trim( $strPageSlug );	
+			
 		if ( $this->numRootPages == 0 && $this->numSubPages == 0 ) { // means that this is the first time adding a page and it belongs to an existent page.
-			// For themes, nothing would happen but it should have a conditonal statement to detect if the caller is from a theme or plugin
+		
 			// Add a setting link in the plugin listing 
 			$this->strDefaultPageLink = trim( $strPageSlug ) ;		// $this->strPageSlug should have been assigned the top level menu slug in SetRootMenu().
-			add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkInPluginListingPage' ) );
+			if ( $this->arrCallerInfo['type'] == 'plugin' )
+				add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkInPluginListingPage' ) );
+		
 		}	
+		
+		// Modify the admin footer to add the plugin name and the version.
+		add_filter( 'update_footer', array( $this, 'AddInfoInFooterRight' ), 11 );
+		if ( isset( $this->strCallerPath ) )
+			add_filter( 'admin_footer_text' , array( $this, 'AddInfoInFooterLeft' ) );
 		
 		// Store the page title and icon
 		$this->numSubPages++;
-		$this->arrPageTitles[$strPageSlug] = trim( $strSubTitle );
+		$this->arrPageTitles[ $strPageSlug ] = trim( $strSubTitle );
 		$this->arrIcons[$strPageSlug] = $strPathIcon32x32;	// if it is not set, screen_icon() will be used.
 		
 		// hook the filters for the page output
@@ -394,19 +422,102 @@ class Admin_Page_Framework {
 	/*
 		Back-end methods - the user may not use these method unless they know what they are doing and what these methods do.
 	*/
-	function AddLinkToPluginDescription_Callback( $arrLinks, $strFile ) {	// this is a callback method so should not be protected
+	protected function GetCallerInfo( $strFilePath ) {
+		
+		// since 1.0.2.2
+		$arrDebugBacktrace = debug_backtrace();
+		
+		$arrCallerInfo = array();
+		$arrCallerInfo['file'] = $strFilePath ? $strFilePath : $arrDebugBacktrace[0]['file'];
+		$arrCallerInfo['type'] = $this->GetCallerType( $arrCallerInfo['file'] );
+		
+		if ( $arrCallerInfo['type'] == 'plugin' ) {
+			
+			if ( ! function_exists( 'get_plugin_data' )  ) 
+				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			
+			$arrCallerInfo['data'] = get_plugin_data( $arrCallerInfo['file'], false );	// stores the plugin info array
+			$arrCallerInfo['data']['ScriptURI'] = $arrCallerInfo['data']['PluginURI'];
+			
+		} else if ( $arrCallerInfo['type'] == 'theme' ) {
+
+			if ( ! function_exists( 'wp_get_theme' )  ) 
+				require_once( ABSPATH . 'wp-admin/includes/theme.php' );
+		
+			$oTheme = wp_get_theme();	// stores the theme info object
+			$arrCallerInfo['data'] = array(
+				'Name'			=> $oTheme->Name,
+				'Version' 		=> $oTheme->Version,
+				'ThemeURI'		=> $oTheme->get( 'ThemeURI' ),
+				'ScriptURI'		=> $oTheme->get( 'ThemeURI' ),
+				'AuthorURI'		=> $oTheme->get( 'AuthorURI' ),
+				'Author'		=> $oTheme->get( 'Author' ),				
+			);
+			
+		}
+				
+		return $arrCallerInfo;
+		
+	}
+	protected function GetCallerType( $strPath ) {
+		
+		// since 1.0.2.2
+		// Determines what kind of script this is, theme, plugin or something else from the given path.
+		// Returns either 'theme', 'plugin', or 'unknown'
+		
+		if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $strPath, $matches ) )
+			return 'theme';
+			
+		if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $strPath, $matches ) )
+			return 'plugin';
+			
+		return 'unknown';
+		
+	}
+	public function AddInfoInFooterLeft( $strText ) {  // method used by hooks should be public
+		
+		// since 1.0.2.2
+		// callback for the filter hook, admin_footer_text.
+		
+		if ( ! isset( $_GET['page'] ) || ! array_key_exists( $_GET['page'] , $this->arrPageTitles )  ) return $strText;
+		 
+		$strPluginInfo = $this->arrCallerInfo['data']['Name'] . ' ' . $this->arrCallerInfo['data']['Version'];
+		$strPluginInfo = empty( $this->arrCallerInfo['data']['ScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrCallerInfo['data']['ScriptURI'] . '">' . $strPluginInfo . '</a>';
+		$strAuthorInfo = empty( $this->arrCallerInfo['data']['AuthorURI'] )	? $this->arrCallerInfo['data']['Author'] : '<a href="' . $this->arrCallerInfo['data']['AuthorURI'] . '">' . $this->arrCallerInfo['data']['Author'] . '</a>';
+		$strAuthorInfo = empty( $this->arrCallerInfo['data']['Author'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		return $strPluginInfo . ' ' . $strAuthorInfo;			
+
+	}
+	public function AddInfoInFooterRight( $strText ) {	// method used by hooks should be public
+	
+		// Adds plugin info into the footer
+		// since 1.0.2.2
+		
+		if ( ! isset( $_GET['page'] ) || ! array_key_exists( $_GET['page'] , $this->arrPageTitles )  ) return $strText;
+		
+		return __( 'Powered by <a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>' )
+			. ', ' . '<a href="http://wordpress.org">WordPress</a>';
+		
+	}	
+	public function AddLinkToPluginDescription_Callback( $arrLinks, $strFile ) {	// this is a callback method so should not be protected
+
 		if ( $strFile != $this->GetCallerPluginBaseName() ) return $arrLinks;
 		return array_merge( $arrLinks, $this->arrPluginDescriptionLinks );
+		
 	}	
-	function AddLinkToPluginTitle_Callback( $arrLinks ) {	// A callback method should not be protected.
+	public function AddLinkToPluginTitle_Callback( $arrLinks ) {	// A callback method should not be protected.
+		
 		return array_merge( $arrLinks, $this->arrPluginTitleLinks );
+	
 	}
-	function AddLinkInPluginListingPage( $arrLinks ) {		// this is a callback method so should not be protected	
+	public function AddLinkInPluginListingPage( $arrLinks ) {		// this is a callback method so should not be protected	
+	
 		array_unshift(	
 			$arrLinks,
 			'<a href="admin.php?page=' . $this->strDefaultPageLink . '">' . __( 'Settings', 'admin-page-framework' ) . '</a>'
 		); 
 		return $arrLinks;
+		
 	}	
 	function IsTabSpecifiedForFormSection( $arrSection ) {
 		
@@ -1501,7 +1612,9 @@ class Admin_Page_Framework {
 		if ( array_key_exists( trim( $strPageSlug ), $this->arrPageTitles ) ) return true; 
 	}
 	function GetCallerPluginBaseName() {
-		return plugin_basename( $this->arrCallerInfo[0]['file'] );
+		
+		return plugin_basename( $this->arrCallerInfo['file'] );
+		
 	}	
 	function IsReferredFromAddedPage( $strURL ) {
 		/*
