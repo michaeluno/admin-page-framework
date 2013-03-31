@@ -117,15 +117,26 @@ This is	a PHP class library that enables to create option pages and form fields 
 = I've written a useful class and functions. Do you want to include it? = 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
 
-== To do ==
+== Roadmap ==
+* Add: a custom input filed for category select checkboxes.
+* Add: the ability to remove registered form elements.
+* Add: the ability to specify a redirect page after the form data is successfully updated.
 
 == Changelog ==
+
+= 1.0.3 - 04/01/2013 =
+* Added: the *href* field key for the submit field type that makes the button searve like a hyper link.
+* Added: the *AddSettingsError()* and the *ShowSettingsErrors()* methods to be alternated with the settings_errors() and the add_settings_error() functions to prevent multiple duplicate messages to be displayed.
+* Added: the ability to automatically insert anchor links to each section and field of form elements.
+* Added: the *readonly* field key for text and textarea input fields that inserts the readonly attribute to the input tag.
+* Added: the *pre_field* and *post_field* filed keys that adds HTML code right before/after the input element.
+* Fixed: a minor bug in the method that merges arrays that did not merge correctly with keys with a null value.
 
 = 1.0.2.3 - 03/17/2013 =
 * Added: the ability to set access rights ( capability ) to adding pages individually, which can be set in the newly added fourth parameter of the AddSubMenu() method.
 
 = 1.0.2.2 - 03/17/2013 =
-* Changed: the second parameter of the constructor from capability to script path; the capability can be set via the SetCapability() method.
+* Changed: (**Breaking Change**) the second parameter of the constructor from capability to script path; the capability can be set via the SetCapability() method.
 * Added: the ability to automatically insert script information ( plugin/theme name, version, and author ) into the footer if the second parameter is set in the constructor.
 
 = 1.0.2.1 - 03/16/2013 =
@@ -133,8 +144,8 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 * Added: a hidden tab page which belongs to the first page with a link back-and-forth in the demo plugin. 
 * Changed: the required WordPress version to 3.2 as the newly used filter option_page_capability_{$pageslug} requires it.
 * Fixed: an issue that setting a custom capability caused the "Creatin' huh?" message and the user could not change the options.
-* Added: the HideInPageTab() method which hides a specified in-page tab yet still accessible by the direct url.
-* changed: the method name RenderInPageTabs() to GetInPageTabs() since it did not print anything but returned the output string. 
+* Added: the *HideInPageTab()* method which hides a specified in-page tab yet still accessible by the direct url.
+* changed: the method name *RenderInPageTabs()* to *GetInPageTabs()* since it did not print anything but returned the output string. 
 
 = 1.0.2 - 03/11/2013 =
 * Added: the *export_{suffix}* and *import_{suffix}* filters and the corresponding callback methods to capture exporting/importing array to modify before processing it.

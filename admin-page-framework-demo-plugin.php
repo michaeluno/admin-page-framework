@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.2.3
+	Version: 1.0.3
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
@@ -41,7 +41,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		// You need to decide what page title and the slug to use. 
 		// Important: do not use dots and hyphens in the page slug. Alphabets and numbers only! 
 		// You are going to use the page slug later on for the callback method.
-		$this->SetCapability( 'read' );		// allow subscribers to access the pages
+		$this->SetCapability( 'read' );		// *Optional: allow subscribers to access the pages
 		$this->AddSubMenu(
 			'My First Page',	// page and menu title
 			'myfirstpage',		// page slug - this will be the option name saved in the database
@@ -51,7 +51,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 			'Import and Export Options', 
 			'mysecondpage',
 			plugins_url( 'img/demo_02_32x32.png', __FILE__ ),
-			'manage_options'	// restrict the access rights to only administrators.
+			'manage_options'	// *Optional: restrict the access rights to only administrators. 
 		);
 		$this->AddSubMenu(
 			'Change Style',
@@ -81,8 +81,12 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		);	
 		
 		// This hides the fifth tab. But the page is still accessible. This is useful when you need to create a proceeding page for advanced sections 
-		// that the user reaches after submitting a initial set up in the same page.
-		$this->HideInPageTab( 'myfirstpage', 'fifthtab', 'firsttab' );	// since 1.0.2.1
+		// that the user reaches after submitting the initial set up in the same page.
+		$this->HideInPageTab( 			// since 1.0.2.1
+			'myfirstpage', 	// to which page it belongs
+			'fifthtab', 	// which tab it is
+			'firsttab' 		// when the hidden page is displayed, this tab will be marked as the active one.
+		);	
 		
 		// Add form elements.
 		// Here we have four sections as an example.
@@ -249,7 +253,15 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 									'delete' => 'Delete the Options'
 								),
 								'delimiter' => '&nbsp;&nbsp;',
-							),									
+							),	
+							array(  // single button
+								'id' => 'link_button',
+								'type' => 'submit',		// the submit type creates a button
+								'label' => __( 'Button as Link', 'admin-page-framework-demo' ),
+								'pre_field' => '<span title="' . __( 'Go to the forth page.', 'admin-page-framework-demo' ) . '">',
+								'href' => admin_url( "admin.php?page=myfourthpage" ),
+								'post_field' => '</span>',
+							),							
 						)
 				),
 			)
@@ -330,7 +342,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		// If the option key is not set, the page slug will be used. 
 		if ( $options = get_option( 'demo_my_option_key' ) )
 			echo '<h3>Saved values</h3><h4>option table key: demo_my_option_key</h4>'
-				. '<pre>' . print_r( ( array ) $options, true ) . '</pre>';	
+				. $this->DumpArray( ( array ) $options );	// DumpArray will be useful to output array contents.
 				
 	}
 	/*
@@ -365,27 +377,26 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 
 		// To discard all the saved option values, return null.
 		if ( isset( $arrInput['myfirstpage']['buttons']['update']['delete'] ) ) {
-			add_settings_error( 
-				$_POST['pageslug'], 
-				'can_be_any_string',  
+			$this->AddSettingsError(
+				'firsttab_delete',  // pick a unique ID for the message. If a same ID is used, only the newly added one will be displayed.
 				__( 'Options were deleted.', 'admin-page-framework' ),
 				'updated'
 			);				
 			return null;		
 		}
 		
-		// add_settings_error() is useful to display the submitted values.
-		add_settings_error( 
-				$_POST['pageslug'], 
-				'can_be_any_string',  
-				'<h3>Check Submitted Values</h3>' .
-				'<h4>$arrInput - the passed value to the validation callback</h4><pre>' . print_r( $arrInput, true ) . '</pre>' .
-				'<h4>$_POST</h4><pre>' . print_r( $_POST, true ) . '</pre>',
-				'updated'
-			);
+		// AddSettingsError() is useful to display the submitted values.
+		$this->AddSettingsError(
+			'firsttab_value_check',  // pick a unique ID for the message. If a same ID is used, only the newly added one will be displayed.
+			'<h3>Check Submitted Values</h3>'
+			. '<h4>$arrInput - the passed value to the validation callback</h4>' . $this->DumpArray( $arrInput )
+			. '<h4>$_POST</h4>' . $this->DumpArray( $_POST ),
+			'updated'
+		);
 		
 		// The returned value will be saved in the database.
 		return $arrInput;
+		
 	}
 	function validation_myfirstpage_thirdtab( $arrInput ) {		// 'validation_' + page slug + _ + tab slug
 
@@ -393,15 +404,15 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		$arrErrors = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_multiple_fields'];
 		$arrErrors[] = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_single_field'];
 		if ( in_array( 0, $arrErrors ) )
-			add_settings_error( 
-				$_POST['pageslug'], 
-				'can_be_any_string',  
-				'<h3>File was uploaded</h3>' .
-				'<h4>$_FILES</h4><pre>' . print_r( $_FILES, true ) . '</pre>',
+			$this->AddSettingsError(	
+				'third_tab',  // this will be added to the div tag ID of the message 
+				'<h3>' . __( 'File(s) was(were) uploaded.', 'admin-page-framework-demo' ) . '</h3>'
+				. '<h4>$_FILES</h4><pre>' . $this->DumpArray( $_FILES, dirname( __FILE__ ) . '/debug_log.txt' ) . '</pre>',
 				'updated'
 			);
 
 		return $arrInput;
+		
 	}
 	// The verification callback method for the fourth tab in the first sub page.
 	function validation_myfirstpage_fourthtab( $arrInput ) {	// 'validation_' + page slug + _ + tab slug
@@ -409,7 +420,8 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		// Set the flag 
 		$bIsValid = True;
 		
-		// We store values that have an error in an array and going to store it in a temporary area of the database called transient.
+		// We store values that have an error in an array and pass it to the SetFieldErrors() method.
+		// It internally stores the error array in a temporary area of the database called transient.
 		// The used name of the transient is a md5 hash of 'extended class name' + '_' + 'page slug'. The library class will serch for this transient 
 		// when it renders the fields and if it is found, it will display the error message set in the field array.
 		$arrErrors = array();
@@ -422,21 +434,30 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		
 		// If everything is okay, return the passed array so that Settings API can update the data.
 		if ( $bIsValid ) {		
-			// this displays message
-			add_settings_error( $_POST['pageslug'], 'can_be_any_string',  __( 'The options were updated.' ), 'updated' );
-			delete_transient( md5( get_class( $this ) . '_' . $_POST['pageslug'] ) ); // delete the temporary data for errors.
+		
+			// this displays a message.
+			$this->AddSettingsError( 
+				'fourthtab',  	// will be used in the ID attribute in the message tag element.
+				__( 'The options were updated.' ), 	// the message to display
+				'updated' 	// the type. Use 'error' for a red box.
+			);
 			return $arrInput;
+			
 		}
 
 		// This line is reached if there are invalid values.
-		// Store the error array in the transient with the name of a MD5 hash string that consists of the extended class name + _ + page slug.
-		set_transient( md5( get_class( $this ) . '_' . $_POST['pageslug'] ), $arrErrors, 60*5 );	// store it for 5 minutes ( 60 seconds * 5 )
+		// Set the error array for the input fields.
+		$this->SetFieldErrors( $_POST['pageslug'], $arrErrors );
 		
-		// This displays the error message
-		add_settings_error( $_POST['pageslug'], 'can_be_any_string',  __( 'The value must be numeric.' )  . '<br />Submitted Data: ' . print_r( $arrInput, true )  );	
+		// This displays the error message at the top of the plugin admin page.
+		$this->AddSettingsError( 
+			'fourthtab',  // will be used in the ID attribute in the message tag element.
+			__( 'The value must be numeric.' )  . '<br />Submitted Data: ' . $this->DumpArray( $arrInput ) 
+		);	
 		
 		// Returning an empty array will not change options.
 		return array();
+		
 	}			
 	
 	/*
@@ -484,6 +505,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 			. '<h3>Participate in the Project</h3>'
 			. '<p>The repository is available at GitHub. <a href="https://github.com/michaeluno/admin-page-framework">https://github.com/michaeluno/admin-page-framework</a></p>'
 		;
+		
 	}
 	function style_myfourthpage( $strRules ) {
 		
