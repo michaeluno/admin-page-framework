@@ -254,7 +254,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 								),
 								'delimiter' => '&nbsp;&nbsp;',
 							),	
-							array(  // single button
+							array(  // make the button like a hyper link
 								'id' => 'link_button',
 								'type' => 'submit',		// the submit type creates a button
 								'label' => __( 'Button as Link', 'admin-page-framework-demo' ),

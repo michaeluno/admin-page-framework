@@ -124,8 +124,14 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.3.1 - 04/01/2013 =
+* Added: the default message which appears when the settings are saved.
+* Added: the ability to automatically insert plugin information into the plugin footer regardless of whether the second parameter of the constructor is set or not.
+* Fixed: a bug that the Settings link did not added automatically when the file path is not given to the second parameter of the constructor, introduced in 1.0.2.2.
+
 = 1.0.3 - 04/01/2013 =
 * Added: the *href* field key for the submit field type that makes the button searve like a hyper link.
+* Added: the SetFieldErrors() method that enables to set field errors easily without dealing with transients.
 * Added: the *AddSettingsError()* and the *ShowSettingsErrors()* methods to be alternated with the settings_errors() and the add_settings_error() functions to prevent multiple duplicate messages to be displayed.
 * Added: the ability to automatically insert anchor links to each section and field of form elements.
 * Added: the *readonly* field key for text and textarea input fields that inserts the readonly attribute to the input tag.

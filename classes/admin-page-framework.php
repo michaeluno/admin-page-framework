@@ -175,7 +175,8 @@ class Admin_Page_Framework {
 			$this->arrPluginTitleLinks = array_merge( $this->arrPluginTitleLinks, $vLinks );
 		add_filter( 'plugin_action_links_' . $this->GetCallerPluginBaseName() , array( $this, 'AddLinkToPluginTitle_Callback' ) );
 
-		}
+	}
+	
 	/*
 	 * Add Menu and pages
 	 * */
@@ -329,7 +330,7 @@ class Admin_Page_Framework {
 		
 		// Modify the admin footer to add the plugin name and the version.
 		add_filter( 'update_footer', array( $this, 'AddInfoInFooterRight' ), 11 );
-		if ( isset( $this->strCallerPath ) )
+		if ( isset( $this->strCallerPath ) || isset( $this->arrCallerInfo['file'] ) )
 			add_filter( 'admin_footer_text' , array( $this, 'AddInfoInFooterLeft' ) );
 		
 		// Store the page title and icon
@@ -431,13 +432,16 @@ class Admin_Page_Framework {
 	/*
 		Back-end methods - the user may not use these method unless they know what they are doing and what these methods do.
 	*/
-	protected function GetCallerInfo( $strFilePath ) {
+	protected function GetCallerInfo( $strFilePath=null ) {
 		
 		// since 1.0.2.2
-		$arrDebugBacktrace = debug_backtrace();
+		if ( ! $strFilePath ) {
+			$arrDebugBacktrace = debug_backtrace();
+			$strCallerFilePath = isset( $arrDebugBacktrace[1] ) ? $arrDebugBacktrace[1]['file'] : $arrDebugBacktrace[0]['file'];
+		}
 		
 		$arrCallerInfo = array();
-		$arrCallerInfo['file'] = $strFilePath ? $strFilePath : $arrDebugBacktrace[0]['file'];
+		$arrCallerInfo['file'] = $strFilePath ? $strFilePath : $strCallerFilePath;
 		$arrCallerInfo['type'] = $this->GetCallerType( $arrCallerInfo['file'] );
 		
 		if ( $arrCallerInfo['type'] == 'plugin' ) {
@@ -886,6 +890,7 @@ class Admin_Page_Framework {
 				$strOutput = $arrField['pre_field'] . $strValue . $arrField['post_field'];
 				break;
 			case 'import':	// import options
+				// currently only one import field can be supported per page. 
 				$strLabel = ( $arrField['label'] ) ? $arrField['label'] : __( 'Import Options', 'admin-page-framework' );
 				$strClass = ( $arrField['class'] ) ? $arrField['class'] : 'button button-primary';
 				// $strOutput .= "<input class='{$strClass}' type='hidden' name='__import[option_key]' value='{$arrField['key']}' />";
@@ -906,11 +911,13 @@ class Admin_Page_Framework {
 						$strOptionKey = $this->GetCorrespondingArrayValue( $numIndex, $arrField['option_key'], '' );	
 						$bIsDisabled = $this->GetCorrespondingArrayValue( $numIndex, $arrField['disable'], '' );
 						$bIsDisabled = $bIsDisabled ? 'disabled="Disabled"' : '';
+						$strName = $this->GetCorrespondingArrayValue( $numIndex, $arrField['name'], null );
+						$strName = $strName ? $strName : "__export[submit][{$numIndex}]";
 						if ( !empty( $strTransientKey ) )
 							$strOutput .= "<input type='hidden' name='__export[transient][{$numIndex}]' value='{$strTransientKey}' />";
 						$strOutput .= "<input type='hidden' name='__export[file_name][{$numIndex}]' value='{$strFileName}' />";
 						$strOutput .= "<input type='hidden' name='__export[option_key][{$numIndex}]' value='{$strOptionKey}' />";
-						$strInputField .= "<input id='{$strTagID}_{$numIndex}' class='{$strClass}' type='submit' value='{$strLabel}' name='__export[submit][{$numIndex}]' {$bIsDisabled} />";
+						$strInputField .= "<input id='{$strTagID}_{$numIndex}' class='{$strClass}' type='submit' value='{$strLabel}' name='{$strName}' {$bIsDisabled} />";
 						$strOutput .= $this->GetCorrespondingArrayValue( $numIndex, $arrField['pre_field'] ) . $strInputField . $this->GetCorrespondingArrayValue( $numIndex, $arrField['pre_field'] );
 						$strOutput .= $arrField['delimiter'];
 					}
@@ -919,11 +926,12 @@ class Admin_Page_Framework {
 				$strLabel = ( $arrField['label'] ) ? $arrField['label'] : __( 'Export Options', 'admin-page-framework' );
 				$strFileName = $arrField['file_name'] ? $arrField['file_name'] : $this->strClassName . '.txt';
 				$strClass = ( $arrField['class'] ) ? $arrField['class'] : 'button button-primary';
+				$strName = $arrField['name'] ? $arrField['name'] : "__export[submit]";
 				if ( isset( $arrField['transient'] ) && !empty( $arrField['transient'] ) )
 					$strOutput .= "<input type='hidden' name='__export[transient]' value='{$arrField['transient']}' />";
 				$strOutput .= "<input type='hidden' name='__export[file_name]' value='{$strFileName}' />";
 				$strOutput .= "<input type='hidden' name='__export[option_key]' value='{$arrField['option_key']}' />";
-				$strInputField = "<input id='{$strTagID}' class='{$strClass}' type='submit' value='{$strLabel}' name='__export[submit]' {$bIsDisabled} />";
+				$strInputField = "<input id='{$strTagID}' class='{$strClass}' type='submit' value='{$strLabel}' name='{$strName}' {$bIsDisabled} />";
 				$strOutput .= $arrField['pre_field'] . $strInputField . $arrField['post_field'];
 				break;
 			case 'image':	// image uploader
@@ -1341,7 +1349,9 @@ class Admin_Page_Framework {
 
 	}
 	protected function ShowSettingsErrors() {	// since 1.0.3
-	
+			// if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] )
+				// echo '<div class="updated"><p><strong>' . __( 'Options have been updated.', 'admin-page-framework' ) . '</strong></p></div>';
+		
 		// Alternative to settings_errors()
 		// Displays the set settings error/notification messages set with AddSettingsError().
 
@@ -1351,7 +1361,16 @@ class Admin_Page_Framework {
 		
 		$strTransientKey = md5( 'SettingsErrors_' . get_class( $this ) . '_' . $this->strPageSlug );
 		$arrSettingsErrors = ( array ) get_transient( $strTransientKey );
-		if ( empty( $arrSettingsErrors ) ) return;
+		// since it's a casted array, the 0 key will be assigened and empty() does not return true
+		// empty( $arrSettingsErrors ) will not return true for array( 0 => null )
+		if ( count( $arrSettingsErrors ) == 1 && isset( $arrSettingsErrors[0] ) && ! $arrSettingsErrors[0]  ) {		
+			
+			if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] )
+				echo '<div class="updated"><p><strong>' . __( 'Options have been updated.', 'admin-page-framework' ) . '</strong></p></div>';
+			
+			return;
+			
+		} 
 	
 		$strOutput = '';
 		foreach ( $arrSettingsErrors as $strID => $arrError ) {
@@ -1475,7 +1494,7 @@ class Admin_Page_Framework {
 		global $wpdb;
 		$strDBPrefix = $wpdb->prefix;
 		$arrAttachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM " . $strDBPrefix . "posts" . " WHERE guid='%s';", $strImageURL ) ); 
-		$nAttachmentID = $arrAttachment[0];
+		$nAttachmentID = isset( $arrAttachment[0] ) ? $arrAttachment[0] : null;
 		
 		if ( empty( $nAttachmentID ) )	{	// could be a thumbnail url.
 			$strImageURL = preg_replace( '/(\/.+)(-\d+x\d+)(\.\w+)$/i', '$1$3', $strImageURL );	// remove the thumbnail suffix, e.g. sunset-300x600.jpg -> sunset.jpg
