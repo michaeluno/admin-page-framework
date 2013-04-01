@@ -4,7 +4,7 @@
 		Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 		Author:  Michael Uno
 		Author URI: http://michaeluno.jp
-		Version: 1.0.3
+		Version: 1.0.3.1
 		Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 		Description: Provides simpler means of building administration pages for plugin and theme developers. 
 		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
