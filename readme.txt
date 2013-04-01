@@ -124,6 +124,9 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.3.2 - =
+* Added: the ability to disable Settings API's admin notices to be automatically displayed after submitting a form by default. To enable the Settings API's notification messages, use the EnableSettingsAPIAdminNotice() method.
+
 = 1.0.3.1 - 04/01/2013 =
 * Added: the default message which appears when the settings are saved.
 * Added: the ability to automatically insert plugin information into the plugin footer regardless of whether the second parameter of the constructor is set or not.
