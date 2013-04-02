@@ -124,6 +124,9 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.3.3 - 04/02/2013 =
+* Fixed: a bug that a debug log file was created after submitting form data.
+
 = 1.0.3.2 - 04/02/2013 =
 * Added: the *redirect* field key for the submit input type that redirects the page after the submitted form data is successfully saved.
 * Fixed: an issue that when there are multiple submit input fields and the same label was used with the *href* key, the last url was set to previous buttons; the previous buttons urls were overwritten by the last one. 
