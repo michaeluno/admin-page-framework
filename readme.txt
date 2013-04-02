@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration panel, admin panel, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, development tool, developers
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.0.2
+Stable tag: 1.0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,17 +120,19 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == Roadmap ==
 * Add: a custom input filed for category select checkboxes.
 * Add: the ability to remove registered form elements.
-* Add: the ability to specify a redirect page after the form data is successfully updated.
+* <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Done in 1.0.3.2.
 
 == Changelog ==
 
-= 1.0.3.2 - =
+= 1.0.3.2 - 04/02/2013 =
+* Added: the *redirect* field key for the submit input type that redirects the page after the submitted form data is successfully saved.
+* Fixed: an issue that when there are multiple submit input fields and the same label was used with the *href* key, the last url was set to previous buttons; the previous buttons urls were overwritten by the last one. 
+* Fixed: a bug that a value for the *pre_field* was applied for the *post_field* key in some field types.
 * Added: the ability to disable Settings API's admin notices to be automatically displayed after submitting a form by default. To enable the Settings API's notification messages, use the EnableSettingsAPIAdminNotice() method.
 
 = 1.0.3.1 - 04/01/2013 =
 * Added: the default message which appears when the settings are saved.
-* Added: the ability to automatically insert plugin information into the plugin footer regardless of whether the second parameter of the constructor is set or not.
-* Fixed: a bug that the Settings link did not added automatically when the file path is not given to the second parameter of the constructor, introduced in 1.0.2.2.
+* Changed: to automatically insert plugin information into the plugin footer regardless of whether the second parameter of the constructor is set or not.
 
 = 1.0.3 - 04/01/2013 =
 * Added: the *href* field key for the submit field type that makes the button searve like a hyper link.

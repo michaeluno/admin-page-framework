@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.3.1
+	Version: 1.0.3.2
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
@@ -39,7 +39,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		
 		// Add the sub menus and the pages
 		// You need to decide what page title and the slug to use. 
-		// Important: do not use dots and hyphens in the page slug. Alphabets and numbers only! 
+		// Important: do not use dots and hyphens in the page slug. Alphabets and numbers and underscores only! 
 		// You are going to use the page slug later on for the callback method.
 		$this->SetCapability( 'read' );		// *Optional: allow subscribers to access the pages
 		$this->AddSubMenu(
@@ -230,12 +230,27 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 					'title' => 'Submit Buttons',
 					'description' => 'Buttons also can be created with field arrays.',
 					'fields' =>	array(	// Field Arrays
-						// Submit Buttons
-						array(  // single button
-							'id' => 'reload',
+						// Submit Buttons	
+						array(  // make the button like a hyper link
+							'id' => 'link_button',
 							'type' => 'submit',		// the submit type creates a button
-							'label' => 'Reload the Page',
-						),
+							'label' => __( 'Button as Link', 'admin-page-framework-demo' ),
+							'pre_field' => '<span title="' . __( 'Go to the forth page.', 'admin-page-framework-demo' ) . '">',
+							'href' => admin_url( "admin.php?page=myfourthpage" ),
+							'post_field' => '</span>',
+							'class' => 'button button-secondary',	
+							'description' => __( 'This serves like a hyper link.' ),
+						),		
+						array(  // make a redirect button
+							'id' => 'redirect_button',
+							'type' => 'submit',		// the submit type creates a button
+							'label' => __( 'Button as Redirect', 'admin-page-framework-demo' ),
+							'pre_field' => '<span title="' . __( 'Go to the forth page after submitting the data.', 'admin-page-framework-demo' ) . '">',
+							'redirect' => admin_url( "admin.php?page=myfourthpage" ),
+							'post_field' => '</span>',
+							'class' => 'button button-secondary',	
+							'description' => __( 'Unlike the above button, this saves the data before moving to the page.' ),							
+						),		
 						array(  // multiple buttons
 							'id' => 'update',
 							'type' => 'submit',		// the submit type creates a button
@@ -244,15 +259,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 								'delete' => 'Delete the Options'
 							),
 							'delimiter' => '&nbsp;&nbsp;',
-						),	
-						array(  // make the button like a hyper link
-							'id' => 'link_button',
-							'type' => 'submit',		// the submit type creates a button
-							'label' => __( 'Button as Link', 'admin-page-framework-demo' ),
-							'pre_field' => '<span title="' . __( 'Go to the forth page.', 'admin-page-framework-demo' ) . '">',
-							'href' => admin_url( "admin.php?page=myfourthpage" ),
-							'post_field' => '</span>',
-						),							
+						),						
 					)
 				),
 			)
@@ -360,10 +367,6 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 	// Whennever you need to check the submitted data, use this method. The returned array will be saved in the database.
 	function validation_myfirstpage_firsttab( $arrInput ) {
 	
-		// In order not to do anything with the submitted data, return an empty array. 
-		// ( Or altenatively retrieve the saved option array from the database and return it. )
-		if ( isset( $arrInput['myfirstpage']['buttons']['reload'] ) ) return array();
-
 		// To discard all the saved option values, return null.
 		if ( isset( $arrInput['myfirstpage']['buttons']['update']['delete'] ) ) {
 			$this->AddSettingsError(
@@ -385,6 +388,9 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		
 		// The returned value will be saved in the database.
 		return $arrInput;
+		
+		// In order not to do anything with the submitted data, return an empty array. 
+		// ( Or altenatively retrieve the saved option array from the database and return it. )
 		
 	}
 	function validation_myfirstpage_thirdtab( $arrInput ) {		// 'validation_' + page slug + _ + tab slug
