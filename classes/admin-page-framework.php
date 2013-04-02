@@ -1503,13 +1503,6 @@ class Admin_Page_Framework {
 		);
 		set_transient( $strTransientKey, $arrSettingsErrors, 60*5 );	// for 5 minutes
 
-$this->DumpArray( 
-	array( 
-		'Setting the admin notice transient: ' . 'SettingsErrors_' . get_class( $this ) . '_' . $this->strPageSlug . PHP_EOL
-		. 'md5: ' . $strTransientKey
-	), 
-	dirname(  __FILE__ ) . '/debug.txt' 
-);	
 	}
 	protected function ShowSettingsErrors() {	// since 1.0.3
 	
