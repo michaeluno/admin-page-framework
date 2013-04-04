@@ -124,13 +124,18 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.4 =
+* Improved: the accuracy to retrieve the caller script information.
+* Added: the *posttype* field type.
+* Added: the *category* field type.
+
 = 1.0.3.3 - 04/02/2013 =
-* Fixed: a bug that a debug log file was created after submitting form data.
+* Fixed: a bug that a debug log file was created after submitting form data introduced in 1.0.3.2.
 
 = 1.0.3.2 - 04/02/2013 =
 * Added: the *redirect* field key for the submit input type that redirects the page after the submitted form data is successfully saved.
 * Fixed: an issue that when there are multiple submit input fields and the same label was used with the *href* key, the last url was set to previous buttons; the previous buttons urls were overwritten by the last one. 
-* Fixed: a bug that a value for the *pre_field* was applied for the *post_field* key in some field types.
+* Fixed: a bug that a value for the *pre_field* was applied to the *post_field* key in some field types.
 * Added: the ability to disable Settings API's admin notices to be automatically displayed after submitting a form by default. To enable the Settings API's notification messages, use the EnableSettingsAPIAdminNotice() method.
 
 = 1.0.3.1 - 04/01/2013 =
@@ -138,7 +143,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 * Changed: to automatically insert plugin information into the plugin footer regardless of whether the second parameter of the constructor is set or not.
 
 = 1.0.3 - 04/01/2013 =
-* Added: the *href* field key for the submit field type that makes the button searve like a hyper link.
+* Added: the *href* field key for the submit field type that makes the button serve like a hyper link.
 * Added: the SetFieldErrors() method that enables to set field errors easily without dealing with transients.
 * Added: the *AddSettingsError()* and the *ShowSettingsErrors()* methods to be alternated with the settings_errors() and the add_settings_error() functions to prevent multiple duplicate messages to be displayed.
 * Added: the ability to automatically insert anchor links to each section and field of form elements.

@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.3.3
+	Version: 1.0.4
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
@@ -76,7 +76,8 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 				'secondtab'		=> 'Selectors and Checkboxes', 		
 				'thirdtab'		=> 'Image and Upload',
 				'fourthtab'		=> 'Verify Form Data',
-				'fifthtab'		=> 'Hidden Tab',			
+				'fifthtab'		=> 'Hidden Tab',	
+				'sixthtab'		=> 'Categories and Post Types',
 			) 
 		);	
 		
@@ -197,7 +198,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 							'id' => 'hidden_fields',
 							'type' => 'hidden',
 							'description' => 'Hidden fields are embedded here.',
-							'label' => array( 'a' => true, 'b' => false, 'c' =>false, 'd' => true, 'e' =>true ),	// if the label key is an array, it will create multiple hidden keys with the values.
+							'label' => array( 'a' => 'yes', 'b' => 'no', 'c' => 'yes', 'd' => 'yes', 'e' => 'yes' ),	// if the label key is an array, it will create multiple hidden keys with the values.
 						),	
 						// Image Uploader - this is for uploading images. There are more keys for custom settings.
 						// For other keys, please refer to the Demo 12 plugin.
@@ -295,7 +296,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 			)
 		);	
 		
-		// for the fourth tab in the first page
+		// For the fourth tab in the first page
 		$this->AddFormSections( 
 			array( 	
 				array(  
@@ -317,9 +318,40 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 					)
 				),				
 			)
-		);					
+		);
+
+		// For the 6th tab
+		$this->AddFormSections( 
+			array( 	
+				array(  
+					'pageslug' => 'myfirstpage',	
+					'tabslug' => 'sixthtab',
+					'id' => 'section_category_checklist', 	
+					'title' => 'Category Checklist',		
+					'description' => 'Lists available categories with checkboxes.',
+					'fields' => array(
+						array(  
+							'id' => 'field_category_checklist', 		// the option key name saved in the database. You will need this when retrieving the saved value later.
+							'title' => 'Categories',
+							'description' => 'Select categories.',	// additional notes besides the form field
+							'type' => 'category',	
+							'default' => array_fill_keys(  get_all_category_ids() , true ),	// this checks all 
+							'max_width' => 400,
+							'max_height' => 200,
+						),
+						array(  
+							'id' => 'field_posttype_checklist', 		// the option key name saved in the database. You will need this when retrieving the saved value later.
+							'title' => 'Post Types',
+							'description' => 'Select post types.',	// additional notes besides the form field
+							'type' => 'posttype',	
+							'delimiter' => '&nbsp;&nbsp;&nbsp;'
+						),						
+					)
+				),				
+			)
+		);		
 	}
-	
+
 	// Step 4. Define the callback methods.
 	/*
 	 * The first sub page.
@@ -507,6 +539,14 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		return $strRules . ' ul.admin-page-framework { list-style:disc; padding-left: 20px; }';
 		
 	}
+	/*
+	 * The 6th tab page
+	*/
+	function do_myfirstpage_sixthtab() {		
+	$arrPostTypes = get_post_types( '','names' );
+		echo $this->DumpArray( $arrPostTypes );
+	}
+	
 }
 
 // Step 5. Instantiate the class object.
