@@ -125,10 +125,10 @@ class Admin_Page_Framework {
 		 * */
 		
 		// Objects
-		$this->oUtil = new AdminPageFramework_Utilities;
-		$this->oRedirect = new AdminPageFramework_Redirect( $this );
-		$this->oLink = new AdminPageFramework_Link( $this, $strCallerPath );
-		$this->oDebug = new AdminPageFramework_Debug;
+		$this->oUtil = new Admin_Page_Framework_Utilities;
+		$this->oRedirect = new Admin_Page_Framework_Redirect( $this );
+		$this->oLink = new Admin_Page_Framework_Link( $this, $strCallerPath );
+		$this->oDebug = new Admin_Page_Framework_Debug;
 		
 		// Do not set the extended class name for this. It uses a page slug name if not set.
 		$this->strClassName 	= get_class( $this );
@@ -1333,7 +1333,8 @@ class Admin_Page_Framework {
 
 }
 
-class AdminPageFramework_Debug {
+if ( ! class_exists( 'Admin_Page_Framework_Debug' ) ) :
+class Admin_Page_Framework_Debug {
 	
 	
     public function GetMemoryUsage() {
@@ -1361,12 +1362,12 @@ class AdminPageFramework_Debug {
 		}
 		return '<pre>' . esc_html( print_r( $arr, true ) ) . '</pre>';
 		
-	}
-
-	
+	}	
 }
+endif;
 
-class AdminPageFramework_Link {	// since 1.0.4
+if ( ! class_exists( 'Admin_Page_Framework_Link' ) ) :
+class Admin_Page_Framework_Link {	// since 1.0.4
 	
 	// Objects
 	public $oCore;	// stores the caller core object instance.
@@ -1529,9 +1530,11 @@ class AdminPageFramework_Link {	// since 1.0.4
 		return 'unknown';
 		
 	}	
-	
 }
-class AdminPageFramework_Redirect {		// since 1.0.4
+endif;
+
+if ( ! class_exists( 'Admin_Page_Framework_Redirect' ) ) :
+class Admin_Page_Framework_Redirect {		// since 1.0.4
 	
 	public $oCore;	// stores the caller core object instance.
 	
@@ -1675,6 +1678,9 @@ class AdminPageFramework_Redirect {		// since 1.0.4
 	}
 	
 }
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_WordPress_Utilities' ) ) :
 class AdminPageFramework_WordPress_Utilities {	// since 1.0.4
 
 	/*
@@ -1685,7 +1691,10 @@ class AdminPageFramework_WordPress_Utilities {	// since 1.0.4
 	
 	
 }
-class AdminPageFramework_Utilities {	// since 1.0.4
+endif;
+
+if ( ! class_exists( 'Admin_Page_Framework_Utilities' ) ) :
+class Admin_Page_Framework_Utilities {	// since 1.0.4
 
 	/*
 	 * Provides utility functions - moved from the main class
@@ -1803,6 +1812,9 @@ class AdminPageFramework_Utilities {	// since 1.0.4
 		
 	}	
 }
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Input_Filed_Types' ) ) :
 class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 	
 	/*
@@ -1864,7 +1876,7 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 	function __construct( &$arrField, &$strOptionKey, &$strClassName ) {
 		
 		// Objects
-		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oUtil = new Admin_Page_Framework_Utilities;
 		
 		// Set up the option array - case 1. option key is specified. case 2 not specified in the constructor, then use the page slug as the key.
 		$this->arrOptions = ( array ) get_option( ( empty( $strOptionKey ) ) ? $arrField['page_slug'] : $strOptionKey );
@@ -2399,7 +2411,9 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 		
 	}	
 }
+endif;
 
+if ( ! class_exists( 'AdminPageFramework_Walker_Category_Checklist' ) ) :
 class AdminPageFramework_Walker_Category_Checklist extends Walker_Category {	// since 1.0.4
 	
 	/*
@@ -2459,3 +2473,4 @@ class AdminPageFramework_Walker_Category_Checklist extends Walker_Category {	// 
 			
 	}
 }
+endif;

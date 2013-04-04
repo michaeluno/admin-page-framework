@@ -118,9 +118,11 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
 
 == Roadmap ==
-* Add: a custom input filed for category select checkboxes.
 * Add: the ability to remove registered form elements.
-* <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Done in 1.0.3.2.
+
+== Done ==
+* <s>Add: a custom input filed for category select checkboxes</s>. Implemented in 1.0.4.
+* <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
 
 == Changelog ==
 
