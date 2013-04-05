@@ -34,6 +34,8 @@ It provides plugin and theme developers with easier means of creating option pag
 * File Upload 
 * Image Upload (Custom File Upload)
 * Option Export and Import (Custom File Upload)
+* Post Types (Custom Checkboxes)
+* Categoris (Custom Checkboxes)
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the classes folder.
@@ -127,6 +129,10 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == Changelog ==
 
 = 1.0.4 =
+* Added: the *SetSettingsNotice()* method which can be used instead of the *AddSettingsError()* method. The new method does not require an ID to be passed.
+* Changed: **(Breaking Change)** the parameters of *SetFieldErrors()* method; the first parameter is now the error array and the second parameter is the ID and it is optional.
+* Changed: that when multiple labels were set for the field types that supports multiple labels but the *name* key was set null, it now returns the default value instead of an empty string.
+* Tweaked: the settings registration process including sections and fields to be skipped if the loading page is not one of the pages added by the user.
 * Improved: the accuracy to retrieve the caller script information.
 * Added: the *posttype* field type.
 * Added: the *category* field type.

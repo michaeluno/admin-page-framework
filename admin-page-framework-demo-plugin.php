@@ -401,17 +401,15 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 	
 		// To discard all the saved option values, return null.
 		if ( isset( $arrInput['myfirstpage']['buttons']['update']['delete'] ) ) {
-			$this->AddSettingsError(
-				'firsttab_delete',  // pick a unique ID for the message. If a same ID is used, only the newly added one will be displayed.
+			$this->SetSettingsNotice(
 				__( 'Options were deleted.', 'admin-page-framework' ),
 				'updated'
 			);				
 			return null;		
 		}
 		
-		// AddSettingsError() is useful to display the submitted values.
-		$this->AddSettingsError(
-			'firsttab_value_check',  // pick a unique ID for the message. If a same ID is used, only the newly added one will be displayed.
+		// SetSettingsNotice() is useful to display the submitted values.
+		$this->SetSettingsNotice(
 			'<h3>Check Submitted Values</h3>'
 			. '<h4>$arrInput - the passed value to the validation callback</h4>' . $this->DumpArray( $arrInput )
 			. '<h4>$_POST</h4>' . $this->DumpArray( $_POST ),
@@ -431,8 +429,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		$arrErrors = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_multiple_fields'];
 		$arrErrors[] = $_FILES['demo_my_option_key']['error']['myfirstpage']['misc_types']['file_single_field'];
 		if ( in_array( 0, $arrErrors ) )
-			$this->AddSettingsError(	
-				'third_tab',  // this will be added to the div tag ID of the message 
+			$this->SetSettingsNotice(	
 				'<h3>' . __( 'File(s) was(were) uploaded.', 'admin-page-framework-demo' ) . '</h3>'
 				. '<h4>$_FILES</h4><pre>' . $this->DumpArray( $_FILES, dirname( __FILE__ ) . '/debug_log.txt' ) . '</pre>',
 				'updated'
@@ -463,8 +460,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		if ( $bIsValid ) {		
 		
 			// this displays a message.
-			$this->AddSettingsError( 
-				'fourthtab',  	// will be used in the ID attribute in the message tag element.
+			$this->SetSettingsNotice( 
 				__( 'The options were updated.' ), 	// the message to display
 				'updated' 	// the type. Use 'error' for a red box.
 			);
@@ -474,11 +470,10 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 
 		// This line is reached if there are invalid values.
 		// Set the error array for the input fields.
-		$this->SetFieldErrors( $_POST['pageslug'], $arrErrors );
+		$this->SetFieldErrors( $arrErrors );
 		
 		// This displays the error message at the top of the plugin admin page.
-		$this->AddSettingsError( 
-			'fourthtab',  // will be used in the ID attribute in the message tag element.
+		$this->SetSettingsNotice( 
 			__( 'The value must be numeric.' )  . '<br />Submitted Data: ' . $this->DumpArray( $arrInput ) 
 		);	
 		
@@ -538,13 +533,6 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		
 		return $strRules . ' ul.admin-page-framework { list-style:disc; padding-left: 20px; }';
 		
-	}
-	/*
-	 * The 6th tab page
-	*/
-	function do_myfirstpage_sixthtab() {		
-	$arrPostTypes = get_post_types( '','names' );
-		echo $this->DumpArray( $arrPostTypes );
 	}
 	
 }

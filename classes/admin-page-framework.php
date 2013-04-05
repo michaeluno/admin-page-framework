@@ -1,14 +1,32 @@
 <?php 
-	/*
-		Name: Admin Page Framework
-		Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
-		Author:  Michael Uno
-		Author URI: http://michaeluno.jp
-		Version: 1.0.4
-		Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
-		Description: Provides simpler means of building administration pages for plugin and theme developers. 
-		Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
-	*/
+/*
+	Name: Admin Page Framework
+	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
+	Author:  Michael Uno
+	Author URI: http://michaeluno.jp
+	Version: 1.0.4
+	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
+	Description: Provides simpler means of building administration pages for plugin and theme developers. 
+	Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
+	Main Class:
+		- Admin_Page_Framework
+	Sub Classes:
+	
+		* It is recommended to rename the class name to avoid version incompatibility. 
+		* If someone uses this library with a version that is different from the one you use
+		* but it is loaded before yours, then it could cause unexpecting results.
+		* If you rename the class, do not forget renaming the following sub-classes as well.
+		* In that case, you would need to change the lines where instanciating
+		* them plus declaring them. Use 'Replace All' if your code editor supports it.
+	
+		- Admin_Page_Framework_Input_Filed_Types
+		- Admin_Page_Framework_Walker_Category_Checklist
+		- Admin_Page_Framework_Utilities
+		- Admin_Page_Framework_Redirect
+		- Admin_Page_Framework_Link
+		- Admin_Page_Framework_Debug
+	
+*/
 
 class Admin_Page_Framework {
 	
@@ -356,8 +374,7 @@ class Admin_Page_Framework {
 		add_action( $this->prefix_do_after	. $strPageSlug , array( $this, $this->prefix_do_after	. $strPageSlug ) );
 		add_action( $this->prefix_do_form	. $strPageSlug , array( $this, $this->prefix_do_form	. $strPageSlug ) );	// since 1.0.2
 	
-		// if this is a Settings API loading page behind the scene, which is options.php, do not register unnecessary callbacks.
-		if ( isset( $_POST['pageslug'] ) && $_POST['pageslug'] != $strPageSlug ) return;	
+		if ( ! $this->IsPageRegisterable( $strPageSlug ) ) return;
 		
 		$strOptionName = ( empty( $this->strOptionKey ) ) ? $strPageSlug : $this->strOptionKey;
 		register_setting(	
@@ -441,10 +458,6 @@ class Admin_Page_Framework {
 	/*
 		Back-end methods - the user may not use these method unless they know what they are doing and what these methods do.
 	*/	
-
-
-
-
 	
 	function IsTabSpecifiedForFormSection( $arrSection ) {
 		
@@ -476,6 +489,28 @@ class Admin_Page_Framework {
 		$this->strFormEncType = $strEncType;
 		
 	}
+	protected function IsPageRegisterable( $strPageSlug ) {	// since 1.0.4
+		
+		/*
+		 *  Check if the current loading page has the passed page slug. If not, it returns false.
+		 *  However, if it's options.php and the sent $_POST pageslug key matches the passed page slug, it returns true
+		 *  , which the field/section ( for Settings API ) should be registered.
+		 */
+		
+				
+		// If this is a Settings API loading page behind the scene, which is options.php, do not register unnecessary callbacks.
+		global $pagenow;
+		if ( $pagenow == 'options.php' && isset( $_POST['pageslug'] ) && $_POST['pageslug'] == $strPageSlug ) return true;	
+		
+		if ( ! isset( $_GET['page'] ) ) return false;
+		
+		// If this adding page is not the current loading page, there is no need to register the setting for Settings API. 
+		// Skipping the registration will help eliminate unnecessary validation callbacks.	
+		if ( $_GET['page'] == $strPageSlug ) return true;
+		
+		return false;
+		
+	}
 	protected function AddFormFields( $strPageSlug, $strSectionID, &$arrFields ) {
 	
 		/* e.g. root dimension: numeric keys, second dimension: must have 'id' and 'title' keys.
@@ -484,6 +519,9 @@ class Admin_Page_Framework {
 						array( 'id' => 'section_a_field_b', 'title' => 'Option B' )
 					);
 		*/
+			
+		if ( ! $this->IsPageRegisterable( $strPageSlug ) ) return;
+		
 		$strPageSlug = $this->oUtil->SanitizeSlug( $strPageSlug );	// - => _, . => _
 		foreach( ( array ) $arrFields as $index => $arrField ) {
 			
@@ -555,9 +593,9 @@ class Admin_Page_Framework {
 				array( $this, $this->prefix_field . 'pre_' . $arrField['id'] ),	// callback function - will trigger the __call() magic method and be redirected to the RenderFormField() method.
 				$strPageSlug,
 				$strSectionID,
-				$this->arrFields[$arrField['id']] 
+				$this->arrFields[ $arrField['id'] ] 
 			);			
-			
+
 		}
 	}	
 	public function RemoveRootSubMenu() {
@@ -586,11 +624,17 @@ class Admin_Page_Framework {
 
 		// Renders the section description and apply the filter to be extensible.
 		$strSectionID = substr( $strMethodName, strlen( $this->prefix_section ) + 4 );	// section_pre_X
-		if ( !isset( $this->arrSections[$strSectionID] ) ) return;	// if it is not added
-		$strDescription = '<p>' . $this->arrSections[$strSectionID]['description'] . '</p>';
+		if ( !isset( $this->arrSections[ $strSectionID ] ) ) return;	// if it is not added
+		$strDescription = '<p>' . $this->arrSections[ $strSectionID ]['description'] . '</p>';
 		
-		add_filter( $this->prefix_section . $strSectionID , array( $this, $this->prefix_section . $strSectionID ), 10, 2 );
-		echo apply_filters( $this->prefix_section . $strSectionID, $strDescription, $this->arrSections[$strSectionID]['description'] );	// the p-tagged description string and the original description is passed.
+		$this->AddAndApplyFilter( 
+			$this->prefix_section . $strSectionID,
+			$strDescription, 	// the p-tagged description string 
+			$this->arrSections[ $strSectionID ]['description']	// the original description
+		); 
+
+		// add_filter( $this->prefix_section . $strSectionID , array( $this, $this->prefix_section . $strSectionID ), 10, 2 );
+		// echo apply_filters( $this->prefix_section . $strSectionID, $strDescription, $this->arrSections[$strSectionID]['description'] );	// the p-tagged description string and the original description is passed.
 	
 	}
 	function RenderFormField( $strMethodName, &$arrField ) {
@@ -599,7 +643,7 @@ class Admin_Page_Framework {
 		$strFieldID = substr( $strMethodName, strlen( $this->prefix_field ) + 4 );	// field_pre_X
 		if ( !isset( $this->arrFields[$strFieldID] ) ) return;	// if it is not added, return
 
-		$oFields = new AdminPageFramework_Input_Filed_Types( $arrField, $this->strOptionKey, $this->strClassName );
+		$oFields = new Admin_Page_Framework_Input_Filed_Types( $arrField, $this->strOptionKey, $this->strClassName );
 		$strOutput = $oFields->GetInputField( $arrField['type'] );
 		
 		// Render the input field
@@ -904,20 +948,32 @@ class Admin_Page_Framework {
 		delete_transient( md5( get_class( $this ) . '_' . $strPageSlug ) ); // delete the temporary data for errors.
 		
 	}	
-	protected function SetFieldErrors( $strID, $arrErrors, $numSavingDuration=300 ) {	// since 1.0.3
+	protected function SetFieldErrors( $arrErrors, $strID=null, $numSavingDuration=300 ) {	// since 1.0.3, changed the parameters in 1.0.4
 		
 		// Saves the given array in a temporary area of the option database table.
 		// $strID should be the page slug of the page that has the dealing form filed.
 		// $arrErrors should be constructed as the $_POST array submitted to the Settings API.
 		// $numSavingDuration is 300 by default which is 5 minutes ( 60 seconds * 5 ).
 		
+		// We use the page slug as the id as the redirect key for the submit button refers to the error array with the page slug.
+		$strID = isset( $strID ) ? $strID : ( isset( $_POST['pageslug'] ) ? $_POST['pageslug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->strClassName ) );	
+		
 		// Store the error array in the transient with the name of a MD5 hash string that consists of the extended class name + _ + page slug.
 		set_transient( md5( get_class( $this ) . '_' . $strID ), $arrErrors, $numSavingDuration );	// store it for 5 minutes ( 60 seconds * 5 )
 	
-	}	
+	}		
+	protected function SetSettingsNotice( $strMsg, $strType='error', $strID=null ) {	// since 1.0.4
+
+		// An alternative to the below AddSettingsError() method as the first parameter is sort of redundant.
+		
+		$strID = isset( $strID ) ? $strID : $this->oDebug->GetLastCallerFunc( __FUNCTION__ );
+		
+		$this->AddSettingsError( $strID, $strMsg, $strType );
+		
+	}
 	protected function AddSettingsError( $strID, $strMsg, $strType='error' ) {	// since 1.0.3
 		
-		// Alternative to add_settings_error() which causes multiple duplicate message to appear.
+		// An alternative to add_settings_error() which causes multiple duplicate message to appear.
 		
 		$strTransientKey = md5( 'SettingsErrors_' . get_class( $this ) . '_' . $this->strPageSlug );
 		$arrSettingsErrors = ( array ) get_transient( $strTransientKey );
@@ -1336,6 +1392,39 @@ class Admin_Page_Framework {
 if ( ! class_exists( 'Admin_Page_Framework_Debug' ) ) :
 class Admin_Page_Framework_Debug {
 	
+	public function GetLastCallerFunc( $strFunc ) {
+		
+		foreach( debug_backtrace() as $arrTrace ) {
+			
+			if ( $arrTrace['function'] == __FUNCTION__ ) continue;
+			
+			if ( $arrTrace['function'] == $strFunc  ) continue;
+			
+			return $arrTrace['function'];
+			
+		}
+		
+	}
+	
+	public function DumpBackTrace( $strPath=null ) {
+		
+		return $this->DumpArray( $this->CleanDebugBacktraceArray( debug_backtrace() ), $strPath );
+		
+	}
+	
+	public function CleanDebugBacktraceArray( $arrBackTraces ) {
+		
+		foreach ( $arrBackTraces as &$arrBackTrace ) {
+			foreach ( $arrBackTrace as &$vElem ) {
+				
+				$vElem = ( is_object( $vElem ) ) ? 'object' : $vElem;
+				$vElem = ( is_array( $vElem ) ) ? 'array' : $vElem;
+				
+			}
+		}
+		return $arrBackTraces;
+		
+	}
 	
     public function GetMemoryUsage() {
        
@@ -1680,26 +1769,13 @@ class Admin_Page_Framework_Redirect {		// since 1.0.4
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_WordPress_Utilities' ) ) :
-class AdminPageFramework_WordPress_Utilities {	// since 1.0.4
-
-	/*
-	 * Provides utility functions which uses WordPress specific functions - moved from the main class
-	 * 
-	 * */
-	
-	
-	
-}
-endif;
-
 if ( ! class_exists( 'Admin_Page_Framework_Utilities' ) ) :
 class Admin_Page_Framework_Utilities {	// since 1.0.4
 
 	/*
 	 * Provides utility functions - moved from the main class
-	 * 
 	 * */
+	 
 	public function CheckKeys( $arrMandatoryKeys, $arrSubject, $arrAllowedMissingKeys=array() ) {
 		
 		// Checks if the subject array has all the necessary keys.
@@ -1714,6 +1790,16 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 		return true;
 		
 	}
+	public function FixNumbers( $arrNumbers, $numDefault, $numMin="", $numMax="" ) {	// since 1.0.4
+		
+		// An array version of FixNumber(). The array must be numerically indexed.
+		
+		foreach( $arrNumbers as &$intNumber )
+			$intNumber = $this->FixNumber( $intNumber, $numDefault, $numMin, $numMax );
+		
+		return $arrNumbers;
+		
+	}	
 	public function FixNumber( $numToFix, $numDefault, $numMin="", $numMax="" ) {
 	
 		// Checks if the passed value is a number and set it to the default if not.
@@ -1768,6 +1854,9 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 		// use this method to retrieve the corresponding key value. This is mainly used by the field array
 		// to insert user-defined key values.
 		
+		// if $vSubject is null or undefined.
+		if ( ! isset( $vSubject ) ) return $strDefault;	
+		
 		// $vSubject must be either string or array.
 		if ( ! is_array( $vSubject ) ) return ( string ) $vSubject;	// consider it as string.
 		
@@ -1785,6 +1874,15 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 		return ( $arr ) ? $arr : null; 
 		
 	}
+	public function UnsetEmptyArrayElements( $arr ) {	// since 1.0.4
+		
+		
+		foreach ( $arr as $k => $v ) 
+			if ( ! isset( $v ) || $v == '' ) unset( $arr[ $k ] );
+				
+		return $arr;
+		
+	}		
 	public function SanitizeArrayKeys( $arr ) {		// moved from the main class in 1.0.4, must be public 
 		
 		foreach ( $arr as $key => $var ) { 
@@ -1814,8 +1912,8 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Input_Filed_Types' ) ) :
-class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
+if ( ! class_exists( 'Admin_Page_Framework_Input_Filed_Types' ) ) :
+class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 	
 	/*
 	 * Used to retrieve the output of a given field type as a part of the Settings API field elements.
@@ -1860,6 +1958,10 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 		'remove'	=> array( 'revision', 'attachment', 'nav_menu_item' ),	// since 1.0.4 - for the posttype checklist field type
 	);
 		
+	// Objects
+	protected $oUtil;
+	protected $oDebug;
+		
 	// Array containers
 	protected $arrOptions = array();	// stores the options of the admin pages as array. The construcor will fill the values.
 	protected $arrErrors = array(); 	// stores the field errors as array. When the validation fails, it is used to display the specified message.
@@ -1877,6 +1979,7 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 		
 		// Objects
 		$this->oUtil = new Admin_Page_Framework_Utilities;
+		$this->oDebug = new Admin_Page_Framework_Debug;
 		
 		// Set up the option array - case 1. option key is specified. case 2 not specified in the constructor, then use the page slug as the key.
 		$this->arrOptions = ( array ) get_option( ( empty( $strOptionKey ) ) ? $arrField['page_slug'] : $strOptionKey );
@@ -1940,10 +2043,9 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 		// If the default value is set,
 		if ( isset( $arrField['default'] ) ) return $arrField['default'];
 		
-	}
-	
+	}	
 	public function GetInputField( $strType ) {
-		
+
 		// Field error message
 		$strOutput = isset( $this->arrErrors[ $this->arrField['section_ID'] ][ $this->arrField['field_ID'] ] )
 			? '<span style="color:red;">*&nbsp;' . $this->arrField['error'] . $this->arrErrors[ $this->arrField['section_ID'] ][ $this->arrField['field_ID'] ] . '</span><br />'
@@ -2047,7 +2149,7 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 		$strOutput .= "<ul class='list:category categorychecklist form-no-clear'>";
 		$strOutput .= wp_list_categories( 
 			array(
-				'walker' => new AdminPageFramework_Walker_Category_Checklist,
+				'walker' => new Admin_Page_Framework_Walker_Category_Checklist,
 				'name'     => $strFieldName,       // name of the input
 				'selected' => array_keys( ( array ) $vValue, True ), 		//array( 6, 10, 7, 15 ),           // checked items (category IDs)	
 				'title_li'	=> '',	// disable the Categories heading string 
@@ -2249,7 +2351,7 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 	}	
 	protected function GetTextAreaField() {
 		
-		$strReadOnly = isset( $arrField['readonly'] ) && $arrField['readonly'] ? 'readonly="readonly"' : '';
+		$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
 		return $this->arrField['pre_field'] 
 			. "<textarea id='{$this->strTagID}' class='{$this->arrField['class']}' name='{$this->strFieldName}' "
 			. "rows='{$this->arrField['rows']}' cols='{$this->arrField['cols']}' {$this->vDisable} {$strReadOnly} >"
@@ -2260,7 +2362,7 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 	}	
 	protected function GetNumberField() {
 		
-		$strReadOnly = isset( $arrField['readonly'] ) && $arrField['readonly'] ? 'readonly="readonly"' : '';
+		$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
 		$numMaxLength = isset( $this->arrField['maxlength'] ) ? $this->arrField['maxlength'] : $this->arrField['size'];
 		return $this->arrField['pre_field'] 
 			. "<input id='{$this->strTagID}' class='{$this->arrField['class']}' name='{$this->strFieldName}' "
@@ -2271,7 +2373,7 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 	}	
 	protected function GetTextField() {
 		
-		$strReadOnly = isset( $arrField['readonly'] ) && $arrField['readonly'] ? 'readonly="readonly"' : '';
+		$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
 		return $this->arrField['pre_field'] 
 			. "<input id='{$this->strTagID}' "
 			. "class='{$this->arrField['class']}' name='{$this->strFieldName}' size='{$this->arrField['size']}' "
@@ -2413,8 +2515,8 @@ class AdminPageFramework_Input_Filed_Types {	// since 1.0.4
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Walker_Category_Checklist' ) ) :
-class AdminPageFramework_Walker_Category_Checklist extends Walker_Category {	// since 1.0.4
+if ( ! class_exists( 'Admin_Page_Framework_Walker_Category_Checklist' ) ) :
+class Admin_Page_Framework_Walker_Category_Checklist extends Walker_Category {	// since 1.0.4
 	
 	/*
 	 * Used for the wp_list_categories() function to render category hierarchical checklist.
