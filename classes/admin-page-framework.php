@@ -1558,7 +1558,30 @@ class Admin_Page_Framework_Link {	// since 1.0.4
 		
 	}	
 	
-	public function GetCallerInfo( $strFilePath=null ) {		// since 1.0.2.2
+	protected function GetPluginData( $strPluginFilePath ) {		// since 1.0.4
+		
+		// An alternative to get_plugin_data() as some users change the location of the wp-admin directory.
+		return get_file_data( 
+			$strPluginFilePath, 
+			array(
+				'Name' => 'Plugin Name',
+				'PluginURI' => 'Plugin URI',
+				'Version' => 'Version',
+				'Description' => 'Description',
+				'Author' => 'Author',
+				'AuthorURI' => 'Author URI',
+				'TextDomain' => 'Text Domain',
+				'DomainPath' => 'Domain Path',
+				'Network' => 'Network',
+				// Site Wide Only is deprecated in favor of Network.
+				'_sitewide' => 'Site Wide Only',
+			),
+			'plugin' 
+		);		
+		
+	}
+	
+	public function GetCallerInfo( $strFilePath=null ) {		// since 1.0.2.2, revised in 1.0.4
 		
 		// Attempts to retrieve the caller script type whether it's a theme or plugin or something else
 		// so that the info can be embedded into the footer.
@@ -1569,16 +1592,25 @@ class Admin_Page_Framework_Link {	// since 1.0.4
 		
 		if ( $arrCallerInfo['type'] == 'plugin' ) {
 			
-			if ( ! function_exists( 'get_plugin_data' )  ) 
-				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			
-			$arrCallerInfo['data'] = get_plugin_data( $arrCallerInfo['file'], false );	// stores the plugin info array
+			$arrCallerInfo['data'] = function_exists( 'get_plugin_data' ) 
+				? get_plugin_data( $arrCallerInfo['file'], false )
+				: $this->GetPluginData( $arrCallerInfo['file'] );
+				
 			$arrCallerInfo['data']['ScriptURI'] = $arrCallerInfo['data']['PluginURI'];
 			
 		} else if ( $arrCallerInfo['type'] == 'theme' ) {
 
-			if ( ! function_exists( 'wp_get_theme' )  ) 
-				require_once( ABSPATH . 'wp-admin/includes/theme.php' );
+			if ( ! function_exists( 'wp_get_theme' ) && file_exists( ABSPATH . 'wp-admin/includes/theme.php' ) ) 
+				include_once( ABSPATH . 'wp-admin/includes/theme.php' );
+			if ( ! function_exists( 'wp_get_theme' ) )	// if still the function does not exist, retrun an array with empty values.
+				$arrCallerInfo['data'] = array(
+					'Name'			=> '',
+					'Version' 		=> '',
+					'ThemeURI'		=> '',
+					'ScriptURI'		=> '',
+					'AuthorURI'		=> '',
+					'Author'		=> '',	
+				);
 		
 			$oTheme = wp_get_theme();	// stores the theme info object
 			$arrCallerInfo['data'] = array(

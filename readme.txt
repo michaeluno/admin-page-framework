@@ -129,6 +129,8 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == Changelog ==
 
 = 1.0.4 =
+* Changed: not to use the get_plugin_data() function if it does not exist to support those who change the location of the wp-admin directory.
+* Added: enclosed the checkbox, radio fields and its label in a tag with the *display:inline-block;* property so that each item do not wrap in the middle.
 * Added: the *SetSettingsNotice()* method which can be used instead of the *AddSettingsError()* method. The new method does not require an ID to be passed.
 * Changed: **(Breaking Change)** the parameters of *SetFieldErrors()* method; the first parameter is now the error array and the second parameter is the ID and it is optional.
 * Changed: that when multiple labels were set for the field types that supports multiple labels but the *name* key was set null, it now returns the default value instead of an empty string.
