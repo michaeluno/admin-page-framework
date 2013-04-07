@@ -99,12 +99,13 @@ class Admin_Page_Framework {
 	);
 	
 	// Default values
+	public $strPageSlug = '';		// the extended class name will be assigned by default in the constructor but will be overwritten by the SetRootMenu() method. Must be public as referred from sub-classes.
+	public $strClassName = '';		// must be public as sub-classes refer to it.
 	protected $strFormEncType = 'application/x-www-form-urlencoded';
 	protected $strCapability = 'manage_options';	// can be changed with SetCapability().
 	protected $strPageTitle = null;		// the extended class name will be assigned.
 	protected $strPathIcon16x16 = null; // set by the constructor and the SetMenuIcon() method.
 	protected $numPosition	= null;		// this will be rarely used so put it aside until a good reason gets addressed to flexibly change it.
-	protected $strPageSlug = '';		// the extended class name will be assigned by default in the constructor but will be overwritten by the SetRootMenu() method.	
 	protected $strOptionKey = null;		// determins which key to use to store options in the database.
 	protected $numRootPages = 0;		// stores the number of created root pages 
 	protected $numSubPages = 0;			// stores the number of created sub pages 
@@ -1298,6 +1299,9 @@ class Admin_Page_Framework {
 	public function IsPluginPage( $strURL ) {	// since 1.0.3.2, must be public as oRedirect refers to
 		
 		$arrURLElems = parse_url( $strURL );
+		
+		if ( ! isset( $arrURLElems['query'] ) ) return false;
+		
 		parse_str( $arrURLElems['query'], $arrQuery );
 		
 		$arrBlogURLElems = parse_url( site_url() );
