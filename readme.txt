@@ -52,6 +52,7 @@ It provides plugin and theme developers with easier means of creating option pag
 3. **Image and Upload**
 4. **Form Verification**
 5. **Import and Export**
+6. **Category and Post Type Checklist**
 
 == Installation ==
 = Getting Started =
@@ -66,8 +67,10 @@ It provides plugin and theme developers with easier means of creating option pag
 1. Define the SetUp() Method.
 `function SetUp() {
 	$this->SetRootMenu( 'Settings' );               // specifies to which parent menu to belong.
-	$this->AddSubMenu(  'My First Setting Page',    // page and menu title
-						'my_first_settings_page' ); // page slug
+	$this->AddSubMenu(
+		'My First Setting Page',    // page and menu title
+		'my_first_settings_page' 	// page slug
+	); 
 }`
 
 1. Define methods for hooks.
@@ -93,8 +96,10 @@ class APF_GettingStarted extends Admin_Page_Framework {
 	function SetUp() {
 	
 		$this->SetRootMenu( 'Settings' );               // specifies to which parent menu to belong.
-		$this->AddSubMenu(  'My First Setting Page',    // page and menu title
-							'my_first_settings_page' ); // page slug
+		$this->AddSubMenu(
+			'My First Setting Page',    // page and menu title
+			'my_first_settings_page' 	// page slug
+		); 
 							
 	}
 
