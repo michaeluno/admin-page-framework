@@ -129,7 +129,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == Changelog ==
 
 = 1.0.4 =
-* Fixed: an issue that submit button with the redirect key caused a fatal error with unset index warning.
+* Fixed: an issue that submit button with the redirect key caused an unset index warning.
 * Changed: not to use the get_plugin_data() function if it does not exist to support those who change the location of the wp-admin directory.
 * Added: enclosed the checkbox, radio fields and its label in a tag with the *display:inline-block;* property so that each item do not wrap in the middle.
 * Added: the *SetSettingsNotice()* method which can be used instead of the *AddSettingsError()* method. The new method does not require an ID to be passed.
