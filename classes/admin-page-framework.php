@@ -100,7 +100,7 @@ class Admin_Page_Framework {
 	
 	// Default values
 	public $strPageSlug = '';		// the extended class name will be assigned by default in the constructor but will be overwritten by the SetRootMenu() method. Must be public as referred from sub-classes.
-	public $strClassName = '';		// must be public as sub-classes refer to it.
+	public $strClassName = '';		// must be public as sub-classes refer to it.	
 	protected $strFormEncType = 'application/x-www-form-urlencoded';
 	protected $strCapability = 'manage_options';	// can be changed with SetCapability().
 	protected $strPageTitle = null;		// the extended class name will be assigned.
@@ -414,7 +414,8 @@ class Admin_Page_Framework {
 				'description' => null,
 				'id' => null,
 				'fields' => null,
-				'capability' => null,				
+				'capability' => null,
+				'if' => true, // since 1.0.4.1
 			);
 
 			$arrSection['pageslug'] = $this->oUtil->SanitizeSlug( $arrSection['pageslug'] );	
@@ -427,11 +428,14 @@ class Admin_Page_Framework {
 			// If the tab slug is specified, determine if the current page is the default tab or the current tab matches the given tab slug.
 			if ( !$this->IsTabSpecifiedForFormSection( $arrSection ) ) continue;		
 
+			// If the custom condition is set and it's not true, skip,
+			if ( $arrSection['if'] !== true ) continue;
+			
 			// If the access level is set and it is not sufficient, skip.
 			if ( isset( $arrSection['capability'] ) && ! current_user_can( $arrSection['capability'] ) ) continue;	// since 1.0.2.1
 			
 			// Store the registered sections internally in the class object.
-			$this->arrSections[$arrSection['id']] = array(  
+			$this->arrSections[ $arrSection['id'] ] = array(  
 				'title' => $arrSection['title'],
 				'pageslug' => $arrSection['pageslug'],
 				'description' => $arrSection['description']
@@ -532,6 +536,10 @@ class Admin_Page_Framework {
 			// If the access level is not sufficient, skip.
 			if ( isset( $arrField['capability'] ) && ! current_user_can( $arrField['capability'] ) ) continue;	// since 1.0.2.1
 			
+			// If a custom condition is set and it's not true, skip - since 1.0.4.1
+			$arrField = $arrField + array( 'if' => true );	// avoid undefined index warnings.
+			if ( $arrField['if'] !== true ) continue;
+			
 			// Sanitize the id since it is used as a callback method name.
 			$arrField['id'] = $this->oUtil->SanitizeSlug( $arrField['id'] );
 			
@@ -581,7 +589,7 @@ class Admin_Page_Framework {
 				'title' => '',
 				'description' => '',
 			);
-			$this->arrFields[$arrField['id']] = $arrField + array(  
+			$this->arrFields[ $arrField['id'] ] = $arrField + array(  
 				'field_title'	=> $arrField['title'], 
 				'page_slug' 	=> $strPageSlug,
 				'field_ID' 		=> $arrField['id'],
@@ -946,7 +954,7 @@ class Admin_Page_Framework {
 		delete_transient( md5( get_class( $this ) . '_' . $strPageSlug ) ); // delete the temporary data for errors.
 		
 	}	
-	protected function SetFieldErrors( $arrErrors, $strID=null, $numSavingDuration=300 ) {	// since 1.0.3, changed the parameters in 1.0.4
+	protected function SetFieldErrors( $arrErrors, $strID=null, $numSavingDuration=300 ) {	// since 1.0.3
 		
 		// Saves the given array in a temporary area of the option database table.
 		// $strID should be the page slug of the page that has the dealing form filed.
@@ -959,7 +967,7 @@ class Admin_Page_Framework {
 		// Store the error array in the transient with the name of a MD5 hash string that consists of the extended class name + _ + page slug.
 		set_transient( md5( get_class( $this ) . '_' . $strID ), $arrErrors, $numSavingDuration );	// store it for 5 minutes ( 60 seconds * 5 )
 	
-	}		
+	}	
 	protected function SetSettingsNotice( $strMsg, $strType='error', $strID=null ) {	// since 1.0.4
 
 		// An alternative to the below AddSettingsError() method as the first parameter is sort of redundant.
@@ -968,7 +976,7 @@ class Admin_Page_Framework {
 		
 		$this->AddSettingsError( $strID, $strMsg, $strType );
 		
-	}
+	}	
 	protected function AddSettingsError( $strID, $strMsg, $strType='error' ) {	// since 1.0.3
 		
 		// An alternative to add_settings_error() which causes multiple duplicate message to appear.
@@ -1299,9 +1307,7 @@ class Admin_Page_Framework {
 	public function IsPluginPage( $strURL ) {	// since 1.0.3.2, must be public as oRedirect refers to
 		
 		$arrURLElems = parse_url( $strURL );
-		
 		if ( ! isset( $arrURLElems['query'] ) ) return false;
-		
 		parse_str( $arrURLElems['query'], $arrQuery );
 		
 		$arrBlogURLElems = parse_url( site_url() );
@@ -1392,7 +1398,7 @@ class Admin_Page_Framework {
 
 if ( ! class_exists( 'Admin_Page_Framework_Debug' ) ) :
 class Admin_Page_Framework_Debug {
-	
+
 	public function GetLastCallerFunc( $strFunc ) {
 		
 		foreach( debug_backtrace() as $arrTrace ) {
@@ -1561,7 +1567,7 @@ class Admin_Page_Framework_Link {	// since 1.0.4
 			. ', <a href="http://wordpress.org">WordPress</a>' . $strMemoryUsage;
 		
 	}	
-	
+
 	protected function GetPluginData( $strPluginFilePath ) {		// since 1.0.4
 		
 		// An alternative to get_plugin_data() as some users change the location of the wp-admin directory.
@@ -1630,7 +1636,9 @@ class Admin_Page_Framework_Link {	// since 1.0.4
 				
 		return $arrCallerInfo;
 		
-	}
+	}	
+	
+	
 	protected function GetParentScriptPath( $arrDebugBacktrace ) {
 		
 		foreach( $arrDebugBacktrace as $intIndex => $arrDebugInfo )  {
@@ -1807,8 +1815,8 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 
 	/*
 	 * Provides utility functions - moved from the main class
+	 * 
 	 * */
-	 
 	public function CheckKeys( $arrMandatoryKeys, $arrSubject, $arrAllowedMissingKeys=array() ) {
 		
 		// Checks if the subject array has all the necessary keys.
@@ -1832,7 +1840,7 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 		
 		return $arrNumbers;
 		
-	}	
+	}		
 	public function FixNumber( $numToFix, $numDefault, $numMin="", $numMax="" ) {
 	
 		// Checks if the passed value is a number and set it to the default if not.
@@ -1915,7 +1923,7 @@ class Admin_Page_Framework_Utilities {	// since 1.0.4
 				
 		return $arr;
 		
-	}		
+	}	
 	public function SanitizeArrayKeys( $arr ) {		// moved from the main class in 1.0.4, must be public 
 		
 		foreach ( $arr as $key => $var ) { 
@@ -2387,7 +2395,7 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 				. $this->arrField['post_field'];
 		}
 		
-	}
+	}	
 	protected function GetTextAreaField() {
 		
 		$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
@@ -2447,7 +2455,7 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 				. $this->arrField['post_field'];	
 				
 		}
-	}		
+	}	
 	protected function GetSubmitField() {	// since 1.0.3.2
 
 		// Returns the submit input field. Moved from GetFormFieldsByType().
