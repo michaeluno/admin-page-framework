@@ -133,6 +133,10 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.0.4.1 =
+* Added: the support of the label key for the text input field and multiple elements to be passed as array.
+* Fixed: a bug that the disable field key for the check box type did not take effects when multiple elements were passed as array.
+
 = 1.0.4 - 04/07/2013 =
 * Fixed: an issue that the submit field type with the redirect key caused an unset index warning.
 * Changed: not to use the get_plugin_data() function if it does not exist to support those who change the location of the wp-admin directory.

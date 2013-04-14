@@ -4,7 +4,7 @@
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.4
+	Version: 1.0.4.1
 	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 	Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
@@ -2362,7 +2362,7 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 			foreach ( $this->arrField['label'] as $strKey => $strLabel ) {	
 			
 				$strChecked = ( $arrValues[ $strKey ] == 1 ) ? 'Checked' : '';
-				$strDisabled = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->vDisable );
+				$strDisabled = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->vDisable ) ? 'disabled="Disabled"' : '' ;
 				$strOutput .= "<input type='hidden' name='{$this->strFieldName}[{$strKey}]' value='0' />";
 				$strOutput .= $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['pre_field'] ) 
 					. "<span style='display: inline-block;'>"
@@ -2387,7 +2387,7 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 				. $this->arrField['post_field'];
 		}
 		
-	}	
+	}
 	protected function GetTextAreaField() {
 		
 		$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
@@ -2412,14 +2412,42 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 	}	
 	protected function GetTextField() {
 		
-		$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
-		return $this->arrField['pre_field'] 
-			. "<input id='{$this->strTagID}' "
-			. "class='{$this->arrField['class']}' name='{$this->strFieldName}' size='{$this->arrField['size']}' "
-			. "type='{$this->arrField['type']}' value='{$this->vValue}' {$this->vDisable} {$strReadOnly} />"
-			. $this->arrField['post_field'];	
+		if ( is_array( $this->arrField['label'] ) ) {	// since 1.0.4.1, added the label key support and it can be passed as array to support the multiple fields.
+			$arrValues = ( array ) $this->vValue;
+			$strOutput = "<div id='{$this->strTagID}'>";
+			foreach ( $this->arrField['label'] as $strKey => $strLabel ) {	
+			
+				$strValue = $arrValues[$strKey];
+				$strDisabled = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->vDisable ) ? 'disabled="Disabled"' : '' ;
+				$strReadOnly = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['readonly'] ) ? 'readonly="readonly"' : '' ;
+				$strClassAttr = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['class'], '' );
+				$intSize = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['size'], $this->arrDefaultFieldKeys['size'] );
+				$strOutput .= $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['pre_field'] ) 
+					. "<span style='display: inline-block;'>"
+					. ( $strLabel ? "<span class='text-label'>{$strLabel}</span>&nbsp;&nbsp;&nbsp;" : "" )
+					. "<input id='{$this->strTagID}_{$strKey}' class='{$strClassAttr}' size='{$intSize}' "
+					. "type='{$this->arrField['type']}' name='{$this->strFieldName}[{$strKey}]' value='{$strValue}' {$strDisabled} {$strReadOnly}/>"
+					. "</span>"
+					. $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['post_field'] );
+				$strOutput .= $this->arrField['delimiter'];
+			
+			}
+			$strOutput .= "</div>";
+			return $strOutput;
+		}		
 		
-	}	
+		if ( ! $this->arrField['label'] || is_string( $this->arrField['label'] ) ) {
+			
+			$strReadOnly = isset( $this->arrField['readonly'] ) && $this->arrField['readonly'] ? 'readonly="readonly"' : '';
+			return $this->arrField['pre_field'] 
+				. $this->arrField['label'] 
+				. "<input id='{$this->strTagID}' "
+				. "class='{$this->arrField['class']}' name='{$this->strFieldName}' size='{$this->arrField['size']}' "
+				. "type='{$this->arrField['type']}' value='{$this->vValue}' {$this->vDisable} {$strReadOnly} />"
+				. $this->arrField['post_field'];	
+				
+		}
+	}		
 	protected function GetSubmitField() {	// since 1.0.3.2
 
 		// Returns the submit input field. Moved from GetFormFieldsByType().
