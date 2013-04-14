@@ -133,7 +133,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
-= 1.0.4.1 =
+= 1.0.4.1 04/14/2013 =
 * Added: the *if* key for section and field array that evaluates the passed expression to evaluate whether the section or field should be displayed or not.
 * Added: the support of the *label* key for the *text* input field and multiple elements to be passed as array.
 * Fixed: a bug that the disable field key for the check box type did not take effects when multiple elements were passed as array.
