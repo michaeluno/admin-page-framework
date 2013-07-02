@@ -4,7 +4,7 @@
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.4.1
+	Version: 1.0.4.2
 	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 	Usage: 1. Extend the class 2. Override the SetUp() method. 3. Use the hook functions.
@@ -14,9 +14,9 @@
 	
 		* It is recommended to rename the class name to avoid version incompatibility. 
 		* If someone uses this library with a version that is different from the one you use
-		* but it is loaded before yours, then it could cause unexpecting results.
+		* but it is loaded before yours, then it could cause unexpected results.
 		* If you rename the class, do not forget renaming the following sub-classes as well.
-		* In that case, you would need to change the lines where instanciating
+		* In that case, you would need to change the lines where instantiating
 		* them plus declaring them. Use 'Replace All' if your code editor supports it.
 	
 		- Admin_Page_Framework_Input_Filed_Types
@@ -41,13 +41,13 @@ class Admin_Page_Framework {
 	protected $do_global_before			= 'do_before_';			// global action hook triggered before rendering a page. c.f. do_before_ + class name
 	protected $do_global 				= 'do_';				// global action hook triggered after rendering page contents.
 	protected $do_global_after			= 'do_after_';			// global action hook triggered after finishing rendering a page.			
-	protected $prefix_start				= 'start_';				// action hook triggered at the end of the constructer.
+	protected $prefix_start				= 'start_';				// action hook triggered at the end of the constructor.
 	protected $prefix_do_form			= 'do_form_';			// action hook triggered after the opening form tag, since 1.0.2.
 	
 	// Filter prefixes - not private to be extensible
-	protected $filter_global_head 		= 'head_';				// glboal filter for head part of the page.
-	protected $filter_global_content 	= 'content_';			// glboal filter for body part of the page.
-	protected $filter_global_foot 		= 'foot_';				// glboal filter for foot part of the page.
+	protected $filter_global_head 		= 'head_';				// global filter for head part of the page.
+	protected $filter_global_content 	= 'content_';			// global filter for body part of the page.
+	protected $filter_global_foot 		= 'foot_';				// global filter for foot part of the page.
 	protected $prefix_content 			= 'content_';			// filter for the body part of the page
 	protected $prefix_head 				= 'head_';				// filter for head part of the page.
 	protected $prefix_foot 				= 'foot_';				// filter for foot part of the page.
@@ -67,16 +67,16 @@ class Admin_Page_Framework {
 	protected $bLoadedSettingsErrors = false;	// indicates whether the settings errors have been loaded ( echoed ) or not. This is used to prevent multiple settings errors to be displayed. since 1.0.3.
 	protected $bUseOwnSettingsErrors = true;	// indicates whether the framework uses own settings errors and disables the Settings API's notification messages.
 	
-	// Containter arrays
+	// Container arrays
 	public $arrPageTitles = array();		// stores the added page titles with key of the page slug. Must be public as referenced by oLink.
-	protected $arrSections = array();		// stores registerd form(settings) sections.
-	protected $arrFields = array();			// stores registerd form(settings) fields.
+	protected $arrSections = array();		// stores registered form(settings) sections.
+	protected $arrFields = array();			// stores registered form(settings) fields.
 	protected $arrTabs = array();			// a two-dimensional array with the keys of sub-page slug in the first dimension and with the key of tab slug in the second dimension.
 	protected $arrHiddenTabs = array();		// since 1.0.2.1 - a two-dimensional array similar to the above $arrTabs but stores the tab which should be hidden ( still accessible with the direct url. )
 	protected $arrIcons = array();			// stores the page screen 32x32 icons. For the main root page, which is invisible, 16x16 icon url will be stored.
 	
 	// Objects
-	public $oUtil;			// since 1.0.4. Stores the utility object instance. Make it public to be used frm the extended class.
+	public $oUtil;			// since 1.0.4. Stores the utility object instance. Make it public to be used from the extended class.
 	public $oRedirect;		// since 1.0.4. Stores the redirect object instance.
 	public $oLink;			// since 1.0.4. Stores the link object instance.
 	public $oDebug;			// since 1.0.4. Stores the debug object instance.
@@ -99,14 +99,13 @@ class Admin_Page_Framework {
 	);
 	
 	// Default values
-	public $strPageSlug = '';		// the extended class name will be assigned by default in the constructor but will be overwritten by the SetRootMenu() method. Must be public as referred from sub-classes.
-	public $strClassName = '';		// must be public as sub-classes refer to it.	
 	protected $strFormEncType = 'application/x-www-form-urlencoded';
 	protected $strCapability = 'manage_options';	// can be changed with SetCapability().
 	protected $strPageTitle = null;		// the extended class name will be assigned.
 	protected $strPathIcon16x16 = null; // set by the constructor and the SetMenuIcon() method.
 	protected $numPosition	= null;		// this will be rarely used so put it aside until a good reason gets addressed to flexibly change it.
-	protected $strOptionKey = null;		// determins which key to use to store options in the database.
+	protected $strPageSlug = '';		// the extended class name will be assigned by default in the constructor but will be overwritten by the SetRootMenu() method.	
+	protected $strOptionKey = null;		// determines which key to use to store options in the database.
 	protected $numRootPages = 0;		// stores the number of created root pages 
 	protected $numSubPages = 0;			// stores the number of created sub pages 
 	protected $strThickBoxTitle = '';	// stores the media upload thick box's window title.
@@ -197,7 +196,7 @@ class Admin_Page_Framework {
 	}
 	
 	/*
-		Front-End methods - the user may call it but it shoud not necessaliry be customized in the extended class.
+		Front-End methods - the user may call it but it should not necessarily be customized in the extended class.
 	*/
 	/*
 	 *	Add Links 
@@ -649,7 +648,8 @@ class Admin_Page_Framework {
 		$strFieldID = substr( $strMethodName, strlen( $this->prefix_field ) + 4 );	// field_pre_X
 		if ( !isset( $this->arrFields[$strFieldID] ) ) return;	// if it is not added, return
 
-		$oFields = new Admin_Page_Framework_Input_Filed_Types( $arrField, $this->strOptionKey, $this->strClassName );
+		$this->arrErrors = isset( $this->arrErrors ) ? $this->arrErrors : get_transient( md5( $this->strClassName . '_' . $arrField['page_slug'] ) );
+		$oFields = new Admin_Page_Framework_Input_Filed_Types( $arrField, $this->strOptionKey, $this->strClassName, $this->arrErrors );
 		$strOutput = $oFields->GetInputField( $arrField['type'] );
 		
 		// Render the input field
@@ -961,7 +961,6 @@ class Admin_Page_Framework {
 		// $arrErrors should be constructed as the $_POST array submitted to the Settings API.
 		// $numSavingDuration is 300 by default which is 5 minutes ( 60 seconds * 5 ).
 		
-		// We use the page slug as the id as the redirect key for the submit button refers to the error array with the page slug.
 		$strID = isset( $strID ) ? $strID : ( isset( $_POST['pageslug'] ) ? $_POST['pageslug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->strClassName ) );	
 		
 		// Store the error array in the transient with the name of a MD5 hash string that consists of the extended class name + _ + page slug.
@@ -979,7 +978,7 @@ class Admin_Page_Framework {
 	}	
 	protected function AddSettingsError( $strID, $strMsg, $strType='error' ) {	// since 1.0.3
 		
-		// An alternative to add_settings_error() which causes multiple duplicate message to appear.
+		// Alternative to add_settings_error() which causes multiple duplicate message to appear.
 		
 		$strTransientKey = md5( 'SettingsErrors_' . get_class( $this ) . '_' . $this->strPageSlug );
 		$arrSettingsErrors = ( array ) get_transient( $strTransientKey );
@@ -1307,7 +1306,6 @@ class Admin_Page_Framework {
 	public function IsPluginPage( $strURL ) {	// since 1.0.3.2, must be public as oRedirect refers to
 		
 		$arrURLElems = parse_url( $strURL );
-		if ( ! isset( $arrURLElems['query'] ) ) return false;
 		parse_str( $arrURLElems['query'], $arrQuery );
 		
 		$arrBlogURLElems = parse_url( site_url() );
@@ -2014,9 +2012,9 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 	protected $strFieldName;	// Stores the value for the name attribute to assign.
 	protected $strTagID;		// Stores the rendering input tag ID to assign.
 	protected $vValue;			// array or string. Stores the value either string or array for the value attribute to assign.
-	protected $vDisable;		// array or string. Stores the value for the disable attribe to assign, could be stored as as array for multiple elements.
+	protected $vDisable;		// array or string. Stores the value for the disable attribute to assign, could be stored as as array for multiple elements.
 	
-	function __construct( &$arrField, &$strOptionKey, &$strClassName ) {
+	function __construct( &$arrField, &$strOptionKey, &$strClassName, $arrErrors=array() ) {
 		
 		// Objects
 		$this->oUtil = new Admin_Page_Framework_Utilities;
@@ -2029,7 +2027,8 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 	
 		// Set up the field error array
 		// The 'settings-updated' key will be set in the $_GET array when redirected by Settings API 
-		$this->arrErrors = get_transient( md5( $strClassName . '_' . $arrField['page_slug'] ) );
+		$this->arrErrors = $arrErrors;
+		// $this->arrErrors = get_transient( md5( $strClassName . '_' . $arrField['page_slug'] ) );	// <-- this caused so many database queries.
 		$this->arrErrors = ( isset( $_GET['settings-updated'] ) &&  $this->arrErrors ) ? $this->arrErrors  : null;		
 		
 		// Set up the field array. Merging with the default keys will prevent PHP undefined key warnings.
@@ -2369,10 +2368,10 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 			$strOutput = "<div id='{$this->strTagID}'>";
 			foreach ( $this->arrField['label'] as $strKey => $strLabel ) {	
 			
-				$strChecked = ( $arrValues[ $strKey ] == 1 ) ? 'Checked' : '';
+				$strChecked = ( isset( $arrValues[ $strKey ] ) && $arrValues[ $strKey ] == 1 ) ? 'Checked' : '';
 				$strDisabled = $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->vDisable ) ? 'disabled="Disabled"' : '' ;
 				$strOutput .= "<input type='hidden' name='{$this->strFieldName}[{$strKey}]' value='0' />";
-				$strOutput .= $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['pre_field'] ) 
+				$strOutput .= $this->oUtil->GetCorrespondingArrayValue( $strKey, $this->arrField['pre_field'] )
 					. "<span style='display: inline-block;'>"
 					. "<input id='{$this->strTagID}_{$strKey}' class='{$this->arrField['class']}' type='checkbox' name='{$this->strFieldName}[{$strKey}]' value='1' {$strChecked} {$strDisabled} />&nbsp;&nbsp;{$strLabel}"
 					. "</span>"
@@ -2420,7 +2419,7 @@ class Admin_Page_Framework_Input_Filed_Types {	// since 1.0.4
 	}	
 	protected function GetTextField() {
 		
-		if ( is_array( $this->arrField['label'] ) ) {	// since 1.0.4.1, added the label key support and it can be passed as array to support the multiple fields.
+		if ( is_array( $this->arrField['label'] ) ) {
 			$arrValues = ( array ) $this->vValue;
 			$strOutput = "<div id='{$this->strTagID}'>";
 			foreach ( $this->arrField['label'] as $strKey => $strLabel ) {	

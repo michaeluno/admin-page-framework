@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.0.4.1
+	Version: 1.0.4.2
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */
 
@@ -16,7 +16,7 @@
 	 * 	3. Define the SetUp() method. Include the following methods in the definition. Decide the page title and the slug.
 	 * 		SetRootMenu() - use it to specify the root menu.
 	 * 	 	AddSubMenu() - use it to specify the sub menu and the page. This page will be the actual page your users will be going to access.
-	 * 			IMPORTANT: Decide the page slug witout hyphens and dots. This is very important since the page slug serves as the callback methods name.
+	 * 			IMPORTANT: Decide the page slug without hyphens and dots. This is very important since the page slug serves as the callback methods name.
 	 * 		for other methods and more details, visit, http://en.michaeluno.jp/admin-page-framework/methods/
 	 * 	4. Define callback methods.
 	 * 	5. Instantiate the extended class.
@@ -107,7 +107,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 						array(  
 							'id' => 'text', 
 							'title' => 'Text',
-							'description' => 'Type somethig here.',	// additional notes besides the form field
+							'description' => 'Type something here.',	// additional notes besides the form field
 							'type' => 'text',
 							'default' => 123456,
 							'size' => 40 
@@ -160,7 +160,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 						),
 						// Checkboxes
 						array( 
-							'id' => 'checkboxs',
+							'id' => 'checkboxes',
 							'title' => 'Multiple Checkboxes', 
 							'description' => 'The description key can be omitted though.',
 							'type' => 'checkbox',
@@ -213,6 +213,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 							'id' => 'file_single_field',
 							'title' => 'Single Upload',
 							'type' => 'file',
+							'label' => '',	// set an empty string for a single item.
 						),						
 						array(  // multiple file uploads
 							'id' => 'file_multiple_fields',
@@ -395,8 +396,8 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		
 	}
 	
-	// This is a valiadation callback method with the name of 'validation_' + page slug + _ + tab slug.
-	// Whennever you need to check the submitted data, use this method. The returned array will be saved in the database.
+	// This is a validation callback method with the name of 'validation_' + page slug + _ + tab slug.
+	// Whenever you need to check the submitted data, use this method. The returned array will be saved in the database.
 	function validation_myfirstpage_firsttab( $arrInput ) {
 	
 		// To discard all the saved option values, return null.
@@ -420,7 +421,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		return $arrInput;
 		
 		// In order not to do anything with the submitted data, return an empty array. 
-		// ( Or altenatively retrieve the saved option array from the database and return it. )
+		// ( Or alternatively retrieve the saved option array from the database and return it. )
 		
 	}
 	function validation_myfirstpage_thirdtab( $arrInput ) {		// 'validation_' + page slug + _ + tab slug
@@ -446,7 +447,7 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 		
 		// We store values that have an error in an array and pass it to the SetFieldErrors() method.
 		// It internally stores the error array in a temporary area of the database called transient.
-		// The used name of the transient is a md5 hash of 'extended class name' + '_' + 'page slug'. The library class will serch for this transient 
+		// The used name of the transient is a md5 hash of 'extended class name' + '_' + 'page slug'. The library class will search for this transient 
 		// when it renders the fields and if it is found, it will display the error message set in the field array.
 		$arrErrors = array();
 		
@@ -538,10 +539,11 @@ class APF_AdminPageFrameworkDemo extends Admin_Page_Framework {
 }
 
 // Step 5. Instantiate the class object.
-new APF_AdminPageFrameworkDemo( 
-	'demo_my_option_key',	// the first parameter specifies the option key to use. If not set, each page slug will be used for the key.
-	__FILE__	// this tells the framework the caller script path so that the script info will be embedded in the footer.
-);	
+if ( is_admin() )
+	new APF_AdminPageFrameworkDemo( 
+		'demo_my_option_key',	// the first parameter specifies the option key to use. If not set, each page slug will be used for the key.
+		__FILE__	// this tells the framework the caller script path so that the script info will be embedded in the footer.
+	);	
 
 /*
  * 

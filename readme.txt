@@ -113,7 +113,8 @@ class APF_GettingStarted extends Admin_Page_Framework {
 	}
 	
 }
-new APF_GettingStarted;
+if ( is_admin() )
+	new APF_GettingStarted;
 
 // That's it!`
 
@@ -133,7 +134,13 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
-= 1.0.4.1 04/14/2013 =
+= 1.0.4.2 - 07/01/2013 =
+* Tweaked: the demo plugin to load the admin-page object only in the administration pages with the is_admin() function.
+* Fixed: a bug that setting and retrieving a transient for the field error array caused extra database queries.
+* Fixed: a bug that setting multiple checkboxes caused undefined index warning. 
+* Fixed: a bug in the demo plugin that single upload field did not appear and caused undefined index warning after updating the options.
+
+= 1.0.4.1 - 04/14/2013 =
 * Added: the *if* key for section and field array that evaluates the passed expression to evaluate whether the section or field should be displayed or not.
 * Added: the support of the *label* key for the *text* input field and multiple elements to be passed as array.
 * Fixed: a bug that the disable field key for the check box type did not take effects when multiple elements were passed as array.
@@ -189,7 +196,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 = 1.0.2 - 03/11/2013 =
 * Added: the *export_{suffix}* and *import_{suffix}* filters and the corresponding callback methods to capture exporting/importing array to modify before processing it.
-* Suppoerted: multiple export buttons per page.
+* Supported: multiple export buttons per page.
 * Added: the *delimiter* key which delimits multiple fields passed as array including the field types of checkbox, radio, submit, export, import, and file.
 * Fixed: to apply the value of the *disable* key to the *import* and *export* custom field.
 * Fixed: a bug that an empty string was applied for the *description* key even when it is not set.
@@ -216,7 +223,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 * Added: the *disable* key for input fields to add disabled="Disabled".
 
 = 1.0.0.2 - 02/17/2013 =
-* Fixd a warining in debug mode, undefined index, selectors.
+* Fixed a warning in debug mode, undefined index, selectors.
 * Added a brief instruction in the demo plugin code and fixed some inaccurate descriptions.
 
 = 1.0.0.1 - 02/15/2013 =
