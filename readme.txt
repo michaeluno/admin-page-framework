@@ -134,6 +134,41 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 
 == Changelog ==
 
+= 1.1.0 2013/07/13 =
+* Added: the ability to list the terms of specified taxonomy with checkbox by taxonomy slug.
+* Changed: ( *Breaking Change* ) the *category* field type to *taxonomy* field type.
+* Fixed: a bug that adding sub pages to an existing custom post type page caused the links of in-page tabs to have the wrong urls.
+* Changed: the *image* field type to be a custom text field.
+* Added: the *import_format_{page slug}_{tab slug}*, *import_format_{page slug}*, *import_format_{instantiated class name}* filters to allow to modify the import format type.
+* Added: the *import_option_key_{page slug}_{tab slug}*, *import_option_key_{page slug}*, *import_option_key_{instantiated class name}* filters to allow to modify the import option key.
+* Added: the *export_format_{page slug}_{tab slug}*, *export_format_{page slug}*, *export_fomat_{instantiated class name}* filters to allow to modify the export format type.
+* Added: the *export_name_{page slug}_{tab slug}*, *export_name_{page slug}*, *export_name_{instantiated class name}* filters to allow to modify the export file name.
+* Added: the ability to set the *accept* attribute for the *file* input field.
+* Added: ( *Breaking Change* ) the second parameter to the validation callback method to pass the old stored option data.
+* Changed: ( *Breaking Change* ) the validation behaviour to maintain the stored option values to return the second parameter value in the validation callback method from returning an empty array.
+* Changed: ( *Breaking Change* ) the validation behaviour to delete the stored option values to return an empty array in the validation callback method from returning a null value.
+* Added: the *validation_{instantiated class name}* filter that allows to modify the submitted form data throughout the whole script.
+* Added: the ability to set the text domain for the text messages that the framework uses.
+* Added: the ability to set the minimum width for label tags for *textarea*, *text*, and *number* input fields.
+* Added: the ability to set the label tag for *textarea*, *text*, and *number* input fields.
+* Added: the *{instantiated class name}_field_{field id}* filter to allow to modify settings field output.
+* Added: the *{instantiated class name}_{page slug}_tabs* filter to allow to modify adding in-page tabs.
+* Added: the *{instantiated_class name}_pages* filter to allow to modify adding pages.
+* Added: the *{instantiated class name}_setting_fields* and *{instantiated class name}_setting_sections* filters to allow to modify registering sections and fields.
+* Changed: ( *Breaking Change* ) the default option key that is stored in the option database table to be the instantiated class name from the page slug.
+* Changed: ( *Breaking Change* ) the section and field filters to have the prefix of the instantiated class name of the Admin Page Framework so that it prevents conflicts with other plugins that uses the framework.
+* Changed: the anchor link *name* attribute to *id*.
+* Added: the ability to order the in-page tabs with the *numOrder* key.
+* Added: the *addInPageTab()* methods to set in-page tabs.
+* Changed: ( *Breaking Change* ) the array structure of the parameter of the *addInPageTabs()* methods.
+* Added: the ability to automatically assign the default screen icon if not set, which is of the **generic** id.
+* Added: the ability to set the WordPress built-in screen icon to the custom added sub-menu pages.
+* Added: a class for handling custom-post types.
+* Added: a class for handling meta-boxes.
+* Changed: ( *Breaking Change* ) to apply Hungarian notation to all the array argument keys.
+* Changed: ( *Breaking Change* ) all the method names to be uncapitalised. 
+* Changed: ( *Breaking Change* ) the sub-string of class names, Admin_Page_Framework, to AdminPageFramework.
+
 = 1.0.4.2 - 07/01/2013 =
 * Tweaked: the demo plugin to load the admin-page object only in the administration pages with the is_admin() function.
 * Fixed: a bug that setting and retrieving a transient for the field error array caused extra database queries.
