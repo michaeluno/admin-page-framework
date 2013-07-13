@@ -10,320 +10,213 @@
 	Usage: 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
 */
 
-abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
-	
-	protected $oProps;	// The common properties shared among sub-classes.
-	protected $oDebug;	// Provides the debug methods.
-	
-	public function __construct( $strOptionKey=null, $strCallerPath=null, $strCapability=null, $strTextDomain=null ){
+if ( ! class_exists( 'AdminPageFramework_WPUtilities' ) ) :
+abstract class AdminPageFramework_WPUtilities {
 		
-		/*
-		 * $strOptionKey :	Specifies the option key name to store in the option database table. 
-		 * 					If this is set, all the options will be stored in an array to the key of this passed string.
-		 * $strCallerPath :	used to retrieve the plugin/theme plugin data to auto-insert credit info into the footer.
-		 * */
-		 
-		// Variables
-		$strClassName = get_class( $this );
-		
-		// Objects
-		$this->oProps = new AdminPageFramework_Properties( $strClassName, $strOptionKey, $strCapability );
-		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
-		$this->oUtil = new AdminPageFramework_Utilities;
-		$this->oDebug = new AdminPageFramework_Debug;
-		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
-								
-		if ( is_admin() ) {
-			
-			// Disable the Settings API's admin notice.
-			// add_action( 'admin_menu', array( $this, 'DisableSettingsAPIAdminNotice' ), 999 );
-			
-			// Hook the menu action - adds the menu items.
-			add_action( 'wp_loaded', array( $this, 'setUp' ) );
-			
-			// AdminPageFramework_Menu
-			add_action( 'admin_menu', array( $this, 'buildMenus' ), 98 );
-			
-			// AdminPageFramework_Page
-			add_action( 'admin_menu', array( $this, 'finalizeInPageTabs' ), 99 );	// must be called before the registerSettings() method.
-			
-			// AdminPageFramework_SettingsAPI
-			add_action( 'admin_menu', array( $this, 'registerSettings' ), 100 );
-			
-			// Redirect Buttons
-			add_action( 'admin_init', array( $this, 'checkRedirects' ) );
-			
-			// Hook the admin header to insert custom admin stylesheet.
-			add_action( 'admin_head', array( $this, 'addStyle' ) );
-			add_action( 'admin_head', array( $this, 'addScript' ) );
-
-			// For the media uploader.
-			// add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
-						
-			// For earlier loading than $this->setUp
-			$this->oUtil->addAndDoAction( $this, self::$arrPrefixes['start_'] . $this->oProps->strClassName );
-		
-		}
-	}	
-	public function __call( $strMethodName, $arrArgs=null ) {		
-		
-		/*
-		 *  Undefined but called by the callback methods automatically inserted by the class will trigger this magic method, __call().
-		 *  So determine which callback method triggered this and redirect the call to the appropriate method.
-		 * */
-		 
-		// Variables
-		// The currently loading in-page tab slug. Careful that not all cases $strMethodName have the page slug.
-		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
-		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );	
-
-		// If it is a pre callback method, call the redirecting method.
-		// add_settings_section() callback
-		if ( substr( $strMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' ) return $this->renderSectionDescription( $strMethodName );  // section_pre_
-		
-		// add_settings_field() callback
-		if ( substr( $strMethodName, 0, strlen( 'field_pre_' ) )	== 'field_pre_' ) return $this->renderSettingField( $arrArgs[ 0 ], $strPageSlug );  // field_pre_
-		
-		// register_setting() callback
-		if ( substr( $strMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' ) return $this->doValidationCall( $strMethodName, $arrArgs[ 0 ] );  // section_pre_
-		
-		// If it's one of the framework's callback methods, do nothing.	
-		if ( $this->isFrameworkCallbackMethod( $strMethodName ) )
-			return isset( $arrArgs[0] ) ? $arrArgs[0] : null;	// if $arrArgs[0] is set, it's a filter, otherwise, it's an action.
-		
-		// The callback of add_submenu_page() - render the page contents.
-		if ( isset( $_GET['page'] ) && $_GET['page'] == $strMethodName ) $this->renderPage( $strMethodName, $strTabSlug );
-						
-	}	
-	private function isFrameworkCallbackMethod( $strMethodName ) {
-
-		if ( substr( $strMethodName, 0, strlen( "{$this->oProps->strClassName}_" ) ) == "{$this->oProps->strClassName}_" )	// e.g. {instantiated class name} + field_ + {field id}
-			return true;
-		
-		foreach( self::$arrPrefixes as $strPrefix ) {
-			if ( substr( $strMethodName, 0, strlen( $strPrefix ) )	== $strPrefix  ) 
-				return true;
-		}
-	}
-	
-	 
 	/*
-	 *	Front-End methods - the user may call it but it should not necessarily be customized in the extended class. 
-	 * */
-	public function addLinkToPluginDescription( $vLinks ) {
-		
-		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
-		$this->oLink->addLinkToPluginDescription( $vLinks );
-		
-	}
-	public function addLinkToPluginTitle( $vLinks ) {
-		
-		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
-		$this->oLink->addLinkToPluginTitle( $vLinks );
-		
-	}
-	 
-	/*
-	 * Methods for setting the access level
+	 * Utility methods which use WordPress functions
 	 */
-	public function setCapability( $strCapability ) {
-		$this->oProps->strCapability = $strCapability;	
-	}
-	
-	/* 
-	 * Callback methods
-	 */ 
-	public function checkRedirects() {
+	protected function doActions() {	// Parameters: $arrActionHooks, $vArgs...
+		
+		$arrArgs = func_get_args();		
+		$arrActionHooks = $arrArgs[ 0 ];
+		foreach( ( array ) $arrActionHooks as $strActionHook  ) {
+			$arrArgs[ 0 ] = $strActionHook;
+			call_user_func_array( 'do_action' , $arrArgs );
+		}
 
-		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
-		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProps->isPageAdded( $_GET['page'] ) ) return; 
-		
-		// If the Settings API has not updated the options, do nothing.
-		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
-
-		// Okay, it seems the submitted data have been updated successfully.
-		$strTransient = "redirect_{$this->oProps->strClassName}_{$_GET['page']}";
-		$strURL = get_transient( $strTransient );
-		if ( $strURL === false ) return;
-		
-		// The redirect URL seems to be set.
-		delete_transient( $strTransient );	// we don't need it any more.
-		
-		// if the redirect page is outside the plugin admin page, delete the plugin settings admin notices as well.
-		// if ( ! $this->oCore->IsPluginPage( $strURL ) ) 	
-			// delete_transient( md5( 'SettingsErrors_' . $this->oCore->strClassName . '_' . $this->oCore->strPageSlug ) );
-				
-		// Go to the page.
-		$this->oUtil->goRedirect( $strURL );
-		
 	}
+	// protected function doAction() {		// Parameters: $strActionHook, $vArgs...
+		
+		// $arrArgs = func_get_args();	
+		// call_user_func_array( 'do_action' , $arrArgs );
+		
+	// }
+	public function addAndDoActions() {	// Parameters: $oCallerObject, $arrActionHooks, $vArgs...
 	
-	public function addStyle() {
-		
-		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );
-		
-		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
-		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
-					
-		// Print out the filtered styles.
-		echo "<style type='text/css' id='admin-page-framework-style'>" 
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), self::$strDefaultStyle )
-			. "</style>";
-	}
-	
-	public function addScript() {
-		
-		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );
-		
-		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
-		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
-
-		// Print out the filtered styles.
-		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
-			. "</script>";		
-		
-	}
-}
-
-class AdminPageFramework_Messages {
-
-	// The user can modify this property directly.
-	public $arrMessages = array(
-		'option_updated'	=> 'The options have been updated.',
-		'option_cleared'	=> 'The options have been cleared.',
-		'export_options'	=> 'Export Options',
-		'import_options'	=> 'Import Options',
-		'submit'			=> 'Submit',
-		'import_error'		=> 'An error occurred while uploading the import file.',
-		'uploaded_file_type_not_supported'	=> 'The uploaded file type is not supported.',
-		'could_not_load_importing_data' => 'Could not load the importing data.',
-		'imported_data'		=> 'The uploaded file has been imported.'
-	);
-
-	public function __construct( $strTextDomain='admin-page-framework' ) {
-		$this->strTextDomain = $strTextDomain;
-	}
-	public function ___( $strKey ) {
-		
-		return isset( $this->arrMessages[ $strKey ] )
-			? __( $this->arrMessages[ $strKey ], $this->strTextDomain )
-			: '';
-		
-	}
-	public function __e( $strKey ) {
-		
-		if ( isset( $this->arrMessages[ $strKey ] ) )
-			_e( $this->arrMessages[ $strKey ], $this->strTextDomain );
-		
-	}
-	
-}
-
-class AdminPageFramework_Properties {
-	
-	/*
-	 * Stores various values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
-	 * since 1.1.0
-	 */
-	
-	// Strings
-	public $strClassName;	// Stores framework's instantiated object name.
-	public $strCapability = 'manage_options';	// Stores the access level to the root page. When sub pages are added and the capability value is not provided, this will be applied.
-	public $strPageHeadingTabTag = 'h2';
-	public $strInPageTabTag = 'h3';
-	public $strDefaultPageSlug;	// Stores the default page slug.
-	public $strScript;	// Stores the adding scripts.
-	
-	// Container arrays.
-	public $arrPages = array();	// A two-dimensional array storing registering sub-menu(page) item information with keys of the page slug.
-	public $arrRootMenu = array(	// Stores the root menu item information for one set root menu item.
-		'strTitle' => null,				// menu label that appears on the menu list
-		'strPageSlug' => null,				// menu slug that identifies the menu item
-		'strPathIcon16x16' => null,		// the associated icon that appears beside the label on the list
-		'intPosition'	=> null,		// determines the position of the menu
-		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
-	); 
-	public $arrInPageTabs = array();				// Stores in-page tabs.
-	public $arrDefaultInPageTabs = array();			// Stores the default tab.
-	public $arrPluginDescriptionLinks = array(); 	// Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
-	public $arrPluginTitleLinks = array();			// Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
-	
-	// Settings API
-	// public $arrOptions;			// Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
-	public $strOptionKey = '';		// the instantiated class name will be assigned in the constructor if the first parameter is not set.
-	public $arrSections = array();	// Stores option sections.
-	public $arrFields = array();	// Stores option fields
-	public $strFormEncType = 'multipart/form-data';	// Set one of the followings: application/x-www-form-urlencoded, multipart/form-data, text/plain
-	public $fEnableForm = false;			// Decides whether the setting form tag is rendered or not.	This will be enabled when a settings section and a field is added.
-	
-	// Flags
-	public $fShowPageHeadingTabs = true;	// indicates whether the page heading tabs should be displayed.
-	
-	public function __construct( $strClassName, $strOptionKey, $strCapability='manage_options' ) {
-		
-		$this->strClassName = $strClassName;		
-		$this->strOptionKey = $strOptionKey ? $strOptionKey : $strClassName;
-		$this->strCapability = empty( $strCapability ) ? $this->strCapability : $strCapability;
-		
-	}
-	
-	/*
-	 * Magic methods
-	 * */
-	public function &__get( $strName ) {
-		
-		// If $this->arrOptions is called for the first time, retrieve the option data from the database and assign to the property.
-		// One this is done, calling $this->arrOptions will not trigger the __get() magic method any more.
-		// Without the the ampersand in the method name, it causes a PHP warning.
-		if ( $strName == 'arrOptions' ) {
-			$this->arrOptions = $this->getOptions();
-			return $this->arrOptions;	
+		$arrArgs = func_get_args();	
+		$oCallerObject = $arrArgs[ 0 ];
+		$arrActionHooks = $arrArgs[ 1 ];
+		foreach( ( array ) $arrActionHooks as $strActionHook ) {
+			$arrArgs[ 1 ] = $strActionHook;
+			call_user_func_array( array( $this, 'addAndDoAction' ) , $arrArgs );			
 		}
 		
-		// For regular undefined items, 
-		return null;
+	}
+	public function addAndDoAction() {	// Parameters: $oCallerObject, $strActionHook, $vArgs...
+		
+		$intArgs = func_num_args();
+		$arrArgs = func_get_args();
+		$oCallerObject = $arrArgs[ 0 ];
+		$strActionHook = $arrArgs[ 1 ];
+		add_action( $strActionHook, array( $oCallerObject, $strActionHook ), 10, $intArgs - 2 );
+		unset( $arrArgs[ 0 ] );	// remove the first element, the caller object
+		call_user_func_array( 'do_action' , $arrArgs );
 		
 	}
-	
-	/*
-	 * Utility methods
-	 * */
-	public function isPageAdded( $strPageSlug ) {
-	
-		// Returns true if the given page slug is one of the pages added by the framework.
-		if ( array_key_exists( trim( $strPageSlug ), $this->arrPages ) ) return true; 
-	
-	}
-	
-	
-	public function getOptions() {
-		
-		$vOptions = get_option( $this->strOptionKey );
-		if ( empty( $vOptions ) )
-			return array();		// casting array causes an 0 key element. So this way it can be avoided
-		
-		if ( is_array( $vOptions ) )	// if it's array, no problem.
-			return $vOptions;
-		
-		return ( array ) $vOptions;	// finally cast array.
+	public function addAndApplyFilters() {	// Parameters: $oCallerObject, $arrFilters, $vInput, $vArgs...
+			
+		$arrArgs = func_get_args();	
+		$oCallerObject = $arrArgs[ 0 ];
+		$arrFilters = $arrArgs[ 1 ];
+		$vInput = $arrArgs[ 2 ];
+
+		foreach( ( array ) $arrFilters as $strFilter ) {
+			$arrArgs[ 1 ] = $strFilter;
+			$arrArgs[ 2 ] = $vInput;
+			$vInput = call_user_func_array( array( $this, 'addAndApplyFilter' ) , $arrArgs );						
+		}
+		return $vInput;
 		
 	}
-	
-	/*
-	 * callback methods
-	 */ 
-	public function getCapability() {
-		return $this->strCapability;
-	}	
-	
-	public function sortByOrder( $a, $b ) {	// since 1.1.0 - a callback method for uasort()
-		return $a['numOrder'] - $b['numOrder'];
+	public function addAndApplyFilter() {	// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
+
+		$intArgs = func_num_args();
+		$arrArgs = func_get_args();
+		$oCallerObject = $arrArgs[ 0 ];
+		$strFilter = $arrArgs[ 1 ];
+		add_filter( $strFilter, array( $oCallerObject, $strFilter ), 10, $intArgs - 2 );	// this enables to trigger the method named $strFilter and the magic method __call() will be called
+		unset( $arrArgs[ 0 ] );	// remove the first element, the caller object	// array_shift( $arrArgs );							
+		return call_user_func_array( 'apply_filters', $arrArgs );	// $arrArgs: $vInput, $vArgs...
+		
 	}		
+	
+	public function getFilterArrayByPrefix( $strPrefix, $strClassName, $strPageSlug, $strTabSlug, $fReverse=false ) {
+			
+		// This provides an array consisting of filters for the addAndApplyFileters() method.	
+		// The order is page + tab -> page -> class, by default but it can be reversed with the $fReverse parameter value.
+		
+		$arrFilters = array();
+		if ( $strTabSlug && $strPageSlug )
+			$arrFilters[] = "{$strPrefix}{$strPageSlug}_{$strTabSlug}";
+		if ( $strPageSlug )	
+			$arrFilters[] = "{$strPrefix}{$strPageSlug}";
+		$arrFilters[] = "{$strPrefix}{$strClassName}";
+		
+		return $fReverse ? array_reverse( $arrFilters ) : $arrFilters;	
+		
+	}
+	
+	public function goRedirect( $strURL ) {
+		
+		// Redirects to the given URL and exits. Saves one extra line, exit;.
+		if ( ! function_exists('wp_redirect') ) include_once( ABSPATH . WPINC . '/pluggable.php' );
+		wp_redirect( $strURL );
+		exit;		
+		
+	}
+	
+	protected function getScriptData( $strPath, $strType )	{
+	
+		// Returns an array of plugin data from the given path.		
+		// An alternative to get_plugin_data() as some users change the location of the wp-admin directory.
+		$arrData = get_file_data( 
+			$strPath, 
+			array(
+				'strPluginName' => 'Plugin Name',
+				'strPluginURI' => 'Plugin URI',
+				'strThemeURI' => 'Theme URI',
+				'strThemeName' => 'Theme Name',
+				'strVersion' => 'Version',
+				'strDescription' => 'Description',
+				'strAuthor' => 'Author',
+				'strAuthorURI' => 'Author URI',
+				'strTextDomain' => 'Text Domain',
+				'strDomainPath' => 'Domain Path',
+				'strNetwork' => 'Network',
+				// Site Wide Only is deprecated in favour of Network.
+				'_sitewide' => 'Site Wide Only',
+			),
+			$strType	// 'plugin' or 'theme'
+		);				
+		$arrData['strName'] = ( $strType == 'plugin' ) ? $arrData['strPluginName'] : $arrData['strThemeName'];
+		$arrData['strScriptURI'] = ( $strType == 'plugin' ) ? $arrData['strPluginURI'] : $arrData['strThemeURI'];
+		return $arrData;
+		
+	}			
 }
+endif;
 
+if ( ! class_exists( 'AdminPageFramework_Utilities' ) ) :
+class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
+
+	/*
+	 * Utility methods which do not use WordPress functions
+	 */
+	public function sanitizeSlug( $strSlug ) {	// moved from the main class in 1.0.4, must be public 
+		
+		// Converts non-alphabetic characters to underscore.
+		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff]/', '_', trim( $strSlug ) );
+		
+	}	
+	public function sanitizeString( $strString ) {	// moved from the main class in 1.0.4, must be public
+
+		// Similar to the above SanitizeSlug() except that this allows hyphen.
+		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $strString );
+
+	}	
+	
+	protected function getCorrespondingArrayValue( $vSubject, $strKey, $strDefault='' ) {	
+		
+		// When there are multiple arrays and they have similar index structure but it's not certain,
+		// use this method to retrieve the corresponding key value. If the subject value is not an array, it will return
+		// the string value of the subject value.
+		// This is mainly used by the field array to insert user-defined key values.
+		
+		// If $vSubject is null,
+		if ( ! isset( $vSubject ) ) return $strDefault;	
+			
+		// If $vSubject is not an array, 
+		if ( ! is_array( $vSubject ) ) return ( string ) $vSubject;	// consider it as string.
+		
+		// Consider $vSubject as array.
+		if ( isset( $vSubject[ $strKey ] ) ) return $vSubject[ $strKey ];
+		
+		return $strDefault;
+		
+	}
+
+	protected function getArrayDimension( $array ) {
+		return ( is_array( reset( $array ) ) ) ? $this->getArrayDimension( reset( $array ) ) + 1 : 1;
+	}
+
+	public function uniteArraysRecursive( $arrPrecedence, $arrDefault ) {
+		
+		// Merges two multi-dimensional arrays recursively. The first parameter array takes its precedence.
+		// This is useful to merge default option values.
+		
+		if ( is_null( $arrPrecedence ) ) $arrPrecedence = array();
+		
+		if ( ! is_array( $arrDefault ) || ! is_array( $arrPrecedence ) ) return $arrPrecedence;
+			
+		foreach( $arrDefault as $strKey => $v ) {
+			
+			// If the precedence does not have the key, assign the default's value.
+			if ( ! array_key_exists( $strKey, $arrPrecedence ) || is_null( $arrPrecedence[ $strKey ] ) )
+				$arrPrecedence[ $strKey ] = $v;
+			else {
+				
+				// if the both are arrays, do the recursive process.
+				if ( is_array( $arrPrecedence[ $strKey ] ) && is_array( $v ) ) 
+					$arrPrecedence[ $strKey ] = $this->uniteArraysRecursive( $arrPrecedence[ $strKey ], $v );			
+			
+			}
+		}
+		return $arrPrecedence;		
+	}		
+
+	public function getQueryValueInURLByKey( $strURL, $strQueryKey ) {
+		
+		$arrURL = parse_url( $strURL );
+		parse_str( $arrURL['query'], $arrQuery );		
+		return isset( $arrQuery[ $strQueryKey ] ) ? $arrQuery[ $strQueryKey ] : null;
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
 abstract class AdminPageFramework_Pages {
 	
 	/*
@@ -704,6 +597,9 @@ abstract class AdminPageFramework_Pages {
 	}
 	
 }
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
 abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	
 	/*
@@ -886,282 +782,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		
 	}	
 }
+endif;
 
-abstract class AdminPageFramework_CustomSubmitFields {
-
-	/*
-	 * This class provides helper functions that deal with custom submit fields and require to retrieve custom key elements.
-	 * The classes that extend this include ExportOptions, ImportOptions, and Redirect.
-	 * */
-	 
-	public function __construct( $arrPostElement ) {
-		
-		$this->arrPostElement = $arrPostElement;	// e.g. $_POST['__import'] or $_POST['__export'] or $_POST['__redirect']
-		
-	}
-	
-	protected function getElement( $arrElement, $arrElementKey, $strElementKey='format' ) {
-		
-		// This methods returns the value of the specified element key.
-		// The element key is either a single key or two keys. The two keys means that the value is stored in the second dimension.
-		
-		$strFirstDimensionKey = $arrElementKey[ 0 ];
-		if ( ! isset( $arrElement[ $strFirstDimensionKey ] ) || ! is_array( $arrElement[ $strFirstDimensionKey ] ) ) return 'ERROR_A';
-
-		/* For single element, e.g.
-		 * <input type="hidden" name="__import[import_single][import_option_key]" value="APF_GettingStarted">
-		 * <input type="hidden" name="__import[import_single][format]" value="array">
-		 * */	
-		if ( isset( $arrElement[ $strFirstDimensionKey ][ $strElementKey ] ) && ! is_array( $arrElement[ $strFirstDimensionKey ][ $strElementKey ] ) )
-			return $arrElement[ $strFirstDimensionKey ][ $strElementKey ];
-
-		/* For multiple elements, e.g.
-		 * <input type="hidden" name="__import[import_multiple][import_option_key][2]" value="APF_GettingStarted.txt">
-		 * <input type="hidden" name="__import[import_multiple][format][2]" value="array">
-		 * */
-		if ( ! isset( $arrElementKey[ 1 ] ) ) return 'ERROR_B';
-		$strKey = $arrElementKey[ 1 ];
-		if ( isset( $arrElement[ $strFirstDimensionKey ][ $strElementKey ][ $strKey ] ) )
-			return $arrElement[ $strFirstDimensionKey ][ $strElementKey ][ $strKey ];
-			
-		// Something wrong happened.
-		return 'ERROR_C';
-		
-	}	
-	protected function getElementKey( $arrElement, $strFirstDimensionKey ) {
-		
-		// This method returns an array consisting of two values. 
-		// The first element is the fist dimension's key and the second element is the second dimension's key.
-		
-		if ( ! isset( $arrElement[ $strFirstDimensionKey ] ) ) return;
-		
-		// Set the first element the field ID.
-		$arrEkementKey = array( 0 => $strFirstDimensionKey );
-
-		// For single export buttons, e.g. name="__import[submit][import_single]" 		
-		if ( ! is_array( $arrElement[ $strFirstDimensionKey ] ) ) return $arrEkementKey;
-		
-		// For multiple ones, e.g. name="__import[submit][import_multiple][1]" 		
-		foreach( $arrElement[ $strFirstDimensionKey ] as $k => $v ) {
-			
-			// Only the pressed export button's element is submitted. In other words, it is necessary to check only one item.
-			$arrEkementKey[] = $k;
-			return $arrEkementKey;			
-				
-		}		
-	}
-		
-	public function getFieldID() {
-		
-		// e.g.
-		// single:		name="__import[submit][import_single]"
-		// multiple:	name="__import[submit][import_multiple][1]"
-		
-		if ( isset( $this->strFiledID ) && $this->strFiledID  ) return $this->strFiledID;
-		
-		// Only the pressed element will be stored in the array.
-		foreach( $this->arrPostElement['submit'] as $strKey => $v ) {	// $this->arrPostElement should have been set in the constructor.
-			$this->strFieldID = $strKey;
-			return $this->strFieldID;
-		}
-	}	
-		
-}
-
-class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
-	
-	/* Example of $_FILES for a single import field. 
-		Array (
-			[__import] => Array (
-				[name] => Array (
-				   [import_single] => APF_GettingStarted_20130709 (1).json
-				)
-				[type] => Array (
-					[import_single] => application/octet-stream
-				)
-				[tmp_name] => Array (
-					[import_single] => Y:\wamp\tmp\php7994.tmp
-				)
-				[error] => Array (
-					[import_single] => 0
-				)
-				[size] => Array (
-					[import_single] => 715
-				)
-			)
-		)
-	*/
-	
-	public function __construct( $arrFilesImport, $arrPostImport ) {
-
-		// Call the parent constructor. This must be done before the getFieldID() method that uses the $arrPostElement property.
-		parent::__construct( $arrPostImport );
-	
-		$this->arrFilesImport = $arrFilesImport;
-		$this->arrPostImport = $arrPostImport;
-		
-		// Find the field ID and the element key ( for multiple export buttons )of the pressed submit ( export ) button.
-		$this->strFieldID = $this->getFieldID();
-		$this->arrElementKey = $this->getElementKey( $arrPostImport['submit'], $this->strFieldID );
-			
-	}
-	
-	private function getElementInFilesArray( $arrFilesImport, $arrElementKey, $strElementKey='error' ) {
-
-		$strElementKey = strtolower( $strElementKey );
-		$strFieldID = $arrElementKey[ 0 ];	// or simply assigning $this->strFieldID would work as well.
-		if ( ! isset( $arrFilesImport[ $strElementKey ][ $strFieldID ] ) ) return 'ERROR_A: The given key does not exist.';
-	
-		// For single export buttons, e.g. $_FILES[__import][ $strElementKey ][import_single] 
-		if ( isset( $arrFilesImport[ $strElementKey ][ $strFieldID ] ) && ! is_array( $arrFilesImport[ $strElementKey ][ $strFieldID ] ) )
-			return $arrFilesImport[ $strElementKey ][ $strFieldID ];
-			
-		// For multiple import buttons, e.g. $_FILES[__import][ $strElementKey ][import_multiple][2]
-		if ( ! isset( $arrElementKey[ 1 ] ) ) return 'ERROR_B: the sub element is not set.';
-		$strKey = $arrElementKey[ 1 ];		
-		if ( isset( $arrPostImport[ $strElementKey ][ $strFieldID ][ $strKey ] ) )
-			return $arrPostImport[ $strElementKey ][ $strFieldID ][ $strKey ];
-
-		// Something wrong happened.
-		return 'ERROR_C: unexpected problem occurred.';
-		
-	}	
-		
-	public function getError() {
-		
-		return $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'error' );
-		
-	}
-	public function getType() {
-		
-		return $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'type' );
-		
-	}
-	public function getImportData() {
-		
-		// Retrieve the uploaded file path.
-		$strFilePath = $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'tmp_name' );
-		
-		// Read the file contents.
-		$vData = ( file_exists( $strFilePath ) ) ? file_get_contents( $strFilePath, true ) : false;
-		
-		return $vData;
-		
-	}
-	public function formatImportData( &$vData, $strFormatType=null ) {
-		
-		$strFormatType = isset( $strFormatType ) ? $strFormatType : $this->getFormatType();
-		switch ( strtolower( $strFormatType ) ) {
-			case 'text':	// for plain text.
-				return;	// do nothing
-			case 'json':	// for json.
-				$vData = json_decode( $vData, true );	// the second parameter indicates to decode it as array.
-				return;
-			case 'array':	// for serialized PHP array.
-			default:	// for anything else, 
-				$vData = maybe_unserialize( trim( $vData ) );
-				return;
-		}		
-	
-	}
-	public function getFormatType() {
-					
-		$this->strFormatType = isset( $this->strFormatType ) && $this->strFormatType 
-			? $this->strFormatType
-			: $this->getElement( $this->arrPostImport, $this->arrElementKey, 'format' );
-
-		return $this->strFormatType;
-		
-	}
-	public function getImportOptionKey() {
-		
-		$this->strImportOptionKey = isset( $this->strImportOptionKey ) && $this->strImportOptionKey 
-			? $this->strImportOptionKey
-			: $this->getElement( $this->arrPostImport, $this->arrElementKey, 'import_option_key' );
-
-		return $this->strImportOptionKey;
-
-	}
-	
-}
-class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {
-
-	public function __construct( $arrPostExport, $strClassName ) {
-		
-		// Call the parent constructor.
-		parent::__construct( $arrPostExport );
-		
-		// Properties
-		$this->arrPostExport = $arrPostExport;
-		$this->strClassName = $strClassName;	// will be used in the getTransientIfSet() method.
-		// $this->strPageSlug = $strPageSlug;
-		// $this->strTabSlug = $strTabSlug;
-		
-		// Find the field ID and the element key ( for multiple export buttons )of the pressed submit ( export ) button.
-		$this->strFieldID = $this->getFieldID();
-		$this->arrElementKey = $this->getElementKey( $arrPostExport['submit'], $this->strFieldID );
-		
-		// Set the file name to download and the format type. Also find whether the exporting data is set in transient.
-		$this->strFileName = $this->getElement( $arrPostExport, $this->arrElementKey, 'file_name' );
-		$this->strFormatType = $this->getElement( $arrPostExport, $this->arrElementKey, 'format' );
-		$this->fIsDataSet = $this->getElement( $arrPostExport, $this->arrElementKey, 'transient' );
-	
-	}
-	
-	public function getTransientIfSet( $vData ) {
-		
-		if ( $this->fIsDataSet ) {
-			$strKey = $this->arrElementKey[1];
-			$strTransient = isset( $this->arrElementKey[1] ) ? "{$this->strClassName}_{$this->strFieldID}_{$this->arrElementKey[1]}" : "{$this->strClassName}_{$this->strFieldID}";
-			$tmp = get_transient( md5( $strTransient ) );
-			if ( $tmp !== false ) {
-				$vData = $tmp;
-				delete_transient( md5( $strTransient ) );
-			}
-		}
-		return $vData;
-	}
-	
-	public function getFileName() {
-		return $this->strFileName;
-	}
-	public function getFormat() {
-		return $this->strFormatType;
-	}
-
-	/* e.g.
-	 * <input type="hidden" name="__export[export_sinble][file_name]" value="APF_GettingStarted_20130708.txt">
-	 * <input type="hidden" name="__export[export_sinble][format]" value="json">
-	 * <input id="export_and_import_export_sinble_0" 
-	 *  type="submit" 
-	 *  name="__export[submit][export_sinble]" 
-	 *  value="Export Options">
-	*/
-	public function doExport( $vData, $strFileName=null, $strFormatType=null ) {
-		
-		$strFileName = isset( $strFileName ) ? $strFileName : $this->strFileName;
-		$strFormatType = isset( $strFormatType ) ? $strFormatType : $this->strFormatType;
-							
-		// Do export.
-		header( 'Content-Description: File Transfer' );
-		header( 'Content-Disposition: attachment; filename=' . $strFileName );
-		switch ( strtolower( $strFormatType ) ) {
-			case 'text':	// for plain text.
-				if ( is_array( $vData ) || is_object( $vData ) ) {
-					$oDebug = new AdminPageFramework_Debug;
-					$strData = $oDebug->getArray( $vData );
-					die( $strData );
-				}
-				die( $vData );
-			case 'json':	// for json.
-				die( json_encode( ( array ) $vData ) );
-			case 'array':	// for serialized PHP array.
-			default:	// for anything else, 
-				die( serialize( ( array ) $vData  ));
-		}
-	}
-}
-
+if ( ! class_exists( 'AdminPageFramework_SettingsAPI' ) ) :
 abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	
 	protected static $arrStructure_Section = array(	// the default structure of the section array.
@@ -1837,8 +1460,612 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 }
- 
+endif; 
 
+if ( ! class_exists( 'AdminPageFramework' ) ) :
+abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
+	
+	protected $oProps;	// The common properties shared among sub-classes.
+	protected $oDebug;	// Provides the debug methods.
+	
+	public function __construct( $strOptionKey=null, $strCallerPath=null, $strCapability=null, $strTextDomain=null ){
+		
+		/*
+		 * $strOptionKey :	Specifies the option key name to store in the option database table. 
+		 * 					If this is set, all the options will be stored in an array to the key of this passed string.
+		 * $strCallerPath :	used to retrieve the plugin/theme plugin data to auto-insert credit info into the footer.
+		 * */
+		 
+		// Variables
+		$strClassName = get_class( $this );
+		
+		// Objects
+		$this->oProps = new AdminPageFramework_Properties( $strClassName, $strOptionKey, $strCapability );
+		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
+		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oDebug = new AdminPageFramework_Debug;
+		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
+								
+		if ( is_admin() ) {
+			
+			// Disable the Settings API's admin notice.
+			// add_action( 'admin_menu', array( $this, 'DisableSettingsAPIAdminNotice' ), 999 );
+			
+			// Hook the menu action - adds the menu items.
+			add_action( 'wp_loaded', array( $this, 'setUp' ) );
+			
+			// AdminPageFramework_Menu
+			add_action( 'admin_menu', array( $this, 'buildMenus' ), 98 );
+			
+			// AdminPageFramework_Page
+			add_action( 'admin_menu', array( $this, 'finalizeInPageTabs' ), 99 );	// must be called before the registerSettings() method.
+			
+			// AdminPageFramework_SettingsAPI
+			add_action( 'admin_menu', array( $this, 'registerSettings' ), 100 );
+			
+			// Redirect Buttons
+			add_action( 'admin_init', array( $this, 'checkRedirects' ) );
+			
+			// Hook the admin header to insert custom admin stylesheet.
+			add_action( 'admin_head', array( $this, 'addStyle' ) );
+			add_action( 'admin_head', array( $this, 'addScript' ) );
+
+			// For the media uploader.
+			// add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
+						
+			// For earlier loading than $this->setUp
+			$this->oUtil->addAndDoAction( $this, self::$arrPrefixes['start_'] . $this->oProps->strClassName );
+		
+		}
+	}	
+	public function __call( $strMethodName, $arrArgs=null ) {		
+		
+		/*
+		 *  Undefined but called by the callback methods automatically inserted by the class will trigger this magic method, __call().
+		 *  So determine which callback method triggered this and redirect the call to the appropriate method.
+		 * */
+		 
+		// Variables
+		// The currently loading in-page tab slug. Careful that not all cases $strMethodName have the page slug.
+		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
+		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );	
+
+		// If it is a pre callback method, call the redirecting method.
+		// add_settings_section() callback
+		if ( substr( $strMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' ) return $this->renderSectionDescription( $strMethodName );  // section_pre_
+		
+		// add_settings_field() callback
+		if ( substr( $strMethodName, 0, strlen( 'field_pre_' ) )	== 'field_pre_' ) return $this->renderSettingField( $arrArgs[ 0 ], $strPageSlug );  // field_pre_
+		
+		// register_setting() callback
+		if ( substr( $strMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' ) return $this->doValidationCall( $strMethodName, $arrArgs[ 0 ] );  // section_pre_
+		
+		// If it's one of the framework's callback methods, do nothing.	
+		if ( $this->isFrameworkCallbackMethod( $strMethodName ) )
+			return isset( $arrArgs[0] ) ? $arrArgs[0] : null;	// if $arrArgs[0] is set, it's a filter, otherwise, it's an action.
+		
+		// The callback of add_submenu_page() - render the page contents.
+		if ( isset( $_GET['page'] ) && $_GET['page'] == $strMethodName ) $this->renderPage( $strMethodName, $strTabSlug );
+						
+	}	
+	private function isFrameworkCallbackMethod( $strMethodName ) {
+
+		if ( substr( $strMethodName, 0, strlen( "{$this->oProps->strClassName}_" ) ) == "{$this->oProps->strClassName}_" )	// e.g. {instantiated class name} + field_ + {field id}
+			return true;
+		
+		foreach( self::$arrPrefixes as $strPrefix ) {
+			if ( substr( $strMethodName, 0, strlen( $strPrefix ) )	== $strPrefix  ) 
+				return true;
+		}
+	}
+	
+	 
+	/*
+	 *	Front-End methods - the user may call it but it should not necessarily be customized in the extended class. 
+	 * */
+	public function addLinkToPluginDescription( $vLinks ) {
+		
+		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
+		$this->oLink->addLinkToPluginDescription( $vLinks );
+		
+	}
+	public function addLinkToPluginTitle( $vLinks ) {
+		
+		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
+		$this->oLink->addLinkToPluginTitle( $vLinks );
+		
+	}
+	 
+	/*
+	 * Methods for setting the access level
+	 */
+	public function setCapability( $strCapability ) {
+		$this->oProps->strCapability = $strCapability;	
+	}
+	
+	/* 
+	 * Callback methods
+	 */ 
+	public function checkRedirects() {
+
+		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
+		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProps->isPageAdded( $_GET['page'] ) ) return; 
+		
+		// If the Settings API has not updated the options, do nothing.
+		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
+
+		// Okay, it seems the submitted data have been updated successfully.
+		$strTransient = "redirect_{$this->oProps->strClassName}_{$_GET['page']}";
+		$strURL = get_transient( $strTransient );
+		if ( $strURL === false ) return;
+		
+		// The redirect URL seems to be set.
+		delete_transient( $strTransient );	// we don't need it any more.
+		
+		// if the redirect page is outside the plugin admin page, delete the plugin settings admin notices as well.
+		// if ( ! $this->oCore->IsPluginPage( $strURL ) ) 	
+			// delete_transient( md5( 'SettingsErrors_' . $this->oCore->strClassName . '_' . $this->oCore->strPageSlug ) );
+				
+		// Go to the page.
+		$this->oUtil->goRedirect( $strURL );
+		
+	}
+	
+	public function addStyle() {
+		
+		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
+		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );
+		
+		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
+		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
+					
+		// Print out the filtered styles.
+		echo "<style type='text/css' id='admin-page-framework-style'>" 
+			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), self::$strDefaultStyle )
+			. "</style>";
+	}
+	
+	public function addScript() {
+		
+		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
+		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );
+		
+		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
+		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
+
+		// Print out the filtered styles.
+		echo "<script type='text/javascript' id='admin-page-framework-script'>"
+			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
+			. "</script>";		
+		
+	}
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Messages' ) ) :
+class AdminPageFramework_Messages {
+
+	// The user can modify this property directly.
+	public $arrMessages = array(
+		'option_updated'	=> 'The options have been updated.',
+		'option_cleared'	=> 'The options have been cleared.',
+		'export_options'	=> 'Export Options',
+		'import_options'	=> 'Import Options',
+		'submit'			=> 'Submit',
+		'import_error'		=> 'An error occurred while uploading the import file.',
+		'uploaded_file_type_not_supported'	=> 'The uploaded file type is not supported.',
+		'could_not_load_importing_data' => 'Could not load the importing data.',
+		'imported_data'		=> 'The uploaded file has been imported.'
+	);
+
+	public function __construct( $strTextDomain='admin-page-framework' ) {
+		$this->strTextDomain = $strTextDomain;
+	}
+	public function ___( $strKey ) {
+		
+		return isset( $this->arrMessages[ $strKey ] )
+			? __( $this->arrMessages[ $strKey ], $this->strTextDomain )
+			: '';
+		
+	}
+	public function __e( $strKey ) {
+		
+		if ( isset( $this->arrMessages[ $strKey ] ) )
+			_e( $this->arrMessages[ $strKey ], $this->strTextDomain );
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Properties' ) ) :
+class AdminPageFramework_Properties {
+	
+	/*
+	 * Stores various values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
+	 * since 1.1.0
+	 */
+	
+	// Strings
+	public $strClassName;	// Stores framework's instantiated object name.
+	public $strCapability = 'manage_options';	// Stores the access level to the root page. When sub pages are added and the capability value is not provided, this will be applied.
+	public $strPageHeadingTabTag = 'h2';
+	public $strInPageTabTag = 'h3';
+	public $strDefaultPageSlug;	// Stores the default page slug.
+	public $strScript;	// Stores the adding scripts.
+	
+	// Container arrays.
+	public $arrPages = array();	// A two-dimensional array storing registering sub-menu(page) item information with keys of the page slug.
+	public $arrRootMenu = array(	// Stores the root menu item information for one set root menu item.
+		'strTitle' => null,				// menu label that appears on the menu list
+		'strPageSlug' => null,				// menu slug that identifies the menu item
+		'strPathIcon16x16' => null,		// the associated icon that appears beside the label on the list
+		'intPosition'	=> null,		// determines the position of the menu
+		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
+	); 
+	public $arrInPageTabs = array();				// Stores in-page tabs.
+	public $arrDefaultInPageTabs = array();			// Stores the default tab.
+	public $arrPluginDescriptionLinks = array(); 	// Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
+	public $arrPluginTitleLinks = array();			// Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
+	
+	// Settings API
+	// public $arrOptions;			// Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
+	public $strOptionKey = '';		// the instantiated class name will be assigned in the constructor if the first parameter is not set.
+	public $arrSections = array();	// Stores option sections.
+	public $arrFields = array();	// Stores option fields
+	public $strFormEncType = 'multipart/form-data';	// Set one of the followings: application/x-www-form-urlencoded, multipart/form-data, text/plain
+	public $fEnableForm = false;			// Decides whether the setting form tag is rendered or not.	This will be enabled when a settings section and a field is added.
+	
+	// Flags
+	public $fShowPageHeadingTabs = true;	// indicates whether the page heading tabs should be displayed.
+	
+	public function __construct( $strClassName, $strOptionKey, $strCapability='manage_options' ) {
+		
+		$this->strClassName = $strClassName;		
+		$this->strOptionKey = $strOptionKey ? $strOptionKey : $strClassName;
+		$this->strCapability = empty( $strCapability ) ? $this->strCapability : $strCapability;
+		
+	}
+	
+	/*
+	 * Magic methods
+	 * */
+	public function &__get( $strName ) {
+		
+		// If $this->arrOptions is called for the first time, retrieve the option data from the database and assign to the property.
+		// One this is done, calling $this->arrOptions will not trigger the __get() magic method any more.
+		// Without the the ampersand in the method name, it causes a PHP warning.
+		if ( $strName == 'arrOptions' ) {
+			$this->arrOptions = $this->getOptions();
+			return $this->arrOptions;	
+		}
+		
+		// For regular undefined items, 
+		return null;
+		
+	}
+	
+	/*
+	 * Utility methods
+	 * */
+	public function isPageAdded( $strPageSlug ) {
+	
+		// Returns true if the given page slug is one of the pages added by the framework.
+		if ( array_key_exists( trim( $strPageSlug ), $this->arrPages ) ) return true; 
+	
+	}
+	
+	
+	public function getOptions() {
+		
+		$vOptions = get_option( $this->strOptionKey );
+		if ( empty( $vOptions ) )
+			return array();		// casting array causes an 0 key element. So this way it can be avoided
+		
+		if ( is_array( $vOptions ) )	// if it's array, no problem.
+			return $vOptions;
+		
+		return ( array ) $vOptions;	// finally cast array.
+		
+	}
+	
+	/*
+	 * callback methods
+	 */ 
+	public function getCapability() {
+		return $this->strCapability;
+	}	
+	
+	public function sortByOrder( $a, $b ) {	// since 1.1.0 - a callback method for uasort()
+		return $a['numOrder'] - $b['numOrder'];
+	}		
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
+abstract class AdminPageFramework_CustomSubmitFields {
+
+	/*
+	 * This class provides helper functions that deal with custom submit fields and require to retrieve custom key elements.
+	 * The classes that extend this include ExportOptions, ImportOptions, and Redirect.
+	 * */
+	 
+	public function __construct( $arrPostElement ) {
+		
+		$this->arrPostElement = $arrPostElement;	// e.g. $_POST['__import'] or $_POST['__export'] or $_POST['__redirect']
+		
+	}
+	
+	protected function getElement( $arrElement, $arrElementKey, $strElementKey='format' ) {
+		
+		// This methods returns the value of the specified element key.
+		// The element key is either a single key or two keys. The two keys means that the value is stored in the second dimension.
+		
+		$strFirstDimensionKey = $arrElementKey[ 0 ];
+		if ( ! isset( $arrElement[ $strFirstDimensionKey ] ) || ! is_array( $arrElement[ $strFirstDimensionKey ] ) ) return 'ERROR_A';
+
+		/* For single element, e.g.
+		 * <input type="hidden" name="__import[import_single][import_option_key]" value="APF_GettingStarted">
+		 * <input type="hidden" name="__import[import_single][format]" value="array">
+		 * */	
+		if ( isset( $arrElement[ $strFirstDimensionKey ][ $strElementKey ] ) && ! is_array( $arrElement[ $strFirstDimensionKey ][ $strElementKey ] ) )
+			return $arrElement[ $strFirstDimensionKey ][ $strElementKey ];
+
+		/* For multiple elements, e.g.
+		 * <input type="hidden" name="__import[import_multiple][import_option_key][2]" value="APF_GettingStarted.txt">
+		 * <input type="hidden" name="__import[import_multiple][format][2]" value="array">
+		 * */
+		if ( ! isset( $arrElementKey[ 1 ] ) ) return 'ERROR_B';
+		$strKey = $arrElementKey[ 1 ];
+		if ( isset( $arrElement[ $strFirstDimensionKey ][ $strElementKey ][ $strKey ] ) )
+			return $arrElement[ $strFirstDimensionKey ][ $strElementKey ][ $strKey ];
+			
+		// Something wrong happened.
+		return 'ERROR_C';
+		
+	}	
+	protected function getElementKey( $arrElement, $strFirstDimensionKey ) {
+		
+		// This method returns an array consisting of two values. 
+		// The first element is the fist dimension's key and the second element is the second dimension's key.
+		
+		if ( ! isset( $arrElement[ $strFirstDimensionKey ] ) ) return;
+		
+		// Set the first element the field ID.
+		$arrEkementKey = array( 0 => $strFirstDimensionKey );
+
+		// For single export buttons, e.g. name="__import[submit][import_single]" 		
+		if ( ! is_array( $arrElement[ $strFirstDimensionKey ] ) ) return $arrEkementKey;
+		
+		// For multiple ones, e.g. name="__import[submit][import_multiple][1]" 		
+		foreach( $arrElement[ $strFirstDimensionKey ] as $k => $v ) {
+			
+			// Only the pressed export button's element is submitted. In other words, it is necessary to check only one item.
+			$arrEkementKey[] = $k;
+			return $arrEkementKey;			
+				
+		}		
+	}
+		
+	public function getFieldID() {
+		
+		// e.g.
+		// single:		name="__import[submit][import_single]"
+		// multiple:	name="__import[submit][import_multiple][1]"
+		
+		if ( isset( $this->strFiledID ) && $this->strFiledID  ) return $this->strFiledID;
+		
+		// Only the pressed element will be stored in the array.
+		foreach( $this->arrPostElement['submit'] as $strKey => $v ) {	// $this->arrPostElement should have been set in the constructor.
+			$this->strFieldID = $strKey;
+			return $this->strFieldID;
+		}
+	}	
+		
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_ImportOptions' ) ) :
+class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
+	
+	/* Example of $_FILES for a single import field. 
+		Array (
+			[__import] => Array (
+				[name] => Array (
+				   [import_single] => APF_GettingStarted_20130709 (1).json
+				)
+				[type] => Array (
+					[import_single] => application/octet-stream
+				)
+				[tmp_name] => Array (
+					[import_single] => Y:\wamp\tmp\php7994.tmp
+				)
+				[error] => Array (
+					[import_single] => 0
+				)
+				[size] => Array (
+					[import_single] => 715
+				)
+			)
+		)
+	*/
+	
+	public function __construct( $arrFilesImport, $arrPostImport ) {
+
+		// Call the parent constructor. This must be done before the getFieldID() method that uses the $arrPostElement property.
+		parent::__construct( $arrPostImport );
+	
+		$this->arrFilesImport = $arrFilesImport;
+		$this->arrPostImport = $arrPostImport;
+		
+		// Find the field ID and the element key ( for multiple export buttons )of the pressed submit ( export ) button.
+		$this->strFieldID = $this->getFieldID();
+		$this->arrElementKey = $this->getElementKey( $arrPostImport['submit'], $this->strFieldID );
+			
+	}
+	
+	private function getElementInFilesArray( $arrFilesImport, $arrElementKey, $strElementKey='error' ) {
+
+		$strElementKey = strtolower( $strElementKey );
+		$strFieldID = $arrElementKey[ 0 ];	// or simply assigning $this->strFieldID would work as well.
+		if ( ! isset( $arrFilesImport[ $strElementKey ][ $strFieldID ] ) ) return 'ERROR_A: The given key does not exist.';
+	
+		// For single export buttons, e.g. $_FILES[__import][ $strElementKey ][import_single] 
+		if ( isset( $arrFilesImport[ $strElementKey ][ $strFieldID ] ) && ! is_array( $arrFilesImport[ $strElementKey ][ $strFieldID ] ) )
+			return $arrFilesImport[ $strElementKey ][ $strFieldID ];
+			
+		// For multiple import buttons, e.g. $_FILES[__import][ $strElementKey ][import_multiple][2]
+		if ( ! isset( $arrElementKey[ 1 ] ) ) return 'ERROR_B: the sub element is not set.';
+		$strKey = $arrElementKey[ 1 ];		
+		if ( isset( $arrPostImport[ $strElementKey ][ $strFieldID ][ $strKey ] ) )
+			return $arrPostImport[ $strElementKey ][ $strFieldID ][ $strKey ];
+
+		// Something wrong happened.
+		return 'ERROR_C: unexpected problem occurred.';
+		
+	}	
+		
+	public function getError() {
+		
+		return $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'error' );
+		
+	}
+	public function getType() {
+		
+		return $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'type' );
+		
+	}
+	public function getImportData() {
+		
+		// Retrieve the uploaded file path.
+		$strFilePath = $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'tmp_name' );
+		
+		// Read the file contents.
+		$vData = ( file_exists( $strFilePath ) ) ? file_get_contents( $strFilePath, true ) : false;
+		
+		return $vData;
+		
+	}
+	public function formatImportData( &$vData, $strFormatType=null ) {
+		
+		$strFormatType = isset( $strFormatType ) ? $strFormatType : $this->getFormatType();
+		switch ( strtolower( $strFormatType ) ) {
+			case 'text':	// for plain text.
+				return;	// do nothing
+			case 'json':	// for json.
+				$vData = json_decode( $vData, true );	// the second parameter indicates to decode it as array.
+				return;
+			case 'array':	// for serialized PHP array.
+			default:	// for anything else, 
+				$vData = maybe_unserialize( trim( $vData ) );
+				return;
+		}		
+	
+	}
+	public function getFormatType() {
+					
+		$this->strFormatType = isset( $this->strFormatType ) && $this->strFormatType 
+			? $this->strFormatType
+			: $this->getElement( $this->arrPostImport, $this->arrElementKey, 'format' );
+
+		return $this->strFormatType;
+		
+	}
+	public function getImportOptionKey() {
+		
+		$this->strImportOptionKey = isset( $this->strImportOptionKey ) && $this->strImportOptionKey 
+			? $this->strImportOptionKey
+			: $this->getElement( $this->arrPostImport, $this->arrElementKey, 'import_option_key' );
+
+		return $this->strImportOptionKey;
+
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_ExportOptions' ) ) :
+class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {
+
+	public function __construct( $arrPostExport, $strClassName ) {
+		
+		// Call the parent constructor.
+		parent::__construct( $arrPostExport );
+		
+		// Properties
+		$this->arrPostExport = $arrPostExport;
+		$this->strClassName = $strClassName;	// will be used in the getTransientIfSet() method.
+		// $this->strPageSlug = $strPageSlug;
+		// $this->strTabSlug = $strTabSlug;
+		
+		// Find the field ID and the element key ( for multiple export buttons )of the pressed submit ( export ) button.
+		$this->strFieldID = $this->getFieldID();
+		$this->arrElementKey = $this->getElementKey( $arrPostExport['submit'], $this->strFieldID );
+		
+		// Set the file name to download and the format type. Also find whether the exporting data is set in transient.
+		$this->strFileName = $this->getElement( $arrPostExport, $this->arrElementKey, 'file_name' );
+		$this->strFormatType = $this->getElement( $arrPostExport, $this->arrElementKey, 'format' );
+		$this->fIsDataSet = $this->getElement( $arrPostExport, $this->arrElementKey, 'transient' );
+	
+	}
+	
+	public function getTransientIfSet( $vData ) {
+		
+		if ( $this->fIsDataSet ) {
+			$strKey = $this->arrElementKey[1];
+			$strTransient = isset( $this->arrElementKey[1] ) ? "{$this->strClassName}_{$this->strFieldID}_{$this->arrElementKey[1]}" : "{$this->strClassName}_{$this->strFieldID}";
+			$tmp = get_transient( md5( $strTransient ) );
+			if ( $tmp !== false ) {
+				$vData = $tmp;
+				delete_transient( md5( $strTransient ) );
+			}
+		}
+		return $vData;
+	}
+	
+	public function getFileName() {
+		return $this->strFileName;
+	}
+	public function getFormat() {
+		return $this->strFormatType;
+	}
+
+	/* e.g.
+	 * <input type="hidden" name="__export[export_sinble][file_name]" value="APF_GettingStarted_20130708.txt">
+	 * <input type="hidden" name="__export[export_sinble][format]" value="json">
+	 * <input id="export_and_import_export_sinble_0" 
+	 *  type="submit" 
+	 *  name="__export[submit][export_sinble]" 
+	 *  value="Export Options">
+	*/
+	public function doExport( $vData, $strFileName=null, $strFormatType=null ) {
+		
+		$strFileName = isset( $strFileName ) ? $strFileName : $this->strFileName;
+		$strFormatType = isset( $strFormatType ) ? $strFormatType : $this->strFormatType;
+							
+		// Do export.
+		header( 'Content-Description: File Transfer' );
+		header( 'Content-Disposition: attachment; filename=' . $strFileName );
+		switch ( strtolower( $strFormatType ) ) {
+			case 'text':	// for plain text.
+				if ( is_array( $vData ) || is_object( $vData ) ) {
+					$oDebug = new AdminPageFramework_Debug;
+					$strData = $oDebug->getArray( $vData );
+					die( $strData );
+				}
+				die( $vData );
+			case 'json':	// for json.
+				die( json_encode( ( array ) $vData ) );
+			case 'array':	// for serialized PHP array.
+			default:	// for anything else, 
+				die( serialize( ( array ) $vData  ));
+		}
+	}
+}
+endif;
+
+ 
+if ( ! class_exists( 'AdminPageFramework_Link' ) ) :
 class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 
 	/*
@@ -1999,212 +2226,9 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 		
 		return array_merge( $arrLinks, $this->oProps->arrPluginTitleLinks );
 	
-	}	
-	
-}
-
-abstract class AdminPageFramework_WPUtilities {
-		
-	/*
-	 * Utility methods which use WordPress functions
-	 */
-	protected function doActions() {	// Parameters: $arrActionHooks, $vArgs...
-		
-		$arrArgs = func_get_args();		
-		$arrActionHooks = $arrArgs[ 0 ];
-		foreach( ( array ) $arrActionHooks as $strActionHook  ) {
-			$arrArgs[ 0 ] = $strActionHook;
-			call_user_func_array( 'do_action' , $arrArgs );
-		}
-
-	}
-	// protected function doAction() {		// Parameters: $strActionHook, $vArgs...
-		
-		// $arrArgs = func_get_args();	
-		// call_user_func_array( 'do_action' , $arrArgs );
-		
-	// }
-	public function addAndDoActions() {	// Parameters: $oCallerObject, $arrActionHooks, $vArgs...
-	
-		$arrArgs = func_get_args();	
-		$oCallerObject = $arrArgs[ 0 ];
-		$arrActionHooks = $arrArgs[ 1 ];
-		foreach( ( array ) $arrActionHooks as $strActionHook ) {
-			$arrArgs[ 1 ] = $strActionHook;
-			call_user_func_array( array( $this, 'addAndDoAction' ) , $arrArgs );			
-		}
-		
-	}
-	public function addAndDoAction() {	// Parameters: $oCallerObject, $strActionHook, $vArgs...
-		
-		$intArgs = func_num_args();
-		$arrArgs = func_get_args();
-		$oCallerObject = $arrArgs[ 0 ];
-		$strActionHook = $arrArgs[ 1 ];
-		add_action( $strActionHook, array( $oCallerObject, $strActionHook ), 10, $intArgs - 2 );
-		unset( $arrArgs[ 0 ] );	// remove the first element, the caller object
-		call_user_func_array( 'do_action' , $arrArgs );
-		
-	}
-	public function addAndApplyFilters() {	// Parameters: $oCallerObject, $arrFilters, $vInput, $vArgs...
-			
-		$arrArgs = func_get_args();	
-		$oCallerObject = $arrArgs[ 0 ];
-		$arrFilters = $arrArgs[ 1 ];
-		$vInput = $arrArgs[ 2 ];
-
-		foreach( ( array ) $arrFilters as $strFilter ) {
-			$arrArgs[ 1 ] = $strFilter;
-			$arrArgs[ 2 ] = $vInput;
-			$vInput = call_user_func_array( array( $this, 'addAndApplyFilter' ) , $arrArgs );						
-		}
-		return $vInput;
-		
-	}
-	public function addAndApplyFilter() {	// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
-
-		$intArgs = func_num_args();
-		$arrArgs = func_get_args();
-		$oCallerObject = $arrArgs[ 0 ];
-		$strFilter = $arrArgs[ 1 ];
-		add_filter( $strFilter, array( $oCallerObject, $strFilter ), 10, $intArgs - 2 );	// this enables to trigger the method named $strFilter and the magic method __call() will be called
-		unset( $arrArgs[ 0 ] );	// remove the first element, the caller object	// array_shift( $arrArgs );							
-		return call_user_func_array( 'apply_filters', $arrArgs );	// $arrArgs: $vInput, $vArgs...
-		
 	}		
-	
-	public function getFilterArrayByPrefix( $strPrefix, $strClassName, $strPageSlug, $strTabSlug, $fReverse=false ) {
-			
-		// This provides an array consisting of filters for the addAndApplyFileters() method.	
-		// The order is page + tab -> page -> class, by default but it can be reversed with the $fReverse parameter value.
-		
-		$arrFilters = array();
-		if ( $strTabSlug && $strPageSlug )
-			$arrFilters[] = "{$strPrefix}{$strPageSlug}_{$strTabSlug}";
-		if ( $strPageSlug )	
-			$arrFilters[] = "{$strPrefix}{$strPageSlug}";
-		$arrFilters[] = "{$strPrefix}{$strClassName}";
-		
-		return $fReverse ? array_reverse( $arrFilters ) : $arrFilters;	
-		
-	}
-	
-	public function goRedirect( $strURL ) {
-		
-		// Redirects to the given URL and exits. Saves one extra line, exit;.
-		if ( ! function_exists('wp_redirect') ) include_once( ABSPATH . WPINC . '/pluggable.php' );
-		wp_redirect( $strURL );
-		exit;		
-		
-	}
-	
-	protected function getScriptData( $strPath, $strType )	{
-	
-		// Returns an array of plugin data from the given path.		
-		// An alternative to get_plugin_data() as some users change the location of the wp-admin directory.
-		$arrData = get_file_data( 
-			$strPath, 
-			array(
-				'strPluginName' => 'Plugin Name',
-				'strPluginURI' => 'Plugin URI',
-				'strThemeURI' => 'Theme URI',
-				'strThemeName' => 'Theme Name',
-				'strVersion' => 'Version',
-				'strDescription' => 'Description',
-				'strAuthor' => 'Author',
-				'strAuthorURI' => 'Author URI',
-				'strTextDomain' => 'Text Domain',
-				'strDomainPath' => 'Domain Path',
-				'strNetwork' => 'Network',
-				// Site Wide Only is deprecated in favour of Network.
-				'_sitewide' => 'Site Wide Only',
-			),
-			$strType	// 'plugin' or 'theme'
-		);				
-		$arrData['strName'] = ( $strType == 'plugin' ) ? $arrData['strPluginName'] : $arrData['strThemeName'];
-		$arrData['strScriptURI'] = ( $strType == 'plugin' ) ? $arrData['strPluginURI'] : $arrData['strThemeURI'];
-		return $arrData;
-		
-	}			
-	
 }
-
-class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
-
-	/*
-	 * Utility methods which do not use WordPress functions
-	 */
-	public function sanitizeSlug( $strSlug ) {	// moved from the main class in 1.0.4, must be public 
-		
-		// Converts non-alphabetic characters to underscore.
-		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff]/', '_', trim( $strSlug ) );
-		
-	}	
-	public function sanitizeString( $strString ) {	// moved from the main class in 1.0.4, must be public
-
-		// Similar to the above SanitizeSlug() except that this allows hyphen.
-		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $strString );
-
-	}	
-	
-	protected function getCorrespondingArrayValue( $vSubject, $strKey, $strDefault='' ) {	
-		
-		// When there are multiple arrays and they have similar index structure but it's not certain,
-		// use this method to retrieve the corresponding key value. If the subject value is not an array, it will return
-		// the string value of the subject value.
-		// This is mainly used by the field array to insert user-defined key values.
-		
-		// If $vSubject is null,
-		if ( ! isset( $vSubject ) ) return $strDefault;	
-			
-		// If $vSubject is not an array, 
-		if ( ! is_array( $vSubject ) ) return ( string ) $vSubject;	// consider it as string.
-		
-		// Consider $vSubject as array.
-		if ( isset( $vSubject[ $strKey ] ) ) return $vSubject[ $strKey ];
-		
-		return $strDefault;
-		
-	}
-
-	protected function getArrayDimension( $array ) {
-		return ( is_array( reset( $array ) ) ) ? $this->getArrayDimension( reset( $array ) ) + 1 : 1;
-	}
-
-	public function uniteArraysRecursive( $arrPrecedence, $arrDefault ) {
-		
-		// Merges two multi-dimensional arrays recursively. The first parameter array takes its precedence.
-		// This is useful to merge default option values.
-		
-		if ( is_null( $arrPrecedence ) ) $arrPrecedence = array();
-		
-		if ( ! is_array( $arrDefault ) || ! is_array( $arrPrecedence ) ) return $arrPrecedence;
-			
-		foreach( $arrDefault as $strKey => $v ) {
-			
-			// If the precedence does not have the key, assign the default's value.
-			if ( ! array_key_exists( $strKey, $arrPrecedence ) || is_null( $arrPrecedence[ $strKey ] ) )
-				$arrPrecedence[ $strKey ] = $v;
-			else {
-				
-				// if the both are arrays, do the recursive process.
-				if ( is_array( $arrPrecedence[ $strKey ] ) && is_array( $v ) ) 
-					$arrPrecedence[ $strKey ] = $this->uniteArraysRecursive( $arrPrecedence[ $strKey ], $v );			
-			
-			}
-		}
-		return $arrPrecedence;		
-	}		
-
-	public function getQueryValueInURLByKey( $strURL, $strQueryKey ) {
-		
-		$arrURL = parse_url( $strURL );
-		parse_str( $arrURL['query'], $arrQuery );		
-		return isset( $arrQuery[ $strQueryKey ] ) ? $arrQuery[ $strQueryKey ] : null;
-		
-	}
-	
-}
+endif;
 
 if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
 class AdminPageFramework_Debug {
