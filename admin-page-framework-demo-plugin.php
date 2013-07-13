@@ -1,6 +1,6 @@
 <?php
 /* 
-	Plugin Name: Admin Page Framework - Getting Started 
+	Plugin Name: Admin Page Framework - Demo
 	Plugin URI: http://en.michaeluno.jp/admin-page-framework
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
@@ -12,7 +12,7 @@
 if ( !class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/classes/admin-page-framework.php' );
     
-class APF_GettingStarted extends AdminPageFramework {
+class APF_Demo extends AdminPageFramework {
 
     public function setUp() {
     
@@ -620,7 +620,7 @@ class APF_GettingStarted extends AdminPageFramework {
 		
 	}
 	
-	public function validation_APF_GettingStarted( $arrInput, $arrOldOptions ) {
+	public function validation_APF_Demo( $arrInput, $arrOldOptions ) {
 		
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
 		if ( isset( $_POST[ $this->oProps->strOptionKey ]['second_page']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
@@ -632,7 +632,7 @@ class APF_GettingStarted extends AdminPageFramework {
 		
 }
 if ( is_admin() )
-	new APF_GettingStarted;
+	new APF_Demo;
 
 	
 class APF_PostType extends AdminPageFramework_PostType {
