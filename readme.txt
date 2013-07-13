@@ -57,65 +57,61 @@ It provides plugin and theme developers with easier means of creating option pag
 == Installation ==
 = Getting Started =
 1. Include **`admin-page-framework.php`** that is located in the **`classes`** folder into your theme or plugin.
-`if ( !class_exists( 'Admin_Page_Framework' ) )
+`if ( !class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/classes/admin-page-framework.php' );`
 	
-1. Extend the Library Class.
-`class APF_GettingStarted extends Admin_Page_Framework {
+2. Extend the Library Class.
+`class APF_GettingStarted extends AdminPageFramework {
 }`
 
-1. Define the SetUp() Method.
-`function SetUp() {
-	$this->SetRootMenu( 'Settings' );               // specifies to which parent menu to belong.
-	$this->AddSubMenu(
-		'My First Setting Page',    // page and menu title
-		'my_first_settings_page' 	// page slug
+3. Define the **setUp()** Method.
+`function setUp() {
+	$this->setRootMenuPage( 'Settings' );               // specifies to which parent menu to belong.
+	$this->addSubMenuPage(
+		'My First Page',    // page and menu title
+		'myfirstpage' 	// page slug
 	); 
 }`
 
-1. Define methods for hooks.
-`function do_my_first_settings_page() {  // do_ + pageslug	
+4. Define methods for hooks.
+`function do_myfirstpage() {  // do_ + pageslug	
 	?>
 	<h3>Say Something</h3>
 	<p>This is my first admin page!</p>
 	<?php
 }`
 
-1. Instantiate the Class.
+5. Instantiate the Class.
 `new APF_GettingStarted;`
 
 = Example Code = 
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
-if ( !class_exists( 'Admin_Page_Framework' ) )
+if ( !class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/classes/admin-page-framework.php' );
-	
-class APF_GettingStarted extends Admin_Page_Framework {
+    
+class APF extends AdminPageFramework {
 
-	function SetUp() {
-	
-		$this->SetRootMenu( 'Settings' );               // specifies to which parent menu to belong.
-		$this->AddSubMenu(
-			'My First Setting Page',    // page and menu title
-			'my_first_settings_page' 	// page slug
-		); 
-							
-	}
-
-	function do_my_first_settings_page() {  // do_ + pageslug
-	
-		?>
-		<h3>Say Something</h3>
-		<p>This is my first admin page!</p>
-		<?php
+    function setUp() {
 		
-	}
+    	$this->setRootMenuPage( 'Settings' );	
+		$this->addSubMenuPage(
+			'My First Page',	// page and menu title
+			'myfirstpage'		// page slug - this will be the option name saved in the database
+		);
 	
-}
-if ( is_admin() )
-	new APF_GettingStarted;
+    }
 
+    function do_myfirstpage() {  // do_ + pageslug
+        ?>
+        <h3>Say Something</h3>
+        <p>This is my first admin page!</p>
+        <?php   
+    }
+    
+}
+new APF;
 // That's it!`
 
 == Frequently asked questions ==
