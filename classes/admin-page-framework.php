@@ -340,10 +340,12 @@ abstract class AdminPageFramework_Pages {
 					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['do_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, true ) );	
 						
 				?>
-				</div><!-- End admin-page-framework-container -->
-			<?php 
-				echo $this->getFormClosingTag(  $strPageSlug, $strTabSlug ); 
 				
+			<?php echo $this->getFormClosingTag( $strPageSlug, $strTabSlug );  ?>
+			
+			</div><!-- End admin-page-framework-container -->
+				
+			<?php	
 				// Apply the foot filters.
 				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['foot_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), '' );	// empty string
 			?>
@@ -1278,7 +1280,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$this->oProps->arrFields = $this->formatFieldArrays( $this->oProps->arrFields );
 				
 		// If there is no section or field to add, do nothing.
-		if ( count( $this->oProps->arrSections ) == 0 || count( $this->oProps->arrFields ) == 0 ) return;
+		if ( 
+			$GLOBALS['pagenow'] != 'options.php'
+			&& ( count( $this->oProps->arrSections ) == 0 || count( $this->oProps->arrFields ) == 0 ) 
+		) return;
 				
 		// Register settings sections 
 		uasort( $this->oProps->arrSections, array( $this->oProps, 'sortByOrder' ) ); 
