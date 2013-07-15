@@ -17,7 +17,6 @@ class APF_Demo extends AdminPageFramework {
     public function setUp() {
     
         // $this->setRootMenuPage( 'My Demo Plugin' );   // specifies to which parent menu to belong.
-        // $this->setRootMenuPageByPageSlug( 'My Demo Plugin' );   // specifies to which parent menu to belong.
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
 		$this->addSubMenuPages(
 			/* 	e.g.
