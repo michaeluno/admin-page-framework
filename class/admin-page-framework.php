@@ -859,6 +859,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			// If the page slug does not match the current loading page, there is no need to register form sections and fields.
 			if ( $GLOBALS['pagenow'] != 'options.php' && ! $strCurrentPageSlug || $strCurrentPageSlug !=  $arrSection['strPageSlug'] ) continue;				
 
+			// If the custom condition is set and it's not true, skip.
+			if ( ! $arrSection['fIf'] ) continue;
+			
 			// If the access level is set and it is not sufficient, skip.
 			$arrSection['strCapability'] = isset( $arrSection['strCapability'] ) ? $arrSection['strCapability'] : $this->oProps->strCapability;
 			if ( ! current_user_can( $arrSection['strCapability'] ) ) continue;	// since 1.0.2.1
@@ -894,6 +897,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			
 			// Check the mandatory keys' values are set.
 			if ( ! isset( $arrField['strFieldID'], $arrField['strSectionID'], $arrField['strType'] ) ) continue;	// these keys are necessary.
+			
+			// If the custom condition is set and it's not true, skip.
+			if ( ! $arrField['fIf'] ) continue;			
 			
 			// If the access level is not sufficient, skip.
 			$arrField['strCapability'] = isset( $arrField['strCapability'] ) ? $arrField['strCapability'] : $this->oProps->strCapability;

@@ -38,7 +38,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * Categoris (Custom Checkboxes)
 
 = Necessary Files =
-* **`admin-page-framework.php`** is in the classes folder.
+* **`admin-page-framework.php`** is in the *class* folder.
 
 = Documentation =
 * [Getting Started](http://en.michaeluno.jp/admin-page-framework/get-started/ "Get Started")
@@ -58,7 +58,7 @@ It provides plugin and theme developers with easier means of creating option pag
 = Getting Started =
 1. Include **`admin-page-framework.php`** that is located in the **`classes`** folder into your theme or plugin.
 `if ( !class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/classes/admin-page-framework.php' );`
+    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );`
 	
 2. Extend the Library Class.
 `class APF_GettingStarted extends AdminPageFramework {
@@ -88,8 +88,8 @@ It provides plugin and theme developers with easier means of creating option pag
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
-if ( !class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/classes/admin-page-framework.php' );
+if ( ! class_exists( 'AdminPageFramework' ) )
+    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
     
 class APF extends AdminPageFramework {
 

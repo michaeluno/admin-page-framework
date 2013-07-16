@@ -9,8 +9,8 @@
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */ 
 
-if ( !class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/classes/admin-page-framework.php' );
+if ( ! class_exists( 'AdminPageFramework' ) )
+    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
     
 class APF_Demo extends AdminPageFramework {
 
