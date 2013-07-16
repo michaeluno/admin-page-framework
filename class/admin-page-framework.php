@@ -3065,7 +3065,7 @@ abstract class AdminPageFramework_PostType {
 	protected $fEnableAutoSave = true;
 	protected $fEnableAuthorTableFileter = false;
 	
-	public function __construct( $strPostType, $arrArgs ) {
+	public function __construct( $strPostType, $arrArgs=array() ) {
 		
 		$this->oUtil = new AdminPageFramework_Utilities;
 		
