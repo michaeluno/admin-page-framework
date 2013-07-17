@@ -3726,14 +3726,14 @@ class AdminPageFramework_MetaBox {
 		if ( in_array( $_POST['post_type'], $this->arrPostTypes )   
 			&& ( ( ! current_user_can( $this->strCapability, $intPostID ) ) || ( ! current_user_can( $this->strCapability, $intPostID ) ) )
 		) return;
-		
+
 		// Loop through fields and save the data.
 		foreach ( $this->arrFields as $arrField ) {
 			
 			$strOldValue = get_post_meta( $intPostID, $arrField['strFieldID'], true );
 			$strNewValue = isset( $_POST[ $arrField['strFieldID'] ] ) ? $_POST[ $arrField['strFieldID'] ] : null;
 			
-			if ( $strNewValue && $strNewValue != $strOldValue ) {
+			if ( ! is_null( $strNewValue ) && $strNewValue != $strOldValue ) {
 				update_post_meta( $intPostID, $arrField['strFieldID'], $strNewValue );
 				continue;
 			} 
