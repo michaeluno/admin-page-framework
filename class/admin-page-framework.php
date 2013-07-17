@@ -457,13 +457,27 @@ abstract class AdminPageFramework_Pages {
 		
 		foreach( $this->oProps->arrPages as $arrSubPage ) {
 			
-			// Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
-			$strClassActive = ( $strCurrentPageSlug == $arrSubPage['strPageSlug'] ) ? 'nav-tab-active' : '';		
-			$arrOutput[] = "<a class='nav-tab {$strClassActive}' "
-				. "href='" . add_query_arg( array( 'page' => $arrSubPage['strPageSlug'], 'tab' => false ) ) . "'"	//?page={$arrSubPage['strPageSlug']}"
-				. "'>"
-				. $arrSubPage['strPageTitle']
-				. "</a>";	
+			// For added sub-pages
+			if ( isset( $arrSubPage['strPageSlug'] ) && $arrSubPage['fPageHeadingTab'] ) {
+				// Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
+				$strClassActive =  $strCurrentPageSlug == $arrSubPage['strPageSlug']  ? 'nav-tab-active' : '';		
+				$arrOutput[] = "<a class='nav-tab {$strClassActive}' "
+					. "href='" . add_query_arg( array( 'page' => $arrSubPage['strPageSlug'], 'tab' => false ) ) . "'"	//?page={$arrSubPage['strPageSlug']}"
+					. "'>"
+					. $arrSubPage['strPageTitle']
+					. "</a>";	
+			}
+			
+			// For added menu links
+			if ( 
+				isset( $arrSubPage['strURL'] )
+				&& $arrSubPage['strType'] == 'link' 
+				&& $arrSubPage['fPageHeadingTab']
+			) 
+				$arrOutput[] = "<a class='nav-tab link' "
+					. "href='{$arrSubPage['strURL']}'>"
+					. $arrSubPage['strMenuTitle']
+					. "</a>";					
 			
 		}
 		return "<div class='admin-page-framework-page-heading-tab'><{$strTag} class='nav-tab-wrapper'>" 
@@ -629,7 +643,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		'strPageSlug' => null, 
 		'strScreenIcon' => null,
 		'strCapability' => null, 
-		'numOrder' => null 		
+		'numOrder' => null,
+		'fPageHeadingTab' => true,	// if this is set false, the won't be displayed in the page heading tab.
 	);
 	
 	/*
@@ -669,21 +684,24 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 				$arrSubMenuPage['strPageSlug'],
 				$arrSubMenuPage['strScreenIcon'],
 				$arrSubMenuPage['strCapability'],
-				$arrSubMenuPage['numOrder']			
+				$arrSubMenuPage['numOrder'],
+				$arrSubMenuPage['fPageHeadingTab']
 			);				
 		}
 	}
-	protected function addSubMenuPage( $strPageTitle, $strPageSlug, $strScreenIcon=null, $strCapability=null, $numOrder=null ) {
+	protected function addSubMenuPage( $strPageTitle, $strPageSlug, $strScreenIcon=null, $strCapability=null, $numOrder=null, $fPageHeadingTab=true ) {
 		
 		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
 		$intCount = count( $this->oProps->arrPages );
 		$this->oProps->arrPages[ $strPageSlug ] = array(  
 			'strPageTitle'		=> $strPageTitle,
 			'strPageSlug'		=> $strPageSlug,
+			'strType'			=> 'page',	// this is used to compare with the link type.
 			'strPathIcon32x32'	=> file_exists( $strScreenIcon ) ? $strScreenIcon : null,
 			'strScreenIconID'	=> in_array( $strScreenIcon, self::$arrScreenIconIDs ) ? $strScreenIcon : null,
 			'strCapability'		=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'			=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
+			'fPageHeadingTab'	=> $fPageHeadingTab,
 		);	
 			
 	}
@@ -723,24 +741,38 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		);
 
 	}
-	private function registerSubMenuPage( $strTitle, $strPageSlug, $strCapability=null ) {
-		
+	private function registerSubMenu( $arrArgs ) {
+	
+		$strType = $arrArgs['strType'];	// page or link
+		$strTitle = $strType == 'page' ? $arrArgs['strPageTitle'] : $arrArgs['strMenuTitle'];
+		$strCapability = $arrArgs['strCapability'];
+			
 		$strCapability = isset( $strCapability ) ? $strCapability : $this->strCapability;
 		if ( ! current_user_can( $strCapability ) ) return;		
 		
 		// Add the sub-page to the sub-menu
 		// $this->oUtil should be instantiated in the extended object constructor.
-		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );	// - => _, . => _
+
 		
 		$arrResult = array();
-		$arrResult[ $strPageSlug ] = add_submenu_page( 
-			$this->oProps->arrRootMenu['strPageSlug']	// the root(parent) page slug
-			, $strTitle									// page_title
-			, $strTitle									// menu_title
-			, $strCapability				 			// strCapability
-			, $strPageSlug								// menu_slug
-			, array( $this, $strPageSlug ) 				// triggers the __call() magic method with the method name of this slug.
-		);			
+		$strRootPageSlug = $this->oProps->arrRootMenu['strPageSlug'];
+		
+		if ( $strType == 'page' )
+			$arrResult[ $strPageSlug ] = add_submenu_page( 
+				$strRootPageSlug,						// the root(parent) page slug
+				$strTitle,								// page_title
+				$strTitle,								// menu_title
+				$strCapability,				 			// strCapability
+				$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] ),								// menu_slug
+				array( $this, $strPageSlug ) 				// triggers the __call() magic method with the method name of this slug.
+			);			
+		else if ( $strType == 'link' )
+			$GLOBALS['submenu'][ $strRootPageSlug ][] = array ( 
+				$strTitle, 
+				$strCapability, 
+				$arrArgs['strURL'],
+			);	
+			
 		return $arrResult;	// maybe useful to debug.
 
 	}
@@ -766,18 +798,17 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		
 		// Set the default page, the first element.
 		foreach ( $this->oProps->arrPages as $arrPage ) {
+			
+			if ( ! isset( $arrPage['strPageSlug'] ) ) continue;
 			$this->oProps->strDefaultPageSlug = $arrPage['strPageSlug'];
 			break;
+			
 		}
 		
 		// Register them.
 		foreach ( $this->oProps->arrPages as $arrSubMenuItem ) 
-			$this->registerSubMenuPage( 
-				$arrSubMenuItem['strPageTitle'], 
-				$arrSubMenuItem['strPageSlug'],
-				$arrSubMenuItem['strCapability']
-			);			
-		
+			$this->registerSubMenu( $arrSubMenuItem );
+			
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProps->arrRootMenu['fCreateRoot'] ) 
 			remove_submenu_page( $this->oProps->arrRootMenu['strPageSlug'], $this->oProps->arrRootMenu['strPageSlug'] );
@@ -1574,6 +1605,40 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	/*
 	 *	Front-End methods - the user may call it but it should not necessarily be customized in the extended class. 
 	 * */
+	protected function addSubMenuItems() {
+		foreach ( func_get_args() as $arrSubMenuItem ) 
+			$this->addSubMenuItem( $arrSubMenuItem );		
+	}
+	protected function addSubMenuItem( $arrSubMenuItem ) {
+		if ( isset( $arrSubMenuItem['strURL'] ) ) {
+			$arrSubMenuLink = $arrSubMenuItem + $this->oLink->arrStructure_SubMenuLink;
+			$this->oLink->addSubMenuLink(
+				$arrSubMenuLink['strMenuTitle'],
+				$arrSubMenuLink['strURL'],
+				$arrSubMenuLink['strCapability'],
+				$arrSubMenuLink['numOrder'],
+				$arrSubMenuLink['fPageHeadingTab']
+			);			
+		}
+		else { // if ( $arrSubMenuItem['strType'] == 'page' ) {
+			$arrSubMenuPage = $arrSubMenuItem + self::$arrStructure_SubMenuPage;	// avoid undefined index warnings.
+			$this->addSubMenuPage(
+				$arrSubMenuPage['strPageTitle'],
+				$arrSubMenuPage['strPageSlug'],
+				$arrSubMenuPage['strScreenIcon'],
+				$arrSubMenuPage['strCapability'],
+				$arrSubMenuPage['numOrder'],	
+				$arrSubMenuPage['fPageHeadingTab']
+			);				
+		}
+	}
+	// protected function addSubMenuLinks() {
+		// call_user_func_array( array( $this->oLink, 'addSubMenuLinks' ), func_get_args() );
+	// }
+	protected function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fPageHeadingTab=true ) {
+		$this->oLink->addSubMenuLink( $strMenuTitle, $strURL, $strCapability, $numOrder, $fPageHeadingTab );
+	}
+	
 	public function addLinkToPluginDescription( $vLinks ) {
 		
 		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
@@ -1593,6 +1658,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	public function setCapability( $strCapability ) {
 		$this->oProps->strCapability = $strCapability;	
 	}
+	
+	/*
+	 * Back end methods
+	 * */
 	
 	/* 
 	 * Callback methods
@@ -2115,6 +2184,44 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 	private function getCallerPluginBaseName() {
 		return plugin_basename( $this->oProps->arrScriptInfo['strPath'] );
 	}		
+	
+	/*
+	 * Methods for adding menu links.
+	 * */
+	public $arrStructure_SubMenuLink = array(		// public as this is accessed from the extended class
+		'strMenuTitle' => null,
+		'strURL' => null,
+		'strCapability' => null,
+		'numOrder' => null,
+		'strType' => 'link',
+		'fPageHeadingTab' => true,
+	
+	);
+	// public function addSubMenuLinks() {
+		// foreach ( func_get_args() as $arrSubMenuLink ) {
+			// $arrSubMenuLink = $arrSubMenuLink + self::$arrStructure_SubMenuLink;	// avoid undefined index warnings.
+			// $this->addSubMenuLink(
+				// $arrSubMenuLink['strMenuTitle'],
+				// $arrSubMenuLink['strURL'],				
+				// $arrSubMenuLink['strCapability'],
+				// $arrSubMenuLink['numOrder']			
+			// );				
+		// }
+	// }
+	public function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fPageHeadingTab=true ) {
+		
+		$intCount = count( $this->oProps->arrPages );
+		$this->oProps->arrPages[ $strURL ] = array(  
+			'strMenuTitle'		=> $strMenuTitle,
+			'strPageTitle'		=> $strMenuTitle,	// used for the page heading tabs.
+			'strURL'			=> $strURL,
+			'strType'			=> 'link',	// this is used to compare with the 'page' type.
+			'strCapability'		=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
+			'numOrder'			=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
+			'fPageHeadingTab'	=> $fPageHeadingTab,
+		);	
+			
+	}
 	
 	/*
 	 * Methods for getting script info.
@@ -3332,11 +3439,15 @@ class AdminPageFramework_MetaBox {
 				add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );		
 			// }
 		}
+		
+		$this->setUp();
 	}
 	
 	/*
-	 * Front-end methods - user may use it/
+	 * Front-end methods - user may use it.
 	 * */
+	protected function setUp() {}
+	
 	public function setFieldArray( $arrFields ) {
 		$this->arrFields = $arrFields;
 	}
@@ -3511,7 +3622,15 @@ class AdminPageFramework_MetaBox {
 			$arrField['strCapability'] = isset( $arrField['strCapability'] ) ? $arrField['strCapability'] : $this->strCapability;
 			if ( ! current_user_can( $arrField['strCapability'] ) ) continue; 			
 			
-			// begin a table row with
+			// Begin a table row. 
+			
+			// If it's a hidden input type, do now draw a table row
+			if ( $arrField['strType'] == 'hidden' ) {
+				$strOut .= "<tr><td style='height: 0; padding: 0; margin: 0; line-height: 0;'>"
+					. $this->getField( $arrField )
+					. "</td></tr>";
+				continue;
+			}
 			$strOut .= "<tr>";
 			$strOut .= "<th><label for='{$arrField['strFieldID']}'>"
 					. "<a id='{$arrField['strFieldID']}'></a>"
