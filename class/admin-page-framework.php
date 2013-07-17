@@ -2459,31 +2459,61 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		if ( isset( $arrField['vValue'] ) ) return $arrField['vValue'];
 		
 		// Check if a previously saved option value exists or not.
-		if ( 
-			isset( $arrField['strPageSlug'], $arrField['strSectionID'], $arrField['strFieldID'] )	// the meta box class does not use this
-			&& isset( $arrOptions[ $arrField['strPageSlug'] ][ $arrField['strSectionID'] ][ $arrField['strFieldID'] ] ) 
-			&& ! empty( $arrOptions[ $arrField['strPageSlug'] ][ $arrField['strSectionID'] ][ $arrField['strFieldID'] ] )
-		) {
+		//  for regular setting pages. Meta boxes do not use these keys.
+		if ( isset( $arrField['strPageSlug'], $arrField['strSectionID'] ) ) {			
+		
+			$vValue = $this->getInputFieldValueFromOptionTable( $arrField, $arrOptions );
+			if ( $vValue != '' ) return $vValue;
 			
-			$vValue = $arrOptions[ $arrField['strPageSlug'] ][ $arrField['strSectionID'] ][ $arrField['strFieldID'] ];
-			
-			// Check if it's not an array return it.
-			if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
-			
-			// If it's an array, check if there is an empty value in each element.
-			$vDefault = isset( $arrField['vDefault'] ) ? $arrField['vDefault'] : array(); 
-			foreach ( $vValue as $strKey => &$strElement ) 
-				if ( empty( $strElement ) )
-					$strElement = $this->getCorrespondingArrayValue( $vDefault, $strKey, '' );
-			
-			return $vValue;
-			
-		}		
+		} 
+		// For meta boxes
+		else if ( isset( $_GET['action'], $_GET['post'] ) ) {
 
+			$vValue = $this->getInputFieldValueFromPostTable( $_GET['post'], $arrField );
+			if ( $vValue != '' ) return $vValue;
+			
+		}
+		
 		// If the default value is set,
 		if ( isset( $arrField['vDefault'] ) ) return $arrField['vDefault'];
 		
-	}		
+	}	
+	private function getInputFieldValueFromOptionTable( &$arrField, &$arrOptions ) {
+		
+		if ( ! isset( $arrOptions[ $arrField['strPageSlug'] ][ $arrField['strSectionID'] ][ $arrField['strFieldID'] ] ) )
+			return;
+						
+		$vValue = $arrOptions[ $arrField['strPageSlug'] ][ $arrField['strSectionID'] ][ $arrField['strFieldID'] ];
+		
+		// Check if it's not an array return it.
+		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
+		
+		// If it's an array, check if there is an empty value in each element.
+		$vDefault = isset( $arrField['vDefault'] ) ? $arrField['vDefault'] : array(); 
+		foreach ( $vValue as $strKey => &$strElement ) 
+			if ( $strElement == '' )
+				$strElement = $this->getCorrespondingArrayValue( $vDefault, $strKey, '' );
+		
+		return $vValue;
+			
+		
+	}	
+	private function getInputFieldValueFromPostTable( $intPostID, &$arrField ) {
+		
+		$vValue = get_post_meta( $intPostID, $arrField['strFieldID'], true );
+		
+		// Check if it's not an array return it.
+		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
+		
+		// If it's an array, check if there is an empty value in each element.
+		$vDefault = isset( $arrField['vDefault'] ) ? $arrField['vDefault'] : array(); 
+		foreach ( $vValue as $strKey => &$strElement ) 
+			if ( $strElement == '' )
+				$strElement = $this->getCorrespondingArrayValue( $vDefault, $strKey, '' );
+		
+		return $vValue;
+		
+	}
 	private function getInputFieldValueFromLabel( $arrField, $arrOptions ) {	
 
 		// This method is similar to the above getInputFieldValue() but this does not check the stored option value.
@@ -3406,6 +3436,7 @@ class AdminPageFramework_MetaBox {
 		'vDefault'			=> null,	// allows to set default values.
 		'strName'			=> null,	// allows to set custom field name
 		'vLabel'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
+		'fIf'				=> true,
 	);
 	protected $strPrefixStart = 'start_';
 	
@@ -3466,6 +3497,9 @@ class AdminPageFramework_MetaBox {
 			
 			// Check the mandatory keys' values are set.
 			if ( ! isset( $arrField['strFieldID'], $arrField['strType'] ) ) continue;	// these keys are necessary.
+							
+			// If a custom condition is set and it's not true, skip.
+			if ( ! $arrField['fIf'] ) continue;
 								
 			// If it's the image type field, extra jQuery scripts need to be loaded.
 			if ( $arrField['strType'] == 'image' ) $this->addImageFieldScript( $arrField );
@@ -3690,7 +3724,7 @@ class AdminPageFramework_MetaBox {
 			
 		// Check permissions
 		if ( in_array( $_POST['post_type'], $this->arrPostTypes )   
-			&& ( ( ! current_user_can( 'edit_page', $intPostID ) ) || ( ! current_user_can( 'edit_post', $intPostID ) ) )
+			&& ( ( ! current_user_can( $this->strCapability, $intPostID ) ) || ( ! current_user_can( $this->strCapability, $intPostID ) ) )
 		) return;
 		
 		// Loop through fields and save the data.
