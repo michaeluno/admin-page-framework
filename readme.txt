@@ -131,6 +131,7 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 == Changelog ==
 
 = 1.1.0 2013/07/13 =
+* Added: the *addSubMenuItems()* and *addSubMenuItem()* methods that enables to add not only sub menu pages but also external links.
 * Added: the ability to list the terms of specified taxonomy with checkbox by taxonomy slug.
 * Changed: ( *Breaking Change* ) the *category* field type to *taxonomy* field type.
 * Fixed: a bug that adding sub pages to an existing custom post type page caused the links of in-page tabs to have the wrong urls.
