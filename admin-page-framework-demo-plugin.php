@@ -18,13 +18,20 @@ class APF_Demo extends AdminPageFramework {
     
         // $this->setRootMenuPage( 'My Demo Plugin' );   // specifies to which parent menu to belong.
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
-		$this->addSubMenuPages(
-			/* 	e.g.
+		$this->addSubMenuItems(
+			/* 	
+			 * for sub-menu pages, e.g.
 			 * 	'strPageTitle' => 'Your Page Title',
 				'strPageSlug'] => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
 				'strScreenIcon' => 'edit',
 				'strCapability' => 'manage-options',
 				'numOrder' => 10,
+				
+			 * for sub-menu links, e.g.
+				'strType' => 'link',
+				'strMenuTitle' => 'Google',
+				'strURL' => 'http://www.google.com',
+				
 			*/
 			array(
 				'strPageTitle' => 'Various Form Fields',
@@ -41,7 +48,13 @@ class APF_Demo extends AdminPageFramework {
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
 				*/				
-			)		
+			),
+			array(
+				'strType' => 'link',
+				'strMenuTitle' => 'Google',
+				'strURL' => 'http://www.google.com',	
+				'fPageHeadingTab' => false,	// this removes the title from the page heading tabs.
+			)
 		);
 				
 		$this->addInPageTabs(
@@ -524,7 +537,7 @@ class APF_Demo extends AdminPageFramework {
 		
 		submit_button();
 		
-		// echo $this->oDebug->getArray( $GLOBALS['submenu'] );
+		echo $this->oDebug->getArray( $GLOBALS['submenu'] );
 		// echo $this->oDebug->getArray( get_taxonomies( '', 'names' ) );
 		// echo $this->oDebug->getArray( get_taxonomies( '', 'objects' ) );
 		
