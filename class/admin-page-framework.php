@@ -3198,7 +3198,7 @@ abstract class AdminPageFramework_PostType {
 	
 	// Prefixes
 	protected $strPrefix_Start = 'start_';
-	protected $strPrefix_SetCell = 'set_cell_';
+	protected $strPrefix_Cell = 'cell_';
 	
 	// Containers
 	protected $arrTaxonomies;		// stores the registering taxonomy info.
@@ -3420,9 +3420,11 @@ abstract class AdminPageFramework_PostType {
 	
 	public function setColumnCell( $strColumnTitle, $intPostID ) { 
 	
-		foreach ( $this->arrColumnHeaders as $strColumnHeader => $strColumnHeaderTranslated ) 
-			if ( $strColumnHeader == $strColumnTitle ) // set_cell_{post type}_{column key}
-				$this->oUtil->addAndDoAction( $this, "{$this->strPrefix_SetCell}{$this->strPostType}_{$strColumnTitle}", $intPostID );
+		// foreach ( $this->arrColumnHeaders as $strColumnHeader => $strColumnHeaderTranslated ) 
+			// if ( $strColumnHeader == $strColumnTitle ) 
+			
+		// cell_{post type}_{custom column key}
+		echo $this->oUtil->addAndApplyFilter( $this, "{$this->strPrefix_Cell}{$this->strPostType}_{$strColumnTitle}", $intPostID );
 				  
 	}
 	
@@ -3430,7 +3432,7 @@ abstract class AdminPageFramework_PostType {
 	 * Magic method - this prevents PHP's not-a-valid-callback errors.
 	*/
 	public function __call( $strMethodName, $arrArgs=null ) {	
-		if ( substr( $strMethodName, 0, strlen( $this->strPrefix_SetCell ) )	== $this->strPrefix_SetCell ) return;
+		if ( substr( $strMethodName, 0, strlen( $this->strPrefix_Cell ) )	== $this->strPrefix_Cell ) return;
 	}
 	
 }
