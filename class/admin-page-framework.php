@@ -212,6 +212,20 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 		return isset( $arrQuery[ $strQueryKey ] ) ? $arrQuery[ $strQueryKey ] : null;
 		
 	}
+
+	public function fixNumber( $numToFix, $numDefault, $numMin="", $numMax="" ) {
+	
+		// Checks if the passed value is a number and set it to the default if not.
+		// This is useful for form data validation. If it is a number and exceeds the set maximum number, 
+		// it sets it to the maximum value. If it is a number and is below the minimum number, it sets to the minimum value.
+		// Set a blank value for no limit.
+		
+		if ( ! is_numeric( trim( $numToFix ) ) ) return $numDefault;
+		if ( $numMin != "" && $numToFix < $numMin) return $numMin;
+		if ( $numMax != "" && $numToFix > $numMax ) return $numMax;
+		return $numToFix;
+		
+	}		
 	
 }
 endif;
@@ -3222,18 +3236,21 @@ abstract class AdminPageFramework_PostType {
 		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
 		add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
 		
-		if ( $this->strPostType != '' ) {			
+		if ( $this->strPostType != '' && is_admin() ) {			
+		
+			// For table columns
 			add_filter( "manage_{$this->strPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
 			add_filter( "manage_edit-{$this->strPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
 			add_action( "manage_{$this->strPostType}_posts_custom_column", array( $this, 'setColumnCell' ), 10, 2 );
+			
+			// For filters
 			add_action( 'restrict_manage_posts', array( $this, 'addAuthorTableFilter' ) );
 			add_action( 'restrict_manage_posts', array( $this, 'addTaxonomyTableFilter' ) );
 			add_filter( 'parse_query', array( $this, 'setTableFilterQuery' ) );
 		}
 	
 		$this->oUtil->addAndDoAction( $this, "{$this->strPrefix_Start}{$this->strClassName}" );
-		$this->setUp();
-		// add_action( 'plugins_loaded', array( $this, 'setUp' ) );
+		$this->setUp();	// add_action( 'plugins_loaded', array( $this, 'setUp' ) );
 		
 	}
 	
@@ -3404,9 +3421,8 @@ abstract class AdminPageFramework_PostType {
 	public function setColumnCell( $strColumnTitle, $intPostID ) { 
 	
 		foreach ( $this->arrColumnHeaders as $strColumnHeader => $strColumnHeaderTranslated ) 
-			if ( $strColumnHeader == $strColumnTitle ) 
+			if ( $strColumnHeader == $strColumnTitle ) // set_cell_{post type}_{column key}
 				$this->oUtil->addAndDoAction( $this, "{$this->strPrefix_SetCell}{$this->strPostType}_{$strColumnTitle}", $intPostID );
-				// $this->addAndDoAction( "{$this->strPrefix_SetCell}{$this->strPostType}_{$strColumnTitle}", $intPostID );
 				  
 	}
 	
@@ -3727,14 +3743,20 @@ class AdminPageFramework_MetaBox {
 			&& ( ( ! current_user_can( $this->strCapability, $intPostID ) ) || ( ! current_user_can( $this->strCapability, $intPostID ) ) )
 		) return;
 
+		// Compose an array consisting of the submitted registered field values.
+		$arrInput = array();
+		foreach( $this->arrFields as $arrField ) 
+			$arrInput[ $arrField['strFieldID'] ] = isset( $_POST[ $arrField['strFieldID'] ] ) ? $_POST[ $arrField['strFieldID'] ] : null;
+			
+		// Apply filters to the array of the submitted values.
+		$arrInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->strClassName}", $arrInput );
+		
 		// Loop through fields and save the data.
-		foreach ( $this->arrFields as $arrField ) {
+		foreach ( $arrInput as $strFieldID => $vValue ) {
 			
-			$strOldValue = get_post_meta( $intPostID, $arrField['strFieldID'], true );
-			$strNewValue = isset( $_POST[ $arrField['strFieldID'] ] ) ? $_POST[ $arrField['strFieldID'] ] : null;
-			
-			if ( ! is_null( $strNewValue ) && $strNewValue != $strOldValue ) {
-				update_post_meta( $intPostID, $arrField['strFieldID'], $strNewValue );
+			$strOldValue = get_post_meta( $intPostID, $strFieldID, true );			
+			if ( ! is_null( $vValue ) && $vValue != $strOldValue ) {
+				update_post_meta( $intPostID, $strFieldID, $vValue );
 				continue;
 			} 
 			// if ( '' == $strNewValue && $strOldValue ) 
@@ -3760,9 +3782,13 @@ class AdminPageFramework_MetaBox {
 		if ( substr( $strMethodName, 0, strlen( "script_{$this->strClassName}" ) ) == "script_{$this->strClassName}" ) 
 			return $arrArgs[ 0 ];		
 	
-		// the script_ + class name	filter.
+		// the style_ + class name	filter.
 		if ( substr( $strMethodName, 0, strlen( "style_{$this->strClassName}" ) ) == "style_{$this->strClassName}" ) 
 			return $arrArgs[ 0 ];		
+
+		// the validation_ + class name	filter.
+		if ( substr( $strMethodName, 0, strlen( "validation_{$this->strClassName}" ) ) == "validation_{$this->strClassName}" )
+			return $arrArgs[ 0 ];				
 			
 	}
 }
