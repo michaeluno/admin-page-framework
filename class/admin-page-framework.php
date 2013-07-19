@@ -2241,7 +2241,8 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-
+		
+		// For the plugin listing page
 		if ( $this->arrScriptInfo['strType'] == 'plugin' )
 			add_filter( 
 				'plugin_action_links_' . plugin_basename( $this->arrScriptInfo['strPath'] ),
@@ -2249,11 +2250,22 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 				20 	// set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
 			);	
 		
+		// For post type posts listing table page ( edit.php )
+		add_action( 'get_edit_post_link', array( $this, 'addPostTypeQueryInEditPostLink' ), 10, 3 );
+		
 	}
 	
 	/*
 	 * Callback methods
 	 */ 
+	public function addPostTypeQueryInEditPostLink( $strURL, $intPostID=null, $strContext=null ) {
+		
+		// This adds the post_type query key and value in the link url so that in the linked page, the framework will determine the post type
+		// and can embed footer links automatically.
+		// e.g. http://.../wp-admin/post.php?post=180&action=edit -> http://.../wp-admin/post.php?post=180&action=edit&post_type=[...]
+		return add_query_arg( array( 'post' => $intPostID, 'action' => 'edit', 'post_type' => $this->strPostTypeSlug ), $strURL );
+	
+	}	
 	public function addSettingsLinkInPluginListingPage( $arrLinks ) {
 		
 		// http://.../wp-admin/edit.php?post_type=[...]
