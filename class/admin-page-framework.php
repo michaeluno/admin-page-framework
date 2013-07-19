@@ -302,6 +302,9 @@ abstract class AdminPageFramework_Pages {
 	/*
 	 * Front end methods - users will use these methods in their class definitions
 	 * */
+	protected function showPageTitle( $fShowPageTitle=true ) {
+		$this->oProps->fShowPageTitle = $fShowPageTitle;
+	}	 
 	protected function showPageHeadingTabs( $fShowPageHeadingTabs=true ) {
 		$this->oProps->fShowPageHeadingTabs = $fShowPageHeadingTabs;
 	}
@@ -465,7 +468,10 @@ abstract class AdminPageFramework_Pages {
 	
 	private function getPageHeadingTabs( $strCurrentPageSlug, $strTag='h2', $arrOutput=array() ) {
 		
-		// If it's disabled, just return the title.
+		// If the page title is disabled, return an empty string.
+		if ( ! $this->oProps->fShowPageTitle ) return "";
+		
+		// If the page heading tab visibility is disabled, return the title.
 		if ( ! $this->oProps->fShowPageHeadingTabs ) 
 			return "<{$strTag}>" . $this->oProps->arrPages[ $strCurrentPageSlug ]['strPageTitle'] . "</{$strTag}>";		
 		
@@ -1811,6 +1817,7 @@ class AdminPageFramework_Properties {
 	public $fEnableForm = false;			// Decides whether the setting form tag is rendered or not.	This will be enabled when a settings section and a field is added.
 	
 	// Flags
+	public $fShowPageTitle = true;		// indicates whether the page title should be displayed.
 	public $fShowPageHeadingTabs = true;	// indicates whether the page heading tabs should be displayed.
 	
 	public function __construct( $strClassName, $strOptionKey, $strCapability='manage_options' ) {
