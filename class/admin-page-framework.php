@@ -2165,13 +2165,8 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 }
 endif;
 
- 
-if ( ! class_exists( 'AdminPageFramework_Link' ) ) :
-class AdminPageFramework_Link extends AdminPageFramework_Utilities {
-
-	/*
-	 * Embeds links in the footer and plugin's listing table etc.
-	 */
+if ( ! class_exists( 'AdminPageFramework_LinkBase' ) ) :
+abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities {
 	
 	private static $arrStructure_CallerInfo = array(
 		'strPath'			=> null,
@@ -2182,12 +2177,135 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 		'strScriptURI'		=> null,
 		'strAuthorURI'		=> null,
 		'strAuthor'			=> null,
-	);
+	);	
+	/*
+	 * Methods for getting script info.
+	 */ 
+	protected function getCallerInfo( $strCallerPath=null ) {
+		
+		// Attempts to retrieve the caller script information whether it's a theme or plugin or something else.
+		// The information can be used to embed into the footer etc.
+		
+		$arrCallerInfo = self::$arrStructure_CallerInfo;
+		$arrCallerInfo['strPath'] = $strCallerPath;
+		$arrCallerInfo['strType'] = $this->getCallerType( $arrCallerInfo['strPath'] );
+
+		if ( $arrCallerInfo['strType'] == 'unknown' ) return $arrCallerInfo;
+		
+		if ( $arrCallerInfo['strType'] == 'plugin' ) 
+			return $this->getScriptData( $arrCallerInfo['strPath'], $arrCallerInfo['strType'] ) + $arrCallerInfo;
+			
+		if ( $arrCallerInfo['strType'] == 'theme' ) {
+			$oTheme = wp_get_theme();	// stores the theme info object
+			return array(
+				'strName'			=> $oTheme->Name,
+				'strVersion' 		=> $oTheme->Version,
+				'strThemeURI'		=> $oTheme->get( 'ThemeURI' ),
+				'strScriptURI'		=> $oTheme->get( 'ThemeURI' ),
+				'strAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
+				'strAuthor'			=> $oTheme->get( 'Author' ),				
+			) + $arrCallerInfo;	
+		}
+	}
+	protected function getCallerType( $strScriptPath ) {	// since 1.0.2.2
+
+		// Determines what kind of script this is, theme, plugin or something else from the given path.
+		// Returns either 'theme', 'plugin', or 'unknown'
+		
+		if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $strScriptPath, $m ) ) return 'theme';
+		if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $strScriptPath, $m ) ) return 'plugin';
+		return 'unknown';	
+	
+	}
+	protected function getCallerPath() {
+
+		foreach( debug_backtrace() as $arrDebugInfo )  {			
+			if ( $arrDebugInfo['file'] == __FILE__ ) continue;
+			return $arrDebugInfo['file'];	// return the first found item.
+		}
+	}	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
+class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
+	
+	public function __construct( $strPostTypeSlug, $strCallerPath=null ) {
+		
+		if ( ! is_admin() ) return;
+		
+		$this->strPostTypeSlug = $strPostTypeSlug;
+		$this->strCallerPath = file_exists( $strCallerPath ) ? $strCallerPath : $this->getCallerPath();
+		$this->arrScriptInfo = $this->getCallerInfo( $this->strCallerPath ); 
+				
+		// Add script info into the footer 
+		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
+		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
+
+		if ( $this->arrScriptInfo['strType'] == 'plugin' )
+			add_filter( 
+				'plugin_action_links_' . plugin_basename( $this->arrScriptInfo['strPath'] ),
+				array( $this, 'addSettingsLinkInPluginListingPage' ), 
+				20 	// set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
+			);	
+		
+	}
+	
+	/*
+	 * Callback methods
+	 */ 
+	public function addSettingsLinkInPluginListingPage( $arrLinks ) {
+		
+		// http://.../wp-admin/edit.php?post_type=[...]
+		array_unshift(	
+			$arrLinks,
+			"<a href='edit.php?post_type={$this->strPostTypeSlug}'>" . __( 'Manage', 'admin-page-framework' ) . "</a>"
+		); 
+		return $arrLinks;		
+		
+	}
+	public function addInfoInFooterLeft( $strLinkHTML='' ) {
+		
+		// The callback for the filter hook, admin_footer_text.
+		if ( ! isset( $_GET['post_type'] ) ||  $_GET['post_type'] != $this->strPostTypeSlug )
+			return $strLinkHTML;	// $strLinkHTML is given by the hook.
+
+		if ( empty( $this->arrScriptInfo['strName'] ) ) return $strLinkHTML;
+		
+		$strPluginInfo = $this->arrScriptInfo['strName'];
+		$strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
+		$strPluginInfo = empty( $this->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
+		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		return $strPluginInfo . ' ' . $strAuthorInfo;			
+
+	}
+	public function addInfoInFooterRight( $strLinkHTML='' ) {
+		
+		if ( ! isset( $_GET['post_type'] ) ||  $_GET['post_type'] != $this->strPostTypeSlug )
+			return $strLinkHTML;	// $strLinkHTML is given by the hook.
+			
+		return __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
+			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
+			. ', <a href="http://wordpress.org">WordPress</a>';
+			
+	}
+}
+endif;
+ 
+if ( ! class_exists( 'AdminPageFramework_Link' ) ) :
+class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
+
+	/*
+	 * Embeds links in the footer and plugin's listing table etc.
+	 */
 	
 	private $strCallerPath;	// Stores the caller script path.
 	private $oProps;	// the property object, commonly shared.
 	
 	public function __construct( &$oProps, $strCallerPath=null ) {
+		
+		if ( ! is_admin() ) return;
 		
 		$this->oProps = $oProps;
 		$this->strCallerPath = file_exists( $strCallerPath ) ? $strCallerPath : $this->getCallerPath();
@@ -2198,14 +2316,10 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
 	
 		if ( $this->oProps->arrScriptInfo['strType'] == 'plugin' )
-			add_filter( 'plugin_action_links_' . $this->getCallerPluginBaseName() , array( $this, 'addSettingsLinkInPluginListingPage' ) );
+			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->arrScriptInfo['strPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}
-	
-	private function getCallerPluginBaseName() {
-		return plugin_basename( $this->oProps->arrScriptInfo['strPath'] );
-	}		
-	
+		
 	/*
 	 * Methods for adding menu links.
 	 * */
@@ -2243,54 +2357,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 		);	
 			
 	}
-	
-	/*
-	 * Methods for getting script info.
-	 */ 
-	private function getCallerInfo( $strCallerPath=null ) {
-		
-		// Attempts to retrieve the caller script information whether it's a theme or plugin or something else.
-		// The information can be used to embed into the footer etc.
-		
-		$arrCallerInfo = self::$arrStructure_CallerInfo;
-		$arrCallerInfo['strPath'] = $strCallerPath;
-		$arrCallerInfo['strType'] = $this->getCallerType( $arrCallerInfo['strPath'] );
-
-		if ( $arrCallerInfo['strType'] == 'unknown' ) return $arrCallerInfo;
-		
-		if ( $arrCallerInfo['strType'] == 'plugin' ) 
-			return $this->getScriptData( $arrCallerInfo['strPath'], $arrCallerInfo['strType'] ) + $arrCallerInfo;
 			
-		if ( $arrCallerInfo['strType'] == 'theme' ) {
-			$oTheme = wp_get_theme();	// stores the theme info object
-			return array(
-				'strName'			=> $oTheme->Name,
-				'strVersion' 		=> $oTheme->Version,
-				'strThemeURI'		=> $oTheme->get( 'ThemeURI' ),
-				'strScriptURI'		=> $oTheme->get( 'ThemeURI' ),
-				'strAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
-				'strAuthor'			=> $oTheme->get( 'Author' ),				
-			) + $arrCallerInfo;	
-		}
-	}
-	private function getCallerType( $strScriptPath ) {	// since 1.0.2.2
-
-		// Determines what kind of script this is, theme, plugin or something else from the given path.
-		// Returns either 'theme', 'plugin', or 'unknown'
-		
-		if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $strScriptPath, $m ) ) return 'theme';
-		if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $strScriptPath, $m ) ) return 'plugin';
-		return 'unknown';	
-	
-	}
-	private function getCallerPath() {
-
-		foreach( debug_backtrace() as $arrDebugInfo )  {			
-			if ( $arrDebugInfo['file'] == __FILE__ ) continue;
-			return $arrDebugInfo['file'];	// return the first found item.
-		}
-	}
-		
 	/*
 	 * Methods for embedding links 
 	 */ 	
@@ -2311,7 +2378,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 		else
 			$this->oProps->arrPluginTitleLinks = array_merge( $this->oProps->arrPluginTitleLinks, $vLinks );
 		
-		add_filter( 'plugin_action_links_' . $this->getCallerPluginBaseName(), array( $this, 'AddLinkToPluginTitle_Callback' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->arrScriptInfo['strPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
 
 	}
 	
@@ -2357,7 +2424,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Utilities {
 	
 	public function addLinkToPluginDescription_Callback( $arrLinks, $strFile ) {
 
-		if ( $strFile != $this->getCallerPluginBaseName() ) return $arrLinks;
+		if ( $strFile != plugin_basename( $this->oProps->arrScriptInfo['strPath'] ) ) return $arrLinks;
 		return array_merge( $arrLinks, $this->oProps->arrPluginDescriptionLinks );
 		
 	}			
@@ -3223,7 +3290,7 @@ abstract class AdminPageFramework_PostType {
 	protected $fEnableAutoSave = true;
 	protected $fEnableAuthorTableFileter = false;
 	
-	public function __construct( $strPostType, $arrArgs=array() ) {
+	public function __construct( $strPostType, $arrArgs=array(), $strCallerPath=null ) {
 		
 		$this->oUtil = new AdminPageFramework_Utilities;
 		
@@ -3239,6 +3306,7 @@ abstract class AdminPageFramework_PostType {
 			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
 			'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
 		);			
+		$this->strCallerPath = $strCallerPath;
 		
 		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
 		add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
@@ -3257,6 +3325,9 @@ abstract class AdminPageFramework_PostType {
 			
 			// Style
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
+			
+			// Links
+			$this->oLink = new AdminPageFramework_LinkForPostType( $this->strPostType, $this->strCallerPath );
 			
 		}
 	
