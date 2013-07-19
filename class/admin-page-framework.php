@@ -428,7 +428,7 @@ abstract class AdminPageFramework_Pages {
 	
 	}	
 	private function getScreenIcon( $strPageSlug ) {	// since 1.1.0
-			
+
 		// If the icon path is explicitly set, use it.
 		if ( isset( $this->oProps->arrPages[ $strPageSlug ]['strPathIcon32x32'] ) ) 
 			return '<div class="icon32" style="background-image: url(' . $this->oProps->arrPages[ $strPageSlug ]['strPathIcon32x32'] . ');"><br /></div>';
@@ -711,7 +711,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'strPageTitle'		=> $strPageTitle,
 			'strPageSlug'		=> $strPageSlug,
 			'strType'			=> 'page',	// this is used to compare with the link type.
-			'strPathIcon32x32'	=> file_exists( $strScreenIcon ) ? $strScreenIcon : null,
+			'strPathIcon32x32'	=> $strScreenIcon ? $strScreenIcon : null,
 			'strScreenIconID'	=> in_array( $strScreenIcon, self::$arrScreenIconIDs ) ? $strScreenIcon : null,
 			'strCapability'		=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'			=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
@@ -2035,7 +2035,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 		$strFilePath = $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'tmp_name' );
 		
 		// Read the file contents.
-		$vData = ( file_exists( $strFilePath ) ) ? file_get_contents( $strFilePath, true ) : false;
+		$vData = file_exists( $strFilePath ) ? file_get_contents( $strFilePath, true ) : false;
 		
 		return $vData;
 		
@@ -3247,6 +3247,10 @@ abstract class AdminPageFramework_PostType {
 			add_action( 'restrict_manage_posts', array( $this, 'addAuthorTableFilter' ) );
 			add_action( 'restrict_manage_posts', array( $this, 'addTaxonomyTableFilter' ) );
 			add_filter( 'parse_query', array( $this, 'setTableFilterQuery' ) );
+			
+			// Style
+			add_action( 'admin_head', array( $this, 'addStyle' ) );
+			
 		}
 	
 		$this->oUtil->addAndDoAction( $this, "{$this->strPrefix_Start}{$this->strClassName}" );
@@ -3304,6 +3308,20 @@ abstract class AdminPageFramework_PostType {
 	/*
 	 * Callback functions
 	 */
+	public function addStyle() {
+
+		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->strPostType )
+			return;
+
+		$this->strStyle = '';	
+			
+		// Print out the filtered styles.
+		echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
+			. $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", $this->strStyle )
+			. "</style>";			
+		
+	}
+	
 	public function registerPostType() {
 
 		register_post_type( $this->strPostType, $this->arrPostTypeArgs );
@@ -3424,7 +3442,7 @@ abstract class AdminPageFramework_PostType {
 			// if ( $strColumnHeader == $strColumnTitle ) 
 			
 		// cell_{post type}_{custom column key}
-		echo $this->oUtil->addAndApplyFilter( $this, "{$this->strPrefix_Cell}{$this->strPostType}_{$strColumnTitle}", $intPostID );
+		echo $this->oUtil->addAndApplyFilter( $this, "{$this->strPrefix_Cell}{$this->strPostType}_{$strColumnTitle}", $strCell='', $intPostID );
 				  
 	}
 	
@@ -3432,7 +3450,8 @@ abstract class AdminPageFramework_PostType {
 	 * Magic method - this prevents PHP's not-a-valid-callback errors.
 	*/
 	public function __call( $strMethodName, $arrArgs=null ) {	
-		if ( substr( $strMethodName, 0, strlen( $this->strPrefix_Cell ) )	== $this->strPrefix_Cell ) return;
+		if ( substr( $strMethodName, 0, strlen( $this->strPrefix_Cell ) ) == $this->strPrefix_Cell ) return $arrArgs[0];
+		if ( substr( $strMethodName, 0, strlen( "style_" ) )== "style_" ) return $arrArgs[0];
 	}
 	
 }
@@ -3561,7 +3580,8 @@ class AdminPageFramework_MetaBox {
 		$GLOBALS[ "{$strRootClassName}_StyleLoaded" ] = true;
 
 		$this->strStyle = 
-			".wrap div.updated, .wrap div.settings-error { clear: both; margin-top: 16px;} 
+			".wrap div.updated, .wrap div.settings-error, .wrap div.error, .wrap div.updated
+			{ clear: both; margin-top: 16px;} 
 			.taxonomy-checklist li { margin: 8px 0 8px 20px; }
 			div.taxonomy-checklist {
 				padding: 8px 0 8px 10px;
