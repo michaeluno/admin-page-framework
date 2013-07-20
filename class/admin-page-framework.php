@@ -2251,7 +2251,8 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 			);	
 		
 		// For post type posts listing table page ( edit.php )
-		add_action( 'get_edit_post_link', array( $this, 'addPostTypeQueryInEditPostLink' ), 10, 3 );
+		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->strPostTypeSlug )
+			add_action( 'get_edit_post_link', array( $this, 'addPostTypeQueryInEditPostLink' ), 10, 3 );
 		
 	}
 	
