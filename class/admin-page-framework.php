@@ -221,8 +221,8 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 		// Set a blank value for no limit.
 		
 		if ( ! is_numeric( trim( $numToFix ) ) ) return $numDefault;
-		if ( $numMin != "" && $numToFix < $numMin) return $numMin;
-		if ( $numMax != "" && $numToFix > $numMax ) return $numMax;
+		if ( $numMin !== "" && $numToFix < $numMin ) return $numMin;
+		if ( $numMax !== "" && $numToFix > $numMax ) return $numMax;
 		return $numToFix;
 		
 	}		
