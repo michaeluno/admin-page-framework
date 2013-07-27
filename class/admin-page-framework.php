@@ -1196,18 +1196,18 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 
 		$arrStoredPageOptions = $this->getPageOptions( $strPageSlug ); 			
 
-		// for tab
+		// for tabs
 		if ( $strTabSlug && $strPageSlug )	{
-			$arrRegisteredSectionKeysForThisTab = array_keys( $arrInput );
+			$arrRegisteredSectionKeysForThisTab = array_keys( $arrInput[ $strPageSlug ] );			
 			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}_{$strTabSlug}", $arrInput, $arrStoredPageOptions );	
 			$arrInput = $this->oUtil->uniteArraysRecursive( $arrInput, $this->getOtherTabOptions( $strPageSlug, $arrRegisteredSectionKeysForThisTab ) );
 		}
-		// for page	
+		// for pages	
 		if ( $strPageSlug )	{
 			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}", $arrInput, $arrStoredPageOptions );		
 			$arrInput = $this->oUtil->uniteArraysRecursive( $arrInput, $this->getOtherPageOptions( $strPageSlug ) );
 		}
-		// for class
+		// for the class
 		$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->strClassName}", $arrInput, $this->oProps->arrOptions );
 
 		return $arrInput;
