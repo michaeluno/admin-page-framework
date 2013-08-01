@@ -614,12 +614,13 @@ abstract class AdminPageFramework_Pages {
 			uasort( $this->oProps->arrInPageTabs[ $strPageSlug ], array( $this->oProps, 'sortByOrder' ) );
 			
 			// Set the default tab for the page.
-			foreach( $this->oProps->arrInPageTabs[ $strPageSlug ] as $strTabSlug => $arrInPageTab ) { 		// The first iteration item is the default one.
+			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $arrInPageTab, is also used as reference in the above foreach.
+			foreach( $this->oProps->arrInPageTabs[ $strPageSlug ] as $strTabSlug => &$arrInPageTab ) { 	
 			
 				if ( ! isset( $arrInPageTab['strTabSlug'] ) || isset( $arrInPageTab['fHide'] ) ) continue;	// if it's a hidden tab, it should not be the default tab.
 				
 				$this->oProps->arrDefaultInPageTabs[ $strPageSlug ] = $arrInPageTab['strTabSlug'];
-				break;
+				break;	// The first iteration item is the default one.
 			}
 		}
 	}			
