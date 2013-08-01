@@ -714,9 +714,9 @@ class APF_PostType extends AdminPageFramework_PostType {
 	/*
 	 * Callback methods
 	 */
-	public function set_cell_apf_posts_samplecolumn( $intPostID ) {	// set_cell_ + post type + column key
+	public function cell_apf_posts_samplecolumn( $strCell, $intPostID ) {	// cell_ + post type + column key
 		
-		echo "the post id is : {$intPostID}";
+		return "the post id is : {$intPostID}";
 		
 	}
 
