@@ -1737,9 +1737,9 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
 		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
 
-		// Print out the filtered styles.
+		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
+			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
 			. "</script>";		
 		
 	}
