@@ -2521,13 +2521,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	);
 	
-	public function __construct( &$arrField, &$arrOptions, &$arrErrors, &$oMsg ) {
+	public function __construct( &$arrField, &$arrOptions, $arrErrors=array(), &$oMsg ) {
 			
 		$this->oMsg = $oMsg;
 		
 		$this->arrField = $arrField + self::$arrDefaultFieldValues;
 		$this->arrOptions = $arrOptions;
-		$this->arrErrors = $arrErrors;
+		$this->arrErrors = $arrErrors ? $arrErrors : array();
 			
 		$this->strFieldName = $this->getInputFieldName();
 		$this->strTagID = $this->getInputTagID( $arrField );
@@ -3834,7 +3834,7 @@ class AdminPageFramework_MetaBox {
 		// Set the input field name which becomes the option key of the custom meta field of the post.
 		$arrField['strName'] = isset( $arrField['strName'] ) ? $arrField['strName'] : $arrField['strFieldID'];
 		
-		$oField = new AdminPageFramework_InputField( $arrField, $this->arrOptions, $arr=array(), $this->oMsg );	// currently error arrays are not supported for meta-boxes 
+		$oField = new AdminPageFramework_InputField( $arrField, $this->arrOptions, array(), $this->oMsg );	// currently error arrays are not supported for meta-boxes 
 		$strOut = $this->oUtil->addAndApplyFilter(
 			$this,
 			$this->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
