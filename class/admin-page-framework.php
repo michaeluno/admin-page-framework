@@ -721,7 +721,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'strPageTitle'		=> $strPageTitle,
 			'strPageSlug'		=> $strPageSlug,
 			'strType'			=> 'page',	// this is used to compare with the link type.
-			'strPathIcon32x32'	=> $strScreenIcon ? $strScreenIcon : null,
+			'strPathIcon32x32'	=> file_exists( $strScreenIcon ) ? $strScreenIcon : null,
 			'strScreenIconID'	=> in_array( $strScreenIcon, self::$arrScreenIconIDs ) ? $strScreenIcon : null,
 			'strCapability'		=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'			=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
