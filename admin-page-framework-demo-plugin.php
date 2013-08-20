@@ -36,28 +36,42 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strPageTitle' => 'Various Form Fields',
 				'strPageSlug' => 'first_page',
+				'strScreenIcon' => 'generic',
 				'numOrder' => 1,
 			),
 			array(
 				'strPageTitle' => 'Manage Options',
 				'strPageSlug' => 'second_page',
 				'strScreenIcon' => 'link-manager',
-				'numOrder' => 2,
 				/*	Screen Types:
 					'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
 				*/				
+				'numOrder' => 2,
 			),
 			array(
 				'strType' => 'link',
 				'strMenuTitle' => 'Google',
 				'strURL' => 'http://www.google.com',	
 				'fPageHeadingTab' => false,	// this removes the title from the page heading tabs.
+			),
+			array(
+				'strPageTitle' => __( 'Read Me', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'read_me',
+				'strScreenIcon' => 'page',
+			),			
+			array(
+				'strPageTitle' => __( 'Documentation', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'documentation',
+				'strScreenIcon' => 'page',
 			)
 		);
 				
 		$this->addInPageTabs(
+			/*
+			 * First Page
+			 * */
 			array(
 				'strPageSlug'	=> 'first_page',
 				'strTabSlug'	=> 'textfields',
@@ -88,7 +102,10 @@ class APF_Demo extends AdminPageFramework {
 				'strPageSlug'	=> 'first_page',
 				'strTabSlug'	=> 'verification',
 				'strTitle'		=> 'Verification',	
-			),					
+			),	
+			/*
+			 * Second Page
+			 * */
 			array(
 				'strPageSlug'	=> 'second_page',
 				'strTabSlug'	=> 'saved_data',
@@ -118,6 +135,47 @@ class APF_Demo extends AdminPageFramework {
 				'strParentTabSlug' => 'delete_options',
 				'numOrder'		=> 97,
 			),					
+			/*
+			 * Read Me
+			 * */
+			array(
+				'strPageSlug'	=> 'read_me',
+				'strTabSlug'	=> 'description',
+				'strTitle'		=> __( 'Description', 'admin-page-framework-demo' ),
+			),				
+			array(
+				'strPageSlug'	=> 'read_me',
+				'strTabSlug'	=> 'installation',
+				'strTitle'		=> __( 'Installation', 'admin-page-framework-demo' ),
+			),	
+			array(
+				'strPageSlug'	=> 'read_me',
+				'strTabSlug'	=> 'frequently_asked_questions',
+				'strTitle'		=> __( 'FAQ', 'admin-page-framework-demo' ),
+			),		
+			array(
+				'strPageSlug'	=> 'read_me',
+				'strTabSlug'	=> 'changelog',
+				'strTitle'		=> __( 'Change Log', 'admin-page-framework-demo' ),
+			),				
+			/*
+			 * Documentation
+			 * */
+			array(
+				'strPageSlug'	=> 'documentation',
+				'strTabSlug'	=> 'getting_started',
+				'strTitle'		=> __( 'Getting Started', 'admin-page-framework-demo' ),				
+			),			 
+			array(
+				'strPageSlug'	=> 'documentation',
+				'strTabSlug'	=> 'methods',
+				'strTitle'		=> __( 'Methods', 'admin-page-framework-demo' ),				
+			),
+			array(
+				'strPageSlug'	=> 'documentation',
+				'strTabSlug'	=> 'hooks_and_callbacks',
+				'strTitle'		=> __( 'Hooks and Callbacks', 'admin-page-framework-demo' ),				
+			),			
 			array()
 		);			
 		
@@ -245,9 +303,9 @@ class APF_Demo extends AdminPageFramework {
 					'Third Item: ' 
 				),
 				'vSize' => array(
+					30,
 					60,
 					90,
-					120,
 				),
 			),			
 			array(	// Password Field
@@ -290,9 +348,9 @@ class APF_Demo extends AdminPageFramework {
 					2,
 				),
 				'vCols' => array(
-					120,
-					80,
-					50,
+					90,
+					60,
+					30,
 				),
 			),
 			array(	// Single Dropdown List
@@ -635,7 +693,103 @@ class APF_Demo extends AdminPageFramework {
 		return $arrInput;
 		
 	}
+			
+	/*
+	 * Read Me
+	 * */ 
+	public function do_before_read_me() {		// do_before_ + page slug 
+
+		include_once( dirname( __FILE__ ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );
+		$this->oWPReadMe = new WordPress_Readme_Parser;
+		$this->arrWPReadMe = $this->oWPReadMe->parse_readme( dirname( __FILE__ ) . '/readme.txt' );
 		
+	}
+	public function do_read_me_description() {		// do_ + page slug + _ + tab slug
+		echo $this->arrWPReadMe['sections']['description'];
+	}
+	public function do_read_me_installation() {		// do_ + page slug + _ + tab slug
+		// echo htmlspecialchars( $this->arrWPReadMe['sections']['installation'], ENT_QUOTES, bloginfo( 'charset' ) );
+		echo $this->arrWPReadMe['sections']['installation'];
+	}
+	public function do_read_me_frequently_asked_questions() {	// do_ + page slug + _ + tab slug
+		echo $this->arrWPReadMe['sections']['frequently_asked_questions'];
+	}
+	public function do_read_me_screenshots() {		// do_ + page slug + _ + tab slug
+		echo $this->arrWPReadMe['sections']['screenshots'];
+	}	
+	public function do_read_me_changelog() {		// do_ + page slug + _ + tab slug
+		// echo var_dump( $this->arrWPReadMe['sections'] );
+		echo $this->arrWPReadMe['sections']['changelog'];
+	}
+	public function style_read_me( $strStyle ) {	// style_ + page slug
+		return $strStyle 
+			. "
+			.wrap .admin-page-framework-container h2 {
+				font-size: 18px;
+				line-height: 24px;				
+			}
+			p, ul, pre { 
+				margin-left: 2em;
+			}
+			pre {				
+				border: 1px solid #ededed;
+				margin: 24px 2em;
+				margin: 1.714285714rem 2em;
+				padding: 24px;
+				padding: 1.714285714rem;				
+				overflow-x: auto; 
+			}
+			pre code {
+				color: #666;
+				font-family: Consolas, Monaco, Lucida Console, monospace;
+				line-height: 1.714285714;
+				overflow: auto;
+				background-color: transparent;
+			}	
+			";
+	}
+	/*
+	 * Documentation
+	 * */
+	public function do_before_documentation() {		// do_before_ + page slug 
+		include_once( dirname( __FILE__ ) . '/third-party/wordpress-plugin-readme-parser/markdown.php' );
+	}
+	public function do_documentation_getting_started() {	// do_ + page slug + tab slug
+		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/getting_started.md' ) );
+	}	
+	public function do_documentation_methods() {	// do_ + page slug + tab slug
+		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/methods.md' ) );
+	}
+	public function do_documentation_hooks_and_callbacks() {	// do_ + page slug + tab slug
+		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/hooks_and_callbacks.md' ) );
+	}	
+	public function style_documentation( $strStyle ) {	// style_ + page slug
+		return $strStyle 
+			. "
+			.wrap .admin-page-framework-container h2 {
+				font-size: 18px;
+				line-height: 24px;
+			}			
+			p, ul, pre { 
+				margin-left: 2em;
+			}
+			pre {				
+				border: 1px solid #ededed;
+				margin: 24px 2em;
+				margin: 1.714285714rem 2em;
+				padding: 24px;
+				padding: 1.714285714rem;				
+				overflow-x: auto; 
+			}
+			pre code {
+				color: #666;
+				font-family: Consolas, Monaco, Lucida Console, monospace;
+				line-height: 1.714285714;
+				overflow: auto;
+				background-color: transparent;
+			}	
+			";
+	}
 }
 if ( is_admin() )
 	new APF_Demo;
