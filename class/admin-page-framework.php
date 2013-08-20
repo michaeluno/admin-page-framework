@@ -433,8 +433,8 @@ abstract class AdminPageFramework_Pages {
 	private function getScreenIcon( $strPageSlug ) {	// since 1.1.0
 
 		// If the icon path is explicitly set, use it.
-		if ( isset( $this->oProps->arrPages[ $strPageSlug ]['strPathIcon32x32'] ) ) 
-			return '<div class="icon32" style="background-image: url(' . $this->oProps->arrPages[ $strPageSlug ]['strPathIcon32x32'] . ');"><br /></div>';
+		if ( isset( $this->oProps->arrPages[ $strPageSlug ]['strURLIcon32x32'] ) ) 
+			return '<div class="icon32" style="background-image: url(' . $this->oProps->arrPages[ $strPageSlug ]['strURLIcon32x32'] . ');"><br /></div>';
 		
 		// If the screen icon ID is explicitly set, use it.
 		if ( isset( $this->oProps->arrPages[ $strPageSlug ]['strScreenIconID'] ) )
@@ -721,7 +721,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'strPageTitle'		=> $strPageTitle,
 			'strPageSlug'		=> $strPageSlug,
 			'strType'			=> 'page',	// this is used to compare with the link type.
-			'strPathIcon32x32'	=> file_exists( $strScreenIcon ) ? $strScreenIcon : null,
+			'strURLIcon32x32'	=> filter_var( $strScreenIcon, FILTER_VALIDATE_URL) ? $strScreenIcon : null,
 			'strScreenIconID'	=> in_array( $strScreenIcon, self::$arrScreenIconIDs ) ? $strScreenIcon : null,
 			'strCapability'		=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'			=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
