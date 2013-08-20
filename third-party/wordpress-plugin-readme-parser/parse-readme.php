@@ -1,3 +1,4 @@
+<?php
 /* 
  * 
  * Original Package
@@ -6,7 +7,6 @@
  * https://github.com/markjaquith/WordPress-Plugin-Readme-Parser
  * */
  
-<?php
 // This is the path to markdown.php
 if ( !defined('WORDPRESS_README_MARKDOWN') ) {
 	if ( defined('AUTOMATTIC_README_MARKDOWN') )
