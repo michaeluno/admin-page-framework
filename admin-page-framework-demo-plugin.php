@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 1.1.0
+	Version: 2.0.0
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */ 
 
@@ -536,11 +536,7 @@ class APF_Demo extends AdminPageFramework {
 	public function do_first_page() {
 		
 		submit_button();
-		
-		echo $this->oDebug->getArray( $GLOBALS['submenu'] );
-		// echo $this->oDebug->getArray( get_taxonomies( '', 'names' ) );
-		// echo $this->oDebug->getArray( get_taxonomies( '', 'objects' ) );
-		
+			
 	}
 		
 	/*
@@ -581,8 +577,6 @@ class APF_Demo extends AdminPageFramework {
 	 * Validation Callbacks
 	 * */
 	public function validation_first_page_verification( $arrInput, $arrOldPageOptions ) {	// valication_ + page slug + _ + tab slug
-
-// $this->oDebug->getArray( $arrInput, dirname( __FILE__ ) . '/classes/input.txt' ); 		
 				
 		// Set a flag.
 		$fVerified = true;
