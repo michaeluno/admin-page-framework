@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration panel, admin panel, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, development tool, developers
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.0.4
+Stable tag: 1.0.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,10 +32,10 @@ It provides plugin and theme developers with easier means of creating option pag
 * Buttons
 * Hidden Fields 
 * File Upload 
-* Image Upload (Custom File Upload)
-* Option Export and Import (Custom File Upload)
+* Image Upload (Custom Text Field)
+* Option Export and Import (Custom File Upload and Submit Button)
 * Post Types (Custom Checkboxes)
-* Categoris (Custom Checkboxes)
+* Taxonomies (Custom Checkboxes)
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the *class* folder.
@@ -122,15 +122,16 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
 
 == Roadmap ==
-* Add: the ability to remove registered form elements.
+* Add a color picker form field.
 
 == Done ==
+* <s>Add: the ability to remove registered form elements.</s> Implemented in 2.0.0.
 * <s>Add: a custom input filed for category select checkboxes</s>. Implemented in 1.0.4.
 * <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
 
 == Changelog ==
 
-= 1.1.0 2013/07/13 =
+= 2.0.0 - 2013/07/13 =
 * Added: the *addSubMenuItems()* and *addSubMenuItem()* methods that enables to add not only sub menu pages but also external links.
 * Added: the ability to list the terms of specified taxonomy with checkbox by taxonomy slug.
 * Changed: ( *Breaking Change* ) the *category* field type to *taxonomy* field type.
