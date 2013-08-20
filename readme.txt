@@ -55,16 +55,21 @@ It provides plugin and theme developers with easier means of creating option pag
 6. **Category and Post Type Checklist**
 
 == Installation ==
+
 = Getting Started =
-1. Include **`admin-page-framework.php`** that is located in the **`classes`** folder into your theme or plugin.
+
+**Step 1.** Include **`admin-page-framework.php`** that is located in the **`classes`** folder into your theme or plugin.
+
 `if ( !class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );`
 	
-2. Extend the Library Class.
+**Step 2.** Extend the Library Class.
+
 `class APF_GettingStarted extends AdminPageFramework {
 }`
 
-3. Define the **setUp()** Method.
+**Step 3.** Define the **setUp()** Method.
+
 `function setUp() {
 	$this->setRootMenuPage( 'Settings' );               // specifies to which parent menu to belong.
 	$this->addSubMenuPage(
@@ -73,7 +78,8 @@ It provides plugin and theme developers with easier means of creating option pag
 	); 
 }`
 
-4. Define methods for hooks.
+**Step 4.** Define methods for hooks.
+
 `function do_myfirstpage() {  // do_ + pageslug	
 	?>
 	<h3>Say Something</h3>
@@ -81,10 +87,12 @@ It provides plugin and theme developers with easier means of creating option pag
 	<?php
 }`
 
-5. Instantiate the Class.
+**Step 5.** Instantiate the Class.
+
 `new APF_GettingStarted;`
 
 = Example Code = 
+
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
@@ -120,6 +128,12 @@ This is	a PHP class library that enables to create option pages and form fields 
 
 = I've written a useful class and functions. Do you want to include it? = 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
+
+= How can I contribute to improving the documentation? =
+In the [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework"), there is a folder named, **document**, and you can see the md files. Tey are the documentation files and they follow the [markdown](http://daringfireball.net/projects/markdown/syntax) syntax.
+
+You can modify these files and commit the changes. Before requesting a pull, please submit an [issue](https://github.com/michaeluno/admin-page-framework/issues) first so that we can discuss whether it is appropriate or not.
+
 
 == Roadmap ==
 * Add a color picker form field.
