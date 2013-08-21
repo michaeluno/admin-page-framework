@@ -5,15 +5,15 @@ The class methods corresponding to the name of the below actions and filters can
 ### Methods and Action Hooks ###
 
 * `start_ + extended class name` – triggered at the end of the class constructor.
-* `do_before_ + page slug` – triggered before rendering the page.
-* `do_ + page slug` – triggered in the middle of rendering the page.
-* `do_after_ + page slug` – triggered after rendering the page.
-* `do_before_ + page slug + _ + tab slug` – triggered before rendering the page.
-* `do_ + page slug + _ + tab slug` – triggered in the middle of rendering the page.
-* `do_after_ + page slug + _ + tab slug` – triggered after rendering the page.
 * `do_before_ + extended class name` – triggered before rendering the page. It applies to all pages created by the instantiated class object.
+* `do_before_ + page slug` – triggered before rendering the page.
+* `do_before_ + page slug + _ + tab slug` – triggered before rendering the page.
 * `do_ + extended class name` – triggered in the middle of rendering the page. It applies to all pages created by the instantiated class object.
+* `do_ + page slug` – triggered in the middle of rendering the page.
+* `do_ + page slug + _ + tab slug` – triggered in the middle of rendering the page.
 * `do_after_ + extended class name` – triggered after rendering the page. It applies to all pages created by the instantiated class object.
+* `do_after_ + page slug` – triggered after rendering the page.
+* `do_after_ + page slug + _ + tab slug` – triggered after rendering the page.
 
 ### Methods and Filters ###
 
@@ -86,6 +86,8 @@ If the created page slug is my_first_setting_page, defining the following class 
 	}
 	
 ## Timing of Hooks ##
+
+### AdminPageFramework ###
 
 	------ When the class is instantiated ------
 

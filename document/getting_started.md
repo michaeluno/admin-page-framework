@@ -5,7 +5,7 @@ To create an option page with this framework, follow these steps.
 ### 1. Include the Library Class ###
 
 	if ( !class_exists( 'AdminPageFramework' ) ) 
-		include_once( '/class/admin-page-framework.php' );
+		include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
 		
 ### 2. Extend the Library Class ###
 
