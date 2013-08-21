@@ -3349,7 +3349,7 @@ abstract class AdminPageFramework_PostType {
 		}
 	
 		$this->oUtil->addAndDoAction( $this, "{$this->strPrefix_Start}{$this->strClassName}" );
-		$this->setUp();	// add_action( 'plugins_loaded', array( $this, 'setUp' ) );
+		add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		
 	}
 	
@@ -3603,13 +3603,14 @@ class AdminPageFramework_MetaBox {
 			// }
 		}
 		
-		$this->setUp();
+		add_action( 'wp_loaded', array( $this, 'setUp' ) );
+		
 	}
 	
 	/*
 	 * Front-end methods - user may use it.
 	 * */
-	protected function setUp() {}
+	public function setUp() {}
 	
 	public function setFieldArray( $arrFields ) {
 		$this->arrFields = $arrFields;
