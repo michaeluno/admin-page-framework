@@ -49,7 +49,7 @@ For available action hooks and filters, please refer to [Hooks and Callbacks](?p
 	/* Plugin Name: Admin Page Framework - My First Admin Page */ 
 	
 	if ( !class_exists( 'AdminPageFramework' ) ) 
-		include_once( '/class/admin-page-framework.php' );
+		include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
 		
 	class APF_CreateSettingPage extends AdminPageFramework {
 	
