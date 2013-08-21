@@ -260,6 +260,9 @@ abstract class AdminPageFramework_Pages {
 		.image_preview img {
 			max-height: 600px; max-width: 800px;
 		}
+		input[type='checkbox'], input[type='radio'] { 
+			vertical-align: middle;
+		}
 		";	
 	protected static $arrPrefixes = array(	// must be protected as the extended class accesses it, such as 'start_';
 		'start_'		=> 'start_',
@@ -3892,6 +3895,9 @@ class AdminPageFramework_MetaBox {
 			.image_preview img {
 				max-height: 600px; max-width: 800px;
 			}
+			input[type='checkbox'], input[type='radio'] { 
+				vertical-align: middle;
+			}			
 		";			
 					
 		// Print out the filtered styles.
