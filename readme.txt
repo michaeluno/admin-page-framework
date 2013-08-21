@@ -33,6 +33,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * Hidden Fields 
 * File Upload 
 * Image Upload (Custom Text Field)
+* Color Picker (Custom Text Field)
 * Option Export and Import (Custom File Upload and Submit Button)
 * Post Types (Custom Checkboxes)
 * Taxonomies (Custom Checkboxes)
@@ -143,6 +144,7 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 == Changelog ==
 
 = 2.0.0 - 2013/07/13 =
+* Added: the *color* input field that adds a color picker.
 * Added: the *addSubMenuItems()* and *addSubMenuItem()* methods that enables to add not only sub menu pages but also external links.
 * Added: the ability to list the terms of specified taxonomy with checkbox by taxonomy slug.
 * Changed: ( *Breaking Change* ) the *category* field type to *taxonomy* field type.

@@ -85,8 +85,8 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array(
 				'strPageSlug'	=> 'first_page',
-				'strTabSlug'	=> 'images',
-				'strTitle'		=> 'Images',
+				'strTabSlug'	=> 'color_and_images',
+				'strTitle'		=> __( 'Color and Images', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strPageSlug'	=> 'first_page',
@@ -181,6 +181,11 @@ class APF_Demo extends AdminPageFramework {
 				'strTabSlug'	=> 'tutorials',
 				'strTitle'		=> __( 'Tutorials', 'admin-page-framework-demo' ),				
 			),				
+			array(
+				'strPageSlug'	=> 'documentation',
+				'strTabSlug'	=> 'tips',
+				'strTitle'		=> __( 'Tips', 'admin-page-framework-demo' ),				
+			),				
 			array()
 		);			
 		
@@ -207,9 +212,15 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strSectionID'		=> 'image_select',
 				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'images',
+				'strTabSlug'		=> 'color_and_images',
 				'strTitle'			=> 'Image Selector',
 				'strDescription'	=> 'Set an image url with jQuwey based image selector.',
+			),
+			array(
+				'strSectionID'		=> 'color_picker',
+				'strPageSlug'		=> 'first_page',
+				'strTabSlug'		=> 'color_and_images',
+				'strTitle'			=> __( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strSectionID'		=> 'checklists',
@@ -371,7 +382,7 @@ class APF_Demo extends AdminPageFramework {
 				'strFieldID' => 'select_multiple',
 				'strSectionID' => 'selectors',
 				'strTitle' => 'Multiple Dropdown Lists',
-				'strDescription' => 'This is a multiple sets of drop down list.',
+				'strDescription' => 'This is multiple sets of drop down list.',
 				'strType' => 'select',
 				'vLabel' => array( 
 					array( 'river', 'mountain', 'sky', ),
@@ -436,6 +447,22 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'image',
 				'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
 				'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
+			),				
+			array( // Color Picker
+				'strFieldID' => 'color_picker_field',
+				'strSectionID' => 'color_picker',
+				'strTitle' => __( 'Color Picker', 'admin-page-framework-demo' ),
+				'strType' => 'color',
+				// 'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
+				// 'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
+			),					
+			array( // Multiple Color Pickers
+				'strFieldID' => 'multiple_color_picker_field',
+				'strSectionID' => 'color_picker',
+				'strTitle' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
+				'strType' => 'color',
+				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
+				// 'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
 			),				
 			array(
 				'strFieldID' => 'post_type_checklist',
@@ -771,6 +798,9 @@ class APF_Demo extends AdminPageFramework {
 	public function do_documentation_tutorials() {	// do_ + page slug + tab slug
 		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/tutorials.md' ) );
 	}		
+	public function do_documentation_tips() {	// do_ + page slug + tab slug
+		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/tips.md' ) );
+	}			
 	public function style_documentation( $strStyle ) {	// style_ + page slug
 		return $strStyle 
 			. "

@@ -876,6 +876,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	protected $arrFieldErrors;		// Stores the settings field errors. Do not set a value here since it is checked to see it's null.
 	
 	protected $fIsImageFieldScriptEnqueued = false;	// A flag that indicates whether the JavaScript script for image selector is enqueued.
+	protected $fIsColorFieldScriptEnqueued = false;	// A flag that indicates whether the JavaScript script for color picker is enqueued.
 	
 	/*
 	 * Front-end methods that the user uses in the class definition.
@@ -962,10 +963,74 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 					
 			// If it's the image type field, extra jQuery scripts need to be loaded.
 			if ( $arrField['strType'] == 'image' ) $this->addImageFieldScript( $arrField );
+			if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
 					
 			$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
 						
 		}
+	}
+	private function addColorFieldScript( &$arrField ) {
+	
+		if ( $this->fIsColorFieldScriptEnqueued		) return;
+		$this->fIsColorFieldScriptEnqueued	 = true;
+				
+		// Reference: http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
+		//If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
+		if ( 3.5 <= $GLOBALS['wp_version'] ){
+			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'wp-color-picker' );
+		}
+		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
+		else {
+			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'farbtastic' );
+			wp_enqueue_script( 'farbtastic' );
+		}		
+		
+		// Append the script
+		//Setup the color pickers to work with our text input field
+		$this->oProps->strScript .= "
+			jQuery(document).ready(function(){
+				'use strict';
+				//This if statement checks if the color picker element exists within jQuery UI
+				//If it does exist then we initialize the WordPress color picker on our text input field
+				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+					var myOptions = {
+						// you can declare a default color here,
+						// or in the data-default-color attribute on the input
+						defaultColor: false,
+						// a callback to fire whenever the color changes to a valid color
+						change: function(event, ui){
+							// reference : http://automattic.github.io/Iris/
+							// update the image element as well
+							// event = standard jQuery event, produced by whichever control was changed.
+							// ui = standard jQuery UI object, with a color member containing a Color.js object
+
+							// change the headline color
+							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', ui.color.toString());	
+							
+						},
+						// a callback to fire when the input is emptied or an invalid color
+						clear: function() {
+							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', 'transparent' );	
+							
+						},
+						// hide the color picker controls on load
+						hide: true,
+						// show a group of common colors beneath the square
+						// or, supply an array of colors to customize further
+						palettes: true
+					};			
+					jQuery( '.input_color' ).wpColorPicker( myOptions );
+				}
+				else {
+					//We use farbtastic if the WordPress color picker widget doesn't exist
+					// jQuery( '.colorpicker' ).farbtastic( '.input_color' );
+				}
+			});	
+		";			
+	
 	}
 	private function addImageFieldScript( &$arrField ) {
 					
@@ -2661,7 +2726,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 		// Get the input field output.
 		switch ( $strFieldType ) {
-			case in_array( $strFieldType, array( 'text', 'password', 'color', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ) ):
+			case in_array( $strFieldType, array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ) ):
 				$strOutput .= $this->getTextField();
 				break;
 			case in_array( $strFieldType, array( 'number', 'range' ) ):	// HTML5 elements
@@ -2697,6 +2762,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			case 'image':	// image uploader
 				$strOutput .= $this->getImageField();
 				break;
+			case 'color':	// color picker
+				$strOutput .= $this->getColorField();
+				break;				
 			case 'taxonomy':
 				$strOutput .= $this->getTaxonomyChecklistField();
 				break;
@@ -2722,7 +2790,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. ( $strLabel 
-					? "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
 					: "" 
 					)
@@ -2747,7 +2815,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. ( $strLabel 
-					? "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
 					: "" 
 					)
@@ -2775,7 +2843,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. ( $strLabel
-					? "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
 					: "" 
 					)
@@ -2933,7 +3001,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-				. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+				. "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 				. "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>"
 				. "</span>"
 				. "<input "
@@ -3105,13 +3173,46 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	}
 
+	private function getColorField( $arrOutput=array() ) {
+		
+		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+				. ( $strLabel 
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
+					: "" 
+					)
+				. "<input id='{$this->strTagID}_{$strKey}' "
+					. "class='input_color " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "type='text' "	// text
+					. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+					. "value='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
+					. "color='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+				. "/>"
+				. "<div class='colorpicker' id='color_{$this->strTagID}_{$strKey}' rel='{$this->strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
+				. "<script type='text/javascript'>
+					if ( typeof jQuery.wp !== 'object' || typeof jQuery.wp.wpColorPicker !== 'function' ){
+						jQuery( '#color_{$this->strTagID}_{$strKey}' ).farbtastic( '#{$this->strTagID}_{$strKey}' );
+					}
+					</script>"
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				
+		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";	
+		
+	}
+		
 	private function getImageField( $arrOutput=array() ) {
 		
 		$strSelectImage = __( 'Select Image', 'admin-page-framework' );
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. ( $strLabel 
-					? "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
 					: "" 
 					)
@@ -3125,7 +3226,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"
-				. "<script>document.write( '&nbsp;&nbsp;&nbsp;<input type=\'submit\' id=\'select_image_{$this->strTagID}_{$strKey}\' value=\'{$strSelectImage}\' class=\'select_image button button-small\' />' );</script>"
+				. "<script type='text/javascript'>document.write( '&nbsp;&nbsp;&nbsp;<input type=\'submit\' id=\'select_image_{$this->strTagID}_{$strKey}\' value=\'{$strSelectImage}\' class=\'select_image button button-small\' />' );</script>"
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true ) 
 					? "<div class='image_preview'><img src='{$strImageURL}' "
 					. "id='image_preview_{$this->strTagID}_{$strKey}' "
@@ -3155,7 +3256,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, false ) == 1 ? "Checked " : '' )				
 				. "/>&nbsp;&nbsp;"
-				. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+				. "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 				. "<label for='{$this->strTagID}_{$strKey}'>"				
 				. $strKey
 				. "</label>"
