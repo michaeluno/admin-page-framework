@@ -1,4 +1,4 @@
-# [Admin Page Framework](http://easydigitaldownloads.com) #
+# [Admin Page Framework](http://wordpress.org/plugins/admin-page-framework/) #
 
 [![Admin Page Framework](https://lh4.googleusercontent.com/-iO08eEtm5R0/UhTT0gLpT2I/AAAAAAAABNI/X6gz49-VYjQ/s400/screenshot-1.png "Admin Page Famework - Sample Screenshot")](https://lh4.googleusercontent.com/-iO08eEtm5R0/UhTT0gLpT2I/AAAAAAAABNI/X6gz49-VYjQ/s0/screenshot-1.png)
 
