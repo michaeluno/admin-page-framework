@@ -1,6 +1,8 @@
 The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.
 
-## Methods and Action Hooks ##
+## AdminPageFramework ##
+
+### Methods and Action Hooks ###
 
 * `start_ + extended class name` – triggered at the end of the class constructor.
 * `do_before_ + page slug` – triggered before rendering the page.
@@ -13,7 +15,7 @@ The class methods corresponding to the name of the below actions and filters can
 * `do_ + extended class name` – triggered in the middle of rendering the page. It applies to all pages created by the instantiated class object.
 * `do_after_ + extended class name` – triggered after rendering the page. It applies to all pages created by the instantiated class object.
 
-## Methods and Filters ##
+### Methods and Filters ###
 
 * `head_ + page slug` – receives the output of the top part of the page.
 * `head_ + page slug + _ + tab slug` – receives the output of the top part of the page.
@@ -24,11 +26,11 @@ The class methods corresponding to the name of the below actions and filters can
 * `foot_ + page slug` – receives the output of the bottom part of the page.
 * `foot_ + page slug + _ + tab slug` – receives the output of the bottom part of the page.
 * `foot_ + extended class name` – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object.
-* `extended class name + section_ + section ID` – receives the description output of the given form section ID. The first parameter: output string. Second parameter: the array of option.
-* `extended class name + field_ + field ID` – receives the form input field output of the given input field ID. The first parameter: output string. Second parameter: the array of option.
-* `validation_ + extended class name` – receives the form submission values as array.
-* `validation_ + page slug` – receives the form submission values as array.
-* `validation_ + page slug + _ + tab slug` – receives the form submission values as array.
+* `extended class name + section_ + section ID` – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.
+* `extended class name + field_ + field ID` – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.
+* `validation_ + extended class name` – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.
+* `validation_ + page slug` – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.
+* `validation_ + page slug + _ + tab slug` – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.
 * `style_ + page slug + _ + tab slug` – receives the output of the CSS rules applied to the tab page of the slug.
 * `style_ + page slug` – receives the output of the CSS rules applied to the page of the slug.
 * `style_ + extended class name` – receives the output of the CSS rules applied to the pages added by the instantiated class object.
@@ -42,10 +44,26 @@ The class methods corresponding to the name of the below actions and filters can
 * `import_ + page slug` – receives the importing array submitted from the page.
 * `import_ + extended class name` – receives the importing array submitted from the plugin.
 
-### Remarks ###
+## AdminPageFramework_PostType ##
+
+### Methods and Action Hooks ###
+* `start_ + extended class name` – triggered at the end of the class constructor.
+
+### Methods and Filters ###
+* `cell_ + post type + column key` - receives the output string for the listing table of the custom post type's post. The first parameter: output string. The second parameter: the post ID.
+
+## AdminPageFramework_MetaBox ###
+
+### Methods and Action Hooks ###
+* `start_ + extended class name` – triggered at the end of the class constructor.
+
+### Methods and Filters ###
+
+
+## Remarks ##
 The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.
 
-### Examples ###
+## Examples ##
 If the extended class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.
 
 	class Sample_Admin_Pages extends AdminPageFramework {
@@ -67,7 +85,7 @@ If the created page slug is my_first_setting_page, defining the following class 
 	...
 	}
 	
-### Timing of Hooks ###
+## Timing of Hooks ##
 
 	------ When the class is instantiated ------
 

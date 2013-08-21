@@ -45,6 +45,9 @@ For available action hooks and filters, please refer to [Hooks and Callbacks](?p
 	
 ## Simple Example Plugin ##
 
+	<?php
+	/* Plugin Name: Admin Page Framework - My First Admin Page */ 
+	
 	if ( !class_exists( 'AdminPageFramework' ) ) 
 		include_once( '/class/admin-page-framework.php' );
 		

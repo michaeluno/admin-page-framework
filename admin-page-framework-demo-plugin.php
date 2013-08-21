@@ -176,6 +176,11 @@ class APF_Demo extends AdminPageFramework {
 				'strTabSlug'	=> 'hooks_and_callbacks',
 				'strTitle'		=> __( 'Hooks and Callbacks', 'admin-page-framework-demo' ),				
 			),			
+			array(
+				'strPageSlug'	=> 'documentation',
+				'strTabSlug'	=> 'tutorials',
+				'strTitle'		=> __( 'Tutorials', 'admin-page-framework-demo' ),				
+			),				
 			array()
 		);			
 		
@@ -763,6 +768,9 @@ class APF_Demo extends AdminPageFramework {
 	public function do_documentation_hooks_and_callbacks() {	// do_ + page slug + tab slug
 		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/hooks_and_callbacks.md' ) );
 	}	
+	public function do_documentation_tutorials() {	// do_ + page slug + tab slug
+		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/tutorials.md' ) );
+	}		
 	public function style_documentation( $strStyle ) {	// style_ + page slug
 		return $strStyle 
 			. "
@@ -772,6 +780,12 @@ class APF_Demo extends AdminPageFramework {
 			}			
 			p, ul, pre { 
 				margin-left: 2em;
+			}
+			ul p {
+				margin-left: 0;
+			}
+			ul li {
+				list-style-type: disc;	
 			}
 			pre {				
 				border: 1px solid #ededed;
@@ -788,6 +802,12 @@ class APF_Demo extends AdminPageFramework {
 				overflow: auto;
 				background-color: transparent;
 			}	
+			hr {
+				height: 1px;
+				border: 1px;
+				color:#ededed;
+				background-color:#ededed;
+			}
 			";
 	}
 }
@@ -874,8 +894,8 @@ new APF_PostType(
 	'apf_posts', 	// post type slug
 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 		'labels' => array(
-			'name' => 'Admin Page Framework Custom Post Type',
-			'singular_name' => 'Admin Page Framework Custom Post Type',
+			'name' => 'Admin Page Framework',
+			'singular_name' => 'Admin Page Framework',
 			'add_new' => 'Add New',
 			'add_new_item' => 'Add New APF Post',
 			'edit' => 'Edit',
