@@ -674,14 +674,14 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	/*
 	 * Front-end methods - the user uses these methods in their class definition.
 	 * */
-	protected function setRootMenuPage( $strRootMenuLabel, $strPathIcon16x16=null, $intMenuPosition=null ) {
+	protected function setRootMenuPage( $strRootMenuLabel, $strURLIcon16x16=null, $intMenuPosition=null ) {
 
 		$strRootMenuLabel = trim( $strRootMenuLabel );
 		$strSlug = $this->isBuiltInMenuItem( $strRootMenuLabel );	// if true, this method returns the slug
 		$this->oProps->arrRootMenu = array(
 			'strTitle'			=> $strRootMenuLabel,
 			'strPageSlug' 		=> $strSlug ? $strSlug : $this->oProps->strClassName,	
-			'strPathIcon16x16'	=> $strPathIcon16x16,
+			'strURLIcon16x16'	=> filter_var( $strURLIcon16x16, FILTER_VALIDATE_URL) ? $strURLIcon16x16 : null,
 			'intPosition'		=> $intMenuPosition,
 			'fCreateRoot'		=> $strSlug ? false : true,
 		);	
@@ -760,7 +760,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			$this->oProps->strCapability,						// Capability - access right
 			$this->oProps->arrRootMenu['strPageSlug'],			// Menu ID 
 			'', //array( $this, $this->oProps->strClassName ), 	// Page content displaying function
-			$this->oProps->arrRootMenu['strPathIcon16x16'],		// icon path
+			$this->oProps->arrRootMenu['strURLIcon16x16'],		// icon path
 			isset( $this->arrRootMenu['intPosition'] ) ? $this->arrRootMenu['intPosition'] : null	// menu position
 		);
 
@@ -1803,7 +1803,7 @@ class AdminPageFramework_Properties {
 	public $arrRootMenu = array(	// Stores the root menu item information for one set root menu item.
 		'strTitle' => null,				// menu label that appears on the menu list
 		'strPageSlug' => null,				// menu slug that identifies the menu item
-		'strPathIcon16x16' => null,		// the associated icon that appears beside the label on the list
+		'strURLIcon16x16' => null,		// the associated icon that appears beside the label on the list
 		'intPosition'	=> null,		// determines the position of the menu
 		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
 	); 
