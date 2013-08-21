@@ -1006,9 +1006,9 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strDescription'	=> 'The description for the field.',
 				'strType'			=> 'checkbox',
 				'vLabel' => array( 
-					'one' => __( 'Option One', 'demo' ),
-					'two' => __( 'Option Two', 'demo' ),
-					'three' => __( 'Option Three', 'demo' ),
+					'one' => __( 'Option One', 'admin-page-framework-demo' ),
+					'two' => __( 'Option Two', 'admin-page-framework-demo' ),
+					'three' => __( 'Option Three', 'admin-page-framework-demo' ),
 				),
 				'vDefault' => array(
 					'one' => true,
@@ -1021,7 +1021,12 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strTitle'			=> 'Image',
 				'strDescription'	=> 'The description for the field.',
 				'strType'			=> 'image',
-			),			
+			),		
+			array (
+				'strFieldID'		=> 'color_field',
+				'strTitle'			=> __( 'Color', 'admin-page-framework-demo' ),
+				'strType'			=> 'color',
+			),
 			array()
 		);
 		
