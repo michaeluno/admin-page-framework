@@ -1058,6 +1058,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
 					tb_remove();	// close the thickbox
 					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
+					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
 					$( '#image_preview_' + field_id ).show()	// updates the visibility
 				}
 			});";
@@ -3218,7 +3219,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					)
 				. "<input id='{$this->strTagID}_{$strKey}' "
 				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-				. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 80 ) . "' "
+				. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 				. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 				. "type='text' "	// text
 				. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
@@ -3227,10 +3228,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"
 				. "<script type='text/javascript'>document.write( '&nbsp;&nbsp;&nbsp;<input type=\'submit\' id=\'select_image_{$this->strTagID}_{$strKey}\' value=\'{$strSelectImage}\' class=\'select_image button button-small\' />' );</script>"
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true ) 
-					? "<div class='image_preview'><img src='{$strImageURL}' "
-					. "id='image_preview_{$this->strTagID}_{$strKey}' "
-					. "/></div>"
+				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
+					? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' class='image_preview' style='" . ( $strImageURL ? "" : "display : none;" ) . "'>"
+						. "<img src='{$strImageURL}' "
+						. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
+						. "/>"
+						. "</div>"
 					: "" )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
@@ -3672,6 +3675,7 @@ class AdminPageFramework_MetaBox {
 		'fIf'				=> true,
 	);
 	protected $strPrefixStart = 'start_';
+	protected $strScript = "";
 	
 	function __construct( $strMetaBoxID, $strTitle, $vPostTypes=array( 'post' ), $strContext='normal', $strPriority='default', $arrFields=null, $strCapability='edit_posts', $strTextDomain='admin-page-framework' ) {
 		
@@ -3689,21 +3693,20 @@ class AdminPageFramework_MetaBox {
 		$this->arrFields = $arrFields;
 		$this->strClassName = get_class( $this );
 		$this->strCapability = $strCapability;
-		
-		// Hooks
-		$this->oUtil->addAndDoAction( $this, "{$this->strPrefixStart}{$this->strClassName}" );
-		
+				
 		if ( is_admin() ) {
+			
 			add_action( 'add_meta_boxes', array( $this, 'addMetaBox' ) );
 			add_action( 'save_post', array( $this, 'saveMetaBoxFields' ) );
 			
-			// if ( in_array( $_GET['post_type'], $this->arrPostTypes ) {
-			// if ( $GLOBALS['pagenow'] == 'post.php' || ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) ) ) {
-				add_action( 'admin_head', array( $this, 'addStyle' ) );
-				add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );		
-			// }
+			add_action( 'admin_head', array( $this, 'addScript' ) );
+			add_action( 'admin_head', array( $this, 'addStyle' ) );
+			add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );		
+			
 		}
 		
+		// Hooks
+		$this->oUtil->addAndDoAction( $this, "{$this->strPrefixStart}{$this->strClassName}" );
 		add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		
 	}
@@ -3735,8 +3738,9 @@ class AdminPageFramework_MetaBox {
 			// If a custom condition is set and it's not true, skip.
 			if ( ! $arrField['fIf'] ) continue;
 								
-			// If it's the image type field, extra jQuery scripts need to be loaded.
+			// If it's the image or color type field, extra jQuery scripts need to be loaded.
 			if ( $arrField['strType'] == 'image' ) $this->addImageFieldScript( $arrField );
+			if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
 					
 			$this->arrFields[ $arrField['strFieldID'] ] = $arrField;
 						
@@ -3746,8 +3750,77 @@ class AdminPageFramework_MetaBox {
 	/*
 	 * Back end methods - public callbacks and private methods.
 	 * */
+	private function addColorFieldScript( &$arrField ) {
+
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] = true;
+	
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueColorFiledScript' ) );
+	
+		// Append the script
+		//Setup the color pickers to work with our text input field
+		$this->strScript .= "
+			jQuery(document).ready(function(){
+				'use strict';
+				//This if statement checks if the color picker element exists within jQuery UI
+				//If it does exist then we initialize the WordPress color picker on our text input field
+				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+					var myOptions = {
+						// you can declare a default color here,
+						// or in the data-default-color attribute on the input
+						defaultColor: false,
+						// a callback to fire whenever the color changes to a valid color
+						change: function(event, ui){
+							// reference : http://automattic.github.io/Iris/
+							// update the image element as well
+							// event = standard jQuery event, produced by whichever control was changed.
+							// ui = standard jQuery UI object, with a color member containing a Color.js object
+
+							// change the headline color
+							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', ui.color.toString());	
+							
+						},
+						// a callback to fire when the input is emptied or an invalid color
+						clear: function() {
+							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', 'transparent' );	
+							
+						},
+						// hide the color picker controls on load
+						hide: true,
+						// show a group of common colors beneath the square
+						// or, supply an array of colors to customize further
+						palettes: true
+					};			
+					jQuery( '.input_color' ).wpColorPicker( myOptions );
+				}
+				else {
+					//We use farbtastic if the WordPress color picker widget doesn't exist
+					// jQuery( '.colorpicker' ).farbtastic( '.input_color' );
+				}
+			});	
+		";			
+	
+	}
+	public function enqueueColorFiledScript() {
+		
+		// Reference: http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
+		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
+		if ( 3.5 <= $GLOBALS['wp_version'] ){
+			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'wp-color-picker' );
+		}
+		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
+		else {
+			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'farbtastic' );
+			wp_enqueue_script( 'farbtastic' );
+		}		
+	}
 	private function addImageFieldScript( &$arrField ) {
-					
+						
 		// These two hooks should be enabled when the image field type is added in the field array.
 		$this->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
 		$this->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
@@ -3761,12 +3834,31 @@ class AdminPageFramework_MetaBox {
 		
 		// This class may be instantiated multiple times so use a global flag.
 		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_ScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_ScriptEnqueued" ] = true;
+		if ( isset( $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] = true;
 			
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
-		add_action( 'admin_head', array( $this, 'addScript' ) );
-					
+		
+		// Append the script
+		$this->strScript .= "
+			jQuery( document ).ready( function( $ ){
+				$( '.select_image' ).click( function() {
+					pressed_id = $( this ).attr( 'id' );
+					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
+					tb_show('{$this->strThickBoxTitle}', 'media-upload.php?referrer={$this->strClassName}&amp;button_label={$this->strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
+					return false;	// do not click the button after the script by returning false.
+				});
+				window.send_to_editor = function( html ) {
+					var image_url = $( 'img',html ).attr( 'src' );
+					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
+					tb_remove();	// close the thickbox
+					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
+					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
+					$( '#image_preview_' + field_id ).show()	// updates the visibility
+				}
+			});";
+		
+		
 	}
 	
 	public function addStyle() {	// callback for the admin_head hook.
@@ -3808,27 +3900,10 @@ class AdminPageFramework_MetaBox {
 			. "</style>";
 			
 	}
+	
 	public function addScript() {	// callback for the admin_head hook.
-		
-		// Append the script
-		$this->strScript = "
-			jQuery( document ).ready( function( $ ){
-				$( '.select_image' ).click( function() {
-					pressed_id = $( this ).attr( 'id' );
-					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-					tb_show('{$this->strThickBoxTitle}', 'media-upload.php?referrer={$this->strClassName}&amp;button_label={$this->strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
-					return false;	// do not click the button after the script by returning false.
-				});
-				window.send_to_editor = function( html ) {
-					var image_url = $( 'img',html ).attr( 'src' );
-					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
-					tb_remove();	// close the thickbox
-					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
-					$( '#image_preview_' + field_id ).show()	// updates the visibility
-				}
-			});";
-
-		// Print out the filtered styles.
+	
+		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
 			. $this->oUtil->addAndApplyFilters( $this, "script_{$this->strClassName}", $this->strScript )
 			. "</script>";	
