@@ -41,10 +41,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **`admin-page-framework.php`** is in the *class* folder.
 
 = Documentation =
-* [Getting Started](http://en.michaeluno.jp/admin-page-framework/get-started/ "Get Started")
-* [Demos](http://en.michaeluno.jp/admin-page-framework/demos/ "Demos")
-* [Methods](http://en.michaeluno.jp/admin-page-framework/methods/ "Methods")
-* [Hooks and Callbacks](http://en.michaeluno.jp/admin-page-framework/hooks-and-callbacks/ "Hooks and Callbacks") 
+Documentation is included in the demo plugin. Navigate to **Admin Page Framework** -> **Documentation**. 
 
 == Screenshots ==
 1. **Text Fields**
@@ -130,7 +127,7 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
 
 = How can I contribute to improving the documentation? =
-In the [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework"), there is a folder named, **document**, and you can see the md files. They are the documentation files and they follow the [markdown](http://daringfireball.net/projects/markdown/syntax) syntax.
+In the [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework"), there is a folder named, **document**, and the md files are in the folder. They are the documentation files and they follow the [markdown](http://daringfireball.net/projects/markdown/syntax) syntax.
 
 You can modify these files and commit the changes. Before requesting a pull, please submit an [issue](https://github.com/michaeluno/admin-page-framework/issues) first so that we can discuss whether it is appropriate or not.
 
