@@ -291,7 +291,7 @@ abstract class AdminPageFramework_Pages {
 		'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 		'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 		'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',
-	);	
+	);	// generic is not available in WordPress v3.4.x
 	private static $arrStructure_InPageTabElements = array(
 		'strPageSlug' => null,
 		'strTabSlug' => null,
@@ -1759,6 +1759,13 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			: $strHTML;
 		
 	}
+	public function setFooterInfoRight( $strHTML, $fAppend=true ) {
+		
+		$this->oProps->arrFooterInfo['strRight'] = $fAppend 
+			? $this->oProps->arrFooterInfo['strRight'] . $strHTML
+			: $strHTML;
+		
+	}
 	
 	/*
 	 * Back end methods
@@ -1888,7 +1895,10 @@ class AdminPageFramework_Properties {
 	public $arrDefaultInPageTabs = array();			// Stores the default tab.
 	public $arrPluginDescriptionLinks = array(); 	// Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
 	public $arrPluginTitleLinks = array();			// Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
-	public $arrFooterInfo = array();
+	public $arrFooterInfo = array(
+		'strLeft' => '',
+		'strRight' => '',
+	);
 	
 	// Settings API
 	// public $arrOptions;			// Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
@@ -2312,7 +2322,10 @@ endif;
 if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
 class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 	
-	public $arrFooterInfo = array();	// accessible from the AdminPageFramework_PostType class.
+	public $arrFooterInfo = array(	// accessible from the AdminPageFramework_PostType class.
+		'strLeft' => '',
+		'strRight' => '',
+	);
 	
 	public function __construct( $strPostTypeSlug, $strCallerPath=null ) {
 		
@@ -2354,6 +2367,10 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
 		$this->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
 		
+		$this->arrFooterInfo['strRight'] = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
+			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
+			. ', <a href="http://wordpress.org">WordPress</a>';
+		
 	}
 	
 	/*
@@ -2384,13 +2401,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 			return $strLinkHTML;	// $strLinkHTML is given by the hook.
 
 		if ( empty( $this->arrScriptInfo['strName'] ) ) return $strLinkHTML;
-		
-		// $strPluginInfo = $this->arrScriptInfo['strName'];
-		// $strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
-		// $strPluginInfo = empty( $this->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
-		// $strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
-		// $strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
-		// return 'testing ' . $strPluginInfo . ' ' . $strAuthorInfo;			
+					
 		return $this->arrFooterInfo['strLeft'];
 		
 	}
@@ -2399,9 +2410,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		if ( ! isset( $_GET['post_type'] ) ||  $_GET['post_type'] != $this->strPostTypeSlug )
 			return $strLinkHTML;	// $strLinkHTML is given by the hook.
 			
-		return __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
-			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
-			. ', <a href="http://wordpress.org">WordPress</a>';
+		return $this->arrFooterInfo['strRight'];		
 			
 	}
 }
@@ -2446,6 +2455,10 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthorURI'] )	? $this->oProps->arrScriptInfo['strAuthor'] : '<a href="' . $this->oProps->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->oProps->arrScriptInfo['strAuthor'] . '</a>';
 		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
 		$this->oProps->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
+		
+		$this->oProps->arrFooterInfo['strRight'] = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
+			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
+			. ', <a href="http://wordpress.org">WordPress</a>';		
 		
 	}
 	
@@ -2536,9 +2549,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		if ( ! isset( $_GET['page'] ) || ! $this->oProps->isPageAdded( $_GET['page'] )  ) 
 			return $strLinkHTML;	// $strLinkTHML is given by the hook.
 			
-		return __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
-			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
-			. ', <a href="http://wordpress.org">WordPress</a>';
+		return $this->oProps->arrFooterInfo['strRight'];
 			
 	}
 	
@@ -2951,12 +2962,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		// This is a helper function for the above getSelectField() method.
 		$arrOutput = array();
 		foreach ( $arrLabels as $strKey => $strLabel ) {
+			$arrValue = $fSingle ? ( array ) $this->vValue : ( array ) $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, array() ) ;
 			$arrOutput[] = "<option "
 				. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
 				. "value='{$strKey}' "
 				. (	$fMultiple 
-					? ( in_array( $strKey, $fSingle ? ( array ) $this->vValue : $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, array() ) ) ? 'selected="Selected"' : '' )
-					: ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )				
+					? ( in_array( $strKey, $arrValue ) ? 'selected="Selected"' : '' )
+					: ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )
 				)
 				. ">"
 				. $strLabel
@@ -3569,6 +3581,13 @@ abstract class AdminPageFramework_PostType {
 		
 		$this->oLink->arrFooterInfo['strLeft'] = $fAppend 
 			? $this->oLink->arrFooterInfo['strLeft'] . $strHTML
+			: $strHTML;
+				
+	}
+	public function setFooterInfoRight( $strHTML, $fAppend=true ) {
+		
+		$this->oLink->arrFooterInfo['strRight'] = $fAppend 
+			? $this->oLink->arrFooterInfo['strRight'] . $strHTML
 			: $strHTML;
 				
 	}
