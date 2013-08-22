@@ -16,7 +16,6 @@ class APF_Demo extends AdminPageFramework {
 
     public function setUp() {
     
-        // $this->setRootMenuPage( 'My Demo Plugin' );   // specifies to which parent menu to belong.
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
 		$this->addSubMenuItems(
 			/* 	
@@ -36,7 +35,7 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strPageTitle' => 'Various Form Fields',
 				'strPageSlug' => 'first_page',
-				'strScreenIcon' => 'generic',
+				'strScreenIcon' => 'options-general',
 				'numOrder' => 1,
 			),
 			array(
@@ -119,18 +118,18 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strPageSlug'	=> 'second_page',
 				'strTabSlug'	=> 'export_import',
-				'strTitle'		=> 'Export / Import',			
+				'strTitle'		=> __( 'Export / Import', 'admin-page-framework-demo' ),			
 			),
 			array(
 				'strPageSlug'	=> 'second_page',
 				'strTabSlug'	=> 'delete_options',
-				'strTitle'		=> 'Delete',
+				'strTitle'		=> __( 'Reset', 'admin-page-framework-demo' ),
 				'numOrder'		=> 99,	
 			),						
 			array(
 				'strPageSlug'	=> 'second_page',
 				'strTabSlug'	=> 'delete_options_confirm',
-				'strTitle'		=> 'Delete Confirm',
+				'strTitle'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
 				'fHide'			=> true,
 				'strParentTabSlug' => 'delete_options',
 				'numOrder'		=> 97,
@@ -489,7 +488,7 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strFieldID' => 'taxonomy_checklist',
 				'strSectionID' => 'checklists',
-				'strTitle' => 'Category Checklist',
+				'strTitle' => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
 				'strType' => 'taxonomy',
 				'vLabel' => $this->getTaxonomyLabels( 'menu_name' ),
 				'vTaxonomySlug' => get_taxonomies( '', 'names' ), // or simply 'category' to get a category list.
@@ -776,7 +775,7 @@ class APF_Demo extends AdminPageFramework {
 				font-size: 18px;
 				line-height: 24px;				
 			}
-			p, ul, pre { 
+			.wrap p, .wrap ul, .wrap pre { 
 				margin-left: 2em;
 			}
 			pre {				
@@ -824,13 +823,13 @@ class APF_Demo extends AdminPageFramework {
 				font-size: 18px;
 				line-height: 24px;
 			}			
-			p, ul, pre { 
+			.wrap p, .wrap ul, .wrap pre { 
 				margin-left: 2em;
 			}
-			ul p {
+			.wrap ul p {
 				margin-left: 0;
 			}
-			ul li {
+			.wrap ul li {
 				list-style-type: disc;	
 			}
 			pre {				
@@ -864,8 +863,7 @@ if ( is_admin() )
 class APF_PostType extends AdminPageFramework_PostType {
 	
 	public function setUp() {
-	// public function start_APF_PostType() {
-
+	
 		$this->setAutoSave( false );
 		$this->setAuthorTableFilter( true );
 		$this->addTaxonomy( 
@@ -903,6 +901,9 @@ class APF_PostType extends AdminPageFramework_PostType {
 			)
 		);
 
+		$this->setFooterInfoLeft( '<br />Custom Text on the left side.' );
+		$this->setFooterInfoRight( '<br />Custom text on the right side' );
+		
 	}
 	
 	/*
