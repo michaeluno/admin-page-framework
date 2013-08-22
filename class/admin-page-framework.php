@@ -1746,10 +1746,18 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	}
 	 
 	/*
-	 * Methods for setting the access level
+	 * Methods that access the properties.
 	 */
 	public function setCapability( $strCapability ) {
 		$this->oProps->strCapability = $strCapability;	
+	}
+	
+	public function setFooterInfoLeft( $strHTML, $fAppend=true ) {
+		
+		$this->oProps->arrFooterInfo['strLeft'] = $fAppend 
+			? $this->oProps->arrFooterInfo['strLeft'] . $strHTML
+			: $strHTML;
+		
 	}
 	
 	/*
@@ -1880,6 +1888,7 @@ class AdminPageFramework_Properties {
 	public $arrDefaultInPageTabs = array();			// Stores the default tab.
 	public $arrPluginDescriptionLinks = array(); 	// Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
 	public $arrPluginTitleLinks = array();			// Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
+	public $arrFooterInfo = array();
 	
 	// Settings API
 	// public $arrOptions;			// Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
@@ -2303,6 +2312,8 @@ endif;
 if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
 class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 	
+	public $arrFooterInfo = array();	// accessible from the AdminPageFramework_PostType class.
+	
 	public function __construct( $strPostTypeSlug, $strCallerPath=null ) {
 		
 		if ( ! is_admin() ) return;
@@ -2314,6 +2325,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
+		$this->setFooterInfo();
 		
 		// For the plugin listing page
 		if ( $this->arrScriptInfo['strType'] == 'plugin' )
@@ -2326,6 +2338,21 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		// For post type posts listing table page ( edit.php )
 		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->strPostTypeSlug )
 			add_action( 'get_edit_post_link', array( $this, 'addPostTypeQueryInEditPostLink' ), 10, 3 );
+		
+	}
+	
+	/*
+	 * Helper methods
+	 * */
+	protected function setFooterInfo() {
+		
+		$strPluginInfo = $this->arrScriptInfo['strName'];
+		$strPluginInfo = $this->arrScriptInfo['strName'];
+		$strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
+		$strPluginInfo = empty( $this->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
+		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		$this->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
 		
 	}
 	
@@ -2358,13 +2385,14 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 
 		if ( empty( $this->arrScriptInfo['strName'] ) ) return $strLinkHTML;
 		
-		$strPluginInfo = $this->arrScriptInfo['strName'];
-		$strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
-		$strPluginInfo = empty( $this->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
-		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
-		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
-		return $strPluginInfo . ' ' . $strAuthorInfo;			
-
+		// $strPluginInfo = $this->arrScriptInfo['strName'];
+		// $strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
+		// $strPluginInfo = empty( $this->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		// $strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
+		// $strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		// return 'testing ' . $strPluginInfo . ' ' . $strAuthorInfo;			
+		return $this->arrFooterInfo['strLeft'];
+		
 	}
 	public function addInfoInFooterRight( $strLinkHTML='' ) {
 		
@@ -2400,12 +2428,27 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
+		$this->setFooterInfo();
 	
 		if ( $this->oProps->arrScriptInfo['strType'] == 'plugin' )
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->arrScriptInfo['strPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}
+	
+	/*
+	 * Helper methods.
+	 * */
+	protected function setFooterInfo() {
 		
+		$strPluginInfo = $this->oProps->arrScriptInfo['strName'];
+		$strPluginInfo .= empty( $this->oProps->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->oProps->arrScriptInfo['strVersion'];
+		$strPluginInfo = empty( $this->oProps->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->oProps->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthorURI'] )	? $this->oProps->arrScriptInfo['strAuthor'] : '<a href="' . $this->oProps->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->oProps->arrScriptInfo['strAuthor'] . '</a>';
+		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		$this->oProps->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
+		
+	}
+	
 	/*
 	 * Methods for adding menu links.
 	 * */
@@ -2479,12 +2522,13 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		
 		if ( empty( $this->oProps->arrScriptInfo['strName'] ) ) return $strLinkHTML;
 		
-		$strPluginInfo = $this->oProps->arrScriptInfo['strName'];
-		$strPluginInfo .= empty( $this->oProps->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->oProps->arrScriptInfo['strVersion'];
-		$strPluginInfo = empty( $this->oProps->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->oProps->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
-		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthorURI'] )	? $this->oProps->arrScriptInfo['strAuthor'] : '<a href="' . $this->oProps->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->oProps->arrScriptInfo['strAuthor'] . '</a>';
-		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
-		return $strPluginInfo . ' ' . $strAuthorInfo;			
+		// $strPluginInfo = $this->oProps->arrScriptInfo['strName'];
+		// $strPluginInfo .= empty( $this->oProps->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->oProps->arrScriptInfo['strVersion'];
+		// $strPluginInfo = empty( $this->oProps->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->oProps->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		// $strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthorURI'] )	? $this->oProps->arrScriptInfo['strAuthor'] : '<a href="' . $this->oProps->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->oProps->arrScriptInfo['strAuthor'] . '</a>';
+		// $strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		// return $strPluginInfo . ' ' . $strAuthorInfo;			
+		return $this->oProps->arrFooterInfo['strLeft'];
 
 	}
 	public function addInfoInFooterRight( $strLinkHTML='' ) {
@@ -3404,6 +3448,7 @@ abstract class AdminPageFramework_PostType {
 
 	// Objects
 	protected $oUtil;
+	protected $oLink;
 	
 	// Prefixes
 	protected $strPrefix_Start = 'start_';
@@ -3420,6 +3465,8 @@ abstract class AdminPageFramework_PostType {
 		'title' => true,
 		'date'	=> true,
 	);
+	
+	protected $arrFooterInfo = array();	 // stores the text inserted into the footer.
 	
 	// Default values
 	protected $fEnableAutoSave = true;
@@ -3516,6 +3563,14 @@ abstract class AdminPageFramework_PostType {
 	
 	public function setPostTypeArgs( $arrArgs ) {
 		$this->arrPostTypeArgs = $arrArgs;
+	}
+	
+	public function setFooterInfoLeft( $strHTML, $fAppend=true ) {
+		
+		$this->oLink->arrFooterInfo['strLeft'] = $fAppend 
+			? $this->oLink->arrFooterInfo['strLeft'] . $strHTML
+			: $strHTML;
+				
 	}
 
 	/*
