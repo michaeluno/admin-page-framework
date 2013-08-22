@@ -2551,12 +2551,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'vClassAttribute' => null,	// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
 		'vLabel' => '',				// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
 		'vLabelMinWidth' => 120,	// ( array or integer ) This sets the min-width of the label tag for the textarea, text, and numbers input types.
-		'vDisable' => null,			// ( array or string ) This value indicates whether the set field is disabled or not. 
 		'vDelimiter' => null,		// do not set an empty value here because the radio input field uses own default value.
-		'vReadOnly' => '',			// ( array or string ) sets the readonly attribute to text and textarea input fields.
+		'vDisable' => null,			// ( array or boolean ) This value indicates whether the set field is disabled or not. 
+		'vReadOnly' => '',			// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
+		'vMultiple'	=> false,		// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
 		'vBeforeInputTag' => '',
 		'vAfterInputTag' => '',
-		'vSize' => null,			// ( array or integer )	This is for the text fild type including custom image field. Do not set a value here.
+		'vSize' => null,			// ( array or integer )	This is for the text, the select field, and the image field type. Do not set a value here.
 		'vRows' => 4,				// ( array or integer ) This is for the textarea field type.
 		'vCols' => 80,				// ( array or integer ) This is for the textarea field type.
 		'vMax' => null,				// ( array or integer ) This is for the number field type.
@@ -2576,8 +2577,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'strLabelUseThis' => null,	// ( string ) This is for the image field type.
 		'vTaxonomySlug' => 'category',	// ( string ) This is for the taxonomy field type.
 		'arrRemove' => array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
+		'vWidth' => null,			// ( array or string ) This is for the select field type that specifies the width of the select tag element.
 		'numMaxWidth' => 400,	// for the taxonomy checklist filed type.
-		'numMaxHeight' => 200,	// for the taxonomy checklist filed type.		
+		'numMaxHeight' => 200,	// for the taxonomy checklist filed type.	
 		
 		// Mandatory keys.
 		'strFieldID' => null,		
@@ -2876,33 +2878,42 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 		$fSingle = ( $this->getArrayDimension( $this->arrField['vLabel'] ) == 1 );
 		$arrLabels = $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
-		foreach( $arrLabels as $strKey => $vLabel ) 
+		foreach( $arrLabels as $strKey => $vLabel ) {
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-				. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-				. "<select id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-				. "type='{$this->arrField['strType']}' "
-				. "name=" . ( $fSingle ? "'{$this->strFieldName}' " : "'{$this->strFieldName}[{$strKey}]' " )
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. ">"
-				. $this->getOptionTags( $vLabel, $strKey )
-				. "</select>"
+				. "<span style='vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<select id='{$this->strTagID}_{$strKey}' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+						. "type='{$this->arrField['strType']}' "
+						. ( ( $fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+						. "name=" . ( $fSingle ? "'{$this->strFieldName}" : "'{$this->strFieldName}[{$strKey}]" )
+						. ( $fMultiple ? "[]' " : "' " )
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+						. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
+						. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
+					. ">"
+						. $this->getOptionTags( $vLabel, $strKey, $fSingle, $fMultiple )
+					. "</select>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				
+		}
 		
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
 	
 	}	
-	private function getOptionTags( $arrLabels, $strIterationID ) {	// since 1.1.0
-		
+	private function getOptionTags( $arrLabels, $strIterationID, $fSingle, $fMultiple=false ) {	// since 1.1.0
+
 		// This is a helper function for the above getSelectField() method.
 		$arrOutput = array();
 		foreach ( $arrLabels as $strKey => $strLabel ) {
 			$arrOutput[] = "<option "
 				. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
 				. "value='{$strKey}' "
-				. ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? 'Selected' : '' )
+				. (	$fMultiple 
+					? ( in_array( $strKey, $fSingle ? ( array ) $this->vValue : $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, array() ) ) ? 'selected="Selected"' : '' )
+					: ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )				
+				)
 				. ">"
 				. $strLabel
 				. "</option>";

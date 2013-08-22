@@ -378,23 +378,42 @@ class APF_Demo extends AdminPageFramework {
 				'vDefault' => 2,
 				'vLabel' => array( 'red', 'blue', 'yellow', 'orange' )
 			),	
-			array(	// Multiple Dropdown Lists
-				'strFieldID' => 'select_multiple',
+			array(	// Single Dropdown List with Multiple Options
+				'strFieldID' => 'select_multiple_options',
 				'strSectionID' => 'selectors',
-				'strTitle' => 'Multiple Dropdown Lists',
-				'strDescription' => 'This is multiple sets of drop down list.',
+				'strTitle' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'Press the Shift key to select multiple items.', 'admin-page-framework-demo' ),
+				'strType' => 'select',
+				'vMultiple' => true,
+				'vDefault' => 2,
+				'vSize' => 10,	
+				'vWidth' => '200px',	// The width property value of CSS.
+				'vLabel' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' )
+			),			
+			array(	// Dropdown Lists with Mixed Types
+				'strFieldID' => 'select_mixed',
+				'strSectionID' => 'selectors',
+				'strTitle' => __( 'Multiple Dropdown Lists with Mixed Types', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'This is multiple sets of drop down list.', 'admin-page-framework-demo' ),
 				'strType' => 'select',
 				'vLabel' => array( 
+					array( 'dark', 'light' ),
 					array( 'river', 'mountain', 'sky', ),
 					array( 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
-					array( 'dark', 'light' ),
 				),
 				'vDefault' => array(
-					2,
 					1,
+					2,
 					0
 				),
-			),				
+				'vMultiple' => array(
+					false,	// normal
+					false,	// normal
+					true,	// multiple options
+				),
+				
+				
+			),					
 			array(	// Single set of radio buttons
 				'strFieldID' => 'radio',
 				'strSectionID' => 'selectors',
@@ -453,8 +472,6 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'color_picker',
 				'strTitle' => __( 'Color Picker', 'admin-page-framework-demo' ),
 				'strType' => 'color',
-				// 'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
-				// 'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
 			),					
 			array( // Multiple Color Pickers
 				'strFieldID' => 'multiple_color_picker_field',
@@ -462,7 +479,6 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
-				// 'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
 			),				
 			array(
 				'strFieldID' => 'post_type_checklist',
