@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.0
+	Version: 2.0.0.b1
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */ 
 
@@ -27,7 +27,6 @@ class APF_Demo extends AdminPageFramework {
 				'numOrder' => 10,
 				
 			 * for sub-menu links, e.g.
-				'strType' => 'link',
 				'strMenuTitle' => 'Google',
 				'strURL' => 'http://www.google.com',
 				
@@ -50,7 +49,6 @@ class APF_Demo extends AdminPageFramework {
 				'numOrder' => 2,
 			),
 			array(
-				'strType' => 'link',
 				'strMenuTitle' => 'Google',
 				'strURL' => 'http://www.google.com',	
 				'fPageHeadingTab' => false,	// this removes the title from the page heading tabs.
@@ -847,8 +845,35 @@ class APF_Demo extends AdminPageFramework {
 		return $strStyle 
 			. "
 			.wrap .admin-page-framework-container h2 {
-				font-size: 18px;
-				line-height: 24px;
+				font-size: 1.7em;
+				line-height: 1.8em;
+				margin-bottom: 0.7em;
+				font-weight: bold;
+				color: #222;
+			}			
+			.wrap .admin-page-framework-container h3 {
+				font-size: 1.5em;
+				line-height: 1.6em;
+				margin-bottom: 0.5em;
+				color: #333;
+			}						
+			.wrap .admin-page-framework-container h4 {
+				font-size: 1.3em;
+				line-height: 1.4em;
+				margin-bottom: 0.3em;
+				color: #444;
+			}			
+			.wrap .admin-page-framework-container h5 {
+				font-size: 1.2em;
+				line-height: 1.3em;
+				margin-bottom: 0.2em;
+				color: #555;
+			}			
+			.wrap .admin-page-framework-container h6 {		
+				font-size: 1.1em;
+				line-height: 1.2em;
+				margin-bottom: 0.1em;
+				color: #777;
 			}			
 			.wrap p, .wrap ul, .wrap pre { 
 				margin-left: 2em;
