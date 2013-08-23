@@ -4,7 +4,7 @@
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.0
+	Version: 2.0.0.b1
 	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 	Usage: 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
@@ -436,7 +436,7 @@ abstract class AdminPageFramework_Pages {
 			. "</form><!-- End Form -->";
 	
 	}	
-	private function getScreenIcon( $strPageSlug ) {	// since 1.1.0
+	private function getScreenIcon( $strPageSlug ) {
 
 		// If the icon path is explicitly set, use it.
 		if ( isset( $this->oProps->arrPages[ $strPageSlug ]['strURLIcon32x32'] ) ) 
@@ -460,7 +460,7 @@ abstract class AdminPageFramework_Pages {
 		return '<div id="icon-' . $strIconIDAttribute . '" class="' . $strClass . '"><br /></div>';
 			
 	}
-	private function getScreenIDAttribute( $oScreen ) {		// since 1.1.0
+	private function getScreenIDAttribute( $oScreen ) {
 		
 		if ( ! empty( $oScreen->parent_base ) )
 			return $oScreen->parent_base;
@@ -552,7 +552,7 @@ abstract class AdminPageFramework_Pages {
 		
 	}
 	
-	protected function addInPageTab( $strPageSlug, $strTabTitle, $strTabSlug, $numOrder=null, $fHide=null, $strParentTabSlug=null ) {	// since 1.1.0		
+	protected function addInPageTab( $strPageSlug, $strTabTitle, $strTabSlug, $numOrder=null, $fHide=null, $strParentTabSlug=null ) {	
 		
 		// Always use this method to add in-page tabs to ensure the array holds all the necessary keys.
 		$strTabSlug = $this->oUtil->sanitizeSlug( $strTabSlug );
@@ -569,7 +569,7 @@ abstract class AdminPageFramework_Pages {
 			);
 	
 	}
-	protected function addInPageTabs() {	// since 1.1.0
+	protected function addInPageTabs() {
 	
 		/* Usage: e.g.
 		$this->addInPageTabs(
@@ -596,7 +596,7 @@ abstract class AdminPageFramework_Pages {
 		
 	}
 
-	public function finalizeInPageTabs() {	// since 1.1.0
+	public function finalizeInPageTabs() {
 	
 		// A callback method for the admin_menu hook. This finalizes the added in-page tabs and sets the default in-page tab for each page.
 		// Also this sorts the in-page tab array.
@@ -650,7 +650,6 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	
 	/*
 	 * Manipulates menu creation.
-	 * since 1.1.0
 	 */
 	
 	public static $arrBuiltInRootMenuSlugs = array(
@@ -674,7 +673,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		'strScreenIcon' => null,
 		'strCapability' => null, 
 		'numOrder' => null,
-		'fPageHeadingTab' => true,	// if this is set false, the won't be displayed in the page heading tab.
+		'fPageHeadingTab' => true,	// if this is set false, the page title won't be displayed in the page heading tab.
 	);
 	
 	/*
@@ -901,7 +900,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 					
 	}
 	
-	protected function addSettingSections() {	// since 1.1.0
+	protected function addSettingSections() {	
 			
 		// This method just adds the given section array items into the section array property. 
 		// The actual registration will be dealt with the registerSetction() method.
@@ -935,7 +934,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			
 		}	
 	}
-	protected function removeSettignSections() {	// since 1.1.0
+	protected function removeSettignSections() {	
 		
 		// Removes the given section by section ID.
 		// Usage: $this->removeSettignSections( 'sactionID_A', 'sactionID_B', 'sactionID_C',... );
@@ -945,7 +944,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				unset( $this->oProps->arrSections[ $strSectionID ] );
 		
 	}
-	protected function addSettingFields() {	// since 1.1.0
+	protected function addSettingFields() {	
 	
 		// This method just adds the given field array items into the field array property. 
 		// The actual registration will be done with the registerSetction() method.
@@ -1088,7 +1087,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			
 	}
 			 	
-	protected function removeSettignFields() {	// since 1.1.0
+	protected function removeSettignFields() {
 		
 		// Removes the given fields by section ID.
 		// Usage: $this->removeSettignFields( 'fieldID_A', 'fieldID_B', 'fieldID_C',... );
@@ -1102,7 +1101,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	/*
 	 * Back-end methods
 	 * */
-	protected function doValidationCall( $strMethodName, $arrInput ) {	// since 1.1.0
+	protected function doValidationCall( $strMethodName, $arrInput ) {
 		
 		$strTabSlug = isset( $_POST['strTabSlug'] ) ? $_POST['strTabSlug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$strPageSlug = isset( $_POST['strPageSlug'] ) ? $_POST['strPageSlug'] : '';
@@ -1140,7 +1139,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 	
-	private function getPressedCustomSubmitButton( $arrPostElements ) {	// since 1.1.0
+	private function getPressedCustomSubmitButton( $arrPostElements ) {	
 	
 		// Checks if the associated submit button is pressed with the input fields whose name property starts with __link or __redirect. 
 		// The custom ( currently __link or __redirect is supported ) input array should contain the 'name' and 'url' keys and their values.
@@ -1166,7 +1165,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 
-	private function importOptions( $arrInput, $strPageSlug, $strTabSlug ) {	// since 1.1.0
+	private function importOptions( $arrInput, $strPageSlug, $strTabSlug ) {
 	
 		$oImport = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );
 	
@@ -1247,7 +1246,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		return $vData;
 						
 	}
-	private function exportOptions( $vData, $strPageSlug, $strTabSlug ) {	// since 1.1.0
+	private function exportOptions( $vData, $strPageSlug, $strTabSlug ) {
 
 		$oExport = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProps->strClassName );
 
@@ -1282,7 +1281,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		exit;
 		
 	}
-	private function getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug ) {	// since 1.1.0
+	private function getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug ) {
 
 		$arrStoredPageOptions = $this->getPageOptions( $strPageSlug ); 			
 
@@ -1303,7 +1302,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		return $arrInput;
 	
 	}	
-	private function getPageOptions( $strPageSlug ) {	// since 1.1.0
+	private function getPageOptions( $strPageSlug ) {
 		
 		// Returns the stored options of the given page slug. Other pages' option data will not be contained in the returning array.
 		// This is used to pass the old option array to the validation callback method.
@@ -1315,7 +1314,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		return $arrStoredPageOptions;
 		
 	}
-	private function getOtherTabOptions( $strPageSlug, $arrSectionKeysForTheTab ) {	// since 1.1.0
+	private function getOtherTabOptions( $strPageSlug, $arrSectionKeysForTheTab ) {
 	
 		// Returns the stored options excluding the currently specified tab's sections and their fields.
 		// This is used to merge the submitted form data with the previously stored option data of the form elements 
@@ -1334,7 +1333,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 	
-	private function getOtherPageOptions( $strPageSlug ) {	// since 1.1.0
+	private function getOtherPageOptions( $strPageSlug ) {
 	
 		// Returns the stored options excluding the key of the given page slug. This is used to merge the submitted form input data with the 
 		// previously stored option data except the given page.
@@ -1906,7 +1905,6 @@ class AdminPageFramework_Properties {
 	
 	/*
 	 * Stores various values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
-	 * since 1.1.0
 	 */
 	
 	// Strings
@@ -2004,7 +2002,7 @@ class AdminPageFramework_Properties {
 		return $this->strCapability;
 	}	
 	
-	public function sortByOrder( $a, $b ) {	// since 1.1.0 - a callback method for uasort()
+	public function sortByOrder( $a, $b ) {	// a callback method for uasort()
 		return $a['numOrder'] - $b['numOrder'];
 	}		
 }
@@ -2996,7 +2994,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
 	
 	}	
-	private function getOptionTags( $arrLabels, $strIterationID, $fSingle, $fMultiple=false ) {	// since 1.1.0
+	private function getOptionTags( $arrLabels, $strIterationID, $fSingle, $fMultiple=false ) {	
 
 		// This is a helper function for the above getSelectField() method.
 		$arrOutput = array();
