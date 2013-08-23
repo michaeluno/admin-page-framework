@@ -263,6 +263,9 @@ abstract class AdminPageFramework_Pages {
 		input[type='checkbox'], input[type='radio'] { 
 			vertical-align: middle;
 		}
+		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+			display: none;
+		}
 		";	
 	protected static $arrPrefixes = array(	// must be protected as the extended class accesses it, such as 'start_';
 		'start_'		=> 'start_',
@@ -862,6 +865,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		'strSectionID' => null,		// ( mandatory )
 		'strType' => null,			// ( mandatory )
 		'strPageSlug' => null,		// This will be assigned automatically in the formatting method.
+		'strTabSlug' => null,		// This will be assigned automatically in the formatting method.
 		'strOptionKey' => null,		// This will be assigned automatically in the formatting method.
 		'strClassName' => null,		// This will be assigned automatically in the formatting method.
 		'strCapability' => null,		
@@ -878,8 +882,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	
 	protected $arrFieldErrors;		// Stores the settings field errors. Do not set a value here since it is checked to see it's null.
 	
+	protected $fIsMediaUploaderScriptEnqueued = false;	// A flag that indicates whether the JavaScript script for media uploader is enqueued.
 	protected $fIsImageFieldScriptEnqueued = false;	// A flag that indicates whether the JavaScript script for image selector is enqueued.
 	protected $fIsColorFieldScriptEnqueued = false;	// A flag that indicates whether the JavaScript script for color picker is enqueued.
+	protected $fIsDateFieldScriptEnqueued = false;	// A flag that indicates whether the JavaScript script for date picker is enqueued.
 	
 	/*
 	 * Front-end methods that the user uses in the class definition.
@@ -965,16 +971,24 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( ! current_user_can( $arrField['strCapability'] ) ) continue; 
 					
 			// If it's the image type field, extra jQuery scripts need to be loaded.
-			if ( $arrField['strType'] == 'image' ) $this->addImageFieldScript( $arrField );
-			if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
+			if ( $arrField['strType'] == 'image' ) $this->enqueueMediaUploaderScript( $arrField );
 					
 			$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
 						
 		}
 	}
-	private function addColorFieldScript( &$arrField ) {
+	private function enqueueDateFieldScript( &$arrField ) {
+		
+		if ( $this->fIsDateFieldScriptEnqueued	) return;
+		$this->fIsDateFieldScriptEnqueued = true;
+
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+		
+	}
+	private function enqueueColorFieldScript( &$arrField ) {
 	
-		if ( $this->fIsColorFieldScriptEnqueued		) return;
+		if ( $this->fIsColorFieldScriptEnqueued	) return;
 		$this->fIsColorFieldScriptEnqueued	 = true;
 				
 		// Reference: http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
@@ -1035,17 +1049,23 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		";			
 	
 	}
-	private function addImageFieldScript( &$arrField ) {
-					
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
-
-		if ( $this->fIsImageFieldScriptEnqueued	) return;
-		$this->fIsImageFieldScriptEnqueued = true;
+	private function enqueueMediaUploaderScript() {
+		
+		if ( $this->fIsMediaUploaderScriptEnqueued	) return;
+		$this->fIsMediaUploaderScriptEnqueued = true;	
 		
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
 		add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
+		
+	}
+	private function addImageFieldScript( &$arrField ) {
+					
+		if ( $this->fIsImageFieldScriptEnqueued	) return;
+		$this->fIsImageFieldScriptEnqueued = true;
+
+		// These two hooks should be enabled when the image field type is added in the field array.
+		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
+		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
 		
 		// Append the script
 		$this->oProps->strScript .= "
@@ -1403,11 +1423,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	/*
 	 * WordPress Settings API wrapper class.
 	 * */
-	public function registerSettings() {	// since 1.1.0. Callback method.
+	public function registerSettings() {	// Callback method for the admin_menu hook.
 		
 		// Format ( sanitize ) the section and field arrays.
 		$this->oProps->arrSections = $this->formatSectionArrays( $this->oProps->arrSections );
-		$this->oProps->arrFields = $this->formatFieldArrays( $this->oProps->arrFields );
+		$this->oProps->arrFields = $this->formatFieldArrays( $this->oProps->arrFields );	// must be done after the formatSectionArrays().
 				
 		// If there is no section or field to add, do nothing.
 		if ( 
@@ -1426,8 +1446,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			);
 		
 		// Register settings fields
+		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
 		uasort( $this->oProps->arrFields, array( $this->oProps, 'sortByOrder' ) ); 
-		foreach( $this->oProps->arrFields as $arrField ) 
+		foreach( $this->oProps->arrFields as $arrField ) {
+
 			add_settings_field(	// Add the given field.
 				$arrField['strFieldID'],
 				"<a id='{$arrField['strFieldID']}'></a><span title='{$arrField['strTip']}'>{$arrField['strTitle']}</span>",
@@ -1436,6 +1458,13 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				$arrField['strSectionID'],	// section
 				$arrField['strFieldID']		// arguments - pass the field ID to the callback function
 			);	
+			
+			// If it's the image type field, extra jQuery scripts need to be loaded.
+			if ( $arrField['strType'] == 'image' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->addImageFieldScript( $arrField );
+			if ( $arrField['strType'] == 'color' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->enqueueColorFieldScript( $arrField );
+			if ( $arrField['strType'] == 'date' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->enqueueDateFieldScript( $arrField );
+			
+		}
 
 		// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
 		$this->oProps->fEnableForm = true;
@@ -1543,6 +1572,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$arrField['strFieldID'] = $this->oUtil->sanitizeSlug( $arrField['strFieldID'] );
 			$arrField['strSectionID'] = $this->oUtil->sanitizeSlug( $arrField['strSectionID'] );
 			
+			// If the section that this field belongs to is not set, no need to register this field.
+			// The $arrSection property must be formatted prior to perform this method.
+			if ( ! isset( $this->oProps->arrSections[ $arrField['strSectionID'] ] ) ) continue;
+			
 			// Check the mandatory keys' values.
 			if ( ! isset( $arrField['strFieldID'], $arrField['strSectionID'], $arrField['strType'] ) ) continue;	// these keys are necessary.
 			
@@ -1560,7 +1593,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$arrField['strTip'] = strip_tags( isset( $arrField['strTip'] ) ? $arrField['strTip'] : $arrField['strDescription'] );
 			$arrField['strOptionKey'] = $this->oProps->strOptionKey;
 			$arrField['strClassName'] = $this->oProps->strClassName;
-			$arrField['strPageSlug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
+			// $arrField['strPageSlug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
+			$arrField['strPageSlug'] = $this->oProps->arrSections[ $arrField['strSectionID'] ]['strPageSlug'];
+			$arrField['strTabSlug'] = $this->oProps->arrSections[ $arrField['strSectionID'] ]['strTabSlug'];
 			
 			// Add the element to the new returning array.
 			$arrNewFieldArray[ $arrField['strFieldID'] ] = $arrField;
@@ -2046,7 +2081,7 @@ abstract class AdminPageFramework_CustomSubmitFields {
 		// single:		name="__import[submit][import_single]"
 		// multiple:	name="__import[submit][import_multiple][1]"
 		
-		if ( isset( $this->strFiledID ) && $this->strFiledID  ) return $this->strFiledID;
+		if ( isset( $this->strFieldID ) && $this->strFieldID  ) return $this->strFieldID;
 		
 		// Only the pressed element will be stored in the array.
 		foreach( $this->arrPostElement['submit'] as $strKey => $v ) {	// $this->arrPostElement should have been set in the constructor.
@@ -2633,6 +2668,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'vTaxonomySlug' => 'category',	// ( string ) This is for the taxonomy field type.
 		'arrRemove' => array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
 		'vWidth' => null,			// ( array or string ) This is for the select field type that specifies the width of the select tag element.
+		'vDateFormat' => null,			// ( array or string ) This is for the date field type that specifies the date format.
 		'numMaxWidth' => 400,	// for the taxonomy checklist filed type.
 		'numMaxHeight' => 200,	// for the taxonomy checklist filed type.	
 		
@@ -2787,7 +2823,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 		// Get the input field output.
 		switch ( $strFieldType ) {
-			case in_array( $strFieldType, array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ) ):
+			case in_array( $strFieldType, array( 'text', 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ) ):
 				$strOutput .= $this->getTextField();
 				break;
 			case in_array( $strFieldType, array( 'number', 'range' ) ):	// HTML5 elements
@@ -2825,7 +2861,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				break;
 			case 'color':	// color picker
 				$strOutput .= $this->getColorField();
-				break;				
+				break;			
+			case 'date':	// date picker
+				$strOutput .= $this->getDateField();
+				break;
 			case 'taxonomy':
 				$strOutput .= $this->getTaxonomyChecklistField();
 				break;
@@ -3244,6 +3283,39 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	}
 
+	private function getDateField( $arrOutput=array() ) {
+		
+		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+				. ( $strLabel 
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
+					: "" 
+					)
+				. "<input id='{$this->strTagID}_{$strKey}' "
+				. "class='datepicker " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+				. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+				. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+				. "type='text' "	// text, password, etc.
+				. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
+				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+				. "/>"
+				. "<script type='text/javascript'>
+					jQuery(document).ready(function() {
+						jQuery( '#{$this->strTagID}_{$strKey}' ).datepicker({
+							dateFormat : '" . $this->getCorrespondingArrayValue( $this->arrField['vDateFormat'], $strKey, 'yy/mm/dd' ) . "'
+						});
+					})
+				</script>"
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				
+		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
+		
+	}
+	
 	private function getColorField( $arrOutput=array() ) {
 		
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
@@ -3480,9 +3552,13 @@ abstract class AdminPageFramework_PostType {
 	
 	protected $arrFooterInfo = array();	 // stores the text inserted into the footer.
 	
+	// Strings
+	protected $strStyle = '';	// Stores the CSS rules.
+	
 	// Default values
 	protected $fEnableAutoSave = true;
 	protected $fEnableAuthorTableFileter = false;
+	
 	
 	public function __construct( $strPostType, $arrArgs=array(), $strCallerPath=null ) {
 		
@@ -3579,16 +3655,18 @@ abstract class AdminPageFramework_PostType {
 	
 	public function setFooterInfoLeft( $strHTML, $fAppend=true ) {
 		
-		$this->oLink->arrFooterInfo['strLeft'] = $fAppend 
-			? $this->oLink->arrFooterInfo['strLeft'] . $strHTML
-			: $strHTML;
+		if ( isset( $this->oLink ) )	// check if the object is set to ensure it won't trigger a warning message in non-admin pages.
+			$this->oLink->arrFooterInfo['strLeft'] = $fAppend 
+				? $this->oLink->arrFooterInfo['strLeft'] . $strHTML
+				: $strHTML;
 				
 	}
 	public function setFooterInfoRight( $strHTML, $fAppend=true ) {
-		
-		$this->oLink->arrFooterInfo['strRight'] = $fAppend 
-			? $this->oLink->arrFooterInfo['strRight'] . $strHTML
-			: $strHTML;
+
+		if ( isset( $this->oLink ) )	// check if the object is set to ensure it won't trigger a warning message in non-admin pages.	
+			$this->oLink->arrFooterInfo['strRight'] = $fAppend 
+				? $this->oLink->arrFooterInfo['strRight'] . $strHTML
+				: $strHTML;
 				
 	}
 
@@ -3750,17 +3828,24 @@ class AdminPageFramework_MetaBox {
 	
 	// Default values
 	protected static $arrStructure_Field = array(
-		'strFieldID'		=> null,	// the field ID
-		'strType'			=> null,	// the field type.
+		'strFieldID'		=> null,	// ( mandatory ) the field ID
+		'strType'			=> null,	// ( mandatory ) the field type.
 		'strTitle' 			=> null,	// the field title
 		'strDescription'	=> null,	// an additional note 
 		'strTip'			=> null,	// pop up text
-		'options'			=> null,	// ? don't remember what this was for
+		// 'options'			=> null,	// ? don't remember what this was for
 		'vValue'			=> null,	// allows to override the stored value
 		'vDefault'			=> null,	// allows to set default values.
 		'strName'			=> null,	// allows to set custom field name
 		'vLabel'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
 		'fIf'				=> true,
+		
+		// The followings may need to uncommented.
+		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
+		// 'strError' => null,			// error message for the field
+		// 'strBeforeField' => null,
+		// 'strAfterField' => null,
+		// 'numOrder' => null,			// do not set the default number here for this key.			
 	);
 	protected $strPrefixStart = 'start_';
 	protected $strScript = "";
@@ -3826,10 +3911,15 @@ class AdminPageFramework_MetaBox {
 			// If a custom condition is set and it's not true, skip.
 			if ( ! $arrField['fIf'] ) continue;
 								
-			// If it's the image or color type field, extra jQuery scripts need to be loaded.
-			if ( $arrField['strType'] == 'image' ) $this->addImageFieldScript( $arrField );
+			// If it's the image, color, or date type field, extra jQuery scripts need to be loaded.
+			if ( $arrField['strType'] == 'image' ) { 
+				$this->enqueueMediaUploaderScript( $arrField );
+				$this->addImageFieldScript( $arrField );
+			}
 			if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
-					
+			if ( $arrField['strType'] == 'date' ) $this->addDateFieldScript( $arrField );
+
+			
 			$this->arrFields[ $arrField['strFieldID'] ] = $arrField;
 						
 		}
@@ -3838,14 +3928,42 @@ class AdminPageFramework_MetaBox {
 	/*
 	 * Back end methods - public callbacks and private methods.
 	 * */
-	private function addColorFieldScript( &$arrField ) {
+	private function addDateFieldScript( &$arrField ) {
+		
+		if ( 
+			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
+			|| ! ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
+		
+		) return;	
+		
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] = true;		
+		
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueDateFieldScript' ) );
+		
+	}
+	public function enqueueDateFieldScript() {
 
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+
+	}
+	private function addColorFieldScript( &$arrField ) {
+	
+		if ( 
+			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
+			|| ! ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
+		
+		) return;	
+	
 		// This class may be instantiated multiple times so use a global flag.
 		$strRootClassName = get_class();
 		if ( isset( $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) return;
 		$GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] = true;
 	
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueColorFiledScript' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueColorFieldScript' ) );
 	
 		// Append the script
 		//Setup the color pickers to work with our text input field
@@ -3891,7 +4009,7 @@ class AdminPageFramework_MetaBox {
 		";			
 	
 	}
-	public function enqueueColorFiledScript() {
+	public function enqueueColorFieldScript() {
 		
 		// Reference: http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
 		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
@@ -3907,15 +4025,29 @@ class AdminPageFramework_MetaBox {
 			wp_enqueue_script( 'farbtastic' );
 		}		
 	}
-	private function addImageFieldScript( &$arrField ) {
-						
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
-		$this->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
-		
+	private function enqueueMediaUploaderScript() {
+
 		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
 		if ( 
-			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) 
+			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', 'media-upload.php', 'async-upload.php' ) ) 
+			|| ! ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
+		
+		) return;
+		
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] = true;
+		
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
+		add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
+		
+	}
+	private function addImageFieldScript( &$arrField ) {
+							
+		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
+		if ( 
+			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', 'media-upload.php', 'async-upload.php' ) ) 
 			|| ! ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
 		
 		) return;
@@ -3924,9 +4056,11 @@ class AdminPageFramework_MetaBox {
 		$strRootClassName = get_class();
 		if ( isset( $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) return;
 		$GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] = true;
-			
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
-		
+					
+		// These two hooks should be enabled when the image field type is added in the field array.
+		$this->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
+		$this->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
+					
 		// Append the script
 		$this->strScript .= "
 			jQuery( document ).ready( function( $ ){
