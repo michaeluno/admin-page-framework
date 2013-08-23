@@ -34,6 +34,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * File Upload 
 * Image Upload (Custom Text Field)
 * Color Picker (Custom Text Field)
+* Date Picker (Custom Text Field)
 * Option Export and Import (Custom File Upload and Submit Button)
 * Post Types (Custom Checkboxes)
 * Taxonomies (Custom Checkboxes)
