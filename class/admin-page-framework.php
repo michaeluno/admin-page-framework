@@ -4084,7 +4084,14 @@ class AdminPageFramework_MetaBox {
 	}
 	
 	public function addStyle() {	// callback for the admin_head hook.
-			
+
+		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
+		if ( 
+			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) 
+			|| ! ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
+		
+		) return;
+	
 		// This class may be instantiated multiple times so use a global flag.
 		$strRootClassName = get_class();
 		if ( isset( $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) return;
@@ -4116,20 +4123,32 @@ class AdminPageFramework_MetaBox {
 			}
 			input[type='checkbox'], input[type='radio'] { 
 				vertical-align: middle;
-			}			
+			}					
 		";			
 					
 		// Print out the filtered styles.
-		echo "<style type='text/css' id='admin-page-framework-style'>" 
+		echo "<style type='text/css' id='admin-page-framework-style-meta-box'>" 
 			. $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", $this->strStyle )
 			. "</style>";
 			
 	}
 	
 	public function addScript() {	// callback for the admin_head hook.
+
+		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
+		if ( 
+			! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) 
+			|| ! ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
+		
+		) return;
+	
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] = true;
 	
 		// Print out the filtered scripts.
-		echo "<script type='text/javascript' id='admin-page-framework-script'>"
+		echo "<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
 			. $this->oUtil->addAndApplyFilters( $this, "script_{$this->strClassName}", $this->strScript )
 			. "</script>";	
 			
