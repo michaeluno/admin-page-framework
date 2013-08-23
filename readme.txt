@@ -137,6 +137,7 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 
 
 == Done ==
+* <s>Add: the date picker form field type.</s> Implemented in 2.0.0.
 * <s>Add: the color picker form field type.</s> Implemented in 2.0.0.
 * <s>Add: the ability to remove registered form elements.</s> Implemented in 2.0.0.
 * <s>Add: a custom input filed for category select checkboxes</s>. Implemented in 1.0.4.
@@ -145,6 +146,7 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 == Changelog ==
 
 = 2.0.0 - 2013/07/13 =
+* Added: the *date* input field that adds a date picker.
 * Added: the ability to specify the multiple attribute to the select field with the *vMultiple* key.
 * Added: the *color* input field that adds a color picker.
 * Added: the *addSubMenuItems()* and *addSubMenuItem()* methods that enables to add not only sub menu pages but also external links.
