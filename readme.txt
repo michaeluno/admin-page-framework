@@ -133,9 +133,8 @@ In the [GitHub repository](https://github.com/michaeluno/admin-page-framework "A
 
 You can modify these files and commit the changes. Before requesting a pull, please submit an [issue](https://github.com/michaeluno/admin-page-framework/issues) first so that we can discuss whether it is appropriate or not.
 
-
 == Roadmap ==
-
+* Add the ability to set text in the screen help section.
 
 == Done ==
 * <s>Add: the date picker form field type.</s> Implemented in 2.0.0.
@@ -146,10 +145,12 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 
 == Changelog ==
 
-= 2.0.0 - 2013/07/13 =
+= 2.0.0.b1 - 08/24/13 =
 * Added: the *date* input field that adds a date picker.
 * Added: the ability to specify the multiple attribute to the select field with the *vMultiple* key.
 * Added: the *color* input field that adds a color picker.
+
+= 1.1.0 - 2013/07/13 =
 * Added: the *addSubMenuItems()* and *addSubMenuItem()* methods that enables to add not only sub menu pages but also external links.
 * Added: the ability to list the terms of specified taxonomy with checkbox by taxonomy slug.
 * Changed: ( *Breaking Change* ) the *category* field type to *taxonomy* field type.
@@ -181,7 +182,7 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 * Added: the ability to set the WordPress built-in screen icon to the custom added sub-menu pages.
 * Added: a class for handling custom-post types.
 * Added: a class for handling meta-boxes.
-* Changed: ( *Breaking Change* ) to apply Hungarian notation to all the array argument keys.
+* Changed: ( *Breaking Change* ) to apply the camel-back notation to all the array argument keys.
 * Changed: ( *Breaking Change* ) all the method names to be uncapitalised. 
 * Changed: ( *Breaking Change* ) the sub-string of class names, Admin_Page_Framework, to AdminPageFramework.
 
