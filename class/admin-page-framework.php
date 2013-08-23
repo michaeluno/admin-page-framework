@@ -889,7 +889,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	/*
 	 * Front-end methods that the user uses in the class definition.
 	 * */
-	protected function setSettingsNotice( $strMsg, $strType='error', $strID=null ) {
+	protected function setSettingNotice( $strMsg, $strType='error', $strID=null ) {
 		
 		add_settings_error( 
 			$this->oProps->strOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.

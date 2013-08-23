@@ -158,7 +158,7 @@ work in progress
 work in progress
 ***
 
-### setSettingsNotice() ###
+### setSettingNotice() ###
 work in progress
 ***
 

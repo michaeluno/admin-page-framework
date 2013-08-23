@@ -146,6 +146,7 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 == Changelog ==
 
 = 2.0.0.b1 - 08/24/13 =
+* Changed: the setSettingsNotice() method name to setSettingNotice() to keep consistent with other names with Settings.
 * Added: the *date* input field that adds a date picker.
 * Added: the ability to specify the multiple attribute to the select field with the *vMultiple* key.
 * Added: the *color* input field that adds a color picker.

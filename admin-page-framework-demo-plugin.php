@@ -732,7 +732,7 @@ class APF_Demo extends AdminPageFramework {
 		
 			// Set the error array for the input fields.
 			$this->setFieldErrors( $arrErrors );		
-			$this->setSettingsNotice( 'There was an error in your input.' );
+			$this->setSettingNotice( 'There was an error in your input.' );
 			return $arrOldPageOptions;
 			
 		}
@@ -750,7 +750,7 @@ class APF_Demo extends AdminPageFramework {
 		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['files']['file_multiple'][1];
 		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['files']['file_multiple'][2];
 		if ( in_array( 0, $arrFileErrors ) ) 
-			$this->setSettingsNotice( '<h3>File(s) Uploaded</h3>' . $this->oDebug->getArray( $_FILES ), 'updated' );
+			$this->setSettingNotice( '<h3>File(s) Uploaded</h3>' . $this->oDebug->getArray( $_FILES ), 'updated' );
 		
 		return $arrInput;
 		
