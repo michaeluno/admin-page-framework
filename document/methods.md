@@ -67,6 +67,14 @@ work in progress
 work in progress
 ***
 
+### setFooterInfoLeft() ###
+work in progress
+***
+
+### setFooterInfoRight() ###
+work in progress
+***
+
 ## AdminPageFramework_PostType ##
 **AdminPageFramework_PostType** is the class you would extend to add a custom post type. 
 ***
@@ -84,6 +92,14 @@ work in progress
 ***
 
 ### addTaxonomy() ###
+work in progress
+***
+
+### setFooterInfoLeft() ###
+work in progress
+***
+
+### setFooterInfoRight() ###
 work in progress
 ***
 
