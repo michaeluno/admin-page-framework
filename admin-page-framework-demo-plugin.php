@@ -227,7 +227,14 @@ class APF_Demo extends AdminPageFramework {
 				'strTabSlug'		=> 'checklist',
 				'strTitle'			=> 'Checklists',
 				'strDescription'	=> 'Post type and taxonomy checklists ( custom checkbox ) are supported.',
-			),			
+			),	
+			array(
+				'strSectionID'		=> 'date_pickers',
+				'strPageSlug'		=> 'first_page',
+				'strTabSlug'		=> 'misc',
+				'strTitle'			=> __( 'Date Pickers', 'admin-page-framework' ),
+				'strDescription'	=> __( 'These are date pickers.', 'admin-page-framework' ),
+			),				
 			array(
 				'strSectionID'		=> 'hidden_field',
 				'strPageSlug'		=> 'first_page',
@@ -293,13 +300,13 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Single text field
 				'strFieldID' => 'text',
 				'strSectionID' => 'text_fields',
-				'strTitle' => 'Text',
-				'strDescription' => 'Type something here.',	// additional notes besides the form field
+				'strTitle' => __( 'Text', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
 				'strType' => 'text',
 				'numOrder' => 1,
 				'vDefault' => 123456,
 				'vSize' => 40,
-			),
+			),	
 			array(	// Multiple text fields
 				'strFieldID' => 'text_multiple',
 				'strSectionID' => 'text_fields',
@@ -410,8 +417,6 @@ class APF_Demo extends AdminPageFramework {
 					false,	// normal
 					true,	// multiple options
 				),
-				
-				
 			),					
 			array(	// Single set of radio buttons
 				'strFieldID' => 'radio',
@@ -492,6 +497,28 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'taxonomy',
 				'vLabel' => $this->getTaxonomyLabels( 'menu_name' ),
 				'vTaxonomySlug' => get_taxonomies( '', 'names' ), // or simply 'category' to get a category list.
+			),				
+			array(	// Single date picker
+				'strFieldID' => 'date',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Date', 'admin-page-framework-demo' ),
+				'strType' => 'date',
+				'vDateFormat' => 'yy/mm/dd',	// yy/mm/dd is the default format.
+			),			
+			array(	// Multiple date pickers
+				'strFieldID' => 'dates',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Dates', 'admin-page-framework-demo' ),
+				'strType' => 'date',
+				'vLabel' => array( 
+					'start' => '', 
+					'end' => '' 
+				),	// indicates two elements.
+				'vBeforeInputTag' => array(
+					'start'	=> __( 'Start Date: ', 'amin-page-framework-demo' ),
+					'end'	=> __( 'End Date: ', 'amin-page-framework-demo' ),
+				),
+				'vDelimiter' => '&nbsp;&nbsp;&nbsp;&nbsp;',
 			),					
 			array( // Single Hidden Field
 				'strFieldID' => 'hidden_single',
@@ -1044,6 +1071,11 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strTitle'			=> __( 'Color', 'admin-page-framework-demo' ),
 				'strType'			=> 'color',
 			),
+			array (
+				'strFieldID'		=> 'date_field',
+				'strTitle'			=> __( 'Date', 'admin-page-framework-demo' ),
+				'strType'			=> 'date',
+			),			
 			array()
 		);
 		
