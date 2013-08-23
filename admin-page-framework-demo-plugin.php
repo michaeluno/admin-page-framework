@@ -682,7 +682,7 @@ class APF_Demo extends AdminPageFramework {
 		?>
 		<h3>Framework Properties</h3>
 		<?php
-			echo $this->oDebug->getArray( $this->oProps ); 
+			echo $this->oDebug->getArray( get_object_vars( $this->oProps ) ); 
 	}
 	
 	/*
