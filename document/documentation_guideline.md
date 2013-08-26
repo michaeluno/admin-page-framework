@@ -8,7 +8,7 @@ Therefore, in order to write documentation, write it right before the definition
 The syntax of [DocBlock](http://en.wikipedia.org/wiki/PHPDoc) is employed.
 
 ### Example ###
-`	/**
+	/**
 	* Sets the given message to be displayed in the next page load. 
 	* 
 	* This is used to inform users about the submitted input data, such as "Updated sucessfully." or "Problem occured." etc. and normally used in validation callback methods.
@@ -36,7 +36,7 @@ The syntax of [DocBlock](http://en.wikipedia.org/wiki/PHPDoc) is employed.
 			$strType
 		);
 					
-	}`
+	}
 
 ### Submit ###
 Before submitting your documentation, please raise an [issue](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open) first so that we can discuss whether it is appropriate or something is missing or not. 
