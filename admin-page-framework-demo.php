@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.0.b1
+	Version: 2.0.0.b2
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */ 
 
@@ -15,7 +15,7 @@ if ( ! class_exists( 'AdminPageFramework' ) )
 class APF_Demo extends AdminPageFramework {
 
     public function setUp() {
-    
+
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
 		$this->addSubMenuItems(
 			/* 	
@@ -609,7 +609,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'exports',
 				'strTitle' => 'Single Export Button',
 				'strType' => 'export',
-				'strDescription' => __( 'Download the saved option data as serialized PHP array.', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'Download the saved option data.', 'admin-page-framework-demo' ),
 				'vLabel' => 'Export Options',
 			),
 			array(	// Multiple Export Buttons
@@ -647,6 +647,17 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array()
 		);
+		
+ 		$this->addLinkToPluginDescription( 
+			"<a href='http://www.google.com'>Google</a>",
+			"<a href='http://www.yahoo.com'>Yahoo!</a>",
+			"<a href='http://en.michaeluno.jp'>miunosoft</a>",
+			"<a href='https://github.com/michaeluno/admin-page-framework' title='Contribute to the GitHub repository!' >Repository</a>"
+		);
+		$this->addLinkToPluginTitle(
+			"<a href='http://www.wordpress.org'>WordPress</a>"
+		);
+		
 		
     }
 	

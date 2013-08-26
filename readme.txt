@@ -126,15 +126,16 @@ new APF;
 This is	a PHP class library that enables to create option pages and form fields in the administration panel. Also it helps manage to save, export, and import options.
 
 = I've written a useful class and functions. Do you want to include it? = 
-The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Create an issue first and we'll see if changes can be made. 
+The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
 = How can I contribute to improving the documentation? =
-In the [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework"), there is a folder named, **document**, and the md files are in the folder. They are the documentation files and they follow the [markdown](http://daringfireball.net/projects/markdown/syntax) syntax.
+You are welcome to submit documentation. Please follow the [Documentation Guidline](https://github.com/michaeluno/admin-page-framework/blob/master/document/documentation_guideline.md). 
 
-You can modify these files and commit the changes. Before requesting a pull, please submit an [issue](https://github.com/michaeluno/admin-page-framework/issues) first so that we can discuss whether it is appropriate or not.
+In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
 == Roadmap ==
 * Add the ability to set text in the screen help section.
+* Complete the documentation.
 
 == Done ==
 * <s>Add: the date picker form field type.</s> Implemented in 2.0.0.
@@ -145,8 +146,15 @@ You can modify these files and commit the changes. Before requesting a pull, ple
 
 == Changelog ==
 
+= 2.0.0.b2 - 08/26/2013 =
+* Changed: *addLinkToPluginDescription()* and *addLinkToPluginTitle()* to accept variadic parameters. 
+* Added: an example of using *addLinkToPluginDescription()* and *addLinkToPluginTitle()* in the demo plugin.
+* Changed: the demo plugins file name.
+* Fixed: an issue that date picker script caused an irregular element to be inserted around the page footer.
+* Changed: the documentation compatible with the DocBlock syntax. 
+
 = 2.0.0.b1 - 08/24/13 =
-* Changed: the setSettingsNotice() method name to setSettingNotice() to keep consistent with other names with Settings.
+* Changed: the *setSettingsNotice()* method name to *setSettingNotice()* to be consistent with other names with *Settings*.
 * Added: the *date* input field that adds a date picker.
 * Added: the ability to specify the multiple attribute to the select field with the *vMultiple* key.
 * Added: the *color* input field that adds a color picker.
