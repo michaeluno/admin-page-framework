@@ -162,36 +162,64 @@ work in progress
 work in progress
 ***
 
-### setFooterInfoLeft() ###
-work in progress
+### setFooterInfoLeft( $strHTML, $fAppend=true ) ###
+Sets the given text into the footer on the left hand side. 
+
+#### Parameters ####
+* **$strHTML** - ( string ) the text string to be inserted into the page footer on the left hand side.
+* **$fAppend** - ( optional, boolean ) default: true. If false, the passed string in the first parameter replaces the default footer text. If true, it will append the given string to the default footer text.
+
 ***
 
-### setFooterInfoRight() ###
-work in progress
+### setFooterInfoRight( $strHTML, $fAppend=true ) ###
+Sets the given text into the footer on the right hand side. 
+
+#### Parameters ####
+* **$strHTML** - ( string ) the text string to be inserted into the page footer on the right hand side.
+* **$fAppend** - ( optional, boolean ) default: true. If false, the passed string in the first parameter replaces the default footer text. If true, it will append the given string to the default footer text.
+
+
 ***
 
 ## AdminPageFramework_PostType( $strPostType, $arrArgs=array(), $strCallerPath=null ) ##
 **AdminPageFramework_PostType** is the class which should be extended to add a custom post type. 
 ***
 
-### setAutoSave() ###
-work in progress
+### setAutoSave( $fEnableAutoSave=true ) ###
+Enables or disables the auto-save feature in the custom post type's post submission page.
+
+#### Parameters ####
+* **$fEnableAutoSave** - ( optional, boolean ) default: true. If false, it will disable the auto-save functionality in the post submit page of the custom post type for the class.
+
 ***
 
-### setAuthorTableFilter() ###
-work in progress
+### setAuthorTableFilter( $fEnableAuthorTableFileter=false ) ###
+Sets whether the author dropdown filter is enabled/disabled in the post type post list table.
+
+#### Parameters ####
+* **$fEnableAuthorTableFileter** - ( optional, boolean ) default: false. If true, the author dropdown filter appears at the top of the post listing table of the post type.
 ***
 
 ### addTaxonomy() ###
 work in progress
 ***
 
-### setFooterInfoLeft() ###
-work in progress
+### setFooterInfoLeft( $strHTML, $fAppend=true ) ###
+Sets the given text into the footer on the left hand side. 
+
+#### Parameters ####
+* **$strHTML** - ( string ) the text string to be inserted into the page footer on the left hand side.
+* **$fAppend** - ( optional, boolean ) default: true. If false, the passed string in the first parameter replaces the default footer text. If true, it will append the given string to the default footer text.
+
 ***
 
-### setFooterInfoRight() ###
-work in progress
+### setFooterInfoRight( $strHTML, $fAppend=true ) ###
+Sets the given text into the footer on the right hand side. 
+
+#### Parameters ####
+* **$strHTML** - ( string ) the text string to be inserted into the page footer on the right hand side.
+* **$fAppend** - ( optional, boolean ) default: true. If false, the passed string in the first parameter replaces the default footer text. If true, it will append the given string to the default footer text.
+
 ***
 
 ## AdminPageFramework_MetaBox( $strMetaBoxID, $strTitle, $vPostTypes=array( 'post' ), $strContext='normal', $strPriority='default', $arrFields=null, $strCapability='edit_posts', $strTextDomain='admin-page-framework') ##

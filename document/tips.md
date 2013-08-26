@@ -14,6 +14,6 @@ The property contents can be viewed this way:
 	
 ***
 
-#### Do you have any tips? ####
+#### Do you have any tip? ####
 Let us know if you know good tips for Admin Page Framework that can be shared with others! Please submit an issue [here](https://github.com/michaeluno/admin-page-framework/issues).
 
