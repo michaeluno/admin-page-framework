@@ -1,22 +1,66 @@
 <?php 
+/**
+ * Admin Page Framework
+ * 
+ * Provides plugin and theme developers with simpler and easier means of creating option pages, custom post types, ant meta boxes. 
+ * The framework uses the built-in WordPress Settings API so the created page design respects the WordPress standard.
+ *
+ * The documentation uses the PHPDOc(DocBlock) syntax, {@link http://en.wikipedia.org/wiki/PHPDoc PHPDoc}.
+ * 
+ * @author		Michael Uno <michael@michaeluno.jp>
+ * @copyright	Michael Uno
+ * @license		GPLv2 or later
+ * @see			http://wordpress.org/plugins/admin-page-framework/
+ * @link		http://en.michaeluno.jp/admin-page-framework
+ * @package		Admin Page Framework
+ * @remarks		To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
+ * @remarks		Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
+ * @version		2.0.0.b2
+ * @todo		<li>Add the ability to create help screen sections.</li>
+ * 				<li>Complete the documentation.</li>
+ */
 /*
 	Name: Admin Page Framework
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.0.b1
+	Version: 2.0.0.b2
 	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
-	Usage: 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
 */
 
 if ( ! class_exists( 'AdminPageFramework_WPUtilities' ) ) :
+/**
+ * Provides utility methods which use WordPress functions.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
 abstract class AdminPageFramework_WPUtilities {
-		
-	/*
-	 * Utility methods which use WordPress functions
-	 */
-	protected function doActions() {	// Parameters: $arrActionHooks, $vArgs...
+
+	/**
+	 * Triggers the do_action() function with the given action names and the arguments.
+	 * 
+	 * This is useful to perform do_action() on multiple action hooks with the same set of arguments.
+	 * For example, if there are the following action hooks, <em>action_name</em>, <em>action_name1</em>, and <em>action_name2</em>, and to perform these, normally it takes the following lines.
+	 * <code>do_action( 'action_name1', $var1, $var2 );
+	 * do_action( 'action_name2', $var1, $var2 );
+	 * do_action( 'action_name3', $var1, $var2 );</code>
+	 * 
+	 * This method saves these line this way:
+	 * <code>$this->doActions( array( 'action_name1', 'action_name2', 'action_name3' ), $var1, $var2 );</code>
+	 * 
+	 * <strong>Example<strong>
+	 * <code>$this->doActions( array( 'action_name1' ), $var1, $var2, $var3 );</code> 
+	 * 
+	 * @access			public
+	 * @return			void		does not return a value.
+	 * @since			2.0.0
+	 */		
+	public function doActions() {	// Parameters: $arrActionHooks, $vArgs...
 		
 		$arrArgs = func_get_args();		
 		$arrActionHooks = $arrArgs[ 0 ];
@@ -138,11 +182,16 @@ abstract class AdminPageFramework_WPUtilities {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_Utilities' ) ) :
+/**
+ * Provides utility methods which do not use WordPress functions.
+ *
+ * @since			2.0.0
+ * @extends			AdminPageFramework_WPUtilities
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
 class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
-
-	/*
-	 * Utility methods which do not use WordPress functions
-	 */
+	
 	public function sanitizeSlug( $strSlug ) {	// moved from the main class in 1.0.4, must be public 
 		
 		// Converts non-alphabetic characters to underscore.
@@ -231,13 +280,29 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
+/**
+ * Provides methods to renders admin page elements.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Page
+ * @staticvar		string		$strDefaultStyle					the default CSS rules loaded in the head tag of the created admin page.
+ * @staticvar		array		$arrPrefixes						stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$arrPrefixesForCallbacks			unlike $arrPrefixes, these require to set the return value.
+ * @staticvar		array		$arrScreenIconIDs					stores the ID selector names for screen icons.
+ * @staticvar		array		$arrPrefixes						stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$arrStructure_InPageTabElements		represents the array structure of an in-page tab array.
+ */
 abstract class AdminPageFramework_Pages {
 	
-	/*
-	 * Stores registering page information.
+	/**
+	 * The default CSS rules loaded in the head tag of the created admin page.
+	 * @staticvar	string
+	 * @access		protected	
 	 */ 
-	
-	protected static $strDefaultStyle = 	// the default css rules
+	protected static $strDefaultStyle =
 		".wrap div.updated, .wrap div.settings-error { clear: both; margin-top: 16px;} 
 		.taxonomy-checklist li { margin: 8px 0 8px 20px; }
 		div.taxonomy-checklist {
@@ -267,7 +332,14 @@ abstract class AdminPageFramework_Pages {
 			display: none;
 		}
 		";	
-	protected static $arrPrefixes = array(	// must be protected as the extended class accesses it, such as 'start_';
+		
+	/**
+	 * The default CSS rules loaded in the head tag of the created admin page.
+	 * This must use the protected scope as the extended class accesses it, such as 'start_'.
+	 * @staticvar	array
+	 * @access		protected
+	 */ 
+	protected static $arrPrefixes = array(	
 		'start_'		=> 'start_',
 		'do_before_'	=> 'do_before_',
 		'do_after_'		=> 'do_after_',
@@ -285,16 +357,34 @@ abstract class AdminPageFramework_Pages {
 		
 		'script_'		=> 'script_',
 	);
-	protected static $arrPrefixesForCallbacks = array(		// unlike the above $arrPrefixes, these require to set the return value 
+
+	/**
+	 * Unlike $arrPrefixes, these require to set the return value.
+	 * @staticvar	array
+	 * @access		protected
+	 */ 	
+	protected static $arrPrefixesForCallbacks = array(
 		'section_'		=> 'section_',
 		'field_'		=> 'field_',
 		'validation_'	=> 'validation_',
 	);
+	
+	/**
+	 * Stores the ID selector names for screen icons. <em>generic</em> is not available in WordPress v3.4.x.
+	 * @staticvar	array
+	 * @access		protected
+	 */ 	
 	protected static $arrScreenIconIDs = array(
 		'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 		'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 		'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',
-	);	// generic is not available in WordPress v3.4.x
+	);	
+
+	/**
+	 * Represents the array structure of an in-page tab array.
+	 * @staticvar	array
+	 * @access		private
+	 */ 	
 	private static $arrStructure_InPageTabElements = array(
 		'strPageSlug' => null,
 		'strTabSlug' => null,
@@ -646,12 +736,23 @@ abstract class AdminPageFramework_Pages {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
+/**
+ * Provides methods to manipulate menu items.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @extends			AdminPageFramework_Pages
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Page
+ * @staticvar		array	$arrBuiltInRootMenuSlugs	stores the WordPress built-in menu slugs.
+ * @staticvar		array	$arrStructure_SubMenuPage	represents the structure of the sub-menu page array.
+ */
 abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	
-	/*
-	 * Manipulates menu creation.
-	 */
-	
+	/**
+	 * Used to reference the built-in root menu slugs.
+	 * @remark		Not for the user.
+	 */ 
 	public static $arrBuiltInRootMenuSlugs = array(
 		// All keys must be lower case to support case insensitive look-ups.
 		'dashboard' => 			'index.php',
@@ -667,6 +768,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		'settings' => 			'options-general.php',
 		'network admin' => 		"network_admin_menu",
 	);		
+
+	/**
+	 * Represents the structure of sub-menu page array.
+	 * @remark		Not for the user.
+	 */ 
 	protected static $arrStructure_SubMenuPage = array(
 		'strPageTitle' => null, 
 		'strPageSlug' => null, 
@@ -847,9 +953,25 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_SettingsAPI' ) ) :
+/**
+ * Provides methods to add form elements with WordPress Settings API. 
+ *
+ * @abstract
+ * @since		2.0.0
+ * @extends		AdminPageFramework_Menu
+ * @package		Admin Page Framework
+ * @subpackage	Admin Page Framework - Page
+ * @staticvar	array		$arrStructure_Section				represents the structure of the form section array.
+ * @staticvar	array		$arrStructure_Field					represents the structure of the form field array.
+ * @var			array		$arrFieldErrors						stores the settings field errors.
+ * @var			boolean		$fIsMediaUploaderScriptEnqueued		indicates whether the JavaScript script for media uploader is enqueued.
+ * @var			boolean		$fIsImageFieldScriptEnqueued		indicates whether the JavaScript script for image selector is enqueued.
+ * @var			boolean		$fIsColorFieldScriptEnqueued		indicates whether the JavaScript script for color picker is enqueued.
+ * @var			boolean		$fIsDateFieldScriptEnqueued			indicates whether the JavaScript script for date picker is enqueued.
+ */
 abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	
-	protected static $arrStructure_Section = array(	// the default structure of the section array.
+	protected static $arrStructure_Section = array(	
 		'strSectionID' => null,
 		'strPageSlug' => null,
 		'strTabSlug' => null,
@@ -889,6 +1011,26 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	/*
 	 * Front-end methods that the user uses in the class definition.
 	 * */
+	
+	/**
+	* Sets the given message to be displayed in the next page load. 
+	* 
+	* This is used to inform users about the submitted input data, such as "Updated sucessfully." or "Problem occured." etc. and normally used in validation callback methods.
+	* 
+	* <strong>Example</strong>
+	* <code>if ( ! $fVerified ) {
+	*		$this->setFieldErrors( $arrErrors );		
+	*		$this->setSettingNotice( 'There was an error in your input.' );
+	*		return $arrOldPageOptions;
+	*	}</code>
+	* @since			2.0.0
+	* @access 			protected
+	* @remark			The user may use this method in their extended class definition.
+	* @param			string		$strMsg					the text message to be displayed.
+	* @param			string		$strType				( optional ) the type of the message, either "error" or "updated"  is used.
+	* @param			string		$strID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	* @return			void
+	*/		
 	protected function setSettingNotice( $strMsg, $strType='error', $strID=null ) {
 		
 		add_settings_error( 
@@ -899,12 +1041,51 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		);
 					
 	}
-	
-	protected function addSettingSections() {	
-			
-		// This method just adds the given section array items into the section array property. 
-		// The actual registration will be dealt with the registerSetction() method.
-				
+
+	/**
+	* Adds the given form section items into the property. 
+	* 
+	* The passed section array must consist of the following keys. The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	* 
+	* <strong>Section Array</strong>
+	* <ul>
+	* <li><strong>strSectionID</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	* <li><strong>strPageSlug</strong> - (  string ) the page slug that the section belongs to.</li>
+	* <li><strong>strTabSlug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
+	* <li><strong>strTitle</strong> - ( optional, string ) the title of the section.</li>
+	* <li><strong>strCapability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* <li><strong>fIf</strong> - ( optional, boolean ) of the passed value is false, the section will not be registered.</li>
+	* <li><strong>numOrder</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	* </ul>
+	* 
+	* <strong>Example</strong>
+	* <code>$this->addSettingSections(
+	*		array(
+	*			'strSectionID'		=> 'text_fields',
+	*			'strPageSlug'		=> 'first_page',
+	*			'strTabSlug'		=> 'textfields',
+	*			'strTitle'			=> 'Text Fields',
+	*			'strDescription'	=> 'These are text type fields.',
+	*			'numOrder'			=> 10,
+	*		),	
+	*		array(
+	*			'strSectionID'		=> 'selectors',
+	*			'strPageSlug'		=> 'first_page',
+	*			'strTabSlug'		=> 'selectors',
+	*			'strTitle'			=> 'Selectors and Checkboxes',
+	*			'strDescription'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
+	*		)</code>
+	* @since			2.0.0
+	* @access 			protected
+	* @remark			The user may use this method in their extended class definition.
+	* @remark			The number of accepted parameters are not limited to three.
+	* @param			array		$arrSection1				the section array.
+	* @param			array		$arrSection2				( optional ) another section array.
+	* @param			array		$_and_more					( optional ) add more section array to the next parameters as meny as necessary.
+	* @return			void
+	*/		
+	protected function addSettingSections( $arrSection1, $arrSection2=null, $_and_more=null ) {	
+							
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;		
 				
 		foreach( func_get_args() as $arrSection ) {	
@@ -934,11 +1115,26 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			
 		}	
 	}
-	protected function removeSettignSections() {	
+	
+	/**
+	* Removes the given section(s) by section ID.
+	* 
+	* This access the property storing the added section arrays and removes the specified ones. The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	* 
+	* <strong>Example</strong>
+	* <code>$this->removeSettingSections( 'text_fields', 'selectors', 'another_section', 'yet_another_section' );</code>
+	* 
+	* @since			2.0.0
+	* @access 			protected
+	* @remark			The user may use this method in their extended class definition.
+	* @remark			The number of accepted parameters are not limited to three.
+	* @param			string		$strSectionID1				the section ID to remove.
+	* @param			string		$strSectionID2				( optional ) another section ID to remove.
+	* @param			string		$_and_more					( optional ) add more section IDs to the next parameters as meny as necessary.
+	* @return			void
+	*/	
+	protected function removeSettingSections( $strSectionID1=null, $strSectionID2=null, $_and_more=null ) {	
 		
-		// Removes the given section by section ID.
-		// Usage: $this->removeSettignSections( 'sactionID_A', 'sactionID_B', 'sactionID_C',... );
-
 		foreach( func_get_args() as $strSectionID ) 
 			if ( isset( $this->oProps->arrSections[ $strSectionID ] ) )
 				unset( $this->oProps->arrSections[ $strSectionID ] );
@@ -947,7 +1143,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	protected function addSettingFields() {	
 	
 		// This method just adds the given field array items into the field array property. 
-		// The actual registration will be done with the registerSetction() method.
+		// The actual registration will be done with the registerSettings() method.
 	
 		foreach( func_get_args() as $arrField ) {
 			
@@ -1087,10 +1283,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			
 	}
 			 	
-	protected function removeSettignFields() {
+	protected function removeSettingFields() {
 		
 		// Removes the given fields by section ID.
-		// Usage: $this->removeSettignFields( 'fieldID_A', 'fieldID_B', 'fieldID_C',... );
+		// Usage: $this->removeSettingFields( 'fieldID_A', 'fieldID_B', 'fieldID_C',... );
 		
 		foreach( func_get_args() as $strFieldID ) 
 			if ( isset( $this->oProps->arrFields[ $strFieldID ] ) )
@@ -1632,19 +1828,69 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 endif; 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) :
+/**
+ * The main class of the framework. 
+ * 
+ * The user should extend this class and define the set-ups in the setUp() method. Most of the public methods are for hook callbacks and the private methods are internal helper functions. So the protected methods are for the users.
+ * 
+ * @abstract
+ * @since			2.0.0
+ * @remark			This class stems from several abstract classes.
+ * @extends			AdminPageFramework_SettingsAPI
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Page
+ */
 abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
-	
-	protected $oProps;	// The common properties shared among sub-classes.
-	protected $oDebug;	// Provides the debug methods.
-	
-	public function __construct( $strOptionKey=null, $strCallerPath=null, $strCapability=null, $strTextDomain=null ){
 		
-		/*
-		 * $strOptionKey :	Specifies the option key name to store in the option database table. 
-		 * 					If this is set, all the options will be stored in an array to the key of this passed string.
-		 * $strCallerPath :	used to retrieve the plugin/theme plugin data to auto-insert credit info into the footer.
-		 * */
-		 
+	/**
+    * The common properties shared among sub-classes. 
+	* @access		protected
+	* @var			object			an instance of AdminPageFramework_Properties will be assigned in the constructor.
+    */		
+	protected $oProps;	
+	
+	/**
+    * The object that provides the debug methods. 
+	* @access		protected
+	* @var			object			an instance of AdminPageFramework_Debug will be assigned in the constructor.
+    */		
+	protected $oDebug;
+	
+	/**
+    * Provides the methods for text messages of the framework. 
+	* @access		protected
+	* @var			object			an instance of AdminPageFramework_Messages will be assigned in the constructor.
+    */	
+	protected $oMsg;
+	
+	/**
+    * Provides the methods for creating HTML link elements. 
+	* @access		protected
+	* @var			object			an instance of AdminPageFramework_Link will be assigned in the constructor.
+    */		
+	protected $oLink;
+	
+	/**
+    * Provides the utility methods. 
+	* @access		protected
+	* @var			object			an instance of AdminPageFramework_Utilities will be assigned in the constructor.
+    */			
+	protected $oUtil;
+	
+	/**
+	 * The constructor of the main class.
+	 * 
+	 * @access			public
+	 * @since			2.0.0
+	 * @param			string		$strOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
+	 * @param			string		$strCallerPath			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+	 * @param			string		$strCapability			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed here( http://codex.wordpress.org/Roles_and_Capabilities ). If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
+	 * @param			string		$strTextDomain			( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's text strings.
+	 * @remark			the scope is public because often <code>parent::__construct()</code> is used.
+	 * @return			void		returns nothing.
+	 */
+	public function __construct( $strOptionKey=null, $strCallerPath=null, $strCapability=null, $strTextDomain=null ){
+				 
 		// Variables
 		$strClassName = get_class( $this );
 		
@@ -1656,10 +1902,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
 								
 		if ( is_admin() ) {
-			
-			// Disable the Settings API's admin notice.
-			// add_action( 'admin_menu', array( $this, 'DisableSettingsAPIAdminNotice' ), 999 );
-			
+						
 			// Hook the menu action - adds the menu items.
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 			
@@ -1678,22 +1921,25 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			// Hook the admin header to insert custom admin stylesheet.
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			add_action( 'admin_head', array( $this, 'addScript' ) );
-
-			// For the media uploader.
-			// add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
 						
 			// For earlier loading than $this->setUp
 			$this->oUtil->addAndDoAction( $this, self::$arrPrefixes['start_'] . $this->oProps->strClassName );
 		
 		}
 	}	
+	
+	/**
+	 * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
+	 * 
+	 * @access			public
+	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
+	 * @param			string		$strMethodName		the called method name. 
+	 * @param			array		$arrArgs			the argument array. The first element holds the parameters passed to the called method.
+	 * @return			mixed		depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
+	 * @since			2.0.0
+	 */
 	public function __call( $strMethodName, $arrArgs=null ) {		
-		
-		/*
-		 *  Undefined but called by the callback methods automatically inserted by the class will trigger this magic method, __call().
-		 *  So determine which callback method triggered this and redirect the call to the appropriate method.
-		 * */
-		 
+				 
 		// Variables
 		// The currently loading in-page tab slug. Careful that not all cases $strMethodName have the page slug.
 		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
@@ -1717,6 +1963,14 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		if ( isset( $_GET['page'] ) && $_GET['page'] == $strMethodName ) $this->renderPage( $strMethodName, $strTabSlug );
 						
 	}	
+	
+	/**
+	 * Determines whether the method name matches the pre-defined hook prefixes.
+	 * @access			private
+	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
+	 * @param			string			$strMethodName			the called method name
+	 * @return			boolean			If it is a framework's callback method, returns true; otherwise, false.
+	 */
 	private function isFrameworkCallbackMethod( $strMethodName ) {
 
 		if ( substr( $strMethodName, 0, strlen( "{$this->oProps->strClassName}_" ) ) == "{$this->oProps->strClassName}_" )	// e.g. {instantiated class name} + field_ + {field id}
@@ -1726,17 +1980,120 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			if ( substr( $strMethodName, 0, strlen( $strPrefix ) )	== $strPrefix  ) 
 				return true;
 		}
+		return false;
 	}
 	
-	 
-	/*
-	 *	Front-End methods - the user may call it but it should not necessarily be customized in the extended class. 
-	 * */
-	protected function addSubMenuItems() {
+	/**
+	* The method for all the necessary set-ups.
+	* 
+	* <strong>Example</strong>
+	* <code>public function setUp() {
+	* 	$this->setRootMenuPage( 'APF Form' ); 
+	* 	$this->addSubMenuItems(
+	* 		array(
+	* 			'strPageTitle' => 'Form Fields',
+	* 			'strPageSlug' => 'apf_form_fields',
+	* 		)
+	* 	);		
+	* 	$this->addSettingSections(
+	* 		array(
+	* 			'strSectionID'		=> 'text_fields',
+	* 			'strPageSlug'		=> 'apf_form_fields',
+	* 			'strTitle'			=> 'Text Fields',
+	* 			'strDescription'	=> 'These are text type fields.',
+	* 		)
+	* 	);
+	* 	$this->addSettingFields(
+	* 		array(	
+	* 			'strFieldID' => 'text',
+	* 			'strSectionID' => 'text_fields',
+	* 			'strTitle' => 'Text',
+	* 			'strType' => 'text',
+	* 		)	
+	* 	);			
+	* }</code>
+	* @abstract
+	* @remark			The users should override this method to set-up necessary settings.
+	* @remark			The scope is public because it is a callback method.
+	* @remark			In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this is triggered with the <em>wp_loaded</em> hook.
+	* @access 			public
+	* @return			void
+	*/	
+	public function setUp() {}
+	
+	/**
+	* Adds sub-menu items on the left sidebar of the administration panel. 
+	* 
+	* It supports pages and links. Each of them has the specific array structure.
+	* 
+	* <strong>Sub-menu Page Array</strong>
+	* <ul>
+	* <li><strong>strPageTitle</strong> - ( string ) the page title of the page.</li>
+	* <li><strong>strPageSlug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+	* <li><strong>strScreenIcon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel.
+	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
+	*	<p><strong>Notes</strong>: the <em>generic</em> icon is available WordPress version 3.5 or above.</p>
+	* </li>
+	* <li><strong>strCapability</strong> - ( optional, string ) the access level to the created admin pages defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>numOrder</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>fPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	* </ul>
+	* <strong>Sub-menu Link Array</strong>
+	* <ul>
+	* <li><strong>strMenuTitle</strong> - ( string ) the link title.</li>
+	* <li><strong>strURL</strong> - ( string ) the URL of the target link.</li>
+	* <li><strong>strCapability</strong> - ( optional, string ) the access level to show the item, defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>numOrder</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>fPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	* </ul>
+	* 
+	* <strong>Example</strong>
+	* <code>$this->addSubMenuItems(
+	*		array(
+	*			'strPageTitle' => 'Various Form Fields',
+	*			'strPageSlug' => 'first_page',
+	*			'strScreenIcon' => 'options-general',
+	*		),
+	*		array(
+	*			'strPageTitle' => 'Manage Options',
+	*			'strPageSlug' => 'second_page',
+	*			'strScreenIcon' => 'link-manager',
+	*		),
+	*		array(
+	*			'strMenuTitle' => 'Google',
+	*			'strURL' => 'http://www.google.com',	
+	*			'fPageHeadingTab' => false,	// this removes the title from the page heading tabs.
+	*		),
+	*	);</code>
+	* 
+	* @since			2.0.0
+	* @remark			The user may use this method in their extended class definition.
+	* @remark			The number of accepted parameters are not limited to three.
+	* @param			array		$arrSubMenuItem1		a first sub-menu array.
+	* @param			array		( optional ) $arrSubMenuItem2		a second sub-menu array.
+	* @param			array		( optional ) $_and_more				third and add items as many as necessary with next parameters.
+	* @access 			protected
+	* @return			void
+	*/		
+	protected function addSubMenuItems( $arrSubMenuItem1, $arrSubMenuItem2=null, $_and_more=null ) {
 		foreach ( func_get_args() as $arrSubMenuItem ) 
 			$this->addSubMenuItem( $arrSubMenuItem );		
 	}
-	protected function addSubMenuItem( $arrSubMenuItem ) {
+	
+	/**
+	* Adds the given sub-menu item on the left sidebar of the administration panel.
+	* 
+	* This only adds one single item, called by the above <em>addSubMenuItem()</em> method.
+	* 
+	* The array structure of the parameter is documented in the <em>addSubMenuItem()</em> method section.
+	* 
+	* @since			2.0.0
+	* @remark			This is not intended to be used by the user.
+	* @param			array		$arrSubMenuItem			a first sub-menu array.
+	* @access 			private
+	* @return			void
+	*/	
+	private function addSubMenuItem( $arrSubMenuItem ) {
 		if ( isset( $arrSubMenuItem['strURL'] ) ) {
 			$arrSubMenuLink = $arrSubMenuItem + $this->oLink->arrStructure_SubMenuLink;
 			$this->oLink->addSubMenuLink(
@@ -1759,24 +2116,65 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			);				
 		}
 	}
-	// protected function addSubMenuLinks() {
-		// call_user_func_array( array( $this->oLink, 'addSubMenuLinks' ), func_get_args() );
-	// }
+
+	/**
+	* Adds the given link into the menu on the left sidebar of the administration panel.
+	* 
+	* @since			2.0.0
+	* @remark			The user may use this method in their extended class definition.
+	* @param			string		$strMenuTitle			the menu title.
+	* @param			string		$strURL					the URL linked to the menu.
+	* @param			string		$strCapability			( optional ) the access level. ( http://codex.wordpress.org/Roles_and_Capabilities)
+	* @param			string		$numOrder				( optional ) the order number. The larger it is, the lower the position it gets.
+	* @param			string		$fPageHeadingTab		( optional ) if set to false, the menu title will not be listed in the tab navigation menu at the top of the page.
+	* @access 			protected
+	* @return			void
+	*/	
 	protected function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fPageHeadingTab=true ) {
 		$this->oLink->addSubMenuLink( $strMenuTitle, $strURL, $strCapability, $numOrder, $fPageHeadingTab );
 	}
-	
-	public function addLinkToPluginDescription( $vLinks ) {
-		
-		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
-		$this->oLink->addLinkToPluginDescription( $vLinks );
-		
+
+	/**
+	* Adds the given link(s) into the description cell of the plugin listing table.
+	* 
+	* <strong>Example</strong>
+	* <code>$this->addLinkToPluginDescription( 
+	*		"&lt;a href='http://www.google.com'&gt;Google&lt;/a&gt;",
+	*		"&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;"
+	*	);</code>
+	* 
+	* @since			2.0.0
+	* @remark			The user may use this method in their extended class definition.
+	* @remark			The number of accepted parameters are not limited to three.
+	* @param			string			$strTaggedLinkHTML1			the tagged HTML link text.
+	* @param			string			( optional ) $strTaggedLinkHTML2			another tagged HTML link text.
+	* @param			string			( optional ) $_and_more					add more as many as want by adding items to the next parameters.
+	* @access 			protected
+	* @return			void
+	*/		
+	protected function addLinkToPluginDescription( $strTaggedLinkHTML1, $strTaggedLinkHTML2=null, $_and_more=null ) {				
+		$this->oLink->addLinkToPluginDescription( func_get_args() );		
 	}
-	public function addLinkToPluginTitle( $vLinks ) {
-		
-		// $vLinks : ( string or array ) e.g. <a href="http://www.google.com">Google</a>  or array( '<a href="http://www.google.com">Google</a>', '...' )
-		$this->oLink->addLinkToPluginTitle( $vLinks );
-		
+
+	/**
+	* Adds the given link(s) into the title cell of the plugin listing table.
+	* 
+	* <strong>Example</strong>
+	* <code>$this->addLinkToPluginTitle( 
+	*		"&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a&gt;"
+	*	);</code>
+	* 
+	* @since			2.0.0
+	* @remark			The user may use this method in their extended class definition.
+	* @remark			The number of accepted parameters are not limited to three.
+	* @param			string			$strTaggedLinkHTML1			the tagged HTML link text.
+	* @param			string			( optional ) $strTaggedLinkHTML2			another tagged HTML link text.
+	* @param			string			( optional ) $_and_more						add more as many as want by adding items to the next parameters.
+	* @access 			protected
+	* @return			void
+	*/	
+	protected function addLinkToPluginTitle( $strTaggedLinkHTML1, $strTaggedLinkHTML2=null, $_and_more=null ) {	
+		$this->oLink->addLinkToPluginTitle( func_get_args() );		
 	}
 	 
 	/*
@@ -1865,6 +2263,14 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_Messages' ) ) :
+/**
+ * Provides methods for text messages.
+ *
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Property
+ */
 class AdminPageFramework_Messages {
 
 	// The user can modify this property directly.
@@ -1901,6 +2307,14 @@ class AdminPageFramework_Messages {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_Properties' ) ) :
+/**
+ * Provides the space to store the shared properties.
+ *
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Property
+ */
 class AdminPageFramework_Properties {
 	
 	/*
@@ -2009,12 +2423,16 @@ class AdminPageFramework_Properties {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
+/**
+ * Provides helper methods that deal with custom submit fields and retrieve custom key elements.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @remark			The classes that extend this include ExportOptions, ImportOptions, and Redirect.
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ */
 abstract class AdminPageFramework_CustomSubmitFields {
-
-	/*
-	 * This class provides helper functions that deal with custom submit fields and require to retrieve custom key elements.
-	 * The classes that extend this include ExportOptions, ImportOptions, and Redirect.
-	 * */
 	 
 	public function __construct( $arrPostElement ) {
 		
@@ -2092,6 +2510,14 @@ abstract class AdminPageFramework_CustomSubmitFields {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_ImportOptions' ) ) :
+/**
+ * Provides methods to import option data.
+ *
+ * @since			2.0.0
+ * @extends			AdminPageFramework_CustomSubmitFields
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ */
 class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
 	
 	/* Example of $_FILES for a single import field. 
@@ -2211,6 +2637,14 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_ExportOptions' ) ) :
+/**
+ * Provides methods to export option data.
+ *
+ * @since			2.0.0
+ * @extends			AdminPageFramework_CustomSubmitFields
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ */
 class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {
 
 	public function __construct( $arrPostExport, $strClassName ) {
@@ -2291,6 +2725,15 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_LinkBase' ) ) :
+/**
+ * Provides methods for HTML link elements.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @extends			AdminPageFramework_Utilities
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Link
+ */
 abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities {
 	
 	private static $arrStructure_CallerInfo = array(
@@ -2353,6 +2796,14 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
+/**
+ * Provides methods for HTML link elements for custom post types.
+ *
+ * @since			2.0.0
+ * @extends			AdminPageFramework_Utilities
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Link
+ */
 class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 	
 	public $arrFooterInfo = array(	// accessible from the AdminPageFramework_PostType class.
@@ -2450,6 +2901,14 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 endif;
  
 if ( ! class_exists( 'AdminPageFramework_Link' ) ) :
+/**
+ * Provides methods for HTML link elements for admin pages created by the framework, except the pages of custom post types.
+ *
+ * @since			2.0.0
+ * @extends			AdminPageFramework_LinkBase
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Link
+ */
 class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 
 	/*
@@ -2599,18 +3058,43 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 	public function addLinkToPluginDescription_Callback( $arrLinks, $strFile ) {
 
 		if ( $strFile != plugin_basename( $this->oProps->arrScriptInfo['strPath'] ) ) return $arrLinks;
-		return array_merge( $arrLinks, $this->oProps->arrPluginDescriptionLinks );
+		
+		// Backward compatibility sanitization.
+		$arrAddingLinks = array();
+		foreach( $this->oProps->arrPluginDescriptionLinks as $vLinkHTML )
+			if ( is_array( $vLinkHTML ) )	// should not be an array
+				$arrAddingLinks = array_merge( $vLinkHTML, $arrAddingLinks );
+			else
+				$arrAddingLinks[] = ( string ) $vLinkHTML;
+		
+		return array_merge( $arrLinks, $arrAddingLinks );
 		
 	}			
 	public function addLinkToPluginTitle_Callback( $arrLinks ) {
+
+		// Backward compatibility sanitization.
+		$arrAddingLinks = array();
+		foreach( $this->oProps->arrPluginTitleLinks as $vLinkHTML )
+			if ( is_array( $vLinkHTML ) )	// should not be an array
+				$arrAddingLinks = array_merge( $vLinkHTML, $arrAddingLinks );
+			else
+				$arrAddingLinks[] = ( string ) $vLinkHTML;
 		
-		return array_merge( $arrLinks, $this->oProps->arrPluginTitleLinks );
-	
+		return array_merge( $arrLinks, $arrAddingLinks );
+		
 	}		
 }
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
+/**
+ * Provides debugging methods.
+ *
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
 class AdminPageFramework_Debug {
 	
 	public function getArray( $arr, $strFilePath=null ) {
@@ -2631,6 +3115,14 @@ class AdminPageFramework_Debug {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
+/**
+ * Provides methods for rendering form input fields.
+ *
+ * @since			2.0.0
+ * @extends			AdminPageFramework_Utilities
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ */
 class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 	private static $arrDefaultFieldValues = array(
@@ -3464,6 +3956,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_WalkerTaxonomyChecklist' ) ) :
+/**
+ * Provides methods for rendering taxonomy check lists.
+ *
+ * @since			2.0.0
+ * @extends			Walker_Category
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ */
 class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {	// since 1.0.4
 	
 	/*
@@ -3526,6 +4026,14 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {	// si
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_PostType' ) ) :
+/**
+ * Provides methods for registering custom post types.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Post Type
+ */
 abstract class AdminPageFramework_PostType {	
 
 	// Objects
@@ -3606,6 +4114,11 @@ abstract class AdminPageFramework_PostType {
 	
 	/*
 	 * Extensible methods
+	 */
+
+	/**
+	* The method for all necessary set-ups.
+	* @abstract
 	*/
 	public function setUp() {}	
 	
@@ -3822,7 +4335,15 @@ endif;
 
 
 if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
-class AdminPageFramework_MetaBox {
+/**
+ * Provides methods for creating meta boxes.
+ *
+ * @abstract
+ * @since			2.0.0
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Meta Box
+ */
+abstract class AdminPageFramework_MetaBox {
 	
 	// Default values
 	protected static $arrStructure_Field = array(
@@ -3885,6 +4406,11 @@ class AdminPageFramework_MetaBox {
 	/*
 	 * Front-end methods - user may use it.
 	 * */
+	
+	/**
+	* The method for all necessary set-ups.
+	* @abstract
+	*/	 
 	public function setUp() {}
 	
 	public function setFieldArray( $arrFields ) {
@@ -4121,7 +4647,10 @@ class AdminPageFramework_MetaBox {
 			}
 			input[type='checkbox'], input[type='radio'] { 
 				vertical-align: middle;
-			}					
+			}		
+			.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+				display: none;
+			}			
 		";			
 					
 		// Print out the filtered styles.
