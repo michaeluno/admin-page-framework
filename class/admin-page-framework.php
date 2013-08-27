@@ -5,19 +5,18 @@
  * Provides plugin and theme developers with simpler and easier means of creating option pages, custom post types, ant meta boxes. 
  * The framework uses the built-in WordPress Settings API so the created page design respects the WordPress standard.
  * 
- * @author			Michael Uno <michael@michaeluno.jp>
- * @copyright		Michael Uno
- * @license			GPLv2 or later
- * @see				http://wordpress.org/plugins/admin-page-framework/
- * @see				https://github.com/michaeluno/admin-page-framework
- * @link			http://en.michaeluno.jp/admin-page-framework
- * @package			Admin Page Framework
- * @remarks			To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
- * @remarks			Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
- * @remarks			The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version			2.0.0.b3
- * @todo			<li>Add the ability to create help screen sections.</li>
- * 					<li>Complete the documentation.</li>
+ * @author				Michael Uno <michael@michaeluno.jp>
+ * @copyright			Michael Uno
+ * @license				GPLv2 or later
+ * @see					http://wordpress.org/plugins/admin-page-framework/
+ * @see					https://github.com/michaeluno/admin-page-framework
+ * @link				http://en.michaeluno.jp/admin-page-framework
+ * @package				Admin Page Framework
+ * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
+ * @remarks				Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
+ * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
+ * @version				2.0.0.b3
+ * @todo				<li>Add the ability to create help screen sections.</li>
  */
 /*
 	Name: Admin Page Framework
