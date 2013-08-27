@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.0.b2
+	Version: 2.0.0.b3
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */ 
 
@@ -49,19 +49,14 @@ class APF_Demo extends AdminPageFramework {
 				'numOrder' => 2,
 			),
 			array(
-				'strMenuTitle' => 'Google',
-				'strURL' => 'http://www.google.com',	
-				'fPageHeadingTab' => false,	// this removes the title from the page heading tabs.
-			),
-			array(
 				'strPageTitle' => __( 'Read Me', 'admin-page-framework-demo' ),
 				'strPageSlug' => 'read_me',
 				'strScreenIcon' => 'page',
 			),			
 			array(
-				'strPageTitle' => __( 'Documentation', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'documentation',
-				'strScreenIcon' => 'page',
+				'strMenuTitle' => __( 'Documentation', 'admin-page-framework-demo' ),
+				'strURL' => 'http://admin-page-framework.michaeluno.jp/en/v2/',
+				'fPageHeadingTab' => false,
 			)
 		);
 				
@@ -831,93 +826,7 @@ class APF_Demo extends AdminPageFramework {
 			}	
 			";
 	}
-	/*
-	 * Documentation
-	 * */
-	public function do_before_documentation() {		// do_before_ + page slug 
-		include_once( dirname( __FILE__ ) . '/third-party/wordpress-plugin-readme-parser/markdown.php' );
-	}
-	public function do_documentation_getting_started() {	// do_ + page slug + tab slug
-		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/getting_started.md' ) );
-	}	
-	public function do_documentation_methods() {	// do_ + page slug + tab slug
-		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/methods.md' ) );
-	}
-	public function do_documentation_hooks_and_callbacks() {	// do_ + page slug + tab slug
-		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/hooks_and_callbacks.md' ) );
-	}	
-	public function do_documentation_tutorials() {	// do_ + page slug + tab slug
-		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/tutorials.md' ) );
-	}		
-	public function do_documentation_tips() {	// do_ + page slug + tab slug
-		echo Markdown( file_get_contents( dirname( __FILE__ ) . '/document/tips.md' ) );
-	}			
-	public function style_documentation( $strStyle ) {	// style_ + page slug
-		return $strStyle 
-			. "
-			.wrap .admin-page-framework-container h2 {
-				font-size: 1.7em;
-				line-height: 1.8em;
-				margin-bottom: 0.7em;
-				font-weight: bold;
-				color: #222;
-			}			
-			.wrap .admin-page-framework-container h3 {
-				font-size: 1.5em;
-				line-height: 1.6em;
-				margin-bottom: 0.5em;
-				color: #333;
-			}						
-			.wrap .admin-page-framework-container h4 {
-				font-size: 1.3em;
-				line-height: 1.4em;
-				margin-bottom: 0.3em;
-				color: #444;
-			}			
-			.wrap .admin-page-framework-container h5 {
-				font-size: 1.2em;
-				line-height: 1.3em;
-				margin-bottom: 0.2em;
-				color: #555;
-			}			
-			.wrap .admin-page-framework-container h6 {		
-				font-size: 1.1em;
-				line-height: 1.2em;
-				margin-bottom: 0.1em;
-				color: #777;
-			}			
-			.wrap p, .wrap ul, .wrap pre { 
-				margin-left: 2em;
-			}
-			.wrap ul p {
-				margin-left: 0;
-			}
-			.wrap ul li {
-				list-style-type: disc;	
-			}
-			pre {				
-				border: 1px solid #ededed;
-				margin: 24px 2em;
-				margin: 1.714285714rem 2em;
-				padding: 24px;
-				padding: 1.714285714rem;				
-				overflow-x: auto; 
-			}
-			pre code {
-				color: #666;
-				font-family: Consolas, Monaco, Lucida Console, monospace;
-				line-height: 1.714285714;
-				overflow: auto;
-				background-color: transparent;
-			}	
-			hr {
-				height: 1px;
-				border: 1px;
-				color:#ededed;
-				background-color:#ededed;
-			}
-			";
-	}
+	
 }
 if ( is_admin() )
 	new APF_Demo;
@@ -931,7 +840,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->setAuthorTableFilter( true );
 		$this->addTaxonomy( 
 			'sample_taxonomy', // taxonomy slug
-			array(			// argynebt - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
+			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 				'labels' => array(
 					'name' => 'Genre',
 					'add_new_item' => 'Add New Genre',
@@ -950,7 +859,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 			'second_taxonomy', 
 			array(
 				'labels' => array(
-					'name' => 'Non Hierarchyal',
+					'name' => 'Non Hierarchical',
 					'add_new_item' => 'Add New Taxonomy',
 					'new_item_name' => "New Sample Taxonomy"
 				),
@@ -964,8 +873,8 @@ class APF_PostType extends AdminPageFramework_PostType {
 			)
 		);
 
-		$this->setFooterInfoLeft( '<br />Custom Text on the left side.' );
-		$this->setFooterInfoRight( '<br />Custom text on the right side' );
+		$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
+		$this->setFooterInfoRight( '<br />Custom text on the right hand side' );
 		
 	}
 	
@@ -1034,6 +943,12 @@ new APF_PostType(
 class APF_MetaBox extends AdminPageFramework_MetaBox {
 	
 	public function start_APF_MetaBox() {
+		
+		add_filter( 'the_content', array( $this, 'printMetaFieldValues' ) );
+		
+	}
+	
+	public function setUp() {
 		
 		$this->addSettingFields(
 			array(
@@ -1111,13 +1026,10 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strFieldID'		=> 'date_field',
 				'strTitle'			=> __( 'Date', 'admin-page-framework-demo' ),
 				'strType'			=> 'date',
+				'strAfterField'		=> 'test: ',	// . $GLOBALS['AdminPageFramework_MetaBox_ColorScriptEnqueued'], //get_post_type( $_GET['post'] ),
 			),			
 			array()
-		);
-		
-		
-		add_filter( 'the_content', array( $this, 'printMetaFieldValues' ) );
-		
+		);		
 	}
 	
 	public function printMetaFieldValues( $strContent ) {

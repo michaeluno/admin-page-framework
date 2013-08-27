@@ -43,7 +43,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **`admin-page-framework.php`** is in the *class* folder.
 
 = Documentation =
-Documentation is included in the demo plugin. Navigate to **Admin Page Framework** -> **Documentation**. 
+Visit [Admin Page Framework Documentation](http://admin-page-framework.michaeluno.jp/en/v2/).
 
 == Screenshots ==
 1. **Text Fields**
@@ -135,7 +135,6 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 
 == Roadmap ==
 * Add the ability to set text in the screen help section.
-* Complete the documentation.
 
 == Done ==
 * <s>Add: the date picker form field type.</s> Implemented in 2.0.0.
@@ -145,6 +144,16 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 * <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
 
 == Changelog ==
+
+= 2.0.0.b3 - 08/28/2013 =
+* Added: more documentation in the source code.
+* Removed: the *document* folder.
+* Moved: the *documentation_guideline.md* file to the top level folder.
+* Removed: the documentation pages and added an external link to the documentation web site.
+* Removed: the *arrField* parameter of the constructor of the *AdminPageFramework_MetaBox* class.
+* Removed: the *setFieldArray()* method of the *AdminPageFramework_MetaBox* class.
+* Fixed: a bug that meta box color piker, image selector, data picker scripts did not load in the page after the Publish button was pressed.
+* Changed: the *validation_ extended class name* filter for meta boxes to accept the second parameter to receive the stored data.
 
 = 2.0.0.b2 - 08/26/2013 =
 * Changed: *addLinkToPluginDescription()* and *addLinkToPluginTitle()* to accept variadic parameters. 
