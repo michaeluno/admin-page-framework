@@ -1026,7 +1026,6 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strFieldID'		=> 'date_field',
 				'strTitle'			=> __( 'Date', 'admin-page-framework-demo' ),
 				'strType'			=> 'date',
-				'strAfterField'		=> 'test: ',	// . $GLOBALS['AdminPageFramework_MetaBox_ColorScriptEnqueued'], //get_post_type( $_GET['post'] ),
 			),			
 			array()
 		);		
