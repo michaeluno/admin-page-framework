@@ -26,4 +26,4 @@ There are various ways you can contribute:
 1. Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
 2. Send us a Pull Request with your bug fixes and/or new features.
 3. Provide feedback and suggestions on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
-4. Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/document/documentation_guideline.md).
+4. Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
