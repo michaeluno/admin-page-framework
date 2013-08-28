@@ -145,6 +145,11 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 
 == Changelog ==
 
+= 2.0.0.b4 =
+* Refactered: the code that loads the color picker script.
+* Refactered: the code that loads the image selector script.
+* Refactered: the code that loads framework's style.
+
 = 2.0.0.b3 - 08/28/2013 =
 * Added: more documentation in the source code.
 * Removed: the *document* folder.

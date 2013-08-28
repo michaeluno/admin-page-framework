@@ -15,7 +15,7 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.0.0.b3
+ * @version				2.0.0.b4
  * @todo				<li>Add the ability to create help screen sections.</li>
  */
 /*
@@ -23,7 +23,7 @@
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.0.b2
+	Version: 2.0.0.b4
 	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 */
@@ -383,45 +383,7 @@ if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
  * @staticvar		array		$arrStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
 abstract class AdminPageFramework_Pages {
-	
-	/**
-	 * The default CSS rules loaded in the head tag of the created admin page.
-	 * @var			string
-	 * @static
-	 * @access		protected	
-	 * @internal	This may ought to be moved to the properties object.
-	 */ 
-	protected static $strDefaultStyle =
-		".wrap div.updated, .wrap div.settings-error { clear: both; margin-top: 16px;} 
-		.taxonomy-checklist li { margin: 8px 0 8px 20px; }
-		div.taxonomy-checklist {
-			padding: 8px 0 8px 10px;
-			margin-bottom: 20px;
-		}
-		.taxonomy-checklist ul {
-			list-style-type: none;
-			margin: 0;
-		}
-		.taxonomy-checklist ul ul {
-			margin-left: 1em;
-		}
-		.taxonomy-checklist-label {
-			margin-left: 0.5em;
-		}
-		.image_preview {
-			border: none; clear:both; margin-top: 20px;	max-width:100%; 
-		}
-		.image_preview img {
-			max-height: 600px; max-width: 800px;
-		}
-		input[type='checkbox'], input[type='radio'] { 
-			vertical-align: middle;
-		}
-		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
-			display: none;
-		}
-		";	
-		
+			
 	/**
 	 * Stores the prefixes of the filters used by this framework.
 	 * 
@@ -1728,46 +1690,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Append the script
 		//Setup the color pickers to work with our text input field
-		$this->oProps->strScript .= "
-			jQuery(document).ready(function(){
-				'use strict';
-				//This if statement checks if the color picker element exists within jQuery UI
-				//If it does exist then we initialize the WordPress color picker on our text input field
-				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-					var myOptions = {
-						// you can declare a default color here,
-						// or in the data-default-color attribute on the input
-						defaultColor: false,
-						// a callback to fire whenever the color changes to a valid color
-						change: function(event, ui){
-							// reference : http://automattic.github.io/Iris/
-							// update the image element as well
-							// event = standard jQuery event, produced by whichever control was changed.
-							// ui = standard jQuery UI object, with a color member containing a Color.js object
-
-							// change the headline color
-							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', ui.color.toString());	
-							
-						},
-						// a callback to fire when the input is emptied or an invalid color
-						clear: function() {
-							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', 'transparent' );	
-							
-						},
-						// hide the color picker controls on load
-						hide: true,
-						// show a group of common colors beneath the square
-						// or, supply an array of colors to customize further
-						palettes: true
-					};			
-					jQuery( '.input_color' ).wpColorPicker( myOptions );
-				}
-				else {
-					//We use farbtastic if the WordPress color picker widget doesn't exist
-					// jQuery( '.colorpicker' ).farbtastic( '.input_color' );
-				}
-			});	
-		";			
+		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();
 	
 	}
 	private function enqueueMediaUploaderScript() {
@@ -1789,24 +1712,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
 		
 		// Append the script
-		$this->oProps->strScript .= "
-			jQuery( document ).ready( function( $ ){
-				$( '.select_image' ).click( function() {
-					pressed_id = $( this ).attr( 'id' );
-					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-					tb_show('{$this->oProps->strThickBoxTitle}', 'media-upload.php?referer={$this->oProps->strOptionKey}&amp;button_label={$this->oProps->strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
-					return false;	// do not click the button after the script by returning false.
-				});
-				window.send_to_editor = function( html ) {
-					var image_url = $( 'img',html ).attr( 'src' );
-					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
-					tb_remove();	// close the thickbox
-					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
-					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
-					$( '#image_preview_' + field_id ).show()	// updates the visibility
-				}
-			});";
-			
+		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		
 	}
 			 	
 	/**
@@ -2420,7 +2327,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// Replace the button label in the media thick box.
 		if ( ! in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php' ) ) ) return $strTranslated;
 		if ( $strText != 'Insert into Post' ) return $strTranslated;
-		if ( $this->oUtil->getQueryValueInURLByKey( wp_get_referer(), 'referer' ) != $this->oProps->strOptionKey ) return $strTranslated;
+		if ( $this->oUtil->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $strTranslated;
 		
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
@@ -2574,6 +2481,12 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  import_ + extended class name</blockquote>
  * @abstract
  * @since			2.0.0
+ * @use				AdminPageFramework_Properties
+ * @use				AdminPageFramework_Debug
+ * @use				AdminPageFramework_Properties
+ * @use				AdminPageFramework_Messages
+ * @use				AdminPageFramework_Link
+ * @use				AdminPageFramework_Utilities
  * @remark			This class stems from several abstract classes.
  * @extends			AdminPageFramework_SettingsAPI
  * @package			Admin Page Framework
@@ -3015,7 +2928,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 					
 		// Print out the filtered styles.
 		echo "<style type='text/css' id='admin-page-framework-style'>" 
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), self::$strDefaultStyle )
+			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
 			. "</style>";
 	}
 	
@@ -3091,6 +3004,45 @@ if ( ! class_exists( 'AdminPageFramework_Properties' ) ) :
  * @subpackage		Admin Page Framework - Property
  */
 class AdminPageFramework_Properties {
+
+	/**
+	 * The default CSS rules loaded in the head tag of the created admin pages.
+	 * @var			string
+	 * @static
+	 * @remark		It is accessed from the main class and meta box class.
+	 * @access		public	
+	 * @internal	
+	 */ 
+	public static $strDefaultStyle =
+		".wrap div.updated, .wrap div.settings-error { clear: both; margin-top: 16px;} 
+		.taxonomy-checklist li { margin: 8px 0 8px 20px; }
+		div.taxonomy-checklist {
+			padding: 8px 0 8px 10px;
+			margin-bottom: 20px;
+		}
+		.taxonomy-checklist ul {
+			list-style-type: none;
+			margin: 0;
+		}
+		.taxonomy-checklist ul ul {
+			margin-left: 1em;
+		}
+		.taxonomy-checklist-label {
+			margin-left: 0.5em;
+		}
+		.image_preview {
+			border: none; clear:both; margin-top: 20px;	max-width:100%; 
+		}
+		.image_preview img {
+			max-height: 600px; max-width: 800px;
+		}
+		input[type='checkbox'], input[type='radio'] { 
+			vertical-align: middle;
+		}
+		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+			display: none;
+		}
+		";	
 			
 	/**
 	 * Stores framework's instantiated object name.
@@ -3210,6 +3162,92 @@ class AdminPageFramework_Properties {
 	 */ 	
 	public $fShowPageHeadingTabs = true;
 	
+	/**
+	 * Returns the image selector JavaScript script loaded in the head tag of the created admin pages.
+	 * @var			string
+	 * @static
+	 * @remark		It is accessed from the main class and meta box class.
+	 * @access		public	
+	 * @internal
+	 * @return			string			The image selector script.
+	 */		
+	public static function getImageSelectorScript( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
+		return "
+			jQuery( document ).ready( function( $ ){
+				$( '.select_image' ).click( function() {
+					pressed_id = $( this ).attr( 'id' );
+					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
+					tb_show('{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
+					return false;	// do not click the button after the script by returning false.
+				});
+				window.send_to_editor = function( html ) {
+					var image_url = $( 'img',html ).attr( 'src' );
+					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
+					tb_remove();	// close the thickbox
+					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
+					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
+					$( '#image_preview_' + field_id ).show()	// updates the visibility
+				}
+			});";
+	}
+	/**
+	 * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
+	 * @var			string
+	 * @static
+	 * @remark		It is accessed from the main class and meta box class.
+	 * @remark		This is made to be a method rather than a property because in the future a variable may need to be used in the script code like the above image selector script.
+	 * @access		public	
+	 * @internal
+	 * @return			string			The image selector script.
+	 */ 
+	public static function getColorPickerScript() {
+		return "
+			jQuery(document).ready(function(){
+				'use strict';
+				//This if statement checks if the color picker element exists within jQuery UI
+				//If it does exist then we initialize the WordPress color picker on our text input field
+				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+					var myOptions = {
+						// you can declare a default color here,
+						// or in the data-default-color attribute on the input
+						defaultColor: false,
+						// a callback to fire whenever the color changes to a valid color
+						change: function(event, ui){
+							// reference : http://automattic.github.io/Iris/
+							// update the image element as well
+							// event = standard jQuery event, produced by whichever control was changed.
+							// ui = standard jQuery UI object, with a color member containing a Color.js object
+
+							// change the headline color
+							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', ui.color.toString());	
+							
+						},
+						// a callback to fire when the input is emptied or an invalid color
+						clear: function() {
+							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', 'transparent' );	
+							
+						},
+						// hide the color picker controls on load
+						hide: true,
+						// show a group of common colors beneath the square
+						// or, supply an array of colors to customize further
+						palettes: true
+					};			
+					jQuery( '.input_color' ).wpColorPicker( myOptions );
+				}
+				else {
+					//We use farbtastic if the WordPress color picker widget doesn't exist
+					// jQuery( '.colorpicker' ).farbtastic( '.input_color' );
+				}
+			});	
+		";			
+	}
+	
+	
+	/**
+	 * Construct the instance of AdminPageFramework_Properties class object.
+	 * @return			void
+	 */ 
 	public function __construct( $strClassName, $strOptionKey, $strCapability='manage_options' ) {
 		
 		$this->strClassName = $strClassName;		
@@ -5050,6 +5088,8 @@ abstract class AdminPageFramework_PostType {
 	// Strings
 	/**
 	 * Stores the CSS rules.
+	 * 
+	 * @remark			Unlike the pages and meta boxes style, it is empty because they are for setting fields.
 	 * @internal
 	 */ 				
 	protected $strStyle = '';
@@ -5339,12 +5379,13 @@ abstract class AdminPageFramework_PostType {
 		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->strPostType )
 			return;
 
-		$this->strStyle = '';	
+		$this->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", $this->strStyle );	
 			
 		// Print out the filtered styles.
-		echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
-			. $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", $this->strStyle )
-			. "</style>";			
+		if ( ! empty( $this->strStyle ) )
+			echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
+				. $this->strStyle
+				. "</style>";			
 		
 	}
 	
@@ -5509,6 +5550,10 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * 
  * @abstract
  * @since			2.0.0
+ * @use				AdminPageFramework_Utilities
+ * @use				AdminPageFramework_Messages
+ * @use				AdminPageFramework_Debug
+ * @use				AdminPageFramework_Properties
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Meta Box
  */
@@ -5573,7 +5618,6 @@ abstract class AdminPageFramework_MetaBox {
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
 	 * 
 	 * @see				http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
-	 * 
 	 * @param			string			$strMetaBoxID			The meta box ID.
 	 * @param			string			$strTitle				The meta box title.
 	 * @param			string|array	$vPostTypes				( optional ) The post type(s) that the meta box is associated with.
@@ -5754,46 +5798,7 @@ abstract class AdminPageFramework_MetaBox {
 	
 		// Append the script
 		// Set up the color pickers to work with our text input field
-		$this->strScript .= "
-			jQuery(document).ready(function(){
-				'use strict';
-				//This if statement checks if the color picker element exists within jQuery UI
-				//If it does exist then we initialize the WordPress color picker on our text input field
-				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-					var myOptions = {
-						// you can declare a default color here,
-						// or in the data-default-color attribute on the input
-						defaultColor: false,
-						// a callback to fire whenever the color changes to a valid color
-						change: function(event, ui){
-							// reference : http://automattic.github.io/Iris/
-							// update the image element as well
-							// event = standard jQuery event, produced by whichever control was changed.
-							// ui = standard jQuery UI object, with a color member containing a Color.js object
-
-							// change the headline color
-							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', ui.color.toString());	
-							
-						},
-						// a callback to fire when the input is emptied or an invalid color
-						clear: function() {
-							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', 'transparent' );	
-							
-						},
-						// hide the color picker controls on load
-						hide: true,
-						// show a group of common colors beneath the square
-						// or, supply an array of colors to customize further
-						palettes: true
-					};			
-					jQuery( '.input_color' ).wpColorPicker( myOptions );
-				}
-				else {
-					//We use farbtastic if the WordPress color picker widget doesn't exist
-					// jQuery( '.colorpicker' ).farbtastic( '.input_color' );
-				}
-			});	
-		";			
+		$this->strScript .= AdminPageFramework_Properties::getColorPickerScript();
 	
 	}
 	
@@ -5840,24 +5845,7 @@ abstract class AdminPageFramework_MetaBox {
 		$this->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
 					
 		// Append the script
-		$this->strScript .= "
-			jQuery( document ).ready( function( $ ){
-				$( '.select_image' ).click( function() {
-					pressed_id = $( this ).attr( 'id' );
-					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-					tb_show('{$this->strThickBoxTitle}', 'media-upload.php?referrer={$this->strClassName}&amp;button_label={$this->strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
-					return false;	// do not click the button after the script by returning false.
-				});
-				window.send_to_editor = function( html ) {
-					var image_url = $( 'img',html ).attr( 'src' );
-					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
-					tb_remove();	// close the thickbox
-					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
-					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
-					$( '#image_preview_' + field_id ).show()	// updates the visibility
-				}
-			});";
-		
+		$this->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->strThickBoxTitle, $this->strThickBoxButtonUseThis );
 		
 	}
 
@@ -5871,43 +5859,13 @@ abstract class AdminPageFramework_MetaBox {
 		$strRootClassName = get_class();
 		if ( isset( $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) return;
 		$GLOBALS[ "{$strRootClassName}_StyleLoaded" ] = true;
-
-		$this->strStyle = 
-			".wrap div.updated, .wrap div.settings-error, .wrap div.error, .wrap div.updated
-			{ clear: both; margin-top: 16px;} 
-			.taxonomy-checklist li { margin: 8px 0 8px 20px; }
-			div.taxonomy-checklist {
-				padding: 8px 0 8px 10px;
-				margin-bottom: 20px;
-			}
-			.taxonomy-checklist ul {
-				list-style-type: none;
-				margin: 0;
-			}
-			.taxonomy-checklist ul ul {
-				margin-left: 1em;
-			}
-			.taxonomy-checklist-label {
-				margin-left: 0.5em;
-			}
-			.image_preview {
-				border: none; clear:both; margin-top: 20px;	max-width:100%; 
-			}
-			.image_preview img {
-				max-height: 600px; max-width: 800px;
-			}
-			input[type='checkbox'], input[type='radio'] { 
-				vertical-align: middle;
-			}		
-			.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
-				display: none;
-			}			
-		";			
-					
+				
 		// Print out the filtered styles.
-		echo "<style type='text/css' id='admin-page-framework-style-meta-box'>" 
-			. $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", $this->strStyle )
-			. "</style>";
+		$this->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
+		if ( ! empty( $this->strStyle ) )
+			echo "<style type='text/css' id='admin-page-framework-style-meta-box'>" 
+				. $this->strStyle
+				. "</style>";
 			
 	}
 	
@@ -5951,7 +5909,7 @@ abstract class AdminPageFramework_MetaBox {
 		// Replace the button label in the media thick box.
 		if ( ! in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php' ) ) ) return $strTranslated;
 		if ( $strText != 'Insert into Post' ) return $strTranslated;
-		if ( $this->oUtil->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != $this->strClassName ) return $strTranslated;
+		if ( $this->oUtil->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $strTranslated;
 		
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
