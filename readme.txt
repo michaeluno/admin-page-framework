@@ -50,10 +50,10 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 == Screenshots ==
 1. **Text Fields**
 2. **Selector and Checkboxes**
-3. **Image and Upload**
+3. **Image and Upload and Color Picker**
 4. **Form Verification**
 5. **Import and Export**
-6. **Taxonomy and Post Type Checklist**
+6. **Taxonomy and Post Type Checklists**
 
 == Installation ==
 
@@ -131,7 +131,7 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
 = How can I contribute to improving the documentation? =
-You are welcome to submit documentation. Please follow the [Documentation Guidline](https://github.com/michaeluno/admin-page-framework/blob/master/document/documentation_guideline.md). 
+You are welcome to submit documentation. Please follow the [Documentation Guidline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
