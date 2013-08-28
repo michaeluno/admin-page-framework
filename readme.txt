@@ -1,10 +1,10 @@
 === Admin Page Framework ===
 Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
-Tags: admin, administration panel, admin panel, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, development tool, developers
+Tags: admin, administration, administration panel, admin panel, admin pages, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.2
 Tested up to: 3.6
-Stable tag: 1.0.4.4
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,9 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 * **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
-* **Settings API Implemented** - it uses the WordPress Settings API for creating the form so the standard option design will be implemented.
+* **Date Picker** - it lets the user easily select dates.
+* **Color Picker** - it lets the user easily pick a color.
+* **Settings API Implemented** - it uses the [WordPress Settings API](http://codex.wordpress.org/Settings_API) for creating the form so the standard option design will be employed.
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 
 = Supported Field Types =
@@ -51,7 +53,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 3. **Image and Upload**
 4. **Form Verification**
 5. **Import and Export**
-6. **Category and Post Type Checklist**
+6. **Taxonomy and Post Type Checklist**
 
 == Installation ==
 
@@ -144,6 +146,9 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 * <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
 
 == Changelog ==
+
+= 2.0.0 - 08/28/2013 =
+* Released 2.0.0.
 
 = 2.0.0.b4 - 08/28/2013 =
 * Fixed: a bug that custom post type preview page did not show the stored values in the demo plugin.
