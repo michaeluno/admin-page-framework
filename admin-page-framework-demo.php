@@ -1034,15 +1034,13 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 	public function printMetaFieldValues( $strContent ) {
 		
 		if ( get_post_type() != 'apf_posts'  ) return $strContent;
-		
-		global $post;
-		
-		$arrOutput = array();
-		foreach( $this->arrFields as $arrField )
-			$arrOutput[ $arrField['strFieldID'] ] = get_post_meta( $post->ID, $arrField['strFieldID'], true );
-		
-		return "<h3>Saved Meta Field Values</h3>" . $this->oDebug->getArray( $arrOutput );
-		
+								
+		// get_post_meta( $post->ID ) will return an array of all the meta field values.
+		// or if you know the field id of the value you want, you can do
+		// $value = get_post_meta( $post->ID, $field_id, true );
+		return "<h3>Saved Meta Field Values</h3>" 
+			. $this->oDebug->getArray( get_post_meta( $GLOBALS['post']->ID ) );
+
 	}
 	
 }

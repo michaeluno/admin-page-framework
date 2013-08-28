@@ -145,7 +145,8 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 
 == Changelog ==
 
-= 2.0.0.b4 =
+= 2.0.0.b4 - 08/28/2013 =
+* Fixed: a bug that custom post type preview page did not show the stored values in the demo plugin.
 * Refactered: the code that loads the color picker script.
 * Refactered: the code that loads the image selector script.
 * Refactered: the code that loads framework's style.
