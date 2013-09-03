@@ -11,18 +11,21 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Provides simpler means of building administration pages for plugin and theme developers. 
 
 == Description ==
-It provides plugin and theme developers with easier means of creating option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages for you. The package includes a demo plugin which helps you walk through necessary features.
+It provides plugin and theme developers with easier means of creating option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you. The package includes a demo plugin which helps you walk through necessary features.
 
 **Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
 = Features =
+* **Root Page, Sub Pages, and Tabs** - it allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
 * **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 * **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Date Picker** - it lets the user easily select dates.
-* **Color Picker** - it lets the user easily pick a color.
+* **Color Picker** - it lets the user easily pick colors.
 * **Settings API Implemented** - it uses the [WordPress Settings API](http://codex.wordpress.org/Settings_API) for creating the form so the standard option design will be employed.
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
+* **Custom Post Types** - the framework provides methods to create custom post types.
+* **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
 
 = Supported Field Types =
 * Text 
@@ -61,7 +64,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 
 **Step 1.** Include **`admin-page-framework.php`** that is located in the **`classes`** folder into your theme or plugin.
 
-`if ( !class_exists( 'AdminPageFramework' ) )
+`if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );`
 	
 **Step 2.** Extend the Library Class.
@@ -107,7 +110,7 @@ class APF extends AdminPageFramework {
     	$this->setRootMenuPage( 'Settings' );	
 		$this->addSubMenuPage(
 			'My First Page',	// page and menu title
-			'myfirstpage'		// page slug - this will be the option name saved in the database
+			'myfirstpage'		// page slug
 		);
 	
     }
@@ -146,6 +149,9 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 * <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixed: a bug that admin setting notices were displayed twice in the options-general.php page.
 
 = 2.0.0 - 08/28/2013 =
 * Released 2.0.0.
