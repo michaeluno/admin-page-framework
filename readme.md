@@ -10,7 +10,7 @@ Admin Page Framework is a set of PHP classes that provides theme and plugin deve
 
 The latest development version can be downloaded [here](https://github.com/michaeluno/admin-page-framework/archive/master.zip).
 
-It includes the demo plugin which uses the framework and is ready to be installed as a WordPress plugin. Just upload the unpacked folder to the `...\wp-content\plugins` folder then activate it. The sample pages which include the documentation will be created.
+It includes the demo plugin which uses the framework and is ready to be installed as a WordPress plugin. Just upload the unpacked folder to the `...\wp-content\plugins` folder then activate it. The sample pages will be created.
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
