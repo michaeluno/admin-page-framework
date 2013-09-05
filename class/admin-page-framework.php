@@ -1520,7 +1520,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>strName</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
 	* 	<li><strong>strError</strong> - ( optional, string ) the error message to display above the input field.</li>
 	* 	<li><strong>strBeforeField</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
-	* 	<li><strong>strAfterField</strong> - ( optional, string ) the HTML sring to insert after the input field output.</li>
+	* 	<li><strong>strAfterField</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
 	* 	<li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
 	* 	<li><strong>numOrder</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	* 	<li><strong>vLabel</strong> - ( optional|mandatory, string|array ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key while some require it.</li>
@@ -1554,7 +1554,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 		</ul>
-	* 	<li><strong>number, range</strong> - HTML5 input fields types. Some browsers do not support these.</li>
+	* 	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do not support these.</li>
 	* 		<ul>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
@@ -1577,7 +1577,24 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 		<ul>
 	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
 	* 			<li><strong>vWidth</strong> - ( optional, integer|array ) the width of the dropdown list.</li>
+	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 		</ul>
+	* 	<li><strong>size</strong> - a size input filed. This is a combination of number and select fields.</li>
+	* 		<ul>
+	* 			<li>
+	* 				<strong>vSizeUnits</strong> - ( optional, array ) defines the units to show. e.g. <code>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</code> 
+	* 				Default: <code>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</code>
+	* 			</li>
+	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
+	* 			<li><strong>vWidth</strong> - ( optional, integer|array ) the width of the dropdown list.</li>
+	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
+	* 			<li><strong>vMax</strong> - ( optional, integer|array ) the number that indicates the <em>max</em> attribute of the input field.</li>
+	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
+	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
+	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
+	* 	</ul>
 	* 	<li><strong>hidden</strong> - a hidden input field.</li>
 	* 	<li><strong>file</strong> - a file upload input field.</li>
 	* 	<li><strong>submit</strong> - a submit button input field.</li>
@@ -4614,8 +4631,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}	
 	
 	/**
-	 * A helper function for the above getSelectField() method.
+	 * A helper function for the getSelectField() and getSizeField() methods.
+	 * 
 	 * @since			2.0.0
+	 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
 	 */ 
 	private function getOptionTags( $arrLabels, $vValue, $strIterationID, $fSingle, $fMultiple=false ) {	
 

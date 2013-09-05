@@ -447,20 +447,20 @@ class APF_Demo extends AdminPageFramework {
 					'pounds'	=> 'pounds',
 				),
 			),						
-			array(	// Sizes
+			array(	// Multiple Sizes
 				'strFieldID' => 'sizes_filed',
 				'strSectionID' => 'selectors',
-				'strTitle' => __( 'Sizes with Different Units', 'admin-page-framework-demo' ),
+				'strTitle' => __( 'Multiple Sizes', 'admin-page-framework-demo' ),
 				'strType' => 'size',
 				'vLabel' => array(
 					'weight'	=> __( 'Weight', 'admin-page-framework-demo' ),
 					'length'	=> __( 'Length', 'admin-page-framework-demo' ),
-					'capacity'		=> __( 'File Size', 'admin-page-framework-demo' ),
+					'capacity'	=> __( 'File Size', 'admin-page-framework-demo' ),
 				),
-				'vSizeUnits' => array( 
+				'vSizeUnits' => array( 	// notice that the array key structure corresponds to the vLabel array's.
 					'weight'	=> array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
-					'capacity'		=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
+					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
 				),
 			),			
 			array( // Image Selector
