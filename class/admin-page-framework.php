@@ -15,7 +15,7 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.0.1
+ * @version				2.0.2
  * @todo				<li>Add the ability to create help screen sections.</li>
  */
 /*
@@ -23,7 +23,7 @@
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.1
+	Version: 2.0.2
 	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 */
@@ -4218,6 +4218,7 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  * Provides methods for rendering form input fields.
  *
  * @since			2.0.0
+ * @since			2.0.1			Added the <em>size</em> type.
  * @extends			AdminPageFramework_Utilities
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
@@ -4225,7 +4226,7 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
 class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 	/**
-	 * Represents the structure of filed array.
+	 * Represents the structure of field array.
 	 * @since			2.0.0
 	 * @access			private
 	 */ 
@@ -4274,6 +4275,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'strSectionID' => null,
 		'strBeforeField' => null,
 		'strAfterField' => null,
+		
+		// For the size field
+		'vSizeUnits' => null,	// not setting the default value here. 
 		
 	);
 	
@@ -4480,6 +4484,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			case 'posttype':
 				$strOutput .= $this->getPostTypeChecklistField();
 				break;
+			case 'size':	// size selector
+				$strOutput .= $this->getSizeField();
+				break;				
 			default:	// for anything else, 				
 				$strOutput .= $this->arrField['vBeforeInputTag'] . ( ( string ) $this->vValue ) . $this->arrField['vAfterInputTag'];
 				break;				
@@ -4529,17 +4536,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					: "" 
 					)
 				. "<input id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-				. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
-				. "type='{$this->arrField['strType']}' "
-				. ( is_array( $this->arrField['vLabel'] ) ? "name='{$this->strFieldName}[{$strKey}]' " : "name='{$this->strFieldName}' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-				. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
-				. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
-				. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "
-				. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
+					. "type='{$this->arrField['strType']}' "
+					. ( is_array( $this->arrField['vLabel'] ) ? "name='{$this->strFieldName}[{$strKey}]' " : "name='{$this->strFieldName}' " )
+					. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+					. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
+					. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
+					. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 				. "/>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
@@ -4579,7 +4586,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		// The value of the label key must be an array for the select type.
 		if ( ! is_array( $this->arrField['vLabel'] ) ) return;	
 
-		$fSingle = ( $this->getArrayDimension( $this->arrField['vLabel'] ) == 1 );
+		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
 		$arrLabels = $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
 		foreach( $arrLabels as $strKey => $vLabel ) {
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
@@ -4594,7 +4601,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
 						. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
 					. ">"
-						. $this->getOptionTags( $vLabel, $strKey, $fSingle, $fMultiple )
+						. $this->getOptionTags( $vLabel, $this->vValue, $strKey, $fSingle, $fMultiple )
 					. "</select>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' )
@@ -4610,17 +4617,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * A helper function for the above getSelectField() method.
 	 * @since			2.0.0
 	 */ 
-	private function getOptionTags( $arrLabels, $strIterationID, $fSingle, $fMultiple=false ) {	
+	private function getOptionTags( $arrLabels, $vValue, $strIterationID, $fSingle, $fMultiple=false ) {	
 
 		$arrOutput = array();
 		foreach ( $arrLabels as $strKey => $strLabel ) {
-			$arrValue = $fSingle ? ( array ) $this->vValue : ( array ) $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, array() ) ;
+			$arrValue = $fSingle ? ( array ) $vValue : ( array ) $this->getCorrespondingArrayValue( $vValue, $strIterationID, array() ) ;
 			$arrOutput[] = "<option "
 				. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
 				. "value='{$strKey}' "
 				. (	$fMultiple 
 					? ( in_array( $strKey, $arrValue ) ? 'selected="Selected"' : '' )
-					: ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )
+					: ( $this->getCorrespondingArrayValue( $vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )
 				)
 				. ">"
 				. $strLabel
@@ -4628,12 +4635,84 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		}
 		return implode( '', $arrOutput );
 	}
+	
+	/**
+	 * Returns the size input fields.
+	 * 
+	 * This enables for the user to set a size with a unit. This is made up of a text input field and a drop-down selector field. 
+	 * Useful for theme developers.
+	 * 
+	 * @since			2.0.1
+	 */ 
+	private function getSizeField( $arrOutput=array() ) {
+		
+		$fSingle = ! is_array( $this->arrField['vLabel'] );
+		$fIsSizeUnitForSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vSizeUnits'] ) == 1 );
+		$arrSizeUnits = isset( $this->arrField['vSizeUnits'] ) && is_array( $this->arrField['vSizeUnits'] ) && $fIsSizeUnitForSingle 
+			? $this->arrField['vSizeUnits']
+			: array(	// the default unit size array.
+				'px'	=> 'px',	// pixel
+				'%'		=> '%',		// percentage
+				'em'	=> 'em',	// font size
+				'ex'	=> 'ex',	// font height
+				'in'	=> 'in',	// inch
+				'cm'	=> 'cm',	// centimetre
+				'mm'	=> 'mm',	// millimetre
+				'pt'	=> 'pt',	// point
+				'pc'	=> 'pc',	// pica
+		);		
+		
+		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+				. ( $strLabel 
+					? "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>&nbsp;&nbsp;&nbsp;</span>" 
+					: "" 
+					)
+				. "<input id='{$this->strTagID}_{$strKey}' "	// number field
+					. "style='text-align: right;'"
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "type='number' "	// number
+					. "name=" . ( $fSingle ? "'{$this->strFieldName}[size]' " : "'{$this->strFieldName}[{$strKey}][size]' " )
+					. "value='" . ( $fSingle ? $this->getCorrespondingArrayValue( $this->vValue['size'], $strKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'size', '' ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+					. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
+					. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
+					. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "					
+				. "/>"
+				. "<select id='{$this->strTagID}_{$strKey}' "	// select field
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "type='{$this->arrField['strType']}' "
+					. ( ( $fMultipleOptions = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+					. "name=" . ( $fSingle ? "'{$this->strFieldName}[unit]" : "'{$this->strFieldName}[{$strKey}][unit]" )
+					. ( $fMultipleOptions ? "[]' " : "' " )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
+					. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
+				. ">"
+					. $this->getOptionTags( 
+						$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $this->arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
+						$fSingle ? $this->getCorrespondingArrayValue( $this->vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'unit', 'px' ),
+						$strKey, 
+						true, 	// since the above value is directly passed, pass call the function as for a single element.
+						$fMultipleOptions 
+					)
+				. "</select>"
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				
+		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
+		
+	}
 	private function getRadioField( $arrOutput=array() ) {
 		
 		// The value of the label key must be an array for the select type.
 		if ( ! is_array( $this->arrField['vLabel'] ) ) return;	
 		
-		$fSingle = ( $this->getArrayDimension( $this->arrField['vLabel'] ) == 1 );
+		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
 		$arrLabels =  $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
 		foreach( $arrLabels as $strKey => $vLabel )  
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
@@ -5084,7 +5163,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getSelectedKeyArray( $vValue, $strKey ) {
 				
 		$vValue = ( array ) $vValue;	// cast array because the initial value (null) may not be an array.
-		$intArrayDimension = $this->getArrayDimension( $vValue );
+		$intArrayDimension = $this->getArrayDimension( ( array ) $vValue );
 				
 		if ( $intArrayDimension == 1 )
 			$arrKeys = $vValue;
