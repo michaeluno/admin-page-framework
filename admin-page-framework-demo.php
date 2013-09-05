@@ -395,7 +395,7 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Multiple sets of radio buttons
 				'strFieldID' => 'radio_multiple',
 				'strSectionID' => 'selectors',
-				'strTitle' => 'Multipe Sets of Radio Buttons',
+				'strTitle' => 'Multiple Sets of Radio Buttons',
 				'strDescription' => 'Multiple sets of radio buttons.',
 				'strType' => 'radio',
 				'vLabel' => array( 
