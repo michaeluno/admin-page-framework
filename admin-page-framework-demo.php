@@ -841,7 +841,9 @@ if ( is_admin() )
 	
 class APF_PostType extends AdminPageFramework_PostType {
 	
-	public function setUp() {
+	public function start_APF_PostType() {	// start_ + extended class name
+	
+		// the setUp() method is too late to add taxonomies. So we use start_{class name} action hook.
 	
 		$this->setAutoSave( false );
 		$this->setAuthorTableFilter( true );
@@ -1034,6 +1036,11 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strTitle'			=> __( 'Date', 'admin-page-framework-demo' ),
 				'strType'			=> 'date',
 			),			
+			array (
+				'strFieldID'		=> 'size_field',
+				'strTitle'			=> __( 'Size', 'admin-page-framework-demo' ),
+				'strType'			=> 'size',
+			),						
 			array()
 		);		
 	}
