@@ -43,6 +43,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * Option Export and Import (Custom File Upload and Submit Button)
 * Post Types (Custom Checkboxes)
 * Taxonomies (Custom Checkboxes)
+* Size ( Custom Text and Select Fields )
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the *class* folder.
