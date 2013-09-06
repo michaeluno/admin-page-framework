@@ -434,6 +434,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Size', 'admin-page-framework-demo' ),
 				'strDescription' => __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
 				'strType' => 'size',
+				'vDefault'			=> array( 'size' => 5, 'unit' => '%' ),
 			),			
 			array(	// Size with custom units
 				'strFieldID' => 'size_custom_unit_filed',
@@ -446,6 +447,7 @@ class APF_Demo extends AdminPageFramework {
 					'ounce'	=> 'ounces',
 					'pounds'	=> 'pounds',
 				),
+				'vDefault'	=> array( 'size' => 200, 'unit' => 'ounce' ),
 			),						
 			array(	// Multiple Sizes
 				'strFieldID' => 'sizes_filed',
@@ -462,6 +464,11 @@ class APF_Demo extends AdminPageFramework {
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
 					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
 				),
+				'vDefault' => array(
+					'weight' => array( 'size' => 15, 'unit' => 'g' ),
+					'length' => array( 'size' => 100, 'unit' => 'mm' ),
+					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
+				),					
 			),			
 			array( // Image Selector
 				'strFieldID' => 'image_select_field',
@@ -1040,6 +1047,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strFieldID'		=> 'size_field',
 				'strTitle'			=> __( 'Size', 'admin-page-framework-demo' ),
 				'strType'			=> 'size',
+				'vDefault'			=> array( 'size' => 5, 'unit' => '%' ),
 			),						
 			array (
 				'strFieldID'		=> 'sizes_field',
@@ -1055,6 +1063,11 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
 					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
 				),
+				'vDefault' => array(
+					'weight' => array( 'size' => 15, 'unit' => 'g' ),
+					'length' => array( 'size' => 100, 'unit' => 'mm' ),
+					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
+				),				
 			),					
 			array()
 		);		
