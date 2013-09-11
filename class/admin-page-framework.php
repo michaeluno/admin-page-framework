@@ -13,7 +13,7 @@
  * @link				http://en.michaeluno.jp/admin-page-framework
  * @package				Admin Page Framework
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
- * @remarks				Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
+ * @remarks				Requirements: WordPress 3.. or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
  * @version				2.0.2
  * @todo				<li>Add the ability to create help screen sections.</li>
@@ -24,7 +24,7 @@
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
 	Version: 2.0.2
-	Requirements: WordPress 3.2 or above, PHP 5.2.4 or above.
+	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 */
 
@@ -377,13 +377,264 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 }
 endif;
 
+if ( ! class_exists( 'AdminPageFramework_Help_Base' ) ) :
+/**
+ * Provides base methods and properties for manipulating the contextual help tabs.
+ * 
+ * @since			2.1.0
+ */
+abstract class AdminPageFramework_Help_Base {
+	
+	/**
+	 * Stores the screen object.
+	 * @var				object
+	 * @since			2.1.0
+	 */ 
+	protected $oScreen;
+	
+	/**
+	 * Sets the contextual help tab.
+	 * 
+	 * On contrary to other methods relating to contextual help tabs that just modify the class properties, this finalizes the help tab contents.
+	 * In other words, the set values here will take effect.
+	 * 
+	 * @access			protected
+	 * @remark			The sidebar contents in the help pane can be set but if it's called from the meta box class and the page loads in regular post types, the sidebar text may be overridden by the default one.
+	 * @since			2.1.0
+	 */  
+	protected function setHelpTab( $strID, $strTitle, $arrContents, $arrSideBarContents=array() ) {
+		
+		if ( empty( $arrContents ) ) return;
+		
+		$this->oScreen = isset( $this->oScreen ) ? $this->oScreen : get_current_screen();
+		$this->oScreen->add_help_tab( 
+			array(
+				'id'	=> $strID,
+				'title'	=> $strTitle,
+				'content'	=> implode( PHP_EOL, $arrContents ),
+			) 
+		);						
+		
+		if ( ! empty( $arrSideBarContents ) )
+			$this->oScreen->set_help_sidebar( implode( PHP_EOL, $arrSideBarContents ) );
+			
+	}
+	
+	/**
+	 * Encloses the given string with the contextual help specific tag.
+	 * @since			2.1.0
+	 * @internal
+	 */ 
+	protected function formatHelpDescription( $strHelpDescription ) {
+		return "<div class='contextual-help-description'>" . $strHelpDescription . "</div>";
+	}
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_MetaBox_Help' ) ) :
+/**
+ * Provides methods to manipulate the contextual help tab .
+ * 
+ * @since			2.1.0
+ * @extends			AdminPageFramework_Help_Base
+ */
+abstract class AdminPageFramework_MetaBox_Help extends AdminPageFramework_Help_Base {
+	
+	/**
+	 * Adds the given HTML text to the contextual help pane.
+	 * 
+	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->addHelpText( 
+	 *		__( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
+	 *		__( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
+	 *	);</code>
+	 * 
+	 * @since			2.1.0
+	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>registerHelpTabTextForMetaBox()</em> method.
+	 * @remark			The user may use this method to add contextual help text.
+	 */ 
+	protected function addHelpText( $strHTMLContent, $strHTMLSidebarContent="" ) {
+		$this->oProps->arrHelpTabText[] = "<div class='contextual-help-description'>" . $strHTMLContent . "</div>";
+		$this->oProps->arrHelpTabTextSide[] = "<div class='contextual-help-description'>" . $strHTMLSidebarContent . "</div>";
+	}
+	
+	/**
+	 * Adds the given HTML text to the contextual help pane.
+	 * 
+	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
+	 * On contrary to the <em>addHelpTab()</em> method of the AdminPageFramework_Help class, the help tab title is already determined and the meta box ID and the title will be used.
+	 * 
+	 * @since			2.1.0
+	 * @uses			addHelpText()
+	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>registerHelpTabTextForMetaBox()</em> method.
+	 */ 	
+	protected function addHelpTextForFormFields( $strFieldTitle, $strHelpText, $strHelpTextSidebar="" ) {
+		$this->addHelpText(
+			"<span class='contextual-help-tab-title'>" . $strFieldTitle . "</span> - " . PHP_EOL
+				. $strHelpText,		
+			$strHelpTextSidebar
+		);		
+	}
+
+	/**
+	 * Registers the contextual help tab contents.
+	 * 
+	 * @internal
+	 * @since			2.1.0
+	 * @remark			A call back for the <em>load-{page hook}</em> action hook.
+	 * @remark			The method name implies that this is for meta boxes. This does not mean this method is only for meta box form fields. Extra help text can be added with the <em>addHelpText()</em> method.
+	 */ 
+	public function registerHelpTabTextForMetaBox() {
+	
+		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return;
+		if ( isset( $_GET['post_type'] ) && ! in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) ) return;
+		if ( ! isset( $_GET['post_type'] ) && ! in_array( 'post', $this->oProps->arrPostTypes ) ) return;
+		if ( isset( $_GET['post'], $_GET['action'] ) && ! in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) ) return; // edit post page
+		
+		$this->setHelpTab( 	// this method is defined in the base class.
+			$this->oProps->strMetaBoxID, 
+			$this->oProps->strTitle, 
+			$this->oProps->arrHelpTabText, 
+			$this->oProps->arrHelpTabTextSide 
+		);
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Help' ) ) :
+/**
+ * Provides methods to manipulate the help screen sections.
+ * 
+ * @remark			Shared with the both AdminPageFramework and AdminPageFramework_PostType.
+ * @abstract
+ * @since			2.1.0
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Page
+ * @extends			AdminPageFramework_Help_Base
+ */
+abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
+	
+	/**
+	 * Represents the structure of help tab array.
+	 * 
+	 * @since			2.1.0
+	 * @internal
+	 */ 
+	public static $arrStructure_HelpTab = array(
+		'strPageSlug'				=> null,	// ( mandatory )
+		'strPageTabSlug'			=> null,	// ( optional )
+		'strHelpTabTitle'			=> null,	// ( mandatory )
+		'strHelpTabID'				=> null,	// ( mandatory )
+		'strHelpTabContent'			=> null,	// ( optional )
+		'strHelpTabSidebarContent'	=> null,	// ( optional )
+	);
+
+	/**
+	 * Registers help tabs to the help toggle pane.
+	 * 
+	 * This adds a user-defined help information into the help screen placed just below the top admin bar.
+	 * 
+	 * @remark			The callback of the <em>load-{page slug}</em> action hook.
+	 * @see				http://codex.wordpress.org/Plugin_API/Action_Reference/load-%28page%29
+	 * @remark			the screen object is supported in WordPress 3.3 or above.
+	 * @since			2.1.0
+	 * @internal
+	 */	 
+	public function registerHelpTabs() {
+			
+		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$strCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProps->arrDefaultInPageTabs[ $strCurrentPageSlug ] ) ? $this->oProps->arrDefaultInPageTabs[ $strCurrentPageSlug ] : '' );
+		
+		if ( empty( $strCurrentPageSlug ) ) return;
+		if ( ! $this->oProps->isPageAdded( $strCurrentPageSlug ) ) return;
+		
+		foreach( $this->oProps->arrHelpTabs as $arrHelpTab ) {
+			
+			if ( $strCurrentPageSlug != $arrHelpTab['strPageSlug'] ) continue;
+			if ( isset( $arrHelpTab['strPageTabSlug'] ) && ! empty( $arrHelpTab['strPageTabSlug'] ) & $strCurrentPageTabSlug != $arrHelpTab['strPageTabSlug'] ) continue;
+				
+			$this->setHelpTab( 
+				$arrHelpTab['strID'], 
+				$arrHelpTab['strTitle'], 
+				$arrHelpTab['arrContent'], 
+				$arrHelpTab['arrSidebar']
+			);
+		}
+		
+	}
+	
+	/**
+	 * Adds the given contextual help tab contents into the property.
+	 * 
+	 * <h4>Contextual Help Tab Array Structure</h4>
+	 * <ul>
+	 * 	<li><strong>strPageSlug</strong> - the page slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>strPageTabSlug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>strHelpTabTitle</strong> - the title of the contextual help tab.</li>
+	 * 	<li><strong>strHelpTabID</strong> - the id of the contextual help tab.</li>
+	 * 	<li><strong>strHelpTabContent</strong> - the HTML string content of the the contextual help tab.</li>
+	 * 	<li><strong>strHelpTabSidebarContent</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
+	 * </ul>
+	 * 
+	 * <h4>Example</h4>
+	 * <code>	$this->addHelpTab( 
+	 *		array(
+	 *			'strPageSlug'				=> 'first_page',	// ( mandatory )
+	 *			// 'strPageTabSlug'			=> null,	// ( optional )
+	 *			'strHelpTabTitle'			=> 'Admin Page Framework',
+	 *			'strHelpTabID'				=> 'admin_page_framework',	// ( mandatory )
+	 *			'strHelpTabContent'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
+	 *			'strHelpTabSidebarContent'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+	 *		)
+	 *	);</code>
+	 * 
+	 * @since			2.1.0
+	 * @remark			Called when registering setting sections and fields.
+	 * @remark			The user may use this method.
+	 * @param			array			$arrHelpTab				The help tab array. The key structure is explained in the description part.
+	 * @return			void
+	 */ 
+	protected function addHelpTab( $arrHelpTab ) {
+		
+		// Avoid undefined index warnings.
+		$arrHelpTab = ( array ) $arrHelpTab + AdminPageFramework_Help::$arrStructure_HelpTab;
+		
+		// If the key is not set, that means the help tab array is not created yet. So create it and go back.
+		if ( ! isset( $this->oProps->arrHelpTabs[ $arrHelpTab['strHelpTabID'] ] ) ) {
+			$this->oProps->arrHelpTabs[ $arrHelpTab['strHelpTabID'] ] = array(
+				'strID' => $arrHelpTab['strHelpTabID'],
+				'strTitle' => $arrHelpTab['strHelpTabTitle'],
+				'arrContent' => ! empty( $arrHelpTab['strHelpTabContent'] ) ? array( $this->formatHelpDescription( $arrHelpTab['strHelpTabContent'] ) ) : array(),
+				'arrSidebar' => ! empty( $arrHelpTab['strHelpTabSidebarContent'] ) ? array( $this->formatHelpDescription( $arrHelpTab['strHelpTabSidebarContent'] ) ) : array(),
+				'strPageSlug' => $arrHelpTab['strPageSlug'],
+				'strPageTabSlug' => $arrHelpTab['strPageTabSlug'],
+			);
+			return;
+		}
+
+		// This line will be reached if the help tab array is already set. In this case, just append an array element into the keys.
+		if ( ! empty( $arrHelpTab['strHelpTabContent'] ) )
+			$this->oProps->arrHelpTabs[ $arrHelpTab['strHelpTabID']]['arrContent'][] = $this->formatHelpDescription( $arrHelpTab['strHelpTabContent'] );
+		if ( ! empty( $arrHelpTab['strHelpTabSidebarContent'] ) )
+			$this->oProps->arrHelpTabs[ $arrHelpTab['strHelpTabID'] ]['arrSidebar'][] = $this->formatHelpDescription( $arrHelpTab['strHelpTabSidebarContent'] );
+		
+	}
+	
+}
+endif;
+
 if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
 /**
  * Provides methods to renders admin page elements.
  *
  * @abstract
  * @since			2.0.0
- * @extends			n/a
+ * @since			2.1.0		Extends AdminPageFramework_Help.
+ * @extends			AdminPageFramework_Help
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
  * @staticvar		string		$strDefaultStyle					the default CSS rules loaded in the head tag of the created admin page.
@@ -393,7 +644,7 @@ if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
  * @staticvar		array		$arrPrefixes						stores the prefix strings for filter and action hooks.
  * @staticvar		array		$arrStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
-abstract class AdminPageFramework_Pages {
+abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			
 	/**
 	 * Stores the prefixes of the filters used by this framework.
@@ -528,7 +779,7 @@ abstract class AdminPageFramework_Pages {
 	 * @internal
 	 */ 
 	protected function renderPage( $strPageSlug, $strTabSlug=null ) {
-			
+
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
 		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['do_before_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, true ) );	
 		?>
@@ -680,6 +931,7 @@ abstract class AdminPageFramework_Pages {
 	/**
 	 * Retrieves the screen icon output as HTML.
 	 * 
+	 * @remark			the screen object is supported in WordPress 3.3 or above.
 	 * @since			2.0.0
 	 */ 	
 	private function getScreenIcon( $strPageSlug ) {
@@ -1182,6 +1434,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * Registers the sub-menu page.
 	 * 
 	 * @since			2.0.0
+	 * @remark			Used in the buildMenu() method. 
+	 * @remark			Within the <em>admin_menu</em> hook callback process.
 	 */ 
 	private function registerSubMenu( $arrArgs ) {
 	
@@ -1198,7 +1452,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		$arrResult = array();
 		$strRootPageSlug = $this->oProps->arrRootMenu['strPageSlug'];
 		
-		if ( $strType == 'page' )
+		if ( $strType == 'page' ) {
+			
 			$arrResult[ $strPageSlug ] = add_submenu_page( 
 				$strRootPageSlug,						// the root(parent) page slug
 				$strTitle,								// page_title
@@ -1208,13 +1463,17 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 				$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] ),	// menu_slug
 				array( $this, $strPageSlug ) 				// triggers the __call() magic method with the method name of this slug.
 			);			
-		else if ( $strType == 'link' )
+							
+		} else if ( $strType == 'link' )
 			$GLOBALS['submenu'][ $strRootPageSlug ][] = array ( 
 				$strTitle, 
 				$strCapability, 
 				$arrArgs['strURL'],
 			);	
 			
+
+	
+	
 		return $arrResult;	// maybe useful to debug.
 
 	}
@@ -1251,7 +1510,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		
 		// Register them.
 		foreach ( $this->oProps->arrPages as $arrSubMenuItem ) 
-			$this->registerSubMenu( $arrSubMenuItem );
+			$this->oProps->arrRegisteredSubMenuPages = $this->registerSubMenu( $arrSubMenuItem );
 			
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProps->arrRootMenu['fCreateRoot'] ) 
@@ -1298,6 +1557,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		'strCapability' => null,
 		'fIf' => true,	
 		'numOrder' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
+		'strHelp' => null,
+		'strHelpSide' => null,
 	);	
 	
 	/**
@@ -1310,23 +1571,26 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	protected static $arrStructure_Field = array(
-		'strFieldID' => null, 		// ( mandatory )
-		'strSectionID' => null,		// ( mandatory )
-		'strType' => null,			// ( mandatory )
-		'strPageSlug' => null,		// This will be assigned automatically in the formatting method.
-		'strTabSlug' => null,		// This will be assigned automatically in the formatting method.
-		'strOptionKey' => null,		// This will be assigned automatically in the formatting method.
-		'strClassName' => null,		// This will be assigned automatically in the formatting method.
-		'strCapability' => null,		
-		'strTitle' => null,
-		'strTip' => null,
-		'strDescription' => null,
-		'strName' => null,			// the name attribute of the input field.
-		'strError' => null,			// error message for the field
-		'strBeforeField' => null,
-		'strAfterField' => null,
-		'fIf' => true,
-		'numOrder' => null,			// do not set the default number here for this key.		
+		'strFieldID'		=> null, 		// ( mandatory )
+		'strSectionID'		=> null,		// ( mandatory )
+		'strSectionTitle'	=> null,		// This will be assigned automatically in the formatting method.
+		'strType'			=> null,		// ( mandatory )
+		'strPageSlug'		=> null,		// This will be assigned automatically in the formatting method.
+		'strTabSlug'		=> null,		// This will be assigned automatically in the formatting method.
+		'strOptionKey'		=> null,		// This will be assigned automatically in the formatting method.
+		'strClassName'		=> null,		// This will be assigned automatically in the formatting method.
+		'strCapability'		=> null,		
+		'strTitle'			=> null,
+		'strTip'			=> null,
+		'strDescription'	=> null,
+		'strName'			=> null,		// the name attribute of the input field.
+		'strError'			=> null,		// error message for the field
+		'strBeforeField'	=> null,
+		'strAfterField'		=> null,
+		'fIf' 				=> true,
+		'numOrder'			=> null,	// do not set the default number here for this key.		
+		'strHelp'			=> null,	// since 2.1.0
+		'strHelpSide'		=> null,	// since 2.1.0
 	);	
 	
 	/**
@@ -2228,13 +2492,27 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				
 		// Register settings sections 
 		uasort( $this->oProps->arrSections, array( $this->oProps, 'sortByOrder' ) ); 
-		foreach( $this->oProps->arrSections as $arrSection ) 
+		foreach( $this->oProps->arrSections as $arrSection ) {
 			add_settings_section(	// Add the given section
 				$arrSection['strSectionID'],	//  section ID
 				"<a id='{$arrSection['strSectionID']}'></a>" . $arrSection['strTitle'],		// title - place the anchor in front of the title.
 				array( $this, 'section_pre_' . $arrSection['strSectionID'] ), 				// callback function -  this will trigger the __call() magic method.
 				$arrSection['strPageSlug']	// page
 			);
+			// For the contextual help pane,
+			if ( ! empty( $arrSection['strHelp'] ) )
+				$this->addHelpTab( 
+					array(
+						'strPageSlug'				=> $arrSection['strPageSlug'],
+						'strPageTabSlug'			=> $arrSection['strTabSlug'],
+						'strHelpTabTitle'			=> $arrSection['strTitle'],
+						'strHelpTabID'				=> $arrSection['strSectionID'],
+						'strHelpTabContent'			=> $arrSection['strHelp'],
+						'strHelpTabSidebarContent'	=> $arrSection['strHelpSide'] ? $arrSection['strHelpSide'] : "",
+					)
+				);
+				
+		}
 		
 		// Register settings fields
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
@@ -2255,6 +2533,20 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( $arrField['strType'] == 'color' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->enqueueColorFieldScript( $arrField );
 			if ( $arrField['strType'] == 'date' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->enqueueDateFieldScript( $arrField );
 			
+			// For the contextual help pane,
+			if ( ! empty( $arrField['strHelp'] ) )
+				$this->addHelpTab( 
+					array(
+						'strPageSlug'				=> $arrField['strPageSlug'],
+						'strPageTabSlug'			=> $arrField['strTabSlug'],
+						'strHelpTabTitle'			=> $arrField['strSectionTitle'],
+						'strHelpTabID'				=> $arrField['strSectionID'],
+						'strHelpTabContent'			=> "<span class='contextual-help-tab-title'>" . $arrField['strTitle'] . "</span> - " . PHP_EOL
+														. $arrField['strHelp'],
+						'strHelpTabSidebarContent'	=> $arrField['strHelpSide'] ? $arrField['strHelpSide'] : "",
+					)
+				);
+
 		}
 
 		// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
@@ -2371,7 +2663,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		); 
 		
 		// Apply the conditions to remove unnecessary elements and put new orders.
-		$arrNewFieldArray = array();
+		$arrNewFieldArrays = array();
 		foreach( $arrFields as $arrField ) {
 		
 			if ( ! is_array( $arrField ) ) continue;		// the element must be an array.
@@ -2397,7 +2689,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( $arrField['fIf'] !== true ) continue;
 						
 			// Set the order.
-			$arrField['numOrder']	= is_numeric( $arrField['numOrder'] ) ? $arrField['numOrder'] : count( $arrNewFieldArray ) + 10;
+			$arrField['numOrder']	= is_numeric( $arrField['numOrder'] ) ? $arrField['numOrder'] : count( $arrNewFieldArrays ) + 10;
 			
 			// Set the tip, option key, instantiated class name, and page slug elements.
 			$arrField['strTip'] = strip_tags( isset( $arrField['strTip'] ) ? $arrField['strTip'] : $arrField['strDescription'] );
@@ -2406,12 +2698,13 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			// $arrField['strPageSlug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
 			$arrField['strPageSlug'] = $this->oProps->arrSections[ $arrField['strSectionID'] ]['strPageSlug'];
 			$arrField['strTabSlug'] = $this->oProps->arrSections[ $arrField['strSectionID'] ]['strTabSlug'];
+			$arrField['strSectionTitle'] = $this->oProps->arrSections[ $arrField['strSectionID'] ]['strTitle'];	// used for the contextual help pane.
 			
 			// Add the element to the new returning array.
-			$arrNewFieldArray[ $arrField['strFieldID'] ] = $arrField;
+			$arrNewFieldArrays[ $arrField['strFieldID'] ] = $arrField;
 				
 		}
-		return $arrNewFieldArray;
+		return $arrNewFieldArrays;
 		
 	}
 	
@@ -2683,7 +2976,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
 								
 		if ( is_admin() ) {
-						
+
 			// Hook the menu action - adds the menu items.
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 			
@@ -2702,6 +2995,9 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			// Hook the admin header to insert custom admin stylesheet.
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			add_action( 'admin_head', array( $this, 'addScript' ) );
+								
+			// The contextual help pane.
+			add_action( "admin_head", array( $this, 'registerHelpTabs' ), 200 );
 						
 			// For earlier loading than $this->setUp
 			$this->oUtil->addAndDoAction( $this, self::$arrPrefixes['start_'] . $this->oProps->strClassName );
@@ -3124,26 +3420,26 @@ class AdminPageFramework_Messages {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Properties' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Properties_Base' ) ) :
+
 /**
- * Provides the space to store the shared properties.
+ * The base class for Property classes.
  * 
- * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
- * 
- * @since			2.0.0
+ * Provides the common methods  and properties for the property classes that are used by the main class, the meta box class, and the post type class.
+ * @since			2.1.0
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Property
- */
-class AdminPageFramework_Properties {
-
+ */ 
+abstract class AdminPageFramework_Properties_Base {
+	
 	/**
 	 * The default CSS rules loaded in the head tag of the created admin pages.
 	 * 
 	 * @since			2.0.0
-	 * @var			string
+	 * @var				string
 	 * @static
-	 * @remark		It is accessed from the main class and meta box class.
-	 * @access		public	
+	 * @remark			It is accessed from the main class and meta box class.
+	 * @access			public	
 	 * @internal	
 	 */ 
 	public static $strDefaultStyle =
@@ -3175,154 +3471,23 @@ class AdminPageFramework_Properties {
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
 			display: none;
 		}
+		.contextual-help-description {
+			clear: left;	
+			display: block;
+			margin: 1em 0;
+		}
+		.contextual-help-tab-title {
+			font-weight: bold;
+		}
 		";	
-			
-	/**
-	 * Stores framework's instantiated object name.
-	 * 
-	 * @since			2.0.0
-	 */ 
-	public $strClassName;	
-	
-	/**
-	 * Stores the access level to the root page. 
-	 * 
-	 * When sub pages are added and the capability value is not provided, this will be applied.
-	 * 
-	 * @since			2.0.0
-	 */ 	
-	public $strCapability = 'manage_options';	
-	
-	/**
-	 * Stores the tab for the page heading navigation bar.
-	 * @since			2.0.0
-	 */ 
-	public $strPageHeadingTabTag = 'h2';
 
-	/**
-	 * Stores the tab for the in-page tab navigation bar.
-	 * @since			2.0.0
-	 */ 
-	public $strInPageTabTag = 'h3';
-	
-	/**
-	 * Stores the default page slug.
-	 * @since			2.0.0
-	 */ 	
-	public $strDefaultPageSlug;
-	
-	/**
-	 * Stores the adding scripts.
-	 * @since			2.0.0
-	 */ 		
-	public $strScript;
-	
-	// Container arrays.
-	/**
-	 * A two-dimensional array storing registering sub-menu(page) item information with keys of the page slug.
-	 * @since			2.0.0
-	 */ 	
-	public $arrPages = array(); 
-	
-	/**
-	 * Stores the root menu item information for one set root menu item.
-	 * @since			2.0.0
-	 */ 		
-	public $arrRootMenu = array(
-		'strTitle' => null,				// menu label that appears on the menu list
-		'strPageSlug' => null,			// menu slug that identifies the menu item
-		'strURLIcon16x16' => null,		// the associated icon that appears beside the label on the list
-		'intPosition'	=> null,		// determines the position of the menu
-		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
-	); 
-	
-	/**
-	 * Stores in-page tabs.
-	 * @since			2.0.0
-	 */ 	
-	public $arrInPageTabs = array();				
-	
-	/**
-	 * Stores the default tab.
-	 * @since			2.0.0
-	 */ 		
-	public $arrDefaultInPageTabs = array();			
-	
-	/**
-	 * Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
-	 * @since			2.0.0
-	 */ 			
-	public $arrPluginDescriptionLinks = array(); 
-
-	/**
-	 * Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
-	 * @since			2.0.0
-	 */ 			
-	public $arrPluginTitleLinks = array();			
-	
-	/**
-	 * Stores the information to insert into the page footer.
-	 * @since			2.0.0
-	 */ 			
-	public $arrFooterInfo = array(
-		'strLeft' => '',
-		'strRight' => '',
-	);
-	
-	// Settings API
-	// public $arrOptions;			// Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
-
-	/**
-	 * The instantiated class name will be assigned in the constructor if the first parameter is not set.
-	 * @since			2.0.0
-	 */ 				
-	public $strOptionKey = '';		
-
-	/**
-	 * Stores form sections.
-	 * @since			2.0.0
-	 */ 					
-	public $arrSections = array();
-	
-	/**
-	 * Stores form fields
-	 * @since			2.0.0
-	 */ 					
-	public $arrFields = array();
-
-	/**
-	 * Set one of the followings: application/x-www-form-urlencoded, multipart/form-data, text/plain
-	 * @since			2.0.0
-	 */ 					
-	public $strFormEncType = 'multipart/form-data';	
-	
-	/**
-	 * Decides whether the setting form tag is rendered or not.	
-	 * 
-	 * This will be enabled when a settings section and a field is added.
-	 * @since			2.0.0
-	 */ 						
-	public $fEnableForm = false;			
-	
-	// Flags
-	/**
-	 * Indicates whether the page title should be displayed.
-	 * @since			2.0.0
-	 */ 						
-	public $fShowPageTitle = true;	
-	
-	/**
-	 * Indicates whether the page heading tabs should be displayed.
-	 * @since			2.0.0
-	 */ 	
-	public $fShowPageHeadingTabs = true;
-	
 	/**
 	 * Returns the image selector JavaScript script loaded in the head tag of the created admin pages.
-	 * @var			string
+	 * @var				string
 	 * @static
-	 * @remark		It is accessed from the main class and meta box class.
-	 * @access		public	
+	 * @remark			It is accessed from the main class and meta box class.
+	 * @remark			Moved to the base class since 2.1.0.
+	 * @access			public	
 	 * @internal
 	 * @return			string			The image selector script.
 	 */		
@@ -3343,8 +3508,10 @@ class AdminPageFramework_Properties {
 					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
 					$( '#image_preview_' + field_id ).show()	// updates the visibility
 				}
-			});";
+			});
+		";
 	}
+
 	/**
 	 * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
 	 * @since			2.0.0
@@ -3399,7 +3566,532 @@ class AdminPageFramework_Properties {
 		";			
 	}
 	
+	/**
+	 * Calculates the subtraction of two values with the array key of <em>numOrder</em>
+	 * 
+	 * This is used to sort arrays.
+	 * 
+	 * @since			2.0.0
+	 * @remark			a callback method for uasort().
+	 * @return			integer
+	 */ 
+	public function sortByOrder( $a, $b ) {	
+		return $a['numOrder'] - $b['numOrder'];
+	}			
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_MetaBox_Properties' ) ) :
+/**
+ * Provides the space to store the shared properties for meta boxes.
+ * 
+ * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
+ * 
+ * @since			2.1.0
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Property
+ * @extends			AdminPageFramework_Properties_Base
+ */
+class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Properties_Base {
+
+	/**
+	 * Stores the meta box id(slug).
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @var				string
+	 */ 	
+	public $strMetaBoxID ='';
 	
+	/**
+	 * Stores the meta box title.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @var				string
+	 */ 
+	public $strTitle = '';
+
+	/**
+	 * Stores the post type slugs associated with the meta box.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @var				array
+	 */ 	
+	public $arrPostTypes = array();
+	
+	/**
+	 * Stores the parameter value, context, for the add_meta_box() function. 
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @remark			The value can be either 'normal', 'advanced', or 'side'.
+	 * @var				string
+	 * @see				http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
+	 */ 
+	public $strContext = 'normal';
+
+	/**
+	 * Stores the parameter value, priority, for the add_meta_box() function. 
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @remark			The value can be either 'high', 'core', 'default' or 'low'.
+	 * @var				string
+	 * @see				http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
+	 */ 	
+	public $strPriority = 'default';
+	
+	/**
+	 * Stores the extended class name.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 */ 
+	public $strClassName = '';
+	
+	/**
+	 * Stores the capability for displayable elements.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 */ 	
+	public $strCapability = 'edit_posts';
+	
+	/**
+	 * @internal
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	*/ 		
+	public $strPrefixStart = 'start_';	
+	
+	/**
+	 * Stores the field arrays for meta box form elements.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */ 			
+	public $arrFields = array();
+	
+	/**
+	 * Stores option values for form fields.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */	 
+	public $arrOptions = array();
+	
+	/**
+	 * Stores the script to be embedded in the head tag.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */ 		
+	public $strScript = "";
+
+	/**
+	 * Stores the CSS rules to be embedded in the head tag.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */ 			
+	public $strStyle = '';
+	/**
+	 * Stores the media uploader box's title.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */ 
+	public $strThickBoxTitle = '';
+	
+	/**
+	 * Stores the label for for the "Insert to Post" button in the media uploader box.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */ 	
+	public $strThickBoxButtonUseThis = '';
+
+	/**
+	 * Stores text to insert into the contextual help tab.
+	 * @since			2.1.0
+	 */ 
+	public $arrHelpTabText = array();
+	
+	/**
+	 * Stores text to insert into the sidebar of a contextual help tab.
+	 * @since			2.1.0
+	 */ 
+	public $arrHelpTabTextSide = array();
+	
+	// Default values
+	/**
+	 * Represents the structure of field array for meta box form fields.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved from the meta box class.
+	 * @internal
+	 */ 
+	public static $arrStructure_Field = array(
+		'strFieldID'		=> null,	// ( mandatory ) the field ID
+		'strType'			=> null,	// ( mandatory ) the field type.
+		'strTitle' 			=> null,	// the field title
+		'strDescription'	=> null,	// an additional note 
+		'strCapability'		=> null,	// an additional note 
+		'strTip'			=> null,	// pop up text
+		// 'options'			=> null,	// ? don't remember what this was for
+		'vValue'			=> null,	// allows to override the stored value
+		'vDefault'			=> null,	// allows to set default values.
+		'strName'			=> null,	// allows to set custom field name
+		'vLabel'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
+		'fIf'				=> true,
+		'strHelp'			=> null,	// since 2.1.0
+		'strHelpSide'		=> null,	// since 2.1.0
+		
+		// The followings may need to uncommented.
+		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
+		// 'strError' => null,			// error message for the field
+		// 'strBeforeField' => null,
+		// 'strAfterField' => null,
+		// 'numOrder' => null,			// do not set the default number here for this key.			
+	);
+		
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_PostType_Properties' ) ) :
+/**
+ * Provides the space to store the shared properties for custom post types.
+ * 
+ * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
+ * 
+ * @since			2.1.0
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Property
+ * @extends			AdminPageFramework_Properties_Base
+ */
+class AdminPageFramework_PostType_Properties extends AdminPageFramework_Properties_Base {
+	
+	/**
+	 * Stores the post type slug.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @var				string
+	 * @access			public
+	 */ 
+	public $strPostType = '';
+	
+	/**
+	 * Stores the post type argument.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @var				array
+	 * @access			public
+	 */ 
+	public $arrPostTypeArgs = array();	
+
+	/**
+	 * Stores the extended class name.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @var				string
+	 * @access			public
+	 */ 	
+	public $strClassName = '';
+
+	/**
+	 * Stores the column headers of the post listing table.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @see				http://codex.wordpress.org/Plugin_API/Filter_Reference/manage_edit-post_type_columns
+	 * @remark			This should be overriden in the constructor because it includes translated text.
+	 * @internal
+	 * @access			public
+	 */ 	
+	public $arrColumnHeaders = array(
+		'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
+		'title'			=> 'Title',		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+		'author'		=> 'Author',		// Post author.
+		// 'categories'	=> __( 'Categories', 'admin-page-framework' ),	// Categories the post belongs to. 
+		// 'tags'		=> __( 'Tags', 'admin-page-framework' ),	// Tags for the post. 
+		'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
+		'date'			=> 'Date', 	// The date and publish status of the post. 
+	);		
+	
+	/**
+	 * Stores the sortable column items.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 		
+	public $arrColumnSortable = array(
+		'title' => true,
+		'date'	=> true,
+	);	
+	
+	/**
+	 * Stores the caller script path.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @var				string
+	 * @access			public
+	 */ 		
+	public $strCallerPath = '';
+	
+	// Prefixes
+	/**
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 * @access			protected
+	 */ 	
+	public $strPrefix_Start = 'start_';
+	/**
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 	
+	public $strPrefix_Cell = 'cell_';
+	
+	// Containers
+	/**
+	 * Stores custom taxonomy slugs.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 	
+	public $arrTaxonomies;		// stores the registering taxonomy info.
+	
+	/**
+	 * Stores the taxonomy IDs as value to indicate whether the drop-down filter option should be displayed or not.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 	
+	public $arrTaxonomyTableFilters = array();	
+	
+	/**
+	 * Stores removing taxonomy menus' info.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 	
+	public $arrTaxonomyRemoveSubmenuPages = array();	
+	
+	// Default Values
+	/**
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 					
+	public $fEnableAutoSave = true;	
+
+	/**
+	 * Stores the flag value which indicates whether author table filters should be enabled or not.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @internal
+	 */ 					
+	public $fEnableAuthorTableFileter = false;	
+	
+	// Strings
+	/**
+	 * Stores the CSS rules.
+	 * @since			2.0.0
+	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
+	 * @remark			Unlike the pages and meta boxes style, it is empty because they are for setting fields.
+	 * @internal
+	 */ 				
+	public $strStyle = '';
+	
+	
+	
+
+	/**
+	 * Stores the text inserted into the footer.
+	 * @since			2.0.0
+	 * @internal
+	 */ 			
+	// protected $arrFooterInfo = array();	
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Properties' ) ) :
+/**
+ * Provides the space to store the shared properties.
+ * 
+ * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
+ * 
+ * @since			2.0.0
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Property
+ * @extends			AdminPageFramework_Properties_Base
+ */
+class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
+			
+	/**
+	 * Stores framework's instantiated object name.
+	 * 
+	 * @since			2.0.0
+	 */ 
+	public $strClassName;	
+	
+	/**
+	 * Stores the access level to the root page. 
+	 * 
+	 * When sub pages are added and the capability value is not provided, this will be applied.
+	 * 
+	 * @since			2.0.0
+	 */ 	
+	public $strCapability = 'manage_options';	
+	
+	/**
+	 * Stores the tab for the page heading navigation bar.
+	 * @since			2.0.0
+	 */ 
+	public $strPageHeadingTabTag = 'h2';
+
+	/**
+	 * Stores the tab for the in-page tab navigation bar.
+	 * @since			2.0.0
+	 */ 
+	public $strInPageTabTag = 'h3';
+	
+	/**
+	 * Stores the default page slug.
+	 * @since			2.0.0
+	 */ 	
+	public $strDefaultPageSlug;
+	
+	/**
+	 * Stores the adding scripts.
+	 * @since			2.0.0
+	 */ 		
+	public $strScript;
+	
+	// Container arrays.
+	/**
+	 * A two-dimensional array storing registering sub-menu(page) item information with keys of the page slug.
+	 * @since			2.0.0
+	 */ 	
+	public $arrPages = array(); 
+
+	/**
+	 * Stores the registered sub menu pages.
+	 * 
+	 * Unlike the above $arrPages that holds the pages to be added, this stores the added pages. This is referred when adding a help section.
+	 * 
+	 * @since			2.1.0
+	 */ 
+	public $arrRegisteredSubMenuPages = array();
+	
+	/**
+	 * Stores the root menu item information for one set root menu item.
+	 * @since			2.0.0
+	 */ 		
+	public $arrRootMenu = array(
+		'strTitle' => null,				// menu label that appears on the menu list
+		'strPageSlug' => null,			// menu slug that identifies the menu item
+		'strURLIcon16x16' => null,		// the associated icon that appears beside the label on the list
+		'intPosition'	=> null,		// determines the position of the menu
+		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
+	); 
+	
+	/**
+	 * Stores in-page tabs.
+	 * @since			2.0.0
+	 */ 	
+	public $arrInPageTabs = array();				
+	
+	/**
+	 * Stores the default tab.
+	 * @since			2.0.0
+	 */ 		
+	public $arrDefaultInPageTabs = array();			
+	
+	/**
+	 * Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
+	 * @since			2.0.0
+	 */ 			
+	public $arrPluginDescriptionLinks = array(); 
+
+	/**
+	 * Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
+	 * @since			2.0.0
+	 */ 			
+	public $arrPluginTitleLinks = array();			
+	
+	/**
+	 * Stores the information to insert into the page footer.
+	 * @since			2.0.0
+	 */ 			
+	public $arrFooterInfo = array(
+		'strLeft' => '',
+		'strRight' => '',
+	);
+		
+	// Settings API
+	// public $arrOptions;			// Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
+
+	/**
+	 * The instantiated class name will be assigned in the constructor if the first parameter is not set.
+	 * @since			2.0.0
+	 */ 				
+	public $strOptionKey = '';		
+
+	/**
+	 * Stores form sections.
+	 * @since			2.0.0
+	 */ 					
+	public $arrSections = array();
+	
+	/**
+	 * Stores form fields
+	 * @since			2.0.0
+	 */ 					
+	public $arrFields = array();
+
+	/**
+	 * Stores contextual help tabs.
+	 * @since			2.1.0
+	 */ 	
+	public $arrHelpTabs = array();
+	
+	/**
+	 * Set one of the followings: application/x-www-form-urlencoded, multipart/form-data, text/plain
+	 * @since			2.0.0
+	 */ 					
+	public $strFormEncType = 'multipart/form-data';	
+	
+	/**
+	 * Decides whether the setting form tag is rendered or not.	
+	 * 
+	 * This will be enabled when a settings section and a field is added.
+	 * @since			2.0.0
+	 */ 						
+	public $fEnableForm = false;			
+	
+	// Flags
+	/**
+	 * Indicates whether the page title should be displayed.
+	 * @since			2.0.0
+	 */ 						
+	public $fShowPageTitle = true;	
+	
+	/**
+	 * Indicates whether the page heading tabs should be displayed.
+	 * @since			2.0.0
+	 */ 	
+	public $fShowPageHeadingTabs = true;
+		
 	/**
 	 * Construct the instance of AdminPageFramework_Properties class object.
 	 * @since			2.0.0
@@ -3438,9 +4130,12 @@ class AdminPageFramework_Properties {
 	/**
 	 * Checks if the given page slug is one of the pages added by the framework.
 	 * @since			2.0.0
+	 * @since			2.1.0			Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET['page'] value.
 	 * @return			boolean			Returns true if it is of framework's added page; otherwise, false.
 	 */
-	public function isPageAdded( $strPageSlug ) {	
+	public function isPageAdded( $strPageSlug='' ) {	
+		
+		$strPageSlug = ! empty( $strPageSlug ) ? $strPageSlug : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
 		return ( array_key_exists( trim( $strPageSlug ), $this->arrPages ) )
 			? true
 			: false;
@@ -3466,19 +4161,7 @@ class AdminPageFramework_Properties {
 	public function getCapability() {
 		return $this->strCapability;
 	}	
-	
-	/**
-	 * Calculates the subtraction of two values with the array key of <em>numOrder</em>
-	 * 
-	 * This is used to sort arrays.
-	 * 
-	 * @since			2.0.0
-	 * @remark			a callback method for uasort().
-	 * @return			integer
-	 */ 
-	public function sortByOrder( $a, $b ) {	
-		return $a['numOrder'] - $b['numOrder'];
-	}		
+		
 }
 endif;
 
@@ -5299,84 +5982,7 @@ abstract class AdminPageFramework_PostType {
 	 * @internal
 	 */ 	
 	protected $oLink;
-	
-	// Prefixes
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 	
-	protected $strPrefix_Start = 'start_';
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 	
-	protected $strPrefix_Cell = 'cell_';
-	
-	// Containers
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 	
-	protected $arrTaxonomies;		// stores the registering taxonomy info.
-
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 	
-	protected $arrTaxonomyTableFilters = array();	// stores the taxonomy IDs as value to indicate whether the dropdown filter option should be displayed or not.
-	
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 	
-	protected $arrTaxonomyRemoveSubmenuPages = array();	// stores removing taxonomy menus' info.
-	
-	/**
-	 * Stores the column headers of the post listing table.
-	 * @since			2.0.0
-	 * @see			http://codex.wordpress.org/Plugin_API/Filter_Reference/manage_edit-post_type_columns
-	 * @internal
-	 */ 	
-	protected $arrColumnHeaders;	// defined in the constructor.
-	
-	/**
-	 * Stores the sortable column items.
-	 * @since			2.0.0
-	 * @internal
-	 */ 		
-	protected $arrColumnSortable = array(
-		'title' => true,
-		'date'	=> true,
-	);
-
-	/**
-	 * Stores the text inserted into the footer.
-	 * @since			2.0.0
-	 * @internal
-	 */ 			
-	protected $arrFooterInfo = array();	
-	
-	// Strings
-	/**
-	 * Stores the CSS rules.
-	 * @since			2.0.0
-	 * @remark			Unlike the pages and meta boxes style, it is empty because they are for setting fields.
-	 * @internal
-	 */ 				
-	protected $strStyle = '';
-	
-	// Default values
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 					
-	protected $fEnableAutoSave = true;
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 					
-	protected $fEnableAuthorTableFileter = false;
-	
+		
 	/**
 	* Constructs the class object, AdminPageFramework_PostType.
 	* 
@@ -5417,12 +6023,15 @@ abstract class AdminPageFramework_PostType {
 	*/
 	public function __construct( $strPostType, $arrArgs=array(), $strCallerPath=null ) {
 		
+		// Objects
 		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oProps = new AdminPageFramework_PostType_Properties;
 		
-		$this->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
-		$this->arrPostTypeArgs = $arrArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		$this->strClassName = get_class( $this );
-		$this->arrColumnHeaders = array(
+		// Properties
+		$this->oProps->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
+		$this->oProps->arrPostTypeArgs = $arrArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+		$this->oProps->strClassName = get_class( $this );
+		$this->oProps->arrColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
 			'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
 			'author'		=> __( 'Author', 'admin-page-framework' ),		// Post author.
@@ -5431,17 +6040,17 @@ abstract class AdminPageFramework_PostType {
 			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
 			'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
 		);			
-		$this->strCallerPath = $strCallerPath;
+		$this->oProps->strCallerPath = $strCallerPath;
 		
 		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
 		add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
 		
-		if ( $this->strPostType != '' && is_admin() ) {			
+		if ( $this->oProps->strPostType != '' && is_admin() ) {			
 		
 			// For table columns
-			add_filter( "manage_{$this->strPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
-			add_filter( "manage_edit-{$this->strPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
-			add_action( "manage_{$this->strPostType}_posts_custom_column", array( $this, 'setColumnCell' ), 10, 2 );
+			add_filter( "manage_{$this->oProps->strPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
+			add_filter( "manage_edit-{$this->oProps->strPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
+			add_action( "manage_{$this->oProps->strPostType}_posts_custom_column", array( $this, 'setColumnCell' ), 10, 2 );
 			
 			// For filters
 			add_action( 'restrict_manage_posts', array( $this, 'addAuthorTableFilter' ) );
@@ -5452,12 +6061,12 @@ abstract class AdminPageFramework_PostType {
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			
 			// Links
-			$this->oLink = new AdminPageFramework_LinkForPostType( $this->strPostType, $this->strCallerPath );
+			$this->oLink = new AdminPageFramework_LinkForPostType( $this->oProps->strPostType, $this->oProps->strCallerPath );
 			
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		}
 	
-		$this->oUtil->addAndDoAction( $this, "{$this->strPrefix_Start}{$this->strClassName}" );
+		$this->oUtil->addAndDoAction( $this, "{$this->oProps->strPrefix_Start}{$this->oProps->strClassName}" );
 		
 	}
 	
@@ -5507,7 +6116,7 @@ abstract class AdminPageFramework_PostType {
 	 * @return			void
 	 */ 
 	public function setColumnHeader( $arrColumnHeaders ) {
-		return $this->arrColumnHeaders;
+		return $this->oProps->arrColumnHeaders;
 	}	
 	
 	/**
@@ -5518,7 +6127,7 @@ abstract class AdminPageFramework_PostType {
 	 * @remark			The user may override this method in their class definition.
 	 */ 
 	public function setSortableColumns( $arrColumns ) {
-		return $this->arrColumnSortable;
+		return $this->oProps->arrColumnSortable;
 	}
 	
 	/*
@@ -5535,7 +6144,7 @@ abstract class AdminPageFramework_PostType {
 	* return			void
 	*/ 
 	protected function setAutoSave( $fEnableAutoSave=True ) {
-		$this->fEnableAutoSave = $fEnableAutoSave;		
+		$this->oProps->fEnableAutoSave = $fEnableAutoSave;		
 	}
 	
 	/**
@@ -5568,15 +6177,15 @@ abstract class AdminPageFramework_PostType {
 	protected function addTaxonomy( $strTaxonomySlug, $arrArgs ) {
 		
 		$strTaxonomySlug = $this->oUtil->sanitizeSlug( $strTaxonomySlug );
-		$this->arrTaxonomies[ $strTaxonomySlug ] = $arrArgs;	
+		$this->oProps->arrTaxonomies[ $strTaxonomySlug ] = $arrArgs;	
 		if ( isset( $arrArgs['show_table_filter'] ) && $arrArgs['show_table_filter'] )
-			$this->arrTaxonomyTableFilters[] = $strTaxonomySlug;
+			$this->oProps->arrTaxonomyTableFilters[] = $strTaxonomySlug;
 		if ( isset( $arrArgs['show_in_sidebar_menus'] ) && ! $arrArgs['show_in_sidebar_menus'] )
-			$this->arrTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$strTaxonomySlug}&amp;post_type={$this->strPostType}" ] = "edit.php?post_type={$this->strPostType}";
+			$this->oProps->arrTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$strTaxonomySlug}&amp;post_type={$this->oProps->strPostType}" ] = "edit.php?post_type={$this->oProps->strPostType}";
 				
-		if ( count( $this->arrTaxonomyTableFilters ) == 1 )
+		if ( count( $this->oProps->arrTaxonomyTableFilters ) == 1 )
 			add_action( 'init', array( $this, 'registerTaxonomies' ) );	// the hook should not be admin_init because taxonomies need to be accessed in regular pages.
-		if ( count( $this->arrTaxonomyRemoveSubmenuPages ) == 1 )
+		if ( count( $this->oProps->arrTaxonomyRemoveSubmenuPages ) == 1 )
 			add_action( 'admin_menu', array( $this, 'removeTexonomySubmenuPages' ), 999 );		
 			
 	}	
@@ -5592,7 +6201,7 @@ abstract class AdminPageFramework_PostType {
 	* @return			void
 	*/ 
 	protected function setAuthorTableFilter( $fEnableAuthorTableFileter=false ) {
-		$this->fEnableAuthorTableFileter = $fEnableAuthorTableFileter;
+		$this->oProps->fEnableAuthorTableFileter = $fEnableAuthorTableFileter;
 	}
 	
 	/**
@@ -5606,7 +6215,7 @@ abstract class AdminPageFramework_PostType {
 	 * @return			void
 	 */ 
 	protected function setPostTypeArgs( $arrArgs ) {
-		$this->arrPostTypeArgs = $arrArgs;
+		$this->oProps->arrPostTypeArgs = $arrArgs;
 	}
 	
 	/**
@@ -5650,37 +6259,37 @@ abstract class AdminPageFramework_PostType {
 	 */
 	public function addStyle() {
 
-		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->strPostType )
+		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->oProps->strPostType )
 			return;
 
-		$this->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", $this->strStyle );	
+		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProps->strClassName}", $this->oProps->strStyle );	
 			
 		// Print out the filtered styles.
-		if ( ! empty( $this->strStyle ) )
+		if ( ! empty( $this->oProps->strStyle ) )
 			echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
-				. $this->strStyle
+				. $this->oProps->strStyle
 				. "</style>";			
 		
 	}
 	
 	public function registerPostType() {
 
-		register_post_type( $this->strPostType, $this->arrPostTypeArgs );
+		register_post_type( $this->oProps->strPostType, $this->oProps->arrPostTypeArgs );
 		
-		$bIsPostTypeSet = get_option( "post_type_rules_flased_{$this->strPostType}" );
+		$bIsPostTypeSet = get_option( "post_type_rules_flased_{$this->oProps->strPostType}" );
 		if ( $bIsPostTypeSet !== true ) {
 		   flush_rewrite_rules( false );
-		   update_option( "post_type_rules_flased_{$this->strPostType}", true );
+		   update_option( "post_type_rules_flased_{$this->oProps->strPostType}", true );
 		}
 
 	}	
 
 	public function registerTaxonomies() {
 		
-		foreach( $this->arrTaxonomies as $strTaxonomySlug => $arrArgs ) 
+		foreach( $this->oProps->arrTaxonomies as $strTaxonomySlug => $arrArgs ) 
 			register_taxonomy(
 				$strTaxonomySlug,
-				$this->strPostType,
+				$this->oProps->strPostType,
 				$arrArgs	// for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 			);	
 			
@@ -5688,15 +6297,15 @@ abstract class AdminPageFramework_PostType {
 	
 	public function removeTexonomySubmenuPages() {
 		
-		foreach( $this->arrTaxonomyRemoveSubmenuPages as $strSubmenuPageSlug => $strTopLevelPageSlug )
+		foreach( $this->oProps->arrTaxonomyRemoveSubmenuPages as $strSubmenuPageSlug => $strTopLevelPageSlug )
 			remove_submenu_page( $strTopLevelPageSlug, $strSubmenuPageSlug );
 		
 	}
 	
 	public function disableAutoSave() {
 		
-		if ( $this->fEnableAutoSave ) return;
-		if ( $this->strPostType != get_post_type() ) return;
+		if ( $this->oProps->fEnableAutoSave ) return;
+		if ( $this->oProps->strPostType != get_post_type() ) return;
 		wp_dequeue_script( 'autosave' );
 			
 	}
@@ -5706,10 +6315,10 @@ abstract class AdminPageFramework_PostType {
 	 */ 
 	public function addAuthorTableFilter() {
 		
-		if ( ! $this->fEnableAuthorTableFileter ) return;
+		if ( ! $this->oProps->fEnableAuthorTableFileter ) return;
 		
 		if ( ! ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) 
-			&& in_array( strtolower( $_GET['post_type'] ), array( $this->strPostType ) ) ) )
+			&& in_array( strtolower( $_GET['post_type'] ), array( $this->oProps->strPostType ) ) ) )
 			return;
 		
 		wp_dropdown_users( array(
@@ -5723,20 +6332,20 @@ abstract class AdminPageFramework_PostType {
 	}
 	
 	/**
-	 * Adds dorpdown lists to filter posts by added taxonomies, placed above the post type listing table.
+	 * Adds drop-down lists to filter posts by added taxonomies, placed above the post type listing table.
 	 */ 
 	public function addTaxonomyTableFilter() {
 		
-		if ( $GLOBALS['typenow'] != $this->strPostType ) return;
+		if ( $GLOBALS['typenow'] != $this->oProps->strPostType ) return;
 		
 		// If there is no post added to the post type, do nothing.
-		$oPostCount = wp_count_posts( $this->strPostType );
+		$oPostCount = wp_count_posts( $this->oProps->strPostType );
 		if ( $oPostCount->publish + $oPostCount->future + $oPostCount->draft + $oPostCount->pending + $oPostCount->private + $oPostCount->trash == 0 )
 			return;
 		
 		foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $strTaxonomySulg ) {
 			
-			if ( ! in_array( $strTaxonomySulg, $this->arrTaxonomyTableFilters ) ) continue;
+			if ( ! in_array( $strTaxonomySulg, $this->oProps->arrTaxonomyTableFilters ) ) continue;
 			
 			$oTaxonomy = get_taxonomy( $strTaxonomySulg );
  
@@ -5765,7 +6374,7 @@ abstract class AdminPageFramework_PostType {
 		
 		foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $strTaxonomySlug ) {
 			
-			if ( ! in_array( $strTaxonomySlug, $this->arrTaxonomyTableFilters ) ) continue;
+			if ( ! in_array( $strTaxonomySlug, $this->oProps->arrTaxonomyTableFilters ) ) continue;
 			
 			$strVar = &$oQuery->query_vars[ $strTaxonomySlug ];
 			if ( ! isset( $strVar ) ) continue;
@@ -5781,11 +6390,11 @@ abstract class AdminPageFramework_PostType {
 	
 	public function setColumnCell( $strColumnTitle, $intPostID ) { 
 	
-		// foreach ( $this->arrColumnHeaders as $strColumnHeader => $strColumnHeaderTranslated ) 
+		// foreach ( $this->oProps->arrColumnHeaders as $strColumnHeader => $strColumnHeaderTranslated ) 
 			// if ( $strColumnHeader == $strColumnTitle ) 
 			
 		// cell_{post type}_{custom column key}
-		echo $this->oUtil->addAndApplyFilter( $this, "{$this->strPrefix_Cell}{$this->strPostType}_{$strColumnTitle}", $strCell='', $intPostID );
+		echo $this->oUtil->addAndApplyFilter( $this, "{$this->oProps->strPrefix_Cell}{$this->oProps->strPostType}_{$strColumnTitle}", $strCell='', $intPostID );
 				  
 	}
 	
@@ -5793,7 +6402,7 @@ abstract class AdminPageFramework_PostType {
 	 * Magic method - this prevents PHP's not-a-valid-callback errors.
 	*/
 	public function __call( $strMethodName, $arrArgs=null ) {	
-		if ( substr( $strMethodName, 0, strlen( $this->strPrefix_Cell ) ) == $this->strPrefix_Cell ) return $arrArgs[0];
+		if ( substr( $strMethodName, 0, strlen( $this->oProps->strPrefix_Cell ) ) == $this->oProps->strPrefix_Cell ) return $arrArgs[0];
 		if ( substr( $strMethodName, 0, strlen( "style_" ) )== "style_" ) return $arrArgs[0];
 	}
 	
@@ -5831,7 +6440,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Meta Box
  */
-abstract class AdminPageFramework_MetaBox {
+abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Help {
 	
 	// Objects
 	/**
@@ -5850,51 +6459,6 @@ abstract class AdminPageFramework_MetaBox {
 	*/ 		
 	protected $oMsg;
 	
-	// Default values
-	/**
-	 * Represents the structure of field array.
-	 * @since			2.0.0
-	 * @internal
-	 */ 
-	protected static $arrStructure_Field = array(
-		'strFieldID'		=> null,	// ( mandatory ) the field ID
-		'strType'			=> null,	// ( mandatory ) the field type.
-		'strTitle' 			=> null,	// the field title
-		'strDescription'	=> null,	// an additional note 
-		'strCapability'		=> null,	// an additional note 
-		'strTip'			=> null,	// pop up text
-		// 'options'			=> null,	// ? don't remember what this was for
-		'vValue'			=> null,	// allows to override the stored value
-		'vDefault'			=> null,	// allows to set default values.
-		'strName'			=> null,	// allows to set custom field name
-		'vLabel'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
-		'fIf'				=> true,
-		
-		// The followings may need to uncommented.
-		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
-		// 'strError' => null,			// error message for the field
-		// 'strBeforeField' => null,
-		// 'strAfterField' => null,
-		// 'numOrder' => null,			// do not set the default number here for this key.			
-	);
-	
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 			
-	protected $arrFields = array();
-	
-	/**
-	* @internal
-	* @since			2.0.0
-	*/ 		
-	protected $strPrefixStart = 'start_';
-	/**
-	* @since			2.0.0
-	* @internal
-	*/ 		
-	protected $strScript = "";
-
 	/**
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
 	 * 
@@ -5915,15 +6479,16 @@ abstract class AdminPageFramework_MetaBox {
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
+		$this->oProps = new AdminPageFramework_MetaBox_Properties;
 		
 		// Properties
-		$this->strMetaBoxID = $this->oUtil->sanitizeSlug( $strMetaBoxID );
-		$this->strTitle = $strTitle;
-		$this->arrPostTypes = is_string( $vPostTypes ) ? array( $vPostTypes ) : $vPostTypes;	
-		$this->strContext = $strContext;	//  'normal', 'advanced', or 'side' 
-		$this->strPriority = $strPriority;	// 	'high', 'core', 'default' or 'low'
-		$this->strClassName = get_class( $this );
-		$this->strCapability = $strCapability;
+		$this->oProps->strMetaBoxID = $this->oUtil->sanitizeSlug( $strMetaBoxID );
+		$this->oProps->strTitle = $strTitle;
+		$this->oProps->arrPostTypes = is_string( $vPostTypes ) ? array( $vPostTypes ) : $vPostTypes;	
+		$this->oProps->strContext = $strContext;	//  'normal', 'advanced', or 'side' 
+		$this->oProps->strPriority = $strPriority;	// 	'high', 'core', 'default' or 'low'
+		$this->oProps->strClassName = get_class( $this );
+		$this->oProps->strCapability = $strCapability;
 				
 		if ( is_admin() ) {
 			
@@ -5936,8 +6501,8 @@ abstract class AdminPageFramework_MetaBox {
 			if ( 
 				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
 				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->arrPostTypes ) )		// edit post page
+					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
+					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
 				)				
 			) {	
 				add_action( 'admin_head', array( $this, 'addScript' ) );
@@ -5945,10 +6510,14 @@ abstract class AdminPageFramework_MetaBox {
 			}
 			if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
 				add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );		
+				
+			// the contextual help pane
+			add_action( "load-{$GLOBALS['pagenow']}", array( $this, 'registerHelpTabTextForMetaBox' ), 20 );	
+			
 		}
 		
 		// Hooks
-		$this->oUtil->addAndDoAction( $this, "{$this->strPrefixStart}{$this->strClassName}" );
+		$this->oUtil->addAndDoAction( $this, "{$this->oProps->strPrefixStart}{$this->oProps->strClassName}" );
 		
 	}
 	
@@ -5981,10 +6550,6 @@ abstract class AdminPageFramework_MetaBox {
 	* @return			void
 	*/	 
 	public function setUp() {}
-	
-	// public function setFieldArray( $arrFields ) {
-		// $this->arrFields = $arrFields;
-	// }
 	
 	/**
 	* Adds the given field array items into the field array property. 
@@ -6019,7 +6584,7 @@ abstract class AdminPageFramework_MetaBox {
 	
 			if ( ! is_array( $arrField ) ) continue;
 			
-			$arrField = $arrField + self::$arrStructure_Field;	// avoid undefined index warnings.
+			$arrField = $arrField + AdminPageFramework_MetaBox_Properties::$arrStructure_Field;	// avoid undefined index warnings.
 			
 			// Sanitize the IDs since they are used as a callback method name.
 			$arrField['strFieldID'] = $this->oUtil->sanitizeSlug( $arrField['strFieldID'] );
@@ -6034,8 +6599,8 @@ abstract class AdminPageFramework_MetaBox {
 			if ( 
 				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
 				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->arrPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->arrPostTypes ) )		// edit post page
+					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
+					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
 				)
 			) {
 				if ( $arrField['strType'] == 'image' ) { 
@@ -6046,9 +6611,24 @@ abstract class AdminPageFramework_MetaBox {
 				if ( $arrField['strType'] == 'date' ) $this->addDateFieldScript( $arrField );
 			}
 			
-			$this->arrFields[ $arrField['strFieldID'] ] = $arrField;
+			// For the contextual help pane,
+			if ( 
+				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
+				&& ( 
+					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
+					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
+				)
+				&& $arrField['strHelp']
+			) {
+				
+				$this->addHelpTextForFormFields( $arrField['strTitle'], $arrField['strHelp'], $arrField['strHelpSide'] );
+								
+			}
+		
+			$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
 						
 		}
+		
 	}	
 	
 	/*
@@ -6082,7 +6662,7 @@ abstract class AdminPageFramework_MetaBox {
 	
 		// Append the script
 		// Set up the color pickers to work with our text input field
-		$this->strScript .= AdminPageFramework_Properties::getColorPickerScript();
+		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();
 	
 	}
 	
@@ -6126,11 +6706,11 @@ abstract class AdminPageFramework_MetaBox {
 		$GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] = true;
 					
 		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
-		$this->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
+		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
+		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
 					
 		// Append the script
-		$this->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->strThickBoxTitle, $this->strThickBoxButtonUseThis );
+		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
 		
 	}
 
@@ -6147,10 +6727,10 @@ abstract class AdminPageFramework_MetaBox {
 		$GLOBALS[ "{$strRootClassName}_StyleLoaded" ] = true;
 				
 		// Print out the filtered styles.
-		$this->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
-		if ( ! empty( $this->strStyle ) )
+		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
+		if ( ! empty( $this->oProps->strStyle ) )
 			echo "<style type='text/css' id='admin-page-framework-style-meta-box'>" 
-				. $this->strStyle
+				. $this->oProps->strStyle
 				. "</style>";
 			
 	}
@@ -6169,7 +6749,7 @@ abstract class AdminPageFramework_MetaBox {
 	
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
-			. $this->oUtil->addAndApplyFilters( $this, "script_{$this->strClassName}", $this->strScript )
+			. $this->oUtil->addAndApplyFilters( $this, "script_{$this->oProps->strClassName}", $this->oProps->strScript )
 			. "</script>";	
 			
 	}
@@ -6202,7 +6782,7 @@ abstract class AdminPageFramework_MetaBox {
 		
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
-		return $this->strThickBoxButtonUseThis ?  $this->strThickBoxButtonUseThis : __( 'Use This Image', 'admin-page-framework' );
+		return $this->oProps->strThickBoxButtonUseThis ?  $this->oProps->strThickBoxButtonUseThis : __( 'Use This Image', 'admin-page-framework' );
 		
 	}
 	
@@ -6216,15 +6796,15 @@ abstract class AdminPageFramework_MetaBox {
 	 */ 
 	public function addMetaBox() {
 		
-		foreach( $this->arrPostTypes as $strPostType ) 
+		foreach( $this->oProps->arrPostTypes as $strPostType ) 
 			add_meta_box( 
-				$this->strMetaBoxID, 		// id
-				$this->strTitle, 	// title
+				$this->oProps->strMetaBoxID, 		// id
+				$this->oProps->strTitle, 	// title
 				array( $this, 'echoMetaBoxContents' ), 	// callback
 				$strPostType,		// post type
-				$this->strContext, 	// context
-				$this->strPriority,	// priority
-				$this->arrFields	// argument
+				$this->oProps->strContext, 	// context
+				$this->oProps->strPriority,	// priority
+				$this->oProps->arrFields	// argument
 			);
 			
 	}	
@@ -6241,7 +6821,7 @@ abstract class AdminPageFramework_MetaBox {
 	public function echoMetaBoxContents( $oPost, $vArgs ) {	
 		
 		// Use nonce for verification
-		$strOut = wp_nonce_field( $this->strMetaBoxID, $this->strMetaBoxID, true, false );
+		$strOut = wp_nonce_field( $this->oProps->strMetaBoxID, $this->oProps->strMetaBoxID, true, false );
 		
 		// Begin the field table and loop
 		$strOut .= '<table class="form-table">';
@@ -6250,14 +6830,14 @@ abstract class AdminPageFramework_MetaBox {
 		foreach ( ( array ) $vArgs['args'] as $arrField ) {
 			
 			// Avoid undefined index warnings
-			$arrField = $arrField + self::$arrStructure_Field;
+			$arrField = $arrField + AdminPageFramework_MetaBox_Properties::$arrStructure_Field;
 			
 			// get value of this field if it exists for this post
 			$strStoredValue = get_post_meta( $oPost->ID, $arrField['strFieldID'], true );
 			$arrField['vValue'] = $strStoredValue ? $strStoredValue : $arrField['vValue'];
 			
 			// Check capability. If the access level is not sufficient, skip.
-			$arrField['strCapability'] = isset( $arrField['strCapability'] ) ? $arrField['strCapability'] : $this->strCapability;
+			$arrField['strCapability'] = isset( $arrField['strCapability'] ) ? $arrField['strCapability'] : $this->oProps->strCapability;
 			if ( ! current_user_can( $arrField['strCapability'] ) ) continue; 			
 			
 			// Begin a table row. 
@@ -6290,13 +6870,12 @@ abstract class AdminPageFramework_MetaBox {
 		
 		if ( ! is_array( $arrFields ) ) return;
 		
-		$this->arrOptions = array();
 		foreach( $arrFields as $intIndex => $arrField ) {
 			
 			// Avoid undefined index warnings
-			$arrField = $arrField + self::$arrStructure_Field;
+			$arrField = $arrField + AdminPageFramework_MetaBox_Properties::$arrStructure_Field;
 
-			$this->arrOptions[ $intIndex ] = get_post_meta( $intPostID, $arrField['strFieldID'], true );
+			$this->oProps->arrOptions[ $intIndex ] = get_post_meta( $intPostID, $arrField['strFieldID'], true );
 			
 		}
 	}	
@@ -6305,10 +6884,10 @@ abstract class AdminPageFramework_MetaBox {
 		// Set the input field name which becomes the option key of the custom meta field of the post.
 		$arrField['strName'] = isset( $arrField['strName'] ) ? $arrField['strName'] : $arrField['strFieldID'];
 		
-		$oField = new AdminPageFramework_InputField( $arrField, $this->arrOptions, array(), $this->oMsg );	// currently error arrays are not supported for meta-boxes 
+		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, array(), $this->oMsg );	// currently error arrays are not supported for meta-boxes 
 		$strOut = $this->oUtil->addAndApplyFilter(
 			$this,
-			$this->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
+			$this->oProps->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
 			$oField->getInputField( $arrField['strType'] ),	// field output
 			$arrField // the field array
 		);
@@ -6329,16 +6908,16 @@ abstract class AdminPageFramework_MetaBox {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		
 		// If our nonce isn't there, or we can't verify it, bail
-		if ( ! isset( $_POST[ $this->strMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->strMetaBoxID ], $this->strMetaBoxID ) ) return;
+		if ( ! isset( $_POST[ $this->oProps->strMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProps->strMetaBoxID ], $this->oProps->strMetaBoxID ) ) return;
 			
 		// Check permissions
-		if ( in_array( $_POST['post_type'], $this->arrPostTypes )   
-			&& ( ( ! current_user_can( $this->strCapability, $intPostID ) ) || ( ! current_user_can( $this->strCapability, $intPostID ) ) )
+		if ( in_array( $_POST['post_type'], $this->oProps->arrPostTypes )   
+			&& ( ( ! current_user_can( $this->oProps->strCapability, $intPostID ) ) || ( ! current_user_can( $this->oProps->strCapability, $intPostID ) ) )
 		) return;
 
 		// Compose an array consisting of the submitted registered field values.
 		$arrInput = array();
-		foreach( $this->arrFields as $arrField ) 
+		foreach( $this->oProps->arrFields as $arrField ) 
 			$arrInput[ $arrField['strFieldID'] ] = isset( $_POST[ $arrField['strFieldID'] ] ) ? $_POST[ $arrField['strFieldID'] ] : null;
 			
 		// Prepare the old value array.
@@ -6347,7 +6926,7 @@ abstract class AdminPageFramework_MetaBox {
 			$arrOriginal[ $strFieldID ] = get_post_meta( $intPostID, $strFieldID, true );
 					
 		// Apply filters to the array of the submitted values.
-		$arrInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->strClassName}", $arrInput, $arrOriginal );
+		$arrInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProps->strClassName}", $arrInput, $arrOriginal );
 
 		// Loop through fields and save the data.
 		foreach ( $arrInput as $strFieldID => $vValue ) {
@@ -6371,22 +6950,22 @@ abstract class AdminPageFramework_MetaBox {
 	function __call( $strMethodName, $arrArgs=null ) {	
 		
 		// the start_ action hook.
-		if ( $strMethodName == $this->strPrefixStart . $this->strClassName ) return;
+		if ( $strMethodName == $this->oProps->strPrefixStart . $this->oProps->strClassName ) return;
 		
 		// the class name + field_ field ID filter.
-		if ( substr( $strMethodName, 0, strlen( $this->strClassName . '_' . 'field_' ) ) == $this->strClassName . '_' . 'field_' ) 
+		if ( substr( $strMethodName, 0, strlen( $this->oProps->strClassName . '_' . 'field_' ) ) == $this->oProps->strClassName . '_' . 'field_' ) 
 			return $arrArgs[ 0 ];
 			
 		// the script_ + class name	filter.
-		if ( substr( $strMethodName, 0, strlen( "script_{$this->strClassName}" ) ) == "script_{$this->strClassName}" ) 
+		if ( substr( $strMethodName, 0, strlen( "script_{$this->oProps->strClassName}" ) ) == "script_{$this->oProps->strClassName}" ) 
 			return $arrArgs[ 0 ];		
 	
 		// the style_ + class name	filter.
-		if ( substr( $strMethodName, 0, strlen( "style_{$this->strClassName}" ) ) == "style_{$this->strClassName}" ) 
+		if ( substr( $strMethodName, 0, strlen( "style_{$this->oProps->strClassName}" ) ) == "style_{$this->oProps->strClassName}" ) 
 			return $arrArgs[ 0 ];		
 
 		// the validation_ + class name	filter.
-		if ( substr( $strMethodName, 0, strlen( "validation_{$this->strClassName}" ) ) == "validation_{$this->strClassName}" )
+		if ( substr( $strMethodName, 0, strlen( "validation_{$this->oProps->strClassName}" ) ) == "validation_{$this->oProps->strClassName}" )
 			return $arrArgs[ 0 ];				
 			
 	}

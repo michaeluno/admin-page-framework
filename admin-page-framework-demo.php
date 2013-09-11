@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.2
+	Version: 2.1.0
 	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
 */ 
 
@@ -156,6 +156,17 @@ class APF_Demo extends AdminPageFramework {
 		$this->showPageHeadingTabs( false );		// disables the page heading tabs by passing false.
 		$this->setInPageTabTag( 'h2' );		
 		
+		$this->addHelpTab( 
+			array(
+				'strPageSlug'				=> 'first_page',	// ( mandatory )
+				// 'strPageTabSlug'			=> null,	// ( optional )
+				'strHelpTabTitle'			=> 'Admin Page Framework',
+				'strHelpTabID'				=> 'admin_page_framework',	// ( mandatory )
+				'strHelpTabContent'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
+				'strHelpTabSidebarContent'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+			)
+		);
+		
 		// Add setting sections
 		$this->addSettingSections(
 			array(
@@ -173,6 +184,12 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle'			=> 'Selectors and Checkboxes',
 				'strDescription'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
 			),
+			array(
+				'strSectionID'		=> 'sizes',
+				'strPageSlug'		=> 'first_page',
+				'strTabSlug'		=> 'selectors',
+				'strTitle'			=> 'Sizes',
+			),			
 			array(
 				'strSectionID'		=> 'image_select',
 				'strPageSlug'		=> 'first_page',
@@ -267,6 +284,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'text_fields',
 				'strTitle' => __( 'Text', 'admin-page-framework-demo' ),
 				'strDescription' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
+				'strHelp' => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' ),
 				'strType' => 'text',
 				'numOrder' => 1,
 				'vDefault' => 123456,
@@ -277,6 +295,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'text_fields',
 				'strTitle' => 'Multiple Text Fields',
 				'strDescription' => 'These are multiple text fields.',	// additional notes besides the form field
+				'strHelp' => __( 'Multiple text fields can be passed by setting an array to the vLabel key.', 'admin-page-framework-demo' ),
 				'strType' => 'text',
 				'numOrder' => 2,
 				'vDefault' => array(
@@ -301,6 +320,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => 'Password',
 				'strTip' => 'This input will be masked.',
 				'strType' => 'password',
+				'strHelp' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
 				'vSize' => 20,
 			),
 			array(	// Text Area
@@ -345,6 +365,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'selectors',
 				'strTitle' => 'Dropdown List',
 				'strDescription' => 'This is a drop down list.',
+				'strHelp' => __( 'This is the <em>select</em> field type.', 'admin-page-framework' ),
 				'strType' => 'select',
 				'vDefault' => 2,
 				'vLabel' => array( 'red', 'blue', 'yellow', 'orange' )
@@ -354,6 +375,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'selectors',
 				'strTitle' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
 				'strDescription' => __( 'Press the Shift key to select multiple items.', 'admin-page-framework-demo' ),
+				'strHelp' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
 				'strType' => 'select',
 				'vMultiple' => true,
 				'vDefault' => 2,
@@ -429,29 +451,31 @@ class APF_Demo extends AdminPageFramework {
 				'vDefault' => array( 'moon' => True, 'earth' => False, 'sun' => True, 'mars' => False ),
 			),
 			array(	// Size
-				'strFieldID' => 'size_filed',
-				'strSectionID' => 'selectors',
-				'strTitle' => __( 'Size', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
-				'strType' => 'size',
+				'strFieldID'		=> 'size_filed',
+				'strSectionID'		=> 'sizes',
+				'strTitle'			=> __( 'Size', 'admin-page-framework-demo' ),
+				'strHelp'			=> __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
+				'strDescription'	=> __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
+				'strType'			=> 'size',
 				'vDefault'			=> array( 'size' => 5, 'unit' => '%' ),
 			),			
 			array(	// Size with custom units
-				'strFieldID' => 'size_custom_unit_filed',
-				'strSectionID' => 'selectors',
-				'strTitle' => __( 'Size with Custom Units', 'admin-page-framework-demo' ),
-				'strType' => 'size',
-				'vSizeUnits' => array(
+				'strFieldID'		=> 'size_custom_unit_filed',
+				'strSectionID'		=> 'sizes',
+				'strTitle'			=> __( 'Size with Custom Units', 'admin-page-framework-demo' ),
+				'strHelp'			=> __( 'The units can be specified so it can be quantity, length, or capacity etc.', 'admin-page-framework-demo' ),
+				'strType'			=> 'size',
+				'vSizeUnits'		=> array(
 					'grain'	=> 'grains',
 					'dram'	=> 'drams',
 					'ounce'	=> 'ounces',
 					'pounds'	=> 'pounds',
 				),
-				'vDefault'	=> array( 'size' => 200, 'unit' => 'ounce' ),
+				'vDefault'			=> array( 'size' => 200, 'unit' => 'ounce' ),
 			),						
 			array(	// Multiple Sizes
 				'strFieldID' => 'sizes_filed',
-				'strSectionID' => 'selectors',
+				'strSectionID' => 'sizes',
 				'strTitle' => __( 'Multiple Sizes', 'admin-page-framework-demo' ),
 				'strType' => 'size',
 				'vLabel' => array(
@@ -898,7 +922,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 	 * Extensible methods
 	 */
 	public function setColumnHeader( $arrColumnHeader ) {
-		$this->arrColumnHeaders = array(
+		$arrColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
 			'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
 			'author'		=> __( 'Author', 'admin-page-framework' ),		// Post author.
@@ -908,11 +932,11 @@ class APF_PostType extends AdminPageFramework_PostType {
 			'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
 			'samplecolumn'			=> __( 'Sample Column' ),
 		);		
-		return array_merge( $arrColumnHeader, $this->arrColumnHeaders );
+		return array_merge( $arrColumnHeader, $arrColumnHeaders );
 	}
-	public function setSortableColumns( $arrColumns ) {
-		return array_merge( $arrColumns, $this->arrColumnSortable );		
-	}	
+	// public function setSortableColumns( $arrColumns ) {
+		// return array_merge( $arrColumns, $this->oProp->arrColumnSortable );		
+	// }	
 	
 	/*
 	 * Callback methods
@@ -966,17 +990,25 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 	
 	public function setUp() {
 		
+		$this->addHelpText( 
+			__( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
+			__( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
+		);
+		
 		$this->addSettingFields(
 			array(
 				'strFieldID'		=> 'sample_metabox_text_field',
 				'strTitle'			=> 'Text Input',
 				'strDescription'	=> 'The description for the field.',
 				'strType'			=> 'text',
+				'strHelp'			=> 'This is help text.',
+				'strHelpSide'		=> 'This is additional help text which goes to the side bar of the help pane.',
 			),
 			array(
 				'strFieldID'		=> 'sample_metabox_textarea_field',
 				'strTitle'			=> 'Textarea',
 				'strDescription'	=> 'The description for the field.',
+				'strHelp'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
 				'strType'			=> 'textarea',
 				'vDefault'			=> 'This is a default text.',
 			),

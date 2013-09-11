@@ -2,7 +2,7 @@
 Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, administration panel, admin panel, admin pages, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
-Requires at least: 3.2
+Requires at least: 3.3
 Tested up to: 3.6
 Stable tag: 2.0.1
 License: GPLv2 or later
@@ -26,6 +26,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 * **Custom Post Types** - the framework provides methods to create custom post types.
 * **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
+* **Contextual Help Tabs** - the contextual help pane can be easily added. 
 
 = Supported Field Types =
 * Text 
@@ -143,16 +144,22 @@ You are welcome to submit documentation. Please follow the [Documentation Guidli
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
 == Roadmap ==
-* Add the ability to set text in the screen help section.
+* Add the dynamic fluctuability to the form input elements.
 
 == Done ==
-* <s>Add: the date picker form field type.</s> Implemented in 2.0.0.
-* <s>Add: the color picker form field type.</s> Implemented in 2.0.0.
-* <s>Add: the ability to remove registered form elements.</s> Implemented in 2.0.0.
-* <s>Add: a custom input filed for category select checkboxes</s>. Implemented in 1.0.4.
-* <s>Add: the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
+* <s>Add the ability to set text in the contextual help section.</s>
+* <s>Add the date picker form field type.</s> Implemented in 2.0.0.
+* <s>Add the color picker form field type.</s> Implemented in 2.0.0.
+* <s>Add the ability to remove registered form elements.</s> Implemented in 2.0.0.
+* <s>Add a custom input filed for category select checkboxes</s>. Implemented in 1.0.4.
+* <s>Add the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
 
 == Changelog ==
+
+= 2.1.0 =
+* Changed: ( ***Breaking Change*** ) the *AdminPageFramework_PostType* class properties and *AdminPageFramework_MetaBox* to be encapsulated into a class object each.
+* Added: the *strHelp* field key that adds a contextual help tab on the upper part of the admin page.
+* Fixed: the required WordPress version to 3.3 as some of the functionalities were relying on the screen object that has been implemented since WordPress 3.3.
 
 = 2.0.2 - 09/07/2013 =
 * Fixed: a bug in the demo plugin that custom taxonomies were not added.
