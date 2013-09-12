@@ -1002,7 +1002,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strDescription'	=> 'The description for the field.',
 				'strType'			=> 'text',
 				'strHelp'			=> 'This is help text.',
-				'strHelpSide'		=> 'This is additional help text which goes to the side bar of the help pane.',
+				'strHelpOnSide'		=> 'This is additional help text which goes to the side bar of the help pane.',
 			),
 			array(
 				'strFieldID'		=> 'sample_metabox_textarea_field',

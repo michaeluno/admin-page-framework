@@ -1558,7 +1558,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		'fIf' => true,	
 		'numOrder' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
 		'strHelp' => null,
-		'strHelpSide' => null,
+		'strHelpOnSide' => null,
 	);	
 	
 	/**
@@ -1590,7 +1590,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		'fIf' 				=> true,
 		'numOrder'			=> null,	// do not set the default number here for this key.		
 		'strHelp'			=> null,	// since 2.1.0
-		'strHelpSide'		=> null,	// since 2.1.0
+		'strHelpOnSide'		=> null,	// since 2.1.0
 	);	
 	
 	/**
@@ -2508,7 +2508,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 						'strHelpTabTitle'			=> $arrSection['strTitle'],
 						'strHelpTabID'				=> $arrSection['strSectionID'],
 						'strHelpTabContent'			=> $arrSection['strHelp'],
-						'strHelpTabSidebarContent'	=> $arrSection['strHelpSide'] ? $arrSection['strHelpSide'] : "",
+						'strHelpTabSidebarContent'	=> $arrSection['strHelpOnSide'] ? $arrSection['strHelpOnSide'] : "",
 					)
 				);
 				
@@ -2543,7 +2543,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 						'strHelpTabID'				=> $arrField['strSectionID'],
 						'strHelpTabContent'			=> "<span class='contextual-help-tab-title'>" . $arrField['strTitle'] . "</span> - " . PHP_EOL
 														. $arrField['strHelp'],
-						'strHelpTabSidebarContent'	=> $arrField['strHelpSide'] ? $arrField['strHelpSide'] : "",
+						'strHelpTabSidebarContent'	=> $arrField['strHelpOnSide'] ? $arrField['strHelpOnSide'] : "",
 					)
 				);
 
@@ -3749,7 +3749,7 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 		'vLabel'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
 		'fIf'				=> true,
 		'strHelp'			=> null,	// since 2.1.0
-		'strHelpSide'		=> null,	// since 2.1.0
+		'strHelpOnSide'		=> null,	// since 2.1.0
 		
 		// The followings may need to uncommented.
 		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
@@ -6621,7 +6621,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				&& $arrField['strHelp']
 			) {
 				
-				$this->addHelpTextForFormFields( $arrField['strTitle'], $arrField['strHelp'], $arrField['strHelpSide'] );
+				$this->addHelpTextForFormFields( $arrField['strTitle'], $arrField['strHelp'], $arrField['strHelpOnSide'] );
 								
 			}
 		
