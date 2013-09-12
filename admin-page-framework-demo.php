@@ -6,7 +6,7 @@
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
 	Version: 2.1.0
-	Requirements: PHP 5.2.4 or above, WordPress 3.2 or above.
+	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) )

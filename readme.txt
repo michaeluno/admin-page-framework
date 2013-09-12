@@ -1,10 +1,10 @@
 === Admin Page Framework ===
 Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
-Tags: admin, administration, administration panel, admin panel, admin pages, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
+Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,13 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 You are welcome to submit documentation. Please follow the [Documentation Guidline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
+
+= What if other themes or plugins include a lesser version of this library than mine? =
+Let's say your plugin uses Admin Page Framework v2.1.0 and another plugin uses v2.0.0. If another plugin's library gets loaded earlier than yours, your library may not work property. 
+
+To work around it, rename all the class names used by the library in your library file. All the class name is prefixed with `AdminPageFramework` so change it to something like, for instance, `MyPlugin_AdminPageFramework`, then you are safe. 
+
+Most code editor supports "Replace All" functionality so just use that. By the time WordPress's minimum required PHP version becomes 3.3 or higher, we can use namespaces then this problem will be solved.
 
 == Roadmap ==
 * Add the dynamic fluctuability to the form input elements.

@@ -2,8 +2,8 @@
 /**
  * Admin Page Framework
  * 
- * Provides plugin and theme developers with simpler and easier means of creating option pages, custom post types, ant meta boxes. 
- * The framework uses the built-in WordPress Settings API so the created page design respects the WordPress standard.
+ * Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes. 
+ * The framework uses the built-in WordPress Settings API so it respects the WordPress standard form layout design.
  * 
  * @author				Michael Uno <michael@michaeluno.jp>
  * @copyright			Michael Uno
@@ -13,17 +13,16 @@
  * @link				http://en.michaeluno.jp/admin-page-framework
  * @package				Admin Page Framework
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
- * @remarks				Requirements: WordPress 3.. or above, PHP 5.2.4 or above.
+ * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.0.2
- * @todo				<li>Add the ability to create help screen sections.</li>
+ * @version				2.1.0
  */
 /*
 	Name: Admin Page Framework
 	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.0.2
+	Version: 2.1.0
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 */
@@ -509,12 +508,13 @@ if ( ! class_exists( 'AdminPageFramework_Help' ) ) :
 /**
  * Provides methods to manipulate the help screen sections.
  * 
- * @remark			Shared with the both AdminPageFramework and AdminPageFramework_PostType.
  * @abstract
- * @since			2.1.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Page
- * @extends			AdminPageFramework_Help_Base
+ * @remark				Shared with the both AdminPageFramework and AdminPageFramework_PostType.
+ * @since				2.1.0
+ * @package				Admin Page Framework
+ * @subpackage			Admin Page Framework - Page
+ * @extends				AdminPageFramework_Help_Base
+ * @staticvar			array			$arrStructure_HelpTab			stores the array structure of the help tab array.
  */
 abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	
