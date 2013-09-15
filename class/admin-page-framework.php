@@ -806,7 +806,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 							 					
 					// Render the form elements by Settings API
 					if ( $this->oProps->fEnableForm ) {
-						settings_fields( $this->oProps->strOptionKey );
+						settings_fields( $this->oProps->strOptionKey );	// this value also determines the $option_page global variable value.
 						do_settings_sections( $strPageSlug ); 
 					}				
 					 
@@ -1299,9 +1299,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'intPosition'		=> $intMenuPosition,
 			'fCreateRoot'		=> $strSlug ? false : true,
 		);	
-		
-		$this->setPageCapability();
-			
+					
 	}
 	
 	/**
@@ -1322,7 +1320,6 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		
 		$this->oProps->arrRootMenu['strPageSlug'] = $strRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
 		$this->oProps->arrRootMenu['fCreateRoot'] = false;		// indicates to use an existing menu item. 
-		$this->setPageCapability();
 		
 	}
 	
@@ -1397,19 +1394,6 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			return self::$arrBuiltInRootMenuSlugs[ $strMenuLabelLower ];
 		
 	}
-	
-	/**
-	 * Lets the Settings API allow the custom capability.
-	 * 
-	 * This avoid the "creating huh?" message to be displayed when the page is accessed.
-	 * 
-	 * @since			2.0.0
-	 * @remark			The Settings API requires <em>manage_options</em> by default.
-	 * @remark			the <em>option_page_capability_{...}</em> filter is supported since WordPress 3.2
-	 */ 
-	private function setPageCapability() {		
-		add_filter( "option_page_capability_" .  $this->oProps->arrRootMenu['strPageSlug'], array( $this->oProps, 'getCapability' ) );
-	}	
 	
 	/**
 	 * Registers the root menu page.
@@ -2998,6 +2982,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 								
 			// The contextual help pane.
 			add_action( "admin_head", array( $this, 'registerHelpTabs' ), 200 );
+						
+			// The capability for the settings. $this->oProps->strOptionKey is the part that is set in the settings_fields() function.
+			// This prevents the "Cheatin' huh?" message.
+			add_filter( "option_page_capability_{$this->oProps->strOptionKey}", array( $this->oProps, 'getCapability' ) );
 						
 			// For earlier loading than $this->setUp
 			$this->oUtil->addAndDoAction( $this, self::$arrPrefixes['start_'] . $this->oProps->strClassName );

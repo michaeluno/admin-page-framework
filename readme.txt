@@ -164,6 +164,8 @@ Most code editor supports "Replace All" functionality so just use that. By the t
 == Changelog ==
 
 = 2.1.0 =
+* Fixed: a bug that saving options with a custom capability caused the Cheatin' Uh message.
+* Deprecated: ( ***Breaking Change*** ) the *setPageCapability()* method since it did not do anything.
 * Changed: ( ***Breaking Change*** ) the *AdminPageFramework_PostType* class properties and *AdminPageFramework_MetaBox* to be encapsulated into a class object each.
 * Added: the *strHelp* field key that adds a contextual help tab on the upper part of the admin page.
 * Fixed: the required WordPress version to 3.3 as some of the functionalities were relying on the screen object that has been implemented since WordPress 3.3.
