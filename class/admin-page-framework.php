@@ -4060,6 +4060,13 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	public $strFormEncType = 'multipart/form-data';	
 	
 	/**
+	 * Stores the label for for the "Insert to Post" button in the media uploader box.
+	 * @since			2.0.0
+	 * @internal
+	 */ 	
+	public $strThickBoxButtonUseThis = '';
+	
+	/**
 	 * Decides whether the setting form tag is rendered or not.	
 	 * 
 	 * This will be enabled when a settings section and a field is added.
