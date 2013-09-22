@@ -164,6 +164,7 @@ Most code editor supports "Replace All" functionality so just use that. By the t
 == Changelog ==
 
 = 2.1.0 =
+* Added: the *load_{extended class name}*, *load_{page slug}* and *load_{page slug}_{tab slug}* filters.
 * Fixed: a bug that saving options with a custom capability caused the Cheatin' Uh message.
 * Deprecated: ( ***Breaking Change*** ) the *setPageCapability()* method since it did not do anything.
 * Changed: ( ***Breaking Change*** ) the *AdminPageFramework_PostType* class properties and *AdminPageFramework_MetaBox* to be encapsulated into a class object each.
