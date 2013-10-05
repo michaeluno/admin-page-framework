@@ -2077,8 +2077,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 */ 
 	protected function doPageLoadCall( $strPageSlug, $strTabSlug, $arrArg ) {
 
-		// Do actions, page -> in-page tab
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProps->strClassName, $strPageSlug, $strTabSlug ) );
+		// Do actions, class name -> page -> in-page tab.
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProps->strClassName, $strPageSlug, $strTabSlug, true ) );
 		
 	}
 			
