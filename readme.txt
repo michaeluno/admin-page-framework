@@ -164,7 +164,8 @@ Most code editor supports "Replace All" functionality so just use that. By the t
 == Changelog ==
 
 = 2.1.1 =
-* Added: the framework's version number to appear in the footer link.
+* Changed: the footer text links to have title attributes with script descriptions.
+* Removed: the script version number in the footer text link and moved it to be displayed in the title attribute.
 * Added: the *getCurrentAdminURL()* method.
 
 = 2.1.0 - 10/05/2013 =
