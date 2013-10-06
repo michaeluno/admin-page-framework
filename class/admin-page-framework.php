@@ -24,7 +24,7 @@
 	Author URI: http://michaeluno.jp
 	Version: 2.1.1
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
-	Description: Provides simpler means of building administration pages for plugin and theme developers. 
+	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
 
 if ( ! class_exists( 'AdminPageFramework_WPUtilities' ) ) :
@@ -4593,6 +4593,7 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 		'strScriptURI'		=> null,
 		'strAuthorURI'		=> null,
 		'strAuthor'			=> null,
+		'strDescription'	=> null,
 	);	
 	
 	/*
@@ -4660,6 +4661,53 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 			return $arrDebugInfo['file'];	// return the first found item.
 		}
 	}	
+	
+	/**
+	 * Sets the default footer text on the left hand side.
+	 * 
+	 * @since			2.1.1
+	 */
+	protected function setFooterInfoLeft( $arrScriptInfo, &$strFooterInfoLeft ) {
+		
+		$strDescription = empty( $arrScriptInfo['strDescription'] ) 
+			? ""
+			: "&#13;{$arrScriptInfo['strDescription']}";
+		$strVersion = empty( $arrScriptInfo['strVersion'] )
+			? ""
+			: "&nbsp;{$arrScriptInfo['strVersion']}";
+		$strPluginInfo = empty( $arrScriptInfo['strURI'] ) 
+			? $arrScriptInfo['strName'] 
+			: "<a href='{$arrScriptInfo['strURI']}' target='_blank' title='{$arrScriptInfo['strName']}{$strVersion}{$strDescription}'>{$arrScriptInfo['strName']}</a>";
+		$strAuthorInfo = empty( $arrScriptInfo['strAuthorURI'] )	
+			? $arrScriptInfo['strAuthor'] 
+			: "<a href='{$arrScriptInfo['strAuthorURI']}' target='_blank'>{$arrScriptInfo['strAuthor']}</a>";
+		$strAuthorInfo = empty( $arrScriptInfo['strAuthor'] ) 
+			? $strAuthorInfo 
+			: ' by ' . $strAuthorInfo;
+		$strFooterInfoLeft =  $strPluginInfo . $strAuthorInfo;
+		
+	}
+	/**
+	 * Sets the default footer text on the right hand side.
+	 * 
+	 * @since			2.1.1
+	 */	
+	protected function setFooterInfoRight( $arrScriptInfo, &$strFooterInfoRight ) {
+
+		$strDescription = empty( $arrScriptInfo['strDescription'] ) 
+			? ""
+			: "&#13;{$arrScriptInfo['strDescription']}";
+		$strVersion = empty( $arrScriptInfo['strVersion'] )
+			? ""
+			: "&nbsp;{$arrScriptInfo['strVersion']}";		
+		$strLibraryInfo = empty( $arrScriptInfo['strURI'] ) 
+			? $arrScriptInfo['strName'] 
+			: "<a href='{$arrScriptInfo['strURI']}' target='_blank' title='{$arrScriptInfo['strName']}{$strVersion}{$strDescription}'>{$arrScriptInfo['strName']}</a>";			
+		$strFooterInfoRight = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
+			. $strLibraryInfo
+			. ', <a href="http://wordpress.org" target="_blank">WordPress</a>';		
+		
+	}
 }
 endif;
 
@@ -4696,7 +4744,8 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-		$this->setFooterInfo();
+		$this->setFooterInfoLeft( $this->arrScriptInfo, $this->arrFooterInfo['strLeft'] );
+		$this->setFooterInfoRight( $this->arrLibraryInfo, $this->arrFooterInfo['strRight'] );
 		
 		// For the plugin listing page
 		if ( $this->arrScriptInfo['strType'] == 'plugin' )
@@ -4709,25 +4758,6 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		// For post type posts listing table page ( edit.php )
 		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->strPostTypeSlug )
 			add_action( 'get_edit_post_link', array( $this, 'addPostTypeQueryInEditPostLink' ), 10, 3 );
-		
-	}
-	
-	/*
-	 * Helper methods
-	 * */
-	protected function setFooterInfo() {
-		
-		$strPluginInfo = $this->arrScriptInfo['strName'];
-		$strPluginInfo = $this->arrScriptInfo['strName'];
-		$strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
-		$strPluginInfo = empty( $this->arrScriptInfo['strURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
-		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
-		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
-		$strLibraryInfo = "<a href='{$this->arrLibraryInfo['strURI']}' target='_blank' title='{$this->arrLibraryInfo['strName']} {$this->arrLibraryInfo['strVersion']}'>{$this->arrLibraryInfo['strName']}</a>";
-		$this->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;		
-		$this->arrFooterInfo['strRight'] = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
-			. $strLibraryInfo
-			. ', <a href="http://wordpress.org">WordPress</a>';
 		
 	}
 	
@@ -4821,34 +4851,14 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-		$this->setFooterInfo();
+		$this->setFooterInfoLeft( $this->oProps->arrScriptInfo, $this->oProps->arrFooterInfo['strLeft'] );
+		$this->setFooterInfoRight( $this->oProps->arrScriptInfo, $this->oProps->arrFooterInfo['strRight'] );
 	
 		if ( $this->oProps->arrScriptInfo['strType'] == 'plugin' )
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->arrScriptInfo['strPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}
-	
-	/*
-	 * Helper methods.
-	 * */
-	protected function setFooterInfo() {
-		
-		$strPluginInfo = $this->oProps->arrScriptInfo['strName'];
-		$strPluginInfo .= empty( $this->oProps->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->oProps->arrScriptInfo['strVersion'];
-		$strPluginInfo = empty( $this->oProps->arrScriptInfo['strURI'] ) ? $strPluginInfo : '<a href="' . $this->oProps->arrScriptInfo['strURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
-		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthorURI'] )	? $this->oProps->arrScriptInfo['strAuthor'] : '<a href="' . $this->oProps->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->oProps->arrScriptInfo['strAuthor'] . '</a>';
-		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
-		$strLibraryInfo = "<a href='{$this->oProps->arrLibraryInfo['strURI']}' target='_blank' title='{$this->oProps->arrLibraryInfo['strName']} {$this->oProps->arrLibraryInfo['strVersion']}'>{$this->oProps->arrLibraryInfo['strName']}</a>";
-		$this->oProps->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
-		$this->oProps->arrFooterInfo['strRight'] = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
-			. $strLibraryInfo
-			. ', <a href="http://wordpress.org">WordPress</a>';		
-		
-	}
-	
-	/*
-	 * Methods for adding menu links.
-	 * */
+
 	
 	/**	
 	 * 
