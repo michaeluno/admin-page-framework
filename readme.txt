@@ -164,6 +164,7 @@ Most code editor supports "Replace All" functionality so just use that. By the t
 == Changelog ==
 
 = 2.1.1 =
+* Changed: the post type check list to display post types' labels instead of their slugs.
 * Changed: the vDelimiter elements to be inserted after the vAfterInputTag elements. 
 * Changed: the footer text links to have title attributes with script descriptions.
 * Removed: the script version number in the footer text link and moved it to be displayed in the title attribute.
