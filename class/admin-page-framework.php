@@ -1485,10 +1485,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		// Add the sub-page to the sub-menu
 		$arrResult = array();
 		$strRootPageSlug = $this->oProps->arrRootMenu['strPageSlug'];
-		$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] );
 		
 		if ( $strType == 'page' ) {
 			
+			$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] );
 			$arrResult[ $strPageSlug ] = add_submenu_page( 
 				$strRootPageSlug,						// the root(parent) page slug
 				$strTitle,								// page_title
@@ -5328,8 +5328,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
 
@@ -5356,8 +5356,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 				. "/>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 					
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
 		
@@ -5383,8 +5383,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ">"
 				. $this->getCorrespondingArrayValue( $this->vValue, $strKey, null )
 				. "</textarea>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 		
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
 		
@@ -5412,8 +5412,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. $this->getOptionTags( $vLabel, $this->vValue, $strKey, $fSingle, $fMultiple )
 					. "</select>"
 				. "</span>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' );
 				
 		}
 		
@@ -5511,8 +5511,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						$fMultipleOptions 
 					)
 				. "</select>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
 		
@@ -5527,8 +5527,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( $arrLabels as $strKey => $vLabel )  
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. $this->getRadioTags( $vLabel, $strKey, $fSingle )				
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
 		
@@ -5583,8 +5583,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "</label>"
 				. "</span>"
 				. "</span>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 					
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
 	
@@ -5607,8 +5607,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>"
 				. "</span>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' );
 					
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";			
 		
@@ -5629,8 +5629,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>&nbsp;&nbsp;"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 					
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";			
 	
@@ -5669,8 +5669,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>&nbsp;&nbsp;"
 				. "</span>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 		}
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
 	
@@ -5710,8 +5710,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>"
 				. "</span>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 									
 		}
 					
@@ -5761,8 +5761,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>"
 				. "</span>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 									
 		}
 					
@@ -5820,8 +5820,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						});
 					})
 				</script>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
 		
@@ -5853,8 +5853,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						jQuery( '#color_{$this->strTagID}_{$strKey}' ).farbtastic( '#{$this->strTagID}_{$strKey}' );
 					}
 					</script>"
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";	
 		
@@ -5888,8 +5888,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "/>"
 						. "</div>"
 					: "" )
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
 		
@@ -5919,8 +5919,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $strKey
 				. "</label>"
 				. "</span>"				
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' );
+				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 		}
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
 		
