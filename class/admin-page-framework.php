@@ -15,14 +15,14 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.1.0
+ * @version				2.1.1
  */
 /*
-	Name: Admin Page Framework
-	Plugin URI: http://wordpress.org/extend/plugins/admin-page-framework/
+	Library Name: Admin Page Framework
+	Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.0
+	Version: 2.1.1
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers. 
 */
@@ -203,15 +203,20 @@ abstract class AdminPageFramework_WPUtilities {
 	 * 
 	 * @since			2.0.0
 	 */ 
-	protected function getScriptData( $strPath, $strType )	{
+	protected function getScriptData( $strPath, $strType='plugin' )	{
 	
 		$arrData = get_file_data( 
 			$strPath, 
 			array(
+				'strName' => 'Name',
+				'strURI' => 'URI',
+				'strScriptName' => 'Script Name',
+				'strLibraryName' => 'Library Name',
+				'strLibraryURI' => 'Library URI',
 				'strPluginName' => 'Plugin Name',
 				'strPluginURI' => 'Plugin URI',
-				'strThemeURI' => 'Theme URI',
 				'strThemeName' => 'Theme Name',
+				'strThemeURI' => 'Theme URI',
 				'strVersion' => 'Version',
 				'strDescription' => 'Description',
 				'strAuthor' => 'Author',
@@ -222,13 +227,52 @@ abstract class AdminPageFramework_WPUtilities {
 				// Site Wide Only is deprecated in favour of Network.
 				'_sitewide' => 'Site Wide Only',
 			),
-			$strType	// 'plugin' or 'theme'
-		);				
-		$arrData['strName'] = ( $strType == 'plugin' ) ? $arrData['strPluginName'] : $arrData['strThemeName'];
-		$arrData['strScriptURI'] = ( $strType == 'plugin' ) ? $arrData['strPluginURI'] : $arrData['strThemeURI'];
+			in_array( $strType, array( 'plugin', 'theme' ) ) ? $strType : 'plugin' 
+		);			
+
+		switch ( trim( $strType ) ) {
+			case 'theme':	
+				$arrData['strName'] = $arrData['strThemeName'];
+				$arrData['strURI'] = $arrData['strThemeURI'];
+				break;
+			case 'library':	
+				$arrData['strName'] = $arrData['strLibraryName'];
+				$arrData['strURI'] = $arrData['strLibraryURI'];
+				break;
+			case 'script':	
+				$arrData['strName'] = $arrData['strScriptName'];
+				break;		
+			case 'plugin':	
+				$arrData['strName'] = $arrData['strPluginName'];
+				$arrData['strURI'] = $arrData['strPluginURI'];
+				break;
+			default:	
+				break;				
+		}		
+
 		return $arrData;
 		
 	}			
+	
+	/**
+	 * Retrieves the current URL in the admin page.
+	 * 
+	 * @since			2.1.1
+	 */
+	public function getCurrentAdminURL() {
+		
+		$strRequestURI = $GLOBALS['is_IIS'] ? $_SERVER['PATH_INFO'] : $_SERVER["REQUEST_URI"];
+		$strPageURL = ( @$_SERVER["HTTPS"] == "on" ) ? "https://" : "http://";
+		
+		if ( $_SERVER["SERVER_PORT"] != "80" ) 
+			$strPageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $strRequestURI;
+		else 
+			$strPageURL .= $_SERVER["SERVER_NAME"] . $strRequestURI;
+		
+		return $strPageURL;
+		
+	}
+	
 }
 endif;
 
@@ -1212,6 +1256,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 
 	}
 	
+	
 }
 endif;
 
@@ -1328,11 +1373,12 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	/**
 	 * Adds sub-menu pages.
 	 * 
-	 * Use addSubMenuItems() instead.
+	 * Use addSubMenuItems() instead, which supports external links.
 	 * 
 	 * @since			2.0.0
 	 * @internal
 	 * @return			void
+	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	 */ 
 	protected function addSubMenuPages() {
 		foreach ( func_get_args() as $arrSubMenuPage ) {
@@ -1355,6 +1401,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * <code>$this->addSubMenuPage( 'My Page', 'my_page', 'edit-pages' );</code>
 	 * 
 	 * @since			2.0.0
+	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	 * @param			string			$strPageTitle			The title of the page.
 	 * @param			string			$strPageSlug			The slug of the page.
 	 * @param			string			$strScreenIcon			( optional ) Either a screen icon ID or a url of the icon with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.
@@ -1422,6 +1469,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * @since			2.0.0
 	 * @remark			Used in the buildMenu() method. 
 	 * @remark			Within the <em>admin_menu</em> hook callback process.
+	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	 */ 
 	private function registerSubMenu( $arrArgs ) {
 	
@@ -1437,6 +1485,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		// Add the sub-page to the sub-menu
 		$arrResult = array();
 		$strRootPageSlug = $this->oProps->arrRootMenu['strPageSlug'];
+		$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] );
 		
 		if ( $strType == 'page' ) {
 			
@@ -1445,13 +1494,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 				$strTitle,								// page_title
 				$strTitle,								// menu_title
 				$strCapability,				 			// strCapability
-				// $this->oUtil should be instantiated in the extended object constructor.
-				$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] ),	// menu_slug
-				array( $this, $strPageSlug ) 				// triggers the __call() magic method with the method name of this slug.
+				$strPageSlug,	// menu_slug
+				// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $arrResult[ $strPageSlug ] )
+				// will be executed and it triggers the __call magic method with the method name of "md5 class hash + _page_ + this page slug".
+				array( $this, $this->oProps->strClassHash . '_page_' . $strPageSlug )
 			);			
-				
-			add_action( "load-" . $arrResult[ $strPageSlug ] , array( $this, "load_pre_" . $strPageSlug ) );
 			
+			add_action( "load-" . $arrResult[ $strPageSlug ] , array( $this, "load_pre_" . $strPageSlug ) );
 				
 		} else if ( $strType == 'link' )
 			$GLOBALS['submenu'][ $strRootPageSlug ][] = array ( 
@@ -1459,9 +1508,6 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 				$strCapability, 
 				$arrArgs['strURL'],
 			);	
-			
-
-	
 	
 		return $arrResult;	// maybe useful to debug.
 
@@ -3053,14 +3099,16 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 
 		// load-{page} callback
 		if ( substr( $strMethodName, 0, strlen( 'load_pre_' ) )	== 'load_pre_' ) return $this->doPageLoadCall( substr( $strMethodName, strlen( 'load_pre_' ) ), $strTabSlug, $arrArgs[ 0 ] );  // load_pre_
+
+		// The callback of the call_page_{page slug} action hook
+		if ( $strMethodName == $this->oProps->strClassHash . '_page_' . $strPageSlug )
+			return $this->renderPage( $strPageSlug, $strTabSlug );	
 		
 		// If it's one of the framework's callback methods, do nothing.	
 		if ( $this->isFrameworkCallbackMethod( $strMethodName ) )
-			return isset( $arrArgs[0] ) ? $arrArgs[0] : null;	// if $arrArgs[0] is set, it's a filter, otherwise, it's an action.
+			return isset( $arrArgs[0] ) ? $arrArgs[0] : null;	// if $arrArgs[0] is set, it's a filter, otherwise, it's an action.		
+
 		
-		// The callback of add_submenu_page() - render the page contents.
-		if ( isset( $_GET['page'] ) && $_GET['page'] == $strMethodName ) $this->renderPage( $strMethodName, $strTabSlug );
-						
 	}	
 	
 	/**
@@ -3170,6 +3218,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	*	);</code>
 	* 
 	* @since			2.0.0
+	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @param			array		$arrSubMenuItem1		a first sub-menu array.
@@ -3191,6 +3240,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	* The array structure of the parameter is documented in the <em>addSubMenuItem()</em> method section.
 	* 
 	* @since			2.0.0
+	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	* @remark			This is not intended to be used by the user.
 	* @param			array		$arrSubMenuItem			a first sub-menu array.
 	* @access 			private
@@ -3967,6 +4017,12 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	public $strClassName;	
 	
 	/**
+	 * Stores the md5 hash string of framework's instantiated object name.
+	 * @since			2.1.1
+	 */
+	public $strClassHash;
+	
+	/**
 	 * Stores the access level to the root page. 
 	 * 
 	 * When sub pages are added and the capability value is not provided, this will be applied.
@@ -4129,6 +4185,7 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	public function __construct( $strClassName, $strOptionKey, $strCapability='manage_options' ) {
 		
 		$this->strClassName = $strClassName;		
+		$this->strClassHash = md5( $strClassName );
 		$this->strOptionKey = $strOptionKey ? $strOptionKey : $strClassName;
 		$this->strCapability = empty( $strCapability ) ? $this->strCapability : $strCapability;
 		
@@ -4530,6 +4587,7 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 		'strPath'			=> null,
 		'strType'			=> null,
 		'strName'			=> null,		
+		'strURI'			=> null,
 		'strVersion'		=> null,
 		'strThemeURI'		=> null,
 		'strScriptURI'		=> null,
@@ -4565,11 +4623,20 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 				'strName'			=> $oTheme->Name,
 				'strVersion' 		=> $oTheme->Version,
 				'strThemeURI'		=> $oTheme->get( 'ThemeURI' ),
-				'strScriptURI'		=> $oTheme->get( 'ThemeURI' ),
+				'strURI'			=> $oTheme->get( 'ThemeURI' ),
 				'strAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
 				'strAuthor'			=> $oTheme->get( 'Author' ),				
 			) + $arrCallerInfo;	
 		}
+	}
+
+	/**
+	 * Retrieves the library script info.
+	 * 
+	 * @since			2.1.1
+	 */
+	protected function getLibraryInfo() {
+		return $this->getScriptData( __FILE__, 'library' ) + self::$arrStructure_CallerInfo;
 	}
 	
 	/**
@@ -4624,7 +4691,8 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		$this->strPostTypeSlug = $strPostTypeSlug;
 		$this->strCallerPath = file_exists( $strCallerPath ) ? $strCallerPath : $this->getCallerPath();
 		$this->arrScriptInfo = $this->getCallerInfo( $this->strCallerPath ); 
-				
+		$this->arrLibraryInfo = $this->getLibraryInfo();
+		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
@@ -4652,13 +4720,13 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		$strPluginInfo = $this->arrScriptInfo['strName'];
 		$strPluginInfo = $this->arrScriptInfo['strName'];
 		$strPluginInfo .= empty( $this->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->arrScriptInfo['strVersion'];
-		$strPluginInfo = empty( $this->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		$strPluginInfo = empty( $this->arrScriptInfo['strURI'] ) ? $strPluginInfo : '<a href="' . $this->arrScriptInfo['strURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
 		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthorURI'] )	? $this->arrScriptInfo['strAuthor'] : '<a href="' . $this->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->arrScriptInfo['strAuthor'] . '</a>';
 		$strAuthorInfo = empty( $this->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
-		$this->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
-		
+		$strLibraryInfo = "<a href='{$this->arrLibraryInfo['strURI']}' target='_blank' title='{$this->arrLibraryInfo['strName']} {$this->arrLibraryInfo['strVersion']}'>{$this->arrLibraryInfo['strName']}</a>";
+		$this->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;		
 		$this->arrFooterInfo['strRight'] = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
-			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
+			. $strLibraryInfo
 			. ', <a href="http://wordpress.org">WordPress</a>';
 		
 	}
@@ -4748,6 +4816,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		$this->oProps = $oProps;
 		$this->strCallerPath = file_exists( $strCallerPath ) ? $strCallerPath : $this->getCallerPath();
 		$this->oProps->arrScriptInfo = $this->getCallerInfo( $this->strCallerPath ); 
+		$this->oProps->arrLibraryInfo = $this->getLibraryInfo();
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
@@ -4766,13 +4835,13 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		
 		$strPluginInfo = $this->oProps->arrScriptInfo['strName'];
 		$strPluginInfo .= empty( $this->oProps->arrScriptInfo['strVersion'] ) ? '' : ' ' . $this->oProps->arrScriptInfo['strVersion'];
-		$strPluginInfo = empty( $this->oProps->arrScriptInfo['strScriptURI'] ) ? $strPluginInfo : '<a href="' . $this->oProps->arrScriptInfo['strScriptURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
+		$strPluginInfo = empty( $this->oProps->arrScriptInfo['strURI'] ) ? $strPluginInfo : '<a href="' . $this->oProps->arrScriptInfo['strURI'] . '" target="_blank">' . $strPluginInfo . '</a>';
 		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthorURI'] )	? $this->oProps->arrScriptInfo['strAuthor'] : '<a href="' . $this->oProps->arrScriptInfo['strAuthorURI'] . '" target="_blank">' . $this->oProps->arrScriptInfo['strAuthor'] . '</a>';
 		$strAuthorInfo = empty( $this->oProps->arrScriptInfo['strAuthor'] ) ? $strAuthorInfo : 'by ' . $strAuthorInfo;
+		$strLibraryInfo = "<a href='{$this->oProps->arrLibraryInfo['strURI']}' target='_blank' title='{$this->oProps->arrLibraryInfo['strName']} {$this->oProps->arrLibraryInfo['strVersion']}'>{$this->oProps->arrLibraryInfo['strName']}</a>";
 		$this->oProps->arrFooterInfo['strLeft'] =  $strPluginInfo . ' ' . $strAuthorInfo;
-		
 		$this->oProps->arrFooterInfo['strRight'] = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
-			. '<a href="http://wordpress.org/extend/plugins/admin-page-framework/">Admin Page Framework</a>'
+			. $strLibraryInfo
 			. ', <a href="http://wordpress.org">WordPress</a>';		
 		
 	}
@@ -4926,19 +4995,29 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
 class AdminPageFramework_Debug {
 	
 	public function getArray( $arr, $strFilePath=null ) {
-		
-		if ( $strFilePath ) {
-			file_put_contents( 
-				$strFilePath , 
-				date( "Y/m/d H:i:s" ) . PHP_EOL
-				. print_r( $arr, true ) . PHP_EOL . PHP_EOL
-				, FILE_APPEND 
-			);					
-		}
-		return '<pre>' . esc_html( print_r( $arr, true ) ) . '</pre>';
-		
+			
+		if ( $strFilePath ) 
+			self::logArray( $arr, $strFilePath );			
+			
+		// esc_html() has a bug that breaks with complex HTML code.
+		return "<pre class='dump-array'>" . htmlspecialchars( print_r( $arr, true ) ) . "</pre>";		
 	}	
 	
+	/**
+	 * Logs given array output into the given file.
+	 * 
+	 * @since			2.1.1
+	 */
+	static public function logArray( $arr, $strFilePath=null ) {
+								
+		file_put_contents( 
+			$strFilePath ? $strFilePath : dirname( __FILE__ ) . '/array_log.txt', 
+			date( "Y/m/d H:i:s" ) . PHP_EOL
+			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
+			, FILE_APPEND 
+		);					
+							
+	}	
 }
 endif;
 
@@ -6060,6 +6139,7 @@ abstract class AdminPageFramework_PostType {
 		$this->oProps->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
 		$this->oProps->arrPostTypeArgs = $arrArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 		$this->oProps->strClassName = get_class( $this );
+		$this->oProps->strClassHash = md5( $this->oProps->strClassName );
 		$this->oProps->arrColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
 			'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
@@ -6517,6 +6597,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oProps->strContext = $strContext;	//  'normal', 'advanced', or 'side' 
 		$this->oProps->strPriority = $strPriority;	// 	'high', 'core', 'default' or 'low'
 		$this->oProps->strClassName = get_class( $this );
+		$this->oProps->strClassHash = md5( $this->oProps->strClassName );
 		$this->oProps->strCapability = $strCapability;
 				
 		if ( is_admin() ) {

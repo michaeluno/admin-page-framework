@@ -163,6 +163,10 @@ Most code editor supports "Replace All" functionality so just use that. By the t
 
 == Changelog ==
 
+= 2.1.1 =
+* Added: the framework's version number to appear in the footer link.
+* Added: the *getCurrentAdminURL()* method.
+
 = 2.1.0 - 10/05/2013 =
 * Added: the *load_{extended class name}*, *load_{page slug}* and *load_{page slug}_{tab slug}* filters.
 * Fixed: a bug that saving options with a custom capability caused the Cheatin' Uh message.
