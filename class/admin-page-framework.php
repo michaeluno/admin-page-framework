@@ -5906,8 +5906,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	
 	/**
+	 * Returns the output of post type check list check boxes.
 	 * 
 	 * @remark			the posttype checklist field does not support multiple elements by passing an array of labels.
+	 * @since			2.0.0
 	 */ 
 	private function getPostTypeChecklistField( $arrOutput=array() ) {
 				
@@ -5926,7 +5928,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "/>&nbsp;&nbsp;"
 				. "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 				. "<label for='{$this->strTagID}_{$strKey}'>"				
-				. $strKey
+				. $strValue
 				. "</label>"
 				. "</span>"				
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
@@ -5940,14 +5942,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * A helper function for the above getPosttypeChecklistField method.
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.1			Changed the returning array to have the labels in its element values.
+	 * @return			array			The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
 	 */ 
-	private function getPostTypeArrayForChecklist( $arrRemoveNames ) {
+	private function getPostTypeArrayForChecklist( $arrRemoveNames, $arrPostTypes=array() ) {
 		
-		$arrPostTypes = get_post_types( '','names' ); 
-		$arrPostTypes = array_diff_key( $arrPostTypes, array_flip( $arrRemoveNames ) );	// remove unnecessary keys.
-		$arrPostTypes = array_fill_keys( $arrPostTypes, True );
-		return $arrPostTypes;		
-		
+		foreach( get_post_types( '','objects' ) as $oPostType ) 
+			if (  isset( $oPostType->name, $oPostType->label ) ) 
+				$arrPostTypes[ $oPostType->name ] = $oPostType->label;
+
+		return array_diff_key( $arrPostTypes, array_flip( $arrRemoveNames ) );	
+
 	}		
 	
 	private function getTaxonomyChecklistField( $arrOutput=array() ) {
