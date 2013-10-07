@@ -682,7 +682,6 @@ if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
  * @extends			AdminPageFramework_Help
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
- * @staticvar		string		$strDefaultStyle					the default CSS rules loaded in the head tag of the created admin page.
  * @staticvar		array		$arrPrefixes						stores the prefix strings for filter and action hooks.
  * @staticvar		array		$arrPrefixesForCallbacks			unlike $arrPrefixes, these require to set the return value.
  * @staticvar		array		$arrScreenIconIDs					stores the ID selector names for screen icons.
@@ -1654,6 +1653,14 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	protected $fIsImageFieldScriptEnqueued = false;	
 	
 	/**
+	 * A flag that indicates whether the JavaScript script for taxonomu checklist boxes.
+	 * 
+	 * @since			2.1.1
+	 * @internal
+	 */
+	protected $fIsTaxonomyChecklistScriptAdded = false;
+	
+	/**
 	 * A flag that indicates whether the JavaScript script for color picker is enqueued.
 	 * 
 	 * @since			2.0.0
@@ -1943,8 +1950,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.</li>
 	* 		<ul>
 	*			<li><strong>vTaxonomySlug</strong> - ( optional, string|array ) the taxonomy slug to list.</li>
-	*			<li><strong>numMaxWidth</strong> - ( optional, integer|array ) the inline style property of <em>max-width</em> of this element. Default: 400</li>
-	*			<li><strong>numMaxHeight</strong> - ( optional, integer|array ) the inline style property of <em>max-height</em> of this element. Default: 200</li>
+	*			<li><strong>strWidth</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
+	*			<li><strong>strHeight</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
 	* 		</ul>
 	* 	<li><strong>posttype</strong> - a posttype check list. This is a set of check boxes listing post type slugs.</li>
 	* 		<ul>
@@ -2109,6 +2116,21 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Append the script
 		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		
+	}
+	
+	/**
+	 * Adds the script for taxonomy checklist tabbed boxes to the property.
+	 * 
+	 * @since			2.1.1
+	 */
+	private function addTaxonomyChecklistScript( &$arrField ) {
+	
+		if ( $this->fIsTaxonomyChecklistScriptAdded	) return;
+		$this->fIsTaxonomyChecklistScriptAdded = true;
+		
+		// Append the script
+		$this->oProps->strScript .= AdminPageFramework_Properties::getTaxonomyChecklistScript();
 		
 	}
 		
@@ -2583,7 +2605,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				$arrField['strFieldID']		// arguments - pass the field ID to the callback function
 			);	
 			
-			// If it's the image type field, extra jQuery scripts need to be loaded.
+			// If it's the field type that requires extra scripts, call the relavant methods.
+			if ( $arrField['strType'] == 'taxonomy' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->addTaxonomyChecklistScript( $arrField );
 			if ( $arrField['strType'] == 'image' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->addImageFieldScript( $arrField );
 			if ( $arrField['strType'] == 'color' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->enqueueColorFieldScript( $arrField );
 			if ( $arrField['strType'] == 'date' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->enqueueDateFieldScript( $arrField );
@@ -3429,6 +3452,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		echo "<style type='text/css' id='admin-page-framework-style'>" 
 			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
 			. "</style>";
+		echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
+			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyleIE )
+			. "</style><![endif]-->";
+			
 	}
 	
 	public function addScript() {
@@ -3441,7 +3468,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
+			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )			
 			. "</script>";		
 		
 	}
@@ -3551,8 +3578,99 @@ abstract class AdminPageFramework_Properties_Base {
 		.contextual-help-tab-title {
 			font-weight: bold;
 		}
-		";	
+		
+		/* Tabbed box */
+		.tab-box-container.categorydiv {
+			max-height: none;
+		}
+		.tab-box-tab-text {
+			display: inline-block;
+		}
+		.tab-box-tabs {
+			line-height: 12px;
+			margin-bottom: 0;
+		
+		}
+		.tab-box-tabs .tab-box-tab.active {
+			display: inline;
+			border-color: #dfdfdf #dfdfdf #fff;
+			margin-bottom: 0;
+			padding-bottom: 1px;
+			background-color: #fff;
+		}
+		.tab-box-container { 
+			position: relative; width: 100%; 
 
+		}
+		.tab-box-tabs li a { color: #333; text-decoration: none; }
+		.tab-box-contents-container {  
+			padding: 0 0 0 20px; 
+			border: 1px solid #dfdfdf; 
+			background-color: #fff;
+		}
+		.tab-box-contents { 
+			overflow: hidden; 
+			overflow-x: hidden; 
+			position: relative; 
+			top: -1px; 
+			height: 300px;  
+		}
+		.tab-box-content { 
+			height: 300px;
+			display: none; 
+			overflow: auto; 
+			display: block; 
+			position: relative; 
+			overflow-x: hidden;
+		}
+		.tab-box-content:target, .tab-box-content:target, .tab-box-content:target { display: block; }
+		";	
+	/**
+	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
+	 * @since			2.1.1
+	 */
+	public static $strDefaultStyleIE = 
+		".tab-box-content { display: block; }
+			.tab-box-contents { overflow: hidden;position: relative; }
+			b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
+		";	
+		
+	/**
+	 * Returns the JavaScript script for taxonomy checklist.
+	 * 
+	 * @since			2.1.1
+	 */ 
+	public static function getTaxonomyChecklistScript() {
+		return "
+			jQuery(document).ready( function() {
+				
+				jQuery( '.tab-box-container' ).each( function() {
+					
+					jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
+						
+						if ( i == 0 )
+							jQuery( this ).addClass( 'active' );
+							
+						jQuery( this ).click( function( e ){
+								 
+							// Prevents jumping to the anchor which moves the scroll bar.
+							e.preventDefault();
+							
+							// Remove the active tab and set the clicked tab to be active.
+							jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
+							jQuery( this ).addClass( 'active' );
+							
+							// Find the element id and select the content element with it.
+							var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
+							active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
+							active_content.siblings().css( 'display', 'none' );
+							
+						});
+					});			
+				});
+			});
+		";	
+	}
 	/**
 	 * Returns the image selector JavaScript script loaded in the head tag of the created admin pages.
 	 * @var				string
@@ -5082,8 +5200,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'arrRemove' => array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
 		'vWidth' => null,			// ( array or string ) This is for the select field type that specifies the width of the select tag element.
 		'vDateFormat' => null,			// ( array or string ) This is for the date field type that specifies the date format.
-		'numMaxWidth' => 400,	// for the taxonomy checklist filed type.
-		'numMaxHeight' => 200,	// for the taxonomy checklist filed type.	
+		// 'numMaxWidth' => 400,	// for the taxonomy checklist filed type.
+		// 'numMaxHeight' => 200,	// for the taxonomy checklist filed type.	
+		'strHeight' => '250px',		// for the taxonomy checklist field type, since 2.1.1.
+		'strWidth' => '100%',	// for the taxonomy checklist field type, since 2.1.1.
 		
 		// Mandatory keys.
 		'strFieldID' => null,		
@@ -5298,7 +5418,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				break;
 			case 'taxonomy':
 				$strOutput .= $this->getTaxonomyChecklistField();
-				break;
+				break;			
 			case 'posttype':
 				$strOutput .= $this->getPostTypeChecklistField();
 				break;
@@ -5906,7 +6026,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	
 	/**
-	 * Returns the output of post type check list check boxes.
+	 * Returns the output of post type checklist check boxes.
 	 * 
 	 * @remark			the posttype checklist field does not support multiple elements by passing an array of labels.
 	 * @since			2.0.0
@@ -5955,26 +6075,48 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 	}		
 	
+	/**
+	 * Returns the output of taxonomy checklist check boxes.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.1			The checklist boxes are rendered in a tabbed single box.
+	 */
 	private function getTaxonomyChecklistField( $arrOutput=array() ) {
-
-		foreach( ( array ) $this->arrField['vTaxonomySlug'] as $strKey => $strTaxonomySlug ) 
-			$arrOutput[] = "<div class='wp-tab-panel taxonomy-checklist' style='max-width:{$this->arrField['numMaxWidth']}px; max-height:{$this->arrField['numMaxHeight']}px;'>"
-				. "<label>" . $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, '' ) . "</label>"
-				. "<ul class='list:category taxonomychecklist form-no-clear'>"
-				. wp_list_categories( array(
-					'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
-					'name'     => is_array( $this->arrField['vTaxonomySlug'] ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}",   // name of the input
-					'selected' => $this->getSelectedKeyArray( $this->vValue, $strKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
-					'title_li'	=> '',	// disable the Categories heading string 
-					'hide_empty' => 0,	
-					'echo'	=> false,	// returns the output
-					'taxonomy' => $strTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
-				) )
-				. "</ul>"
+	
+		$arrTabs = array();
+		$arrCheckboxes = array();
+		foreach( ( array ) $this->arrField['vTaxonomySlug'] as $strKey => $strTaxonomySlug ) {
+			$strActive = isset( $strActive ) ? '' : 'active';	// inserts the active class selector into the first element.
+			$arrTabs[] = "<li class='tab-box-tab'><a href='#tab-{$strKey}'><span class='tab-box-tab-text'>" . $this->getCorrespondingArrayValue( empty( $this->arrField['vLabel'] ) ? null : $this->arrField['vLabel'], $strKey, $this->getLabelFromTaxonomySlug( $strTaxonomySlug ) ) . "</span></a></li>";
+			$arrCheckboxes[] = "<div id='tab-{$strKey}' class='tab-box-content' style='height: {$this->arrField['strHeight']};'>"
+					. "<ul class='list:category taxonomychecklist form-no-clear'>"
+						. wp_list_categories( array(
+							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
+							'name'     => is_array( $this->arrField['vTaxonomySlug'] ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}",   // name of the input
+							'selected' => $this->getSelectedKeyArray( $this->vValue, $strKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
+							'title_li'	=> '',	// disable the Categories heading string 
+							'hide_empty' => 0,	
+							'echo'	=> false,	// returns the output
+							'taxonomy' => $strTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
+						) )					
+					. "</ul>"			
+					. "<!--[if IE]><b>.</b><![endif]-->"
 				. "</div>";
+		}
+		$strTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $arrTabs ) . "</ul>";
 			
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";	
-				
+		$strContents = "<div class='tab-box-contents-container'>"
+				. "<div class='tab-box-contents' style='height: {$this->arrField['strHeight']};'>"
+					. implode( '', $arrCheckboxes )
+				. "</div>"
+			. "</div>";
+		$strOutput = "<div id='{$this->strTagID}' class='tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
+				. $strTabs . PHP_EOL
+				. $strContents . PHP_EOL
+			. "</div>";
+
+		return $strOutput;
+
 	}	
 	
 	/**
@@ -5998,6 +6140,22 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		return array_keys( $arrKeys, true );
 	
 	}
+	
+	/**
+	 * A helper function for the above getTaxonomyChecklistField() method.
+	 * 
+	 * @since			2.1.1
+	 * 
+	 */
+	private function getLabelFromTaxonomySlug( $strTaxonomySlug ) {
+		
+		$oTaxonomy = get_taxonomy( $strTaxonomySlug );
+		return isset( $oTaxonomy->label )
+			? $oTaxonomy->label
+			: null;
+		
+	}
+
 }
 endif;
 
@@ -6058,11 +6216,11 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		$strClass = 'category-list';
 		$strID = "{$strTaxonomy}-{$intID}";
 		$strOutput .= "\n"
-			. "<li id='{$strID}' $strClass>" 
+			. "<li id='list-{$strID}' $strClass>" 
 			. "<input value='0' type='hidden' name='{$arrArgs['name']}[{$intID}]' />"
 			. "<input id='{$strID}' value='1' type='checkbox' name='{$arrArgs['name']}[{$intID}]' {$strChecked} {$strDisabled} />"
-			. "<label id='{$strID}' class='taxonomy-checklist-label'>"
-			. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
+			. "<label for='{$strID}' class='taxonomy-checklist-label'>"
+				. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
 			. "</label>";	// no need to close </li> since it is done in end_el().
 			
 	}
@@ -6732,6 +6890,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 					$this->enqueueMediaUploaderScript( $arrField );
 					$this->addImageFieldScript( $arrField );
 				}
+				if ( $arrField['strType'] == 'taxonomy' ) $this->addTaxonomyChecklistScript( $arrField );
 				if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
 				if ( $arrField['strType'] == 'date' ) $this->addDateFieldScript( $arrField );
 			}
@@ -6776,6 +6935,27 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 
 	}
 
+	/**
+	 * Adds the script for taxonomy checklist tabbed boxes to the property.
+	 * 
+	 * @since			2.1.1
+	 */
+	private function addTaxonomyChecklistScript( &$arrField ) {
+	
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] = true;
+
+		// Append the script
+		$this->oProps->strScript .= AdminPageFramework_Properties::getTaxonomyChecklistScript();
+		
+	}
+	
+	/**
+	 * Adds the script for the color picker to the property and enqueues the WordPress built-in script for the color picker.
+	 * @since			2.0.0
+	 */
 	private function addColorFieldScript( &$arrField ) {
 	
 		// This class may be instantiated multiple times so use a global flag.
@@ -6853,10 +7033,15 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				
 		// Print out the filtered styles.
 		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
+		$this->oProps->strStyleIE = $this->oUtil->addAndApplyFilters( $this, "style_ie_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyleIE );
 		if ( ! empty( $this->oProps->strStyle ) )
 			echo "<style type='text/css' id='admin-page-framework-style-meta-box'>" 
 				. $this->oProps->strStyle
 				. "</style>";
+		if ( ! empty( $this->oProps->strStyleIE ) )
+			echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-meta-box'>" 
+				. $this->oProps->strStyleIE
+				. "</style><![endif]-->";
 			
 	}
 	

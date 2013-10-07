@@ -208,7 +208,7 @@ class APF_Demo extends AdminPageFramework {
 				'strPageSlug'		=> 'first_page',
 				'strTabSlug'		=> 'checklist',
 				'strTitle'			=> 'Checklists',
-				'strDescription'	=> 'Post type and taxonomy checklists ( custom checkbox ) are supported.',
+				'strDescription'	=> 'Post type and taxonomy checklists ( custom checkbox ).',
 			),	
 			array(
 				'strSectionID'		=> 'date_pickers',
@@ -520,15 +520,23 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'checklists',
 				'strTitle' => 'Post Types',
 				'strType' => 'posttype',
-			),				
+			),											
 			array(
 				'strFieldID' => 'taxonomy_checklist',
 				'strSectionID' => 'checklists',
 				'strTitle' => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
 				'strType' => 'taxonomy',
-				'vLabel' => $this->getTaxonomyLabels( 'menu_name' ),
-				'vTaxonomySlug' => get_taxonomies( '', 'names' ), // or simply 'category' to get a category list.
+				'strHeight' => '200px',
+				'vTaxonomySlug' => array( 'category', 'post_tag' ),
 			),				
+			array(
+				'strFieldID' => 'taxonomy_checklist_all',
+				'strSectionID' => 'checklists',
+				'strTitle' => __( 'All Taxonomies', 'admin-page-framework-demo' ),
+				'strType' => 'taxonomy',
+				'strHeight' => '200px',
+				'vTaxonomySlug' => get_taxonomies( '', 'names' ),
+			),			
 			array(	// Single date picker
 				'strFieldID' => 'date',
 				'strSectionID' => 'date_pickers',
@@ -693,24 +701,12 @@ class APF_Demo extends AdminPageFramework {
 		
 		
     }
-	
-	// Custom helper function for the taxonomy check list.
-	private function getTaxonomyLabels( $strKey='name' ) {
-
-		$arrTaxonomies = array();
-		foreach( ( array ) get_taxonomies( '', 'objects' ) as $strSlug => $oDetail ) 
-			$arrTaxonomies[ $strSlug ] = $oDetail->labels->$strKey;
-		return $arrTaxonomies;
 		
-	}
-	
 	/*
 	 * First Page
 	 * */
 	public function do_first_page() {
-		
 		submit_button();
-			
 	}
 		
 	/*
@@ -1100,7 +1096,13 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 					'length' => array( 'size' => 100, 'unit' => 'mm' ),
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
 				),				
-			),					
+			),		
+			array (
+				'strFieldID'		=> 'taxonomy_checklist',
+				'strTitle'			=> __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
+				'strType'			=> 'taxonomy',
+				'vTaxonomySlug' => get_taxonomies( '', 'names' ),
+			),				
 			array()
 		);		
 	}

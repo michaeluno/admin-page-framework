@@ -164,8 +164,12 @@ Most code editor supports "Replace All" functionality so just use that. By the t
 == Changelog ==
 
 = 2.1.1 =
+* Added: the *for* attribute of the *label* tag for checklist input elements so that clicking on the label checks/unchecks the item.
+* Added: the *strWidth* and the *strHeight* field array keys for the *taxonomy* filed type.
+* Deprecated: the *numMaxWidth* and the *numMaxHeight* field array keys for the *taxonomy* field type.
+* Changed: the *taxonomy* field type to display the elements in a tabbed box.
 * Changed: the post type check list to display post types' labels instead of their slugs.
-* Changed: the vDelimiter elements to be inserted after the vAfterInputTag elements. 
+* Changed: the *vDelimiter* elements to be inserted after the *vAfterInputTag* elements. 
 * Changed: the footer text links to have title attributes with script descriptions.
 * Removed: the script version number in the footer text link and moved it to be displayed in the title attribute.
 * Added: the *getCurrentAdminURL()* method.
