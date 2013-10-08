@@ -1191,7 +1191,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			? $this->oProps->arrInPageTabs[ $strPageSlug ][ $strTabSlug ]['strParentTabSlug']
 			: $strTabSlug;
 		
-		return $this->oProps->arrInPageTabs[ $strPageSlug ][ $strParentTabSlug ]['fHide']
+		return isset( $this->oProps->arrInPageTabs[ $strPageSlug ][ $strParentTabSlug ]['fHide'] ) && $this->oProps->arrInPageTabs[ $strPageSlug ][ $strParentTabSlug ]['fHide']
 			? ""
 			: $strParentTabSlug;
 
