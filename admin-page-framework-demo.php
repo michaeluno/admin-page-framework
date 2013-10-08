@@ -256,8 +256,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID'		=> 'submit_buttons_manage',
 				'strPageSlug'		=> 'second_page',
 				'strTabSlug'		=> 'delete_options',
-				'strTitle'			=> 'Submit Buttons',
-				'strDescription'	=> 'These are submit type options.',
+				'strTitle'			=> 'Reset Button',
 				'numOrder'			=> 10,
 			),			
 			array(

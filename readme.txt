@@ -174,6 +174,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Changed: the *getParentTabSlug()* method to return an empty string if the parent slug has the fHide to be true.
 * Fixed: a bug that the redirect submit button did not work with a long page slug.
 * Added: the Other Notes section including tips in the demo plugin.
 * Added: the *setPageHeadingTabTag()* method that sets the page-heading tab's tag.

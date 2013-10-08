@@ -1182,14 +1182,19 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * Retrieves the parent tab slug from the given tab slug.
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.2			If the parent slug has the fHide to be true, it returns an empty string.
 	 * @return			string			the parent tab slug.
 	 */ 	
 	private function getParentTabSlug( $strPageSlug, $strTabSlug ) {
 		
-		return isset( $this->oProps->arrInPageTabs[ $strPageSlug ][ $strTabSlug ]['strParentTabSlug'] ) 
+		$strParentTabSlug = isset( $this->oProps->arrInPageTabs[ $strPageSlug ][ $strTabSlug ]['strParentTabSlug'] ) 
 			? $this->oProps->arrInPageTabs[ $strPageSlug ][ $strTabSlug ]['strParentTabSlug']
 			: $strTabSlug;
 		
+		return $this->oProps->arrInPageTabs[ $strPageSlug ][ $strParentTabSlug ]['fHide']
+			? ""
+			: $strParentTabSlug;
+
 	}
 
 	/**
