@@ -15,14 +15,14 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.1.1
+ * @version				2.1.2
  */
 /*
 	Library Name: Admin Page Framework
 	Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.1
+	Version: 2.1.2
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
@@ -777,12 +777,16 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * <code>$this->showPageTitle( false );    // disables the page title.</code>
 	 * 
 	 * @since			2.0.0
-	 * @param			boolean			$fShowPageTitle			If false, the page title will not be displayed.
+	 * @param			boolean			$fShow			If false, the page title will not be displayed.
 	 * @remark			The user may use this method.
 	 * @return			void
 	 */ 
-	protected function showPageTitle( $fShowPageTitle=true ) {
-		$this->oProps->fShowPageTitle = $fShowPageTitle;
+	protected function showPageTitle( $fShow=true, $strPageSlug='' ) {
+		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
+		if ( ! empty( $strPageSlug ) )
+			$this->oProps->arrPageElements[ $strPageSlug ]['fShowPageTitle'] = $fShow;
+		else
+			$this->oProps->fShowPageTitle = $fShow;
 	}	
 	
 	/**
@@ -792,12 +796,39 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * <code>$this->showPageHeadingTabs( false );    // disables the page heading tabs by passing false.</code>
 	 * 
 	 * @since			2.0.0
-	 * @param			boolean			$fShowPageHeadingTabs			If false, page-heading tabs will be disabled; otherwise, enabled.
+	 * @param			boolean			$fShow					If false, page-heading tabs will be disabled; otherwise, enabled.
+	 * @param			string			$strPageSlug			The page to apply the visibility setting. If not set, it applies to all the pages.
 	 * @remark			Page-heading tabs and in-page tabs are different. The former displays page titles and the latter displays tab titles.
 	 * @remark			The user may use this method.
+	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 
-	protected function showPageHeadingTabs( $fShowPageHeadingTabs=true ) {
-		$this->oProps->fShowPageHeadingTabs = $fShowPageHeadingTabs;
+	protected function showPageHeadingTabs( $fShow=true, $strPageSlug='' ) {
+		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
+		if ( ! empty( $strPageSlug ) )
+			$this->oProps->arrPageElements[ $strPageSlug ]['fShowPageHeadingTabs'] = $fShow;
+			// $this->oProps->arrPageHeadingTabVisibility[ $strPageSlug ] = $fShow;
+		else 
+			$this->oProps->fShowPageHeadingTabs = $fShow;
+	}
+	
+	/**
+	 * Sets whether in-page tabs are displayed or not.
+	 * 
+	 * Sometimes, it is required to disable in-page tabs in certain pages. In that case, use the second parameter.
+	 * 
+	 * @since			2.1.1
+	 * @param			boolean			$fShow				If false, in-page tabs will be disabled.
+	 * @param			string			$strPageSlug		The page to apply the visibility setting. If not set, it applies to all the pages.
+	 * @remark			The user may use this method.
+	 * @remark			If the second parameter is omitted, it sets the default value.
+	 */
+	protected function showInPageTabs( $fShow=true, $strPageSlug='' ) {
+		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
+		if ( ! empty( $strPageSlug ) )
+			$this->oProps->arrPageElements[ $strPageSlug ]['fShowInPageTabs'] = $fShow;
+			// $this->oProps->arrInPageTabVisibility[ trim( $strPageSlug ) ] = $fShow;
+		else 
+			$this->oProps->fShowInPageTabs = $fShow;
 	}
 	
 	/**
@@ -807,11 +838,37 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * <code>$this->setInPageTabTag( 'h2' );</code>
 	 * 
 	 * @since			2.0.0
-	 * @param			string			$strTag			The HTML tag that encloses each in-page tab title. Default: h3.
+	 * @param			string			$strTag					The HTML tag that encloses each in-page tab title. Default: h3.
+	 * @param			string			$strPageSlug			The page slug that applies the setting.	
 	 * @remark			The user may use this method.
+	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 	
-	protected function setInPageTabTag( $strTag='h3' ) {
-		$this->oProps->strInPageTabTag = $strTag;
+	protected function setInPageTabTag( $strTag='h3', $strPageSlug='' ) {
+		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
+		if ( ! empty( $strPageSlug ) )
+			$this->oProps->arrPageElements[ $strPageSlug ]['strInPageTabTag'] = $fShow;
+		else
+			$this->oProps->strInPageTabTag = $strTag;
+	}
+	
+	/**
+	 * Sets page-heading tab's HTML tag.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->setPageHeadingTabTag( 'h2' );</code>
+	 * 
+	 * @since			2.1.2
+	 * @param			stting			$strTag					The HTML tag that encloses the page-heading tab title. Default: h2.
+	 * @param			string			$strPageSlug			The page slug that applies the setting.	
+	 * @remark			The user may use this method.
+	 * @remark			If the second parameter is omitted, it sets the default value.
+	 */
+	protected function setPageHeadingTabTag( $stTag='h2', $strPageSlug='' ) {
+		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
+		if ( ! empty( $strPageSlug ) )
+			$this->oProps->arrPageElements[ $strPageSlug ]['strPageHeadingTabTag'] = $strTag;
+		else
+			$this->oProps->strPageHeadingTabTag = $strTag;
 	}
 	
 	/**
@@ -1030,10 +1087,14 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	private function getPageHeadingTabs( $strCurrentPageSlug, $strTag='h2', $arrOutput=array() ) {
 		
 		// If the page title is disabled, return an empty string.
-		if ( ! $this->oProps->fShowPageTitle ) return "";
-		
+		if ( ! $this->oProps->arrPages[ $strCurrentPageSlug ][ 'fShowPageTitle' ] ) return "";
+			
+		$strTag = $this->oProps->arrPages[ $strCurrentPageSlug ][ 'strPageHeadingTabTag' ]
+			? $this->oProps->arrPages[ $strCurrentPageSlug ][ 'strPageHeadingTabTag' ]
+			: $strTag;
+	
 		// If the page heading tab visibility is disabled, return the title.
-		if ( ! $this->oProps->fShowPageHeadingTabs ) 
+		if ( ! $this->oProps->arrPages[ $strCurrentPageSlug ][ 'fShowPageHeadingTabs' ] )
 			return "<{$strTag}>" . $this->oProps->arrPages[ $strCurrentPageSlug ]['strPageTitle'] . "</{$strTag}>";		
 		
 		foreach( $this->oProps->arrPages as $arrSubPage ) {
@@ -1077,9 +1138,20 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		
 		// If in-page tabs are not set, return an empty string.
 		if ( empty( $this->oProps->arrInPageTabs[ $strCurrentPageSlug ] ) ) return implode( '', $arrOutput );
-		
+				
+		// Determine the current tab slug.
 		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
 		$strCurrentTabSlug = $this->getParentTabSlug( $strCurrentPageSlug, $strCurrentTabSlug );
+		
+		$strTag = $this->oProps->arrPages[ $strCurrentPageSlug ][ 'strInPageTabTag' ]
+			? $this->oProps->arrPages[ $strCurrentPageSlug ][ 'strInPageTabTag' ]
+			: $strTag;
+	
+		// If the in-page tabs' visibility is set to false, returns the title.
+		if ( ! $this->oProps->arrPages[ $strCurrentPageSlug ][ 'fShowInPageTabs' ]	)
+			return isset( $this->oProps->arrInPageTabs[ $strCurrentPageSlug ][ $strCurrentTabSlug ]['strTitle'] ) 
+				? "<{$strTag}>{$this->oProps->arrInPageTabs[ $strCurrentPageSlug ][ $strCurrentTabSlug ]['strTitle']}</{$strTag}>" 
+				: "";
 	
 		// Get the actual string buffer.
 		foreach( $this->oProps->arrInPageTabs[ $strCurrentPageSlug ] as $strTabSlug => $arrInPageTab ) {
@@ -1463,6 +1535,45 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	}
 	
 	/**
+	 * Formats the sub-menu page array.
+	 * 
+	 * This is mostly for adding the elements for visibility settings of in-page tabs, page-heading tabs, and title.
+	 * 
+	 * @since			2.1.1
+	 */
+	private function formatSubMenuPage( $arrArgs ) {
+		
+		// Sanitize the slug.
+		$arrArgs['strPageSlug'] = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] );
+		
+		$arrPageElements = $this->getPageElements( $arrArgs['strPageSlug'] );
+		
+		// Merge with the page element array.
+		return $arrArgs + $arrPageElements;
+		
+	}
+	
+	/**
+	 * Returns the page element array of the specified page slug.
+	 * 
+	 * @since			2.1.2
+	 */
+	private function getPageElements( $strPageSlug ) {
+		
+		// Format the array.
+		$arrPageElements = isset( $this->oProps->arrPageElements[ $strPageSlug ] ) 
+			? $this->oProps->arrPageElements[ $strPageSlug ] + AdminPageFramework_Properties::$arrDefaultPageElement
+			: AdminPageFramework_Properties::$arrDefaultPageElement;		
+		
+		// Check if each element has a value. If it's not set, apply the default one.
+		foreach( $arrPageElements as $strPropertyName => &$vValue )
+			$vValue = isset( $vValue ) ? $vValue : $this->oProps->$strPropertyName;
+
+		return $arrPageElements;
+		
+	}
+	
+	/**
 	 * Registers the sub-menu page.
 	 * 
 	 * @since			2.0.0
@@ -1470,7 +1581,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * @remark			Within the <em>admin_menu</em> hook callback process.
 	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	 */ 
-	private function registerSubMenu( $arrArgs ) {
+	private function registerSubMenuPage( $arrArgs ) {
 	
 		// Variables
 		$strType = $arrArgs['strType'];	// page or link
@@ -1487,7 +1598,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		
 		if ( $strType == 'page' ) {
 			
-			$strPageSlug = $this->oUtil->sanitizeSlug( $arrArgs['strPageSlug'] );
+			$strPageSlug = $arrArgs['strPageSlug'];
 			$arrResult[ $strPageSlug ] = add_submenu_page( 
 				$strRootPageSlug,						// the root(parent) page slug
 				$strTitle,								// page_title
@@ -1543,8 +1654,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		}
 		
 		// Register them.
-		foreach ( $this->oProps->arrPages as $arrSubMenuItem ) 
-			$this->oProps->arrRegisteredSubMenuPages = $this->registerSubMenu( $arrSubMenuItem );
+		foreach ( $this->oProps->arrPages as &$arrSubMenuItem ) {
+			$arrSubMenuItem = $arrSubMenuItem['strType'] == 'page' ? $this->formatSubMenuPage( $arrSubMenuItem ) : $arrSubMenuItem;
+			$this->oProps->arrRegisteredSubMenuPages = $this->registerSubMenuPage( $arrSubMenuItem );
+		}
 			
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProps->arrRootMenu['fCreateRoot'] ) 
@@ -4292,11 +4405,41 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	/**
 	 * Indicates whether the page heading tabs should be displayed.
 	 * @since			2.0.0
+	 * @remark			Used by the showPageHeadingTabs() method.
 	 */ 	
 	public $fShowPageHeadingTabs = true;
-		
+
+	/**
+	 * Indicates whether the in-page tabs should be displayed.
+	 * 
+	 * This sets globally among the script using the framework. 
+	 * 
+	 * @since			2.1.2
+	 * @remark			Used by the showInPageTabs() method.
+	 */
+	public $fShowInPageTabs = true;
+
+	/**
+	 * Stores the information regarding page elements such as visibility and title tags etc.
+	 * @since			2.1.2
+	 */
+	public $arrPageElements = array();
+	/**
+	 * Represents the structure of the page element array.
+	 * @since			2.1.2
+	 */
+	public static $arrDefaultPageElement = array(
+		'fShowPageTitle'			=> null,			// boolean
+		'fShowPageHeadingTabs'		=> null,			// boolean
+		'fShowInPageTabs'			=> null,			// boolean
+		'strInPageTabTag'			=> null,			// string
+		'strPageHeadingTabTag'		=> null,			// string
+	);
+	
 	/**
 	 * Construct the instance of AdminPageFramework_Properties class object.
+	 * 
+	 * @remark			Used by the showInPageTabs() method.
 	 * @since			2.0.0
 	 * @return			void
 	 */ 

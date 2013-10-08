@@ -150,20 +150,35 @@ To work around it, rename all the class names used by the library in your librar
 
 Most code editor supports "Replace All" functionality so just use that. By the time WordPress's minimum required PHP version becomes 3.3 or higher, we can use namespaces then this problem will be solved.
 
-== Roadmap ==
-Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
+== Other Notes ==
 
-== Done ==
-* <s>Add the ability to set text in the contextual help section.</s>
-* <s>Add the date picker form field type.</s> Implemented in 2.0.0.
-* <s>Add the color picker form field type.</s> Implemented in 2.0.0.
-* <s>Add the ability to remove registered form elements.</s> Implemented in 2.0.0.
-* <s>Add a custom input filed for category select checkboxes</s>. Implemented in 1.0.4.
-* <s>Add the ability to specify a redirect page after the form data is successfully updated.</s> Implemented in 1.0.3.2.
+= Tips =
+<h5>Use Unique Page Slug</h5>
+The framework internally uses the *add_submenu_page()* function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. Other ones will be ignored.
+
+This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your user will have a problem loading the page.
+
+So just use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
+
+<h5>Change Class Names</h5>
+When you include the library, change the class names that the library uses. This is because if there is a plugin that uses a lesser version of the library and it is loaded earlier than yours, your script may not work properly.
+
+All the class names have the prefix <code>AdminPageFramework_</code> so just change it to something like <code>MyPlugin_AdminPageFramework_</code>. 
+
+Most text editors supports the *Replace All* command so just use that. 
+
+
+= Roadmap =
+Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
 
 == Changelog ==
 
-= 2.1.1 =
+= 2.1.2 =
+* Added: the Other Notes section including tips in the demo plugin.
+* Added: the *setPageHeadingTabTag()* method that sets the page-heading tab's tag.
+* Added: the ability set visibility of in-page tabs, page-heading tabs, and page title by page slug.
+
+= 2.1.1 - 10/08/2013 =
 * Added: the *for* attribute of the *label* tag for checklist input elements so that clicking on the label checks/unchecks the item.
 * Added: the *strWidth* and the *strHeight* field array keys for the *taxonomy* filed type.
 * Deprecated: the *numMaxWidth* and the *numMaxHeight* field array keys for the *taxonomy* field type.

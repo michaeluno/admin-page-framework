@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.1
+	Version: 2.1.2
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -50,7 +50,7 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'strPageTitle' => __( 'Read Me', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'read_me',
+				'strPageSlug' => 'apf_read_me',
 				'strScreenIcon' => 'page',
 			),			
 			array(
@@ -131,22 +131,27 @@ class APF_Demo extends AdminPageFramework {
 			 * Read Me
 			 * */
 			array(
-				'strPageSlug'	=> 'read_me',
+				'strPageSlug'	=> 'apf_read_me',
 				'strTabSlug'	=> 'description',
 				'strTitle'		=> __( 'Description', 'admin-page-framework-demo' ),
 			),				
 			array(
-				'strPageSlug'	=> 'read_me',
+				'strPageSlug'	=> 'apf_read_me',
 				'strTabSlug'	=> 'installation',
 				'strTitle'		=> __( 'Installation', 'admin-page-framework-demo' ),
 			),	
 			array(
-				'strPageSlug'	=> 'read_me',
+				'strPageSlug'	=> 'apf_read_me',
 				'strTabSlug'	=> 'frequently_asked_questions',
 				'strTitle'		=> __( 'FAQ', 'admin-page-framework-demo' ),
 			),		
 			array(
-				'strPageSlug'	=> 'read_me',
+				'strPageSlug'	=> 'apf_read_me',
+				'strTabSlug'	=> 'other_notes',
+				'strTitle'		=> __( 'Other Notes', 'admin-page-framework-demo' ),
+			),					
+			array(
+				'strPageSlug'	=> 'apf_read_me',
 				'strTabSlug'	=> 'changelog',
 				'strTitle'		=> __( 'Change Log', 'admin-page-framework-demo' ),
 			),						
@@ -154,7 +159,9 @@ class APF_Demo extends AdminPageFramework {
 		);			
 		
 		$this->showPageHeadingTabs( false );		// disables the page heading tabs by passing false.
+		$this->showPageTitle( false, 'apf_read_me' );	// disable the page title of a specific page.
 		$this->setInPageTabTag( 'h2' );		
+		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
 		$this->addHelpTab( 
 			array(
@@ -809,31 +816,34 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Read Me
 	 * */ 
-	public function do_before_read_me() {		// do_before_ + page slug 
+	public function do_before_apf_read_me() {		// do_before_ + page slug 
 
 		include_once( dirname( __FILE__ ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );
 		$this->oWPReadMe = new WordPress_Readme_Parser;
 		$this->arrWPReadMe = $this->oWPReadMe->parse_readme( dirname( __FILE__ ) . '/readme.txt' );
-		
+	
 	}
-	public function do_read_me_description() {		// do_ + page slug + _ + tab slug
+	public function do_apf_read_me_description() {		// do_ + page slug + _ + tab slug
 		echo $this->arrWPReadMe['sections']['description'];
+// var_dump( $this->arrWPReadMe );
 	}
-	public function do_read_me_installation() {		// do_ + page slug + _ + tab slug
+	public function do_apf_read_me_installation() {		// do_ + page slug + _ + tab slug
 		// echo htmlspecialchars( $this->arrWPReadMe['sections']['installation'], ENT_QUOTES, bloginfo( 'charset' ) );
 		echo $this->arrWPReadMe['sections']['installation'];
 	}
-	public function do_read_me_frequently_asked_questions() {	// do_ + page slug + _ + tab slug
+	public function do_apf_read_me_frequently_asked_questions() {	// do_ + page slug + _ + tab slug
 		echo $this->arrWPReadMe['sections']['frequently_asked_questions'];
 	}
-	public function do_read_me_screenshots() {		// do_ + page slug + _ + tab slug
+	public function do_apf_read_me_other_notes() {
+		echo $this->arrWPReadMe['remaining_content'];
+	}
+	public function do_apf_read_me_screenshots() {		// do_ + page slug + _ + tab slug
 		echo $this->arrWPReadMe['sections']['screenshots'];
 	}	
-	public function do_read_me_changelog() {		// do_ + page slug + _ + tab slug
-		// echo var_dump( $this->arrWPReadMe['sections'] );
+	public function do_apf_read_me_changelog() {		// do_ + page slug + _ + tab slug
 		echo $this->arrWPReadMe['sections']['changelog'];
 	}
-	public function style_read_me( $strStyle ) {	// style_ + page slug
+	public function style_apf_read_me( $strStyle ) {	// style_ + page slug
 		return $strStyle 
 			. "
 			.wrap .admin-page-framework-container h2 {
@@ -972,7 +982,7 @@ new APF_PostType(
 		'has_archive' => true,
 		'show_admin_column' => true,
 	)		
-);	// should not use "if ( is_admin() )" for the this class because posts of custom post type can be accessed from the regular pages.
+);	// should not use "if ( is_admin() )" for the this class because posts of custom post type can be accessed from the front-end pages.
 	
 	
 
