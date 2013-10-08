@@ -2305,7 +2305,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	}
 	
 	private function setRedirectTransients( $strURL ) {
-		set_transient( "redirect_{$this->oProps->strClassName}_{$_POST['strPageSlug']}", $strURL , 60*2 );
+		if ( empty( $strURL ) ) return;
+		$strTransient = md5( trim( "redirect_{$this->oProps->strClassName}_{$_POST['strPageSlug']}" ) );
+		return set_transient( $strTransient, $strURL , 60*2 );
 	}
 	
 	/**
@@ -3537,7 +3539,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
 
 		// Okay, it seems the submitted data have been updated successfully.
-		$strTransient = "redirect_{$this->oProps->strClassName}_{$_GET['page']}";
+		$strTransient = md5( trim( "redirect_{$this->oProps->strClassName}_{$_GET['page']}" ) );
 		$strURL = get_transient( $strTransient );
 		if ( $strURL === false ) return;
 		
