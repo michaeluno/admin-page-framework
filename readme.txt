@@ -151,7 +151,7 @@ To work around it, rename all the class names used by the library in your librar
 Most code editor supports "Replace All" functionality so just use that. By the time WordPress's minimum required PHP version becomes 3.3 or higher, we can use namespaces then this problem will be solved.
 
 == Roadmap ==
-* Add the dynamic fluctuability to the form input elements.
+Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
 
 == Done ==
 * <s>Add the ability to set text in the contextual help section.</s>
