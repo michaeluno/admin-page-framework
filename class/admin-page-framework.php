@@ -846,7 +846,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	protected function setInPageTabTag( $strTag='h3', $strPageSlug='' ) {
 		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
 		if ( ! empty( $strPageSlug ) )
-			$this->oProps->arrPageElements[ $strPageSlug ]['strInPageTabTag'] = $fShow;
+			$this->oProps->arrPageElements[ $strPageSlug ]['strInPageTabTag'] = $strTag;
 		else
 			$this->oProps->strInPageTabTag = $strTag;
 	}
@@ -863,7 +863,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */
-	protected function setPageHeadingTabTag( $stTag='h2', $strPageSlug='' ) {
+	protected function setPageHeadingTabTag( $strTag='h2', $strPageSlug='' ) {
 		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
 		if ( ! empty( $strPageSlug ) )
 			$this->oProps->arrPageElements[ $strPageSlug ]['strPageHeadingTabTag'] = $strTag;
