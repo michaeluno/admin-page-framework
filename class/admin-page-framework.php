@@ -1307,7 +1307,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $arrInPageTab, is also used as reference in the above foreach.
 			foreach( $this->oProps->arrInPageTabs[ $strPageSlug ] as $strTabSlug => &$arrInPageTab ) { 	
 			
-				if ( ! isset( $arrInPageTab['strTabSlug'] ) || isset( $arrInPageTab['fHide'] ) ) continue;	// if it's a hidden tab, it should not be the default tab.
+				if ( ! isset( $arrInPageTab['strTabSlug'] ) || $arrInPageTab['fHide'] ) continue;	// if it's a hidden tab, it should not be the default tab.
 				
 				$this->oProps->arrDefaultInPageTabs[ $strPageSlug ] = $arrInPageTab['strTabSlug'];
 				break;	// The first iteration item is the default one.
