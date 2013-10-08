@@ -2576,7 +2576,14 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 		
 	}
-	private function getFieldErrors( $strPageSlug ) {
+	
+	/**
+	 * Retrieves the settings error array set by the user in the validation callback.
+	 * 
+	 * @since				2.0.0
+	 * @since				2.1.2			Added the second parameter. 
+	 */
+	protected function getFieldErrors( $strPageSlug, $fDelete=true ) {
 		
 		// If a form submit button is not pressed, there is no need to set the setting errors.
 		if ( ! isset( $_GET['settings-updated'] ) ) return null;
@@ -2584,7 +2591,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// Find the transient.
 		$strTransient = md5( $this->oProps->strClassName . '_' . $strPageSlug );
 		$arrFieldErrors = get_transient( $strTransient );
-		delete_transient( $strTransient );	
+		if ( $fDelete )
+			delete_transient( $strTransient );	
 		return $arrFieldErrors;
 
 	}
@@ -3546,6 +3554,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		// If the Settings API has not updated the options, do nothing.
 		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
 
+		// Check the settings error transient.
+		$arrError = $this->getFieldErrors( $_GET['page'], false );
+		if ( ! empty( $arrError ) ) return;
+		
 		// Okay, it seems the submitted data have been updated successfully.
 		$strTransient = md5( trim( "redirect_{$this->oProps->strClassName}_{$_GET['page']}" ) );
 		$strURL = get_transient( $strTransient );

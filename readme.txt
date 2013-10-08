@@ -174,11 +174,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
-* Fixed: a bug that hidden in-page tabs with the *fHide* value could not have associated callbacks such as *validation_{page slug}_{tab slug}*.
-* Changed: the *getParentTabSlug()* method to return an empty string if the parent slug has the fHide to be true.
+* Changed: the submit filed type with the `vRedirect` value not to be redirected when a field error array is set.
+* Fixed: a bug that hidden in-page tabs with the `fHide` value could not have associated callbacks such as `validation_{page slug}_{tab slug}`.
+* Changed: the `getParentTabSlug()` method to return an empty string if the parent slug has the fHide to be true.
 * Fixed: a bug that the redirect submit button did not work with a long page slug.
 * Added: the Other Notes section including tips in the demo plugin.
-* Added: the *setPageHeadingTabTag()* method that sets the page-heading tab's tag.
+* Added: the `setPageHeadingTabTag()` method that sets the page-heading tab's tag.
 * Added: the ability set visibility of in-page tabs, page-heading tabs, and page title by page slug.
 
 = 2.1.1 - 10/08/2013 =
