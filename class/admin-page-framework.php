@@ -1307,9 +1307,11 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $arrInPageTab, is also used as reference in the above foreach.
 			foreach( $this->oProps->arrInPageTabs[ $strPageSlug ] as $strTabSlug => &$arrInPageTab ) { 	
 			
-				if ( ! isset( $arrInPageTab['strTabSlug'] ) || $arrInPageTab['fHide'] ) continue;	// if it's a hidden tab, it should not be the default tab.
+				if ( ! isset( $arrInPageTab['strTabSlug'] ) ) continue;	
 				
+				// Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
 				$this->oProps->arrDefaultInPageTabs[ $strPageSlug ] = $arrInPageTab['strTabSlug'];
+					
 				break;	// The first iteration item is the default one.
 			}
 		}
@@ -1331,6 +1333,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			: '';
 
 	}
+	
 	
 	
 }
@@ -4328,11 +4331,11 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	public $arrInPageTabs = array();				
 	
 	/**
-	 * Stores the default tab.
+	 * Stores the default in-page tab.
 	 * @since			2.0.0
 	 */ 		
 	public $arrDefaultInPageTabs = array();			
-	
+		
 	/**
 	 * Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
 	 * @since			2.0.0
