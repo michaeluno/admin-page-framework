@@ -158,11 +158,17 @@ class APF_Demo extends AdminPageFramework {
 			array()
 		);			
 		
+		// Page style.
 		$this->showPageHeadingTabs( false );		// disables the page heading tabs by passing false.
 		$this->showPageTitle( false, 'apf_read_me' );	// disable the page title of a specific page.
 		$this->setInPageTabTag( 'h2' );		
 		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
+		// Enqueue scripts/styles.
+		$this->enqueueStyle(  plugins_url( 'assets/css/readme.css' , __FILE__ ) , 'apf_read_me' );
+		// $this->enqueueScript(  'script url here' , 'page slug (optional)', 'tab slug (optional)' );
+		
+		// Contextual help tabs.
 		$this->addHelpTab( 
 			array(
 				'strPageSlug'				=> 'first_page',	// ( mandatory )
@@ -841,33 +847,6 @@ class APF_Demo extends AdminPageFramework {
 	}	
 	public function do_apf_read_me_changelog() {		// do_ + page slug + _ + tab slug
 		echo $this->arrWPReadMe['sections']['changelog'];
-	}
-	public function style_apf_read_me( $strStyle ) {	// style_ + page slug
-		return $strStyle 
-			. "
-			.wrap .admin-page-framework-container h2 {
-				font-size: 18px;
-				line-height: 24px;				
-			}
-			.wrap p, .wrap ul, .wrap pre { 
-				margin-left: 2em;
-			}
-			pre {				
-				border: 1px solid #ededed;
-				margin: 24px 2em;
-				margin: 1.714285714rem 2em;
-				padding: 24px;
-				padding: 1.714285714rem;				
-				overflow-x: auto; 
-			}
-			pre code {
-				color: #666;
-				font-family: Consolas, Monaco, Lucida Console, monospace;
-				line-height: 1.714285714;
-				overflow: auto;
-				background-color: transparent;
-			}	
-			";
 	}
 	
 }

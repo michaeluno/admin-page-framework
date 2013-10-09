@@ -3210,7 +3210,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			// Hook the admin header to insert custom admin stylesheet.
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			add_action( 'admin_head', array( $this, 'addScript' ) );
-								
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueueScriptsAndStyles' ) );
+			
 			// The contextual help pane.
 			add_action( "admin_head", array( $this, 'registerHelpTabs' ), 200 );
 						
@@ -3607,6 +3608,94 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			. "</script>";		
 		
 	}
+	
+
+	/**
+	 * Enqueues a style by page slug and tab slug.
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 */	
+	public function enqueueStyle( $strURL, $strPageSlug='', $strTabSlug='' ) {
+		
+		$this->oProps->arrEnqueuingStyles[] = array(
+			'strPageSlug' => $strPageSlug,
+			'strTabSlug' => $strTabSlug,
+			'strURL' => $strURL,
+			'strType' => 'style',
+		) + AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles;
+		
+	}
+	
+	/**
+	 * Enqueues a script by page slug and tab slug.
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 */
+	public function enqueueScript( $strURL, $strPageSlug='', $strTabSlug='' ) {
+		
+		$this->oProps->arrEnqueuingScripts[] = array(
+			'strPageSlug' => $strPageSlug,
+			'strTabSlug' => $strTabSlug,
+			'strURL' => $strURL,
+			'strType' => 'script',
+		) + AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles;
+		
+	}
+	
+	/**
+	 * Takes care of added enqueuing scripts and styles by page slug and tab slug.
+	 * 
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 */
+	public function enqueueScriptsAndStyles() {
+	
+		foreach( $this->oProps->arrEnqueuingStyles as $arrEnqueuingStyles ) 
+			if ( $arrEnqueuingStyles['strURL'] ) 
+				$this->enqueueURL( $arrEnqueuingStyles['strURL'], $arrEnqueuingStyles['strPageSlug'], $arrEnqueuingStyles['strTabSlug'] );
+						
+		foreach( $this->oProps->arrEnqueuingScripts as $arrEnqueuingScripts ) 
+			if ( $arrEnqueuingStyles['strURL'] ) 
+				$this->enqueueURL( $arrEnqueuingStyles['strURL'], $arrEnqueuingStyles['strPageSlug'], $arrEnqueuingStyles['strTabSlug'] );
+				
+	}
+	
+	/**
+	 * A helper function for the above enqueueScriptsAndStyles() method.
+	 * 
+	 * @since			2.1.2
+	 */
+	private function enqueueURL( $strURL, $strPageSlug, $strTabSlug ) {
+		
+		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
+			
+		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) ) { // means script-global
+			wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			return;
+		}
+		
+		// If both tab and page slugs are specified,
+		if ( 
+			( $strPageSlug && $strCurrentPageSlug == $strPageSlug )
+			&& ( $strTabSlug && $strCurrentTabSlug == $strTabSlug )
+		) {
+			wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			return;
+		}
+		
+		// If the tab slug is not specified and page slug is specified, 
+		// and if the current loading page slug and the specified one matches,
+		if ( 
+			( $strPageSlug && ! $strTabSlug )
+			&& ( $strCurrentPageSlug == $strPageSlug )
+		)
+			wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+		
+	}
+	
 }
 endif;
 
@@ -4457,6 +4546,28 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 		'strInPageTabTag'			=> null,			// string
 		'strPageHeadingTabTag'		=> null,			// string
 	);
+	
+	/**
+	 * Represents the structure of the array for enqueuing scripts and styles.
+	 * @since			2.1.2
+	 */
+	public static $arrStructure_EnqueuingScriptsAndStyles = array(
+		'strPageSlug' => null,
+		'strTabSlug' => null,
+		'strType' => null,		// script or style
+		'strURL' => null,
+	);
+	/**
+	 * Stores enqueuing script URLs and their criteria.
+	 * @since			2.1.2
+	 */
+	public $arrEnqueuingScripts = array();
+	/**	
+	 * Stores enqueuing style URLs and their criteria.
+	 * @since			2.1.2
+	 */	
+	public $arrEnqueuingStyles = array();
+	
 	
 	/**
 	 * Construct the instance of AdminPageFramework_Properties class object.

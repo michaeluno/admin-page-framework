@@ -174,6 +174,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Added: the `enqueueStyle()` method and the `enqueueScript()` method that enqueue script/style by page/tab slug.
 * Changed: the submit filed type with the `vRedirect` value not to be redirected when a field error array is set.
 * Fixed: a bug that hidden in-page tabs with the `fHide` value could not have associated callbacks such as `validation_{page slug}_{tab slug}`.
 * Changed: the `getParentTabSlug()` method to return an empty string if the parent slug has the fHide to be true.
