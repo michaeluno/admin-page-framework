@@ -5975,7 +5975,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $strLabel
 				. "</label>"
 				. "</span>"
-				. "</span>&nbsp;&nbsp;";
+				. "</span>";
 
 		return implode( '', $arrOutput );
 	}
