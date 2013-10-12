@@ -2130,32 +2130,44 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	*/		
 	protected function addSettingFields( $arrField1, $arrField2=null, $_and_more=null ) {	
 	
-		foreach( func_get_args() as $arrField ) {
-			
-			if ( ! is_array( $arrField ) ) continue;
-			
-			$arrField = $arrField + self::$arrStructure_Field;	// avoid undefined index warnings.
-			
-			// Sanitize the IDs since they are used as a callback method name.
-			$arrField['strFieldID'] = $this->oUtil->sanitizeSlug( $arrField['strFieldID'] );
-			$arrField['strSectionID'] = $this->oUtil->sanitizeSlug( $arrField['strSectionID'] );
-			
-			// Check the mandatory keys' values are set.
-			if ( ! isset( $arrField['strFieldID'], $arrField['strSectionID'], $arrField['strType'] ) ) continue;	// these keys are necessary.
-			
-			// If the custom condition is set and it's not true, skip.
-			if ( ! $arrField['fIf'] ) continue;			
-			
-			// If the access level is not sufficient, skip.
-			$arrField['strCapability'] = isset( $arrField['strCapability'] ) ? $arrField['strCapability'] : $this->oProps->strCapability;
-			if ( ! current_user_can( $arrField['strCapability'] ) ) continue; 
-					
-			// If it's the image type field, extra jQuery scripts need to be loaded.
-			if ( $arrField['strType'] == 'image' ) $this->enqueueMediaUploaderScript( $arrField );
-					
-			$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
-						
-		}
+		foreach( func_get_args() as $arrField ) 
+			$this->addSettingField( $arrField );
+
+	}
+	/**
+	* Adds the given field array items into the field array property.
+	* 
+	* Itentical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* 
+	* @since			2.1.2
+	* @return			void
+	* @remark			The user may use this method in their extended class definition.
+	*/	
+	protected function addSettingField( $arrField ) {
+		
+		if ( ! is_array( $arrField ) ) return;
+		
+		$arrField = $arrField + self::$arrStructure_Field;	// avoid undefined index warnings.
+		
+		// Sanitize the IDs since they are used as a callback method name.
+		$arrField['strFieldID'] = $this->oUtil->sanitizeSlug( $arrField['strFieldID'] );
+		$arrField['strSectionID'] = $this->oUtil->sanitizeSlug( $arrField['strSectionID'] );
+		
+		// Check the mandatory keys' values are set.
+		if ( ! isset( $arrField['strFieldID'], $arrField['strSectionID'], $arrField['strType'] ) ) return;	// these keys are necessary.
+		
+		// If the custom condition is set and it's not true, skip.
+		if ( ! $arrField['fIf'] ) return;			
+		
+		// If the access level is not sufficient, skip.
+		$arrField['strCapability'] = isset( $arrField['strCapability'] ) ? $arrField['strCapability'] : $this->oProps->strCapability;
+		if ( ! current_user_can( $arrField['strCapability'] ) ) return; 
+				
+		// If it's the image type field, extra jQuery scripts need to be loaded.
+		if ( $arrField['strType'] == 'image' ) $this->enqueueMediaUploaderScript( $arrField );
+				
+		$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;		
+		
 	}
 	
 	/**
