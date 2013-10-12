@@ -7151,57 +7151,68 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	*/ 
 	protected function addSettingFields( $arrField1, $arrField2=null, $_and_more=null ) {
 
-		foreach( func_get_args() as $arrField ) {
-	
-			if ( ! is_array( $arrField ) ) continue;
-			
-			$arrField = $arrField + AdminPageFramework_MetaBox_Properties::$arrStructure_Field;	// avoid undefined index warnings.
-			
-			// Sanitize the IDs since they are used as a callback method name.
-			$arrField['strFieldID'] = $this->oUtil->sanitizeSlug( $arrField['strFieldID'] );
-			
-			// Check the mandatory keys' values are set.
-			if ( ! isset( $arrField['strFieldID'], $arrField['strType'] ) ) continue;	// these keys are necessary.
-							
-			// If a custom condition is set and it's not true, skip.
-			if ( ! $arrField['fIf'] ) continue;
-								
-			// If it's the image, color, or date type field, extra jQuery scripts need to be loaded.
-			if ( 
-				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
-				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
-				)
-			) {
-				if ( $arrField['strType'] == 'image' ) { 
-					$this->enqueueMediaUploaderScript( $arrField );
-					$this->addImageFieldScript( $arrField );
-				}
-				if ( $arrField['strType'] == 'taxonomy' ) $this->addTaxonomyChecklistScript( $arrField );
-				if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
-				if ( $arrField['strType'] == 'date' ) $this->addDateFieldScript( $arrField );
-			}
-			
-			// For the contextual help pane,
-			if ( 
-				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
-				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
-				)
-				&& $arrField['strHelp']
-			) {
-				
-				$this->addHelpTextForFormFields( $arrField['strTitle'], $arrField['strHelp'], $arrField['strHelpAside'] );
-								
-			}
-		
-			$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
-						
-		}
+		foreach( func_get_args() as $arrField ) 
+			$this->addSettingField( $arrField );
 		
 	}	
+	/**
+	* Adds the given field array items into the field array property.
+	* 
+	* Itentical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* 
+	* @since			2.1.2
+	* @return			void
+	* @remark			The user may use this method in their extended class definition.
+	*/		
+	protected function addSettingField( $arrField ) {
+
+		if ( ! is_array( $arrField ) ) return;
+		
+		$arrField = $arrField + AdminPageFramework_MetaBox_Properties::$arrStructure_Field;	// avoid undefined index warnings.
+		
+		// Sanitize the IDs since they are used as a callback method name.
+		$arrField['strFieldID'] = $this->oUtil->sanitizeSlug( $arrField['strFieldID'] );
+		
+		// Check the mandatory keys' values are set.
+		if ( ! isset( $arrField['strFieldID'], $arrField['strType'] ) ) return;	// these keys are necessary.
+						
+		// If a custom condition is set and it's not true, skip.
+		if ( ! $arrField['fIf'] ) return;
+							
+		// If it's the image, color, or date type field, extra jQuery scripts need to be loaded.
+		if ( 
+			in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
+			&& ( 
+				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
+				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
+			)
+		) {
+			if ( $arrField['strType'] == 'image' ) { 
+				$this->enqueueMediaUploaderScript( $arrField );
+				$this->addImageFieldScript( $arrField );
+			}
+			if ( $arrField['strType'] == 'taxonomy' ) $this->addTaxonomyChecklistScript( $arrField );
+			if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
+			if ( $arrField['strType'] == 'date' ) $this->addDateFieldScript( $arrField );
+		}
+		
+		// For the contextual help pane,
+		if ( 
+			in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
+			&& ( 
+				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->arrPostTypes ) )
+				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
+			)
+			&& $arrField['strHelp']
+		) {
+			
+			$this->addHelpTextForFormFields( $arrField['strTitle'], $arrField['strHelp'], $arrField['strHelpAside'] );
+							
+		}
+	
+		$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
+	
+	}
 	
 	/*
 	 * Back end methods - public callbacks and private methods.
