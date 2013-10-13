@@ -4176,7 +4176,7 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 		'fIf'				=> true,
 		'strHelp'			=> null,	// since 2.1.0
 		'strHelpAside'		=> null,	// since 2.1.0
-		
+		'fHideTitleColumn'	=> null,	// since 2.1.2
 		// The followings may need to uncommented.
 		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
 		// 'strError' => null,			// error message for the field
@@ -7459,12 +7459,13 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				continue;
 			}
 			$strOut .= "<tr>";
-			$strOut .= "<th><label for='{$arrField['strFieldID']}'>"
-					. "<a id='{$arrField['strFieldID']}'></a>"
-					. "<span title='" . strip_tags( isset( $arrField['strTip'] ) ? $arrField['strTip'] : $arrField['strDescription'] ) . "'>"
-					. $arrField['strTitle'] 
-					. "</span>"
-					. "</label></th>";
+			if ( ! $arrField['fHideTitleColumn'] )
+				$strOut .= "<th><label for='{$arrField['strFieldID']}'>"
+						. "<a id='{$arrField['strFieldID']}'></a>"
+						. "<span title='" . strip_tags( isset( $arrField['strTip'] ) ? $arrField['strTip'] : $arrField['strDescription'] ) . "'>"
+						. $arrField['strTitle'] 
+						. "</span>"
+						. "</label></th>";		
 			$strOut .= "<td>";
 			$strOut .= $this->getField( $arrField );
 			$strOut .= "</td>";
