@@ -5409,6 +5409,12 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
  * @subpackage		Admin Page Framework - Utility
  */
 class AdminPageFramework_Debug {
+		
+	public function dumpArray( $arr, $strFilePath=null ) {
+				
+		echo $this->getArray( $arr, $strFilePath );
+		
+	}
 	
 	public function getArray( $arr, $strFilePath=null ) {
 			
