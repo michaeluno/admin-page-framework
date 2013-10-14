@@ -174,6 +174,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Added: the `dumpArray()` method for the debug class.
 * Added: the `fHideTitleColumn` filed key for the meta box class's field array structure. This allows the user to disable the title column in the options table.
 * Added: the `addSettingField()` method that only accept one field array so that the user can use it in loops to pass multiple arrays. 
 * Added: the `enqueueStyle()` method and the `enqueueScript()` method that enqueue script/style by page/tab slug.
