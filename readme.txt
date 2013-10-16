@@ -174,6 +174,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Added: the `getFieldValue()` method which retrieves the stored value in the option properties by specifying the field name. This is helpful when the section name is unknown.
 * Added: the `dumpArray()` method for the debug class.
 * Added: the `fHideTitleColumn` filed key for the meta box class's field array structure. This allows the user to disable the title column in the options table.
 * Added: the `addSettingField()` method that only accept one field array so that the user can use it in loops to pass multiple arrays. 
@@ -184,7 +185,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Fixed: a bug that the redirect submit button did not work with a long page slug.
 * Added: the Other Notes section including tips in the demo plugin.
 * Added: the `setPageHeadingTabTag()` method that sets the page-heading tab's tag.
-* Added: the ability set visibility of in-page tabs, page-heading tabs, and page title by page slug.
+* Added: the ability to set visibility of in-page tabs, page-heading tabs, and page title by page slug.
 
 = 2.1.1 - 10/08/2013 =
 * Added: the *for* attribute of the *label* tag for checklist input elements so that clicking on the label checks/unchecks the item.

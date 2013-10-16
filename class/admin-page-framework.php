@@ -2929,6 +2929,24 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 	
+	/**
+	 * Retrieves the specified field value stored in the options.
+	 * 
+	 * Useful when you don't know the section name but it's a bit slower than accessing the property value by specifying the section name.
+	 * 
+	 * @since			2.1.2
+	 */
+	protected function getFieldValue( $strFieldNameToFind ) {
+
+		foreach( $this->oProps->arrOptions as $strPageSlug => $arrSections )  
+			foreach( $arrSections as $strSectionName => $arrFields ) 
+				foreach( $arrFields as $strFieldName => $vValue ) 
+					if ( trim( $strFieldNameToFind ) == trim( $strFieldName ) )
+						return $vValue;	
+		
+		return null;
+	}
+	
 	/*
 	 *	Callbacks 
 	 * */
