@@ -1877,35 +1877,50 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* @return			void
 	*/		
 	protected function addSettingSections( $arrSection1, $arrSection2=null, $_and_more=null ) {	
-							
-		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;		
 				
-		foreach( func_get_args() as $arrSection ) {	
+		foreach( func_get_args() as $arrSection ) 
+			$this->addSettingSection( $arrSection );
+			
+	}
+	
+	/**
+	 * A singular form of the adSettingSections() method which takes only a single parameter.
+	 * 
+	 * This is useful when adding section arrays in loops.
+	 * 
+	 * @since			2.1.2
+	 * @access			protected
+	 * @param			array		$arrSection				the section array.
+	 * @remark			The user may use this method in their extended class definition.
+	 * @remark			The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	 */
+	protected function addSettingSection( $arrSection ) {
+		
+		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;		
+		
+		if ( ! is_array( $arrSection ) ) return;
 
-			if ( ! is_array( $arrSection ) ) continue;
+		$arrSection = $arrSection + self::$arrStructure_Section;	// avoid undefined index warnings.
+		
+		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
+		$arrSection['strSectionID'] = $this->oUtil->sanitizeSlug( $arrSection['strSectionID'] );
+		$arrSection['strPageSlug'] = $this->oUtil->sanitizeSlug( $arrSection['strPageSlug'] );
+		$arrSection['strTabSlug'] = $this->oUtil->sanitizeSlug( $arrSection['strTabSlug'] );
+		
+		if ( ! isset( $arrSection['strSectionID'], $arrSection['strPageSlug'] ) ) return;	// these keys are necessary.
+		
+		// If the page slug does not match the current loading page, there is no need to register form sections and fields.
+		if ( $GLOBALS['pagenow'] != 'options.php' && ! $strCurrentPageSlug || $strCurrentPageSlug !=  $arrSection['strPageSlug'] ) return;				
 
-			$arrSection = $arrSection + self::$arrStructure_Section;	// avoid undefined index warnings.
+		// If the custom condition is set and it's not true, skip.
+		if ( ! $arrSection['fIf'] ) return;
+		
+		// If the access level is set and it is not sufficient, skip.
+		$arrSection['strCapability'] = isset( $arrSection['strCapability'] ) ? $arrSection['strCapability'] : $this->oProps->strCapability;
+		if ( ! current_user_can( $arrSection['strCapability'] ) ) return;	// since 1.0.2.1
+		
+		$this->oProps->arrSections[ $arrSection['strSectionID'] ] = $arrSection;	
 			
-			// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-			$arrSection['strSectionID'] = $this->oUtil->sanitizeSlug( $arrSection['strSectionID'] );
-			$arrSection['strPageSlug'] = $this->oUtil->sanitizeSlug( $arrSection['strPageSlug'] );
-			$arrSection['strTabSlug'] = $this->oUtil->sanitizeSlug( $arrSection['strTabSlug'] );
-			
-			if ( ! isset( $arrSection['strSectionID'], $arrSection['strPageSlug'] ) ) continue;	// these keys are necessary.
-			
-			// If the page slug does not match the current loading page, there is no need to register form sections and fields.
-			if ( $GLOBALS['pagenow'] != 'options.php' && ! $strCurrentPageSlug || $strCurrentPageSlug !=  $arrSection['strPageSlug'] ) continue;				
-
-			// If the custom condition is set and it's not true, skip.
-			if ( ! $arrSection['fIf'] ) continue;
-			
-			// If the access level is set and it is not sufficient, skip.
-			$arrSection['strCapability'] = isset( $arrSection['strCapability'] ) ? $arrSection['strCapability'] : $this->oProps->strCapability;
-			if ( ! current_user_can( $arrSection['strCapability'] ) ) continue;	// since 1.0.2.1
-			
-			$this->oProps->arrSections[ $arrSection['strSectionID'] ] = $arrSection;		
-			
-		}	
 	}
 	
 	/**
