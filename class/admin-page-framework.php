@@ -1159,9 +1159,11 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			// If it's hidden and its parent tab is not set, skip
 			if ( $arrInPageTab['fHide'] && ! isset( $arrInPageTab['strParentTabSlug'] ) ) continue;
 			
-			// The parent tab means the root tab when there is a hidden tab that belongs to it.
-			$strInPageTabSlug = isset( $arrInPageTab['strParentTabSlug'] ) ? $arrInPageTab['strParentTabSlug'] : $arrInPageTab['strTabSlug'];
-							
+			// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
+			$strInPageTabSlug = isset( $arrInPageTab['strParentTabSlug'], $this->oProps->arrInPageTabs[ $strCurrentPageSlug ][ $arrInPageTab['strParentTabSlug'] ] ) 
+				? $arrInPageTab['strParentTabSlug'] 
+				: $arrInPageTab['strTabSlug'];
+				
 			// Check if the current tab slug matches the iteration slug. If not match, assign blank; otherwise, put the active class name.
 			$fIsActiveTab = ( $strCurrentTabSlug == $strInPageTabSlug );
 			$arrOutput[ $strInPageTabSlug ] = "<a class='nav-tab " . ( $fIsActiveTab ? "nav-tab-active" : "" ) . "' "
