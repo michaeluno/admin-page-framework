@@ -3895,6 +3895,11 @@ abstract class AdminPageFramework_Properties_Base {
 			overflow-x: hidden;
 		}
 		.tab-box-content:target, .tab-box-content:target, .tab-box-content:target { display: block; }
+		
+		/* Radio Buttons */
+		.admin-page-framework-radio-label {
+			margin-right: 1em;			
+		}
 		";	
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -6011,7 +6016,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? 'Checked ' : '' )
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. "/>&nbsp;&nbsp;"
-					. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. "<label for='{$this->strTagID}_{$strIterationID}_{$strKey}'>"
 							. $strLabel
 						. "</label>"
