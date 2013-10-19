@@ -6993,6 +6993,8 @@ abstract class AdminPageFramework_PostType {
 		
 		if ( 'edit.php' != $GLOBALS['pagenow'] ) return $oQuery;
 		
+		if ( ! isset( $GLOBALS['typenow'] ) ) return $oQuery;
+		
 		foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $strTaxonomySlug ) {
 			
 			if ( ! in_array( $strTaxonomySlug, $this->oProps->arrTaxonomyTableFilters ) ) continue;
