@@ -5866,12 +5866,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
 		$arrLabels = $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
 		foreach( $arrLabels as $strKey => $vLabel ) {
+			$fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] );
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. "<span style='vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. ( $fMultiple ? "<input type='hidden' name='{$this->strFieldName}[{$strKey}]' value='' />" : '' )	// for the multiple select type, it's possible that the user does not select any. In that case, the key won't be sent so set a hidden one.
 					. "<select id='{$this->strTagID}_{$strKey}' "
 						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 						. "type='{$this->arrField['strType']}' "
-						. ( ( $fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+						. ( $fMultiple ? "multiple='Multiple' " : '' )
 						. "name=" . ( $fSingle ? "'{$this->strFieldName}" : "'{$this->strFieldName}[{$strKey}]" )
 						. ( $fMultiple ? "[]' " : "' " )
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
@@ -5882,10 +5884,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "</select>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' );
-				
+				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' );			
 		}
-		
 		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
 	
 	}	
