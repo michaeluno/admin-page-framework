@@ -6135,7 +6135,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
 				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'submit' ) ) . "' "
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. "/>&nbsp;&nbsp;"
+				. "/>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
