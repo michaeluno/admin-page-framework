@@ -5869,7 +5869,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] );
 			$arrOutput[] = $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. "<span style='vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-					. ( $fMultiple ? "<input type='hidden' name='{$this->strFieldName}[{$strKey}]' value='' />" : '' )	// for the multiple select type, it's possible that the user does not select any. In that case, the key won't be sent so set a hidden one.
 					. "<select id='{$this->strTagID}_{$strKey}' "
 						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 						. "type='{$this->arrField['strType']}' "
