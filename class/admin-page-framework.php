@@ -5404,14 +5404,19 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 	}
 	
 	public function addSettingsLinkInPluginListingPage( $arrLinks ) {
-	
+		
+		// For a custom root slug,
+		$strLinkURL = preg_match( '/^.+\.php/', $this->oProps->arrRootMenu['strPageSlug'] ) 
+			? add_query_arg( array( 'page' => $this->oProps->strDefaultPageSlug ), admin_url( $this->oProps->arrRootMenu['strPageSlug'] ) )
+			: "admin.php?page={$this->oProps->strDefaultPageSlug}";
+		
 		array_unshift(	
 			$arrLinks,
-			'<a href="admin.php?page=' . $this->oProps->strDefaultPageSlug . '">' . __( 'Settings', 'admin-page-framework' ) . '</a>'
+			'<a href="' . $strLinkURL . '">' . __( 'Settings', 'admin-page-framework' ) . '</a>'
 		); 
 		return $arrLinks;
 		
-	}		
+	}	
 	
 	public function addLinkToPluginDescription_Callback( $arrLinks, $strFile ) {
 
