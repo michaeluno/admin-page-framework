@@ -174,6 +174,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Changed: the link class for custom post types to use a public property for the link title that appears in the plugin listing table so that the user can change the text.
 * Fixed: a bug that the link url automatically inserted in the plugin listing table was not correct when setting a custom root page slug.
 * Fixed: a bug that undefined index `typenow` warning occurred when a custom database query with the WP_Query class was performed in the edit.php admin page. 
 * Added: the `admin-page-framework-radio-label` and the `admin-page-framework-checkbox-label` class selectors for the elements enclosing radio and checkbox input labels and removed `display:inline-block` from the inline CSS rule of the elements.

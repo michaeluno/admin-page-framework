@@ -5192,6 +5192,8 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		$this->arrScriptInfo = $this->getCallerInfo( $this->strCallerPath ); 
 		$this->arrLibraryInfo = $this->getLibraryInfo();
 		
+		$this->strSettingPageLinkTitle = __( 'Manage', 'admin-page-framework' );
+		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
@@ -5233,7 +5235,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		// http://.../wp-admin/edit.php?post_type=[...]
 		array_unshift(	
 			$arrLinks,
-			"<a href='edit.php?post_type={$this->strPostTypeSlug}'>" . __( 'Manage', 'admin-page-framework' ) . "</a>"
+			"<a href='edit.php?post_type={$this->strPostTypeSlug}'>" . $this->strSettingPageLinkTitle . "</a>"
 		); 
 		return $arrLinks;		
 		
