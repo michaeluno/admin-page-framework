@@ -3743,6 +3743,42 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		
 	}
 	
+	/**
+	 * Sets an admin notice.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->setAdminNotice( sprintf( 'Please click <a href="%1$s">here</a> to upgrade the options.', admin_url( 'admin.php?page="my_page"' ) ), 'updated' );</code>
+	 * 
+	 * @remark			It should be used before the 'admin_notices' hook is triggered.
+	 * @since			2.1.2
+	 * @param			string			$strMessage				The message to display
+	 * @param			string			$strClassSelector		( optional ) The class selector used in the message HTML element. 'error' and 'updated' are prepared by WordPress but it's not limited to them and can pass a custom name. Default: 'error'
+	 * @param			string			$strID					( optional ) The ID of the message. If not set, the hash of the message will be used.
+	 */
+	protected function setAdminNotice( $strMessage, $strClassSelector='error', $strID='' ) {
+			
+		$strID = $strID ? $strID : md5( $strMessage );
+		$this->oProps->arrAdminNotices[ md5( $strMessage ) ] = array(  
+			'strMessage' => $strMessage,
+			'strClassSelector' => 'error',
+			'strID' => $strID,
+		);
+		add_action( 'admin_notices', array( $this, 'printAdminNotices' ) );
+		
+	}
+	/**
+	 * A helper function for the above setAdminNotice() method.
+	 * @since			2.1.2
+	 */
+	public function printAdminNotices() {
+		
+		foreach( $this->oProps->arrAdminNotices as $arrAdminNotice ) 
+			echo "<div class='{$arrAdminNotice['strClassSelector']}' id='{$arrAdminNotice['strID']}' ><p>"
+				. $arrAdminNotice['strMessage']
+				. "</p></div>";
+		
+	}	
+	
 }
 endif;
 
@@ -4625,6 +4661,11 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 */	
 	public $arrEnqueuingStyles = array();
 	
+	/**
+	 * Stores the set administration notices.
+	 * @since			2.1.2
+	 */
+	public $arrAdminNotices	= array();
 	
 	/**
 	 * Construct the instance of AdminPageFramework_Properties class object.
