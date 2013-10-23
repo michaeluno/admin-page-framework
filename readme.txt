@@ -174,6 +174,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Changed: the `showPageTitle()`, `showPageHeadingTabs()`, `showInPageTabs()`, `setInPageTabTag()`, and `setPageHeadingTabTag()` methods to be able to use after registering pages. That means it can be used in methods that are triggered after registering pages such as the `do_before_{page slug}` hook.
+* Changed: ( *Breacking Change* ) the key name of page property array `fPageHeadingTab` to `fShowPageHeadingTab`.
 * Added: the `setAdminNotice()` method which enables the user to add custom admin messages. 
 * Changed: the link class for custom post types to use a public property for the link title that appears in the plugin listing table so that the user can change the text.
 * Fixed: a bug that the link url automatically inserted in the plugin listing table was not correct when setting a custom root page slug.
