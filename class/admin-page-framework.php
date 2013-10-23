@@ -1230,7 +1230,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	
 	}
 	/**
-	 * Adds an in-page tabs.
+	 * Adds in-page tabs.
 	 *
 	 * The parameters accept in-page tab arrays and they must have the following array keys.
 	 * <h4>In-Page Tab Array</h4>
@@ -3760,7 +3760,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		$strID = $strID ? $strID : md5( $strMessage );
 		$this->oProps->arrAdminNotices[ md5( $strMessage ) ] = array(  
 			'strMessage' => $strMessage,
-			'strClassSelector' => 'error',
+			'strClassSelector' => $strClassSelector,
 			'strID' => $strID,
 		);
 		add_action( 'admin_notices', array( $this, 'printAdminNotices' ) );
