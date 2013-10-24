@@ -278,6 +278,7 @@ abstract class AdminPageFramework_WPUtilities {
 	 * 
 	 * Identical to the getQueryURL() method except that if the third parameter is omitted, it will use the currently browsed admin url.
 	 * 
+	 * @since			2.1.2
 	 * @param			array			$arrAddingQueries			The appending query key value pairs e.g. array( 'page' => 'my_page_slug', 'tab' => 'my_tab_slug' )
 	 * @param			array			$arrRemovingQueryKeys		The removing query keys. e.g. array( 'settings-updated', 'my-custom-admin-notice' )
 	 * @param			string			$strSubjectURL				The subject url to modify
@@ -292,6 +293,7 @@ abstract class AdminPageFramework_WPUtilities {
 	/**
 	 * Returns a url with modified query stings.
 	 * 
+	 * @since			2.1.2
 	 * @param			array			$arrAddingQueries			The appending query key value pairs
 	 * @param			array			$arrRemovingQueryKeys			The removing query key value pairs
 	 * @param			string			$strSubjectURL				The subject url to modify
@@ -3725,26 +3727,30 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	
 		foreach( $this->oProps->arrEnqueuingStyles as $arrEnqueuingStyles ) 
 			if ( $arrEnqueuingStyles['strURL'] ) 
-				$this->enqueueURL( $arrEnqueuingStyles['strURL'], $arrEnqueuingStyles['strPageSlug'], $arrEnqueuingStyles['strTabSlug'] );
+				$this->enqueueURL( $arrEnqueuingStyles['strURL'], $arrEnqueuingStyles['strPageSlug'], $arrEnqueuingStyles['strTabSlug'], true );
 						
 		foreach( $this->oProps->arrEnqueuingScripts as $arrEnqueuingScripts ) 
-			if ( $arrEnqueuingStyles['strURL'] ) 
-				$this->enqueueURL( $arrEnqueuingStyles['strURL'], $arrEnqueuingStyles['strPageSlug'], $arrEnqueuingStyles['strTabSlug'] );
+			if ( $arrEnqueuingScripts['strURL'] ) 
+				$this->enqueueURL( $arrEnqueuingScripts['strURL'], $arrEnqueuingScripts['strPageSlug'], $arrEnqueuingScripts['strTabSlug'], false );
 				
 	}
 	
 	/**
 	 * A helper function for the above enqueueScriptsAndStyles() method.
 	 * 
+	 * @param			boolean			$fIsStyle			Indicates whether the file is a style or script: false for scripts and true for styles.
 	 * @since			2.1.2
 	 */
-	private function enqueueURL( $strURL, $strPageSlug, $strTabSlug ) {
+	private function enqueueURL( $strURL, $strPageSlug, $strTabSlug, $fIsStyle ) {
 		
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
 			
 		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) ) { // means script-global
-			wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			if ( $fIsStyle ) 
+				wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			else 
+				wp_enqueue_script( 'admin-page-framework-' . md5( $strURL ), $strURL );
 			return;
 		}
 		
@@ -3753,7 +3759,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			( $strPageSlug && $strCurrentPageSlug == $strPageSlug )
 			&& ( $strTabSlug && $strCurrentTabSlug == $strTabSlug )
 		) {
-			wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			if ( $fIsStyle ) 
+				wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			else 
+				wp_enqueue_script( 'admin-page-framework-' . md5( $strURL ), $strURL );
 			return;
 		}
 		
@@ -3762,9 +3771,13 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		if ( 
 			( $strPageSlug && ! $strTabSlug )
 			&& ( $strCurrentPageSlug == $strPageSlug )
-		)
-			wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
-		
+		) {
+			if ( $fIsStyle ) 
+				wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			else 
+				wp_enqueue_script( 'admin-page-framework-' . md5( $strURL ), $strURL );
+			return;
+		}
 	}
 	
 	/**
