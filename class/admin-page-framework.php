@@ -3283,7 +3283,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			// Hook the admin header to insert custom admin stylesheet.
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			add_action( 'admin_head', array( $this, 'addScript' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueueScriptsAndStyles' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueueScriptsCallback' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueueStylesCallback' ) );
 			
 			// The contextual help pane.
 			add_action( "admin_head", array( $this, 'registerHelpTabs' ), 200 );
@@ -3681,22 +3682,29 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			. "</script>";		
 		
 	}
-	
 
 	/**
 	 * Enqueues a style by page slug and tab slug.
 	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
-	public function enqueueStyle( $strURL, $strPageSlug='', $strTabSlug='' ) {
+	public function enqueueStyle( $strURL, $strPageSlug='', $strTabSlug='', $strID='' ) {
 		
-		$this->oProps->arrEnqueuingStyles[] = array(
+		$strURL = trim( $strURL );
+		if ( ! filter_var( $strURL, FILTER_VALIDATE_URL ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strURL ) ] ) ) return '';
+		
+		$strID = $strID ? $strID : 'style_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedStyleIndex + 1 );
+		$this->oProps->arrEnqueuingStyles[ md5( $strURL ) ] = array(		// setting the key based on the url prevents duplicate items
+			'strID' => $strID,
 			'strPageSlug' => $strPageSlug,
 			'strTabSlug' => $strTabSlug,
 			'strURL' => $strURL,
 			'strType' => 'style',
 		) + AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles;
+		return $strID;
 		
 	}
 	
@@ -3705,34 +3713,49 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
-	public function enqueueScript( $strURL, $strPageSlug='', $strTabSlug='' ) {
+	public function enqueueScript( $strURL, $strPageSlug='', $strTabSlug='', $strID='', $arrTranslation=null ) {
 		
-		$this->oProps->arrEnqueuingScripts[] = array(
+		$strURL = trim( $strURL );
+		if ( ! filter_var( $strURL, FILTER_VALIDATE_URL ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strURL ) ] ) ) return '';
+		
+		$strID = $strID ? $strID : 'script_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedScriptIndex + 1 );
+		$this->oProps->arrEnqueuingScripts[ md5( $strURL ) ] = array(		// setting the key based on the url prevents duplicate items
+			'strID' => $strID,
+			'arrTranslation' => is_array( $arrTranslation ) ? $arrTranslation : null,
 			'strPageSlug' => $strPageSlug,
 			'strTabSlug' => $strTabSlug,
 			'strURL' => $strURL,
 			'strType' => 'script',
 		) + AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles;
-		
+		return $strID;
 	}
 	
 	/**
-	 * Takes care of added enqueuing scripts and styles by page slug and tab slug.
+	 * Takes care of added enqueuing scripts by page slug and tab slug.
 	 * 
 	 * @remark			A callback for the admin_enqueue_scripts hook.
 	 * @since			2.1.2
-	 */
-	public function enqueueScriptsAndStyles() {
+	 * @internal
+	 */	
+	public function enqueueStylesCallback() {	
+		foreach( $this->oProps->arrEnqueuingStyles as $strKey => $arrEnqueuingStyle ) 
+			$this->enqueueURLByPageConditoin( $arrEnqueuingStyle );
+	}
 	
-		foreach( $this->oProps->arrEnqueuingStyles as $arrEnqueuingStyles ) 
-			if ( $arrEnqueuingStyles['strURL'] ) 
-				$this->enqueueURL( $arrEnqueuingStyles['strURL'], $arrEnqueuingStyles['strPageSlug'], $arrEnqueuingStyles['strTabSlug'], true );
-						
-		foreach( $this->oProps->arrEnqueuingScripts as $arrEnqueuingScripts ) 
-			if ( $arrEnqueuingScripts['strURL'] ) 
-				$this->enqueueURL( $arrEnqueuingScripts['strURL'], $arrEnqueuingScripts['strPageSlug'], $arrEnqueuingScripts['strTabSlug'], false );
-				
+	/**
+	 * Takes care of added enqueuing scripts by page slug and tab slug.
+	 * 
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 * @internal
+	 */
+	public function enqueueScriptsCallback() {							
+		foreach( $this->oProps->arrEnqueuingScripts as $strKey => $arrEnqueuingScript ) 
+			$this->enqueueURLByPageConditoin( $arrEnqueuingScript );				
+	// $this->enqueueURLByPageConditoin( $arrEnqueuingScript['strURL'], $arrEnqueuingScript['strPageSlug'], $arrEnqueuingScript['strTabSlug'], $arrEnqueuingStyle['strID'], false );				
 	}
 	
 	/**
@@ -3741,45 +3764,56 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * @param			boolean			$fIsStyle			Indicates whether the file is a style or script: false for scripts and true for styles.
 	 * @since			2.1.2
 	 */
-	private function enqueueURL( $strURL, $strPageSlug, $strTabSlug, $fIsStyle ) {
+	// private function enqueueURLByPageConditoin( $strURL, $strPageSlug, $strTabSlug, $strID, $fIsStyle ) {
+	private function enqueueURLByPageConditoin( $arrEnqueueItem ) {
 		
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
 			
-		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) ) { // means script-global
-			if ( $fIsStyle ) 
-				wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
-			else 
-				wp_enqueue_script( 'admin-page-framework-' . md5( $strURL ), $strURL );
-			return;
-		}
+		$strPageSlug = $arrEnqueueItem['strPageSlug'];
+		$strTabSlug = $arrEnqueueItem['strTabSlug'];
 		
+		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
+		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) )  // means script-global(among pages added by the framework)
+			return $this->enqueueURL( $arrEnqueueItem );
+				
 		// If both tab and page slugs are specified,
 		if ( 
 			( $strPageSlug && $strCurrentPageSlug == $strPageSlug )
 			&& ( $strTabSlug && $strCurrentTabSlug == $strTabSlug )
-		) {
-			if ( $fIsStyle ) 
-				wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
-			else 
-				wp_enqueue_script( 'admin-page-framework-' . md5( $strURL ), $strURL );
-			return;
-		}
+		) 
+			return $this->enqueueURL( $arrEnqueueItem );
 		
-		// If the tab slug is not specified and page slug is specified, 
+		// If the tab slug is not specified and the page slug is specified, 
 		// and if the current loading page slug and the specified one matches,
 		if ( 
 			( $strPageSlug && ! $strTabSlug )
 			&& ( $strCurrentPageSlug == $strPageSlug )
-		) {
-			if ( $fIsStyle ) 
-				wp_enqueue_style( 'admin-page-framework-' . md5( $strURL ), $strURL );
-			else 
-				wp_enqueue_script( 'admin-page-framework-' . md5( $strURL ), $strURL );
+		) 
+			return $this->enqueueURL( $arrEnqueueItem );
+
+	}
+	/**
+	 * A helper function for the above enqueueURLByPageConditoin() method.
+	 * 
+	 * @since			2.1.2
+	 * @internal
+	 */
+	private function enqueueURL( $arrEnqueueItem ) {
+		
+		// For styles
+		if ( $arrEnqueueItem['strType'] == 'style' ) {
+			wp_enqueue_style( $arrEnqueueItem['strID'], $arrEnqueueItem['strURL'] );
 			return;
 		}
+		
+		// For scripts
+		// wp_enqueue_script( 'testing___', $arrEnqueueItem['strURL'] );
+		wp_enqueue_script( $arrEnqueueItem['strID'], $arrEnqueueItem['strURL'] );
+		if ( $arrEnqueueItem['arrTranslation'] ) 
+			wp_localize_script( $arrEnqueueItem['strID'], $arrEnqueueItem['strID'], $arrEnqueueItem['arrTranslation'] );
+		
 	}
-	
 	/**
 	 * Sets an admin notice.
 	 * 
@@ -4704,9 +4738,26 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * @since			2.1.2
 	 */	
 	public $arrEnqueuingStyles = array();
-	
+	/**
+	 * Stores the index of enqueued scripts.
+	 * 
+	 * @since			2.1.2
+	 */
+	public $intEnqueuedScriptIndex = 0;
+	/**
+	 * Stores the index of enqueued styles.
+	 * 
+	 * The index number will be incremented as a script is enqueued regardless a previously added enqueue item has been removed or not.
+	 * This is because this index number will be used for the script handle ID which is automatically generated.
+	 * 
+	 * @since			2.1.2
+	 */	
+	public $intEnqueuedStyleIndex = 0;
 	/**
 	 * Stores the set administration notices.
+	 * 
+	 * The index number will be incremented as a script is enqueued regardless a previously added enqueue item has been removed or not.
+	 * This is because this index number will be used for the style handle ID which is automatically generated.
 	 * @since			2.1.2
 	 */
 	public $arrAdminNotices	= array();

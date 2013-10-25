@@ -164,9 +164,11 @@ class APF_Demo extends AdminPageFramework {
 		$this->setInPageTabTag( 'h2' );		
 		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
-		// Enqueue scripts/styles.
-		$this->enqueueStyle(  plugins_url( 'assets/css/readme.css' , __FILE__ ) , 'apf_read_me' );
-		// $this->enqueueScript(  'script url here' , 'page slug (optional)', 'tab slug (optional)' );
+		// Enqueue styles.
+		$this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , __FILE__ ) , 'apf_read_me' );
+		
+		// Enqueue scripts - $this->enqueueScript(  'script url here' , 'page slug (optional)', 'tab slug (optional)', 'handle id (optional)', 'translation array (optional)' );
+		$this->enqueueScript(  plugins_url( 'asset/js/test.js' , __FILE__ ) , 'apf_read_me', '', 'my_script', array( 'a' => 'hello world!' ) );
 			
 		// Contextual help tabs.
 		$this->addHelpTab( 
