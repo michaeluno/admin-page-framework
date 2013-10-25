@@ -164,11 +164,22 @@ class APF_Demo extends AdminPageFramework {
 		$this->setInPageTabTag( 'h2' );		
 		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
-		// Enqueue styles.
-		$this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , __FILE__ ) , 'apf_read_me' );
+		// Enqueue styles - $this->enqueueStyle(  'stylesheet url / relative path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		$strStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , __FILE__ ) , 'apf_read_me' );
 		
-		// Enqueue scripts - $this->enqueueScript(  'script url here' , 'page slug (optional)', 'tab slug (optional)', 'handle id (optional)', 'translation array (optional)' );
-		$this->enqueueScript(  plugins_url( 'asset/js/test.js' , __FILE__ ) , 'apf_read_me', '', 'my_script', array( 'a' => 'hello world!' ) );
+		// Enqueue scripts - $this->enqueueScript(  'script url / relative path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		$this->enqueueScript(  
+			plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+			'apf_read_me', 	// page slug
+			'', 	// tab slug
+			array(
+				'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+				'arrTranslation' => array( 
+					'a' => 'hello world!',
+					'style_handle_id' => $strStyleHandle,	// check the enqueued style handle ID here.
+				),
+			)
+		);
 			
 		// Contextual help tabs.
 		$this->addHelpTab( 
@@ -790,7 +801,6 @@ class APF_Demo extends AdminPageFramework {
 			return $arrOldPageOptions;
 			
 		}
-		
 				
 		return $arrInput;
 		

@@ -390,6 +390,29 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 		return ( is_array( reset( $array ) ) ) ? $this->getArrayDimension( reset( $array ) ) + 1 : 1;
 	}
 	
+	
+	/**
+	 * Merges multiple multi-dimensional array recursively.
+	 * 
+	 * The advantage of using this method over the array unite operator or array_merge() is that it merges recursively and the null values of the preceding array will be overridden.
+	 * 
+	 * @since			2.1.2
+	 * @static
+	 * @access			public
+	 * @remark			The parameters are variadic and can add arrays as many as necessary.
+	 * @return			array			the united array.
+	 */
+	public function uniteArrays( $arrPrecedence, $arrDefault1 ) {
+				
+		$arrArgs = array_reverse( func_get_args() );
+		$arrArray = array();
+		foreach( $arrArgs as $arrArg ) 
+			$arrArray = $this->uniteArraysRecursive( $arrArg, $arrArray );
+			
+		return $arrArray;
+		
+	}
+	
 	/**
 	 * Merges two multi-dimensional arrays recursively.
 	 * 
@@ -3686,51 +3709,99 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	/**
 	 * Enqueues a style by page slug and tab slug.
 	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * </ul>
+	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			$strPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$strTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
-	public function enqueueStyle( $strURL, $strPageSlug='', $strTabSlug='', $strID='' ) {
+	public function enqueueStyle( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
 		
-		$strURL = trim( $strURL );
-		if ( ! filter_var( $strURL, FILTER_VALIDATE_URL ) ) return '';
-		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strURL ) ] ) ) return '';
+		$strSRC = trim( $strSRC );
+		if ( empty( $strSRC ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
 		
-		$strID = $strID ? $strID : 'style_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedStyleIndex + 1 );
-		$this->oProps->arrEnqueuingStyles[ md5( $strURL ) ] = array(		// setting the key based on the url prevents duplicate items
-			'strID' => $strID,
-			'strPageSlug' => $strPageSlug,
-			'strTabSlug' => $strTabSlug,
-			'strURL' => $strURL,
-			'strType' => 'style',
-		) + AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles;
-		return $strID;
+		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
+		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
+			( array ) $arrCustomArgs,
+			array(		
+				'strSRC' => $strSRC,
+				'strPageSlug' => $strPageSlug,
+				'strTabSlug' => $strTabSlug,
+				'strType' => 'style',
+				'strHandleID' => 'style_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedStyleIndex + 1 ),
+			),
+			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
+		);
+		return $this->oProps->arrEnqueuingStyles[ $strSRCHash ][ 'strHandleID' ];
 		
 	}
 	
 	/**
 	 * Enqueues a script by page slug and tab slug.
 	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>arrTranslation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>	 
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScript(  
+	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *		'apf_read_me', 	// page slug
+	 *		'', 	// tab slug
+	 *		array(
+	 *			'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'arrTranslation' => array( 
+	 *				'a' => 'hello world!',
+	 *				'style_handle_id' => $strStyleHandle,	// check the enqueued style handle ID here.
+	 *			),
+	 *		)
+	 *	);</code>
+	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$strPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$strTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
-	public function enqueueScript( $strURL, $strPageSlug='', $strTabSlug='', $strID='', $arrTranslation=null ) {
+	public function enqueueScript( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
 		
-		$strURL = trim( $strURL );
-		if ( ! filter_var( $strURL, FILTER_VALIDATE_URL ) ) return '';
-		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strURL ) ] ) ) return '';
+		$strSRC = trim( $strSRC );
+		if ( empty( $strSRC ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
 		
-		$strID = $strID ? $strID : 'script_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedScriptIndex + 1 );
-		$this->oProps->arrEnqueuingScripts[ md5( $strURL ) ] = array(		// setting the key based on the url prevents duplicate items
-			'strID' => $strID,
-			'arrTranslation' => is_array( $arrTranslation ) ? $arrTranslation : null,
-			'strPageSlug' => $strPageSlug,
-			'strTabSlug' => $strTabSlug,
-			'strURL' => $strURL,
-			'strType' => 'script',
-		) + AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles;
-		return $strID;
+		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
+		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
+			( array ) $arrCustomArgs,
+			array(		
+				'strPageSlug' => $strPageSlug,
+				'strTabSlug' => $strTabSlug,
+				'strSRC' => $strSRC,
+				'strType' => 'script',
+				'strHandleID' => 'script_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedScriptIndex + 1 ),
+			),
+			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
+		);
+		return $this->oProps->arrEnqueuingScripts[ $strSRCHash ][ 'strHandleID' ];
 	}
 	
 	/**
@@ -3742,7 +3813,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 */	
 	public function enqueueStylesCallback() {	
 		foreach( $this->oProps->arrEnqueuingStyles as $strKey => $arrEnqueuingStyle ) 
-			$this->enqueueURLByPageConditoin( $arrEnqueuingStyle );
+			$this->enqueueSRCByPageConditoin( $arrEnqueuingStyle );
 	}
 	
 	/**
@@ -3754,18 +3825,15 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 */
 	public function enqueueScriptsCallback() {							
 		foreach( $this->oProps->arrEnqueuingScripts as $strKey => $arrEnqueuingScript ) 
-			$this->enqueueURLByPageConditoin( $arrEnqueuingScript );				
-	// $this->enqueueURLByPageConditoin( $arrEnqueuingScript['strURL'], $arrEnqueuingScript['strPageSlug'], $arrEnqueuingScript['strTabSlug'], $arrEnqueuingStyle['strID'], false );				
+			$this->enqueueSRCByPageConditoin( $arrEnqueuingScript );				
 	}
 	
 	/**
 	 * A helper function for the above enqueueScriptsAndStyles() method.
 	 * 
-	 * @param			boolean			$fIsStyle			Indicates whether the file is a style or script: false for scripts and true for styles.
 	 * @since			2.1.2
 	 */
-	// private function enqueueURLByPageConditoin( $strURL, $strPageSlug, $strTabSlug, $strID, $fIsStyle ) {
-	private function enqueueURLByPageConditoin( $arrEnqueueItem ) {
+	private function enqueueSRCByPageConditoin( $arrEnqueueItem ) {
 		
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
@@ -3775,14 +3843,14 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		
 		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
 		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) )  // means script-global(among pages added by the framework)
-			return $this->enqueueURL( $arrEnqueueItem );
+			return $this->enqueueSRC( $arrEnqueueItem );
 				
 		// If both tab and page slugs are specified,
 		if ( 
 			( $strPageSlug && $strCurrentPageSlug == $strPageSlug )
 			&& ( $strTabSlug && $strCurrentTabSlug == $strTabSlug )
 		) 
-			return $this->enqueueURL( $arrEnqueueItem );
+			return $this->enqueueSRC( $arrEnqueueItem );
 		
 		// If the tab slug is not specified and the page slug is specified, 
 		// and if the current loading page slug and the specified one matches,
@@ -3790,28 +3858,27 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			( $strPageSlug && ! $strTabSlug )
 			&& ( $strCurrentPageSlug == $strPageSlug )
 		) 
-			return $this->enqueueURL( $arrEnqueueItem );
+			return $this->enqueueSRC( $arrEnqueueItem );
 
 	}
 	/**
-	 * A helper function for the above enqueueURLByPageConditoin() method.
+	 * A helper function for the above enqueueSRCByPageConditoin() method.
 	 * 
 	 * @since			2.1.2
 	 * @internal
 	 */
-	private function enqueueURL( $arrEnqueueItem ) {
+	private function enqueueSRC( $arrEnqueueItem ) {
 		
 		// For styles
 		if ( $arrEnqueueItem['strType'] == 'style' ) {
-			wp_enqueue_style( $arrEnqueueItem['strID'], $arrEnqueueItem['strURL'] );
+			wp_enqueue_style( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['strMedia'] );
 			return;
 		}
 		
 		// For scripts
-		// wp_enqueue_script( 'testing___', $arrEnqueueItem['strURL'] );
-		wp_enqueue_script( $arrEnqueueItem['strID'], $arrEnqueueItem['strURL'] );
+		wp_enqueue_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['fInFooter'] );
 		if ( $arrEnqueueItem['arrTranslation'] ) 
-			wp_localize_script( $arrEnqueueItem['strID'], $arrEnqueueItem['strID'], $arrEnqueueItem['arrTranslation'] );
+			wp_localize_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strHandleID'], $arrEnqueueItem['arrTranslation'] );
 		
 	}
 	/**
@@ -4353,7 +4420,7 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 		'strHelp'			=> null,	// since 2.1.0
 		'strHelpAside'		=> null,	// since 2.1.0
 		'fHideTitleColumn'	=> null,	// since 2.1.2
-		// The followings may need to uncommented.
+		// The followings may need to be uncommented.
 		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
 		// 'strError' => null,			// error message for the field
 		// 'strBeforeField' => null,
@@ -4562,13 +4629,13 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	public $strCapability = 'manage_options';	
 	
 	/**
-	 * Stores the tab for the page heading navigation bar.
+	 * Stores the tag for the page heading navigation bar.
 	 * @since			2.0.0
 	 */ 
 	public $strPageHeadingTabTag = 'h2';
 
 	/**
-	 * Stores the tab for the in-page tab navigation bar.
+	 * Stores the tag for the in-page tab navigation bar.
 	 * @since			2.0.0
 	 */ 
 	public $strInPageTabTag = 'h3';
@@ -4686,6 +4753,7 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 */ 	
 	public $strThickBoxButtonUseThis = '';
 	
+	// Flags	
 	/**
 	 * Decides whether the setting form tag is rendered or not.	
 	 * 
@@ -4694,7 +4762,6 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 */ 						
 	public $fEnableForm = false;			
 	
-	// Flags
 	/**
 	 * Indicates whether the page title should be displayed.
 	 * @since			2.0.0
@@ -4723,10 +4790,16 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * @since			2.1.2
 	 */
 	public static $arrStructure_EnqueuingScriptsAndStyles = array(
+		'strURL' => null,
 		'strPageSlug' => null,
 		'strTabSlug' => null,
 		'strType' => null,		// script or style
-		'strURL' => null,
+		'strHandleID' => null,
+		'arrDependencies' => array(),
+        'strVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'arrTranslation' => array(),	// only for scripts
+        'fInFooter' => false,	// only for scripts
+		'strMedia' => 'all',	// only for styles		
 	);
 	/**
 	 * Stores enqueuing script URLs and their criteria.
