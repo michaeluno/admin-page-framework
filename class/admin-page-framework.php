@@ -1825,7 +1825,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	protected $fIsImageFieldScriptEnqueued = false;	
 	
 	/**
-	 * A flag that indicates whether the JavaScript script for taxonomu checklist boxes.
+	 * A flag that indicates whether the JavaScript script for taxonomy checklist boxes.
 	 * 
 	 * @since			2.1.1
 	 * @internal
@@ -1851,7 +1851,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	/**
 	* Sets the given message to be displayed in the next page load. 
 	* 
-	* This is used to inform users about the submitted input data, such as "Updated sucessfully." or "Problem occured." etc. and normally used in validation callback methods.
+	* This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc. and normally used in validation callback methods.
 	* 
 	* <h4>Example</h4>
 	* <code>if ( ! $fVerified ) {
@@ -4009,31 +4009,38 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @remark			It is accessed from the main class and meta box class.
 	 * @access			public	
 	 * @internal	
-	 */ 
+	 */
 	public static $strDefaultStyle =
-		".wrap div.updated, .wrap div.settings-error { clear: both; margin-top: 16px;} 
-		.taxonomy-checklist li { margin: 8px 0 8px 20px; }
-		div.taxonomy-checklist {
+		".wrap div.updated, 
+		.wrap div.settings-error { 
+			clear: both; 
+			margin-top: 16px;
+		} 
+		.admin-page-framework-input .taxonomy-checklist li { 
+			margin: 8px 0 8px 20px; 
+		}
+		.admin-page-framework-input div.taxonomy-checklist {
 			padding: 8px 0 8px 10px;
 			margin-bottom: 20px;
 		}
-		.taxonomy-checklist ul {
+		.admin-page-framework-input .taxonomy-checklist ul {
 			list-style-type: none;
 			margin: 0;
 		}
-		.taxonomy-checklist ul ul {
+		.admin-page-framework-input .taxonomy-checklist ul ul {
 			margin-left: 1em;
 		}
-		.taxonomy-checklist-label {
+		.admin-page-framework-input .taxonomy-checklist-label {
 			margin-left: 0.5em;
 		}
-		.image_preview {
+		.admin-page-framework-input .image_preview {
 			border: none; clear:both; margin-top: 20px;	max-width:100%; 
 		}
-		.image_preview img {
+		.admin-page-framework-input .image_preview img {
 			max-height: 600px; max-width: 800px;
 		}
-		input[type='checkbox'], input[type='radio'] { 
+		.admin-page-framework-input input[type='checkbox'], 
+		.admin-page-framework-input input[type='radio'] { 
 			vertical-align: middle;
 		}
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
@@ -4049,42 +4056,42 @@ abstract class AdminPageFramework_Properties_Base {
 		}
 		
 		/* Tabbed box */
-		.tab-box-container.categorydiv {
+		.admin-page-framework-input .tab-box-container.categorydiv {
 			max-height: none;
 		}
-		.tab-box-tab-text {
+		.admin-page-framework-input .tab-box-tab-text {
 			display: inline-block;
 		}
-		.tab-box-tabs {
+		.admin-page-framework-input .tab-box-tabs {
 			line-height: 12px;
 			margin-bottom: 0;
 		
 		}
-		.tab-box-tabs .tab-box-tab.active {
+		.admin-page-framework-input .tab-box-tabs .tab-box-tab.active {
 			display: inline;
 			border-color: #dfdfdf #dfdfdf #fff;
 			margin-bottom: 0;
 			padding-bottom: 1px;
 			background-color: #fff;
 		}
-		.tab-box-container { 
+		.admin-page-framework-input .tab-box-container { 
 			position: relative; width: 100%; 
 
 		}
-		.tab-box-tabs li a { color: #333; text-decoration: none; }
-		.tab-box-contents-container {  
+		.admin-page-framework-input .tab-box-tabs li a { color: #333; text-decoration: none; }
+		.admin-page-framework-input .tab-box-contents-container {  
 			padding: 0 0 0 20px; 
 			border: 1px solid #dfdfdf; 
 			background-color: #fff;
 		}
-		.tab-box-contents { 
+		.admin-page-framework-input .tab-box-contents { 
 			overflow: hidden; 
 			overflow-x: hidden; 
 			position: relative; 
 			top: -1px; 
 			height: 300px;  
 		}
-		.tab-box-content { 
+		.admin-page-framework-input .tab-box-content { 
 			height: 300px;
 			display: none; 
 			overflow: auto; 
@@ -4092,17 +4099,18 @@ abstract class AdminPageFramework_Properties_Base {
 			position: relative; 
 			overflow-x: hidden;
 		}
-		.tab-box-content:target, .tab-box-content:target, .tab-box-content:target { display: block; }
-		
-		/* Input form elements */
-		.admin-page-framework-radio-label, 
-		.admin-page-framework-checkbox-label {
-			margin-right: 1em;			
+		.admin-page-framework-input .tab-box-content:target, 
+		.admin-page-framework-input .tab-box-content:target, 
+		.admin-page-framework-input .tab-box-content:target { 
+			display: block; 
 		}
 		
-		 
-			
-		
+		/* Input form elements */
+		.admin-page-framework-input .admin-page-framework-radio-label, 
+		.admin-page-framework-input .admin-page-framework-checkbox-label {
+			margin-right: 1em;			
+		}
+				
 		";	
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -5937,7 +5945,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: '';		
 			
 		// Get the input field output.
-		switch ( $strFieldType ) {
+		switch ( strtolower( $strFieldType ) ) {
 			case in_array( $strFieldType, array( 'text', 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ) ):
 				$strOutput .= $this->getTextField();
 				break;
@@ -5998,9 +6006,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			? "<p class='field_description'><span class='description'>{$this->arrField['strDescription']}</span></p>"
 			: '';
 			
-		return $this->arrField['strBeforeField'] 
-			. $strOutput
-			. $this->arrField['strAfterField'];
+		return "<div class='admin-page-framework-field'>"
+				. $this->arrField['strBeforeField'] 
+				. $strOutput
+				. $this->arrField['strAfterField']
+			. "</div>";
 		
 	}
 	private function getTextField( $arrOutput=array() ) {
@@ -6025,7 +6035,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
+		return "<div class='admin-page-framework-input admin-page-framework-input-text' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
 
 	}
 	private function getNumberField( $arrOutput=array() ) {
@@ -6053,7 +6065,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 					
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input-number' id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
 		
 	}
 	private function getTextAreaField( $arrOutput=array() ) {
@@ -6080,7 +6092,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 		
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input admin-page-framework-input-textarea' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
 		
 	}
 	private function getSelectField( $arrOutput=array() ) {
@@ -6110,7 +6124,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;' );			
 		}
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
+		return "<div class='admin-page-framework-input admin-page-framework-input-select' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";				
 	
 	}	
 	
@@ -6207,7 +6223,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
+		return "<div class='admin-page-framework-input admin-page-framework-input-size' id='{$this->strTagID}'>" 
+			. implode( '', $arrOutput ) 
+		. "</div>";
 		
 	}
 	private function getRadioField( $arrOutput=array() ) {
@@ -6223,7 +6241,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
+		return "<div class='admin-page-framework-input admin-page-framework-input-radio' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput )
+			. "</div>";
 		
 	}
 	
@@ -6279,7 +6299,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 					
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input admin-page-framework-input-checkbox' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";	
 	
 	}
 	private function getHiddenField( $arrOutput=array() ) {
@@ -6303,7 +6325,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' );
 					
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";			
+		return "<div class='admin-page-framework-input admin-page-framework-input-hidden' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
 		
 	}
 	private function getFileField( $arrOutput=array() ) {
@@ -6325,7 +6349,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 					
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";			
+		return "<div class='admin-page-framework-input admin-page-framework-input-file' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";			
 	
 	}
 	private function getSubmitField( $arrOutput=array() ) {
@@ -6336,36 +6362,38 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$strRedirectURL = $this->getCorrespondingArrayValue( $this->arrField['vRedirect'], $strKey, null );
 			$strLinkURL = $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null );
 			$arrOutput[] = ( $strRedirectURL ? "<input type='hidden' "
-				. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
-				. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vRedirect'], $strKey, null ) . "' "
+					. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
+					. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vRedirect'], $strKey, null ) . "' "
 				. "/>" 
 				. "<input type='hidden' "
-				. "name='__redirect[{$this->strTagID}_{$strKey}][name]' "
-				. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}" : "'" )
+					. "name='__redirect[{$this->strTagID}_{$strKey}][name]' "
+					. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}" : "'" )
 				. "/>" : "" )
 				. ( $strLinkURL ? "<input type='hidden' "
-				. "name='__link[{$this->strTagID}_{$strKey}][url]' "
-				. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null ) . "' "
+					. "name='__link[{$this->strTagID}_{$strKey}][url]' "
+					. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null ) . "' "
 				. "/>"
 				. "<input type='hidden' "
-				. "name='__link[{$this->strTagID}_{$strKey}][name]' "
-				. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
+					. "name='__link[{$this->strTagID}_{$strKey}][name]' "
+					. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
 				. "/>" : "" )
 				. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-				. "<input "
-				. "id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
-				. "type='{$this->arrField['strType']}' "	// submit
-				. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'submit' ) ) . "' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. "/>"
+					. "<input "
+						. "id='{$this->strTagID}_{$strKey}' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
+						. "type='{$this->arrField['strType']}' "	// submit
+						. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'submit' ) ) . "' "
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 		}
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input admin-page-framework-input-submit' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
 	
 	}
 
@@ -6376,39 +6404,41 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) {
 						
 			$arrOutput[] = "<input type='hidden' "
-				. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportOptionKey'], $strKey, $this->arrField['strOptionKey'] )
+					. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+					. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportOptionKey'], $strKey, $this->arrField['strOptionKey'] )
 				. "' />"
 				. "<input type='hidden' "
-				. "name='__import[{$this->arrField['strFieldID']}][format]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportFormat'], $strKey, 'array' )	// array, text, or json.
+					. "name='__import[{$this->arrField['strFieldID']}][format]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+					. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportFormat'], $strKey, 'array' )	// array, text, or json.
 				. "' />"			
 				. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-				. "<input "
-				. "id='{$this->strTagID}_{$strKey}_file' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import' ) . "' "
-				. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
-				. "type='file' "	// upload filed. the file type will be stored in $_FILE
-				. "name='__import[{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )				
-				. "/>"	
-				. "&nbsp;&nbsp;&nbsp;"
-				. "<input "
-				. "id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import button button-primary' ) . "' "
-				. "type='submit' "	// the export button is a custom submit button.
-				. "name='__import[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'import_options' ) ) . "' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. "/>"
+					. "<input "
+						. "id='{$this->strTagID}_{$strKey}_file' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import' ) . "' "
+						. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
+						. "type='file' "	// upload filed. the file type will be stored in $_FILE
+						. "name='__import[{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )				
+					. "/>"	
+					. "&nbsp;&nbsp;&nbsp;"
+					. "<input "
+						. "id='{$this->strTagID}_{$strKey}' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import button button-primary' ) . "' "
+						. "type='submit' "	// the export button is a custom submit button.
+						. "name='__import[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'import_options' ) ) . "' "
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 									
 		}
 					
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
+		return "<div class='admin-page-framework-input admin-page-framework-input-import' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
 		
 	}
 	private function getExportField( $arrOutput=array() ) {
@@ -6431,35 +6461,37 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			}
 			
 			$arrOutput[] = "<input type='hidden' "
-				. "name='__export[{$this->arrField['strFieldID']}][file_name]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vExportFileName'], $strKey, $this->generateExportFileName( $this->arrField['strOptionKey'], $strExportFormat ) )
+					. "name='__export[{$this->arrField['strFieldID']}][file_name]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+					. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vExportFileName'], $strKey, $this->generateExportFileName( $this->arrField['strOptionKey'], $strExportFormat ) )
 				. "' />"
 				. "<input type='hidden' "
-				. "name='__export[{$this->arrField['strFieldID']}][format]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . $strExportFormat
+					. "name='__export[{$this->arrField['strFieldID']}][format]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+					. "value='" . $strExportFormat
 				. "' />"				
 				. "<input type='hidden' "
-				. "name='__export[{$this->arrField['strFieldID']}][transient]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . ( $fIsDataSet ? 1 : 0 )
+					. "name='__export[{$this->arrField['strFieldID']}][transient]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+					. "value='" . ( $fIsDataSet ? 1 : 0 )
 				. "' />"				
 				. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 				. "<span style='display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-				. "<input "
-				. "id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
-				. "type='submit' "	// the export button is a custom submit button.
-				// . "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-				. "name='__export[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'export_options' ) ) . "' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. "/>"
+					. "<input "
+						. "id='{$this->strTagID}_{$strKey}' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
+						. "type='submit' "	// the export button is a custom submit button.
+						// . "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+						. "name='__export[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'export_options' ) ) . "' "
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>"
 				. "</span>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 									
 		}
 					
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input admin-page-framework-input-export' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
 	
 	}
 	
@@ -6497,14 +6529,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					: "" 
 					)
 				. "<input id='{$this->strTagID}_{$strKey}' "
-				. "class='datepicker " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-				. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-				. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-				. "type='text' "	// text, password, etc.
-				. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-				. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+					. "class='datepicker " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "type='text' "	// text, password, etc.
+					. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+					. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"
 				. "<script type='text/javascript'>
 					jQuery(document).ready(function() {
@@ -6516,7 +6548,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";
+		return "<div class='admin-page-framework-input admin-page-framework-input-date' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
 		
 	}
 	
@@ -6549,7 +6583,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";	
+		return "<div class='admin-page-framework-input admin-page-framework-input-color' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";	
 		
 	}
 		
@@ -6564,27 +6600,29 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					: "" 
 					)
 				. "<input id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-				. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
-				. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-				. "type='text' "	// text
-				. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-				. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( $this->vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "type='text' "	// text
+					. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+					. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( $this->vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"
 				. "<script type='text/javascript'>document.write( '&nbsp;&nbsp;&nbsp;<input type=\'submit\' id=\'select_image_{$this->strTagID}_{$strKey}\' value=\'{$strSelectImage}\' class=\'select_image button button-small\' />' );</script>"
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
 					? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' class='image_preview' style='" . ( $strImageURL ? "" : "display : none;" ) . "'>"
-						. "<img src='{$strImageURL}' "
-						. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
-						. "/>"
+							. "<img src='{$strImageURL}' "
+								. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
+							. "/>"
 						. "</div>"
 					: "" )
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 				
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input admin-page-framework-input-image' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
 		
 	}
 	
@@ -6601,23 +6639,25 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$arrOutput[] = "<input type='hidden' name='{$strName}' value='0' />"
 				. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 				
 				. "<input "
-				. "id='{$this->strTagID}_{$strKey}' "
-				. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-				. "type='checkbox' "
-				. "name='{$strName}'"
-				. "value='1' "
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, false ) == 1 ? "Checked " : '' )				
+					. "id='{$this->strTagID}_{$strKey}' "
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "type='checkbox' "
+					. "name='{$strName}'"
+					. "value='1' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, false ) == 1 ? "Checked " : '' )				
 				. "/>&nbsp;&nbsp;"
 				. "<span style='margin-top: 2px; vertical-align: top; display: inline-block; min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-				. "<label for='{$this->strTagID}_{$strKey}'>"				
-				. $strValue
-				. "</label>"
+					. "<label for='{$this->strTagID}_{$strKey}'>"				
+						. $strValue
+					. "</label>"
 				. "</span>"				
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '&nbsp;&nbsp;&nbsp;' );
 		}
-		return "<div id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";				
+		return "<div class='admin-page-framework-input admin-page-framework-input-posttype' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
 		
 	}	
 	
@@ -6673,7 +6713,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. implode( '', $arrCheckboxes )
 				. "</div>"
 			. "</div>";
-		$strOutput = "<div id='{$this->strTagID}' class='tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
+		$strOutput = "<div id='{$this->strTagID}' class='admin-page-framework-input admin-page-framework-input-taxonomy tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
 				. $strTabs . PHP_EOL
 				. $strContents . PHP_EOL
 			. "</div>";
