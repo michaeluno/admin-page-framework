@@ -1861,6 +1861,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	*	}</code>
 	*
 	* @since			2.0.0
+	* @since			2.1.2			Added a check to prevent duplicate items.
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
 	* @param			string		$strMsg					the text message to be displayed.
@@ -1869,6 +1870,19 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* @return			void
 	*/		
 	protected function setSettingNotice( $strMsg, $strType='error', $strID=null ) {
+		
+		// Check if the same message has been added already.
+		$arrWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
+		foreach( $arrWPSettingsErrors as $arrSettingsError ) {
+			
+			if ( $arrSettingsError['setting'] != $this->oProps->strOptionKey )
+				continue;
+			
+			// If the same message is added, no need to add another.
+			if ( $arrSettingsError['message'] == $strMsg ) 
+				return;
+			
+		}
 		
 		add_settings_error( 
 			$this->oProps->strOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
@@ -2098,6 +2112,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 		<ul>
 	* 			<li><strong>vLink</strong> - ( optional, string|array ) the url(s) linked to the submit button.</li>
 	* 			<li><strong>vRedirect</strong> - ( optional, string|array ) the url(s) redirected to after submitting the input form.</li>
+	* 			<li><strong>vReset</strong> - [+2.1.2] ( optional, string|array ) the option key to delete. Set 1 for the entire option.</li>
 	* 		</ul>
 	* 	<li><strong>import</strong> - an inport input field. This is a custom file and submit field.</li>
 	* 		<ul>
@@ -2364,18 +2379,24 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$strTabSlug = isset( $_POST['strTabSlug'] ) ? $_POST['strTabSlug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$strPageSlug = isset( $_POST['strPageSlug'] ) ? $_POST['strPageSlug'] : '';
 
-		// Check if custom submit keys are set.
+		// Check if custom submit keys are set [part 1]
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
 			return $this->importOptions( $arrInput, $strPageSlug, $strTabSlug );
 		if ( isset( $_POST['__export']['submit'] ) ) 
-			die( $this->exportOptions( $this->oProps->arrOptions, $strPageSlug, $strTabSlug ) );
-		if ( isset( $_POST['__link'] ) && $strLinkURL = $this->getPressedCustomSubmitButton( $_POST['__link'] ) )
+			die( $this->exportOptions( $this->oProps->arrOptions, $strPageSlug, $strTabSlug ) );		
+		if ( isset( $_POST['__reset_confirm'] ) && $strPressedFieldName = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__reset_confirm'], 'key' ) )
+			return $this->askResetOptions( $strPressedFieldName, $strPageSlug );			
+		if ( isset( $_POST['__link'] ) && $strLinkURL = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__link'], 'url' ) )
 			$this->oUtil->goRedirect( $strLinkURL );	// if the associated submit button for the link is pressed, the will be redirected.
-		if ( isset( $_POST['__redirect'] ) && $strRedirectURL = $this->getPressedCustomSubmitButton( $_POST['__redirect'] ) )
+		if ( isset( $_POST['__redirect'] ) && $strRedirectURL = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__redirect'], 'url' ) )
 			$this->setRedirectTransients( $strRedirectURL );
 				
 		// Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name}
 		$arrInput = $this->getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug );
+		
+		// Check if custom submit keys are set [part 2] - these should be done after applying the filters.
+		if ( isset( $_POST['__reset'] ) && $strKeyToReset = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__reset'], 'key' ) )
+			$arrInput = $this->resetOptions( $strKeyToReset, $arrInput );
 		
 		// Set the update notice
 		$fEmpty = empty( $arrInput );
@@ -2390,14 +2411,87 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 	
+	/**
+	 * Displays a confirmation message to the user when a reset button is pressed.
+	 * 
+	 * @since			2.1.2
+	 */
+	private function askResetOptions( $strPressedFieldName, $strPageSlug ) {
+		
+		// Retrieve the pressed button's associated submit field ID and its section ID.
+		// $strFieldName = $this->getPressedCustomSubmitButtonFieldName( $_POST['__reset_confirm'] );
+		$arrNameKeys = explode( '|', $strPressedFieldName );	
+		// $strPageSlug = $arrNameKeys[ 1 ]; 
+		$strSectionID = $arrNameKeys[ 2 ]; 
+		$strFieldID = $arrNameKeys[ 3 ];
+		
+		// Set up the field error array.
+		$arrErrors = array();
+		$arrErrors[ $strSectionID ][ $strFieldID ] = __( 'Are you sure you want to reset options?', 'admin-page-framework' );
+		$this->setFieldErrors( $arrErrors );
+		
+		// Set a flag that the confirmation is displayed
+		set_transient( md5( "reset_confirm_" . $strPressedFieldName ), $strPressedFieldName, 60*2 );
+		
+		$this->setSettingNotice( __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' ) );
+		
+		return $this->getPageOptions( $strPageSlug ); 			
+		
+	}
+	/**
+	 * Performs reset options.
+	 * 
+	 * @since			2.1.2
+	 * @remark			$arrInput has only the page elements that called the validation callback. In other words, it does not hold other pages' option keys.
+	 */
+	private function resetOptions( $strKeyToReset, $arrInput ) {
+		
+		if ( $strKeyToReset == 1 or $strKeyToReset === true ) {
+			delete_option( $this->oProps->strOptionKey );
+			$this->setSettingNotice( __( 'The options has been reset.', 'admin-page-framework' ) );
+			$this->setSettingNotice( __( 'The options has been reset.', 'admin-page-framework' ) );
+			return array();
+		}
+		
+		unset( $this->oProps->arrOptions[ trim( $strKeyToReset ) ] );
+		unset( $arrInput[ trim( $strKeyToReset ) ] );
+		update_option( $this->oProps->strOptionKey, $this->oProps->arrOptions );
+		$this->setSettingNotice( __( 'The specified options has been deleted.', 'admin-page-framework' ) );
+		
+		return $arrInput;	// the returned array will be saved with the Settings API.
+	}
+	
 	private function setRedirectTransients( $strURL ) {
 		if ( empty( $strURL ) ) return;
 		$strTransient = md5( trim( "redirect_{$this->oProps->strClassName}_{$_POST['strPageSlug']}" ) );
 		return set_transient( $strTransient, $strURL , 60*2 );
 	}
 	
+	
 	/**
-	 * Retrieves the URL associated with the given data. 
+	 * Returns the flattened string containing the filed key information of the pressed custom submit button.
+	 * 
+	 */
+/* 	private function getPressedCustomSubmitButtonFieldName( $arrPostElements ) {
+		
+		foreach( $arrPostElements as $strFieldName => $arrSubElements ) {
+			
+			$arrNameKeys = explode( '|', $arrSubElements['name'] );	
+			
+			// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
+			// The isset() checks if the associated button is actually pressed or not.
+			if ( count( $arrNameKeys ) == 4 && isset( $_POST[ $arrNameKeys[0] ][ $arrNameKeys[1] ][ $arrNameKeys[2] ][ $arrNameKeys[3] ] ) )
+				return $arrSubElements['name'];
+			if ( count( $arrNameKeys ) == 5 && isset( $_POST[ $arrNameKeys[0] ][ $arrNameKeys[1] ][ $arrNameKeys[2] ][ $arrNameKeys[3] ][ $arrNameKeys[4] ] ) )
+				return $arrSubElements['name'];
+				
+		}
+		return '';
+	}
+	 */
+	
+	/**
+	 * Retrieves the target key value associated with the given data to a custom submit button.
 	 * 
 	 * This method checks if the associated submit button is pressed with the input fields whose name property starts with __link or __redirect. 
 	 * The custom ( currently __link or __redirect is supported ) input array should contain the 'name' and 'url' keys and their values.
@@ -2405,7 +2499,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @since			2.0.0
 	 * @return			mixed			Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
 	 */ 
-	private function getPressedCustomSubmitButton( $arrPostElements ) {	
+	private function getPressedCustomSubmitButtonSiblingValue( $arrPostElements, $strTargetKey='url' ) {	
 	
 		foreach( $arrPostElements as $strFieldName => $arrSubElements ) {
 			
@@ -2416,10 +2510,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$arrNameKeys = explode( '|', $arrSubElements['name'] );
 			
 			// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
+			// The isset() checks if the associated button is actually pressed or not.
 			if ( count( $arrNameKeys ) == 4 && isset( $_POST[ $arrNameKeys[0] ][ $arrNameKeys[1] ][ $arrNameKeys[2] ][ $arrNameKeys[3] ] ) )
-				return $arrSubElements['url'];
+				return $arrSubElements[ $strTargetKey ];
 			if ( count( $arrNameKeys ) == 5 && isset( $_POST[ $arrNameKeys[0] ][ $arrNameKeys[1] ][ $arrNameKeys[2] ][ $arrNameKeys[3] ][ $arrNameKeys[4] ] ) )
-				return $arrSubElements['url'];
+				return $arrSubElements[ $strTargetKey ];
 				
 		}
 		
@@ -5803,6 +5898,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'vImportFormat' => null,	// ( array or string )	This is for the import field type. Do not set a default value here. Currently array, json, and text are supported.
 		'vLink'	=> null,			// ( array or string )	This is for the submit field type.
 		'vRedirect'	=> null,		// ( array or string )	This is for the submit field type.
+		'vReset'	=> null,		// ( array or string )	[2.1.2+] This is for the submit field type.
 		'vImagePreview' => null,	// ( array or string )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
 		'strTickBoxTitle' => null,	// ( string ) This is for the image field type.
 		'strLabelUseThis' => null,	// ( string ) This is for the image field type.
@@ -6424,11 +6520,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) {
 			$strRedirectURL = $this->getCorrespondingArrayValue( $this->arrField['vRedirect'], $strKey, null );
 			$strLinkURL = $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null );
+			$strResetKey = $this->getCorrespondingArrayValue( $this->arrField['vReset'], $strKey, null );
+			$fResetConfirmed = $this->checkConfirmationDisplayed( $strResetKey, $this->strFieldNameFlat ); 
 			$arrOutput[] = "<div class='admin-page-framework-field'>"
 					. ( $strRedirectURL 
 						? "<input type='hidden' "
 							. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
-							. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vRedirect'], $strKey, null ) . "' "
+							. "value='" . $strRedirectURL . "' "
 						. "/>" 
 						. "<input type='hidden' "
 							. "name='__redirect[{$this->strTagID}_{$strKey}][name]' "
@@ -6439,13 +6537,35 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. ( $strLinkURL 
 						? "<input type='hidden' "
 							. "name='__link[{$this->strTagID}_{$strKey}][url]' "
-							. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null ) . "' "
+							. "value='" . $strLinkURL . "' "
 						. "/>"
 						. "<input type='hidden' "
 							. "name='__link[{$this->strTagID}_{$strKey}][name]' "
 							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
 						. "/>" 
 						: "" 
+					)
+					. ( $strResetKey && ! $fResetConfirmed
+						? "<input type='hidden' "
+							. "name='__reset_confirm[{$this->strTagID}_{$strKey}][key]' "
+							. "value='" . $this->strFieldNameFlat . "' "
+						. "/>"
+						. "<input type='hidden' "
+							. "name='__reset_confirm[{$this->strTagID}_{$strKey}][name]' "
+							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
+						. "/>" 
+						: ""
+					)
+					. ( $strResetKey && $fResetConfirmed
+						? "<input type='hidden' "
+							. "name='__reset[{$this->strTagID}_{$strKey}][key]' "
+							. "value='" . $strResetKey . "' "
+						. "/>"
+						. "<input type='hidden' "
+							. "name='__reset[{$this->strTagID}_{$strKey}][name]' "
+							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
+						. "/>" 
+						: ""
 					)
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6466,6 +6586,24 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. implode( '', $arrOutput ) 
 			. "</div>";		
 	
+	}
+	/**
+	 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the vReset key is set.
+	 * 
+	 */
+	private function checkConfirmationDisplayed( $strResetKey, $strFlatFieldName ) {
+			
+		if ( ! $strResetKey ) return false;
+		
+		$fResetConfirmed =  get_transient( md5( "reset_confirm_" . $strFlatFieldName ) ) !== false 
+			? true
+			: false;
+		
+		if ( $fResetConfirmed )
+			delete_transient( md5( "reset_confirm_" . $strFlatFieldName ) );
+			
+		return $fResetConfirmed;
+		
 	}
 
 	private function getImportField( $arrOutput=array() ) {

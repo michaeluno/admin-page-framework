@@ -643,6 +643,15 @@ class APF_Demo extends AdminPageFramework {
 				'vRedirect'	=> admin_url(),
 				'vClassAttribute' => 'button button-secondary',
 			),
+			array( // Reset Submit button
+				'strFieldID' => 'submit_button_reset',
+				'strSectionID' => 'submit_buttons',
+				'strTitle' => 'Reset Button',
+				'strType' => 'submit',
+				'vLabel' => __( 'Reset', 'admin-page-framework-demo' ),
+				'vReset' => true,
+				// 'vClassAttribute' => 'button button-secondary',
+			),			
 			array( // Delete Option Button
 				'strFieldID' => 'submit_manage',
 				'strSectionID' => 'submit_buttons_manage',
