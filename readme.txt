@@ -174,6 +174,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
+* Added: class electors to the field elements.
+* Changed: ( *Breacking Change* ) the `field_description` class selector name to `admin-page-framework-fields-description`.
 * Changed: the *assets* folder name to *asset*.
 * Added: the `setDisallowedQueryKeys()` method that can define disallowed query keys to be embedded in the links of in-page tabs and page-heading tabs.
 * Fixed: a bug that the `settings-updated` query key string was embedded in the links of in-page tabs and page-heading tabs. 
