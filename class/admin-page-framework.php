@@ -6065,7 +6065,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
 					
-		return "<div class='admin-page-framework-input-number' id='{$this->strTagID}'>" . implode( '', $arrOutput ) . "</div>";		
+		return "<div class='admin-page-framework-input admin-page-framework-input-number' id='{$this->strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
 		
 	}
 	private function getTextAreaField( $arrOutput=array() ) {
