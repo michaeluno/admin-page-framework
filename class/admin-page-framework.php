@@ -2080,6 +2080,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vRows</strong> - ( optional, integer|array ) the number of rows of the textarea field.</li>
 	* 			<li><strong>vCols</strong> - ( optional, integer|array ) the number of cols of the textarea field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>vRich</strong> - ( optional, boolean|array ) whether it is a rich editor or not.</li>
 	*		</ul>
 	* 	</li>
 	* 	<li><strong>radio</strong> - a radio button input field.</li>
@@ -5888,6 +5889,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'vSize' => null,			// ( array or integer )	This is for the text, the select field, and the image field type. Do not set a value here.
 		'vRows' => 4,				// ( array or integer ) This is for the textarea field type.
 		'vCols' => 80,				// ( array or integer ) This is for the textarea field type.
+		'vRich' => null,			// ( array or boolean ) This is for the textarea field type.
 		'vMax' => null,				// ( array or integer ) This is for the number field type.
 		'vMin' => null,				// ( array or integer ) This is for the number field type.
 		'vStep' => null,			// ( array or integer ) This is for the number field type.
@@ -6223,22 +6225,42 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</span>" 
 						: "" 
 						)
-					. "<textarea id='{$this->strTagID}_{$strKey}' "
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
-						. "cols='" . $this->getCorrespondingArrayValue( $this->arrField['vCols'], $strKey, self::$arrDefaultFieldValues['vCols'] ) . "' "
-						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-						. "type='{$this->arrField['strType']}' "
-						. ( is_array( $this->arrField['vLabel'] ) ? "name='{$this->strFieldName}[{$strKey}]' " : "name='{$this->strFieldName}' " )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-					. ">"
-						. $this->getCorrespondingArrayValue( $this->vValue, $strKey, null )
-					. "</textarea>"
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vRich'], $strKey, null ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
+						? wp_editor( 
+							$this->getCorrespondingArrayValue( $this->vValue, $strKey, null ), 
+							"{$this->strTagID}_{$strKey}",  
+							array(
+								'wpautop' => true, // use wpautop?
+								'media_buttons' => true, // show insert/upload button(s)
+								'textarea_name' => is_array( $this->arrField['vLabel'] ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
+								'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
+								'tabindex' => '',
+								'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
+								'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
+								'editor_class' => $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
+								'teeny' => false, // output the minimal editor config used in Press This
+								'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
+								'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+								'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
+							)
+						)
+						: "<textarea id='{$this->strTagID}_{$strKey}' "
+							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+							. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
+							. "cols='" . $this->getCorrespondingArrayValue( $this->arrField['vCols'], $strKey, self::$arrDefaultFieldValues['vCols'] ) . "' "
+							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+							. "type='{$this->arrField['strType']}' "
+							. ( is_array( $this->arrField['vLabel'] ) ? "name='{$this->strFieldName}[{$strKey}]' " : "name='{$this->strFieldName}' " )
+							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+						. ">"
+							. $this->getCorrespondingArrayValue( $this->vValue, $strKey, null )
+						. "</textarea>"
+					)
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
-		
+	
 		return "<div class='admin-page-framework-field-textarea' id='{$this->strTagID}'>" 
 				. implode( '', $arrOutput ) 
 			. "</div>";		

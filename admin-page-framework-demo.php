@@ -358,6 +358,14 @@ class APF_Demo extends AdminPageFramework {
 				'vRows' => 6,
 				'vCols' => 80,
 			),
+			array(	// Rich Text Editor
+				'strFieldID' => 'rich_textarea',
+				'strSectionID' => 'text_fields',
+				'strTitle' => 'Rich Text Area',
+				'strType' => 'textarea',
+				'vRich' => true,
+				'vRows' => 6,
+			),			
 			array(	// Multiple text areas
 				'strFieldID' => 'textarea_multiple',
 				'strSectionID' => 'text_fields',
@@ -780,6 +788,12 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
+public function validation_first_page_textfields( $arrInput, $arrOldInput ) {
+
+$this->oDebug->logArray( $arrInput );
+return $arrInput;
+		
+}
 	public function validation_first_page_verification( $arrInput, $arrOldPageOptions ) {	// valication_ + page slug + _ + tab slug
 				
 		// Set a flag.

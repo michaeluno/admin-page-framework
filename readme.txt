@@ -174,7 +174,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.2 =
-* Added: the `vReset` key to the submit field type that performs resetting options. 
+* Added: the 'vRich' key to the `textarea` field type that enables rich text editor.
+* Added: the `vReset` key to the `submit` field type that performs resetting options. 
 * Added: class electors to the field elements.
 * Changed: ( *Breacking Change* ) the `field_description` class selector name to `admin-page-framework-fields-description`.
 * Changed: the *assets* folder name to *asset*.
