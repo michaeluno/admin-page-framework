@@ -4242,7 +4242,9 @@ abstract class AdminPageFramework_Properties_Base {
 		.admin-page-framework-field-posttype .admin-page-framework-field {
 			display: inline-block;
 		}
-		
+		.admin-page-framework-field-radio .admin-page-framework-field .admin-page-framework-input-container {
+			display: inline;
+		}
 				
 		";	
 	/**
@@ -6387,9 +6389,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$arrLabels =  $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
 		foreach( $arrLabels as $strKey => $vLabel )  
 			$arrOutput[] = "<div class='admin-page-framework-field'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. $this->getRadioTags( $vLabel, $strKey, $fSingle )				
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' );
 				
@@ -6407,6 +6407,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$arrOutput = array();
 		foreach ( $arrLabels as $strKey => $strLabel ) 
 			$arrOutput[] = "<span class='admin-page-framework-input-container'>"
+					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<input "
 						. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
 						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
@@ -6421,6 +6422,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. $strLabel
 						. "</label>"
 					. "</span>"
+					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</span>";
 
 		return implode( '', $arrOutput );
