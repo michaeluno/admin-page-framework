@@ -5929,6 +5929,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	);
 	
+	/**
+	 * Indicates whether the creating fields are for meta box or not.
+	 * @since			2.1.2
+	 */
+	private $fIsMetaBox = false;
+		
+	
 	public function __construct( &$arrField, &$arrOptions, $arrErrors=array(), &$oMsg ) {
 			
 		$this->oMsg = $oMsg;
@@ -6243,7 +6250,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 								'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 								'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
 							)
-						) . $this->addScriptForMetaboxRichEditor( "{$this->strTagID}_{$strKey}" )
+						) . $this->getScriptForMetaboxRichEditor( "{$this->strTagID}_{$strKey}" )
 						: "<textarea id='{$this->strTagID}_{$strKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 							. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
@@ -6273,12 +6280,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * 
 	 * @since			2.1.2
 	 */
-	private function addScriptForMetaboxRichEditor( $strIDSelector ) {
+	private function getScriptForMetaboxRichEditor( $strIDSelector ) {
+		
+		// If this is for normal setting pages, return nothing.
+		if ( ! $this->isMetaBox() ) return '';
 		
 		// id: wp-sample_rich_textarea_0-wrap
 		return "<script type='text/javascript'>
+			jQuery( '#wp-{$strIDSelector}-wrap' ).hide();
 			jQuery( document ).ready( function() {
 				jQuery( '#wp-{$strIDSelector}-wrap' ).appendTo( '#{$strIDSelector}_container' );
+				jQuery( '#wp-{$strIDSelector}-wrap' ).show();
 			})
 		</script>";		
 		
@@ -7026,6 +7038,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	}
 
+	
+	
+	/**
+	 * Sets or return the flag that indicates whether the creating fields are for meta boxes or not.
+	 * 
+	 * If the parameter is not set, it will return the stored value. Otherwise, it will set the value.
+	 * 
+	 * @since			2.1.2
+	 */
+	public function isMetaBox( $fTrueOrFalse=null ) {
+		
+		if ( isset( $fTrueOrFalse ) ) 
+			$this->fIsMetaBox = $fTrueOrFalse;
+			
+		return $this->fIsMetaBox;
+		
+	}
 }
 endif;
 
@@ -8079,6 +8108,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$arrField['strName'] = isset( $arrField['strName'] ) ? $arrField['strName'] : $arrField['strFieldID'];
 		
 		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, array(), $this->oMsg );	// currently error arrays are not supported for meta-boxes 
+		$oField->isMetaBox( true );
 		$strOut = $this->oUtil->addAndApplyFilter(
 			$this,
 			$this->oProps->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
