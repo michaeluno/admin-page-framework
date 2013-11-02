@@ -6217,7 +6217,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getTextAreaField( $arrOutput=array() ) {
 		
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field'>"
+			$arrOutput[] = "<div class='admin-page-framework-field' id='{$this->strTagID}_{$strKey}_container'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6243,7 +6243,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 								'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 								'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
 							)
-						)
+						) . $this->addScriptForMetaboxRichEditor( "{$this->strTagID}_{$strKey}" )
 						: "<textarea id='{$this->strTagID}_{$strKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 							. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
@@ -6266,6 +6266,24 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			. "</div>";		
 		
 	}
+	/**
+	 * A helper function for the above getTextAreaField() method.
+	 * 
+	 * This adds a script that forces the rich editor element to be inside the field table cell.
+	 * 
+	 * @since			2.1.2
+	 */
+	private function addScriptForMetaboxRichEditor( $strIDSelector ) {
+		
+		// id: wp-sample_rich_textarea_0-wrap
+		return "<script type='text/javascript'>
+			jQuery( document ).ready( function() {
+				jQuery( '#wp-{$strIDSelector}-wrap' ).appendTo( '#{$strIDSelector}_container' );
+			})
+		</script>";		
+		
+	}
+	
 	private function getSelectField( $arrOutput=array() ) {
 
 		// The value of the label key must be an array for the select type.

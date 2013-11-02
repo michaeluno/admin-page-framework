@@ -1031,6 +1031,13 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strType'			=> 'textarea',
 				'vDefault'			=> 'This is a default text.',
 			),
+			array(	// Rich Text Editor
+				'strFieldID' 		=> 'sample_rich_textarea',
+				'strTitle' 			=> 'Rich Text Editor',
+				'strType' 			=> 'textarea',
+				'vRich' 			=> true,
+				'vRows' 			=> 6,
+			),				
 			array(
 				'strFieldID'		=> 'checkbox_field',
 				'strTitle'			=> 'Checkbox Input',
