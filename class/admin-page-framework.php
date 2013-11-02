@@ -2080,7 +2080,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vRows</strong> - ( optional, integer|array ) the number of rows of the textarea field.</li>
 	* 			<li><strong>vCols</strong> - ( optional, integer|array ) the number of cols of the textarea field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>vRich</strong> - ( optional, boolean|array ) whether it is a rich editor or not.</li>
+	* 			<li><strong>vRich</strong> - ( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
+	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
+	* 			</li>
 	*		</ul>
 	* 	</li>
 	* 	<li><strong>radio</strong> - a radio button input field.</li>
@@ -5939,6 +5941,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	public function __construct( &$arrField, &$arrOptions, $arrErrors=array(), &$oMsg ) {
 			
 		$this->oMsg = $oMsg;
+		$this->oUtil = new AdminPageFramework_Utilities;
 		
 		$this->arrField = $arrField + self::$arrDefaultFieldValues;
 		$this->arrOptions = $arrOptions;
@@ -6223,7 +6226,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	private function getTextAreaField( $arrOutput=array() ) {
 		
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+		$fSingle = ! is_array( $this->arrField['vLabel'] );
+		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) {
+			
+			$arrRichEditorSettings = $fSingle
+				? $this->arrField['vRich']
+				: $this->getCorrespondingArrayValue( $this->arrField['vRich'], $strKey, null );
+				
 			$arrOutput[] = "<div class='admin-page-framework-field' id='{$this->strTagID}_{$strKey}_container'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel
@@ -6232,23 +6241,26 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</span>" 
 						: "" 
 						)
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vRich'], $strKey, null ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
+					. ( ! empty( $arrRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
 						? wp_editor( 
 							$this->getCorrespondingArrayValue( $this->vValue, $strKey, null ), 
 							"{$this->strTagID}_{$strKey}",  
-							array(
-								'wpautop' => true, // use wpautop?
-								'media_buttons' => true, // show insert/upload button(s)
-								'textarea_name' => is_array( $this->arrField['vLabel'] ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
-								'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
-								'tabindex' => '',
-								'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-								'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-								'editor_class' => $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
-								'teeny' => false, // output the minimal editor config used in Press This
-								'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-								'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-								'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
+							$this->oUtil->uniteArrays( 
+								( array ) $arrRichEditorSettings,
+								array(
+									'wpautop' => true, // use wpautop?
+									'media_buttons' => true, // show insert/upload button(s)
+									'textarea_name' => is_array( $this->arrField['vLabel'] ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
+									'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
+									'tabindex' => '',
+									'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
+									'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
+									'editor_class' => $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
+									'teeny' => false, // output the minimal editor config used in Press This
+									'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
+									'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+									'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
+								)
 							)
 						) . $this->getScriptForMetaboxRichEditor( "{$this->strTagID}_{$strKey}" )
 						: "<textarea id='{$this->strTagID}_{$strKey}' "
@@ -6267,7 +6279,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"
 				. $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' );
-	
+				
+		}
+		
 		return "<div class='admin-page-framework-field-textarea' id='{$this->strTagID}'>" 
 				. implode( '', $arrOutput ) 
 			. "</div>";		
@@ -6281,10 +6295,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * @since			2.1.2
 	 */
 	private function getScriptForMetaboxRichEditor( $strIDSelector ) {
-		
-		// If this is for normal setting pages, return nothing.
-		if ( ! $this->isMetaBox() ) return '';
-		
+
 		// id: wp-sample_rich_textarea_0-wrap
 		return "<script type='text/javascript'>
 			jQuery( '#wp-{$strIDSelector}-wrap' ).hide();

@@ -358,13 +358,19 @@ class APF_Demo extends AdminPageFramework {
 				'vRows' => 6,
 				'vCols' => 80,
 			),
-			array(	// Rich Text Editor
+			array(	// Rich Text Editors
 				'strFieldID' => 'rich_textarea',
 				'strSectionID' => 'text_fields',
 				'strTitle' => 'Rich Text Area',
 				'strType' => 'textarea',
-				'vRich' => true,
-				'vRows' => 6,
+				'vLabel' => array(
+					'default' => '',
+					'custom' => '',
+				),
+				'vRich' => array( 
+					'default' => true,	// just pass non empty value for the default rich editor.
+					'custom' => array( 'media_buttons' => false, 'tinymce' => false ),	// pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
+				),
 			),			
 			array(	// Multiple text areas
 				'strFieldID' => 'textarea_multiple',
@@ -1035,8 +1041,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strFieldID' 		=> 'sample_rich_textarea',
 				'strTitle' 			=> 'Rich Text Editor',
 				'strType' 			=> 'textarea',
-				'vRich' 			=> true,
-				'vRows' 			=> 6,
+				'vRich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
 			),				
 			array(
 				'strFieldID'		=> 'checkbox_field',
