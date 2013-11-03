@@ -315,14 +315,22 @@ class APF_Demo extends AdminPageFramework {
 				'vDefault' => 123456,
 				'vSize' => 40,
 			),	
+			array(	// Password Field
+				'strFieldID' => 'password',
+				'strSectionID' => 'text_fields',
+				'strTitle' => 'Password',
+				'strTip' => 'This input will be masked.',
+				'strType' => 'password',
+				'strHelp' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
+				'vSize' => 20,
+			),			
 			array(	// Multiple text fields
 				'strFieldID' => 'text_multiple',
 				'strSectionID' => 'text_fields',
-				'strTitle' => 'Multiple Text Fields',
+				'strTitle' => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
 				'strDescription' => 'These are multiple text fields.',	// additional notes besides the form field
 				'strHelp' => __( 'Multiple text fields can be passed by setting an array to the vLabel key.', 'admin-page-framework-demo' ),
 				'strType' => 'text',
-				'numOrder' => 2,
 				'vDefault' => array(
 					'Hello World',
 					'Foo bar',
@@ -338,16 +346,21 @@ class APF_Demo extends AdminPageFramework {
 					60,
 					90,
 				),
-			),			
-			array(	// Password Field
-				'strFieldID' => 'password',
+			),		
+			array(	// Repeatable text fields
+				'strFieldID' => 'text_repetable',
 				'strSectionID' => 'text_fields',
-				'strTitle' => 'Password',
-				'strTip' => 'This input will be masked.',
-				'strType' => 'password',
-				'strHelp' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
-				'vSize' => 20,
-			),
+				'strTitle' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'Press Add or Remove to change the number of fields.', 'admin-page-framework-demo' ),
+				'strType' => 'text',
+				'vSize' => 80,
+				'fRepeatable' => true,
+				'vDefault' => array(
+					'a',
+					'b',
+					'c',
+				),
+			),				
 			array(	// Text Area
 				'strFieldID' => 'textarea',
 				'strSectionID' => 'text_fields',
@@ -469,6 +482,7 @@ class APF_Demo extends AdminPageFramework {
 					4,
 					8,
 				),
+				'vDelimiter' => '<br />',
 			),			
 			array(	// Single Checkbox
 				'strFieldID' => 'checkbox',
