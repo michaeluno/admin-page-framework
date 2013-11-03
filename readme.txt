@@ -175,7 +175,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 2.1.2 =
+= 2.1.2 - 11/3/2013 =
 * Added: the 'vRich' key to the `textarea` field type that enables rich text editor.
 * Added: the `vReset` key to the `submit` field type that performs resetting options. 
 * Added: class electors to the field elements.
