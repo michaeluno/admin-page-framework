@@ -4279,6 +4279,10 @@ abstract class AdminPageFramework_Properties_Base {
 		.select_image {
 			margin-left: 0.5em;
 		}
+		/* Color Picker */
+		.repeatable .colorpicker {
+			display: inline;
+		}
 		";	
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -4372,8 +4376,8 @@ abstract class AdminPageFramework_Properties_Base {
 		return "
 			jQuery( document ).ready( function(){
 				'use strict';
-				//This if statement checks if the color picker element exists within jQuery UI
-				//If it does exist then we initialize the WordPress color picker on our text input field
+				// This if statement checks if the color picker element exists within jQuery UI
+				// If it does exist then we initialize the WordPress color picker on our text input field
 				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
 					var myOptions = {
 						// you can declare a default color here,
@@ -7271,6 +7275,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				// Color Pickers
 				jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
+				jQuery( this ).find( '.input_color' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+				// jQuery( this ).find( '.input_color' ).wpColorPicker();			
 				
 				// Image Uploader Button
 				jQuery( this ).find( '.select_image' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
