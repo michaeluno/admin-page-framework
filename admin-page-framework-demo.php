@@ -353,6 +353,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
 				'strDescription' => __( 'Press Add or Remove to change the number of fields.', 'admin-page-framework-demo' ),
 				'strType' => 'text',
+				'vDelimiter' => '',
 				'vSize' => 80,
 				'fRepeatable' => true,
 				'vDefault' => array( 'a', 'b', 'c', ),
@@ -373,6 +374,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'strType' => 'textarea',
 				'fRepeatable' => true,
+				'vDelimiter' => '',
 				'vRows' => 3,
 			),			
 			array(	// Rich Text Editors
@@ -579,7 +581,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
 			),	
-			array( // Rpeatable Color Pickers
+			array( // Repeatable Color Pickers
 				'strFieldID' => 'multiple_color_picker_field_repeatable',
 				'strSectionID' => 'color_picker',
 				'strTitle' => __( 'Repeatable Color Pickers', 'admin-page-framework-demo' ),
