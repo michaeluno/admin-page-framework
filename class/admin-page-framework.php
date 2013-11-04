@@ -7241,6 +7241,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
 	
 			field_new.find( 'input,textarea' ).val( '' );	// empty the value		
+			field_new.find( '.image_preview' ).hide();					// hide the preview element
+			field_new.find( '.image_preview img' ).attr( 'src', '' );	// empty the src property for the image uploader field
 			delimiter_new.insertAfter( target_element );	// add the delimiter
 			field_new.insertAfter( target_element );		// add the cloned new field element
 
