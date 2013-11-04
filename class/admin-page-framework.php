@@ -4275,6 +4275,10 @@ abstract class AdminPageFramework_Properties_Base {
 		.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
 			margin-bottom: 0.5em;
 		}
+		/* Image Uploader Button */
+		.select_image {
+			margin-left: 0.5em;
+		}
 		";	
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -7039,7 +7043,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$strButton ="<a id='select_image_{$strID}' href='#' class='select_image button button-small'>{$strSelectImage}</a>";
 			return 
 "<script type='text/javascript'>
-	jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
+	if ( jQuery( 'a#select_image_{$strID}' ).length == 0 )
+		jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
 </script>";			
 
 		}
@@ -7213,8 +7218,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getRepeaterScript( $strTagID ) {
 	
 		$strButtons = "<div class='admin-page-framework-repeatable-field-buttons'>"
-				. "<a class='repeatable-field-add button-secondary repeatable-field-button' href='#'>+</a>"
-				. "<a class='repeatable-field-remove button-secondary repeatable-field-button' href='#'>-</a>"
+				. "<a class='repeatable-field-add button-secondary repeatable-field-button button-small' href='#'>+</a>"
+				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button-small' href='#'>-</a>"
 			. "</div>";
 	
 		return 
@@ -7241,8 +7246,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 			// Increment the names and ids of the next following siblings.
 			target_element.nextAll().each( function() {
-				
-// console.log( jQuery( this ).attr( 'id' ) );				
+		
 				jQuery( this ).attr( 'id', function( index, name ) { return incrementID( index, name ) } );
 				jQuery( this ).find( 'input,textarea' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
