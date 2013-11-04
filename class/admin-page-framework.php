@@ -4267,9 +4267,6 @@ abstract class AdminPageFramework_Properties_Base {
 			font-weight: normal;
 			vertical-align: middle;
 			text-align: center;
-			line-height: 1.5em;
-			font-size: 1.18em;		
-			height: 22px;
 		}
 		/* Rich Text Editor */
 		.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
@@ -7218,8 +7215,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getRepeaterScript( $strTagID ) {
 	
 		$strButtons = "<div class='admin-page-framework-repeatable-field-buttons'>"
-				. "<a class='repeatable-field-add button-secondary repeatable-field-button button-small' href='#'>+</a>"
-				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button-small' href='#'>-</a>"
+				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#'>+</a>"
+				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#'>-</a>"
 			. "</div>";
 	
 		return 
@@ -7266,7 +7263,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 			var fieldsCount = jQuery('#{$strTagID} .repeatable-field-remove').length;
 			if ( fieldsCount > 1 ) {
-				jQuery('#{$strTagID} .repeatable-field-remove' ).css( 'display', 'inline' );
+				jQuery('#{$strTagID} .repeatable-field-remove' ).show();
 			}
 			
 			return false;
