@@ -4215,7 +4215,8 @@ abstract class AdminPageFramework_Properties_Base {
 			margin-right: 0.5em;
 			
 		}		
-		.admin-page-framework-field-text .admin-page-framework-field input {
+		.admin-page-framework-field-text .admin-page-framework-field input,
+		.admin-page-framework-field-image .admin-page-framework-field input {
 			margin-bottom: 0.5em;
 		}
 		.admin-page-framework-field .admin-page-framework-radio-label, 
@@ -6988,7 +6989,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
 			: $this->arrField['vLabel'];		
 			
-		$strSelectImage = __( 'Select Image', 'admin-page-framework' );
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
@@ -7009,7 +7009,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 						. "/>"
-						. "<script type='text/javascript'>document.write( '&nbsp;&nbsp;&nbsp;<input type=\'submit\' id=\'select_image_{$this->strTagID}_{$strKey}\' value=\'{$strSelectImage}\' class=\'select_image button button-small\' />' );</script>"
+						. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}" )	
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
 							? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' class='image_preview' style='" . ( $strImageURL ? "" : "display : none;" ) . "'>"
 									. "<img src='{$strImageURL}' "
@@ -7029,8 +7029,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. implode( '', $arrOutput ) 
 			. "</div>";		
 		
-	}
-	
+	}	
+		/**
+		 * A helper function for the above getImageField() method to add a image button script.
+		 */
+		private function getImageUploaderButtonScript( $strID ) {
+			
+			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
+			$strButton ="<a id='select_image_{$strID}' href='#' class='select_image button button-small'>{$strSelectImage}</a>";
+			return 
+"<script type='text/javascript'>
+	jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
+</script>";			
+
+		}
+		
 	/**
 	 * Returns the output of post type checklist check boxes.
 	 * 
@@ -7219,18 +7232,29 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
 			var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
 			var field_new = field_container.clone( true );
-			var delimiter_new = field_delimiter.clone( true );		
-			
+			var delimiter_new = field_delimiter.clone( true );			
+			var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
+	
 			field_new.find( 'input,textarea' ).val( '' );	// empty the value		
-			delimiter_new.insertAfter( field_delimiter );	// add the delimiter
-			field_new.insertAfter( field_delimiter );		// add the cloned new field element
+			delimiter_new.insertAfter( target_element );	// add the delimiter
+			field_new.insertAfter( target_element );		// add the cloned new field element
 
 			// Increment the names and ids of the next following siblings.
-			field_delimiter.nextAll().each( function() {
+			target_element.nextAll().each( function() {
 				
-console.log( jQuery( this ).attr( 'id' ) );				
+// console.log( jQuery( this ).attr( 'id' ) );				
 				jQuery( this ).attr( 'id', function( index, name ) { return incrementID( index, name ) } );
+				jQuery( this ).find( 'input,textarea' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
+				
+				// Color Pickers
+				jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+				jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
+				
+				// Image Uploader Button
+				jQuery( this ).find( '.select_image' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+				jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+				jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				
 			});
 

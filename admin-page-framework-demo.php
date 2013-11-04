@@ -559,13 +559,13 @@ class APF_Demo extends AdminPageFramework {
 				'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
 				'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
 			),		
-			// array(	// Repeatable Image Fields
-				// 'strFieldID' => 'image_select_field_repeater',
-				// 'strSectionID' => 'image_select',
-				// 'strTitle' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
-				// 'fRepeatable' => true,
-				// 'strType' => 'image',
-			// ),
+			array(	// Repeatable Image Fields
+				'strFieldID' => 'image_select_field_repeater',
+				'strSectionID' => 'image_select',
+				'strTitle' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
+				'fRepeatable' => true,
+				'strType' => 'image',
+			),
 			array( // Color Picker
 				'strFieldID' => 'color_picker_field',
 				'strSectionID' => 'color_picker',
@@ -579,13 +579,13 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
 			),	
-			// array( // Rpeatable Color Pickers
-				// 'strFieldID' => 'multiple_color_picker_field_repeatable',
-				// 'strSectionID' => 'color_picker',
-				// 'strTitle' => __( 'Repeatable Color Pickers', 'admin-page-framework-demo' ),
-				// 'strType' => 'color',
-				// 'fRepeatable' => true,
-			// ),	
+			array( // Rpeatable Color Pickers
+				'strFieldID' => 'multiple_color_picker_field_repeatable',
+				'strSectionID' => 'color_picker',
+				'strTitle' => __( 'Repeatable Color Pickers', 'admin-page-framework-demo' ),
+				'strType' => 'color',
+				'fRepeatable' => true,
+			),	
 			array(
 				'strFieldID' => 'post_type_checklist',
 				'strSectionID' => 'checklists',
