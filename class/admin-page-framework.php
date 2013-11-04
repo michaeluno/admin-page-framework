@@ -4215,8 +4215,7 @@ abstract class AdminPageFramework_Properties_Base {
 			margin-right: 0.5em;
 			
 		}		
-		.admin-page-framework-field-text .admin-page-framework-field input,
-		.admin-page-framework-field-image .admin-page-framework-field input {
+		.admin-page-framework-field input[type='text'] {
 			margin-bottom: 0.5em;
 		}
 		.admin-page-framework-field .admin-page-framework-radio-label, 
@@ -4258,6 +4257,10 @@ abstract class AdminPageFramework_Properties_Base {
 		}
 		
 		/* Repeatable Fields */		
+		.admin-page-framework-field.repeatable {
+			clear: both;
+			display: block;
+		}
 		.admin-page-framework-repeatable-field-buttons {
 			float: right;
 			margin-bottom: 0.5em;
@@ -6121,6 +6124,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$strOutput = isset( $this->arrErrors[ $this->arrField['strSectionID'] ][ $this->arrField['strFieldID'] ] )
 			? "<span style='color:red;'>*&nbsp;{$this->arrField['strError']}" . $this->arrErrors[ $this->arrField['strSectionID'] ][ $this->arrField['strFieldID'] ] . "</span><br />"
 			: '';		
+		
+		// Prepeare the field class selector 
+		$this->strFieldClassSelector = $this->arrField['fRepeatable']
+			? "admin-page-framework-field repeatable"
+			: "admin-page-framework-field";
 			
 		// Get the input field output.
 		switch ( strtolower( $strFieldType ) ) {
@@ -6202,9 +6210,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$arrFields = $this->arrField['fRepeatable'] ? 
 			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
 			: $this->arrField['vLabel'];
-								
+			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6242,7 +6250,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];
 			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6288,7 +6296,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				? $this->arrField['vRich']
 				: $this->getCorrespondingArrayValue( $this->arrField['vRich'], $strKey, null );
 				
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6375,7 +6383,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( $arrLabels as $strKey => $vLabel ) {
 			
 			$fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] );
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<span class='admin-page-framework-input-container admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. "<select id='{$this->strTagID}_{$strKey}' "
@@ -6457,7 +6465,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		);		
 		
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel 
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6517,7 +6525,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
 		$arrLabels =  $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
 		foreach( $arrLabels as $strKey => $vLabel )  
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getRadioTags( $vLabel, $strKey, $fSingle )				
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
@@ -6563,7 +6571,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getCheckBoxField( $arrOutput=array() ) {
 
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. "<input type='hidden' name=" .  ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6603,7 +6611,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getHiddenField( $arrOutput=array() ) {
 					
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. ( ( $strLabel = $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, '' ) ) ? "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>" : "" )
@@ -6632,7 +6640,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getFileField( $arrOutput=array() ) {
 
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<span class='admin-page-framework-input-container'  style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>"
@@ -6667,7 +6675,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$strLinkURL = $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null );
 			$strResetKey = $this->getCorrespondingArrayValue( $this->arrField['vReset'], $strKey, null );
 			$fResetConfirmed = $this->checkConfirmationDisplayed( $strResetKey, $this->strFieldNameFlat ); 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. ( $strRedirectURL 
 						? "<input type='hidden' "
 							. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
@@ -6760,7 +6768,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
 		
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) {
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. "<input type='hidden' "
 						. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportOptionKey'], $strKey, $this->arrField['strOptionKey'] )
@@ -6821,7 +6829,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				$fIsDataSet = true;
 			}
 			
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. "<input type='hidden' "
 						. "name='__export[{$this->arrField['strFieldID']}][file_name]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vExportFileName'], $strKey, $this->generateExportFileName( $this->arrField['strOptionKey'], $strExportFormat ) )
@@ -6892,7 +6900,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];		
 		
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6937,7 +6945,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];		
 	
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -6991,7 +6999,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];		
 			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -7056,7 +7064,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				
 		foreach( ( array ) $this->getPostTypeArrayForChecklist( $this->arrField['arrRemove'] ) as $strKey => $strValue ) {
 			$strName = "{$this->strFieldName}[{$strKey}]";
-			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 	
 					. "<span class='admin-page-framework-input-container'>"
 						. "<input type='hidden' name='{$strName}' value='0' />"
@@ -7143,7 +7151,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "</div>"
 			. "</div>";
 			
-		$strOutput = "<div id='{$this->strTagID}' class='admin-page-framework-field admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
+		$strOutput = "<div id='{$this->strTagID}' class='{$this->strFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
 				. $strTabs . PHP_EOL
 				. $strContents . PHP_EOL
 			. "</div>";

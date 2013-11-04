@@ -629,7 +629,15 @@ class APF_Demo extends AdminPageFramework {
 					'end'	=> __( 'End Date: ', 'amin-page-framework-demo' ),
 				),
 				'vDelimiter' => '&nbsp;&nbsp;&nbsp;&nbsp;',
-			),					
+			),	
+			array(	// Repeatable date picker fields
+				'strFieldID' => 'date_repeatable',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Repeatable Date Pickers', 'admin-page-framework-demo' ),
+				'strType' => 'date',
+				'fRepeatable' => true,
+				'vDateFormat' => 'yy/mm/dd',	// yy/mm/dd is the default format.
+			),		
 			array( // Single Hidden Field
 				'strFieldID' => 'hidden_single',
 				'strSectionID' => 'hidden_field',
