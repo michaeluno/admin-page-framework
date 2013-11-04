@@ -4213,7 +4213,11 @@ abstract class AdminPageFramework_Properties_Base {
 		}		
 		.admin-page-framework-field input {
 			margin-right: 0.5em;
+			
 		}		
+		.admin-page-framework-field-text .admin-page-framework-field input {
+			margin-bottom: 0.5em;
+		}
 		.admin-page-framework-field .admin-page-framework-radio-label, 
 		.admin-page-framework-field .admin-page-framework-checkbox-label {
 			margin-right: 1em;			
@@ -4225,9 +4229,11 @@ abstract class AdminPageFramework_Properties_Base {
 			display: inline-block;
 			vertical-align: middle; 
 		}
+		.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-textarea .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-image .admin-page-framework-field .admin-page-framework-input-label-container,
-		.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container
+		.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container,
+		.admin-page-framework-field-select .admin-page-framework-field .admin-page-framework-input-label-container
 		{
 			vertical-align: top; 
 		}
@@ -4253,6 +4259,7 @@ abstract class AdminPageFramework_Properties_Base {
 		/* Repeatable Fields */		
 		.admin-page-framework-repeatable-field-buttons {
 			float: right;
+			margin-bottom: 0.5em;
 		}
 		.admin-page-framework-repeatable-field-buttons .repeatable-field-button {
 			margin: 0 2px;
@@ -4262,6 +4269,10 @@ abstract class AdminPageFramework_Properties_Base {
 			line-height: 1.5em;
 			font-size: 1.18em;		
 			height: 22px;
+		}
+		/* Rich Text Editor */
+		.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
+			margin-bottom: 0.5em;
 		}
 		";	
 	/**
@@ -6224,10 +6235,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	private function getNumberField( $arrOutput=array() ) {
 		
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];
+			
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel 
+					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
 						. "</span>" 
@@ -6237,7 +6252,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
 						. "type='{$this->arrField['strType']}' "
-						. ( is_array( $this->arrField['vLabel'] ) ? "name='{$this->strFieldName}[{$strKey}]' " : "name='{$this->strFieldName}' " )
+						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
@@ -6260,8 +6275,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	private function getTextAreaField( $arrOutput=array() ) {
 		
-		$fSingle = ! is_array( $this->arrField['vLabel'] );
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) {
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];		
+		
+		$fSingle = ! is_array( $arrFields );
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) {
 			
 			$arrRichEditorSettings = $fSingle
 				? $this->arrField['vRich']
@@ -6269,7 +6288,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel
+					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
 						. "</span>" 
@@ -6284,7 +6303,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 								array(
 									'wpautop' => true, // use wpautop?
 									'media_buttons' => true, // show insert/upload button(s)
-									'textarea_name' => is_array( $this->arrField['vLabel'] ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
+									'textarea_name' => is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
 									'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
 									'tabindex' => '',
 									'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
@@ -6303,7 +6322,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. "cols='" . $this->getCorrespondingArrayValue( $this->arrField['vCols'], $strKey, self::$arrDefaultFieldValues['vCols'] ) . "' "
 							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 							. "type='{$this->arrField['strType']}' "
-							. ( is_array( $this->arrField['vLabel'] ) ? "name='{$this->strFieldName}[{$strKey}]' " : "name='{$this->strFieldName}' " )
+							. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 						. ">"
@@ -6324,25 +6343,25 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			. "</div>";		
 		
 	}
-	/**
-	 * A helper function for the above getTextAreaField() method.
-	 * 
-	 * This adds a script that forces the rich editor element to be inside the field table cell.
-	 * 
-	 * @since			2.1.2
-	 */
-	private function getScriptForRichEditor( $strIDSelector ) {
+		/**
+		 * A helper function for the above getTextAreaField() method.
+		 * 
+		 * This adds a script that forces the rich editor element to be inside the field table cell.
+		 * 
+		 * @since			2.1.2
+		 */
+		private function getScriptForRichEditor( $strIDSelector ) {
 
-		// id: wp-sample_rich_textarea_0-wrap
-		return "<script type='text/javascript'>
-			jQuery( '#wp-{$strIDSelector}-wrap' ).hide();
-			jQuery( document ).ready( function() {
-				jQuery( '#wp-{$strIDSelector}-wrap' ).appendTo( '#field-{$strIDSelector}' );
-				jQuery( '#wp-{$strIDSelector}-wrap' ).show();
-			})
-		</script>";		
-		
-	}
+			// id: wp-sample_rich_textarea_0-wrap
+			return "<script type='text/javascript'>
+				jQuery( '#wp-{$strIDSelector}-wrap' ).hide();
+				jQuery( document ).ready( function() {
+					jQuery( '#wp-{$strIDSelector}-wrap' ).appendTo( '#field-{$strIDSelector}' );
+					jQuery( '#wp-{$strIDSelector}-wrap' ).show();
+				})
+			</script>";		
+			
+		}
 	
 	private function getSelectField( $arrOutput=array() ) {
 
@@ -6574,11 +6593,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 	}
 	
+	/**
+	 * 
+	 * @remark			The user needs to assign the value to the vDefault key in order to set the hidden field. 
+	 * If it's not set ( null value ), the below foreach will not iterate an element so no input field will be embedded.
+	 */
 	private function getHiddenField( $arrOutput=array() ) {
-		
-		// The user needs to assign the value to the vDefault key in order to set the hidden field. 
-		// If it's not set ( null value ), the below foreach will not iterate an element so no input field will be embedded.
-		
+					
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
@@ -6864,10 +6885,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 	private function getDateField( $arrOutput=array() ) {
 		
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];		
+		
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel 
+					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
 						. "</span>" 
@@ -6878,7 +6903,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
 						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 						. "type='text' "	// text, password, etc.
-						. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
@@ -6904,11 +6929,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	
 	private function getColorField( $arrOutput=array() ) {
-		
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+	
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];		
+	
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel 
+					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
 						. "</span>" 
@@ -6919,7 +6948,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
 						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 						. "type='text' "	// text
-						. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
 						. "value='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
 						. "color='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
@@ -6946,11 +6975,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	private function getImageField( $arrOutput=array() ) {
 		
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];		
+			
 		$strSelectImage = __( 'Select Image', 'admin-page-framework' );
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] = "<div class='admin-page-framework-field' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel 
+					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
 						. "</span>" 
@@ -6962,7 +6995,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 							. "type='text' "	// text
-							. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+							. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
 							. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( $this->vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
@@ -7186,6 +7219,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			// Increment the names and ids of the next following siblings.
 			field_delimiter.nextAll().each( function() {
 				
+console.log( jQuery( this ).attr( 'id' ) );				
 				jQuery( this ).attr( 'id', function( index, name ) { return incrementID( index, name ) } );
 				jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
 				
@@ -7229,24 +7263,44 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 		// Helper Closure functions
 		var incrementID = function( index, name ) {
+			
+			if ( typeof name === 'undefined' ) {
+				return name;
+			}
 			return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
 				return Number(n) + 1;
 			});
+			
 		}
 		var incrementName = function( index, name ) {
+			
+			if ( typeof name === 'undefined' ) {
+				return name;
+			}
 			return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
 				return Number(n) + 1;
 			});
+			
 		}		
 		var decrementID = function( index, name ) {
+			
+			if ( typeof name === 'undefined' ) {
+				return name;
+			}			
 			return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
 				return Number(n) - 1;
-			});      
+			});    
+			
 		}
 		var decrementName = function( index, name ) {
+			
+			if ( typeof name === 'undefined' ) {
+				return name;
+			}			
 			return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
 				return Number(n) - 1;
 			});      
+			
 		}
 		
 	})
