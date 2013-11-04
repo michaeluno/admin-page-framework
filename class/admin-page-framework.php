@@ -6918,13 +6918,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 					. "/>"
-					. "<script type='text/javascript'>
-						jQuery(document).ready(function() {
-							jQuery( '#{$this->strTagID}_{$strKey}' ).datepicker({
-								dateFormat : '" . $this->getCorrespondingArrayValue( $this->arrField['vDateFormat'], $strKey, 'yy/mm/dd' ) . "'
-							});
-						})
-					</script>"
+					. $this->getDatePickerEnablerScript( "{$this->strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $this->arrField['vDateFormat'], $strKey, 'yy/mm/dd' ) )
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
@@ -6937,6 +6931,22 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			. "</div>";
 		
 	}
+		/**
+		 * A helper function for the above getDateField() method.
+		 * 
+		 */
+		private function getDatePickerEnablerScript( $strID, $strDateFormat ) {
+
+			return 
+"<script type='text/javascript' class='date-picker-enabler-script' data-id='{$strID}' data-date_format='{$strDateFormat}'>
+	jQuery( document ).ready( function() {
+		jQuery( '#{$strID}' ).datepicker({
+			dateFormat : '{$strDateFormat}'
+		});
+	})
+</script>";	
+			
+		}
 	
 	private function getColorField( $arrOutput=array() ) {
 	
@@ -7246,8 +7256,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
 	
 			field_new.find( 'input,textarea' ).val( '' );	// empty the value		
-			field_new.find( '.image_preview' ).hide();					// hide the preview element
-			field_new.find( '.image_preview img' ).attr( 'src', '' );	// empty the src property for the image uploader field
+			field_new.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
+			field_new.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
 			delimiter_new.insertAfter( target_element );	// add the delimiter
 			field_new.insertAfter( target_element );		// add the cloned new field element
 
@@ -7266,6 +7276,22 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				jQuery( this ).find( '.select_image' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+				
+				// Date pickers - somehow it needs to destroy the both previous one and the added one and assign the new date pickers 
+				var date_picker_script = jQuery( this ).find( 'script.date-picker-enabler-script' );
+				if ( date_picker_script.length > 0 ) {
+					var previous_id = date_picker_script.attr( 'data-id' );
+					date_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
+
+					jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker( 'destroy' ); 
+					jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker({
+						dateFormat : date_picker_script.attr( 'data-date_format' )
+					});						
+					jQuery( '#' + previous_id ).datepicker( 'destroy' ); //here
+					jQuery( '#' + previous_id ).datepicker({
+						dateFormat : date_picker_script.attr( 'data-date_format' )
+					});												
+				}				
 				
 			});
 
