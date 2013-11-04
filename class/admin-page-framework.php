@@ -4365,7 +4365,7 @@ abstract class AdminPageFramework_Properties_Base {
 	 */ 
 	public static function getColorPickerScript() {
 		return "
-			jQuery(document).ready(function(){
+			jQuery( document ).ready( function(){
 				'use strict';
 				//This if statement checks if the color picker element exists within jQuery UI
 				//If it does exist then we initialize the WordPress color picker on our text input field
@@ -6955,11 +6955,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 					. "/>"
 					. "<div class='colorpicker' id='color_{$this->strTagID}_{$strKey}' rel='{$this->strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
-					. "<script type='text/javascript'>
-						if ( typeof jQuery.wp !== 'object' || typeof jQuery.wp.wpColorPicker !== 'function' ){
-							jQuery( '#color_{$this->strTagID}_{$strKey}' ).farbtastic( '#{$this->strTagID}_{$strKey}' );
-						}
-						</script>"
+					. $this->getFarbststicScript( "{$this->strTagID}_{$strKey}") 
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"	// admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
@@ -6972,6 +6968,19 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			. "</div>";	
 		
 	}
+		/**
+		 * A helper function for the above getColorField() method to add a script to enable color picker for WordPess v3.4.x or below.
+		 */
+		private function getFarbststicScript( $strID ) {
+			return 
+"<script type='text/javascript'>
+	jQuery( document ).ready( function() {
+		if ( typeof jQuery.wp !== 'object' || typeof jQuery.wp.wpColorPicker !== 'function' ){
+			jQuery( '#color_{$strID}' ).farbtastic( '#{$strID}' );
+		}
+	})
+</script>";
+		}
 		
 	private function getImageField( $arrOutput=array() ) {
 		
