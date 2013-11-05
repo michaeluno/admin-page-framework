@@ -351,7 +351,7 @@ class APF_Demo extends AdminPageFramework {
 				'strFieldID' => 'text_repeatable',
 				'strSectionID' => 'text_fields',
 				'strTitle' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'Press Add or Remove to change the number of fields.', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
 				'strType' => 'text',
 				'vDelimiter' => '',
 				'vSize' => 80,
