@@ -2311,7 +2311,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Append the script
 		//Setup the color pickers to work with our text input field
-		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();
+		// $this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	// deprecated
 	
 	}
 	private function enqueueMediaUploaderScript() {
@@ -4371,6 +4371,7 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @access		public	
 	 * @internal
 	 * @return			string			The image selector script.
+	 * @deprecated
 	 */ 
 	public static function getColorPickerScript() {
 		return "
@@ -6199,7 +6200,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 		// Add the repeater script
 		$strOutput .= $this->arrField['fRepeatable']
-			? $this->getRepeaterScript( $this->strTagID )
+			? $this->getRepeaterScript( $this->strTagID, count( ( array ) $this->vValue ) )
 			: '';
 			
 		return "<div class='admin-page-framework-fields'>"
@@ -6979,7 +6980,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 					. "/>"
 					. "<div class='colorpicker' id='color_{$this->strTagID}_{$strKey}' rel='{$this->strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
-					. $this->getFarbststicScript( "{$this->strTagID}_{$strKey}") 
+					. $this->getColorPickerEnablerScript( "{$this->strTagID}_{$strKey}" )
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"	// admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
@@ -6995,14 +6996,28 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		/**
 		 * A helper function for the above getColorField() method to add a script to enable color picker for WordPess v3.4.x or below.
 		 */
-		private function getFarbststicScript( $strID ) {
-			return 
-"<script type='text/javascript'>
-	jQuery( document ).ready( function() {
-		if ( typeof jQuery.wp !== 'object' || typeof jQuery.wp.wpColorPicker !== 'function' ){
+		private function getColorPickerEnablerScript( $strID ) {
+			return
+"<script type='text/javascript' class='color-picker-enabler-script' data-id='{$strID}'>
+	jQuery( document ).ready( function(){
+		'use strict';
+		// This if statement checks if the color picker element exists within jQuery UI
+		// If it does exist then we initialize the WordPress color picker on our text input field
+		if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+			var myColorPickerOptions = {
+				defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
+				change: function(event, ui){},	// a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/			
+				clear: function() {},	// a callback to fire when the input is emptied or an invalid color
+				hide: true,	// hide the color picker controls on load
+				palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
+			};			
+			jQuery( '#{$strID}' ).wpColorPicker( myColorPickerOptions );
+		}
+		else {
+			// We use farbtastic if the WordPress color picker widget doesn't exist
 			jQuery( '#color_{$strID}' ).farbtastic( '#{$strID}' );
 		}
-	})
+	});
 </script>";
 		}
 		
@@ -7234,11 +7249,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * 
 	 * @since			2.1.3
 	 */
-	private function getRepeaterScript( $strTagID ) {
-	
+	private function getRepeaterScript( $strTagID, $intFieldCount ) {
+
+		$strAdd = __( 'Add', 'admin-page-framework' );
+		$strRemove = __( 'Remove', 'admin-page-framework' );
+		$strVisibility = $intFieldCount <= 1 ? " style='display:none;'" : "";
 		$strButtons = "<div class='admin-page-framework-repeatable-field-buttons'>"
-				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#'>+</a>"
-				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#'>-</a>"
+				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$strAdd}'>+</a>"
+				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility}>-</a>"
 			. "</div>";
 	
 		return 
@@ -7272,12 +7290,44 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				jQuery( this ).find( 'input,textarea' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
 				
-				// Color Pickers
-				jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-				jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
-				jQuery( this ).find( '.input_color' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-				// jQuery( this ).find( '.input_color' ).wpColorPicker();			
+				// Color Pickers - currently not functional
+				var color_picker_script = jQuery( this ).find( 'script.color-picker-enabler-script' );
+				if ( color_picker_script.length > 0 ) {
+					
+					var previous_id = color_picker_script.attr( 'data-id' );
+					color_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
+					var cloned_id = color_picker_script.attr( 'data-id' );
+					jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+					jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
+					
+					if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+						
+						// Remove the color picker script elements in the clone						
+						// jQuery( 'input#' + cloned_id ).prependTo( '#field-' + cloned_id ).show();
+						// jQuery( this ).find( '.wp-color-result' ).remove();
+						// jQuery( this ).find( '.wp-picker-holder' ).remove();
+						// jQuery( this ).find( '.wp-picker-container' ).remove();
+						
+						var myColorPickerOptions = {
+							defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input
+							change: function( event, ui ){},	// a callback to fire whenever the color changes to a valid color reference : http://automattic.github.io/Iris/
+							clear: function() {},	// a callback to fire when the input is emptied or an invalid color
+							hide: true,	// hide the color picker controls on load
+							palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
+						};						
+						
+						// Reassign the color picker script to the input field.
+						jQuery( '#' + color_picker_script.attr( 'data-id' ) ).wpColorPicker( myColorPickerOptions ); 					
+						// jQuery( '#' + previous_id ).wpColorPicker( myColorPickerOptions ); 
+						
+					} else {
+						//We use farbtastic if the WordPress color picker widget doesn't exist
+						jQuery( '#color_' + color_picker_script.attr( 'data-id' ) ).farbtastic( '#' + color_picker_script.attr( 'data-id' ) );
+						jQuery( '#color_' + previous_id ).farbtastic( '#' + previous_id );
+					}
 				
+				}
+
 				// Image Uploader Button
 				jQuery( this ).find( '.select_image' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 				jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
@@ -8209,7 +8259,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	
 		// Append the script
 		// Set up the color pickers to work with our text input field
-		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();
+		// $this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	// deprecated
 	
 	}
 	

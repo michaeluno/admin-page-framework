@@ -565,6 +565,7 @@ class APF_Demo extends AdminPageFramework {
 				'strFieldID' => 'image_select_field_repeater',
 				'strSectionID' => 'image_select',
 				'strTitle' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
+				'vDelimiter' => '',
 				'fRepeatable' => true,
 				'strType' => 'image',
 			),
