@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.2
+	Version: 2.1.3b
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -581,13 +581,6 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
-			),	
-			array( // Repeatable Color Pickers
-				'strFieldID' => 'multiple_color_picker_field_repeatable',
-				'strSectionID' => 'color_picker',
-				'strTitle' => __( 'Repeatable Color Pickers', 'admin-page-framework-demo' ),
-				'strType' => 'color',
-				'fRepeatable' => true,
 			),	
 			array(
 				'strFieldID' => 'post_type_checklist',
