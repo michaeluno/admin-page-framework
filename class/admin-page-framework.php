@@ -6644,19 +6644,26 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 	private function getFileField( $arrOutput=array() ) {
 
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];	
+	
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container'  style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>"
-					. "</span>"
+					. ( $strLabel && ! $this->arrField['fRepeatable'] ?
+						"<span class='admin-page-framework-input-container'  style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+							. "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>"
+						. "</span>"
+						: ""
+					)
 					. "<input "
 						. "id='{$this->strTagID}_{$strKey}' "
 						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 						. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
 						. "type='{$this->arrField['strType']}' "	// file
-						. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
+						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+						. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. "/>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )

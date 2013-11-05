@@ -660,18 +660,25 @@ class APF_Demo extends AdminPageFramework {
 			array( // Single File Upload Field
 				'strFieldID' => 'file_single',
 				'strSectionID' => 'files',
-				'strTitle' => 'Single File Upload',
+				'strTitle' => __( 'Single File Upload', 'admin-page-framework-demo' ),
 				'strType' => 'file',
 				'vLabel' => 'Select the file:',
 			),					
 			array( // Multiple File Upload Fields
 				'strFieldID' => 'file_multiple',
 				'strSectionID' => 'files',
-				'strTitle' => 'Multiple File Uploads',
+				'strTitle' => __( 'Multiple File Uploads', 'admin-page-framework-demo' ),
 				'strType' => 'file',
 				'vLabel' => array( 'Fist File:', 'Second File:', 'Third File:' ),
 				'vDelimiter' => '<br />',
-			),			
+			),	
+			array( // Single File Upload Field
+				'strFieldID' => 'file_repeatable',
+				'strSectionID' => 'files',
+				'strTitle' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
+				'strType' => 'file',
+				'fRepeatable' => true,
+			),					
 			array( // Multiple File Upload Fields
 				'strFieldID' => 'verify_text_field',
 				'strSectionID' => 'verification',
