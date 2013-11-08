@@ -176,6 +176,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.3 = 
+* Fixed: a bug that an image url could not be inserted from the `From URL` tab of the image uploader.
 * Added: the `fRepeatable` key to the `text`,`textarea`, `image`, `date`, and `file` field types that make the fields to be repeatable.
 
 = 2.1.2 - 11/3/2013 =

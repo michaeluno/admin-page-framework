@@ -4352,20 +4352,31 @@ abstract class AdminPageFramework_Properties_Base {
 	 */		
 	public static function getImageSelectorScript( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
 		return "
-			jQuery( document ).ready( function( $ ){
-				$( '.select_image' ).click( function() {
-					pressed_id = $( this ).attr( 'id' );
+			jQuery( document ).ready( function(){
+				jQuery( '.select_image' ).click( function() {
+					pressed_id = jQuery( this ).attr( 'id' );
 					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
 					tb_show('{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
 					return false;	// do not click the button after the script by returning false.
 				});
 				window.send_to_editor = function( html ) {
-					var image_url = $( 'img',html ).attr( 'src' );
-					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
+
+					var html = '<div>' + html + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below jQuery attr() method don't catch attributes.
+					var src = jQuery( 'img', html ).attr( 'src' );
+					var alt = jQuery( 'img', html ).attr( 'alt' );
+					var title = jQuery( 'img', html ).attr( 'title' );
+					var classes = jQuery( 'img', html ).attr( 'class' );
+					var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID					
+					jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field.
+					jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
+					jQuery( '#image_preview_' + field_id ).attr( 'title', title );
+					jQuery( '#image_preview_' + field_id ).attr( 'classes', classes );
+					jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
+					jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
+					jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
+					jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
 					tb_remove();	// close the thickbox
-					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
-					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
-					$( '#image_preview_' + field_id ).show()	// updates the visibility
+					
 				}
 			});
 		";
