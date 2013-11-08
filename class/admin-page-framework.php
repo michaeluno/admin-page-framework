@@ -360,12 +360,16 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @remark			This is mainly used by the field array to insert user-defined key values.
 	 * @return			string|array			If the key does not exist in the passed array, it will return the default. If the subject value is not an array, it will return the subject value itself.
 	 * @since			2.0.0
+	 * @since			2.1.3					Added the $fBlankToDefault parameter that sets the default value if the subject value is empty.
 	 * @access			protected
 	 */
-	protected function getCorrespondingArrayValue( $vSubject, $strKey, $strDefault='' ) {	
+	protected function getCorrespondingArrayValue( $vSubject, $strKey, $strDefault='', $fBlankToDefault=false ) {	
 				
 		// If $vSubject is null,
 		if ( ! isset( $vSubject ) ) return $strDefault;	
+			
+		// If the $fBlankToDefault flag is set and the subject value is a blank string, return the default value.
+		if ( $fBlankToDefault && $vSubject == '' ) return $strDefault;
 			
 		// If $vSubject is not an array, 
 		if ( ! is_array( $vSubject ) ) return ( string ) $vSubject;	// consider it as string.
@@ -3365,12 +3369,12 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	/**
 	 * The constructor of the main class.
 	 * 
+	 * <h4>Example</h4>
+	 * <code>if ( is_admin() )
+	 * 		new MyAdminPageClass( 'my_custom_option_key', __FILE__ );
+	 * </code>
+	 * 
 	 * @access			public
- 	 * @example			a			function test() {
-	 * 	?>
-	 * 	echo 'hi';
-	 * 	<?php
-	 * 	}
 	 * @since			2.0.0
 	 * @param			string		$strOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
 	 * @param			string		$strCallerPath			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
@@ -6782,10 +6786,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		}
 
 	private function getImportField( $arrOutput=array() ) {
-		
+	
 		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
-		
-		foreach( ( array ) $this->vValue as $strKey => $strValue ) {
+		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
 			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. "<input type='hidden' "
 						. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
@@ -6797,7 +6800,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "' />"			
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<input "
+						. "<input "		// upload button
 							. "id='{$this->strTagID}_{$strKey}_file' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import' ) . "' "
 							. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
@@ -6805,12 +6808,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. "name='__import[{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )				
 						. "/>"
-						. "<input "
+						. "<input "		// import button
 							. "id='{$this->strTagID}_{$strKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import button button-primary' ) . "' "
-							. "type='submit' "	// the export button is a custom submit button.
+							. "type='submit' "	// the import button is a custom submit button.
 							. "name='__import[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'import_options' ) ) . "' "
+							. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'import_options' ), true ) . "' "
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
@@ -6819,9 +6822,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
 					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
 					: ""
-				);
-				
-		}
+				);		
 					
 		return "<div class='admin-page-framework-field-import' id='{$this->strTagID}'>" 
 				. implode( '', $arrOutput ) 
