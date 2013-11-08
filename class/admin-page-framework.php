@@ -5568,7 +5568,7 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 			: "<a href='{$arrScriptInfo['strURI']}' target='_blank' title='{$arrScriptInfo['strName']}{$strVersion}{$strDescription}'>{$arrScriptInfo['strName']}</a>";			
 		$strFooterInfoRight = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
 			. $strLibraryInfo
-			. ', <a href="http://wordpress.org" target="_blank">WordPress</a>';		
+			. ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
 		
 	}
 }
@@ -5717,7 +5717,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
 		$this->setFooterInfoLeft( $this->oProps->arrScriptInfo, $this->oProps->arrFooterInfo['strLeft'] );
-		$this->setFooterInfoRight( $this->oProps->arrScriptInfo, $this->oProps->arrFooterInfo['strRight'] );
+		$this->setFooterInfoRight( $this->oProps->arrLibraryInfo, $this->oProps->arrFooterInfo['strRight'] );
 	
 		if ( $this->oProps->arrScriptInfo['strType'] == 'plugin' )
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->arrScriptInfo['strPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
