@@ -7116,24 +7116,38 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				}			
 			";
 			
+			$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
+			$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );
 			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
 				$strScript .="
 				jQuery( document ).ready( function(){
-					jQuery( '#select_image_{$strID}' ).click( function() {
-
+					jQuery( '#select_image_{$strID}' ).click( function( e ) {
 						window.wpActiveEditor = null;
-						var send_attachment_bkp = wp.media.editor.send.attachment;
+						
+						e.preventDefault();
+						// If the uploader object has already been created, reopen the dialog
+						if ( custom_uploader ) {
+							custom_uploader.open();
+							return;
+						}						
+						var custom_uploader = wp.media({
+							title: '{$strUploadImage}',
+							button: {
+								text: '{$strUseThisImage}'
+							},
+							multiple: false  // Set this to true to allow multiple files to be selected
+						});
 
-						wp.media.editor.send.attachment = function( props, attachment ) {
-
+						// When a file is selected, grab the URL and set it as the text field's value
+						custom_uploader.on( 'select', function() {
+							var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
 							jQuery( '#{$strID}' ).val( attachment.url );
 							jQuery( '#image_preview_{$strID}' ).attr( 'src', attachment.url );
 							jQuery( '#image_preview_container_{$strID}' ).show();
-							
-							wp.media.editor.send.attachment = send_attachment_bkp;
-							
-						}
-						wp.media.editor.open();
+						});						
+						// Open the uploader dialog
+						custom_uploader.open();						
+						
 						return false;       
 					});
 				});";	
@@ -7327,7 +7341,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$strAdd}'>+</a>"
 				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility}>-</a>"
 			. "</div>";
-	
+
+		$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
+		$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );	
 		return 
 		"<script type='text/javascript'>
 			jQuery( document ).ready( function() {
@@ -7404,18 +7420,39 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							image_uploader_button.attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 							jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-							
+						
 							if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
-								jQuery( '#select_image_' + previous_id ).click( function() {
-									window.wpActiveEditor = null;
-									var send_attachment_bkp = wp.media.editor.send.attachment;
-									wp.media.editor.send.attachment = function( props, attachment ) {
-										jQuery( '#' + previous_id ).val( attachment.url );
-										jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
-										jQuery( '#image_preview_container_' + previous_id ).show();
-										wp.media.editor.send.attachment = send_attachment_bkp;
-									}
-									wp.media.editor.open();
+													
+								jQuery( '#select_image_' + previous_id ).unbind( 'click' );					
+								jQuery( '#select_image_' + previous_id ).click( function( e ) {
+									window.wpActiveEditor = null; 
+									
+									e.preventDefault();
+									// If the uploader object has already been created, reopen the dialog
+									if ( custom_uploader ) {
+										custom_uploader.open();
+										return;
+									}						
+									var custom_uploader = wp.media({
+										title: '{$strUploadImage}',
+										button: {
+											text: '{$strUseThisImage}'
+										},
+										multiple: false  // Set this to true to allow multiple files to be selected
+									});
+
+									// When a file is selected, grab the URL and set it as the text field's value
+									custom_uploader
+										.off( 'select' )	// remove the previous event 
+										.on( 'select', function() {
+											var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
+											jQuery( '#' + previous_id ).val( attachment.url );
+											jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
+											jQuery( '#image_preview_container_' + previous_id ).show();
+									});						
+									// Open the uploader dialog
+									custom_uploader.open();											
+									
 									return false;       
 								});
 							}						
