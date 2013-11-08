@@ -2328,10 +2328,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( $this->fIsMediaUploaderScriptEnqueued	) return;
 		$this->fIsMediaUploaderScriptEnqueued = true;	
-		
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
 		add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
-		
+
+				
 	}
 	private function addImageFieldScript( &$arrField ) {
 					
@@ -2343,7 +2344,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
 		
 		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above		
+			$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
 		
 	}
 	
@@ -3129,15 +3131,20 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * Enqueues media uploader scripts.
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.3			Added the support for the 3.5 media uploader
 	 * @return			void
 	 * @internal
 	 */ 
 	public function enqueueUploaderScripts() {
-			
+
 		wp_enqueue_script('jquery');			
 		wp_enqueue_script('thickbox');
-		wp_enqueue_style('thickbox');				
-		wp_enqueue_script('media-upload');
+		wp_enqueue_style('thickbox');	
+	
+		if( function_exists( 'wp_enqueue_media' ) ) {	// means the WordPress version is 3.5 or above
+			wp_enqueue_media();	
+		} else		
+			wp_enqueue_script('media-upload');
 	
 	} 
 	
@@ -4143,12 +4150,16 @@ abstract class AdminPageFramework_Properties_Base {
 			/* margin-left: 0.5em; */
 		}
 		.admin-page-framework-field .image_preview {
-			border: none; clear:both; margin-top: 20px;	max-width:100%; 
+			border: none; clear:both; 
+			max-width:100%; 
+			margin-top: 1em;
+			margin-bottom: 1em;
 		}
 		.admin-page-framework-field .image_preview img {
-			max-height: 600px; max-width: 800px;
+			max-width: 100%;
+			height: auto;
+			width: auto\9; /* ie8 */			
 		}
-
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
 			display: none;
 		}
@@ -4356,7 +4367,7 @@ abstract class AdminPageFramework_Properties_Base {
 				$( '.select_image' ).click( function() {
 					pressed_id = $( this ).attr( 'id' );
 					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-					tb_show('{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
+					tb_show( '{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
 					return false;	// do not click the button after the script by returning false.
 				});
 				window.send_to_editor = function( html ) {
@@ -4364,7 +4375,7 @@ abstract class AdminPageFramework_Properties_Base {
 					$( '#' + field_id ).val( image_url );	// sets the image url in the main text field.
 					tb_remove();	// close the thickbox
 					$( '#image_preview_' + field_id ).attr( 'src', image_url );	// updates the preview image
-					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visiblity
+					$( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
 					$( '#image_preview_' + field_id ).show()	// updates the visibility
 				}
 			});
@@ -5953,7 +5964,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'vLink'	=> null,			// ( array or string )	This is for the submit field type.
 		'vRedirect'	=> null,		// ( array or string )	This is for the submit field type.
 		'vReset'	=> null,		// ( array or string )	[2.1.2+] This is for the submit field type.
-		'vImagePreview' => null,	// ( array or string )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
+		'vImagePreview' => null,	// ( array or boolean )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
 		'strTickBoxTitle' => null,	// ( string ) This is for the image field type.
 		'strLabelUseThis' => null,	// ( string ) This is for the image field type.
 		'vTaxonomySlug' => 'category',	// ( string ) This is for the taxonomy field type.
@@ -7008,7 +7019,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	}
 		/**
-		 * A helper function for the above getColorField() method to add a script to enable color picker for WordPess v3.4.x or below.
+		 * A helper function for the above getColorField() method to add a script to enable the color picker.
 		 */
 		private function getColorPickerEnablerScript( $strID ) {
 			return
@@ -7050,20 +7061,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</span>" 
 						: "" 
 					)
-					. "<div class='admin-page-framework-input-container'>"
+					. "<div class='admin-page-framework-input-container image-field'>"
 						. "<input id='{$this->strTagID}_{$strKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 							. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 							. "type='text' "	// text
-							. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+							. "name='" . ( $strName = is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName ) . "' "
 							. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( $this->vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 						. "/>"
-						. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}" )	
+						. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $strName )	
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
-							? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' class='image_preview' style='" . ( $strImageURL ? "" : "display : none;" ) . "'>"
+							? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
+									. "class='image_preview' "
+									. "style='" . $this->getImagePreviewContainerStyle( $strImageURL  ) . "'"
+								. ">"
 									. "<img src='{$strImageURL}' "
 										. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
 									. "/>"
@@ -7085,17 +7099,58 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		/**
 		 * A helper function for the above getImageField() method to add a image button script.
 		 */
-		private function getImageUploaderButtonScript( $strID ) {
+		private function getImageUploaderButtonScript( $strID, $strName ) {
 			
 			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
-			$strButton ="<a id='select_image_{$strID}' href='#' class='select_image button button-small'>{$strSelectImage}</a>";
-			return 
-"<script type='text/javascript'>
-	if ( jQuery( 'a#select_image_{$strID}' ).length == 0 )
-		jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
-</script>";			
+			$strButton ="<a id='select_image_{$strID}' "
+						. "href='#' "
+						. "class='select_image button button-small'"
+						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
+					. ">"
+						. $strSelectImage 
+				."</a>";
+			
+			$strScript = "
+				if ( jQuery( 'a#select_image_{$strID}' ).length == 0 ) {
+					jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
+				}			
+			";
+			
+			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
+				$strScript .="
+				jQuery( document ).ready( function(){
+					jQuery( '#select_image_{$strID}' ).click( function() {
+
+						window.wpActiveEditor = null;
+						var send_attachment_bkp = wp.media.editor.send.attachment;
+
+						wp.media.editor.send.attachment = function( props, attachment ) {
+
+							jQuery( '#{$strID}' ).val( attachment.url );
+							jQuery( '#image_preview_{$strID}' ).attr( 'src', attachment.url );
+							jQuery( '#image_preview_container_{$strID}' ).show();
+							
+							wp.media.editor.send.attachment = send_attachment_bkp;
+							
+						}
+						wp.media.editor.open();
+						return false;       
+					});
+				});";	
+			return "<script type='text/javascript'>" . $strScript . "</script>";
 
 		}
+		/**
+		 * A helper function for the above getImageField() method to return the inline-style of the image preview container element.
+		 * 
+		 * @since			2.1.3
+		 */
+		private function getImagePreviewContainerStyle( $strImageURL ) {
+			
+			$strInlineStyle = $strImageURL ? "" : "display : none;";
+			return $strInlineStyle . "zoom:1;";
+			
+		}		
 		
 	/**
 	 * Returns the output of post type checklist check boxes.
@@ -7274,178 +7329,197 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			. "</div>";
 	
 		return 
-"<script type='text/javascript'>
-	jQuery( document ).ready( function() {
-	
-		// Adds the buttons
-		jQuery( '#{$strTagID} .admin-page-framework-field' ).append( \"{$strButtons}\" );
-		
-		// Add button behaviour
-		jQuery( '#{$strTagID} .repeatable-field-add' ).click( function() {
-		
-			var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
-			var field_container_id = field_container.attr( 'id' );	
-			var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
-			var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
-			var field_new = field_container.clone( true );
-			var delimiter_new = field_delimiter.clone( true );			
-			var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
-	
-			field_new.find( 'input,textarea' ).val( '' );	// empty the value		
-			field_new.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
-			field_new.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
-			delimiter_new.insertAfter( target_element );	// add the delimiter
-			field_new.insertAfter( target_element );		// add the cloned new field element
-
-			// Increment the names and ids of the next following siblings.
-			target_element.nextAll().each( function() {
-		
-				jQuery( this ).attr( 'id', function( index, name ) { return incrementID( index, name ) } );
-				jQuery( this ).find( 'input,textarea' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-				jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
+		"<script type='text/javascript'>
+			jQuery( document ).ready( function() {
+			
+				// Adds the buttons
+				jQuery( '#{$strTagID} .admin-page-framework-field' ).append( \"{$strButtons}\" );
 				
-				// Color Pickers - currently not functional
-				var color_picker_script = jQuery( this ).find( 'script.color-picker-enabler-script' );
-				if ( color_picker_script.length > 0 ) {
-					
-					var previous_id = color_picker_script.attr( 'data-id' );
-					color_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
-					var cloned_id = color_picker_script.attr( 'data-id' );
-					jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-					jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
-					
-					if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+				// Add button behaviour
+				jQuery( '#{$strTagID} .repeatable-field-add' ).click( function() {
+				
+					var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
+					var field_container_id = field_container.attr( 'id' );	
+					var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
+					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
+					var field_new = field_container.clone( true );
+					var delimiter_new = field_delimiter.clone( true );			
+					var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
+			
+					field_new.find( 'input,textarea' ).val( '' );	// empty the value		
+					field_new.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
+					field_new.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
+					delimiter_new.insertAfter( target_element );	// add the delimiter
+					field_new.insertAfter( target_element );		// add the cloned new field element
+
+					// Increment the names and ids of the next following siblings.
+					target_element.nextAll().each( function() {
+				
+						jQuery( this ).attr( 'id', function( index, name ) { return incrementID( index, name ) } );
+						jQuery( this ).find( 'input,textarea' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+						jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
 						
-						// Remove the color picker script elements in the clone						
-						// jQuery( 'input#' + cloned_id ).prependTo( '#field-' + cloned_id ).show();
-						// jQuery( this ).find( '.wp-color-result' ).remove();
-						// jQuery( this ).find( '.wp-picker-holder' ).remove();
-						// jQuery( this ).find( '.wp-picker-container' ).remove();
+						// Color Pickers - currently not functional
+						var color_picker_script = jQuery( this ).find( 'script.color-picker-enabler-script' );
+						if ( color_picker_script.length > 0 ) {
+							
+							var previous_id = color_picker_script.attr( 'data-id' );
+							color_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
+							var cloned_id = color_picker_script.attr( 'data-id' );
+							jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+							jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
+							
+							if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+								
+								// Remove the color picker script elements in the clone						
+								// jQuery( 'input#' + cloned_id ).prependTo( '#field-' + cloned_id ).show();
+								// jQuery( this ).find( '.wp-color-result' ).remove();
+								// jQuery( this ).find( '.wp-picker-holder' ).remove();
+								// jQuery( this ).find( '.wp-picker-container' ).remove();
+								
+								var myColorPickerOptions = {
+									defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input
+									change: function( event, ui ){},	// a callback to fire whenever the color changes to a valid color reference : http://automattic.github.io/Iris/
+									clear: function() {},	// a callback to fire when the input is emptied or an invalid color
+									hide: true,	// hide the color picker controls on load
+									palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
+								};						
+								
+								// Reassign the color picker script to the input field.
+								jQuery( '#' + color_picker_script.attr( 'data-id' ) ).wpColorPicker( myColorPickerOptions ); 					
+								// jQuery( '#' + previous_id ).wpColorPicker( myColorPickerOptions ); 
+								
+							} else {
+								//We use farbtastic if the WordPress color picker widget doesn't exist
+								jQuery( '#color_' + color_picker_script.attr( 'data-id' ) ).farbtastic( '#' + color_picker_script.attr( 'data-id' ) );
+								jQuery( '#color_' + previous_id ).farbtastic( '#' + previous_id );
+							}
 						
-						var myColorPickerOptions = {
-							defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input
-							change: function( event, ui ){},	// a callback to fire whenever the color changes to a valid color reference : http://automattic.github.io/Iris/
-							clear: function() {},	// a callback to fire when the input is emptied or an invalid color
-							hide: true,	// hide the color picker controls on load
-							palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
-						};						
+						}
+
+						// Image Uploader Button
+						image_uploader_button = jQuery( this ).find( '.select_image' );
+						if ( image_uploader_button.length > 0 ) {
+							var previous_id = jQuery( this ).find( '.image-field input' ).attr( 'id' );
+							image_uploader_button.attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+							jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+							
+							if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
+								jQuery( '#select_image_' + previous_id ).click( function() {
+									window.wpActiveEditor = null;
+									var send_attachment_bkp = wp.media.editor.send.attachment;
+									wp.media.editor.send.attachment = function( props, attachment ) {
+										jQuery( '#' + previous_id ).val( attachment.url );
+										jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
+										jQuery( '#image_preview_container_' + previous_id ).show();
+										wp.media.editor.send.attachment = send_attachment_bkp;
+									}
+									wp.media.editor.open();
+									return false;       
+								});
+							}						
+						}
 						
-						// Reassign the color picker script to the input field.
-						jQuery( '#' + color_picker_script.attr( 'data-id' ) ).wpColorPicker( myColorPickerOptions ); 					
-						// jQuery( '#' + previous_id ).wpColorPicker( myColorPickerOptions ); 
+						// Date pickers - somehow it needs to destroy the both previous one and the added one and assign the new date pickers 
+						var date_picker_script = jQuery( this ).find( 'script.date-picker-enabler-script' );
+						if ( date_picker_script.length > 0 ) {
+							var previous_id = date_picker_script.attr( 'data-id' );
+							date_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
+
+							jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker( 'destroy' ); 
+							jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker({
+								dateFormat : date_picker_script.attr( 'data-date_format' )
+							});						
+							jQuery( '#' + previous_id ).datepicker( 'destroy' ); //here
+							jQuery( '#' + previous_id ).datepicker({
+								dateFormat : date_picker_script.attr( 'data-date_format' )
+							});												
+						}				
 						
-					} else {
-						//We use farbtastic if the WordPress color picker widget doesn't exist
-						jQuery( '#color_' + color_picker_script.attr( 'data-id' ) ).farbtastic( '#' + color_picker_script.attr( 'data-id' ) );
-						jQuery( '#color_' + previous_id ).farbtastic( '#' + previous_id );
+					});
+
+					var fieldsCount = jQuery('#{$strTagID} .repeatable-field-remove').length;
+					if ( fieldsCount > 1 ) {
+						jQuery('#{$strTagID} .repeatable-field-remove' ).show();
 					}
+					
+					return false;
+					
+				});		
 				
+				// Remove button behaviour
+				jQuery( '#{$strTagID} .repeatable-field-remove' ).click( function() {
+					
+					// Need to remove two elements: the field container and the delimiter element.
+					var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
+					var field_container_id = field_container.attr( 'id' );				
+					var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
+					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
+					
+					// Decrement the names and ids of the next following siblings.
+					field_delimiter.nextAll().each( function() {
+						
+						jQuery( this ).attr( 'id', function( index, name ) { return decrementID( index, name ) } );
+						jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return decrementName( index, name ) } );
+						
+					});
+					
+					field_delimiter.remove();
+					field_container.remove();
+					
+					var fieldsCount = jQuery( '#{$strTagID} .repeatable-field-remove' ).length;
+					if ( fieldsCount == 1 ) {
+						jQuery( '#{$strTagID} .repeatable-field-remove' ).css( 'display', 'none' );
+					}
+					return false;
+				});
+			
+				// Helper Closure functions
+				var incrementID = function( index, name ) {
+					
+					if ( typeof name === 'undefined' ) {
+						return name;
+					}
+					return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
+						return Number(n) + 1;
+					});
+					
 				}
-
-				// Image Uploader Button
-				jQuery( this ).find( '.select_image' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-				jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-				jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
+				var incrementName = function( index, name ) {
+					
+					if ( typeof name === 'undefined' ) {
+						return name;
+					}
+					return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
+						return Number(n) + 1;
+					});
+					
+				}		
+				var decrementID = function( index, name ) {
+					
+					if ( typeof name === 'undefined' ) {
+						return name;
+					}			
+					return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
+						return Number(n) - 1;
+					});    
+					
+				}
+				var decrementName = function( index, name ) {
+					
+					if ( typeof name === 'undefined' ) {
+						return name;
+					}			
+					return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
+						return Number(n) - 1;
+					});      
+					
+				}
 				
-				// Date pickers - somehow it needs to destroy the both previous one and the added one and assign the new date pickers 
-				var date_picker_script = jQuery( this ).find( 'script.date-picker-enabler-script' );
-				if ( date_picker_script.length > 0 ) {
-					var previous_id = date_picker_script.attr( 'data-id' );
-					date_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
-
-					jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker( 'destroy' ); 
-					jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker({
-						dateFormat : date_picker_script.attr( 'data-date_format' )
-					});						
-					jQuery( '#' + previous_id ).datepicker( 'destroy' ); //here
-					jQuery( '#' + previous_id ).datepicker({
-						dateFormat : date_picker_script.attr( 'data-date_format' )
-					});												
-				}				
-				
-			});
-
-			var fieldsCount = jQuery('#{$strTagID} .repeatable-field-remove').length;
-			if ( fieldsCount > 1 ) {
-				jQuery('#{$strTagID} .repeatable-field-remove' ).show();
-			}
+			})
 			
-			return false;
-			
-		});		
-		
-		// Remove button behaviour
-		jQuery( '#{$strTagID} .repeatable-field-remove' ).click( function() {
-			
-			// Need to remove two elements: the field container and the delimiter element.
-			var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
-			var field_container_id = field_container.attr( 'id' );				
-			var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
-			var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
-			
-			// Decrement the names and ids of the next following siblings.
-			field_delimiter.nextAll().each( function() {
-				
-				jQuery( this ).attr( 'id', function( index, name ) { return decrementID( index, name ) } );
-				jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return decrementName( index, name ) } );
-				
-			});
-			
-			field_delimiter.remove();
-			field_container.remove();
-			
-			var fieldsCount = jQuery( '#{$strTagID} .repeatable-field-remove' ).length;
-			if ( fieldsCount == 1 ) {
-				jQuery( '#{$strTagID} .repeatable-field-remove' ).css( 'display', 'none' );
-			}
-			return false;
-		});
-	
-		// Helper Closure functions
-		var incrementID = function( index, name ) {
-			
-			if ( typeof name === 'undefined' ) {
-				return name;
-			}
-			return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
-				return Number(n) + 1;
-			});
-			
-		}
-		var incrementName = function( index, name ) {
-			
-			if ( typeof name === 'undefined' ) {
-				return name;
-			}
-			return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
-				return Number(n) + 1;
-			});
-			
-		}		
-		var decrementID = function( index, name ) {
-			
-			if ( typeof name === 'undefined' ) {
-				return name;
-			}			
-			return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
-				return Number(n) - 1;
-			});    
-			
-		}
-		var decrementName = function( index, name ) {
-			
-			if ( typeof name === 'undefined' ) {
-				return name;
-			}			
-			return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
-				return Number(n) - 1;
-			});      
-			
-		}
-		
-	})
-	
-</script>";
+		</script>";
 		
 	}
 	
@@ -8304,9 +8378,10 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$strRootClassName = get_class();
 		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) return;
 		$GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] = true;
-		
+	
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
 		add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
+	
 		
 	}
 	private function addImageFieldScript( &$arrField ) {
@@ -8321,7 +8396,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
 					
 		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above		
+			$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
 		
 	}
 
@@ -8373,6 +8449,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	/**
 	 * Enqueues the media uploader scripts.
 	 * @since			2.0.0
+	 * @since			2.1.3			Added the support for the 3.5 media uploader
 	 * @remark			A callback for the <em>admin_enqueue_scripts</em> hook.
 	 */ 
 	public function enqueueUploaderScripts() {
@@ -8380,8 +8457,12 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		wp_enqueue_script('jquery');			
 		wp_enqueue_script('thickbox');
 		wp_enqueue_style('thickbox');				
-		wp_enqueue_script('media-upload');
-	
+			
+		if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
+			wp_enqueue_media();	
+		else
+			wp_enqueue_script('media-upload');
+				
 	} 	 
 	
 	/**
