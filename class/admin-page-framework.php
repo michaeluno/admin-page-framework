@@ -7146,6 +7146,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							button: {
 								text: '{$strUseThisImage}'
 							},
+							library     : { type : 'image' },
+							// frame: 'post',
 							multiple: false  // Set this to true to allow multiple files to be selected
 						});
 
@@ -7153,8 +7155,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						custom_uploader.on( 'select', function() {
 							var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
 							jQuery( '#{$strID}' ).val( attachment.url );
+							jQuery( '#image_preview_{$strID}' ).attr( 'data-id', attachment.id );
+							jQuery( '#image_preview_{$strID}' ).attr( 'alt', attachment.alt );
+							jQuery( '#image_preview_{$strID}' ).attr( 'title', attachment.title );
 							jQuery( '#image_preview_{$strID}' ).attr( 'src', attachment.url );
 							jQuery( '#image_preview_container_{$strID}' ).show();
+// console.log( attachment );							
 						});						
 						// Open the uploader dialog
 						custom_uploader.open();						
@@ -7449,6 +7455,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 										button: {
 											text: '{$strUseThisImage}'
 										},
+										library     : { type : 'image' },
+										// frame: 'post',
 										multiple: false  // Set this to true to allow multiple files to be selected
 									});
 
@@ -7458,6 +7466,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 										.on( 'select', function() {
 											var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
 											jQuery( '#' + previous_id ).val( attachment.url );
+											jQuery( '#image_preview_' + previous_id ).attr( 'data-id', attachment.id );
+											jQuery( '#image_preview_' + previous_id ).attr( 'alt', attachment.alt );
+											jQuery( '#image_preview_' + previous_id ).attr( 'title', attachment.title );											
 											jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
 											jQuery( '#image_preview_container_' + previous_id ).show();
 									});						
