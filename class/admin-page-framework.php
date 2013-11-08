@@ -2344,8 +2344,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
 		
 		// Append the script
-		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above		
-			$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
 		
 	}
 	
@@ -4362,35 +4361,237 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @return			string			The image selector script.
 	 */		
 	public static function getImageSelectorScript( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
-		return "
-			jQuery( document ).ready( function(){
-				jQuery( '.select_image' ).click( function() {
-					pressed_id = jQuery( this ).attr( 'id' );
-					field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-					tb_show( '{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
-					return false;	// do not click the button after the script by returning false.
+		
+		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
+			return "
+				jQuery( document ).ready( function(){
+					jQuery( '.select_image' ).click( function() {
+						pressed_id = jQuery( this ).attr( 'id' );
+						field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
+						tb_show( '{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
+						return false;	// do not click the button after the script by returning false.
+					});
+					window.send_to_editor = function( html ) {
+
+						var html = '<div>' + html + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below jQuery attr() method don't catch attributes.
+						var src = jQuery( 'img', html ).attr( 'src' );
+						var alt = jQuery( 'img', html ).attr( 'alt' );
+						var title = jQuery( 'img', html ).attr( 'title' );
+						var classes = jQuery( 'img', html ).attr( 'class' );
+						var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID					
+						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field.
+						jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
+						jQuery( '#image_preview_' + field_id ).attr( 'title', title );
+						jQuery( '#image_preview_' + field_id ).attr( 'classes', classes );
+						jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
+						jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
+						jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
+						jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
+						tb_remove();	// close the thickbox
+
+					}
 				});
-				window.send_to_editor = function( html ) {
+			";
+			
+		// Custom 3.5 Media Uploader Window
+		return "
+		jQuery( document ).ready( function(){
+			wp.media.view.MediaFrame.Select = wp.media.view.MediaFrame.Select.extend({
 
-					var html = '<div>' + html + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below jQuery attr() method don't catch attributes.
-					var src = jQuery( 'img', html ).attr( 'src' );
-					var alt = jQuery( 'img', html ).attr( 'alt' );
-					var title = jQuery( 'img', html ).attr( 'title' );
-					var classes = jQuery( 'img', html ).attr( 'class' );
-					var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID					
-					jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field.
-					jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
-					jQuery( '#image_preview_' + field_id ).attr( 'title', title );
-					jQuery( '#image_preview_' + field_id ).attr( 'classes', classes );
-					jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
-					jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
-					jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
-					jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
-					tb_remove();	// close the thickbox
+				initialize: function() {
+					wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
+					_.defaults( this.options, {
+						multiple:  true,
+						editing:   false,
+						state:    'insert'
+					});
+
+					this.createSelection();
+					this.createStates();
+					this.bindHandlers();
+					this.createIframeStates();
+				},
+
+				createStates: function() {
+					var options = this.options;
+
+					// Add the default states.
+					this.states.add([
+						// Main states.
+						new wp.media.controller.Library({
+							id:         'insert',
+							title:      'Insert Media',
+							priority:   20,
+							toolbar:    'main-insert',
+							filterable: 'image',
+							library:    wp.media.query( options.library ),
+							multiple:   options.multiple ? 'reset' : false,
+							editable:   true,
+
+							// If the user isn't allowed to edit fields,
+							// can they still edit it locally?
+							allowLocalEdits: true,
+
+							// Show the attachment display settings.
+							displaySettings: true,
+							// Update user settings when users adjust the
+							// attachment display settings.
+							displayUserSettings: true
+						}),
+
+						// Embed states.
+						new wp.media.controller.Embed(),
+					]);
+
+
+					if ( wp.media.view.settings.post.featuredImageId ) {
+						this.states.add( new wp.media.controller.FeaturedImage() );
+					}
+				},
+
+				bindHandlers: function() {
+					// from Select
+					this.on( 'router:create:browse', this.createRouter, this );
+					this.on( 'router:render:browse', this.browseRouter, this );
+					this.on( 'content:create:browse', this.browseContent, this );
+					this.on( 'content:render:upload', this.uploadContent, this );
+					this.on( 'toolbar:create:select', this.createSelectToolbar, this );
+					//
+
+					this.on( 'menu:create:gallery', this.createMenu, this );
+					this.on( 'toolbar:create:main-insert', this.createToolbar, this );
+					this.on( 'toolbar:create:main-gallery', this.createToolbar, this );
+					this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
+					this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
+
+					var handlers = {
+							menu: {
+								'default': 'mainMenu'
+							},
+
+							content: {
+								'embed':          'embedContent',
+								'edit-selection': 'editSelectionContent'
+							},
+
+							toolbar: {
+								'main-insert':      'mainInsertToolbar'
+							}
+						};
+
+					_.each( handlers, function( regionHandlers, region ) {
+						_.each( regionHandlers, function( callback, handler ) {
+							this.on( region + ':render:' + handler, this[ callback ], this );
+						}, this );
+					}, this );
+				},
+
+				// Menus
+				mainMenu: function( view ) {
+					view.set({
+						'library-separator': new wp.media.View({
+							className: 'separator',
+							priority: 100
+						})
+					});
+				},
+
+				// Content
+				embedContent: function() {
+					var view = new wp.media.view.Embed({
+						controller: this,
+						model:      this.state()
+					}).render();
+
+					this.content.set( view );
+					view.url.focus();
+				},
+
+				editSelectionContent: function() {
+					var state = this.state(),
+						selection = state.get('selection'),
+						view;
+
+					view = new wp.media.view.AttachmentsBrowser({
+						controller: this,
+						collection: selection,
+						selection:  selection,
+						model:      state,
+						sortable:   true,
+						search:     false,
+						dragInfo:   true,
+
+						AttachmentView: wp.media.view.Attachment.EditSelection
+					}).render();
+
+					view.toolbar.set( 'backToLibrary', {
+						text:     'Return to Library',
+						priority: -100,
+
+						click: function() {
+							this.controller.content.mode('browse');
+						}
+					});
+
+					// Browse our library of attachments.
+					this.content.set( view );
+				},
+
+				// Toolbars
+				selectionStatusToolbar: function( view ) {
+					var editable = this.state().get('editable');
+
+					view.set( 'selection', new wp.media.view.Selection({
+						controller: this,
+						collection: this.state().get('selection'),
+						priority:   -40,
+
+						// If the selection is editable, pass the callback to
+						// switch the content mode.
+						editable: editable && function() {
+							this.controller.content.mode('edit-selection');
+						}
+					}).render() );
+				},
+
+				mainInsertToolbar: function( view ) {
+					var controller = this;
+
+					this.selectionStatusToolbar( view );
+
+					view.set( 'insert', {
+						style:    'primary',
+						priority: 80,
+						text:     'Select Image',
+						requires: { selection: true },
+
+						click: function() {
+							var state = controller.state(),
+								selection = state.get('selection');
+
+							controller.close();
+							state.trigger( 'insert', selection ).reset();
+						}
+					});
+				},
+
+				featuredImageToolbar: function( toolbar ) {
+					this.createSelectToolbar( toolbar, {
+						text:  'Set Featured Image',
+						state: this.options.state || 'upload'
+					});
+				},
+
+				mainEmbedToolbar: function( toolbar ) {
+					toolbar.view = new wp.media.view.Toolbar.Embed({
+						controller: this,
+						text: 'Insert Image'
+					});
 				}
-			});
-		";
+
+		});		
+	});";
 	}
 
 	/**
@@ -7133,9 +7334,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				$strScript .="
 				jQuery( document ).ready( function(){
 					jQuery( '#select_image_{$strID}' ).click( function( e ) {
-						window.wpActiveEditor = null;
 						
+						window.wpActiveEditor = null;						
 						e.preventDefault();
+						
 						// If the uploader object has already been created, reopen the dialog
 						if ( custom_uploader ) {
 							custom_uploader.open();
@@ -7150,21 +7352,31 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							// frame: 'post',
 							multiple: false  // Set this to true to allow multiple files to be selected
 						});
+			
+						// When the uploader window closes, 
+						custom_uploader.on( 'close', function() {
 
-						// When a file is selected, grab the URL and set it as the text field's value
-						custom_uploader.on( 'select', function() {
-							var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
+							var state = custom_uploader.state();
+							// console.log( custom_uploader.state() );
+							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' )
+								var attachment = state.props.attributes;	// for an external url
+							if ( typeof( attachment ) == 'undefined'  ) 
+								var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
+							// console.log( attachment );
 							jQuery( '#{$strID}' ).val( attachment.url );
 							jQuery( '#image_preview_{$strID}' ).attr( 'data-id', attachment.id );
+							jQuery( '#image_preview_{$strID}' ).attr( 'data-width', attachment.width );
+							jQuery( '#image_preview_{$strID}' ).attr( 'data-height', attachment.height );
+							jQuery( '#image_preview_{$strID}' ).attr( 'data-caption', attachment.caption );
 							jQuery( '#image_preview_{$strID}' ).attr( 'alt', attachment.alt );
 							jQuery( '#image_preview_{$strID}' ).attr( 'title', attachment.title );
 							jQuery( '#image_preview_{$strID}' ).attr( 'src', attachment.url );
 							jQuery( '#image_preview_container_{$strID}' ).show();
-// console.log( attachment );							
-						});						
-						// Open the uploader dialog
-						custom_uploader.open();						
+							
+						});
 						
+						// Open the uploader dialog
+						custom_uploader.open();											
 						return false;       
 					});
 				});";	
@@ -7442,9 +7654,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 													
 								jQuery( '#select_image_' + previous_id ).unbind( 'click' );					
 								jQuery( '#select_image_' + previous_id ).click( function( e ) {
-									window.wpActiveEditor = null; 
 									
+									window.wpActiveEditor = null; 
 									e.preventDefault();
+									
 									// If the uploader object has already been created, reopen the dialog
 									if ( custom_uploader ) {
 										custom_uploader.open();
@@ -7457,24 +7670,31 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 										},
 										library     : { type : 'image' },
 										// frame: 'post',
-										multiple: false  // Set this to true to allow multiple files to be selected
+										multiple: true  // Set this to true to allow multiple files to be selected
 									});
 
-									// When a file is selected, grab the URL and set it as the text field's value
-									custom_uploader
-										.off( 'select' )	// remove the previous event 
-										.on( 'select', function() {
+									// When the uploader window closes, 
+									custom_uploader.on( 'close', function() {
+										var state = custom_uploader.state();
+										// console.log( custom_uploader.state() );
+										if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' )
+											var attachment = state.props.attributes;	// for an external url
+										if ( typeof( attachment ) == 'undefined'  ) 
 											var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
-											jQuery( '#' + previous_id ).val( attachment.url );
-											jQuery( '#image_preview_' + previous_id ).attr( 'data-id', attachment.id );
-											jQuery( '#image_preview_' + previous_id ).attr( 'alt', attachment.alt );
-											jQuery( '#image_preview_' + previous_id ).attr( 'title', attachment.title );											
-											jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
-											jQuery( '#image_preview_container_' + previous_id ).show();
-									});						
+										// console.log( attachment );
+										jQuery( '#' + previous_id ).val( attachment.url );
+										jQuery( '#image_preview_' + previous_id ).attr( 'data-id', attachment.id );
+										jQuery( '#image_preview_' + previous_id ).attr( 'data-width', attachment.width );
+										jQuery( '#image_preview_' + previous_id ).attr( 'data-height', attachment.height );
+										jQuery( '#image_preview_' + previous_id ).attr( 'data-caption', attachment.caption );
+										jQuery( '#image_preview_' + previous_id ).attr( 'alt', attachment.alt );
+										jQuery( '#image_preview_' + previous_id ).attr( 'title', attachment.title );
+										jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
+										jQuery( '#image_preview_container_' + previous_id ).show();									
+									});									
+									
 									// Open the uploader dialog
 									custom_uploader.open();											
-									
 									return false;       
 								});
 							}						
@@ -8455,8 +8675,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
 					
 		// Append the script
-		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above		
-			$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
 		
 	}
 
