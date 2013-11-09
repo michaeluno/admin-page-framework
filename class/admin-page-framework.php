@@ -4393,9 +4393,11 @@ abstract class AdminPageFramework_Properties_Base {
 				});
 			";
 			
-		// Custom 3.5 Media Uploader Window
+		$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
+		$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );			
 		return "
 		jQuery( document ).ready( function(){
+			// Custom 3.5 Media Uploader Window
 			wp.media.view.MediaFrame.Select = wp.media.view.MediaFrame.Select.extend({
 
 				initialize: function() {
@@ -4590,7 +4592,60 @@ abstract class AdminPageFramework_Properties_Base {
 					});
 				}
 
-		});		
+		});
+
+		// Global Function Literal 
+		setAPFImageUploader = function( strID, fMultiple ) {
+
+			jQuery( '#select_image_' + strID ).unbind( 'click' );
+			jQuery( '#select_image_' + strID ).click( function( e ) {
+				
+				window.wpActiveEditor = null;						
+				e.preventDefault();
+				
+				// If the uploader object has already been created, reopen the dialog
+				if ( custom_uploader ) {
+					custom_uploader.open();
+					return;
+				}						
+				var custom_uploader = wp.media({
+					title: '{$strUploadImage}',
+					button: {
+						text: '{$strUseThisImage}'
+					},
+					library     : { type : 'image' },
+					multiple: fMultiple  // Set this to true to allow multiple files to be selected
+				});
+	
+				// When the uploader window closes, 
+				custom_uploader.on( 'close', function() {
+
+					var state = custom_uploader.state();
+					// console.log( custom_uploader.state() );
+					if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' )
+						var attachment = state.props.attributes;	// for an external url
+					if ( typeof( attachment ) == 'undefined'  ) 
+						var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
+					// console.log( attachment );
+					jQuery( '#' + strID ).val( attachment.url );
+					jQuery( '#image_preview_' + strID ).attr( 'data-id', attachment.id );
+					jQuery( '#image_preview_' + strID ).attr( 'data-width', attachment.width );
+					jQuery( '#image_preview_' + strID ).attr( 'data-height', attachment.height );
+					jQuery( '#image_preview_' + strID ).attr( 'data-caption', attachment.caption );
+					jQuery( '#image_preview_' + strID ).attr( 'alt', attachment.alt );
+					jQuery( '#image_preview_' + strID ).attr( 'title', attachment.title );
+					jQuery( '#image_preview_' + strID ).attr( 'src', attachment.url );
+					jQuery( '#image_preview_container_' + strID ).show();
+					
+				});
+				
+				// Open the uploader dialog
+				custom_uploader.open();											
+				return false;       
+			});	
+		
+		}		
+		
 	});";
 	}
 
@@ -7284,7 +7339,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 						. "/>"
-						. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $strName )	
+						. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $strName, $this->arrField['fRepeatable'] ? true : false )	
 						. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
 							? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
 									. "class='image_preview' "
@@ -7310,8 +7365,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}	
 		/**
 		 * A helper function for the above getImageField() method to add a image button script.
+		 * 
+		 * since			2.1.3
 		 */
-		private function getImageUploaderButtonScript( $strID, $strName ) {
+		private function getImageUploaderButtonScript( $strID, $strName, $fRpeatable ) {
 			
 			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
 			$strButton ="<a id='select_image_{$strID}' "
@@ -7327,59 +7384,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
 				}			
 			";
-			
+
 			$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
 			$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );
 			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
 				$strScript .="
-				jQuery( document ).ready( function(){
-					jQuery( '#select_image_{$strID}' ).click( function( e ) {
-						
-						window.wpActiveEditor = null;						
-						e.preventDefault();
-						
-						// If the uploader object has already been created, reopen the dialog
-						if ( custom_uploader ) {
-							custom_uploader.open();
-							return;
-						}						
-						var custom_uploader = wp.media({
-							title: '{$strUploadImage}',
-							button: {
-								text: '{$strUseThisImage}'
-							},
-							library     : { type : 'image' },
-							// frame: 'post',
-							multiple: false  // Set this to true to allow multiple files to be selected
-						});
-			
-						// When the uploader window closes, 
-						custom_uploader.on( 'close', function() {
-
-							var state = custom_uploader.state();
-							// console.log( custom_uploader.state() );
-							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' )
-								var attachment = state.props.attributes;	// for an external url
-							if ( typeof( attachment ) == 'undefined'  ) 
-								var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
-							// console.log( attachment );
-							jQuery( '#{$strID}' ).val( attachment.url );
-							jQuery( '#image_preview_{$strID}' ).attr( 'data-id', attachment.id );
-							jQuery( '#image_preview_{$strID}' ).attr( 'data-width', attachment.width );
-							jQuery( '#image_preview_{$strID}' ).attr( 'data-height', attachment.height );
-							jQuery( '#image_preview_{$strID}' ).attr( 'data-caption', attachment.caption );
-							jQuery( '#image_preview_{$strID}' ).attr( 'alt', attachment.alt );
-							jQuery( '#image_preview_{$strID}' ).attr( 'title', attachment.title );
-							jQuery( '#image_preview_{$strID}' ).attr( 'src', attachment.url );
-							jQuery( '#image_preview_container_{$strID}' ).show();
-							
-						});
-						
-						// Open the uploader dialog
-						custom_uploader.open();											
-						return false;       
-					});
-				});";	
+					jQuery( document ).ready( function(){			
+						setAPFImageUploader( '{$strID}', '{$fRpeatable}' );
+					});";	
 			return "<script type='text/javascript'>" . $strScript . "</script>";
 
 		}
@@ -7651,52 +7663,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
 						
 							if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
-													
-								jQuery( '#select_image_' + previous_id ).unbind( 'click' );					
-								jQuery( '#select_image_' + previous_id ).click( function( e ) {
-									
-									window.wpActiveEditor = null; 
-									e.preventDefault();
-									
-									// If the uploader object has already been created, reopen the dialog
-									if ( custom_uploader ) {
-										custom_uploader.open();
-										return;
-									}						
-									var custom_uploader = wp.media({
-										title: '{$strUploadImage}',
-										button: {
-											text: '{$strUseThisImage}'
-										},
-										library     : { type : 'image' },
-										// frame: 'post',
-										multiple: true  // Set this to true to allow multiple files to be selected
-									});
-
-									// When the uploader window closes, 
-									custom_uploader.on( 'close', function() {
-										var state = custom_uploader.state();
-										// console.log( custom_uploader.state() );
-										if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' )
-											var attachment = state.props.attributes;	// for an external url
-										if ( typeof( attachment ) == 'undefined'  ) 
-											var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
-										// console.log( attachment );
-										jQuery( '#' + previous_id ).val( attachment.url );
-										jQuery( '#image_preview_' + previous_id ).attr( 'data-id', attachment.id );
-										jQuery( '#image_preview_' + previous_id ).attr( 'data-width', attachment.width );
-										jQuery( '#image_preview_' + previous_id ).attr( 'data-height', attachment.height );
-										jQuery( '#image_preview_' + previous_id ).attr( 'data-caption', attachment.caption );
-										jQuery( '#image_preview_' + previous_id ).attr( 'alt', attachment.alt );
-										jQuery( '#image_preview_' + previous_id ).attr( 'title', attachment.title );
-										jQuery( '#image_preview_' + previous_id ).attr( 'src', attachment.url );
-										jQuery( '#image_preview_container_' + previous_id ).show();									
-									});									
-									
-									// Open the uploader dialog
-									custom_uploader.open();											
-									return false;       
-								});
+								setAPFImageUploader( previous_id, true );	
 							}						
 						}
 						
@@ -7754,7 +7721,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					return false;
 				});
 			
-				// Helper Closure functions
+				// Helper function literals
 				var incrementID = function( index, name ) {
 					
 					if ( typeof name === 'undefined' ) {
