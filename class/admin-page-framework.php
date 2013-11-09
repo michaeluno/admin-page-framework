@@ -4595,10 +4595,10 @@ abstract class AdminPageFramework_Properties_Base {
 		});
 
 		// Global Function Literal 
-		setAPFImageUploader = function( strID, fMultiple ) {
+		setAPFImageUploader = function( strInputID, fMultiple ) {
 
-			jQuery( '#select_image_' + strID ).unbind( 'click' );
-			jQuery( '#select_image_' + strID ).click( function( e ) {
+			jQuery( '#select_image_' + strInputID ).unbind( 'click' );	// for repeatable fields
+			jQuery( '#select_image_' + strInputID ).click( function( e ) {
 				
 				window.wpActiveEditor = null;						
 				e.preventDefault();
@@ -4621,22 +4621,34 @@ abstract class AdminPageFramework_Properties_Base {
 				custom_uploader.on( 'close', function() {
 
 					var state = custom_uploader.state();
-					// console.log( custom_uploader.state() );
-					if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' )
-						var attachment = state.props.attributes;	// for an external url
-					if ( typeof( attachment ) == 'undefined'  ) 
-						var attachment = custom_uploader.state().get( 'selection' ).first().toJSON();
-					// console.log( attachment );
-					jQuery( '#' + strID ).val( attachment.url );
-					jQuery( '#image_preview_' + strID ).attr( 'data-id', attachment.id );
-					jQuery( '#image_preview_' + strID ).attr( 'data-width', attachment.width );
-					jQuery( '#image_preview_' + strID ).attr( 'data-height', attachment.height );
-					jQuery( '#image_preview_' + strID ).attr( 'data-caption', attachment.caption );
-					jQuery( '#image_preview_' + strID ).attr( 'alt', attachment.alt );
-					jQuery( '#image_preview_' + strID ).attr( 'title', attachment.title );
-					jQuery( '#image_preview_' + strID ).attr( 'src', attachment.url );
-					jQuery( '#image_preview_container_' + strID ).show();
 					
+					// Check if it's an external URL
+					if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+						var image = state.props.attributes;	
+					
+					// If the image variable is not defined at this point, it's an attachment, not an external URL.
+					if ( typeof( image ) !== 'undefined'  ) {
+						setPreviewElement( strInputID, image );
+					} else {
+						
+						var selection = custom_uploader.state().get( 'selection' );
+						selection.each( function( attachment, index ) {
+							attachment = attachment.toJSON();
+							if( index == 0 ){	
+								// place first attachment in field
+								setPreviewElement( strInputID, attachment );
+							} else{
+								
+								var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
+								var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
+								var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
+								setPreviewElement( strInputIDOfNewField, attachment );
+	
+							}
+						});				
+						
+					}
+									
 				});
 				
 				// Open the uploader dialog
@@ -4644,6 +4656,19 @@ abstract class AdminPageFramework_Properties_Base {
 				return false;       
 			});	
 		
+			var setPreviewElement = function( strInputID, image ) {
+				
+				jQuery( '#' + strInputID ).val( image.url );
+				jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
+				jQuery( '#image_preview_' + strInputID ).attr( 'data-width', image.width );
+				jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
+				jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', image.caption );
+				jQuery( '#image_preview_' + strInputID ).attr( 'alt', image.alt );
+				jQuery( '#image_preview_' + strInputID ).attr( 'title', image.title );
+				jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
+				jQuery( '#image_preview_container_' + strInputID ).show();
+				
+			}
 		}		
 		
 	});";
@@ -7368,10 +7393,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		 * 
 		 * since			2.1.3
 		 */
-		private function getImageUploaderButtonScript( $strID, $strName, $fRpeatable ) {
+		private function getImageUploaderButtonScript( $strInputID, $strName, $fRpeatable ) {
 			
 			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
-			$strButton ="<a id='select_image_{$strID}' "
+			$strButton ="<a id='select_image_{$strInputID}' "
 						. "href='#' "
 						. "class='select_image button button-small'"
 						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
@@ -7380,19 +7405,19 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				."</a>";
 			
 			$strScript = "
-				if ( jQuery( 'a#select_image_{$strID}' ).length == 0 ) {
-					jQuery( 'input#{$strID}' ).after( \"{$strButton}\" );
+				if ( jQuery( 'a#select_image_{$strInputID}' ).length == 0 ) {
+					jQuery( 'input#{$strInputID}' ).after( \"{$strButton}\" );
 				}			
-			";
+			" . PHP_EOL;
 
 			$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
 			$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );
 			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
 				$strScript .="
 					jQuery( document ).ready( function(){			
-						setAPFImageUploader( '{$strID}', '{$fRpeatable}' );
-					});";	
-			return "<script type='text/javascript'>" . $strScript . "</script>";
+						setAPFImageUploader( '{$strInputID}', '{$fRpeatable}' );
+					});" . PHP_EOL;	
+			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
 
 		}
 		/**
@@ -7569,35 +7594,92 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}
 	
 	/**
+	 * Indicates whether the repeatable fields script is called or not.
+	 * 
+	 * @since			2.1.3
+	 */
+	private $fIsRepeatableScriptCaleld = false;
+	
+	/**
 	 * Returns the repeatable fields script.
 	 * 
 	 * @since			2.1.3
 	 */
 	private function getRepeaterScript( $strTagID, $intFieldCount ) {
 
+		
 		$strAdd = __( 'Add', 'admin-page-framework' );
 		$strRemove = __( 'Remove', 'admin-page-framework' );
 		$strVisibility = $intFieldCount <= 1 ? " style='display:none;'" : "";
 		$strButtons = "<div class='admin-page-framework-repeatable-field-buttons'>"
-				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$strAdd}'>+</a>"
-				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility}>-</a>"
+				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$strAdd}' data-id='{$strTagID}'>+</a>"
+				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility} data-id='{$strTagID}'>-</a>"
 			. "</div>";
 
 		$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
 		$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );	
-		return 
+		
+		$strScript = $this->fIsRepeatableScriptCaleld ? "" : $this->getRepeaterScriptGlobal( $strTagID );
+		$this->fIsRepeatableScriptCaleld = true;
+		
+		return $strScript . 
 		"<script type='text/javascript'>
 			jQuery( document ).ready( function() {
 			
 				// Adds the buttons
 				jQuery( '#{$strTagID} .admin-page-framework-field' ).append( \"{$strButtons}\" );
 				
-				// Add button behaviour
-				jQuery( '#{$strTagID} .repeatable-field-add' ).click( function() {
+				// Update the fields
+				updateAPFRepeatableFields( '{$strTagID}' );
 				
-					var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
-					var field_container_id = field_container.attr( 'id' );	
-					var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
+			});
+			
+		</script>";
+		
+	}
+
+	/**
+	 * Returns the script that will be referred multiple times.
+	 * since			2.1.3
+	 */
+	private function getRepeaterScriptGlobal( $strID ) {
+		return 
+		"<script type='text/javascript'>
+			jQuery( document ).ready( function() {
+				
+				// Global function literals
+				
+				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
+				addAPFRepeatableField = function( strFieldContainerID ) {
+				
+					var incrementID = function( index, name ) {
+						
+						if ( typeof name === 'undefined' ) {
+							return name;
+						}
+						return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
+							return Number(n) + 1;
+						});
+						
+					}
+					var incrementName = function( index, name ) {
+						
+						if ( typeof name === 'undefined' ) {
+							return name;
+						}
+						return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
+							return Number(n) + 1;
+						});
+						
+					}				
+
+					var field_container = jQuery( '#' + strFieldContainerID );
+					var element = field_container;
+// console.log( strFieldContainerID );					
+					// var field_container = element.closest( '.admin-page-framework-field' );
+					// var field_container_id = field_container.attr( 'id' );	
+					// var field_container_id = strFieldContainerID;	
+					var field_delimiter_id = strFieldContainerID.replace( 'field-', 'delimiter-' );
 					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
 					var field_new = field_container.clone( true );
 					var delimiter_new = field_delimiter.clone( true );			
@@ -7685,88 +7767,78 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						
 					});
 
-					var fieldsCount = jQuery('#{$strTagID} .repeatable-field-remove').length;
-					if ( fieldsCount > 1 ) {
-						jQuery('#{$strTagID} .repeatable-field-remove' ).show();
-					}
+					var remove_buttons =  field_container.closest( '.admin-page-framework-fields' ).find( '.repeatable-field-remove' );
+					if ( remove_buttons.length > 1 ) 
+						remove_buttons.show();				
 					
-					return false;
-					
-				});		
-				
-				// Remove button behaviour
-				jQuery( '#{$strTagID} .repeatable-field-remove' ).click( function() {
-					
-					// Need to remove two elements: the field container and the delimiter element.
-					var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
-					var field_container_id = field_container.attr( 'id' );				
-					var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
-					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
-					
-					// Decrement the names and ids of the next following siblings.
-					field_delimiter.nextAll().each( function() {
-						
-						jQuery( this ).attr( 'id', function( index, name ) { return decrementID( index, name ) } );
-						jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return decrementName( index, name ) } );
-						
-					});
-					
-					field_delimiter.remove();
-					field_container.remove();
-					
-					var fieldsCount = jQuery( '#{$strTagID} .repeatable-field-remove' ).length;
-					if ( fieldsCount == 1 ) {
-						jQuery( '#{$strTagID} .repeatable-field-remove' ).css( 'display', 'none' );
-					}
-					return false;
-				});
-			
-				// Helper function literals
-				var incrementID = function( index, name ) {
-					
-					if ( typeof name === 'undefined' ) {
-						return name;
-					}
-					return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
-						return Number(n) + 1;
-					});
-					
-				}
-				var incrementName = function( index, name ) {
-					
-					if ( typeof name === 'undefined' ) {
-						return name;
-					}
-					return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
-						return Number(n) + 1;
-					});
-					
-				}		
-				var decrementID = function( index, name ) {
-					
-					if ( typeof name === 'undefined' ) {
-						return name;
-					}			
-					return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
-						return Number(n) - 1;
-					});    
-					
-				}
-				var decrementName = function( index, name ) {
-					
-					if ( typeof name === 'undefined' ) {
-						return name;
-					}			
-					return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
-						return Number(n) - 1;
-					});      
+					// Return the newly created element
+					return field_new;
 					
 				}
 				
-			})
-			
+				updateAPFRepeatableFields = function( strID ) {
+				
+					// Add button behaviour
+					jQuery( '#' + strID + ' .repeatable-field-add' ).click( function() {
+						
+						var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
+						addAPFRepeatableField( field_container.attr( 'id' ) );
+						return false;
+						
+					});		
+					
+					// Remove button behaviour
+					jQuery( '#' + strID + ' .repeatable-field-remove' ).click( function() {
+						
+						// Need to remove two elements: the field container and the delimiter element.
+						var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
+						var field_container_id = field_container.attr( 'id' );				
+						var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
+						var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
+						
+						// Decrement the names and ids of the next following siblings.
+						field_delimiter.nextAll().each( function() {
+							
+							jQuery( this ).attr( 'id', function( index, name ) { return decrementID( index, name ) } );
+							jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return decrementName( index, name ) } );
+							
+						});
+						
+						field_delimiter.remove();
+						field_container.remove();
+						
+						var fieldsCount = jQuery( '#' + strID + ' .repeatable-field-remove' ).length;
+						if ( fieldsCount == 1 ) {
+							jQuery( '#' + strID + ' .repeatable-field-remove' ).css( 'display', 'none' );
+						}
+						return false;
+					});
+				
+					// Helper local function literals
+					var decrementID = function( index, name ) {
+						
+						if ( typeof name === 'undefined' ) {
+							return name;
+						}			
+						return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
+							return Number(n) - 1;
+						});    
+						
+					}
+					var decrementName = function( index, name ) {
+						
+						if ( typeof name === 'undefined' ) {
+							return name;
+						}			
+						return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
+							return Number(n) - 1;
+						});      
+						
+					}
+					
+				}
+			});
 		</script>";
-		
 	}
 	
 }
