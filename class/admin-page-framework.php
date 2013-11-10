@@ -4425,7 +4425,7 @@ abstract class AdminPageFramework_Properties_Base {
 						jQuery( '#' + field_id + '_id' ).val( id );
 						jQuery( '#' + field_id + '_width' ).val( width );
 						jQuery( '#' + field_id + '_height' ).val( height );
-						// jQuery( '#' + field_id + '_caption' ).val( strCaption );
+						jQuery( '#' + field_id + '_caption' ).val( strCaption );
 						jQuery( '#' + field_id + '_alt' ).val( strAlt );
 						jQuery( '#' + field_id + '_title' ).val( strTitle );						
 						jQuery( '#' + field_id + '_align' ).val( align );						
