@@ -4148,17 +4148,45 @@ abstract class AdminPageFramework_Properties_Base {
 		.admin-page-framework-field .taxonomy-checklist-label {
 			/* margin-left: 0.5em; */
 		}
+		
+		/* Image Field Preview Container */
 		.admin-page-framework-field .image_preview {
-			border: none; clear:both; 
-			max-width:100%; 
+			border: none; 
+			clear:both; 
 			margin-top: 1em;
 			margin-bottom: 1em;
-			zoom: 1;
+			display: block; 
+		}		
+ 		@media only screen and ( max-width: 1200px ) {
+			.admin-page-framework-field .image_preview {
+				max-width: 600px;
+			}
+		} 
+		@media only screen and ( max-width: 900px ) {
+			.admin-page-framework-field .image_preview {
+				max-width: 440px;
+			}
+		}	
+		@media only screen and ( max-width: 600px ) {
+			.admin-page-framework-field .image_preview {
+				max-width: 300px;
+			}
+		}		
+		@media only screen and ( max-width: 480px ) {
+			.admin-page-framework-field .image_preview {
+				max-width: 240px;
+			}
 		}
-		.admin-page-framework-field .image_preview img {
+		@media only screen and ( min-width: 1200px ) {
+			.admin-page-framework-field .image_preview {
+				max-width: 600px;
+			}
+		}		 
+		.admin-page-framework-field .image_preview img {		
+			width: auto;
+			height: auto; 
 			max-width: 100%;
-			height: auto;
-			width: auto\9; /* ie8 */			
+			display: block;
 		}
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
 			display: none;
@@ -7446,7 +7474,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "/>";
 			
 			// Returns the outputs as well as the uploader buttons and the preview element.
-			return implode( PHP_EOL, $arrOutputs )
+			return implode( PHP_EOL, $arrOutputs ) . PHP_EOL
 				. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false )	
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
 					? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
@@ -7454,7 +7482,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. "style='" . ( $strImageURL ? "" : "display : none;" ) . "'"
 						. ">"
 							. "<img src='{$strImageURL}' "
-								. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
+								. "id='image_preview_{$this->strTagID}_{$strKey}' "
 							. "/>"
 						. "</div>"
 					: "" );
