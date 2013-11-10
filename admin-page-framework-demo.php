@@ -1086,6 +1086,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strDescription'	=> 'The description for the field.',
 				'strHelp'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
 				'strType'			=> 'textarea',
+				'vCols'				=> 60,
 				'vDefault'			=> 'This is a default text.',
 			),
 			array(	// Rich Text Editor
