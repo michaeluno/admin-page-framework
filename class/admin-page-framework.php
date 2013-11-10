@@ -6555,6 +6555,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			case 'image':	// image uploader
 				$strOutput .= $this->getImageField();
 				break;
+			case 'media':	// media uplaoder
+				$strOutput .= $this->getMediaField();
+				break;
 			case 'color':	// color picker
 				$strOutput .= $this->getColorField();
 				break;			
@@ -7519,6 +7522,115 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
 
 		}	
+	
+	/**
+	 * Returns the output of media field.
+	 * 
+	 * @since			2.1.3
+	 */
+	private function getMediaField( $arrOutput=array() ) {
+		
+		$arrFields = $this->arrField['fRepeatable'] ? 
+			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
+			: $this->arrField['vLabel'];		
+			
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] =
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+					. ( $strLabel && ! $this->arrField['fRepeatable']
+						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
+						. "</span>" 
+						: "" 
+					)
+					. "<div class='admin-page-framework-input-container image-media'>"
+						. $this->getMediaInputTags( $this->strTagID, $strKey, $this->arrField['arrCaptureAttributes'], $arrFields )
+					. "</div>"
+					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, $this->arrField['fRepeatable'] ? '' : "<br />" ) )
+					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-media' id='{$this->strTagID}'>" 
+				. implode( PHP_EOL, $arrOutput ) 
+			. "</div>";		
+			
+	}
+		/**
+		 * A helper function for the above getImageField() method to return input elements.
+		 * 
+		 * @since			2.1.3
+		 */
+		private function getMediaInputTags( $strTagID, $strKey, $arrCaptureAttributes, $arrFields ) {
+			
+			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+			$intCountAttributes = count( ( array ) $arrCaptureAttributes );			
+			
+			// The URL input field is mandatory as the preview element uses it.
+			$arrOutputs = array(
+				"<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "type='text' "	// text
+					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
+					. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : $this->vValue, isset( $this->vValue[ $strKey ] ) ? 'url' : $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+				. "/>"	
+			);
+			
+			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
+			foreach( ( array ) $arrCaptureAttributes as $strAttribute )
+				$arrOutputs[] = "<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "type='hidden' " 	// other additional attributes are hidden
+					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
+					. "value='" . $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : array(), $strAttribute, '' ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+				. "/>";
+			
+			// Returns the outputs as well as the uploader buttons and the preview element.
+			return implode( PHP_EOL, $arrOutputs ) . PHP_EOL
+				. $this->getMediaUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false );
+
+			
+		}
+		/**
+		 * A helper function for the above getMediaInputTags() method to add a image button script.
+		 * 
+		 * @since			2.1.3
+		 */
+		private function getMediaUploaderButtonScript( $strInputID, $fRpeatable ) {
+			
+			$strSelectImage = __( 'Select File', 'admin-page-framework' );
+			$strButton ="<a id='select_image_{$strInputID}' "
+						. "href='#' "
+						. "class='select_image button button-small'"
+						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
+					. ">"
+						. $strSelectImage 
+				."</a>";
+			
+			$strScript = "
+				if ( jQuery( 'a#select_image_{$strInputID}' ).length == 0 ) {
+					jQuery( 'input#{$strInputID}' ).after( \"{$strButton}\" );
+				}			
+			" . PHP_EOL;
+
+			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
+				$strScript .="
+					jQuery( document ).ready( function(){			
+						setAPFImageUploader( '{$strInputID}', '{$fRpeatable}' );
+					});" . PHP_EOL;	
+					
+			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
+
+		}			
+		
 		
 	/**
 	 * Returns the output of post type checklist check boxes.

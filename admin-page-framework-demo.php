@@ -230,6 +230,13 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle'			=> __( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
+				'strSectionID'		=> 'media_upload',
+				'strPageSlug'		=> 'first_page',
+				'strTabSlug'		=> 'color_and_images',
+				'strTitle'			=> __( 'Media Uploader', 'admin-page-framework-demo' ),
+				'strDescription'	=> __( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
+			),
+			array(
 				'strSectionID'		=> 'checklists',
 				'strPageSlug'		=> 'first_page',
 				'strTabSlug'		=> 'checklist',
@@ -589,6 +596,12 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
+			),	
+			array( // Multiple Color Pickers
+				'strFieldID' => 'media_field',
+				'strSectionID' => 'media_upload',
+				'strTitle' => __( 'Media Files', 'admin-page-framework-demo' ),
+				'strType' => 'media',
 			),	
 			array(
 				'strFieldID' => 'post_type_checklist',
