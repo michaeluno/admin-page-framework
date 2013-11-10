@@ -4153,6 +4153,7 @@ abstract class AdminPageFramework_Properties_Base {
 			max-width:100%; 
 			margin-top: 1em;
 			margin-bottom: 1em;
+			zoom: 1;
 		}
 		.admin-page-framework-field .image_preview img {
 			max-width: 100%;
@@ -4368,21 +4369,44 @@ abstract class AdminPageFramework_Properties_Base {
 					jQuery( '.select_image' ).click( function() {
 						pressed_id = jQuery( this ).attr( 'id' );
 						field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-						tb_show( '{$strThickBoxTitle}', 'media-upload.php?referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true&amp;post_id=0', false );
+						tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
 						return false;	// do not click the button after the script by returning false.
 					});
-					window.send_to_editor = function( html ) {
+					window.send_to_editor = function( strRawHTML ) {
 
-						var html = '<div>' + html + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below jQuery attr() method don't catch attributes.
-						var src = jQuery( 'img', html ).attr( 'src' );
-						var alt = jQuery( 'img', html ).attr( 'alt' );
-						var title = jQuery( 'img', html ).attr( 'title' );
-						var classes = jQuery( 'img', html ).attr( 'class' );
-						var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID					
-						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field.
+						var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+						var src = jQuery( 'img', strHTML ).attr( 'src' );
+						var alt = jQuery( 'img', strHTML ).attr( 'alt' );
+						var title = jQuery( 'img', strHTML ).attr( 'title' );
+						var width = jQuery( 'img', strHTML ).attr( 'width' );
+						var height = jQuery( 'img', strHTML ).attr( 'height' );
+						var classes = jQuery( 'img', strHTML ).attr( 'class' );
+						var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
+						var strCaption = strRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+							.replace( /<a.*?>(.*?)<\/a>/m, '' );
+						var align = strRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
+						var link = jQuery( strHTML ).find( 'a:first' ).attr( 'href' );
+
+						// Escape the strings of some of the attributes.
+						var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
+						var strAlt = jQuery( '<div/>' ).text( alt ).html();
+						var strTitle = jQuery( '<div/>' ).text( title ).html();						
+						
+						// If the user wants to save relavant attributes, set them.
+						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+						jQuery( '#' + field_id + '_id' ).val( id );
+						jQuery( '#' + field_id + '_width' ).val( width );
+						jQuery( '#' + field_id + '_height' ).val( height );
+						// jQuery( '#' + field_id + '_caption' ).val( strCaption );
+						jQuery( '#' + field_id + '_alt' ).val( strAlt );
+						jQuery( '#' + field_id + '_title' ).val( strTitle );						
+						jQuery( '#' + field_id + '_align' ).val( align );						
+						jQuery( '#' + field_id + '_link' ).val( link );						
+						
+						// Update the preview
 						jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
-						jQuery( '#image_preview_' + field_id ).attr( 'title', title );
-						jQuery( '#image_preview_' + field_id ).attr( 'classes', classes );
+						jQuery( '#image_preview_' + field_id ).attr( 'title', strTitle );
+						jQuery( '#image_preview_' + field_id ).attr( 'data-classes', classes );
 						jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
 						jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
 						jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
@@ -4393,8 +4417,8 @@ abstract class AdminPageFramework_Properties_Base {
 				});
 			";
 			
-		$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
-		$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );			
+		$strUploadImage = $strThickBoxTitle; //__( 'Upload Image', 'admin-page-framework' );
+		$strUseThisImage = $strThickBoxButtonUseThis;	//__( 'Use This Image', 'admin-page-framework' );			
 		return "
 		jQuery( document ).ready( function(){
 			// Custom 3.5 Media Uploader Window
@@ -4657,16 +4681,32 @@ abstract class AdminPageFramework_Properties_Base {
 			});	
 		
 			var setPreviewElement = function( strInputID, image ) {
+
+				// Escape the strings of some of the attributes.
+				var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
+				var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
+				var strTitle = jQuery( '<div/>' ).text( image.title ).html();
+								
+				// If the user want the attributes to be saved, set them in the input tags.
+				jQuery( '#' + strInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
+				jQuery( '#' + strInputID + '_id' ).val( image.id );
+				jQuery( '#' + strInputID + '_width' ).val( image.width );
+				jQuery( '#' + strInputID + '_height' ).val( image.height );
+				jQuery( '#' + strInputID + '_caption' ).val( strCaption );
+				jQuery( '#' + strInputID + '_alt' ).val( strAlt );
+				jQuery( '#' + strInputID + '_title' ).val( strTitle );
+				jQuery( '#' + strInputID + '_align' ).val( image.align );
+				jQuery( '#' + strInputID + '_link' ).val( image.link );
 				
-				jQuery( '#' + strInputID ).val( image.url );
+				// Update up the preview
 				jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
 				jQuery( '#image_preview_' + strInputID ).attr( 'data-width', image.width );
 				jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
-				jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', image.caption );
-				jQuery( '#image_preview_' + strInputID ).attr( 'alt', image.alt );
-				jQuery( '#image_preview_' + strInputID ).attr( 'title', image.title );
+				jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
+				jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
+				jQuery( '#image_preview_' + strInputID ).attr( 'title', strTitle );
 				jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
-				jQuery( '#image_preview_container_' + strInputID ).show();
+				jQuery( '#image_preview_container_' + strInputID ).show();				
 				
 			}
 		}		
@@ -6228,45 +6268,46 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * @access			private
 	 */ 
 	private static $arrDefaultFieldValues = array(
-		'vValue' => null,			// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
-		'vDefault' => null,			// ( array or string )
-		'vClassAttribute' => null,	// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
-		'vLabel' => '',				// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
-		'vLabelMinWidth' => 120,	// ( array or integer ) This sets the min-width of the label tag for the textarea, text, and numbers input types.
-		'vDelimiter' => null,		// do not set an empty value here because the radio input field uses own default value.
-		'vDisable' => null,			// ( array or boolean ) This value indicates whether the set field is disabled or not. 
-		'vReadOnly' => '',			// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
-		'vMultiple'	=> false,		// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
+		'vValue' => null,					// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
+		'vDefault' => null,					// ( array or string )
+		'vClassAttribute' => null,			// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
+		'vLabel' => '',						// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+		'vLabelMinWidth' => 120,			// ( array or integer ) This sets the min-width of the label tag for the textarea, text, and numbers input types.
+		'vDelimiter' => null,				// do not set an empty value here because the radio input field uses own default value.
+		'vDisable' => null,					// ( array or boolean ) This value indicates whether the set field is disabled or not. 
+		'vReadOnly' => '',					// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
+		'vMultiple'	=> false,				// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
 		'vBeforeInputTag' => '',
 		'vAfterInputTag' => '',
-		'vSize' => null,			// ( array or integer )	This is for the text, the select field, and the image field type. Do not set a value here.
-		'vRows' => 4,				// ( array or integer ) This is for the textarea field type.
-		'vCols' => 80,				// ( array or integer ) This is for the textarea field type.
-		'vRich' => null,			// ( array or boolean ) This is for the textarea field type.
-		'vMax' => null,				// ( array or integer ) This is for the number field type.
-		'vMin' => null,				// ( array or integer ) This is for the number field type.
-		'vStep' => null,			// ( array or integer ) This is for the number field type.
-		'vMaxLength' => null,		// Maximum number of characters in textara, text, number etc.
-		'vAcceptAttribute' => null,	// ( array or string )	This is for the file and import field type. Do not set a default value here because it will be passed in the dealing method.
-		'vExportFileName' => null,	// ( array or string )	This is for the export field type. Do not set a default value here.
-		'vExportFormat' => null,	// ( array or string )	This is for the export field type. Do not set a default value here. Currently array, json, and text are supported.
-		'vExportData' => null,		// ( array or string or object ) This is for the export field type. 
-		'vImportOptionKey' => null,	// ( array or string )	This is for the import field type. The default is the set option key for the framework.
-		'vImportFormat' => null,	// ( array or string )	This is for the import field type. Do not set a default value here. Currently array, json, and text are supported.
-		'vLink'	=> null,			// ( array or string )	This is for the submit field type.
-		'vRedirect'	=> null,		// ( array or string )	This is for the submit field type.
-		'vReset'	=> null,		// ( array or string )	[2.1.2+] This is for the submit field type.
-		'vImagePreview' => null,	// ( array or boolean )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
-		'strTickBoxTitle' => null,	// ( string ) This is for the image field type.
-		'strLabelUseThis' => null,	// ( string ) This is for the image field type.
-		'vTaxonomySlug' => 'category',	// ( string ) This is for the taxonomy field type.
+		'vSize' => null,					// ( array or integer )	This is for the text, the select field, and the image field type. Do not set a value here.
+		'vRows' => 4,						// ( array or integer ) This is for the textarea field type.
+		'vCols' => 80,						// ( array or integer ) This is for the textarea field type.
+		'vRich' => null,					// ( array or boolean ) This is for the textarea field type.
+		'vMax' => null,						// ( array or integer ) This is for the number field type.
+		'vMin' => null,						// ( array or integer ) This is for the number field type.
+		'vStep' => null,					// ( array or integer ) This is for the number field type.
+		'vMaxLength' => null,				// Maximum number of characters in textara, text, number etc.
+		'vAcceptAttribute' => null,			// ( array or string )	This is for the file and import field type. Do not set a default value here because it will be passed in the dealing method.
+		'vExportFileName' => null,			// ( array or string )	This is for the export field type. Do not set a default value here.
+		'vExportFormat' => null,			// ( array or string )	This is for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+		'vExportData' => null,				// ( array or string or object ) This is for the export field type. 
+		'vImportOptionKey' => null,			// ( array or string )	This is for the import field type. The default is the set option key for the framework.
+		'vImportFormat' => null,			// ( array or string )	This is for the import field type. Do not set a default value here. Currently array, json, and text are supported.
+		'vLink'	=> null,					// ( array or string )	This is for the submit field type.
+		'vRedirect'	=> null,				// ( array or string )	This is for the submit field type.
+		'vReset'	=> null,				// ( array or string )	[2.1.2+] This is for the submit field type.
+		'vImagePreview' => null,			// ( array or boolean )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
+		'strTickBoxTitle' => null,			// ( string ) This is for the image field type.
+		'strLabelUseThis' => null,			// ( string ) This is for the image field type.
+		'arrCaptureAttributes' => array(),	// ( array ) This is for the image field type. The attributes to save besides URL. e.g. array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+		'vTaxonomySlug' => 'category',		// ( string ) This is for the taxonomy field type.
 		'arrRemove' => array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
-		'vWidth' => null,			// ( array or string ) This is for the select field type that specifies the width of the select tag element.
-		'vDateFormat' => null,			// ( array or string ) This is for the date field type that specifies the date format.
-		// 'numMaxWidth' => 400,	// for the taxonomy checklist filed type.
-		// 'numMaxHeight' => 200,	// for the taxonomy checklist filed type.	
-		'strHeight' => '250px',		// for the taxonomy checklist field type, since 2.1.1.
-		'strWidth' => '100%',	// for the taxonomy checklist field type, since 2.1.1.
+		'vWidth' => null,					// ( array or string ) This is for the select field type that specifies the width of the select tag element.
+		'vDateFormat' => null,				// ( array or string ) This is for the date field type that specifies the date format.
+		// 'numMaxWidth' => 400,			// for the taxonomy checklist filed type.
+		// 'numMaxHeight' => 200,			// for the taxonomy checklist filed type.	
+		'strHeight' => '250px',				// for the taxonomy checklist field type, since 2.1.1.
+		'strWidth' => '100%',				// for the taxonomy checklist field type, since 2.1.1.
 		
 		// Mandatory keys.
 		'strFieldID' => null,		
@@ -7345,7 +7386,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];		
 			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] =
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
 					. ( $strLabel && ! $this->arrField['fRepeatable']
 						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
@@ -7354,46 +7396,76 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						: "" 
 					)
 					. "<div class='admin-page-framework-input-container image-field'>"
-						. "<input id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
-							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-							. "type='text' "	// text
-							. "name='" . ( $strName = is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName ) . "' "
-							. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( $this->vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-						. "/>"
-						. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $strName, $this->arrField['fRepeatable'] ? true : false )	
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
-							? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
-									. "class='image_preview' "
-									. "style='" . $this->getImagePreviewContainerStyle( $strImageURL  ) . "'"
-								. ">"
-									. "<img src='{$strImageURL}' "
-										. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
-									. "/>"
-								. "</div>"
-							: "" )
+						. $this->getImageInputTags( $this->strTagID, $strKey, $this->arrField['arrCaptureAttributes'], $arrFields )
 					. "</div>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-				. "</div>"	// admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<Br />' ) )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, $this->arrField['fRepeatable'] ? '' : "<br />" ) )
 					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
 					: ""
 				);
 				
 		return "<div class='admin-page-framework-field-image' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
+				. implode( PHP_EOL, $arrOutput ) 
 			. "</div>";		
 		
 	}	
+	
 		/**
-		 * A helper function for the above getImageField() method to add a image button script.
+		 * A helper function for the above getImageField() method to return input elements.
 		 * 
-		 * since			2.1.3
+		 * @since			2.1.3
 		 */
-		private function getImageUploaderButtonScript( $strInputID, $strName, $fRpeatable ) {
+		private function getImageInputTags( $strTagID, $strKey, $arrCaptureAttributes, $arrFields ) {
+			
+			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+			$intCountAttributes = count( ( array ) $arrCaptureAttributes );
+			
+			// The URL input field is mandatory as the preview element uses it.
+			$arrOutputs = array(
+				"<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+					. "type='text' "	// text
+					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
+					. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : $this->vValue, isset( $this->vValue[ $strKey ] ) ? 'url' : $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+				. "/>"	
+			);
+			
+			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
+			foreach( ( array ) $arrCaptureAttributes as $strAttribute )
+				$arrOutputs[] = "<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
+					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+					. "type='hidden' " 	// other additional attributes are hidden
+					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
+					. "value='" . $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : array(), $strAttribute, '' ) . "' "
+					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+				. "/>";
+			
+			// Returns the outputs as well as the uploader buttons and the preview element.
+			return implode( PHP_EOL, $arrOutputs )
+				. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false )	
+				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
+					? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
+							. "class='image_preview' "
+							. "style='" . ( $strImageURL ? "" : "display : none;" ) . "'"
+						. ">"
+							. "<img src='{$strImageURL}' "
+								. 	"id='image_preview_{$this->strTagID}_{$strKey}' "
+							. "/>"
+						. "</div>"
+					: "" );
+			
+		}
+		/**
+		 * A helper function for the above getImageInputTags() method to add a image button script.
+		 * 
+		 * @since			2.1.3
+		 */
+		private function getImageUploaderButtonScript( $strInputID, $fRpeatable ) {
 			
 			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
 			$strButton ="<a id='select_image_{$strInputID}' "
@@ -7410,27 +7482,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				}			
 			" . PHP_EOL;
 
-			$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
-			$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );
 			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
 				$strScript .="
 					jQuery( document ).ready( function(){			
 						setAPFImageUploader( '{$strInputID}', '{$fRpeatable}' );
 					});" . PHP_EOL;	
+					
 			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
 
-		}
-		/**
-		 * A helper function for the above getImageField() method to return the inline-style of the image preview container element.
-		 * 
-		 * @since			2.1.3
-		 */
-		private function getImagePreviewContainerStyle( $strImageURL ) {
-			
-			$strInlineStyle = $strImageURL ? "" : "display : none;";
-			return $strInlineStyle . "zoom:1;";
-			
-		}		
+		}	
 		
 	/**
 	 * Returns the output of post type checklist check boxes.
@@ -7649,36 +7709,107 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				
 				// Global function literals
 				
-				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
-				addAPFRepeatableField = function( strFieldContainerID ) {
-				
-					var incrementID = function( index, name ) {
+				// This function modifies the ids and names of the tags of input, textarea, and relevant tags for repeatable fields.
+				updateAPFIDsAndNames = function( element, fIncrementOrDecrement ) {
+
+					var updateID = function( index, name ) {
 						
 						if ( typeof name === 'undefined' ) {
 							return name;
 						}
-						return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
-							return Number(n) + 1;
+						return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
+							return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
 						});
 						
 					}
-					var incrementName = function( index, name ) {
+					var updateName = function( index, name ) {
 						
 						if ( typeof name === 'undefined' ) {
 							return name;
 						}
-						return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
-							return Number(n) + 1;
+						return name.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {				
+							return '[' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
 						});
 						
+					}					
+				
+					element.attr( 'id', function( index, name ) { return updateID( index, name ) } );
+					element.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+					element.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
+					
+					// Color Pickers - currently not functional
+					var color_picker_script = element.find( 'script.color-picker-enabler-script' );
+					if ( color_picker_script.length > 0 ) {
+						
+						var previous_id = color_picker_script.attr( 'data-id' );
+						color_picker_script.attr( 'data-id', function( index, name ){ return updateID( index, name ) } );
+						var cloned_id = color_picker_script.attr( 'data-id' );
+						element.find( '.colorpicker' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+						element.find( '.colorpicker' ).attr( 'rel', function( index, name ){ return updateID( index, name ) } );
+						
+						if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+							
+							// Remove the color picker script elements in the clone						
+							// jQuery( 'input#' + cloned_id ).prependTo( '#field-' + cloned_id ).show();
+							// element.find( '.wp-color-result' ).remove();
+							// element.find( '.wp-picker-holder' ).remove();
+							// element.find( '.wp-picker-container' ).remove();
+							
+							var myColorPickerOptions = {
+								defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input
+								change: function( event, ui ){},	// a callback to fire whenever the color changes to a valid color reference : http://automattic.github.io/Iris/
+								clear: function() {},	// a callback to fire when the input is emptied or an invalid color
+								hide: true,	// hide the color picker controls on load
+								palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
+							};						
+							
+							// Reassign the color picker script to the input field.
+							jQuery( '#' + color_picker_script.attr( 'data-id' ) ).wpColorPicker( myColorPickerOptions ); 					
+							// jQuery( '#' + previous_id ).wpColorPicker( myColorPickerOptions ); 
+							
+						} else {
+							//We use farbtastic if the WordPress color picker widget doesn't exist
+							jQuery( '#color_' + color_picker_script.attr( 'data-id' ) ).farbtastic( '#' + color_picker_script.attr( 'data-id' ) );
+							jQuery( '#color_' + previous_id ).farbtastic( '#' + previous_id );
+						}
+					
+					}
+
+					// Image Uploader Button
+					image_uploader_button = element.find( '.select_image' );
+					if ( image_uploader_button.length > 0 ) {
+						var previous_id = element.find( '.image-field input' ).attr( 'id' );
+						image_uploader_button.attr( 'id', function( index, name ){ return updateID( index, name ) } );
+						element.find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+						element.find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+					
+						if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
+							setAPFImageUploader( previous_id, true );	
+						}						
+					}
+					
+					// Date pickers - somehow it needs to destroy the both previous one and the added one and assign the new date pickers 
+					var date_picker_script = element.find( 'script.date-picker-enabler-script' );
+					if ( date_picker_script.length > 0 ) {
+						var previous_id = date_picker_script.attr( 'data-id' );
+						date_picker_script.attr( 'data-id', function( index, name ){ return updateID( index, name ) } );
+
+						jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker( 'destroy' ); 
+						jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker({
+							dateFormat : date_picker_script.attr( 'data-date_format' )
+						});						
+						jQuery( '#' + previous_id ).datepicker( 'destroy' ); //here
+						jQuery( '#' + previous_id ).datepicker({
+							dateFormat : date_picker_script.attr( 'data-date_format' )
+						});												
 					}				
+									
+				}
+				
+				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
+				addAPFRepeatableField = function( strFieldContainerID ) {	
 
 					var field_container = jQuery( '#' + strFieldContainerID );
-					var element = field_container;
-// console.log( strFieldContainerID );					
-					// var field_container = element.closest( '.admin-page-framework-field' );
-					// var field_container_id = field_container.attr( 'id' );	
-					// var field_container_id = strFieldContainerID;	
 					var field_delimiter_id = strFieldContainerID.replace( 'field-', 'delimiter-' );
 					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
 					var field_new = field_container.clone( true );
@@ -7693,78 +7824,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 					// Increment the names and ids of the next following siblings.
 					target_element.nextAll().each( function() {
-				
-						jQuery( this ).attr( 'id', function( index, name ) { return incrementID( index, name ) } );
-						jQuery( this ).find( 'input,textarea' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-						jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return incrementName( index, name ) } );
-						
-						// Color Pickers - currently not functional
-						var color_picker_script = jQuery( this ).find( 'script.color-picker-enabler-script' );
-						if ( color_picker_script.length > 0 ) {
-							
-							var previous_id = color_picker_script.attr( 'data-id' );
-							color_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
-							var cloned_id = color_picker_script.attr( 'data-id' );
-							jQuery( this ).find( '.colorpicker' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-							jQuery( this ).find( '.colorpicker' ).attr( 'rel', function( index, name ){ return incrementID( index, name ) } );
-							
-							if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-								
-								// Remove the color picker script elements in the clone						
-								// jQuery( 'input#' + cloned_id ).prependTo( '#field-' + cloned_id ).show();
-								// jQuery( this ).find( '.wp-color-result' ).remove();
-								// jQuery( this ).find( '.wp-picker-holder' ).remove();
-								// jQuery( this ).find( '.wp-picker-container' ).remove();
-								
-								var myColorPickerOptions = {
-									defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input
-									change: function( event, ui ){},	// a callback to fire whenever the color changes to a valid color reference : http://automattic.github.io/Iris/
-									clear: function() {},	// a callback to fire when the input is emptied or an invalid color
-									hide: true,	// hide the color picker controls on load
-									palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
-								};						
-								
-								// Reassign the color picker script to the input field.
-								jQuery( '#' + color_picker_script.attr( 'data-id' ) ).wpColorPicker( myColorPickerOptions ); 					
-								// jQuery( '#' + previous_id ).wpColorPicker( myColorPickerOptions ); 
-								
-							} else {
-								//We use farbtastic if the WordPress color picker widget doesn't exist
-								jQuery( '#color_' + color_picker_script.attr( 'data-id' ) ).farbtastic( '#' + color_picker_script.attr( 'data-id' ) );
-								jQuery( '#color_' + previous_id ).farbtastic( '#' + previous_id );
-							}
-						
-						}
-
-						// Image Uploader Button
-						image_uploader_button = jQuery( this ).find( '.select_image' );
-						if ( image_uploader_button.length > 0 ) {
-							var previous_id = jQuery( this ).find( '.image-field input' ).attr( 'id' );
-							image_uploader_button.attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-							jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return incrementID( index, name ) } );
-						
-							if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
-								setAPFImageUploader( previous_id, true );	
-							}						
-						}
-						
-						// Date pickers - somehow it needs to destroy the both previous one and the added one and assign the new date pickers 
-						var date_picker_script = jQuery( this ).find( 'script.date-picker-enabler-script' );
-						if ( date_picker_script.length > 0 ) {
-							var previous_id = date_picker_script.attr( 'data-id' );
-							date_picker_script.attr( 'data-id', function( index, name ){ return incrementID( index, name ) } );
-
-							jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker( 'destroy' ); 
-							jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker({
-								dateFormat : date_picker_script.attr( 'data-date_format' )
-							});						
-							jQuery( '#' + previous_id ).datepicker( 'destroy' ); //here
-							jQuery( '#' + previous_id ).datepicker({
-								dateFormat : date_picker_script.attr( 'data-date_format' )
-							});												
-						}				
-						
+						updateAPFIDsAndNames( jQuery( this ), true );
 					});
 
 					var remove_buttons =  field_container.closest( '.admin-page-framework-fields' ).find( '.repeatable-field-remove' );
@@ -7795,15 +7855,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						var field_container_id = field_container.attr( 'id' );				
 						var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
 						var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
-						
+						var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
+
 						// Decrement the names and ids of the next following siblings.
-						field_delimiter.nextAll().each( function() {
-							
-							jQuery( this ).attr( 'id', function( index, name ) { return decrementID( index, name ) } );
-							jQuery( this ).find( 'input,textarea' ).attr( 'name', function( index, name ){ return decrementName( index, name ) } );
-							
+						target_element.nextAll().each( function() {
+							updateAPFIDsAndNames( jQuery( this ), false );	// the second parameter value indicates it's for decrement.
 						});
-						
+
 						field_delimiter.remove();
 						field_container.remove();
 						
@@ -7813,29 +7871,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						}
 						return false;
 					});
-				
-					// Helper local function literals
-					var decrementID = function( index, name ) {
-						
-						if ( typeof name === 'undefined' ) {
-							return name;
-						}			
-						return name.replace( /((\d+)$)/, function ( fullMatch, n ) {
-							return Number(n) - 1;
-						});    
-						
-					}
-					var decrementName = function( index, name ) {
-						
-						if ( typeof name === 'undefined' ) {
-							return name;
-						}			
-						return name.replace( /([(\d+)])/, function ( fullMatch, n ) {
-							return Number(n) - 1;
-						});      
-						
-					}
-					
+									
 				}
 			});
 		</script>";

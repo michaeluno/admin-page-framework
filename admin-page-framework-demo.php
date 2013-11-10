@@ -561,6 +561,14 @@ class APF_Demo extends AdminPageFramework {
 				'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
 				'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
 			),		
+			array( // Image selector with additional attributes
+				'strFieldID' => 'image_with_attributes',
+				'strSectionID' => 'image_select',
+				'strTitle' => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
+				'strType' => 'image',
+				'vDelimiter' => '',
+				'arrCaptureAttributes' => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
+			),					
 			array(	// Repeatable Image Fields
 				'strFieldID' => 'image_select_field_repeater',
 				'strSectionID' => 'image_select',
