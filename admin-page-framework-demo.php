@@ -567,6 +567,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'image',
 				'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
 				'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
+				'fAllowExternalSource' => false,
 			),		
 			array( // Image selector with additional attributes
 				'strFieldID' => 'image_with_attributes',
@@ -597,12 +598,27 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
 			),	
-			array( // Multiple Color Pickers
+			array( // Media File
 				'strFieldID' => 'media_field',
 				'strSectionID' => 'media_upload',
-				'strTitle' => __( 'Media Files', 'admin-page-framework-demo' ),
+				'strTitle' => __( 'Media File', 'admin-page-framework-demo' ),
 				'strType' => 'media',
+				'fAllowExternalSource' => false,
 			),	
+			array( // Media File with Attributes
+				'strFieldID' => 'media_with_attributes',
+				'strSectionID' => 'media_upload',
+				'strTitle' => __( 'Media File with Attributes', 'admin-page-framework-demo' ),
+				'strType' => 'media',
+				'arrCaptureAttributes' => array( 'id', 'caption', 'description' ),
+			),				
+			array( // Media Files
+				'strFieldID' => 'media_fields',
+				'strSectionID' => 'media_upload',
+				'strTitle' => __( 'Multiple Media Files', 'admin-page-framework-demo' ),
+				'strType' => 'media',
+				'fRepeatable' => true,
+			),				
 			array(
 				'strFieldID' => 'post_type_checklist',
 				'strSectionID' => 'checklists',

@@ -176,11 +176,13 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.3 = 
+* Added: the `fAllowExternalSource` key for the `image` and `media` field types that enables to set external URLs via the media uploader. 
+* Added: the `media` field type.
 * Added: the `arrCaptureAttributes` key to save additional attributes of the image selected via the media uploader. 
 * Tweaked: the image fields' preview images to have the maximum width of 600px.
 * Added: the ability to select multiple image files for repeatable fields.
 * Added: the WordPress 3.5 uploader for the image field type.
-* Fixed: a bug that an image url could not be inserted from the `From URL` tab of the image uploader.
+* Fixed: a bug that an image URL could not be inserted from the `From URL` tab of the image uploader.
 * Added: the `fRepeatable` key to the `text`,`textarea`, `image`, `date`, and `file` field types that make the fields to be repeatable.
 
 = 2.1.2 - 11/3/2013 =
