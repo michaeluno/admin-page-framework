@@ -575,7 +575,6 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
 				'strType' => 'image',
 				'vDelimiter' => '',
-				'fRepeatable' => true,
 				'arrCaptureAttributes' => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
 			),					
 			array(	// Repeatable Image Fields
