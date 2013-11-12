@@ -1077,9 +1077,10 @@ new APF_PostType(
 		// 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
 		'supports' => array( 'title' ),
 		'taxonomies' => array( '' ),
-		'menu_icon' => null,
 		'has_archive' => true,
-		'show_admin_column' => true,
+		'show_admin_column' => true,	// ( framework specific key ) this is for custom taxonomies to automatically add the column in the listing table.
+		'menu_icon' => plugins_url( 'asset/image/wp-logo_16x16.png', __FILE__ ),
+		'screen_icon' => plugins_url( 'asset/image/wp-logo_32x32.png', __FILE__ ), // ( framework specific key ) this sets the screen icon for the post type.
 	)		
 );	// should not use "if ( is_admin() )" for the this class because posts of custom post type can be accessed from the front-end pages.
 	

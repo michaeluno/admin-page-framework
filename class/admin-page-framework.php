@@ -8387,7 +8387,7 @@ abstract class AdminPageFramework_PostType {
 	* 		'taxonomies' => array( '' ),
 	* 		'menu_icon' => null,
 	* 		'has_archive' => true,
-	* 		'show_admin_column' => true,
+	* 		'show_admin_column' => true,	// for custom taxonomies
 	* 	)		
 	* );</code>
 	* @since			2.0.0
@@ -8420,10 +8420,11 @@ abstract class AdminPageFramework_PostType {
 		$this->oProps->strCallerPath = $strCallerPath;
 		
 		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
-		add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
 		
 		if ( $this->oProps->strPostType != '' && is_admin() ) {			
 		
+			add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
+			
 			// For table columns
 			add_filter( "manage_{$this->oProps->strPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
 			add_filter( "manage_edit-{$this->oProps->strPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
@@ -8631,6 +8632,29 @@ abstract class AdminPageFramework_PostType {
 				: $strHTML;
 	}
 
+	/**
+	 * Sets the given screen icon to the post type screen icon.
+	 * 
+	 * @since			2.1.3
+	 */
+	private function getStylesForPostTypeScreenIcon( $strURL ) {
+		
+		$strNone = 'none';
+		
+		return "#post-body-content {
+				margin-bottom: 10px;
+			}
+			#edit-slug-box {
+				display: {$strNone};
+			}
+			#icon-edit.icon32.icon32-posts-" . $this->oProps->strPostType . " {
+				background: url('" . $strURL . "') no-repeat;
+				background-size: 32px 32px;
+			}			
+		";		
+		
+	}
+	
 	/*
 	 * Callback functions
 	 */
@@ -8639,8 +8663,12 @@ abstract class AdminPageFramework_PostType {
 		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->oProps->strPostType )
 			return;
 
-		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProps->strClassName}", $this->oProps->strStyle );	
+		// If the screen icon url is specified
+		if ( isset( $this->oProps->arrPostTypeArgs['screen_icon'] ) && $this->oProps->arrPostTypeArgs['screen_icon'] )
+			$this->oProps->strStyle = $this->getStylesForPostTypeScreenIcon( $this->oProps->arrPostTypeArgs['screen_icon'] );
 			
+		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProps->strClassName}", $this->oProps->strStyle );
+		
 		// Print out the filtered styles.
 		if ( ! empty( $this->oProps->strStyle ) )
 			echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
