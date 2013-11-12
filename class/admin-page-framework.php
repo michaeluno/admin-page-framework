@@ -4932,17 +4932,17 @@ console.log( image );
 					var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
 					var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
 					var strTitle = jQuery( '<div/>' ).text( image.title ).html();
-									
+console.log( image );									
 					// If the user want the attributes to be saved, set them in the input tags.
-					jQuery( '#' + strInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
-					jQuery( '#' + strInputID + '_id' ).val( image.id );
-					jQuery( '#' + strInputID + '_width' ).val( image.width );
-					jQuery( '#' + strInputID + '_height' ).val( image.height );
-					jQuery( '#' + strInputID + '_caption' ).val( strCaption );
-					jQuery( '#' + strInputID + '_alt' ).val( strAlt );
-					jQuery( '#' + strInputID + '_title' ).val( strTitle );
-					jQuery( '#' + strInputID + '_align' ).val( image.align );
-					jQuery( '#' + strInputID + '_link' ).val( image.link );
+					jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
+					jQuery( 'input#' + strInputID + '_id' ).val( image.id );
+					jQuery( 'input#' + strInputID + '_width' ).val( image.width );
+					jQuery( 'input#' + strInputID + '_height' ).val( image.height );
+					jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
+					jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
+					jQuery( 'input#' + strInputID + '_title' ).val( strTitle );
+					jQuery( 'input#' + strInputID + '_align' ).val( image.align );
+					jQuery( 'input#' + strInputID + '_link' ).val( image.link );
 					
 					// Update up the preview
 					jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
@@ -7671,6 +7671,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$intCountAttributes = count( ( array ) $arrCaptureAttributes );
+			$fMultipleFields = is_array( $arrFields );
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$arrOutputs = array(
@@ -7679,8 +7680,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 					. "type='text' "	// text
-					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : $this->vValue, isset( $this->vValue[ $strKey ] ) ? 'url' : $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
+					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
+					. "value='" . ( $strImageURL = $this->getImageInputValue( $this->vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : ''  ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
@@ -7692,7 +7693,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 					. "type='hidden' " 	// other additional attributes are hidden
 					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
-					. "value='" . $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : array(), $strAttribute, '' ) . "' "
+					. "value='" . $this->getImageInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>";
 			
@@ -7709,6 +7710,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 							. "/>"
 						. "</div>"
 					: "" );
+			
+		}
+		/**
+		 * A helper function for the above getImageInputTags() method that retrieve the specified input field value.
+		 * @since			2.1.3
+		 */
+		private function getImageInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute='' ) {	
+
+			$vValue = $fMultipleFields
+				? $this->getCorrespondingArrayValue( $vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] )
+				: ( isset( $vValue ) ? $vValue : self::$arrDefaultFieldValues['vDefault'] );
+
+			return $strCaptureAttribute
+				? ( isset( $vValue[ $strCaptureAttribute ] ) ? $vValue[ $strCaptureAttribute ] : "" )
+				: $vValue;
 			
 		}
 		/**
@@ -7789,6 +7805,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$intCountAttributes = count( ( array ) $arrCaptureAttributes );			
+			$fMultipleFields = is_array( $arrFields );
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$arrOutputs = array(
@@ -7797,8 +7814,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 					. "type='text' "	// text
-					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : $this->vValue, isset( $this->vValue[ $strKey ] ) ? 'url' : $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
+					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
+					// . "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : $this->vValue, isset( $this->vValue[ $strKey ] ) ? 'url' : $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
+					. "value='" . ( $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : ''  ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
@@ -7809,8 +7827,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				$arrOutputs[] = "<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
 					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 					. "type='hidden' " 	// other additional attributes are hidden
-					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
-					. "value='" . $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : array(), $strAttribute, '' ) . "' "
+					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
+					// . "value='" . $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : array(), $strAttribute, '' ) . "' "
+					. "value='" . $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 				. "/>";
 			
@@ -7819,6 +7838,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. $this->getMediaUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false, $this->arrField['fAllowExternalSource'] ? true : false );
 			
 		}
+		/**
+		 * A helper function for the above getMediaInputTags() method that retrieve the specified input field value.
+		 * @since			2.1.3
+		 */
+		private function getMediaInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute='' ) {	
+
+			$vValue = $fMultipleFields
+				? $this->getCorrespondingArrayValue( $vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] )
+				: ( isset( $vValue ) ? $vValue : self::$arrDefaultFieldValues['vDefault'] );
+
+			return $strCaptureAttribute
+				? ( isset( $vValue[ $strCaptureAttribute ] ) ? $vValue[ $strCaptureAttribute ] : "" )
+				: $vValue;
+			
+		}		
 		/**
 		 * A helper function for the above getMediaInputTags() method to add a image button script.
 		 * 

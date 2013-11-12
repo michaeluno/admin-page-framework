@@ -77,8 +77,8 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array(
 				'strPageSlug'	=> 'first_page',
-				'strTabSlug'	=> 'color_and_images',
-				'strTitle'		=> __( 'Color and Images', 'admin-page-framework-demo' ),
+				'strTabSlug'	=> 'files',
+				'strTitle'		=> __( 'Files', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strPageSlug'	=> 'first_page',
@@ -219,20 +219,20 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strSectionID'		=> 'image_select',
 				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'color_and_images',
+				'strTabSlug'		=> 'files',
 				'strTitle'			=> 'Image Selector',
 				'strDescription'	=> 'Set an image url with jQuwey based image selector.',
 			),
 			array(
 				'strSectionID'		=> 'color_picker',
 				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'color_and_images',
+				'strTabSlug'		=> 'misc',
 				'strTitle'			=> __( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strSectionID'		=> 'media_upload',
 				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'color_and_images',
+				'strTabSlug'		=> 'files',
 				'strTitle'			=> __( 'Media Uploader', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
 			),
@@ -258,9 +258,9 @@ class APF_Demo extends AdminPageFramework {
 				'strDescription'	=> 'These are hidden fields.',
 			),								
 			array(
-				'strSectionID'		=> 'files',
+				'strSectionID'		=> 'file_uploads',
 				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'misc',
+				'strTabSlug'		=> 'files',
 				'strTitle'			=> 'File Uploads',
 				'strDescription'	=> 'These are upload fields.',
 			),			
@@ -575,6 +575,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
 				'strType' => 'image',
 				'vDelimiter' => '',
+				'fRepeatable' => true,
 				'arrCaptureAttributes' => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
 			),					
 			array(	// Repeatable Image Fields
@@ -689,14 +690,14 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array( // Single File Upload Field
 				'strFieldID' => 'file_single',
-				'strSectionID' => 'files',
+				'strSectionID' => 'file_uploads',
 				'strTitle' => __( 'Single File Upload', 'admin-page-framework-demo' ),
 				'strType' => 'file',
 				'vLabel' => 'Select the file:',
 			),					
 			array( // Multiple File Upload Fields
 				'strFieldID' => 'file_multiple',
-				'strSectionID' => 'files',
+				'strSectionID' => 'file_uploads',
 				'strTitle' => __( 'Multiple File Uploads', 'admin-page-framework-demo' ),
 				'strType' => 'file',
 				'vLabel' => array( 'Fist File:', 'Second File:', 'Third File:' ),
@@ -704,7 +705,7 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array( // Single File Upload Field
 				'strFieldID' => 'file_repeatable',
-				'strSectionID' => 'files',
+				'strSectionID' => 'file_uploads',
 				'strTitle' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
 				'strType' => 'file',
 				'fRepeatable' => true,
@@ -874,12 +875,6 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-public function validation_first_page_textfields( $arrInput, $arrOldInput ) {
-
-$this->oDebug->logArray( $arrInput );
-return $arrInput;
-		
-}
 	public function validation_first_page_verification( $arrInput, $arrOldPageOptions ) {	// valication_ + page slug + _ + tab slug
 				
 		// Set a flag.
@@ -914,14 +909,14 @@ return $arrInput;
 		return $arrInput;
 		
 	}
-	public function validation_first_page_misc( $arrInput, $arrOldPageOptions ) {	// validation_ + page slug + _ + tab slug
+	public function validation_first_page_files( $arrInput, $arrOldPageOptions ) {	// validation_ + page slug + _ + tab slug
 
 		// Display the uploaded file information.
 		$arrFileErrors = array();
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['files']['file_single'];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['files']['file_multiple'][0];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['files']['file_multiple'][1];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['files']['file_multiple'][2];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_single'];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_multiple'][0];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_multiple'][1];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_multiple'][2];
 		if ( in_array( 0, $arrFileErrors ) ) 
 			$this->setSettingNotice( '<h3>File(s) Uploaded</h3>' . $this->oDebug->getArray( $_FILES ), 'updated' );
 		
