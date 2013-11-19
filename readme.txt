@@ -175,7 +175,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 2.1.3 = 
+= 2.1.3 - 11/19/2013 = 
 * Added: the `screen_icon` key for the post type argument array that can set the screen icon of the post type pages.
 * Added: the `fAllowExternalSource` key for the `image` and `media` field types that enables to set external URLs via the media uploader. 
 * Added: the `media` field type.
