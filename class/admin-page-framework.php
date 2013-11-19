@@ -2341,7 +2341,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Append the script
 		//Setup the color pickers to work with our text input field
-		// $this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	// deprecated
+		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	
 	
 	}
 	private function enqueueMediaUploaderScript() {
@@ -4660,8 +4660,7 @@ abstract class AdminPageFramework_Properties_Base {
 					jQuery( '.select_media' ).click( function() {
 						pressed_id = jQuery( this ).attr( 'id' );
 						field_id = pressed_id.substring( 13 );	// remove the select_file_ prefix
-						var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-console.log( 'external source: ' + fExternalSource );						
+						var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );					
 						tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;TB_iframe=true', false );
 						return false;	// do not click the button after the script by returning false.
 					});
@@ -4673,12 +4672,7 @@ console.log( 'external source: ' + fExternalSource );
 						var src = jQuery( 'a', strHTML ).attr( 'href' );
 						var classes = jQuery( 'a', strHTML ).attr( 'class' );
 						var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
-console.log( param );						
-console.log( pressed_id );						
-console.log( field_id );						
-console.log( classes );						
-console.log( id );						
-console.log( strHTML );						
+					
 						// If the user wants to save relavant attributes, set them.
 						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
 						jQuery( '#' + field_id + '_id' ).val( id );			
@@ -4766,7 +4760,7 @@ console.log( strHTML );
 				});	
 			
 				var setPreviewElement = function( strInputID, image ) {
-console.log( image );									
+								
 					// If the user want the attributes to be saved, set them in the input tags.
 					jQuery( '#' + strInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
 					jQuery( '#' + strInputID + '_id' ).val( image.id );				
@@ -4932,7 +4926,7 @@ console.log( image );
 					var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
 					var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
 					var strTitle = jQuery( '<div/>' ).text( image.title ).html();
-console.log( image );									
+					
 					// If the user want the attributes to be saved, set them in the input tags.
 					jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
 					jQuery( 'input#' + strInputID + '_id' ).val( image.id );
@@ -4963,6 +4957,7 @@ console.log( image );
 	/**
 	 * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
 	 * @since			2.0.0
+	 * @since			2.1.3			Changed to define a global function literal that registers the given input field as a color picker.
 	 * @var			string
 	 * @static
 	 * @remark		It is accessed from the main class and meta box class.
@@ -4970,48 +4965,28 @@ console.log( image );
 	 * @access		public	
 	 * @internal
 	 * @return			string			The image selector script.
-	 * @deprecated
 	 */ 
 	public static function getColorPickerScript() {
 		return "
-			jQuery( document ).ready( function(){
+			registerAPFColorPickerField = function( strInputID ) {
 				'use strict';
 				// This if statement checks if the color picker element exists within jQuery UI
 				// If it does exist then we initialize the WordPress color picker on our text input field
 				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-					var myOptions = {
-						// you can declare a default color here,
-						// or in the data-default-color attribute on the input
-						defaultColor: false,
-						// a callback to fire whenever the color changes to a valid color
-						change: function(event, ui){
-							// reference : http://automattic.github.io/Iris/
-							// update the image element as well
-							// event = standard jQuery event, produced by whichever control was changed.
-							// ui = standard jQuery UI object, with a color member containing a Color.js object
-
-							// change the headline color
-							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', ui.color.toString());	
-							
-						},
-						// a callback to fire when the input is emptied or an invalid color
-						clear: function() {
-							// jQuery( '#widget_box_container_background_color_image' ).css( 'background-color', 'transparent' );	
-							
-						},
-						// hide the color picker controls on load
-						hide: true,
-						// show a group of common colors beneath the square
-						// or, supply an array of colors to customize further
-						palettes: true
+					var myColorPickerOptions = {
+						defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
+						change: function(event, ui){},	// a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/			
+						clear: function() {},	// a callback to fire when the input is emptied or an invalid color
+						hide: true,	// hide the color picker controls on load
+						palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
 					};			
-					jQuery( '.input_color' ).wpColorPicker( myOptions );
+					jQuery( '#' + strInputID ).wpColorPicker( myColorPickerOptions );
 				}
 				else {
-					//We use farbtastic if the WordPress color picker widget doesn't exist
-					// jQuery( '.colorpicker' ).farbtastic( '.input_color' );
+					// We use farbtastic if the WordPress color picker widget doesn't exist
+					jQuery( '#color_' + strInputID ).farbtastic( '#' + strInputID );
 				}
-			});	
+			}
 		";			
 	}
 	
@@ -7605,29 +7580,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		/**
 		 * A helper function for the above getColorField() method to add a script to enable the color picker.
 		 */
-		private function getColorPickerEnablerScript( $strID ) {
+		private function getColorPickerEnablerScript( $strInputID ) {
 			return
-"<script type='text/javascript' class='color-picker-enabler-script' data-id='{$strID}'>
-	jQuery( document ).ready( function(){
-		'use strict';
-		// This if statement checks if the color picker element exists within jQuery UI
-		// If it does exist then we initialize the WordPress color picker on our text input field
-		if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-			var myColorPickerOptions = {
-				defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
-				change: function(event, ui){},	// a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/			
-				clear: function() {},	// a callback to fire when the input is emptied or an invalid color
-				hide: true,	// hide the color picker controls on load
-				palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
-			};			
-			jQuery( '#{$strID}' ).wpColorPicker( myColorPickerOptions );
-		}
-		else {
-			// We use farbtastic if the WordPress color picker widget doesn't exist
-			jQuery( '#color_{$strID}' ).farbtastic( '#{$strID}' );
-		}
-	});
-</script>";
+				"<script type='text/javascript' class='color-picker-enabler-script'>
+					jQuery( document ).ready( function(){
+						registerAPFColorPickerField( '{$strInputID}' );
+					});
+				</script>";
 		}
 		
 	private function getImageField( $arrOutput=array() ) {
@@ -8132,41 +8091,48 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					element.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					element.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 					
-					// Color Pickers - currently not functional
-					var color_picker_script = element.find( 'script.color-picker-enabler-script' );
-					if ( color_picker_script.length > 0 ) {
+					// Color Pickers
+					var nodeColorInput = element.find( 'input.input_color' );
+					if ( nodeColorInput.length > 0 ) {
 						
-						var previous_id = color_picker_script.attr( 'data-id' );
-						color_picker_script.attr( 'data-id', function( index, name ){ return updateID( index, name ) } );
-						var cloned_id = color_picker_script.attr( 'data-id' );
-						element.find( '.colorpicker' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-						element.find( '.colorpicker' ).attr( 'rel', function( index, name ){ return updateID( index, name ) } );
-						
-						if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+							var previous_id = nodeColorInput.attr( 'id' );
 							
-							// Remove the color picker script elements in the clone						
-							// jQuery( 'input#' + cloned_id ).prependTo( '#field-' + cloned_id ).show();
-							// element.find( '.wp-color-result' ).remove();
-							// element.find( '.wp-picker-holder' ).remove();
-							// element.find( '.wp-picker-container' ).remove();
+							if ( fIncrementOrDecrement > 0 ) {	// Add
+					
+								// For WP 3.5+
+								var nodeNewColorInput = nodeColorInput.clone();	// re-clone without bind events.
+								
+								// For WP 3.4.x or below
+								var strInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent';
+								var strInputStyle = strInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
+								
+								nodeNewColorInput.val( strInputValue );	// set the default value	
+								nodeNewColorInput.attr( 'style', strInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
+								
+								var nodeFarbtastic = element.find( '.colorpicker' );
+								var nodeNewFarbtastic = nodeFarbtastic.clone();	// re-clone without bind elements.
+								
+								// Remove the old elements
+								nodeIris = jQuery( '#' + previous_id ).closest( '.wp-picker-container' );	
+								if ( nodeIris.length > 0 ) {	// WP 3.5+
+									nodeIris.remove();	
+								} else {
+									jQuery( '#' + previous_id ).remove();	// WP 3.4.x or below
+									element.find( '.colorpicker' ).remove();	// WP 3.4.x or below
+								}
 							
-							var myColorPickerOptions = {
-								defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input
-								change: function( event, ui ){},	// a callback to fire whenever the color changes to a valid color reference : http://automattic.github.io/Iris/
-								clear: function() {},	// a callback to fire when the input is emptied or an invalid color
-								hide: true,	// hide the color picker controls on load
-								palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
-							};						
+								// Add the new elements
+								element.prepend( nodeNewFarbtastic );
+								element.prepend( nodeNewColorInput );
+								
+							}
 							
-							// Reassign the color picker script to the input field.
-							jQuery( '#' + color_picker_script.attr( 'data-id' ) ).wpColorPicker( myColorPickerOptions ); 					
-							// jQuery( '#' + previous_id ).wpColorPicker( myColorPickerOptions ); 
-							
-						} else {
-							//We use farbtastic if the WordPress color picker widget doesn't exist
-							jQuery( '#color_' + color_picker_script.attr( 'data-id' ) ).farbtastic( '#' + color_picker_script.attr( 'data-id' ) );
-							jQuery( '#color_' + previous_id ).farbtastic( '#' + previous_id );
-						}
+							element.find( '.colorpicker' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+							element.find( '.colorpicker' ).attr( 'rel', function( index, name ){ return updateID( index, name ) } );					
+
+							// Renew the color picker script
+							var cloned_id = element.find( 'input.input_color' ).attr( 'id' );
+							registerAPFColorPickerField( cloned_id );					
 					
 					}
 
@@ -8220,8 +8186,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					var field_container = jQuery( '#' + strFieldContainerID );
 					var field_delimiter_id = strFieldContainerID.replace( 'field-', 'delimiter-' );
 					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
+					
 					var field_new = field_container.clone( true );
-					var delimiter_new = field_delimiter.clone( true );			
+					var delimiter_new = field_delimiter.clone( true );
 					var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
 			
 					field_new.find( 'input,textarea' ).val( '' );	// empty the value		
@@ -9136,7 +9103,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	
 		// Append the script
 		// Set up the color pickers to work with our text input field
-		// $this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	// deprecated
+		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	
 	
 	}
 	

@@ -663,6 +663,13 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
 			),				
+			array( // Repeatable Color Pickers
+				'strFieldID' => 'color_picker_repeatable_field',
+				'strSectionID' => 'color_picker',
+				'strTitle' => __( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
+				'strType' => 'color',
+				'fRepeatable' => true,
+			),								
 			array(	// Single date picker
 				'strFieldID' => 'date',
 				'strSectionID' => 'date_pickers',
