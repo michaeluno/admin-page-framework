@@ -4388,6 +4388,16 @@ abstract class AdminPageFramework_Properties_Base {
 		.repeatable .colorpicker {
 			display: inline;
 		}
+		.admin-page-framework-field-color .ui-widget-content {
+			border: none;
+			background: none;
+			color: transparent;
+		}
+		.admin-page-framework-field-color .ui-slider-vertical {
+			width: inherit;
+			height: auto;
+			margin-top: -11px;
+		}
 		";	
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
