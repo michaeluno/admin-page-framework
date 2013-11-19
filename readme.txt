@@ -150,19 +150,19 @@ Let's say your plugin uses Admin Page Framework v2.1.0 and another plugin uses v
 
 To work around it, rename all the class names used by the library in your library file. All the class name is prefixed with `AdminPageFramework` so change it to something like, for instance, `MyPlugin_AdminPageFramework`, then you are safe. 
 
-Most code editor supports "Replace All" functionality so just use that. By the time WordPress's minimum required PHP version becomes 3.3 or higher, we can use namespaces then this problem will be solved.
+Most code editor supports the *"Replace All"* functionality so just use that. By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use namespaces then this problem will be solved.
 
 == Other Notes ==
 
 = Tips =
-<h5>Use Unique Page Slug</h5>
+<h5>**Use Unique Page Slug**</h5>
 The framework internally uses the *add_submenu_page()* function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. Other ones will be ignored.
 
 This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your user will have a problem loading the page.
 
 So just use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
-<h5>Change Class Names</h5>
+<h5>**Change Class Names**</h5>
 When you include the library, change the class names that the library uses. This is because if there is a plugin that uses a lesser version of the library and it is loaded earlier than yours, your script may not work properly.
 
 All the class names have the prefix <code>AdminPageFramework_</code> so just change it to something like <code>MyPlugin_AdminPageFramework_</code>. 
@@ -176,6 +176,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.3 - 11/19/2013 = 
+* Fixed: a bug that the style of the Iris color picker had a conflict with the date picker. 
 * Added: the `screen_icon` key for the post type argument array that can set the screen icon of the post type pages.
 * Added: the `fAllowExternalSource` key for the `image` and `media` field types that enables to set external URLs via the media uploader. 
 * Added: the `media` field type.
