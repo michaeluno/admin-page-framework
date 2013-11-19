@@ -2174,6 +2174,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>fRepeatable</strong> - ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>date</strong> - a date picker input field. This is a custom text field with a JavaScript script.</li>
 	* 		<ul>
