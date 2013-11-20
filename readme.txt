@@ -40,13 +40,14 @@ It provides plugin and theme developers with easier means of creating option pag
 * Buttons
 * Hidden Fields 
 * File Upload 
+* Media	(WordPress Media Library File Uploader)
 * Image Upload (Custom Text Field)
 * Color Picker (Custom Text Field)
 * Date Picker (Custom Text Field)
 * Option Export and Import (Custom File Upload and Submit Button)
 * Post Types (Custom Checkboxes)
 * Taxonomies (Custom Checkboxes)
-* Size ( Custom Text and Select Fields )
+* Size (Custom Text and Select Fields)
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the *class* folder.

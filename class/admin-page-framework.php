@@ -1591,10 +1591,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'numOrder'					=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
 			'fShowPageHeadingTab'		=> $fShowPageHeadingTab,
 			'fShowPageTitle'			=> $this->oProps->fShowPageTitle,			// boolean
-			'fShowPageHeadingTabs'		=> $this->oProps->fShowPageHeadingTabs,			// boolean
+			'fShowPageHeadingTabs'		=> $this->oProps->fShowPageHeadingTabs,		// boolean
 			'fShowInPageTabs'			=> $this->oProps->fShowInPageTabs,			// boolean
 			'strInPageTabTag'			=> $this->oProps->strInPageTabTag,			// string
-			'strPageHeadingTabTag'		=> $this->oProps->strPageHeadingTabTag,			// string			
+			'strPageHeadingTabTag'		=> $this->oProps->strPageHeadingTabTag,		// string			
 		);
 		$this->oProps->arrPages[ $strPageSlug ] = $this->oUtil->uniteArraysRecursive( $arrThisPage, $arrPreviouslySetPage );
 			
