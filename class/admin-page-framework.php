@@ -278,13 +278,14 @@ abstract class AdminPageFramework_WPUtilities {
 	 * 
 	 * Identical to the getQueryURL() method except that if the third parameter is omitted, it will use the currently browsed admin url.
 	 * 
+	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @param			array			$arrAddingQueries			The appending query key value pairs e.g. array( 'page' => 'my_page_slug', 'tab' => 'my_tab_slug' )
-	 * @param			array			$arrRemovingQueryKeys		The removing query keys. e.g. array( 'settings-updated', 'my-custom-admin-notice' )
-	 * @param			string			$strSubjectURL				The subject url to modify
+	 * @param			array			$arrRemovingQueryKeys		( optional ) The removing query keys. e.g. array( 'settings-updated', 'my-custom-admin-notice' )
+	 * @param			string			$strSubjectURL				( optional ) The subject url to modify
 	 * @return			string			The modified url.
 	 */
-	public function getQueryAdminURL( $arrAddingQueries, $arrRemovingQueryKeys, $strSubjectURL='' ) {
+	public function getQueryAdminURL( $arrAddingQueries, $arrRemovingQueryKeys=array(), $strSubjectURL='' ) {
 		
 		$strSubjectURL = $strSubjectURL ? $strSubjectURL : add_query_arg( $_GET, admin_url( $GLOBALS['pagenow'] ) );
 		return $this->getQueryURL( $arrAddingQueries, $arrRemovingQueryKeys, $strSubjectURL );
