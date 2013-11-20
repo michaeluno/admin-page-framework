@@ -1092,6 +1092,7 @@ new APF_PostType(
 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 		'labels' => array(
 			'name' => 'Admin Page Framework',
+			'all_items' => __( 'Sample Posts', 'admin-page-framework-demo' ),
 			'singular_name' => 'Admin Page Framework',
 			'add_new' => 'Add New',
 			'add_new_item' => 'Add New APF Post',
