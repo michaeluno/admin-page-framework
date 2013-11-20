@@ -38,7 +38,7 @@ class APF_Demo extends AdminPageFramework {
 				'numOrder' => 1,
 			),
 			array(
-				'strPageTitle' => 'Manage Options',
+				'strPageTitle' => __( 'Manage Options', 'admin-page-framework-demo' ),
 				'strPageSlug' => 'second_page',
 				'strScreenIcon' => 'link-manager',
 				/*	Screen Types:
@@ -48,6 +48,17 @@ class APF_Demo extends AdminPageFramework {
 				*/				
 				'numOrder' => 2,
 			),
+			array(
+				'strPageTitle' => __( 'Sample Page', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'apf_sample_page',
+				'strScreenIcon' => 'index',
+			),					
+			array(
+				'strPageTitle' => __( 'Hidden Page', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'apf_hidden_page',
+				'strScreenIcon' => 'index',
+				'fShowInMenu' => false,
+			),						
 			array(
 				'strPageTitle' => __( 'Read Me', 'admin-page-framework-demo' ),
 				'strPageSlug' => 'apf_read_me',
@@ -858,6 +869,24 @@ class APF_Demo extends AdminPageFramework {
 		<h3>Framework Properties</h3>
 		<?php
 			echo $this->oDebug->getArray( get_object_vars( $this->oProps ) ); 
+	}
+	
+	/*
+	 * The sample page and the hidden page
+	 */
+	public function do_apf_sample_page() {
+		
+		echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-demo' ) . "</p>";
+		$strLinkToHiddenPage = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) );
+		echo "<a href='{$strLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-demo' ). "</a>";
+	
+	}
+	public function do_apf_hidden_page() {
+		
+		echo "<p>" . __( 'This is a hidden page', 'admin-page-framework-demo' ) . "</p>";
+		$strLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
+		echo "<a href='{$strLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
+		
 	}
 	
 	/*

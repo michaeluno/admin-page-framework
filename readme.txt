@@ -176,6 +176,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 2.1.4 =
+* Added: sample pages that demonstrate the use of hidden pages with the `fShowInMenu` key in the demo plugin.
+* Added: the `fShowInMenu` key for the sub-menu page array which will add the ability to hide the page from the sidebar menu.
+
 = 2.1.3 - 11/19/2013 = 
 * Fixed: a bug that the style of the Iris color picker had a conflict with the date picker. 
 * Added: the `screen_icon` key for the post type argument array that can set the screen icon of the post type pages.
