@@ -1017,10 +1017,10 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->setAutoSave( false );
 		$this->setAuthorTableFilter( true );
 		$this->addTaxonomy( 
-			'sample_taxonomy', // taxonomy slug
+			'apf_sample_taxonomy', // taxonomy slug
 			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 				'labels' => array(
-					'name' => 'Genre',
+					'name' => 'Sample Genre',
 					'add_new_item' => 'Add New Genre',
 					'new_item_name' => "New Genre"
 				),
@@ -1030,11 +1030,11 @@ class APF_PostType extends AdminPageFramework_PostType {
 				'show_admin_column' => true,
 				'show_in_nav_menus' => true,
 				'show_table_filter' => true,	// framework specific key
-				'show_in_sidebar_menus' => false,	// framework specific key
+				'show_in_sidebar_menus' => true,	// framework specific key
 			)
 		);
 		$this->addTaxonomy( 
-			'second_taxonomy', 
+			'apf_second_taxonomy', 
 			array(
 				'labels' => array(
 					'name' => 'Non Hierarchical',
