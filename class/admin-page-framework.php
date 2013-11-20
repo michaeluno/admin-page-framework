@@ -1475,7 +1475,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		'strScreenIcon' => null,
 		'strCapability' => null, 
 		'numOrder' => null,
-		'fShowPageHeadingTab' => true,	// if this is set false, the page title won't be displayed in the page heading tab.
+		'fShowPageHeadingTab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
+		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar manu.
 	);
 	 
 	/**
@@ -1572,9 +1573,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * @param			string			$strCapability			( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.
 	 * @param			integer			$numOrder				( optional ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.
 	 * @param			boolean			$fShowPageHeadingTab	( optional ) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.
+	 * @param			boolean			$fShowInMenu			( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.
 	 * @return			void
 	 */ 
-	protected function addSubMenuPage( $strPageTitle, $strPageSlug, $strScreenIcon=null, $strCapability=null, $numOrder=null, $fShowPageHeadingTab=true ) {
+	protected function addSubMenuPage( $strPageTitle, $strPageSlug, $strScreenIcon=null, $strCapability=null, $numOrder=null, $fShowPageHeadingTab=true, $fShowInMenu=true ) {
 		
 		$strPageSlug = $this->oUtil->sanitizeSlug( $strPageSlug );
 		$intCount = count( $this->oProps->arrPages );
@@ -1590,6 +1592,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'strCapability'				=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'					=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
 			'fShowPageHeadingTab'		=> $fShowPageHeadingTab,
+			'fShowInMenu'				=> $fShowInMenu,	// since 1.3.4			
 			'fShowPageTitle'			=> $this->oProps->fShowPageTitle,			// boolean
 			'fShowPageHeadingTabs'		=> $this->oProps->fShowPageHeadingTabs,		// boolean
 			'fShowInPageTabs'			=> $this->oProps->fShowInPageTabs,			// boolean
@@ -1644,6 +1647,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 */ 
 	private function registerSubMenuPage( $arrArgs ) {
 	
+		// Format the argument array since it may be added by the third party scripts via the hook.
+		$arrArgs = isset( $arrArgs['strType'] ) && $arrArgs['strType'] == 'link' 
+			? $arrArgs + AdminPageFramework_Link::$arrStructure_SubMenuLink	// for link
+			: $arrArgs + self::$arrStructure_SubMenuPage;	// for page
+		
 		// Variables
 		$strType = $arrArgs['strType'];	// page or link
 		$strTitle = $strType == 'page' ? $arrArgs['strPageTitle'] : $arrArgs['strMenuTitle'];
@@ -1656,10 +1664,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		// Add the sub-page to the sub-menu
 		$arrResult = array();
 		$strRootPageSlug = $this->oProps->arrRootMenu['strPageSlug'];
+		$strMenuLabel = plugin_basename( $strRootPageSlug );	// Make it compatible with the add_submenu_page() function.
 		
+		// If it's a page - it's possible that the strPageSlug key is not set if the user uses a method like showPageHeadingTabs() prior to addSubMenuItam().
 		if ( $strType == 'page' && isset( $arrArgs['strPageSlug'] ) ) {		
-		// it's possible that the strPageSlug key is not set 
-		// if the user uses a method like showPageHeadingTabs() prior to addSubMenuItam().
 			
 			$strPageSlug = $arrArgs['strPageSlug'];
 			$arrResult[ $strPageSlug ] = add_submenu_page( 
@@ -1675,13 +1683,34 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			
 			add_action( "load-" . $arrResult[ $strPageSlug ] , array( $this, "load_pre_" . $strPageSlug ) );
 				
+			// If the visibility option is false, remove the one just added from the sub-menu array
+			if ( ! $arrArgs['fShowInMenu'] ) {
+
+				foreach( ( array ) $GLOBALS['submenu'][ $strMenuLabel ] as $intIndex => $arrSubMenu ) {
+					
+					if ( ! isset( $arrSubMenu[ 3 ] ) ) continue;
+					
+					// the array structure is defined in plugin.php - $submenu[$parent_slug][] = array ( $menu_title, $capability, $menu_slug, $page_title ) 
+					if ( $arrSubMenu[0] == $strTitle && $arrSubMenu[3] == $strTitle && $arrSubMenu[2] == $strPageSlug ) {
+						unset( $GLOBALS['submenu'][ $strMenuLabel ][ $intIndex ] );
+						break;
+					}
+				}
+			} 
+				
 		} 
-		if ( $strType == 'link' )
-			$GLOBALS['submenu'][ $strRootPageSlug ][] = array ( 
+		// If it's a link,
+		if ( $strType == 'link' && $arrArgs['fShowInMenu'] ) {
+			
+			if ( ! isset( $GLOBALS['submenu'][ $strMenuLabel ] ) )
+				$GLOBALS['submenu'][ $strMenuLabel ] = array();
+			
+			$GLOBALS['submenu'][ $strMenuLabel ][] = array ( 
 				$strTitle, 
 				$strCapability, 
 				$arrArgs['strURL'],
 			);	
+		}
 	
 		return $arrResult;	// maybe useful to debug.
 
@@ -3672,13 +3701,14 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	*/	
 	private function addSubMenuItem( $arrSubMenuItem ) {
 		if ( isset( $arrSubMenuItem['strURL'] ) ) {
-			$arrSubMenuLink = $arrSubMenuItem + $this->oLink->arrStructure_SubMenuLink;
+			$arrSubMenuLink = $arrSubMenuItem + AdminPageFramework_Link::$arrStructure_SubMenuLink;
 			$this->oLink->addSubMenuLink(
 				$arrSubMenuLink['strMenuTitle'],
 				$arrSubMenuLink['strURL'],
 				$arrSubMenuLink['strCapability'],
 				$arrSubMenuLink['numOrder'],
-				$arrSubMenuLink['fShowPageHeadingTab']
+				$arrSubMenuLink['fShowPageHeadingTab'],
+				$arrSubMenuLink['fShowInMenu']
 			);			
 		}
 		else { // if ( $arrSubMenuItem['strType'] == 'page' ) {
@@ -3689,7 +3719,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 				$arrSubMenuPage['strScreenIcon'],
 				$arrSubMenuPage['strCapability'],
 				$arrSubMenuPage['numOrder'],	
-				$arrSubMenuPage['fShowPageHeadingTab']
+				$arrSubMenuPage['fShowPageHeadingTab'],
+				$arrSubMenuPage['fShowInMenu']
 			);				
 		}
 	}
@@ -3707,8 +3738,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	* @access 			protected
 	* @return			void
 	*/	
-	protected function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fShowPageHeadingTab=true ) {
-		$this->oLink->addSubMenuLink( $strMenuTitle, $strURL, $strCapability, $numOrder, $fShowPageHeadingTab );
+	protected function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fShowPageHeadingTab=true, $fShowInMenu=true ) {
+		$this->oLink->addSubMenuLink( $strMenuTitle, $strURL, $strCapability, $numOrder, $fShowPageHeadingTab, $fShowInMenu );
 	}
 
 	/**
@@ -6303,16 +6334,17 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 	/**	
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.4			Changed to be static since it is used from multiple classes.
 	 * @remark			The scope is public because this is accessed from an extended class.
 	 */ 
-	public $arrStructure_SubMenuLink = array(		
+	public static $arrStructure_SubMenuLink = array(		
 		'strMenuTitle' => null,
 		'strURL' => null,
 		'strCapability' => null,
 		'numOrder' => null,
 		'strType' => 'link',
 		'fShowPageHeadingTab' => true,
-	
+		'fShowInMenu' => true,
 	);
 	// public function addSubMenuLinks() {
 		// foreach ( func_get_args() as $arrSubMenuLink ) {
@@ -6325,7 +6357,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 			// );				
 		// }
 	// }
-	public function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fShowPageHeadingTab=true ) {
+	public function addSubMenuLink( $strMenuTitle, $strURL, $strCapability=null, $numOrder=null, $fShowPageHeadingTab=true, $fShowInMenu=true ) {
 		
 		$intCount = count( $this->oProps->arrPages );
 		$this->oProps->arrPages[ $strURL ] = array(  
@@ -6336,6 +6368,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 			'strCapability'		=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'			=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
 			'fShowPageHeadingTab'	=> $fShowPageHeadingTab,
+			'fShowInMenu'		=> $fShowInMenu,
 		);	
 			
 	}
