@@ -1693,6 +1693,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 					// the array structure is defined in plugin.php - $submenu[$parent_slug][] = array ( $menu_title, $capability, $menu_slug, $page_title ) 
 					if ( $arrSubMenu[0] == $strTitle && $arrSubMenu[3] == $strTitle && $arrSubMenu[2] == $strPageSlug ) {
 						unset( $GLOBALS['submenu'][ $strMenuLabel ][ $intIndex ] );
+						
+						// The page title in the browser window title bar will miss the page title as this is left as it is.
+						$this->oProps->arrHiddenPages[ $strPageSlug ] = $strTitle;
+						add_filter( 'admin_title', array( $this, 'fixPageTitleForHiddenPages' ), 10, 2 );
+						
 						break;
 					}
 				}
@@ -1715,6 +1720,20 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		return $arrResult;	// maybe useful to debug.
 
 	}
+	
+	/**
+	 * A callback function for the admin_title filter to fix the page title for hidden pages.
+	 * @since			2.1.4
+	 */
+	public function fixPageTitleForHiddenPages( $strAdminTitle, $strPageTitle ) {
+
+		if ( isset( $this->oProps->arrHiddenPages[ $_GET['page'] ] ) )
+			return $this->oProps->arrHiddenPages[ $_GET['page'] ] . $strAdminTitle;
+			
+		return $strAdminTitle;
+		
+	}
+	
 	
 	/**
 	 * Builds menus.
@@ -5459,6 +5478,12 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 */ 	
 	public $arrPages = array(); 
 
+	/**
+	 * Stores the hidden page slugs.
+	 * @since			2.1.4
+	 */
+	public $arrHiddenPages = array();
+	
 	/**
 	 * Stores the registered sub menu pages.
 	 * 
