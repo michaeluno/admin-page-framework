@@ -90,7 +90,7 @@ abstract class AdminPageFramework_WPUtilities {
 	 * This is the reason the object instance must be passed to the first parameter. Regular functions as the callback are not supported for this method.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->oUtil->addAndDoActions( $this, array( 'my_action1', 'my_ction2', 'my_action3' ), 'argument_a', 'argument_b' );</code>
+	 * <code>$this->oUtil->addAndDoActions( $this, array( 'my_action1', 'my_action2', 'my_action3' ), 'argument_a', 'argument_b' );</code>
 	 * 
 	 * @access			public
 	 * @since			2.0.0
@@ -191,8 +191,7 @@ abstract class AdminPageFramework_WPUtilities {
 	public function goRedirect( $strURL ) {
 		
 		if ( ! function_exists('wp_redirect') ) include_once( ABSPATH . WPINC . '/pluggable.php' );
-		wp_redirect( $strURL );
-		exit;		
+		die( wp_redirect( $strURL ) );
 		
 	}
 	
@@ -742,7 +741,7 @@ endif;
 
 if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
 /**
- * Provides methods to renders admin page elements.
+ * Provides methods to render admin page elements.
  *
  * @abstract
  * @since			2.0.0
@@ -1254,9 +1253,11 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 				. "</a>";
 		
 		}		
-		if ( ! empty( $arrOutput ) )
-			return "<div class='admin-page-framework-in-page-tab'><{$strTag} class='nav-tab-wrapper in-page-tab'>" 
-				. implode( '', $arrOutput )
+		
+		return empty( $arrOutput )
+			? ""
+			: "<div class='admin-page-framework-in-page-tab'><{$strTag} class='nav-tab-wrapper in-page-tab'>" 
+					. implode( '', $arrOutput )
 				. "</{$strTag}></div>";
 			
 	}
@@ -1379,7 +1380,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 				"{$this->oProps->strClassName}_{$strPageSlug}_tabs",
 				$this->oProps->arrInPageTabs[ $strPageSlug ]			
 			);	
-			// Added in-page arrays may be missing necessary keys so merge them with the default array strucure.
+			// Added in-page arrays may be missing necessary keys so merge them with the default array structure.
 			foreach( $this->oProps->arrInPageTabs[ $strPageSlug ] as &$arrInPageTab ) 
 				$arrInPageTab = $arrInPageTab + self::$arrStructure_InPageTabElements;
 						
@@ -1416,9 +1417,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			: '';
 
 	}
-	
-	
-	
+
 }
 endif;
 
@@ -1477,7 +1476,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		'strCapability' => null, 
 		'numOrder' => null,
 		'fShowPageHeadingTab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
-		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar manu.
+		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
 	);
 	 
 	/**
@@ -2528,7 +2527,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Set up the field error array.
 		$arrErrors = array();
-		$arrErrors[ $strSectionID ][ $strFieldID ] = __( 'Are you sure you want to reset options?', 'admin-page-framework' );
+		$arrErrors[ $strSectionID ][ $strFieldID ] = __( 'Are you sure you want to reset the options?', 'admin-page-framework' );
 		$this->setFieldErrors( $arrErrors );
 		
 		// Set a flag that the confirmation is displayed
@@ -2549,15 +2548,15 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( $strKeyToReset == 1 or $strKeyToReset === true ) {
 			delete_option( $this->oProps->strOptionKey );
-			$this->setSettingNotice( __( 'The options has been reset.', 'admin-page-framework' ) );
-			$this->setSettingNotice( __( 'The options has been reset.', 'admin-page-framework' ) );
+			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
+			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
 			return array();
 		}
 		
 		unset( $this->oProps->arrOptions[ trim( $strKeyToReset ) ] );
 		unset( $arrInput[ trim( $strKeyToReset ) ] );
 		update_option( $this->oProps->strOptionKey, $this->oProps->arrOptions );
-		$this->setSettingNotice( __( 'The specified options has been deleted.', 'admin-page-framework' ) );
+		$this->setSettingNotice( __( 'The specified options have been deleted.', 'admin-page-framework' ) );
 		
 		return $arrInput;	// the returned array will be saved with the Settings API.
 	}
@@ -2592,7 +2591,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 */
 	
 	/**
-	 * Retrieves the target key value associated with the given data to a custom submit button.
+	 * Retrieves the target key's value associated with the given data to a custom submit button.
 	 * 
 	 * This method checks if the associated submit button is pressed with the input fields whose name property starts with __link or __redirect. 
 	 * The custom ( currently __link or __redirect is supported ) input array should contain the 'name' and 'url' keys and their values.
@@ -4860,7 +4859,7 @@ abstract class AdminPageFramework_Properties_Base {
 						var strAlt = jQuery( '<div/>' ).text( alt ).html();
 						var strTitle = jQuery( '<div/>' ).text( title ).html();						
 						
-						// If the user wants to save relavant attributes, set them.
+						// If the user wants to save relevant attributes, set them.
 						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
 						jQuery( '#' + field_id + '_id' ).val( id );
 						jQuery( '#' + field_id + '_width' ).val( width );
