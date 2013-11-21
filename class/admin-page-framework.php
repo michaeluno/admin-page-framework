@@ -1727,7 +1727,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 */
 	public function fixPageTitleForHiddenPages( $strAdminTitle, $strPageTitle ) {
 
-		if ( isset( $this->oProps->arrHiddenPages[ $_GET['page'] ] ) )
+		if ( isset( $_GET['page'], $this->oProps->arrHiddenPages[ $_GET['page'] ] ) )
 			return $this->oProps->arrHiddenPages[ $_GET['page'] ] . $strAdminTitle;
 			
 		return $strAdminTitle;
