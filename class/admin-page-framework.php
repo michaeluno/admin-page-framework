@@ -3943,7 +3943,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 				'strPageSlug' => $strPageSlug,
 				'strTabSlug' => $strTabSlug,
 				'strType' => 'style',
-				'strHandleID' => 'style_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedStyleIndex + 1 ),
+				'strHandleID' => 'style_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedStyleIndex ),
 			),
 			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
 		);
@@ -4000,7 +4000,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 				'strTabSlug' => $strTabSlug,
 				'strSRC' => $strSRC,
 				'strType' => 'script',
-				'strHandleID' => 'script_' . $this->oProps->strClassName . '_' .  ( $this->oProps->intEnqueuedScriptIndex + 1 ),
+				'strHandleID' => 'script_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedScriptIndex ),
 			),
 			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
 		);
