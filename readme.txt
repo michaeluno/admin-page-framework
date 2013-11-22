@@ -177,6 +177,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.4 =
+* Fixed: a bug that enqueuing multiple scripts/styles with the `enqueueStyle()`/`enqueueScript()` method did not take effect.
+* Changed: some menu item labels in the demo plugin.
 * Added: sample pages that demonstrate the use of hidden pages with the `fShowInMenu` key in the demo plugin.
 * Added: the `fShowInMenu` key for the sub-menu page array which will add the ability to hide the page from the sidebar menu.
 
