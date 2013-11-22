@@ -156,14 +156,14 @@ Most code editor supports the *"Replace All"* functionality so just use that. By
 == Other Notes ==
 
 = Tips =
-<h5>**Use Unique Page Slug**</h5>
+<h5><strong>Use Unique Page Slug</strong></h5>
 The framework internally uses the *add_submenu_page()* function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. Other ones will be ignored.
 
 This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your user will have a problem loading the page.
 
 So just use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
-<h5>**Change Class Names**</h5>
+<h5><strong>Change Class Names</strong></h5>
 When you include the library, change the class names that the library uses. This is because if there is a plugin that uses a lesser version of the library and it is loaded earlier than yours, your script may not work properly.
 
 All the class names have the prefix <code>AdminPageFramework_</code> so just change it to something like <code>MyPlugin_AdminPageFramework_</code>. 
@@ -177,6 +177,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.4 =
+* Changed: ( *Minor Breaking Change* ) the structure of input filed elements to enclose input elements in the `label` tag to make it compatible with the WordPress v3.8 admin style. Accordingly, those who are using the `vBeforeInputTag` and the `vAfterinputTag` keys should make sure that block elements are not passed to those outputs.
 * Fixed: a bug that enqueuing multiple scripts/styles with the `enqueueStyle()`/`enqueueScript()` method did not take effect.
 * Changed: some menu item labels in the demo plugin.
 * Added: sample pages that demonstrate the use of hidden pages with the `fShowInMenu` key in the demo plugin.
@@ -198,7 +199,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the 'vRich' key to the `textarea` field type that enables rich text editor.
 * Added: the `vReset` key to the `submit` field type that performs resetting options. 
 * Added: class electors to the field elements.
-* Changed: ( *Breacking Change* ) the `field_description` class selector name to `admin-page-framework-fields-description`.
+* Changed: ( *Minor Breacking Change* ) the `field_description` class selector name to `admin-page-framework-fields-description`.
 * Changed: the *assets* folder name to *asset*.
 * Added: the `setDisallowedQueryKeys()` method that can define disallowed query keys to be embedded in the links of in-page tabs and page-heading tabs.
 * Fixed: a bug that the `settings-updated` query key string was embedded in the links of in-page tabs and page-heading tabs. 

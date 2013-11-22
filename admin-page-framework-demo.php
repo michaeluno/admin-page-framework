@@ -273,7 +273,7 @@ class APF_Demo extends AdminPageFramework {
 				'strPageSlug'		=> 'first_page',
 				'strTabSlug'		=> 'files',
 				'strTitle'			=> __( 'File Uploads', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'These are upload fields. Check the $_FILES variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
+				'strDescription'	=> __( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'strSectionID'		=> 'submit_buttons',
@@ -360,10 +360,11 @@ class APF_Demo extends AdminPageFramework {
 					'Third Item: ' 
 				),
 				'vSize' => array(
-					30,
+					20,
+					40,
 					60,
-					90,
 				),
+				'vDelimiter' => '<br />',
 			),		
 			array(	// Repeatable text fields
 				'strFieldID' => 'text_repeatable',
@@ -372,7 +373,7 @@ class APF_Demo extends AdminPageFramework {
 				'strDescription' => __( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
 				'strType' => 'text',
 				'vDelimiter' => '',
-				'vSize' => 80,
+				'vSize' => 60,
 				'fRepeatable' => true,
 				'vDefault' => array( 'a', 'b', 'c', ),
 			),				
@@ -384,7 +385,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'textarea',
 				'vDefault' => 'Hello World! This is set as the default string.',
 				'vRows' => 6,
-				'vCols' => 80,
+				'vCols' => 60,
 			),
 			array(	// Repeatable Text Areas
 				'strFieldID' => 'textarea_repeatable',
@@ -394,6 +395,7 @@ class APF_Demo extends AdminPageFramework {
 				'fRepeatable' => true,
 				'vDelimiter' => '',
 				'vRows' => 3,
+				'vCols' => 60,
 			),			
 			array(	// Rich Text Editors
 				'strFieldID' => 'rich_textarea',
@@ -431,9 +433,9 @@ class APF_Demo extends AdminPageFramework {
 					2,
 				),
 				'vCols' => array(
-					90,
 					60,
-					30,
+					40,
+					20,
 				),
 			),
 			array(	// Single Drop-down List
@@ -469,6 +471,11 @@ class APF_Demo extends AdminPageFramework {
 					array( 'dark', 'light' ),
 					array( 'river', 'mountain', 'sky', ),
 					array( 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
+				),
+				'vSize' => array(
+					1,
+					1,
+					5,
 				),
 				'vDefault' => array(
 					1,
@@ -673,6 +680,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
 				'strType' => 'color',
 				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
+				'vDelimiter' => '<br />',
 			),				
 			array( // Repeatable Color Pickers
 				'strFieldID' => 'color_picker_repeatable_field',
@@ -694,14 +702,10 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Dates', 'admin-page-framework-demo' ),
 				'strType' => 'date',
 				'vLabel' => array( 
-					'start' => '', 
-					'end' => '' 
-				),	// indicates two elements.
-				'vBeforeInputTag' => array(
-					'start'	=> __( 'Start Date: ', 'amin-page-framework-demo' ),
-					'end'	=> __( 'End Date: ', 'amin-page-framework-demo' ),
+					'start' => __( 'Start Date: ', 'amin-page-framework-demo' ), 
+					'end' => __( 'End Date: ', 'amin-page-framework-demo' ), 
 				),
-				'vDelimiter' => '&nbsp;&nbsp;&nbsp;&nbsp;',
+				'vDelimiter' => '<br />',
 			),	
 			array(	// Repeatable date picker fields
 				'strFieldID' => 'date_repeatable',
@@ -714,7 +718,7 @@ class APF_Demo extends AdminPageFramework {
 			array( // Single Hidden Field
 				'strFieldID' => 'hidden_single',
 				'strSectionID' => 'hidden_field',
-				'strTitle' => 'Single Hidden Field',
+				'strTitle' => __( 'Single Hidden Field', 'admin-page-framework-demo' ),
 				'strType' => 'hidden',
 				'vDefault' => 'test value',
 				'vLabel' => 'Test label.',

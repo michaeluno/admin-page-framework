@@ -4356,49 +4356,96 @@ abstract class AdminPageFramework_Properties_Base {
 		.admin-page-framework-field .tab-box-content:target { 
 			display: block; 
 		}
-		
+		/* Delimiter */
+		.admin-page-framework-fields .delimiter {
+			display: inline;
+		}
+		/* Description */
+		.admin-page-framework-fields .admin-page-framework-fields-description {
+			/* margin-top: 0px; */
+			/* margin-bottom: 0.5em; */
+			margin-bottom: 0;
+		}
 		/* Input form elements */
 		.admin-page-framework-field {
 			display: inline;
 			margin-top: 1px;
 			margin-bottom: 1px;
 		}
-		.admin-page-framework-field input[type='checkbox'], 
-		.admin-page-framework-field input[type='radio'] { 
-			vertical-align: middle;
-		}		
-		.admin-page-framework-field input {
+		.admin-page-framework-field .admin-page-framework-input-label-container {
+			margin-bottom: 0.25em;
+		}
+		@media only screen and ( max-width: 780px ) {
+			.admin-page-framework-field .admin-page-framework-input-label-container {
+				margin-bottom: 0.5em;
+			}
+		}			
+		.admin-page-framework-field input[type='radio'],
+		.admin-page-framework-field input[type='checkbox']
+		{
 			margin-right: 0.5em;
-			
 		}		
-		.admin-page-framework-field input[type='text'] {
-			margin-bottom: 0.5em;
-		}
-		.admin-page-framework-field .admin-page-framework-radio-label, 
-		.admin-page-framework-field .admin-page-framework-checkbox-label {
-			margin-right: 1em;			
-		}
-		.admin-page-framework-field .admin-page-framework-input-label-container label {
-			margin-right: 1em;
-		}		
+		
+/* .admin-page-framework-field input[type='checkbox'], 
+.admin-page-framework-field input[type='radio'] { 
+	vertical-align: middle;
+}		 */
+/* .admin-page-framework-field input[type='text'] {
+	margin-bottom: 0.5em;
+} */
+/* .admin-page-framework-field .admin-page-framework-radio-label, 
+.admin-page-framework-field .admin-page-framework-checkbox-label {
+	margin-right: 1em;			
+} */
+		
+
+.admin-page-framework-field .admin-page-framework-input-label-string {
+	margin-right: 1em;	/* for checkbox label strings, a right margin is needed */
+}
+.admin-page-framework-field-radio .admin-page-framework-input-label-container,
+.admin-page-framework-field-select .admin-page-framework-input-label-container,
+.admin-page-framework-field-checkbox .admin-page-framework-input-label-container 
+{
+	margin-right: 1em;
+}
+.admin-page-framework-field-radio .admin-page-framework-input-label-string,
+.admin-page-framework-field-checkbox .admin-page-framework-input-label-string 
+{
+	margin-right: 0;
+}
+
 		.admin-page-framework-field .admin-page-framework-input-container {
 			display: inline-block;
 			vertical-align: middle; 
+			
 		}
 		.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-textarea .admin-page-framework-field .admin-page-framework-input-label-container,
-		.admin-page-framework-field-image .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-select .admin-page-framework-field .admin-page-framework-input-label-container
 		{
 			vertical-align: top; 
 		}
-		.admin-page-framework-field .admin-page-framework-input-label-container {
-			margin-top: 2px; 
-			vertical-align: middle; 
-			display: inline-block;
-		}
-		.admin-page-framework-field-size input {
+.admin-page-framework-field-image .admin-page-framework-field .admin-page-framework-input-label-container {
+	
+	vertical-align: middle;
+}
+.admin-page-framework-field .admin-page-framework-input-label-container,
+.admin-page-framework-field .admin-page-framework-input-label-string
+{
+	display: inline-block;		
+	vertical-align: middle;
+}
+.admin-page-framework-field-textarea .admin-page-framework-input-label-string {
+	vertical-align: top;
+	margin-top: 2px;
+}
+/* .admin-page-framework-field .admin-page-framework-input-label-container {
+	margin-top: 2px; 
+	vertical-align: middle; 
+	display: inline-block;
+} */
+ 		.admin-page-framework-field-size input {
 			text-align: right;
 		}
 		
@@ -4432,12 +4479,22 @@ abstract class AdminPageFramework_Properties_Base {
 			margin-bottom: 0.5em;
 		}
 		/* Image Uploader Button */
-		.select_image {
-			margin-left: 0.5em;
+		.admin-page-framework-field-image input,
+		.admin-page-framework-field-media input 
+		{
+			margin-right: 0.5em;
+		}
+		.select_image.button.button-small,
+		.select_media.button.button-small
+		{
+			vertical-align: baseline;
 		}
 		/* Color Picker */
 		.repeatable .colorpicker {
 			display: inline;
+		}
+		.admin-page-framework-field-color .wp-picker-container {
+			vertical-align: middle;
 		}
 		.admin-page-framework-field-color .ui-widget-content {
 			border: none;
@@ -4449,6 +4506,14 @@ abstract class AdminPageFramework_Properties_Base {
 			height: auto;
 			margin-top: -11px;
 		}
+		/* Import Field */
+		.admin-page-framework-field-import input {
+			margin-right: 0.5em;
+		}
+		/* Submit Buttons */
+		.admin-page-framework-field input[type='submit'] {
+			margin-bottom: 0.5em;
+		}		
 		";	
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -6864,30 +6929,34 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$arrFields = $this->arrField['fRepeatable'] ? 
 			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
 			: $this->arrField['vLabel'];
-			
+		$fMultiple = is_array( $arrFields );
+		
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-						)
-					. "<input id='{$this->strTagID}_{$strKey}' "
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
-						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-						. "type='{$this->arrField['strType']}' "	// text, password, etc.
-						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-					. "/>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $this->arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel	. "</span>"
+								: "" 
+							)
+							. "<input id='{$this->strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+								. "type='{$this->arrField['strType']}' "	// text, password, etc.
+								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				)
 			;
@@ -6904,31 +6973,34 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];
 			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-						)
-					. "<input id='{$this->strTagID}_{$strKey}' "
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
-						. "type='{$this->arrField['strType']}' "
-						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-						. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
-						. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
-						. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "
-						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-					. "/>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}' >"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $this->arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: ""
+							)
+							. "<input id='{$this->strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
+								. "type='{$this->arrField['strType']}' "
+								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+								. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
+								. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
+								. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+							. "/>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);				
 					
@@ -6941,62 +7013,65 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 		$arrFields = $this->arrField['fRepeatable'] ? 
 			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];		
-		
+			: $this->arrField['vLabel'];			
 		$fSingle = ! is_array( $arrFields );
+		
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) {
 			
 			$arrRichEditorSettings = $fSingle
 				? $this->arrField['vRich']
 				: $this->getCorrespondingArrayValue( $this->arrField['vRich'], $strKey, null );
 				
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-						)
-					. ( ! empty( $arrRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
-						? wp_editor( 
-							$this->getCorrespondingArrayValue( $this->vValue, $strKey, null ), 
-							"{$this->strTagID}_{$strKey}",  
-							$this->oUtil->uniteArrays( 
-								( array ) $arrRichEditorSettings,
-								array(
-									'wpautop' => true, // use wpautop?
-									'media_buttons' => true, // show insert/upload button(s)
-									'textarea_name' => is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
-									'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
-									'tabindex' => '',
-									'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-									'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-									'editor_class' => $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
-									'teeny' => false, // output the minimal editor config used in Press This
-									'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-									'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-									'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
-								)
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}' >"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $this->arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
 							)
-						) . $this->getScriptForRichEditor( "{$this->strTagID}_{$strKey}" )
-						: "<textarea id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
-							. "cols='" . $this->getCorrespondingArrayValue( $this->arrField['vCols'], $strKey, self::$arrDefaultFieldValues['vCols'] ) . "' "
-							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-							. "type='{$this->arrField['strType']}' "
-							. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-						. ">"
-							. $this->getCorrespondingArrayValue( $this->vValue, $strKey, null )
-						. "</textarea>"
-					)
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+							. ( ! empty( $arrRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
+								? wp_editor( 
+									$this->getCorrespondingArrayValue( $this->vValue, $strKey, null ), 
+									"{$this->strTagID}_{$strKey}",  
+									$this->oUtil->uniteArrays( 
+										( array ) $arrRichEditorSettings,
+										array(
+											'wpautop' => true, // use wpautop?
+											'media_buttons' => true, // show insert/upload button(s)
+											'textarea_name' => is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
+											'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
+											'tabindex' => '',
+											'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
+											'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
+											'editor_class' => $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
+											'teeny' => false, // output the minimal editor config used in Press This
+											'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
+											'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+											'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
+										)
+									)
+								) . $this->getScriptForRichEditor( "{$this->strTagID}_{$strKey}" )
+								: "<textarea id='{$this->strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
+									. "cols='" . $this->getCorrespondingArrayValue( $this->arrField['vCols'], $strKey, self::$arrDefaultFieldValues['vCols'] ) . "' "
+									. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+									. "type='{$this->arrField['strType']}' "
+									. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+								. ">"
+									. $this->getCorrespondingArrayValue( $this->vValue, $strKey, null )
+								. "</textarea>"
+							)
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7037,26 +7112,31 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( $arrLabels as $strKey => $vLabel ) {
 			
 			$fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] );
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<select id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "type='{$this->arrField['strType']}' "
-							. ( $fMultiple ? "multiple='Multiple' " : '' )
-							. "name=" . ( $fSingle ? "'{$this->strFieldName}" : "'{$this->strFieldName}[{$strKey}]" )
-							. ( $fMultiple ? "[]' " : "' " )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
-							. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
-						. ">"
-							. $this->getOptionTags( $vLabel, $this->vValue, $strKey, $fSingle, $fMultiple )
-						. "</select>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. "<span class='admin-page-framework-input-container'>"
+								. "<select id='{$this->strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "type='{$this->arrField['strType']}' "
+									. ( $fMultiple ? "multiple='Multiple' " : '' )
+									. "name=" . ( $fSingle ? "'{$this->strFieldName}" : "'{$this->strFieldName}[{$strKey}]" )
+									. ( $fMultiple ? "[]' " : "' " )
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
+									. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
+								. ">"
+									. $this->getOptionTags( $vLabel, $this->vValue, $strKey, $fSingle, $fMultiple )
+								. "</select>"
+							. "</span>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7119,49 +7199,50 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		);		
 		
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel 
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-								. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-							."</span>" 
-						: "" 
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<label for='{$this->strTagID}_{$strKey}'>"
+						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+						. ( $strLabel 
+							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel ."</span>"
+							: "" 
 						)
-					. "<input id='{$this->strTagID}_{$strKey}' "	// number field
-						// . "style='text-align: right;'"
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-						. "type='number' "	// number
-						. "name=" . ( $fSingle ? "'{$this->strFieldName}[size]' " : "'{$this->strFieldName}[{$strKey}][size]' " )
-						. "value='" . ( $fSingle ? $this->getCorrespondingArrayValue( $this->vValue['size'], $strKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'size', '' ) ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-						. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
-						. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
-						. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "					
-					. "/>"
-					. "<select id='{$this->strTagID}_{$strKey}' "	// select field
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "type='{$this->arrField['strType']}' "
-						. ( ( $fMultipleOptions = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
-						. "name=" . ( $fSingle ? "'{$this->strFieldName}[unit]" : "'{$this->strFieldName}[{$strKey}][unit]" ) . ( $fMultipleOptions ? "[]' " : "' " )						
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
-						. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
-					. ">"
-						. $this->getOptionTags( 
-							$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $this->arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
-							$fSingle ? $this->getCorrespondingArrayValue( $this->vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'unit', 'px' ),
-							$strKey, 
-							true, 	// since the above value is directly passed, pass call the function as for a single element.
-							$fMultipleOptions 
-						)
-					. "</select>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "<input id='{$this->strTagID}_{$strKey}' "	// number field
+							// . "style='text-align: right;'"
+							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+							. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+							. "type='number' "	// number
+							. "name=" . ( $fSingle ? "'{$this->strFieldName}[size]' " : "'{$this->strFieldName}[{$strKey}][size]' " )
+							. "value='" . ( $fSingle ? $this->getCorrespondingArrayValue( $this->vValue['size'], $strKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'size', '' ) ) . "' "
+							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
+							. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
+							. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "					
+						. "/>"
+						. "<select id='{$this->strTagID}_{$strKey}' "	// select field
+							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+							. "type='{$this->arrField['strType']}' "
+							. ( ( $fMultipleOptions = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+							. "name=" . ( $fSingle ? "'{$this->strFieldName}[unit]" : "'{$this->strFieldName}[{$strKey}][unit]" ) . ( $fMultipleOptions ? "[]' " : "' " )						
+							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
+							. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
+						. ">"
+							. $this->getOptionTags( 
+								$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $this->arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
+								$fSingle ? $this->getCorrespondingArrayValue( $this->vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'unit', 'px' ),
+								$strKey, 
+								true, 	// since the above value is directly passed, pass call the function as for a single element.
+								$fMultipleOptions 
+							)
+						. "</select>"
+						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+					. "</label>"
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);			
 				
@@ -7179,11 +7260,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
 		$arrLabels =  $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
 		foreach( $arrLabels as $strKey => $vLabel )  
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getRadioTags( $vLabel, $strKey, $fSingle )				
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7200,24 +7282,27 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 			$arrOutput = array();
 			foreach ( $arrLabels as $strKey => $strLabel ) 
-				$arrOutput[] = "<span class='admin-page-framework-input-container'>"
-						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-						. "<input "
-							. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "type='radio' "
-							. "value='{$strKey}' "
-							. "name=" . ( ! $fSingle  ? "'{$this->strFieldName}[{$strIterationID}]' " : "'{$this->strFieldName}' " )
-							. ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? 'Checked ' : '' )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-						. "<span class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strIterationID}_{$strKey}'>"
+				$arrOutput[] = 
+					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$this->strTagID}_{$strIterationID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. "<span class='admin-page-framework-input-container'>"
+								. "<input "
+									. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "type='radio' "
+									. "value='{$strKey}' "
+									. "name=" . ( ! $fSingle  ? "'{$this->strFieldName}[{$strIterationID}]' " : "'{$this->strFieldName}' " )
+									. ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? 'Checked ' : '' )
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. "/>"							
+							. "</span>"
+							. "<span class='admin-page-framework-input-label-string'>"
 								. $strLabel
-							. "</label>"
-						. "</span>"
-						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-					. "</span>";
+							. "</span>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>";
 
 			return implode( '', $arrOutput );
 		}
@@ -7225,29 +7310,32 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getCheckBoxField( $arrOutput=array() ) {
 
 		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<input type='hidden' name=" .  ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<input "
-							. "id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "type='{$this->arrField['strType']}' "	// checkbox
-							. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-							. "value='1' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) == 1 ? "Checked " : '' )
-						. "/>"
-						. "<span class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}'>"				
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"	
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. "<span class='admin-page-framework-input-container'>"
+								. "<input type='hidden' name=" .  ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
+								. "<input "
+									. "id='{$this->strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "type='{$this->arrField['strType']}' "	// checkbox
+									. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+									. "value='1' "
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) == 1 ? "Checked " : '' )
+								. "/>"							
+							. "</span>"
+							. "<span class='admin-page-framework-input-label-string'>"
 								. $strLabel
-							. "</label>"
-						. "</span>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+							. "</span>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>" // end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 					
@@ -7265,23 +7353,31 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getHiddenField( $arrOutput=array() ) {
 					
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. ( ( $strLabel = $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, '' ) ) ? "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>" : "" )
-						. "<input "
-							. "id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "type='{$this->arrField['strType']}' "	// hidden
-							. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-							. "value='" . $strValue  . "' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( ( $strLabel = $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, '' ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>{$strLabel}</span>" 
+								: "" 
+							)
+							. "<div class='admin-page-framework-input-container'>"
+								. "<input "
+									. "id='{$this->strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "type='{$this->arrField['strType']}' "	// hidden
+									. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+									. "value='" . $strValue  . "' "
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. "/>"
+							. "</div>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 					
@@ -7298,27 +7394,30 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];	
 	
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable'] ?
-						"<span class='admin-page-framework-input-container'  style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}'>{$strLabel}</label>"
-						. "</span>"
-						: ""
-					)
-					. "<input "
-						. "id='{$this->strTagID}_{$strKey}' "
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
-						. "type='{$this->arrField['strType']}' "	// file
-						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-						. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-					. "/>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $this->arrField['fRepeatable'] ?
+								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: ""
+							)
+							. "<input "
+								. "id='{$this->strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
+								. "type='{$this->arrField['strType']}' "	// file
+								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 					
@@ -7336,7 +7435,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$strLinkURL = $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null );
 			$strResetKey = $this->getCorrespondingArrayValue( $this->arrField['vReset'], $strKey, null );
 			$fResetConfirmed = $this->checkConfirmationDisplayed( $strResetKey, $this->strFieldNameFlat ); 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. ( $strRedirectURL 
 						? "<input type='hidden' "
 							. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
@@ -7382,7 +7482,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						: ""
 					)
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-label-string admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. "<input "
 							. "id='{$this->strTagID}_{$strKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
@@ -7395,7 +7495,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>" // end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7428,7 +7528,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. "<input type='hidden' "
 						. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportOptionKey'], $strKey, $this->arrField['strOptionKey'] )
@@ -7438,7 +7539,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportFormat'], $strKey, 'array' )	// array, text, or json.
 					. "' />"			
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-label-string admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. "<input "		// upload button
 							. "id='{$this->strTagID}_{$strKey}_file' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import' ) . "' "
@@ -7459,7 +7560,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);		
 					
@@ -7487,7 +7588,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				$fIsDataSet = true;
 			}
 			
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. "<input type='hidden' "
 						. "name='__export[{$this->arrField['strFieldID']}][file_name]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vExportFileName'], $strKey, $this->generateExportFileName( $this->arrField['strOptionKey'], $strExportFormat ) )
@@ -7501,7 +7603,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "value='" . ( $fIsDataSet ? 1 : 0 )
 					. "' />"				
 					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-label-string admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
 						. "<input "
 							. "id='{$this->strTagID}_{$strKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
@@ -7515,7 +7617,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>" // end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 									
@@ -7558,29 +7660,33 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];		
 		
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-					)
-					. "<input id='{$this->strTagID}_{$strKey}' "
-						. "class='datepicker " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-						. "type='text' "	// text, password, etc.
-						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-					. "/>"
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $this->arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. "<!-- testing -->"
+							. "<input id='{$this->strTagID}_{$strKey}' "
+								. "class='datepicker " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+								. "type='text' "	// text, password, etc.
+								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"	// end of label container
 					. $this->getDatePickerEnablerScript( "{$this->strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $this->arrField['vDateFormat'], $strKey, 'yy/mm/dd' ) )
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7594,16 +7700,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		 * 
 		 */
 		private function getDatePickerEnablerScript( $strID, $strDateFormat ) {
-
 			return 
-"<script type='text/javascript' class='date-picker-enabler-script' data-id='{$strID}' data-date_format='{$strDateFormat}'>
-	jQuery( document ).ready( function() {
-		jQuery( '#{$strID}' ).datepicker({
-			dateFormat : '{$strDateFormat}'
-		});
-	})
-</script>";	
-			
+				"<script type='text/javascript' class='date-picker-enabler-script' data-id='{$strID}' data-date_format='{$strDateFormat}'>
+					jQuery( document ).ready( function() {
+						jQuery( '#{$strID}' ).datepicker({
+							dateFormat : '{$strDateFormat}'
+						});
+					})
+				</script>";
 		}
 	
 	private function getColorField( $arrOutput=array() ) {
@@ -7613,31 +7717,34 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: $this->arrField['vLabel'];		
 	
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-					)
-					. "<input id='{$this->strTagID}_{$strKey}' "
-						. "class='input_color " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-						. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-						. "type='text' "	// text
-						. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-						. "value='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
-						. "color='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-					. "/>"
-					. "<div class='colorpicker' id='color_{$this->strTagID}_{$strKey}' rel='{$this->strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
-					. $this->getColorPickerEnablerScript( "{$this->strTagID}_{$strKey}" )
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"					
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $this->arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. "<input id='{$this->strTagID}_{$strKey}' "
+								. "class='input_color " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
+								. "type='text' "	// text
+								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
+								. "value='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
+								. "color='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+						. "<div class='colorpicker' id='color_{$this->strTagID}_{$strKey}' rel='{$this->strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
+						. $this->getColorPickerEnablerScript( "{$this->strTagID}_{$strKey}" )
+					. "</div>"
 				. "</div>"	// admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7662,25 +7769,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 		$arrFields = $this->arrField['fRepeatable'] ? 
 			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];		
+			: $this->arrField['vLabel'];
+		$fMultipleFields = is_array( $arrFields );	
+		$fRepeatable = $this->arrField['fRepeatable'];
 			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] =
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-					)
-					. "<div class='admin-page-framework-input-container image-field'>"
-						. $this->getImageInputTags( $this->strTagID, $strKey, $this->arrField['arrCaptureAttributes'], $arrFields )
-					. "</div>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"					
+					. $this->getImageInputTags( $this->strTagID, $strKey, $strLabel, $this->arrField['arrCaptureAttributes'], $fMultipleFields )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, $this->arrField['fRepeatable'] ? '' : "<br />" ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7695,15 +7794,18 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		 * 
 		 * @since			2.1.3
 		 */
-		private function getImageInputTags( $strTagID, $strKey, $arrCaptureAttributes, $arrFields ) {
+		private function getImageInputTags( $strTagID, $strKey, $strLabel, $arrCaptureAttributes, $fMultipleFields ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$intCountAttributes = count( ( array ) $arrCaptureAttributes );
-			$fMultipleFields = is_array( $arrFields );
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$arrOutputs = array(
-				"<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
+				( $strLabel && ! $this->arrField['fRepeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+					: ''
+				)			
+				. "<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
 					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
@@ -7717,17 +7819,24 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
 			foreach( ( array ) $arrCaptureAttributes as $strAttribute )
-				$arrOutputs[] = "<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
-					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-					. "type='hidden' " 	// other additional attributes are hidden
-					. "name='" . ( is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
-					. "value='" . $this->getImageInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. "/>";
+				$arrOutputs[] = 
+					"<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+						. "type='hidden' " 	// other additional attributes are hidden
+						. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
+						. "value='" . $this->getImageInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>";
 			
 			// Returns the outputs as well as the uploader buttons and the preview element.
-			return implode( PHP_EOL, $arrOutputs ) . PHP_EOL
-				. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false, $this->arrField['fAllowExternalSource'] ? true : false )	
+			return 
+				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
+					. "<label for='{$this->strTagID}_{$strKey}' >"
+						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
+						. implode( PHP_EOL, $arrOutputs ) . PHP_EOL
+						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+					. "</label>"
+				. "</div>"
 				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
 					? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
 							. "class='image_preview' "
@@ -7737,7 +7846,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 								. "id='image_preview_{$this->strTagID}_{$strKey}' "
 							. "/>"
 						. "</div>"
-					: "" );
+					: "" )
+				. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false, $this->arrField['fAllowExternalSource'] ? true : false );
 			
 		}
 		/**
@@ -7798,24 +7908,16 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$arrFields = $this->arrField['fRepeatable'] ? 
 			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
 			: $this->arrField['vLabel'];		
+		$fMultipleFields = is_array( $arrFields );	
+		$fRepeatable = $this->arrField['fRepeatable'];			
 			
 		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
 			$arrOutput[] =
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. ( $strLabel && ! $this->arrField['fRepeatable']
-						? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-							. "<label for='{$this->strTagID}_{$strKey}' class='text-label'>{$strLabel}</label>"
-						. "</span>" 
-						: "" 
-					)
-					. "<div class='admin-page-framework-input-container media-field'>"
-						. $this->getMediaInputTags( $this->strTagID, $strKey, $this->arrField['arrCaptureAttributes'], $arrFields )
-					. "</div>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"					
+					. $this->getMediaInputTags( $this->strTagID, $strKey, $strLabel, $this->arrField['arrCaptureAttributes'], $fMultipleFields )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, $this->arrField['fRepeatable'] ? '' : "<br />" ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7829,21 +7931,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		 * 
 		 * @since			2.1.3
 		 */
-		private function getMediaInputTags( $strTagID, $strKey, $arrCaptureAttributes, $arrFields ) {
+		private function getMediaInputTags( $strTagID, $strKey, $strLabel, $arrCaptureAttributes, $fMultipleFields ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$intCountAttributes = count( ( array ) $arrCaptureAttributes );			
-			$fMultipleFields = is_array( $arrFields );
+			$intCountAttributes = count( ( array ) $arrCaptureAttributes );	
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$arrOutputs = array(
-				"<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
+				( $strLabel && ! $this->arrField['fRepeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>" 
+					: ''
+				)
+				. "<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
 					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
 					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
-					// . "value='" . ( $strImageURL = $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : $this->vValue, isset( $this->vValue[ $strKey ] ) ? 'url' : $strKey, self::$arrDefaultFieldValues['vDefault'] ) ) . "' "
 					. "value='" . ( $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : ''  ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
@@ -7852,17 +7956,24 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
 			foreach( ( array ) $arrCaptureAttributes as $strAttribute )
-				$arrOutputs[] = "<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
-					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-					. "type='hidden' " 	// other additional attributes are hidden
-					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
-					// . "value='" . $this->getCorrespondingArrayValue( isset( $this->vValue[ $strKey ] ) ? $this->vValue[ $strKey ] : array(), $strAttribute, '' ) . "' "
-					. "value='" . $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-				. "/>";
+				$arrOutputs[] = 
+					"<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
+						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+						. "type='hidden' " 	// other additional attributes are hidden
+						. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
+						. "value='" . $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
+						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>";
 			
 			// Returns the outputs as well as the uploader buttons and the preview element.
-			return implode( PHP_EOL, $arrOutputs ) . PHP_EOL
+			return 
+				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
+					. "<label for='{$this->strTagID}_{$strKey}' >"
+						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' )
+						. implode( PHP_EOL, $arrOutputs ) . PHP_EOL
+						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+					. "</label>"
+				. "</div>"
 				. $this->getMediaUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false, $this->arrField['fAllowExternalSource'] ? true : false );
 			
 		}
@@ -7925,29 +8036,32 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				
 		foreach( ( array ) $this->getPostTypeArrayForChecklist( $this->arrField['arrRemove'] ) as $strKey => $strValue ) {
 			$strName = "{$this->strFieldName}[{$strKey}]";
-			$arrOutput[] = "<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 	
-					. "<span class='admin-page-framework-input-container'>"
-						. "<input type='hidden' name='{$strName}' value='0' />"
-						. "<input "
-							. "id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "type='checkbox' "
-							. "name='{$strName}'"
-							. "value='1' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, false ) == 1 ? "Checked " : '' )				
-						. "/>"
-					. "</span>"
-					. "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"				
-							. $strValue
+			$arrOutput[] = 
+				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$this->strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 	
+							. "<span class='admin-page-framework-input-container'>"
+								. "<input type='hidden' name='{$strName}' value='0' />"
+								. "<input "
+									. "id='{$this->strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "type='checkbox' "
+									. "name='{$strName}'"
+									. "value='1' "
+									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, false ) == 1 ? "Checked " : '' )				
+								. "/>"
+							. "</span>"
+							. "<span class='admin-page-framework-input-label-string'>"
+								. $strValue
+							. "</span>"				
+							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 						. "</label>"
-					. "</span>"				
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
+					. "</div>"
 				. "</div>"
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
-					? "<span class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</span>"
+					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
 				
@@ -7990,7 +8104,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		foreach( ( array ) $this->arrField['vTaxonomySlug'] as $strKey => $strTaxonomySlug ) {
 			$strActive = isset( $strActive ) ? '' : 'active';	// inserts the active class selector into the first element.
 			$arrTabs[] = "<li class='tab-box-tab'><a href='#tab-{$strKey}'><span class='tab-box-tab-text'>" . $this->getCorrespondingArrayValue( empty( $this->arrField['vLabel'] ) ? null : $this->arrField['vLabel'], $strKey, $this->getLabelFromTaxonomySlug( $strTaxonomySlug ) ) . "</span></a></li>";
-			$arrCheckboxes[] = "<div id='tab-{$strKey}' class='tab-box-content' style='height: {$this->arrField['strHeight']};'>"
+			$arrCheckboxes[] = 
+				"<div id='tab-{$strKey}' class='tab-box-content' style='height: {$this->arrField['strHeight']};'>"
 					. "<ul class='list:category taxonomychecklist form-no-clear'>"
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
@@ -8006,13 +8121,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "</div>";
 		}
 		$strTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $arrTabs ) . "</ul>";
-		$strContents = "<div class='tab-box-contents-container'>"
+		$strContents = 
+			"<div class='tab-box-contents-container'>"
 				. "<div class='tab-box-contents' style='height: {$this->arrField['strHeight']};'>"
 					. implode( '', $arrCheckboxes )
 				. "</div>"
 			. "</div>";
 			
-		$strOutput = "<div id='{$this->strTagID}' class='{$this->strFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
+		$strOutput = 
+			"<div id='{$this->strTagID}' class='{$this->strFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
 				. $strTabs . PHP_EOL
 				. $strContents . PHP_EOL
 			. "</div>";
@@ -8094,7 +8211,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$strAdd = __( 'Add', 'admin-page-framework' );
 		$strRemove = __( 'Remove', 'admin-page-framework' );
 		$strVisibility = $intFieldCount <= 1 ? " style='display:none;'" : "";
-		$strButtons = "<div class='admin-page-framework-repeatable-field-buttons'>"
+		$strButtons = 
+			"<div class='admin-page-framework-repeatable-field-buttons'>"
 				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$strAdd}' data-id='{$strTagID}'>+</a>"
 				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility} data-id='{$strTagID}'>-</a>"
 			. "</div>";
@@ -8116,7 +8234,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				updateAPFRepeatableFields( '{$strTagID}' );
 				
 			});
-			
 		</script>";
 		
 	}
