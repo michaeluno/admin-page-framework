@@ -2376,7 +2376,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				
 		// Reference: http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
 		//If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
-		if ( 3.5 <= $GLOBALS['wp_version'] ){
+		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ){
 			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
@@ -9301,7 +9301,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	public function enqueueColorFieldScript() {
 		
 		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
-		if ( 3.5 <= $GLOBALS['wp_version'] ){
+		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
 			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
