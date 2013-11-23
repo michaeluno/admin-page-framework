@@ -6896,11 +6896,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			? $this->getRepeaterScript( $this->strTagID, count( ( array ) $this->vValue ) )
 			: '';
 			
-		return "<div class='admin-page-framework-fields'>"
-				. $this->arrField['strBeforeField'] 
-				. $strOutput
-				. $this->arrField['strAfterField']
-			. "</div>";
+		return 
+			"<fieldset>"
+				. "<div class='admin-page-framework-fields'>"
+					. $this->arrField['strBeforeField'] 
+					. $strOutput
+					. $this->arrField['strAfterField']
+				. "</div>"
+			. "</fieldset>";
 		
 	}
 	private function getTextField( $arrOutput=array() ) {
