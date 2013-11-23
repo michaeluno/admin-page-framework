@@ -4375,7 +4375,7 @@ abstract class AdminPageFramework_Properties_Base {
 		.admin-page-framework-field .admin-page-framework-input-label-container {
 			margin-bottom: 0.25em;
 		}
-		@media only screen and ( max-width: 780px ) {
+		@media only screen and ( max-width: 780px ) {	/* For WordPress v3.8 or greater */
 			.admin-page-framework-field .admin-page-framework-input-label-container {
 				margin-bottom: 0.5em;
 			}
@@ -4386,38 +4386,19 @@ abstract class AdminPageFramework_Properties_Base {
 			margin-right: 0.5em;
 		}		
 		
-/* .admin-page-framework-field input[type='checkbox'], 
-.admin-page-framework-field input[type='radio'] { 
-	vertical-align: middle;
-}		 */
-/* .admin-page-framework-field input[type='text'] {
-	margin-bottom: 0.5em;
-} */
-/* .admin-page-framework-field .admin-page-framework-radio-label, 
-.admin-page-framework-field .admin-page-framework-checkbox-label {
-	margin-right: 1em;			
-} */
-		
-
-.admin-page-framework-field .admin-page-framework-input-label-string {
-	margin-right: 1em;	/* for checkbox label strings, a right margin is needed */
-}
-.admin-page-framework-field-radio .admin-page-framework-input-label-container,
-.admin-page-framework-field-select .admin-page-framework-input-label-container,
-.admin-page-framework-field-checkbox .admin-page-framework-input-label-container 
-{
-	margin-right: 1em;
-}
-.admin-page-framework-field-radio .admin-page-framework-input-label-string,
-.admin-page-framework-field-checkbox .admin-page-framework-input-label-string 
-{
-	margin-right: 0;
-}
+		.admin-page-framework-field .admin-page-framework-input-label-string {
+			padding-right: 1em;	/* for checkbox label strings, a right padding is needed */
+		}
+		.admin-page-framework-field-radio .admin-page-framework-input-label-container,
+		.admin-page-framework-field-select .admin-page-framework-input-label-container,
+		.admin-page-framework-field-checkbox .admin-page-framework-input-label-container 
+		{
+			padding-right: 1em;
+		}
 
 		.admin-page-framework-field .admin-page-framework-input-container {
 			display: inline-block;
 			vertical-align: middle; 
-			
 		}
 		.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-textarea .admin-page-framework-field .admin-page-framework-input-label-container,
@@ -4426,25 +4407,20 @@ abstract class AdminPageFramework_Properties_Base {
 		{
 			vertical-align: top; 
 		}
-.admin-page-framework-field-image .admin-page-framework-field .admin-page-framework-input-label-container {
-	
-	vertical-align: middle;
-}
-.admin-page-framework-field .admin-page-framework-input-label-container,
-.admin-page-framework-field .admin-page-framework-input-label-string
-{
-	display: inline-block;		
-	vertical-align: middle;
-}
-.admin-page-framework-field-textarea .admin-page-framework-input-label-string {
-	vertical-align: top;
-	margin-top: 2px;
-}
-/* .admin-page-framework-field .admin-page-framework-input-label-container {
-	margin-top: 2px; 
-	vertical-align: middle; 
-	display: inline-block;
-} */
+		.admin-page-framework-field-image .admin-page-framework-field .admin-page-framework-input-label-container {			
+			vertical-align: middle;
+		}
+		.admin-page-framework-field .admin-page-framework-input-label-container,
+		.admin-page-framework-field .admin-page-framework-input-label-string
+		{
+			display: inline-block;		
+			vertical-align: middle;
+		}
+		.admin-page-framework-field-textarea .admin-page-framework-input-label-string {
+			vertical-align: top;
+			margin-top: 2px;
+		}
+
  		.admin-page-framework-field-size input {
 			text-align: right;
 		}
