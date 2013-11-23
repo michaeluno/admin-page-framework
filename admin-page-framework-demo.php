@@ -437,6 +437,7 @@ class APF_Demo extends AdminPageFramework {
 					40,
 					20,
 				),
+				'vDelimiter' => '<br />',
 			),
 			array(	// Single Drop-down List
 				'strFieldID' => 'select',
@@ -576,7 +577,8 @@ class APF_Demo extends AdminPageFramework {
 					'weight' => array( 'size' => 15, 'unit' => 'g' ),
 					'length' => array( 'size' => 100, 'unit' => 'mm' ),
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
-				),					
+				),		
+				'vDelimiter' => '<br />',
 			),			
 			array( // Image Selector
 				'strFieldID' => 'image_select_field',

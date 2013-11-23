@@ -6999,7 +6999,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);				
@@ -7070,7 +7070,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7135,7 +7135,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7241,7 +7241,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 					. "</label>"
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '<br />' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);			
@@ -7264,7 +7264,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
 					. $this->getRadioTags( $vLabel, $strKey, $fSingle )				
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7334,7 +7334,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7376,7 +7376,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7416,7 +7416,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7494,7 +7494,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7559,7 +7559,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);		
@@ -7616,7 +7616,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7685,7 +7685,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					. "</div>"	// end of label container
 					. $this->getDatePickerEnablerScript( "{$this->strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $this->arrField['vDateFormat'], $strKey, 'yy/mm/dd' ) )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7743,7 +7743,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. $this->getColorPickerEnablerScript( "{$this->strTagID}_{$strKey}" )
 					. "</div>"
 				. "</div>"	// admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7778,7 +7778,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"					
 					. $this->getImageInputTags( $this->strTagID, $strKey, $strLabel, $this->arrField['arrCaptureAttributes'], $fMultipleFields )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, $this->arrField['fRepeatable'] ? '' : "<br />" ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -7916,7 +7916,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"					
 					. $this->getMediaInputTags( $this->strTagID, $strKey, $strLabel, $this->arrField['arrCaptureAttributes'], $fMultipleFields )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, $this->arrField['fRepeatable'] ? '' : "<br />" ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
@@ -8060,7 +8060,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '' ) )
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
