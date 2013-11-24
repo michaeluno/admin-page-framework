@@ -1,6 +1,6 @@
 # [Admin Page Framework](http://wordpress.org/plugins/admin-page-framework/) #
 
-[![Admin Page Framework](https://lh4.googleusercontent.com/-iO08eEtm5R0/UhTT0gLpT2I/AAAAAAAABNI/X6gz49-VYjQ/s400/screenshot-1.png "Admin Page Famework - Sample Screenshot")](https://lh4.googleusercontent.com/-iO08eEtm5R0/UhTT0gLpT2I/AAAAAAAABNI/X6gz49-VYjQ/s0/screenshot-1.png)
+[![Admin Page Framework](https://lh3.googleusercontent.com/-yOvkGL-66O8/UpGkdtWTAUI/AAAAAAAABak/rOXgreTXm-A/s400/admin_page_framework_v2.1.4.png)
 
 ### Welcome to our GitHub Repository
 
