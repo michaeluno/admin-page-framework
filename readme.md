@@ -1,6 +1,6 @@
 # [Admin Page Framework](http://wordpress.org/plugins/admin-page-framework/) #
 
-[![Admin Page Framework](https://lh3.googleusercontent.com/-yOvkGL-66O8/UpGkdtWTAUI/AAAAAAAABak/rOXgreTXm-A/s400/admin_page_framework_v2.1.4.png)
+[![Admin Page Framework](https://lh3.googleusercontent.com/-yOvkGL-66O8/UpGkdtWTAUI/AAAAAAAABak/rOXgreTXm-A/s600/admin_page_framework_v2.1.4.png)](https://lh3.googleusercontent.com/-yOvkGL-66O8/UpGkdtWTAUI/AAAAAAAABak/rOXgreTXm-A/s0/admin_page_framework_v2.1.4.png)
 
 ### Welcome to our GitHub Repository
 
