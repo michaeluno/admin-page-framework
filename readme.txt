@@ -1,7 +1,7 @@
 === Admin Page Framework ===
 Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
-Tags: admin, admin page framework, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
+Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, options framework, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.3
 Tested up to: 3.7.1
 Stable tag: 2.1.3
@@ -61,10 +61,13 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 == Screenshots ==
 1. **Text Fields**
 2. **Selector and Checkboxes**
-3. **Image and Upload and Color Picker**
-4. **Form Verification**
+3. **Image, Media, and File Upload**
+4. **Form Input Verification**
 5. **Import and Export**
 6. **Taxonomy and Post Type Checklists**
+7. **Color and Date Pickers and Buttons**
+8. **Custom Post Type and Meta Box**
+9. **Contextual Help Pane**
 
 == Installation ==
 
@@ -175,6 +178,8 @@ Most text editors supports the *Replace All* command so just use that.
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
 
 == Changelog ==
+
+= 2.1.5 =
 
 = 2.1.4 - 11/24/2013 =
 * Changed: the output of each field to have enclosing `fieldset` tag to be compatible with WordPress v3.8.
