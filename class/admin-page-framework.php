@@ -739,6 +739,307 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 }
 endif;
 
+
+if ( ! class_exists( 'AdminPageFramework_HeadTag_Base' ) ) :
+/**
+ * Provides methods to enqueue or insert head tag elements into the head tag.
+ * 
+ * @since			2.1.5
+ * 
+ */
+abstract class AdminPageFramework_HeadTag_Base {
+	
+	function __construct( $oProps ) {
+		
+		$this->oProps = $oProps;
+		$this->oUtil = new AdminPageFramework_Utilities;
+		
+	}	
+
+}
+
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_HeadTag_Pages' ) ) :
+/**
+ * Provides methods to enqueue or insert head tag elements into the head tag for the main framework class.
+ * 
+ * @since			2.1.5
+ * 
+ */
+class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
+
+	function __construct( $oProps ) {
+		
+		parent::__construct( $oProps );
+		
+		// Hook the admin header to insert custom admin stylesheet.
+		add_action( 'admin_head', array( $this, 'addStyle' ) );
+		add_action( 'admin_head', array( $this, 'addScript' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueScriptsCallback' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueStylesCallback' ) );
+		
+	}
+
+	/**
+	 * Adds the stored CSS rules in the property into the head tag.
+	 * 
+	 * @remark			A callback for the <em>admin_head</em> hook.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from the main class.
+	 */		
+	public function addStyle() {
+		
+		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
+		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );
+		
+		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
+		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
+					
+		$oParent = $this->oProps->getParentObject();
+		
+		// Print out the filtered styles.
+		echo "<style type='text/css' id='admin-page-framework-style'>" 
+			. $this->oUtil->addAndApplyFilters( $oParent, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
+			. "</style>";
+		echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
+			. $this->oUtil->addAndApplyFilters( $oParent, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyleIE )
+			. "</style><![endif]-->";
+			
+	}
+	
+	/**
+	 * Adds the stored JavaScript scripts in the property into the head tag.
+	 * 
+	 * @remark			A callback for the <em>admin_head</em> hook.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from the main class.
+	 */
+	public function addScript() {
+		
+		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
+		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );
+		
+		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
+		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
+
+		$oParent = $this->oProps->getParentObject();
+		
+		// Print out the filtered scripts.
+		echo "<script type='text/javascript' id='admin-page-framework-script'>"
+			. $this->oUtil->addAndApplyFilters( $oParent, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
+			. "</script>";		
+		
+	}
+
+	/**
+	 * Enqueues a style by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * </ul>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			$strPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$strTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */	
+	public function enqueueStyle( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
+		
+		$strSRC = trim( $strSRC );
+		if ( empty( $strSRC ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
+		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
+			( array ) $arrCustomArgs,
+			array(		
+				'strSRC' => $strSRC,
+				'strPageSlug' => $strPageSlug,
+				'strTabSlug' => $strTabSlug,
+				'strType' => 'style',
+				'strHandleID' => 'style_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedStyleIndex ),
+			),
+			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
+		);
+		return $this->oProps->arrEnqueuingStyles[ $strSRCHash ][ 'strHandleID' ];
+		
+	}
+	
+	/**
+	 * Enqueues a script by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>arrTranslation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>	 
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScript(  
+	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *		'apf_read_me', 	// page slug
+	 *		'', 	// tab slug
+	 *		array(
+	 *			'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'arrTranslation' => array( 
+	 *				'a' => 'hello world!',
+	 *				'style_handle_id' => $strStyleHandle,	// check the enqueued style handle ID here.
+	 *			),
+	 *		)
+	 *	);</code>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$strPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$strTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */
+	public function enqueueScript( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
+		
+		$strSRC = trim( $strSRC );
+		if ( empty( $strSRC ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
+		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
+			( array ) $arrCustomArgs,
+			array(		
+				'strPageSlug' => $strPageSlug,
+				'strTabSlug' => $strTabSlug,
+				'strSRC' => $strSRC,
+				'strType' => 'script',
+				'strHandleID' => 'script_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedScriptIndex ),
+			),
+			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
+		);
+		return $this->oProps->arrEnqueuingScripts[ $strSRCHash ][ 'strHandleID' ];
+	}
+	
+	/**
+	 * Takes care of added enqueuing scripts by page slug and tab slug.
+	 * 
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
+	 * @internal
+	 */	
+	public function enqueueStylesCallback() {	
+		foreach( $this->oProps->arrEnqueuingStyles as $strKey => $arrEnqueuingStyle ) 
+			$this->enqueueSRCByPageConditoin( $arrEnqueuingStyle );
+	}
+	
+	/**
+	 * Takes care of added enqueuing scripts by page slug and tab slug.
+	 * 
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
+	 * @internal
+	 */
+	public function enqueueScriptsCallback() {							
+		foreach( $this->oProps->arrEnqueuingScripts as $strKey => $arrEnqueuingScript ) 
+			$this->enqueueSRCByPageConditoin( $arrEnqueuingScript );				
+	}
+	
+	/**
+	 * A helper function for the above enqueueScriptsAndStyles() method.
+	 * 
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
+	 */
+	private function enqueueSRCByPageConditoin( $arrEnqueueItem ) {
+		
+		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strCurrentPageSlug );
+			
+		$strPageSlug = $arrEnqueueItem['strPageSlug'];
+		$strTabSlug = $arrEnqueueItem['strTabSlug'];
+		
+		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
+		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) )  // means script-global(among pages added by the framework)
+			return $this->enqueueSRC( $arrEnqueueItem );
+				
+		// If both tab and page slugs are specified,
+		if ( 
+			( $strPageSlug && $strCurrentPageSlug == $strPageSlug )
+			&& ( $strTabSlug && $strCurrentTabSlug == $strTabSlug )
+		) 
+			return $this->enqueueSRC( $arrEnqueueItem );
+		
+		// If the tab slug is not specified and the page slug is specified, 
+		// and if the current loading page slug and the specified one matches,
+		if ( 
+			( $strPageSlug && ! $strTabSlug )
+			&& ( $strCurrentPageSlug == $strPageSlug )
+		) 
+			return $this->enqueueSRC( $arrEnqueueItem );
+
+	}
+	/**
+	 * A helper function for the above enqueueSRCByPageConditoin() method.
+	 * 
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
+	 * @internal
+	 */
+	private function enqueueSRC( $arrEnqueueItem ) {
+		
+		// For styles
+		if ( $arrEnqueueItem['strType'] == 'style' ) {
+			wp_enqueue_style( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['strMedia'] );
+			return;
+		}
+		
+		// For scripts
+		wp_enqueue_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['fInFooter'] );
+		if ( $arrEnqueueItem['arrTranslation'] ) 
+			wp_localize_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strHandleID'], $arrEnqueueItem['arrTranslation'] );
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
+/**
+ * Provides methods to enqueue or insert head tag elements into the head tag for the meta box class.
+ * 
+ * @since			2.1.5
+ * 
+ */
+class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Base {
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBoxes' ) ) :
+/**
+ * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
+ * 
+ * @since			2.1.5
+ * 
+ */
+class AdminPageFramework_HeadTag_MetaBoxes extends AdminPageFramework_HeadTag_Base {
+}
+endif;
+
+
 if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
 /**
  * Provides methods to render admin page elements.
@@ -760,15 +1061,16 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	/**
 	 * Stores the prefixes of the filters used by this framework.
 	 * 
-	 * This must use the protected scope as the extended class accesses it, such as 'start_'.
+	 * This must not use the private scope as the extended class accesses it, such as 'start_' and must use the public since another class uses this externally.
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.5			Made it public from protected since the HeadTag class accesses it.
 	 * @var				array
 	 * @static
-	 * @access			protected
+	 * @access			public
 	 * @internal
 	 */ 
-	protected static $arrPrefixes = array(	
+	public static $arrPrefixes = array(	
 		'start_'		=> 'start_',
 		'do_before_'	=> 'do_before_',
 		'do_after_'		=> 'do_after_',
@@ -1220,7 +1522,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		if ( empty( $this->oProps->arrInPageTabs[ $strCurrentPageSlug ] ) ) return implode( '', $arrOutput );
 				
 		// Determine the current tab slug.
-		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
+		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strCurrentPageSlug );
 		$strCurrentTabSlug = $this->getParentTabSlug( $strCurrentPageSlug, $strCurrentTabSlug );
 		
 		$strTag = $this->oProps->arrPages[ $strCurrentPageSlug ][ 'strInPageTabTag' ]
@@ -1400,23 +1702,6 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			}
 		}
 	}			
-
-	/**
-	 * Retrieves the default in-page tab from the given tab slug.
-	 * 
-	 * @since			2.0.0
-	 * @internal
-	 * @remark			Used in the __call() method in the main class.
-	 * @return			string			The default in-page tab slug if found; otherwise, an empty string.
-	 */ 		
-	protected function getDefaultInPageTab( $strPageSlug ) {
-	
-		if ( ! $strPageSlug ) return '';		
-		return isset( $this->oProps->arrDefaultInPageTabs[ $strPageSlug ] ) 
-			? $this->oProps->arrDefaultInPageTabs[ $strPageSlug ]
-			: '';
-
-	}
 
 }
 endif;
@@ -3478,6 +3763,15 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	protected $oUtil;
 	
 	/**
+	 * Provides the methods to insert head tag elements.
+	 * 
+	 * @since			2.1.5
+	 * @access			protected
+	 * @var				object			an instance of AdminPageFramework_HeadTag_Pages will be assigne in the constructor.
+	 */
+	protected $oHeadTag;
+	
+	/**
 	 * The constructor of the main class.
 	 * 
 	 * <h4>Example</h4>
@@ -3500,11 +3794,12 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		$strClassName = get_class( $this );
 		
 		// Objects
-		$this->oProps = new AdminPageFramework_Properties( $strClassName, $strOptionKey, $strCapability );
+		$this->oProps = new AdminPageFramework_Properties( $this, $strClassName, $strOptionKey, $strCapability );
 		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
+		$this->oHeadTag = new AdminPageFramework_HeadTag_Pages( $this->oProps );
 								
 		if ( is_admin() ) {
 
@@ -3522,13 +3817,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			
 			// Redirect Buttons
 			add_action( 'admin_init', array( $this, 'checkRedirects' ) );
-			
-			// Hook the admin header to insert custom admin stylesheet.
-			add_action( 'admin_head', array( $this, 'addStyle' ) );
-			add_action( 'admin_head', array( $this, 'addScript' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueueScriptsCallback' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueueStylesCallback' ) );
-			
+						
 			// The contextual help pane.
 			add_action( "admin_head", array( $this, 'registerHelpTabs' ), 200 );
 						
@@ -3557,7 +3846,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		// Variables
 		// The currently loading in-page tab slug. Careful that not all cases $strMethodName have the page slug.
 		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
-		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );	
+		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );	
 
 		// If it is a pre callback method, call the redirecting method.
 		// add_settings_section() callback
@@ -3895,39 +4184,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		
 	}
 	
-	public function addStyle() {
-		
-		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );
-		
-		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
-		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
-					
-		// Print out the filtered styles.
-		echo "<style type='text/css' id='admin-page-framework-style'>" 
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
-			. "</style>";
-		echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyleIE )
-			. "</style><![endif]-->";
-			
-	}
 	
-	public function addScript() {
-		
-		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strPageSlug );
-		
-		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
-		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
-
-		// Print out the filtered scripts.
-		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-			. $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )			
-			. "</script>";		
-		
-	}
-
 	/**
 	 * Enqueues a style by page slug and tab slug.
 	 * 
@@ -3949,25 +4206,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
-		
-		$strSRC = trim( $strSRC );
-		if ( empty( $strSRC ) ) return '';
-		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
-		
-		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
-			( array ) $arrCustomArgs,
-			array(		
-				'strSRC' => $strSRC,
-				'strPageSlug' => $strPageSlug,
-				'strTabSlug' => $strTabSlug,
-				'strType' => 'style',
-				'strHandleID' => 'style_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedStyleIndex ),
-			),
-			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
-		);
-		return $this->oProps->arrEnqueuingStyles[ $strSRCHash ][ 'strHandleID' ];
-		
+		return $this->oHeadTag->enqueueStyle( $strSRC, $strPageSlug, $strTabSlug, $arrCustomArgs );		
 	}
 	
 	/**
@@ -4005,104 +4244,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
-	public function enqueueScript( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
-		
-		$strSRC = trim( $strSRC );
-		if ( empty( $strSRC ) ) return '';
-		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
-		
-		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
-			( array ) $arrCustomArgs,
-			array(		
-				'strPageSlug' => $strPageSlug,
-				'strTabSlug' => $strTabSlug,
-				'strSRC' => $strSRC,
-				'strType' => 'script',
-				'strHandleID' => 'script_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedScriptIndex ),
-			),
-			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
-		);
-		return $this->oProps->arrEnqueuingScripts[ $strSRCHash ][ 'strHandleID' ];
+	public function enqueueScript( $strSRC, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {	
+		return $this->oHeadTag->enqueueScript( $strSRC, $strPageSlug, $strTabSlug, $arrCustomArgs );
 	}
-	
-	/**
-	 * Takes care of added enqueuing scripts by page slug and tab slug.
-	 * 
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @since			2.1.2
-	 * @internal
-	 */	
-	public function enqueueStylesCallback() {	
-		foreach( $this->oProps->arrEnqueuingStyles as $strKey => $arrEnqueuingStyle ) 
-			$this->enqueueSRCByPageConditoin( $arrEnqueuingStyle );
-	}
-	
-	/**
-	 * Takes care of added enqueuing scripts by page slug and tab slug.
-	 * 
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @since			2.1.2
-	 * @internal
-	 */
-	public function enqueueScriptsCallback() {							
-		foreach( $this->oProps->arrEnqueuingScripts as $strKey => $arrEnqueuingScript ) 
-			$this->enqueueSRCByPageConditoin( $arrEnqueuingScript );				
-	}
-	
-	/**
-	 * A helper function for the above enqueueScriptsAndStyles() method.
-	 * 
-	 * @since			2.1.2
-	 */
-	private function enqueueSRCByPageConditoin( $arrEnqueueItem ) {
 		
-		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->getDefaultInPageTab( $strCurrentPageSlug );
-			
-		$strPageSlug = $arrEnqueueItem['strPageSlug'];
-		$strTabSlug = $arrEnqueueItem['strTabSlug'];
-		
-		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
-		if ( ! $strPageSlug && $this->oProps->isPageAdded( $strCurrentPageSlug ) )  // means script-global(among pages added by the framework)
-			return $this->enqueueSRC( $arrEnqueueItem );
-				
-		// If both tab and page slugs are specified,
-		if ( 
-			( $strPageSlug && $strCurrentPageSlug == $strPageSlug )
-			&& ( $strTabSlug && $strCurrentTabSlug == $strTabSlug )
-		) 
-			return $this->enqueueSRC( $arrEnqueueItem );
-		
-		// If the tab slug is not specified and the page slug is specified, 
-		// and if the current loading page slug and the specified one matches,
-		if ( 
-			( $strPageSlug && ! $strTabSlug )
-			&& ( $strCurrentPageSlug == $strPageSlug )
-		) 
-			return $this->enqueueSRC( $arrEnqueueItem );
-
-	}
-	/**
-	 * A helper function for the above enqueueSRCByPageConditoin() method.
-	 * 
-	 * @since			2.1.2
-	 * @internal
-	 */
-	private function enqueueSRC( $arrEnqueueItem ) {
-		
-		// For styles
-		if ( $arrEnqueueItem['strType'] == 'style' ) {
-			wp_enqueue_style( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['strMedia'] );
-			return;
-		}
-		
-		// For scripts
-		wp_enqueue_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['fInFooter'] );
-		if ( $arrEnqueueItem['arrTranslation'] ) 
-			wp_localize_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strHandleID'], $arrEnqueueItem['arrTranslation'] );
-		
-	}
 	/**
 	 * Sets an admin notice.
 	 * 
@@ -4221,7 +4366,14 @@ if ( ! class_exists( 'AdminPageFramework_Properties_Base' ) ) :
  * @subpackage		Admin Page Framework - Property
  */ 
 abstract class AdminPageFramework_Properties_Base {
-	
+
+	/**
+	 * Stores the parent object.
+	 * 
+	 * @since			2.1.5
+	 */
+	protected $oParent;	
+			
 	/**
 	 * The default CSS rules loaded in the head tag of the created admin pages.
 	 * 
@@ -4503,6 +4655,13 @@ abstract class AdminPageFramework_Properties_Base {
 			.tab-box-contents { overflow: hidden;position: relative; }
 			b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
 		";	
+		
+		
+	function __construct( $oParent ) {
+		
+		$this->oParent = $oParent;
+		
+	}
 		
 	/**
 	 * Returns the JavaScript script for taxonomy checklist.
@@ -5106,7 +5265,22 @@ abstract class AdminPageFramework_Properties_Base {
 	 */ 
 	public function sortByOrder( $a, $b ) {	
 		return $a['numOrder'] - $b['numOrder'];
-	}			
+	}		
+	
+	/**
+	 * Returns the parent object.
+	 * 
+	 * This is used from other sub classes that need to retrieve the parent object.
+	 * 
+	 * @since			2.1.5
+	 * @access			public	
+	 * @internal
+	 * @return			object			The parent class object.
+	 */		
+	public function getParentObject() {
+		return $this->oParent;
+	}
+	
 }
 endif;
 
@@ -5290,7 +5464,6 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 
 		'fRepeatable'		=> null,	// since 2.1.3		
 	);
-		
 	
 }
 endif;
@@ -5712,16 +5885,17 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 */
 	public $arrDisallowedQueryKeys	= array( 'settings-updated' );
 	
-	
 	/**
 	 * Construct the instance of AdminPageFramework_Properties class object.
 	 * 
 	 * @remark			Used by the showInPageTabs() method.
 	 * @since			2.0.0
+	 * @since			2.1.5			The $oParent parameter was added.
 	 * @return			void
 	 */ 
-	public function __construct( $strClassName, $strOptionKey, $strCapability='manage_options' ) {
+	public function __construct( $oParent, $strClassName, $strOptionKey, $strCapability='manage_options' ) {
 		
+		$this->oParent = $oParent;
 		$this->strClassName = $strClassName;		
 		$this->strClassHash = md5( $strClassName );
 		$this->strOptionKey = $strOptionKey ? $strOptionKey : $strClassName;
@@ -5765,6 +5939,23 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 			: false;
 	}
 	
+	/**
+	 * Retrieves the default in-page tab from the given tab slug.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5			Made it public and moved from the AdminPageFramework_Pages class since this method is used by the AdminPageFramework_HeadTab class as well.
+	 * @internal
+	 * @remark			Used in the __call() method in the main class.
+	 * @return			string			The default in-page tab slug if found; otherwise, an empty string.
+	 */ 		
+	public function getDefaultInPageTab( $strPageSlug ) {
+	
+		if ( ! $strPageSlug ) return '';		
+		return isset( $this->arrDefaultInPageTabs[ $strPageSlug ] ) 
+			? $this->arrDefaultInPageTabs[ $strPageSlug ]
+			: '';
+
+	}	
 	
 	public function getOptions() {
 		
@@ -8570,7 +8761,7 @@ abstract class AdminPageFramework_PostType {
 		
 		// Objects
 		$this->oUtil = new AdminPageFramework_Utilities;
-		$this->oProps = new AdminPageFramework_PostType_Properties;
+		$this->oProps = new AdminPageFramework_PostType_Properties( $this );
 		
 		// Properties
 		$this->oProps->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
@@ -9055,7 +9246,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
-		$this->oProps = new AdminPageFramework_MetaBox_Properties;
+		$this->oProps = new AdminPageFramework_MetaBox_Properties( $this );
 		
 		// Properties
 		$this->oProps->strMetaBoxID = $this->oUtil->sanitizeSlug( $strMetaBoxID );
