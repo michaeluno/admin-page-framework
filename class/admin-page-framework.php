@@ -15,14 +15,14 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.1.4
+ * @version				2.1.5b
  */
 /*
 	Library Name: Admin Page Framework
 	Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.4
+	Version: 2.1.5b
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
@@ -7125,7 +7125,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		// Mandatory keys.
 		'strFieldID' => null,		
 		
-		// For the meta box class - it does not require the following keys so these helps to avoid undefined index warinings.
+		// For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings.
 		'strPageSlug' => null,
 		'strSectionID' => null,
 		'strBeforeField' => null,
@@ -7148,7 +7148,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	public function __construct( &$arrField, &$arrOptions, $arrErrors=array(), &$oMsg ) {
 			
 		$this->oMsg = $oMsg;
-		$this->oUtil = new AdminPageFramework_Utilities;
 		
 		$this->arrField = $arrField + self::$arrDefaultFieldValues;
 		$this->arrOptions = $arrOptions;
@@ -7288,6 +7287,50 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * Public methods
 	 * */
 	 
+	public function getHeatTagElements( $strFieldType ) {
+		
+		$this->getInputFieldScripts( $strFieldType );
+		$this->getInputFieldStyles( $strFieldType )
+		$this->setInputFieldEnqueuingScripts( $strFieldType );
+		$this->setInputFieldEnqueuingStyles( $strFieldType );
+		
+	}
+	/**
+	 * Retrieves the input field JavaScript scripts to be embedded in the head tag.
+	 * 
+	 * 
+	 * @sicne			2.1.5
+	 */ 
+	private function getInputFieldScripts( $strFieldType ) {
+		
+	}
+	/**
+	 * Sets enqueuing scripts for the given input field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	private function setInputFieldEnqueuingScripts( $strFieldType ) {
+		
+		
+	}
+	/**
+	 * Retrieves the input field styles to be embedded in the head tag.
+	 * 
+	 * @since			2.1.5
+	 */ 
+	private function getInputFieldStyles( $strFieldType ) {
+		
+	}	
+	/**
+	 * Sets enqueuing styles for the given input field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	private function setInputFieldEnqueuingStyles( $strFieldType ) {
+		
+		
+	}
+	
 	/** 
 	 * Retrieves the input field HTML output.
 	 * @since			2.0.0
@@ -7496,7 +7539,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 								? wp_editor( 
 									$this->getCorrespondingArrayValue( $this->vValue, $strKey, null ), 
 									"{$this->strTagID}_{$strKey}",  
-									$this->oUtil->uniteArrays( 
+									$this->uniteArrays( 
 										( array ) $arrRichEditorSettings,
 										array(
 											'wpautop' => true, // use wpautop?
@@ -9708,10 +9751,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		return $arrTabs;
 		
 	}
-	
 
-	
-	
 	/**
  	 * Replaces the label text of a button used in the media uploader.
 	 * @since			2.0.0
