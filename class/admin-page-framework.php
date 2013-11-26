@@ -755,8 +755,8 @@ abstract class AdminPageFramework_HeadTag_Base {
 		$this->oUtil = new AdminPageFramework_Utilities;
 				
 		// Hook the admin header to insert custom admin stylesheet.
-		add_action( 'admin_head', array( $this, 'calBackAddingStyle' ) );
-		add_action( 'admin_head', array( $this, 'calBackAddingScript' ) );
+		add_action( 'admin_head', array( $this, 'callBackAddingStyle' ) );
+		add_action( 'admin_head', array( $this, 'callBackAddingScript' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingScripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingStyles' ) );
 		
@@ -765,11 +765,91 @@ abstract class AdminPageFramework_HeadTag_Base {
 	/*
 	 * Callback functions that should be overridden in extended classes.
 	 */
-	public function calBackAddingStyle() {}
-	public function calBackAddingScript() {}
+	public function callBackAddingStyle() {}
+	public function callBackAddingScript() {}
 	public function callBackEnqueuingScripts() {}
 	public function callBackEnqueuingStyles() {}
  	
+	/*
+	 * Shared callback methods.
+	 */
+	/**
+	 * Enqueues media uploader scripts.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.3			Added the support for the 3.5 media uploader
+	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from enqueueUploaderScripts() to callBack callBackEnqueingUploaderScripts().
+	 * @return			void
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @internal
+	 */ 
+	public function callBackEnqueingUploaderScripts() {
+
+		wp_enqueue_script('jquery');			
+		wp_enqueue_script('thickbox');
+		wp_enqueue_style('thickbox');	
+	
+		if( function_exists( 'wp_enqueue_media' ) ) {	// means the WordPress version is 3.5 or above
+			wp_enqueue_media();	
+		} else		
+			wp_enqueue_script( 'media-upload' );
+	
+	}
+	
+	/**
+	 * Removes the From URL tab from the media uploader.
+	 * 
+	 * since			2.1.3
+	 * since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from removeMediaLibraryTab() to callBackRemovingMediaLibraryTab().
+	 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
+	 */
+	public function callBackRemovingMediaLibraryTab( $arrTabs ) {
+		
+		if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $arrTabs;
+		
+		if ( ! $_REQUEST['enable_external_source'] )
+			unset( $arrTabs['type_url'] );	// removes the From URL tab in the thick box.
+		
+		return $arrTabs;
+		
+	}
+	
+	/**
+	 * Enqueues the color picker script.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from enqueueColorFieldScript() to callBackEnqueuingColorFieldScript().
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @see			http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
+	 */ 
+	public function callBackEnqueuingColorFieldScript() {
+		
+		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
+		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
+			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'wp-color-picker' );
+		}
+		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
+		else {
+			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'farbtastic' );
+			wp_enqueue_script( 'farbtastic' );
+		}	
+		
+	}	
+
+	/**
+	 * 
+	 * @since			2.0.0
+	 * @simce			2.1.5			Moved from AdminPageFrameworkMeta. Changed the name from enqueueDateFieldScript() to callBackEnqueuingDateFieldScript().
+	 */
+	public function callBackEnqueuingDateFieldScript() {
+
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+
+	}
+	
 }
 
 endif;
@@ -849,7 +929,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.0.0
 	 * @since			2.1.5			Moved from the main class.
 	 */		
-	public function calBackAddingStyle() {
+	public function callBackAddingStyle() {
 		
 		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
 		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );
@@ -857,14 +937,14 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
 		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
 					
-		$oParent = $this->oProps->getParentObject();
+		$oCaller = $this->oProps->getParentObject();
 		
 		// Print out the filtered styles.
 		echo "<style type='text/css' id='admin-page-framework-style'>" 
-			. $this->oUtil->addAndApplyFilters( $oParent, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
+			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
 			. "</style>";
 		echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
-			. $this->oUtil->addAndApplyFilters( $oParent, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyleIE )
+			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyleIE )
 			. "</style><![endif]-->";
 			
 	}
@@ -876,7 +956,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.0.0
 	 * @since			2.1.5			Moved from the main class.
 	 */
-	public function calBackAddingScript() {
+	public function callBackAddingScript() {
 		
 		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
 		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );
@@ -884,11 +964,11 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
 		if ( ! $this->oProps->isPageAdded( $strPageSlug ) ) return;
 
-		$oParent = $this->oProps->getParentObject();
+		$oCaller = $this->oProps->getParentObject();
 		
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-			. $this->oUtil->addAndApplyFilters( $oParent, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
+			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
 			. "</script>";		
 		
 	}
@@ -1097,28 +1177,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$this->oProps->strScript .= AdminPageFramework_Properties::getScript_CustomMediaUploaderObject();
 
 	}	
-	/**
-	 * Enqueues media uploader scripts.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.3			Added the support for the 3.5 media uploader
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from enqueueUploaderScripts() to callBack callBackEnqueingUploaderScripts().
-	 * @return			void
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @internal
-	 */ 
-	public function callBackEnqueingUploaderScripts() {
-
-		wp_enqueue_script('jquery');			
-		wp_enqueue_script('thickbox');
-		wp_enqueue_style('thickbox');	
 	
-		if( function_exists( 'wp_enqueue_media' ) ) {	// means the WordPress version is 3.5 or above
-			wp_enqueue_media();	
-		} else		
-			wp_enqueue_script( 'media-upload' );
-	
-	}
 	/**
 	 * Replaces the label text of a button used in the media uploader.
 	 * 
@@ -1136,22 +1195,6 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
 		return $this->oProps->strThickBoxButtonUseThis ?  $this->oProps->strThickBoxButtonUseThis : __( 'Use This Image', 'admin-page-framework' );
-		
-	}
-	/**
-	 * 
-	 * since			2.1.3
-	 * since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from removeMediaLibraryTab() to callBackRemovingMediaLibraryTab().
-	 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
-	 */
-	public function callBackRemovingMediaLibraryTab( $arrTabs ) {
-		
-		if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $arrTabs;
-		
-		if ( ! $_REQUEST['enable_external_source'] )
-			unset( $arrTabs['type_url'] );	// removes the From URL tab in the thick box.
-		
-		return $arrTabs;
 		
 	}
 	
@@ -1216,23 +1259,12 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * #since			2.0.0
 	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
 	 */
-	public function enqueueColorFieldScript() {
+	public function addColorFieldScript() {
 	
 		if ( $this->fIsColorFieldScriptEnqueued	) return;
 		$this->fIsColorFieldScriptEnqueued	 = true;
-				
-		//If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
-		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ){
-			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
-		}
-		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
-		else {
-			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-			wp_enqueue_style( 'farbtastic' );
-			wp_enqueue_script( 'farbtastic' );
-		}		
+					
+		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingColorFieldScript' ) );
 		
 		// Append the script
 		// Setup the color pickers to work with our text input field
@@ -1245,14 +1277,13 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.0.0
 	 * @since			2.1.5
 	 */
-	public function enqueueDateFieldScript() {
+	public function addDateFieldScript() {
 		
 		if ( $this->fIsDateFieldScriptEnqueued	) return;
 		$this->fIsDateFieldScriptEnqueued = true;
-
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
-		
+	
+		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingDateFieldScript' ) );
+				
 	}
 	
 }
@@ -1266,6 +1297,9 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
  * 
  */
 class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Base {
+	
+	// No contents added yet
+	
 }
 endif;
 
@@ -1292,10 +1326,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	/**
 	 * Appends the CSS rules of the framework in the head tag. 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to calBackAddingStyle().
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to callBackAddingStyle().
 	 * @remark			A callback for the <em>admin_head</em> hook.
 	 */ 	
-	public function calBackAddingStyle() {
+	public function callBackAddingStyle() {
 	
 		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
 		if ( 
@@ -1313,11 +1347,11 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		if ( isset( $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) return;
 		$GLOBALS[ "{$strRootClassName}_StyleLoaded" ] = true;
 				
-		$oParent = $this->oProps->getParentObject();		
+		$oCaller = $this->oProps->getParentObject();		
 				
 		// Print out the filtered styles.
-		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $oParent, "style_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
-		$this->oProps->strStyleIE = $this->oUtil->addAndApplyFilters( $oParent, "style_ie_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyleIE );
+		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
+		$this->oProps->strStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyleIE );
 		if ( ! empty( $this->oProps->strStyle ) )
 			echo 
 				"<style type='text/css' id='admin-page-framework-style-meta-box'>" 
@@ -1334,10 +1368,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	/**
 	 * Appends the JavaScript script of the framework in the head tag. 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to calBackAddingScript().
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to callBackAddingScript().
 	 * @remark			A callback for the <em>admin_head</em> hook.
 	 */ 
-	public function calBackAddingScript() {
+	public function callBackAddingScript() {
 
 		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
 		if ( 
@@ -1355,15 +1389,134 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		if ( isset( $GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] ) return;
 		$GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] = true;
 	
-		$oParent = $this->oProps->getParentObject();
+		$oCaller = $this->oProps->getParentObject();
 		
 		// Print out the filtered scripts.
 		echo 
 			"<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
-				. $this->oUtil->addAndApplyFilters( $oParent, "script_{$this->oProps->strClassName}", $this->oProps->strScript )
+				. $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->strClassName}", $this->oProps->strScript )
 			. "</script>";	
 			
 	}	
+	
+	/**
+	 * Enqueues the media uploader script.
+	 * 
+	 * @since			2.1.3
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the scope from private to public as it is accessed from the caller class.
+	 */
+	public function enqueueMediaUploaderScript() {
+		
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] = true;
+	
+		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueingUploaderScripts' ) );	// called later than the admin_menu hook
+		// add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
+		add_filter( 'media_upload_tabs', array( $this, 'callBackRemovingMediaLibraryTab' ) );	
+		
+		$this->oProps->strScript .= AdminPageFramework_Properties::getScript_CustomMediaUploaderObject();
+		
+	}
+	
+	/**
+	 * 
+	 * @since			2.1.3
+	 * @since			2.1.5		Moved from AdminPageFramework_MetaBox
+	 */
+	public function addMediaFieldScript( &$arrField ) {
+		
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] = true;
+					
+		// These two hooks should be enabled when the image field type is added in the field array.
+		$this->oProps->strThickBoxTitle_Media = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload File', 'admin-page-framework' );
+		$this->oProps->strThickBoxButtonUseThis_Media = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This File', 'admin-page-framework' );
+					
+		// Append the script
+		$this->oProps->strScript .= AdminPageFramework_Properties::getMediaUploaderScript( "admin_page_framework", $this->oProps->strThickBoxTitle_Media, $this->oProps->strThickBoxButtonUseThis_Media );	
+		
+	}
+	
+	/**
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5		Moved from AdminPageFramework_MetaBox
+	 */
+	public function addImageFieldScript( &$arrField ) {
+							
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] = true;
+					
+		// These two hooks should be enabled when the image field type is added in the field array.
+		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
+		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
+					
+		// Append the script
+		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+		
+	}
+	
+	/**
+	 * Adds the script for taxonomy checklist tabbed boxes to the property.
+	 * 
+	 * @since			2.1.1
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox
+	 */
+	public function addTaxonomyChecklistScript() {
+	
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] = true;
+
+		// Append the script
+		$this->oProps->strScript .= AdminPageFramework_Properties::getTaxonomyChecklistScript();
+		
+	}
+	
+	/**
+	 * Adds the script for the color picker to the property and enqueues the WordPress built-in script for the color picker.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Change to the public scope as accessed externally.
+	 */
+	public function addColorFieldScript() {
+	
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] = true;
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingColorFieldScript' ) );
+	
+		// Append the script
+		// Set up the color pickers to work with our text input field
+		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	
+	
+	}
+	
+	/**
+	 * Adds date picker script.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Change to the public scope as accessed externally.
+	 */
+	public function addDateFieldScript() {
+		
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] = true;		
+		
+		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingDateFieldScript' ) );
+		
+	}
+	
 	
 }
 endif;
@@ -3494,8 +3647,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( $arrField['strType'] == 'taxonomy' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addTaxonomyChecklistScript();
 			if ( $arrField['strType'] == 'image' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addImageFieldScript( $arrField );
 			if ( $arrField['strType'] == 'media' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addMediaFieldScript( $arrField );
-			if ( $arrField['strType'] == 'color' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->enqueueColorFieldScript();
-			if ( $arrField['strType'] == 'date' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->enqueueDateFieldScript();
+			if ( $arrField['strType'] == 'color' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addColorFieldScript();
+			if ( $arrField['strType'] == 'date' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addDateFieldScript();
 			
 			// For the contextual help pane,
 			if ( ! empty( $arrField['strHelp'] ) )
@@ -4503,11 +4656,11 @@ if ( ! class_exists( 'AdminPageFramework_Properties_Base' ) ) :
 abstract class AdminPageFramework_Properties_Base {
 
 	/**
-	 * Stores the parent object.
+	 * Stores the main (caller) object.
 	 * 
 	 * @since			2.1.5
 	 */
-	protected $oParent;	
+	protected $oCaller;	
 			
 	/**
 	 * The default CSS rules loaded in the head tag of the created admin pages.
@@ -4792,14 +4945,14 @@ abstract class AdminPageFramework_Properties_Base {
 		";	
 		
 		
-	function __construct( $oParent ) {
+	function __construct( $oCaller ) {
 		
-		$this->oParent = $oParent;
+		$this->oCaller = $oCaller;
 		
 	}
 		
 	/**
-	 * Returns the JavaScript script for taxonomy checklist.
+	 * Returns the JavaScript script for taxonomy check list.
 	 * 
 	 * @since			2.1.1
 	 */ 
@@ -5403,17 +5556,17 @@ abstract class AdminPageFramework_Properties_Base {
 	}		
 	
 	/**
-	 * Returns the parent object.
+	 * Returns the caller object.
 	 * 
-	 * This is used from other sub classes that need to retrieve the parent object.
+	 * This is used from other sub classes that need to retrieve the caller object.
 	 * 
 	 * @since			2.1.5
 	 * @access			public	
 	 * @internal
-	 * @return			object			The parent class object.
+	 * @return			object			The caller class object.
 	 */		
 	public function getParentObject() {
-		return $this->oParent;
+		return $this->oCaller;
 	}
 	
 }
@@ -6025,12 +6178,12 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * 
 	 * @remark			Used by the showInPageTabs() method.
 	 * @since			2.0.0
-	 * @since			2.1.5			The $oParent parameter was added.
+	 * @since			2.1.5			The $oCaller parameter was added.
 	 * @return			void
 	 */ 
-	public function __construct( $oParent, $strClassName, $strOptionKey, $strCapability='manage_options' ) {
+	public function __construct( $oCaller, $strClassName, $strOptionKey, $strCapability='manage_options' ) {
 		
-		$this->oParent = $oParent;
+		$this->oCaller = $oCaller;
 		$this->strClassName = $strClassName;		
 		$this->strClassHash = md5( $strClassName );
 		$this->strOptionKey = $strOptionKey ? $strOptionKey : $strClassName;
@@ -9514,12 +9667,12 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
 			)
 		) {
-			if ( $arrField['strType'] == 'image' || $arrField['strType'] == 'media' ) $this->enqueueMediaUploaderScript( $arrField );
-			if ( $arrField['strType'] == 'image' ) $this->addImageFieldScript( $arrField );
-			if ( $arrField['strType'] == 'media' ) $this->addMediaFieldScript( $arrField );
-			if ( $arrField['strType'] == 'taxonomy' ) $this->addTaxonomyChecklistScript( $arrField );
-			if ( $arrField['strType'] == 'color' ) $this->addColorFieldScript( $arrField );
-			if ( $arrField['strType'] == 'date' ) $this->addDateFieldScript( $arrField );
+			if ( $arrField['strType'] == 'image' || $arrField['strType'] == 'media' ) $this->oHeadTag->enqueueMediaUploaderScript();
+			if ( $arrField['strType'] == 'image' ) $this->oHeadTag->addImageFieldScript( $arrField );
+			if ( $arrField['strType'] == 'media' ) $this->oHeadTag->addMediaFieldScript( $arrField );
+			if ( $arrField['strType'] == 'taxonomy' ) $this->oHeadTag->addTaxonomyChecklistScript();
+			if ( $arrField['strType'] == 'color' ) $this->oHeadTag->addColorFieldScript();
+			if ( $arrField['strType'] == 'date' ) $this->oHeadTag->addDateFieldScript();
 		}
 		
 		// For the contextual help pane,
@@ -9539,99 +9692,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
 	
 	}
-	
-	/*
-	 * Back end methods - public callbacks and private methods.
-	 * */
-	private function addDateFieldScript( &$arrField ) {
 		
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] = true;		
-		
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueDateFieldScript' ) );
-		
-	}
-	public function enqueueDateFieldScript() {
 
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
-
-	}
-
-	/**
-	 * Adds the script for taxonomy checklist tabbed boxes to the property.
-	 * 
-	 * @since			2.1.1
-	 */
-	private function addTaxonomyChecklistScript( &$arrField ) {
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] = true;
-
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getTaxonomyChecklistScript();
-		
-	}
-	
-	/**
-	 * Adds the script for the color picker to the property and enqueues the WordPress built-in script for the color picker.
-	 * @since			2.0.0
-	 */
-	private function addColorFieldScript( &$arrField ) {
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] = true;
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueColorFieldScript' ) );
-	
-		// Append the script
-		// Set up the color pickers to work with our text input field
-		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	
-	
-	}
-	
-	/**
-	 * Enqueues the color picker script.
-	 * @since			2.0.0
-	 * @see			http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
-	 */ 
-	public function enqueueColorFieldScript() {
-		
-		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
-		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
-			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
-		}
-		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
-		else {
-			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-			wp_enqueue_style( 'farbtastic' );
-			wp_enqueue_script( 'farbtastic' );
-		}	
-		
-	}
-	private function enqueueMediaUploaderScript() {
-		
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] = true;
-	
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueueUploaderScripts' ) );	// called later than the admin_menu hook
-		add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
-		add_filter( 'media_upload_tabs', array( $this, 'removeMediaLibraryTab' ) );	
-		
-		$this->oProps->strScript .= AdminPageFramework_Properties::getScript_CustomMediaUploaderObject();
-		
-	}
-	
 	/**
 	 * 
 	 * since			2.1.3
@@ -9647,60 +9709,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 	}
 	
-	/**
-	 * 
-	 * @since			2.1.3
-	 */
-	private function addMediaFieldScript( &$arrField ) {
-		
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] = true;
-					
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle_Media = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload File', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis_Media = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This File', 'admin-page-framework' );
-					
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getMediaUploaderScript( "admin_page_framework", $this->oProps->strThickBoxTitle_Media, $this->oProps->strThickBoxButtonUseThis_Media );	
-		
-	}
+
 	
-	private function addImageFieldScript( &$arrField ) {
-							
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] = true;
-					
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
-					
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
-		
-	}
-	
-	/**
-	 * Enqueues the media uploader scripts.
-	 * @since			2.0.0
-	 * @since			2.1.3			Added the support for the 3.5 media uploader
-	 * @remark			A callback for the <em>admin_enqueue_scripts</em> hook.
-	 */ 
-	public function enqueueUploaderScripts() {
-			
-		wp_enqueue_script('jquery');			
-		wp_enqueue_script('thickbox');
-		wp_enqueue_style('thickbox');				
-			
-		if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
-			wp_enqueue_media();	
-		else
-			wp_enqueue_script('media-upload');
-				
-	} 	 
 	
 	/**
  	 * Replaces the label text of a button used in the media uploader.
