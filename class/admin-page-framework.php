@@ -3332,9 +3332,11 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><code>foot_ + extended class name</code> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object.</li>
  * 	<li><code>extended class name + _ + section_ + section ID</code> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li>
  * 	<li><code>extended class name + _ + field_ + field ID</code> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- * 	<li><code>validation_ + extended class name</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><code>validation_ + page slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><code>validation_ + page slug + _ + tab slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><code>validation_ + page slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><code>validation_ + extended class name + _ + input id</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
+ * 	<li><code>validation_ + extended class name + _ + field id</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
+ * 	<li><code>validation_ + extended class name</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><code>style_ + page slug + _ + tab slug</code> – receives the output of the CSS rules applied to the tab page of the slug.</li>
  * 	<li><code>style_ + page slug</code> – receives the output of the CSS rules applied to the page of the slug.</li>
  * 	<li><code>style_ + extended class name</code> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
@@ -3436,6 +3438,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  
  *  validation_ + page slug + _ + tab slug 
  *  validation_ + page slug 
+ *  validation_ + extended class name + _ + submit button input id
+ *  validation_ + extended class name + _ + submit button field id
+ *  validation_ + extended class name 
  *  export_ + page slug + _ + tab slug 
  *  export_ + page slug 
  *  export_ + extended class name
