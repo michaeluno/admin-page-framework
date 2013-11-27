@@ -438,7 +438,9 @@ class APF_Demo extends AdminPageFramework {
 					20,
 				),
 				'vDelimiter' => '<br />',
-			),
+			)
+		);
+		$this->addSettingFields(
 			array(	// Single Drop-down List
 				'strFieldID' => 'select',
 				'strSectionID' => 'selectors',
@@ -579,7 +581,9 @@ class APF_Demo extends AdminPageFramework {
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
 				),		
 				'vDelimiter' => '<br />',
-			),			
+			)
+		);
+		$this->addSettingFields(			
 			array( // Image Selector
 				'strFieldID' => 'image_select_field',
 				'strSectionID' => 'image_select',
@@ -647,7 +651,9 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
 				'strType' => 'file',
 				'fRepeatable' => true,
-			),				
+			)
+		);
+		$this->addSettingFields(			
 			array(
 				'strFieldID' => 'post_type_checklist',
 				'strSectionID' => 'checklists',
@@ -669,7 +675,9 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'taxonomy',
 				'strHeight' => '200px',
 				'vTaxonomySlug' => get_taxonomies( '', 'names' ),
-			),	
+			)
+		);
+		$this->addSettingFields(			
 			array( // Color Picker
 				'strFieldID' => 'color_picker_field',
 				'strSectionID' => 'color_picker',
@@ -733,13 +741,6 @@ class APF_Demo extends AdminPageFramework {
 				'vDefault' => array( 'a', 'b', 'c' ),
 				'vLabel' => array( 'Hidden Field 1', 'Hidden Field 2', 'Hidden Field 3' ),
 			),							
-			array( // Multiple File Upload Fields
-				'strFieldID' => 'verify_text_field',
-				'strSectionID' => 'verification',
-				'strTitle' => 'Verify Text Input',
-				'strType' => 'text',
-				'strDescription' => 'Enter a non numeric value here.',
-			),						
 			array( // Submit button as a link
 				'strFieldID' => 'submit_button_link',
 				'strSectionID' => 'submit_buttons',
@@ -769,7 +770,24 @@ class APF_Demo extends AdminPageFramework {
 				'vLabel' => __( 'Reset', 'admin-page-framework-demo' ),
 				'vReset' => true,
 				// 'vClassAttribute' => 'button button-secondary',
-			),			
+			)
+		);
+		$this->addSettingFields(			
+			array(
+				'strFieldID' => 'verify_text_field',
+				'strSectionID' => 'verification',
+				'strTitle' => __( 'Verify Text Input', 'admin-page-framework-demo' ),
+				'strType' => 'text',
+				'strDescription' => __( 'Enter a non numeric value here.', 'admin-page-framework-demo' ),
+			),
+			array(
+				'strFieldID' => 'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
+				'strSectionID' => 'verification',
+				'strType' => 'submit',		
+				'vLabel' => __( 'Save', 'admin-page-framework-demo' ),
+			)
+		);
+		$this->addSettingFields(			
 			array( // Delete Option Button
 				'strFieldID' => 'submit_manage',
 				'strSectionID' => 'submit_buttons_manage',
@@ -916,8 +934,8 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-	public function validation_first_page_verification( $arrInput, $arrOldPageOptions ) {	// valication_ + page slug + _ + tab slug
-				
+	public function validation_APF_Demo_verify_text_field_submit( $arrNewInput, $arrOldOptions ) {	// validation_ + {extended class name} + _ + {field ID}
+		
 		// Set a flag.
 		$fVerified = true;
 		
@@ -927,12 +945,12 @@ class APF_Demo extends AdminPageFramework {
 		// The library class will search for this transient when it renders the form fields 
 		// and if it is found, it will display the error message set in the field array. 
 		$arrErrors = array();
-		
+
 		// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.
-		if ( isset( $arrInput['first_page']['verification']['verify_text_field'] ) && ! is_numeric( $arrInput['first_page']['verification']['verify_text_field'] ) ) {
+		if ( ! is_numeric( $arrNewInput['first_page']['verification']['verify_text_field'] ) ) {
 			
 			// Start with the section key in $arrErrors, not the key of page slug.
-			$arrErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $arrInput['first_page']['verification']['verify_text_field'];	
+			$arrErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $arrNewInput['first_page']['verification']['verify_text_field'];	
 			$fVerified = false;
 			
 		}
@@ -943,11 +961,11 @@ class APF_Demo extends AdminPageFramework {
 			// Set the error array for the input fields.
 			$this->setFieldErrors( $arrErrors );		
 			$this->setSettingNotice( 'There was an error in your input.' );
-			return $arrOldPageOptions;
+			return $arrOldOptions;
 			
 		}
 				
-		return $arrInput;
+		return $arrNewInput;		
 		
 	}
 	public function validation_first_page_files( $arrInput, $arrOldPageOptions ) {	// validation_ + page slug + _ + tab slug
@@ -1252,7 +1270,8 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 					'weight' => array( 'size' => 15, 'unit' => 'g' ),
 					'length' => array( 'size' => 100, 'unit' => 'mm' ),
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
-				),				
+				),		
+				'vDelimiter' => '<br />',
 			),		
 			array (
 				'strFieldID'		=> 'taxonomy_checklist',

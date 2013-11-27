@@ -3111,7 +3111,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		$strTabSlug = isset( $_POST['strTabSlug'] ) ? $_POST['strTabSlug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$strPageSlug = isset( $_POST['strPageSlug'] ) ? $_POST['strPageSlug'] : '';
-
+		
+		// Retrieve the submit field ID(the container that holds submit input tags) and the input ID(this determines exactly which submit button is pressed).
+		$strPressedFieldID = isset( $_POST['__submit'] ) ? $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'field_id' ) : '';
+		$strPressedInputID = isset( $_POST['__submit'] ) ? $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'input_id' ) : '';
+		
 		// Check if custom submit keys are set [part 1]
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
 			return $this->importOptions( $arrInput, $strPageSlug, $strTabSlug );
@@ -3125,7 +3129,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$this->setRedirectTransients( $strRedirectURL );
 				
 		// Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name}
-		$arrInput = $this->getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug );
+		$arrInput = $this->getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug, $strPressedFieldID, $strPressedInputID );
 		
 		// Check if custom submit keys are set [part 2] - these should be done after applying the filters.
 		if ( isset( $_POST['__reset'] ) && $strKeyToReset = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__reset'], 'key' ) )
@@ -3226,8 +3230,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	/**
 	 * Retrieves the target key's value associated with the given data to a custom submit button.
 	 * 
-	 * This method checks if the associated submit button is pressed with the input fields whose name property starts with __link or __redirect. 
-	 * The custom ( currently __link or __redirect is supported ) input array should contain the 'name' and 'url' keys and their values.
+	 * This method checks if the associated submit button is pressed with the input fields.
 	 * 
 	 * @since			2.0.0
 	 * @return			mixed			Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
@@ -3240,7 +3243,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			 * $arrSubElements['name']	- the input field name property of the submit button, delimited by pipe (|) e.g. APF_GettingStarted|first_page|submit_buttons|submit_button_link
 			 * $arrSubElements['url']	- the URL to redirect to. e.g. http://www.somedomain.com
 			 * */
-			$arrNameKeys = explode( '|', $arrSubElements['name'] );
+			$arrNameKeys = explode( '|', $arrSubElements[ 'name' ] );		// the 'name' key must be set.
 			
 			// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
 			// The isset() checks if the associated button is actually pressed or not.
@@ -3371,21 +3374,39 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		exit;
 		
 	}
-	private function getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug ) {
+	
+	/**
+	 * Apples validation filters to the submitted input data.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5			Added the $strPressedFieldID and $strPressedInputID parameters.
+	 * @return			array			The filtered input array.
+	 */
+	private function getFilteredOptions( $arrInput, $strPageSlug, $strTabSlug, $strPressedFieldID, $strPressedInputID ) {
 
 		$arrStoredPageOptions = $this->getPageOptions( $strPageSlug ); 			
 
 		// for tabs
 		if ( $strTabSlug && $strPageSlug )	{
 			$arrRegisteredSectionKeysForThisTab = isset( $arrInput[ $strPageSlug ] ) ? array_keys( $arrInput[ $strPageSlug ] ) : array();			
-			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}_{$strTabSlug}", $arrInput, $arrStoredPageOptions );	
+			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}_{$strTabSlug}", $arrInput, $arrStoredPageOptions );	// $arrInput: new values, $arrStoredPageOptions: old values
 			$arrInput = $this->oUtil->uniteArraysRecursive( $arrInput, $this->getOtherTabOptions( $strPageSlug, $arrRegisteredSectionKeysForThisTab ) );
 		}
+		
 		// for pages	
 		if ( $strPageSlug )	{
-			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}", $arrInput, $arrStoredPageOptions );		
+			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}", $arrInput, $arrStoredPageOptions ); // $arrInput: new values, $arrStoredPageOptions: old values
 			$arrInput = $this->oUtil->uniteArraysRecursive( $arrInput, $this->getOtherPageOptions( $strPageSlug ) );
 		}
+$this->oDebug->logArray( func_get_args() );
+		// for the input ID
+		if ( $strPressedInputID )
+			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->strClassName}_{$strPressedInputID}", $arrInput, $this->oProps->arrOptions );
+		
+		// for the field ID
+		if ( $strPressedFieldID )
+			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->strClassName}_{$strPressedFieldID}", $arrInput, $this->oProps->arrOptions );
+		
 		// for the class
 		$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->strClassName}", $arrInput, $this->oProps->arrOptions );
 
@@ -3884,9 +3905,11 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><code>foot_ + extended class name</code> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object.</li>
  * 	<li><code>extended class name + _ + section_ + section ID</code> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li>
  * 	<li><code>extended class name + _ + field_ + field ID</code> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- * 	<li><code>validation_ + extended class name</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><code>validation_ + page slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><code>validation_ + page slug + _ + tab slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><code>validation_ + page slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><code>validation_ + extended class name + _ + input id</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
+ * 	<li><code>validation_ + extended class name + _ + field id</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
+ * 	<li><code>validation_ + extended class name</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><code>style_ + page slug + _ + tab slug</code> – receives the output of the CSS rules applied to the tab page of the slug.</li>
  * 	<li><code>style_ + page slug</code> – receives the output of the CSS rules applied to the page of the slug.</li>
  * 	<li><code>style_ + extended class name</code> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
@@ -3988,6 +4011,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  
  *  validation_ + page slug + _ + tab slug 
  *  validation_ + page slug 
+ *  validation_ + extended class name + _ + submit button input id
+ *  validation_ + extended class name + _ + submit button field id
+ *  validation_ + extended class name 
  *  export_ + page slug + _ + tab slug 
  *  export_ + page slug 
  *  export_ + extended class name
@@ -4170,7 +4196,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 */
 	private function isFrameworkCallbackMethod( $strMethodName ) {
 
-		if ( substr( $strMethodName, 0, strlen( "{$this->oProps->strClassName}_" ) ) == "{$this->oProps->strClassName}_" )	// e.g. {instantiated class name} + field_ + {field id}
+		if ( substr( $strMethodName, 0, strlen( "{$this->oProps->strClassName}_" ) ) == "{$this->oProps->strClassName}_" )	// e.g. {instantiated class name} + _field_ + {field id}
+			return true;
+		
+		if ( substr( $strMethodName, 0, strlen( "validation_{$this->oProps->strClassName}_" ) ) == "validation_{$this->oProps->strClassName}_" )	// e.g. validation_{instantiated class name}_ + {field id / input id}
 			return true;
 		
 		foreach( self::$arrPrefixes as $strPrefix ) {
@@ -7941,6 +7970,20 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			$fResetConfirmed = $this->checkConfirmationDisplayed( $strResetKey, $this->strFieldNameFlat ); 
 			$arrOutput[] = 
 				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					// embed the field id and input id
+					. "<input type='hidden' "
+						. "name='__submit[{$this->strTagID}_{$strKey}][input_id]' "
+						. "value='{$this->strTagID}_{$strKey}' "
+					. "/>"
+					. "<input type='hidden' "
+						. "name='__submit[{$this->strTagID}_{$strKey}][field_id]' "
+						. "value='{$this->arrField['strFieldID']}' "
+					. "/>"		
+					. "<input type='hidden' "
+						. "name='__submit[{$this->strTagID}_{$strKey}][name]' "
+						. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
+					. "/>" 						
+					// for the vRedirect key
 					. ( $strRedirectURL 
 						? "<input type='hidden' "
 							. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
@@ -7952,6 +7995,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "/>" 
 						: "" 
 					)
+					// for the vLink key
 					. ( $strLinkURL 
 						? "<input type='hidden' "
 							. "name='__link[{$this->strTagID}_{$strKey}][url]' "
@@ -7963,6 +8007,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						. "/>" 
 						: "" 
 					)
+					// for the vReset key
 					. ( $strResetKey && ! $fResetConfirmed
 						? "<input type='hidden' "
 							. "name='__reset_confirm[{$this->strTagID}_{$strKey}][key]' "
