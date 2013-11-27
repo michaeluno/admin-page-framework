@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.4
+	Version: 2.1.5b
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -1252,7 +1252,8 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 					'weight' => array( 'size' => 15, 'unit' => 'g' ),
 					'length' => array( 'size' => 100, 'unit' => 'mm' ),
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
-				),				
+				),		
+				'vDelimiter' => '<br />',
 			),		
 			array (
 				'strFieldID'		=> 'taxonomy_checklist',
