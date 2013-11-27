@@ -2399,7 +2399,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			$this->oProps->arrRootMenu['strPageSlug'],			// Menu ID 
 			'', //array( $this, $this->oProps->strClassName ), 	// Page content displaying function
 			$this->oProps->arrRootMenu['strURLIcon16x16'],		// icon path
-			isset( $this->arrRootMenu['intPosition'] ) ? $this->arrRootMenu['intPosition'] : null	// menu position
+			isset( $this->oProps->arrRootMenu['intPosition'] ) ? $this->oProps->arrRootMenu['intPosition'] : null	// menu position
 		);
 
 	}
