@@ -180,6 +180,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
+* Added the `validation_{extended class name}_{field id}` and the `validation_{extended class name}_{input id}` filters. 
 * Fixed a bug in the demo plugin that the `size` fields are not displayed properly.
 * Fixed a bug that menu positions could not be set with the `setRootMenuPage()` method.
 
