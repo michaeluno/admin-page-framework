@@ -180,6 +180,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
+* Added: the `vMerge` key for the `import` field type that determines whether the imported data should be merged with the existing options.
 * Changed: admin settings notifications with `setSettingNotice()` not to have multiple messages with the same id.
 * Changed: the value not to be formatted that is passed to the `import_{...}` filters.
 * Added: the `validation_{extended class name}_{field id}` and the `validation_{extended class name}_{input id}` filters. 
