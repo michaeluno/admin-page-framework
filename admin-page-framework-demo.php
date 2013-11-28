@@ -930,6 +930,23 @@ class APF_Demo extends AdminPageFramework {
 			: $strFormatType;
 		
 	}
+	public function import_APF_Demo_import_single( $vData, $arrOldOptions, $strFieldID, $strInputID, $strImportFormat, $strOptionKey ) {	// import_ + {extended class name} + _ + {field id}
+		
+		if ( $strImportFormat == 'text' ) {
+			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
+			return $arrOldOptions;
+		}
+		
+		if ( $strImportFormat == 'array' && ! is_serialized( $vData ) ) {
+			$this->setSettingNotice( __( 'There is an import type mismatch.', 'admin-page-framework-demo' ) );
+			return $arrOldOptions;
+		}
+		
+		
+$this->setSettingNotice( __( 'Importing options are validated.', 'admin-page-framework-demo' ), 'updated' );
+		return $vData;
+		
+	}
 	
 	/*
 	 * Validation Callbacks
