@@ -1922,31 +1922,41 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	*
 	* @since			2.0.0
 	* @since			2.1.2			Added a check to prevent duplicate items.
+	* @since			2.1.5			Added the $fOverride parameter.
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
-	* @param			string		$strMsg					the text message to be displayed.
-	* @param			string		$strType				( optional ) the type of the message, either "error" or "updated"  is used.
-	* @param			string		$strID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	* @param			string			$strMsg					the text message to be displayed.
+	* @param			string			$strType				( optional ) the type of the message, either "error" or "updated"  is used.
+	* @param			string			$strID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	* @param			integer		$fOverride				( optional ) false: do not override when there is a message of the same id. true: override the previous one.
 	* @return			void
 	*/		
-	protected function setSettingNotice( $strMsg, $strType='error', $strID=null ) {
+	protected function setSettingNotice( $strMsg, $strType='error', $strID=null, $fOverride=true ) {
 		
 		// Check if the same message has been added already.
 		$arrWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
-		foreach( $arrWPSettingsErrors as $arrSettingsError ) {
+		$strID = isset( $strID ) ? $strID : $this->oProps->strOptionKey; 	// the id attribute for the message div element.
+
+		foreach( $arrWPSettingsErrors as $intIndex => $arrSettingsError ) {
 			
-			if ( $arrSettingsError['setting'] != $this->oProps->strOptionKey )
-				continue;
-			
+			if ( $arrSettingsError['setting'] != $this->oProps->strOptionKey ) continue;
+						
 			// If the same message is added, no need to add another.
-			if ( $arrSettingsError['message'] == $strMsg ) 
-				return;
-			
+			if ( $arrSettingsError['message'] == $strMsg ) return;
+				
+			// Prevent duplicated ids.
+			if ( $arrSettingsError['code'] === $strID ) {
+				if ( ! $fOverride ) 
+					return;
+				else	// remove the item with the same id  
+					unset( $arrWPSettingsErrors[ $intIndex ] );
+			}
+							
 		}
-		
+
 		add_settings_error( 
 			$this->oProps->strOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
-			isset( $strID ) ? $strID : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProps->strOptionKey ), 	// the id attribute for the message div element.
+			$strID, 
 			$strMsg,	// error or updated
 			$strType
 		);
@@ -2523,7 +2533,12 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Set the update notice
 		$fEmpty = empty( $arrInput );
-		$this->setSettingNotice( $fEmpty ? $this->oMsg->___( 'option_cleared' ) : $this->oMsg->___( 'option_updated' ), $fEmpty ? 'error' : 'updated', $strPageSlug );
+		$this->setSettingNotice( 
+			$fEmpty ? $this->oMsg->___( 'option_cleared' ) : $this->oMsg->___( 'option_updated' ), 
+			$fEmpty ? 'error' : 'updated', 
+			$this->oProps->strOptionKey,	// the id
+			false	// do not override
+		);
 		
 		return $arrInput;	
 		
@@ -2566,7 +2581,6 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( $strKeyToReset == 1 or $strKeyToReset === true ) {
 			delete_option( $this->oProps->strOptionKey );
-			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
 			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
 			return array();
 		}
@@ -2654,35 +2668,20 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Check if there is an upload error.
 		if ( $oImport->getError() > 0 ) {
-			add_settings_error( 
-				$this->oProps->strOptionKey, 
-				$strPageSlug,
-				$this->oMsg->___( 'import_error' ),
-				'error'
-			);			
+			$this->setSettingNotice( $this->oMsg->___( 'import_error' ) );	
 			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Check the uploaded file type.
 		if ( ! in_array( $oImport->getType(), array( 'text/plain', 'application/octet-stream' ) ) ) {	// .json file is dealt as binary file.
-			add_settings_error( 
-				$this->oProps->strOptionKey, 
-				$strPageSlug,
-				$this->oMsg->___( 'uploaded_file_type_not_supported' ),
-				'error'
-			);			
+			$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );		
 			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Retrieve the importing data.
 		$vData = $oImport->getImportData();
 		if ( $vData === false ) {
-			add_settings_error( 
-				$this->oProps->strOptionKey, 
-				$strPageSlug,
-				$this->oMsg->___( 'could_not_load_importing_data' ),
-				'error'
-			);			
+			$this->setSettingNotice( $this->oMsg->___( 'could_not_load_importing_data' ) );		
 			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
@@ -2694,9 +2693,6 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$strPressedFieldID,
 			$strPressedInputID
 		);	// import_format_{$strPageSlug}_{$strTabSlug}, import_format_{$strPageSlug}, import_format_{$strClassName}_{pressed input id}, import_format_{$strClassName}_{pressed field id}, import_format_{$strClassName}		
-
-		// Format it.
-		$oImport->formatImportData( $vData, $strFormatType );	// it is passed as reference.
 		
 		// If a custom option key is set,
 		// Apply filters to the importing option key.
@@ -2720,11 +2716,18 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$strImportOptionKey,
 			$fMerge
 		);
-	
+
+		// Format it.
+		$oImport->formatImportData( $vData, $strFormatType );	// it is passed as reference.	
 
 		// Set the update notice
 		$fEmpty = empty( $vData );
-		$this->setSettingNotice( $fEmpty ? $this->oMsg->___( 'not_imported_data' ) : $this->oMsg->___( 'imported_data' ), $fEmpty ? 'error' : 'updated', $strPageSlug );
+		$this->setSettingNotice( 
+			$fEmpty ? $this->oMsg->___( 'not_imported_data' ) : $this->oMsg->___( 'imported_data' ), 
+			$fEmpty ? 'error' : 'updated',
+			$this->oProps->strOptionKey,	// message id
+			false	// do not override 
+		);
 				
 		if ( $strImportOptionKey != $this->oProps->strOptionKey ) {
 			update_option( $strImportOptionKey, $vData );
@@ -6021,7 +6024,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 			case 'text':	// for plain text.
 				return;	// do nothing
 			case 'json':	// for json.
-				$vData = json_decode( $vData, true );	// the second parameter indicates to decode it as array.
+				$vData = json_decode( ( string ) $vData, true );	// the second parameter indicates to decode it as array.
 				return;
 			case 'array':	// for serialized PHP array.
 			default:	// for anything else, 

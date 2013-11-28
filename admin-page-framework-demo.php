@@ -937,13 +937,15 @@ class APF_Demo extends AdminPageFramework {
 			return $arrOldOptions;
 		}
 		
-		if ( $strImportFormat == 'array' && ! is_serialized( $vData ) ) {
+		if ( 
+			( $strImportFormat == 'array' && ! is_serialized( $vData ) )
+			|| ( $strImportFormat == 'json' && is_serialized( $vData ) )
+		) {
 			$this->setSettingNotice( __( 'There is an import type mismatch.', 'admin-page-framework-demo' ) );
 			return $arrOldOptions;
 		}
 		
-		
-$this->setSettingNotice( __( 'Importing options are validated.', 'admin-page-framework-demo' ), 'updated' );
+		$this->setSettingNotice( __( 'Importing options are validated.', 'admin-page-framework-demo' ), 'updated' );
 		return $vData;
 		
 	}
