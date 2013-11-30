@@ -2696,6 +2696,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$strPressedFieldID,
 			$strPressedInputID
 		);	// import_format_{$strPageSlug}_{$strTabSlug}, import_format_{$strPageSlug}, import_format_{$strClassName}_{pressed input id}, import_format_{$strClassName}_{pressed field id}, import_format_{$strClassName}		
+
+		// Format it.
+		$oImport->formatImportData( $vData, $strFormatType );	// it is passed as reference.	
 		
 		// If a custom option key is set,
 		// Apply filters to the importing option key.
@@ -2719,9 +2722,6 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$strImportOptionKey,
 			$fMerge
 		);
-
-		// Format it.
-		$oImport->formatImportData( $vData, $strFormatType );	// it is passed as reference.	
 
 		// Set the update notice
 		$fEmpty = empty( $vData );
