@@ -2638,31 +2638,41 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	*
 	* @since			2.0.0
 	* @since			2.1.2			Added a check to prevent duplicate items.
+	* @since			2.1.5			Added the $fOverride parameter.
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
-	* @param			string		$strMsg					the text message to be displayed.
-	* @param			string		$strType				( optional ) the type of the message, either "error" or "updated"  is used.
-	* @param			string		$strID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	* @param			string			$strMsg					the text message to be displayed.
+	* @param			string			$strType				( optional ) the type of the message, either "error" or "updated"  is used.
+	* @param			string			$strID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	* @param			integer		$fOverride				( optional ) false: do not override when there is a message of the same id. true: override the previous one.
 	* @return			void
 	*/		
-	protected function setSettingNotice( $strMsg, $strType='error', $strID=null ) {
+	protected function setSettingNotice( $strMsg, $strType='error', $strID=null, $fOverride=true ) {
 		
 		// Check if the same message has been added already.
 		$arrWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
-		foreach( $arrWPSettingsErrors as $arrSettingsError ) {
+		$strID = isset( $strID ) ? $strID : $this->oProps->strOptionKey; 	// the id attribute for the message div element.
+
+		foreach( $arrWPSettingsErrors as $intIndex => $arrSettingsError ) {
 			
-			if ( $arrSettingsError['setting'] != $this->oProps->strOptionKey )
-				continue;
-			
+			if ( $arrSettingsError['setting'] != $this->oProps->strOptionKey ) continue;
+						
 			// If the same message is added, no need to add another.
-			if ( $arrSettingsError['message'] == $strMsg ) 
-				return;
-			
+			if ( $arrSettingsError['message'] == $strMsg ) return;
+				
+			// Prevent duplicated ids.
+			if ( $arrSettingsError['code'] === $strID ) {
+				if ( ! $fOverride ) 
+					return;
+				else	// remove the item with the same id  
+					unset( $arrWPSettingsErrors[ $intIndex ] );
+			}
+							
 		}
-		
+
 		add_settings_error( 
 			$this->oProps->strOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
-			isset( $strID ) ? $strID : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProps->strOptionKey ), 	// the id attribute for the message div element.
+			$strID, 
 			$strMsg,	// error or updated
 			$strType
 		);
@@ -2828,14 +2838,14 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>password</strong> - a password input field which allows the user to type text.</li>
 	* 		<ul>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>	* 
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>	* 
 	* 		</ul>
 	* 	<li><strong>datetime, datetime-local, email, month, search, tel, time, url, week</strong> - HTML5 input fields types. Some browsers do not support these.</li>
 	* 		<ul>
@@ -2851,7 +2861,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
 	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>textarea</strong> - a textarea input field. The following array keys are supported.
 	* 		<ul>
@@ -2859,10 +2869,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vRows</strong> - ( optional, integer|array ) the number of rows of the textarea field.</li>
 	* 			<li><strong>vCols</strong> - ( optional, integer|array ) the number of cols of the textarea field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>vRich</strong> - [+2.1.2]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
+	* 			<li><strong>vRich</strong> - [2.1.2+]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
 	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
 	* 			</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. It's not supported for the rich editor.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. It's not supported for the rich editor.</li>
 	*		</ul>
 	* 	</li>
 	* 	<li><strong>radio</strong> - a radio button input field.</li>
@@ -2891,24 +2901,27 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	</ul>
 	* 	<li><strong>hidden</strong> - a hidden input field.</li>
 	* 	<li><strong>file</strong> - a file upload input field.</li>
+	* 		<ul>
+	* 			<li><strong>vAcceptAttribute</strong> - ( optional, string|array ) the accept attribute value. Default: <code>audio/*|video/*|image/*|MIME_type</code></li>
+	* 		</ul>
 	* 	<li><strong>submit</strong> - a submit button input field.</li>
 	* 		<ul>
 	* 			<li><strong>vLink</strong> - ( optional, string|array ) the url(s) linked to the submit button.</li>
 	* 			<li><strong>vRedirect</strong> - ( optional, string|array ) the url(s) redirected to after submitting the input form.</li>
-	* 			<li><strong>vReset</strong> - [+2.1.2] ( optional, string|array ) the option key to delete. Set 1 for the entire option.</li>
+	* 			<li><strong>vReset</strong> - [2.1.2+] ( optional, string|array ) the option key to delete. Set 1 for the entire option.</li>
 	* 		</ul>
 	* 	<li><strong>import</strong> - an inport input field. This is a custom file and submit field.</li>
 	* 		<ul>
-	* 			<li><strong>vAcceptAttribute</strong> - ( optional, string|array )</li>
-	* 			<li><strong>vImportOptionKey</strong> - ( optional, string|array )</li>
-	* 			<li><strong>vImportFormat</strong> - ( optional, string|array )</li>
+	* 			<li><strong>vAcceptAttribute</strong> - ( optional, string|array ) the accept attribute value. Default: <code>audio/*|video/*|image/*|MIME_type</code></li>
+	* 			<li><strong>vImportOptionKey</strong> - ( optional, string|array ) the option table key to save the importing data.</li>
+	* 			<li><strong>vImportFormat</strong> - ( optional, string|array ) the import format. json, or array is supported. Default: array</li>
+	* 			<li><strong>vMerge</strong> - ( optional, boolean|array ) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
 	* 		</ul>
 	* 	<li><strong>export</strong> - an export input field. This is a custom submit field.</li>
 	* 		<ul>
-	* 			<li><strong>vAcceptAttribute</strong> - ( optional, string|array )</li>
-	* 			<li><strong>vExportFileName</strong> - ( optional, string|array )</li>
-	* 			<li><strong>vExportFormat</strong> - ( optional, string|array )</li>
-	* 			<li><strong>vExportData</strong> - ( optional, string|array|object )</li>
+	* 			<li><strong>vExportFileName</strong> - ( optional, string|array ) the file name to download.</li>
+	* 			<li><strong>vExportFormat</strong> - ( optional, string|array ) the format type. array, json, or text is supported. Default: array.</li>
+	* 			<li><strong>vExportData</strong> - ( optional, string|array|object ) the data to export.</li>
 	* 		</ul>
 	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>
@@ -2918,27 +2931,27 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vImagePreview</strong> - ( optional, boolean|array ) if this is set to false, the image preview will be disabled.</li>
 	* 			<li><strong>strTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>strLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
-	* 			<li><strong>arrCaptureAttributes</strong> - [+2.1.3] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'arrCaptureAttributes' => array( 'id', 'caption', 'description' )</code></li>
-	* 			<li><strong>fAllowExternalSource</strong> - [+2.1.3] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>arrCaptureAttributes</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'arrCaptureAttributes' => array( 'id', 'caption', 'description' )</code></li>
+	* 			<li><strong>fAllowExternalSource</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
 	* 		</ul>
-	* 	<li><strong>media</strong> - [1.2.3+] a media input field. This is a custom text field with an attached JavaScript script.</li>
+	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>strTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>strLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
-	* 			<li><strong>arrCaptureAttributes</strong> - [+2.1.3] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'arrCaptureAttributes' => array( 'id', 'caption', 'description' )</code></li>
-	* 			<li><strong>fAllowExternalSource</strong> - [+2.1.3] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>arrCaptureAttributes</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'arrCaptureAttributes' => array( 'id', 'caption', 'description' )</code></li>
+	* 			<li><strong>fAllowExternalSource</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
 	* 		</ul>
 	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
 	* 		<ul>
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>date</strong> - a date picker input field. This is a custom text field with a JavaScript script.</li>
 	* 		<ul>
@@ -2946,7 +2959,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>vDateFormat</strong> - ( optional, string|array ) the date format. The syntax follows the one used <a href="http://api.jqueryui.com/datepicker/#utility-formatDate">here</a>.</li>
-	* 			<li><strong>fRepeatable</strong> - [+2.1.3] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.</li>
 	* 		<ul>
@@ -3118,7 +3131,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Check if custom submit keys are set [part 1]
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
-			return $this->importOptions( $arrInput, $strPageSlug, $strTabSlug );
+			return $this->importOptions( $this->oProps->arrOptions, $strPageSlug, $strTabSlug );
 		if ( isset( $_POST['__export']['submit'] ) ) 
 			die( $this->exportOptions( $this->oProps->arrOptions, $strPageSlug, $strTabSlug ) );		
 		if ( isset( $_POST['__reset_confirm'] ) && $strPressedFieldName = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__reset_confirm'], 'key' ) )
@@ -3137,11 +3150,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Set the update notice
 		$fEmpty = empty( $arrInput );
-		add_settings_error( 
-			$this->oProps->strOptionKey, 
-			$strPageSlug, 
-			$fEmpty ? $this->oMsg->___( 'option_cleared' ) : $this->oMsg->___( 'option_updated' ),
-			$fEmpty ? 'error' : 'updated' 
+		$this->setSettingNotice( 
+			$fEmpty ? $this->oMsg->___( 'option_cleared' ) : $this->oMsg->___( 'option_updated' ), 
+			$fEmpty ? 'error' : 'updated', 
+			$this->oProps->strOptionKey,	// the id
+			false	// do not override
 		);
 		
 		return $arrInput;	
@@ -3185,7 +3198,6 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( $strKeyToReset == 1 or $strKeyToReset === true ) {
 			delete_option( $this->oProps->strOptionKey );
-			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
 			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
 			return array();
 		}
@@ -3258,85 +3270,91 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 	}
 
-	private function importOptions( $arrInput, $strPageSlug, $strTabSlug ) {
-	
-		$oImport = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );
-	
+	/**
+	 * Processes the imported data.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5			Added additional filters with field id and input id.
+	 */
+	private function importOptions( $arrStoredOptions, $strPageSlug, $strTabSlug ) {
+		
+		$oImport = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );	
+		$strPressedFieldID = $oImport->getSiblingValue( 'field_id' );
+		$strPressedInputID = $oImport->getSiblingValue( 'input_id' );
+		$fMerge = $oImport->getSiblingValue( 'do_merge' );
+		
 		// Check if there is an upload error.
 		if ( $oImport->getError() > 0 ) {
-			add_settings_error( 
-				$this->oProps->strOptionKey, 
-				$strPageSlug,
-				$this->oMsg->___( 'import_error' ),
-				'error'
-			);			
-			return $arrInput;	// do not change the framework's options.
+			$this->setSettingNotice( $this->oMsg->___( 'import_error' ) );	
+			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Check the uploaded file type.
 		if ( ! in_array( $oImport->getType(), array( 'text/plain', 'application/octet-stream' ) ) ) {	// .json file is dealt as binary file.
-			add_settings_error( 
-				$this->oProps->strOptionKey, 
-				$strPageSlug,
-				$this->oMsg->___( 'uploaded_file_type_not_supported' ),
-				'error'
-			);			
-			return $arrInput;	// do not change the framework's options.
+			$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );		
+			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Retrieve the importing data.
 		$vData = $oImport->getImportData();
 		if ( $vData === false ) {
-			add_settings_error( 
-				$this->oProps->strOptionKey, 
-				$strPageSlug,
-				$this->oMsg->___( 'could_not_load_importing_data' ),
-				'error'
-			);			
-			return $arrInput;	// do not change the framework's options.
+			$this->setSettingNotice( $this->oMsg->___( 'could_not_load_importing_data' ) );		
+			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Apply filters to the data format type.
 		$strFormatType = $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oUtil->getFilterArrayByPrefix( 'import_format_', $this->oProps->strClassName, $strPageSlug, $strTabSlug ),
+			array( "import_format_{$strPageSlug}_{$strTabSlug}", "import_format_{$strPageSlug}", "import_format_{$this->oProps->strClassName}_{$strPressedInputID}", "import_format_{$this->oProps->strClassName}_{$strPressedFieldID}", "import_format_{$this->oProps->strClassName}" ),
 			$oImport->getFormatType(),	// the set format type, array, json, or text.
-			$oImport->getFieldID()	// additional argument
-		);	// import_format_{$strPageSlug}_{$strTabSlug}, import_format_{$strPageSlug}, import_format_{$strClassName}		
+			$strPressedFieldID,
+			$strPressedInputID
+		);	// import_format_{$strPageSlug}_{$strTabSlug}, import_format_{$strPageSlug}, import_format_{$strClassName}_{pressed input id}, import_format_{$strClassName}_{pressed field id}, import_format_{$strClassName}		
 
 		// Format it.
-		$oImport->formatImportData( $vData, $strFormatType );	// it is passed as reference.
+		$oImport->formatImportData( $vData, $strFormatType );	// it is passed as reference.	
 		
-		// Apply filters to the importing data.
-		$vData = $this->oUtil->addAndApplyFilters(
-			$this,
-			$this->oUtil->getFilterArrayByPrefix( 'import_', $this->oProps->strClassName, $strPageSlug, $strTabSlug ),
-			$vData,
-			$oImport->getFieldID()
-		);
-				
-		// Set the admin notice.
-		add_settings_error( 
-			$this->oProps->strOptionKey, 
-			$strPageSlug,
-			$this->oMsg->___( 'imported_data' ),
-			'updated'
-		);			
-				
 		// If a custom option key is set,
 		// Apply filters to the importing option key.
 		$strImportOptionKey = $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oUtil->getFilterArrayByPrefix( 'import_option_key_', $this->oProps->strClassName, $strPageSlug, $strTabSlug ),
-			$oImport->getImportOptionKey(),	// the set option key, by default it's the value of $this->oProps->strOptionKey.
-			$oImport->getFieldID()	// additional argument
-		);	// import_option_key_{$strPageSlug}_{$strTabSlug}, import_option_key_{$strPageSlug}, import_option_key_{$strClassName}		
+			array( "import_option_key_{$strPageSlug}_{$strTabSlug}", "import_option_key_{$strPageSlug}", "import_option_key_{$this->oProps->strClassName}_{$strPressedInputID}", "import_option_key_{$this->oProps->strClassName}_{$strPressedFieldID}", "import_option_key_{$this->oProps->strClassName}" ),
+			$oImport->getSiblingValue( 'import_option_key' ),	
+			$strPressedFieldID,
+			$strPressedInputID
+		);	// import_option_key_{$strPageSlug}_{$strTabSlug}, import_option_key_{$strPageSlug}, import_option_key_{$strClassName}_{pressed input id}, import_option_key_{$strClassName}_{pressed field id}, import_option_key_{$strClassName}			
+		
+		// Apply filters to the importing data.
+		$vData = $this->oUtil->addAndApplyFilters(
+			$this,
+			array( "import_{$strPageSlug}_{$strTabSlug}", "import_{$strPageSlug}", "import_{$this->oProps->strClassName}_{$strPressedInputID}", "import_{$this->oProps->strClassName}_{$strPressedFieldID}", "import_{$this->oProps->strClassName}" ),
+			$vData,
+			$arrStoredOptions,
+			$strPressedFieldID,
+			$strPressedInputID,
+			$strFormatType,
+			$strImportOptionKey,
+			$fMerge
+		);
+
+		// Set the update notice
+		$fEmpty = empty( $vData );
+		$this->setSettingNotice( 
+			$fEmpty ? $this->oMsg->___( 'not_imported_data' ) : $this->oMsg->___( 'imported_data' ), 
+			$fEmpty ? 'error' : 'updated',
+			$this->oProps->strOptionKey,	// message id
+			false	// do not override 
+		);
+				
 		if ( $strImportOptionKey != $this->oProps->strOptionKey ) {
 			update_option( $strImportOptionKey, $vData );
-			return $arrInput;	// do not change the framework's options.
+			return $arrStoredOptions;	// do not change the framework's options.
 		}
-		
-		return $vData;
+	
+		// The option data to be saved will be returned.
+		return $fMerge ?
+			$this->oUtil->unitArrays( $vData, $arrStoredOptions )
+			: $vData;
 						
 	}
 	private function exportOptions( $vData, $strPageSlug, $strTabSlug ) {
@@ -3398,7 +3416,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$strPageSlug}", $arrInput, $arrStoredPageOptions ); // $arrInput: new values, $arrStoredPageOptions: old values
 			$arrInput = $this->oUtil->uniteArraysRecursive( $arrInput, $this->getOtherPageOptions( $strPageSlug ) );
 		}
-$this->oDebug->logArray( func_get_args() );
+
 		// for the input ID
 		if ( $strPressedInputID )
 			$arrInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->strClassName}_{$strPressedInputID}", $arrInput, $this->oProps->arrOptions );
@@ -4649,7 +4667,8 @@ class AdminPageFramework_Messages {
 		'import_error'		=> 'An error occurred while uploading the import file.',
 		'uploaded_file_type_not_supported'	=> 'The uploaded file type is not supported.',
 		'could_not_load_importing_data' => 'Could not load the importing data.',
-		'imported_data'		=> 'The uploaded file has been imported.'
+		'imported_data'		=> 'The uploaded file has been imported.',
+		'not_imported_data' => 'No data could be imported.',
 	);
 
 	public function __construct( $strTextDomain='admin-page-framework' ) {
@@ -6487,7 +6506,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 			case 'text':	// for plain text.
 				return;	// do nothing
 			case 'json':	// for json.
-				$vData = json_decode( $vData, true );	// the second parameter indicates to decode it as array.
+				$vData = json_decode( ( string ) $vData, true );	// the second parameter indicates to decode it as array.
 				return;
 			case 'array':	// for serialized PHP array.
 			default:	// for anything else, 
@@ -6505,14 +6524,16 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 		return $this->strFormatType;
 		
 	}
-	public function getImportOptionKey() {
+	
+	/**
+	 * Returns the specified sibling value.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function getSiblingValue( $strKey ) {
 		
-		$this->strImportOptionKey = isset( $this->strImportOptionKey ) && $this->strImportOptionKey 
-			? $this->strImportOptionKey
-			: $this->getElement( $this->arrPostImport, $this->arrElementKey, 'import_option_key' );
-
-		return $this->strImportOptionKey;
-
+		return $this->getElement( $this->arrPostImport, $this->arrElementKey, $strKey );
+		
 	}
 	
 }
@@ -7121,22 +7142,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		'vMultiple'	=> false,				// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
 		'vBeforeInputTag' => '',
 		'vAfterInputTag' => '',
-		'vSize' => null,					// ( array or integer )	This is for the text, the select field, and the image field type. Do not set a value here.
-		'vRows' => 4,						// ( array or integer ) This is for the textarea field type.
-		'vCols' => 80,						// ( array or integer ) This is for the textarea field type.
-		'vRich' => null,					// ( array or boolean ) This is for the textarea field type.
-		'vMax' => null,						// ( array or integer ) This is for the number field type.
-		'vMin' => null,						// ( array or integer ) This is for the number field type.
-		'vStep' => null,					// ( array or integer ) This is for the number field type.
+		'vSize' => null,					// ( array or integer )	for the text, the select field, and the image field type. Do not set a value here.
+		'vRows' => 4,						// ( array or integer ) for the textarea field type.
+		'vCols' => 80,						// ( array or integer ) for the textarea field type.
+		'vRich' => null,					// ( array or boolean ) for the textarea field type.
+		'vMax' => null,						// ( array or integer ) for the number field type.
+		'vMin' => null,						// ( array or integer ) for the number field type.
+		'vStep' => null,					// ( array or integer ) for the number field type.
 		'vMaxLength' => null,				// Maximum number of characters in textara, text, number etc.
-		'vAcceptAttribute' => null,			// ( array or string )	This is for the file and import field type. Do not set a default value here because it will be passed in the dealing method.
-		'vExportFileName' => null,			// ( array or string )	This is for the export field type. Do not set a default value here.
-		'vExportFormat' => null,			// ( array or string )	This is for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+		'vAcceptAttribute' => null,			// ( array or string )	for the file and import field type. Do not set a default value here because it will be passed in the dealing method.
+		'vExportFileName' => null,			// ( array or string )	for the export field type. Do not set a default value here.
+		'vExportFormat' => null,			// ( array or string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
 		'vExportData' => null,				// ( array or string or object ) This is for the export field type. 
-		'vImportOptionKey' => null,			// ( array or string )	This is for the import field type. The default is the set option key for the framework.
-		'vImportFormat' => null,			// ( array or string )	This is for the import field type. Do not set a default value here. Currently array, json, and text are supported.
-		'vLink'	=> null,					// ( array or string )	This is for the submit field type.
-		'vRedirect'	=> null,				// ( array or string )	This is for the submit field type.
+		'vImportOptionKey' => null,			// ( array or string )	for the import field type. The default is the set option key for the framework.
+		'vImportFormat' => null,			// ( array or string )	for the import field type. Do not set a default value here. Currently array, json, and text are supported.
+		'vMerge' => null,					// ( array or boolean ) [2.1.5+] for the import field
+		'vLink'	=> null,					// ( array or string )	for the submit field type.
+		'vRedirect'	=> null,				// ( array or string )	for the submit field type.
 		'vReset'	=> null,				// ( array or string )	[2.1.2+] This is for the submit field type.
 		'vImagePreview' => null,			// ( array or boolean )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
 		'strTickBoxTitle' => null,			// ( string ) This is for the image field type.
@@ -8076,9 +8098,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getImportField( $arrOutput=array() ) {
 	
 		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
+		$this->strFieldNameFlat = $this->getInputFieldNameFlat();
 		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
 			$arrOutput[] = 
 				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
+					// embed the field id and input id
+					. "<input type='hidden' "
+						. "name='__import[{$this->arrField['strFieldID']}][input_id]' " . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='{$this->strTagID}_{$strKey}' "
+					. "/>"
+					. "<input type='hidden' "
+						. "name='__import[{$this->arrField['strFieldID']}][field_id]' " . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='{$this->arrField['strFieldID']}' "
+					. "/>"		
+					. "<input type='hidden' "
+						. "name='__import[{$this->arrField['strFieldID']}][do_merge]' " . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vMerge'], $strKey, false ) . "' "
+					. "/>"							
 					. "<input type='hidden' "
 						. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportOptionKey'], $strKey, $this->arrField['strOptionKey'] )
