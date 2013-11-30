@@ -182,9 +182,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 2.1.5 =
 * Added: the `vMerge` key for the `import` field type that determines whether the imported data should be merged with the existing options.
 * Changed: admin settings notifications with `setSettingNotice()` not to have multiple messages with the same id.
-* Changed: the value not to be formatted that is passed to the `import_{...}` filters.
 * Added: the `validation_{extended class name}_{field id}` and the `validation_{extended class name}_{input id}` filters. 
-* Fixed: a bug in the demo plugin that the `size` fields are not displayed properly.
+* Fixed: a bug in the demo plugin that the `size` fields were not displayed properly.
 * Fixed: a bug that menu positions could not be set with the `setRootMenuPage()` method.
 
 = 2.1.4 - 11/24/2013 =
