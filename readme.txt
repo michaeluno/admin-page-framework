@@ -180,6 +180,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
+* Introduced: a new class `AdminPageFramework_CustomFieldType`.
+* Added: a sample custom field type, `geometry`, in the demo plugin.
+* Fix a bug that the `enqueueScripts()` method caused infinite loops.
 * Added: the `field_types_ + {extended class name}` filter that receives the field type defining array so that the user can return custom field types by adding a definition array to it.
 * Added: the `vClassAttributeUpload` key for the `iumport` field type that defines the class attribute of the custom file input tag in the field output.
 * Added: the `vUnitSize` key for the `size` field type that indicates the `size` attribute of the select(unit) input field.</li>

@@ -11,7 +11,7 @@
 
 if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
-    
+	
 class APF_Demo extends AdminPageFramework {
 
     public function setUp() {
@@ -106,6 +106,11 @@ class APF_Demo extends AdminPageFramework {
 				'strTabSlug'	=> 'verification',
 				'strTitle'		=> 'Verification',	
 			),	
+			array(
+				'strPageSlug'	=> 'first_page',
+				'strTabSlug'	=> 'custom',
+				'strTitle'		=> __( 'Custom', 'admin-page-framework-demo' ),	
+			),			
 			/*
 			 * Second Page
 			 * */
@@ -288,7 +293,18 @@ class APF_Demo extends AdminPageFramework {
 				'strTabSlug'		=> 'verification',
 				'strTitle'			=> __( 'Verify Submitted Data', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
-			),			
+			),		
+			array(
+				'strSectionID'		=> 'geometry',
+				'strPageSlug'		=> 'first_page',
+				'strTabSlug'		=> 'custom',
+				'strTitle'			=> __( 'Geometry', 'admin-page-framework-demo' ),
+				'strDescription'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
+			),					
+			array()
+		);
+		
+		$this->addSettingSections(	
 			array(
 				'strSectionID'		=> 'submit_buttons_manage',
 				'strPageSlug'		=> 'second_page',
@@ -792,6 +808,19 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'submit',		
 				'vLabel' => __( 'Save', 'admin-page-framework-demo' ),
 			)
+		);	
+		$this->addSettingFields(			
+			array(
+				'strFieldID' => 'geometrical_coordinates',
+				'strSectionID' => 'geometry',
+				'strTitle' => __( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
+				'strType' => 'geometry',
+				'strDescription' => __( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
+				'vDefault' => array(
+					'latitude' => 20,
+					'longitude' => 20,
+				),
+			)
 		);
 		$this->addSettingFields(			
 			array( // Delete Option Button
@@ -874,7 +903,6 @@ class APF_Demo extends AdminPageFramework {
 		$this->addLinkToPluginTitle(
 			"<a href='http://www.wordpress.org'>WordPress</a>"
 		);
-		
 		
     }
 		
@@ -1025,7 +1053,7 @@ class APF_Demo extends AdminPageFramework {
 	}
 	public function do_apf_read_me_description() {		// do_ + page slug + _ + tab slug
 		echo $this->arrWPReadMe['sections']['description'];
-// var_dump( $this->arrWPReadMe );
+		// var_dump( $this->arrWPReadMe );
 	}
 	public function do_apf_read_me_installation() {		// do_ + page slug + _ + tab slug
 		// echo htmlspecialchars( $this->arrWPReadMe['sections']['installation'], ENT_QUOTES, bloginfo( 'charset' ) );
@@ -1044,9 +1072,29 @@ class APF_Demo extends AdminPageFramework {
 		echo $this->arrWPReadMe['sections']['changelog'];
 	}
 	
+	/*
+	 * Custom field type - this method gets fired when the framework tries to define field types.
+	 */
+	public function field_types_APF_Demo( $arrFieldTypeDefinitions ) {	// field_types_ + {extended class name}
+				
+		// 1. Include the file that defines the custom field type. 
+		// This class should extend the predefined abstract class that the library prepares already with necessary methods.
+		if ( ! class_exists( 'MyCustomFieldType' ) )
+			include_once( dirname( __FILE__ ) . '/class/MyCustomFieldType.php' );
+		
+		// 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
+		// And assign it to the filtering array with the key of the field type slug, in this case, geometry. 
+		$oGeometryField = new MyCustomFieldType( 'APF_Demo', 'geometry' );
+		$arrFieldTypeDefinitions['geometry'] = $oGeometryField->getDefinitionArray();
+		
+		// 3. Returns the modified array.
+		return $arrFieldTypeDefinitions;
+		
+	}
+	
 }
-if ( is_admin() )
-	new APF_Demo;
+if ( is_admin() ) 
+	new APF_Demo;	// instantiate the main framework class
 
 	
 class APF_PostType extends AdminPageFramework_PostType {

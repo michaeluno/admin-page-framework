@@ -1016,7 +1016,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		
 		$arrHandleIDs = array();
 		foreach( ( array ) $arrSRCs as $strSRC )
-			$arrHandleIDs[] = $this->enqueueScripts( $strSRC, $strPageSlug, $strTabSlug, $arrCustomArgs );
+			$arrHandleIDs[] = $this->enqueueScript( $strSRC, $strPageSlug, $strTabSlug, $arrCustomArgs );
 		return $arrHandleIDs;
 		
 	}	
@@ -1291,7 +1291,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 		$arrHandleIDs = array();
 		foreach( ( array ) $arrSRCs as $strSRC )
-			$arrHandleIDs[] = $this->enqueueScripts( $strSRC, $arrPostTypes, $arrCustomArgs );
+			$arrHandleIDs[] = $this->enqueueScript( $strSRC, $arrPostTypes, $arrCustomArgs );
 		return $arrHandleIDs;
 		
 	}	
@@ -3321,10 +3321,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$strFieldType = isset( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] ) && is_callable( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] )
 			? $arrField['strType']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
+
 		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, $this->arrFieldErrors, $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] );
 		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
-		
+
 		echo $this->oUtil->addAndApplyFilter(
 			$this,
 			$this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['field_'] . $strFieldID,	// filter: class name + _ + section_ + section id
@@ -6268,13 +6269,13 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 		'strAfterField' => null,	
 	);	
 	
-	function __construct( $strClassName, $strFieldTypeSlug, $oMsg ) {
+	function __construct( $strClassName, $strFieldTypeSlug, $oMsg=null ) {
 			
 		$this->strFieldTypeSlug = $strFieldTypeSlug;
 		$this->strClassName = $strClassName;
 		$this->oMsg	= $oMsg;
 		
-		add_action( "field_types_{$strClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+		add_filter( "field_types_{$strClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
 	
 	}	
 	
@@ -6286,7 +6287,7 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 	 */
 	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
 		
-		$arrFieldDefinitions[ $this->strFieldTypeSlug ] = $this->getFieldTypeDefinitionArray();
+		$arrFieldDefinitions[ $this->strFieldTypeSlug ] = $this->getDefinitionArray();
 		return $arrFieldDefinitions;
 		
 	}
@@ -6294,8 +6295,10 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 	/**
 	 * Returns the field type definition array.
 	 * 
+	 * @remark			The scope is public since AdminPageFramework_CustomFieldType class allows the user to use this method.
+	 * @since			2.1.5
 	 */
-	protected function getFieldTypeDefinitionArray() {
+	public function getDefinitionArray() {
 		
 		return array(
 			'callRenderField' => array( $this, "replyToGetInputField" ),
@@ -6323,6 +6326,17 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 	protected function getDefaultKeys() { return array(); }
 	
 }
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_CustomFieldType' ) ) :
+/**
+ * The base class for the users to create their custom field types.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+abstract class AdminPageFramework_CustomFieldType extends AdminPageFramework_InputFieldTypeDefinition_Base {}
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_InputFieldType_default' ) ) :
@@ -6436,7 +6450,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
 		
 		foreach ( array( 'text', 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week', ) as $strTextTypeSlug )
-			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getFieldTypeDefinitionArray();
+			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getDefinitionArray();
 		
 		return $arrFieldDefinitions;
 		
@@ -6528,7 +6542,7 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
 		
 		foreach ( array( 'number', 'range' ) as $strTextTypeSlug ) 
-			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getFieldTypeDefinitionArray();
+			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getDefinitionArray();
 		return $arrFieldDefinitions;
 		
 	}
