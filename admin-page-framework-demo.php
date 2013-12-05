@@ -342,6 +342,12 @@ class APF_Demo extends AdminPageFramework {
 				'strHelp' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
 				'vSize' => 20,
 			),			
+			array(	// number Field
+				'strFieldID' => 'number',
+				'strSectionID' => 'text_fields',
+				'strTitle' => __( 'Number', 'admin-page-framework-demo' ),
+				'strType' => 'number',
+			),					
 			array(	// Multiple text fields
 				'strFieldID' => 'text_multiple',
 				'strSectionID' => 'text_fields',
@@ -818,7 +824,7 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Single Export Button
 				'strFieldID' => 'export_single',
 				'strSectionID' => 'exports',
-				'strTitle' => 'Single Export Button',
+				// 'strTitle' => 'Single Export Button',
 				'strType' => 'export',
 				'strDescription' => __( 'Download the saved option data.', 'admin-page-framework-demo' ),
 				'vLabel' => 'Export Options',
@@ -916,7 +922,7 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_format_second_page_export_import( $strFormatType, $strFieldID ) {	// import_format_ + page slug + _ + tab slug
+	public function export_format_second_page_export_import( $strFormatType, $strFieldID ) {	// export_format_ + page slug + _ + tab slug
 		
 		return isset( $_POST[ $this->oProps->strOptionKey ]['second_page']['exports']['export_format_type'] ) 
 			? $_POST[ $this->oProps->strOptionKey ]['second_page']['exports']['export_format_type']

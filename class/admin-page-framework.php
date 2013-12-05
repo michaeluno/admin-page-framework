@@ -755,99 +755,69 @@ abstract class AdminPageFramework_HeadTag_Base {
 		$this->oUtil = new AdminPageFramework_Utilities;
 				
 		// Hook the admin header to insert custom admin stylesheet.
-		add_action( 'admin_head', array( $this, 'callBackAddingStyle' ) );
-		add_action( 'admin_head', array( $this, 'callBackAddingScript' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingScripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingStyles' ) );
+		add_action( 'admin_head', array( $this, 'replyToAddStyle' ) );
+		add_action( 'admin_head', array( $this, 'replyToAddScript' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'replyToEnqueueScripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'replyToEnqueueStyles' ) );
 		
 	}	
 	
 	/*
-	 * Callback functions that should be overridden in extended classes.
+	 * Methods that should be overridden in extended classes.
 	 */
-	public function callBackAddingStyle() {}
-	public function callBackAddingScript() {}
-	public function callBackEnqueuingScripts() {}
-	public function callBackEnqueuingStyles() {}
+	public function replyToAddStyle() {}
+	public function replyToAddScript() {}
+	protected function enqueueSRCByConditoin() {}
  	
 	/*
-	 * Shared callback methods.
+	 * Shared methods
 	 */
 	/**
-	 * Enqueues media uploader scripts.
+	 * Performs actual enqueuing items. 
 	 * 
-	 * @since			2.0.0
-	 * @since			2.1.3			Added the support for the 3.5 media uploader
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from enqueueUploaderScripts() to callBack callBackEnqueingUploaderScripts().
-	 * @return			void
-	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class.
 	 * @internal
-	 */ 
-	public function callBackEnqueingUploaderScripts() {
-
-		wp_enqueue_script('jquery');			
-		wp_enqueue_script('thickbox');
-		wp_enqueue_style('thickbox');	
-	
-		if( function_exists( 'wp_enqueue_media' ) ) {	// means the WordPress version is 3.5 or above
-			wp_enqueue_media();	
-		} else		
-			wp_enqueue_script( 'media-upload' );
-	
-	}
-	
-	/**
-	 * Removes the From URL tab from the media uploader.
-	 * 
-	 * since			2.1.3
-	 * since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from removeMediaLibraryTab() to callBackRemovingMediaLibraryTab().
-	 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
 	 */
-	public function callBackRemovingMediaLibraryTab( $arrTabs ) {
+	protected function enqueueSRC( $arrEnqueueItem ) {
 		
-		if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $arrTabs;
-		
-		if ( ! $_REQUEST['enable_external_source'] )
-			unset( $arrTabs['type_url'] );	// removes the From URL tab in the thick box.
-		
-		return $arrTabs;
-		
-	}
-	
-	/**
-	 * Enqueues the color picker script.
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from enqueueColorFieldScript() to callBackEnqueuingColorFieldScript().
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @see			http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
-	 */ 
-	public function callBackEnqueuingColorFieldScript() {
-		
-		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
-		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
-			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
+		// For styles
+		if ( $arrEnqueueItem['strType'] == 'style' ) {
+			wp_enqueue_style( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['strMedia'] );
+			return;
 		}
-		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
-		else {
-			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-			wp_enqueue_style( 'farbtastic' );
-			wp_enqueue_script( 'farbtastic' );
-		}	
 		
-	}	
-
+		// For scripts
+		wp_enqueue_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['fInFooter'] );
+		if ( $arrEnqueueItem['arrTranslation'] ) 
+			wp_localize_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strHandleID'], $arrEnqueueItem['arrTranslation'] );
+		
+	}
+	
 	/**
+	 * Takes care of added enqueuing scripts by page slug and tab slug.
 	 * 
-	 * @since			2.0.0
-	 * @simce			2.1.5			Moved from AdminPageFrameworkMeta. Changed the name from enqueueDateFieldScript() to callBackEnqueuingDateFieldScript().
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueStylesCalback to replyToEnqueueStyles().
+	 * @internal
+	 */	
+	public function replyToEnqueueStyles() {	
+		foreach( $this->oProps->arrEnqueuingStyles as $strKey => $arrEnqueuingStyle ) 
+			$this->enqueueSRCByConditoin( $arrEnqueuingStyle );
+	}
+	
+	/**
+	 * Takes care of added enqueuing scripts by page slug and tab slug.
+	 * 
+	 * @remark			A callback for the admin_enqueue_scripts hook.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueScriptsCallback to callbackEnqueueScripts().
+	 * @internal
 	 */
-	public function callBackEnqueuingDateFieldScript() {
-
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
-
+	public function replyToEnqueueScripts() {							
+		foreach( $this->oProps->arrEnqueuingScripts as $strKey => $arrEnqueuingScript ) 
+			$this->enqueueSRCByConditoin( $arrEnqueuingScript );				
 	}
 	
 }
@@ -929,7 +899,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.0.0
 	 * @since			2.1.5			Moved from the main class.
 	 */		
-	public function callBackAddingStyle() {
+	public function replyToAddStyle() {
 		
 		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
 		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );
@@ -940,13 +910,21 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$oCaller = $this->oProps->getParentObject();
 		
 		// Print out the filtered styles.
-		echo "<style type='text/css' id='admin-page-framework-style'>" 
-			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyle )
-			. "</style>";
-		echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
-			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), AdminPageFramework_Properties::$strDefaultStyleIE )
-			. "</style><![endif]-->";
-			
+		$strStyle = AdminPageFramework_Properties::$strDefaultStyle . PHP_EOL . $this->oProps->strStyle;
+		$strStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $strStyle );
+		$strStyleIE = AdminPageFramework_Properties::$strDefaultStyleIE . PHP_EOL . $this->oProps->strStyleIE;
+		$strStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['style_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $strStyleIE );
+		if ( ! empty( $strStyle ) )
+			echo 
+				"<style type='text/css' id='admin-page-framework-style'>" 
+					. $strStyle
+				. "</style>";
+		if ( ! empty( $strStyleIE ) )
+			echo 
+				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
+					. $strStyleIE
+				. "</style><![endif]-->";
+						
 	}
 	
 	/**
@@ -956,7 +934,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.0.0
 	 * @since			2.1.5			Moved from the main class.
 	 */
-	public function callBackAddingScript() {
+	public function replyToAddScript() {
 		
 		$strPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
 		$strTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strPageSlug );
@@ -968,11 +946,24 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
+				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$arrPrefixes['script_'], $this->oProps->strClassName, $strPageSlug, $strTabSlug, false ), $this->oProps->strScript )
 			. "</script>";		
 		
 	}
 
+	/**
+	 * Enqueues styles by page slug and tab slug.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function enqueueStyles( $arrSRCs, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
+		
+		$arrHandleIDs = array();
+		foreach( ( array ) $arrSRCs as $strSRC )
+			$arrHandleIDs[] = $this->enqueueStyle( $strSRC, $strPageSlug, $strTabSlug, $arrCustomArgs );
+		return $arrHandleIDs;
+		
+	}
 	/**
 	 * Enqueues a style by page slug and tab slug.
 	 * 
@@ -1016,6 +1007,19 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		
 	}
 	
+	/**
+	 * Enqueues scripts by page slug and tab slug.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function enqueueScripts( $arrSRCs, $strPageSlug='', $strTabSlug='', $arrCustomArgs=array() ) {
+		
+		$arrHandleIDs = array();
+		foreach( ( array ) $arrSRCs as $strSRC )
+			$arrHandleIDs[] = $this->enqueueScripts( $strSRC, $strPageSlug, $strTabSlug, $arrCustomArgs );
+		return $arrHandleIDs;
+		
+	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
 	 * 
@@ -1072,40 +1076,14 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		);
 		return $this->oProps->arrEnqueuingScripts[ $strSRCHash ][ 'strHandleID' ];
 	}
-	
+		
 	/**
-	 * Takes care of added enqueuing scripts by page slug and tab slug.
+	 * A helper function for the above replyToEnqueueScripts() and replyToEnqueueStyle() methods.
 	 * 
-	 * @remark			A callback for the admin_enqueue_scripts hook.
 	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueStylesCalback to callBackEnqueuingStyles().
-	 * @internal
-	 */	
-	public function callBackEnqueuingStyles() {	
-		foreach( $this->oProps->arrEnqueuingStyles as $strKey => $arrEnqueuingStyle ) 
-			$this->enqueueSRCByPageConditoin( $arrEnqueuingStyle );
-	}
-	
-	/**
-	 * Takes care of added enqueuing scripts by page slug and tab slug.
-	 * 
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueScriptsCallback to callbackEnqueueScripts().
-	 * @internal
+	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueSRCByPageConditoin.
 	 */
-	public function callBackEnqueuingScripts() {							
-		foreach( $this->oProps->arrEnqueuingScripts as $strKey => $arrEnqueuingScript ) 
-			$this->enqueueSRCByPageConditoin( $arrEnqueuingScript );				
-	}
-	
-	/**
-	 * A helper function for the above enqueueScriptsAndStyles() method.
-	 * 
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class.
-	 */
-	private function enqueueSRCByPageConditoin( $arrEnqueueItem ) {
+	protected function enqueueSRCByConditoin( $arrEnqueueItem ) {
 		
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$strCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $strCurrentPageSlug );
@@ -1132,158 +1110,6 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		) 
 			return $this->enqueueSRC( $arrEnqueueItem );
 
-	}
-	/**
-	 * A helper function for the above enqueueSRCByPageConditoin() method.
-	 * 
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class.
-	 * @internal
-	 */
-	private function enqueueSRC( $arrEnqueueItem ) {
-		
-		// For styles
-		if ( $arrEnqueueItem['strType'] == 'style' ) {
-			wp_enqueue_style( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['strMedia'] );
-			return;
-		}
-		
-		// For scripts
-		wp_enqueue_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strSRC'], $arrEnqueueItem['arrDependencies'], $arrEnqueueItem['strVersion'], $arrEnqueueItem['fInFooter'] );
-		if ( $arrEnqueueItem['arrTranslation'] ) 
-			wp_localize_script( $arrEnqueueItem['strHandleID'], $arrEnqueueItem['strHandleID'], $arrEnqueueItem['arrTranslation'] );
-		
-	}
-	
-	
-	
-	/**
-	 * Enqueues the media uploader script for the media field.
-	 * 
-	 * This is called when adding a field array to the property if the image or media field type is set.
-	 * 
-	 * @since			2.1.4
-	 * @since			2.1.5			Moved from the AdminPageFramework_SettingsAPI class.
-	 */
-	public function enqueueMediaUploaderScript() {
-		
-		if ( $this->fIsMediaUploaderScriptEnqueued	) return;
-		$this->fIsMediaUploaderScriptEnqueued = true;	
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueingUploaderScripts' ) );	// called later than the admin_menu hook
-		add_filter( 'gettext', array( $this, 'callBackReplacingThickBoxText' ) , 1, 2 );	
-		add_filter( 'media_upload_tabs', array( $this, 'callBackRemovingMediaLibraryTab' ) );	
-		
-		$this->oProps->strScript .= AdminPageFramework_Properties::getScript_CustomMediaUploaderObject();
-
-	}	
-	
-	/**
-	 * Replaces the label text of a button used in the media uploader.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from replaceThickBoxText() to callBack callBackReplacingThickBoxText().
-	 * @remark			A callback for the <em>gettext</em> hook.	
-	 */ 
-	public function callBackReplacingThickBoxText( $strTranslated, $strText ) {
-
-		// Replace the button label in the media thick box.
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php' ) ) ) return $strTranslated;
-		if ( $strText != 'Insert into Post' ) return $strTranslated;
-		if ( $this->oUtil->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $strTranslated;
-		
-		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
-
-		return $this->oProps->strThickBoxButtonUseThis ?  $this->oProps->strThickBoxButtonUseThis : __( 'Use This Image', 'admin-page-framework' );
-		
-	}
-	
-	/**
-	 * Adds the script for taxonomy checklist tabbed boxes to the property.
-	 * 
-	 * @remark			Called from the registerSettings() method.
-	 * @since			2.1.1
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
-	 */
-	public function addTaxonomyChecklistScript() {
-	
-		if ( $this->fIsTaxonomyChecklistScriptAdded	) return;
-		$this->fIsTaxonomyChecklistScriptAdded = true;
-		
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getTaxonomyChecklistScript();
-		
-	}
-	
-	/**
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
-	 */
-	public function addImageFieldScript( &$arrField ) {
-					
-		if ( $this->fIsImageFieldScriptEnqueued	) return;
-		$this->fIsImageFieldScriptEnqueued = true;
-
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 
-		
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
-		
-	}
-	
-	/**
-	 * 
-	 * @since			2.1.3
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
-	 */
-	public function addMediaFieldScript( &$arrField ) {
-		
-		if ( $this->fIsMediaUploaderScriptAdded ) return;
-		$this->fIsMediaUploaderScriptAdded = true;
-					
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle_Media = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload File', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis_Media = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This File', 'admin-page-framework' );
-					
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getMediaUploaderScript( "admin_page_framework", $this->oProps->strThickBoxTitle_Media, $this->oProps->strThickBoxButtonUseThis_Media );
-		
-	}
-
-	/**
-	 * 
-	 * @see			 	http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
-	 * #since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
-	 */
-	public function addColorFieldScript() {
-	
-		if ( $this->fIsColorFieldScriptEnqueued	) return;
-		$this->fIsColorFieldScriptEnqueued	 = true;
-					
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingColorFieldScript' ) );
-		
-		// Append the script
-		// Setup the color pickers to work with our text input field
-		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	
-	
-	}
-
-	/**
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5
-	 */
-	public function addDateFieldScript() {
-		
-		if ( $this->fIsDateFieldScriptEnqueued	) return;
-		$this->fIsDateFieldScriptEnqueued = true;
-	
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingDateFieldScript' ) );
-				
 	}
 	
 }
@@ -1315,8 +1141,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	function __construct( $oProps ) {
 		
 		parent::__construct( $oProps );
-			
-			
+					
 	}
 	
 	/*
@@ -1326,12 +1151,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	/**
 	 * Appends the CSS rules of the framework in the head tag. 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to callBackAddingStyle().
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to replyToAddStyle().
 	 * @remark			A callback for the <em>admin_head</em> hook.
 	 */ 	
-	public function callBackAddingStyle() {
+	public function replyToAddStyle() {
 	
-		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
+		// If it's not post (post edit) page nor the post type page,
 		if ( 
 			! (
 				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
@@ -1350,17 +1175,19 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		$oCaller = $this->oProps->getParentObject();		
 				
 		// Print out the filtered styles.
-		$this->oProps->strStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyle );
-		$this->oProps->strStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->strClassName}", AdminPageFramework_Properties::$strDefaultStyleIE );
-		if ( ! empty( $this->oProps->strStyle ) )
+		$strStyle = AdminPageFramework_Properties::$strDefaultStyle . PHP_EOL . $this->oProps->strStyle;
+		$strStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->strClassName}", $strStyle );
+		$strStyleIE = AdminPageFramework_Properties::$strDefaultStyleIE . PHP_EOL . $this->oProps->strStyleIE;
+		$strStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->strClassName}", $strStyleIE );
+		if ( ! empty( $strStyle ) )
 			echo 
 				"<style type='text/css' id='admin-page-framework-style-meta-box'>" 
-					. $this->oProps->strStyle
+					. $strStyle
 				. "</style>";
-		if ( ! empty( $this->oProps->strStyleIE ) )
+		if ( ! empty( $strStyleIE ) )
 			echo 
 				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-meta-box'>" 
-					. $this->oProps->strStyleIE
+					. $strStyleIE
 				. "</style><![endif]-->";
 			
 	}
@@ -1368,10 +1195,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	/**
 	 * Appends the JavaScript script of the framework in the head tag. 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to callBackAddingScript().
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to replyToAddScript().
 	 * @remark			A callback for the <em>admin_head</em> hook.
 	 */ 
-	public function callBackAddingScript() {
+	public function replyToAddScript() {
 
 		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
 		if ( 
@@ -1392,129 +1219,138 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		$oCaller = $this->oProps->getParentObject();
 		
 		// Print out the filtered scripts.
-		echo 
-			"<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
-				. $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->strClassName}", $this->oProps->strScript )
-			. "</script>";	
+		$strScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->strClassName}", $this->oProps->strScript );
+		if ( ! empty( $strScript ) )
+			echo 
+				"<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
+					. $strScript
+				. "</script>";	
 			
 	}	
 	
-	/**
-	 * Enqueues the media uploader script.
-	 * 
-	 * @since			2.1.3
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the scope from private to public as it is accessed from the caller class.
-	 */
-	public function enqueueMediaUploaderScript() {
-		
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_MediaUploaderScriptEnqueued" ] = true;
 	
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueingUploaderScripts' ) );	// called later than the admin_menu hook
-		// add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );	
-		add_filter( 'media_upload_tabs', array( $this, 'callBackRemovingMediaLibraryTab' ) );	
+	/**
+	 * Enqueues styles by page slug and tab slug.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function enqueueStyles( $arrSRCs, $arrPostTypes=array(), $arrCustomArgs=array() ) {
 		
-		$this->oProps->strScript .= AdminPageFramework_Properties::getScript_CustomMediaUploaderObject();
+		$arrHandleIDs = array();
+		foreach( ( array ) $arrSRCs as $strSRC )
+			$arrHandleIDs[] = $this->enqueueStyle( $strSRC, $arrPostTypes, $arrCustomArgs );
+		return $arrHandleIDs;
+		
+	}
+	/**
+	 * Enqueues a style by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * </ul>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.5			
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			array			$arrPostTypes		(optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
+	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */	
+	public function enqueueStyle( $strSRC, $arrPostTypes=array(), $arrCustomArgs=array() ) {
+		
+		$strSRC = trim( $strSRC );
+		if ( empty( $strSRC ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
+		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
+			( array ) $arrCustomArgs,
+			array(		
+				'strSRC' => $strSRC,
+				'arrPostTypes' => empty( $arrPostTypes ) ? $this->oProps->arrPostTypes : $arrPostTypes,
+				'strType' => 'style',
+				'strHandleID' => 'style_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedStyleIndex ),
+			),
+			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
+		);
+		return $this->oProps->arrEnqueuingStyles[ $strSRCHash ][ 'strHandleID' ];
 		
 	}
 	
 	/**
+	 * Enqueues scripts by page slug and tab slug.
 	 * 
-	 * @since			2.1.3
-	 * @since			2.1.5		Moved from AdminPageFramework_MetaBox
+	 * @since			2.1.5
 	 */
-	public function addMediaFieldScript( &$arrField ) {
+	public function enqueueScripts( $arrSRCs, $arrPostTypes=array(), $arrCustomArgs=array() ) {
 		
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_MediaScriptAdded" ] = true;
-					
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle_Media = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload File', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis_Media = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This File', 'admin-page-framework' );
-					
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getMediaUploaderScript( "admin_page_framework", $this->oProps->strThickBoxTitle_Media, $this->oProps->strThickBoxButtonUseThis_Media );	
+		$arrHandleIDs = array();
+		foreach( ( array ) $arrSRCs as $strSRC )
+			$arrHandleIDs[] = $this->enqueueScripts( $strSRC, $arrPostTypes, $arrCustomArgs );
+		return $arrHandleIDs;
 		
-	}
-	
+	}	
 	/**
+	 * Enqueues a script by page slug and tab slug.
 	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5		Moved from AdminPageFramework_MetaBox
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>arrTranslation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>	 
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScript(  
+	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *	);</code>
+	 * 
+	 * @since			2.1.5			
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			array			$arrPostTypes		(optional) The post type slugs that the script should be added to. If not set, it applies to all the pages with the post type slugs.
+	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
-	public function addImageFieldScript( &$arrField ) {
-							
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_ImageScriptEnqueued" ] = true;
-					
-		// These two hooks should be enabled when the image field type is added in the field array.
-		$this->oProps->strThickBoxTitle = isset( $arrField['strTickBoxTitle'] ) ? $arrField['strTickBoxTitle'] : __( 'Upload Image', 'admin-page-framework' );
-		$this->oProps->strThickBoxButtonUseThis = isset( $arrField['strLabelUseThis'] ) ? $arrField['strLabelUseThis'] : __( 'Use This Image', 'admin-page-framework' ); 			
-					
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getImageSelectorScript( "admin_page_framework", $this->oProps->strThickBoxTitle, $this->oProps->strThickBoxButtonUseThis );
+	public function enqueueScript( $strSRC, $arrPostTypes=array(), $arrCustomArgs=array() ) {
 		
+		$strSRC = trim( $strSRC );
+		if ( empty( $strSRC ) ) return '';
+		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
+		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
+			( array ) $arrCustomArgs,
+			array(		
+				'strSRC' => $strSRC,
+				'arrPostTypes' => empty( $arrPostTypes ) ? $this->oProps->arrPostTypes : $arrPostTypes,
+				'strType' => 'script',
+				'strHandleID' => 'script_' . $this->oProps->strClassName . '_' .  ( ++$this->oProps->intEnqueuedScriptIndex ),
+			),
+			AdminPageFramework_Properties::$arrStructure_EnqueuingScriptsAndStyles
+		);
+		return $this->oProps->arrEnqueuingScripts[ $strSRCHash ][ 'strHandleID' ];
 	}
-	
-	/**
-	 * Adds the script for taxonomy checklist tabbed boxes to the property.
-	 * 
-	 * @since			2.1.1
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox
-	 */
-	public function addTaxonomyChecklistScript() {
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) && $GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_TaxonomyChecklistScriptAdded" ] = true;
 
-		// Append the script
-		$this->oProps->strScript .= AdminPageFramework_Properties::getTaxonomyChecklistScript();
-		
-	}
-	
 	/**
-	 * Adds the script for the color picker to the property and enqueues the WordPress built-in script for the color picker.
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Change to the public scope as accessed externally.
-	 */
-	public function addColorFieldScript() {
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_ColorScriptEnqueued" ] = true;
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingColorFieldScript' ) );
-	
-		// Append the script
-		// Set up the color pickers to work with our text input field
-		$this->oProps->strScript .= AdminPageFramework_Properties::getColorPickerScript();	
-	
-	}
-	
-	/**
-	 * Adds date picker script.
+	 * A helper function for the above replyToEnqueueScripts() and replyToEnqueueStyle() methods.
 	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Change to the public scope as accessed externally.
+	 * @since			2.1.5
 	 */
-	public function addDateFieldScript() {
+	protected function enqueueSRCByConditoin( $arrEnqueueItem ) {
 		
-		// This class may be instantiated multiple times so use a global flag.
-		$strRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) && $GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] ) return;
-		$GLOBALS[ "{$strRootClassName}_DateScriptEnqueued" ] = true;		
-		
-		add_action( 'admin_enqueue_scripts', array( $this, 'callBackEnqueuingDateFieldScript' ) );
-		
+		$strCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
+				
+		if ( in_array( $strCurrentPostType, $arrEnqueueItem['arrPostTypes'] ) )		
+			return $this->enqueueSRC( $arrEnqueueItem );
+			
 	}
 	
 	
@@ -1584,6 +1420,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	protected static $arrPrefixesForCallbacks = array(
 		'section_'		=> 'section_',
 		'field_'		=> 'field_',
+		'field_types_'	=> 'field_types_',
 		'validation_'	=> 'validation_',
 	);
 	
@@ -2535,8 +2372,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		// Register them.
 		foreach ( $this->oProps->arrPages as &$arrSubMenuItem ) 
 			$this->oProps->arrRegisteredSubMenuPages = $this->registerSubMenuPage( $arrSubMenuItem );
-		
-					
+						
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProps->arrRootMenu['fCreateRoot'] ) 
 			remove_submenu_page( $this->oProps->arrRootMenu['strPageSlug'], $this->oProps->arrRootMenu['strPageSlug'] );
@@ -2880,19 +2716,20 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>select</strong> - a dropdown input field.</li>
 	* 		<ul>
 	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-	* 			<li><strong>vWidth</strong> - ( optional, integer|array ) the width of the dropdown list.</li>
+	* 			<li><strong>vWidth</strong> - ( optional, string|array ) the width of the dropdown list including the unit. e.g. 120px</li>
 	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 		</ul>
-	* 	<li><strong>size</strong> - a size input filed. This is a combination of number and select fields.</li>
+	* 	<li><strong>size</strong> - a size input field. This is a combination of number and select fields.</li>
 	* 		<ul>
 	* 			<li>
 	* 				<strong>vSizeUnits</strong> - ( optional, array ) defines the units to show. e.g. <code>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</code> 
 	* 				Default: <code>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</code>
 	* 			</li>
 	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-	* 			<li><strong>vWidth</strong> - ( optional, integer|array ) the width of the dropdown list.</li>
+	* 			<li><strong>vWidth</strong> - ( optional, string|array ) the width of the dropdown list including the unit. e.g. 120px</li>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
+	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the number input field.</li>
+	* 			<li><strong>vUnitSize</strong> - [2.1.5+]( optional, integer|array ) the number that indicates the <em>size</em> attribute of the select(unit) input field.</li>
 	* 			<li><strong>vMax</strong> - ( optional, integer|array ) the number that indicates the <em>max</em> attribute of the input field.</li>
 	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
 	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
@@ -2913,6 +2750,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>import</strong> - an inport input field. This is a custom file and submit field.</li>
 	* 		<ul>
 	* 			<li><strong>vAcceptAttribute</strong> - ( optional, string|array ) the accept attribute value. Default: <code>audio/*|video/*|image/*|MIME_type</code></li>
+	* 			<li><strong>vClassAttributeUpload</strong> - ( optional, string|array ) [2.1.5+] the class attribute for the file upload field. Default: <code>import</code></li>
 	* 			<li><strong>vImportOptionKey</strong> - ( optional, string|array ) the option table key to save the importing data.</li>
 	* 			<li><strong>vImportFormat</strong> - ( optional, string|array ) the import format. json, or array is supported. Default: array</li>
 	* 			<li><strong>vMerge</strong> - ( optional, boolean|array ) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
@@ -3086,14 +2924,6 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 
 	}	
 	
-
-	
-
-	
-
-	
-
-			
 	/**
 	 * Redirects the callback of the load-{page} action hook to the framework's callback.
 	 * 
@@ -3215,30 +3045,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$strTransient = md5( trim( "redirect_{$this->oProps->strClassName}_{$_POST['strPageSlug']}" ) );
 		return set_transient( $strTransient, $strURL , 60*2 );
 	}
-	
-	
-	/**
-	 * Returns the flattened string containing the filed key information of the pressed custom submit button.
-	 * 
-	 */
-/* 	private function getPressedCustomSubmitButtonFieldName( $arrPostElements ) {
 		
-		foreach( $arrPostElements as $strFieldName => $arrSubElements ) {
-			
-			$arrNameKeys = explode( '|', $arrSubElements['name'] );	
-			
-			// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
-			// The isset() checks if the associated button is actually pressed or not.
-			if ( count( $arrNameKeys ) == 4 && isset( $_POST[ $arrNameKeys[0] ][ $arrNameKeys[1] ][ $arrNameKeys[2] ][ $arrNameKeys[3] ] ) )
-				return $arrSubElements['name'];
-			if ( count( $arrNameKeys ) == 5 && isset( $_POST[ $arrNameKeys[0] ][ $arrNameKeys[1] ][ $arrNameKeys[2] ][ $arrNameKeys[3] ][ $arrNameKeys[4] ] ) )
-				return $arrSubElements['name'];
-				
-		}
-		return '';
-	}
-	 */
-	
 	/**
 	 * Retrieves the target key's value associated with the given data to a custom submit button.
 	 * 
@@ -3364,7 +3171,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// If the data is set in transient,
 		$vData = $oExport->getTransientIfSet( $vData );
 	
-		// Get the filed ID.
+		// Get the field ID.
 		$strFieldID = $oExport->getFieldID();
 	
 		// Add and apply filters. - adding filters must be done in this class because the callback method belongs to this class 
@@ -3509,16 +3316,21 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Retrieve the field error array.
 		$this->arrFieldErrors = isset( $this->arrFieldErrors ) ? $this->arrFieldErrors : $this->getFieldErrors( $strPageSlug ); 
+
+		// Render the form field. 		
+		$strFieldType = isset( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] ) && is_callable( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] )
+			? $arrField['strType']
+			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
+		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, $this->arrFieldErrors, $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] );
+		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
+		unset( $oField );	// release the object for PHP 5.2.x or below.
 		
-		// Do render the form field.
-		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, $this->arrFieldErrors, $this->oMsg );
 		echo $this->oUtil->addAndApplyFilter(
 			$this,
 			$this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['field_'] . $strFieldID,	// filter: class name + _ + section_ + section id
-			$oField->getInputField( $arrField['strType'] ),	// field output
+			$strFieldOutput,
 			$arrField // the field array
-		);
-		unset( $oField );	// release the object for PHP 5.2.x or below.
+		);	
 		
 	}
 	
@@ -3571,7 +3383,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @since			2.0.0
 	 * @remark			the transient name is a MD5 hash of the extended class name + _ + page slug ( the passed ID )
 	 * @param			array			$arrErrors			the field error array. The structure should follow the one contained in the submitted $_POST array.
-	 * @param			string			$strID				this should be the page slug of the page that has the dealing form filed.
+	 * @param			string			$strID				this should be the page slug of the page that has the dealing form field.
 	 * @param			integer			$numSavingDuration	the transient's lifetime. 300 seconds means 5 minutes.
 	 */ 
 	protected function setFieldErrors( $arrErrors, $strID=null, $numSavingDuration=300 ) {
@@ -3627,6 +3439,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * Also they get sorted before being registered based on the set order.
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.5			Added the ability to define custom field types.
 	 * @remark			This method is not intended to be used by the user.
 	 * @remark			The callback method for the <em>admin_menu</em> hook.
 	 * @return			void
@@ -3643,6 +3456,15 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			&& ( count( $this->oProps->arrSections ) == 0 || count( $this->oProps->arrFields ) == 0 ) 
 		) return;
 				
+		// Define field types.
+		// This class adds filters for the field type definitions so that framework's default field types will be added.
+		new AdminPageFramework_InputFieldTypeDefinitions( $this->oProps->strClassName, $this->oMsg );		
+		$this->oProps->arrFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
+			$this,
+			self::$arrPrefixesForCallbacks['field_types_'] . $this->oProps->strClassName,	// 'field_types_' . {extended class name}
+			array()
+		);		
+		
 		// Register settings sections 
 		uasort( $this->oProps->arrSections, array( $this->oProps, 'sortByOrder' ) ); 
 		foreach( $this->oProps->arrSections as $arrSection ) {
@@ -3680,14 +3502,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				$arrField['strSectionID'],	// section
 				$arrField['strFieldID']		// arguments - pass the field ID to the callback function
 			);	
-			
-			// If it's the field type that requires extra scripts, call the relevant methods.
-			if ( ( $arrField['strType'] == 'image' || $arrField['strType'] == 'media' ) && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->enqueueMediaUploaderScript();
-			if ( $arrField['strType'] == 'taxonomy' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addTaxonomyChecklistScript();
-			if ( $arrField['strType'] == 'image' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addImageFieldScript( $arrField );
-			if ( $arrField['strType'] == 'media' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addMediaFieldScript( $arrField );
-			if ( $arrField['strType'] == 'color' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addColorFieldScript();
-			if ( $arrField['strType'] == 'date' && $arrField['strPageSlug'] == $strCurrentPageSlug ) $this->oHeadTag->addDateFieldScript();
+
+			// Set relevant scripts and styles for the input field.
+			$this->setFieldHeadTagElements( $arrField );
 			
 			// For the contextual help pane,
 			if ( ! empty( $arrField['strHelp'] ) )
@@ -3704,6 +3521,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				);
 
 		}
+		
+// $this->oDebug->logArray( $this->oProps->strStyle );
 
 		// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
 		$this->oProps->fEnableForm = true;
@@ -3714,6 +3533,42 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		); 
 		
 	}
+		/**
+		 * Sets the given field type's enqueuing scripts and styles.
+		 * 
+		 * A helper function for the above registerSettings() method.
+		 * 
+		 * @since			2.1.5
+		 */
+		private function setFieldHeadTagElements( $arrField ) {
+			
+			$strFieldType = $arrField['strType'];
+			
+			// Set the global flag to indicate whether the elements are already added and enqueued.
+			if ( isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $strFieldType ] ) && $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $strFieldType ] ) return;
+			$GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $strFieldType ] = true;
+
+			// If the field type is not defined, return.
+			if ( ! isset( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] ) ) return;
+
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callFieldLoader'] ) )
+				call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callFieldLoader'], array() );		
+			
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetScripts'] ) )
+				$this->oProps->strScript .= call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetScripts'], array() );
+				
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetStyles'] ) )
+				$this->oProps->strStyle .= call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetStyles'], array() );
+				
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetIEStyles'] ) )
+				$this->oProps->strStyleIE .= call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetIEStyles'], array() );					
+
+				
+			$this->oHeadTag->enqueueStyles( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['arrEnqueueStyles'] );
+			$this->oHeadTag->enqueueScripts( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['arrEnqueueScripts'] );
+					
+		}
+	
 	
 	/**
 	 * Formats the given section arrays.
@@ -4219,7 +4074,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		
 		if ( substr( $strMethodName, 0, strlen( "validation_{$this->oProps->strClassName}_" ) ) == "validation_{$this->oProps->strClassName}_" )	// e.g. validation_{instantiated class name}_ + {field id / input id}
 			return true;
-		
+
+		if ( substr( $strMethodName, 0, strlen( "field_types_{$this->oProps->strClassName}" ) ) == "field_types_{$this->oProps->strClassName}" )	// e.g. field_types_{instantiated class name}
+			return true;
+			
 		foreach( self::$arrPrefixes as $strPrefix ) {
 			if ( substr( $strMethodName, 0, strlen( $strPrefix ) )	== $strPrefix  ) 
 				return true;
@@ -4709,7 +4567,44 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @since			2.1.5
 	 */
 	protected $oCaller;	
-			
+	
+	/**
+	 * Stores the script to be embedded in the head tag.
+	 * 
+	 * @remark			This should be an empty string by default since the related methods uses the append operator.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from each extended property class.
+	 * @internal
+	 */ 			
+	public $strScript = '';	
+
+	/**
+	 * Stores the CSS rules to be embedded in the head tag.
+	 * 
+	 * @remark			This should be an empty string by default since the related methods uses the append operator.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from each extended property class.
+	 * @internal
+	 */ 		
+	public $strStyle = '';	
+	
+	/**
+	 * Stores the CSS rules for IE to be embedded in the head tag.
+	 * 
+	 * @remark			This should be an empty string by default since the related methods uses the append operator.
+	 * @since			2.0.0 to 2.1.4
+	 * @internal
+	 */ 
+	public $strStyleIE = '';	
+	
+	/**
+	 * Stores the field type definitions.
+	 * 
+	 * @since			2.1.5
+	 * @internal
+	 */
+	public $arrFieldTypeDefinitions = array();
+	
 	/**
 	 * The default CSS rules loaded in the head tag of the created admin pages.
 	 * 
@@ -4725,67 +4620,8 @@ abstract class AdminPageFramework_Properties_Base {
 		.wrap div.settings-error { 
 			clear: both; 
 			margin-top: 16px;
-		} 
-		.admin-page-framework-field .taxonomy-checklist li { 
-			margin: 8px 0 8px 20px; 
-		}
-		.admin-page-framework-field div.taxonomy-checklist {
-			padding: 8px 0 8px 10px;
-			margin-bottom: 20px;
-		}
-		.admin-page-framework-field .taxonomy-checklist ul {
-			list-style-type: none;
-			margin: 0;
-		}
-		.admin-page-framework-field .taxonomy-checklist ul ul {
-			margin-left: 1em;
-		}
-		.admin-page-framework-field .taxonomy-checklist-label {
-			/* margin-left: 0.5em; */
-		}
-		
-		/* Image Field Preview Container */
-		.admin-page-framework-field .image_preview {
-			border: none; 
-			clear:both; 
-			margin-top: 1em;
-			margin-bottom: 1em;
-			display: block; 
-		}		
- 		@media only screen and ( max-width: 1200px ) {
-			.admin-page-framework-field .image_preview {
-				max-width: 600px;
-			}
-		} 
-		@media only screen and ( max-width: 900px ) {
-			.admin-page-framework-field .image_preview {
-				max-width: 440px;
-			}
-		}	
-		@media only screen and ( max-width: 600px ) {
-			.admin-page-framework-field .image_preview {
-				max-width: 300px;
-			}
-		}		
-		@media only screen and ( max-width: 480px ) {
-			.admin-page-framework-field .image_preview {
-				max-width: 240px;
-			}
-		}
-		@media only screen and ( min-width: 1200px ) {
-			.admin-page-framework-field .image_preview {
-				max-width: 600px;
-			}
-		}		 
-		.admin-page-framework-field .image_preview img {		
-			width: auto;
-			height: auto; 
-			max-width: 100%;
-			display: block;
-		}
-		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
-			display: none;
-		}
+		} 		
+
 		.contextual-help-description {
 			clear: left;	
 			display: block;
@@ -4795,55 +4631,6 @@ abstract class AdminPageFramework_Properties_Base {
 			font-weight: bold;
 		}
 		
-		/* Tabbed box */
-		.admin-page-framework-field .tab-box-container.categorydiv {
-			max-height: none;
-		}
-		.admin-page-framework-field .tab-box-tab-text {
-			display: inline-block;
-		}
-		.admin-page-framework-field .tab-box-tabs {
-			line-height: 12px;
-			margin-bottom: 0;
-		
-		}
-		.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {
-			display: inline;
-			border-color: #dfdfdf #dfdfdf #fff;
-			margin-bottom: 0;
-			padding-bottom: 1px;
-			background-color: #fff;
-		}
-		.admin-page-framework-field .tab-box-container { 
-			position: relative; width: 100%; 
-
-		}
-		.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
-		.admin-page-framework-field .tab-box-contents-container {  
-			padding: 0 0 0 20px; 
-			border: 1px solid #dfdfdf; 
-			background-color: #fff;
-		}
-		.admin-page-framework-field .tab-box-contents { 
-			overflow: hidden; 
-			overflow-x: hidden; 
-			position: relative; 
-			top: -1px; 
-			height: 300px;  
-		}
-		.admin-page-framework-field .tab-box-content { 
-			height: 300px;
-			display: none; 
-			overflow: auto; 
-			display: block; 
-			position: relative; 
-			overflow-x: hidden;
-		}
-		.admin-page-framework-field .tab-box-content:target, 
-		.admin-page-framework-field .tab-box-content:target, 
-		.admin-page-framework-field .tab-box-content:target { 
-			display: block; 
-		}
 		/* Delimiter */
 		.admin-page-framework-fields .delimiter {
 			display: inline;
@@ -4911,10 +4698,6 @@ abstract class AdminPageFramework_Properties_Base {
 			vertical-align: top;
 			margin-top: 2px;
 		}
-
- 		.admin-page-framework-field-size input {
-			text-align: right;
-		}
 		
 		.admin-page-framework-field-posttype .admin-page-framework-field input[type='checkbox'] { 
 			margin-top: 0px;
@@ -4941,653 +4724,75 @@ abstract class AdminPageFramework_Properties_Base {
 			vertical-align: middle;
 			text-align: center;
 		}
-		/* Rich Text Editor */
-		.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
-			margin-bottom: 0.5em;
-		}
-		/* Image Uploader Button */
-		.admin-page-framework-field-image input,
-		.admin-page-framework-field-media input 
-		{
-			margin-right: 0.5em;
-		}
-		.select_image.button.button-small,
-		.select_media.button.button-small
-		{
-			vertical-align: baseline;
-		}
-		/* Color Picker */
-		.repeatable .colorpicker {
-			display: inline;
-		}
-		.admin-page-framework-field-color .wp-picker-container {
-			vertical-align: middle;
-		}
-		.admin-page-framework-field-color .ui-widget-content {
-			border: none;
-			background: none;
-			color: transparent;
-		}
-		.admin-page-framework-field-color .ui-slider-vertical {
-			width: inherit;
-			height: auto;
-			margin-top: -11px;
-		}
+
 		/* Import Field */
 		.admin-page-framework-field-import input {
 			margin-right: 0.5em;
 		}
-		/* Submit Buttons */
-		.admin-page-framework-field input[type='submit'] {
-			margin-bottom: 0.5em;
-		}		
 		";	
+		
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
 	 * @since			2.1.1
+	 * @since			2.1.5			Moved the contents to the taxonomy field definition so it become an empty string.
 	 */
-	public static $strDefaultStyleIE = 
-		".tab-box-content { display: block; }
-			.tab-box-contents { overflow: hidden;position: relative; }
-			b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
-		";	
+	public static $strDefaultStyleIE = '';
 		
+	/**
+	 * Represents the structure of the array for enqueuing scripts and styles.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved to the base class.
+	 */
+	public static $arrStructure_EnqueuingScriptsAndStyles = array(
+		'strURL' => null,
+		'arrPostTypes' => array(),		// for meta box class
+		'strPageSlug' => null,	
+		'strTabSlug' => null,
+		'strType' => null,		// script or style
+		'strHandleID' => null,
+		'arrDependencies' => array(),
+        'strVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'arrTranslation' => array(),	// only for scripts
+        'fInFooter' => false,	// only for scripts
+		'strMedia' => 'all',	// only for styles		
+	);
+	/**
+	 * Stores enqueuing script URLs and their criteria.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved to the base class.
+	 */
+	public $arrEnqueuingScripts = array();
+	/**	
+	 * Stores enqueuing style URLs and their criteria.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved to the base class.
+	 */	
+	public $arrEnqueuingStyles = array();
+	/**
+	 * Stores the index of enqueued scripts.
+	 * 
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved to the base class.
+	 */
+	public $intEnqueuedScriptIndex = 0;
+	/**
+	 * Stores the index of enqueued styles.
+	 * 
+	 * The index number will be incremented as a script is enqueued regardless a previously added enqueue item has been removed or not.
+	 * This is because this index number will be used for the script handle ID which is automatically generated.
+	 * 
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved to the base class.
+	 */	
+	public $intEnqueuedStyleIndex = 0;		
 		
 	function __construct( $oCaller ) {
 		
 		$this->oCaller = $oCaller;
-		
-	}
-		
-	/**
-	 * Returns the JavaScript script for taxonomy check list.
-	 * 
-	 * @since			2.1.1
-	 */ 
-	public static function getTaxonomyChecklistScript() {
-		return "
-			jQuery(document).ready( function() {
-				
-				jQuery( '.tab-box-container' ).each( function() {
-					
-					jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
-						
-						if ( i == 0 )
-							jQuery( this ).addClass( 'active' );
-							
-						jQuery( this ).click( function( e ){
-								 
-							// Prevents jumping to the anchor which moves the scroll bar.
-							e.preventDefault();
-							
-							// Remove the active tab and set the clicked tab to be active.
-							jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
-							jQuery( this ).addClass( 'active' );
-							
-							// Find the element id and select the content element with it.
-							var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
-							active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
-							active_content.siblings().css( 'display', 'none' );
-							
-						});
-					});			
-				});
-			});
-		";	
-	}
-	
-	/**
-	 * Returns the JavaScript script that creates a custom media uploader object.
-	 * 
-	 * @since			2.1.3
-	 */
-	public static function getScript_CustomMediaUploaderObject() {
-		
-		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
-			return "";
-		
-		// Global function literal
-		return "
-			getAPFCustomMediaUploaderSelectObject = function() {
-				return wp.media.view.MediaFrame.Select.extend({
+		$GLOBALS['arrAdminPageFramework'] = isset( $GLOBALS['arrAdminPageFramework'] ) && is_array( $GLOBALS['arrAdminPageFramework'] ) 
+			? $GLOBALS['arrAdminPageFramework']
+			: array();
 
-					initialize: function() {
-						wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
-
-						_.defaults( this.options, {
-							multiple:  true,
-							editing:   false,
-							state:    'insert'
-						});
-
-						this.createSelection();
-						this.createStates();
-						this.bindHandlers();
-						this.createIframeStates();
-					},
-
-					createStates: function() {
-						var options = this.options;
-
-						// Add the default states.
-						this.states.add([
-							// Main states.
-							new wp.media.controller.Library({
-								id:         'insert',
-								title:      'Insert Media',
-								priority:   20,
-								toolbar:    'main-insert',
-								filterable: 'image',
-								library:    wp.media.query( options.library ),
-								multiple:   options.multiple ? 'reset' : false,
-								editable:   true,
-
-								// If the user isn't allowed to edit fields,
-								// can they still edit it locally?
-								allowLocalEdits: true,
-
-								// Show the attachment display settings.
-								displaySettings: true,
-								// Update user settings when users adjust the
-								// attachment display settings.
-								displayUserSettings: true
-							}),
-
-							// Embed states.
-							new wp.media.controller.Embed(),
-						]);
-
-
-						if ( wp.media.view.settings.post.featuredImageId ) {
-							this.states.add( new wp.media.controller.FeaturedImage() );
-						}
-					},
-
-					bindHandlers: function() {
-						// from Select
-						this.on( 'router:create:browse', this.createRouter, this );
-						this.on( 'router:render:browse', this.browseRouter, this );
-						this.on( 'content:create:browse', this.browseContent, this );
-						this.on( 'content:render:upload', this.uploadContent, this );
-						this.on( 'toolbar:create:select', this.createSelectToolbar, this );
-						//
-
-						this.on( 'menu:create:gallery', this.createMenu, this );
-						this.on( 'toolbar:create:main-insert', this.createToolbar, this );
-						this.on( 'toolbar:create:main-gallery', this.createToolbar, this );
-						this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
-						this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
-
-						var handlers = {
-								menu: {
-									'default': 'mainMenu'
-								},
-
-								content: {
-									'embed':          'embedContent',
-									'edit-selection': 'editSelectionContent'
-								},
-
-								toolbar: {
-									'main-insert':      'mainInsertToolbar'
-								}
-							};
-
-						_.each( handlers, function( regionHandlers, region ) {
-							_.each( regionHandlers, function( callback, handler ) {
-								this.on( region + ':render:' + handler, this[ callback ], this );
-							}, this );
-						}, this );
-					},
-
-					// Menus
-					mainMenu: function( view ) {
-						view.set({
-							'library-separator': new wp.media.View({
-								className: 'separator',
-								priority: 100
-							})
-						});
-					},
-
-					// Content
-					embedContent: function() {
-						var view = new wp.media.view.Embed({
-							controller: this,
-							model:      this.state()
-						}).render();
-
-						this.content.set( view );
-						view.url.focus();
-					},
-
-					editSelectionContent: function() {
-						var state = this.state(),
-							selection = state.get('selection'),
-							view;
-
-						view = new wp.media.view.AttachmentsBrowser({
-							controller: this,
-							collection: selection,
-							selection:  selection,
-							model:      state,
-							sortable:   true,
-							search:     false,
-							dragInfo:   true,
-
-							AttachmentView: wp.media.view.Attachment.EditSelection
-						}).render();
-
-						view.toolbar.set( 'backToLibrary', {
-							text:     'Return to Library',
-							priority: -100,
-
-							click: function() {
-								this.controller.content.mode('browse');
-							}
-						});
-
-						// Browse our library of attachments.
-						this.content.set( view );
-					},
-
-					// Toolbars
-					selectionStatusToolbar: function( view ) {
-						var editable = this.state().get('editable');
-
-						view.set( 'selection', new wp.media.view.Selection({
-							controller: this,
-							collection: this.state().get('selection'),
-							priority:   -40,
-
-							// If the selection is editable, pass the callback to
-							// switch the content mode.
-							editable: editable && function() {
-								this.controller.content.mode('edit-selection');
-							}
-						}).render() );
-					},
-
-					mainInsertToolbar: function( view ) {
-						var controller = this;
-
-						this.selectionStatusToolbar( view );
-
-						view.set( 'insert', {
-							style:    'primary',
-							priority: 80,
-							text:     'Select Image',
-							requires: { selection: true },
-
-							click: function() {
-								var state = controller.state(),
-									selection = state.get('selection');
-
-								controller.close();
-								state.trigger( 'insert', selection ).reset();
-							}
-						});
-					},
-
-					featuredImageToolbar: function( toolbar ) {
-						this.createSelectToolbar( toolbar, {
-							text:  'Set Featured Image',
-							state: this.options.state || 'upload'
-						});
-					},
-
-					mainEmbedToolbar: function( toolbar ) {
-						toolbar.view = new wp.media.view.Toolbar.Embed({
-							controller: this,
-							text: 'Insert Image'
-						});
-					}		
-				});
-			}
-		";
-	}
-	
-	/**
-	 * Returns the media uploader JavaScript script to be loaded in the head tag of the created admin pages.
-	 * 
-	 * @since			2.1.3
-	 */
-	public static function getMediaUploaderScript( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
-		
-		if ( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
-			return "
-				jQuery( document ).ready( function(){
-					jQuery( '.select_media' ).click( function() {
-						pressed_id = jQuery( this ).attr( 'id' );
-						field_id = pressed_id.substring( 13 );	// remove the select_file_ prefix
-						var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );					
-						tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;TB_iframe=true', false );
-						return false;	// do not click the button after the script by returning false.
-					});
-					
-					window.original_send_to_editor = window.send_to_editor;
-					window.send_to_editor = function( strRawHTML, param ) {
-
-						var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-						var src = jQuery( 'a', strHTML ).attr( 'href' );
-						var classes = jQuery( 'a', strHTML ).attr( 'class' );
-						var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
-					
-						// If the user wants to save relavant attributes, set them.
-						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-						jQuery( '#' + field_id + '_id' ).val( id );			
-							
-						// restore the original send_to_editor
-						window.send_to_editor = window.original_send_to_editor;
-						
-						// close the thickbox
-						tb_remove();	
-
-					}
-				});
-			";
-			
-		return "
-		jQuery( document ).ready( function(){		
-			// Global Function Literal 
-			setAPFMediaUploader = function( strInputID, fMultiple, fExternalSource ) {
-
-				jQuery( '#select_media_' + strInputID ).unbind( 'click' );	// for repeatable fields
-				jQuery( '#select_media_' + strInputID ).click( function( e ) {
-					
-					window.wpActiveEditor = null;						
-					e.preventDefault();
-					
-					// If the uploader object has already been created, reopen the dialog
-					if ( media_uploader ) {
-						media_uploader.open();
-						return;
-					}		
-					
-					// Store the original select object in a global variable
-					oAPFOriginalMediaUploaderSelectObject = wp.media.view.MediaFrame.Select;
-					
-					// Assign a custom select object.
-					wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
-					var media_uploader = wp.media({
-						title: '{$strThickBoxTitle}',
-						button: {
-							text: '{$strThickBoxButtonUseThis}'
-						},
-						multiple: fMultiple  // Set this to true to allow multiple files to be selected
-					});
-		
-					// When the uploader window closes, 
-					media_uploader.on( 'close', function() {
-
-						var state = media_uploader.state();
-						
-						// Check if it's an external URL
-						if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
-							var image = state.props.attributes;	
-						
-						// If the image variable is not defined at this point, it's an attachment, not an external URL.
-						if ( typeof( image ) !== 'undefined'  ) {
-							setPreviewElement( strInputID, image );
-						} else {
-							
-							var selection = media_uploader.state().get( 'selection' );
-							selection.each( function( attachment, index ) {
-								attachment = attachment.toJSON();
-								if( index == 0 ){	
-									// place first attachment in field
-									setPreviewElement( strInputID, attachment );
-								} else{
-									
-									var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
-									var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
-									var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-									setPreviewElement( strInputIDOfNewField, attachment );
-		
-								}
-							});				
-							
-						}
-						
-						// Restore the original select object.
-						wp.media.view.MediaFrame.Select = oAPFOriginalMediaUploaderSelectObject;	
-						
-					});
-					
-					// Open the uploader dialog
-					media_uploader.open();											
-					return false;       
-				});	
-			
-				var setPreviewElement = function( strInputID, image ) {
-								
-					// If the user want the attributes to be saved, set them in the input tags.
-					jQuery( '#' + strInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
-					jQuery( '#' + strInputID + '_id' ).val( image.id );				
-					jQuery( '#' + strInputID + '_caption' ).val( jQuery( '<div/>' ).text( image.caption ).html() );				
-					jQuery( '#' + strInputID + '_description' ).val( jQuery( '<div/>' ).text( image.description ).html() );				
-					
-				}
-			}		
-			
-		});";
-	}
-	
-	/**
-	 * Returns the image selector JavaScript script to be loaded in the head tag of the created admin pages.
-	 * @var				string
-	 * @static
-	 * @remark			It is accessed from the main class and meta box class.
-	 * @remark			Moved to the base class since 2.1.0.
-	 * @access			public	
-	 * @internal
-	 * @return			string			The image selector script.
-	 */		
-	public static function getImageSelectorScript( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
-		
-		if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
-			return "
-				jQuery( document ).ready( function(){
-					jQuery( '.select_image' ).click( function() {
-						pressed_id = jQuery( this ).attr( 'id' );
-						field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-						var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-						tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-						return false;	// do not click the button after the script by returning false.
-					});
-					
-					window.original_send_to_editor = window.send_to_editor;
-					window.send_to_editor = function( strRawHTML ) {
-
-						var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-						var src = jQuery( 'img', strHTML ).attr( 'src' );
-						var alt = jQuery( 'img', strHTML ).attr( 'alt' );
-						var title = jQuery( 'img', strHTML ).attr( 'title' );
-						var width = jQuery( 'img', strHTML ).attr( 'width' );
-						var height = jQuery( 'img', strHTML ).attr( 'height' );
-						var classes = jQuery( 'img', strHTML ).attr( 'class' );
-						var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
-						var strCaption = strRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
-							.replace( /<a.*?>(.*?)<\/a>/m, '' );
-						var align = strRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
-						var link = jQuery( strHTML ).find( 'a:first' ).attr( 'href' );
-
-						// Escape the strings of some of the attributes.
-						var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
-						var strAlt = jQuery( '<div/>' ).text( alt ).html();
-						var strTitle = jQuery( '<div/>' ).text( title ).html();						
-						
-						// If the user wants to save relevant attributes, set them.
-						jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-						jQuery( '#' + field_id + '_id' ).val( id );
-						jQuery( '#' + field_id + '_width' ).val( width );
-						jQuery( '#' + field_id + '_height' ).val( height );
-						jQuery( '#' + field_id + '_caption' ).val( strCaption );
-						jQuery( '#' + field_id + '_alt' ).val( strAlt );
-						jQuery( '#' + field_id + '_title' ).val( strTitle );						
-						jQuery( '#' + field_id + '_align' ).val( align );						
-						jQuery( '#' + field_id + '_link' ).val( link );						
-						
-						// Update the preview
-						jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
-						jQuery( '#image_preview_' + field_id ).attr( 'title', strTitle );
-						jQuery( '#image_preview_' + field_id ).attr( 'data-classes', classes );
-						jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
-						jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
-						jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
-						jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
-						
-						// restore the original send_to_editor
-						window.send_to_editor = window.original_send_to_editor;
-						
-						// close the thickbox
-						tb_remove();	
-
-					}
-				});
-			";
-				
-		return "jQuery( document ).ready( function(){
-
-			// Global Function Literal 
-			setAPFImageUploader = function( strInputID, fMultiple, fExternalSource ) {
-
-				jQuery( '#select_image_' + strInputID ).unbind( 'click' );	// for repeatable fields
-				jQuery( '#select_image_' + strInputID ).click( function( e ) {
-					
-					window.wpActiveEditor = null;						
-					e.preventDefault();
-					
-					// If the uploader object has already been created, reopen the dialog
-					if ( custom_uploader ) {
-						custom_uploader.open();
-						return;
-					}					
-					
-					// Store the original select object in a global variable
-					oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
-					
-					// Assign a custom select object.
-					wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
-					var custom_uploader = wp.media({
-						title: '{$strThickBoxTitle}',
-						button: {
-							text: '{$strThickBoxButtonUseThis}'
-						},
-						library     : { type : 'image' },
-						multiple: fMultiple  // Set this to true to allow multiple files to be selected
-					});
-		
-					// When the uploader window closes, 
-					custom_uploader.on( 'close', function() {
-
-						var state = custom_uploader.state();
-						
-						// Check if it's an external URL
-						if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
-							var image = state.props.attributes;	
-						
-						// If the image variable is not defined at this point, it's an attachment, not an external URL.
-						if ( typeof( image ) !== 'undefined'  ) {
-							setPreviewElement( strInputID, image );
-						} else {
-							
-							var selection = custom_uploader.state().get( 'selection' );
-							selection.each( function( attachment, index ) {
-								attachment = attachment.toJSON();
-								if( index == 0 ){	
-									// place first attachment in field
-									setPreviewElement( strInputID, attachment );
-								} else{
-									
-									var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
-									var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
-									var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-									setPreviewElement( strInputIDOfNewField, attachment );
-		
-								}
-							});				
-							
-						}
-						
-						// Restore the original select object.
-						wp.media.view.MediaFrame.Select = oAPFOriginalImageUploaderSelectObject;
-										
-					});
-					
-					// Open the uploader dialog
-					custom_uploader.open();											
-					return false;       
-				});	
-			
-				var setPreviewElement = function( strInputID, image ) {
-
-					// Escape the strings of some of the attributes.
-					var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
-					var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
-					var strTitle = jQuery( '<div/>' ).text( image.title ).html();
-					
-					// If the user want the attributes to be saved, set them in the input tags.
-					jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
-					jQuery( 'input#' + strInputID + '_id' ).val( image.id );
-					jQuery( 'input#' + strInputID + '_width' ).val( image.width );
-					jQuery( 'input#' + strInputID + '_height' ).val( image.height );
-					jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
-					jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
-					jQuery( 'input#' + strInputID + '_title' ).val( strTitle );
-					jQuery( 'input#' + strInputID + '_align' ).val( image.align );
-					jQuery( 'input#' + strInputID + '_link' ).val( image.link );
-					
-					// Update up the preview
-					jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
-					jQuery( '#image_preview_' + strInputID ).attr( 'data-width', image.width );
-					jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
-					jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
-					jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
-					jQuery( '#image_preview_' + strInputID ).attr( 'title', strTitle );
-					jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
-					jQuery( '#image_preview_container_' + strInputID ).show();				
-					
-				}
-			}		
-		});
-		";
-	}
-
-	/**
-	 * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
-	 * @since			2.0.0
-	 * @since			2.1.3			Changed to define a global function literal that registers the given input field as a color picker.
-	 * @var			string
-	 * @static
-	 * @remark		It is accessed from the main class and meta box class.
-	 * @remark		This is made to be a method rather than a property because in the future a variable may need to be used in the script code like the above image selector script.
-	 * @access		public	
-	 * @internal
-	 * @return			string			The image selector script.
-	 */ 
-	public static function getColorPickerScript() {
-		return "
-			registerAPFColorPickerField = function( strInputID ) {
-				'use strict';
-				// This if statement checks if the color picker element exists within jQuery UI
-				// If it does exist then we initialize the WordPress color picker on our text input field
-				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-					var myColorPickerOptions = {
-						defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
-						change: function(event, ui){},	// a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/			
-						clear: function() {},	// a callback to fire when the input is emptied or an invalid color
-						hide: true,	// hide the color picker controls on load
-						palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
-					};			
-					jQuery( '#' + strInputID ).wpColorPicker( myColorPickerOptions );
-				}
-				else {
-					// We use farbtastic if the WordPress color picker widget doesn't exist
-					jQuery( '#color_' + strInputID ).farbtastic( '#' + strInputID );
-				}
-			}
-		";			
 	}
 	
 	/**
@@ -5722,23 +4927,6 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 	 */	 
 	public $arrOptions = array();
 	
-	/**
-	 * Stores the script to be embedded in the head tag.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved from the meta box class.
-	 * @internal
-	 */ 		
-	public $strScript = "";
-
-	/**
-	 * Stores the CSS rules to be embedded in the head tag.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved from the meta box class.
-	 * @internal
-	 */ 			
-	public $strStyle = '';
 	/**
 	 * Stores the media uploader box's title.
 	 * @since			2.0.0
@@ -5941,27 +5129,7 @@ class AdminPageFramework_PostType_Properties extends AdminPageFramework_Properti
 	 * @internal
 	 */ 					
 	public $fEnableAuthorTableFileter = false;	
-	
-	// Strings
-	/**
-	 * Stores the CSS rules.
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved to AdminPageFramework_PostType_Properties.
-	 * @remark			Unlike the pages and meta boxes style, it is empty because they are for setting fields.
-	 * @internal
-	 */ 				
-	public $strStyle = '';
-	
-	
-	
-
-	/**
-	 * Stores the text inserted into the footer.
-	 * @since			2.0.0
-	 * @internal
-	 */ 			
-	// protected $arrFooterInfo = array();	
-	
+		
 }
 endif;
 
@@ -6017,13 +5185,7 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * @since			2.0.0
 	 */ 	
 	public $strDefaultPageSlug;
-	
-	/**
-	 * Stores the adding scripts.
-	 * @since			2.0.0
-	 */ 		
-	public $strScript;
-	
+		
 	// Container arrays.
 	/**
 	 * A two-dimensional array storing registering sub-menu(page) item information with keys of the page slug.
@@ -6164,47 +5326,6 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	public $fShowInPageTabs = true;
 
 	/**
-	 * Represents the structure of the array for enqueuing scripts and styles.
-	 * @since			2.1.2
-	 */
-	public static $arrStructure_EnqueuingScriptsAndStyles = array(
-		'strURL' => null,
-		'strPageSlug' => null,
-		'strTabSlug' => null,
-		'strType' => null,		// script or style
-		'strHandleID' => null,
-		'arrDependencies' => array(),
-        'strVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'arrTranslation' => array(),	// only for scripts
-        'fInFooter' => false,	// only for scripts
-		'strMedia' => 'all',	// only for styles		
-	);
-	/**
-	 * Stores enqueuing script URLs and their criteria.
-	 * @since			2.1.2
-	 */
-	public $arrEnqueuingScripts = array();
-	/**	
-	 * Stores enqueuing style URLs and their criteria.
-	 * @since			2.1.2
-	 */	
-	public $arrEnqueuingStyles = array();
-	/**
-	 * Stores the index of enqueued scripts.
-	 * 
-	 * @since			2.1.2
-	 */
-	public $intEnqueuedScriptIndex = 0;
-	/**
-	 * Stores the index of enqueued styles.
-	 * 
-	 * The index number will be incremented as a script is enqueued regardless a previously added enqueue item has been removed or not.
-	 * This is because this index number will be used for the script handle ID which is automatically generated.
-	 * 
-	 * @since			2.1.2
-	 */	
-	public $intEnqueuedStyleIndex = 0;
-	/**
 	 * Stores the set administration notices.
 	 * 
 	 * The index number will be incremented as a script is enqueued regardless a previously added enqueue item has been removed or not.
@@ -6231,7 +5352,8 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 */ 
 	public function __construct( $oCaller, $strClassName, $strOptionKey, $strCapability='manage_options' ) {
 		
-		$this->oCaller = $oCaller;
+		parent::__construct( $oCaller );
+		
 		$this->strClassName = $strClassName;		
 		$this->strClassHash = md5( $strClassName );
 		$this->strOptionKey = $strOptionKey ? $strOptionKey : $strClassName;
@@ -7113,6 +6235,3437 @@ class AdminPageFramework_Debug {
 }
 endif;
 
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_Base' ) ) :
+/**
+ * The base class of field type classes that define input field types.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPageFramework_Utilities {
+	
+	protected static $arrDefaultKeys = array(
+		'vValue'				=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
+		'vDefault'				=> null,				// ( array or string )
+		'fRepeatable'			=> false,
+		'vClassAttribute'		=> '',					// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
+		'vLabel'				=> '',					// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+		'vDelimiter'			=> '',
+		'vDisable'				=> false,				// ( array or boolean ) This value indicates whether the set field is disabled or not. 
+		'vReadOnly'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
+		'vBeforeInputTag'		=> '',
+		'vAfterInputTag'		=> '',				
+		'vLabelMinWidth'		=> 140,
+		
+		// Mandatory keys.
+		'strFieldID' => null,		
+		
+		// For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings.
+		'strPageSlug' => null,
+		'strSectionID' => null,
+		'strBeforeField' => null,
+		'strAfterField' => null,	
+	);	
+	
+	function __construct( $strClassName, $strFieldTypeSlug, $oMsg ) {
+			
+		$this->strFieldTypeSlug = $strFieldTypeSlug;
+		$this->strClassName = $strClassName;
+		$this->oMsg	= $oMsg;
+		
+		add_action( "field_types_{$strClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+	
+	}	
+	
+	/**
+	 * Registers the field type.
+	 * 
+	 * A callback function for the field_types_{$strClassName} filter.
+	 * 
+	 */
+	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
+		
+		$arrFieldDefinitions[ $this->strFieldTypeSlug ] = $this->getFieldTypeDefinitionArray();
+		return $arrFieldDefinitions;
+		
+	}
+	
+	/**
+	 * Returns the field type definition array.
+	 * 
+	 */
+	protected function getFieldTypeDefinitionArray() {
+		
+		return array(
+			'callRenderField' => array( $this, "replyToGetInputField" ),
+			'callGetScripts' => array( $this, "replyToGetInputScripts" ),
+			'callGetStyles' => array( $this, "replyToGetInputStyles" ),
+			'callGetIEStyles' => array( $this, "replyToGetInputIEStyles" ),
+			'callFieldLoader' => array( $this, "replyToFieldLoader" ),
+			'arrEnqueueScripts' => $this->getEnqueuingScripts(),	// urls of the scripts
+			'arrEnqueueStyles' => $this->getEnqueuingStyles(),	// urls of the styles
+			'arrDefaultKeys' => $this->getDefaultKeys() + self::$arrDefaultKeys, 
+		);
+		
+	}
+	
+	/*
+	 * These methods should be overridden in the extended class.
+	 */
+	public function replytToGetInputField() { return ''; }	// should return the field output
+	public function replyToGetInputScripts() { return ''; }	// should return the script
+	public function replyToGetInputIEStyles() { return ''; }	// should return the style for IE
+	public function replyToGetInputStyles() { return ''; }	// should return the style
+	public function replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
+	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
+	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
+	protected function getDefaultKeys() { return array(); }
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_default' ) ) :
+/**
+ * Defines the default field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_default extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			// 'vSize'					=> 1,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * This one is triggered when the called field type is unknown. This does not insert the input tag but just renders the value stored in the $vValue variable.
+	 * 
+	 * @since			2.1.5				
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+				
+		foreach( ( array ) $vValue as $strKey => $strValue ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. ( ( $strLabel = $this->getCorrespondingArrayValue( $arrField['vLabel'], $strKey, $arrDefaultKeys['vLabel'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>{$strLabel}</span>" 
+								: "" 
+							)
+							. "<div class='admin-page-framework-input-container'>"
+								. $strValue
+							. "</div>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+					
+		return "<div class='admin-page-framework-field-default' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+		
+	}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_text' ) ) :
+/**
+ * Defines the text field type.
+ * 
+ * Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', and 'week' are defeined.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFieldTypeDefinition_Base {
+
+	/**
+	 * Registers the field type.
+	 * 
+	 * A callback function for the field_types_{$strClassName} filter.
+	 * 
+	 * @remark			Since there are the other type slugs that are shared with the text field type, register them as well. 
+	 */
+	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
+		
+		foreach ( array( 'text', 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week', ) as $strTextTypeSlug )
+			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getFieldTypeDefinitionArray();
+		
+		return $arrFieldDefinitions;
+		
+	}
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vSize'					=> 30,
+			'vMaxLength'			=> 400,
+		);	
+	}
+	/**
+	 * Returns the output of the text input field.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];
+		$fMultiple = is_array( $arrFields );
+		
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. "<input id='{$strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, 30 ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+								. "type='{$arrField['strType']}' "	// text, password, etc.
+								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, '', true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				)
+			;
+				
+		return "<div class='admin-page-framework-field-text' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_number' ) ) :
+/**
+ * Defines the number, and range field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputFieldTypeDefinition_Base {
+
+	/**
+	 * Registers the field type.
+	 * 
+	 * A callback function for the field_types_{$strClassName} filter.
+	 * 
+	 * @remark			Since there are the other type slugs that are shared with the text field type, register them as well. 
+	 */
+	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
+		
+		foreach ( array( 'number', 'range' ) as $strTextTypeSlug ) 
+			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getFieldTypeDefinitionArray();
+		return $arrFieldDefinitions;
+		
+	}
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vMin'				=> null,
+			'vMax'				=> null,
+			'vStep'				=> null,
+			'vSize'				=> 30,
+			'vMaxLength'		=> 400,
+		);	
+	}
+	
+	/**
+	 * Returns the output of the number input field.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+		
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];
+			
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}' >"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: ""
+							)
+							. "<input id='{$strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, 30 ) . "' "
+								. "type='{$arrField['strType']}' "
+								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+								. "min='" . $this->getCorrespondingArrayValue( $arrField['vMin'], $strKey, $arrDefaultKeys['vMin'] ) . "' "
+								. "max='" . $this->getCorrespondingArrayValue( $arrField['vMax'], $strKey, $arrDefaultKeys['vMax'] ) . "' "
+								. "step='" . $this->getCorrespondingArrayValue( $arrField['vStep'], $strKey, $arrDefaultKeys['vStep'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+							. "/>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, '', true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);				
+					
+		return "<div class='admin-page-framework-field-number' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_textarea' ) ) :
+/**
+ * Defines the textarea field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vRows'					=> 4,
+			'vCols'					=> 80,
+			'vRich'					=> false,
+			'vMaxLength'			=> 400,
+		);	
+	}
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 
+		"	/* Rich Text Editor */
+			.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
+				margin-bottom: 0.5em;
+			}		
+		" . PHP_EOL;		
+	}	
+		
+	/**
+	 * Returns the output of the textarea input field.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];			
+		$fSingle = ! is_array( $arrFields );
+		
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) {
+			
+			$arrRichEditorSettings = $fSingle
+				? $arrField['vRich']
+				: $this->getCorrespondingArrayValue( $arrField['vRich'], $strKey, null );
+				
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}' >"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, '' ) 
+							. ( $strLabel && ! $arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. ( ! empty( $arrRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
+								? wp_editor( 
+									$this->getCorrespondingArrayValue( $vValue, $strKey, null ), 
+									"{$strTagID}_{$strKey}",  
+									$this->uniteArrays( 
+										( array ) $arrRichEditorSettings,
+										array(
+											'wpautop' => true, // use wpautop?
+											'media_buttons' => true, // show insert/upload button(s)
+											'textarea_name' => is_array( $arrFields ) ? "{$strFieldName}[{$strKey}]" : $strFieldName , // set the textarea name to something different, square brackets [] can be used here
+											'textarea_rows' => $this->getCorrespondingArrayValue( $arrField['vRows'], $strKey, $arrDefaultKeys['vRows'] ),
+											'tabindex' => '',
+											'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
+											'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
+											'editor_class' => $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
+											'teeny' => false, // output the minimal editor config used in Press This
+											'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
+											'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+											'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
+										)
+									)
+								) . $this->getScriptForRichEditor( "{$strTagID}_{$strKey}" )
+								: "<textarea id='{$strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, '' ) . "' "
+									. "rows='" . $this->getCorrespondingArrayValue( $arrField['vRows'], $strKey, $arrDefaultKeys['vRows'] ) . "' "
+									. "cols='" . $this->getCorrespondingArrayValue( $arrField['vCols'], $strKey, $arrDefaultKeys['vCols'] ) . "' "
+									. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+									. "type='{$arrField['strType']}' "
+									. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+									. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+								. ">"
+									. $this->getCorrespondingArrayValue( $vValue, $strKey, null )
+								. "</textarea>"
+							)
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, '' )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, '', true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		}
+		
+		return "<div class='admin-page-framework-field-textarea' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
+
+	}	
+		/**
+		 * A helper function for the above getTextAreaField() method.
+		 * 
+		 * This adds a script that forces the rich editor element to be inside the field table cell.
+		 * 
+		 * @since			2.1.2
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+		 */	
+		private function getScriptForRichEditor( $strIDSelector ) {
+
+			// id: wp-sample_rich_textarea_0-wrap
+			return "<script type='text/javascript'>
+				jQuery( '#wp-{$strIDSelector}-wrap' ).hide();
+				jQuery( document ).ready( function() {
+					jQuery( '#wp-{$strIDSelector}-wrap' ).appendTo( '#field-{$strIDSelector}' );
+					jQuery( '#wp-{$strIDSelector}-wrap' ).show();
+				})
+			</script>";		
+			
+		}	
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_color' ) ) :
+/**
+ * Defines the color field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vSize'					=> 10,
+			'vMaxLength'			=> 400,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 * 
+	 * Loads necessary files of the color field type.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from enqueueColorFieldScript().
+	 * @see				http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
+	 */ 
+	public function replyToFieldLoader() {
+		
+		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
+		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
+			//Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'wp-color-picker' );
+		}
+		//If the WordPress version is less than 3.5 load the older farbtasic color picker.
+		else {
+			//As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+			wp_enqueue_style( 'farbtastic' );
+			wp_enqueue_script( 'farbtastic' );
+		}	
+		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 
+		"/* Color Picker */
+			.repeatable .colorpicker {
+				display: inline;
+			}
+			.admin-page-framework-field-color .wp-picker-container {
+				vertical-align: middle;
+			}
+			.admin-page-framework-field-color .ui-widget-content {
+				border: none;
+				background: none;
+				color: transparent;
+			}
+			.admin-page-framework-field-color .ui-slider-vertical {
+				width: inherit;
+				height: auto;
+				margin-top: -11px;
+			}	
+			" . PHP_EOL;		
+	}	
+	
+	/**
+	 * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
+	 * @since			2.0.0
+	 * @since			2.1.3			Changed to define a global function literal that registers the given input field as a color picker.
+	 * @since			2.1.5			Changed the name from getColorPickerScript().
+	 * @var				string
+	 * @remark			It is accessed from the main class and meta box class.
+	 * @remark			This is made to be a method rather than a property because in the future a variable may need to be used in the script code like the above image selector script.
+	 * @access			public	
+	 * @internal
+	 * @return			string			The image selector script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "
+			registerAPFColorPickerField = function( strInputID ) {
+				'use strict';
+				// This if statement checks if the color picker element exists within jQuery UI
+				// If it does exist then we initialize the WordPress color picker on our text input field
+				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+					var myColorPickerOptions = {
+						defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
+						change: function(event, ui){},	// a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/			
+						clear: function() {},	// a callback to fire when the input is emptied or an invalid color
+						hide: true,	// hide the color picker controls on load
+						palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
+					};			
+					jQuery( '#' + strInputID ).wpColorPicker( myColorPickerOptions );
+				}
+				else {
+					// We use farbtastic if the WordPress color picker widget doesn't exist
+					jQuery( '#color_' + strInputID ).farbtastic( '#' + strInputID );
+				}
+			}
+		";		
+	}	
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];
+	
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];		
+	
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"					
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. ( $strLabel && ! $arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. "<input id='{$strTagID}_{$strKey}' "
+								. "class='input_color " . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+								. "type='text' "	// text
+								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+								. "value='" . ( $this->getCorrespondingArrayValue( $vValue, $strKey, 'transparent' ) ) . "' "
+								. "color='" . ( $this->getCorrespondingArrayValue( $vValue, $strKey, 'transparent' ) ) . "' "
+								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+						. "<div class='colorpicker' id='color_{$strTagID}_{$strKey}' rel='{$strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
+						. $this->getColorPickerEnablerScript( "{$strTagID}_{$strKey}" )
+					. "</div>"
+				. "</div>"	// admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-color' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";	
+		
+	}
+		/**
+		 * A helper function for the above getColorField() method to add a script to enable the color picker.
+		 */
+		private function getColorPickerEnablerScript( $strInputID ) {
+			return
+				"<script type='text/javascript' class='color-picker-enabler-script'>
+					jQuery( document ).ready( function(){
+						registerAPFColorPickerField( '{$strInputID}' );
+					});
+				</script>";
+		}	
+
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_date' ) ) :
+/**
+ * Defines the date field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_date extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vSize'					=> 10,
+			'vDateFormat'	 		=> 'yy/mm/dd',				// ( array or string ) This is for the date field type that specifies the date format.
+			'vMaxLength'			=> 400,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 * 
+	 * Loads necessary files of the date field type.
+	 * @since			2.0.0
+	 * @simce			2.1.5			Moved from AdminPageFrameworkMeta. Changed the name from enqueueDateFieldScript().
+	 */ 
+	public function replyToFieldLoader() {
+
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+		
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 * 
+	 * Returns the date picker JavaScript script loaded in the head tag of the created admin pages.
+	 * @access			public	
+	 * @internal
+	 * @return			string			The date picker script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 
+		"/* Data Picker */
+		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+			display: none;
+		}		
+		" . PHP_EOL;		
+	}		
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];		
+		
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. ( $strLabel && ! $arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. "<!-- testing -->"
+							. "<input id='{$strTagID}_{$strKey}' "
+								. "class='datepicker " . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+								. "type='text' "	// text, password, etc.
+								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"	// end of label container
+					. $this->getDatePickerEnablerScript( "{$strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $arrField['vDateFormat'], $strKey, $arrDefaultKeys['vDateFormat'] ) )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-date' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+		
+	}
+		/**
+		 * A helper function for the above getDateField() method.
+		 * 
+		 */
+		private function getDatePickerEnablerScript( $strID, $strDateFormat ) {
+			return 
+				"<script type='text/javascript' class='date-picker-enabler-script' data-id='{$strID}' data-date_format='{$strDateFormat}'>
+					jQuery( document ).ready( function() {
+						jQuery( '#{$strID}' ).datepicker({
+							dateFormat : '{$strDateFormat}'
+						});
+					})
+				</script>";
+		}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_image' ) ) :
+/**
+ * Defines the image field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(			
+			'arrCaptureAttributes'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+			'vSize'									=> 60,
+			'vMaxLength'							=> 400,
+			'vImagePreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
+			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
+			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
+			'fAllowExternalSource' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+		$this->enqueueMediaUploader();	
+	}	
+	/**
+	 * Enqueues scripts and styles for the media uploader.
+	 * 
+	 * @remark			Used by the image and media field types.
+	 * @since			2.1.5
+	 */
+	protected function enqueueMediaUploader() {
+		
+		// add_filter( 'gettext', array( $this, 'replyToReplacingThickBoxText' ) , 1, 2 );
+		add_filter( 'media_upload_tabs', array( $this, 'replyToRemovingMediaLibraryTab' ) );
+		
+		wp_enqueue_script( 'jquery' );			
+		wp_enqueue_script( 'thickbox' );
+		wp_enqueue_style( 'thickbox' );
+	
+		if ( function_exists( 'wp_enqueue_media' ) ) 	// means the WordPress version is 3.5 or above
+			wp_enqueue_media();	
+		else		
+			wp_enqueue_script( 'media-upload' );
+			
+	}
+		/**
+		 * Removes the From URL tab from the media uploader.
+		 * 
+		 * since			2.1.3
+		 * since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from removeMediaLibraryTab() to replyToRemovingMediaLibraryTab().
+		 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
+		 */
+		public function replyToRemovingMediaLibraryTab( $arrTabs ) {
+			
+			if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $arrTabs;
+			
+			if ( ! $_REQUEST['enable_external_source'] )
+				unset( $arrTabs['type_url'] );	// removes the From URL tab in the thick box.
+			
+			return $arrTabs;
+			
+		}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	
+			. $this->getScript_ImageSelector( 
+				"admin_page_framework", 
+				__( 'Upload Image', 'admin-page-framework' ),
+				__( 'Use This Image', 'admin-page-framework' )
+		);
+	}	
+		/**
+		 * Returns the JavaScript script that creates a custom media uploader object.
+		 * 
+		 * @remark			Used by the image and media field types.
+		 * @since			2.1.3
+		 * @since			2.1.5			Moved from AdminPageFramework_Properties_Base.
+		 */
+		protected function getScript_CustomMediaUploaderObject() {
+			
+			 $fLoaded = isset( $GLOBALS['arrAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] )
+				? $GLOBALS['arrAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] : false;
+			
+			if( ! function_exists( 'wp_enqueue_media' ) || $fLoaded )	// means the WordPress version is 3.4.x or below
+				return "";
+			
+			$GLOBALS['arrAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] = true;
+			
+			// Global function literal
+			return "
+				getAPFCustomMediaUploaderSelectObject = function() {
+					return wp.media.view.MediaFrame.Select.extend({
+
+						initialize: function() {
+							wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
+
+							_.defaults( this.options, {
+								multiple:  true,
+								editing:   false,
+								state:    'insert'
+							});
+
+							this.createSelection();
+							this.createStates();
+							this.bindHandlers();
+							this.createIframeStates();
+						},
+
+						createStates: function() {
+							var options = this.options;
+
+							// Add the default states.
+							this.states.add([
+								// Main states.
+								new wp.media.controller.Library({
+									id:         'insert',
+									title:      'Insert Media',
+									priority:   20,
+									toolbar:    'main-insert',
+									filterable: 'image',
+									library:    wp.media.query( options.library ),
+									multiple:   options.multiple ? 'reset' : false,
+									editable:   true,
+
+									// If the user isn't allowed to edit fields,
+									// can they still edit it locally?
+									allowLocalEdits: true,
+
+									// Show the attachment display settings.
+									displaySettings: true,
+									// Update user settings when users adjust the
+									// attachment display settings.
+									displayUserSettings: true
+								}),
+
+								// Embed states.
+								new wp.media.controller.Embed(),
+							]);
+
+
+							if ( wp.media.view.settings.post.featuredImageId ) {
+								this.states.add( new wp.media.controller.FeaturedImage() );
+							}
+						},
+
+						bindHandlers: function() {
+							// from Select
+							this.on( 'router:create:browse', this.createRouter, this );
+							this.on( 'router:render:browse', this.browseRouter, this );
+							this.on( 'content:create:browse', this.browseContent, this );
+							this.on( 'content:render:upload', this.uploadContent, this );
+							this.on( 'toolbar:create:select', this.createSelectToolbar, this );
+							//
+
+							this.on( 'menu:create:gallery', this.createMenu, this );
+							this.on( 'toolbar:create:main-insert', this.createToolbar, this );
+							this.on( 'toolbar:create:main-gallery', this.createToolbar, this );
+							this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
+							this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
+
+							var handlers = {
+									menu: {
+										'default': 'mainMenu'
+									},
+
+									content: {
+										'embed':          'embedContent',
+										'edit-selection': 'editSelectionContent'
+									},
+
+									toolbar: {
+										'main-insert':      'mainInsertToolbar'
+									}
+								};
+
+							_.each( handlers, function( regionHandlers, region ) {
+								_.each( regionHandlers, function( callback, handler ) {
+									this.on( region + ':render:' + handler, this[ callback ], this );
+								}, this );
+							}, this );
+						},
+
+						// Menus
+						mainMenu: function( view ) {
+							view.set({
+								'library-separator': new wp.media.View({
+									className: 'separator',
+									priority: 100
+								})
+							});
+						},
+
+						// Content
+						embedContent: function() {
+							var view = new wp.media.view.Embed({
+								controller: this,
+								model:      this.state()
+							}).render();
+
+							this.content.set( view );
+							view.url.focus();
+						},
+
+						editSelectionContent: function() {
+							var state = this.state(),
+								selection = state.get('selection'),
+								view;
+
+							view = new wp.media.view.AttachmentsBrowser({
+								controller: this,
+								collection: selection,
+								selection:  selection,
+								model:      state,
+								sortable:   true,
+								search:     false,
+								dragInfo:   true,
+
+								AttachmentView: wp.media.view.Attachment.EditSelection
+							}).render();
+
+							view.toolbar.set( 'backToLibrary', {
+								text:     'Return to Library',
+								priority: -100,
+
+								click: function() {
+									this.controller.content.mode('browse');
+								}
+							});
+
+							// Browse our library of attachments.
+							this.content.set( view );
+						},
+
+						// Toolbars
+						selectionStatusToolbar: function( view ) {
+							var editable = this.state().get('editable');
+
+							view.set( 'selection', new wp.media.view.Selection({
+								controller: this,
+								collection: this.state().get('selection'),
+								priority:   -40,
+
+								// If the selection is editable, pass the callback to
+								// switch the content mode.
+								editable: editable && function() {
+									this.controller.content.mode('edit-selection');
+								}
+							}).render() );
+						},
+
+						mainInsertToolbar: function( view ) {
+							var controller = this;
+
+							this.selectionStatusToolbar( view );
+
+							view.set( 'insert', {
+								style:    'primary',
+								priority: 80,
+								text:     'Select Image',
+								requires: { selection: true },
+
+								click: function() {
+									var state = controller.state(),
+										selection = state.get('selection');
+
+									controller.close();
+									state.trigger( 'insert', selection ).reset();
+								}
+							});
+						},
+
+						featuredImageToolbar: function( toolbar ) {
+							this.createSelectToolbar( toolbar, {
+								text:  'Set Featured Image',
+								state: this.options.state || 'upload'
+							});
+						},
+
+						mainEmbedToolbar: function( toolbar ) {
+							toolbar.view = new wp.media.view.Toolbar.Embed({
+								controller: this,
+								text: 'Insert Image'
+							});
+						}		
+					});
+				}
+			";
+		}	
+		/**
+		 * Returns the image selector JavaScript script to be loaded in the head tag of the created admin pages.
+		 * @var				string
+		 * @remark			It is accessed from the main class and meta box class.
+		 * @remark			Moved to the base class since 2.1.0.
+		 * @access			private	
+		 * @internal
+		 * @return			string			The image selector script.
+		 * @since			2.0.0
+		 * @since			2.1.5			Moved from the AdminPageFramework_Properties_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
+		 */		
+		private function getScript_ImageSelector( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
+			
+			if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
+				return "
+					jQuery( document ).ready( function(){
+						jQuery( '.select_image' ).click( function() {
+							pressed_id = jQuery( this ).attr( 'id' );
+							field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
+							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+							tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+							return false;	// do not click the button after the script by returning false.
+						});
+						
+						window.original_send_to_editor = window.send_to_editor;
+						window.send_to_editor = function( strRawHTML ) {
+
+							var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+							var src = jQuery( 'img', strHTML ).attr( 'src' );
+							var alt = jQuery( 'img', strHTML ).attr( 'alt' );
+							var title = jQuery( 'img', strHTML ).attr( 'title' );
+							var width = jQuery( 'img', strHTML ).attr( 'width' );
+							var height = jQuery( 'img', strHTML ).attr( 'height' );
+							var classes = jQuery( 'img', strHTML ).attr( 'class' );
+							var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
+							var strCaption = strRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+								.replace( /<a.*?>(.*?)<\/a>/m, '' );
+							var align = strRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
+							var link = jQuery( strHTML ).find( 'a:first' ).attr( 'href' );
+
+							// Escape the strings of some of the attributes.
+							var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
+							var strAlt = jQuery( '<div/>' ).text( alt ).html();
+							var strTitle = jQuery( '<div/>' ).text( title ).html();						
+							
+							// If the user wants to save relevant attributes, set them.
+							jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+							jQuery( '#' + field_id + '_id' ).val( id );
+							jQuery( '#' + field_id + '_width' ).val( width );
+							jQuery( '#' + field_id + '_height' ).val( height );
+							jQuery( '#' + field_id + '_caption' ).val( strCaption );
+							jQuery( '#' + field_id + '_alt' ).val( strAlt );
+							jQuery( '#' + field_id + '_title' ).val( strTitle );						
+							jQuery( '#' + field_id + '_align' ).val( align );						
+							jQuery( '#' + field_id + '_link' ).val( link );						
+							
+							// Update the preview
+							jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
+							jQuery( '#image_preview_' + field_id ).attr( 'title', strTitle );
+							jQuery( '#image_preview_' + field_id ).attr( 'data-classes', classes );
+							jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
+							jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
+							jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
+							jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
+							
+							// restore the original send_to_editor
+							window.send_to_editor = window.original_send_to_editor;
+							
+							// close the thickbox
+							tb_remove();	
+
+						}
+					});
+				";
+					
+			return "jQuery( document ).ready( function(){
+
+				// Global Function Literal 
+				setAPFImageUploader = function( strInputID, fMultiple, fExternalSource ) {
+
+					jQuery( '#select_image_' + strInputID ).unbind( 'click' );	// for repeatable fields
+					jQuery( '#select_image_' + strInputID ).click( function( e ) {
+						
+						window.wpActiveEditor = null;						
+						e.preventDefault();
+						
+						// If the uploader object has already been created, reopen the dialog
+						if ( custom_uploader ) {
+							custom_uploader.open();
+							return;
+						}					
+						
+						// Store the original select object in a global variable
+						oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
+						
+						// Assign a custom select object.
+						wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
+						var custom_uploader = wp.media({
+							title: '{$strThickBoxTitle}',
+							button: {
+								text: '{$strThickBoxButtonUseThis}'
+							},
+							library     : { type : 'image' },
+							multiple: fMultiple  // Set this to true to allow multiple files to be selected
+						});
+			
+						// When the uploader window closes, 
+						custom_uploader.on( 'close', function() {
+
+							var state = custom_uploader.state();
+							
+							// Check if it's an external URL
+							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+								var image = state.props.attributes;	
+							
+							// If the image variable is not defined at this point, it's an attachment, not an external URL.
+							if ( typeof( image ) !== 'undefined'  ) {
+								setPreviewElement( strInputID, image );
+							} else {
+								
+								var selection = custom_uploader.state().get( 'selection' );
+								selection.each( function( attachment, index ) {
+									attachment = attachment.toJSON();
+									if( index == 0 ){	
+										// place first attachment in field
+										setPreviewElement( strInputID, attachment );
+									} else{
+										
+										var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
+										var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
+										var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
+										setPreviewElement( strInputIDOfNewField, attachment );
+			
+									}
+								});				
+								
+							}
+							
+							// Restore the original select object.
+							wp.media.view.MediaFrame.Select = oAPFOriginalImageUploaderSelectObject;
+											
+						});
+						
+						// Open the uploader dialog
+						custom_uploader.open();											
+						return false;       
+					});	
+				
+					var setPreviewElement = function( strInputID, image ) {
+
+						// Escape the strings of some of the attributes.
+						var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
+						var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
+						var strTitle = jQuery( '<div/>' ).text( image.title ).html();
+						
+						// If the user want the attributes to be saved, set them in the input tags.
+						jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
+						jQuery( 'input#' + strInputID + '_id' ).val( image.id );
+						jQuery( 'input#' + strInputID + '_width' ).val( image.width );
+						jQuery( 'input#' + strInputID + '_height' ).val( image.height );
+						jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
+						jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
+						jQuery( 'input#' + strInputID + '_title' ).val( strTitle );
+						jQuery( 'input#' + strInputID + '_align' ).val( image.align );
+						jQuery( 'input#' + strInputID + '_link' ).val( image.link );
+						
+						// Update up the preview
+						jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
+						jQuery( '#image_preview_' + strInputID ).attr( 'data-width', image.width );
+						jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
+						jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
+						jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
+						jQuery( '#image_preview_' + strInputID ).attr( 'title', strTitle );
+						jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
+						jQuery( '#image_preview_container_' + strInputID ).show();				
+						
+					}
+				}		
+			});
+			";
+		}
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 
+			"/* Image Field Preview Container */
+			.admin-page-framework-field .image_preview {
+				border: none; 
+				clear:both; 
+				margin-top: 1em;
+				margin-bottom: 1em;
+				display: block; 
+			}		
+			@media only screen and ( max-width: 1200px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 600px;
+				}
+			} 
+			@media only screen and ( max-width: 900px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 440px;
+				}
+			}	
+			@media only screen and ( max-width: 600px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 300px;
+				}
+			}		
+			@media only screen and ( max-width: 480px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 240px;
+				}
+			}
+			@media only screen and ( min-width: 1200px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 600px;
+				}
+			}		 
+			.admin-page-framework-field .image_preview img {		
+				width: auto;
+				height: auto; 
+				max-width: 100%;
+				display: block;
+			}
+		/* Image Uploader Button */
+			.admin-page-framework-field-image input {
+				margin-right: 0.5em;
+			}
+			.select_image.button.button-small {
+				vertical-align: baseline;
+			}			
+		" . PHP_EOL;	
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];
+		$fMultipleFields = is_array( $arrFields );	
+		$fRepeatable = $arrField['fRepeatable'];
+			
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] =
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"					
+					. $this->getImageInputTags( $vValue, $arrField, $strFieldName, $strTagID, $strKey, $strLabel, $fMultipleFields, $arrDefaultKeys )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-image' id='{$strTagID}'>" 
+				. implode( PHP_EOL, $arrOutput ) 
+			. "</div>";		
+		
+	}	
+	
+		/**
+		 * A helper function for the above replyToGetInputField() method to return input elements.
+		 * 
+		 * @since			2.1.3
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added some parameters.
+		 */
+		private function getImageInputTags( $vValue, $arrField, $strFieldName, $strTagID, $strKey, $strLabel, $fMultipleFields, $arrDefaultKeys ) {
+			
+			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+			$intCountAttributes = count( ( array ) $arrField['arrCaptureAttributes'] );
+			
+			// The URL input field is mandatory as the preview element uses it.
+			$arrOutputs = array(
+				( $strLabel && ! $arrField['fRepeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+					: ''
+				)			
+				. "<input id='{$strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
+					. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+					. "type='text' "	// text
+					. "name='" . ( $fMultipleFields ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
+					. "value='" . ( $strImageURL = $this->getImageInputValue( $vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : '', $arrDefaultKeys  ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+				. "/>"	
+			);
+			
+			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
+			foreach( ( array ) $arrField['arrCaptureAttributes'] as $strAttribute )
+				$arrOutputs[] = 
+					"<input id='{$strTagID}_{$strKey}_{$strAttribute}' "
+						. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+						. "type='hidden' " 	// other additional attributes are hidden
+						. "name='" . ( $fMultipleFields ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}" ) . "[{$strAttribute}]' " 
+						. "value='" . $this->getImageInputValue( $vValue, $strKey, $fMultipleFields, $strAttribute, $arrDefaultKeys ) . "' "
+						. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>";
+			
+			// Returns the outputs as well as the uploader buttons and the preview element.
+			return 
+				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
+					. "<label for='{$strTagID}_{$strKey}' >"
+						. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+						. implode( PHP_EOL, $arrOutputs ) . PHP_EOL
+						. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+					. "</label>"
+				. "</div>"
+				. ( $this->getCorrespondingArrayValue( $arrField['vImagePreview'], $strKey, true )
+					? "<div id='image_preview_container_{$strTagID}_{$strKey}' "
+							. "class='image_preview' "
+							. "style='" . ( $strImageURL ? "" : "display : none;" ) . "'"
+						. ">"
+							. "<img src='{$strImageURL}' "
+								. "id='image_preview_{$strTagID}_{$strKey}' "
+							. "/>"
+						. "</div>"
+					: "" )
+				. $this->getImageUploaderButtonScript( "{$strTagID}_{$strKey}", $arrField['fRepeatable'] ? true : false, $arrField['fAllowExternalSource'] ? true : false );
+			
+		}
+		/**
+		 * A helper function for the above getImageInputTags() method that retrieve the specified input field value.
+		 * 
+		 * @since			2.1.3
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField
+		 */
+		private function getImageInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute, $arrDefaultKeys ) {	
+
+			$vValue = $fMultipleFields
+				? $this->getCorrespondingArrayValue( $vValue, $strKey, $arrDefaultKeys['vDefault'] )
+				: ( isset( $vValue ) ? $vValue : $arrDefaultKeys['vDefault'] );
+
+			return $strCaptureAttribute
+				? ( isset( $vValue[ $strCaptureAttribute ] ) ? $vValue[ $strCaptureAttribute ] : "" )
+				: $vValue;
+			
+		}
+		/**
+		 * A helper function for the above getImageInputTags() method to add a image button script.
+		 * 
+		 * @since			2.1.3
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+		 */
+		private function getImageUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
+			
+			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
+			$strButton ="<a id='select_image_{$strInputID}' "
+						. "href='#' "
+						. "class='select_image button button-small'"
+						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
+						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
+					. ">"
+						. $strSelectImage 
+				."</a>";
+			
+			$strScript = "
+				if ( jQuery( 'a#select_image_{$strInputID}' ).length == 0 ) {
+					jQuery( 'input#{$strInputID}' ).after( \"{$strButton}\" );
+				}			
+			" . PHP_EOL;
+
+			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
+				$strScript .="
+					jQuery( document ).ready( function(){			
+						setAPFImageUploader( '{$strInputID}', '{$fRpeatable}', '{$fExternalSource}' );
+					});" . PHP_EOL;	
+					
+			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
+
+		}	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_media' ) ) :
+/**
+ * Defines the media field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFieldType_image {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'arrCaptureAttributes'					=> array(),
+			'vSize'									=> 60,
+			'vMaxLength'							=> 400,
+			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
+			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
+			'fAllowExternalSource' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+		$this->enqueueMediaUploader();
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
+			. $this->getScript_MediaUploader(
+				"admin_page_framework", 
+				__( 'Upload File', 'admin-page-framework' ),
+				__( 'Use This File', 'admin-page-framework' )			
+			);
+	}	
+		/**
+		 * Returns the media uploader JavaScript script to be loaded in the head tag of the created admin pages.
+		 * 
+		 * @since			2.1.3
+		 * @since			2.1.5			Moved from ... Chaned the name from getMediaUploaderScript().
+		 */
+		private function getScript_MediaUploader( $strReferrer, $strThickBoxTitle, $strThickBoxButtonUseThis ) {
+			
+			if ( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
+				return "
+					jQuery( document ).ready( function(){
+						jQuery( '.select_media' ).click( function() {
+							pressed_id = jQuery( this ).attr( 'id' );
+							field_id = pressed_id.substring( 13 );	// remove the select_file_ prefix
+							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );					
+							tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=media&amp;TB_iframe=true', false );
+							return false;	// do not click the button after the script by returning false.
+						});
+						
+						window.original_send_to_editor = window.send_to_editor;
+						window.send_to_editor = function( strRawHTML, param ) {
+
+							var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+							var src = jQuery( 'a', strHTML ).attr( 'href' );
+							var classes = jQuery( 'a', strHTML ).attr( 'class' );
+							var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
+						
+							// If the user wants to save relavant attributes, set them.
+							jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+							jQuery( '#' + field_id + '_id' ).val( id );			
+								
+							// restore the original send_to_editor
+							window.send_to_editor = window.original_send_to_editor;
+							
+							// close the thickbox
+							tb_remove();	
+
+						}
+					});
+				";
+				
+			return "
+			jQuery( document ).ready( function(){		
+				// Global Function Literal 
+				setAPFMediaUploader = function( strInputID, fMultiple, fExternalSource ) {
+
+					jQuery( '#select_media_' + strInputID ).unbind( 'click' );	// for repeatable fields
+					jQuery( '#select_media_' + strInputID ).click( function( e ) {
+						
+						window.wpActiveEditor = null;						
+						e.preventDefault();
+						
+						// If the uploader object has already been created, reopen the dialog
+						if ( media_uploader ) {
+							media_uploader.open();
+							return;
+						}		
+						
+						// Store the original select object in a global variable
+						oAPFOriginalMediaUploaderSelectObject = wp.media.view.MediaFrame.Select;
+						
+						// Assign a custom select object.
+						wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
+						var media_uploader = wp.media({
+							title: '{$strThickBoxTitle}',
+							button: {
+								text: '{$strThickBoxButtonUseThis}'
+							},
+							multiple: fMultiple  // Set this to true to allow multiple files to be selected
+						});
+			
+						// When the uploader window closes, 
+						media_uploader.on( 'close', function() {
+
+							var state = media_uploader.state();
+							
+							// Check if it's an external URL
+							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+								var image = state.props.attributes;	
+							
+							// If the image variable is not defined at this point, it's an attachment, not an external URL.
+							if ( typeof( image ) !== 'undefined'  ) {
+								setPreviewElement( strInputID, image );
+							} else {
+								
+								var selection = media_uploader.state().get( 'selection' );
+								selection.each( function( attachment, index ) {
+									attachment = attachment.toJSON();
+									if( index == 0 ){	
+										// place first attachment in field
+										setPreviewElement( strInputID, attachment );
+									} else{
+										
+										var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
+										var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
+										var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
+										setPreviewElement( strInputIDOfNewField, attachment );
+			
+									}
+								});				
+								
+							}
+							
+							// Restore the original select object.
+							wp.media.view.MediaFrame.Select = oAPFOriginalMediaUploaderSelectObject;	
+							
+						});
+						
+						// Open the uploader dialog
+						media_uploader.open();											
+						return false;       
+					});	
+				
+					var setPreviewElement = function( strInputID, image ) {
+									
+						// If the user want the attributes to be saved, set them in the input tags.
+						jQuery( '#' + strInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
+						jQuery( '#' + strInputID + '_id' ).val( image.id );				
+						jQuery( '#' + strInputID + '_caption' ).val( jQuery( '<div/>' ).text( image.caption ).html() );				
+						jQuery( '#' + strInputID + '_description' ).val( jQuery( '<div/>' ).text( image.description ).html() );				
+						
+					}
+				}		
+				
+			});";
+		}
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return
+		"/* Media Uploader Button */
+			.admin-page-framework-field-media input {
+				margin-right: 0.5em;
+			}
+			.select_media.button.button-small {
+				vertical-align: baseline;
+			}		
+		";
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];			
+		$fMultipleFields = is_array( $arrFields );	
+		$fRepeatable = $arrField['fRepeatable'];			
+			
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] =
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"					
+					. $this->getMediaInputTags( $vValue, $arrField, $strFieldName, $strTagID, $strKey, $strLabel, $fMultipleFields, $arrDefaultKeys )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-media' id='{$strTagID}'>" 
+				. implode( PHP_EOL, $arrOutput ) 
+			. "</div>";		
+			
+	}
+		/**
+		 * A helper function for the above getImageField() method to return input elements.
+		 * 
+		 * @since			2.1.3
+		 */
+		private function getMediaInputTags( $vValue, $arrField, $strFieldName, $strTagID, $strKey, $strLabel, $fMultipleFields, $arrDefaultKeys ) {
+	
+			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+			$intCountAttributes = count( ( array ) $arrField['arrCaptureAttributes'] );	
+			
+			// The URL input field is mandatory as the preview element uses it.
+			$arrOutputs = array(
+				( $strLabel && ! $arrField['fRepeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>" 
+					: ''
+				)
+				. "<input id='{$strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
+					. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+					. "type='text' "	// text
+					. "name='" . ( $fMultipleFields ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
+					. "value='" . ( $this->getMediaInputValue( $vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : '', $arrDefaultKeys ) ) . "' "
+					. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+				. "/>"	
+			);
+			
+			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
+			foreach( ( array ) $arrField['arrCaptureAttributes'] as $strAttribute )
+				$arrOutputs[] = 
+					"<input id='{$strTagID}_{$strKey}_{$strAttribute}' "
+						. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+						. "type='hidden' " 	// other additional attributes are hidden
+						. "name='" . ( $fMultipleFields ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}" ) . "[{$strAttribute}]' " 
+						. "value='" . $this->getMediaInputValue( $vValue, $strKey, $fMultipleFields, $strAttribute, $arrDefaultKeys  ) . "' "
+						. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+					. "/>";
+			
+			// Returns the outputs as well as the uploader buttons and the preview element.
+			return 
+				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
+					. "<label for='{$strTagID}_{$strKey}' >"
+						. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] )
+						. implode( PHP_EOL, $arrOutputs ) . PHP_EOL
+						. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+					. "</label>"
+				. "</div>"
+				. $this->getMediaUploaderButtonScript( "{$strTagID}_{$strKey}", $arrField['fRepeatable'] ? true : false, $arrField['fAllowExternalSource'] ? true : false );
+			
+		}
+		/**
+		 * A helper function for the above getMediaInputTags() method that retrieve the specified input field value.
+		 * @since			2.1.3
+		 */
+		private function getMediaInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute, $arrDefaultKeys ) {	
+
+			$vValue = $fMultipleFields
+				? $this->getCorrespondingArrayValue( $vValue, $strKey, $arrDefaultKeys['vDefault'] )
+				: ( isset( $vValue ) ? $vValue : $arrDefaultKeys['vDefault'] );
+
+			return $strCaptureAttribute
+				? ( isset( $vValue[ $strCaptureAttribute ] ) ? $vValue[ $strCaptureAttribute ] : "" )
+				: $vValue;
+			
+		}		
+		/**
+		 * A helper function for the above getMediaInputTags() method to add a image button script.
+		 * 
+		 * @since			2.1.3
+		 */
+		private function getMediaUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
+			
+			$strSelectImage = __( 'Select File', 'admin-page-framework' );
+			$strButton ="<a id='select_media_{$strInputID}' "
+						. "href='#' "
+						. "class='select_media button button-small'"
+						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
+						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
+					. ">"
+						. $strSelectImage 
+				."</a>";
+			
+			$strScript = "
+				if ( jQuery( 'a#select_media_{$strInputID}' ).length == 0 ) {
+					jQuery( 'input#{$strInputID}' ).after( \"{$strButton}\" );
+				}			
+			" . PHP_EOL;
+
+			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
+				$strScript .="
+					jQuery( document ).ready( function(){			
+						setAPFMediaUploader( '{$strInputID}', '{$fRpeatable}', '{$fExternalSource}' );
+					});" . PHP_EOL;	
+					
+			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
+
+		}	
+		
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_select' ) ) :
+/**
+ * Defines the select field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vSize'					=> 1,
+			'vMultiple'				=> false,				// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
+			'vWidth'				=> '',
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+		
+		// The value of the label key must be an array for the select type.
+		if ( ! is_array( $arrField['vLabel'] ) ) return;	
+
+		$fSingle = ( $this->getArrayDimension( ( array ) $arrField['vLabel'] ) == 1 );
+		$arrLabels = $fSingle ? array( $arrField['vLabel'] ) : $arrField['vLabel'];
+		foreach( $arrLabels as $strKey => $vLabel ) {
+			
+			$fMultiple = $this->getCorrespondingArrayValue( $arrField['vMultiple'], $strKey, $arrDefaultKeys['vMultiple'] );
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. "<span class='admin-page-framework-input-container'>"
+								. "<select id='{$strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+									. "type='{$arrField['strType']}' "
+									. ( $fMultiple ? "multiple='Multiple' " : '' )
+									. "name=" . ( $fSingle ? "'{$strFieldName}" : "'{$strFieldName}[{$strKey}]" ) . ( $fMultiple ? "[]' " : "' " )
+									. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. "size=" . ( $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) ) . " "
+									. ( ( $strWidth = $this->getCorrespondingArrayValue( $arrField['vWidth'], $strKey, $arrDefaultKeys['vWidth'] ) ) ? "style='width:{$strWidth};' " : "" )
+								. ">"
+									. $this->getOptionTags( $vLabel, $vValue, $strTagID, $strKey, $fSingle, $fMultiple )
+								. "</select>"
+							. "</span>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		}
+		return "<div class='admin-page-framework-field-select' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";				
+	
+	}	
+	
+		/**
+		 * A helper function for the above replyToGetInputField() methods.
+		 * 
+		 * @since			2.0.0
+		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
+		 * @since			2.1.5			Added the $strTagID parameter.
+		 */ 
+		private function getOptionTags( $arrLabels, $vValue, $strTagID, $strIterationID, $fSingle, $fMultiple=false ) {	
+
+			$arrOutput = array();
+			foreach ( $arrLabels as $strKey => $strLabel ) {
+				$arrValue = $fSingle ? ( array ) $vValue : ( array ) $this->getCorrespondingArrayValue( $vValue, $strIterationID, array() ) ;
+				$arrOutput[] = "<option "
+						. "id='{$strTagID}_{$strIterationID}_{$strKey}' "
+						. "value='{$strKey}' "
+						. (	$fMultiple 
+							? ( in_array( $strKey, $arrValue ) ? 'selected="Selected"' : '' )
+							: ( $this->getCorrespondingArrayValue( $vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )
+						)
+					. ">"
+						. $strLabel
+					. "</option>";
+			}
+			return implode( '', $arrOutput );
+		}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_radio' ) ) :
+/**
+ * Defines the radio field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			// 'vSize'					=> 1,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+		
+		// The value of the label key must be an array for the select type.
+		if ( ! is_array( $arrField['vLabel'] ) ) return;	
+		
+		$fSingle = ( $this->getArrayDimension( ( array ) $arrField['vLabel'] ) == 1 );
+		$arrLabels =  $fSingle ? array( $arrField['vLabel'] ) : $arrField['vLabel'];
+		foreach( $arrLabels as $strKey => $vLabel )  
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. $this->getRadioTags( $arrField, $vValue, $vLabel, $strFieldName, $strTagID, $strKey, $fSingle, $arrDefaultKeys )				
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-radio' id='{$strTagID}'>" 
+				. implode( '', $arrOutput )
+			. "</div>";
+		
+	}
+		/**
+		 * A helper function for the <em>getRadioField()</em> method.
+		 * @since			2.0.0
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added the $arrField, $strFieldName, $arrDefaultKeys, $strTagID, and $vValue parameter.
+		 */ 
+		private function getRadioTags( $arrField, $vValue, $arrLabels, $strFieldName, $strTagID, $strIterationID, $fSingle, $arrDefaultKeys ) {
+			
+			$arrOutput = array();
+			foreach ( $arrLabels as $strKey => $strLabel ) 
+				$arrOutput[] = 
+					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$strTagID}_{$strIterationID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. "<span class='admin-page-framework-input-container'>"
+								. "<input "
+									. "id='{$strTagID}_{$strIterationID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+									. "type='radio' "
+									. "value='{$strKey}' "
+									. "name=" . ( ! $fSingle  ? "'{$strFieldName}[{$strIterationID}]' " : "'{$strFieldName}' " )
+									. ( $this->getCorrespondingArrayValue( $vValue, $strIterationID, null ) == $strKey ? 'Checked ' : '' )
+									. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. "/>"							
+							. "</span>"
+							. "<span class='admin-page-framework-input-label-string'>"
+								. $strLabel
+							. "</span>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>";
+
+			return implode( '', $arrOutput );
+		}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_checkbox' ) ) :
+/**
+ * Defines the checkbox field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			// 'vSize'					=> 1,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+
+		foreach( ( array ) $arrField['vLabel'] as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$strTagID}_{$strKey}'>"	
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. "<span class='admin-page-framework-input-container'>"
+								. "<input type='hidden' name=" .  ( is_array( $arrField['vLabel'] ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
+								. "<input "
+									. "id='{$strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+									. "type='{$arrField['strType']}' "	// checkbox
+									. "name=" . ( is_array( $arrField['vLabel'] ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+									. "value='1' "
+									. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $vValue, $strKey, null ) == 1 ? "Checked " : '' )
+								. "/>"							
+							. "</span>"
+							. "<span class='admin-page-framework-input-label-string'>"
+								. $strLabel
+							. "</span>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"
+				. "</div>" // end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+					
+		return "<div class='admin-page-framework-field-checkbox' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";	
+	
+	}
+
+}
+endif;
+
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_size' ) ) :
+/**
+ * Defines the size field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vSizeUnits'				=> array(	// the default unit size array.
+				'px'	=> 'px',	// pixel
+				'%'		=> '%',		// percentage
+				'em'	=> 'em',	// font size
+				'ex'	=> 'ex',	// font height
+				'in'	=> 'in',	// inch
+				'cm'	=> 'cm',	// centimetre
+				'mm'	=> 'mm',	// millimetre
+				'pt'	=> 'pt',	// point
+				'pc'	=> 'pc',	// pica
+			),
+			'vSize'						=> 10,
+			'vUnitSize'					=> 1,
+			'vMaxLength'				=> 400,
+			'vMin'						=> null,
+			'vMax'						=> null,
+			'vStep'						=> null,
+			'vMultiple'					=> false,
+			'vWidth'					=> '',
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return
+		"/* Size Field Type */
+		.admin-page-framework-field-size input {
+			text-align: right;
+		}" . PHP_EOL;
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 *
+	 * Returns the size input fields. This enables for the user to set a size with a unit. This is made up of a text input field and a drop-down selector field. 
+	 * Useful for theme developers.
+	 * 
+	 * @since			2.0.1
+	 * @since			2.1.5			Moved from AdminPageFramework_InputField. Changed the name from getSizeField().
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+				
+		$fSingle = ! is_array( $arrField['vLabel'] );
+		$fIsSizeUnitForSingle = ( $this->getArrayDimension( ( array ) $arrField['vSizeUnits'] ) == 1 );
+		$arrSizeUnits = isset( $arrField['vSizeUnits'] ) && is_array( $arrField['vSizeUnits'] ) && $fIsSizeUnitForSingle 
+			? $arrField['vSizeUnits']
+			: $arrDefaultKeys['vSizeUnits'];		
+		
+		foreach( ( array ) $arrField['vLabel'] as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<label for='{$strTagID}_{$strKey}'>"
+						. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+						. ( $strLabel 
+							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel ."</span>"
+							: "" 
+						)
+						. "<input id='{$strTagID}_{$strKey}' "	// number field
+							// . "style='text-align: right;'"
+							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+							. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
+							. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+							. "type='number' "	// number
+							. "name=" . ( $fSingle ? "'{$strFieldName}[size]' " : "'{$strFieldName}[{$strKey}][size]' " )
+							. "value='" . ( $fSingle ? $this->getCorrespondingArrayValue( $vValue['size'], $strKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $strKey, array() ), 'size', '' ) ) . "' "
+							. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "min='" . $this->getCorrespondingArrayValue( $arrField['vMin'], $strKey, $arrDefaultKeys['vMin'] ) . "' "
+							. "max='" . $this->getCorrespondingArrayValue( $arrField['vMax'], $strKey, $arrDefaultKeys['vMax'] ) . "' "
+							. "step='" . $this->getCorrespondingArrayValue( $arrField['vStep'], $strKey, $arrDefaultKeys['vStep'] ) . "' "					
+						. "/>"
+						. "<select id='{$strTagID}_{$strKey}' "	// select field
+							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+							. "type='{$arrField['strType']}' "
+							. ( ( $fMultipleOptions = $this->getCorrespondingArrayValue( $arrField['vMultiple'], $strKey, $arrDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+							. "name=" . ( $fSingle ? "'{$strFieldName}[unit]" : "'{$strFieldName}[{$strKey}][unit]" ) . ( $fMultipleOptions ? "[]' " : "' " )						
+							. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. "size=" . ( $this->getCorrespondingArrayValue( $arrField['vUnitSize'], $strKey, $arrDefaultKeys['vUnitSize'] ) ) . " "
+							. ( ( $strWidth = $this->getCorrespondingArrayValue( $arrField['vWidth'], $strKey, $arrDefaultKeys['vWidth'] ) ) ? "style='width:{$strWidth};' " : "" )
+						. ">"
+							. $this->getOptionTags( 
+								$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
+								$fSingle ? $this->getCorrespondingArrayValue( $vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $strKey, array() ), 'unit', 'px' ),
+								$strTagID,
+								$strKey, 
+								true, 	// since the above value is directly passed, call the function as a single element.
+								$fMultipleOptions 
+							)
+						. "</select>"
+						. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+					. "</label>"
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);			
+
+		return "<div class='admin-page-framework-field-size' id='{$strTagID}'>" 
+			. implode( '', $arrOutput )
+		. "</div>";
+		
+	}
+		/**
+		 * A helper function for the above replyToGetInputField() methods.
+		 * 
+		 * @since			2.0.0
+		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
+		 * @since			2.1.5			Added the $strTagID parameter. Moved from AdminPageFramwrodk_InputField.
+		 */ 
+		private function getOptionTags( $arrLabels, $vValue, $strTagID, $strIterationID, $fSingle, $fMultiple=false ) {	
+
+			$arrOutput = array();
+			foreach ( $arrLabels as $strKey => $strLabel ) {
+				$arrValue = $fSingle ? ( array ) $vValue : ( array ) $this->getCorrespondingArrayValue( $vValue, $strIterationID, array() ) ;
+				$arrOutput[] = "<option "
+						. "id='{$strTagID}_{$strIterationID}_{$strKey}' "
+						. "value='{$strKey}' "
+						. (	$fMultiple 
+							? ( in_array( $strKey, $arrValue ) ? 'selected="Selected"' : '' )
+							: ( $this->getCorrespondingArrayValue( $vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )
+						)
+					. ">"
+						. $strLabel
+					. "</option>";
+			}
+			return implode( '', $arrOutput );
+		}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_hidden' ) ) :
+/**
+ * Defines the hidden field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			// 'vSize'					=> 1,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * @remark			The user needs to assign the value to either the vDefault key or the vValue key in order to set the hidden field. 
+	 * If it's not set ( null value ), the below foreach will not iterate an element so no input field will be embedded.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+				
+		foreach( ( array ) $vValue as $strKey => $strValue ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. ( ( $strLabel = $this->getCorrespondingArrayValue( $arrField['vLabel'], $strKey, $arrDefaultKeys['vLabel'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>{$strLabel}</span>" 
+								: "" 
+							)
+							. "<div class='admin-page-framework-input-container'>"
+								. "<input "
+									. "id='{$strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+									. "type='{$arrField['strType']}' "	// hidden
+									. "name=" . ( is_array( $arrField['vLabel'] ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+									. "value='" . $strValue  . "' "
+									. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. "/>"
+							. "</div>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+					
+		return "<div class='admin-page-framework-field-hidden' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+		
+	}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_file' ) ) :
+/**
+ * Defines the file field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vAcceptAttribute'				=> 'audio/*|video/*|image/*|MIME_type',
+			// 'vSize'					=> 1,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];		
+					
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. ( $strLabel && ! $arrField['fRepeatable'] ?
+								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: ""
+							)
+							. "<input "
+								. "id='{$strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+								. "accept='" . $this->getCorrespondingArrayValue( $arrField['vAcceptAttribute'], $strKey, $arrDefaultKeys['vAcceptAttribute'] ) . "' "
+								. "type='{$arrField['strType']}' "	// file
+								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
+								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+					
+		return "<div class='admin-page-framework-field-file' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+	}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_posttype' ) ) :
+/**
+ * Defines the posttype field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'arrRemove'					=> array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * Returns the output of post type checklist check boxes.
+	 * 
+	 * @remark			the posttype checklist field does not support multiple elements by passing an array of labels.
+	 * @since			2.0.0
+	 * 
+	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+						
+		foreach( ( array ) $this->getPostTypeArrayForChecklist( $arrField['arrRemove'] ) as $strKey => $strValue ) {
+			$strName = "{$strFieldName}[{$strKey}]";
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] )
+							. "<span class='admin-page-framework-input-container'>"
+								. "<input type='hidden' name='{$strName}' value='0' />"
+								. "<input "
+									. "id='{$strTagID}_{$strKey}' "
+									. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+									. "type='checkbox' "
+									. "name='{$strName}'"
+									. "value='1' "
+									. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $vValue, $strKey, false ) == 1 ? "Checked " : '' )				
+								. "/>"
+							. "</span>"
+							. "<span class='admin-page-framework-input-label-string'>"
+								. $strValue
+							. "</span>"				
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"
+				. "</div>"
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		}
+		return "<div class='admin-page-framework-field-posttype' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+		
+	}	
+	
+		/**
+		 * A helper function for the above getPosttypeChecklistField method.
+		 * 
+		 * @since			2.0.0
+		 * @since			2.1.1			Changed the returning array to have the labels in its element values.
+		 * @since			2.1.5			Moved from AdminPageFramework_InputTag.
+		 * @return			array			The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
+		 */ 
+		private function getPostTypeArrayForChecklist( $arrRemoveNames, $arrPostTypes=array() ) {
+			
+			foreach( get_post_types( '','objects' ) as $oPostType ) 
+				if (  isset( $oPostType->name, $oPostType->label ) ) 
+					$arrPostTypes[ $oPostType->name ] = $oPostType->label;
+
+			return array_diff_key( $arrPostTypes, array_flip( $arrRemoveNames ) );	
+
+		}		
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_taxonomy' ) ) :
+/**
+ * Defines the taxonomy field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vTaxonomySlug'					=> 'category',			// ( string ) This is for the taxonomy field type.
+			'strHeight'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
+			'strWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 * 
+	 * Returns the JavaScript script of the taxonomy field type.
+	 * 
+	 * @since			2.1.1
+	 * @since			2.1.5			Moved from AdminPageFramework_Properties_Base().
+	 */ 
+	public function replyToGetInputScripts() {
+		return "
+			jQuery( document ).ready( function() {
+				jQuery( '.tab-box-container' ).each( function() {
+					jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
+						
+						if ( i == 0 )
+							jQuery( this ).addClass( 'active' );
+							
+						jQuery( this ).click( function( e ){
+								 
+							// Prevents jumping to the anchor which moves the scroll bar.
+							e.preventDefault();
+							
+							// Remove the active tab and set the clicked tab to be active.
+							jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
+							jQuery( this ).addClass( 'active' );
+							
+							// Find the element id and select the content element with it.
+							var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
+							active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
+							active_content.siblings().css( 'display', 'none' );
+							
+						});
+					});			
+				});
+			});
+		";
+	}
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 
+		"/* Taxonomy Field Type */
+			.admin-page-framework-field .taxonomy-checklist li { 
+				margin: 8px 0 8px 20px; 
+			}
+			.admin-page-framework-field div.taxonomy-checklist {
+				padding: 8px 0 8px 10px;
+				margin-bottom: 20px;
+			}
+			.admin-page-framework-field .taxonomy-checklist ul {
+				list-style-type: none;
+				margin: 0;
+			}
+			.admin-page-framework-field .taxonomy-checklist ul ul {
+				margin-left: 1em;
+			}
+			.admin-page-framework-field .taxonomy-checklist-label {
+				/* margin-left: 0.5em; */
+			}		
+		/* Tabbed box */
+			.admin-page-framework-field .tab-box-container.categorydiv {
+				max-height: none;
+			}
+			.admin-page-framework-field .tab-box-tab-text {
+				display: inline-block;
+			}
+			.admin-page-framework-field .tab-box-tabs {
+				line-height: 12px;
+				margin-bottom: 0;
+			
+			}
+			.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {
+				display: inline;
+				border-color: #dfdfdf #dfdfdf #fff;
+				margin-bottom: 0;
+				padding-bottom: 1px;
+				background-color: #fff;
+			}
+			.admin-page-framework-field .tab-box-container { 
+				position: relative; width: 100%; 
+
+			}
+			.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
+			.admin-page-framework-field .tab-box-contents-container {  
+				padding: 0 0 0 20px; 
+				border: 1px solid #dfdfdf; 
+				background-color: #fff;
+			}
+			.admin-page-framework-field .tab-box-contents { 
+				overflow: hidden; 
+				overflow-x: hidden; 
+				position: relative; 
+				top: -1px; 
+				height: 300px;  
+			}
+			.admin-page-framework-field .tab-box-content { 
+				height: 300px;
+				display: none; 
+				overflow: auto; 
+				display: block; 
+				position: relative; 
+				overflow-x: hidden;
+			}
+			.admin-page-framework-field .tab-box-content:target, 
+			.admin-page-framework-field .tab-box-content:target, 
+			.admin-page-framework-field .tab-box-content:target { 
+				display: block; 
+			}			
+		" . PHP_EOL;
+	}
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputIEStyles() {
+		return 	".tab-box-content { display: block; }
+			.tab-box-contents { overflow: hidden;position: relative; }
+			b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
+		";	
+
+	}	
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 * Returns the output of taxonomy checklist check boxes.
+	 * 
+	 * @remark			Multiple fields are not supported.
+	 * @remark			Repeater fields are not supported.
+	 * @since			2.0.0
+	 * @since			2.1.1			The checklist boxes are rendered in a tabbed single box.
+	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+		
+		$arrTabs = array();
+		$arrCheckboxes = array();
+		foreach( ( array ) $arrField['vTaxonomySlug'] as $strKey => $strTaxonomySlug ) {
+			$strActive = isset( $strActive ) ? '' : 'active';	// inserts the active class selector into the first element.
+			$arrTabs[] = 
+				"<li class='tab-box-tab'>"
+					. "<a href='#tab-{$strKey}'>"
+						. "<span class='tab-box-tab-text'>" 
+							. $this->getCorrespondingArrayValue( empty( $arrField['vLabel'] ) ? null : $arrField['vLabel'], $strKey, $this->getLabelFromTaxonomySlug( $strTaxonomySlug ) )
+						. "</span>"
+					."</a>"
+				."</li>";
+			$arrCheckboxes[] = 
+				"<div id='tab-{$strKey}' class='tab-box-content' style='height: {$arrField['strHeight']};'>"
+					. "<ul class='list:category taxonomychecklist form-no-clear'>"
+						. wp_list_categories( array(
+							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
+							'name'     => is_array( $arrField['vTaxonomySlug'] ) ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}",   // name of the input
+							'selected' => $this->getSelectedKeyArray( $vValue, $strKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
+							'title_li'	=> '',	// disable the Categories heading string 
+							'hide_empty' => 0,	
+							'echo'	=> false,	// returns the output
+							'taxonomy' => $strTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
+						) )					
+					. "</ul>"			
+					. "<!--[if IE]><b>.</b><![endif]-->"
+				. "</div>";
+		}
+		$strTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $arrTabs ) . "</ul>";
+		$strContents = 
+			"<div class='tab-box-contents-container'>"
+				. "<div class='tab-box-contents' style='height: {$arrField['strHeight']};'>"
+					. implode( '', $arrCheckboxes )
+				. "</div>"
+			. "</div>";
+			
+		$strOutput = 
+			"<div id='{$strTagID}' class='{$strFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$arrField['strWidth']};'>"
+				. $strTabs . PHP_EOL
+				. $strContents . PHP_EOL
+			. "</div>";
+
+		return $strOutput;
+
+	}	
+	
+		/**
+		 * A helper function for the above getTaxonomyChecklistField() method. 
+		 * 
+		 * @since			2.0.0
+		 * @param			array			$vValue			This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
+		 * @param			string			$strKey			
+		 * @return			array			Returns an array consisting of keys whose value is true.
+		 */ 
+		private function getSelectedKeyArray( $vValue, $strKey ) {
+					
+			$vValue = ( array ) $vValue;	// cast array because the initial value (null) may not be an array.
+			$intArrayDimension = $this->getArrayDimension( ( array ) $vValue );
+					
+			if ( $intArrayDimension == 1 )
+				$arrKeys = $vValue;
+			else if ( $intArrayDimension == 2 )
+				$arrKeys = ( array ) $this->getCorrespondingArrayValue( $vValue, $strKey, false );
+				
+			return array_keys( $arrKeys, true );
+		
+		}
+	
+		/**
+		 * A helper function for the above getTaxonomyChecklistField() method.
+		 * 
+		 * @since			2.1.1
+		 * 
+		 */
+		private function getLabelFromTaxonomySlug( $strTaxonomySlug ) {
+			
+			$oTaxonomy = get_taxonomy( $strTaxonomySlug );
+			return isset( $oTaxonomy->label )
+				? $oTaxonomy->label
+				: null;
+			
+		}
+	
+}
+endif;
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_submit' ) ) :
+/**
+ * Defines the submit field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputFieldTypeDefinition_Base {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(		
+			'vClassAttribute'					=> 'button button-primary',
+			'vRedirect'							=> null,
+			'vLink'								=> null,
+			'vReset'							=> null,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 		
+		"/* Submit Buttons */
+		.admin-page-framework-field input[type='submit'] {
+			margin-bottom: 0.5em;
+		}" . PHP_EOL;		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+
+		
+		$vValue = $this->getInputFieldValueFromLabel( $arrField );
+		$strFieldNameFlat = $this->getInputFieldNameFlat( $arrField );
+		foreach( ( array ) $vValue as $strKey => $strValue ) {
+			$strRedirectURL = $this->getCorrespondingArrayValue( $arrField['vRedirect'], $strKey, $arrDefaultKeys['vRedirect'] );
+			$strLinkURL = $this->getCorrespondingArrayValue( $arrField['vLink'], $strKey, $arrDefaultKeys['vLink'] );
+			$strResetKey = $this->getCorrespondingArrayValue( $arrField['vReset'], $strKey, $arrDefaultKeys['vReset'] );
+			$fResetConfirmed = $this->checkConfirmationDisplayed( $strResetKey, $strFieldNameFlat ); 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					// embed the field id and input id
+					. "<input type='hidden' "
+						. "name='__submit[{$strTagID}_{$strKey}][input_id]' "
+						. "value='{$strTagID}_{$strKey}' "
+					. "/>"
+					. "<input type='hidden' "
+						. "name='__submit[{$strTagID}_{$strKey}][field_id]' "
+						. "value='{$arrField['strFieldID']}' "
+					. "/>"		
+					. "<input type='hidden' "
+						. "name='__submit[{$strTagID}_{$strKey}][name]' "
+						. "value='{$strFieldNameFlat}" . ( is_array( $vValue ) ? "|{$strKey}'" : "'" )
+					. "/>" 						
+					// for the vRedirect key
+					. ( $strRedirectURL 
+						? "<input type='hidden' "
+							. "name='__redirect[{$strTagID}_{$strKey}][url]' "
+							. "value='" . $strRedirectURL . "' "
+						. "/>" 
+						. "<input type='hidden' "
+							. "name='__redirect[{$strTagID}_{$strKey}][name]' "
+							. "value='{$strFieldNameFlat}" . ( is_array( $vValue ) ? "|{$strKey}" : "'" )
+						. "/>" 
+						: "" 
+					)
+					// for the vLink key
+					. ( $strLinkURL 
+						? "<input type='hidden' "
+							. "name='__link[{$strTagID}_{$strKey}][url]' "
+							. "value='" . $strLinkURL . "' "
+						. "/>"
+						. "<input type='hidden' "
+							. "name='__link[{$strTagID}_{$strKey}][name]' "
+							. "value='{$strFieldNameFlat}" . ( is_array( $vValue ) ? "|{$strKey}'" : "'" )
+						. "/>" 
+						: "" 
+					)
+					// for the vReset key
+					. ( $strResetKey && ! $fResetConfirmed
+						? "<input type='hidden' "
+							. "name='__reset_confirm[{$strTagID}_{$strKey}][key]' "
+							. "value='" . $strFieldNameFlat . "' "
+						. "/>"
+						. "<input type='hidden' "
+							. "name='__reset_confirm[{$strTagID}_{$strKey}][name]' "
+							. "value='{$strFieldNameFlat}" . ( is_array( $vValue ) ? "|{$strKey}'" : "'" )
+						. "/>" 
+						: ""
+					)
+					. ( $strResetKey && $fResetConfirmed
+						? "<input type='hidden' "
+							. "name='__reset[{$strTagID}_{$strKey}][key]' "
+							. "value='" . $strResetKey . "' "
+						. "/>"
+						. "<input type='hidden' "
+							. "name='__reset[{$strTagID}_{$strKey}][name]' "
+							. "value='{$strFieldNameFlat}" . ( is_array( $vValue ) ? "|{$strKey}'" : "'" )
+						. "/>" 
+						: ""
+					)
+					. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<input "
+							. "id='{$strTagID}_{$strKey}' "
+							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+							. "type='{$arrField['strType']}' "	// submit
+							. "name=" . ( is_array( $arrField['vLabel'] ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+							. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, $this->oMsg->___( 'submit' ) ) . "' "
+							. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+						. "/>"
+					. "</span>"
+					. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+				. "</div>" // end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		}
+		return "<div class='admin-page-framework-field-submit' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
+	
+	}
+		/**
+		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the vReset key is set.
+		 * 
+		 */
+		private function checkConfirmationDisplayed( $strResetKey, $strFlatFieldName ) {
+				
+			if ( ! $strResetKey ) return false;
+			
+			$fResetConfirmed =  get_transient( md5( "reset_confirm_" . $strFlatFieldName ) ) !== false 
+				? true
+				: false;
+			
+			if ( $fResetConfirmed )
+				delete_transient( md5( "reset_confirm_" . $strFlatFieldName ) );
+				
+			return $fResetConfirmed;
+			
+		}
+
+	/*
+	 *	Shared Methods 
+	 */
+	/**
+	 * Retrieves the field name attribute whose dimensional elements are delimited by the pile character.
+	 * 
+	 * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
+	 * This is used to create a reference the submit field name to determine which button is pressed.
+	 * 
+	 * @remark			Used by the import and submit field types.
+	 * @since			2.0.0
+	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_InputField.
+	 */ 
+	protected function getInputFieldNameFlat( $arrField ) {	
+	
+		return isset( $arrField['strOptionKey'] ) // the meta box class does not use the option key
+			? "{$arrField['strOptionKey']}|{$arrField['strPageSlug']}|{$arrField['strSectionID']}|{$arrField['strFieldID']}"
+			: $arrField['strFieldID'];
+		
+	}			
+	/**
+	 * Retrieves the input field value from the label.
+	 * 
+	 * This method is similar to the above <em>getInputFieldValue()</em> but this does not check the stored option value.
+	 * It uses the value set to the <var>vLabel</var> key. 
+	 * This is for submit buttons including export custom field type that the label should serve as the value.
+	 * 
+	 * @remark			The submit, import, and export field types use this method.
+	 * @since			2.0.0
+	 * @since			2.1.5			Moved from AdminPageFramwrork_InputField. Changed the scope to protected from private. Removed the second parameter.
+	 */ 
+	protected function getInputFieldValueFromLabel( $arrField ) {	
+		
+		// If the value key is explicitly set, use it.
+		if ( isset( $arrField['vValue'] ) ) return $arrField['vValue'];
+		
+		if ( isset( $arrField['vLabel'] ) ) return $arrField['vLabel'];
+		
+		// If the default value is set,
+		if ( isset( $arrField['vDefault'] ) ) return $arrField['vDefault'];
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_export' ) ) :
+/**
+ * Defines the export field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputFieldType_submit {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vExportData'					=> null,	// ( array or string or object ) This is for the export field type. 			
+			'vExportFormat'					=> 'array',	// ( array or string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+			'vExportFileName'				=> null,	// ( array or string )	for the export field type. Do not set a default value here.
+			'vClassAttribute'				=> 'button button-primary',	// ( array or string )	
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $arrField['vLabel'];		
+				
+		$vValue = $this->getInputFieldValueFromLabel( $arrField );
+		
+		// If vValue is not an array and the export data set, set the transient. ( it means single )
+		if ( isset( $arrField['vExportData'] ) && ! is_array( $vValue ) )
+			set_transient( md5( "{$arrField['strClassName']}_{$arrField['strFieldID']}" ), $arrField['vExportData'], 60*2 );	// 2 minutes.
+		
+		foreach( ( array ) $vValue as $strKey => $strValue ) {
+			
+			$strExportFormat = $this->getCorrespondingArrayValue( $arrField['vExportFormat'], $strKey, $arrDefaultKeys['vExportFormat'] );
+			
+			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
+			$fIsDataSet = false;
+			if ( isset( $vValue[ $strKey ] ) && isset( $arrField['vExportData'][ $strKey ] ) ) {
+				set_transient( md5( "{$arrField['strClassName']}_{$arrField['strFieldID']}_{$strKey}" ), $arrField['vExportData'][ $strKey ], 60*2 );	// 2 minutes.
+				$fIsDataSet = true;
+			}
+			
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<input type='hidden' "
+						. "name='__export[{$arrField['strFieldID']}][file_name]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $arrField['vExportFileName'], $strKey, $this->generateExportFileName( $arrField['strOptionKey'], $strExportFormat ) )
+					. "' />"
+					. "<input type='hidden' "
+						. "name='__export[{$arrField['strFieldID']}][format]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $strExportFormat
+					. "' />"				
+					. "<input type='hidden' "
+						. "name='__export[{$arrField['strFieldID']}][transient]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . ( $fIsDataSet ? 1 : 0 )
+					. "' />"				
+					. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, '' ) 
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<input "
+							. "id='{$strTagID}_{$strKey}' "
+							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+							. "type='submit' "	// the export button is a custom submit button.
+							// . "name=" . ( is_array( $arrField['vLabel'] ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+							. "name='__export[submit][{$arrField['strFieldID']}]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+							. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, $this->oMsg->___( 'export_options' ) ) . "' "
+							. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+						. "/>"
+					. "</span>"
+					. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+				. "</div>" // end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+									
+		}
+					
+		return "<div class='admin-page-framework-field-export' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";		
+	
+	}
+	
+		/**
+		 * A helper function for the above method.
+		 * 
+		 * @remark			Currently only array, text or json is supported.
+		 * @since			2.0.0
+		 * @since			2.1.5			Moved from the AdminPageFramework_InputField class.
+		 */ 
+		private function generateExportFileName( $strOptionKey, $strExportFormat='text' ) {
+				
+			switch ( trim( strtolower( $strExportFormat ) ) ) {
+				case 'text':	// for plain text.
+					$strExt = "txt";
+					break;
+				case 'json':	// for json.
+					$strExt = "json";
+					break;
+				case 'array':	// for serialized PHP arrays.
+				default:	// for anything else, 
+					$strExt = "txt";
+					break;
+			}		
+				
+			return $strOptionKey . '_' . date("Ymd") . '.' . $strExt;
+			
+		}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_import' ) ) :
+/**
+ * Defines the import field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputFieldType_submit {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vClassAttribute'					=> 'import button button-primary',	// ( array or string )	
+			'vAcceptAttribute'					=> 'audio/*|video/*|image/*|MIME_type',
+			'vClassAttributeUpload'				=> 'import',
+			'vImportOptionKey'					=> null,	// ( array or string )	for the import field type. The default value is the set option key for the framework.
+			'vImportFormat'						=> 'array',	// ( array or string )	for the import field type.
+			'vMerge'							=> false,	// ( array or boolean ) [2.1.5+] for the import field
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetInputScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return "";		
+	}
+	
+	/**
+	 * Returns the output of the field type.
+	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		// $arrFields = $arrField['fRepeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+	
+		$vValue = $this->getInputFieldValueFromLabel( $arrField );
+		$strFieldNameFlat = $this->getInputFieldNameFlat( $arrField );
+		foreach( ( array ) $vValue as $strKey => $strValue ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					// embed the field id and input id
+					. "<input type='hidden' "
+						. "name='__import[{$arrField['strFieldID']}][input_id]' " . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='{$strTagID}_{$strKey}' "
+					. "/>"
+					. "<input type='hidden' "
+						. "name='__import[{$arrField['strFieldID']}][field_id]' " . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='{$arrField['strFieldID']}' "
+					. "/>"		
+					. "<input type='hidden' "
+						. "name='__import[{$arrField['strFieldID']}][do_merge]' " . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $arrField['vMerge'], $strKey, $arrDefaultKeys['vMerge'] ) . "' "
+					. "/>"							
+					. "<input type='hidden' "
+						. "name='__import[{$arrField['strFieldID']}][import_option_key]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $arrField['vImportOptionKey'], $strKey, $arrField['strOptionKey'] )
+					. "' />"
+					. "<input type='hidden' "
+						. "name='__import[{$arrField['strFieldID']}][format]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $arrField['vImportFormat'], $strKey, $arrDefaultKeys['vImportFormat'] )	// array, text, or json.
+					. "' />"			
+					. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, '' ) 
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+						. "<input "		// upload button
+							. "id='{$strTagID}_{$strKey}_file' "
+							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttributeUpload'], $strKey, $arrDefaultKeys['vClassAttributeUpload'] ) . "' "
+							. "accept='" . $this->getCorrespondingArrayValue( $arrField['vAcceptAttribute'], $strKey, $arrDefaultKeys['vAcceptAttribute'] ) . "' "
+							. "type='file' "	// upload field. the file type will be stored in $_FILE
+							. "name='__import[{$arrField['strFieldID']}]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+							. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )				
+						. "/>"
+						. "<input "		// import button
+							. "id='{$strTagID}_{$strKey}' "
+							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+							. "type='submit' "	// the import button is a custom submit button.
+							. "name='__import[submit][{$arrField['strFieldID']}]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+							. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, $this->oMsg->___( 'import_options' ), true ) . "' "
+							. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+						. "/>"
+					. "</span>"
+					. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, '' )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);		
+					
+		return "<div class='admin-page-framework-field-import' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+		
+	}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinitions' ) ) :
+/**
+ * Provides means to define custom input fields not only by the framework but also by the user.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.5
+ */
+class AdminPageFramework_InputFieldTypeDefinitions  {
+	
+	/**
+	 * Holds the default input field labels
+	 * 
+	 * @since			2.1.5
+	 */
+	protected static $arrDefaultFieldTypeSlugs = array(
+		'default',		// undefined ones will be applied 
+		'text', //	'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week',
+		'number', 	// 'range',
+		'textarea',
+		'radio',
+		'checkbox',
+		'select',
+		'hidden',
+		'file',
+		'submit',
+		'import',
+		'export',
+		'image',
+		'media',
+		'color',
+		'date',
+		'taxonomy',
+		'posttype',
+		'size',
+	);	
+	
+	function __construct( $strExtendedClassName, $oMsg ) {
+		
+		foreach( self::$arrDefaultFieldTypeSlugs as $strFieldTypeSlug ) {
+			$strInstantiatingClassName = "AdminPageFramework_InputFieldType_{$strFieldTypeSlug}";
+			if ( class_exists( $strInstantiatingClassName ) )
+				new $strInstantiatingClassName( $strExtendedClassName, $strFieldTypeSlug, $oMsg );
+		}
+		
+	}
+	
+}
+
+
+endif;
+
 if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
 /**
  * Provides methods for rendering form input fields.
@@ -7124,71 +9677,7 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  * @subpackage		Admin Page Framework - Setting
  */
 class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
-	
-	/**
-	 * Represents the structure of field array.
-	 * @since			2.0.0
-	 * @access			private
-	 */ 
-	private static $arrDefaultFieldValues = array(
-		'vValue' => null,					// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
-		'vDefault' => null,					// ( array or string )
-		'vClassAttribute' => null,			// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
-		'vLabel' => '',						// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
-		'vLabelMinWidth' => 140,			// ( array or integer ) This sets the min-width of the label tag for the textarea, text, and numbers input types.
-		'vDelimiter' => null,				// do not set an empty value here because the radio input field uses own default value.
-		'vDisable' => null,					// ( array or boolean ) This value indicates whether the set field is disabled or not. 
-		'vReadOnly' => '',					// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
-		'vMultiple'	=> false,				// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
-		'vBeforeInputTag' => '',
-		'vAfterInputTag' => '',
-		'vSize' => null,					// ( array or integer )	for the text, the select field, and the image field type. Do not set a value here.
-		'vRows' => 4,						// ( array or integer ) for the textarea field type.
-		'vCols' => 80,						// ( array or integer ) for the textarea field type.
-		'vRich' => null,					// ( array or boolean ) for the textarea field type.
-		'vMax' => null,						// ( array or integer ) for the number field type.
-		'vMin' => null,						// ( array or integer ) for the number field type.
-		'vStep' => null,					// ( array or integer ) for the number field type.
-		'vMaxLength' => null,				// Maximum number of characters in textara, text, number etc.
-		'vAcceptAttribute' => null,			// ( array or string )	for the file and import field type. Do not set a default value here because it will be passed in the dealing method.
-		'vExportFileName' => null,			// ( array or string )	for the export field type. Do not set a default value here.
-		'vExportFormat' => null,			// ( array or string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
-		'vExportData' => null,				// ( array or string or object ) This is for the export field type. 
-		'vImportOptionKey' => null,			// ( array or string )	for the import field type. The default is the set option key for the framework.
-		'vImportFormat' => null,			// ( array or string )	for the import field type. Do not set a default value here. Currently array, json, and text are supported.
-		'vMerge' => null,					// ( array or boolean ) [2.1.5+] for the import field
-		'vLink'	=> null,					// ( array or string )	for the submit field type.
-		'vRedirect'	=> null,				// ( array or string )	for the submit field type.
-		'vReset'	=> null,				// ( array or string )	[2.1.2+] This is for the submit field type.
-		'vImagePreview' => null,			// ( array or boolean )	This is for the image filed type. For array, each element should contain a boolean value ( true/false ).
-		'strTickBoxTitle' => null,			// ( string ) This is for the image field type.
-		'strLabelUseThis' => null,			// ( string ) This is for the image field type.
-		'arrCaptureAttributes' => array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-		'vTaxonomySlug' => 'category',		// ( string ) This is for the taxonomy field type.
-		'arrRemove' => array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
-		'vWidth' => null,					// ( array or string ) This is for the select field type that specifies the width of the select tag element.
-		'vDateFormat' => null,				// ( array or string ) This is for the date field type that specifies the date format.
-		// 'numMaxWidth' => 400,			// for the taxonomy checklist filed type.
-		// 'numMaxHeight' => 200,			// for the taxonomy checklist filed type.	
-		'strHeight' => '250px',				// for the taxonomy checklist field type, since 2.1.1.
-		'strWidth' => '100%',				// for the taxonomy checklist field type, since 2.1.1.
 		
-		// Mandatory keys.
-		'strFieldID' => null,		
-		
-		// For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings.
-		'strPageSlug' => null,
-		'strSectionID' => null,
-		'strBeforeField' => null,
-		'strAfterField' => null,
-		
-		// For the size field
-		'vSizeUnits' => null,	// not setting the default value here. 
-		
-		// For the media and image field
-		'fAllowExternalSource' => true,			// ( boolean ) Indicates whether the media library box has the From URL tab.
-	);
-	
 	/**
 	 * Indicates whether the creating fields are for meta box or not.
 	 * @since			2.1.2
@@ -7196,17 +9685,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private $fIsMetaBox = false;
 		
 	
-	public function __construct( &$arrField, &$arrOptions, $arrErrors=array(), &$oMsg ) {
+	public function __construct( &$arrField, &$arrOptions, $arrErrors, &$arrFieldDefinition ) {
 			
-		$this->oMsg = $oMsg;
-		
-		$this->arrField = $arrField + self::$arrDefaultFieldValues;
+		$this->arrField = $arrField + $arrFieldDefinition['arrDefaultKeys'];	// better not to merge recursively because some elements are array by default, not as multiple elements.
+		$this->arrFieldDefinition = $arrFieldDefinition;
 		$this->arrOptions = $arrOptions;
 		$this->arrErrors = $arrErrors ? $arrErrors : array();
 			
 		$this->strFieldName = $this->getInputFieldName();
 		$this->strTagID = $this->getInputTagID( $arrField );
 		$this->vValue = $this->getInputFieldValue( $arrField, $arrOptions );
+		
+		// Global variable
+		$GLOBALS['arrAdminPageFramework']['arrFieldFlags'] = isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'] )
+			? $GLOBALS['arrAdminPageFramework']['arrFieldFlags'] 
+			: array();
 		
 	}	
 		
@@ -7223,20 +9716,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 	}
 
-	/**
-	 * Retrieves the field name attribute whose dimensional elements are delimited by the pile character.
-	 * 
-	 * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
-	 * This is used to create a reference the submit field name to determine which button is pressed.
-	 */ 
-	private function getInputFieldNameFlat( $arrField=null ) {	
-	
-		$arrField = isset( $arrField ) ? $arrField : $this->arrField;
-		return isset( $arrField['strOptionKey'] ) // the meta box class does not use the option key
-			? "{$arrField['strOptionKey']}|{$arrField['strPageSlug']}|{$arrField['strSectionID']}|{$arrField['strFieldID']}"
-			: $arrField['strFieldID'];
-		
-	}	
 	private function getInputFieldValue( &$arrField, $arrOptions ) {	
 
 		// If the value key is explicitly set, use it.
@@ -7298,27 +9777,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		return $vValue;
 		
 	}
-	
-	/**
-	 * Retrieves the input field value from the label.
-	 * 
-	 * This method is similar to the above <em>getInputFieldValue()</em> but this does not check the stored option value.
-	 * It uses the value set to the <var>vLabel</var> key. 
-	 * This is for submit buttons including export custom field type that the label should serve as the value.
-	 * 
-	 * @since			2.0.0
-	 */ 
-	private function getInputFieldValueFromLabel( $arrField, $arrOptions ) {	
 		
-		// If the value key is explicitly set, use it.
-		if ( isset( $arrField['vValue'] ) ) return $arrField['vValue'];
-		
-		if ( isset( $arrField['vLabel'] ) ) return $arrField['vLabel'];
-		
-		// If the default value is set,
-		if ( isset( $arrField['vDefault'] ) ) return $arrField['vDefault'];
-		
-	}			
 	private function getInputTagID( $arrField )  {
 		
 		// For Settings API's form fields should have these key values.
@@ -7334,53 +9793,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 	}		
 	
-	/*
-	 * Public methods
-	 * */
-	 
-	public function getHeatTagElements( $strFieldType ) {
-		
-		$this->getInputFieldScripts( $strFieldType );
-		$this->getInputFieldStyles( $strFieldType )
-		$this->setInputFieldEnqueuingScripts( $strFieldType );
-		$this->setInputFieldEnqueuingStyles( $strFieldType );
-		
-	}
-	/**
-	 * Retrieves the input field JavaScript scripts to be embedded in the head tag.
-	 * 
-	 * 
-	 * @sicne			2.1.5
-	 */ 
-	private function getInputFieldScripts( $strFieldType ) {
-		
-	}
-	/**
-	 * Sets enqueuing scripts for the given input field type.
-	 * 
-	 * @since			2.1.5
-	 */
-	private function setInputFieldEnqueuingScripts( $strFieldType ) {
-		
-		
-	}
-	/**
-	 * Retrieves the input field styles to be embedded in the head tag.
-	 * 
-	 * @since			2.1.5
-	 */ 
-	private function getInputFieldStyles( $strFieldType ) {
-		
-	}	
-	/**
-	 * Sets enqueuing styles for the given input field type.
-	 * 
-	 * @since			2.1.5
-	 */
-	private function setInputFieldEnqueuingStyles( $strFieldType ) {
-		
-		
-	}
 	
 	/** 
 	 * Retrieves the input field HTML output.
@@ -7398,67 +9810,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			? "admin-page-framework-field repeatable"
 			: "admin-page-framework-field";
 			
-		// Get the input field output.
-		switch ( strtolower( $strFieldType ) ) {
-			case in_array( $strFieldType, array( 'text', 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ) ):
-				$strOutput .= $this->getTextField();
-				break;
-			case in_array( $strFieldType, array( 'number', 'range' ) ):	// HTML5 elements
-				$strOutput .= $this->getNumberField();
-				break;
-			case 'textarea':	// Additional attributes: rows, cols
-				$strOutput .= $this->getTextAreaField();
-				break;	
-			case 'radio':
-				$strOutput .= $this->getRadioField();
-				break;
-			case 'checkbox':	// Supports multiple creation with array of label				
-				$strOutput .= $this->getCheckBoxField();
-				break;
-			case 'select':
-				$strOutput .= $this->getSelectField();
-				break;
-			case 'hidden':	// Supports multiple creation with array of label
-				$strOutput .= $this->getHiddenField();
-				break;		
-			case 'file':	// Supports multiple creation with array of label
-				$strOutput .= $this->getFileField();
-				break;
-			case 'submit':	
-				$strOutput .= $this->getSubmitField();
-				break;
-			case 'import':	// import options
-				$strOutput .= $this->getImportField();
-				break;	
-			case 'export':	// export options
-				$strOutput .= $this->getExportField();
-				break;
-			case 'image':	// image uploader
-				$strOutput .= $this->getImageField();
-				break;
-			case 'media':	// media uplaoder
-				$strOutput .= $this->getMediaField();
-				break;
-			case 'color':	// color picker
-				$strOutput .= $this->getColorField();
-				break;			
-			case 'date':	// date picker
-				$strOutput .= $this->getDateField();
-				break;
-			case 'taxonomy':
-				$strOutput .= $this->getTaxonomyChecklistField();
-				break;			
-			case 'posttype':
-				$strOutput .= $this->getPostTypeChecklistField();
-				break;
-			case 'size':	// size selector
-				$strOutput .= $this->getSizeField();
-				break;				
-			default:	// for anything else, 				
-				$strOutput .= $this->arrField['vBeforeInputTag'] . ( ( string ) $this->vValue ) . $this->arrField['vAfterInputTag'];
-				break;				
-		}
-		
+		// Add new elements
+		$this->arrField['strFieldName'] = $this->strFieldName;
+		$this->arrField['strTagID'] = $this->strTagID;
+		$this->arrField['strFieldClassSelector'] = $this->strFieldClassSelector;
+
+		// Get the field output.
+		$strOutput .= call_user_func_array( 
+			$this->arrFieldDefinition['callRenderField'], 
+			array( $this->vValue, $this->arrField, $this->arrOptions, $this->arrErrors, $this->arrFieldDefinition )
+		);			
+				
 		// Add the description
 		$strOutput .= ( isset( $this->arrField['strDescription'] ) && trim( $this->arrField['strDescription'] ) != '' ) 
 			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->arrField['strDescription']}</span></p>"
@@ -7479,1288 +9841,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			. "</fieldset>";
 		
 	}
-	private function getTextField( $arrOutput=array() ) {
-
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];
-		$fMultiple = is_array( $arrFields );
-		
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( $strLabel && ! $this->arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel	. "</span>"
-								: "" 
-							)
-							. "<input id='{$this->strTagID}_{$strKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-								. "type='{$this->arrField['strType']}' "	// text, password, etc.
-								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				)
-			;
-				
-		return "<div class='admin-page-framework-field-text' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
-
-	}
-	private function getNumberField( $arrOutput=array() ) {
-		
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];
-			
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}' >"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( $strLabel && ! $this->arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: ""
-							)
-							. "<input id='{$this->strTagID}_{$strKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 30 ) . "' "
-								. "type='{$this->arrField['strType']}' "
-								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-								. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
-								. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
-								. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-							. "/>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);				
-					
-		return "<div class='admin-page-framework-field-number' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";		
-		
-	}
-	private function getTextAreaField( $arrOutput=array() ) {
-		
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];			
-		$fSingle = ! is_array( $arrFields );
-		
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) {
-			
-			$arrRichEditorSettings = $fSingle
-				? $this->arrField['vRich']
-				: $this->getCorrespondingArrayValue( $this->arrField['vRich'], $strKey, null );
-				
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}' >"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( $strLabel && ! $this->arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: "" 
-							)
-							. ( ! empty( $arrRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
-								? wp_editor( 
-									$this->getCorrespondingArrayValue( $this->vValue, $strKey, null ), 
-									"{$this->strTagID}_{$strKey}",  
-									$this->uniteArrays( 
-										( array ) $arrRichEditorSettings,
-										array(
-											'wpautop' => true, // use wpautop?
-											'media_buttons' => true, // show insert/upload button(s)
-											'textarea_name' => is_array( $arrFields ) ? "{$this->strFieldName}[{$strKey}]" : $this->strFieldName , // set the textarea name to something different, square brackets [] can be used here
-											'textarea_rows' => $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ),
-											'tabindex' => '',
-											'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-											'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-											'editor_class' => $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ), // add extra class(es) to the editor textarea
-											'teeny' => false, // output the minimal editor config used in Press This
-											'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-											'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-											'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
-										)
-									)
-								) . $this->getScriptForRichEditor( "{$this->strTagID}_{$strKey}" )
-								: "<textarea id='{$this->strTagID}_{$strKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-									. "rows='" . $this->getCorrespondingArrayValue( $this->arrField['vRows'], $strKey, self::$arrDefaultFieldValues['vRows'] ) . "' "
-									. "cols='" . $this->getCorrespondingArrayValue( $this->arrField['vCols'], $strKey, self::$arrDefaultFieldValues['vCols'] ) . "' "
-									. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-									. "type='{$this->arrField['strType']}' "
-									. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-								. ">"
-									. $this->getCorrespondingArrayValue( $this->vValue, $strKey, null )
-								. "</textarea>"
-							)
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		}
-		
-		return "<div class='admin-page-framework-field-textarea' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";		
-		
-	}
-		/**
-		 * A helper function for the above getTextAreaField() method.
-		 * 
-		 * This adds a script that forces the rich editor element to be inside the field table cell.
-		 * 
-		 * @since			2.1.2
-		 */
-		private function getScriptForRichEditor( $strIDSelector ) {
-
-			// id: wp-sample_rich_textarea_0-wrap
-			return "<script type='text/javascript'>
-				jQuery( '#wp-{$strIDSelector}-wrap' ).hide();
-				jQuery( document ).ready( function() {
-					jQuery( '#wp-{$strIDSelector}-wrap' ).appendTo( '#field-{$strIDSelector}' );
-					jQuery( '#wp-{$strIDSelector}-wrap' ).show();
-				})
-			</script>";		
-			
-		}
-	
-	private function getSelectField( $arrOutput=array() ) {
-
-		// The value of the label key must be an array for the select type.
-		if ( ! is_array( $this->arrField['vLabel'] ) ) return;	
-
-		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
-		$arrLabels = $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
-		foreach( $arrLabels as $strKey => $vLabel ) {
-			
-			$fMultiple = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] );
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. "<span class='admin-page-framework-input-container'>"
-								. "<select id='{$this->strTagID}_{$strKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-									. "type='{$this->arrField['strType']}' "
-									. ( $fMultiple ? "multiple='Multiple' " : '' )
-									. "name=" . ( $fSingle ? "'{$this->strFieldName}" : "'{$this->strFieldName}[{$strKey}]" )
-									. ( $fMultiple ? "[]' " : "' " )
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-									. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
-									. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
-								. ">"
-									. $this->getOptionTags( $vLabel, $this->vValue, $strKey, $fSingle, $fMultiple )
-								. "</select>"
-							. "</span>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		}
-		return "<div class='admin-page-framework-field-select' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";				
-	
-	}	
-	
-		/**
-		 * A helper function for the getSelectField() and getSizeField() methods.
-		 * 
-		 * @since			2.0.0
-		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
-		 */ 
-		private function getOptionTags( $arrLabels, $vValue, $strIterationID, $fSingle, $fMultiple=false ) {	
-
-			$arrOutput = array();
-			foreach ( $arrLabels as $strKey => $strLabel ) {
-				$arrValue = $fSingle ? ( array ) $vValue : ( array ) $this->getCorrespondingArrayValue( $vValue, $strIterationID, array() ) ;
-				$arrOutput[] = "<option "
-						. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
-						. "value='{$strKey}' "
-						. (	$fMultiple 
-							? ( in_array( $strKey, $arrValue ) ? 'selected="Selected"' : '' )
-							: ( $this->getCorrespondingArrayValue( $vValue, $strIterationID, null ) == $strKey ? "selected='Selected'" : "" )
-						)
-					. ">"
-						. $strLabel
-					. "</option>";
-			}
-			return implode( '', $arrOutput );
-		}
-	
-	/**
-	 * Returns the size input fields.
-	 * 
-	 * This enables for the user to set a size with a unit. This is made up of a text input field and a drop-down selector field. 
-	 * Useful for theme developers.
-	 * 
-	 * @since			2.0.1
-	 */ 
-	private function getSizeField( $arrOutput=array() ) {
-		
-		$fSingle = ! is_array( $this->arrField['vLabel'] );
-		$fIsSizeUnitForSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vSizeUnits'] ) == 1 );
-		$arrSizeUnits = isset( $this->arrField['vSizeUnits'] ) && is_array( $this->arrField['vSizeUnits'] ) && $fIsSizeUnitForSingle 
-			? $this->arrField['vSizeUnits']
-			: array(	// the default unit size array.
-				'px'	=> 'px',	// pixel
-				'%'		=> '%',		// percentage
-				'em'	=> 'em',	// font size
-				'ex'	=> 'ex',	// font height
-				'in'	=> 'in',	// inch
-				'cm'	=> 'cm',	// centimetre
-				'mm'	=> 'mm',	// millimetre
-				'pt'	=> 'pt',	// point
-				'pc'	=> 'pc',	// pica
-		);		
-		
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<label for='{$this->strTagID}_{$strKey}'>"
-						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-						. ( $strLabel 
-							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel ."</span>"
-							: "" 
-						)
-						. "<input id='{$this->strTagID}_{$strKey}' "	// number field
-							// . "style='text-align: right;'"
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-							. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-							. "type='number' "	// number
-							. "name=" . ( $fSingle ? "'{$this->strFieldName}[size]' " : "'{$this->strFieldName}[{$strKey}][size]' " )
-							. "value='" . ( $fSingle ? $this->getCorrespondingArrayValue( $this->vValue['size'], $strKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'size', '' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-							. "min='" . $this->getCorrespondingArrayValue( $this->arrField['vMin'], $strKey, self::$arrDefaultFieldValues['vMin'] ) . "' "
-							. "max='" . $this->getCorrespondingArrayValue( $this->arrField['vMax'], $strKey, self::$arrDefaultFieldValues['vMax'] ) . "' "
-							. "step='" . $this->getCorrespondingArrayValue( $this->arrField['vStep'], $strKey, self::$arrDefaultFieldValues['vStep'] ) . "' "					
-						. "/>"
-						. "<select id='{$this->strTagID}_{$strKey}' "	// select field
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-							. "type='{$this->arrField['strType']}' "
-							. ( ( $fMultipleOptions = $this->getCorrespondingArrayValue( $this->arrField['vMultiple'], $strKey, self::$arrDefaultFieldValues['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
-							. "name=" . ( $fSingle ? "'{$this->strFieldName}[unit]" : "'{$this->strFieldName}[{$strKey}][unit]" ) . ( $fMultipleOptions ? "[]' " : "' " )						
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. "size=" . ( $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 1 ) ) . " "
-							. ( ( $strWidth = $this->getCorrespondingArrayValue( $this->arrField['vWidth'], $strKey, "" ) ) ? "style='width:{$strWidth};' " : "" )
-						. ">"
-							. $this->getOptionTags( 
-								$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $this->arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
-								$fSingle ? $this->getCorrespondingArrayValue( $this->vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $this->vValue, $strKey, array() ), 'unit', 'px' ),
-								$strKey, 
-								true, 	// since the above value is directly passed, pass call the function as for a single element.
-								$fMultipleOptions 
-							)
-						. "</select>"
-						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-					. "</label>"
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);			
-				
-		return "<div class='admin-page-framework-field-size' id='{$this->strTagID}'>" 
-			. implode( '', $arrOutput ) 
-		. "</div>";
-		
-	}
-	
-	private function getRadioField( $arrOutput=array() ) {
-		
-		// The value of the label key must be an array for the select type.
-		if ( ! is_array( $this->arrField['vLabel'] ) ) return;	
-		
-		$fSingle = ( $this->getArrayDimension( ( array ) $this->arrField['vLabel'] ) == 1 );
-		$arrLabels =  $fSingle ? array( $this->arrField['vLabel'] ) : $this->arrField['vLabel'];
-		foreach( $arrLabels as $strKey => $vLabel )  
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. $this->getRadioTags( $vLabel, $strKey, $fSingle )				
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-radio' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput )
-			. "</div>";
-		
-	}
-		/**
-		 * A helper function for the <em>getRadioField()</em> method.
-		 * @since			2.0.0
-		 */ 
-		private function getRadioTags( $arrLabels, $strIterationID, $fSingle ) {
-			
-			$arrOutput = array();
-			foreach ( $arrLabels as $strKey => $strLabel ) 
-				$arrOutput[] = 
-					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<label for='{$this->strTagID}_{$strIterationID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. "<span class='admin-page-framework-input-container'>"
-								. "<input "
-									. "id='{$this->strTagID}_{$strIterationID}_{$strKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-									. "type='radio' "
-									. "value='{$strKey}' "
-									. "name=" . ( ! $fSingle  ? "'{$this->strFieldName}[{$strIterationID}]' " : "'{$this->strFieldName}' " )
-									. ( $this->getCorrespondingArrayValue( $this->vValue, $strIterationID, null ) == $strKey ? 'Checked ' : '' )
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. "/>"							
-							. "</span>"
-							. "<span class='admin-page-framework-input-label-string'>"
-								. $strLabel
-							. "</span>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>";
-
-			return implode( '', $arrOutput );
-		}
-
-	private function getCheckBoxField( $arrOutput=array() ) {
-
-		foreach( ( array ) $this->arrField['vLabel'] as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"	
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. "<span class='admin-page-framework-input-container'>"
-								. "<input type='hidden' name=" .  ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
-								. "<input "
-									. "id='{$this->strTagID}_{$strKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-									. "type='{$this->arrField['strType']}' "	// checkbox
-									. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-									. "value='1' "
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-									. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) == 1 ? "Checked " : '' )
-								. "/>"							
-							. "</span>"
-							. "<span class='admin-page-framework-input-label-string'>"
-								. $strLabel
-							. "</span>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>" // end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-					
-		return "<div class='admin-page-framework-field-checkbox' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";	
-	
-	}
-	
-	/**
-	 * 
-	 * @remark			The user needs to assign the value to the vDefault key in order to set the hidden field. 
-	 * If it's not set ( null value ), the below foreach will not iterate an element so no input field will be embedded.
-	 */
-	private function getHiddenField( $arrOutput=array() ) {
-					
-		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( ( $strLabel = $this->getCorrespondingArrayValue( $this->arrField['vLabel'], $strKey, '' ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>{$strLabel}</span>" 
-								: "" 
-							)
-							. "<div class='admin-page-framework-input-container'>"
-								. "<input "
-									. "id='{$this->strTagID}_{$strKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-									. "type='{$this->arrField['strType']}' "	// hidden
-									. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-									. "value='" . $strValue  . "' "
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. "/>"
-							. "</div>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-					
-		return "<div class='admin-page-framework-field-hidden' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
-		
-	}
-	
-	private function getFileField( $arrOutput=array() ) {
-
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];	
-	
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( $strLabel && ! $this->arrField['fRepeatable'] ?
-								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: ""
-							)
-							. "<input "
-								. "id='{$this->strTagID}_{$strKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-								. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
-								. "type='{$this->arrField['strType']}' "	// file
-								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-					
-		return "<div class='admin-page-framework-field-file' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";			
-	
-	}
-	private function getSubmitField( $arrOutput=array() ) {
-		
-		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
-		$this->strFieldNameFlat = $this->getInputFieldNameFlat();
-		foreach( ( array ) $this->vValue as $strKey => $strValue ) {
-			$strRedirectURL = $this->getCorrespondingArrayValue( $this->arrField['vRedirect'], $strKey, null );
-			$strLinkURL = $this->getCorrespondingArrayValue( $this->arrField['vLink'], $strKey, null );
-			$strResetKey = $this->getCorrespondingArrayValue( $this->arrField['vReset'], $strKey, null );
-			$fResetConfirmed = $this->checkConfirmationDisplayed( $strResetKey, $this->strFieldNameFlat ); 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					// embed the field id and input id
-					. "<input type='hidden' "
-						. "name='__submit[{$this->strTagID}_{$strKey}][input_id]' "
-						. "value='{$this->strTagID}_{$strKey}' "
-					. "/>"
-					. "<input type='hidden' "
-						. "name='__submit[{$this->strTagID}_{$strKey}][field_id]' "
-						. "value='{$this->arrField['strFieldID']}' "
-					. "/>"		
-					. "<input type='hidden' "
-						. "name='__submit[{$this->strTagID}_{$strKey}][name]' "
-						. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
-					. "/>" 						
-					// for the vRedirect key
-					. ( $strRedirectURL 
-						? "<input type='hidden' "
-							. "name='__redirect[{$this->strTagID}_{$strKey}][url]' "
-							. "value='" . $strRedirectURL . "' "
-						. "/>" 
-						. "<input type='hidden' "
-							. "name='__redirect[{$this->strTagID}_{$strKey}][name]' "
-							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}" : "'" )
-						. "/>" 
-						: "" 
-					)
-					// for the vLink key
-					. ( $strLinkURL 
-						? "<input type='hidden' "
-							. "name='__link[{$this->strTagID}_{$strKey}][url]' "
-							. "value='" . $strLinkURL . "' "
-						. "/>"
-						. "<input type='hidden' "
-							. "name='__link[{$this->strTagID}_{$strKey}][name]' "
-							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
-						. "/>" 
-						: "" 
-					)
-					// for the vReset key
-					. ( $strResetKey && ! $fResetConfirmed
-						? "<input type='hidden' "
-							. "name='__reset_confirm[{$this->strTagID}_{$strKey}][key]' "
-							. "value='" . $this->strFieldNameFlat . "' "
-						. "/>"
-						. "<input type='hidden' "
-							. "name='__reset_confirm[{$this->strTagID}_{$strKey}][name]' "
-							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
-						. "/>" 
-						: ""
-					)
-					. ( $strResetKey && $fResetConfirmed
-						? "<input type='hidden' "
-							. "name='__reset[{$this->strTagID}_{$strKey}][key]' "
-							. "value='" . $strResetKey . "' "
-						. "/>"
-						. "<input type='hidden' "
-							. "name='__reset[{$this->strTagID}_{$strKey}][name]' "
-							. "value='{$this->strFieldNameFlat}" . ( is_array( $this->vValue ) ? "|{$strKey}'" : "'" )
-						. "/>" 
-						: ""
-					)
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<input "
-							. "id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
-							. "type='{$this->arrField['strType']}' "	// submit
-							. "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-							. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'submit' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-				. "</div>" // end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		}
-		return "<div class='admin-page-framework-field-submit' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";		
-	
-	}
-		/**
-		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the vReset key is set.
-		 * 
-		 */
-		private function checkConfirmationDisplayed( $strResetKey, $strFlatFieldName ) {
-				
-			if ( ! $strResetKey ) return false;
-			
-			$fResetConfirmed =  get_transient( md5( "reset_confirm_" . $strFlatFieldName ) ) !== false 
-				? true
-				: false;
-			
-			if ( $fResetConfirmed )
-				delete_transient( md5( "reset_confirm_" . $strFlatFieldName ) );
-				
-			return $fResetConfirmed;
-			
-		}
-
-	private function getImportField( $arrOutput=array() ) {
-	
-		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
-		$this->strFieldNameFlat = $this->getInputFieldNameFlat();
-		foreach( ( array ) $this->vValue as $strKey => $strValue ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					// embed the field id and input id
-					. "<input type='hidden' "
-						. "name='__import[{$this->arrField['strFieldID']}][input_id]' " . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='{$this->strTagID}_{$strKey}' "
-					. "/>"
-					. "<input type='hidden' "
-						. "name='__import[{$this->arrField['strFieldID']}][field_id]' " . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='{$this->arrField['strFieldID']}' "
-					. "/>"		
-					. "<input type='hidden' "
-						. "name='__import[{$this->arrField['strFieldID']}][do_merge]' " . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vMerge'], $strKey, false ) . "' "
-					. "/>"							
-					. "<input type='hidden' "
-						. "name='__import[{$this->arrField['strFieldID']}][import_option_key]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportOptionKey'], $strKey, $this->arrField['strOptionKey'] )
-					. "' />"
-					. "<input type='hidden' "
-						. "name='__import[{$this->arrField['strFieldID']}][format]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vImportFormat'], $strKey, 'array' )	// array, text, or json.
-					. "' />"			
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<input "		// upload button
-							. "id='{$this->strTagID}_{$strKey}_file' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import' ) . "' "
-							. "accept='" . $this->getCorrespondingArrayValue( $this->arrField['vAcceptAttribute'], $strKey, 'audio/*|video/*|image/*|MIME_type' ) . "' "
-							. "type='file' "	// upload filed. the file type will be stored in $_FILE
-							. "name='__import[{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )				
-						. "/>"
-						. "<input "		// import button
-							. "id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'import button button-primary' ) . "' "
-							. "type='submit' "	// the import button is a custom submit button.
-							. "name='__import[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'import_options' ), true ) . "' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);		
-					
-		return "<div class='admin-page-framework-field-import' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
-		
-	}
-	private function getExportField( $arrOutput=array() ) {
-		
-		$this->vValue = $this->getInputFieldValueFromLabel( $this->arrField, $this->arrOptions );
-		
-		// If vValue is not an array and the export data set, set the transient. ( it means single )
-		if ( isset( $this->arrField['vExportData'] ) && ! is_array( $this->vValue ) )
-			set_transient( md5( "{$this->arrField['strClassName']}_{$this->arrField['strFieldID']}" ), $this->arrField['vExportData'], 60*2 );	// 2 minutes.
-		
-		foreach( ( array ) $this->vValue as $strKey => $strValue ) {
-			
-			$strExportFormat = $this->getCorrespondingArrayValue( $this->arrField['vExportFormat'], $strKey, 'array' );
-			
-			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
-			$fIsDataSet = false;
-			if ( isset( $this->vValue[ $strKey ] ) && isset( $this->arrField['vExportData'][ $strKey ] ) ) {
-				set_transient( md5( "{$this->arrField['strClassName']}_{$this->arrField['strFieldID']}_{$strKey}" ), $this->arrField['vExportData'][ $strKey ], 60*2 );	// 2 minutes.
-				$fIsDataSet = true;
-			}
-			
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<input type='hidden' "
-						. "name='__export[{$this->arrField['strFieldID']}][file_name]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $this->arrField['vExportFileName'], $strKey, $this->generateExportFileName( $this->arrField['strOptionKey'], $strExportFormat ) )
-					. "' />"
-					. "<input type='hidden' "
-						. "name='__export[{$this->arrField['strFieldID']}][format]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='" . $strExportFormat
-					. "' />"				
-					. "<input type='hidden' "
-						. "name='__export[{$this->arrField['strFieldID']}][transient]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-						. "value='" . ( $fIsDataSet ? 1 : 0 )
-					. "' />"				
-					. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<input "
-							. "id='{$this->strTagID}_{$strKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, 'button button-primary' ) . "' "
-							. "type='submit' "	// the export button is a custom submit button.
-							// . "name=" . ( is_array( $this->arrField['vLabel'] ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-							. "name='__export[submit][{$this->arrField['strFieldID']}]" . ( is_array( $this->arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, $this->oMsg->___( 'export_options' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-				. "</div>" // end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-									
-		}
-					
-		return "<div class='admin-page-framework-field-export' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";		
-	
-	}
-	
-		/**
-		 * 
-		 * @since			2.0.0
-		 * @remark			Currently only array, text or json is supported.
-		 */ 
-		private function generateExportFileName( $strOptionKey, $strExportFormat='text' ) {
-				
-			switch ( trim( strtolower( $strExportFormat ) ) ) {
-				case 'text':	// for plain text.
-					$strExt = "txt";
-					break;
-				case 'json':	// for json.
-					$strExt = "json";
-					break;
-				case 'array':	// for serialized PHP arrays.
-				default:	// for anything else, 
-					$strExt = "txt";
-					break;
-			}		
-				
-			return $strOptionKey . '_' . date("Ymd") . '.' . $strExt;
-			
-		}
-
-	private function getDateField( $arrOutput=array() ) {
-		
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];		
-		
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( $strLabel && ! $this->arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: "" 
-							)
-							. "<!-- testing -->"
-							. "<input id='{$this->strTagID}_{$strKey}' "
-								. "class='datepicker " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-								. "type='text' "	// text, password, etc.
-								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $this->vValue, $strKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"	// end of label container
-					. $this->getDatePickerEnablerScript( "{$this->strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $this->arrField['vDateFormat'], $strKey, 'yy/mm/dd' ) )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-date' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
-		
-	}
-		/**
-		 * A helper function for the above getDateField() method.
-		 * 
-		 */
-		private function getDatePickerEnablerScript( $strID, $strDateFormat ) {
-			return 
-				"<script type='text/javascript' class='date-picker-enabler-script' data-id='{$strID}' data-date_format='{$strDateFormat}'>
-					jQuery( document ).ready( function() {
-						jQuery( '#{$strID}' ).datepicker({
-							dateFormat : '{$strDateFormat}'
-						});
-					})
-				</script>";
-		}
-	
-	private function getColorField( $arrOutput=array() ) {
-	
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];		
-	
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"					
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-							. ( $strLabel && ! $this->arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: "" 
-							)
-							. "<input id='{$this->strTagID}_{$strKey}' "
-								. "class='input_color " . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 10 ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-								. "type='text' "	// text
-								. "name=" . ( is_array( $arrFields ) ? "'{$this->strFieldName}[{$strKey}]' " : "'{$this->strFieldName}' " )
-								. "value='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
-								. "color='" . ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, 'transparent' ) ) . "' "
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-						. "<div class='colorpicker' id='color_{$this->strTagID}_{$strKey}' rel='{$this->strTagID}_{$strKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
-						. $this->getColorPickerEnablerScript( "{$this->strTagID}_{$strKey}" )
-					. "</div>"
-				. "</div>"	// admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-color' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";	
-		
-	}
-		/**
-		 * A helper function for the above getColorField() method to add a script to enable the color picker.
-		 */
-		private function getColorPickerEnablerScript( $strInputID ) {
-			return
-				"<script type='text/javascript' class='color-picker-enabler-script'>
-					jQuery( document ).ready( function(){
-						registerAPFColorPickerField( '{$strInputID}' );
-					});
-				</script>";
-		}
-		
-	private function getImageField( $arrOutput=array() ) {
-		
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];
-		$fMultipleFields = is_array( $arrFields );	
-		$fRepeatable = $this->arrField['fRepeatable'];
-			
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] =
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"					
-					. $this->getImageInputTags( $this->strTagID, $strKey, $strLabel, $this->arrField['arrCaptureAttributes'], $fMultipleFields )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-image' id='{$this->strTagID}'>" 
-				. implode( PHP_EOL, $arrOutput ) 
-			. "</div>";		
-		
-	}	
-	
-		/**
-		 * A helper function for the above getImageField() method to return input elements.
-		 * 
-		 * @since			2.1.3
-		 */
-		private function getImageInputTags( $strTagID, $strKey, $strLabel, $arrCaptureAttributes, $fMultipleFields ) {
-			
-			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$intCountAttributes = count( ( array ) $arrCaptureAttributes );
-			
-			// The URL input field is mandatory as the preview element uses it.
-			$arrOutputs = array(
-				( $strLabel && ! $this->arrField['fRepeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-					: ''
-				)			
-				. "<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-					. "type='text' "	// text
-					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $strImageURL = $this->getImageInputValue( $this->vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : ''  ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-				. "/>"	
-			);
-			
-			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $arrCaptureAttributes as $strAttribute )
-				$arrOutputs[] = 
-					"<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
-						. "value='" . $this->getImageInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-					. "/>";
-			
-			// Returns the outputs as well as the uploader buttons and the preview element.
-			return 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
-					. "<label for='{$this->strTagID}_{$strKey}' >"
-						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 
-						. implode( PHP_EOL, $arrOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-					. "</label>"
-				. "</div>"
-				. ( $this->getCorrespondingArrayValue( $this->arrField['vImagePreview'], $strKey, true )
-					? "<div id='image_preview_container_{$this->strTagID}_{$strKey}' "
-							. "class='image_preview' "
-							. "style='" . ( $strImageURL ? "" : "display : none;" ) . "'"
-						. ">"
-							. "<img src='{$strImageURL}' "
-								. "id='image_preview_{$this->strTagID}_{$strKey}' "
-							. "/>"
-						. "</div>"
-					: "" )
-				. $this->getImageUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false, $this->arrField['fAllowExternalSource'] ? true : false );
-			
-		}
-		/**
-		 * A helper function for the above getImageInputTags() method that retrieve the specified input field value.
-		 * @since			2.1.3
-		 */
-		private function getImageInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute='' ) {	
-
-			$vValue = $fMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] )
-				: ( isset( $vValue ) ? $vValue : self::$arrDefaultFieldValues['vDefault'] );
-
-			return $strCaptureAttribute
-				? ( isset( $vValue[ $strCaptureAttribute ] ) ? $vValue[ $strCaptureAttribute ] : "" )
-				: $vValue;
-			
-		}
-		/**
-		 * A helper function for the above getImageInputTags() method to add a image button script.
-		 * 
-		 * @since			2.1.3
-		 */
-		private function getImageUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
-			
-			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
-			$strButton ="<a id='select_image_{$strInputID}' "
-						. "href='#' "
-						. "class='select_image button button-small'"
-						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
-						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
-					. ">"
-						. $strSelectImage 
-				."</a>";
-			
-			$strScript = "
-				if ( jQuery( 'a#select_image_{$strInputID}' ).length == 0 ) {
-					jQuery( 'input#{$strInputID}' ).after( \"{$strButton}\" );
-				}			
-			" . PHP_EOL;
-
-			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
-				$strScript .="
-					jQuery( document ).ready( function(){			
-						setAPFImageUploader( '{$strInputID}', '{$fRpeatable}', '{$fExternalSource}' );
-					});" . PHP_EOL;	
-					
-			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
-
-		}	
-	
-	/**
-	 * Returns the output of media field.
-	 * 
-	 * @since			2.1.3
-	 */
-	private function getMediaField( $arrOutput=array() ) {
-		
-		$arrFields = $this->arrField['fRepeatable'] ? 
-			( empty( $this->vValue ) ? array( '' ) : ( array ) $this->vValue )
-			: $this->arrField['vLabel'];		
-		$fMultipleFields = is_array( $arrFields );	
-		$fRepeatable = $this->arrField['fRepeatable'];			
-			
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] =
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"					
-					. $this->getMediaInputTags( $this->strTagID, $strKey, $strLabel, $this->arrField['arrCaptureAttributes'], $fMultipleFields )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-media' id='{$this->strTagID}'>" 
-				. implode( PHP_EOL, $arrOutput ) 
-			. "</div>";		
-			
-	}
-		/**
-		 * A helper function for the above getImageField() method to return input elements.
-		 * 
-		 * @since			2.1.3
-		 */
-		private function getMediaInputTags( $strTagID, $strKey, $strLabel, $arrCaptureAttributes, $fMultipleFields ) {
-			
-			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$intCountAttributes = count( ( array ) $arrCaptureAttributes );	
-			
-			// The URL input field is mandatory as the preview element uses it.
-			$arrOutputs = array(
-				( $strLabel && ! $this->arrField['fRepeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>" 
-					: ''
-				)
-				. "<input id='{$this->strTagID}_{$strKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $this->arrField['vSize'], $strKey, 60 ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $this->arrField['vMaxLength'], $strKey, self::$arrDefaultFieldValues['vMaxLength'] ) . "' "
-					. "type='text' "	// text
-					. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : ''  ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $this->arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-				. "/>"	
-			);
-			
-			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $arrCaptureAttributes as $strAttribute )
-				$arrOutputs[] = 
-					"<input id='{$this->strTagID}_{$strKey}_{$strAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $fMultipleFields ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}" ) . "[{$strAttribute}]' " 
-						. "value='" . $this->getMediaInputValue( $this->vValue, $strKey, $fMultipleFields, $strAttribute  ) . "' "
-						. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-					. "/>";
-			
-			// Returns the outputs as well as the uploader buttons and the preview element.
-			return 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
-					. "<label for='{$this->strTagID}_{$strKey}' >"
-						. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' )
-						. implode( PHP_EOL, $arrOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-					. "</label>"
-				. "</div>"
-				. $this->getMediaUploaderButtonScript( "{$this->strTagID}_{$strKey}", $this->arrField['fRepeatable'] ? true : false, $this->arrField['fAllowExternalSource'] ? true : false );
-			
-		}
-		/**
-		 * A helper function for the above getMediaInputTags() method that retrieve the specified input field value.
-		 * @since			2.1.3
-		 */
-		private function getMediaInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute='' ) {	
-
-			$vValue = $fMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $strKey, self::$arrDefaultFieldValues['vDefault'] )
-				: ( isset( $vValue ) ? $vValue : self::$arrDefaultFieldValues['vDefault'] );
-
-			return $strCaptureAttribute
-				? ( isset( $vValue[ $strCaptureAttribute ] ) ? $vValue[ $strCaptureAttribute ] : "" )
-				: $vValue;
-			
-		}		
-		/**
-		 * A helper function for the above getMediaInputTags() method to add a image button script.
-		 * 
-		 * @since			2.1.3
-		 */
-		private function getMediaUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
-			
-			$strSelectImage = __( 'Select File', 'admin-page-framework' );
-			$strButton ="<a id='select_media_{$strInputID}' "
-						. "href='#' "
-						. "class='select_media button button-small'"
-						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
-						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
-					. ">"
-						. $strSelectImage 
-				."</a>";
-			
-			$strScript = "
-				if ( jQuery( 'a#select_media_{$strInputID}' ).length == 0 ) {
-					jQuery( 'input#{$strInputID}' ).after( \"{$strButton}\" );
-				}			
-			" . PHP_EOL;
-
-			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
-				$strScript .="
-					jQuery( document ).ready( function(){			
-						setAPFMediaUploader( '{$strInputID}', '{$fRpeatable}', '{$fExternalSource}' );
-					});" . PHP_EOL;	
-					
-			return "<script type='text/javascript'>" . $strScript . "</script>" . PHP_EOL;
-
-		}			
-		
-		
-	/**
-	 * Returns the output of post type checklist check boxes.
-	 * 
-	 * @remark			the posttype checklist field does not support multiple elements by passing an array of labels.
-	 * @since			2.0.0
-	 */ 
-	private function getPostTypeChecklistField( $arrOutput=array() ) {
-				
-		foreach( ( array ) $this->getPostTypeArrayForChecklist( $this->arrField['arrRemove'] ) as $strKey => $strValue ) {
-			$strName = "{$this->strFieldName}[{$strKey}]";
-			$arrOutput[] = 
-				"<div class='{$this->strFieldClassSelector}' id='field-{$this->strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $this->arrField['vLabelMinWidth'], $strKey, self::$arrDefaultFieldValues['vLabelMinWidth'] ) . "px;'>"
-						. "<label for='{$this->strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $this->arrField['vBeforeInputTag'], $strKey, '' ) 	
-							. "<span class='admin-page-framework-input-container'>"
-								. "<input type='hidden' name='{$strName}' value='0' />"
-								. "<input "
-									. "id='{$this->strTagID}_{$strKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $this->arrField['vClassAttribute'], $strKey, '' ) . "' "
-									. "type='checkbox' "
-									. "name='{$strName}'"
-									. "value='1' "
-									. ( $this->getCorrespondingArrayValue( $this->arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-									. ( $this->getCorrespondingArrayValue( $this->vValue, $strKey, false ) == 1 ? "Checked " : '' )				
-								. "/>"
-							. "</span>"
-							. "<span class='admin-page-framework-input-label-string'>"
-								. $strValue
-							. "</span>"				
-							. $this->getCorrespondingArrayValue( $this->arrField['vAfterInputTag'], $strKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $this->arrField['vDelimiter'], $strKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$this->strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		}
-		return "<div class='admin-page-framework-field-posttype' id='{$this->strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
-		
-	}	
-	
-		/**
-		 * A helper function for the above getPosttypeChecklistField method.
-		 * 
-		 * @since			2.0.0
-		 * @since			2.1.1			Changed the returning array to have the labels in its element values.
-		 * @return			array			The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
-		 */ 
-		private function getPostTypeArrayForChecklist( $arrRemoveNames, $arrPostTypes=array() ) {
-			
-			foreach( get_post_types( '','objects' ) as $oPostType ) 
-				if (  isset( $oPostType->name, $oPostType->label ) ) 
-					$arrPostTypes[ $oPostType->name ] = $oPostType->label;
-
-			return array_diff_key( $arrPostTypes, array_flip( $arrRemoveNames ) );	
-
-		}		
-	
-	/**
-	 * Returns the output of taxonomy checklist check boxes.
-	 * 
-	 * @remark			Multiple fields are not supported.
-	 * @remark			Repeater fields are not supported.
-	 * @since			2.0.0
-	 * @since			2.1.1			The checklist boxes are rendered in a tabbed single box.
-	 */
-	private function getTaxonomyChecklistField( $arrOutput=array() ) {
-	
-		$arrTabs = array();
-		$arrCheckboxes = array();
-		foreach( ( array ) $this->arrField['vTaxonomySlug'] as $strKey => $strTaxonomySlug ) {
-			$strActive = isset( $strActive ) ? '' : 'active';	// inserts the active class selector into the first element.
-			$arrTabs[] = "<li class='tab-box-tab'><a href='#tab-{$strKey}'><span class='tab-box-tab-text'>" . $this->getCorrespondingArrayValue( empty( $this->arrField['vLabel'] ) ? null : $this->arrField['vLabel'], $strKey, $this->getLabelFromTaxonomySlug( $strTaxonomySlug ) ) . "</span></a></li>";
-			$arrCheckboxes[] = 
-				"<div id='tab-{$strKey}' class='tab-box-content' style='height: {$this->arrField['strHeight']};'>"
-					. "<ul class='list:category taxonomychecklist form-no-clear'>"
-						. wp_list_categories( array(
-							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
-							'name'     => is_array( $this->arrField['vTaxonomySlug'] ) ? "{$this->strFieldName}[{$strKey}]" : "{$this->strFieldName}",   // name of the input
-							'selected' => $this->getSelectedKeyArray( $this->vValue, $strKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
-							'title_li'	=> '',	// disable the Categories heading string 
-							'hide_empty' => 0,	
-							'echo'	=> false,	// returns the output
-							'taxonomy' => $strTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
-						) )					
-					. "</ul>"			
-					. "<!--[if IE]><b>.</b><![endif]-->"
-				. "</div>";
-		}
-		$strTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $arrTabs ) . "</ul>";
-		$strContents = 
-			"<div class='tab-box-contents-container'>"
-				. "<div class='tab-box-contents' style='height: {$this->arrField['strHeight']};'>"
-					. implode( '', $arrCheckboxes )
-				. "</div>"
-			. "</div>";
-			
-		$strOutput = 
-			"<div id='{$this->strTagID}' class='{$this->strFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$this->arrField['strWidth']};'>"
-				. $strTabs . PHP_EOL
-				. $strContents . PHP_EOL
-			. "</div>";
-
-		return $strOutput;
-
-	}	
-	
-		/**
-		 * A helper function for the above getTaxonomyChecklistField() method. 
-		 * 
-		 * @since			2.0.0
-		 * @param			array			$vValue			This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
-		 * @param			string			$strKey			
-		 * @return			array			Returns an array consisting of keys whose value is true.
-		 */ 
-		private function getSelectedKeyArray( $vValue, $strKey ) {
-					
-			$vValue = ( array ) $vValue;	// cast array because the initial value (null) may not be an array.
-			$intArrayDimension = $this->getArrayDimension( ( array ) $vValue );
-					
-			if ( $intArrayDimension == 1 )
-				$arrKeys = $vValue;
-			else if ( $intArrayDimension == 2 )
-				$arrKeys = ( array ) $this->getCorrespondingArrayValue( $vValue, $strKey, false );
-				
-			return array_keys( $arrKeys, true );
-		
-		}
-	
-		/**
-		 * A helper function for the above getTaxonomyChecklistField() method.
-		 * 
-		 * @since			2.1.1
-		 * 
-		 */
-		private function getLabelFromTaxonomySlug( $strTaxonomySlug ) {
-			
-			$oTaxonomy = get_taxonomy( $strTaxonomySlug );
-			return isset( $oTaxonomy->label )
-				? $oTaxonomy->label
-				: null;
-			
-		}
-
-	
 	
 	/**
 	 * Sets or return the flag that indicates whether the creating fields are for meta boxes or not.
@@ -9678,7 +10758,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				
 		if ( is_admin() ) {
 			
-			add_action( 'wp_loaded', array( $this, 'setUp' ) );
+			add_action( 'wp_loaded', array( $this, 'replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method.
+			add_action( 'wp_loaded', array( $this, 'setUp' ), 11 );
 			
 			add_action( 'add_meta_boxes', array( $this, 'addMetaBox' ) );
 			add_action( 'save_post', array( $this, 'saveMetaBoxFields' ) );
@@ -9696,6 +10777,23 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 	}
 	
+	/**
+	 * Loads the default field type definition.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToLoadDefaultFieldTypeDefinitions() {
+		
+		// This class adds filters for the field type definitions so that framework's default field types will be added.
+		new AdminPageFramework_InputFieldTypeDefinitions( $this->oProps->strClassName, $this->oMsg );		
+		$this->oProps->arrFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
+			$this,
+			'field_types_' . $this->oProps->strClassName,	// 'field_types_' . {extended class name}
+			array()
+		);				
+		
+	}
+
 	
 	/**
 	* The method for all necessary set-ups.
@@ -9791,12 +10889,9 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->arrPostTypes ) )		// edit post page
 			)
 		) {
-			if ( $arrField['strType'] == 'image' || $arrField['strType'] == 'media' ) $this->oHeadTag->enqueueMediaUploaderScript();
-			if ( $arrField['strType'] == 'image' ) $this->oHeadTag->addImageFieldScript( $arrField );
-			if ( $arrField['strType'] == 'media' ) $this->oHeadTag->addMediaFieldScript( $arrField );
-			if ( $arrField['strType'] == 'taxonomy' ) $this->oHeadTag->addTaxonomyChecklistScript();
-			if ( $arrField['strType'] == 'color' ) $this->oHeadTag->addColorFieldScript();
-			if ( $arrField['strType'] == 'date' ) $this->oHeadTag->addDateFieldScript();
+			// Set relevant scripts and styles for the input field.
+			$this->setFieldHeadTagElements( $arrField );
+
 		}
 		
 		// For the contextual help pane,
@@ -9816,7 +10911,40 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oProps->arrFields[ $arrField['strFieldID'] ] = $arrField;
 	
 	}
-		
+		/**
+		 * Sets the given field type's enqueuing scripts and styles.
+		 * 
+		 * A helper function for the above registerSettings() method.
+		 * 
+		 * @since			2.1.5
+		 */
+		private function setFieldHeadTagElements( $arrField ) {
+			
+			$strFieldType = $arrField['strType'];
+			
+			// Set the global flag to indicate whether the elements are already added and enqueued.
+			if ( isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $strFieldType ] ) && $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $strFieldType ] ) return;
+			$GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $strFieldType ] = true;
+
+			// If the field type is not defined, return.
+			if ( ! isset( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] ) ) return;
+
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callFieldLoader'] ) )
+				call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callFieldLoader'], array() );		
+			
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetScripts'] ) )
+				$this->oProps->strScript .= call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetScripts'], array() );
+				
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetStyles'] ) )
+				$this->oProps->strStyle .= call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetStyles'], array() );
+				
+			if ( is_callable( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetIEStyles'] ) )
+				$this->oProps->strStyleIE .= call_user_func_array( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['callGetIEStyles'], array() );					
+
+			$this->oHeadTag->enqueueStyles( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['arrEnqueueStyles'] );
+			$this->oHeadTag->enqueueScripts( $this->oProps->arrFieldTypeDefinitions[ $strFieldType ]['arrEnqueueScripts'] );
+					
+		}		
 
 	/**
 	 * 
@@ -9910,7 +11038,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			// If it's a hidden input type, do now draw a table row
 			if ( $arrField['strType'] == 'hidden' ) {
 				$strOut .= "<tr><td style='height: 0; padding: 0; margin: 0; line-height: 0;'>"
-					. $this->getField( $arrField )
+					. $this->getFieldOutput( $arrField )
 					. "</td></tr>";
 				continue;
 			}
@@ -9923,7 +11051,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 						. "</span>"
 						. "</label></th>";		
 			$strOut .= "<td>";
-			$strOut .= $this->getField( $arrField );
+			$strOut .= $this->getFieldOutput( $arrField );
 			$strOut .= "</td>";
 			$strOut .= "</tr>";
 			
@@ -9945,21 +11073,26 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			
 		}
 	}	
-	private function getField( $arrField ) {
-		
+	private function getFieldOutput( $arrField ) {
+
 		// Set the input field name which becomes the option key of the custom meta field of the post.
 		$arrField['strName'] = isset( $arrField['strName'] ) ? $arrField['strName'] : $arrField['strFieldID'];
-		
-		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, array(), $this->oMsg );	// currently error arrays are not supported for meta-boxes 
+
+		// Render the form field. 		
+		$strFieldType = isset( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] ) && is_callable( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] )
+			? $arrField['strType']
+			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
+		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, array(), $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] );	// currently the error array is not supported for meta-boxes
 		$oField->isMetaBox( true );
-		$strOut = $this->oUtil->addAndApplyFilter(
+		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
+		unset( $oField );	// release the object for PHP 5.2.x or below.
+		
+		return $this->oUtil->addAndApplyFilter(
 			$this,
 			$this->oProps->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
-			$oField->getInputField( $arrField['strType'] ),	// field output
+			$strFieldOutput,
 			$arrField // the field array
-		);
-		unset( $oField );	// release the object for PHP 5.2.x or below.		
-		return $strOut;
+		);	
 				
 	}
 		
@@ -10020,15 +11153,19 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		if ( $strMethodName == $this->oProps->strPrefixStart . $this->oProps->strClassName ) return;
 		
 		// the class name + field_ field ID filter.
-		if ( substr( $strMethodName, 0, strlen( $this->oProps->strClassName . '_' . 'field_' ) ) == $this->oProps->strClassName . '_' . 'field_' ) 
+		if ( substr( $strMethodName, 0, strlen( $this->oProps->strClassName . '_' . 'field_' ) ) == $this->oProps->strClassName . '_' . 'field_' )
 			return $arrArgs[ 0 ];
+
+		// the field_types_ + class name filter. [2.1.5+]
+		if ( substr( $strMethodName, 0, strlen( "field_types_{$this->oProps->strClassName}" ) ) == "field_types_{$this->oProps->strClassName}" )
+			return $arrArgs[ 0 ];		
 			
 		// the script_ + class name	filter.
-		if ( substr( $strMethodName, 0, strlen( "script_{$this->oProps->strClassName}" ) ) == "script_{$this->oProps->strClassName}" ) 
+		if ( substr( $strMethodName, 0, strlen( "script_{$this->oProps->strClassName}" ) ) == "script_{$this->oProps->strClassName}" )
 			return $arrArgs[ 0 ];		
 	
 		// the style_ + class name	filter.
-		if ( substr( $strMethodName, 0, strlen( "style_{$this->oProps->strClassName}" ) ) == "style_{$this->oProps->strClassName}" ) 
+		if ( substr( $strMethodName, 0, strlen( "style_{$this->oProps->strClassName}" ) ) == "style_{$this->oProps->strClassName}" )
 			return $arrArgs[ 0 ];		
 
 		// the validation_ + class name	filter.

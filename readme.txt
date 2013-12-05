@@ -180,6 +180,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
+* Added: the `field_types_ + {extended class name}` filter that receives the field type defining array so that the user can return custom field types by adding a definition array to it.
+* Added: the `vClassAttributeUpload` key for the `iumport` field type that defines the class attribute of the custom file input tag in the field output.
+* Added: the `vUnitSize` key for the `size` field type that indicates the `size` attribute of the select(unit) input field.</li>
 * Added: the `vMerge` key for the `import` field type that determines whether the imported data should be merged with the existing options.
 * Changed: admin settings notifications with `setSettingNotice()` not to have multiple messages with the same id.
 * Added: the `validation_{extended class name}_{field id}` and the `validation_{extended class name}_{input id}` filters. 
