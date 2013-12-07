@@ -1350,13 +1350,24 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 	
 	public function printMetaFieldValues( $strContent ) {
 		
-		if ( get_post_type() != 'apf_posts'  ) return $strContent;
-								
-		// get_post_meta( $post->ID ) will return an array of all the meta field values.
-		// or if you know the field id of the value you want, you can do
-		// $value = get_post_meta( $post->ID, $field_id, true );
-		return "<h3>Saved Meta Field Values</h3>" 
-			. $this->oDebug->getArray( get_post_meta( $GLOBALS['post']->ID ) );
+		if ( ! isset( $GLOBALS['post']->ID ) || get_post_type() != 'apf_posts' ) return $strContent;
+			
+		// 1. To retrieve the meta box data	- get_post_meta( $post->ID ) will return an array of all the meta field values.
+		// or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
+		$intPostID = $GLOBALS['post']->ID;
+		$arrPostData = array();
+		foreach( ( array ) get_post_custom_keys( $intPostID ) as $strKey ) 	// This way, array will be unserialized; easier to view.
+			$arrPostData[ $strKey ] = get_post_meta( $intPostID, $strKey, true );
+		
+		// 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
+		// The key name is the class name by default. This can be changed by passing an arbitrary string 
+		// to the first parameter of the constructor of the AdminPageFramework class.		
+		$arrSavedOptions = get_option( 'APF_Demo' );
+			
+		return "<h3>" . __( 'Saved Meta Field Values', 'admin-page-framework-demo' ) . "</h3>" 
+			. $this->oDebug->getArray( $arrPostData )
+			. "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
+			. $this->oDebug->getArray( $arrSavedOptions );
 
 	}
 	
