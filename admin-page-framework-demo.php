@@ -806,7 +806,7 @@ class APF_Demo extends AdminPageFramework {
 				'strFieldID' => 'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
 				'strSectionID' => 'verification',
 				'strType' => 'submit',		
-				'vLabel' => __( 'Save', 'admin-page-framework-demo' ),
+				'vLabel' => __( 'Veify', 'admin-page-framework-demo' ),
 			)
 		);	
 		$this->addSettingFields(			
