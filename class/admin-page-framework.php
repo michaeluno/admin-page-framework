@@ -312,7 +312,25 @@ abstract class AdminPageFramework_WPUtilities {
 		return $strSubjectURL;
 		
 	}	
-	
+
+	/**
+	 * Calculates the URL from the given path.
+	 * 
+	 * @since			2.1.5
+	 * @static
+	 * @access			public
+	 * @return			string			The source url
+	 */
+	static public function getSRCFromPath( $strFilePath ) {
+				
+		// It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
+		$oWPStyles = new WP_Styles();	
+		$strRelativePath = '/' . AdminPageFramework_Utilities::getRelativePath( ABSPATH, $strFilePath );
+		$strHref = $oWPStyles->_css_href( $strRelativePath, '', '' );
+		unset( $oWPStyles );	// for PHP 5.2.x or below
+		return $strHref;
+		
+	}	
 }
 endif;
 
@@ -335,7 +353,7 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @remark			it must be public 
 	 * @return			string			The sanitized string.
 	 */ 
-	public function sanitizeSlug( $strSlug ) {
+	public static function sanitizeSlug( $strSlug ) {
 		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff]/', '_', trim( $strSlug ) );
 	}	
 	
@@ -347,7 +365,7 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @remark			it must be public 
 	 * @return			string			The sanitized string.
 	 */ 
-	public function sanitizeString( $strString ) {
+	public static function sanitizeString( $strString ) {
 		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $strString );
 	}	
 	
@@ -361,9 +379,9 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @return			string|array			If the key does not exist in the passed array, it will return the default. If the subject value is not an array, it will return the subject value itself.
 	 * @since			2.0.0
 	 * @since			2.1.3					Added the $fBlankToDefault parameter that sets the default value if the subject value is empty.
-	 * @access			protected
+	 * @since			2.1.5					Changed the scope to public static from protected as converting all the utility methods to all public static.
 	 */
-	protected function getCorrespondingArrayValue( $vSubject, $strKey, $strDefault='', $fBlankToDefault=false ) {	
+	public static function getCorrespondingArrayValue( $vSubject, $strKey, $strDefault='', $fBlankToDefault=false ) {	
 				
 		// If $vSubject is null,
 		if ( ! isset( $vSubject ) ) return $strDefault;	
@@ -390,8 +408,8 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @param			array			$array			the subject array to check.
 	 * @return			integer			returns the number of dimensions of the array.
 	 */
-	protected function getArrayDimension( $array ) {
-		return ( is_array( reset( $array ) ) ) ? $this->getArrayDimension( reset( $array ) ) + 1 : 1;
+	public static function getArrayDimension( $array ) {
+		return ( is_array( reset( $array ) ) ) ? self::getArrayDimension( reset( $array ) ) + 1 : 1;
 	}
 	
 	
@@ -406,12 +424,12 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @remark			The parameters are variadic and can add arrays as many as necessary.
 	 * @return			array			the united array.
 	 */
-	public function uniteArrays( $arrPrecedence, $arrDefault1 ) {
+	public static function uniteArrays( $arrPrecedence, $arrDefault1 ) {
 				
 		$arrArgs = array_reverse( func_get_args() );
 		$arrArray = array();
 		foreach( $arrArgs as $arrArg ) 
-			$arrArray = $this->uniteArraysRecursive( $arrArg, $arrArray );
+			$arrArray = self::uniteArraysRecursive( $arrArg, $arrArray );
 			
 		return $arrArray;
 		
@@ -424,13 +442,14 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * An alternative to <em>array_replace_recursive()</em>; it is not supported PHP 5.2.x or below.
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.5				Changed the scope to static. 
 	 * @access			public
 	 * @remark			null values will be overwritten. 	
 	 * @param			array			$arrPrecedence			the array that overrides the same keys.
 	 * @param			array			$arrDefault				the array that is going to be overridden.
 	 * @return			array			the united array.
 	 */ 
-	public function uniteArraysRecursive( $arrPrecedence, $arrDefault ) {
+	public static function uniteArraysRecursive( $arrPrecedence, $arrDefault ) {
 				
 		if ( is_null( $arrPrecedence ) ) $arrPrecedence = array();
 		
@@ -445,7 +464,7 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 				
 				// if the both are arrays, do the recursive process.
 				if ( is_array( $arrPrecedence[ $strKey ] ) && is_array( $v ) ) 
-					$arrPrecedence[ $strKey ] = $this->uniteArraysRecursive( $arrPrecedence[ $strKey ], $v );			
+					$arrPrecedence[ $strKey ] = self::uniteArraysRecursive( $arrPrecedence[ $strKey ], $v );			
 			
 			}
 		}
@@ -458,7 +477,7 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @since			2.0.0
 	 * @return			string|null
 	 */ 
-	public function getQueryValueInURLByKey( $strURL, $strQueryKey ) {
+	static public function getQueryValueInURLByKey( $strURL, $strQueryKey ) {
 		
 		$arrURL = parse_url( $strURL );
 		parse_str( $arrURL['query'], $arrQuery );		
@@ -476,7 +495,7 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 	 * @since			2.0.0
 	 * @return			string|integer			A numeric value will be returned. 
 	 */ 
-	public function fixNumber( $numToFix, $numDefault, $numMin="", $numMax="" ) {
+	static public function fixNumber( $numToFix, $numDefault, $numMin="", $numMax="" ) {
 
 		if ( ! is_numeric( trim( $numToFix ) ) ) return $numDefault;
 		if ( $numMin !== "" && $numToFix < $numMin ) return $numMin;
@@ -484,6 +503,50 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 		return $numToFix;
 		
 	}		
+	
+	/**
+	 * Calculates the relative path from the given path.
+	 * 
+	 * This function is used to generate a template path.
+	 * 
+	 * @since			2.1.5
+	 * @author			Gordon
+	 * @author			Michael Uno,			Modified variable names and spacing.
+	 * @see				http://stackoverflow.com/questions/2637945/getting-relative-path-from-absolute-path-in-php/2638272#2638272
+	 */
+	static public function getRelativePath( $from, $to ) {
+		
+		// some compatibility fixes for Windows paths
+		$from = is_dir( $from ) ? rtrim( $from, '\/') . '/' : $from;
+		$to   = is_dir( $to )   ? rtrim( $to, '\/') . '/'   : $to;
+		$from = str_replace( '\\', '/', $from );
+		$to   = str_replace( '\\', '/', $to );
+
+		$from     = explode( '/', $from );
+		$to       = explode( '/', $to );
+		$relPath  = $to;
+
+		foreach( $from as $depth => $dir ) {
+			// find first non-matching dir
+			if( $dir === $to[ $depth ] ) {
+				// ignore this directory
+				array_shift( $relPath );
+			} else {
+				// get number of remaining dirs to $from
+				$remaining = count( $from ) - $depth;
+				if( $remaining > 1 ) {
+					// add traversals up to first matching dir
+					$padLength = ( count( $relPath ) + $remaining - 1 ) * -1;
+					$relPath = array_pad( $relPath, $padLength, '..' );
+					break;
+				} else {
+					$relPath[ 0 ] = './' . $relPath[ 0 ];
+				}
+			}
+		}
+		return implode( '/', $relPath );
+		
+	}
 	
 }
 endif;
@@ -772,6 +835,29 @@ abstract class AdminPageFramework_HeadTag_Base {
 	/*
 	 * Shared methods
 	 */
+	
+	/**
+	 * Resolves the given src.
+	 * 
+	 * Checks if the given string is a url, a relative path, or absolute path.
+	 * 
+	 * @since			2.1.5
+	 */
+	protected function resolveSRC( $strSRC ) {	
+		
+		// It is a url
+		if ( filter_var( $strSRC, FILTER_VALIDATE_URL ) )
+			return $strSRC;
+
+		// If the file exists, it means it is an absolute path. If so, calculate the URL from the path.
+		if ( file_exists( realpath( $strSRC ) ) )
+			return $this->oUtil->getSRCFromPath( $strSRC );
+		
+		// Otherwise, let's assume the string is a relative path to the WordPress installed absolute path.
+		return $strSRC;
+		
+	}
+	
 	/**
 	 * Performs actual enqueuing items. 
 	 * 
@@ -979,7 +1065,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.1.2
 	 * @since			2.1.5			Moved from the main class.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
 	 * @param			string			$strPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			$strTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
@@ -990,6 +1076,8 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$strSRC = trim( $strSRC );
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRC = $this->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -1050,7 +1138,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * @since			2.1.2
 	 * @since			2.1.5			Moved from the main class.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
 	 * @param			string			$strPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			$strTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
@@ -1061,6 +1149,8 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$strSRC = trim( $strSRC );
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRC = $this->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -1256,7 +1346,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * @remark			The user may use this method.
 	 * @since			2.1.5			
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
 	 * @param			array			$arrPostTypes		(optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
@@ -1266,6 +1356,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		$strSRC = trim( $strSRC );
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRC = $this->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -1314,7 +1406,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * 
 	 * @since			2.1.5			
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue, the absolute file path, or relative path to the root directory of WordPress. Example: '/js/myscript.js'.
 	 * @param			array			$arrPostTypes		(optional) The post type slugs that the script should be added to. If not set, it applies to all the pages with the post type slugs.
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
@@ -1324,6 +1416,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		$strSRC = trim( $strSRC );
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
+		
+		$strSRC = $this->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -4393,7 +4487,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
 	 * @param			string			$strPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			$strTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.
@@ -4432,7 +4526,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$strSRC				The URL of the stylesheet to enqueue or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$strSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
 	 * @param			string			$strPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			$strTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			$arrCustomArgs		(optional) The argument array for more advanced parameters.

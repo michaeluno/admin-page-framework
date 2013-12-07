@@ -1,5 +1,5 @@
 <?php
-class MyCustomFieldType extends AdminPageFramework_CustomFieldType {
+class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 		
 	/**
 	 * Returns the array of the field type specific default keys.
@@ -23,7 +23,7 @@ class MyCustomFieldType extends AdminPageFramework_CustomFieldType {
 	protected function getEnqueuingScripts() { 
 		return array(
 			"http://maps.googleapis.com/maps/api/js?sensor=false",	// load this first
-			plugins_url( 'asset/js/jquery-gmaps-latlon-picker.js',  dirname( __FILE__ ) ),	// load this next
+			dirname( __FILE__ ) . '/js/jquery-gmaps-latlon-picker.js',	// load this name - a file path can be passed, ( as well as a url )
 		);
 	}	
 
@@ -32,7 +32,7 @@ class MyCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 */
 	protected function getEnqueuingStyles() { 
 		return array(
-			plugins_url( 'asset/css/jquery-gmaps-latlon-picker.css', dirname( __FILE__ ) ),	
+			dirname( __FILE__ ) . '/css/jquery-gmaps-latlon-picker.css',	// a file path can be passed, ( as well as a url )
 		); 
 	}	
 	
