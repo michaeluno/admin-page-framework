@@ -29,6 +29,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Custom Post Types** - the framework provides methods to create custom post types.
 * **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
 * **Contextual Help Tabs** - the contextual help pane can be easily added. 
+* **Custom Field Types** - your own field type can be registered. 
 
 = Supported Field Types =
 * Text 
@@ -180,7 +181,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
-* Added: the ability for the `enqueueScript()` and `enqueueStyle()` methods to accept absolute paths.
+* Added: the ability for the `enqueueScript()` and `enqueueStyle()` methods to accept absolute file paths.
 * Introduced: a new class `AdminPageFramework_CustomFieldType`.
 * Added: a sample custom field type, `geometry`, in the demo plugin.
 * Fix a bug that the `enqueueScripts()` method caused infinite loops.
