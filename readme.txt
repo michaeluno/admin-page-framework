@@ -180,7 +180,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 2.1.5 =
+= 2.1.5 - 12/08/2013 =
 * Changed: ( *Minor Breaking Change* ) the format of the `id` and `for` attributes of the input and label tags of the `taxonomy` field type.
 * Fixed: a bug that caused a name collisions with the `for` attribute of label tags in the `taxonomy` field type.
 * Added: the `field_{extended class name}_{field id}` and `section_{extended class name}_{section id}` filters. 
