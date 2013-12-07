@@ -181,14 +181,16 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
-* Added the `field_{extended class name}_{field id}` and `section_{extended class name}_{section id}` filters. 
+* Changed: ( *Minor Breaking Change* ) the format of the `id` and `for` attributes of the input and label tags of the `taxonomy` field type.
+* Fixed: a bug that caused a name collisions with the `for` attribute of label tags in the `taxonomy` field type.
+* Added: the `field_{extended class name}_{field id}` and `section_{extended class name}_{section id}` filters. 
 * Added: the `export_{extended class name}_{field id}`, `export_{extended class name}_{input id}` filters.
 * Added: the `import_{extended class name}_{field id}`, `import_{extended class name}_{input id}` filters.
 * Added: an example to retrieve the saved options from the front end in the demo plugin.
 * Added: the ability for the `enqueueScript()` and `enqueueStyle()` methods to accept absolute file paths.
 * Introduced: a new class `AdminPageFramework_CustomFieldType`.
 * Added: a sample custom field type, `geometry`, in the demo plugin.
-* Fix a bug that the `enqueueScripts()` method caused infinite loops.
+* Fixed: a bug that the `enqueueScripts()` method caused infinite loops.
 * Added: the `field_types_{extended class name}` filter that receives the field type defining array so that the user can return custom field types by adding a definition array to it.
 * Added: the `vClassAttributeUpload` key for the `import` field type that defines the class attribute of the custom file input tag in the field output.
 * Added: the `vUnitSize` key for the `size` field type that indicates the `size` attribute of the select(unit) input field.</li>

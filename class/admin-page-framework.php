@@ -9219,6 +9219,7 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 							'hide_empty' => 0,	
 							'echo'	=> false,	// returns the output
 							'taxonomy' => $strTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
+							'strTagID' => $strTagID,
 						) )					
 					. "</ul>"			
 					. "<!--[if IE]><b>.</b><![endif]-->"
@@ -10277,6 +10278,7 @@ if ( ! class_exists( 'AdminPageFramework_WalkerTaxonomyChecklist' ) ) :
  * @see				Walker : wp-includes/class-wp-walker.php
  * @see				Walker_Category : wp-includes/category-template.php
  * @since			2.0.0
+ * @since			2.1.5			Added the strTagID key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
  * @extends			Walker_Category
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
@@ -10316,6 +10318,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 			'name' 		=> null,
 			'disabled'	=> null,
 			'selected'	=> array(),
+			'strTagID'	=> null,
 		);
 		
 		$intID = $oCategory->term_id;
@@ -10323,14 +10326,15 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		$strChecked = in_array( $intID, ( array ) $arrArgs['selected'] )  ? 'Checked' : '';
 		$strDisabled = $arrArgs['disabled'] ? 'disabled="Disabled"' : '';
 		$strClass = 'category-list';
-		$strID = "{$strTaxonomy}-{$intID}";
+		$strID = "{$arrArgs['strTagID']}_{$strTaxonomy}_{$intID}";
 		$strOutput .= "\n"
 			. "<li id='list-{$strID}' $strClass>" 
-			. "<input value='0' type='hidden' name='{$arrArgs['name']}[{$intID}]' />"
-			. "<input id='{$strID}' value='1' type='checkbox' name='{$arrArgs['name']}[{$intID}]' {$strChecked} {$strDisabled} />"
-			. "<label for='{$strID}' class='taxonomy-checklist-label'>"
-				. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
-			. "</label>";	// no need to close </li> since it is done in end_el().
+				. "<label for='{$strID}' class='taxonomy-checklist-label'>"
+					. "<input value='0' type='hidden' name='{$arrArgs['name']}[{$intID}]' />"
+					. "<input id='{$strID}' value='1' type='checkbox' name='{$arrArgs['name']}[{$intID}]' {$strChecked} {$strDisabled} />"
+					. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
+				. "</label>";	
+			// no need to close </li> since it is dealt in end_el().
 			
 	}
 }
