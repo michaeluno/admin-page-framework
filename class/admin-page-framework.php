@@ -1484,22 +1484,25 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 */ 
 	public static $arrPrefixes = array(	
 		'start_'		=> 'start_',
+		'load_'			=> 'load_',
 		'do_before_'	=> 'do_before_',
 		'do_after_'		=> 'do_after_',
 		'do_form_'		=> 'do_form_',
 		'do_'			=> 'do_',
-		'content_'		=> 'content_',
-		'load_'			=> 'load_',
 		'head_'			=> 'head_',
+		'content_'		=> 'content_',
 		'foot_'			=> 'foot_',
 		'validation_'	=> 'validation_',
 		'export_name'	=> 'export_name',
 		'export_format' => 'export_format',
 		'export_'		=> 'export_',
+		'import_name'	=> 'import_name',
+		'import_format'	=> 'import_format',
 		'import_'		=> 'import_',
 		'style_'		=> 'style_',
-		
 		'script_'		=> 'script_',
+		'field_'		=> 'field_',
+		'section_'		=> 'section_',
 	);
 
 	/**
@@ -3427,12 +3430,22 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 
-		echo $this->oUtil->addAndApplyFilter(
+		// echo $this->oUtil->addAndApplyFilter(
+			// $this,
+			// $this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['field_'] . $strFieldID,	// filter: class name + _ + section_ + section id
+			// $strFieldOutput,
+			// $arrField // the field array
+		// );	
+
+		echo $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['field_'] . $strFieldID,	// filter: class name + _ + section_ + section id
+			array( 
+				$this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['field_'] . $strFieldID,	// this filter will be deprecated
+				self::$arrPrefixesForCallbacks['field_'] . $this->oProps->strClassName . '_' . $strFieldID	// field_ + {extended class name} + _ {field id}
+			),
 			$strFieldOutput,
 			$arrField // the field array
-		);	
+		);
 		
 	}
 	
@@ -3510,9 +3523,19 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( ! isset( $this->oProps->arrSections[ $strSectionID ] ) ) return;	// if it is not added
 
-		echo  $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
+		// echo  $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
+			// $this,
+			// $this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['section_'] . $strSectionID,	// class name + _ + section_ + section id
+			// '<p>' . $this->oProps->arrSections[ $strSectionID ]['strDescription'] . '</p>',	 // the p-tagged description string
+			// $this->oProps->arrSections[ $strSectionID ]['strDescription']	// the original description
+		// );		
+		
+		echo $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['section_'] . $strSectionID,	// class name + _ + section_ + section id
+			array( 
+				$this->oProps->strClassName . '_' .  self::$arrPrefixesForCallbacks['section_'] . $strSectionID,	// this filter will be deprecated
+				self::$arrPrefixesForCallbacks['section_'] . $this->oProps->strClassName . '_' . $strSectionID	// section_ + {extended class name} + _ {section id}
+			),
 			'<p>' . $this->oProps->arrSections[ $strSectionID ]['strDescription'] . '</p>',	 // the p-tagged description string
 			$this->oProps->arrSections[ $strSectionID ]['strDescription']	// the original description
 		);		
@@ -11226,12 +11249,22 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 		
-		return $this->oUtil->addAndApplyFilter(
+		return $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oProps->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
+			array( 
+				$this->oProps->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// this filter will be deprecated
+				'field_' . $this->oProps->strClassName . '_' . $arrField['strFieldID']	// field_ + {extended class name} + _ {field id}
+			),
 			$strFieldOutput,
 			$arrField // the field array
-		);	
+		);		
+		
+		// return $this->oUtil->addAndApplyFilter(
+			// $this,
+			// $this->oProps->strClassName . '_' . 'field_' . $arrField['strFieldID'],	// filter: class name + _ + field_ + field id
+			// $strFieldOutput,
+			// $arrField // the field array
+		// );	
 				
 	}
 		
@@ -11290,6 +11323,10 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 		// the start_ action hook.
 		if ( $strMethodName == $this->oProps->strPrefixStart . $this->oProps->strClassName ) return;
+
+		// the class name + field_ field ID filter.
+		if ( substr( $strMethodName, 0, strlen( 'field_' . $this->oProps->strClassName . '_' ) ) == 'field_' . $this->oProps->strClassName . '_' )
+			return $arrArgs[ 0 ];
 		
 		// the class name + field_ field ID filter.
 		if ( substr( $strMethodName, 0, strlen( $this->oProps->strClassName . '_' . 'field_' ) ) == $this->oProps->strClassName . '_' . 'field_' )
