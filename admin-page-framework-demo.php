@@ -950,7 +950,7 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_format_second_page_export_import( $strFormatType, $strFieldID ) {	// export_format_ + page slug + _ + tab slug
+	public function export_format_APF_Demo_export_single( $strFormatType, $strFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
 		
 		return isset( $_POST[ $this->oProps->strOptionKey ]['second_page']['exports']['export_format_type'] ) 
 			? $_POST[ $this->oProps->strOptionKey ]['second_page']['exports']['export_format_type']

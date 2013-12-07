@@ -3261,7 +3261,9 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	private function exportOptions( $vData, $strPageSlug, $strTabSlug ) {
 
 		$oExport = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProps->strClassName );
-
+		$strPressedFieldID = $oExport->getSiblingValue( 'field_id' );
+		$strPressedInputID = $oExport->getSiblingValue( 'input_id' );
+		
 		// If the data is set in transient,
 		$vData = $oExport->getTransientIfSet( $vData );
 	
@@ -3269,26 +3271,31 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$strFieldID = $oExport->getFieldID();
 	
 		// Add and apply filters. - adding filters must be done in this class because the callback method belongs to this class 
-		// and the magic method should be triggered.		
-		$vData = $this->oUtil->addAndApplyFilters(	
+		// and the magic method should be triggered.			
+		$vData = $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oUtil->getFilterArrayByPrefix( 'export_', $this->oProps->strClassName, $strPageSlug, $strTabSlug ),
+			array( "export_{$strPageSlug}_{$strTabSlug}", "export_{$strPageSlug}", "export_{$this->oProps->strClassName}_{$strPressedInputID}", "export_{$this->oProps->strClassName}_{$strPressedFieldID}", "export_{$this->oProps->strClassName}" ),
 			$vData,
-			$strFieldID
-		);	// export_{$strPageSlug}_{$strTabSlug}, export_{$strPageSlug}, export_{$strClassName}
+			$strPressedFieldID,
+			$strPressedInputID
+		);	// export_{$strPageSlug}_{$strTabSlug}, export_{$strPageSlug}, export_{$strClassName}_{pressed input id}, export_{$strClassName}_{pressed field id}, export_{$strClassName}	
+		
 		$strFileName = $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oUtil->getFilterArrayByPrefix( 'export_name_', $this->oProps->strClassName, $strPageSlug, $strTabSlug ),
+			array( "export_name_{$strPageSlug}_{$strTabSlug}", "export_name_{$strPageSlug}", "export_name_{$this->oProps->strClassName}_{$strPressedInputID}", "export_name_{$this->oProps->strClassName}_{$strPressedFieldID}", "export_name_{$this->oProps->strClassName}" ),
 			$oExport->getFileName(),
-			$strFieldID
-		);	// export_name_{$strPageSlug}_{$strTabSlug}, export_name_{$strPageSlug}, export_name_{$strClassName}
+			$strPressedFieldID,
+			$strPressedInputID
+		);	// export_name_{$strPageSlug}_{$strTabSlug}, export_name_{$strPageSlug}, export_name_{$strClassName}_{pressed input id}, export_name_{$strClassName}_{pressed field id}, export_name_{$strClassName}	
+	
 		$strFormatType = $this->oUtil->addAndApplyFilters(
 			$this,
-			$this->oUtil->getFilterArrayByPrefix( 'export_format_', $this->oProps->strClassName, $strPageSlug, $strTabSlug ),
+			array( "export_format_{$strPageSlug}_{$strTabSlug}", "export_format_{$strPageSlug}", "export_format_{$this->oProps->strClassName}_{$strPressedInputID}", "export_format_{$this->oProps->strClassName}_{$strPressedFieldID}", "export_format_{$this->oProps->strClassName}" ),
 			$oExport->getFormat(),
-			$strFieldID
-		);	// export_format_{$strPageSlug}_{$strTabSlug}, export_format_{$strPageSlug}, export_format_{$strClassName}
-					
+			$strPressedFieldID,
+			$strPressedInputID
+		);	// export_format_{$strPageSlug}_{$strTabSlug}, export_format_{$strPageSlug}, export_format_{$strClassName}_{pressed input id}, export_format_{$strClassName}_{pressed field id}, export_format_{$strClassName}	
+							
 		$oExport->doExport( $vData, $strFileName, $strFormatType );
 		exit;
 		
@@ -3875,8 +3882,8 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><code>extended class name + _ + field_ + field ID</code> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
  * 	<li><code>validation_ + page slug + _ + tab slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><code>validation_ + page slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><code>validation_ + extended class name + _ + input id</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
- * 	<li><code>validation_ + extended class name + _ + field id</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
+ * 	<li><code>validation_ + extended class name + _ + input id</code> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
+ * 	<li><code>validation_ + extended class name + _ + field id</code> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
  * 	<li><code>validation_ + extended class name</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><code>style_ + page slug + _ + tab slug</code> – receives the output of the CSS rules applied to the tab page of the slug.</li>
  * 	<li><code>style_ + page slug</code> – receives the output of the CSS rules applied to the page of the slug.</li>
@@ -3886,9 +3893,13 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><code>script_ + extended class name</code> – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
  * 	<li><code>export_ + page slug + _ + tab slug</code> – receives the exporting array sent from the tab page.</li>
  * 	<li><code>export_ + page slug</code> – receives the exporting array submitted from the page.</li>
+ * 	<li><code>export_ + extended class name + _ + input id</code> – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
+ * 	<li><code>export_ + extended class name + _ + field id</code> – [2.1.5+] receives the exporting array submitted from the specific field.</li>
  * 	<li><code>export_ + extended class name</code> – receives the exporting array submitted from the plugin.</li>
  * 	<li><code>import_ + page slug + _ + tab slug</code> – receives the importing array submitted from the tab page.</li>
  * 	<li><code>import_ + page slug</code> – receives the importing array submitted from the page.</li>
+ * 	<li><code>import_ + extended class name + _ + input id</code> – [2.1.5+] receives the importing array submitted from the specific import button.</li>
+ * 	<li><code>import_ + extended class name + _ + field id</code> – [2.1.5+] receives the importing array submitted from the specific import field.</li>
  * 	<li><code>import_ + extended class name</code> – receives the importing array submitted from the plugin.</li>
  * </ul>
  * <h3>Remarks</h3>
@@ -5809,6 +5820,17 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 	public function getFormat() {
 		return $this->strFormatType;
 	}
+	
+	/**
+	 * Returns the specified sibling value.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function getSiblingValue( $strKey ) {
+		
+		return $this->getElement( $this->arrPostExport, $this->arrElementKey, $strKey );
+		
+	}	
 
 	/**
 	 * Performs exporting data.
@@ -9534,6 +9556,15 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 			
 			$arrOutput[] = 
 				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					// embed the field id and input id
+					. "<input type='hidden' "
+						. "name='__export[{$arrField['strFieldID']}][input_id]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='{$strTagID}_{$strKey}' "
+					. "/>"
+					. "<input type='hidden' "
+						. "name='__export[{$arrField['strFieldID']}][field_id]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "value='{$arrField['strFieldID']}' "
+					. "/>"					
 					. "<input type='hidden' "
 						. "name='__export[{$arrField['strFieldID']}][file_name]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $arrField['vExportFileName'], $strKey, $this->generateExportFileName( $arrField['strOptionKey'], $strExportFormat ) )
@@ -9668,15 +9699,15 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
 					// embed the field id and input id
 					. "<input type='hidden' "
-						. "name='__import[{$arrField['strFieldID']}][input_id]' " . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "name='__import[{$arrField['strFieldID']}][input_id]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='{$strTagID}_{$strKey}' "
 					. "/>"
 					. "<input type='hidden' "
-						. "name='__import[{$arrField['strFieldID']}][field_id]' " . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "name='__import[{$arrField['strFieldID']}][field_id]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='{$arrField['strFieldID']}' "
 					. "/>"		
 					. "<input type='hidden' "
-						. "name='__import[{$arrField['strFieldID']}][do_merge]' " . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
+						. "name='__import[{$arrField['strFieldID']}][do_merge]" . ( is_array( $arrField['vLabel'] ) ? "[{$strKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $arrField['vMerge'], $strKey, $arrDefaultKeys['vMerge'] ) . "' "
 					. "/>"							
 					. "<input type='hidden' "

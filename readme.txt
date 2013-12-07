@@ -181,6 +181,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.5 =
+* Added: the `export_ + {extended class name} + {field id}`, `export_ + {extended class name} + {input id}` filters.
+* Added: the `import_ + {extended class name} + {field id}`, `import_ + {extended class name} + {input id}` filters.
 * Added: an example to retrieve the saved options from the front end in the demo plugin.
 * Added: the ability for the `enqueueScript()` and `enqueueStyle()` methods to accept absolute file paths.
 * Introduced: a new class `AdminPageFramework_CustomFieldType`.
