@@ -170,7 +170,7 @@ So just use a unique page slug. One way to do that is to add a prefix like <code
 <h5><strong>Change Class Names</strong></h5>
 When you include the library, change the class names that the library uses. This is because if there is a plugin that uses a lesser version of the library and it is loaded earlier than yours, your script may not work properly.
 
-All the class names have the prefix <code>AdminPageFramework_</code> so just change it to something like <code>MyPlugin_AdminPageFramework_</code>. 
+All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
 
 Most text editors supports the *Replace All* command so just use that. 
 
