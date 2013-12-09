@@ -15,14 +15,14 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.1.5
+ * @version				2.1.6b
  */
 /*
 	Library Name: Admin Page Framework
 	Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.5
+	Version: 2.1.6b
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
@@ -331,6 +331,33 @@ abstract class AdminPageFramework_WPUtilities {
 		return $strHref;
 		
 	}	
+
+	/**
+	 * Resolves the given src.
+	 * 
+	 * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
+	 * 
+	 * @since			2.1.5
+	 * @since			2.1.6			Moved from the AdminPageFramework_HeadTag_Base class. Added the $fReturnNullIfNotExist parameter.
+	 */
+	static public function resolveSRC( $strSRC, $fReturnNullIfNotExist=false ) {	
+		
+		// It is a url
+		if ( filter_var( $strSRC, FILTER_VALIDATE_URL ) )
+			return $strSRC;
+
+		// If the file exists, it means it is an absolute path. If so, calculate the URL from the path.
+		if ( file_exists( realpath( $strSRC ) ) )
+			return self::getSRCFromPath( $strSRC );
+		
+		if ( $fReturnNullIfNotExist )
+			return null;
+		
+		// Otherwise, let's assume the string is a relative path 'to the WordPress installed absolute path'.
+		return $strSRC;
+		
+	}	
+	
 }
 endif;
 
@@ -835,29 +862,7 @@ abstract class AdminPageFramework_HeadTag_Base {
 	/*
 	 * Shared methods
 	 */
-	
-	/**
-	 * Resolves the given src.
-	 * 
-	 * Checks if the given string is a url, a relative path, or absolute path.
-	 * 
-	 * @since			2.1.5
-	 */
-	protected function resolveSRC( $strSRC ) {	
 		
-		// It is a url
-		if ( filter_var( $strSRC, FILTER_VALIDATE_URL ) )
-			return $strSRC;
-
-		// If the file exists, it means it is an absolute path. If so, calculate the URL from the path.
-		if ( file_exists( realpath( $strSRC ) ) )
-			return $this->oUtil->getSRCFromPath( $strSRC );
-		
-		// Otherwise, let's assume the string is a relative path to the WordPress installed absolute path.
-		return $strSRC;
-		
-	}
-	
 	/**
 	 * Performs actual enqueuing items. 
 	 * 
@@ -1077,7 +1082,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
 		
-		$strSRC = $this->resolveSRC( $strSRC );
+		$strSRC = $this->oUtil->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -1150,7 +1155,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
 		
-		$strSRC = $this->resolveSRC( $strSRC );
+		$strSRC = $this->oUtil->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -1357,7 +1362,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
 		
-		$strSRC = $this->resolveSRC( $strSRC );
+		$strSRC = $this->oUtil->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingStyles[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -1417,7 +1422,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		if ( empty( $strSRC ) ) return '';
 		if ( isset( $this->oProps->arrEnqueuingScripts[ md5( $strSRC ) ] ) ) return '';	// if already set
 		
-		$strSRC = $this->resolveSRC( $strSRC );
+		$strSRC = $this->oUtil->resolveSRC( $strSRC );
 		
 		$strSRCHash = md5( $strSRC );	// setting the key based on the url prevents duplicate items
 		$this->oProps->arrEnqueuingScripts[ $strSRCHash ] = $this->oUtil->uniteArrays( 
@@ -2191,10 +2196,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * );</code>
 	 * 
 	 * @since			2.0.0
+	 * @since			2.1.5			The $strURLIcon16x16 parameter accepts a file path.
 	 * @remark			Only one root page can be set per one class instance.
 	 * @param			string			$strRootMenuLabel			If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
 	 * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
-	 * @param			string			$strURLIcon16x16			( optional ) the URL of the menu icon. The size should be 16 by 16 in pixel.
+	 * @param			string			$strURLIcon16x16			( optional ) the URL or the file path of the menu icon. The size should be 16 by 16 in pixel.
 	 * @param			string			$intMenuPosition			( optional ) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
 	 * @return			void
 	 */
@@ -2205,7 +2211,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		$this->oProps->arrRootMenu = array(
 			'strTitle'			=> $strRootMenuLabel,
 			'strPageSlug' 		=> $strSlug ? $strSlug : $this->oProps->strClassName,	
-			'strURLIcon16x16'	=> filter_var( $strURLIcon16x16, FILTER_VALIDATE_URL) ? $strURLIcon16x16 : null,
+			'strURLIcon16x16'	=> $this->oUtil->resolveSRC( $strURLIcon16x16, true ),
 			'intPosition'		=> $intMenuPosition,
 			'fCreateRoot'		=> $strSlug ? false : true,
 		);	
@@ -2265,10 +2271,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * 
 	 * @since			2.0.0
 	 * @since			2.1.2			The key name fPageHeadingTab was changed to fShowPageHeadingTab
+	 * @since			2.1.6			$strScreenIcon accepts a file path.
 	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	 * @param			string			$strPageTitle			The title of the page.
 	 * @param			string			$strPageSlug			The slug of the page.
-	 * @param			string			$strScreenIcon			( optional ) Either a screen icon ID or a url of the icon with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.
+	 * @param			string			$strScreenIcon			( optional ) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.
 	 * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
 	 * <strong>Note:</strong> the <em>generic</em> ID is available since WordPress 3.5.
 	 * @param			string			$strCapability			( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.
@@ -2288,7 +2295,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'strPageTitle'				=> $strPageTitle,
 			'strPageSlug'				=> $strPageSlug,
 			'strType'					=> 'page',	// this is used to compare with the link type.
-			'strURLIcon32x32'			=> filter_var( $strScreenIcon, FILTER_VALIDATE_URL) ? $strScreenIcon : null,
+			'strURLIcon32x32'			=> $this->oUtil->resolveSRC( $strScreenIcon, true ),
 			'strScreenIconID'			=> in_array( $strScreenIcon, self::$arrScreenIconIDs ) ? $strScreenIcon : null,
 			'strCapability'				=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'					=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
@@ -10654,10 +10661,13 @@ abstract class AdminPageFramework_PostType {
 	 * Sets the given screen icon to the post type screen icon.
 	 * 
 	 * @since			2.1.3
+	 * @since			2.1.6				The $strSRC parameter can accept file path.
 	 */
-	private function getStylesForPostTypeScreenIcon( $strURL ) {
+	private function getStylesForPostTypeScreenIcon( $strSRC ) {
 		
 		$strNone = 'none';
+		
+		$strSRC = $this->oUtil->resolveSRC( $strSRC );
 		
 		return "#post-body-content {
 				margin-bottom: 10px;
@@ -10666,7 +10676,7 @@ abstract class AdminPageFramework_PostType {
 				display: {$strNone};
 			}
 			#icon-edit.icon32.icon32-posts-" . $this->oProps->strPostType . " {
-				background: url('" . $strURL . "') no-repeat;
+				background: url('" . $strSRC . "') no-repeat;
 				background-size: 32px 32px;
 			}			
 		";		

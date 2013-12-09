@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.5
+	Version: 2.1.6b
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -40,7 +40,7 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strPageTitle' => __( 'Manage Options', 'admin-page-framework-demo' ),
 				'strPageSlug' => 'second_page',
-				'strScreenIcon' => 'link-manager',
+				'strScreenIcon' => 'link-manager',	// one of the screen type from the below can be used.
 				/*	Screen Types:
 					'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
@@ -51,12 +51,12 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'strPageTitle' => __( 'Sample Page', 'admin-page-framework-demo' ),
 				'strPageSlug' => 'apf_sample_page',
-				'strScreenIcon' => 'index',
+				'strScreenIcon' => dirname( __FILE__ ) . '/asset/image/wp_logo_bw_32x32.png',	// the icon file path can be used
 			),					
 			array(
 				'strPageTitle' => __( 'Hidden Page', 'admin-page-framework-demo' ),
 				'strPageSlug' => 'apf_hidden_page',
-				'strScreenIcon' => 'index',
+				'strScreenIcon' => plugins_url( 'asset/image/wp_logo_bw_32x32.png', __FILE__ ),	// the icon url can be used
 				'fShowInMenu' => false,
 			),						
 			array(
@@ -1203,7 +1203,8 @@ new APF_PostType(
 		'has_archive' => true,
 		'show_admin_column' => true,	// ( framework specific key ) this is for custom taxonomies to automatically add the column in the listing table.
 		'menu_icon' => plugins_url( 'asset/image/wp-logo_16x16.png', __FILE__ ),
-		'screen_icon' => plugins_url( 'asset/image/wp-logo_32x32.png', __FILE__ ), // ( framework specific key ) this sets the screen icon for the post type.
+		// ( framework specific key ) this sets the screen icon for the post type.
+		'screen_icon' => dirname( __FILE__  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', __FILE__ )
 	)		
 );	// should not use "if ( is_admin() )" for the this class because posts of custom post type can be accessed from the front-end pages.
 	
