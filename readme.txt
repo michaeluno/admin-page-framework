@@ -183,7 +183,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.6b = 
-* Added: a sample custom field types, `date` and `time` in the demo plugin.
+* Added: sample custom field types, `date` and `time` in the demo plugin.
 * Removed:  ( *Breaking Change* ) the `date` field type.
 * Added: the ability to set an icon with a file path for the `setRootMenuPage()`, `addSubMenuPage()`, and `getStylesForPostTypeScreenIcon()` methods.
 
