@@ -947,7 +947,14 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_builtin_field_types() {
 		submit_button();
 	}
-		
+	
+	/*
+	 * Custon Field Types
+	 * */
+	public function do_apf_custom_field_types() {
+		submit_button();
+	}
+	
 	/*
 	 * Manage Options
 	 * */
@@ -1353,12 +1360,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'strFieldID'		=> 'color_field',
 				'strTitle'			=> __( 'Color', 'admin-page-framework-demo' ),
 				'strType'			=> 'color',
-			),
-			array (
-				'strFieldID'		=> 'date_field',
-				'strTitle'			=> __( 'Date', 'admin-page-framework-demo' ),
-				'strType'			=> 'date',
-			),			
+			),	
 			array (
 				'strFieldID'		=> 'size_field',
 				'strTitle'			=> __( 'Size', 'admin-page-framework-demo' ),
