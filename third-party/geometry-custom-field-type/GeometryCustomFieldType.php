@@ -100,6 +100,8 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 			$strName = is_array( $arrField['vLabel'] ) ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}";
 			$numLatitude = isset( $arrValue['latitude'] ) ? $arrValue['latitude'] : 20;
 			$numLongitude = isset( $arrValue['longitude'] ) ? $arrValue['longitude'] : 20; 
+			$numElevation = isset( $arrValue['elevation'] ) ? $arrValue['elevation'] : null; 
+			$strPlaceName = isset( $arrValue['place_name'] ) ? $arrValue['place_name'] : ''; 
 			$strDisabled = ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' );
 			$arrOutput[] = 
 				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
@@ -122,6 +124,14 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 								. "<label for='{$strTagID}_{$strKey}_longitude'>"
 									. "<span class='inline-label-text'>" . __( 'Longitude', 'admin-page-framework-demo' ) . "</span>"
 									. "<input type='text' class='gllpLongitude {$strClassAttribute}' id='{$strTagID}_{$strKey}_longitude' name='{$strName}[longitude]' value='{$numLongitude}' {$strDisabled}/>"
+								. "</label><br />"
+								. "<label for='{$strTagID}_{$strKey}_longitude'>"
+									. "<span class='inline-label-text'>" . __( 'Elevation', 'admin-page-framework-demo' ) . "</span>"
+									. "<input type='text' class='gllpElevation {$strClassAttribute}' id='{$strTagID}_{$strKey}_elevation' name='{$strName}[elevation]' value='{$numElevation}' {$strDisabled}/> " . __( "metres", "admin-page-framework-demo" )
+								. "</label><br />"								
+								. "<label for='{$strTagID}_{$strKey}_name'>"
+									. "<span class='inline-label-text'>" . __( 'Place Name', 'admin-page-framework-demo' ) . "</span>"
+									. "<input type='text' class='gllpLocationName {$strClassAttribute}' id='{$strTagID}_{$strKey}_place_name' name='{$strName}[place_name]' value='{$strPlaceName}' {$strDisabled}/> "
 								. "</label><br />"
 								. "<label for='{$strTagID}_{$strKey}_zoom'>"
 									. "<span class='inline-label-text'>" . __( 'zoom', 'admin-page-framework-demo' ) . "</span>"
