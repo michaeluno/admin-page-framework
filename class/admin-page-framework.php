@@ -6578,7 +6578,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_text' ) ) :
 /**
  * Defines the text field type.
  * 
- * Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', and 'week' are defeined.
+ * Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', and 'week' are defeined.
  * 
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
@@ -6595,7 +6595,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 	 */
 	public function replyToRegisterInputFieldType( $arrFieldDefinitions ) {
 		
-		foreach ( array( 'text', 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week', ) as $strTextTypeSlug )
+		foreach ( array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week', ) as $strTextTypeSlug )
 			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getDefinitionArray();
 		
 		return $arrFieldDefinitions;
@@ -7089,6 +7089,8 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_date' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
  * @since			2.1.5
+ * @remark			This field type includes jQuery UI CSS.
+ * 
  */
 class AdminPageFramework_InputFieldType_date extends AdminPageFramework_InputFieldTypeDefinition_Base {
 	
@@ -7105,25 +7107,23 @@ class AdminPageFramework_InputFieldType_date extends AdminPageFramework_InputFie
 
 	/**
 	 * Loads the field type necessary components.
-	 * 
-	 * Loads necessary files of the date field type.
-	 * @since			2.0.0
-	 * @simce			2.1.5			Moved from AdminPageFrameworkMeta. Changed the name from enqueueDateFieldScript().
 	 */ 
 	public function replyToFieldLoader() {
 
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
-		
+
+// wp_enqueue_script( 'jquery-ui-core' );
+
+		// wp_enqueue_script( 'jquery-ui-core', $this->resolveSRC( '/' . WPINC . '/js/query/ui/jquery.ui.core.min.js' ) );
+		// wp_enqueue_script( 'jquery-ui-effect', $this->resolveSRC( '/' . WPINC . '/js/jquery/ui/jquery.ui.effect.min.js' ) );
+wp_enqueue_script( 'jquery-ui', 'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js' );
+wp_enqueue_script( 'jquery-ui-datepicker' );	
+wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css' );
+// wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+             
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
-	 * 
-	 * Returns the date picker JavaScript script loaded in the head tag of the created admin pages.
-	 * @access			public	
-	 * @internal
-	 * @return			string			The date picker script.
 	 */ 
 	public function replyToGetInputScripts() {
 		return "";		
@@ -7133,8 +7133,9 @@ class AdminPageFramework_InputFieldType_date extends AdminPageFramework_InputFie
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetInputStyles() {
-		return 
-		"/* Data Picker */
+		
+		return "
+		/* Date Picker */
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
 			display: none;
 		}		
@@ -7168,7 +7169,6 @@ class AdminPageFramework_InputFieldType_date extends AdminPageFramework_InputFie
 								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
 								: "" 
 							)
-							. "<!-- testing -->"
 							. "<input id='{$strTagID}_{$strKey}' "
 								. "class='datepicker " . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
 								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
@@ -7205,6 +7205,189 @@ class AdminPageFramework_InputFieldType_date extends AdminPageFramework_InputFie
 						jQuery( '#{$strID}' ).datepicker({
 							dateFormat : '{$strDateFormat}'
 						});
+					})
+				</script>";
+		}
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_InputFieldType_time' ) ) :
+/**
+ * Defines the time field type.
+ * 
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Setting
+ * @since			2.1.6
+ * @remark			This field type uses jQuery Timepicker Addon by Trent Richardson.
+ * @see				https://github.com/trentrichardson/jQuery-Timepicker-Addon
+ */
+/*
+Copyright (c) 2013 Trent Richardson
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+*/
+class AdminPageFramework_InputFieldType_time extends AdminPageFramework_InputFieldType_date {
+	
+	/**
+	 * Returns the array of the field type specific default keys.
+	 */
+	protected function getDefaultKeys() { 
+		return array(
+			'vSize'					=> 10,
+			'vTimeFormat'	 		=> 'H:mm',				// ( array or string ) This is for the date field type that specifies the date format.
+			'vMaxLength'			=> 400,
+		);	
+	}
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {	
+
+    // wp_deregister_script( 'jquery-ui-core' );
+    // wp_enqueue_script( 'jquery-ui-core', site_url(  '/wp-includes/js/jquery/ui.core.js' ), array('jquery'), '1.8.12' );
+    
+	wp_enqueue_script('jquery-ui-core');
+	
+// wp_enqueue_script( 'jquery-ui-core' );
+// wp_enqueue_script( 'jquery-ui-widget' );
+// wp_enqueue_script( 'jquery-ui-mouse' );
+// wp_enqueue_script( 'jquery-ui-accordion' );
+// wp_enqueue_script( 'jquery-ui-autocomplete' );
+// wp_enqueue_script( 'jquery-ui-slider' );
+// wp_enqueue_script( 'jquery-ui-tabs' );
+// wp_enqueue_script( 'jquery-ui-sortable' );
+// wp_enqueue_script( 'jquery-ui-draggable' );
+// wp_enqueue_script( 'jquery-ui-droppable' );
+// wp_enqueue_script( 'jquery-ui-datepicker' );
+// wp_enqueue_script( 'jquery-ui-resize' );
+// wp_enqueue_script( 'jquery-ui-dialog' );
+// wp_enqueue_script( 'jquery-ui-button' );	
+		// wp_enqueue_script( 'jquery-ui-core', $this->resolveSRC( '/' . WPINC . '/js/query/ui/jquery.ui.core.min.js' ) );
+		// wp_enqueue_script( 'jquery-ui-datepicker' );
+		// wp_enqueue_script( 'jquery.ui.button.min' );
+		// wp_enqueue_script( 'jquery-ui-effect', $this->resolveSRC( '/' . WPINC . '/js/jquery/ui/jquery.ui.effect.min.js' ) );		
+
+		// wp_enqueue_script( 'jquery-ui', 'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js' );
+		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+		
+	}	
+	
+	/**
+	 * Returns an array holding the urls of enqueuing scripts.
+	 */
+	protected function getEnqueuingScripts() { 
+		return array(
+			// 'http://code.jquery.com/ui/1.10.3/jquery-ui.min.js',
+			dirname( dirname( __FILE__ ) ) . '/asset/js/jquery-ui-timepicker-addon.js',	// load this name - a file path can be passed, ( as well as a url )
+			dirname( dirname( __FILE__ ) ) . '/asset/js/jquery-ui-sliderAccess.js',	// load this name - a file path can be passed, ( as well as a url )
+			// dirname( dirname( __FILE__ ) ) . '/asset/js/jquery-ui-timepicker-addon.min.js',	// load this name - a file path can be passed, ( as well as a url )
+			'https://sellfy.com/js/api_buttons.js',	// load this name - a file path can be passed, ( as well as a url )
+		);
+	}	
+	
+
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		$strJQueryTimePickerAddonCSS = <<<EOD
+/*! jQuery Timepicker Addon - v1.4.3 - 2013-11-30
+* http://trentrichardson.com/examples/timepicker
+* Copyright (c) 2013 Trent Richardson; Licensed MIT */
+.ui-timepicker-div .ui-widget-header{margin-bottom:8px}.ui-timepicker-div dl{text-align:left}.ui-timepicker-div dl dt{float:left;clear:left;padding:0 0 0 5px}.ui-timepicker-div dl dd{margin:0 10px 10px 40%}.ui-timepicker-div td{font-size:90%}.ui-tpicker-grid-label{background:0;border:0;margin:0;padding:0}.ui-timepicker-rtl{direction:rtl}.ui-timepicker-rtl dl{text-align:right;padding:0 5px 0 0}.ui-timepicker-rtl dl dt{float:right;clear:right}.ui-timepicker-rtl dl dd{margin:0 40% 10px 10px}
+EOD;
+		return $strJQueryTimePickerAddonCSS 
+			. PHP_EOL;		
+	}			
+	
+	/**
+	 * Returns the output of the field type.
+	 * 
+	 */
+	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+
+		$arrOutput = array();
+		$strFieldName = $arrField['strFieldName'];
+		$strTagID = $arrField['strTagID'];
+		$strFieldClassSelector = $arrField['strFieldClassSelector'];
+		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		
+		$arrFields = $arrField['fRepeatable'] ? 
+			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			: $arrField['vLabel'];		
+		
+		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
+			$arrOutput[] = 
+				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+					. "<div class='admin-page-framework-input-label-container'>"
+						. "<label for='{$strTagID}_{$strKey}'>"
+							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
+							. ( $strLabel && ! $arrField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+								: "" 
+							)
+							. "<input id='{$strTagID}_{$strKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+								. "type='text' "	// text, password, etc.
+								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+							. "/>"
+							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+						. "</label>"
+					. "</div>"	// end of label container
+					. $this->getTimePickerEnablerScript( "{$strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $arrField['vTimeFormat'], $strKey, $arrDefaultKeys['vTimeFormat'] ) )
+				. "</div>"	// end of admin-page-framework-field
+				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+					: ""
+				);
+				
+		return "<div class='admin-page-framework-field-date' id='{$strTagID}'>" 
+				. implode( '', $arrOutput ) 
+			. "</div>";
+		
+	}
+		/**
+		 * A helper function for the above getDateField() method.
+		 * 
+		 */
+		private function getTimePickerEnablerScript( $strID, $strTimeFormat ) {
+			return 
+				"<script type='text/javascript' class='time-picker-enabler-script' data-id='{$strID}' data-time_format='{$strTimeFormat}'>
+					jQuery( document ).ready( function() {
+						// jQuery( '#{$strID}' ).timepicker();
+						jQuery( '#{$strID}' ).timepicker({
+							timeFormat : '{$strTimeFormat}'
+						});
+						// jQuery( '#{$strID}' ).datetimepicker({
+							// timeFormat: 'hh:mm tt'
+						// });
 					})
 				</script>";
 		}
@@ -9801,7 +9984,7 @@ class AdminPageFramework_InputFieldTypeDefinitions  {
 	 */
 	protected static $arrDefaultFieldTypeSlugs = array(
 		'default',		// undefined ones will be applied 
-		'text', //	'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week',
+		'text', //	'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week',
 		'number', 	// 'range',
 		'textarea',
 		'radio',
@@ -9815,7 +9998,8 @@ class AdminPageFramework_InputFieldTypeDefinitions  {
 		'image',
 		'media',
 		'color',
-		'date',
+		// 'date',
+		// 'time',
 		'taxonomy',
 		'posttype',
 		'size',

@@ -20,7 +20,6 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 * **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
-* **Date Picker** - it lets the user easily select dates.
 * **Color Picker** - it lets the user easily pick colors.
 * **Rich Text Editor** - supports the rich text editor form input.
 * **Reset Button** - create a reset button that lets your users to initialize the saved options.
@@ -31,7 +30,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Contextual Help Tabs** - the contextual help pane can be easily added. 
 * **Custom Field Types** - your own field type can be registered. 
 
-= Supported Field Types =
+= Built-in Field Types =
 * Text 
 * Password
 * Textarea
@@ -44,11 +43,14 @@ It provides plugin and theme developers with easier means of creating option pag
 * Media	(WordPress Media Library File Uploader)
 * Image Upload (Custom Text Field)
 * Color Picker (Custom Text Field)
-* Date Picker (Custom Text Field)
 * Option Export and Import (Custom File Upload and Submit Button)
 * Post Types (Custom Checkboxes)
 * Taxonomies (Custom Checkboxes)
 * Size (Custom Text and Select Fields)
+
+= Sample Custom Field Types = 
+* Geometry
+* Date and Time Pickers
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the *class* folder.
@@ -66,7 +68,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 4. **Form Input Verification**
 5. **Import and Export**
 6. **Taxonomy and Post Type Checklists**
-7. **Color and Date Pickers and Buttons**
+7. **Color Pickers and Buttons**
 8. **Custom Post Type and Meta Box**
 9. **Contextual Help Pane**
 
@@ -181,6 +183,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.6b = 
+* Added: a sample custom field types, `date` and `time` in the demo plugin.
+* Removed:  ( *Breaking Change* ) the `date` field type.
 * Added: the ability to set an icon with a file path for the `setRootMenuPage()`, `addSubMenuPage()`, and `getStylesForPostTypeScreenIcon()` methods.
 
 = 2.1.5 - 12/08/2013 =

@@ -19,34 +19,40 @@ class APF_Demo extends AdminPageFramework {
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
 		$this->addSubMenuItems(
 			/* 	
-			 * for sub-menu pages, e.g.
-			 * 	'strPageTitle' => 'Your Page Title',
+			  for sub-menu pages, e.g.
+			  	'strPageTitle' => 'Your Page Title',
 				'strPageSlug'] => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
 				'strScreenIcon' => 'edit',
 				'strCapability' => 'manage-options',
 				'numOrder' => 10,
 				
-			 * for sub-menu links, e.g.
+			  for sub-menu links, e.g.
 				'strMenuTitle' => 'Google',
 				'strURL' => 'http://www.google.com',
 				
 			*/
 			array(
-				'strPageTitle' => 'Various Form Fields',
-				'strPageSlug' => 'first_page',
-				'strScreenIcon' => 'options-general',
-				'numOrder' => 1,
-			),
-			array(
-				'strPageTitle' => __( 'Manage Options', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'second_page',
-				'strScreenIcon' => 'link-manager',	// one of the screen type from the below can be used.
+				'strPageTitle' => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'apf_builtin_field_types',
+				'strScreenIcon' => 'options-general',	// one of the screen type from the below can be used.
 				/*	Screen Types:
 					'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
-				*/				
-				'numOrder' => 2,
+				*/							
+				'numOrder' => 1,	// optional
+			),
+			array(
+				'strPageTitle' => __( 'Custom Field Types', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'apf_custom_field_types',
+				'strScreenIcon' => 'options-general',
+				'numOrder' => 2,	// optional
+			),			
+			array(
+				'strPageTitle' => __( 'Manage Options', 'admin-page-framework-demo' ),
+				'strPageSlug' => 'apf_manage_options',
+				'strScreenIcon' => 'link-manager',	
+				'numOrder' => 3,	// optional
 			),
 			array(
 				'strPageTitle' => __( 'Sample Page', 'admin-page-framework-demo' ),
@@ -73,76 +79,88 @@ class APF_Demo extends AdminPageFramework {
 				
 		$this->addInPageTabs(
 			/*
-			 * First Page
+			 * Built-in Field Types
 			 * */
 			array(
-				'strPageSlug'	=> 'first_page',
+				'strPageSlug'	=> 'apf_builtin_field_types',
 				'strTabSlug'	=> 'textfields',
 				'strTitle'		=> 'Text Fields',
 				'numOrder'		=> 1,				
 			),		
 			array(
-				'strPageSlug'	=> 'first_page',
+				'strPageSlug'	=> 'apf_builtin_field_types',
 				'strTabSlug'	=> 'selectors',
 				'strTitle'		=> 'Selectors',
 			),					
 			array(
-				'strPageSlug'	=> 'first_page',
+				'strPageSlug'	=> 'apf_builtin_field_types',
 				'strTabSlug'	=> 'files',
 				'strTitle'		=> __( 'Files', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strPageSlug'	=> 'first_page',
+				'strPageSlug'	=> 'apf_builtin_field_types',
 				'strTabSlug'	=> 'checklist',
 				'strTitle'		=> 'Checklist',
 			),					
 			array(
-				'strPageSlug'	=> 'first_page',
+				'strPageSlug'	=> 'apf_builtin_field_types',
 				'strTabSlug'	=> 'misc',
 				'strTitle'		=> 'MISC',	
 			),		
 			array(
-				'strPageSlug'	=> 'first_page',
+				'strPageSlug'	=> 'apf_builtin_field_types',
 				'strTabSlug'	=> 'verification',
 				'strTitle'		=> 'Verification',	
-			),	
+			)
+		);
+		$this->addInPageTabs(
 			array(
-				'strPageSlug'	=> 'first_page',
-				'strTabSlug'	=> 'custom',
-				'strTitle'		=> __( 'Custom', 'admin-page-framework-demo' ),	
-			),			
+				'strPageSlug'	=> 'apf_custom_field_types',
+				'strTabSlug'	=> 'geometry',
+				'strTitle'		=> __( 'Geometry', 'admin-page-framework-demo' ),	
+			),
+			array(
+				'strPageSlug'	=> 'apf_custom_field_types',
+				'strTabSlug'	=> 'date',
+				'strTitle'		=> __( 'Date & Time', 'admin-page-framework-demo' ),	
+			),	
+			array()
+		);
+		$this->addInPageTabs(
 			/*
-			 * Second Page
+			 * Manage Options
 			 * */
 			array(
-				'strPageSlug'	=> 'second_page',
+				'strPageSlug'	=> 'apf_manage_options',
 				'strTabSlug'	=> 'saved_data',
 				'strTitle'		=> 'Saved Data',
 			),
 			array(
-				'strPageSlug'	=> 'second_page',
+				'strPageSlug'	=> 'apf_manage_options',
 				'strTabSlug'	=> 'properties',
 				'strTitle'		=> 'Properties',
 			),
 			array(
-				'strPageSlug'	=> 'second_page',
+				'strPageSlug'	=> 'apf_manage_options',
 				'strTabSlug'	=> 'export_import',
 				'strTitle'		=> __( 'Export / Import', 'admin-page-framework-demo' ),			
 			),
 			array(
-				'strPageSlug'	=> 'second_page',
+				'strPageSlug'	=> 'apf_manage_options',
 				'strTabSlug'	=> 'delete_options',
 				'strTitle'		=> __( 'Reset', 'admin-page-framework-demo' ),
 				'numOrder'		=> 99,	
 			),						
 			array(
-				'strPageSlug'	=> 'second_page',
+				'strPageSlug'	=> 'apf_manage_options',
 				'strTabSlug'	=> 'delete_options_confirm',
 				'strTitle'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
 				'fHide'			=> true,
 				'strParentTabSlug' => 'delete_options',
 				'numOrder'		=> 97,
-			),					
+			)
+		);
+		$this->addInPageTabs(
 			/*
 			 * Read Me
 			 * */
@@ -200,7 +218,7 @@ class APF_Demo extends AdminPageFramework {
 		// Contextual help tabs.
 		$this->addHelpTab( 
 			array(
-				'strPageSlug'				=> 'first_page',	// ( mandatory )
+				'strPageSlug'				=> 'apf_builtin_field_types',	// ( mandatory )
 				// 'strPageTabSlug'			=> null,	// ( optional )
 				'strHelpTabTitle'			=> 'Admin Page Framework',
 				'strHelpTabID'				=> 'admin_page_framework',	// ( mandatory )
@@ -213,7 +231,7 @@ class APF_Demo extends AdminPageFramework {
 		$this->addSettingSections(
 			array(
 				'strSectionID'		=> 'text_fields',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'textfields',
 				'strTitle'			=> 'Text Fields',
 				'strDescription'	=> 'These are text type fields.',
@@ -221,83 +239,76 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(
 				'strSectionID'		=> 'selectors',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'selectors',
 				'strTitle'			=> 'Selectors and Checkboxes',
 				'strDescription'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
 			),
 			array(
 				'strSectionID'		=> 'sizes',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'selectors',
 				'strTitle'			=> 'Sizes',
 			),			
 			array(
 				'strSectionID'		=> 'image_select',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'files',
 				'strTitle'			=> 'Image Selector',
 				'strDescription'	=> 'Set an image url with jQuwey based image selector.',
 			),
 			array(
 				'strSectionID'		=> 'color_picker',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'misc',
 				'strTitle'			=> __( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strSectionID'		=> 'media_upload',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'files',
 				'strTitle'			=> __( 'Media Uploader', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strSectionID'		=> 'checklists',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'checklist',
 				'strTitle'			=> 'Checklists',
 				'strDescription'	=> 'Post type and taxonomy checklists ( custom checkbox ).',
 			),	
 			array(
-				'strSectionID'		=> 'date_pickers',
-				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'misc',
-				'strTitle'			=> __( 'Date Pickers', 'admin-page-framework' ),
-				'strDescription'	=> __( 'These are date pickers.', 'admin-page-framework-demo' ),
-			),				
-			array(
 				'strSectionID'		=> 'hidden_field',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'misc',
 				'strTitle'			=> 'Hidden Fields',
 				'strDescription'	=> 'These are hidden fields.',
 			),								
 			array(
 				'strSectionID'		=> 'file_uploads',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'files',
 				'strTitle'			=> __( 'File Uploads', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'strSectionID'		=> 'submit_buttons',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'misc',
 				'strTitle'			=> __( 'Submit Buttons', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'strSectionID'		=> 'verification',
-				'strPageSlug'		=> 'first_page',
+				'strPageSlug'		=> 'apf_builtin_field_types',
 				'strTabSlug'		=> 'verification',
 				'strTitle'			=> __( 'Verify Submitted Data', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
 			),		
 			array(
 				'strSectionID'		=> 'geometry',
-				'strPageSlug'		=> 'first_page',
-				'strTabSlug'		=> 'custom',
+				'strPageSlug'		=> 'apf_custom_field_types',
+				'strTabSlug'		=> 'geometry',
 				'strTitle'			=> __( 'Geometry', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
 			),					
@@ -306,15 +317,26 @@ class APF_Demo extends AdminPageFramework {
 		
 		$this->addSettingSections(	
 			array(
+				'strSectionID'		=> 'date_pickers',
+				'strPageSlug'		=> 'apf_custom_field_types',
+				'strTabSlug'		=> 'date',
+				'strTitle'			=> __( 'Date Pickers', 'admin-page-framework' ),
+				'strDescription'	=> __( 'These are date pickers.', 'admin-page-framework-demo' ),
+			),
+			array()
+		);
+		
+		$this->addSettingSections(	
+			array(
 				'strSectionID'		=> 'submit_buttons_manage',
-				'strPageSlug'		=> 'second_page',
+				'strPageSlug'		=> 'apf_manage_options',
 				'strTabSlug'		=> 'delete_options',
 				'strTitle'			=> 'Reset Button',
 				'numOrder'			=> 10,
 			),			
 			array(
 				'strSectionID'		=> 'submit_buttons_confirm',
-				'strPageSlug'		=> 'second_page',
+				'strPageSlug'		=> 'apf_manage_options',
 				'strTabSlug'		=> 'delete_options_confirm',
 				'strTitle'			=> 'Confirmation',
 				'strDescription'	=> "<div class='settings-error error'><p><strong>Are you sure you want to delete all the options?</strong></p></div>",
@@ -322,14 +344,14 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(
 				'strSectionID'		=> 'exports',
-				'strPageSlug'		=> 'second_page',
+				'strPageSlug'		=> 'apf_manage_options',
 				'strTabSlug'		=> 'export_import',
 				'strTitle'			=> 'Export Data',
 				'strDescription'	=> 'After exporting the options, change and save new options and then import the file to see if the options get restored.',
 			),				
 			array(
 				'strSectionID'		=> 'imports',
-				'strPageSlug'		=> 'second_page',
+				'strPageSlug'		=> 'apf_manage_options',
 				'strTabSlug'		=> 'export_import',
 				'strTitle'			=> 'Import Data',
 			),			
@@ -720,33 +742,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
 				'strType' => 'color',
 				'fRepeatable' => true,
-			),								
-			array(	// Single date picker
-				'strFieldID' => 'date',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Date', 'admin-page-framework-demo' ),
-				'strType' => 'date',
-				'vDateFormat' => 'yy/mm/dd',	// yy/mm/dd is the default format.
-			),			
-			array(	// Multiple date pickers
-				'strFieldID' => 'dates',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Dates', 'admin-page-framework-demo' ),
-				'strType' => 'date',
-				'vLabel' => array( 
-					'start' => __( 'Start Date: ', 'amin-page-framework-demo' ), 
-					'end' => __( 'End Date: ', 'amin-page-framework-demo' ), 
-				),
-				'vDelimiter' => '<br />',
-			),	
-			array(	// Repeatable date picker fields
-				'strFieldID' => 'date_repeatable',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Repeatable Date Pickers', 'admin-page-framework-demo' ),
-				'strType' => 'date',
-				'fRepeatable' => true,
-				'vDateFormat' => 'yy/mm/dd',	// yy/mm/dd is the default format.
-			),		
+			),										
 			array( // Single Hidden Field
 				'strFieldID' => 'hidden_single',
 				'strSectionID' => 'hidden_field',
@@ -809,6 +805,7 @@ class APF_Demo extends AdminPageFramework {
 				'vLabel' => __( 'Verify', 'admin-page-framework-demo' ),
 			)
 		);	
+		
 		$this->addSettingFields(			
 			array(
 				'strFieldID' => 'geometrical_coordinates',
@@ -822,6 +819,44 @@ class APF_Demo extends AdminPageFramework {
 				),
 			)
 		);
+		$this->addSettingFields(
+			array(	// Single date picker
+				'strFieldID' => 'date',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Date', 'admin-page-framework-demo' ),
+				'strType' => 'date',
+				'vDateFormat' => 'yy/mm/dd',	// yy/mm/dd is the default format.
+			),			
+			array(	// Multiple date pickers
+				'strFieldID' => 'dates',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Dates', 'admin-page-framework-demo' ),
+				'strType' => 'date',
+				'vLabel' => array( 
+					'start' => __( 'Start Date: ', 'amin-page-framework-demo' ), 
+					'end' => __( 'End Date: ', 'amin-page-framework-demo' ), 
+				),
+				'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
+				'vDelimiter' => '<br />',
+			),	
+			// array(	// Repeatable date picker fields
+				// 'strFieldID' => 'date_repeatable',
+				// 'strSectionID' => 'date_pickers',
+				// 'strTitle' => __( 'Repeatable Date Pickers', 'admin-page-framework-demo' ),
+				// 'strType' => 'date',
+				// 'fRepeatable' => true,
+				// 'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
+			// ),		
+			array(	// Single time picker
+				'strFieldID' => 'time',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Time', 'admin-page-framework-demo' ),
+				'strType' => 'time',
+				'vTimeFormat' => 'H:mm',	// H:mm is the default format.
+			),				
+			array()
+		);
+		
 		$this->addSettingFields(			
 			array( // Delete Option Button
 				'strFieldID' => 'submit_manage',
@@ -830,7 +865,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'submit',
 				'vClassAttribute' => 'button-secondary',
 				'vLabel' => 'Delete Options',
-				'vLink'	=> admin_url( 'admin.php?page=second_page&tab=delete_options_confirm' )
+				'vLink'	=> admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
 			),			
 			array( // Delete Option Confirmation Button
 				'strFieldID' => 'submit_delete_options_confirmation',
@@ -839,7 +874,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'submit',
 				'vClassAttribute' => 'button-secondary',
 				'vLabel' => 'Delete Options',
-				'vRedirect'	=> admin_url( 'admin.php?page=second_page&tab=saved_data&settings-updated=true' )
+				'vRedirect'	=> admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' )
 			),			
 			array(
 				'strFieldID' => 'export_format_type',			
@@ -889,7 +924,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'import',
 				'strDescription' => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
 				'vLabel' => 'Import Options',
-				// 'vImportFormat' => isset( $_POST[ $this->oProps->strClassName ]['second_page']['imports']['import_format_type'] ) ? $_POST[ $this->oProps->strClassName ]['second_page']['imports']['import_format_type'] : 'array',
+				// 'vImportFormat' => isset( $_POST[ $this->oProps->strClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProps->strClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
 			),			
 			array()
 		);
@@ -907,22 +942,22 @@ class APF_Demo extends AdminPageFramework {
     }
 		
 	/*
-	 * First Page
+	 * Built-in Field Types
 	 * */
-	public function do_first_page() {
+	public function do_apf_builtin_field_types() {
 		submit_button();
 	}
 		
 	/*
-	 * Second Page
+	 * Manage Options
 	 * */
-	public function do_second_page_saved_data() {	// do_ + page slug + _ + tab slug
+	public function do_apf_manage_options_saved_data() {	// do_ + page slug + _ + tab slug
 		?>
 		<h3>Saved Data</h3>
 		<?php
 			echo $this->oDebug->getArray( $this->oProps->arrOptions ); 
 	}
-	public function do_second_page_properties() {	// do_ + page slug + _ + tab slug
+	public function do_apf_manage_options_properties() {	// do_ + page slug + _ + tab slug
 		?>
 		<h3>Framework Properties</h3>
 		<?php
@@ -952,15 +987,15 @@ class APF_Demo extends AdminPageFramework {
 	 * */
 	public function export_format_APF_Demo_export_single( $strFormatType, $strFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
 		
-		return isset( $_POST[ $this->oProps->strOptionKey ]['second_page']['exports']['export_format_type'] ) 
-			? $_POST[ $this->oProps->strOptionKey ]['second_page']['exports']['export_format_type']
+		return isset( $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['exports']['export_format_type'] ) 
+			? $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['exports']['export_format_type']
 			: $strFormatType;
 		
 	}	
-	public function import_format_second_page_export_import( $strFormatType, $strFieldID ) {	// import_format_ + page slug + _ + tab slug
+	public function import_format_apf_manage_options_export_import( $strFormatType, $strFieldID ) {	// import_format_ + page slug + _ + tab slug
 		
-		return isset( $_POST[ $this->oProps->strOptionKey ]['second_page']['imports']['import_format_type'] ) 
-			? $_POST[ $this->oProps->strOptionKey ]['second_page']['imports']['import_format_type']
+		return isset( $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['imports']['import_format_type'] ) 
+			? $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['imports']['import_format_type']
 			: $strFormatType;
 		
 	}
@@ -992,10 +1027,10 @@ class APF_Demo extends AdminPageFramework {
 		$arrErrors = array();
 
 		// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.
-		if ( ! is_numeric( $arrNewInput['first_page']['verification']['verify_text_field'] ) ) {
+		if ( ! is_numeric( $arrNewInput['apf_builtin_field_types']['verification']['verify_text_field'] ) ) {
 			
 			// Start with the section key in $arrErrors, not the key of page slug.
-			$arrErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $arrNewInput['first_page']['verification']['verify_text_field'];	
+			$arrErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $arrNewInput['apf_builtin_field_types']['verification']['verify_text_field'];	
 			$fVerified = false;
 			
 		}
@@ -1013,15 +1048,15 @@ class APF_Demo extends AdminPageFramework {
 		return $arrNewInput;		
 		
 	}
-	public function validation_first_page_files( $arrInput, $arrOldPageOptions ) {	// validation_ + page slug + _ + tab slug
+	public function validation_apf_builtin_field_types_files( $arrInput, $arrOldPageOptions ) {	// validation_ + page slug + _ + tab slug
 
 		// Display the uploaded file information.
 		$arrFileErrors = array();
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_single'];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_multiple'][0];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_multiple'][1];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_multiple'][2];
-		foreach( $_FILES[ $this->oProps->strOptionKey ]['error']['first_page']['file_uploads']['file_repeatable'] as $arrFile )
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_single'];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][0];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][1];
+		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][2];
+		foreach( $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_repeatable'] as $arrFile )
 			$arrFileErrors[] = $arrFile;
 			
 		if ( in_array( 0, $arrFileErrors ) ) 
@@ -1034,7 +1069,7 @@ class APF_Demo extends AdminPageFramework {
 	public function validation_APF_Demo( $arrInput, $arrOldOptions ) {
 		
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
-		if ( isset( $_POST[ $this->oProps->strOptionKey ]['second_page']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
+		if ( isset( $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
 			return array();
 			
 		return $arrInput;
@@ -1073,19 +1108,31 @@ class APF_Demo extends AdminPageFramework {
 	}
 	
 	/*
-	 * Custom field type - this method gets fired when the framework tries to define field types.
+	 * Custom field types - this method gets fired when the framework tries to define field types.
 	 */
 	public function field_types_APF_Demo( $arrFieldTypeDefinitions ) {	// field_types_ + {extended class name}
 				
 		// 1. Include the file that defines the custom field type. 
 		// This class should extend the predefined abstract class that the library prepares already with necessary methods.
-		if ( ! class_exists( 'GeometryCustomFieldType' ) )
-			include_once( dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php' );
+		$arrFiles = array(
+			dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+		);
+		foreach( $arrFiles as $strFilePath )
+			if ( file_exists( $strFilePath ) )
+				include_once( $strFilePath );
 		
 		// 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
-		// And assign it to the filtering array with the key of the field type slug, in this case, geometry. 
-		$oGeometryField = new GeometryCustomFieldType( 'APF_Demo', 'geometry' );
-		$arrFieldTypeDefinitions['geometry'] = $oGeometryField->getDefinitionArray();
+		// Then assign it to the filtering array with the key of the field type slug. 
+		$oGeometryFieldType = new GeometryCustomFieldType( 'APF_Demo', 'geometry' );
+		$arrFieldTypeDefinitions['geometry'] = $oGeometryFieldType->getDefinitionArray();
+
+		$oDateFieldType = new DateCustomFieldType( 'APF_Demo', 'date' );
+		$arrFieldTypeDefinitions['date'] = $oDateFieldType->getDefinitionArray();
+
+		$oDateFieldType = new TimeCustomFieldType( 'APF_Demo', 'date' );
+		$arrFieldTypeDefinitions['time'] = $oDateFieldType->getDefinitionArray();
 		
 		// 3. Return the modified array.
 		return $arrFieldTypeDefinitions;
