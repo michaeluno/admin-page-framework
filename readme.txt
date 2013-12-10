@@ -51,6 +51,7 @@ It provides plugin and theme developers with easier means of creating option pag
 = Sample Custom Field Types = 
 * Geometry
 * Date and Time Pickers
+* Dial
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the *class* folder.
