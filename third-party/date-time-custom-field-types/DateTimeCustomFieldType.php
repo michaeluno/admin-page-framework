@@ -140,7 +140,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 							dateFormat : '{$strDateFormat}',
 						});
 
-					})
+					});
 				</script>";
 		}
 	

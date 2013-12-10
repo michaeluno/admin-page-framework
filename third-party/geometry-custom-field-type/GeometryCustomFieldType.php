@@ -23,7 +23,7 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 	protected function getEnqueuingScripts() { 
 		return array(
 			"http://maps.googleapis.com/maps/api/js?sensor=false",	// load this first
-			dirname( __FILE__ ) . '/js/jquery-gmaps-latlon-picker.js',	// load this name - a file path can be passed, ( as well as a url )
+			dirname( __FILE__ ) . '/js/jquery-gmaps-latlon-picker.js',	// load this next - a file path can be passed, ( as well as a url )
 		);
 	}	
 

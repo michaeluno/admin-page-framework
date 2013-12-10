@@ -1,5 +1,5 @@
 <?php
-class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
+class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 		
 	/**
 	 * Returns the array of the field type specific default keys.
@@ -7,8 +7,8 @@ class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
 	protected function getDefaultKeys() { 
 		return array(
 			'vSize'					=> 10,
-			'vDateFormat'	 		=> 'yy/mm/dd',				// ( array or string ) This is for the date field type that specifies the date format.
 			'vMaxLength'			=> 400,
+			'vDataAttribute'		=> array(),		// the array holds the data for the data-{...} attribute of the input tag.
 		);	
 	}
 
@@ -16,23 +16,23 @@ class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 * Loads the field type necessary components.
 	 */ 
 	public function replyToFieldLoader() {
-		wp_enqueue_script( 'jquery-ui-datepicker' );
+		
 	}	
 	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
-	// protected function getEnqueuingScripts() { 
-		// return array(
-		// );
-	// }	
+	protected function getEnqueuingScripts() { 
+		return array(
+			dirname( __FILE__ ) . '/js/jquery.knob.js',
+		);
+	}	
 
 	/**
 	 * Returns an array holding the urls of enqueuing styles.
 	 */
 	protected function getEnqueuingStyles() { 
 		return array(
-			dirname( __FILE__ ) . '/css/jquery-ui-1.10.3.min.css',
 		); 
 	}	
 	
@@ -40,7 +40,7 @@ class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	public function replyToGetInputScripts() {
-		return "";		
+		return "";
 	}	
 
 	/**
@@ -48,11 +48,15 @@ class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 */ 
 	public function replyToGetInputStyles() {
 		return "
-		/* Date Picker */
-		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
-			display: none;
-		}		
-		" . PHP_EOL;		
+			.admin-page-framework-field-dial .admin-page-framework-input-label-container {
+				padding-right: 1em;
+				padding-bottom: 2em;
+			}
+			.admin-page-framework-field-dial .admin-page-framework-input-label-string {
+				vertical-align: top;
+			}
+		
+		";		
 	}
 
 	/**
@@ -89,43 +93,68 @@ class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
 								: "" 
 							)
 							. "<input id='{$strTagID}_{$strKey}' "
-								. "class='datepicker " . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
+								. "class='knob " . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
 								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
 								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
-								. "type='text' "	// text, password, etc.
+								. "type='text' "
 								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
 								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+								. $this->getDataAttributes( $arrField, $strKey, $arrDefaultKeys )
 							. "/>"
 							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"	// end of label container
-					. $this->getDatePickerEnablerScript( "{$strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $arrField['vDateFormat'], $strKey, $arrDefaultKeys['vDateFormat'] ) )
+					. $this->getDialEnablerScript( "{$strTagID}_{$strKey}" )					
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
 				);
-				
-		return "<div class='admin-page-framework-field-date' id='{$strTagID}'>" 
+
+		return "<div class='admin-page-framework-field-dial' id='{$strTagID}'>" 
 				. implode( '', $arrOutput ) 
 			. "</div>";
-		
+			
 	}	
-		/**
-		 * A helper function for the above replyToGetInputField() method.
-		 * 
-		 */
-		private function getDatePickerEnablerScript( $strID, $strDateFormat ) {
+	
+	/**
+	 * A helper function for the above method.
+	 */
+	private function getDataAttributes( $arrField, $strKey, $arrDefaultKeys ) {
+		
+		$arrDataAttribute = isset( $arrField['vDataAttribute'][ $strKey ] )
+			? $this->uniteArrays( ( array ) $arrField['vDataAttribute'][ $strKey ], $arrDefaultKeys['vDataAttribute'] )
+			: $arrField['vDataAttribute'];
+			
+		return $this->convertArrayToDataAttributes( $arrDataAttribute );
+		
+	}
+	
+	/**
+	 * Generates the data-{...} attributes from the given array.
+	 * 
+	 */
+	private function convertArrayToDataAttributes( $arrAssociativeArray ) {
+				
+		$arrDataAttributes = array();
+		foreach( $arrAssociativeArray as $strKey => $strValue ) 
+			if ( isset( $strValue ) )
+				$arrDataAttributes[] = "data-{$strKey}='{$strValue}'";
+			
+		return implode( ' ', $arrDataAttributes );
+		
+	}
+	
+	private function getDialEnablerScript( $strInputID ) {
 			return 
-				"<script type='text/javascript' class='date-picker-enabler-script' data-id='{$strID}' data-date_format='{$strDateFormat}'>
+				"<script type='text/javascript' class='dial-enabler-script'>
 					jQuery( document ).ready( function() {
-						jQuery( '#{$strID}' ).datepicker({
-							dateFormat : '{$strDateFormat}'
-						});
+						jQuery( '#{$strInputID}' ).knob();
 					});
-				</script>";
-		}
-
+				</script>";		
+		
+	}
+	
 }

@@ -123,7 +123,12 @@ class APF_Demo extends AdminPageFramework {
 				'strPageSlug'	=> 'apf_custom_field_types',
 				'strTabSlug'	=> 'date',
 				'strTitle'		=> __( 'Date & Time', 'admin-page-framework-demo' ),	
-			),	
+			),
+			array(
+				'strPageSlug'	=> 'apf_custom_field_types',
+				'strTabSlug'	=> 'dial',
+				'strTitle'		=> __( 'Dials', 'admin-page-framework-demo' ),	
+			),			
 			array()
 		);
 		$this->addInPageTabs(
@@ -304,25 +309,31 @@ class APF_Demo extends AdminPageFramework {
 				'strTabSlug'		=> 'verification',
 				'strTitle'			=> __( 'Verify Submitted Data', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
-			),		
-			array(
-				'strSectionID'		=> 'geometry',
-				'strPageSlug'		=> 'apf_custom_field_types',
-				'strTabSlug'		=> 'geometry',
-				'strTitle'			=> __( 'Geometry', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
 			),					
 			array()
 		);
 		
 		$this->addSettingSections(	
 			array(
+				'strSectionID'		=> 'geometry',
+				'strPageSlug'		=> 'apf_custom_field_types',
+				'strTabSlug'		=> 'geometry',
+				'strTitle'			=> __( 'Geometry', 'admin-page-framework-demo' ),
+				'strDescription'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
+			),				
+			array(
 				'strSectionID'		=> 'date_pickers',
 				'strPageSlug'		=> 'apf_custom_field_types',
 				'strTabSlug'		=> 'date',
 				'strTitle'			=> __( 'Date Pickers', 'admin-page-framework' ),
-				'strDescription'	=> __( 'These are date pickers.', 'admin-page-framework-demo' ),
+				'strDescription'	=> __( 'These are date and time pickers.', 'admin-page-framework-demo' ),
 			),
+			array(
+				'strSectionID'		=> 'dial',
+				'strPageSlug'		=> 'apf_custom_field_types',
+				'strTabSlug'		=> 'dial',
+				'strTitle'			=> __( 'Dial', 'admin-page-framework-demo' ),
+			),					
 			array()
 		);
 		
@@ -875,6 +886,66 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array()
 		);
+		$this->addSettingFields(			
+			array(
+				'strFieldID' => 'dials',
+				'strSectionID' => 'dial',
+				'strTitle' => __( 'Multiple Dials', 'admin-page-framework-demo' ),
+				'strType' => 'dial',
+				'vLabel' => array(
+					__( 'Disable display input', 'admin-page-framework-demo' ),
+					__( 'Cursor mode', 'admin-page-framework-demo' ),
+					__( 'Display previous value (effect)', 'admin-page-framework-demo' ),				
+					__( 'Angle offset', 'admin-page-framework-demo' ),				
+					__( 'Angle offset and arc', 'admin-page-framework-demo' ),				
+					__( '5-digit values, step 1000', 'admin-page-framework-demo' ),				
+				),
+				// For details, see https://github.com/aterrien/jQuery-Knob
+				'vDataAttribute' => array( 
+					array(
+						'width' => 100,
+						'displayInput' => 'false',
+					),
+					array(
+						'width' => 150,
+						'cursor' => 'true',
+						'thickness'	=> '.3', 
+						'fgColor' => '#222222',
+					),					
+					array(
+						'width' => 200,
+						'min'	=> -100, 
+						'displayPrevious'	=> 'true', // a boolean value also needs to be passed as string
+					),
+					array(
+						'angleOffset' => 90,
+						'linecap' => 'round',
+					),
+					array(
+						'fgColor' => '#66CC66',
+						'angleOffset' => -125,
+						'angleArc' => 250,
+					),
+					array(
+						'step' => 1000,
+						'min' => -15000,
+						'max' => 15000,
+						'displayPrevious' => true,
+					),                        
+				),
+			),
+			array(
+				'strFieldID' => 'dial_big',
+				'strSectionID' => 'dial',
+				'strTitle' => __( 'Big', 'admin-page-framework-demo' ),
+				'strType' => 'dial',
+				'vDataAttribute' => array(
+					'width' => 400,
+					'height' => 400,
+				),
+			),
+			array()
+		);
 		
 		$this->addSettingFields(			
 			array( // Delete Option Button
@@ -1145,6 +1216,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 		);
 		foreach( $arrFiles as $strFilePath )
 			if ( file_exists( $strFilePath ) )
@@ -1163,6 +1235,9 @@ class APF_Demo extends AdminPageFramework {
 
 		$oDateTimeFieldType = new DateTimeCustomFieldType( 'APF_Demo', 'date_time' );
 		$arrFieldTypeDefinitions['date_time'] = $oDateTimeFieldType->getDefinitionArray();
+
+		$oDialFieldType = new DialCustomFieldType( 'APF_Demo', 'dial' );
+		$arrFieldTypeDefinitions['dial'] = $oDialFieldType->getDefinitionArray();
 		
 		// 3. Return the modified array.
 		return $arrFieldTypeDefinitions;

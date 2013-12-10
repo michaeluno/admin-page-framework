@@ -136,7 +136,7 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 						// jQuery( '#{$strID}' ).datetimepicker({
 							// timeFormat: 'hh:mm tt'
 						// });
-					})
+					});
 				</script>";
 		}
 	
