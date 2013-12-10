@@ -839,20 +839,39 @@ class APF_Demo extends AdminPageFramework {
 				'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
 				'vDelimiter' => '<br />',
 			),	
-			// array(	// Repeatable date picker fields
-				// 'strFieldID' => 'date_repeatable',
-				// 'strSectionID' => 'date_pickers',
-				// 'strTitle' => __( 'Repeatable Date Pickers', 'admin-page-framework-demo' ),
-				// 'strType' => 'date',
-				// 'fRepeatable' => true,
-				// 'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
-			// ),		
 			array(	// Single time picker
 				'strFieldID' => 'time',
 				'strSectionID' => 'date_pickers',
 				'strTitle' => __( 'Time', 'admin-page-framework-demo' ),
 				'strType' => 'time',
 				'vTimeFormat' => 'H:mm',	// H:mm is the default format.
+			),		
+			array(	// Single date time picker
+				'strFieldID' => 'date_time',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Date & Time', 'admin-page-framework-demo' ),
+				'strType' => 'date_time',
+				'vDateFormat' => 'yy-mm-dd',	// H:mm is the default format.
+				'vTimeFormat' => 'H:mm',	// H:mm is the default format.
+			),		
+			array(	// Multiple date time pickers
+				'strFieldID' => 'dates_time_multiple',
+				'strSectionID' => 'date_pickers',
+				'strTitle' => __( 'Multiple Date and Time', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'With different time formats', 'admin-page-framework-demo' ),
+				'strType' => 'date_time',
+				'vLabel' => array( 
+					__( 'Default', 'amin-page-framework-demo' ), 
+					__( 'AM PM', 'amin-page-framework-demo' ), 
+					__( 'Time Zone', 'amin-page-framework-demo' ), 
+				),
+				'vTimeFormat' => array(
+					'H:mm',
+					'hh:mm tt',
+					'hh:mm tt z',
+				),
+				'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
+				'vDelimiter' => '<br />',
 			),				
 			array()
 		);
@@ -1125,6 +1144,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
 		);
 		foreach( $arrFiles as $strFilePath )
 			if ( file_exists( $strFilePath ) )
@@ -1138,8 +1158,11 @@ class APF_Demo extends AdminPageFramework {
 		$oDateFieldType = new DateCustomFieldType( 'APF_Demo', 'date' );
 		$arrFieldTypeDefinitions['date'] = $oDateFieldType->getDefinitionArray();
 
-		$oDateFieldType = new TimeCustomFieldType( 'APF_Demo', 'date' );
+		$oDateFieldType = new TimeCustomFieldType( 'APF_Demo', 'time' );
 		$arrFieldTypeDefinitions['time'] = $oDateFieldType->getDefinitionArray();
+
+		$oDateTimeFieldType = new DateTimeCustomFieldType( 'APF_Demo', 'date_time' );
+		$arrFieldTypeDefinitions['date_time'] = $oDateTimeFieldType->getDefinitionArray();
 		
 		// 3. Return the modified array.
 		return $arrFieldTypeDefinitions;
