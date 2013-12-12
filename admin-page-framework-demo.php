@@ -1071,7 +1071,7 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_manage_options_messages() {	// do_ + page slug + _ + tab slug
 		?>
 		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$arrMessages</code> array in the oMsg object.', 'admin-page-framework-demo' ); ?></p>	// ' syntax fixer
+		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$arrMessages</code> array in the oMsg object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
 		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;arrMessages );</code></pre>
 		<?php
 			echo $this->oDebug->getArray( $this->oMsg->arrMessages );
