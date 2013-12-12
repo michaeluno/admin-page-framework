@@ -2196,7 +2196,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * );</code>
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5			The $strURLIcon16x16 parameter accepts a file path.
+	 * @since			2.1.6			The $strURLIcon16x16 parameter accepts a file path.
 	 * @remark			Only one root page can be set per one class instance.
 	 * @param			string			$strRootMenuLabel			If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
 	 * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
@@ -3425,7 +3425,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			? $arrField['strType']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, $this->arrFieldErrors, $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] );
+		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, $this->arrFieldErrors, $this->oProps->arrFieldTypeDefinitions[ $strFieldType ], $this->oMsg );
 		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 
@@ -4643,35 +4643,49 @@ if ( ! class_exists( 'AdminPageFramework_Messages' ) ) :
  */
 class AdminPageFramework_Messages {
 
-	// The user can modify this property directly.
-	public $arrMessages = array(
-		'option_updated'	=> 'The options have been updated.',
-		'option_cleared'	=> 'The options have been cleared.',
-		'export_options'	=> 'Export Options',
-		'import_options'	=> 'Import Options',
-		'submit'			=> 'Submit',
-		'import_error'		=> 'An error occurred while uploading the import file.',
-		'uploaded_file_type_not_supported'	=> 'The uploaded file type is not supported.',
-		'could_not_load_importing_data' => 'Could not load the importing data.',
-		'imported_data'		=> 'The uploaded file has been imported.',
-		'not_imported_data' => 'No data could be imported.',
-	);
+	/**
+	 * Stores the framework's messages.
+	 * 
+	 * @remark			The user can modify this property directly.
+	 */ 
+	public $arrMessages = array();
 
 	public function __construct( $strTextDomain='admin-page-framework' ) {
+		
 		$this->strTextDomain = $strTextDomain;
+		$this->arrMessages = array(
+			'option_updated'		=> __( 'The options have been updated.', 'admin-page-framework' ),
+			'option_cleared'		=> __( 'The options have been cleared.', 'admin-page-framework' ),
+			'export_options'		=> __( 'Export Options', 'admin-page-framework' ),
+			'import_options'		=> __( 'Import Options', 'admin-page-framework' ),
+			'submit'				=> __( 'Submit', 'admin-page-framework' ),
+			'import_error'			=> __( 'An error occurred while uploading the import file.', 'admin-page-framework' ),
+			'uploaded_file_type_not_supported'	=> __( 'The uploaded file type is not supported.', 'admin-page-framework' ),
+			'could_not_load_importing_data' => __( 'Could not load the importing data.', 'admin-page-framework' ),
+			'imported_data'			=> __( 'The uploaded file has been imported.', 'admin-page-framework' ),
+			'not_imported_data' 	=> __( 'No data could be imported.', 'admin-page-framework' ),
+			'add'					=> __( 'Add', 'admin-page-framework' ),
+			'remove'				=> __( 'Remove', 'admin-page-framework' ),
+			'upload_image'			=> __( 'Upload Image', 'admin-page-framework' ),
+			'use_this_image'		=> __( 'Use This Image', 'admin-page-framework' ),
+			'upload_file'			=> __( 'Upload File', 'admin-page-framework' ),
+			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
+		);		
+		
 	}
 	public function ___( $strKey ) {
 		
 		return isset( $this->arrMessages[ $strKey ] )
 			? __( $this->arrMessages[ $strKey ], $this->strTextDomain )
 			: '';
-		
+			
 	}
+	
 	public function __e( $strKey ) {
 		
 		if ( isset( $this->arrMessages[ $strKey ] ) )
 			_e( $this->arrMessages[ $strKey ], $this->strTextDomain );
-		
+			
 	}
 	
 }
@@ -9718,12 +9732,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private $fIsMetaBox = false;
 		
 	
-	public function __construct( &$arrField, &$arrOptions, $arrErrors, &$arrFieldDefinition ) {
+	public function __construct( &$arrField, &$arrOptions, $arrErrors, &$arrFieldDefinition, &$oMsg ) {
 			
 		$this->arrField = $arrField + $arrFieldDefinition['arrDefaultKeys'];	// better not to merge recursively because some elements are array by default, not as multiple elements.
 		$this->arrFieldDefinition = $arrFieldDefinition;
 		$this->arrOptions = $arrOptions;
 		$this->arrErrors = $arrErrors ? $arrErrors : array();
+		$this->oMsg = $oMsg;
 			
 		$this->strFieldName = $this->getInputFieldName();
 		$this->strTagID = $this->getInputTagID( $arrField );
@@ -9896,7 +9911,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * 
 	 * @since			2.1.3
 	 */
-	private $fIsRepeatableScriptCaleld = false;
+	private $fIsRepeatableScriptCalled = false;
 	
 	/**
 	 * Returns the repeatable fields script.
@@ -9905,9 +9920,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 */
 	private function getRepeaterScript( $strTagID, $intFieldCount ) {
 
-		
-		$strAdd = __( 'Add', 'admin-page-framework' );
-		$strRemove = __( 'Remove', 'admin-page-framework' );
+		$strAdd = $this->oMsg->___( 'add' );
+		$strRemove = $this->oMsg->___( 'remove' );
 		$strVisibility = $intFieldCount <= 1 ? " style='display:none;'" : "";
 		$strButtons = 
 			"<div class='admin-page-framework-repeatable-field-buttons'>"
@@ -9915,24 +9929,20 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility} data-id='{$strTagID}'>-</a>"
 			. "</div>";
 
-		$strUploadImage = __( 'Upload Image', 'admin-page-framework' );
-		$strUseThisImage = __( 'Use This Image', 'admin-page-framework' );	
-		
-		$strScript = $this->fIsRepeatableScriptCaleld ? "" : $this->getRepeaterScriptGlobal( $strTagID );
-		$this->fIsRepeatableScriptCaleld = true;
-		
+		$strScript = $this->fIsRepeatableScriptCalled ? "" : $this->getRepeaterScriptGlobal( $strTagID );
+		$this->fIsRepeatableScriptCalled = true;
 		return $strScript . 
-		"<script type='text/javascript'>
-			jQuery( document ).ready( function() {
-			
-				// Adds the buttons
-				jQuery( '#{$strTagID} .admin-page-framework-field' ).append( \"{$strButtons}\" );
+			"<script type='text/javascript'>
+				jQuery( document ).ready( function() {
 				
-				// Update the fields
-				updateAPFRepeatableFields( '{$strTagID}' );
-				
-			});
-		</script>";
+					// Adds the buttons
+					jQuery( '#{$strTagID} .admin-page-framework-field' ).append( \"{$strButtons}\" );
+					
+					// Update the fields
+					updateAPFRepeatableFields( '{$strTagID}' );
+					
+				});
+			</script>";
 		
 	}
 
@@ -11121,7 +11131,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$strFieldType = isset( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] ) && is_callable( $this->oProps->arrFieldTypeDefinitions[ $arrField['strType'] ]['callRenderField'] )
 			? $arrField['strType']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
-		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, array(), $this->oProps->arrFieldTypeDefinitions[ $strFieldType ] );	// currently the error array is not supported for meta-boxes
+		$oField = new AdminPageFramework_InputField( $arrField, $this->oProps->arrOptions, array(), $this->oProps->arrFieldTypeDefinitions[ $strFieldType ], $this->oMsg );	// currently the error array is not supported for meta-boxes
 		$oField->isMetaBox( true );
 		$strFieldOutput = $oField->getInputField( $strFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
