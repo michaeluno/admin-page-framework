@@ -3103,13 +3103,13 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Set up the field error array.
 		$arrErrors = array();
-		$arrErrors[ $strSectionID ][ $strFieldID ] = __( 'Are you sure you want to reset the options?', 'admin-page-framework' );
+		$arrErrors[ $strSectionID ][ $strFieldID ] = $this->oMsg->___( 'reset_options' );
 		$this->setFieldErrors( $arrErrors );
 		
 		// Set a flag that the confirmation is displayed
 		set_transient( md5( "reset_confirm_" . $strPressedFieldName ), $strPressedFieldName, 60*2 );
 		
-		$this->setSettingNotice( __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' ) );
+		$this->setSettingNotice( $this->oMsg->___( 'confirm_perform_task' ) );
 		
 		return $this->getPageOptions( $strPageSlug ); 			
 		
@@ -4110,7 +4110,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		
 		// Objects
 		$this->oProps = new AdminPageFramework_Properties( $this, $strClassName, $strOptionKey, $strCapability );
-		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
+		$this->oMsg = AdminPageFramework_Messages::instantiate( $strTextDomain );
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
@@ -4637,6 +4637,7 @@ if ( ! class_exists( 'AdminPageFramework_Messages' ) ) :
  * Provides methods for text messages.
  *
  * @since			2.0.0
+ * @since			2.1.6			Multiple instances of this class are disallowed.
  * @extends			n/a
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Property
@@ -4650,6 +4651,26 @@ class AdminPageFramework_Messages {
 	 */ 
 	public $arrMessages = array();
 
+	/**
+	 * 
+	 * 
+	 */
+	private static $oInstance;
+	
+	/**
+	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
+	 * 
+	 * @since			2.1.6
+	 * @remark			This class should be instantiated via this method.
+	 */
+	public static function instantiate( $strTextDomain='admin-page-framework' ) {
+		
+		if ( ! isset( self::$oInstance ) && ! ( self::$oInstance instanceof AdminPageFramework_Messages ) ) 
+			self::$oInstance = new AdminPageFramework_Messages( $strTextDomain );
+		return self::$oInstance;
+		
+	}	
+	
 	public function __construct( $strTextDomain='admin-page-framework' ) {
 		
 		$this->strTextDomain = $strTextDomain;
@@ -4671,6 +4692,8 @@ class AdminPageFramework_Messages {
 			'use_this_image'		=> __( 'Use This Image', 'admin-page-framework' ),
 			'upload_file'			=> __( 'Upload File', 'admin-page-framework' ),
 			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
+			'reset_options'			=> __( 'Are you sure you want to reset the options?', 'admin-page-framework' ),
+			'confirm_perform_task'	=> __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' ),
 			
 			// for the post type class
 			'title'			=> __( 'Title', 'admin-page-framework' ),	
@@ -4679,7 +4702,7 @@ class AdminPageFramework_Messages {
 			'tags'			=> __( 'Tags', 'admin-page-framework' ),
 			'comments' 		=> __( 'Comments', 'admin-page-framework' ),
 			'date'			=> __( 'Date', 'admin-page-framework' ), 
-			
+			'show_all'		=> __( 'Show All', 'admin-page-framework' ),
 			// For the meta box class
 		);		
 		
@@ -8776,7 +8799,7 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 								. "accept='" . $this->getCorrespondingArrayValue( $arrField['vAcceptAttribute'], $strKey, $arrDefaultKeys['vAcceptAttribute'] ) . "' "
 								. "type='{$arrField['strType']}' "	// file
 								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey, __( 'Submit', 'admin-page-framework' ) ) . "' "
+								. "value='" . $this->getCorrespondingArrayValue( $arrFields, $strKey ) . "' "
 								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 							. "/>"
 							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
@@ -10315,8 +10338,7 @@ abstract class AdminPageFramework_PostType {
 		// Objects
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oProps = new AdminPageFramework_PostType_Properties( $this );
-		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
-		
+		$this->oMsg = AdminPageFramework_Messages::instantiate( $strTextDomain );
 		
 		// Properties
 		$this->oProps->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
@@ -10677,7 +10699,7 @@ abstract class AdminPageFramework_PostType {
 
 			// This function will echo the drop down list based on the passed array argument.
 			wp_dropdown_categories( array(
-				'show_option_all' => __( 'Show All', 'admin-page-framework' ) . ' ' . $oTaxonomy->label,
+				'show_option_all' => $this->oMsg->___( 'show_all' ) . ' ' . $oTaxonomy->label,
 				'taxonomy' 	  => $strTaxonomySulg,
 				'name' 		  => $oTaxonomy->name,
 				'orderby' 	  => 'name',
@@ -10807,7 +10829,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 		// Objects
 		$this->oUtil = new AdminPageFramework_Utilities;
-		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
+		$this->oMsg = AdminPageFramework_Messages::instantiate( $strTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oProps = new AdminPageFramework_MetaBox_Properties( $this );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProps );
@@ -11041,7 +11063,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
-		return $this->oProps->strThickBoxButtonUseThis ?  $this->oProps->strThickBoxButtonUseThis : __( 'Use This Image', 'admin-page-framework' );
+		return $this->oProps->strThickBoxButtonUseThis ?  $this->oProps->strThickBoxButtonUseThis : $this->oMsg->___( 'use_this_image' );
 		
 	}
 	
