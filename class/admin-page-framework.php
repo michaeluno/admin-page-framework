@@ -9845,6 +9845,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	/** 
 	 * Retrieves the input field HTML output.
 	 * @since			2.0.0
+	 * @since			2.1.6			Moved the repeater script outside the fieldset tag.
 	 */ 
 	public function getInputField( $strFieldType ) {
 		
@@ -9879,8 +9880,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			? $this->getRepeaterScript( $this->strTagID, count( ( array ) $this->vValue ) )
 			: '';
 			
-		return 
-			"<fieldset>"
+		return $this->getRepeaterScriptGlobal( $this->strTagID )
+			. "<fieldset>"
 				. "<div class='admin-page-framework-fields'>"
 					. $this->arrField['strBeforeField'] 
 					. $strOutput
@@ -9929,9 +9930,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$strRemove}' {$strVisibility} data-id='{$strTagID}'>-</a>"
 			. "</div>";
 
-		$strScript = $this->fIsRepeatableScriptCalled ? "" : $this->getRepeaterScriptGlobal( $strTagID );
-		$this->fIsRepeatableScriptCalled = true;
-		return $strScript . 
+		return
 			"<script type='text/javascript'>
 				jQuery( document ).ready( function() {
 				
@@ -9951,6 +9950,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 * since			2.1.3
 	 */
 	private function getRepeaterScriptGlobal( $strID ) {
+
+		if ( $this->fIsRepeatableScriptCalled ) return '';
+		$this->fIsRepeatableScriptCalled = true;
 		return 
 		"<script type='text/javascript'>
 			jQuery( document ).ready( function() {
