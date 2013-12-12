@@ -184,6 +184,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.6b = 
+* Fixed: the `logArray()` method to use the site local time.
+* Added: a sample page to view the message object's properties in the demo plugin.
+* Fixed: all the individual messages to be in the message object so that it gives easier access to for the user to modify the framework's default messages.
 * Added: a sample custom field type, `dial`, in the demo plugin.
 * Added: sample custom field types, `date`, `time`, and `date_time` in the demo plugin.
 * Removed:  ( *Breaking Change* ) the `date` field type.
