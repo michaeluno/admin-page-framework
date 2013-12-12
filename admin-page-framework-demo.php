@@ -1073,7 +1073,8 @@ class APF_Demo extends AdminPageFramework {
 	}
 	public function do_apf_hidden_page() {
 		
-		echo "<p>" . __( 'This is a hidden page', 'admin-page-framework-demo' ) . "</p>";
+		echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-demo' ) . "</p>";
+		echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-demo' ) . "</p>";
 		$strLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
 		echo "<a href='{$strLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
 		
