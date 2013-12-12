@@ -4099,11 +4099,11 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * @param			string		$strOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
 	 * @param			string		$strCallerPath			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
 	 * @param			string		$strCapability			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed here( http://codex.wordpress.org/Roles_and_Capabilities ). If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
-	 * @param			string		$strTextDomain			( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's text strings.
+	 * @param			string		$strTextDomain			( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's text strings. Default: admin-page-framework.
 	 * @remark			the scope is public because often <code>parent::__construct()</code> is used.
 	 * @return			void		returns nothing.
 	 */
-	public function __construct( $strOptionKey=null, $strCallerPath=null, $strCapability=null, $strTextDomain=null ){
+	public function __construct( $strOptionKey=null, $strCallerPath=null, $strCapability=null, $strTextDomain='admin-page-framework' ){
 				 
 		// Variables
 		$strClassName = get_class( $this );
@@ -4654,6 +4654,7 @@ class AdminPageFramework_Messages {
 		
 		$this->strTextDomain = $strTextDomain;
 		$this->arrMessages = array(
+			// for the main class
 			'option_updated'		=> __( 'The options have been updated.', 'admin-page-framework' ),
 			'option_cleared'		=> __( 'The options have been cleared.', 'admin-page-framework' ),
 			'export_options'		=> __( 'Export Options', 'admin-page-framework' ),
@@ -4670,6 +4671,16 @@ class AdminPageFramework_Messages {
 			'use_this_image'		=> __( 'Use This Image', 'admin-page-framework' ),
 			'upload_file'			=> __( 'Upload File', 'admin-page-framework' ),
 			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
+			
+			// for the post type class
+			'title'			=> __( 'Title', 'admin-page-framework' ),	
+			'author'		=> __( 'Author', 'admin-page-framework' ),	
+			'categories'	=> __( 'Categories', 'admin-page-framework' ),
+			'tags'			=> __( 'Tags', 'admin-page-framework' ),
+			'comments' 		=> __( 'Comments', 'admin-page-framework' ),
+			'date'			=> __( 'Date', 'admin-page-framework' ), 
+			
+			// For the meta box class
 		);		
 		
 	}
@@ -10291,17 +10302,21 @@ abstract class AdminPageFramework_PostType {
 	* 	)		
 	* );</code>
 	* @since			2.0.0
+	* @since			2.1.6			Added the $strTextDomain parameter.
 	* @see				http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 	* @param			string			$strPostType			The post type slug.
 	* @param			array			$arrArgs				The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">argument array</a> passed to register_post_type().
 	* @param			string			$strCallerPath			The path of the caller script. This is used to retrieve the script information to insert it into the footer. If not set, the framework tries to detect it.
+	* @param			string			$strTextDomain			The text domain of the caller script.
 	* @return			void
 	*/
-	public function __construct( $strPostType, $arrArgs=array(), $strCallerPath=null ) {
+	public function __construct( $strPostType, $arrArgs=array(), $strCallerPath=null, $strTextDomain='admin-page-framework' ) {
 		
 		// Objects
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oProps = new AdminPageFramework_PostType_Properties( $this );
+		$this->oMsg = new AdminPageFramework_Messages( $strTextDomain );
+		
 		
 		// Properties
 		$this->oProps->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
@@ -10309,13 +10324,13 @@ abstract class AdminPageFramework_PostType {
 		$this->oProps->strClassName = get_class( $this );
 		$this->oProps->strClassHash = md5( $this->oProps->strClassName );
 		$this->oProps->arrColumnHeaders = array(
-			'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
-			'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-			'author'		=> __( 'Author', 'admin-page-framework' ),		// Post author.
-			// 'categories'	=> __( 'Categories', 'admin-page-framework' ),	// Categories the post belongs to. 
-			// 'tags'		=> __( 'Tags', 'admin-page-framework' ),	// Tags for the post. 
+			'cb'			=> '<input type="checkbox" />',		// Checkbox for bulk actions. 
+			'title'			=> $this->oMsg->___( 'title' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+			'author'		=> $this->oMsg->___( 'author' ), 	// Post author.
+			// 'categories'	=> $this->oMsg->___( 'categories' ),	// Categories the post belongs to. 
+			// 'tags'		=> $this->oMsg->___( 'tags' ), 		//	Tags for the post. 
 			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-			'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
+			'date'			=> $this->oMsg->___( 'date' ), 		// The date and publish status of the post. 
 		);			
 		$this->oProps->strCallerPath = $strCallerPath;
 		
