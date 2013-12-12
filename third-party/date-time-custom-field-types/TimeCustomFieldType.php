@@ -131,11 +131,9 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 				"<script type='text/javascript' class='time-picker-enabler-script' data-id='{$strID}' data-time_format='{$strTimeFormat}'>
 					jQuery( document ).ready( function() {
 						jQuery( '#{$strID}' ).timepicker({
-							timeFormat : '{$strTimeFormat}'
+							timeFormat : '{$strTimeFormat}',
+							showButtonPanel : false,
 						});
-						// jQuery( '#{$strID}' ).datetimepicker({
-							// timeFormat: 'hh:mm tt'
-						// });
 					});
 				</script>";
 		}

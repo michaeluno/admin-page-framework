@@ -138,6 +138,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 						jQuery( '#{$strID}' ).datetimepicker({
 							timeFormat : '{$strTimeFormat}',
 							dateFormat : '{$strDateFormat}',
+							showButtonPanel : false,
 						});
 
 					});
