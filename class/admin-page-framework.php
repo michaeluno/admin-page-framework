@@ -6416,13 +6416,21 @@ class AdminPageFramework_Debug {
 		
 	}
 	
-	public function getArray( $arr, $strFilePath=null ) {
+	/**
+	 * 
+	 * @since			2.1.6			The $fEncloseInTag parameter is added.
+	 */
+	public function getArray( $arr, $strFilePath=null, $fEncloseInTag=true ) {
 			
 		if ( $strFilePath ) 
 			self::logArray( $arr, $strFilePath );			
 			
 		// esc_html() has a bug that breaks with complex HTML code.
-		return "<pre class='dump-array'>" . htmlspecialchars( print_r( $arr, true ) ) . "</pre>";		
+		$strResult = htmlspecialchars( print_r( $arr, true ) );
+		return $fEncloseInTag
+			? "<pre class='dump-array'>" . $strResult . "</pre>"
+			: $strResult;
+		
 	}	
 	
 	/**
@@ -6431,10 +6439,10 @@ class AdminPageFramework_Debug {
 	 * @since			2.1.1
 	 */
 	static public function logArray( $arr, $strFilePath=null ) {
-								
+		
 		file_put_contents( 
 			$strFilePath ? $strFilePath : dirname( __FILE__ ) . '/array_log.txt', 
-			date( "Y/m/d H:i:s" ) . PHP_EOL
+			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . PHP_EOL
 			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
 			, FILE_APPEND 
 		);					

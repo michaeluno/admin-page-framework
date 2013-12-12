@@ -1066,15 +1066,15 @@ class APF_Demo extends AdminPageFramework {
 		<p><?php _e( 'You can view and modify the property values stored in the framework.', 'admin-page-framework-demo' ); ?></p>
 		<pre><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProps ) );</code></pre>		
 		<?php
-			echo $this->oDebug->getArray( get_object_vars( $this->oProps ) ); 
+			$this->oDebug->dumpArray( get_object_vars( $this->oProps ) );
 	}
 	public function do_apf_manage_options_messages() {	// do_ + page slug + _ + tab slug
 		?>
 		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$arrMessages</code> array in the oMsg object.', 'admin-page-framework-demo' ); ?></p>
+		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$arrMessages</code> array in the oMsg object.', 'admin-page-framework-demo' ); ?></p>	// ' syntax fixer
 		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;arrMessages );</code></pre>
 		<?php
-			echo $this->oDebug->getArray( $this->oMsg->arrMessages ); 
+			echo $this->oDebug->getArray( $this->oMsg->arrMessages );
 	}
 	
 	/*
