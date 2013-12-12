@@ -3124,15 +3124,15 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( $strKeyToReset == 1 or $strKeyToReset === true ) {
 			delete_option( $this->oProps->strOptionKey );
-			$this->setSettingNotice( __( 'The options have been reset.', 'admin-page-framework' ) );
+			$this->setSettingNotice( $this->oMsg->___( 'option_been_reset' ) );
 			return array();
 		}
 		
 		unset( $this->oProps->arrOptions[ trim( $strKeyToReset ) ] );
 		unset( $arrInput[ trim( $strKeyToReset ) ] );
 		update_option( $this->oProps->strOptionKey, $this->oProps->arrOptions );
-		$this->setSettingNotice( __( 'The specified options have been deleted.', 'admin-page-framework' ) );
-		
+		$this->setSettingNotice( $this->oMsg->___( 'specified_option_been_deleted' ) );
+	
 		return $arrInput;	// the returned array will be saved with the Settings API.
 	}
 	
@@ -4113,7 +4113,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $strTextDomain );
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oDebug = new AdminPageFramework_Debug;
-		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath );
+		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath, $this->oMsg );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Pages( $this->oProps );
 								
 		if ( is_admin() ) {
@@ -4675,7 +4675,8 @@ class AdminPageFramework_Messages {
 		
 		$this->strTextDomain = $strTextDomain;
 		$this->arrMessages = array(
-			// for the main class
+			
+			// AdminPageFramework
 			'option_updated'		=> __( 'The options have been updated.', 'admin-page-framework' ),
 			'option_cleared'		=> __( 'The options have been cleared.', 'admin-page-framework' ),
 			'export_options'		=> __( 'Export Options', 'admin-page-framework' ),
@@ -4690,12 +4691,12 @@ class AdminPageFramework_Messages {
 			'remove'				=> __( 'Remove', 'admin-page-framework' ),
 			'upload_image'			=> __( 'Upload Image', 'admin-page-framework' ),
 			'use_this_image'		=> __( 'Use This Image', 'admin-page-framework' ),
-			'upload_file'			=> __( 'Upload File', 'admin-page-framework' ),
-			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
 			'reset_options'			=> __( 'Are you sure you want to reset the options?', 'admin-page-framework' ),
 			'confirm_perform_task'	=> __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' ),
+			'option_been_reset'		=> __( 'The options have been reset.', 'admin-page-framework' ),
+			'specified_option_been_deleted'	=> __( 'The specified options have been deleted.', 'admin-page-framework' ),
 			
-			// for the post type class
+			// AdminPageFramework_PostType
 			'title'			=> __( 'Title', 'admin-page-framework' ),	
 			'author'		=> __( 'Author', 'admin-page-framework' ),	
 			'categories'	=> __( 'Categories', 'admin-page-framework' ),
@@ -4703,7 +4704,24 @@ class AdminPageFramework_Messages {
 			'comments' 		=> __( 'Comments', 'admin-page-framework' ),
 			'date'			=> __( 'Date', 'admin-page-framework' ), 
 			'show_all'		=> __( 'Show All', 'admin-page-framework' ),
+			
 			// For the meta box class
+			
+			// AdminPageFramework_LinkBase
+			'powered_by'	=> __( 'Powered by', 'admin-page-framework' ),
+			
+			// AdminPageFramework_Link
+			'settings'		=> __( 'Settings', 'admin-page-framework' ),
+			
+			// AdminPageFramework_LinkForPostType
+			'manage'		=> __( 'Manage', 'admin-page-framework' ),
+			
+			// AdminPageFramework_InputFieldTypeDefinition_Base
+			'select_image'			=> __( 'Select Image', 'admin-page-framework' ),
+			'upload_file'			=> __( 'Upload File', 'admin-page-framework' ),
+			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
+			'select_file'			=> __( 'Select File', 'admin-page-framework' ),
+			
 		);		
 		
 	}
@@ -6069,7 +6087,7 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 	 * @since			2.1.1
 	 */	
 	protected function setFooterInfoRight( $arrScriptInfo, &$strFooterInfoRight ) {
-
+	
 		$strDescription = empty( $arrScriptInfo['strDescription'] ) 
 			? ""
 			: "&#13;{$arrScriptInfo['strDescription']}";
@@ -6079,7 +6097,7 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 		$strLibraryInfo = empty( $arrScriptInfo['strURI'] ) 
 			? $arrScriptInfo['strName'] 
 			: "<a href='{$arrScriptInfo['strURI']}' target='_blank' title='{$arrScriptInfo['strName']}{$strVersion}{$strDescription}'>{$arrScriptInfo['strName']}</a>";			
-		$strFooterInfoRight = __( 'Powered by', 'admin-page-framework' ) . '&nbsp;' 
+		$strFooterInfoRight = $this->oMsg->___( 'powered_by' ) . '&nbsp;' 
 			. $strLibraryInfo
 			. ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
 		
@@ -6108,7 +6126,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		'strRight' => '',
 	);
 	
-	public function __construct( $strPostTypeSlug, $strCallerPath=null ) {
+	public function __construct( $strPostTypeSlug, $strCallerPath=null, $oMsg=null ) {
 		
 		if ( ! is_admin() ) return;
 		
@@ -6117,7 +6135,9 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		$this->arrScriptInfo = $this->getCallerInfo( $this->strCallerPath ); 
 		$this->arrLibraryInfo = $this->getLibraryInfo();
 		
-		$this->strSettingPageLinkTitle = __( 'Manage', 'admin-page-framework' );
+		$this->oMsg = $oMsg;
+		
+		$this->strSettingPageLinkTitle = $this->oMsg->___( 'manage' );
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
@@ -6217,7 +6237,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 	 */ 
 	private $oProps;
 	
-	public function __construct( &$oProps, $strCallerPath=null ) {
+	public function __construct( &$oProps, $strCallerPath=null, $oMsg=null ) {
 		
 		if ( ! is_admin() ) return;
 		
@@ -6225,6 +6245,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		$this->strCallerPath = file_exists( $strCallerPath ) ? $strCallerPath : $this->getCallerPath();
 		$this->oProps->arrScriptInfo = $this->getCallerInfo( $this->strCallerPath ); 
 		$this->oProps->arrLibraryInfo = $this->getLibraryInfo();
+		$this->oMsg = $oMsg;
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
@@ -6341,7 +6362,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		
 		array_unshift(	
 			$arrLinks,
-			'<a href="' . $strLinkURL . '">' . __( 'Settings', 'admin-page-framework' ) . '</a>'
+			'<a href="' . $strLinkURL . '">' . $this->oMsg->___( 'settings' ) . '</a>'
 		); 
 		return $arrLinks;
 		
@@ -7199,10 +7220,10 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	
 			. $this->getScript_ImageSelector( 
 				"admin_page_framework", 
-				__( 'Upload Image', 'admin-page-framework' ),
-				__( 'Use This Image', 'admin-page-framework' )
+				$this->oMsg->___( 'upload_image' ),
+				$this->oMsg->___( 'use_this_image' )
 		);
-	}	
+	}
 		/**
 		 * Returns the JavaScript script that creates a custom media uploader object.
 		 * 
@@ -7778,14 +7799,13 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		 */
 		private function getImageUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
 			
-			$strSelectImage = __( 'Select Image', 'admin-page-framework' );
 			$strButton ="<a id='select_image_{$strInputID}' "
 						. "href='#' "
 						. "class='select_image button button-small'"
 						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
 						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
 					. ">"
-						. $strSelectImage 
+						. $this->oMsg->___( 'select_image' )
 				."</a>";
 			
 			$strScript = "
@@ -7844,8 +7864,8 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
 			. $this->getScript_MediaUploader(
 				"admin_page_framework", 
-				__( 'Upload File', 'admin-page-framework' ),
-				__( 'Use This File', 'admin-page-framework' )			
+				$this->oMsg->___( 'upload_file' ),
+				$this->oMsg->___( 'use_this_file' )
 			);
 	}	
 		/**
@@ -8096,14 +8116,13 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		 */
 		private function getMediaUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
 			
-			$strSelectImage = __( 'Select File', 'admin-page-framework' );
 			$strButton ="<a id='select_media_{$strInputID}' "
 						. "href='#' "
 						. "class='select_media button button-small'"
 						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
 						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
 					. ">"
-						. $strSelectImage 
+						. $this->oMsg->___( 'select_file' )
 				."</a>";
 			
 			$strScript = "
@@ -10376,7 +10395,7 @@ abstract class AdminPageFramework_PostType {
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			
 			// Links
-			$this->oLink = new AdminPageFramework_LinkForPostType( $this->oProps->strPostType, $this->oProps->strCallerPath );
+			$this->oLink = new AdminPageFramework_LinkForPostType( $this->oProps->strPostType, $this->oProps->strCallerPath, $this->oMsg );
 			
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		}
