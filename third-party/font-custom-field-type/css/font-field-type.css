@@ -1,0 +1,55 @@
+ 		.font_preview p {
+				
+				line-height: 2em;
+				font-size: 2em;
+				max-width: 600px;
+				font-family: AdminPageFrameworkFontPreview;
+				
+			}
+		
+			/* Image Field Preview Container */
+			.admin-page-framework-field .image_preview {
+				border: none; 
+				clear:both; 
+				margin-top: 1em;
+				margin-bottom: 1em;
+				display: block; 
+			}		
+			@media only screen and ( max-width: 1200px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 600px;
+				}
+			} 
+			@media only screen and ( max-width: 900px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 440px;
+				}
+			}	
+			@media only screen and ( max-width: 600px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 300px;
+				}
+			}		
+			@media only screen and ( max-width: 480px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 240px;
+				}
+			}
+			@media only screen and ( min-width: 1200px ) {
+				.admin-page-framework-field .image_preview {
+					max-width: 600px;
+				}
+			}		 
+			.admin-page-framework-field .image_preview img {		
+				width: auto;
+				height: auto; 
+				max-width: 100%;
+				display: block;
+			}
+		/* Image Uploader Button */
+			.admin-page-framework-field-image input {
+				margin-right: 0.5em;
+			}
+			.select_image.button.button-small {
+				vertical-align: baseline;
+			}	

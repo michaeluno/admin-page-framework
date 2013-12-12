@@ -14,6 +14,33 @@ if ( ! class_exists( 'AdminPageFramework' ) )
 	
 class APF_Demo extends AdminPageFramework {
 
+	public function start_APF_Demo() {	// start_{extended class name}
+		
+		/*
+		 * ( Optional ) Register custom field types.
+		 */			
+		// 1. Include the file that defines the custom field type. 
+		$arrFiles = array(
+			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+			dirname( __FILE__ ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+		);
+		foreach( $arrFiles as $strFilePath )
+			if ( file_exists( $strFilePath ) )
+				include_once( $strFilePath );
+					
+		// 2. Instantiate the classes - the $oMsg object is optional if you use the framework's messages.
+		$oMsg = AdminPageFramework_Messages::instantiate( 'admin-page-framework-demo' );
+		new DateCustomFieldType( 'APF_Demo', 'date', $oMsg );
+		new TimeCustomFieldType( 'APF_Demo', 'time', $oMsg );
+		new DateTimeCustomFieldType( 'APF_Demo', 'date_time', $oMsg );
+		new DialCustomFieldType( 'APF_Demo', 'dial', $oMsg );
+		new FontCustomFieldType( 'APF_Demo', 'font', $oMsg );			
+		
+	}
+
     public function setUp() {
 
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
@@ -128,6 +155,11 @@ class APF_Demo extends AdminPageFramework {
 				'strPageSlug'	=> 'apf_custom_field_types',
 				'strTabSlug'	=> 'dial',
 				'strTitle'		=> __( 'Dials', 'admin-page-framework-demo' ),	
+			),
+			array(
+				'strPageSlug'	=> 'apf_custom_field_types',
+				'strTabSlug'	=> 'font',
+				'strTitle'		=> __( 'Fonts', 'admin-page-framework-demo' ),	
 			),			
 			array()
 		);
@@ -324,22 +356,29 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID'		=> 'geometry',
 				'strPageSlug'		=> 'apf_custom_field_types',
 				'strTabSlug'		=> 'geometry',
-				'strTitle'			=> __( 'Geometry', 'admin-page-framework-demo' ),
+				'strTitle'			=> __( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
 				'strDescription'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
 			),				
 			array(
 				'strSectionID'		=> 'date_pickers',
 				'strPageSlug'		=> 'apf_custom_field_types',
 				'strTabSlug'		=> 'date',
-				'strTitle'			=> __( 'Date Pickers', 'admin-page-framework' ),
+				'strTitle'			=> __( 'Date Custom Field Type', 'admin-page-framework' ),
 				'strDescription'	=> __( 'These are date and time pickers.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'strSectionID'		=> 'dial',
 				'strPageSlug'		=> 'apf_custom_field_types',
 				'strTabSlug'		=> 'dial',
-				'strTitle'			=> __( 'Dial', 'admin-page-framework-demo' ),
-			),					
+				'strTitle'			=> __( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
+			),
+			array(
+				'strSectionID'		=> 'font',
+				'strPageSlug'		=> 'apf_custom_field_types',
+				'strTabSlug'		=> 'font',
+				'strTitle'			=> __( 'Font Custom Field Type', 'admin-page-framework-demo' ),
+				'strDescription' => __( 'This is still experimental.', 'admin-page-framework-demo' ),				
+			),
 			array()
 		);
 		
@@ -954,6 +993,16 @@ class APF_Demo extends AdminPageFramework {
 		);
 		
 		$this->addSettingFields(			
+			array(
+				'strFieldID' => 'font_field',
+				'strSectionID' => 'font',
+				'strTitle' => __( 'Font Upload', 'admin-page-framework-demo' ),
+				'strType' => 'font',
+			),
+			array()
+		);
+		
+		$this->addSettingFields(			
 			array( // Delete Option Button
 				'strFieldID' => 'submit_manage',
 				'strSectionID' => 'submit_buttons_manage',
@@ -1222,49 +1271,30 @@ class APF_Demo extends AdminPageFramework {
 	}
 	
 	/*
-	 * Custom field types - this method gets fired when the framework tries to define field types.
+	 * Custom field types - This is another way to register a custom field type. 
+	 * This method gets fired when the framework tries to define field types. 
 	 */
-	public function field_types_APF_Demo( $arrFieldTypeDefinitions ) {	// field_types_ + {extended class name}
+ 	public function field_types_APF_Demo( $arrFieldTypeDefinitions ) {	// field_types_ + {extended class name}
 				
 		// 1. Include the file that defines the custom field type. 
 		// This class should extend the predefined abstract class that the library prepares already with necessary methods.
-		$arrFiles = array(
-			dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
-			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
-			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
-			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			dirname( __FILE__ ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-		);
-		foreach( $arrFiles as $strFilePath )
-			if ( file_exists( $strFilePath ) )
-				include_once( $strFilePath );
+		$strFilePath = dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
+		if ( file_exists( $strFilePath ) ) include_once( $strFilePath );
 		
 		// 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
 		// Then assign it to the filtering array with the key of the field type slug. 
-		$oGeometryFieldType = new GeometryCustomFieldType( 'APF_Demo', 'geometry' );
-		$arrFieldTypeDefinitions['geometry'] = $oGeometryFieldType->getDefinitionArray();
-
-		$oDateFieldType = new DateCustomFieldType( 'APF_Demo', 'date' );
-		$arrFieldTypeDefinitions['date'] = $oDateFieldType->getDefinitionArray();
-
-		$oDateFieldType = new TimeCustomFieldType( 'APF_Demo', 'time' );
-		$arrFieldTypeDefinitions['time'] = $oDateFieldType->getDefinitionArray();
-
-		$oDateTimeFieldType = new DateTimeCustomFieldType( 'APF_Demo', 'date_time' );
-		$arrFieldTypeDefinitions['date_time'] = $oDateTimeFieldType->getDefinitionArray();
-
-		$oDialFieldType = new DialCustomFieldType( 'APF_Demo', 'dial' );
-		$arrFieldTypeDefinitions['dial'] = $oDialFieldType->getDefinitionArray();
+		$oFieldType = new GeometryCustomFieldType( 'APF_Demo', 'geometry', $this->oMsg );
+		$arrFieldTypeDefinitions['geometry'] = $oFieldType->getDefinitionArray();
 		
 		// 3. Return the modified array.
 		return $arrFieldTypeDefinitions;
 		
-	}
+	} 
 	
 }
-if ( is_admin() ) 
-	new APF_Demo;	// instantiate the main framework class
-
+// Instantiate the main framework class so that the pages and form fields will be created. 
+if ( is_admin() )  
+	new APF_Demo;			
 	
 class APF_PostType extends AdminPageFramework_PostType {
 	

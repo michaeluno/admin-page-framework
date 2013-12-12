@@ -3582,11 +3582,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				
 		// Define field types.
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_InputFieldTypeDefinitions( $this->oProps->strClassName, $this->oMsg );		
+		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->arrFieldTypeDefinitions, $this->oProps->strClassName, $this->oMsg );
 		$this->oProps->arrFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
 			$this,
 			self::$arrPrefixesForCallbacks['field_types_'] . $this->oProps->strClassName,	// 'field_types_' . {extended class name}
-			array()
+			$this->oProps->arrFieldTypeDefinitions
 		);		
 		
 		// Register settings sections 
@@ -6484,13 +6484,17 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 		'strAfterField' => null,	
 	);	
 	
-	function __construct( $strClassName, $strFieldTypeSlug, $oMsg=null ) {
+	protected $oMsg;
+	
+	function __construct( $strClassName, $strFieldTypeSlug, $oMsg=null, $fAutoRegister=true ) {
 			
 		$this->strFieldTypeSlug = $strFieldTypeSlug;
 		$this->strClassName = $strClassName;
 		$this->oMsg	= $oMsg;
 		
-		add_filter( "field_types_{$strClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+		// This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
+		if ( $fAutoRegister )
+			add_filter( "field_types_{$strClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
 	
 	}	
 	
@@ -7224,7 +7228,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetInputScripts() {		
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	
 			. $this->getScript_ImageSelector( 
 				"admin_page_framework", 
@@ -9721,15 +9725,16 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinitions' ) ) :
+if ( ! class_exists( 'AdminPageFramework_BuiltinInputFieldTypeDefinitions' ) ) :
 /**
  * Provides means to define custom input fields not only by the framework but also by the user.
  * 
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
  * @since			2.1.5
+ * @since			2.1.6			Changed the name from AdminPageFramework_InputFieldTypeDefinitions
  */
-class AdminPageFramework_InputFieldTypeDefinitions  {
+class AdminPageFramework_BuiltinInputFieldTypeDefinitions  {
 	
 	/**
 	 * Holds the default input field labels
@@ -9752,23 +9757,20 @@ class AdminPageFramework_InputFieldTypeDefinitions  {
 		'image',
 		'media',
 		'color',
-		// 'date',
-		// 'time',
 		'taxonomy',
 		'posttype',
 		'size',
 	);	
 	
-	function __construct( $strExtendedClassName, $oMsg ) {
-		
+	function __construct( &$arrFieldTypeDefinitions, $strExtendedClassName, $oMsg ) {
 		foreach( self::$arrDefaultFieldTypeSlugs as $strFieldTypeSlug ) {
 			$strInstantiatingClassName = "AdminPageFramework_InputFieldType_{$strFieldTypeSlug}";
-			if ( class_exists( $strInstantiatingClassName ) )
-				new $strInstantiatingClassName( $strExtendedClassName, $strFieldTypeSlug, $oMsg );
+			if ( class_exists( $strInstantiatingClassName ) ) {
+				$oFieldType = new $strInstantiatingClassName( $strExtendedClassName, $strFieldTypeSlug, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
+				$arrFieldTypeDefinitions[ $strFieldTypeSlug ] = $oFieldType->getDefinitionArray();
+			}
 		}
-		
 	}
-	
 }
 
 
@@ -9792,10 +9794,20 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 */
 	private $fIsMetaBox = false;
 		
+	protected static $arrStructure_FieldDefinition = array(
+		'callRenderField' => null,
+		'callGetScripts' => null,
+		'callGetStyles' => null,
+		'callGetIEStyles' => null,
+		'callFieldLoader' => null,
+		'arrEnqueueScripts' => null,
+		'arrEnqueueStyles' => null,
+		'arrDefaultKeys' => null,
+	);
 	
 	public function __construct( &$arrField, &$arrOptions, $arrErrors, &$arrFieldDefinition, &$oMsg ) {
 			
-		$this->arrField = $arrField + $arrFieldDefinition['arrDefaultKeys'];	// better not to merge recursively because some elements are array by default, not as multiple elements.
+		$this->arrField = $arrField + $arrFieldDefinition['arrDefaultKeys'] + self::$arrStructure_FieldDefinition;	// better not to merge recursively because some elements are array by default, not as multiple elements.
 		$this->arrFieldDefinition = $arrFieldDefinition;
 		$this->arrOptions = $arrOptions;
 		$this->arrErrors = $arrErrors ? $arrErrors : array();
@@ -10900,11 +10912,11 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	public function replyToLoadDefaultFieldTypeDefinitions() {
 		
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_InputFieldTypeDefinitions( $this->oProps->strClassName, $this->oMsg );		
+		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->arrFieldTypeDefinitions, $this->oProps->strClassName, $this->oMsg );		
 		$this->oProps->arrFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
 			$this,
 			'field_types_' . $this->oProps->strClassName,	// 'field_types_' . {extended class name}
-			array()
+			$this->oProps->arrFieldTypeDefinitions
 		);				
 		
 	}
