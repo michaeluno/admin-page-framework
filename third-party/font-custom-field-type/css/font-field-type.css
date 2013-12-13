@@ -1,66 +1,25 @@
 .font_preview {
-	
+	clear: right;
 	margin-top: 1em;
+	margin-bottom: 1em;
 	padding: 2em 2em 2em 2.4em;
-	
 	background-color: #FFF;
 	border-color: #ddd;
 	border-width: 1px;
 	border-style: solid;
+	
 }
 .form-table td p.font-preview-text,
 p.font-preview-text 
 {
-/* 	margin-right: auto;
-	margin-left: auto;	 */
-	/* font-size: 1.6em; */
 	line-height: 1.4em;
 	font-size: 150%;
-	max-width: 600px;
+	/* max-width: 600px */;
 	font-family: AdminPageFrameworkFontPreview;
-	margin: 0;
-	
+	margin: 0;	
 }
 
-/* Image Field Preview Container */
-.admin-page-framework-field .image_preview {
-	border: none; 
-	clear:both; 
-	margin-top: 1em;
-	margin-bottom: 1em;
-	display: block; 
-}		
-@media only screen and ( max-width: 1200px ) {
-	.admin-page-framework-field .image_preview {
-		max-width: 600px;
-	}
-} 
-@media only screen and ( max-width: 900px ) {
-	.admin-page-framework-field .image_preview {
-		max-width: 440px;
-	}
-}	
-@media only screen and ( max-width: 600px ) {
-	.admin-page-framework-field .image_preview {
-		max-width: 300px;
-	}
-}		
-@media only screen and ( max-width: 480px ) {
-	.admin-page-framework-field .image_preview {
-		max-width: 240px;
-	}
-}
-@media only screen and ( min-width: 1200px ) {
-	.admin-page-framework-field .image_preview {
-		max-width: 600px;
-	}
-}		 
-.admin-page-framework-field .image_preview img {		
-	width: auto;
-	height: auto; 
-	max-width: 100%;
-	display: block;
-}
+
 /* Image Uploader Button */
 .admin-page-framework-field-image input {
 	margin-right: 0.5em;
@@ -68,3 +27,41 @@ p.font-preview-text
 .select_image.button.button-small {
 	vertical-align: baseline;
 }	
+
+/* Font Size Changer */
+.fontSliderHolder {
+ 
+	margin-left: 1em;
+	margin-top: 1em;
+	padding:6px 10px 6px 18px;
+	float: right;
+	clear: left;
+	width: 200px;
+	border:1px solid #CCC;
+	background:#EEE;
+	
+}
+.holder {
+	padding: 10px !important;
+	padding-right: 20px !important;
+	width: 120px;
+	float:left;
+}
+.sliderT,
+.sliderB
+{
+	line-height: 20px;
+	float:left;
+	width:20px;
+	top:8px;
+	position:relative;	
+}
+.sliderT {
+	font-size:100%;
+}
+.sliderB {
+	font-size:200%;
+}
+.clearBlock {
+	clear:both;
+}		

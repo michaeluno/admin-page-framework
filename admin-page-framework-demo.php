@@ -998,6 +998,7 @@ class APF_Demo extends AdminPageFramework {
 				'strSectionID' => 'font',
 				'strTitle' => __( 'Font Upload', 'admin-page-framework-demo' ),
 				'strType' => 'font',
+				'strDescription' => __( 'Set the URL of the font.', 'admin-page-framework-demo' ),
 			),
 			array()
 		);

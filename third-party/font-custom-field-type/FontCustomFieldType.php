@@ -243,42 +243,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetInputStyles() {
-		return "
-		/* Font Size Changer */
-		.fontSliderHolder {
-			margin-left: 1em;
-			float:right;
-			width: 200px;
-			padding:6px 10px 6px 18px;
-			border:1px solid #CCC;
-			background:#EEE;
-			/* vertical-align:  text-bottom; */
-		}
-		.holder {
-			padding: 10px !important;
-			padding-right: 20px !important;
-			width: 120px;
-			float:left;
-		}
-		.sliderT,
-		.sliderB
-		{
-			line-height: 20px;
-			float:left;
-			width:20px;
-			top:8px;
-			position:relative;	
-		}
-		.sliderT {
-			font-size:100%;
-		}
-		.sliderB {
-			font-size:200%;
-		}
-		.clearBlock {
-			clear:both;
-		}		
-		";
+		return "";
 	}
 	
 	/**
@@ -422,7 +387,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
 						. "data-enable_external_source='" . ( $fExternalSource ? 1 : 0 ) . "'"
 					. ">"
-						. __( 'Specify Font URL', 'admin-page-framework' )
+						. __( 'Font URL', 'admin-page-framework' )
 				."</a>";
 			
 			$strScript = "
