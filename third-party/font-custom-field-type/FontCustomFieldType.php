@@ -93,66 +93,35 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 				return "
 					jQuery( document ).ready( function(){
 						jQuery( '.select_image' ).click( function() {
+							
+							// This needs to be done every time the button gets clicked. Otherwise, it will not work from the second time.
+							window.original_send_to_editor = window.send_to_editor;
+							window.send_to_editor = function( strRawHTML ) {
+
+								var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
+								var src = jQuery( 'a', strHTML ).attr( 'href' );
+
+								// If the user wants to save relevant attributes, set them.
+								jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+															
+								// restore the original send_to_editor
+								window.send_to_editor = window.original_send_to_editor;
+															
+								// close the thickbox
+								tb_remove();	
+								
+								// Set the font preview
+								setFontPreview( src, field_id );					
+							}
+							
 							pressed_id = jQuery( this ).attr( 'id' );
 							field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix							
 							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
 							tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
 							return false;	// do not click the button after the script by returning false.
+							
 						});
 						
-						window.original_send_to_editor = window.send_to_editor;
-						window.send_to_editor = function( strRawHTML ) {
-
-							var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-							
-							var src = jQuery( 'a', strHTML ).attr( 'href' );
-							
-							// var alt = jQuery( 'img', strHTML ).attr( 'alt' );
-							// var title = jQuery( 'img', strHTML ).attr( 'title' );
-							// var width = jQuery( 'img', strHTML ).attr( 'width' );
-							// var height = jQuery( 'img', strHTML ).attr( 'height' );
-							// var classes = jQuery( 'img', strHTML ).attr( 'class' );
-							// var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
-							// var strCaption = strRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
-								// .replace( /<a.*?>(.*?)<\/a>/m, '' );
-							// var align = strRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
-							// var link = jQuery( strHTML ).find( 'a:first' ).attr( 'href' );
-							
-							// Escape the strings of some of the attributes.
-							// var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
-							// var strAlt = jQuery( '<div/>' ).text( alt ).html();
-							// var strTitle = jQuery( '<div/>' ).text( title ).html();						
-							
-							// If the user wants to save relevant attributes, set them.
-							jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-							// jQuery( '#' + field_id + '_id' ).val( id );
-							// jQuery( '#' + field_id + '_width' ).val( width );
-							// jQuery( '#' + field_id + '_height' ).val( height );
-							// jQuery( '#' + field_id + '_caption' ).val( strCaption );
-							// jQuery( '#' + field_id + '_alt' ).val( strAlt );
-							// jQuery( '#' + field_id + '_title' ).val( strTitle );						
-							// jQuery( '#' + field_id + '_align' ).val( align );						
-							// jQuery( '#' + field_id + '_link' ).val( link );						
-							
-							// Update the preview
-							// jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
-							// jQuery( '#image_preview_' + field_id ).attr( 'title', strTitle );
-							// jQuery( '#image_preview_' + field_id ).attr( 'data-classes', classes );
-							// jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
-							// jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
-							// jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
-							// jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
-							
-							// restore the original send_to_editor
-							window.send_to_editor = window.original_send_to_editor;
-														
-							// close the thickbox
-							tb_remove();	
-							
-							// Set the font preview
-							setFontPreview( src, field_id );
-							
-						}
 					});
 				";
 					
@@ -294,7 +263,6 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		.sliderT,
 		.sliderB
 		{
-/* vertical-align:  0px;			 */
 			line-height: 20px;
 			float:left;
 			width:20px;
