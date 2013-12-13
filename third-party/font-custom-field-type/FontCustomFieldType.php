@@ -44,6 +44,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		
 		$this->enqueueMediaUploader();	// defined in the parent class.
 	
+		// The global functions
 		wp_enqueue_script(
 			'getAPFFontUploaderSelectObject',
 			$this->resolveSRC( dirname( __FILE__ ) . '/js/getAPFFontUploaderSelectObject.js' ),
@@ -62,13 +63,20 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			$this->resolveSRC( dirname( __FILE__ ) . '/js/setFontPreview.js' ),
 			array( 'jquery' )	// dependency
 		);		
+		
+		// noUISlider
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script(
+			'nouislider',
+			$this->resolveSRC( dirname( __FILE__ ) . '/js/jquery.nouislider.js' ),
+			array( 'jquery-ui-core' )	// dependency
+		);			
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	public function replyToGetInputScripts() {
-
 		return $this->getScript_FontSelector(
 				"admin_page_framework", 
 				__( 'Upload Font', 'admin-page-framework-demo' ),
@@ -86,10 +94,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					jQuery( document ).ready( function(){
 						jQuery( '.select_image' ).click( function() {
 							pressed_id = jQuery( this ).attr( 'id' );
-							field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-
-// console.log( 'id: ' + field_id );
-							
+							field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix							
 							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
 							tb_show( '{$strThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$strReferrer}&amp;button_label={$strThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
 							return false;	// do not click the button after the script by returning false.
@@ -112,8 +117,6 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 								// .replace( /<a.*?>(.*?)<\/a>/m, '' );
 							// var align = strRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
 							// var link = jQuery( strHTML ).find( 'a:first' ).attr( 'href' );
-// console.log( 'id: ' + field_id );
-// console.log( 'url: ' + src );
 							
 							// Escape the strings of some of the attributes.
 							// var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
@@ -237,7 +240,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						// var strTitle = jQuery( '<div/>' ).text( image.title ).html();
 						
 						// If the user want the attributes to be saved, set them in the input tags.
-						// jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
+						jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
 						// jQuery( 'input#' + strInputID + '_id' ).val( image.id );
 						// jQuery( 'input#' + strInputID + '_width' ).val( image.width );
 						// jQuery( 'input#' + strInputID + '_height' ).val( image.height );
@@ -271,15 +274,50 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetInputStyles() {
-		return "";
+		return "
+		/* Font Size Changer */
+		.fontSliderHolder {
+			margin-left: 1em;
+			float:right;
+			width: 200px;
+			padding:6px 10px 6px 18px;
+			border:1px solid #CCC;
+			background:#EEE;
+			/* vertical-align:  text-bottom; */
+		}
+		.holder {
+			padding: 10px !important;
+			padding-right: 20px !important;
+			width: 120px;
+			float:left;
+		}
+		.sliderT,
+		.sliderB
+		{
+/* vertical-align:  0px;			 */
+			line-height: 20px;
+			float:left;
+			width:20px;
+			top:8px;
+			position:relative;	
+		}
+		.sliderT {
+			font-size:100%;
+		}
+		.sliderB {
+			font-size:200%;
+		}
+		.clearBlock {
+			clear:both;
+		}		
+		";
 	}
 	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
 	protected function getEnqueuingScripts() { 
-		return array(
-		);
+		return array();
 	}	
 
 	/**
@@ -288,6 +326,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 	protected function getEnqueuingStyles() { 
 		return array(
 			dirname( __FILE__ ) . '/css/font-field-type.css',
+			dirname( __FILE__ ) . '/css/jquery.nouislider.css',
 		); 
 	}	
 	
@@ -347,7 +386,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $fMultipleFields ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}" ) . ( $intCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $strFontURL = $this->getImageInputValue( $vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : '', $arrDefaultKeys  ) ) . "' "
+					. "value='" . ( $strFontURL = $this->getFontInputValue( $vValue, $strKey, $fMultipleFields, $intCountAttributes ? 'url' : '', $arrDefaultKeys  ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
@@ -360,7 +399,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $fMultipleFields ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}" ) . "[{$strAttribute}]' " 
-						. "value='" . $this->getImageInputValue( $vValue, $strKey, $fMultipleFields, $strAttribute, $arrDefaultKeys ) . "' "
+						. "value='" . $this->getFontInputValue( $vValue, $strKey, $fMultipleFields, $strAttribute, $arrDefaultKeys ) . "' "
 						. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
 					. "/>";
 			
@@ -377,7 +416,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					? "<div id='image_preview_container_{$strTagID}_{$strKey}' "
 							. "class='font_preview' "
 						. ">"
-							. "<p id='font_preview_{$strTagID}_{$strKey}' style='font-family: {$strTagID}_{$strKey}; opacity: 1;'>"
+							. "<p class='font-preview-text' id='font_preview_{$strTagID}_{$strKey}' style='font-family: {$strTagID}_{$strKey}; opacity: 1;'>"
 								// . "<apex:sectionHeader title='' subtitle='BrowserFix' />"
 								. $this->getCorrespondingArrayValue( $arrField['vPreviewText'], $strKey, $arrDefaultKeys['vPreviewText'] )
 							. "</p>"
@@ -385,16 +424,14 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					: "" )
 				. $this->getScopedStyle( "{$strTagID}_{$strKey}", $strFontURL )
 				. $this->getFontChangeScript( "{$strTagID}_{$strKey}", $strFontURL )
-				. $this->getFontUploaderButtonScript( "{$strTagID}_{$strKey}", $arrField['fRepeatable'] ? true : false, $arrField['fAllowExternalSource'] ? true : false );
+				. $this->getFontUploaderButtonScript( "{$strTagID}_{$strKey}", $arrField['fRepeatable'] ? true : false, $arrField['fAllowExternalSource'] ? true : false )
+				. $this->getFontSizeChangerElement( "{$strTagID}_{$strKey}", "image_preview_container_{$strTagID}_{$strKey}", "font_preview_{$strTagID}_{$strKey}" );
 			
 		}
 		/**
-		 * A helper function for the above getImageInputTags() method that retrieve the specified input field value.
-		 * 
-		 * @since			2.1.3
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField
+		 * A helper function for the above method that retrieve the specified input field value.
 		 */
-		private function getImageInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute, $arrDefaultKeys ) {	
+		private function getFontInputValue( $vValue, $strKey, $fMultipleFields, $strCaptureAttribute, $arrDefaultKeys ) {	
 
 			$vValue = $fMultipleFields
 				? $this->getCorrespondingArrayValue( $vValue, $strKey, $arrDefaultKeys['vDefault'] )
@@ -406,7 +443,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			
 		}
 		/**
-		 * A helper function for the above getImageInputTags() method to add a image button script.
+		 * A helper function for the above method to add a image button script.
 		 * 
 		 */
 		private function getFontUploaderButtonScript( $strInputID, $fRpeatable, $fExternalSource ) {
@@ -450,6 +487,41 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			
 		}
 		
+		private function getFontSizeChangerElement( $strTagID, $strPreviewContainerID, $strPreviewID ) {
+			
+			$strSliderID = "slider_{$strTagID}";
+			$strSliderContainerID = "slider_container_{$strTagID}";
+			$strFontSizeChangerHTML = 
+				"<div class='fontSliderHolder' id='{$strSliderContainerID}' >"
+					. "<div class='sliderT'>A</div>"
+					. "<div class='holder'><div id='{$strSliderID}' class='noUiSlider'></div></div>"
+					. "<div class='sliderB'>A</div>"
+				. "</div>";
+			
+			return "
+				<script type='text/javascript' class='font-size-changer' >
+					jQuery( document ).ready( function() {
+						
+						// Write the element
+						if ( jQuery( '#{$strSliderContainerID}' ).length == 0 ) {
+							jQuery( '#{$strPreviewContainerID}' ).before( \"{$strFontSizeChangerHTML}\" );
+						}
+						
+						// Run noUiSlider
+						jQuery( '#{$strSliderID}' ).noUiSlider({
+							range: [ 100, 300 ],
+							start: 150,
+							step: 1,
+							handles: 1,
+							slide: function() {
+								jQuery( '#{$strPreviewID}' ).css( 'font-size', jQuery( this ).val() + '%' );
+							}				
+						});
+						
+					}); 
+				</script>";				
+		}
+		
 		private function getFontChangeScript( $strInputID, $strFontURL ) {
 			
 			$strFormat = $this->getFontFormat( $strFontURL );
@@ -463,12 +535,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					var strCSS = '@font-face { font-family: \"{$strInputID}\"; src: url( ' + '{$strFontURL}' + ' ) format( \"{$strFormat}\" ) }';
 					jQuery( 'head' ).append( '<style id=\"font_preview_style_' + '{$strInputID}' + '\" type=\"text/css\">' +  strCSS + '</style>' );
 					
-					// Refresh the preview element
-					// jQuery( '#font_preview_style_{$strInputID}' ).className = jQuery( '#font_preview_style_{$strInputID}' ).className;
-					// jQuery( '#font_preview_{$strInputID}' ).className = jQuery( '#font_preview_{$strInputID}' ).className;
-					// jQuery( '#font_preview_{$strInputID}' ).css.opacity = 1;	
-					
-				</script>";
+				</script>";		
 			
 		}
 	
@@ -484,6 +551,5 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					default:
 						return $strExtension;	// woff, svg,
 				}
-				
 			}
 }

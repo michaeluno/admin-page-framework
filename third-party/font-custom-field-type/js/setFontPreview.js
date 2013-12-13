@@ -26,9 +26,7 @@ setFontPreview = function( strURL, strInputID ) {
 	var strCSS = '@font-face { font-family: \"' + strInputID + '\"; src: url( ' + strURL + ' ) format( \"' + strExtension + '\" ) }';
 	jQuery( 'head' ).append( '<style id=\"font_preview_style_' + strInputID + '\" type=\"text/css\">' +  strCSS + '</style>' );
 	
-	// Refresh the preview element						
-	// jQuery( '#font_preview_' + strInputID ).height( '90%' );
-	// jQuery( '#font_preview_' + strInputID ).width( '90%' );
+	// Refresh the preview element	
 	jQuery( '#font_preview_' + strInputID ).animate({
 		width: '100%',
 		height: '100%',

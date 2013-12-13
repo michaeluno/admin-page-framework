@@ -184,6 +184,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.6b = 
+* Added: another example to define custom field types in the demo plugin.
+* Added: a sample custom field type, `font`, in the demo plugin.
 * Fixed: the `logArray()` method to use the site local time.
 * Added: a sample page to view the message object's properties in the demo plugin.
 * Fixed: all the individual messages to be in the message object so that it gives easier access to for the user to modify the framework's default messages.
