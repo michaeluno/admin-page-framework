@@ -31,27 +31,30 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Custom Field Types** - your own field type can be registered. 
 
 = Built-in Field Types =
-* Text 
-* Password
-* Textarea
-* Radio Buttons
-* Checkboxes
-* Dropdown List
-* Buttons
-* Hidden Fields 
-* File Upload 
-* Media	(WordPress Media Library File Uploader)
-* Image Upload (Custom Text Field)
-* Color Picker (Custom Text Field)
-* Option Export and Import (Custom File Upload and Submit Button)
-* Post Types (Custom Checkboxes)
-* Taxonomies (Custom Checkboxes)
-* Size (Custom Text and Select Fields)
+* `text` - a normal input field.
+* `password` - a masked input field.
+* `textarea` - a text input field with multiple lines.
+* `radio` - a set of radio buttons.
+* `checkbox` - a check box.
+* `select` - a dropdown list.
+* `submit` - a submit field that the user  
+* `hidden` - a hidden field that is useful to embed hidden values. 
+* `file` - a file field that lets the user upload files.
+* `media` - a custom text field with the media uploader that sets the file URL.
+* `image` - a custom text field with the image uploader that sets the image URL.
+* `color` - a custom text field with the color picker.
+* `export` - a custom submit field that lets the user export the settings. 
+* `import` - a combination field of the file and the submit fields that lets the user import the settings.
+* `posttype` - a check-list of post types enabled on the site.
+* `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
+* `size` - a combination field of the text and the select fields that let the user set sizes with a unit.
 
-= Sample Custom Field Types = 
-* Geometry
-* Date and Time Pickers
-* Dial
+= Custom Field Types = 
+You can include your own custom field types when they are necessary. This enables to keep the main library file to be minimum as possible. The sample custom field types are included in the demo plugin.
+* `geometry` - a location selector with the Google map.
+* `date`, `time`, `date_time` - date and time fields with the date picker.
+* `dial` - a dial input field.
+* `font` - a font uploader and its preview.
 
 = Necessary Files =
 * **`admin-page-framework.php`** is in the *class* folder.
@@ -77,17 +80,18 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 
 = Getting Started =
 
-**Step 1.** Include **`admin-page-framework.php`** that is located in the **`classes`** folder into your theme or plugin.
+<h5><strong>Step 1</strong> - Include <em><strong>admin-page-framework.php</strong></em></h5>
+You need to include the library file in your PHP script. The file is located in the `class` folder of the uncompressed plugin file.
 
 `if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );`
 	
-**Step 2.** Extend the Library Class.
+<h5><strong>Step 2</strong> - Extend the Library Class</h5>
 
 `class APF_GettingStarted extends AdminPageFramework {
 }`
 
-**Step 3.** Define the **setUp()** Method.
+<h5><strong>Step 3</strong> - Define the <em>setUp()</em> Method</h5>
 
 `function setUp() {
 	$this->setRootMenuPage( 'Settings' );               // specifies to which parent menu to belong.
@@ -97,7 +101,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 	); 
 }`
 
-**Step 4.** Define methods for hooks.
+<h5><strong>Step 4</strong> - Define the Methods for Hooks</h5>
 
 `function do_myfirstpage() {  // do_ + pageslug	
 	?>
@@ -106,7 +110,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 	<?php
 }`
 
-**Step 5.** Instantiate the Class.
+<h5><strong>Step 5</strong> - Instantiate the Class</h5>
 
 `new APF_GettingStarted;`
 
@@ -145,7 +149,7 @@ new APF;
 = What is this for? =
 This is	a PHP class library that enables to create option pages and form fields in the administration panel. Also it helps manage to save, export, and import options.
 
-= I've written a useful class and functions. Do you want to include it? = 
+= I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it? = 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
 = How can I contribute to improving the documentation? =
@@ -153,20 +157,13 @@ You are welcome to submit documentation. Please follow the [Documentation Guidli
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
-= What if other themes or plugins include a lesser version of this library than mine? =
-Let's say your plugin uses Admin Page Framework v2.1.0 and another plugin uses v2.0.0. If another plugin's library gets loaded earlier than yours, your library may not work property. 
-
-To work around it, rename all the class names used by the library in your library file. All the class name is prefixed with `AdminPageFramework` so change it to something like, for instance, `MyPlugin_AdminPageFramework`, then you are safe. 
-
-Most code editor supports the *"Replace All"* functionality so just use that. By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use namespaces then this problem will be solved.
-
 == Other Notes ==
 
 = Tips =
 <h5><strong>Use Unique Page Slug</strong></h5>
-The framework internally uses the *add_submenu_page()* function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. Other ones will be ignored.
+The framework internally uses the `add_submenu_page()` function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. The other ones will be ignored.
 
-This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your user will have a problem loading the page.
+This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your users will get either of your page or the other.
 
 So just use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
@@ -175,8 +172,12 @@ When you include the library, change the class names that the library uses. This
 
 All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
 
-Most text editors supports the *Replace All* command so just use that. 
+Most text editors supports the *Replace All* command so just use that. By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use namespaces then this problem will be solved.
 
+<h5><strong>Change Framework's System Messages</strong></h5>
+The default messages defined by the framework can be changed. For example when you import a setting with the framework, the setting notice will be displayed. 
+
+If you want to change it to something else, modify the `oMsg` object. It has the `arrMessages` public property array which holds all the messages that the library uses.
 
 = Roadmap =
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
@@ -197,7 +198,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 2.1.5 - 12/08/2013 =
 * Changed: ( *Minor Breaking Change* ) the format of the `id` and `for` attributes of the input and label tags of the `taxonomy` field type.
-* Fixed: a bug that caused a name collisions with the `for` attribute of label tags in the `taxonomy` field type.
+* Fixed: a bug that caused name collisions with the `for` attribute of label tags in the `taxonomy` field type.
 * Added: the `field_{extended class name}_{field id}` and `section_{extended class name}_{section id}` filters. 
 * Added: the `export_{extended class name}_{field id}`, `export_{extended class name}_{input id}` filters.
 * Added: the `import_{extended class name}_{field id}`, `import_{extended class name}_{input id}` filters.
