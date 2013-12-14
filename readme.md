@@ -43,3 +43,7 @@ There are various ways you can contribute:
 2. Send us a Pull Request with your bug fixes and/or new features.
 3. Provide feedback and suggestions on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 4. Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
+
+## Copyright and License ##
+Copyright © 2013 Michael Uno
+Released under the [GPL v2](http://www.gnu.org/licenses/gpl-2.0.html) or later.
