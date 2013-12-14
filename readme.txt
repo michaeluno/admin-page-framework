@@ -184,16 +184,18 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 2.1.6b = 
+= 2.1.6 - 12/14/2013 = 
 * Fixed: a bug that the focus of a drop-down list of the `size` field type got stolen when the user tries to select a unit.
 * Added: another example to define custom field types in the demo plugin.
+* Changed: the built-in field types to be declared before loading any custom field types.
 * Added: a sample custom field type, `font`, in the demo plugin.
 * Fixed: the `logArray()` method to use the site local time.
 * Added: a sample page to view the message object's properties in the demo plugin.
 * Fixed: all the individual messages to be in the message object so that it gives easier access to for the user to modify the framework's default messages.
 * Added: a sample custom field type, `dial`, in the demo plugin.
 * Added: sample custom field types, `date`, `time`, and `date_time` in the demo plugin.
-* Removed:  ( *Breaking Change* ) the `date` field type.
+* Added: additional input fields to the custom `geometry` field type to retrieve the location name and the elevation.
+* Removed:  ( ***Breaking Change*** ) the `date` field type.
 * Added: the ability to set an icon with a file path for the `setRootMenuPage()`, `addSubMenuPage()`, and `getStylesForPostTypeScreenIcon()` methods.
 
 = 2.1.5 - 12/08/2013 =
