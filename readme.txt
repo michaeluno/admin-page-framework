@@ -184,6 +184,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.6b = 
+* Fixed: a bug that the focus of a drop-down list of the `size` field type got stolen when the user tries to select a unit.
 * Added: another example to define custom field types in the demo plugin.
 * Added: a sample custom field type, `font`, in the demo plugin.
 * Fixed: the `logArray()` method to use the site local time.

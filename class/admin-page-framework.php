@@ -8552,7 +8552,11 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 		"/* Size Field Type */
 		.admin-page-framework-field-size input {
 			text-align: right;
-		}" . PHP_EOL;
+		}
+		.admin-page-framework-field-size select.size-field-select {
+			vertical-align: 0px;			
+		}
+		" . PHP_EOL;
 	}
 	
 	/**
@@ -8601,7 +8605,8 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 							. "max='" . $this->getCorrespondingArrayValue( $arrField['vMax'], $strKey, $arrDefaultKeys['vMax'] ) . "' "
 							. "step='" . $this->getCorrespondingArrayValue( $arrField['vStep'], $strKey, $arrDefaultKeys['vStep'] ) . "' "					
 						. "/>"
-						. "<select id='{$strTagID}_{$strKey}' "	// select field
+					. "</label>"
+						. "<select id='{$strTagID}_{$strKey}' class='size-field-select'"	// select field
 							. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
 							. "type='{$arrField['strType']}' "
 							. ( ( $fMultipleOptions = $this->getCorrespondingArrayValue( $arrField['vMultiple'], $strKey, $arrDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
@@ -8610,17 +8615,16 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 							. "size=" . ( $this->getCorrespondingArrayValue( $arrField['vUnitSize'], $strKey, $arrDefaultKeys['vUnitSize'] ) ) . " "
 							. ( ( $strWidth = $this->getCorrespondingArrayValue( $arrField['vWidth'], $strKey, $arrDefaultKeys['vWidth'] ) ) ? "style='width:{$strWidth};' " : "" )
 						. ">"
-							. $this->getOptionTags( 
-								$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
-								$fSingle ? $this->getCorrespondingArrayValue( $vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $strKey, array() ), 'unit', 'px' ),
-								$strTagID,
-								$strKey, 
-								true, 	// since the above value is directly passed, call the function as a single element.
-								$fMultipleOptions 
-							)
-						. "</select>"
-						. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
-					. "</label>"
+						. $this->getOptionTags( 
+							$fSingle ? $arrSizeUnits : $this->getCorrespondingArrayValue( $arrField['vSizeUnits'], $strKey, $arrSizeUnits ),
+							$fSingle ? $this->getCorrespondingArrayValue( $vValue['unit'], $strKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $strKey, array() ), 'unit', 'px' ),
+							$strTagID,
+							$strKey, 
+							true, 	// since the above value is directly passed, call the function as a single element.
+							$fMultipleOptions 
+						)
+					. "</select>"
+					. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
