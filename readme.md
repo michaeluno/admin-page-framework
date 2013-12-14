@@ -1,5 +1,10 @@
 # [Admin Page Framework](http://wordpress.org/plugins/admin-page-framework/) #
 
+### Welcome to our GitHub Repository
+
+Admin Page Framework is an open source library for WordPress developed under GPL v2, consisting of a set of PHP classes that provides theme and plugin developers with simpler means of creating administration pages of WordPress.
+
+## Screenshots ##
 [![Admin Page Framework - Text, Password, and Textarea](https://lh3.googleusercontent.com/-yOvkGL-66O8/UpGkdtWTAUI/AAAAAAAABak/rOXgreTXm-A/s600/admin_page_framework_v2.1.4.png)](https://lh3.googleusercontent.com/-yOvkGL-66O8/UpGkdtWTAUI/AAAAAAAABak/rOXgreTXm-A/s0/admin_page_framework_v2.1.4.png "Text, Password, and Textarea")
 
 [![Admin Page Framework - Selectors](https://lh4.googleusercontent.com/-P0RF0dGZFHo/UpGprGzqSKI/AAAAAAAABb0/_gSdd0hw8PU/s288/admin_page_framework_v2.1.4_selectors.png)](https://lh4.googleusercontent.com/-P0RF0dGZFHo/UpGprGzqSKI/AAAAAAAABb0/_gSdd0hw8PU/s0/admin_page_framework_v2.1.4_selectors.png "Selectors")
@@ -17,10 +22,6 @@
 [![Admin Page Framework - Contextual Help Pane](https://lh3.googleusercontent.com/-5JqO4RmvSHw/UpGpqNGZacI/AAAAAAAABbY/OlErWQXTmJg/s288/admin_page_framework_v2.1.4_help_pane.png)](https://lh3.googleusercontent.com/-5JqO4RmvSHw/UpGpqNGZacI/AAAAAAAABbY/OlErWQXTmJg/s0/admin_page_framework_v2.1.4_help_pane.png "Contextual Help Pane")
 
 [![Admin Page Framework - Custom Post Type and Meta Box](https://lh6.googleusercontent.com/-e15sSujnoL4/UpGpqWnbLII/AAAAAAAABbg/mSBYMf5e5t8/s288/admin_page_framework_v2.1.4_post_type_and_meta_box.png)](https://lh6.googleusercontent.com/-e15sSujnoL4/UpGpqWnbLII/AAAAAAAABbg/mSBYMf5e5t8/s0/admin_page_framework_v2.1.4_post_type_and_meta_box.png "Custom Post Type and Meta Box")
-
-### Welcome to our GitHub Repository
-
-Admin Page Framework is a set of PHP classes that provides theme and plugin developers with simpler means of creating administration pages of WordPress.
 
 ## Installation ##
 
