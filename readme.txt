@@ -3,8 +3,8 @@ Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, options framework, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.3
-Tested up to: 3.7.1
-Stable tag: 2.1.3
+Tested up to: 3.8
+Stable tag: 2.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,7 @@ It provides plugin and theme developers with easier means of creating option pag
 
 = Custom Field Types = 
 You can include your own custom field types when they are necessary. This enables to keep the main library file to be minimum as possible. The sample custom field types are included in the demo plugin.
+
 * `geometry` - a location selector with the Google map.
 * `date`, `time`, `date_time` - date and time fields with the date picker.
 * `dial` - a dial input field.
