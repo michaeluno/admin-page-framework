@@ -690,7 +690,7 @@ class APF_Demo extends AdminPageFramework {
 				'strTitle' => __( 'Select an Image', 'admin-page-framework-demo' ),
 				'strType' => 'image',
 				'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
-				'vDefault' => array( admin_url( 'images/wordpress-logo-2x.png' ) ), 
+				'vDefault' => array( admin_url( 'images/wordpress-logo.png' ) ), 
 				'fAllowExternalSource' => false,
 			),		
 			array( // Image selector with additional attributes
