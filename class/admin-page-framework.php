@@ -3583,12 +3583,13 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// Define field types.
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
 		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->arrFieldTypeDefinitions, $this->oProps->strClassName, $this->oMsg );
+// var_dump( $this->oProps->arrFieldTypeDefinitions );		
 		$this->oProps->arrFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $strFilter, $vInput, $vArgs...
 			$this,
 			self::$arrPrefixesForCallbacks['field_types_'] . $this->oProps->strClassName,	// 'field_types_' . {extended class name}
 			$this->oProps->arrFieldTypeDefinitions
 		);		
-		
+// var_dump( $this->oProps->arrFieldTypeDefinitions );
 		// Register settings sections 
 		uasort( $this->oProps->arrSections, array( $this->oProps, 'sortByOrder' ) ); 
 		foreach( $this->oProps->arrSections as $arrSection ) {
@@ -6631,7 +6632,7 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
-				. "</div>"
+				. "</div>"		
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
@@ -6669,7 +6670,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 		
 		foreach ( array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week', ) as $strTextTypeSlug )
 			$arrFieldDefinitions[ $strTextTypeSlug ] = $this->getDefinitionArray();
-		
+
 		return $arrFieldDefinitions;
 		
 	}
@@ -6724,7 +6725,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, '' )
 						. "</label>"
 					. "</div>"
-				. "</div>"
+				. "</div>"		
 				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
 					: ""
@@ -9745,32 +9746,33 @@ class AdminPageFramework_BuiltinInputFieldTypeDefinitions  {
 	 * @since			2.1.5
 	 */
 	protected static $arrDefaultFieldTypeSlugs = array(
-		'default',		// undefined ones will be applied 
-		'text', //	'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week',
-		'number', 	// 'range',
-		'textarea',
-		'radio',
-		'checkbox',
-		'select',
-		'hidden',
-		'file',
-		'submit',
-		'import',
-		'export',
-		'image',
-		'media',
-		'color',
-		'taxonomy',
-		'posttype',
-		'size',
+		'default' => array( 'default' ),	// undefined ones will be applied 
+		'text' => array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ),
+		'number' => array( 'number', 'range' ),
+		'textarea' => array( 'textarea' ),
+		'radio' => array( 'radio' ),
+		'checkbox' => array( 'checkbox' ),
+		'select' => array( 'select' ),
+		'hidden' => array( 'hidden' ),
+		'file' => array( 'file' ),
+		'submit' => array( 'submit' ),
+		'import' => array( 'import' ),
+		'export' => array( 'export' ),
+		'image' => array( 'image' ),
+		'media' => array( 'media' ),
+		'color' => array( 'color' ),
+		'taxonomy' => array( 'color' ),
+		'posttype' => array( 'posttype' ),
+		'size' => array( 'size' ),
 	);	
 	
 	function __construct( &$arrFieldTypeDefinitions, $strExtendedClassName, $oMsg ) {
-		foreach( self::$arrDefaultFieldTypeSlugs as $strFieldTypeSlug ) {
+		foreach( self::$arrDefaultFieldTypeSlugs as $strFieldTypeSlug => $arrSlugs ) {
 			$strInstantiatingClassName = "AdminPageFramework_InputFieldType_{$strFieldTypeSlug}";
 			if ( class_exists( $strInstantiatingClassName ) ) {
 				$oFieldType = new $strInstantiatingClassName( $strExtendedClassName, $strFieldTypeSlug, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
-				$arrFieldTypeDefinitions[ $strFieldTypeSlug ] = $oFieldType->getDefinitionArray();
+				foreach( $arrSlugs as $strSlug )
+					$arrFieldTypeDefinitions[ $strSlug ] = $oFieldType->getDefinitionArray();
 			}
 		}
 	}

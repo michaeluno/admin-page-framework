@@ -185,6 +185,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 2.1.7 =
+* Fixed: a bug that the `password` field type could not be defined as of v2.1.6.
+
 = 2.1.6 - 12/14/2013 = 
 * Fixed: a bug that the focus of a drop-down list of the `size` field type got stolen when the user tries to select a unit.
 * Added: another example to define custom field types in the demo plugin.
