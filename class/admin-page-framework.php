@@ -1210,20 +1210,6 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
-/**
- * Provides methods to enqueue or insert head tag elements into the head tag for the meta box class.
- * 
- * @since			2.1.5
- * 
- */
-class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Base {
-	
-	// No contents added yet
-	
-}
-endif;
-
 if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
@@ -1232,13 +1218,7 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
  * 
  */
 class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
-	
-	function __construct( $oProps ) {
 		
-		parent::__construct( $oProps );
-					
-	}
-	
 	/*
 	 * Callback functions 
 	 */
@@ -1456,6 +1436,95 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 }
 endif;
 
+
+if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
+/**
+ * Provides methods to enqueue or insert head tag elements into the head tag for the meta box class.
+ * 
+ * @since			2.1.5
+ * @since			2.1.7			Added the replyToAddStyle() method.
+ */
+class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_MetaBox {
+	
+	/**
+	 * Appends the CSS rules of the framework in the head tag. 
+	 * @since			2.1.7	
+	 * @remark			A callback for the <em>admin_head</em> hook.
+	 */ 	
+	public function replyToAddStyle() {
+	
+		// If it's not the post type's post listing page or the taxtonomy page
+		if ( 
+			! (
+				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) 
+				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProps->strPostType )				
+			)
+		) return;	
+	
+		// Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
+		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
+	
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_StyleLoaded" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_StyleLoaded" ] = true;
+				
+		$oCaller = $this->oProps->getParentObject();		
+				
+		// Print out the filtered styles.
+		$strStyle = AdminPageFramework_Properties::$strDefaultStyle . PHP_EOL . $this->oProps->strStyle;
+		$strStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->strClassName}", $strStyle );
+		$strStyleIE = AdminPageFramework_Properties::$strDefaultStyleIE . PHP_EOL . $this->oProps->strStyleIE;
+		$strStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->strClassName}", $strStyleIE );
+		if ( ! empty( $strStyle ) )
+			echo 
+				"<style type='text/css' id='admin-page-framework-style-post-type'>" 
+					. $strStyle
+				. "</style>";
+		if ( ! empty( $strStyleIE ) )
+			echo 
+				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-post-type'>" 
+					. $strStyleIE
+				. "</style><![endif]-->";
+			
+	}
+	/**
+	 * Appends the JavaScript script of the framework in the head tag. 
+	 * @since			2.1.7
+	 * @remark			A callback for the <em>admin_head</em> hook.
+	 */ 
+	public function replyToAddScript() {
+
+		// If it's not the post type's post listing page
+		if ( 
+			! (
+				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) 
+				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProps->strPostType )				
+			)
+		) return;	
+		
+		// Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
+		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
+	
+		// This class may be instantiated multiple times so use a global flag.
+		$strRootClassName = get_class();
+		if ( isset( $GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] ) return;
+		$GLOBALS[ "{$strRootClassName}_ScriptLoaded" ] = true;
+	
+		$oCaller = $this->oProps->getParentObject();
+		
+		// Print out the filtered scripts.
+		$strScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->strClassName}", $this->oProps->strScript );
+		if ( ! empty( $strScript ) )
+			echo 
+				"<script type='text/javascript' id='admin-page-framework-script-post-type'>"
+					. $strScript
+				. "</script>";	
+			
+	}	
+	
+}
+endif;
 
 if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
 /**
@@ -4110,6 +4179,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		// Objects
 		$this->oProps = new AdminPageFramework_Properties( $this, $strClassName, $strOptionKey, $strCapability );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $strTextDomain );
+		$this->oPageLoadStats = AdminPageFramework_PageLoadStats_Page::instantiate( $this->oProps, $this->oMsg );
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $strCallerPath, $this->oMsg );
@@ -4922,7 +4992,21 @@ abstract class AdminPageFramework_Properties_Base {
 		.admin-page-framework-field-import input {
 			margin-right: 0.5em;
 		}
-		";	
+		/* Page Load Stats */
+		#admin-page-framework-page-load-stats {
+			clear: both;
+			display: inline-block;
+			width: 100%
+		}
+		#admin-page-framework-page-load-stats li{
+			display: inline;
+			margin-right: 1em;
+		}		
+		
+		/* To give the footer area more space */
+		#wpcontent, #wpbody {  
+			margin-bottom: 72px; 
+		}";	
 		
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -6396,6 +6480,175 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 		return array_merge( $arrLinks, $arrAddingLinks );
 		
 	}		
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Base' ) ) :
+/**
+ * Collects data of page loads in admin pages.
+ *
+ * @since			2.1.7
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
+abstract class AdminPageFramework_PageLoadStats_Base {
+	
+	function __construct( $oProps, $oMsg ) {
+		
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			
+			$this->oProps = $oProps;
+			$this->oMsg = $oMsg;
+			$this->nInitialMemoryUsage = memory_get_usage();
+			add_action( 'admin_menu', array( $this, 'replyToSetPageLoadStasInFooter' ), 999 );	// must be loaded after the sub pages are registered
+						
+		}
+
+	}
+	
+	/**
+	 * @remark			Should be overridden in an extended class.
+	 */
+	public function replyToSetPageLoadStasInFooter() {}
+		
+	/**
+	 * Display gathered information.
+	 *
+	 * @access			public
+	 */
+	public function replyToGetPageLoadStats( $sFooterHTML ) {
+		
+		// Get values we're displaying
+		$nSeconds 				= timer_stop(0);
+		$nQueryCount 			= get_num_queries();
+		$memory_usage 			= round( $this->convert_bytes_to_hr( memory_get_usage() ), 2 );
+		$memory_peak_usage 		= round( $this->convert_bytes_to_hr( memory_get_peak_usage() ), 2 );
+		$memory_limit 			= round( $this->convert_bytes_to_hr( $this->let_to_num( WP_MEMORY_LIMIT ) ), 2 );
+		$sInitialMemoryUsage	= round( $this->convert_bytes_to_hr( $this->nInitialMemoryUsage ), 2 );
+	
+		$sOutput = 
+			"<div id='admin-page-framework-page-load-stats'>"
+				. "<ul>"
+					. "<li>" . sprintf( __( '%s queries in %s seconds.', 'admin-page-framework' ), $nQueryCount, $nSeconds ) . "</li>"
+					. "<li>" . sprintf( __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' ), $memory_usage, $memory_limit, round( ( $memory_usage / $memory_limit ), 2 ) * 100 . '%' ) . "</li>"
+					. "<li>" . sprintf( __( 'Peak memory usage %s MB.', 'admin-page-framework' ), $memory_peak_usage ) . "</li>"
+					. "<li>" . sprintf( __( 'Initial memory usage  %s MB.', 'admin-page-framework' ), $sInitialMemoryUsage ) . "</li>"
+				. "</ul>"
+			. "</div>";
+		return $sFooterHTML . $sOutput;
+		
+	}
+
+	/**
+	 * let_to_num function.
+	 *
+	 * This function transforms the php.ini notation for numbers (like '2M') to an integer
+	 *
+	 * @access public
+	 * @param $size
+	 * @return int
+	 */
+	function let_to_num( $size ) {
+		$l 		= substr( $size, -1 );
+		$ret 	= substr( $size, 0, -1 );
+		switch( strtoupper( $l ) ) {
+			case 'P':
+				$ret *= 1024;
+			case 'T':
+				$ret *= 1024;
+			case 'G':
+				$ret *= 1024;
+			case 'M':
+				$ret *= 1024;
+			case 'K':
+				$ret *= 1024;
+		}
+		return $ret;
+	}
+
+	/**
+	 * convert_bytes_to_hr function.
+	 *
+	 * @access public
+	 * @param mixed $bytes
+	 */
+	function convert_bytes_to_hr( $bytes ) {
+		$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+		$log = log( $bytes, 1024 );
+		$power = (int) $log;
+		$size = pow(1024, $log - $power);
+		return $size . $units[$power];
+	}
+
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Page' ) ) :
+class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadStats_Base {
+	
+	private static $oInstance;
+	
+	/**
+	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
+	 * 
+	 * @remark			This class should be instantiated via this method.
+	 */
+	public static function instantiate( $oProps, $oMsg ) {
+		
+		if ( ! isset( self::$oInstance ) && ! ( self::$oInstance instanceof AdminPageFramework_PageLoadStats_Page ) ) 
+			self::$oInstance = new AdminPageFramework_PageLoadStats_Page( $oProps, $oMsg );
+		return self::$oInstance;
+		
+	}		
+	
+	/**
+	 * Sets the hook if the current page is one of the framework's added pages.
+	 */ 
+	public function replyToSetPageLoadStasInFooter() {
+		
+		// For added pages
+		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		if ( $this->oProps->isPageAdded( $strCurrentPageSlug ) ) 
+			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadStats' ), 999 );
+	
+	}		
+	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_PageLoadStats_PostType' ) ) :
+class AdminPageFramework_PageLoadStats_PostType extends AdminPageFramework_PageLoadStats_Base {
+	
+	private static $oInstance;
+	
+	/**
+	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
+	 * 
+	 * @remark			This class should be instantiated via this method.
+	 */
+	public static function instantiate( $oProps, $oMsg ) {
+		
+		if ( ! isset( self::$oInstance ) && ! ( self::$oInstance instanceof AdminPageFramework_PageLoadStats_PostType ) ) 
+			self::$oInstance = new AdminPageFramework_PageLoadStats_PostType( $oProps, $oMsg );
+		return self::$oInstance;
+		
+	}	
+
+	/**
+	 * Sets the hook if the current page is one of the framework's added post type pages.
+	 */ 
+	public function replyToSetPageLoadStasInFooter() {
+
+		// Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
+		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
+	
+		// For post type pages
+		if ( isset( $_GET['post_type'], $this->oProps->strPostType ) && $_GET['post_type'] == $this->oProps->strPostType )
+			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadStats' ), 999 );
+		
+	}	
+	
 }
 endif;
 
@@ -10383,6 +10636,8 @@ abstract class AdminPageFramework_PostType {
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oProps = new AdminPageFramework_PostType_Properties( $this );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $strTextDomain );
+		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProps );
+		$this->oPageLoadStats = AdminPageFramework_PageLoadStats_PostType::instantiate( $this->oProps, $this->oMsg );
 		
 		// Properties
 		$this->oProps->strPostType = $this->oUtil->sanitizeSlug( $strPostType );
@@ -10877,7 +11132,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oProps = new AdminPageFramework_MetaBox_Properties( $this );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProps );
-		
+			
 		// Properties
 		$this->oProps->strMetaBoxID = $this->oUtil->sanitizeSlug( $strMetaBoxID );
 		$this->oProps->strTitle = $strTitle;
