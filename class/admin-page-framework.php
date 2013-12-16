@@ -4791,6 +4791,12 @@ class AdminPageFramework_Messages {
 			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
 			'select_file'			=> __( 'Select File', 'admin-page-framework' ),
 			
+			// AdminPageFramework_PageLoadStats_Base
+			'queries_in_seconds'	=> __( '%s queries in %s seconds.', 'admin-page-framework' ),
+			'out_of_x_memory_used'	=> __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' ),
+			'peak_memory_usage'		=> __( 'Peak memory usage %s MB.', 'admin-page-framework' ),
+			'initial_memory_usage'	=> __( 'Initial memory usage  %s MB.', 'admin-page-framework' ),
+			
 		);		
 		
 	}
@@ -6501,7 +6507,7 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 			$this->oProps = $oProps;
 			$this->oMsg = $oMsg;
 			$this->nInitialMemoryUsage = memory_get_usage();
-			add_action( 'admin_menu', array( $this, 'replyToSetPageLoadStasInFooter' ), 999 );	// must be loaded after the sub pages are registered
+			add_action( 'admin_menu', array( $this, 'replyToSetPageLoadInfoInFooter' ), 999 );	// must be loaded after the sub pages are registered
 						
 		}
 
@@ -6510,7 +6516,7 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 	/**
 	 * @remark			Should be overridden in an extended class.
 	 */
-	public function replyToSetPageLoadStasInFooter() {}
+	public function replyToSetPageLoadInfoInFooter() {}
 		
 	/**
 	 * Display gathered information.
@@ -6526,14 +6532,14 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 		$memory_peak_usage 		= round( $this->convert_bytes_to_hr( memory_get_peak_usage() ), 2 );
 		$memory_limit 			= round( $this->convert_bytes_to_hr( $this->let_to_num( WP_MEMORY_LIMIT ) ), 2 );
 		$sInitialMemoryUsage	= round( $this->convert_bytes_to_hr( $this->nInitialMemoryUsage ), 2 );
-	
+				
 		$sOutput = 
 			"<div id='admin-page-framework-page-load-stats'>"
 				. "<ul>"
-					. "<li>" . sprintf( __( '%s queries in %s seconds.', 'admin-page-framework' ), $nQueryCount, $nSeconds ) . "</li>"
-					. "<li>" . sprintf( __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' ), $memory_usage, $memory_limit, round( ( $memory_usage / $memory_limit ), 2 ) * 100 . '%' ) . "</li>"
-					. "<li>" . sprintf( __( 'Peak memory usage %s MB.', 'admin-page-framework' ), $memory_peak_usage ) . "</li>"
-					. "<li>" . sprintf( __( 'Initial memory usage  %s MB.', 'admin-page-framework' ), $sInitialMemoryUsage ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->___( 'queries_in_seconds' ), $nQueryCount, $nSeconds ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->___( 'out_of_x_memory_used' ), $memory_usage, $memory_limit, round( ( $memory_usage / $memory_limit ), 2 ) * 100 . '%' ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->___( 'peak_memory_usage' ), $memory_peak_usage ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->___( 'initial_memory_usage' ), $sInitialMemoryUsage ) . "</li>"
 				. "</ul>"
 			. "</div>";
 		return $sFooterHTML . $sOutput;
@@ -6548,6 +6554,8 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 	 * @access public
 	 * @param $size
 	 * @return int
+	 * @author			Mike Jolley
+	 * @see				http://mikejolley.com/projects/wp-page-load-stats/
 	 */
 	function let_to_num( $size ) {
 		$l 		= substr( $size, -1 );
@@ -6572,19 +6580,29 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 	 *
 	 * @access public
 	 * @param mixed $bytes
+	 * @author			Mike Jolley
+	 * @see				http://mikejolley.com/projects/wp-page-load-stats/
 	 */
 	function convert_bytes_to_hr( $bytes ) {
 		$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
 		$log = log( $bytes, 1024 );
-		$power = (int) $log;
-		$size = pow(1024, $log - $power);
-		return $size . $units[$power];
+		$power = ( int ) $log;
+		$size = pow( 1024, $log - $power );
+		return $size . $units[ $power ];
 	}
 
 }
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Page' ) ) :
+/**
+ * Collects data of page loads of the added pages.
+ *
+ * @since			2.1.7
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
 class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadStats_Base {
 	
 	private static $oInstance;
@@ -6605,7 +6623,7 @@ class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadS
 	/**
 	 * Sets the hook if the current page is one of the framework's added pages.
 	 */ 
-	public function replyToSetPageLoadStasInFooter() {
+	public function replyToSetPageLoadInfoInFooter() {
 		
 		// For added pages
 		$strCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
@@ -6618,6 +6636,14 @@ class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadS
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_PageLoadStats_PostType' ) ) :
+/**
+ * Collects data of page loads of the added post type pages.
+ *
+ * @since			2.1.7
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
 class AdminPageFramework_PageLoadStats_PostType extends AdminPageFramework_PageLoadStats_Base {
 	
 	private static $oInstance;
@@ -6638,7 +6664,7 @@ class AdminPageFramework_PageLoadStats_PostType extends AdminPageFramework_PageL
 	/**
 	 * Sets the hook if the current page is one of the framework's added post type pages.
 	 */ 
-	public function replyToSetPageLoadStasInFooter() {
+	public function replyToSetPageLoadInfoInFooter() {
 
 		// Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
 		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;

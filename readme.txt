@@ -187,7 +187,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 2.1.7 =
 * Added: the `enqueueScript()` and the `enqueueStyle()` methods for the post type class.
-* Added: the ability to automatically insert page load information in the admin footer if `WPDEBUG` is true.
+* Added: the ability to automatically insert page load information in the admin footer if the `WPDEBUG` constant is true.
 * Fixed: a bug that the `password` field type could not be defined as of v2.1.6.
 
 = 2.1.6 - 12/14/2013 = 
