@@ -15,14 +15,14 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.1.6
+ * @version				2.1.7b
  */
 /*
 	Library Name: Admin Page Framework
 	Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.6
+	Version: 2.1.7b
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
@@ -3646,8 +3646,6 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 
 		}
 		
-// $this->oDebug->logArray( $this->oProps->strStyle );
-
 		// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
 		$this->oProps->fEnableForm = true;
 		register_setting(	
@@ -6096,7 +6094,8 @@ abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities 
 			: "&nbsp;{$arrScriptInfo['strVersion']}";		
 		$strLibraryInfo = empty( $arrScriptInfo['strURI'] ) 
 			? $arrScriptInfo['strName'] 
-			: "<a href='{$arrScriptInfo['strURI']}' target='_blank' title='{$arrScriptInfo['strName']}{$strVersion}{$strDescription}'>{$arrScriptInfo['strName']}</a>";			
+			: "<a href='{$arrScriptInfo['strURI']}' target='_blank' title='{$arrScriptInfo['strName']}{$strVersion}{$strDescription}'>{$arrScriptInfo['strName']}</a>";	
+	
 		$strFooterInfoRight = $this->oMsg->___( 'powered_by' ) . '&nbsp;' 
 			. $strLibraryInfo
 			. ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
@@ -6202,7 +6201,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
 		
 	}
 	public function addInfoInFooterRight( $strLinkHTML='' ) {
-		
+
 		if ( ! isset( $_GET['post_type'] ) ||  $_GET['post_type'] != $this->strPostTypeSlug )
 			return $strLinkHTML;	// $strLinkHTML is given by the hook.
 			
@@ -6345,7 +6344,7 @@ class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
 
 	}
 	public function addInfoInFooterRight( $strLinkHTML='' ) {
-		
+
 		if ( ! isset( $_GET['page'] ) || ! $this->oProps->isPageAdded( $_GET['page'] )  ) 
 			return $strLinkHTML;	// $strLinkTHML is given by the hook.
 			

@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.6
+	Version: 2.1.7b
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -430,8 +430,8 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Password Field
 				'strFieldID' => 'password',
 				'strSectionID' => 'text_fields',
-				'strTitle' => 'Password',
-				'strTip' => 'This input will be masked.',
+				'strTitle' => __( 'Password', 'admin-page-framework-demo' ),
+				'strTip' => __( 'This input will be masked.', 'admin-page-framework-demo' ),
 				'strType' => 'password',
 				'strHelp' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
 				'vSize' => 20,
@@ -1565,6 +1565,14 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 			. "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
 			. $this->oDebug->getArray( $arrSavedOptions );
 
+	}
+	
+	public function validation_APF_MetaBox( $arrInput, $arrOldInput ) {
+		
+		// You can check the passed values and correct the data by modifying them.
+		// $this->oDebug->logArray( $arrInput );
+		return $arrInput;
+		
 	}
 	
 }
