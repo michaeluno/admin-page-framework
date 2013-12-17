@@ -5010,9 +5010,10 @@ abstract class AdminPageFramework_Properties_Base {
 		}		
 		
 		/* To give the footer area more space */
-		#wpcontent, #wpbody {  
-			margin-bottom: 72px; 
-		}";	
+		#wpbody-content {
+			padding-bottom: 140px;
+		}
+		";	
 		
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
