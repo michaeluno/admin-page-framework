@@ -1,5 +1,5 @@
 <?php
-class DateCustomFieldType extends AdminPageFramework_CustomFieldType {
+class DateCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
 	 * Returns the array of the field type specific default keys.

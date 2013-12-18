@@ -6411,17 +6411,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		'fShowPageHeadingTab' => true,
 		'fShowInMenu' => true,
 	);
-	// public function addSubMenuLinks() {
-		// foreach ( func_get_args() as $aSubMenuLink ) {
-			// $aSubMenuLink = $aSubMenuLink + self::$_aStructure_SubMenuLink;	// avoid undefined index warnings.
-			// $this->addSubMenuLink(
-				// $aSubMenuLink['title'],
-				// $aSubMenuLink['href'],				
-				// $aSubMenuLink['sCapability'],
-				// $aSubMenuLink['order']			
-			// );				
-		// }
-	// }
+
 	public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
 		
 		$iCount = count( $this->oProps->aPages );
@@ -6725,7 +6715,7 @@ class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLo
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinition_Base' ) ) :
 /**
  * The base class of field type classes that define input field types.
  * 
@@ -6788,7 +6778,7 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 	/**
 	 * Returns the field type definition array.
 	 * 
-	 * @remark			The scope is public since AdminPageFramework_CustomFieldType class allows the user to use this method.
+	 * @remark			The scope is public since AdminPageFramework_FieldType class allows the user to use this method.
 	 * @since			2.1.5
 	 */
 	public function getDefinitionArray() {
@@ -6821,7 +6811,7 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_CustomFieldType' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
 /**
  * The base class for the users to create their custom field types.
  * 
@@ -6829,7 +6819,7 @@ if ( ! class_exists( 'AdminPageFramework_CustomFieldType' ) ) :
  * @subpackage		Admin Page Framework - Setting
  * @since			2.1.5
  */
-abstract class AdminPageFramework_CustomFieldType extends AdminPageFramework_InputFieldTypeDefinition_Base {}
+abstract class AdminPageFramework_FieldType extends AdminPageFramework_InputFieldTypeDefinition_Base {}
 endif;
 
 if ( ! class_exists( 'AdminPageFramework_InputFieldType_default' ) ) :

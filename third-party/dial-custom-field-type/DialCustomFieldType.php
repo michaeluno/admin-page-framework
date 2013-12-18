@@ -1,5 +1,5 @@
 <?php
-class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
+class DialCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
 	 * Returns the array of the field type specific default keys.

@@ -1,5 +1,5 @@
 <?php
-class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
+class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
 	 * Returns the array of the field type specific default keys.
