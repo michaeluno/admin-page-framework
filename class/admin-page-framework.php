@@ -630,7 +630,7 @@ if ( ! class_exists( 'AdminPageFramework_Help_Base' ) ) :
  * 
  * @since			2.1.0
  */
-abstract class AdminPageFramework_Help_Base {
+abstract class AdminPageFramework_Help_Base extends AdminPageFramework_Debug {
 	
 	/**
 	 * Stores the screen object.
@@ -980,7 +980,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * A flag that indicates whether the JavaScript script for media uploader is enqueued.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
+	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
 	 * @internal
 	 */ 
 	protected $bIsMediaUploaderScriptEnqueued = false;
@@ -989,7 +989,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * A flag that indicates whether the JavaScript script for taxonomy checklist boxes.
 	 * 
 	 * @since			2.1.1
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
+	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
 	 * @internal
 	 */
 	protected $bIsTaxonomyChecklistScriptAdded = false;	
@@ -998,7 +998,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * A flag that indicates whether the JavaScript script for image selector is enqueued.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
+	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
 	 * @internal
 	 */ 	
 	protected $bIsImageFieldScriptEnqueued = false;	
@@ -1006,7 +1006,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	/**
 	 * A flag that indicates whether the JavaScript script for media uploader is added.
 	 * @since			2.1.3
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
+	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
 	 * @internal
 	 */
 	protected $bIsMediaUploaderScriptAdded = false;	
@@ -1015,7 +1015,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * A flag that indicates whether the JavaScript script for color picker is enqueued.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
+	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
 	 * @internal
 	 */ 		
 	protected $bIsColorFieldScriptEnqueued = false;	
@@ -1024,7 +1024,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * A flag that indicates whether the JavaScript script for date picker is enqueued.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_SettingsAPI.
+	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
 	 * @internal
 	 */ 			
 	protected $bIsDateFieldScriptEnqueued = false;		
@@ -2600,7 +2600,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_SettingsAPI' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
 /**
  * Provides methods to add form elements with WordPress Settings API. 
  *
@@ -2613,7 +2613,7 @@ if ( ! class_exists( 'AdminPageFramework_SettingsAPI' ) ) :
  * @staticvar	array		$_aStructure_Field					represents the structure of the form field array.
  * @var			array		$aFieldErrors						stores the settings field errors.
  */
-abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
+abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	
 	/**
 	 * Represents the structure of the form section array.
@@ -4144,11 +4144,11 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * @use				AdminPageFramework_Link
  * @use				AdminPageFramework_Utility
  * @remark			This class stems from several abstract classes.
- * @extends			AdminPageFramework_SettingsAPI
+ * @extends			AdminPageFramework_Setting
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
  */
-abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
+abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		
 	/**
     * The common properties shared among sub-classes. 
@@ -4242,7 +4242,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			// AdminPageFramework_Page
 			add_action( 'admin_menu', array( $this, 'finalizeInPageTabs' ), 99 );	// must be called before the registerSettings() method.
 			
-			// AdminPageFramework_SettingsAPI
+			// AdminPageFramework_Setting
 			add_action( 'admin_menu', array( $this, 'registerSettings' ), 100 );
 			
 			// Redirect Buttons
@@ -7475,7 +7475,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		 * Removes the From URL tab from the media uploader.
 		 * 
 		 * since			2.1.3
-		 * since			2.1.5			Moved from AdminPageFramework_SettingsAPI. Changed the name from removeMediaLibraryTab() to replyToRemovingMediaLibraryTab().
+		 * since			2.1.5			Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to replyToRemovingMediaLibraryTab().
 		 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
 		 */
 		public function replyToRemovingMediaLibraryTab( $aTabs ) {
