@@ -201,22 +201,22 @@ abstract class AdminPageFramework_WPUtilities {
 		$aData = get_file_data( 
 			$sPath, 
 			array(
-				'strName' => 'Name',
-				'strURI' => 'URI',
-				'strScriptName' => 'Script Name',
-				'strLibraryName' => 'Library Name',
-				'strLibraryURI' => 'Library URI',
-				'strPluginName' => 'Plugin Name',
-				'strPluginURI' => 'Plugin URI',
-				'strThemeName' => 'Theme Name',
-				'strThemeURI' => 'Theme URI',
-				'strVersion' => 'Version',
-				'description' => 'Description',
-				'strAuthor' => 'Author',
-				'strAuthorURI' => 'Author URI',
-				'strTextDomain' => 'Text Domain',
-				'strDomainPath' => 'Domain Path',
-				'strNetwork' => 'Network',
+				'sName' => 'Name',
+				'sURI' => 'URI',
+				'sScriptName' => 'Script Name',
+				'sLibraryName' => 'Library Name',
+				'sLibraryURI' => 'Library URI',
+				'sPluginName' => 'Plugin Name',
+				'sPluginURI' => 'Plugin URI',
+				'sThemeName' => 'Theme Name',
+				'sThemeURI' => 'Theme URI',
+				'sVersion' => 'Version',
+				'sDescription' => 'Description',
+				'sAuthor' => 'Author',
+				'sAuthorURI' => 'Author URI',
+				'sTextDomain' => 'Text Domain',
+				'sDomainPath' => 'Domain Path',
+				'sNetwork' => 'Network',
 				// Site Wide Only is deprecated in favour of Network.
 				'_sitewide' => 'Site Wide Only',
 			),
@@ -225,19 +225,19 @@ abstract class AdminPageFramework_WPUtilities {
 
 		switch ( trim( $sType ) ) {
 			case 'theme':	
-				$aData['strName'] = $aData['strThemeName'];
-				$aData['strURI'] = $aData['strThemeURI'];
+				$aData['sName'] = $aData['sThemeName'];
+				$aData['sURI'] = $aData['sThemeURI'];
 				break;
 			case 'library':	
-				$aData['strName'] = $aData['strLibraryName'];
-				$aData['strURI'] = $aData['strLibraryURI'];
+				$aData['sName'] = $aData['sLibraryName'];
+				$aData['sURI'] = $aData['sLibraryURI'];
 				break;
 			case 'script':	
-				$aData['strName'] = $aData['strScriptName'];
+				$aData['sName'] = $aData['sScriptName'];
 				break;		
 			case 'plugin':	
-				$aData['strName'] = $aData['strPluginName'];
-				$aData['strURI'] = $aData['strPluginURI'];
+				$aData['sName'] = $aData['sPluginName'];
+				$aData['sURI'] = $aData['sPluginURI'];
 				break;
 			default:	
 				break;				
@@ -710,7 +710,7 @@ if ( ! class_exists( 'AdminPageFramework_Help' ) ) :
  * @package				Admin Page Framework
  * @subpackage			Admin Page Framework - Page
  * @extends				AdminPageFramework_Help_Base
- * @staticvar			array			$aStructure_HelpTab			stores the array structure of the help tab array.
+ * @staticvar			array			$_aStructure_HelpTab			stores the array structure of the help tab array.
  */
 abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	
@@ -720,7 +720,7 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	 * @since			2.1.0
 	 * @internal
 	 */ 
-	public static $aStructure_HelpTab = array(
+	public static $_aStructure_HelpTab = array(
 		'page_slug'				=> null,	// ( mandatory )
 		'page_tab_slug'			=> null,	// ( optional )
 		'help_tab_title'			=> null,	// ( mandatory )
@@ -754,10 +754,10 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 			if ( isset( $aHelpTab['page_tab_slug'] ) && ! empty( $aHelpTab['page_tab_slug'] ) & $sCurrentPageTabSlug != $aHelpTab['page_tab_slug'] ) continue;
 				
 			$this->setHelpTab( 
-				$aHelpTab['strID'], 
+				$aHelpTab['sID'], 
 				$aHelpTab['title'], 
-				$aHelpTab['arrContent'], 
-				$aHelpTab['arrSidebar']
+				$aHelpTab['aContent'], 
+				$aHelpTab['aSidebar']
 			);
 		}
 		
@@ -797,15 +797,15 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	protected function addHelpTab( $aHelpTab ) {
 		
 		// Avoid undefined index warnings.
-		$aHelpTab = ( array ) $aHelpTab + AdminPageFramework_Help::$aStructure_HelpTab;
+		$aHelpTab = ( array ) $aHelpTab + AdminPageFramework_Help::$_aStructure_HelpTab;
 		
 		// If the key is not set, that means the help tab array is not created yet. So create it and go back.
 		if ( ! isset( $this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) {
 			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array(
-				'strID' => $aHelpTab['help_tab_id'],
+				'sID' => $aHelpTab['help_tab_id'],
 				'title' => $aHelpTab['help_tab_title'],
-				'arrContent' => ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
-				'arrSidebar' => ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
+				'aContent' => ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
+				'aSidebar' => ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
 				'page_slug' => $aHelpTab['page_slug'],
 				'page_tab_slug' => $aHelpTab['page_tab_slug'],
 			);
@@ -814,9 +814,9 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 
 		// This line will be reached if the help tab array is already set. In this case, just append an array element into the keys.
 		if ( ! empty( $aHelpTab['help_tab_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id']]['arrContent'][] = $this->formatHelpDescription( $aHelpTab['help_tab_content'] );
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id']]['aContent'][] = $this->formatHelpDescription( $aHelpTab['help_tab_content'] );
 		if ( ! empty( $aHelpTab['help_tab_sidebar_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['arrSidebar'][] = $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
 		
 	}
 	
@@ -868,12 +868,12 @@ abstract class AdminPageFramework_HeadTag_Base {
 		
 		// For styles
 		if ( $aEnqueueItem['type'] == 'style' ) {
-			wp_enqueue_style( $aEnqueueItem['handle_id'], $aEnqueueItem['strSRC'], $aEnqueueItem['arrDependencies'], $aEnqueueItem['strVersion'], $aEnqueueItem['strMedia'] );
+			wp_enqueue_style( $aEnqueueItem['handle_id'], $aEnqueueItem['sSRC'], $aEnqueueItem['aDependencies'], $aEnqueueItem['sVersion'], $aEnqueueItem['sMedia'] );
 			return;
 		}
 		
 		// For scripts
-		wp_enqueue_script( $aEnqueueItem['handle_id'], $aEnqueueItem['strSRC'], $aEnqueueItem['arrDependencies'], $aEnqueueItem['strVersion'], $aEnqueueItem['fInFooter'] );
+		wp_enqueue_script( $aEnqueueItem['handle_id'], $aEnqueueItem['sSRC'], $aEnqueueItem['aDependencies'], $aEnqueueItem['sVersion'], $aEnqueueItem['fInFooter'] );
 		if ( $aEnqueueItem['translation'] ) 
 			wp_localize_script( $aEnqueueItem['handle_id'], $aEnqueueItem['handle_id'], $aEnqueueItem['translation'] );
 		
@@ -996,9 +996,9 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		
 		// Print out the filtered styles.
 		$sStyle = AdminPageFramework_Properties::$sDefaultStyle . PHP_EOL . $this->oProps->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$aPrefixes['style_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
+		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$aPrefixes['style_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
 		$sStyleIE = AdminPageFramework_Properties::$sDefaultStyleIE . PHP_EOL . $this->oProps->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$aPrefixes['style_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
+		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$aPrefixes['style_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
 		if ( ! empty( $sStyle ) )
 			echo 
 				"<style type='text/css' id='admin-page-framework-style'>" 
@@ -1031,7 +1031,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Pages::$aPrefixes['script_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProps->sScript )
+				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$aPrefixes['script_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProps->sScript )
 			. "</script>";		
 		
 	}
@@ -1055,9 +1055,9 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>sMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	 * </ul>
 	 * 
 	 * @remark			The user may use this method.
@@ -1082,13 +1082,13 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$this->oProps->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
 			( array ) $aCustomArgs,
 			array(		
-				'strSRC' => $sSRC,
+				'sSRC' => $sSRC,
 				'page_slug' => $sPageSlug,
 				'tab_slug' => $sTabSlug,
 				'type' => 'style',
 				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
 			),
-			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
+			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
@@ -1113,8 +1113,8 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
@@ -1157,11 +1157,11 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 			array(		
 				'page_slug' => $sPageSlug,
 				'tab_slug' => $sTabSlug,
-				'strSRC' => $sSRC,
+				'sSRC' => $sSRC,
 				'type' => 'script',
 				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
 			),
-			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
+			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
@@ -1317,9 +1317,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>sMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	 * </ul>
 	 * 
 	 * @remark			The user may use this method.
@@ -1342,12 +1342,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		$this->oProps->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
 			( array ) $aCustomArgs,
 			array(		
-				'strSRC' => $sSRC,
-				'arrPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
+				'sSRC' => $sSRC,
+				'aPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
 				'type' => 'style',
 				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
 			),
-			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
+			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
@@ -1372,8 +1372,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
@@ -1402,12 +1402,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		$this->oProps->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
 			( array ) $aCustomArgs,
 			array(		
-				'strSRC' => $sSRC,
-				'arrPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
+				'sSRC' => $sSRC,
+				'aPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
 				'type' => 'script',
 				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
 			),
-			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
+			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
@@ -1421,7 +1421,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 		$sCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
 				
-		if ( in_array( $sCurrentPostType, $aEnqueueItem['arrPostTypes'] ) )		
+		if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) )		
 			return $this->enqueueSRC( $aEnqueueItem );
 			
 	}
@@ -1520,7 +1520,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
 /**
  * Provides methods to render admin page elements.
  *
@@ -1534,9 +1534,9 @@ if ( ! class_exists( 'AdminPageFramework_Pages' ) ) :
  * @staticvar		array		$aPrefixesForCallbacks			unlike $aPrefixes, these require to set the return value.
  * @staticvar		array		$aScreenIconIDs					stores the ID selector names for screen icons.
  * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
- * @staticvar		array		$aStructure_InPageTabElements		represents the array structure of an in-page tab array.
+ * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
-abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
+abstract class AdminPageFramework_Page extends AdminPageFramework_Help {
 			
 	/**
 	 * Stores the prefixes of the filters used by this framework.
@@ -1613,13 +1613,13 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @access			private
 	 * @internal
 	 */ 	
-	private static $aStructure_InPageTabElements = array(
+	private static $_aStructure_InPageTabElements = array(
 		'page_slug' => null,
 		'tab_slug' => null,
 		'title' => null,
 		'order' => null,
-		'inpage_tab_visibility'	=> null,
-		'parent_tab_slug' => null,	// this needs to be set if the above inpage_tab_visibility is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
+		'show_inpage_tab'	=> null,
+		'parent_tab_slug' => null,	// this needs to be set if the above show_inpage_tab is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
 	);
 	
 		
@@ -1706,11 +1706,11 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	protected function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['strInPageTabTag'] = $sTag;
+			$this->oProps->aPages[ $sPageSlug ]['sInPageTabTag'] = $sTag;
 		else {
 			$this->oProps->sInPageTabTag = $sTag;
 			foreach( $this->oProps->aPages as &$aPage )
-				$aPage['strInPageTabTag'] = $sTag;
+				$aPage['sInPageTabTag'] = $sTag;
 		}
 	}
 	
@@ -1729,11 +1729,11 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	protected function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['strPageHeadingTabTag'] = $sTag;
+			$this->oProps->aPages[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
 		else {
 			$this->oProps->sPageHeadingTabTag = $sTag;
 			foreach( $this->oProps->aPages as &$aPage )
-				$aPage[ $sPageSlug ]['strPageHeadingTabTag'] = $sTag;
+				$aPage[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
 		}
 	}
 	
@@ -1955,8 +1955,8 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		// If the page title is disabled, return an empty string.
 		if ( ! $this->oProps->aPages[ $sCurrentPageSlug ][ 'fShowPageTitle' ] ) return "";
 
-		$sTag = $this->oProps->aPages[ $sCurrentPageSlug ][ 'strPageHeadingTabTag' ]
-			? $this->oProps->aPages[ $sCurrentPageSlug ][ 'strPageHeadingTabTag' ]
+		$sTag = $this->oProps->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
+			? $this->oProps->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
 			: $sTag;
 	
 		// If the page heading tab visibility is disabled, return the title.
@@ -2009,8 +2009,8 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sCurrentPageSlug );
 		$sCurrentTabSlug = $this->getParentTabSlug( $sCurrentPageSlug, $sCurrentTabSlug );
 		
-		$sTag = $this->oProps->aPages[ $sCurrentPageSlug ][ 'strInPageTabTag' ]
-			? $this->oProps->aPages[ $sCurrentPageSlug ][ 'strInPageTabTag' ]
+		$sTag = $this->oProps->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
+			? $this->oProps->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
 			: $sTag;
 	
 		// If the in-page tabs' visibility is set to false, returns the title.
@@ -2023,7 +2023,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		foreach( $this->oProps->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 					
 			// If it's hidden and its parent tab is not set, skip
-			if ( $aInPageTab['inpage_tab_visibility'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
+			if ( $aInPageTab['show_inpage_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
 			
 			// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
 			$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
@@ -2052,7 +2052,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * Retrieves the parent tab slug from the given tab slug.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.2			If the parent slug has the inpage_tab_visibility to be true, it returns an empty string.
+	 * @since			2.1.2			If the parent slug has the show_inpage_tab to be true, it returns an empty string.
 	 * @return			string			the parent tab slug.
 	 */ 	
 	private function getParentTabSlug( $sPageSlug, $sTabSlug ) {
@@ -2061,7 +2061,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			? $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
 			: $sTabSlug;
 		
-		return isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['inpage_tab_visibility'] ) && $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['inpage_tab_visibility']
+		return isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab'] ) && $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab']
 			? ""
 			: $sParentTabSlug;
 
@@ -2076,7 +2076,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @param			string			$sTabSlug				The tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).
 	 * @param			integer			$nOrder				( optional ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.
 	 * @param			boolean			$bHide					( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
-	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above inpage_tab_visibility is true so that the parent tab will be emphasized as active when the hidden page is accessed.
+	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above show_inpage_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.
 	 * @remark			Use this method to add in-page tabs to ensure the array holds all the necessary keys.
 	 * @remark			In-page tabs are different from page-heading tabs which is automatically added with page titles.
 	 * @return			void
@@ -2092,7 +2092,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 				'title'		=> trim( $sTabTitle ),
 				'tab_slug'	=> $sTabSlug,
 				'order'		=> is_numeric( $nOrder ) ? $nOrder : $iCountElement + 10,
-				'inpage_tab_visibility'			=> ( $bHide ),
+				'show_inpage_tab'			=> ( $bHide ),
 				'parent_tab_slug' => ! empty( $sParentTabSlug ) ? $this->oUtil->sanitizeSlug( $sParentTabSlug ) : null,
 			);
 	
@@ -2107,8 +2107,8 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * 	<li><strong>tab_slug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
 	 * 	<li><strong>title</strong> - ( string ) the title of the tab.</li>
 	 * 	<li><strong>order</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
-	 * 	<li><strong>inpage_tab_visibility</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
-	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above inpage_tab_visibility is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+	 * 	<li><strong>show_inpage_tab</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
+	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above show_inpage_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
 	 * </ul>
 	 * 
 	 * <h4>Example</h4>
@@ -2137,8 +2137,8 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		
 		foreach( func_get_args() as $aTab ) {
 			if ( ! is_array( $aTab ) ) continue;
-			$aTab = $aTab + self::$aStructure_InPageTabElements;	// avoid undefined index warnings.
-			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['inpage_tab_visibility'], $aTab['parent_tab_slug'] );
+			$aTab = $aTab + self::$_aStructure_InPageTabElements;	// avoid undefined index warnings.
+			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['show_inpage_tab'], $aTab['parent_tab_slug'] );
 		}
 		
 	}
@@ -2168,7 +2168,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			);	
 			// Added in-page arrays may be missing necessary keys so merge them with the default array structure.
 			foreach( $this->oProps->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) 
-				$aInPageTab = $aInPageTab + self::$aStructure_InPageTabElements;
+				$aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
 						
 			// Sort the in-page tab array.
 			uasort( $this->oProps->aInPageTabs[ $sPageSlug ], array( $this->oProps, 'sortByOrder' ) );
@@ -2196,13 +2196,13 @@ if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
  *
  * @abstract
  * @since			2.0.0
- * @extends			AdminPageFramework_Pages
+ * @extends			AdminPageFramework_Page
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
  * @staticvar		array	$aBuiltInRootMenuSlugs	stores the WordPress built-in menu slugs.
- * @staticvar		array	$aStructure_SubMenuPage	represents the structure of the sub-menu page array.
+ * @staticvar		array	$_aStructure_SubMenuPage	represents the structure of the sub-menu page array.
  */
-abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
+abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	
 	/**
 	 * Used to refer the built-in root menu slugs.
@@ -2238,11 +2238,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * @static
 	 * @internal
 	 */ 
-	protected static $aStructure_SubMenuPage = array(
+	protected static $_aStructure_SubMenuPage = array(
 		'title' => null, 
 		'page_slug' => null, 
 		'screen_icon' => null,
-		'strCapability' => null, 
+		'sCapability' => null, 
 		'order' => null,
 		'fShowPageHeadingTab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
 		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
@@ -2314,12 +2314,12 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 */ 
 	protected function addSubMenuPages() {
 		foreach ( func_get_args() as $aSubMenuPage ) {
-			$aSubMenuPage = $aSubMenuPage + self::$aStructure_SubMenuPage;	// avoid undefined index warnings.
+			$aSubMenuPage = $aSubMenuPage + self::$_aStructure_SubMenuPage;	// avoid undefined index warnings.
 			$this->addSubMenuPage(
 				$aSubMenuPage['title'],
 				$aSubMenuPage['page_slug'],
 				$aSubMenuPage['screen_icon'],
-				$aSubMenuPage['strCapability'],
+				$aSubMenuPage['sCapability'],
 				$aSubMenuPage['order'],
 				$aSubMenuPage['fShowPageHeadingTab']
 			);				
@@ -2360,15 +2360,15 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'type'					=> 'page',	// this is used to compare with the link type.
 			'hrefIcon32x32'			=> $this->oUtil->resolveSRC( $sScreenIcon, true ),
 			'screen_iconID'			=> in_array( $sScreenIcon, self::$aScreenIconIDs ) ? $sScreenIcon : null,
-			'strCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
+			'sCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
 			'order'					=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'		=> $bShowPageHeadingTab,
 			'fShowInMenu'				=> $bShowInMenu,	// since 1.3.4			
 			'fShowPageTitle'			=> $this->oProps->bShowPageTitle,			// boolean
 			'fShowPageHeadingTabs'		=> $this->oProps->bShowPageHeadingTabs,		// boolean
 			'fShowInPageTabs'			=> $this->oProps->bShowInPageTabs,			// boolean
-			'strInPageTabTag'			=> $this->oProps->sInPageTabTag,			// string
-			'strPageHeadingTabTag'		=> $this->oProps->sPageHeadingTabTag,		// string			
+			'sInPageTabTag'			=> $this->oProps->sInPageTabTag,			// string
+			'sPageHeadingTabTag'		=> $this->oProps->sPageHeadingTabTag,		// string			
 		);
 		$this->oProps->aPages[ $sPageSlug ] = $this->oUtil->uniteArraysRecursive( $aThisPage, $aPreviouslySetPage );
 			
@@ -2420,13 +2420,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	
 		// Format the argument array since it may be added by the third party scripts via the hook.
 		$aArgs = isset( $aArgs['type'] ) && $aArgs['type'] == 'link' 
-			? $aArgs + AdminPageFramework_Link::$aStructure_SubMenuLink	// for link
-			: $aArgs + self::$aStructure_SubMenuPage;	// for page
+			? $aArgs + AdminPageFramework_Link::$_aStructure_SubMenuLink	// for link
+			: $aArgs + self::$_aStructure_SubMenuPage;	// for page
 		
 		// Variables
 		$sType = $aArgs['type'];	// page or link
 		$sTitle = $sType == 'page' ? $aArgs['title'] : $aArgs['title'];
-		$sCapability = $aArgs['strCapability'];
+		$sCapability = $aArgs['sCapability'];
 			
 		// Check the capability
 		$sCapability = isset( $sCapability ) ? $sCapability : $this->sCapability;
@@ -2445,7 +2445,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 				$sRootPageSlug,						// the root(parent) page slug
 				$sTitle,								// page_title
 				$sTitle,								// menu_title
-				$sCapability,				 			// strCapability
+				$sCapability,				 			// sCapability
 				$sPageSlug,	// menu_slug
 				// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $aResult[ $sPageSlug ] )
 				// will be executed and it triggers the __call magic method with the method name of "md5 class hash + _page_ + this page slug".
@@ -2557,8 +2557,8 @@ if ( ! class_exists( 'AdminPageFramework_SettingsAPI' ) ) :
  * @extends		AdminPageFramework_Menu
  * @package		Admin Page Framework
  * @subpackage	Admin Page Framework - Page
- * @staticvar	array		$aStructure_Section				represents the structure of the form section array.
- * @staticvar	array		$aStructure_Field					represents the structure of the form field array.
+ * @staticvar	array		$_aStructure_Section				represents the structure of the form section array.
+ * @staticvar	array		$_aStructure_Field					represents the structure of the form field array.
  * @var			array		$aFieldErrors						stores the settings field errors.
  */
 abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
@@ -2572,13 +2572,13 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @static
 	 * @internal
 	 */ 	
-	protected static $aStructure_Section = array(	
+	protected static $_aStructure_Section = array(	
 		'section_id' => null,
 		'page_slug' => null,
 		'tab_slug' => null,
 		'title' => null,
 		'description' => null,
-		'strCapability' => null,
+		'sCapability' => null,
 		'fIf' => true,	
 		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
 		'help' => null,
@@ -2594,23 +2594,23 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @static
 	 * @internal
 	 */ 
-	protected static $aStructure_Field = array(
+	protected static $_aStructure_Field = array(
 		'field_id'		=> null, 		// ( mandatory )
 		'section_id'		=> null,		// ( mandatory )
-		'strSectionTitle'	=> null,		// This will be assigned automatically in the formatting method.
+		'sSectionTitle'	=> null,		// This will be assigned automatically in the formatting method.
 		'type'			=> null,		// ( mandatory )
 		'page_slug'		=> null,		// This will be assigned automatically in the formatting method.
 		'tab_slug'		=> null,		// This will be assigned automatically in the formatting method.
-		'strOptionKey'		=> null,		// This will be assigned automatically in the formatting method.
-		'strClassName'		=> null,		// This will be assigned automatically in the formatting method.
-		'strCapability'		=> null,		
+		'sOptionKey'		=> null,		// This will be assigned automatically in the formatting method.
+		'sClassName'		=> null,		// This will be assigned automatically in the formatting method.
+		'sCapability'		=> null,		
 		'title'			=> null,
 		'tip'			=> null,
 		'description'	=> null,
-		'strName'			=> null,		// the name attribute of the input field.
-		'strError'			=> null,		// error message for the field
-		'strBeforeField'	=> null,
-		'strAfterField'		=> null,
+		'sName'			=> null,		// the name attribute of the input field.
+		'sError'			=> null,		// error message for the field
+		'sBeforeField'	=> null,
+		'sAfterField'		=> null,
 		'fIf' 				=> true,
 		'order'			=> null,	// do not set the default number here for this key.		
 		'help'			=> null,	// since 2.1.0
@@ -2693,7 +2693,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* <li><strong>page_slug</strong> - (  string ) the page slug that the section belongs to.</li>
 	* <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
 	* <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
-	* <li><strong>strCapability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* <li><strong>sCapability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
 	* <li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
 	* <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	* <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
@@ -2752,7 +2752,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( ! is_array( $aSection ) ) return;
 
-		$aSection = $aSection + self::$aStructure_Section;	// avoid undefined index warnings.
+		$aSection = $aSection + self::$_aStructure_Section;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 		$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
@@ -2768,8 +2768,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		if ( ! $aSection['fIf'] ) return;
 		
 		// If the access level is set and it is not sufficient, skip.
-		$aSection['strCapability'] = isset( $aSection['strCapability'] ) ? $aSection['strCapability'] : $this->oProps->sCapability;
-		if ( ! current_user_can( $aSection['strCapability'] ) ) return;	// since 1.0.2.1
+		$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProps->sCapability;
+		if ( ! current_user_can( $aSection['sCapability'] ) ) return;	// since 1.0.2.1
 		
 		$this->oProps->aSections[ $aSection['section_id'] ] = $aSection;	
 			
@@ -2814,11 +2814,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
-	* 	<li><strong>strCapability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
-	* 	<li><strong>strName</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
-	* 	<li><strong>strError</strong> - ( optional, string ) the error message to display above the input field.</li>
-	* 	<li><strong>strBeforeField</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
-	* 	<li><strong>strAfterField</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
+	* 	<li><strong>sCapability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* 	<li><strong>sName</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
+	* 	<li><strong>sError</strong> - ( optional, string ) the error message to display above the input field.</li>
+	* 	<li><strong>sBeforeField</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
+	* 	<li><strong>sAfterField</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
 	* 	<li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
 	* 	<li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	* 	<li><strong>label</strong> - ( optional|mandatory, string|array ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key while some require it.</li>
@@ -2934,8 +2934,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>vImagePreview</strong> - ( optional, boolean|array ) if this is set to false, the image preview will be disabled.</li>
-	* 			<li><strong>strTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
-	* 			<li><strong>strLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
+	* 			<li><strong>sTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
+	* 			<li><strong>sLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 			<li><strong>attributes_to_capture</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_capture' => array( 'id', 'caption', 'description' )</code></li>
 	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
@@ -2945,8 +2945,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>strTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
-	* 			<li><strong>strLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
+	* 			<li><strong>sTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
+	* 			<li><strong>sLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 			<li><strong>attributes_to_capture</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_capture' => array( 'id', 'caption', 'description' )</code></li>
 	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
@@ -2961,12 +2961,12 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.</li>
 	* 		<ul>
 	*			<li><strong>taxonomy_slugs</strong> - ( optional, string|array ) the taxonomy slug to list.</li>
-	*			<li><strong>strWidth</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
+	*			<li><strong>sWidth</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
 	*			<li><strong>height</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
 	* 		</ul>
 	* 	<li><strong>posttype</strong> - a posttype check list. This is a set of check boxes listing post type slugs.</li>
 	* 		<ul>
-	* 			<li><strong>arrRemove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item' )</code></li>
+	* 			<li><strong>aRemove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item' )</code></li>
 	* 		</ul>
 
 	* </ul>	
@@ -3037,7 +3037,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( ! is_array( $aField ) ) return;
 		
-		$aField = $aField + self::$aStructure_Field;	// avoid undefined index warnings.
+		$aField = $aField + self::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
@@ -3050,8 +3050,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		if ( ! $aField['fIf'] ) return;			
 		
 		// If the access level is not sufficient, skip.
-		$aField['strCapability'] = isset( $aField['strCapability'] ) ? $aField['strCapability'] : $this->oProps->sCapability;
-		if ( ! current_user_can( $aField['strCapability'] ) ) return; 
+		$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProps->sCapability;
+		if ( ! current_user_can( $aField['sCapability'] ) ) return; 
 								
 		$this->oProps->aFields[ $aField['field_id'] ] = $aField;		
 		
@@ -3700,7 +3700,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 					array(
 						'page_slug'				=> $aField['page_slug'],
 						'page_tab_slug'			=> $aField['tab_slug'],
-						'help_tab_title'			=> $aField['strSectionTitle'],
+						'help_tab_title'			=> $aField['sSectionTitle'],
 						'help_tab_id'				=> $aField['section_id'],
 						'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
 														. $aField['help'],
@@ -3731,8 +3731,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$sFieldType = $aField['type'];
 			
 			// Set the global flag to indicate whether the elements are already added and enqueued.
-			if ( isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) && $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) return;
-			$GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] = true;
+			if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) return;
+			$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
 
 			// If the field type is not defined, return.
 			if ( ! isset( $this->oProps->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
@@ -3777,7 +3777,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$aNewSectionArray = array();
 		foreach( $aSections as $aSection ) {
 		
-			$aSection = $aSection + self::$aStructure_Section;	// avoid undefined index warnings.
+			$aSection = $aSection + self::$_aStructure_Section;	// avoid undefined index warnings.
 			
 			// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 			$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
@@ -3794,8 +3794,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( ! $this->isSettingSectionOfCurrentTab( $aSection ) )  continue;
 			
 			// If the access level is set and it is not sufficient, skip.
-			$aSection['strCapability'] = isset( $aSection['strCapability'] ) ? $aSection['strCapability'] : $this->oProps->sCapability;
-			if ( ! current_user_can( $aSection['strCapability'] ) ) continue;	// since 1.0.2.1
+			$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProps->sCapability;
+			if ( ! current_user_can( $aSection['sCapability'] ) ) continue;	// since 1.0.2.1
 		
 			// If a custom condition is set and it's not true, skip,
 			if ( $aSection['fIf'] !== true ) continue;
@@ -3865,7 +3865,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 			if ( ! is_array( $aField ) ) continue;		// the element must be an array.
 			
-			$aField = $aField + self::$aStructure_Field;	// avoid undefined index warnings.
+			$aField = $aField + self::$_aStructure_Field;	// avoid undefined index warnings.
 			
 			// Sanitize the IDs since they are used as a callback method name.
 			$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
@@ -3879,8 +3879,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) continue;	// these keys are necessary.
 			
 			// If the access level is not sufficient, skip.
-			$aField['strCapability'] = isset( $aField['strCapability'] ) ? $aField['strCapability'] : $this->oProps->sCapability;
-			if ( ! current_user_can( $aField['strCapability'] ) ) continue; 
+			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProps->sCapability;
+			if ( ! current_user_can( $aField['sCapability'] ) ) continue; 
 						
 			// If the condition is not met, skip.
 			if ( $aField['fIf'] !== true ) continue;
@@ -3890,12 +3890,12 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			
 			// Set the tip, option key, instantiated class name, and page slug elements.
 			$aField['tip'] = strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] );
-			$aField['strOptionKey'] = $this->oProps->sOptionKey;
-			$aField['strClassName'] = $this->oProps->sClassName;
+			$aField['sOptionKey'] = $this->oProps->sOptionKey;
+			$aField['sClassName'] = $this->oProps->sClassName;
 			// $aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
 			$aField['page_slug'] = $this->oProps->aSections[ $aField['section_id'] ]['page_slug'];
 			$aField['tab_slug'] = $this->oProps->aSections[ $aField['section_id'] ]['tab_slug'];
-			$aField['strSectionTitle'] = $this->oProps->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
+			$aField['sSectionTitle'] = $this->oProps->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
 			
 			// Add the element to the new returning array.
 			$aNewFieldArrays[ $aField['field_id'] ] = $aField;
@@ -4330,7 +4330,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
 	*	<p><strong>Notes</strong>: the <em>generic</em> icon is available WordPress version 3.5 or above.</p>
 	* </li>
-	* <li><strong>strCapability</strong> - ( optional, string ) the access level to the created admin pages defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>sCapability</strong> - ( optional, string ) the access level to the created admin pages defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
 	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
 	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
 	* </ul>
@@ -4338,7 +4338,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	* <ul>
 	* <li><strong>title</strong> - ( string ) the link title.</li>
 	* <li><strong>href</strong> - ( string ) the URL of the target link.</li>
-	* <li><strong>strCapability</strong> - ( optional, string ) the access level to show the item, defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>sCapability</strong> - ( optional, string ) the access level to show the item, defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
 	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
 	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
 	* </ul>
@@ -4393,23 +4393,23 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	*/	
 	private function addSubMenuItem( $aSubMenuItem ) {
 		if ( isset( $aSubMenuItem['href'] ) ) {
-			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link::$aStructure_SubMenuLink;
+			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link::$_aStructure_SubMenuLink;
 			$this->oLink->addSubMenuLink(
 				$aSubMenuLink['title'],
 				$aSubMenuLink['href'],
-				$aSubMenuLink['strCapability'],
+				$aSubMenuLink['sCapability'],
 				$aSubMenuLink['order'],
 				$aSubMenuLink['fShowPageHeadingTab'],
 				$aSubMenuLink['fShowInMenu']
 			);			
 		}
 		else { // if ( $aSubMenuItem['type'] == 'page' ) {
-			$aSubMenuPage = $aSubMenuItem + self::$aStructure_SubMenuPage;	// avoid undefined index warnings.
+			$aSubMenuPage = $aSubMenuItem + self::$_aStructure_SubMenuPage;	// avoid undefined index warnings.
 			$this->addSubMenuPage(
 				$aSubMenuPage['title'],
 				$aSubMenuPage['page_slug'],
 				$aSubMenuPage['screen_icon'],
-				$aSubMenuPage['strCapability'],
+				$aSubMenuPage['sCapability'],
 				$aSubMenuPage['order'],	
 				$aSubMenuPage['fShowPageHeadingTab'],
 				$aSubMenuPage['fShowInMenu']
@@ -4503,15 +4503,15 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * <code>$this->setFooterInfoLeft( '&lt;br /&gt;Custom Text on the left hand side.' );</code>
 	 * 
 	 * @since			2.0.0
-	 * @remark			The user may directly edit <code>$this->oProps->aFooterInfo['strLeft']</code> instead.
+	 * @remark			The user may directly edit <code>$this->oProps->aFooterInfo['sLeft']</code> instead.
 	 * @param			string			$sHTML			The HTML code to insert.
 	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
 	protected function setFooterInfoLeft( $sHTML, $bAppend=true ) {
 		
-		$this->oProps->aFooterInfo['strLeft'] = $bAppend 
-			? $this->oProps->aFooterInfo['strLeft'] . $sHTML
+		$this->oProps->aFooterInfo['sLeft'] = $bAppend 
+			? $this->oProps->aFooterInfo['sLeft'] . $sHTML
 			: $sHTML;
 		
 	}
@@ -4523,15 +4523,15 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * <code>$this->setFooterInfoRight( '&lt;br /&gt;Custom Text on the right hand side.' );</code>
 	 * 
 	 * @since			2.0.0
-	 * @remark			The user may directly edit <code>$this->oProps->aFooterInfo['strRight']</code> instead.
+	 * @remark			The user may directly edit <code>$this->oProps->aFooterInfo['sRight']</code> instead.
 	 * @param			string			$sHTML			The HTML code to insert.
 	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
 	protected function setFooterInfoRight( $sHTML, $bAppend=true ) {
 		
-		$this->oProps->aFooterInfo['strRight'] = $bAppend 
-			? $this->oProps->aFooterInfo['strRight'] . $sHTML
+		$this->oProps->aFooterInfo['sRight'] = $bAppend 
+			? $this->oProps->aFooterInfo['sRight'] . $sHTML
 			: $sHTML;
 		
 	}
@@ -4575,9 +4575,9 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>sMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	 * </ul>
 	 * 
 	 * @remark			The user may use this method.
@@ -4599,8 +4599,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
@@ -4648,9 +4648,9 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 			
 		$sID = $sID ? $sID : md5( $sMessage );
 		$this->oProps->aAdminNotices[ md5( $sMessage ) ] = array(  
-			'strMessage' => $sMessage,
-			'strClassSelector' => $sClassSelector,
-			'strID' => $sID,
+			'sMessage' => $sMessage,
+			'sClassSelector' => $sClassSelector,
+			'sID' => $sID,
 		);
 		add_action( 'admin_notices', array( $this, 'printAdminNotices' ) );
 		
@@ -4663,8 +4663,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	public function printAdminNotices() {
 		
 		foreach( $this->oProps->aAdminNotices as $aAdminNotice ) 
-			echo "<div class='{$aAdminNotice['strClassSelector']}' id='{$aAdminNotice['strID']}' ><p>"
-				. $aAdminNotice['strMessage']
+			echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' ><p>"
+				. $aAdminNotice['sMessage']
 				. "</p></div>";
 		
 	}	
@@ -5021,18 +5021,18 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @since			2.1.2
 	 * @since			2.1.5			Moved to the base class.
 	 */
-	public static $aStructure_EnqueuingScriptsAndStyles = array(
+	public static $_aStructure_EnqueuingScriptsAndStyles = array(
 		'href' => null,
-		'arrPostTypes' => array(),		// for meta box class
+		'aPostTypes' => array(),		// for meta box class
 		'page_slug' => null,	
 		'tab_slug' => null,
 		'type' => null,		// script or style
 		'handle_id' => null,
-		'arrDependencies' => array(),
-        'strVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
+		'aDependencies' => array(),
+        'sVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
         'translation' => array(),	// only for scripts
         'fInFooter' => false,	// only for scripts
-		'strMedia' => 'all',	// only for styles		
+		'sMedia' => 'all',	// only for styles		
 	);
 	/**
 	 * Stores enqueuing script URLs and their criteria.
@@ -5067,8 +5067,8 @@ abstract class AdminPageFramework_Properties_Base {
 	function __construct( $oCaller ) {
 		
 		$this->oCaller = $oCaller;
-		$GLOBALS['arrAdminPageFramework'] = isset( $GLOBALS['arrAdminPageFramework'] ) && is_array( $GLOBALS['arrAdminPageFramework'] ) 
-			? $GLOBALS['arrAdminPageFramework']
+		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
+			? $GLOBALS['aAdminPageFramework']
 			: array();
 
 	}
@@ -5240,28 +5240,28 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 	 * @since			2.1.0			Moved from the meta box class.
 	 * @internal
 	 */ 
-	public static $aStructure_Field = array(
+	public static $_aStructure_Field = array(
 		'field_id'		=> null,	// ( mandatory ) the field ID
 		'type'			=> null,	// ( mandatory ) the field type.
 		'title' 			=> null,	// the field title
 		'description'	=> null,	// an additional note 
-		'strCapability'		=> null,	// an additional note 
+		'sCapability'		=> null,	// an additional note 
 		'tip'			=> null,	// pop up text
 		// 'options'			=> null,	// ? don't remember what this was for
 		'vValue'			=> null,	// allows to override the stored value
 		'default'			=> null,	// allows to set default values.
-		'strName'			=> null,	// allows to set custom field name
+		'sName'			=> null,	// allows to set custom field name
 		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
 		'fIf'				=> true,
 		'help'			=> null,	// since 2.1.0
 		'helpAside'		=> null,	// since 2.1.0
-		'inpage_tab_visibilityTitleColumn'	=> null,	// since 2.1.2
+		'show_inpage_tabTitleColumn'	=> null,	// since 2.1.2
 		
 		// The followings may need to be uncommented.
-		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
-		// 'strError' => null,			// error message for the field
-		// 'strBeforeField' => null,
-		// 'strAfterField' => null,
+		// 'sClassName' => null,		// This will be assigned automatically in the formatting method.
+		// 'sError' => null,			// error message for the field
+		// 'sBeforeField' => null,
+		// 'sAfterField' => null,
 		// 'order' => null,			// do not set the default number here for this key.		
 
 		'repeatable'		=> null,	// since 2.1.3		
@@ -5527,8 +5527,8 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * @since			2.0.0
 	 */ 			
 	public $aFooterInfo = array(
-		'strLeft' => '',
-		'strRight' => '',
+		'sLeft' => '',
+		'sRight' => '',
 	);
 		
 	// Settings API
@@ -5679,7 +5679,7 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * Retrieves the default in-page tab from the given tab slug.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5			Made it public and moved from the AdminPageFramework_Pages class since this method is used by the AdminPageFramework_HeadTab class as well.
+	 * @since			2.1.5			Made it public and moved from the AdminPageFramework_Page class since this method is used by the AdminPageFramework_HeadTab class as well.
 	 * @internal
 	 * @remark			Used in the __call() method in the main class.
 	 * @return			string			The default in-page tab slug if found; otherwise, an empty string.
@@ -6061,16 +6061,16 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 	 * @internal
 	 * @since			2.0.0
 	 */ 
-	private static $aStructure_CallerInfo = array(
-		'strPath'			=> null,
+	private static $_aStructure_CallerInfo = array(
+		'sPath'			=> null,
 		'type'			=> null,
-		'strName'			=> null,		
-		'strURI'			=> null,
-		'strVersion'		=> null,
-		'strThemeURI'		=> null,
-		'strScriptURI'		=> null,
-		'strAuthorURI'		=> null,
-		'strAuthor'			=> null,
+		'sName'			=> null,		
+		'sURI'			=> null,
+		'sVersion'		=> null,
+		'sThemeURI'		=> null,
+		'sScriptURI'		=> null,
+		'sAuthorURI'		=> null,
+		'sAuthor'			=> null,
 		'description'	=> null,
 	);	
 	
@@ -6087,24 +6087,24 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 	 */	 
 	protected function getCallerInfo( $sCallerPath=null ) {
 		
-		$aCallerInfo = self::$aStructure_CallerInfo;
-		$aCallerInfo['strPath'] = $sCallerPath;
-		$aCallerInfo['type'] = $this->getCallerType( $aCallerInfo['strPath'] );
+		$aCallerInfo = self::$_aStructure_CallerInfo;
+		$aCallerInfo['sPath'] = $sCallerPath;
+		$aCallerInfo['type'] = $this->getCallerType( $aCallerInfo['sPath'] );
 
 		if ( $aCallerInfo['type'] == 'unknown' ) return $aCallerInfo;
 		
 		if ( $aCallerInfo['type'] == 'plugin' ) 
-			return $this->getScriptData( $aCallerInfo['strPath'], $aCallerInfo['type'] ) + $aCallerInfo;
+			return $this->getScriptData( $aCallerInfo['sPath'], $aCallerInfo['type'] ) + $aCallerInfo;
 			
 		if ( $aCallerInfo['type'] == 'theme' ) {
 			$oTheme = wp_get_theme();	// stores the theme info object
 			return array(
-				'strName'			=> $oTheme->Name,
-				'strVersion' 		=> $oTheme->Version,
-				'strThemeURI'		=> $oTheme->get( 'ThemeURI' ),
-				'strURI'			=> $oTheme->get( 'ThemeURI' ),
-				'strAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
-				'strAuthor'			=> $oTheme->get( 'Author' ),				
+				'sName'			=> $oTheme->Name,
+				'sVersion' 		=> $oTheme->Version,
+				'sThemeURI'		=> $oTheme->get( 'ThemeURI' ),
+				'sURI'			=> $oTheme->get( 'ThemeURI' ),
+				'sAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
+				'sAuthor'			=> $oTheme->get( 'Author' ),				
 			) + $aCallerInfo;	
 		}
 	}
@@ -6115,7 +6115,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 	 * @since			2.1.1
 	 */
 	protected function getLibraryInfo() {
-		return $this->getScriptData( __FILE__, 'library' ) + self::$aStructure_CallerInfo;
+		return $this->getScriptData( __FILE__, 'library' ) + self::$_aStructure_CallerInfo;
 	}
 	
 	/**
@@ -6150,16 +6150,16 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 		$sDescription = empty( $aScriptInfo['description'] ) 
 			? ""
 			: "&#13;{$aScriptInfo['description']}";
-		$sVersion = empty( $aScriptInfo['strVersion'] )
+		$sVersion = empty( $aScriptInfo['sVersion'] )
 			? ""
-			: "&nbsp;{$aScriptInfo['strVersion']}";
-		$sPluginInfo = empty( $aScriptInfo['strURI'] ) 
-			? $aScriptInfo['strName'] 
-			: "<a href='{$aScriptInfo['strURI']}' target='_blank' title='{$aScriptInfo['strName']}{$sVersion}{$sDescription}'>{$aScriptInfo['strName']}</a>";
-		$sAuthorInfo = empty( $aScriptInfo['strAuthorURI'] )	
-			? $aScriptInfo['strAuthor'] 
-			: "<a href='{$aScriptInfo['strAuthorURI']}' target='_blank'>{$aScriptInfo['strAuthor']}</a>";
-		$sAuthorInfo = empty( $aScriptInfo['strAuthor'] ) 
+			: "&nbsp;{$aScriptInfo['sVersion']}";
+		$sPluginInfo = empty( $aScriptInfo['sURI'] ) 
+			? $aScriptInfo['sName'] 
+			: "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";
+		$sAuthorInfo = empty( $aScriptInfo['sAuthorURI'] )	
+			? $aScriptInfo['sAuthor'] 
+			: "<a href='{$aScriptInfo['sAuthorURI']}' target='_blank'>{$aScriptInfo['sAuthor']}</a>";
+		$sAuthorInfo = empty( $aScriptInfo['sAuthor'] ) 
 			? $sAuthorInfo 
 			: ' by ' . $sAuthorInfo;
 		$sFooterInfoLeft =  $sPluginInfo . $sAuthorInfo;
@@ -6175,12 +6175,12 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 		$sDescription = empty( $aScriptInfo['description'] ) 
 			? ""
 			: "&#13;{$aScriptInfo['description']}";
-		$sVersion = empty( $aScriptInfo['strVersion'] )
+		$sVersion = empty( $aScriptInfo['sVersion'] )
 			? ""
-			: "&nbsp;{$aScriptInfo['strVersion']}";		
-		$sLibraryInfo = empty( $aScriptInfo['strURI'] ) 
-			? $aScriptInfo['strName'] 
-			: "<a href='{$aScriptInfo['strURI']}' target='_blank' title='{$aScriptInfo['strName']}{$sVersion}{$sDescription}'>{$aScriptInfo['strName']}</a>";	
+			: "&nbsp;{$aScriptInfo['sVersion']}";		
+		$sLibraryInfo = empty( $aScriptInfo['sURI'] ) 
+			? $aScriptInfo['sName'] 
+			: "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";	
 	
 		$sFooterInfoRight = $this->oMsg->___( 'powered_by' ) . '&nbsp;' 
 			. $sLibraryInfo
@@ -6259,8 +6259,8 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	 * @remark			This is accessed from the AdminPageFramework_PostType class.
 	 */ 
 	public $aFooterInfo = array(
-		'strLeft' => '',
-		'strRight' => '',
+		'sLeft' => '',
+		'sRight' => '',
 	);
 	
 	public function __construct( $sPostTypeSlug, $sCallerPath=null, $oMsg=null ) {
@@ -6279,13 +6279,13 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-		$this->setFooterInfoLeft( $this->aScriptInfo, $this->aFooterInfo['strLeft'] );
-		$this->setFooterInfoRight( $this->aLibraryInfo, $this->aFooterInfo['strRight'] );
+		$this->setFooterInfoLeft( $this->aScriptInfo, $this->aFooterInfo['sLeft'] );
+		$this->setFooterInfoRight( $this->aLibraryInfo, $this->aFooterInfo['sRight'] );
 		
 		// For the plugin listing page
 		if ( $this->aScriptInfo['type'] == 'plugin' )
 			add_filter( 
-				'plugin_action_links_' . plugin_basename( $this->aScriptInfo['strPath'] ),
+				'plugin_action_links_' . plugin_basename( $this->aScriptInfo['sPath'] ),
 				array( $this, 'addSettingsLinkInPluginListingPage' ), 
 				20 	// set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
 			);	
@@ -6333,9 +6333,9 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		if ( ! isset( $_GET['post_type'] ) ||  $_GET['post_type'] != $this->sPostTypeSlug )
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 
-		if ( empty( $this->aScriptInfo['strName'] ) ) return $sLinkHTML;
+		if ( empty( $this->aScriptInfo['sName'] ) ) return $sLinkHTML;
 					
-		return $this->aFooterInfo['strLeft'];
+		return $this->aFooterInfo['sLeft'];
 		
 	}
 	public function addInfoInFooterRight( $sLinkHTML='' ) {
@@ -6343,7 +6343,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		if ( ! isset( $_GET['post_type'] ) ||  $_GET['post_type'] != $this->sPostTypeSlug )
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 			
-		return $this->aFooterInfo['strRight'];		
+		return $this->aFooterInfo['sRight'];		
 			
 	}
 }
@@ -6387,11 +6387,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-		$this->setFooterInfoLeft( $this->oProps->aScriptInfo, $this->oProps->aFooterInfo['strLeft'] );
-		$this->setFooterInfoRight( $this->oProps->aLibraryInfo, $this->oProps->aFooterInfo['strRight'] );
+		$this->setFooterInfoLeft( $this->oProps->aScriptInfo, $this->oProps->aFooterInfo['sLeft'] );
+		$this->setFooterInfoRight( $this->oProps->aLibraryInfo, $this->oProps->aFooterInfo['sRight'] );
 	
 		if ( $this->oProps->aScriptInfo['type'] == 'plugin' )
-			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['strPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
+			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['sPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}
 
@@ -6402,10 +6402,10 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	 * @since			2.1.4			Changed to be static since it is used from multiple classes.
 	 * @remark			The scope is public because this is accessed from an extended class.
 	 */ 
-	public static $aStructure_SubMenuLink = array(		
+	public static $_aStructure_SubMenuLink = array(		
 		'title' => null,
 		'href' => null,
-		'strCapability' => null,
+		'sCapability' => null,
 		'order' => null,
 		'type' => 'link',
 		'fShowPageHeadingTab' => true,
@@ -6413,11 +6413,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	);
 	// public function addSubMenuLinks() {
 		// foreach ( func_get_args() as $aSubMenuLink ) {
-			// $aSubMenuLink = $aSubMenuLink + self::$aStructure_SubMenuLink;	// avoid undefined index warnings.
+			// $aSubMenuLink = $aSubMenuLink + self::$_aStructure_SubMenuLink;	// avoid undefined index warnings.
 			// $this->addSubMenuLink(
 				// $aSubMenuLink['title'],
 				// $aSubMenuLink['href'],				
-				// $aSubMenuLink['strCapability'],
+				// $aSubMenuLink['sCapability'],
 				// $aSubMenuLink['order']			
 			// );				
 		// }
@@ -6430,7 +6430,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 			'title'		=> $sMenuTitle,	// used for the page heading tabs.
 			'href'			=> $sURL,
 			'type'			=> 'link',	// this is used to compare with the 'page' type.
-			'strCapability'		=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
+			'sCapability'		=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
 			'order'			=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'	=> $bShowPageHeadingTab,
 			'fShowInMenu'		=> $bShowInMenu,
@@ -6458,7 +6458,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		else
 			$this->oProps->aPluginTitleLinks = array_merge( $this->oProps->aPluginTitleLinks, $linkss );
 		
-		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['strPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['sPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
 
 	}
 	
@@ -6476,9 +6476,9 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		if ( ! isset( $_GET['page'] ) || ! $this->oProps->isPageAdded( $_GET['page'] )  ) 
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 		
-		if ( empty( $this->oProps->aScriptInfo['strName'] ) ) return $sLinkHTML;
+		if ( empty( $this->oProps->aScriptInfo['sName'] ) ) return $sLinkHTML;
 		
-		return $this->oProps->aFooterInfo['strLeft'];
+		return $this->oProps->aFooterInfo['sLeft'];
 
 	}
 	public function addInfoInFooterRight( $sLinkHTML='' ) {
@@ -6486,7 +6486,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		if ( ! isset( $_GET['page'] ) || ! $this->oProps->isPageAdded( $_GET['page'] )  ) 
 			return $sLinkHTML;	// $sLinkTHML is given by the hook.
 			
-		return $this->oProps->aFooterInfo['strRight'];
+		return $this->oProps->aFooterInfo['sRight'];
 			
 	}
 	
@@ -6507,7 +6507,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	
 	public function addLinkToPluginDescription_Callback( $aLinks, $sFile ) {
 
-		if ( $sFile != plugin_basename( $this->oProps->aScriptInfo['strPath'] ) ) return $aLinks;
+		if ( $sFile != plugin_basename( $this->oProps->aScriptInfo['sPath'] ) ) return $aLinks;
 		
 		// Backward compatibility sanitization.
 		$aAddingLinks = array();
@@ -6754,8 +6754,8 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 		// For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings.
 		'page_slug' => null,
 		'section_id' => null,
-		'strBeforeField' => null,
-		'strAfterField' => null,	
+		'sBeforeField' => null,
+		'sAfterField' => null,	
 	);	
 	
 	protected $oMsg;
@@ -6881,9 +6881,9 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -6966,9 +6966,9 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
@@ -7061,9 +7061,9 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 		
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
@@ -7153,9 +7153,9 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
@@ -7337,7 +7337,7 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 	 */ 
 	public function replyToGetInputScripts() {
 		return "
-			registerAPFColorPickerField = function( strInputID ) {
+			registerAPFColorPickerField = function( sInputID ) {
 				'use strict';
 				// This if statement checks if the color picker element exists within jQuery UI
 				// If it does exist then we initialize the WordPress color picker on our text input field
@@ -7349,11 +7349,11 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 						hide: true,	// hide the color picker controls on load
 						palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
 					};			
-					jQuery( '#' + strInputID ).wpColorPicker( myColorPickerOptions );
+					jQuery( '#' + sInputID ).wpColorPicker( myColorPickerOptions );
 				}
 				else {
 					// We use farbtastic if the WordPress color picker widget doesn't exist
-					jQuery( '#color_' + strInputID ).farbtastic( '#' + strInputID );
+					jQuery( '#color_' + sInputID ).farbtastic( '#' + sInputID );
 				}
 			}
 		";		
@@ -7367,9 +7367,9 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 	
 		$aFields = $aField['repeatable'] ? 
@@ -7448,8 +7448,8 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 			'size'									=> 60,
 			'vMaxLength'							=> 400,
 			'vImagePreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
-			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
+			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
+			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
 			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 		);	
 	}
@@ -7519,13 +7519,13 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		 */
 		protected function getScript_CustomMediaUploaderObject() {
 			
-			 $bLoaded = isset( $GLOBALS['arrAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] )
-				? $GLOBALS['arrAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] : false;
+			 $bLoaded = isset( $GLOBALS['aAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] )
+				? $GLOBALS['aAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] : false;
 			
 			if( ! function_exists( 'wp_enqueue_media' ) || $bLoaded )	// means the WordPress version is 3.4.x or below
 				return "";
 			
-			$GLOBALS['arrAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] = true;
+			$GLOBALS['aAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] = true;
 			
 			// Global function literal
 			return "
@@ -7752,24 +7752,24 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 						});
 						
 						window.original_send_to_editor = window.send_to_editor;
-						window.send_to_editor = function( strRawHTML ) {
+						window.send_to_editor = function( sRawHTML ) {
 
-							var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-							var src = jQuery( 'img', strHTML ).attr( 'src' );
-							var alt = jQuery( 'img', strHTML ).attr( 'alt' );
-							var title = jQuery( 'img', strHTML ).attr( 'title' );
-							var width = jQuery( 'img', strHTML ).attr( 'width' );
-							var height = jQuery( 'img', strHTML ).attr( 'height' );
-							var classes = jQuery( 'img', strHTML ).attr( 'class' );
+							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+							var src = jQuery( 'img', sHTML ).attr( 'src' );
+							var alt = jQuery( 'img', sHTML ).attr( 'alt' );
+							var title = jQuery( 'img', sHTML ).attr( 'title' );
+							var width = jQuery( 'img', sHTML ).attr( 'width' );
+							var height = jQuery( 'img', sHTML ).attr( 'height' );
+							var classes = jQuery( 'img', sHTML ).attr( 'class' );
 							var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
-							var strCaption = strRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+							var sCaption = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
 								.replace( /<a.*?>(.*?)<\/a>/m, '' );
-							var align = strRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
-							var link = jQuery( strHTML ).find( 'a:first' ).attr( 'href' );
+							var align = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' );	//\'\" syntax fixer
+							var link = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
 
 							// Escape the strings of some of the attributes.
-							var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
-							var strAlt = jQuery( '<div/>' ).text( alt ).html();
+							var sCaption = jQuery( '<div/>' ).text( sCaption ).html();
+							var sAlt = jQuery( '<div/>' ).text( alt ).html();
 							var title = jQuery( '<div/>' ).text( title ).html();						
 							
 							// If the user wants to save relevant attributes, set them.
@@ -7777,8 +7777,8 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 							jQuery( '#' + field_id + '_id' ).val( id );
 							jQuery( '#' + field_id + '_width' ).val( width );
 							jQuery( '#' + field_id + '_height' ).val( height );
-							jQuery( '#' + field_id + '_caption' ).val( strCaption );
-							jQuery( '#' + field_id + '_alt' ).val( strAlt );
+							jQuery( '#' + field_id + '_caption' ).val( sCaption );
+							jQuery( '#' + field_id + '_alt' ).val( sAlt );
 							jQuery( '#' + field_id + '_title' ).val( title );						
 							jQuery( '#' + field_id + '_align' ).val( align );						
 							jQuery( '#' + field_id + '_link' ).val( link );						
@@ -7805,10 +7805,10 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 			return "jQuery( document ).ready( function(){
 
 				// Global Function Literal 
-				setAPFImageUploader = function( strInputID, fMultiple, fExternalSource ) {
+				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-					jQuery( '#select_image_' + strInputID ).unbind( 'click' );	// for repeatable fields
-					jQuery( '#select_image_' + strInputID ).click( function( e ) {
+					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
+					jQuery( '#select_image_' + sInputID ).click( function( e ) {
 						
 						window.wpActiveEditor = null;						
 						e.preventDefault();
@@ -7844,7 +7844,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( strInputID, image );
+								setPreviewElement( sInputID, image );
 							} else {
 								
 								var selection = custom_uploader.state().get( 'selection' );
@@ -7852,13 +7852,13 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( strInputID, attachment );
+										setPreviewElement( sInputID, attachment );
 									} else{
 										
-										var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
+										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
-										var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( strInputIDOfNewField, attachment );
+										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
+										setPreviewElement( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -7875,33 +7875,33 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 						return false;       
 					});	
 				
-					var setPreviewElement = function( strInputID, image ) {
+					var setPreviewElement = function( sInputID, image ) {
 
 						// Escape the strings of some of the attributes.
-						var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
-						var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
+						var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
+						var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
 						var title = jQuery( '<div/>' ).text( image.title ).html();
 						
 						// If the user want the attributes to be saved, set them in the input tags.
-						jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
-						jQuery( 'input#' + strInputID + '_id' ).val( image.id );
-						jQuery( 'input#' + strInputID + '_width' ).val( image.width );
-						jQuery( 'input#' + strInputID + '_height' ).val( image.height );
-						jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
-						jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
-						jQuery( 'input#' + strInputID + '_title' ).val( title );
-						jQuery( 'input#' + strInputID + '_align' ).val( image.align );
-						jQuery( 'input#' + strInputID + '_link' ).val( image.link );
+						jQuery( 'input#' + sInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
+						jQuery( 'input#' + sInputID + '_id' ).val( image.id );
+						jQuery( 'input#' + sInputID + '_width' ).val( image.width );
+						jQuery( 'input#' + sInputID + '_height' ).val( image.height );
+						jQuery( 'input#' + sInputID + '_caption' ).val( sCaption );
+						jQuery( 'input#' + sInputID + '_alt' ).val( sAlt );
+						jQuery( 'input#' + sInputID + '_title' ).val( title );
+						jQuery( 'input#' + sInputID + '_align' ).val( image.align );
+						jQuery( 'input#' + sInputID + '_link' ).val( image.link );
 						
 						// Update up the preview
-						jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
-						jQuery( '#image_preview_' + strInputID ).attr( 'data-width', image.width );
-						jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
-						jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
-						jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
-						jQuery( '#image_preview_' + strInputID ).attr( 'title', title );
-						jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
-						jQuery( '#image_preview_container_' + strInputID ).show();				
+						jQuery( '#image_preview_' + sInputID ).attr( 'data-id', image.id );
+						jQuery( '#image_preview_' + sInputID ).attr( 'data-width', image.width );
+						jQuery( '#image_preview_' + sInputID ).attr( 'data-height', image.height );
+						jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', sCaption );
+						jQuery( '#image_preview_' + sInputID ).attr( 'alt', sAlt );
+						jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
+						jQuery( '#image_preview_' + sInputID ).attr( 'src', image.url );
+						jQuery( '#image_preview_container_' + sInputID ).show();				
 						
 					}
 				}		
@@ -7971,9 +7971,9 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -8130,8 +8130,8 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 			'attributes_to_capture'					=> array(),
 			'size'									=> 60,
 			'vMaxLength'							=> 400,
-			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
+			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
+			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
 			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 		);	
 	}
@@ -8174,11 +8174,11 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 						});
 						
 						window.original_send_to_editor = window.send_to_editor;
-						window.send_to_editor = function( strRawHTML, param ) {
+						window.send_to_editor = function( sRawHTML, param ) {
 
-							var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-							var src = jQuery( 'a', strHTML ).attr( 'href' );
-							var classes = jQuery( 'a', strHTML ).attr( 'class' );
+							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+							var src = jQuery( 'a', sHTML ).attr( 'href' );
+							var classes = jQuery( 'a', sHTML ).attr( 'class' );
 							var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
 						
 							// If the user wants to save relavant attributes, set them.
@@ -8198,10 +8198,10 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 			return "
 			jQuery( document ).ready( function(){		
 				// Global Function Literal 
-				setAPFMediaUploader = function( strInputID, fMultiple, fExternalSource ) {
+				setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-					jQuery( '#select_media_' + strInputID ).unbind( 'click' );	// for repeatable fields
-					jQuery( '#select_media_' + strInputID ).click( function( e ) {
+					jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
+					jQuery( '#select_media_' + sInputID ).click( function( e ) {
 						
 						window.wpActiveEditor = null;						
 						e.preventDefault();
@@ -8236,7 +8236,7 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( strInputID, image );
+								setPreviewElement( sInputID, image );
 							} else {
 								
 								var selection = media_uploader.state().get( 'selection' );
@@ -8244,13 +8244,13 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( strInputID, attachment );
+										setPreviewElement( sInputID, attachment );
 									} else{
 										
-										var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
+										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
-										var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( strInputIDOfNewField, attachment );
+										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
+										setPreviewElement( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -8267,13 +8267,13 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 						return false;       
 					});	
 				
-					var setPreviewElement = function( strInputID, image ) {
+					var setPreviewElement = function( sInputID, image ) {
 									
 						// If the user want the attributes to be saved, set them in the input tags.
-						jQuery( '#' + strInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
-						jQuery( '#' + strInputID + '_id' ).val( image.id );				
-						jQuery( '#' + strInputID + '_caption' ).val( jQuery( '<div/>' ).text( image.caption ).html() );				
-						jQuery( '#' + strInputID + '_description' ).val( jQuery( '<div/>' ).text( image.description ).html() );				
+						jQuery( '#' + sInputID ).val( image.url );		// the url field is mandatory so  it does not have the suffix.
+						jQuery( '#' + sInputID + '_id' ).val( image.id );				
+						jQuery( '#' + sInputID + '_caption' ).val( jQuery( '<div/>' ).text( image.caption ).html() );				
+						jQuery( '#' + sInputID + '_description' ).val( jQuery( '<div/>' ).text( image.description ).html() );				
 						
 					}
 				}		
@@ -8303,9 +8303,9 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -8479,9 +8479,9 @@ class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputF
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -8606,9 +8606,9 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -8719,9 +8719,9 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -8845,9 +8845,9 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 				
 		$bSingle = ! is_array( $aField['label'] );
@@ -8990,9 +8990,9 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -9083,9 +9083,9 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -9143,7 +9143,7 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'arrRemove'					=> array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
+			'aRemove'					=> array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
 		);	
 	}
 
@@ -9180,16 +9180,16 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
 			// : $aField['label'];		
 						
-		foreach( ( array ) $this->getPostTypeArrayForChecklist( $aField['arrRemove'] ) as $sKey => $sValue ) {
+		foreach( ( array ) $this->getPostTypeArrayForChecklist( $aField['aRemove'] ) as $sKey => $sValue ) {
 			$sName = "{$sFieldName}[{$sKey}]";
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
@@ -9265,7 +9265,7 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 		return array(
 			'taxonomy_slugs'					=> 'category',			// ( string ) This is for the taxonomy field type.
 			'height'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
-			'strWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
+			'sWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
 		);	
 	}
 
@@ -9413,9 +9413,9 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -9445,7 +9445,7 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 							'hide_empty' => 0,	
 							'echo'	=> false,	// returns the output
 							'taxonomy' => $sTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
-							'strTagID' => $sTagID,
+							'sTagID' => $sTagID,
 						) )					
 					. "</ul>"			
 					. "<!--[if IE]><b>.</b><![endif]-->"
@@ -9460,7 +9460,7 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 			. "</div>";
 			
 		$sOutput = 
-			"<div id='{$sTagID}' class='{$sFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['strWidth']};'>"
+			"<div id='{$sTagID}' class='{$sFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['sWidth']};'>"
 				. $sTabs . PHP_EOL
 				. $sContents . PHP_EOL
 			. "</div>";
@@ -9561,9 +9561,9 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -9698,8 +9698,8 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 	 */ 
 	protected function getInputFieldNameFlat( $aField ) {	
 	
-		return isset( $aField['strOptionKey'] ) // the meta box class does not use the option key
-			? "{$aField['strOptionKey']}|{$aField['page_slug']}|{$aField['section_id']}|{$aField['field_id']}"
+		return isset( $aField['sOptionKey'] ) // the meta box class does not use the option key
+			? "{$aField['sOptionKey']}|{$aField['page_slug']}|{$aField['section_id']}|{$aField['field_id']}"
 			: $aField['field_id'];
 		
 	}			
@@ -9778,9 +9778,9 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -9791,7 +9791,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 		
 		// If vValue is not an array and the export data set, set the transient. ( it means single )
 		if ( isset( $aField['export_data'] ) && ! is_array( $vValue ) )
-			set_transient( md5( "{$aField['strClassName']}_{$aField['field_id']}" ), $aField['export_data'], 60*2 );	// 2 minutes.
+			set_transient( md5( "{$aField['sClassName']}_{$aField['field_id']}" ), $aField['export_data'], 60*2 );	// 2 minutes.
 		
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
 			
@@ -9800,7 +9800,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
 			$bIsDataSet = false;
 			if ( isset( $vValue[ $sKey ] ) && isset( $aField['export_data'][ $sKey ] ) ) {
-				set_transient( md5( "{$aField['strClassName']}_{$aField['field_id']}_{$sKey}" ), $aField['export_data'][ $sKey ], 60*2 );	// 2 minutes.
+				set_transient( md5( "{$aField['sClassName']}_{$aField['field_id']}_{$sKey}" ), $aField['export_data'][ $sKey ], 60*2 );	// 2 minutes.
 				$bIsDataSet = true;
 			}
 			
@@ -9817,7 +9817,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 					. "/>"					
 					. "<input type='hidden' "
 						. "name='__export[{$aField['field_id']}][file_name]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['export_file_name'], $sKey, $this->generateExportFileName( $aField['strOptionKey'], $sExportFormat ) )
+						. "value='" . $this->getCorrespondingArrayValue( $aField['export_file_name'], $sKey, $this->generateExportFileName( $aField['sOptionKey'], $sExportFormat ) )
 					. "' />"
 					. "<input type='hidden' "
 						. "name='__export[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
@@ -9934,9 +9934,9 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -9962,7 +9962,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 					. "/>"							
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][import_option_key]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportOptionKey'], $sKey, $aField['strOptionKey'] )
+						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportOptionKey'], $sKey, $aField['sOptionKey'] )
 					. "' />"
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
@@ -10073,7 +10073,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 */
 	private $bIsMetaBox = false;
 		
-	protected static $aStructure_FieldDefinition = array(
+	protected static $_aStructure_FieldDefinition = array(
 		'hfRenderField' => null,
 		'hfGetScripts' => null,
 		'hfGetStyles' => null,
@@ -10086,7 +10086,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldDefinition, &$oMsg ) {
 			
-		$this->aField = $aField + $aFieldDefinition['aDefaultKeys'] + self::$aStructure_FieldDefinition;	// better not to merge recursively because some elements are array by default, not as multiple elements.
+		$this->aField = $aField + $aFieldDefinition['aDefaultKeys'] + self::$_aStructure_FieldDefinition;	// better not to merge recursively because some elements are array by default, not as multiple elements.
 		$this->aFieldDefinition = $aFieldDefinition;
 		$this->aOptions = $aOptions;
 		$this->aErrors = $aErrors ? $aErrors : array();
@@ -10097,8 +10097,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$this->vValue = $this->getInputFieldValue( $aField, $aOptions );
 		
 		// Global variable
-		$GLOBALS['arrAdminPageFramework']['arrFieldFlags'] = isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'] )
-			? $GLOBALS['arrAdminPageFramework']['arrFieldFlags'] 
+		$GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
+			? $GLOBALS['aAdminPageFramework']['aFieldFlags'] 
 			: array();
 		
 	}	
@@ -10108,10 +10108,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		$aField = isset( $aField ) ? $aField : $this->aField;
 		
 		// If the name key is explicitly set, use it
-		if ( ! empty( $aField['strName'] ) ) return $aField['strName'];
+		if ( ! empty( $aField['sName'] ) ) return $aField['sName'];
 		
-		return isset( $aField['strOptionKey'] ) // the meta box class does not use the option key
-			? "{$aField['strOptionKey']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
+		return isset( $aField['sOptionKey'] ) // the meta box class does not use the option key
+			? "{$aField['sOptionKey']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
 			: $aField['field_id'];
 		
 	}
@@ -10186,7 +10186,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			
 		// For meta box form fields,
 		if ( isset( $aField['field_id'] ) ) return $aField['field_id'];
-		if ( isset( $aField['strName'] ) ) return $aField['strName'];	// the name key is for the input name attribute but it's better than nothing.
+		if ( isset( $aField['sName'] ) ) return $aField['sName'];	// the name key is for the input name attribute but it's better than nothing.
 		
 		// Not Found - it's not a big deal to have an empty value for this. It's just for the anchor link.
 		return '';
@@ -10203,7 +10203,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 		// Prepend the field error message.
 		$sOutput = isset( $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] )
-			? "<span style='color:red;'>*&nbsp;{$this->aField['strError']}" . $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] . "</span><br />"
+			? "<span style='color:red;'>*&nbsp;{$this->aField['sError']}" . $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 		
 		// Prepeare the field class selector 
@@ -10212,9 +10212,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 			: "admin-page-framework-field";
 			
 		// Add new elements
-		$this->aField['strFieldName'] = $this->sFieldName;
-		$this->aField['strTagID'] = $this->sTagID;
-		$this->aField['strFieldClassSelector'] = $this->sFieldClassSelector;
+		$this->aField['sFieldName'] = $this->sFieldName;
+		$this->aField['sTagID'] = $this->sTagID;
+		$this->aField['sFieldClassSelector'] = $this->sFieldClassSelector;
 
 		// Get the field output.
 		$sOutput .= call_user_func_array( 
@@ -10235,9 +10235,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		return $this->getRepeaterScriptGlobal( $this->sTagID )
 			. "<fieldset>"
 				. "<div class='admin-page-framework-fields'>"
-					. $this->aField['strBeforeField'] 
+					. $this->aField['sBeforeField'] 
 					. $sOutput
-					. $this->aField['strAfterField']
+					. $this->aField['sAfterField']
 				. "</div>"
 			. "</fieldset>";
 		
@@ -10351,11 +10351,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 								var nodeNewColorInput = nodeColorInput.clone();	// re-clone without bind events.
 								
 								// For WP 3.4.x or below
-								var strInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent';
-								var strInputStyle = strInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
+								var sInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent';
+								var sInputStyle = sInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
 								
-								nodeNewColorInput.val( strInputValue );	// set the default value	
-								nodeNewColorInput.attr( 'style', strInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
+								nodeNewColorInput.val( sInputValue );	// set the default value	
+								nodeNewColorInput.attr( 'style', sInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
 								
 								var nodeFarbtastic = element.find( '.colorpicker' );
 								var nodeNewFarbtastic = nodeFarbtastic.clone();	// re-clone without bind elements.
@@ -10429,10 +10429,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 				}
 				
 				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
-				addAPFRepeatableField = function( strFieldContainerID ) {	
+				addAPFRepeatableField = function( sFieldContainerID ) {	
 
-					var field_container = jQuery( '#' + strFieldContainerID );
-					var field_delimiter_id = strFieldContainerID.replace( 'field-', 'delimiter-' );
+					var field_container = jQuery( '#' + sFieldContainerID );
+					var field_delimiter_id = sFieldContainerID.replace( 'field-', 'delimiter-' );
 					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
 					
 					var field_new = field_container.clone( true );
@@ -10459,10 +10459,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					
 				}
 				
-				updateAPFRepeatableFields = function( strID ) {
+				updateAPFRepeatableFields = function( sID ) {
 				
 					// Add button behaviour
-					jQuery( '#' + strID + ' .repeatable-field-add' ).click( function() {
+					jQuery( '#' + sID + ' .repeatable-field-add' ).click( function() {
 						
 						var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
 						addAPFRepeatableField( field_container.attr( 'id' ) );
@@ -10471,7 +10471,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					});		
 					
 					// Remove button behaviour
-					jQuery( '#' + strID + ' .repeatable-field-remove' ).click( function() {
+					jQuery( '#' + sID + ' .repeatable-field-remove' ).click( function() {
 						
 						// Need to remove two elements: the field container and the delimiter element.
 						var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
@@ -10488,9 +10488,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 						field_delimiter.remove();
 						field_container.remove();
 						
-						var fieldsCount = jQuery( '#' + strID + ' .repeatable-field-remove' ).length;
+						var fieldsCount = jQuery( '#' + sID + ' .repeatable-field-remove' ).length;
 						if ( fieldsCount == 1 ) {
-							jQuery( '#' + strID + ' .repeatable-field-remove' ).css( 'display', 'none' );
+							jQuery( '#' + sID + ' .repeatable-field-remove' ).css( 'display', 'none' );
 						}
 						return false;
 					});
@@ -10512,7 +10512,7 @@ if ( ! class_exists( 'AdminPageFramework_WalkerTaxonomyChecklist' ) ) :
  * @see				Walker : wp-includes/class-wp-walker.php
  * @see				Walker_Category : wp-includes/category-template.php
  * @since			2.0.0
- * @since			2.1.5			Added the strTagID key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
+ * @since			2.1.5			Added the sTagID key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
  * @extends			Walker_Category
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
@@ -10552,7 +10552,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 			'name' 		=> null,
 			'disabled'	=> null,
 			'selected'	=> array(),
-			'strTagID'	=> null,
+			'sTagID'	=> null,
 		);
 		
 		$iID = $oCategory->term_id;
@@ -10560,7 +10560,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		$sChecked = in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '';
 		$sDisabled = $aArgs['disabled'] ? 'disabled="Disabled"' : '';
 		$sClass = 'category-list';
-		$sID = "{$aArgs['strTagID']}_{$sTaxonomy}_{$iID}";
+		$sID = "{$aArgs['sTagID']}_{$sTaxonomy}_{$iID}";
 		$sOutput .= "\n"
 			. "<li id='list-{$sID}' $sClass>" 
 				. "<label for='{$sID}' class='taxonomy-checklist-label'>"
@@ -10866,8 +10866,8 @@ abstract class AdminPageFramework_PostType {
 	 */	
 	protected function setFooterInfoLeft( $sHTML, $bAppend=true ) {
 		if ( isset( $this->oLink ) )	// check if the object is set to ensure it won't trigger a warning message in non-admin pages.
-			$this->oLink->aFooterInfo['strLeft'] = $bAppend 
-				? $this->oLink->aFooterInfo['strLeft'] . $sHTML
+			$this->oLink->aFooterInfo['sLeft'] = $bAppend 
+				? $this->oLink->aFooterInfo['sLeft'] . $sHTML
 				: $sHTML;
 	}
 	
@@ -10884,8 +10884,8 @@ abstract class AdminPageFramework_PostType {
 	 */		
 	protected function setFooterInfoRight( $sHTML, $bAppend=true ) {
 		if ( isset( $this->oLink ) )	// check if the object is set to ensure it won't trigger a warning message in non-admin pages.	
-			$this->oLink->aFooterInfo['strRight'] = $bAppend 
-				? $this->oLink->aFooterInfo['strRight'] . $sHTML
+			$this->oLink->aFooterInfo['sRight'] = $bAppend 
+				? $this->oLink->aFooterInfo['sRight'] . $sHTML
 				: $sHTML;
 	}
 
@@ -11278,7 +11278,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 
 		if ( ! is_array( $aField ) ) return;
 		
-		$aField = $aField + AdminPageFramework_MetaBox_Properties::$aStructure_Field;	// avoid undefined index warnings.
+		$aField = $aField + AdminPageFramework_MetaBox_Properties::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
@@ -11331,8 +11331,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			$sFieldType = $aField['type'];
 			
 			// Set the global flag to indicate whether the elements are already added and enqueued.
-			if ( isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) && $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) return;
-			$GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] = true;
+			if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) return;
+			$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
 
 			// If the field type is not defined, return.
 			if ( ! isset( $this->oProps->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
@@ -11431,15 +11431,15 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		foreach ( ( array ) $vArgs['args'] as $aField ) {
 			
 			// Avoid undefined index warnings
-			$aField = $aField + AdminPageFramework_MetaBox_Properties::$aStructure_Field;
+			$aField = $aField + AdminPageFramework_MetaBox_Properties::$_aStructure_Field;
 			
 			// get value of this field if it exists for this post
 			$sStoredValue = get_post_meta( $oPost->ID, $aField['field_id'], true );
 			$aField['vValue'] = $sStoredValue ? $sStoredValue : $aField['vValue'];
 			
 			// Check capability. If the access level is not sufficient, skip.
-			$aField['strCapability'] = isset( $aField['strCapability'] ) ? $aField['strCapability'] : $this->oProps->sCapability;
-			if ( ! current_user_can( $aField['strCapability'] ) ) continue; 			
+			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProps->sCapability;
+			if ( ! current_user_can( $aField['sCapability'] ) ) continue; 			
 			
 			// Begin a table row. 
 			
@@ -11451,7 +11451,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				continue;
 			}
 			$sOut .= "<tr>";
-			if ( ! $aField['inpage_tab_visibilityTitleColumn'] )
+			if ( ! $aField['show_inpage_tabTitleColumn'] )
 				$sOut .= "<th><label for='{$aField['field_id']}'>"
 						. "<a id='{$aField['field_id']}'></a>"
 						. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
@@ -11475,7 +11475,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		foreach( $aFields as $iIndex => $aField ) {
 			
 			// Avoid undefined index warnings
-			$aField = $aField + AdminPageFramework_MetaBox_Properties::$aStructure_Field;
+			$aField = $aField + AdminPageFramework_MetaBox_Properties::$_aStructure_Field;
 
 			$this->oProps->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 			
@@ -11484,7 +11484,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	private function getFieldOutput( $aField ) {
 
 		// Set the input field name which becomes the option key of the custom meta field of the post.
-		$aField['strName'] = isset( $aField['strName'] ) ? $aField['strName'] : $aField['field_id'];
+		$aField['sName'] = isset( $aField['sName'] ) ? $aField['sName'] : $aField['field_id'];
 
 		// Render the form field. 		
 		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )

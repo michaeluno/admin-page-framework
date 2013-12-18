@@ -78,9 +78,9 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 

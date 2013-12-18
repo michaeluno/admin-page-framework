@@ -50,7 +50,7 @@ class APF_Demo extends AdminPageFramework {
 			  	'title' => 'Your Page Title',
 				'page_slug' => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
 				'screen_icon' => 'edit',
-				'strCapability' => 'manage-options',
+				'sCapability' => 'manage-options',
 				'order' => 10,
 				
 			  for sub-menu links, e.g.
@@ -197,7 +197,7 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=> 'apf_manage_options',
 				'tab_slug'	=> 'delete_options_confirm',
 				'title'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
-				'inpage_tab_visibility'			=> true,
+				'show_inpage_tab'			=> true,
 				'parent_tab_slug' => 'delete_options',
 				'order'		=> 97,
 			)

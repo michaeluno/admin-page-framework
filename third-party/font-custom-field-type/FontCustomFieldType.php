@@ -30,8 +30,8 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			'size'									=> 60,
 			'vMaxLength'							=> 400,
 			'vFontPreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
-			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
+			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
+			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
 			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 			'vPreviewText'							=> 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
 		);	
@@ -96,10 +96,10 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 							
 							// This needs to be done every time the button gets clicked. Otherwise, it will not work from the second time.
 							window.original_send_to_editor = window.send_to_editor;
-							window.send_to_editor = function( strRawHTML ) {
+							window.send_to_editor = function( sRawHTML ) {
 
-								var strHTML = '<div>' + strRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
-								var src = jQuery( 'a', strHTML ).attr( 'href' );
+								var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
+								var src = jQuery( 'a', sHTML ).attr( 'href' );
 
 								// If the user wants to save relevant attributes, set them.
 								jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
@@ -128,10 +128,10 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			return "jQuery( document ).ready( function(){
 
 				// Global Function Literal 
-				setAPFImageUploader = function( strInputID, fMultiple, fExternalSource ) {
+				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-					jQuery( '#select_image_' + strInputID ).unbind( 'click' );	// for repeatable fields
-					jQuery( '#select_image_' + strInputID ).click( function( e ) {
+					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
+					jQuery( '#select_image_' + sInputID ).click( function( e ) {
 						
 						window.wpActiveEditor = null;						
 						e.preventDefault();
@@ -170,7 +170,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( strInputID, image );
+								setPreviewElement( sInputID, image );
 							} else {
 								
 								var selection = custom_uploader.state().get( 'selection' );
@@ -178,13 +178,13 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( strInputID, attachment );
+										setPreviewElement( sInputID, attachment );
 									} else{
 										
-										var field_container = jQuery( '#' + strInputID ).closest( '.admin-page-framework-field' );
+										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
-										var strInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( strInputIDOfNewField, attachment );
+										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
+										setPreviewElement( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -201,36 +201,36 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						return false;       
 					});	
 				
-					var setPreviewElement = function( strInputID, image ) {
+					var setPreviewElement = function( sInputID, image ) {
 
 						// Escape the strings of some of the attributes.
-						// var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
-						// var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
+						// var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
+						// var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
 						// var title = jQuery( '<div/>' ).text( image.title ).html();
 						
 						// If the user want the attributes to be saved, set them in the input tags.
-						jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
-						// jQuery( 'input#' + strInputID + '_id' ).val( image.id );
-						// jQuery( 'input#' + strInputID + '_width' ).val( image.width );
-						// jQuery( 'input#' + strInputID + '_height' ).val( image.height );
-						// jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
-						// jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
-						// jQuery( 'input#' + strInputID + '_title' ).val( title );
-						// jQuery( 'input#' + strInputID + '_align' ).val( image.align );
-						// jQuery( 'input#' + strInputID + '_link' ).val( image.link );
+						jQuery( 'input#' + sInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
+						// jQuery( 'input#' + sInputID + '_id' ).val( image.id );
+						// jQuery( 'input#' + sInputID + '_width' ).val( image.width );
+						// jQuery( 'input#' + sInputID + '_height' ).val( image.height );
+						// jQuery( 'input#' + sInputID + '_caption' ).val( sCaption );
+						// jQuery( 'input#' + sInputID + '_alt' ).val( sAlt );
+						// jQuery( 'input#' + sInputID + '_title' ).val( title );
+						// jQuery( 'input#' + sInputID + '_align' ).val( image.align );
+						// jQuery( 'input#' + sInputID + '_link' ).val( image.link );
 						
 						// Update up the preview
-						// jQuery( '#image_preview_' + strInputID ).attr( 'data-id', image.id );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'data-width', image.width );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'title', title );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
-						// jQuery( '#image_preview_container_' + strInputID ).show();				
+						// jQuery( '#image_preview_' + sInputID ).attr( 'data-id', image.id );
+						// jQuery( '#image_preview_' + sInputID ).attr( 'data-width', image.width );
+						// jQuery( '#image_preview_' + sInputID ).attr( 'data-height', image.height );
+						// jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', sCaption );
+						// jQuery( '#image_preview_' + sInputID ).attr( 'alt', sAlt );
+						// jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
+						// jQuery( '#image_preview_' + sInputID ).attr( 'src', image.url );
+						// jQuery( '#image_preview_container_' + sInputID ).show();				
 					
 						// Change the font-face
-						setFontPreview( image.url, strInputID );
+						setFontPreview( image.url, sInputID );
 					
 					}
 					
@@ -271,9 +271,9 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['strFieldName'];
-		$sTagID = $aField['strTagID'];
-		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$sFieldName = $aField['sFieldName'];
+		$sTagID = $aField['sTagID'];
+		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -465,8 +465,8 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					jQuery( '#font_preview_style_' + '{$sInputID}' ).remove();
 					
 					// Set the new url for the preview 
-					var strCSS = '@font-face { font-family: \"{$sInputID}\"; src: url( ' + '{$sFontURL}' + ' ) format( \"{$sFormat}\" ) }';
-					jQuery( 'head' ).append( '<style id=\"font_preview_style_' + '{$sInputID}' + '\" type=\"text/css\">' +  strCSS + '</style>' );
+					var sCSS = '@font-face { font-family: \"{$sInputID}\"; src: url( ' + '{$sFontURL}' + ' ) format( \"{$sFormat}\" ) }';
+					jQuery( 'head' ).append( '<style id=\"font_preview_style_' + '{$sInputID}' + '\" type=\"text/css\">' +  sCSS + '</style>' );
 					
 				</script>";		
 			
