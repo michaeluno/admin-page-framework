@@ -4173,7 +4173,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		// Objects
 		$this->oProps = new AdminPageFramework_Properties( $this, $sClassName, $sOptionKey, $sCapability );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $sTextDomain );
-		$this->oPageLoadStats = AdminPageFramework_PageLoadStats_Page::instantiate( $this->oProps, $this->oMsg );
+		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProps, $this->oMsg );
 		$this->oUtil = new AdminPageFramework_Utilities;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $sCallerPath, $this->oMsg );
@@ -4718,7 +4718,7 @@ class AdminPageFramework_Messages {
 	 * 
 	 * 
 	 */
-	private static $oInstance;
+	private static $_oInstance;
 	
 	/**
 	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
@@ -4728,9 +4728,9 @@ class AdminPageFramework_Messages {
 	 */
 	public static function instantiate( $sTextDomain='admin-page-framework' ) {
 		
-		if ( ! isset( self::$oInstance ) && ! ( self::$oInstance instanceof AdminPageFramework_Messages ) ) 
-			self::$oInstance = new AdminPageFramework_Messages( $sTextDomain );
-		return self::$oInstance;
+		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_Messages ) ) 
+			self::$_oInstance = new AdminPageFramework_Messages( $sTextDomain );
+		return self::$_oInstance;
 		
 	}	
 	
@@ -4776,7 +4776,7 @@ class AdminPageFramework_Messages {
 			// AdminPageFramework_Link
 			'settings'		=> __( 'Settings', 'admin-page-framework' ),
 			
-			// AdminPageFramework_LinkForPostType
+			// AdminPageFramework_Link_PostType
 			'manage'		=> __( 'Manage', 'admin-page-framework' ),
 			
 			// AdminPageFramework_InputFieldTypeDefinition_Base
@@ -4785,7 +4785,7 @@ class AdminPageFramework_Messages {
 			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),
 			'select_file'			=> __( 'Select File', 'admin-page-framework' ),
 			
-			// AdminPageFramework_PageLoadStats_Base
+			// AdminPageFramework_PageLoadInfo_Base
 			'queries_in_seconds'	=> __( '%s queries in %s seconds.', 'admin-page-framework' ),
 			'out_of_x_memory_used'	=> __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' ),
 			'peak_memory_usage'		=> __( 'Peak memory usage %s MB.', 'admin-page-framework' ),
@@ -6190,7 +6190,59 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
+/**
+ * Provides debugging methods.
+ *
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
+class AdminPageFramework_Debug {
+		
+	public function dumpArray( $arr, $sFilePath=null ) {
+				
+		echo $this->getArray( $arr, $sFilePath );
+		
+	}
+	
+	/**
+	 * 
+	 * @since			2.1.6			The $bEncloseInTag parameter is added.
+	 */
+	public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
+			
+		if ( $sFilePath ) 
+			self::logArray( $arr, $sFilePath );			
+			
+		// esc_html() has a bug that breaks with complex HTML code.
+		$sResult = htmlspecialchars( print_r( $arr, true ) );
+		return $bEncloseInTag
+			? "<pre class='dump-array'>" . $sResult . "</pre>"
+			: $sResult;
+		
+	}	
+	
+	/**
+	 * Logs given array output into the given file.
+	 * 
+	 * @since			2.1.1
+	 */
+	static public function logArray( $arr, $sFilePath=null ) {
+		
+		file_put_contents( 
+			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
+			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . PHP_EOL
+			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
+			, FILE_APPEND 
+		);					
+							
+	}	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Link_PostType' ) ) :
 /**
  * Provides methods for HTML link elements for custom post types.
  *
@@ -6199,7 +6251,7 @@ if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-class AdminPageFramework_LinkForPostType extends AdminPageFramework_Link_Base {
+class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	
 	/**
 	 * Stores the information to embed into the page footer.
@@ -6484,7 +6536,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_Base' ) ) :
 /**
  * Collects data of page loads in admin pages.
  *
@@ -6493,7 +6545,7 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Base' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-abstract class AdminPageFramework_PageLoadStats_Base {
+abstract class AdminPageFramework_PageLoadInfo_Base {
 	
 	function __construct( $oProps, $oMsg ) {
 		
@@ -6518,7 +6570,7 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 	 *
 	 * @access			public
 	 */
-	public function replyToGetPageLoadStats( $sFooterHTML ) {
+	public function replyToGetPageLoadInfo( $sFooterHTML ) {
 		
 		// Get values we're displaying
 		$nSeconds 				= timer_stop(0);
@@ -6589,7 +6641,7 @@ abstract class AdminPageFramework_PageLoadStats_Base {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Page' ) ) :
+if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_Page' ) ) :
 /**
  * Collects data of page loads of the added pages.
  *
@@ -6598,9 +6650,9 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadStats_Page' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadStats_Base {
+class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadInfo_Base {
 	
-	private static $oInstance;
+	private static $_oInstance;
 	
 	/**
 	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
@@ -6609,9 +6661,9 @@ class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadS
 	 */
 	public static function instantiate( $oProps, $oMsg ) {
 		
-		if ( ! isset( self::$oInstance ) && ! ( self::$oInstance instanceof AdminPageFramework_PageLoadStats_Page ) ) 
-			self::$oInstance = new AdminPageFramework_PageLoadStats_Page( $oProps, $oMsg );
-		return self::$oInstance;
+		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_PageLoadInfo_Page ) ) 
+			self::$_oInstance = new AdminPageFramework_PageLoadInfo_Page( $oProps, $oMsg );
+		return self::$_oInstance;
 		
 	}		
 	
@@ -6623,14 +6675,14 @@ class AdminPageFramework_PageLoadStats_Page extends AdminPageFramework_PageLoadS
 		// For added pages
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		if ( $this->oProps->isPageAdded( $sCurrentPageSlug ) ) 
-			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadStats' ), 999 );
+			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadInfo' ), 999 );
 	
 	}		
 	
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_PageLoadStats_PostType' ) ) :
+if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_PostType' ) ) :
 /**
  * Collects data of page loads of the added post type pages.
  *
@@ -6639,9 +6691,9 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadStats_PostType' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-class AdminPageFramework_PageLoadStats_PostType extends AdminPageFramework_PageLoadStats_Base {
+class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLoadInfo_Base {
 	
-	private static $oInstance;
+	private static $_oInstance;
 	
 	/**
 	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
@@ -6650,9 +6702,9 @@ class AdminPageFramework_PageLoadStats_PostType extends AdminPageFramework_PageL
 	 */
 	public static function instantiate( $oProps, $oMsg ) {
 		
-		if ( ! isset( self::$oInstance ) && ! ( self::$oInstance instanceof AdminPageFramework_PageLoadStats_PostType ) ) 
-			self::$oInstance = new AdminPageFramework_PageLoadStats_PostType( $oProps, $oMsg );
-		return self::$oInstance;
+		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_PageLoadInfo_PostType ) ) 
+			self::$_oInstance = new AdminPageFramework_PageLoadInfo_PostType( $oProps, $oMsg );
+		return self::$_oInstance;
 		
 	}	
 
@@ -6666,62 +6718,10 @@ class AdminPageFramework_PageLoadStats_PostType extends AdminPageFramework_PageL
 	
 		// For post type pages
 		if ( isset( $_GET['post_type'], $this->oProps->sPostType ) && $_GET['post_type'] == $this->oProps->sPostType )
-			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadStats' ), 999 );
+			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadInfo' ), 999 );
 		
 	}	
 	
-}
-endif;
-
-if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
-/**
- * Provides debugging methods.
- *
- * @since			2.0.0
- * @extends			n/a
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Utility
- */
-class AdminPageFramework_Debug {
-		
-	public function dumpArray( $arr, $sFilePath=null ) {
-				
-		echo $this->getArray( $arr, $sFilePath );
-		
-	}
-	
-	/**
-	 * 
-	 * @since			2.1.6			The $bEncloseInTag parameter is added.
-	 */
-	public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
-			
-		if ( $sFilePath ) 
-			self::logArray( $arr, $sFilePath );			
-			
-		// esc_html() has a bug that breaks with complex HTML code.
-		$sResult = htmlspecialchars( print_r( $arr, true ) );
-		return $bEncloseInTag
-			? "<pre class='dump-array'>" . $sResult . "</pre>"
-			: $sResult;
-		
-	}	
-	
-	/**
-	 * Logs given array output into the given file.
-	 * 
-	 * @since			2.1.1
-	 */
-	static public function logArray( $arr, $sFilePath=null ) {
-		
-		file_put_contents( 
-			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
-			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . PHP_EOL
-			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
-			, FILE_APPEND 
-		);					
-							
-	}	
 }
 endif;
 
@@ -10658,7 +10658,7 @@ abstract class AdminPageFramework_PostType {
 		$this->oProps = new AdminPageFramework_PostType_Properties( $this );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $sTextDomain );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProps );
-		$this->oPageLoadStats = AdminPageFramework_PageLoadStats_PostType::instantiate( $this->oProps, $this->oMsg );
+		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_PostType::instantiate( $this->oProps, $this->oMsg );
 		
 		// Properties
 		$this->oProps->sPostType = $this->oUtil->sanitizeSlug( $sPostType );
@@ -10696,7 +10696,7 @@ abstract class AdminPageFramework_PostType {
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			
 			// Links
-			$this->oLink = new AdminPageFramework_LinkForPostType( $this->oProps->sPostType, $this->oProps->sCallerPath, $this->oMsg );
+			$this->oLink = new AdminPageFramework_Link_PostType( $this->oProps->sPostType, $this->oProps->sCallerPath, $this->oMsg );
 			
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		}
