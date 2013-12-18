@@ -27,7 +27,7 @@
 	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
 
-if ( ! class_exists( 'AdminPageFramework_WPUtilities' ) ) :
+if ( ! class_exists( 'AdminPageFramework_WPUtility' ) ) :
 /**
  * Provides utility methods which use WordPress functions.
  *
@@ -37,7 +37,7 @@ if ( ! class_exists( 'AdminPageFramework_WPUtilities' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-abstract class AdminPageFramework_WPUtilities {
+abstract class AdminPageFramework_WPUtility {
 
 	/**
 	 * Triggers the do_action() function with the given action names and the arguments.
@@ -319,7 +319,7 @@ abstract class AdminPageFramework_WPUtilities {
 				
 		// It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
 		$oWPStyles = new WP_Styles();	
-		$sRelativePath = '/' . AdminPageFramework_Utilities::getRelativePath( ABSPATH, $sFilePath );
+		$sRelativePath = '/' . AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );
 		$sHref = $oWPStyles->_css_href( $sRelativePath, '', '' );
 		unset( $oWPStyles );	// for PHP 5.2.x or below
 		return $sHref;
@@ -355,16 +355,16 @@ abstract class AdminPageFramework_WPUtilities {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Utilities' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Utility' ) ) :
 /**
  * Provides utility methods which do not use WordPress functions.
  *
  * @since			2.0.0
- * @extends			AdminPageFramework_WPUtilities
+ * @extends			AdminPageFramework_WPUtility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
+class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 	
 	/**
 	 * Converts non-alphabetic characters to underscore.
@@ -569,6 +569,58 @@ class AdminPageFramework_Utilities extends AdminPageFramework_WPUtilities {
 		
 	}
 	
+}
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
+/**
+ * Provides debugging methods.
+ *
+ * @since			2.0.0
+ * @extends			n/a
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
+ */
+class AdminPageFramework_Debug extends AdminPageFramework_Utility {
+		
+	static public function dumpArray( $arr, $sFilePath=null ) {
+				
+		echo self::getArray( $arr, $sFilePath );
+		
+	}
+	
+	/**
+	 * 
+	 * @since			2.1.6			The $bEncloseInTag parameter is added.
+	 */
+	static public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
+			
+		if ( $sFilePath ) 
+			self::logArray( $arr, $sFilePath );			
+			
+		// esc_html() has a bug that breaks with complex HTML code.
+		$sResult = htmlspecialchars( print_r( $arr, true ) );
+		return $bEncloseInTag
+			? "<pre class='dump-array'>" . $sResult . "</pre>"
+			: $sResult;
+		
+	}	
+	
+	/**
+	 * Logs given array output into the given file.
+	 * 
+	 * @since			2.1.1
+	 */
+	static public function logArray( $arr, $sFilePath=null ) {
+		
+		file_put_contents( 
+			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
+			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . PHP_EOL
+			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
+			, FILE_APPEND 
+		);					
+							
+	}	
 }
 endif;
 
@@ -836,7 +888,7 @@ abstract class AdminPageFramework_HeadTag_Base {
 	function __construct( $oProps ) {
 		
 		$this->oProps = $oProps;
-		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oUtil = new AdminPageFramework_Utility;
 				
 		// Hook the admin header to insert custom admin stylesheet.
 		add_action( 'admin_head', array( $this, 'replyToAddStyle' ) );
@@ -4090,7 +4142,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * @use				AdminPageFramework_Properties
  * @use				AdminPageFramework_Messages
  * @use				AdminPageFramework_Link
- * @use				AdminPageFramework_Utilities
+ * @use				AdminPageFramework_Utility
  * @remark			This class stems from several abstract classes.
  * @extends			AdminPageFramework_SettingsAPI
  * @package			Admin Page Framework
@@ -4135,7 +4187,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
     * Provides the utility methods. 
 	* @since			2.0.0
 	* @access		protected
-	* @var			object			an instance of AdminPageFramework_Utilities will be assigned in the constructor.
+	* @var			object			an instance of AdminPageFramework_Utility will be assigned in the constructor.
     */			
 	protected $oUtil;
 	
@@ -4174,7 +4226,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 		$this->oProps = new AdminPageFramework_Properties( $this, $sClassName, $sOptionKey, $sCapability );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $sTextDomain );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProps, $this->oMsg );
-		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $sCallerPath, $this->oMsg );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Pages( $this->oProps );
@@ -6051,11 +6103,11 @@ if ( ! class_exists( 'AdminPageFramework_Link_Base' ) ) :
  *
  * @abstract
  * @since			2.0.0
- * @extends			AdminPageFramework_Utilities
+ * @extends			AdminPageFramework_Utility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities {
+abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
 	
 	/**
 	 * @internal
@@ -6190,64 +6242,12 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
-/**
- * Provides debugging methods.
- *
- * @since			2.0.0
- * @extends			n/a
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Utility
- */
-class AdminPageFramework_Debug {
-		
-	static public function dumpArray( $arr, $sFilePath=null ) {
-				
-		echo self::getArray( $arr, $sFilePath );
-		
-	}
-	
-	/**
-	 * 
-	 * @since			2.1.6			The $bEncloseInTag parameter is added.
-	 */
-	static public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
-			
-		if ( $sFilePath ) 
-			self::logArray( $arr, $sFilePath );			
-			
-		// esc_html() has a bug that breaks with complex HTML code.
-		$sResult = htmlspecialchars( print_r( $arr, true ) );
-		return $bEncloseInTag
-			? "<pre class='dump-array'>" . $sResult . "</pre>"
-			: $sResult;
-		
-	}	
-	
-	/**
-	 * Logs given array output into the given file.
-	 * 
-	 * @since			2.1.1
-	 */
-	static public function logArray( $arr, $sFilePath=null ) {
-		
-		file_put_contents( 
-			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
-			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . PHP_EOL
-			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
-			, FILE_APPEND 
-		);					
-							
-	}	
-}
-endif;
-
 if ( ! class_exists( 'AdminPageFramework_Link_PostType' ) ) :
 /**
  * Provides methods for HTML link elements for custom post types.
  *
  * @since			2.0.0
- * @extends			AdminPageFramework_Utilities
+ * @extends			AdminPageFramework_Utility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
@@ -6723,7 +6723,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinition_Base' ) ) :
  * @subpackage		Admin Page Framework - Setting
  * @since			2.1.5
  */
-abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPageFramework_Utilities {
+abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPageFramework_Utility {
 	
 	protected static $_aDefaultKeys = array(
 		'vValue'				=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
@@ -10051,11 +10051,11 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  *
  * @since			2.0.0
  * @since			2.0.1			Added the <em>size</em> type.
- * @extends			AdminPageFramework_Utilities
+ * @extends			AdminPageFramework_Utility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Setting
  */
-class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
+class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 		
 	/**
 	 * Indicates whether the creating fields are for meta box or not.
@@ -10644,7 +10644,7 @@ abstract class AdminPageFramework_PostType {
 	public function __construct( $sPostType, $aArgs=array(), $sCallerPath=null, $sTextDomain='admin-page-framework' ) {
 		
 		// Objects
-		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oProps = new AdminPageFramework_PostType_Properties( $this );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $sTextDomain );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProps );
@@ -11090,7 +11090,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * 
  * @abstract
  * @since			2.0.0
- * @use				AdminPageFramework_Utilities
+ * @use				AdminPageFramework_Utility
  * @use				AdminPageFramework_Messages
  * @use				AdminPageFramework_Debug
  * @use				AdminPageFramework_Properties
@@ -11138,7 +11138,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	function __construct( $sMetaBoxID, $sTitle, $vPostTypes=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
 		// Objects
-		$this->oUtil = new AdminPageFramework_Utilities;
+		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $sTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oProps = new AdminPageFramework_MetaBox_Properties( $this );
