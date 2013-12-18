@@ -20,16 +20,16 @@ class APF_Demo extends AdminPageFramework {
 		 * ( Optional ) Register custom field types.
 		 */			
 		// 1. Include the file that defines the custom field type. 
-		$arrFiles = array(
+		$aFiles = array(
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( __FILE__ ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 		);
-		foreach( $arrFiles as $strFilePath )
-			if ( file_exists( $strFilePath ) )
-				include_once( $strFilePath );
+		foreach( $aFiles as $sFilePath )
+			if ( file_exists( $sFilePath ) )
+				include_once( $sFilePath );
 					
 		// 2. Instantiate the classes - the $oMsg object is optional if you use the framework's messages.
 		$oMsg = AdminPageFramework_Messages::instantiate( 'admin-page-framework-demo' );
@@ -241,8 +241,8 @@ class APF_Demo extends AdminPageFramework {
 		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
 		// Enqueue styles - $this->enqueueStyle(  'stylesheet url / path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-		$strStyleHandle = $this->enqueueStyle(  dirname( __FILE__ ) . '/asset/css/code.css', 'apf_manage_options' );
-		$strStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , __FILE__ ) , 'apf_read_me' );
+		$sStyleHandle = $this->enqueueStyle(  dirname( __FILE__ ) . '/asset/css/code.css', 'apf_manage_options' );
+		$sStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , __FILE__ ) , 'apf_read_me' );
 		
 		// Enqueue scripts - $this->enqueueScript(  'script url / relative path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
 		$this->enqueueScript(  
@@ -253,7 +253,7 @@ class APF_Demo extends AdminPageFramework {
 				'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
 				'arrTranslation' => array( 
 					'a' => 'hello world!',
-					'style_handle_id' => $strStyleHandle,	// check the enqueued style handle ID here.
+					'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
 				),
 			)
 		);
@@ -1070,7 +1070,7 @@ class APF_Demo extends AdminPageFramework {
 				'strType' => 'import',
 				'strDescription' => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
 				'vLabel' => 'Import Options',
-				// 'vImportFormat' => isset( $_POST[ $this->oProps->strClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProps->strClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
+				// 'vImportFormat' => isset( $_POST[ $this->oProps->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProps->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
 			),			
 			array()
 		);
@@ -1108,7 +1108,7 @@ class APF_Demo extends AdminPageFramework {
 		?>
 		<h3>Saved Data</h3>
 		<?php
-			echo $this->oDebug->getArray( $this->oProps->arrOptions ); 
+			echo $this->oDebug->getArray( $this->oProps->aOptions ); 
 	}
 	public function do_apf_manage_options_properties() {	// do_ + page slug + _ + tab slug
 		?>
@@ -1121,10 +1121,10 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_manage_options_messages() {	// do_ + page slug + _ + tab slug
 		?>
 		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$arrMessages</code> array in the oMsg object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
-		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;arrMessages );</code></pre>
+		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
+		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;aMessages );</code></pre>
 		<?php
-			echo $this->oDebug->getArray( $this->oMsg->arrMessages );
+			echo $this->oDebug->getArray( $this->oMsg->aMessages );
 	}
 	
 	/*
@@ -1133,41 +1133,41 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_sample_page() {
 		
 		echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-demo' ) . "</p>";
-		$strLinkToHiddenPage = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) );
-		echo "<a href='{$strLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-demo' ). "</a>";
+		$sLinkToHiddenPage = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) );
+		echo "<a href='{$sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-demo' ). "</a>";
 	
 	}
 	public function do_apf_hidden_page() {
 		
 		echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-demo' ) . "</p>";
 		echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-demo' ) . "</p>";
-		$strLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
-		echo "<a href='{$strLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
+		$sLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
+		echo "<a href='{$sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
 		
 	}
 	
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_format_APF_Demo_export_single( $strFormatType, $strFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
+	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
 		
-		return isset( $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['exports']['export_format_type'] ) 
-			? $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['exports']['export_format_type']
-			: $strFormatType;
+		return isset( $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['exports']['export_format_type'] ) 
+			? $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['exports']['export_format_type']
+			: $sFormatType;
 		
 	}	
-	public function import_format_apf_manage_options_export_import( $strFormatType, $strFieldID ) {	// import_format_ + page slug + _ + tab slug
+	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_ + page slug + _ + tab slug
 		
-		return isset( $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['imports']['import_format_type'] ) 
-			? $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['imports']['import_format_type']
-			: $strFormatType;
+		return isset( $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['imports']['import_format_type'] ) 
+			? $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['imports']['import_format_type']
+			: $sFormatType;
 		
 	}
-	public function import_APF_Demo_import_single( $vData, $arrOldOptions, $strFieldID, $strInputID, $strImportFormat, $strOptionKey ) {	// import_ + {extended class name} + _ + {field id}
+	public function import_APF_Demo_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_ + {extended class name} + _ + {field id}
 
-		if ( $strImportFormat == 'text' ) {
+		if ( $sImportFormat == 'text' ) {
 			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
-			return $arrOldOptions;
+			return $aOldOptions;
 		}
 		
 		$this->setSettingNotice( __( 'Importing options are validated.', 'admin-page-framework-demo' ), 'updated' );
@@ -1178,65 +1178,65 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-	public function validation_APF_Demo_verify_text_field_submit( $arrNewInput, $arrOldOptions ) {	// validation_ + {extended class name} + _ + {field ID}
+	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_ + {extended class name} + _ + {field ID}
 		
 		// Set a flag.
-		$fVerified = true;
+		$bVerified = true;
 		
 		// We store values that have an error in an array and pass it to the setFieldErrors() method.
 		// It internally stores the error array in a temporary area of the database called transient.
 		// The used name of the transient is a md5 hash of 'instantiated class name' + '_' + 'page slug'. 
 		// The library class will search for this transient when it renders the form fields 
 		// and if it is found, it will display the error message set in the field array. 
-		$arrErrors = array();
+		$aErrors = array();
 
 		// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.
-		if ( ! is_numeric( $arrNewInput['apf_builtin_field_types']['verification']['verify_text_field'] ) ) {
+		if ( ! is_numeric( $aNewInput['apf_builtin_field_types']['verification']['verify_text_field'] ) ) {
 			
-			// Start with the section key in $arrErrors, not the key of page slug.
-			$arrErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $arrNewInput['apf_builtin_field_types']['verification']['verify_text_field'];	
-			$fVerified = false;
+			// Start with the section key in $aErrors, not the key of page slug.
+			$aErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $aNewInput['apf_builtin_field_types']['verification']['verify_text_field'];	
+			$bVerified = false;
 			
 		}
 		
 		// An invalid value is found.
-		if ( ! $fVerified ) {
+		if ( ! $bVerified ) {
 		
 			// Set the error array for the input fields.
-			$this->setFieldErrors( $arrErrors );		
+			$this->setFieldErrors( $aErrors );		
 			$this->setSettingNotice( 'There was an error in your input.' );
-			return $arrOldOptions;
+			return $aOldOptions;
 			
 		}
 				
-		return $arrNewInput;		
+		return $aNewInput;		
 		
 	}
-	public function validation_apf_builtin_field_types_files( $arrInput, $arrOldPageOptions ) {	// validation_ + page slug + _ + tab slug
+	public function validation_apf_builtin_field_types_files( $aInput, $aOldPageOptions ) {	// validation_ + page slug + _ + tab slug
 
 		// Display the uploaded file information.
-		$arrFileErrors = array();
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_single'];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][0];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][1];
-		$arrFileErrors[] = $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][2];
-		foreach( $_FILES[ $this->oProps->strOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_repeatable'] as $arrFile )
-			$arrFileErrors[] = $arrFile;
+		$aFileErrors = array();
+		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_single'];
+		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][0];
+		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][1];
+		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][2];
+		foreach( $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_repeatable'] as $aFile )
+			$aFileErrors[] = $aFile;
 			
-		if ( in_array( 0, $arrFileErrors ) ) 
+		if ( in_array( 0, $aFileErrors ) ) 
 			$this->setSettingNotice( '<h3>File(s) Uploaded</h3>' . $this->oDebug->getArray( $_FILES ), 'updated' );
 		
-		return $arrInput;
+		return $aInput;
 		
 	}
 	
-	public function validation_APF_Demo( $arrInput, $arrOldOptions ) {
+	public function validation_APF_Demo( $aInput, $aOldOptions ) {
 		
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
-		if ( isset( $_POST[ $this->oProps->strOptionKey ]['apf_manage_options']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
+		if ( isset( $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
 			return array();
 			
-		return $arrInput;
+		return $aInput;
 		
 	}
 			
@@ -1247,48 +1247,48 @@ class APF_Demo extends AdminPageFramework {
 
 		include_once( dirname( __FILE__ ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );
 		$this->oWPReadMe = new WordPress_Readme_Parser;
-		$this->arrWPReadMe = $this->oWPReadMe->parse_readme( dirname( __FILE__ ) . '/readme.txt' );
+		$this->aWPReadMe = $this->oWPReadMe->parse_readme( dirname( __FILE__ ) . '/readme.txt' );
 	
 	}
 	public function do_apf_read_me_description() {		// do_ + page slug + _ + tab slug
-		echo $this->arrWPReadMe['sections']['description'];
-		// var_dump( $this->arrWPReadMe );
+		echo $this->aWPReadMe['sections']['description'];
+		// var_dump( $this->aWPReadMe );
 	}
 	public function do_apf_read_me_installation() {		// do_ + page slug + _ + tab slug
-		// echo htmlspecialchars( $this->arrWPReadMe['sections']['installation'], ENT_QUOTES, bloginfo( 'charset' ) );
-		echo $this->arrWPReadMe['sections']['installation'];
+		// echo htmlspecialchars( $this->aWPReadMe['sections']['installation'], ENT_QUOTES, bloginfo( 'charset' ) );
+		echo $this->aWPReadMe['sections']['installation'];
 	}
 	public function do_apf_read_me_frequently_asked_questions() {	// do_ + page slug + _ + tab slug
-		echo $this->arrWPReadMe['sections']['frequently_asked_questions'];
+		echo $this->aWPReadMe['sections']['frequently_asked_questions'];
 	}
 	public function do_apf_read_me_other_notes() {
-		echo $this->arrWPReadMe['remaining_content'];
+		echo $this->aWPReadMe['remaining_content'];
 	}
 	public function do_apf_read_me_screenshots() {		// do_ + page slug + _ + tab slug
-		echo $this->arrWPReadMe['sections']['screenshots'];
+		echo $this->aWPReadMe['sections']['screenshots'];
 	}	
 	public function do_apf_read_me_changelog() {		// do_ + page slug + _ + tab slug
-		echo $this->arrWPReadMe['sections']['changelog'];
+		echo $this->aWPReadMe['sections']['changelog'];
 	}
 	
 	/*
 	 * Custom field types - This is another way to register a custom field type. 
 	 * This method gets fired when the framework tries to define field types. 
 	 */
- 	public function field_types_APF_Demo( $arrFieldTypeDefinitions ) {	// field_types_ + {extended class name}
+ 	public function field_types_APF_Demo( $aFieldTypeDefinitions ) {	// field_types_ + {extended class name}
 				
 		// 1. Include the file that defines the custom field type. 
 		// This class should extend the predefined abstract class that the library prepares already with necessary methods.
-		$strFilePath = dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
-		if ( file_exists( $strFilePath ) ) include_once( $strFilePath );
+		$sFilePath = dirname( __FILE__ ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
+		if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
 		
 		// 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
 		// Then assign it to the filtering array with the key of the field type slug. 
 		$oFieldType = new GeometryCustomFieldType( 'APF_Demo', 'geometry', $this->oMsg );
-		$arrFieldTypeDefinitions['geometry'] = $oFieldType->getDefinitionArray();
+		$aFieldTypeDefinitions['geometry'] = $oFieldType->getDefinitionArray();
 		
 		// 3. Return the modified array.
-		return $arrFieldTypeDefinitions;
+		return $aFieldTypeDefinitions;
 		
 	} 
 	
@@ -1348,8 +1348,8 @@ class APF_PostType extends AdminPageFramework_PostType {
 	/*
 	 * Extensible methods
 	 */
-	public function setColumnHeader( $arrColumnHeader ) {
-		$arrColumnHeaders = array(
+	public function setColumnHeader( $aColumnHeader ) {
+		$aColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
 			'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
 			'author'		=> __( 'Author', 'admin-page-framework' ),		// Post author.
@@ -1359,18 +1359,18 @@ class APF_PostType extends AdminPageFramework_PostType {
 			'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
 			'samplecolumn'			=> __( 'Sample Column' ),
 		);		
-		return array_merge( $arrColumnHeader, $arrColumnHeaders );
+		return array_merge( $aColumnHeader, $aColumnHeaders );
 	}
-	// public function setSortableColumns( $arrColumns ) {
-		// return array_merge( $arrColumns, $this->oProp->arrColumnSortable );		
+	// public function setSortableColumns( $aColumns ) {
+		// return array_merge( $aColumns, $this->oProp->aColumnSortable );		
 	// }	
 	
 	/*
 	 * Callback methods
 	 */
-	public function cell_apf_posts_samplecolumn( $strCell, $intPostID ) {	// cell_ + post type + column key
+	public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {	// cell_ + post type + column key
 		
-		return "the post id is : {$intPostID}";
+		return "the post id is : {$iPostID}";
 		
 	}
 
@@ -1544,34 +1544,34 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 		);		
 	}
 	
-	public function printMetaFieldValues( $strContent ) {
+	public function printMetaFieldValues( $sContent ) {
 		
-		if ( ! isset( $GLOBALS['post']->ID ) || get_post_type() != 'apf_posts' ) return $strContent;
+		if ( ! isset( $GLOBALS['post']->ID ) || get_post_type() != 'apf_posts' ) return $sContent;
 			
 		// 1. To retrieve the meta box data	- get_post_meta( $post->ID ) will return an array of all the meta field values.
 		// or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
-		$intPostID = $GLOBALS['post']->ID;
-		$arrPostData = array();
-		foreach( ( array ) get_post_custom_keys( $intPostID ) as $strKey ) 	// This way, array will be unserialized; easier to view.
-			$arrPostData[ $strKey ] = get_post_meta( $intPostID, $strKey, true );
+		$iPostID = $GLOBALS['post']->ID;
+		$aPostData = array();
+		foreach( ( array ) get_post_custom_keys( $iPostID ) as $sKey ) 	// This way, array will be unserialized; easier to view.
+			$aPostData[ $sKey ] = get_post_meta( $iPostID, $sKey, true );
 		
 		// 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
 		// The key name is the class name by default. This can be changed by passing an arbitrary string 
 		// to the first parameter of the constructor of the AdminPageFramework class.		
-		$arrSavedOptions = get_option( 'APF_Demo' );
+		$aSavedOptions = get_option( 'APF_Demo' );
 			
 		return "<h3>" . __( 'Saved Meta Field Values', 'admin-page-framework-demo' ) . "</h3>" 
-			. $this->oDebug->getArray( $arrPostData )
+			. $this->oDebug->getArray( $aPostData )
 			. "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
-			. $this->oDebug->getArray( $arrSavedOptions );
+			. $this->oDebug->getArray( $aSavedOptions );
 
 	}
 	
-	public function validation_APF_MetaBox( $arrInput, $arrOldInput ) {
+	public function validation_APF_MetaBox( $aInput, $aOldInput ) {
 		
 		// You can check the passed values and correct the data by modifying them.
-		// $this->oDebug->logArray( $arrInput );
-		return $arrInput;
+		// $this->oDebug->logArray( $aInput );
+		return $aInput;
 		
 	}
 	

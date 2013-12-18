@@ -178,7 +178,7 @@ Most text editors supports the *Replace All* command so just use that. By the ti
 <h5><strong>Change Framework's System Messages</strong></h5>
 The default messages defined by the framework can be changed. For example when you import a setting with the framework, the setting notice will be displayed. 
 
-If you want to change it to something else, modify the `oMsg` object. It has the `arrMessages` public property array which holds all the messages that the library uses.
+If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array which holds all the messages that the library uses.
 
 = Roadmap =
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.

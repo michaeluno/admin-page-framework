@@ -75,50 +75,50 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 * Returns the output of the field type.
 	 * 
 	 */
-	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
-		$arrOutput = array();
-		$strFieldName = $arrField['strFieldName'];
-		$strTagID = $arrField['strTagID'];
-		$strFieldClassSelector = $arrField['strFieldClassSelector'];
-		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+		$aOutput = array();
+		$sFieldName = $aField['strFieldName'];
+		$sTagID = $aField['strTagID'];
+		$sFieldClassSelector = $aField['strFieldClassSelector'];
+		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$arrFields = $arrField['fRepeatable'] ? 
+		$aFields = $aField['fRepeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $arrField['vLabel'];		
+			: $aField['vLabel'];		
 		
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
+		foreach( ( array ) $aFields as $sKey => $sLabel ) 
+			$aOutput[] = 
+				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
-							. ( $strLabel && ! $arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
+						. "<label for='{$sTagID}_{$sKey}'>"
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. ( $sLabel && ! $aField['fRepeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
-							. "<input id='{$strTagID}_{$strKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
+							. "<input id='{$sTagID}_{$sKey}' "
+								. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='text' "	// text, password, etc.
-								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
+								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
+								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
 							. "/>"
-							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"	// end of label container
-					. $this->getTimePickerEnablerScript( "{$strTagID}_{$strKey}", $this->getCorrespondingArrayValue( $arrField['vTimeFormat'], $strKey, $arrDefaultKeys['vTimeFormat'] ) )
+					. $this->getTimePickerEnablerScript( "{$sTagID}_{$sKey}", $this->getCorrespondingArrayValue( $aField['vTimeFormat'], $sKey, $aDefaultKeys['vTimeFormat'] ) )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
-		return "<div class='admin-page-framework-field-date' id='{$strTagID}'>" 
-				. implode( '', $arrOutput ) 
+		return "<div class='admin-page-framework-field-date' id='{$sTagID}'>" 
+				. implode( '', $aOutput ) 
 			. "</div>";
 		
 	}
@@ -126,12 +126,12 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function getTimePickerEnablerScript( $strID, $strTimeFormat ) {
+		private function getTimePickerEnablerScript( $sID, $sTimeFormat ) {
 			return 
-				"<script type='text/javascript' class='time-picker-enabler-script' data-id='{$strID}' data-time_format='{$strTimeFormat}'>
+				"<script type='text/javascript' class='time-picker-enabler-script' data-id='{$sID}' data-time_format='{$sTimeFormat}'>
 					jQuery( document ).ready( function() {
-						jQuery( '#{$strID}' ).timepicker({
-							timeFormat : '{$strTimeFormat}',
+						jQuery( '#{$sID}' ).timepicker({
+							timeFormat : '{$sTimeFormat}',
 							showButtonPanel : false,
 						});
 					});
