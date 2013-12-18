@@ -73,12 +73,6 @@ abstract class AdminPageFramework_WPUtilities {
 		}
 
 	}
-	// protected function doAction() {		// Parameters: $strActionHook, $vArgs...
-		
-		// $arrArgs = func_get_args();	
-		// call_user_func_array( 'do_action' , $arrArgs );
-		
-	// }
 	
 	/**
 	 * Adds the method of the given action hook name(s) to the given action hook(s) with arguments.
@@ -4776,7 +4770,7 @@ class AdminPageFramework_Messages {
 			
 			// For the meta box class
 			
-			// AdminPageFramework_LinkBase
+			// AdminPageFramework_Link_Base
 			'powered_by'	=> __( 'Powered by', 'admin-page-framework' ),
 			
 			// AdminPageFramework_Link
@@ -6051,7 +6045,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_LinkBase' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Link_Base' ) ) :
 /**
  * Provides methods for HTML link elements.
  *
@@ -6061,7 +6055,7 @@ if ( ! class_exists( 'AdminPageFramework_LinkBase' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-abstract class AdminPageFramework_LinkBase extends AdminPageFramework_Utilities {
+abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities {
 	
 	/**
 	 * @internal
@@ -6205,7 +6199,7 @@ if ( ! class_exists( 'AdminPageFramework_LinkForPostType' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-class AdminPageFramework_LinkForPostType extends AdminPageFramework_LinkBase {
+class AdminPageFramework_LinkForPostType extends AdminPageFramework_Link_Base {
 	
 	/**
 	 * Stores the information to embed into the page footer.
@@ -6310,11 +6304,11 @@ if ( ! class_exists( 'AdminPageFramework_Link' ) ) :
  * Embeds links in the footer and plugin's listing table etc.
  * 
  * @since			2.0.0
- * @extends			AdminPageFramework_LinkBase
+ * @extends			AdminPageFramework_Link_Base
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-class AdminPageFramework_Link extends AdminPageFramework_LinkBase {
+class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	
 	/**
 	 * Stores the caller script path.
