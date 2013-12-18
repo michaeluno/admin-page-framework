@@ -90,13 +90,13 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 					
 		if ( isset( $vValue['latitude'], $vValue['longitude'] ) )
 			$vValue = array( $vValue );
 
 		foreach( ( array ) $vValue as $sKey => $aValue ) {
-			$sClassAttribute = $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] );
+			$sClassAttribute = $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] );
 			$sName = is_array( $aField['label'] ) ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}";
 			$nLatitude = isset( $aValue['latitude'] ) ? $aValue['latitude'] : 20;
 			$nLongitude = isset( $aValue['longitude'] ) ? $aValue['longitude'] : 20; 
@@ -106,9 +106,9 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container geometry'>"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-						. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $aDefaultKeys['label'] ) ) 
-							? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+						. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
+							? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 							: "" 
 						)
 						. "<div class='admin-page-framework-input-container'>"
@@ -139,12 +139,12 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 								. "</label><br />"
 							. "</div>"							
 						. "</div>"
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);

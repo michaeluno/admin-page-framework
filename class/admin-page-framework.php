@@ -3484,7 +3484,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->getFieldErrors( $sPageSlug ); 
 
 		// Render the form field. 		
-		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] )
+		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
@@ -3737,21 +3737,21 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			// If the field type is not defined, return.
 			if ( ! isset( $this->oProps->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
 
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callFieldLoader'] ) )
-				call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callFieldLoader'], array() );		
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
+				call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
 			
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetScripts'] ) )
-				$this->oProps->sScript .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetScripts'], array() );
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
+				$this->oProps->sScript .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetStyles'] ) )
-				$this->oProps->sStyle .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetStyles'], array() );
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
+				$this->oProps->sStyle .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetIEStyles'] ) )
-				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetIEStyles'], array() );					
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
+				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
 
 				
-			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['arrEnqueueStyles'] );
-			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['arrEnqueueScripts'] );
+			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}
 	
@@ -6735,7 +6735,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_Base' ) ) :
  */
 abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPageFramework_Utilities {
 	
-	protected static $aDefaultKeys = array(
+	protected static $_aDefaultKeys = array(
 		'vValue'				=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
 		'default'				=> null,				// ( array or string )
 		'repeatable'			=> false,
@@ -6794,14 +6794,14 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 	public function getDefinitionArray() {
 		
 		return array(
-			'callRenderField' => array( $this, "replyToGetInputField" ),
-			'callGetScripts' => array( $this, "replyToGetInputScripts" ),
-			'callGetStyles' => array( $this, "replyToGetInputStyles" ),
-			'callGetIEStyles' => array( $this, "replyToGetInputIEStyles" ),
-			'callFieldLoader' => array( $this, "replyToFieldLoader" ),
-			'arrEnqueueScripts' => $this->getEnqueuingScripts(),	// urls of the scripts
-			'arrEnqueueStyles' => $this->getEnqueuingStyles(),	// urls of the styles
-			'arrDefaultKeys' => $this->getDefaultKeys() + self::$aDefaultKeys, 
+			'hfRenderField' => array( $this, "replyToGetInputField" ),
+			'hfGetScripts' => array( $this, "replyToGetInputScripts" ),
+			'hfGetStyles' => array( $this, "replyToGetInputStyles" ),
+			'hfGetIEStyles' => array( $this, "replyToGetInputIEStyles" ),
+			'hfFieldLoader' => array( $this, "replyToFieldLoader" ),
+			'aEnqueueScripts' => $this->getEnqueuingScripts(),	// urls of the scripts
+			'aEnqueueStyles' => $this->getEnqueuingStyles(),	// urls of the styles
+			'aDefaultKeys' => $this->getDefaultKeys() + self::$_aDefaultKeys, 
 		);
 		
 	}
@@ -6884,7 +6884,7 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -6895,19 +6895,19 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $aDefaultKeys['label'] ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 								: "" 
 							)
 							. "<div class='admin-page-framework-input-container'>"
 								. $sValue
 							. "</div>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"		
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -6969,7 +6969,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -6983,13 +6983,13 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
 							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
 								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
 								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, 30 ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='{$aField['type']}' "	// text, password, etc.
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
@@ -7064,7 +7064,7 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -7077,7 +7077,7 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 						. "<label for='{$sTagID}_{$sKey}' >"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
 							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: ""
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
@@ -7088,10 +7088,10 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 								. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
-								. "min='" . $this->getCorrespondingArrayValue( $aField['vMin'], $sKey, $aDefaultKeys['vMin'] ) . "' "
-								. "max='" . $this->getCorrespondingArrayValue( $aField['vMax'], $sKey, $aDefaultKeys['vMax'] ) . "' "
-								. "step='" . $this->getCorrespondingArrayValue( $aField['vStep'], $sKey, $aDefaultKeys['vStep'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+								. "min='" . $this->getCorrespondingArrayValue( $aField['vMin'], $sKey, $_aDefaultKeys['vMin'] ) . "' "
+								. "max='" . $this->getCorrespondingArrayValue( $aField['vMax'], $sKey, $_aDefaultKeys['vMax'] ) . "' "
+								. "step='" . $this->getCorrespondingArrayValue( $aField['vStep'], $sKey, $_aDefaultKeys['vStep'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 							. "/>"
 							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, '' )
 						. "</label>"
@@ -7156,7 +7156,7 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -7175,7 +7175,7 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 						. "<label for='{$sTagID}_{$sKey}' >"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
 							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. ( ! empty( $aRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
@@ -7188,7 +7188,7 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 											'wpautop' => true, // use wpautop?
 											'media_buttons' => true, // show insert/upload button(s)
 											'textarea_name' => is_array( $aFields ) ? "{$sFieldName}[{$sKey}]" : $sFieldName , // set the textarea name to something different, square brackets [] can be used here
-											'textarea_rows' => $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $aDefaultKeys['rows'] ),
+											'textarea_rows' => $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $_aDefaultKeys['rows'] ),
 											'tabindex' => '',
 											'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
 											'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
@@ -7202,9 +7202,9 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 								) . $this->getScriptForRichEditor( "{$sTagID}_{$sKey}" )
 								: "<textarea id='{$sTagID}_{$sKey}' "
 									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
-									. "rows='" . $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $aDefaultKeys['rows'] ) . "' "
-									. "cols='" . $this->getCorrespondingArrayValue( $aField['cols'], $sKey, $aDefaultKeys['cols'] ) . "' "
-									. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+									. "rows='" . $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $_aDefaultKeys['rows'] ) . "' "
+									. "cols='" . $this->getCorrespondingArrayValue( $aField['cols'], $sKey, $_aDefaultKeys['cols'] ) . "' "
+									. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 									. "type='{$aField['type']}' "
 									. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
@@ -7370,7 +7370,7 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 	
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -7381,15 +7381,15 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"					
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='input_color " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+								. "class='input_color " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='text' "	// text
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . ( $this->getCorrespondingArrayValue( $vValue, $sKey, 'transparent' ) ) . "' "
@@ -7397,13 +7397,13 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 								. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
 							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 						. "<div class='colorpicker' id='color_{$sTagID}_{$sKey}' rel='{$sTagID}_{$sKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
 						. $this->getColorPickerEnablerScript( "{$sTagID}_{$sKey}" )
 					. "</div>"
 				. "</div>"	// admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -7974,7 +7974,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -7985,9 +7985,9 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
-					. $this->getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys )
+					. $this->getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8004,7 +8004,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added some parameters.
 		 */
-		private function getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys ) {
+		private function getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );
@@ -8012,16 +8012,16 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
 				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 					: ''
 				)			
 				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $sImageURL = $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $aDefaultKeys  ) ) . "' "
+					. "value='" . ( $sImageURL = $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys  ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
@@ -8031,10 +8031,10 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
-						. "value='" . $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $aDefaultKeys ) . "' "
+						. "value='" . $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys ) . "' "
 						. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 					. "/>";
 			
@@ -8042,9 +8042,9 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
 					. "<label for='{$sTagID}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 					. "</label>"
 				. "</div>"
 				. ( $this->getCorrespondingArrayValue( $aField['vImagePreview'], $sKey, true )
@@ -8066,11 +8066,11 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_InputField
 		 */
-		private function getImageInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $aDefaultKeys ) {	
+		private function getImageInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $_aDefaultKeys ) {	
 
 			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['default'] )
-				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['default'] );
+				? $this->getCorrespondingArrayValue( $vValue, $sKey, $_aDefaultKeys['default'] )
+				: ( isset( $vValue ) ? $vValue : $_aDefaultKeys['default'] );
 
 			return $sCaptureAttribute
 				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
@@ -8306,7 +8306,7 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -8317,9 +8317,9 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
-					. $this->getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys )
+					. $this->getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8334,7 +8334,7 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		 * 
 		 * @since			2.1.3
 		 */
-		private function getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys ) {
+		private function getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 	
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );	
@@ -8342,16 +8342,16 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
 				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>" 
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>" 
 					: ''
 				)
 				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $aDefaultKeys ) ) . "' "
+					. "value='" . ( $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
@@ -8361,10 +8361,10 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
-						. "value='" . $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $aDefaultKeys  ) . "' "
+						. "value='" . $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys  ) . "' "
 						. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 					. "/>";
 			
@@ -8372,9 +8372,9 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
 					. "<label for='{$sTagID}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] )
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 					. "</label>"
 				. "</div>"
 				. $this->getMediaUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
@@ -8384,11 +8384,11 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		 * A helper function for the above getMediaInputTags() method that retrieve the specified input field value.
 		 * @since			2.1.3
 		 */
-		private function getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $aDefaultKeys ) {	
+		private function getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $_aDefaultKeys ) {	
 
 			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['default'] )
-				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['default'] );
+				? $this->getCorrespondingArrayValue( $vValue, $sKey, $_aDefaultKeys['default'] )
+				: ( isset( $vValue ) ? $vValue : $_aDefaultKeys['default'] );
 
 			return $sCaptureAttribute
 				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
@@ -8482,7 +8482,7 @@ class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputF
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -8495,30 +8495,30 @@ class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputF
 		$aLabels = $bSingle ? array( $aField['label'] ) : $aField['label'];
 		foreach( $aLabels as $sKey => $label ) {
 			
-			$bMultiple = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $aDefaultKeys['vMultiple'] );
+			$bMultiple = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $_aDefaultKeys['vMultiple'] );
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
 								. "<select id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 									. "type='{$aField['type']}' "
 									. ( $bMultiple ? "multiple='Multiple' " : '' )
 									. "name=" . ( $bSingle ? "'{$sFieldName}" : "'{$sFieldName}[{$sKey}]" ) . ( $bMultiple ? "[]' " : "' " )
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-									. "size=" . ( $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) ) . " "
-									. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
+									. "size=" . ( $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) ) . " "
+									. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $_aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
 								. ">"
 									. $this->getOptionTags( $label, $vValue, $sTagID, $sKey, $bSingle, $bMultiple )
 								. "</select>"
 							. "</span>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8609,7 +8609,7 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -8623,9 +8623,9 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 		foreach( $aLabels as $sKey => $label )  
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. $this->getRadioTags( $aField, $vValue, $label, $sFieldName, $sTagID, $sKey, $bSingle, $aDefaultKeys )				
+					. $this->getRadioTags( $aField, $vValue, $label, $sFieldName, $sTagID, $sKey, $bSingle, $_aDefaultKeys )				
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8638,20 +8638,20 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 		/**
 		 * A helper function for the <em>getRadioField()</em> method.
 		 * @since			2.0.0
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added the $aField, $sFieldName, $aDefaultKeys, $sTagID, and $vValue parameter.
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added the $aField, $sFieldName, $_aDefaultKeys, $sTagID, and $vValue parameter.
 		 */ 
-		private function getRadioTags( $aField, $vValue, $aLabels, $sFieldName, $sTagID, $sIterationID, $bSingle, $aDefaultKeys ) {
+		private function getRadioTags( $aField, $vValue, $aLabels, $sFieldName, $sTagID, $sIterationID, $bSingle, $_aDefaultKeys ) {
 			
 			$aOutput = array();
 			foreach ( $aLabels as $sKey => $sLabel ) 
 				$aOutput[] = 
-					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sIterationID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
 								. "<input "
 									. "id='{$sTagID}_{$sIterationID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 									. "type='radio' "
 									. "value='{$sKey}' "
 									. "name=" . ( ! $bSingle  ? "'{$sFieldName}[{$sIterationID}]' " : "'{$sFieldName}' " )
@@ -8662,7 +8662,7 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 							. "<span class='admin-page-framework-input-label-string'>"
 								. $sLabel
 							. "</span>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>";
 
@@ -8722,7 +8722,7 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -8731,14 +8731,14 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sKey}'>"	
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
 								. "<input type='hidden' name=" .  ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
 								. "<input "
 									. "id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 									. "type='{$aField['type']}' "	// checkbox
 									. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 									. "value='1' "
@@ -8749,11 +8749,11 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 							. "<span class='admin-page-framework-input-label-string'>"
 								. $sLabel
 							. "</span>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8848,46 +8848,46 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 				
 		$bSingle = ! is_array( $aField['label'] );
 		$bIsSizeUnitForSingle = ( $this->getArrayDimension( ( array ) $aField['size_units'] ) == 1 );
 		$aSizeUnits = isset( $aField['size_units'] ) && is_array( $aField['size_units'] ) && $bIsSizeUnitForSingle 
 			? $aField['size_units']
-			: $aDefaultKeys['size_units'];		
+			: $_aDefaultKeys['size_units'];		
 		
 		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<label for='{$sTagID}_{$sKey}'>"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 						. ( $sLabel 
-							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel ."</span>"
+							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel ."</span>"
 							: "" 
 						)
 						. "<input id='{$sTagID}_{$sKey}' "	// number field
 							// . "style='text-align: right;'"
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-							. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
-							. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+							. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
+							. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 							. "type='number' "	// number
 							. "name=" . ( $bSingle ? "'{$sFieldName}[size]' " : "'{$sFieldName}[{$sKey}][size]' " )
 							. "value='" . ( $bSingle ? $this->getCorrespondingArrayValue( $vValue['size'], $sKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $sKey, array() ), 'size', '' ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 							. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
-							. "min='" . $this->getCorrespondingArrayValue( $aField['vMin'], $sKey, $aDefaultKeys['vMin'] ) . "' "
-							. "max='" . $this->getCorrespondingArrayValue( $aField['vMax'], $sKey, $aDefaultKeys['vMax'] ) . "' "
-							. "step='" . $this->getCorrespondingArrayValue( $aField['vStep'], $sKey, $aDefaultKeys['vStep'] ) . "' "					
+							. "min='" . $this->getCorrespondingArrayValue( $aField['vMin'], $sKey, $_aDefaultKeys['vMin'] ) . "' "
+							. "max='" . $this->getCorrespondingArrayValue( $aField['vMax'], $sKey, $_aDefaultKeys['vMax'] ) . "' "
+							. "step='" . $this->getCorrespondingArrayValue( $aField['vStep'], $sKey, $_aDefaultKeys['vStep'] ) . "' "					
 						. "/>"
 					. "</label>"
 						. "<select id='{$sTagID}_{$sKey}' class='size-field-select'"	// select field
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='{$aField['type']}' "
-							. ( ( $bMultipleOptions = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $aDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+							. ( ( $bMultipleOptions = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $_aDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
 							. "name=" . ( $bSingle ? "'{$sFieldName}[unit]" : "'{$sFieldName}[{$sKey}][unit]" ) . ( $bMultipleOptions ? "[]' " : "' " )						
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-							. "size=" . ( $this->getCorrespondingArrayValue( $aField['vUnitSize'], $sKey, $aDefaultKeys['vUnitSize'] ) ) . " "
-							. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
+							. "size=" . ( $this->getCorrespondingArrayValue( $aField['vUnitSize'], $sKey, $_aDefaultKeys['vUnitSize'] ) ) . " "
+							. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $_aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
 						. ">"
 						. $this->getOptionTags( 
 							$bSingle ? $aSizeUnits : $this->getCorrespondingArrayValue( $aField['size_units'], $sKey, $aSizeUnits ),
@@ -8898,9 +8898,9 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 							$bMultipleOptions 
 						)
 					. "</select>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);			
@@ -8993,7 +8993,7 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9004,26 +9004,26 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $aDefaultKeys['label'] ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 								: "" 
 							)
 							. "<div class='admin-page-framework-input-container'>"
 								. "<input "
 									. "id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 									. "type='{$aField['type']}' "	// hidden
 									. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 									. "value='" . $sValue  . "' "
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 								. "/>"
 							. "</div>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9086,7 +9086,7 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9097,25 +9097,25 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 							. ( $sLabel && ! $aField['repeatable'] ?
-								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: ""
 							)
 							. "<input "
 								. "id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-								. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $aDefaultKeys['vAcceptAttribute'] ) . "' "
+								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+								. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $_aDefaultKeys['vAcceptAttribute'] ) . "' "
 								. "type='{$aField['type']}' "	// file
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $aFields, $sKey ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9183,7 +9183,7 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9193,14 +9193,14 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 			$sName = "{$sFieldName}[{$sKey}]";
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] )
 							. "<span class='admin-page-framework-input-container'>"
 								. "<input type='hidden' name='{$sName}' value='0' />"
 								. "<input "
 									. "id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 									. "type='checkbox' "
 									. "name='{$sName}'"
 									. "value='1' "
@@ -9211,11 +9211,11 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 							. "<span class='admin-page-framework-input-label-string'>"
 								. $sValue
 							. "</span>"				
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9416,7 +9416,7 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9564,7 +9564,7 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9574,9 +9574,9 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
 		$sFieldNameFlat = $this->getInputFieldNameFlat( $aField );
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
-			$sRedirectURL = $this->getCorrespondingArrayValue( $aField['redirect_url'], $sKey, $aDefaultKeys['redirect_url'] );
-			$sLinkURL = $this->getCorrespondingArrayValue( $aField['links'], $sKey, $aDefaultKeys['links'] );
-			$sResetKey = $this->getCorrespondingArrayValue( $aField['is_reset'], $sKey, $aDefaultKeys['is_reset'] );
+			$sRedirectURL = $this->getCorrespondingArrayValue( $aField['redirect_url'], $sKey, $_aDefaultKeys['redirect_url'] );
+			$sLinkURL = $this->getCorrespondingArrayValue( $aField['links'], $sKey, $_aDefaultKeys['links'] );
+			$sResetKey = $this->getCorrespondingArrayValue( $aField['is_reset'], $sKey, $_aDefaultKeys['is_reset'] );
 			$bResetConfirmed = $this->checkConfirmationDisplayed( $sResetKey, $sFieldNameFlat ); 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
@@ -9640,20 +9640,20 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 						. "/>" 
 						: ""
 					)
-					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "
 							. "id='{$sTagID}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='{$aField['type']}' "	// submit
 							. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'submit' ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9781,7 +9781,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9795,7 +9795,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 		
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
 			
-			$sExportFormat = $this->getCorrespondingArrayValue( $aField['export_format'], $sKey, $aDefaultKeys['export_format'] );
+			$sExportFormat = $this->getCorrespondingArrayValue( $aField['export_format'], $sKey, $_aDefaultKeys['export_format'] );
 			
 			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
 			$bIsDataSet = false;
@@ -9828,10 +9828,10 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 						. "value='" . ( $bIsDataSet ? 1 : 0 )
 					. "' />"				
 					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "
 							. "id='{$sTagID}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the export button is a custom submit button.
 							// . "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 							. "name='__export[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
@@ -9839,9 +9839,9 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9937,7 +9937,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -9958,7 +9958,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 					. "/>"		
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][do_merge]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vMerge'], $sKey, $aDefaultKeys['vMerge'] ) . "' "
+						. "value='" . $this->getCorrespondingArrayValue( $aField['vMerge'], $sKey, $_aDefaultKeys['vMerge'] ) . "' "
 					. "/>"							
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][import_option_key]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
@@ -9966,21 +9966,21 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 					. "' />"
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $aDefaultKeys['vImportFormat'] )	// array, text, or json.
+						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $_aDefaultKeys['vImportFormat'] )	// array, text, or json.
 					. "' />"			
 					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "		// upload button
 							. "id='{$sTagID}_{$sKey}_file' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attributeUpload'], $sKey, $aDefaultKeys['class_attributeUpload'] ) . "' "
-							. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $aDefaultKeys['vAcceptAttribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attributeUpload'], $sKey, $_aDefaultKeys['class_attributeUpload'] ) . "' "
+							. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $_aDefaultKeys['vAcceptAttribute'] ) . "' "
 							. "type='file' "	// upload field. the file type will be stored in $_FILE
 							. "name='__import[{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )				
 						. "/>"
 						. "<input "		// import button
 							. "id='{$sTagID}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the import button is a custom submit button.
 							. "name='__import[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'import_options' ), true ) . "' "
@@ -9989,7 +9989,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, '' )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);		
@@ -10074,19 +10074,19 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private $bIsMetaBox = false;
 		
 	protected static $aStructure_FieldDefinition = array(
-		'callRenderField' => null,
-		'callGetScripts' => null,
-		'callGetStyles' => null,
-		'callGetIEStyles' => null,
-		'callFieldLoader' => null,
-		'arrEnqueueScripts' => null,
-		'arrEnqueueStyles' => null,
-		'arrDefaultKeys' => null,
+		'hfRenderField' => null,
+		'hfGetScripts' => null,
+		'hfGetStyles' => null,
+		'hfGetIEStyles' => null,
+		'hfFieldLoader' => null,
+		'aEnqueueScripts' => null,
+		'aEnqueueStyles' => null,
+		'aDefaultKeys' => null,
 	);
 	
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldDefinition, &$oMsg ) {
 			
-		$this->aField = $aField + $aFieldDefinition['arrDefaultKeys'] + self::$aStructure_FieldDefinition;	// better not to merge recursively because some elements are array by default, not as multiple elements.
+		$this->aField = $aField + $aFieldDefinition['aDefaultKeys'] + self::$aStructure_FieldDefinition;	// better not to merge recursively because some elements are array by default, not as multiple elements.
 		$this->aFieldDefinition = $aFieldDefinition;
 		$this->aOptions = $aOptions;
 		$this->aErrors = $aErrors ? $aErrors : array();
@@ -10218,7 +10218,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 
 		// Get the field output.
 		$sOutput .= call_user_func_array( 
-			$this->aFieldDefinition['callRenderField'], 
+			$this->aFieldDefinition['hfRenderField'], 
 			array( $this->vValue, $this->aField, $this->aOptions, $this->aErrors, $this->aFieldDefinition )
 		);			
 				
@@ -11337,20 +11337,20 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			// If the field type is not defined, return.
 			if ( ! isset( $this->oProps->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
 
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callFieldLoader'] ) )
-				call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callFieldLoader'], array() );		
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
+				call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
 			
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetScripts'] ) )
-				$this->oProps->sScript .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetScripts'], array() );
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
+				$this->oProps->sScript .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetStyles'] ) )
-				$this->oProps->sStyle .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetStyles'], array() );
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
+				$this->oProps->sStyle .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetIEStyles'] ) )
-				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['callGetIEStyles'], array() );					
+			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
+				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
 
-			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['arrEnqueueStyles'] );
-			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['arrEnqueueScripts'] );
+			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}		
 
@@ -11487,7 +11487,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$aField['strName'] = isset( $aField['strName'] ) ? $aField['strName'] : $aField['field_id'];
 
 		// Render the form field. 		
-		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] )
+		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 		$oField = new AdminPageFramework_InputField( $aField, $this->oProps->aOptions, array(), $this->oProps->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );	// currently the error array is not supported for meta-boxes

@@ -274,7 +274,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -285,9 +285,9 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
-					. $this->getFontInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys )
+					. $this->getFontInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -302,7 +302,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		 * A helper function for the above replyToGetInputField() method to return input elements.
 		 * 
 		 */
-		private function getFontInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys ) {
+		private function getFontInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );
@@ -310,16 +310,16 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
 				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 					: ''
 				)			
 				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $sFontURL = $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $aDefaultKeys  ) ) . "' "
+					. "value='" . ( $sFontURL = $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys  ) ) . "' "
 					. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 					. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
@@ -329,10 +329,10 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
-						. "value='" . $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $aDefaultKeys ) . "' "
+						. "value='" . $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys ) . "' "
 						. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 					. "/>";
 			
@@ -340,18 +340,18 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
 					. "<label for='{$sTagID}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 					. "</label>"
 				. "</div>"
-				. ( $this->getCorrespondingArrayValue( $aField['vFontPreview'], $sKey, $aDefaultKeys['vFontPreview'] )
+				. ( $this->getCorrespondingArrayValue( $aField['vFontPreview'], $sKey, $_aDefaultKeys['vFontPreview'] )
 					? "<div id='image_preview_container_{$sTagID}_{$sKey}' "
 							. "class='font_preview' "
 						. ">"
 							. "<p class='font-preview-text' id='font_preview_{$sTagID}_{$sKey}' style='font-family: {$sTagID}_{$sKey}; opacity: 1;'>"
 								// . "<apex:sectionHeader title='' subtitle='BrowserFix' />"
-								. $this->getCorrespondingArrayValue( $aField['vPreviewText'], $sKey, $aDefaultKeys['vPreviewText'] )
+								. $this->getCorrespondingArrayValue( $aField['vPreviewText'], $sKey, $_aDefaultKeys['vPreviewText'] )
 							. "</p>"
 						. "</div>"
 					: "" )
@@ -364,11 +364,11 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		/**
 		 * A helper function for the above method that retrieve the specified input field value.
 		 */
-		private function getFontInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $aDefaultKeys ) {	
+		private function getFontInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $_aDefaultKeys ) {	
 
 			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['default'] )
-				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['default'] );
+				? $this->getCorrespondingArrayValue( $vValue, $sKey, $_aDefaultKeys['default'] )
+				: ( isset( $vValue ) ? $vValue : $_aDefaultKeys['default'] );
 
 			return $sCaptureAttribute
 				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )

@@ -76,7 +76,7 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 		$sFieldName = $aField['strFieldName'];
 		$sTagID = $aField['strTagID'];
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
-		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
+		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
@@ -87,28 +87,28 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
 							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='knob " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
+								. "class='knob " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='text' "
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 								. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
-								. $this->getDataAttributes( $aField, $sKey, $aDefaultKeys )
+								. $this->getDataAttributes( $aField, $sKey, $_aDefaultKeys )
 							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"	// end of label container
 					. $this->getDialEnablerScript( "{$sTagID}_{$sKey}" )					
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -122,10 +122,10 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 	/**
 	 * A helper function for the above method.
 	 */
-	private function getDataAttributes( $aField, $sKey, $aDefaultKeys ) {
+	private function getDataAttributes( $aField, $sKey, $_aDefaultKeys ) {
 		
 		$aDataAttribute = isset( $aField['data_attribute'][ $sKey ] )
-			? $this->uniteArrays( ( array ) $aField['data_attribute'][ $sKey ], $aDefaultKeys['data_attribute'] )
+			? $this->uniteArrays( ( array ) $aField['data_attribute'][ $sKey ], $_aDefaultKeys['data_attribute'] )
 			: $aField['data_attribute'];
 			
 		return $this->convertArrayToDataAttributes( $aDataAttribute );
