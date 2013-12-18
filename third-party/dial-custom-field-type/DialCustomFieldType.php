@@ -6,9 +6,9 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vSize'					=> 10,
+			'size'					=> 10,
 			'vMaxLength'			=> 400,
-			'vDataAttribute'		=> array(),		// the array holds the data for the data-{...} attribute of the input tag.
+			'data_attribute'		=> array(),		// the array holds the data for the data-{...} attribute of the input tag.
 		);	
 	}
 
@@ -78,9 +78,9 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];		
+			: $aField['label'];		
 		
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] = 
@@ -88,13 +88,13 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( $sLabel && ! $aField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='knob " . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+								. "class='knob " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='text' "
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
@@ -108,7 +108,7 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 					. "</div>"	// end of label container
 					. $this->getDialEnablerScript( "{$sTagID}_{$sKey}" )					
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -124,9 +124,9 @@ class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 */
 	private function getDataAttributes( $aField, $sKey, $aDefaultKeys ) {
 		
-		$aDataAttribute = isset( $aField['vDataAttribute'][ $sKey ] )
-			? $this->uniteArrays( ( array ) $aField['vDataAttribute'][ $sKey ], $aDefaultKeys['vDataAttribute'] )
-			: $aField['vDataAttribute'];
+		$aDataAttribute = isset( $aField['data_attribute'][ $sKey ] )
+			? $this->uniteArrays( ( array ) $aField['data_attribute'][ $sKey ], $aDefaultKeys['data_attribute'] )
+			: $aField['data_attribute'];
 			
 		return $this->convertArrayToDataAttributes( $aDataAttribute );
 		

@@ -26,13 +26,13 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 	 */
 	protected function getDefaultKeys() { 
 		return array(			
-			'arrCaptureAttributes'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-			'vSize'									=> 60,
+			'attributes_to_capture'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+			'size'									=> 60,
 			'vMaxLength'							=> 400,
 			'vFontPreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
 			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
 			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-			'fAllowExternalSource' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 			'vPreviewText'							=> 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
 		);	
 	}
@@ -206,7 +206,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						// Escape the strings of some of the attributes.
 						// var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
 						// var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
-						// var strTitle = jQuery( '<div/>' ).text( image.title ).html();
+						// var title = jQuery( '<div/>' ).text( image.title ).html();
 						
 						// If the user want the attributes to be saved, set them in the input tags.
 						jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
@@ -215,7 +215,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						// jQuery( 'input#' + strInputID + '_height' ).val( image.height );
 						// jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
 						// jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
-						// jQuery( 'input#' + strInputID + '_title' ).val( strTitle );
+						// jQuery( 'input#' + strInputID + '_title' ).val( title );
 						// jQuery( 'input#' + strInputID + '_align' ).val( image.align );
 						// jQuery( 'input#' + strInputID + '_link' ).val( image.link );
 						
@@ -225,7 +225,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 						// jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
 						// jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
 						// jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
-						// jQuery( '#image_preview_' + strInputID ).attr( 'title', strTitle );
+						// jQuery( '#image_preview_' + strInputID ).attr( 'title', title );
 						// jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
 						// jQuery( '#image_preview_container_' + strInputID ).show();				
 					
@@ -276,18 +276,18 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];
+			: $aField['label'];
 		$bMultipleFields = is_array( $aFields );	
-		$bRepeatable = $aField['fRepeatable'];
+		$bRepeatable = $aField['repeatable'];
 			
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
 					. $this->getFontInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -305,17 +305,17 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		private function getFontInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['arrCaptureAttributes'] );
+			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
-				( $sLabel && ! $aField['fRepeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+				( $sLabel && ! $aField['repeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 					: ''
 				)			
 				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
@@ -326,10 +326,10 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['arrCaptureAttributes'] as $sAttribute )
+			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
 						. "value='" . $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $aDefaultKeys ) . "' "
@@ -357,7 +357,7 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 					: "" )
 				. $this->getScopedStyle( "{$sTagID}_{$sKey}", $sFontURL )
 				. $this->getFontChangeScript( "{$sTagID}_{$sKey}", $sFontURL )
-				. $this->getFontUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['fRepeatable'] ? true : false, $aField['fAllowExternalSource'] ? true : false )
+				. $this->getFontUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false )
 				. $this->getFontSizeChangerElement( "{$sTagID}_{$sKey}", "image_preview_container_{$sTagID}_{$sKey}", "font_preview_{$sTagID}_{$sKey}" );
 			
 		}
@@ -367,8 +367,8 @@ class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
 		private function getFontInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $aDefaultKeys ) {	
 
 			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['vDefault'] )
-				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['vDefault'] );
+				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['default'] )
+				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['default'] );
 
 			return $sCaptureAttribute
 				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )

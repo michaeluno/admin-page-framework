@@ -211,7 +211,7 @@ abstract class AdminPageFramework_WPUtilities {
 				'strThemeName' => 'Theme Name',
 				'strThemeURI' => 'Theme URI',
 				'strVersion' => 'Version',
-				'strDescription' => 'Description',
+				'description' => 'Description',
 				'strAuthor' => 'Author',
 				'strAuthorURI' => 'Author URI',
 				'strTextDomain' => 'Text Domain',
@@ -721,12 +721,12 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	 * @internal
 	 */ 
 	public static $aStructure_HelpTab = array(
-		'strPageSlug'				=> null,	// ( mandatory )
-		'strPageTabSlug'			=> null,	// ( optional )
-		'strHelpTabTitle'			=> null,	// ( mandatory )
-		'strHelpTabID'				=> null,	// ( mandatory )
-		'strHelpTabContent'			=> null,	// ( optional )
-		'strHelpTabSidebarContent'	=> null,	// ( optional )
+		'page_slug'				=> null,	// ( mandatory )
+		'page_tab_slug'			=> null,	// ( optional )
+		'help_tab_title'			=> null,	// ( mandatory )
+		'help_tab_id'				=> null,	// ( mandatory )
+		'help_tab_content'			=> null,	// ( optional )
+		'help_tab_sidebar_content'	=> null,	// ( optional )
 	);
 
 	/**
@@ -750,12 +750,12 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 		
 		foreach( $this->oProps->aHelpTabs as $aHelpTab ) {
 			
-			if ( $sCurrentPageSlug != $aHelpTab['strPageSlug'] ) continue;
-			if ( isset( $aHelpTab['strPageTabSlug'] ) && ! empty( $aHelpTab['strPageTabSlug'] ) & $sCurrentPageTabSlug != $aHelpTab['strPageTabSlug'] ) continue;
+			if ( $sCurrentPageSlug != $aHelpTab['page_slug'] ) continue;
+			if ( isset( $aHelpTab['page_tab_slug'] ) && ! empty( $aHelpTab['page_tab_slug'] ) & $sCurrentPageTabSlug != $aHelpTab['page_tab_slug'] ) continue;
 				
 			$this->setHelpTab( 
 				$aHelpTab['strID'], 
-				$aHelpTab['strTitle'], 
+				$aHelpTab['title'], 
 				$aHelpTab['arrContent'], 
 				$aHelpTab['arrSidebar']
 			);
@@ -768,23 +768,23 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	 * 
 	 * <h4>Contextual Help Tab Array Structure</h4>
 	 * <ul>
-	 * 	<li><strong>strPageSlug</strong> - the page slug of the page that the contextual help tab and its contents are displayed.</li>
-	 * 	<li><strong>strPageTabSlug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
-	 * 	<li><strong>strHelpTabTitle</strong> - the title of the contextual help tab.</li>
-	 * 	<li><strong>strHelpTabID</strong> - the id of the contextual help tab.</li>
-	 * 	<li><strong>strHelpTabContent</strong> - the HTML string content of the the contextual help tab.</li>
-	 * 	<li><strong>strHelpTabSidebarContent</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
+	 * 	<li><strong>page_slug</strong> - the page slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>help_tab_title</strong> - the title of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_id</strong> - the id of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_content</strong> - the HTML string content of the the contextual help tab.</li>
+	 * 	<li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
 	 * </ul>
 	 * 
 	 * <h4>Example</h4>
 	 * <code>	$this->addHelpTab( 
 	 *		array(
-	 *			'strPageSlug'				=> 'first_page',	// ( mandatory )
-	 *			// 'strPageTabSlug'			=> null,	// ( optional )
-	 *			'strHelpTabTitle'			=> 'Admin Page Framework',
-	 *			'strHelpTabID'				=> 'admin_page_framework',	// ( mandatory )
-	 *			'strHelpTabContent'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
-	 *			'strHelpTabSidebarContent'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+	 *			'page_slug'				=> 'first_page',	// ( mandatory )
+	 *			// 'page_tab_slug'			=> null,	// ( optional )
+	 *			'help_tab_title'			=> 'Admin Page Framework',
+	 *			'help_tab_id'				=> 'admin_page_framework',	// ( mandatory )
+	 *			'help_tab_content'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
+	 *			'help_tab_sidebar_content'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
 	 *		)
 	 *	);</code>
 	 * 
@@ -800,23 +800,23 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 		$aHelpTab = ( array ) $aHelpTab + AdminPageFramework_Help::$aStructure_HelpTab;
 		
 		// If the key is not set, that means the help tab array is not created yet. So create it and go back.
-		if ( ! isset( $this->oProps->aHelpTabs[ $aHelpTab['strHelpTabID'] ] ) ) {
-			$this->oProps->aHelpTabs[ $aHelpTab['strHelpTabID'] ] = array(
-				'strID' => $aHelpTab['strHelpTabID'],
-				'strTitle' => $aHelpTab['strHelpTabTitle'],
-				'arrContent' => ! empty( $aHelpTab['strHelpTabContent'] ) ? array( $this->formatHelpDescription( $aHelpTab['strHelpTabContent'] ) ) : array(),
-				'arrSidebar' => ! empty( $aHelpTab['strHelpTabSidebarContent'] ) ? array( $this->formatHelpDescription( $aHelpTab['strHelpTabSidebarContent'] ) ) : array(),
-				'strPageSlug' => $aHelpTab['strPageSlug'],
-				'strPageTabSlug' => $aHelpTab['strPageTabSlug'],
+		if ( ! isset( $this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) {
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array(
+				'strID' => $aHelpTab['help_tab_id'],
+				'title' => $aHelpTab['help_tab_title'],
+				'arrContent' => ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
+				'arrSidebar' => ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
+				'page_slug' => $aHelpTab['page_slug'],
+				'page_tab_slug' => $aHelpTab['page_tab_slug'],
 			);
 			return;
 		}
 
 		// This line will be reached if the help tab array is already set. In this case, just append an array element into the keys.
-		if ( ! empty( $aHelpTab['strHelpTabContent'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['strHelpTabID']]['arrContent'][] = $this->formatHelpDescription( $aHelpTab['strHelpTabContent'] );
-		if ( ! empty( $aHelpTab['strHelpTabSidebarContent'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['strHelpTabID'] ]['arrSidebar'][] = $this->formatHelpDescription( $aHelpTab['strHelpTabSidebarContent'] );
+		if ( ! empty( $aHelpTab['help_tab_content'] ) )
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id']]['arrContent'][] = $this->formatHelpDescription( $aHelpTab['help_tab_content'] );
+		if ( ! empty( $aHelpTab['help_tab_sidebar_content'] ) )
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['arrSidebar'][] = $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
 		
 	}
 	
@@ -867,15 +867,15 @@ abstract class AdminPageFramework_HeadTag_Base {
 	protected function enqueueSRC( $aEnqueueItem ) {
 		
 		// For styles
-		if ( $aEnqueueItem['strType'] == 'style' ) {
-			wp_enqueue_style( $aEnqueueItem['strHandleID'], $aEnqueueItem['strSRC'], $aEnqueueItem['arrDependencies'], $aEnqueueItem['strVersion'], $aEnqueueItem['strMedia'] );
+		if ( $aEnqueueItem['type'] == 'style' ) {
+			wp_enqueue_style( $aEnqueueItem['handle_id'], $aEnqueueItem['strSRC'], $aEnqueueItem['arrDependencies'], $aEnqueueItem['strVersion'], $aEnqueueItem['strMedia'] );
 			return;
 		}
 		
 		// For scripts
-		wp_enqueue_script( $aEnqueueItem['strHandleID'], $aEnqueueItem['strSRC'], $aEnqueueItem['arrDependencies'], $aEnqueueItem['strVersion'], $aEnqueueItem['fInFooter'] );
-		if ( $aEnqueueItem['arrTranslation'] ) 
-			wp_localize_script( $aEnqueueItem['strHandleID'], $aEnqueueItem['strHandleID'], $aEnqueueItem['arrTranslation'] );
+		wp_enqueue_script( $aEnqueueItem['handle_id'], $aEnqueueItem['strSRC'], $aEnqueueItem['arrDependencies'], $aEnqueueItem['strVersion'], $aEnqueueItem['fInFooter'] );
+		if ( $aEnqueueItem['translation'] ) 
+			wp_localize_script( $aEnqueueItem['handle_id'], $aEnqueueItem['handle_id'], $aEnqueueItem['translation'] );
 		
 	}
 	
@@ -1054,7 +1054,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * 
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
-	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
@@ -1083,14 +1083,14 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 			( array ) $aCustomArgs,
 			array(		
 				'strSRC' => $sSRC,
-				'strPageSlug' => $sPageSlug,
-				'strTabSlug' => $sTabSlug,
-				'strType' => 'style',
-				'strHandleID' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
+				'page_slug' => $sPageSlug,
+				'tab_slug' => $sTabSlug,
+				'type' => 'style',
+				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
 			),
 			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
 		);
-		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'strHandleID' ];
+		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
 	}
 	
@@ -1112,10 +1112,10 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 * 
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
-	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
 	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>arrTranslation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
 	 * 
@@ -1125,8 +1125,8 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 	 *		'apf_read_me', 	// page slug
 	 *		'', 	// tab slug
 	 *		array(
-	 *			'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
-	 *			'arrTranslation' => array( 
+	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'translation' => array( 
 	 *				'a' => 'hello world!',
 	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
 	 *			),
@@ -1155,15 +1155,15 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$this->oProps->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
 			( array ) $aCustomArgs,
 			array(		
-				'strPageSlug' => $sPageSlug,
-				'strTabSlug' => $sTabSlug,
+				'page_slug' => $sPageSlug,
+				'tab_slug' => $sTabSlug,
 				'strSRC' => $sSRC,
-				'strType' => 'script',
-				'strHandleID' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
+				'type' => 'script',
+				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
 			),
 			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
 		);
-		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'strHandleID' ];
+		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
 		
 	/**
@@ -1177,8 +1177,8 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sCurrentPageSlug );
 			
-		$sPageSlug = $aEnqueueItem['strPageSlug'];
-		$sTabSlug = $aEnqueueItem['strTabSlug'];
+		$sPageSlug = $aEnqueueItem['page_slug'];
+		$sTabSlug = $aEnqueueItem['tab_slug'];
 		
 		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
 		if ( ! $sPageSlug && $this->oProps->isPageAdded( $sCurrentPageSlug ) )  // means script-global(among pages added by the framework)
@@ -1316,7 +1316,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * 
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
-	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
@@ -1344,12 +1344,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			array(		
 				'strSRC' => $sSRC,
 				'arrPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
-				'strType' => 'style',
-				'strHandleID' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
+				'type' => 'style',
+				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
 			),
 			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
 		);
-		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'strHandleID' ];
+		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
 	}
 	
@@ -1371,10 +1371,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * 
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
-	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
 	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>arrTranslation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
 	 * 
@@ -1404,12 +1404,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			array(		
 				'strSRC' => $sSRC,
 				'arrPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
-				'strType' => 'script',
-				'strHandleID' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
+				'type' => 'script',
+				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
 			),
 			AdminPageFramework_Properties::$aStructure_EnqueuingScriptsAndStyles
 		);
-		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'strHandleID' ];
+		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
 
 	/**
@@ -1614,12 +1614,12 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @internal
 	 */ 	
 	private static $aStructure_InPageTabElements = array(
-		'strPageSlug' => null,
-		'strTabSlug' => null,
-		'strTitle' => null,
-		'numOrder' => null,
-		'fHide'	=> null,
-		'strParentTabSlug' => null,	// this needs to be set if the above fHide is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
+		'page_slug' => null,
+		'tab_slug' => null,
+		'title' => null,
+		'order' => null,
+		'inpage_tab_visibility'	=> null,
+		'parent_tab_slug' => null,	// this needs to be set if the above inpage_tab_visibility is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
 	);
 	
 		
@@ -1627,14 +1627,14 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * Sets whether the page title is displayed or not.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->showPageTitle( false );    // disables the page title.</code>
+	 * <code>$this->setPageTitleVisibility( false );    // disables the page title.</code>
 	 * 
 	 * @since			2.0.0
 	 * @param			boolean			$bShow			If false, the page title will not be displayed.
 	 * @remark			The user may use this method.
 	 * @return			void
 	 */ 
-	protected function showPageTitle( $bShow=true, $sPageSlug='' ) {
+	protected function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
 			$this->oProps->aPages[ $sPageSlug ]['fShowPageTitle'] = $bShow;
@@ -1649,7 +1649,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * Sets whether page-heading tabs are displayed or not.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->showPageHeadingTabs( false );    // disables the page heading tabs by passing false.</code>
+	 * <code>$this->setPageHeadingTabsVisibility( false );    // disables the page heading tabs by passing false.</code>
 	 * 
 	 * @since			2.0.0
 	 * @param			boolean			$bShow					If false, page-heading tabs will be disabled; otherwise, enabled.
@@ -1658,7 +1658,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 
-	protected function showPageHeadingTabs( $bShow=true, $sPageSlug='' ) {
+	protected function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
 			$this->oProps->aPages[ $sPageSlug ]['fShowPageHeadingTabs'] = $bShow;
@@ -1890,8 +1890,8 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	protected function getFormClosingTag( $sPageSlug, $sTabSlug ) {
 
 		if ( ! $this->oProps->bEnableForm ) return '';	
-		return "<input type='hidden' name='strPageSlug' value='{$sPageSlug}' />" . PHP_EOL
-			. "<input type='hidden' name='strTabSlug' value='{$sTabSlug}' />" . PHP_EOL			
+		return "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
+			. "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL			
 			. "</form><!-- End Form -->";
 	
 	}	
@@ -1905,12 +1905,12 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	private function getScreenIcon( $sPageSlug ) {
 
 		// If the icon path is explicitly set, use it.
-		if ( isset( $this->oProps->aPages[ $sPageSlug ]['strURLIcon32x32'] ) ) 
-			return '<div class="icon32" style="background-image: url(' . $this->oProps->aPages[ $sPageSlug ]['strURLIcon32x32'] . ');"><br /></div>';
+		if ( isset( $this->oProps->aPages[ $sPageSlug ]['hrefIcon32x32'] ) ) 
+			return '<div class="icon32" style="background-image: url(' . $this->oProps->aPages[ $sPageSlug ]['hrefIcon32x32'] . ');"><br /></div>';
 		
 		// If the screen icon ID is explicitly set, use it.
-		if ( isset( $this->oProps->aPages[ $sPageSlug ]['strScreenIconID'] ) )
-			return '<div class="icon32" id="icon-' . $this->oProps->aPages[ $sPageSlug ]['strScreenIconID'] . '"><br /></div>';
+		if ( isset( $this->oProps->aPages[ $sPageSlug ]['screen_iconID'] ) )
+			return '<div class="icon32" id="icon-' . $this->oProps->aPages[ $sPageSlug ]['screen_iconID'] . '"><br /></div>';
 			
 		// Retrieve the screen object for the current page.
 		$oScreen = get_current_screen();
@@ -1961,30 +1961,30 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	
 		// If the page heading tab visibility is disabled, return the title.
 		if ( ! $this->oProps->aPages[ $sCurrentPageSlug ][ 'fShowPageHeadingTabs' ] )
-			return "<{$sTag}>" . $this->oProps->aPages[ $sCurrentPageSlug ]['strPageTitle'] . "</{$sTag}>";		
+			return "<{$sTag}>" . $this->oProps->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";		
 		
 		foreach( $this->oProps->aPages as $aSubPage ) {
 			
 			// For added sub-pages
-			if ( isset( $aSubPage['strPageSlug'] ) && $aSubPage['fShowPageHeadingTab'] ) {
+			if ( isset( $aSubPage['page_slug'] ) && $aSubPage['fShowPageHeadingTab'] ) {
 				// Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
-				$sClassActive =  $sCurrentPageSlug == $aSubPage['strPageSlug']  ? 'nav-tab-active' : '';		
+				$sClassActive =  $sCurrentPageSlug == $aSubPage['page_slug']  ? 'nav-tab-active' : '';		
 				$aOutput[] = "<a class='nav-tab {$sClassActive}' "
-					. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['strPageSlug'], 'tab' => false ), $this->oProps->aDisallowedQueryKeys ) 
+					. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['page_slug'], 'tab' => false ), $this->oProps->aDisallowedQueryKeys ) 
 					. "'>"
-					. $aSubPage['strPageTitle']
+					. $aSubPage['title']
 					. "</a>";	
 			}
 			
 			// For added menu links
 			if ( 
-				isset( $aSubPage['strURL'] )
-				&& $aSubPage['strType'] == 'link' 
+				isset( $aSubPage['href'] )
+				&& $aSubPage['type'] == 'link' 
 				&& $aSubPage['fShowPageHeadingTab']
 			) 
 				$aOutput[] = "<a class='nav-tab link' "
-					. "href='{$aSubPage['strURL']}'>"
-					. $aSubPage['strMenuTitle']
+					. "href='{$aSubPage['href']}'>"
+					. $aSubPage['title']
 					. "</a>";					
 			
 		}
@@ -2015,27 +2015,27 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	
 		// If the in-page tabs' visibility is set to false, returns the title.
 		if ( ! $this->oProps->aPages[ $sCurrentPageSlug ][ 'fShowInPageTabs' ]	)
-			return isset( $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['strTitle'] ) 
-				? "<{$sTag}>{$this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['strTitle']}</{$sTag}>" 
+			return isset( $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
+				? "<{$sTag}>{$this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
 				: "";
 	
 		// Get the actual string buffer.
 		foreach( $this->oProps->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 					
 			// If it's hidden and its parent tab is not set, skip
-			if ( $aInPageTab['fHide'] && ! isset( $aInPageTab['strParentTabSlug'] ) ) continue;
+			if ( $aInPageTab['inpage_tab_visibility'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
 			
 			// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
-			$sInPageTabSlug = isset( $aInPageTab['strParentTabSlug'], $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['strParentTabSlug'] ] ) 
-				? $aInPageTab['strParentTabSlug'] 
-				: $aInPageTab['strTabSlug'];
+			$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
+				? $aInPageTab['parent_tab_slug'] 
+				: $aInPageTab['tab_slug'];
 				
 			// Check if the current tab slug matches the iteration slug. If not match, assign blank; otherwise, put the active class name.
 			$bIsActiveTab = ( $sCurrentTabSlug == $sInPageTabSlug );
 			$aOutput[ $sInPageTabSlug ] = "<a class='nav-tab " . ( $bIsActiveTab ? "nav-tab-active" : "" ) . "' "
 				. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProps->aDisallowedQueryKeys ) 
 				. "'>"
-				. $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['strTitle'] //	"{$aInPageTab['strTitle']}"
+				. $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['title'] //	"{$aInPageTab['title']}"
 				. "</a>";
 		
 		}		
@@ -2052,16 +2052,16 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * Retrieves the parent tab slug from the given tab slug.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.2			If the parent slug has the fHide to be true, it returns an empty string.
+	 * @since			2.1.2			If the parent slug has the inpage_tab_visibility to be true, it returns an empty string.
 	 * @return			string			the parent tab slug.
 	 */ 	
 	private function getParentTabSlug( $sPageSlug, $sTabSlug ) {
 		
-		$sParentTabSlug = isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['strParentTabSlug'] ) 
-			? $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['strParentTabSlug']
+		$sParentTabSlug = isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug'] ) 
+			? $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
 			: $sTabSlug;
 		
-		return isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['fHide'] ) && $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['fHide']
+		return isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['inpage_tab_visibility'] ) && $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['inpage_tab_visibility']
 			? ""
 			: $sParentTabSlug;
 
@@ -2076,7 +2076,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @param			string			$sTabSlug				The tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).
 	 * @param			integer			$nOrder				( optional ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.
 	 * @param			boolean			$bHide					( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
-	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above fHide is true so that the parent tab will be emphasized as active when the hidden page is accessed.
+	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above inpage_tab_visibility is true so that the parent tab will be emphasized as active when the hidden page is accessed.
 	 * @remark			Use this method to add in-page tabs to ensure the array holds all the necessary keys.
 	 * @remark			In-page tabs are different from page-heading tabs which is automatically added with page titles.
 	 * @return			void
@@ -2088,12 +2088,12 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		$iCountElement = isset( $this->oProps->aInPageTabs[ $sPageSlug ] ) ? count( $this->oProps->aInPageTabs[ $sPageSlug ] ) : 0;
 		if ( ! empty( $sTabSlug ) && ! empty( $sPageSlug ) ) 
 			$this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ] = array(
-				'strPageSlug'	=> $sPageSlug,
-				'strTitle'		=> trim( $sTabTitle ),
-				'strTabSlug'	=> $sTabSlug,
-				'numOrder'		=> is_numeric( $nOrder ) ? $nOrder : $iCountElement + 10,
-				'fHide'			=> ( $bHide ),
-				'strParentTabSlug' => ! empty( $sParentTabSlug ) ? $this->oUtil->sanitizeSlug( $sParentTabSlug ) : null,
+				'page_slug'	=> $sPageSlug,
+				'title'		=> trim( $sTabTitle ),
+				'tab_slug'	=> $sTabSlug,
+				'order'		=> is_numeric( $nOrder ) ? $nOrder : $iCountElement + 10,
+				'inpage_tab_visibility'			=> ( $bHide ),
+				'parent_tab_slug' => ! empty( $sParentTabSlug ) ? $this->oUtil->sanitizeSlug( $sParentTabSlug ) : null,
 			);
 	
 	}
@@ -2103,25 +2103,25 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * The parameters accept in-page tab arrays and they must have the following array keys.
 	 * <h4>In-Page Tab Array</h4>
 	 * <ul>
-	 * 	<li><strong>strPageSlug</strong> - ( string ) the page slug that the tab belongs to.</li>
-	 * 	<li><strong>strTabSlug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-	 * 	<li><strong>strTitle</strong> - ( string ) the title of the tab.</li>
-	 * 	<li><strong>numOrder</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
-	 * 	<li><strong>fHide</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
-	 * 	<li><strong>strParentTabSlug</strong> - ( optional, string ) this needs to be set if the above fHide is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+	 * 	<li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs to.</li>
+	 * 	<li><strong>tab_slug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+	 * 	<li><strong>title</strong> - ( string ) the title of the tab.</li>
+	 * 	<li><strong>order</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
+	 * 	<li><strong>inpage_tab_visibility</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
+	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above inpage_tab_visibility is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
 	 * </ul>
 	 * 
 	 * <h4>Example</h4>
 	 * <code>$this->addInPageTabs(
 	 *		array(
-	 *			'strTabSlug' => 'firsttab',
-	 *			'strTitle' => __( 'Text Fields', 'my-text-domain' ),
-	 *			'strPageSlug' => 'myfirstpage'
+	 *			'tab_slug' => 'firsttab',
+	 *			'title' => __( 'Text Fields', 'my-text-domain' ),
+	 *			'page_slug' => 'myfirstpage'
 	 *		),
 	 *		array(
-	 *			'strTabSlug' => 'secondtab',
-	 *			'strTitle' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
-	 *			'strPageSlug' => 'myfirstpage'
+	 *			'tab_slug' => 'secondtab',
+	 *			'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
+	 *			'page_slug' => 'myfirstpage'
 	 *		)
 	 *	);</code>
 	 * 
@@ -2138,7 +2138,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 		foreach( func_get_args() as $aTab ) {
 			if ( ! is_array( $aTab ) ) continue;
 			$aTab = $aTab + self::$aStructure_InPageTabElements;	// avoid undefined index warnings.
-			$this->addInPageTab( $aTab['strPageSlug'], $aTab['strTitle'], $aTab['strTabSlug'], $aTab['numOrder'], $aTab['fHide'], $aTab['strParentTabSlug'] );
+			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['inpage_tab_visibility'], $aTab['parent_tab_slug'] );
 		}
 		
 	}
@@ -2177,10 +2177,10 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $aInPageTab, is also used as reference in the above foreach.
 			foreach( $this->oProps->aInPageTabs[ $sPageSlug ] as $sTabSlug => &$aInPageTab ) { 	
 			
-				if ( ! isset( $aInPageTab['strTabSlug'] ) ) continue;	
+				if ( ! isset( $aInPageTab['tab_slug'] ) ) continue;	
 				
 				// Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
-				$this->oProps->aDefaultInPageTabs[ $sPageSlug ] = $aInPageTab['strTabSlug'];
+				$this->oProps->aDefaultInPageTabs[ $sPageSlug ] = $aInPageTab['tab_slug'];
 					
 				break;	// The first iteration item is the default one.
 			}
@@ -2239,11 +2239,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * @internal
 	 */ 
 	protected static $aStructure_SubMenuPage = array(
-		'strPageTitle' => null, 
-		'strPageSlug' => null, 
-		'strScreenIcon' => null,
+		'title' => null, 
+		'page_slug' => null, 
+		'screen_icon' => null,
 		'strCapability' => null, 
-		'numOrder' => null,
+		'order' => null,
 		'fShowPageHeadingTab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
 		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
 	);
@@ -2272,9 +2272,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		$sRootMenuLabel = trim( $sRootMenuLabel );
 		$sSlug = $this->isBuiltInMenuItem( $sRootMenuLabel );	// if true, this method returns the slug
 		$this->oProps->aRootMenu = array(
-			'strTitle'			=> $sRootMenuLabel,
-			'strPageSlug' 		=> $sSlug ? $sSlug : $this->oProps->sClassName,	
-			'strURLIcon16x16'	=> $this->oUtil->resolveSRC( $sURLIcon16x16, true ),
+			'title'			=> $sRootMenuLabel,
+			'page_slug' 		=> $sSlug ? $sSlug : $this->oProps->sClassName,	
+			'hrefIcon16x16'	=> $this->oUtil->resolveSRC( $sURLIcon16x16, true ),
 			'intPosition'		=> $iMenuPosition,
 			'fCreateRoot'		=> $sSlug ? false : true,
 		);	
@@ -2297,7 +2297,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 */ 
 	protected function setRootMenuPageBySlug( $sRootMenuSlug ) {
 		
-		$this->oProps->aRootMenu['strPageSlug'] = $sRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
+		$this->oProps->aRootMenu['page_slug'] = $sRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
 		$this->oProps->aRootMenu['fCreateRoot'] = false;		// indicates to use an existing menu item. 
 		
 	}
@@ -2316,11 +2316,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		foreach ( func_get_args() as $aSubMenuPage ) {
 			$aSubMenuPage = $aSubMenuPage + self::$aStructure_SubMenuPage;	// avoid undefined index warnings.
 			$this->addSubMenuPage(
-				$aSubMenuPage['strPageTitle'],
-				$aSubMenuPage['strPageSlug'],
-				$aSubMenuPage['strScreenIcon'],
+				$aSubMenuPage['title'],
+				$aSubMenuPage['page_slug'],
+				$aSubMenuPage['screen_icon'],
 				$aSubMenuPage['strCapability'],
-				$aSubMenuPage['numOrder'],
+				$aSubMenuPage['order'],
 				$aSubMenuPage['fShowPageHeadingTab']
 			);				
 		}
@@ -2333,7 +2333,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	 * <code>$this->addSubMenuPage( 'My Page', 'my_page', 'edit-pages' );</code>
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.2			The key name fPageHeadingTab was changed to fShowPageHeadingTab
+	 * @since			2.1.2			The key name page_heading_tab_visibility was changed to fShowPageHeadingTab
 	 * @since			2.1.6			$sScreenIcon accepts a file path.
 	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	 * @param			string			$sPageTitle			The title of the page.
@@ -2355,13 +2355,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			? $this->oProps->aPages[ $sPageSlug ]
 			: array();
 		$aThisPage = array(  
-			'strPageTitle'				=> $sPageTitle,
-			'strPageSlug'				=> $sPageSlug,
-			'strType'					=> 'page',	// this is used to compare with the link type.
-			'strURLIcon32x32'			=> $this->oUtil->resolveSRC( $sScreenIcon, true ),
-			'strScreenIconID'			=> in_array( $sScreenIcon, self::$aScreenIconIDs ) ? $sScreenIcon : null,
+			'title'				=> $sPageTitle,
+			'page_slug'				=> $sPageSlug,
+			'type'					=> 'page',	// this is used to compare with the link type.
+			'hrefIcon32x32'			=> $this->oUtil->resolveSRC( $sScreenIcon, true ),
+			'screen_iconID'			=> in_array( $sScreenIcon, self::$aScreenIconIDs ) ? $sScreenIcon : null,
 			'strCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
-			'numOrder'					=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
+			'order'					=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'		=> $bShowPageHeadingTab,
 			'fShowInMenu'				=> $bShowInMenu,	// since 1.3.4			
 			'fShowPageTitle'			=> $this->oProps->bShowPageTitle,			// boolean
@@ -2398,11 +2398,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 
 		$sHookName = add_menu_page(  
 			$this->oProps->sClassName,						// Page title - will be invisible anyway
-			$this->oProps->aRootMenu['strTitle'],				// Menu title - should be the root page title.
+			$this->oProps->aRootMenu['title'],				// Menu title - should be the root page title.
 			$this->oProps->sCapability,						// Capability - access right
-			$this->oProps->aRootMenu['strPageSlug'],			// Menu ID 
+			$this->oProps->aRootMenu['page_slug'],			// Menu ID 
 			'', //array( $this, $this->oProps->sClassName ), 	// Page content displaying function
-			$this->oProps->aRootMenu['strURLIcon16x16'],		// icon path
+			$this->oProps->aRootMenu['hrefIcon16x16'],		// icon path
 			isset( $this->oProps->aRootMenu['intPosition'] ) ? $this->oProps->aRootMenu['intPosition'] : null	// menu position
 		);
 
@@ -2419,13 +2419,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 	private function registerSubMenuPage( $aArgs ) {
 	
 		// Format the argument array since it may be added by the third party scripts via the hook.
-		$aArgs = isset( $aArgs['strType'] ) && $aArgs['strType'] == 'link' 
+		$aArgs = isset( $aArgs['type'] ) && $aArgs['type'] == 'link' 
 			? $aArgs + AdminPageFramework_Link::$aStructure_SubMenuLink	// for link
 			: $aArgs + self::$aStructure_SubMenuPage;	// for page
 		
 		// Variables
-		$sType = $aArgs['strType'];	// page or link
-		$sTitle = $sType == 'page' ? $aArgs['strPageTitle'] : $aArgs['strMenuTitle'];
+		$sType = $aArgs['type'];	// page or link
+		$sTitle = $sType == 'page' ? $aArgs['title'] : $aArgs['title'];
 		$sCapability = $aArgs['strCapability'];
 			
 		// Check the capability
@@ -2434,13 +2434,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		
 		// Add the sub-page to the sub-menu
 		$aResult = array();
-		$sRootPageSlug = $this->oProps->aRootMenu['strPageSlug'];
+		$sRootPageSlug = $this->oProps->aRootMenu['page_slug'];
 		$sMenuLabel = plugin_basename( $sRootPageSlug );	// Make it compatible with the add_submenu_page() function.
 		
-		// If it's a page - it's possible that the strPageSlug key is not set if the user uses a method like showPageHeadingTabs() prior to addSubMenuItam().
-		if ( $sType == 'page' && isset( $aArgs['strPageSlug'] ) ) {		
+		// If it's a page - it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
+		if ( $sType == 'page' && isset( $aArgs['page_slug'] ) ) {		
 			
-			$sPageSlug = $aArgs['strPageSlug'];
+			$sPageSlug = $aArgs['page_slug'];
 			$aResult[ $sPageSlug ] = add_submenu_page( 
 				$sRootPageSlug,						// the root(parent) page slug
 				$sTitle,								// page_title
@@ -2484,7 +2484,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			$GLOBALS['submenu'][ $sMenuLabel ][] = array ( 
 				$sTitle, 
 				$sCapability, 
-				$aArgs['strURL'],
+				$aArgs['href'],
 			);	
 		}
 	
@@ -2530,8 +2530,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		// Set the default page, the first element.
 		foreach ( $this->oProps->aPages as $aPage ) {
 			
-			if ( ! isset( $aPage['strPageSlug'] ) ) continue;
-			$this->oProps->sDefaultPageSlug = $aPage['strPageSlug'];
+			if ( ! isset( $aPage['page_slug'] ) ) continue;
+			$this->oProps->sDefaultPageSlug = $aPage['page_slug'];
 			break;
 			
 		}
@@ -2542,7 +2542,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 						
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProps->aRootMenu['fCreateRoot'] ) 
-			remove_submenu_page( $this->oProps->aRootMenu['strPageSlug'], $this->oProps->aRootMenu['strPageSlug'] );
+			remove_submenu_page( $this->oProps->aRootMenu['page_slug'], $this->oProps->aRootMenu['page_slug'] );
 		
 	}	
 }
@@ -2573,16 +2573,16 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 	
 	protected static $aStructure_Section = array(	
-		'strSectionID' => null,
-		'strPageSlug' => null,
-		'strTabSlug' => null,
-		'strTitle' => null,
-		'strDescription' => null,
+		'section_id' => null,
+		'page_slug' => null,
+		'tab_slug' => null,
+		'title' => null,
+		'description' => null,
 		'strCapability' => null,
 		'fIf' => true,	
-		'numOrder' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
-		'strHelp' => null,
-		'strHelpAside' => null,
+		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
+		'help' => null,
+		'helpAside' => null,
 	);	
 	
 	/**
@@ -2595,27 +2595,27 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	protected static $aStructure_Field = array(
-		'strFieldID'		=> null, 		// ( mandatory )
-		'strSectionID'		=> null,		// ( mandatory )
+		'field_id'		=> null, 		// ( mandatory )
+		'section_id'		=> null,		// ( mandatory )
 		'strSectionTitle'	=> null,		// This will be assigned automatically in the formatting method.
-		'strType'			=> null,		// ( mandatory )
-		'strPageSlug'		=> null,		// This will be assigned automatically in the formatting method.
-		'strTabSlug'		=> null,		// This will be assigned automatically in the formatting method.
+		'type'			=> null,		// ( mandatory )
+		'page_slug'		=> null,		// This will be assigned automatically in the formatting method.
+		'tab_slug'		=> null,		// This will be assigned automatically in the formatting method.
 		'strOptionKey'		=> null,		// This will be assigned automatically in the formatting method.
 		'strClassName'		=> null,		// This will be assigned automatically in the formatting method.
 		'strCapability'		=> null,		
-		'strTitle'			=> null,
-		'strTip'			=> null,
-		'strDescription'	=> null,
+		'title'			=> null,
+		'tip'			=> null,
+		'description'	=> null,
 		'strName'			=> null,		// the name attribute of the input field.
 		'strError'			=> null,		// error message for the field
 		'strBeforeField'	=> null,
 		'strAfterField'		=> null,
 		'fIf' 				=> true,
-		'numOrder'			=> null,	// do not set the default number here for this key.		
-		'strHelp'			=> null,	// since 2.1.0
-		'strHelpAside'		=> null,	// since 2.1.0
-		'fRepeatable'		=> null,	// since 2.1.3
+		'order'			=> null,	// do not set the default number here for this key.		
+		'help'			=> null,	// since 2.1.0
+		'helpAside'		=> null,	// since 2.1.0
+		'repeatable'		=> null,	// since 2.1.3
 	);	
 	
 	/**
@@ -2689,33 +2689,33 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 
 	* <strong>Section Array</strong>
 	* <ul>
-	* <li><strong>strSectionID</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
-	* <li><strong>strPageSlug</strong> - (  string ) the page slug that the section belongs to.</li>
-	* <li><strong>strTabSlug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
-	* <li><strong>strTitle</strong> - ( optional, string ) the title of the section.</li>
+	* <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	* <li><strong>page_slug</strong> - (  string ) the page slug that the section belongs to.</li>
+	* <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
+	* <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	* <li><strong>strCapability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
 	* <li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
-	* <li><strong>numOrder</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
-	* <li><strong>strHelp</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-	* <li><strong>strHelpAside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	* <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
+	* <li><strong>helpAside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
 	* </ul>
 	* 
 	* <h4>Example</h4>
 	* <code>$this->addSettingSections(
 	*		array(
-	*			'strSectionID'		=> 'text_fields',
-	*			'strPageSlug'		=> 'first_page',
-	*			'strTabSlug'		=> 'textfields',
-	*			'strTitle'			=> 'Text Fields',
-	*			'strDescription'	=> 'These are text type fields.',
-	*			'numOrder'			=> 10,
+	*			'section_id'		=> 'text_fields',
+	*			'page_slug'		=> 'first_page',
+	*			'tab_slug'		=> 'textfields',
+	*			'title'			=> 'Text Fields',
+	*			'description'	=> 'These are text type fields.',
+	*			'order'			=> 10,
 	*		),	
 	*		array(
-	*			'strSectionID'		=> 'selectors',
-	*			'strPageSlug'		=> 'first_page',
-	*			'strTabSlug'		=> 'selectors',
-	*			'strTitle'			=> 'Selectors and Checkboxes',
-	*			'strDescription'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
+	*			'section_id'		=> 'selectors',
+	*			'page_slug'		=> 'first_page',
+	*			'tab_slug'		=> 'selectors',
+	*			'title'			=> 'Selectors and Checkboxes',
+	*			'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
 	*		)</code>
 	*
 	* @since			2.0.0
@@ -2755,14 +2755,14 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$aSection = $aSection + self::$aStructure_Section;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-		$aSection['strSectionID'] = $this->oUtil->sanitizeSlug( $aSection['strSectionID'] );
-		$aSection['strPageSlug'] = $this->oUtil->sanitizeSlug( $aSection['strPageSlug'] );
-		$aSection['strTabSlug'] = $this->oUtil->sanitizeSlug( $aSection['strTabSlug'] );
+		$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
+		$aSection['page_slug'] = $this->oUtil->sanitizeSlug( $aSection['page_slug'] );
+		$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
 		
-		if ( ! isset( $aSection['strSectionID'], $aSection['strPageSlug'] ) ) return;	// these keys are necessary.
+		if ( ! isset( $aSection['section_id'], $aSection['page_slug'] ) ) return;	// these keys are necessary.
 		
 		// If the page slug does not match the current loading page, there is no need to register form sections and fields.
-		if ( $GLOBALS['pagenow'] != 'options.php' && ! $sCurrentPageSlug || $sCurrentPageSlug !=  $aSection['strPageSlug'] ) return;				
+		if ( $GLOBALS['pagenow'] != 'options.php' && ! $sCurrentPageSlug || $sCurrentPageSlug !=  $aSection['page_slug'] ) return;				
 
 		// If the custom condition is set and it's not true, skip.
 		if ( ! $aSection['fIf'] ) return;
@@ -2771,7 +2771,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$aSection['strCapability'] = isset( $aSection['strCapability'] ) ? $aSection['strCapability'] : $this->oProps->sCapability;
 		if ( ! current_user_can( $aSection['strCapability'] ) ) return;	// since 1.0.2.1
 		
-		$this->oProps->aSections[ $aSection['strSectionID'] ] = $aSection;	
+		$this->oProps->aSections[ $aSection['section_id'] ] = $aSection;	
 			
 	}
 	
@@ -2808,30 +2808,30 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 
 	* <h4>Field Array</h4>
 	* <ul>
-	* 	<li><strong>strFieldID</strong> - ( string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
-	* 	<li><strong>strSectionID</strong> - ( string ) the section ID that the field belongs to.</li>
-	* 	<li><strong>strType</strong> - ( string ) the type of the field. The supported types are listed below.</li>
-	* 	<li><strong>strTitle</strong> - ( optional, string ) the title of the section.</li>
-	* 	<li><strong>strDescription</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
-	* 	<li><strong>strTip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
+	* 	<li><strong>field_id</strong> - ( string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	* 	<li><strong>section_id</strong> - ( string ) the section ID that the field belongs to.</li>
+	* 	<li><strong>type</strong> - ( string ) the type of the field. The supported types are listed below.</li>
+	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
 	* 	<li><strong>strCapability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
 	* 	<li><strong>strName</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
 	* 	<li><strong>strError</strong> - ( optional, string ) the error message to display above the input field.</li>
 	* 	<li><strong>strBeforeField</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
 	* 	<li><strong>strAfterField</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
 	* 	<li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
-	* 	<li><strong>numOrder</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
-	* 	<li><strong>vLabel</strong> - ( optional|mandatory, string|array ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key while some require it.</li>
-	* 	<li><strong>vDefault</strong> - ( optional, string|array ) the default value(s) assigned to the input tag's value attribute.</li>
+	* 	<li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	* 	<li><strong>label</strong> - ( optional|mandatory, string|array ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key while some require it.</li>
+	* 	<li><strong>default</strong> - ( optional, string|array ) the default value(s) assigned to the input tag's value attribute.</li>
 	* 	<li><strong>vValue</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>value</em> attribute to override the default or stored value.</li>
-	* 	<li><strong>vDelimiter</strong> - ( optional, string|array ) the HTML string that delimits multiple elements. This is available if the <var>vLabel</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>delimiter</strong> - ( optional, string|array ) the HTML string that delimits multiple elements. This is available if the <var>label</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
 	* 	<li><strong>vBeforeInputTag</strong> - ( optional, string|array ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
 	* 	<li><strong>vAfterInputTag</strong> - ( optional, string|array ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
-	* 	<li><strong>vClassAttribute</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>class</em>.</li>
-	* 	<li><strong>vLabelMinWidth</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
+	* 	<li><strong>class_attribute</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>class</em>.</li>
+	* 	<li><strong>labelMinWidth</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
 	* 	<li><strong>vDisable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
-	*	<li><strong>strHelp</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-	*	<li><strong>strHelpAside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
+	*	<li><strong>helpAside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
 	* </ul>
 	* <h4>Field Types</h4>
 	* <p>Each field type uses specific array keys.</p>
@@ -2839,43 +2839,43 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 	<li><strong>text</strong> - a text input field which allows the user to type text.</li>
 	* 		<ul>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>password</strong> - a password input field which allows the user to type text.</li>
 	* 		<ul>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>	* 
+	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>	* 
 	* 		</ul>
 	* 	<li><strong>datetime, datetime-local, email, month, search, tel, time, url, week</strong> - HTML5 input fields types. Some browsers do not support these.</li>
 	* 		<ul>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 		</ul>
 	* 	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do not support these.</li>
 	* 		<ul>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 			<li><strong>vMax</strong> - ( optional, integer|array ) the number that indicates the <em>max</em> attribute of the input field.</li>
 	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
 	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>repeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>textarea</strong> - a textarea input field. The following array keys are supported.
 	* 		<ul>
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vRows</strong> - ( optional, integer|array ) the number of rows of the textarea field.</li>
-	* 			<li><strong>vCols</strong> - ( optional, integer|array ) the number of cols of the textarea field.</li>
+	* 			<li><strong>rows</strong> - ( optional, integer|array ) the number of rows of the textarea field.</li>
+	* 			<li><strong>cols</strong> - ( optional, integer|array ) the number of cols of the textarea field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>vRich</strong> - [2.1.2+]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
 	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
 	* 			</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. It's not supported for the rich editor.</li>
+	* 			<li><strong>repeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. It's not supported for the rich editor.</li>
 	*		</ul>
 	* 	</li>
 	* 	<li><strong>radio</strong> - a radio button input field.</li>
@@ -2884,24 +2884,24 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 		<ul>
 	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
 	* 			<li><strong>vWidth</strong> - ( optional, string|array ) the width of the dropdown list including the unit. e.g. 120px</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 		</ul>
 	* 	<li><strong>size</strong> - a size input field. This is a combination of number and select fields.</li>
 	* 		<ul>
 	* 			<li>
-	* 				<strong>vSizeUnits</strong> - ( optional, array ) defines the units to show. e.g. <code>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</code> 
+	* 				<strong>size_units</strong> - ( optional, array ) defines the units to show. e.g. <code>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</code> 
 	* 				Default: <code>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</code>
 	* 			</li>
 	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
 	* 			<li><strong>vWidth</strong> - ( optional, string|array ) the width of the dropdown list including the unit. e.g. 120px</li>
 	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the number input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the number input field.</li>
 	* 			<li><strong>vUnitSize</strong> - [2.1.5+]( optional, integer|array ) the number that indicates the <em>size</em> attribute of the select(unit) input field.</li>
 	* 			<li><strong>vMax</strong> - ( optional, integer|array ) the number that indicates the <em>max</em> attribute of the input field.</li>
 	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
 	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 	</ul>
 	* 	<li><strong>hidden</strong> - a hidden input field.</li>
 	* 	<li><strong>file</strong> - a file upload input field.</li>
@@ -2910,59 +2910,59 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* 		</ul>
 	* 	<li><strong>submit</strong> - a submit button input field.</li>
 	* 		<ul>
-	* 			<li><strong>vLink</strong> - ( optional, string|array ) the url(s) linked to the submit button.</li>
-	* 			<li><strong>vRedirect</strong> - ( optional, string|array ) the url(s) redirected to after submitting the input form.</li>
-	* 			<li><strong>vReset</strong> - [2.1.2+] ( optional, string|array ) the option key to delete. Set 1 for the entire option.</li>
+	* 			<li><strong>links</strong> - ( optional, string|array ) the url(s) linked to the submit button.</li>
+	* 			<li><strong>redirect_url</strong> - ( optional, string|array ) the url(s) redirected to after submitting the input form.</li>
+	* 			<li><strong>is_reset</strong> - [2.1.2+] ( optional, string|array ) the option key to delete. Set 1 for the entire option.</li>
 	* 		</ul>
 	* 	<li><strong>import</strong> - an inport input field. This is a custom file and submit field.</li>
 	* 		<ul>
 	* 			<li><strong>vAcceptAttribute</strong> - ( optional, string|array ) the accept attribute value. Default: <code>audio/*|video/*|image/*|MIME_type</code></li>
-	* 			<li><strong>vClassAttributeUpload</strong> - ( optional, string|array ) [2.1.5+] the class attribute for the file upload field. Default: <code>import</code></li>
+	* 			<li><strong>class_attributeUpload</strong> - ( optional, string|array ) [2.1.5+] the class attribute for the file upload field. Default: <code>import</code></li>
 	* 			<li><strong>vImportOptionKey</strong> - ( optional, string|array ) the option table key to save the importing data.</li>
 	* 			<li><strong>vImportFormat</strong> - ( optional, string|array ) the import format. json, or array is supported. Default: array</li>
 	* 			<li><strong>vMerge</strong> - ( optional, boolean|array ) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
 	* 		</ul>
 	* 	<li><strong>export</strong> - an export input field. This is a custom submit field.</li>
 	* 		<ul>
-	* 			<li><strong>vExportFileName</strong> - ( optional, string|array ) the file name to download.</li>
-	* 			<li><strong>vExportFormat</strong> - ( optional, string|array ) the format type. array, json, or text is supported. Default: array.</li>
-	* 			<li><strong>vExportData</strong> - ( optional, string|array|object ) the data to export.</li>
+	* 			<li><strong>export_file_name</strong> - ( optional, string|array ) the file name to download.</li>
+	* 			<li><strong>export_format</strong> - ( optional, string|array ) the format type. array, json, or text is supported. Default: array.</li>
+	* 			<li><strong>export_data</strong> - ( optional, string|array|object ) the data to export.</li>
 	* 		</ul>
 	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>vImagePreview</strong> - ( optional, boolean|array ) if this is set to false, the image preview will be disabled.</li>
 	* 			<li><strong>strTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>strLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
-	* 			<li><strong>arrCaptureAttributes</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'arrCaptureAttributes' => array( 'id', 'caption', 'description' )</code></li>
-	* 			<li><strong>fAllowExternalSource</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>attributes_to_capture</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_capture' => array( 'id', 'caption', 'description' )</code></li>
+	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
 	* 		</ul>
 	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>strTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>strLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
-	* 			<li><strong>arrCaptureAttributes</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'arrCaptureAttributes' => array( 'id', 'caption', 'description' )</code></li>
-	* 			<li><strong>fAllowExternalSource</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>attributes_to_capture</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_capture' => array( 'id', 'caption', 'description' )</code></li>
+	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
 	* 		</ul>
 	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
 	* 		<ul>
 	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
-	* 			<li><strong>vSize</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
+	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>fRepeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.</li>
 	* 		<ul>
-	*			<li><strong>vTaxonomySlug</strong> - ( optional, string|array ) the taxonomy slug to list.</li>
+	*			<li><strong>taxonomy_slugs</strong> - ( optional, string|array ) the taxonomy slug to list.</li>
 	*			<li><strong>strWidth</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
-	*			<li><strong>strHeight</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
+	*			<li><strong>height</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
 	* 		</ul>
 	* 	<li><strong>posttype</strong> - a posttype check list. This is a set of check boxes listing post type slugs.</li>
 	* 		<ul>
@@ -2974,33 +2974,33 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	* <h4>Example</h4>
 	* <code>$this->addSettingFields(
 	*		array(	// Single text field
-	*			'strFieldID' => 'text',
-	*			'strSectionID' => 'text_fields',
-	*			'strTitle' => __( 'Text', 'admin-page-framework-demo' ),
-	*			'strDescription' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
-	*			'strType' => 'text',
-	*			'numOrder' => 1,
-	*			'vDefault' => 123456,
-	*			'vSize' => 40,
+	*			'field_id' => 'text',
+	*			'section_id' => 'text_fields',
+	*			'title' => __( 'Text', 'admin-page-framework-demo' ),
+	*			'description' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
+	*			'type' => 'text',
+	*			'order' => 1,
+	*			'default' => 123456,
+	*			'size' => 40,
 	*		),	
 	*		array(	// Multiple text fields
-	*			'strFieldID' => 'text_multiple',
-	*			'strSectionID' => 'text_fields',
-	*			'strTitle' => 'Multiple Text Fields',
-	*			'strDescription' => 'These are multiple text fields.',	// additional notes besides the form field
-	*			'strType' => 'text',
-	*			'numOrder' => 2,
-	*			'vDefault' => array(
+	*			'field_id' => 'text_multiple',
+	*			'section_id' => 'text_fields',
+	*			'title' => 'Multiple Text Fields',
+	*			'description' => 'These are multiple text fields.',	// additional notes besides the form field
+	*			'type' => 'text',
+	*			'order' => 2,
+	*			'default' => array(
 	*				'Hello World',
 	*				'Foo bar',
 	*				'Yes, we can.'
 	*			),
-	*			'vLabel' => array( 
+	*			'label' => array( 
 	*				'First Item: ', 
 	*				'Second Item: ', 
 	*				'Third Item: ' 
 	*			),
-	*			'vSize' => array(
+	*			'size' => array(
 	*				30,
 	*				60,
 	*				90,
@@ -3040,11 +3040,11 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$aField = $aField + self::$aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
-		$aField['strFieldID'] = $this->oUtil->sanitizeSlug( $aField['strFieldID'] );
-		$aField['strSectionID'] = $this->oUtil->sanitizeSlug( $aField['strSectionID'] );
+		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
+		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
 		
 		// Check the mandatory keys' values are set.
-		if ( ! isset( $aField['strFieldID'], $aField['strSectionID'], $aField['strType'] ) ) return;	// these keys are necessary.
+		if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) return;	// these keys are necessary.
 		
 		// If the custom condition is set and it's not true, skip.
 		if ( ! $aField['fIf'] ) return;			
@@ -3053,7 +3053,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$aField['strCapability'] = isset( $aField['strCapability'] ) ? $aField['strCapability'] : $this->oProps->sCapability;
 		if ( ! current_user_can( $aField['strCapability'] ) ) return; 
 								
-		$this->oProps->aFields[ $aField['strFieldID'] ] = $aField;		
+		$this->oProps->aFields[ $aField['field_id'] ] = $aField;		
 		
 	}
 	
@@ -3111,8 +3111,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 */ 
 	protected function doValidationCall( $sMethodName, $aInput ) {
 		
-		$sTabSlug = isset( $_POST['strTabSlug'] ) ? $_POST['strTabSlug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
-		$sPageSlug = isset( $_POST['strPageSlug'] ) ? $_POST['strPageSlug'] : '';
+		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
+		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
 		
 		// Retrieve the submit field ID(the container that holds submit input tags) and the input ID(this determines exactly which submit button is pressed).
 		$sPressedFieldID = isset( $_POST['__submit'] ) ? $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'field_id' ) : '';
@@ -3201,7 +3201,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	
 	private function setRedirectTransients( $sURL ) {
 		if ( empty( $sURL ) ) return;
-		$sTransient = md5( trim( "redirect_{$this->oProps->sClassName}_{$_POST['strPageSlug']}" ) );
+		$sTransient = md5( trim( "redirect_{$this->oProps->sClassName}_{$_POST['page_slug']}" ) );
 		return set_transient( $sTransient, $sURL , 60*2 );
 	}
 		
@@ -3484,8 +3484,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->getFieldErrors( $sPageSlug ); 
 
 		// Render the form field. 		
-		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['strType'] ]['callRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['strType'] ]['callRenderField'] )
-			? $aField['strType']
+		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] )
+			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
 		$oField = new AdminPageFramework_InputField( $aField, $this->oProps->aOptions, $this->aFieldErrors, $this->oProps->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );
@@ -3565,7 +3565,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 */ 
 	protected function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {
 		
-		$sID = isset( $sID ) ? $sID : ( isset( $_POST['strPageSlug'] ) ? $_POST['strPageSlug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProps->sClassName ) );	
+		$sID = isset( $sID ) ? $sID : ( isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProps->sClassName ) );	
 		set_transient( md5( $this->oProps->sClassName . '_' . $sID ), $aErrors, $nSavingDuration );	// store it for 5 minutes ( 60 seconds * 5 )
 	
 	}
@@ -3588,8 +3588,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// echo  $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			// $this,
 			// $this->oProps->sClassName . '_' .  self::$aPrefixesForCallbacks['section_'] . $sSectionID,	// class name + _ + section_ + section id
-			// '<p>' . $this->oProps->aSections[ $sSectionID ]['strDescription'] . '</p>',	 // the p-tagged description string
-			// $this->oProps->aSections[ $sSectionID ]['strDescription']	// the original description
+			// '<p>' . $this->oProps->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
+			// $this->oProps->aSections[ $sSectionID ]['description']	// the original description
 		// );		
 		
 		echo $this->oUtil->addAndApplyFilters(
@@ -3598,8 +3598,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 				$this->oProps->sClassName . '_' .  self::$aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
 				self::$aPrefixesForCallbacks['section_'] . $this->oProps->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
 			),
-			'<p>' . $this->oProps->aSections[ $sSectionID ]['strDescription'] . '</p>',	 // the p-tagged description string
-			$this->oProps->aSections[ $sSectionID ]['strDescription']	// the original description
+			'<p>' . $this->oProps->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
+			$this->oProps->aSections[ $sSectionID ]['description']	// the original description
 		);		
 			
 	}
@@ -3611,8 +3611,8 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 	 * @return			string|null
 	 */ 
 	private function getPageSlugBySectionID( $sSectionID ) {
-		return isset( $this->oProps->aSections[ $sSectionID ]['strPageSlug'] )
-			? $this->oProps->aSections[ $sSectionID ]['strPageSlug']
+		return isset( $this->oProps->aSections[ $sSectionID ]['page_slug'] )
+			? $this->oProps->aSections[ $sSectionID ]['page_slug']
 			: null;			
 	}
 	
@@ -3657,21 +3657,21 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		uasort( $this->oProps->aSections, array( $this->oProps, 'sortByOrder' ) ); 
 		foreach( $this->oProps->aSections as $aSection ) {
 			add_settings_section(	// Add the given section
-				$aSection['strSectionID'],	//  section ID
-				"<a id='{$aSection['strSectionID']}'></a>" . $aSection['strTitle'],		// title - place the anchor in front of the title.
-				array( $this, 'section_pre_' . $aSection['strSectionID'] ), 				// callback function -  this will trigger the __call() magic method.
-				$aSection['strPageSlug']	// page
+				$aSection['section_id'],	//  section ID
+				"<a id='{$aSection['section_id']}'></a>" . $aSection['title'],		// title - place the anchor in front of the title.
+				array( $this, 'section_pre_' . $aSection['section_id'] ), 				// callback function -  this will trigger the __call() magic method.
+				$aSection['page_slug']	// page
 			);
 			// For the contextual help pane,
-			if ( ! empty( $aSection['strHelp'] ) )
+			if ( ! empty( $aSection['help'] ) )
 				$this->addHelpTab( 
 					array(
-						'strPageSlug'				=> $aSection['strPageSlug'],
-						'strPageTabSlug'			=> $aSection['strTabSlug'],
-						'strHelpTabTitle'			=> $aSection['strTitle'],
-						'strHelpTabID'				=> $aSection['strSectionID'],
-						'strHelpTabContent'			=> $aSection['strHelp'],
-						'strHelpTabSidebarContent'	=> $aSection['strHelpAside'] ? $aSection['strHelpAside'] : "",
+						'page_slug'				=> $aSection['page_slug'],
+						'page_tab_slug'			=> $aSection['tab_slug'],
+						'help_tab_title'			=> $aSection['title'],
+						'help_tab_id'				=> $aSection['section_id'],
+						'help_tab_content'			=> $aSection['help'],
+						'help_tab_sidebar_content'	=> $aSection['helpAside'] ? $aSection['helpAside'] : "",
 					)
 				);
 				
@@ -3683,28 +3683,28 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		foreach( $this->oProps->aFields as $aField ) {
 
 			add_settings_field(	// Add the given field.
-				$aField['strFieldID'],
-				"<a id='{$aField['strFieldID']}'></a><span title='{$aField['strTip']}'>{$aField['strTitle']}</span>",
-				array( $this, 'field_pre_' . $aField['strFieldID'] ),	// callback function - will trigger the __call() magic method.
-				$this->getPageSlugBySectionID( $aField['strSectionID'] ), // page slug
-				$aField['strSectionID'],	// section
-				$aField['strFieldID']		// arguments - pass the field ID to the callback function
+				$aField['field_id'],
+				"<a id='{$aField['field_id']}'></a><span title='{$aField['tip']}'>{$aField['title']}</span>",
+				array( $this, 'field_pre_' . $aField['field_id'] ),	// callback function - will trigger the __call() magic method.
+				$this->getPageSlugBySectionID( $aField['section_id'] ), // page slug
+				$aField['section_id'],	// section
+				$aField['field_id']		// arguments - pass the field ID to the callback function
 			);	
 
 			// Set relevant scripts and styles for the input field.
 			$this->setFieldHeadTagElements( $aField );
 			
 			// For the contextual help pane,
-			if ( ! empty( $aField['strHelp'] ) )
+			if ( ! empty( $aField['help'] ) )
 				$this->addHelpTab( 
 					array(
-						'strPageSlug'				=> $aField['strPageSlug'],
-						'strPageTabSlug'			=> $aField['strTabSlug'],
-						'strHelpTabTitle'			=> $aField['strSectionTitle'],
-						'strHelpTabID'				=> $aField['strSectionID'],
-						'strHelpTabContent'			=> "<span class='contextual-help-tab-title'>" . $aField['strTitle'] . "</span> - " . PHP_EOL
-														. $aField['strHelp'],
-						'strHelpTabSidebarContent'	=> $aField['strHelpAside'] ? $aField['strHelpAside'] : "",
+						'page_slug'				=> $aField['page_slug'],
+						'page_tab_slug'			=> $aField['tab_slug'],
+						'help_tab_title'			=> $aField['strSectionTitle'],
+						'help_tab_id'				=> $aField['section_id'],
+						'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
+														. $aField['help'],
+						'help_tab_sidebar_content'	=> $aField['helpAside'] ? $aField['helpAside'] : "",
 					)
 				);
 
@@ -3728,7 +3728,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		 */
 		private function setFieldHeadTagElements( $aField ) {
 			
-			$sFieldType = $aField['strType'];
+			$sFieldType = $aField['type'];
 			
 			// Set the global flag to indicate whether the elements are already added and enqueued.
 			if ( isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) && $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) return;
@@ -3780,15 +3780,15 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$aSection = $aSection + self::$aStructure_Section;	// avoid undefined index warnings.
 			
 			// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-			$aSection['strSectionID'] = $this->oUtil->sanitizeSlug( $aSection['strSectionID'] );
-			$aSection['strPageSlug'] = $this->oUtil->sanitizeSlug( $aSection['strPageSlug'] );
-			$aSection['strTabSlug'] = $this->oUtil->sanitizeSlug( $aSection['strTabSlug'] );
+			$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
+			$aSection['page_slug'] = $this->oUtil->sanitizeSlug( $aSection['page_slug'] );
+			$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
 			
 			// Check the mandatory keys' values.
-			if ( ! isset( $aSection['strSectionID'], $aSection['strPageSlug'] ) ) continue;	// these keys are necessary.
+			if ( ! isset( $aSection['section_id'], $aSection['page_slug'] ) ) continue;	// these keys are necessary.
 			
 			// If the page slug does not match the current loading page, there is no need to register form sections and fields.
-			if ( $GLOBALS['pagenow'] != 'options.php' && ! $sCurrentPageSlug || $sCurrentPageSlug !=  $aSection['strPageSlug'] ) continue;				
+			if ( $GLOBALS['pagenow'] != 'options.php' && ! $sCurrentPageSlug || $sCurrentPageSlug !=  $aSection['page_slug'] ) continue;				
 
 			// If this section does not belong to the currently loading page tab, skip.
 			if ( ! $this->isSettingSectionOfCurrentTab( $aSection ) )  continue;
@@ -3801,10 +3801,10 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( $aSection['fIf'] !== true ) continue;
 		
 			// Set the order.
-			$aSection['numOrder']	= is_numeric( $aSection['numOrder'] ) ? $aSection['numOrder'] : count( $aNewSectionArray ) + 10;
+			$aSection['order']	= is_numeric( $aSection['order'] ) ? $aSection['order'] : count( $aNewSectionArray ) + 10;
 		
 			// Add the section array to the returning array.
-			$aNewSectionArray[ $aSection['strSectionID'] ] = $aSection;
+			$aNewSectionArray[ $aSection['section_id'] ] = $aSection;
 			
 		}
 		return $aNewSectionArray;
@@ -3824,19 +3824,19 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// 2. if the current page is the default tab. Yes -> the section should be registered.
 
 		// If the tab slug is not specified, it means that the user wants the section to be visible in the page regardless of tabs.
-		if ( ! isset( $aSection['strTabSlug'] ) ) return true;
+		if ( ! isset( $aSection['tab_slug'] ) ) return true;
 		
 		// 1. If the checking tab slug and the current loading tab slug is the same, it should be registered.
 		$sCurrentTab =  isset( $_GET['tab'] ) ? $_GET['tab'] : null;
-		if ( $aSection['strTabSlug'] == $sCurrentTab )  return true;
+		if ( $aSection['tab_slug'] == $sCurrentTab )  return true;
 
 		// 2. If $_GET['tab'] is not set and the page slug is stored in the tab array, 
 		// consider the default tab which should be loaded without the tab query value in the url
-		$sPageSlug = $aSection['strPageSlug'];
+		$sPageSlug = $aSection['page_slug'];
 		if ( ! isset( $_GET['tab'] ) && isset( $this->oProps->aInPageTabs[ $sPageSlug ] ) ) {
 		
 			$sDefaultTabSlug = isset( $this->oProps->aDefaultInPageTabs[ $sPageSlug ] ) ? $this->oProps->aDefaultInPageTabs[ $sPageSlug ] : '';
-			if ( $sDefaultTabSlug  == $aSection['strTabSlug'] ) return true;		// should be registered.			
+			if ( $sDefaultTabSlug  == $aSection['tab_slug'] ) return true;		// should be registered.			
 				
 		}
 				
@@ -3868,15 +3868,15 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			$aField = $aField + self::$aStructure_Field;	// avoid undefined index warnings.
 			
 			// Sanitize the IDs since they are used as a callback method name.
-			$aField['strFieldID'] = $this->oUtil->sanitizeSlug( $aField['strFieldID'] );
-			$aField['strSectionID'] = $this->oUtil->sanitizeSlug( $aField['strSectionID'] );
+			$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
+			$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
 			
 			// If the section that this field belongs to is not set, no need to register this field.
 			// The $aSection property must be formatted prior to perform this method.
-			if ( ! isset( $this->oProps->aSections[ $aField['strSectionID'] ] ) ) continue;
+			if ( ! isset( $this->oProps->aSections[ $aField['section_id'] ] ) ) continue;
 			
 			// Check the mandatory keys' values.
-			if ( ! isset( $aField['strFieldID'], $aField['strSectionID'], $aField['strType'] ) ) continue;	// these keys are necessary.
+			if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) continue;	// these keys are necessary.
 			
 			// If the access level is not sufficient, skip.
 			$aField['strCapability'] = isset( $aField['strCapability'] ) ? $aField['strCapability'] : $this->oProps->sCapability;
@@ -3886,19 +3886,19 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			if ( $aField['fIf'] !== true ) continue;
 						
 			// Set the order.
-			$aField['numOrder']	= is_numeric( $aField['numOrder'] ) ? $aField['numOrder'] : count( $aNewFieldArrays ) + 10;
+			$aField['order']	= is_numeric( $aField['order'] ) ? $aField['order'] : count( $aNewFieldArrays ) + 10;
 			
 			// Set the tip, option key, instantiated class name, and page slug elements.
-			$aField['strTip'] = strip_tags( isset( $aField['strTip'] ) ? $aField['strTip'] : $aField['strDescription'] );
+			$aField['tip'] = strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] );
 			$aField['strOptionKey'] = $this->oProps->sOptionKey;
 			$aField['strClassName'] = $this->oProps->sClassName;
-			// $aField['strPageSlug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
-			$aField['strPageSlug'] = $this->oProps->aSections[ $aField['strSectionID'] ]['strPageSlug'];
-			$aField['strTabSlug'] = $this->oProps->aSections[ $aField['strSectionID'] ]['strTabSlug'];
-			$aField['strSectionTitle'] = $this->oProps->aSections[ $aField['strSectionID'] ]['strTitle'];	// used for the contextual help pane.
+			// $aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
+			$aField['page_slug'] = $this->oProps->aSections[ $aField['section_id'] ]['page_slug'];
+			$aField['tab_slug'] = $this->oProps->aSections[ $aField['section_id'] ]['tab_slug'];
+			$aField['strSectionTitle'] = $this->oProps->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
 			
 			// Add the element to the new returning array.
-			$aNewFieldArrays[ $aField['strFieldID'] ] = $aField;
+			$aNewFieldArrays[ $aField['field_id'] ] = $aField;
 				
 		}
 		return $aNewFieldArrays;
@@ -4287,24 +4287,24 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	* 	$this->setRootMenuPage( 'APF Form' ); 
 	* 	$this->addSubMenuItems(
 	* 		array(
-	* 			'strPageTitle' => 'Form Fields',
-	* 			'strPageSlug' => 'apf_form_fields',
+	* 			'title' => 'Form Fields',
+	* 			'page_slug' => 'apf_form_fields',
 	* 		)
 	* 	);		
 	* 	$this->addSettingSections(
 	* 		array(
-	* 			'strSectionID'		=> 'text_fields',
-	* 			'strPageSlug'		=> 'apf_form_fields',
-	* 			'strTitle'			=> 'Text Fields',
-	* 			'strDescription'	=> 'These are text type fields.',
+	* 			'section_id'		=> 'text_fields',
+	* 			'page_slug'		=> 'apf_form_fields',
+	* 			'title'			=> 'Text Fields',
+	* 			'description'	=> 'These are text type fields.',
 	* 		)
 	* 	);
 	* 	$this->addSettingFields(
 	* 		array(	
-	* 			'strFieldID' => 'text',
-	* 			'strSectionID' => 'text_fields',
-	* 			'strTitle' => 'Text',
-	* 			'strType' => 'text',
+	* 			'field_id' => 'text',
+	* 			'section_id' => 'text_fields',
+	* 			'title' => 'Text',
+	* 			'type' => 'text',
 	* 		)	
 	* 	);			
 	* }</code>
@@ -4324,40 +4324,40 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	* 
 	* <h4>Sub-menu Page Array</h4>
 	* <ul>
-	* <li><strong>strPageTitle</strong> - ( string ) the page title of the page.</li>
-	* <li><strong>strPageSlug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-	* <li><strong>strScreenIcon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel.
+	* <li><strong>title</strong> - ( string ) the page title of the page.</li>
+	* <li><strong>page_slug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+	* <li><strong>screen_icon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel.
 	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
 	*	<p><strong>Notes</strong>: the <em>generic</em> icon is available WordPress version 3.5 or above.</p>
 	* </li>
 	* <li><strong>strCapability</strong> - ( optional, string ) the access level to the created admin pages defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-	* <li><strong>numOrder</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
 	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
 	* </ul>
 	* <h4>Sub-menu Link Array</h4>
 	* <ul>
-	* <li><strong>strMenuTitle</strong> - ( string ) the link title.</li>
-	* <li><strong>strURL</strong> - ( string ) the URL of the target link.</li>
+	* <li><strong>title</strong> - ( string ) the link title.</li>
+	* <li><strong>href</strong> - ( string ) the URL of the target link.</li>
 	* <li><strong>strCapability</strong> - ( optional, string ) the access level to show the item, defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-	* <li><strong>numOrder</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
 	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
 	* </ul>
 	* 
 	* <h4>Example</h4>
 	* <code>$this->addSubMenuItems(
 	*		array(
-	*			'strPageTitle' => 'Various Form Fields',
-	*			'strPageSlug' => 'first_page',
-	*			'strScreenIcon' => 'options-general',
+	*			'title' => 'Various Form Fields',
+	*			'page_slug' => 'first_page',
+	*			'screen_icon' => 'options-general',
 	*		),
 	*		array(
-	*			'strPageTitle' => 'Manage Options',
-	*			'strPageSlug' => 'second_page',
-	*			'strScreenIcon' => 'link-manager',
+	*			'title' => 'Manage Options',
+	*			'page_slug' => 'second_page',
+	*			'screen_icon' => 'link-manager',
 	*		),
 	*		array(
-	*			'strMenuTitle' => 'Google',
-	*			'strURL' => 'http://www.google.com',	
+	*			'title' => 'Google',
+	*			'href' => 'http://www.google.com',	
 	*			'fShowPageHeadingTab' => false,	// this removes the title from the page heading tabs.
 	*		),
 	*	);</code>
@@ -4392,25 +4392,25 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	* @return			void
 	*/	
 	private function addSubMenuItem( $aSubMenuItem ) {
-		if ( isset( $aSubMenuItem['strURL'] ) ) {
+		if ( isset( $aSubMenuItem['href'] ) ) {
 			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link::$aStructure_SubMenuLink;
 			$this->oLink->addSubMenuLink(
-				$aSubMenuLink['strMenuTitle'],
-				$aSubMenuLink['strURL'],
+				$aSubMenuLink['title'],
+				$aSubMenuLink['href'],
 				$aSubMenuLink['strCapability'],
-				$aSubMenuLink['numOrder'],
+				$aSubMenuLink['order'],
 				$aSubMenuLink['fShowPageHeadingTab'],
 				$aSubMenuLink['fShowInMenu']
 			);			
 		}
-		else { // if ( $aSubMenuItem['strType'] == 'page' ) {
+		else { // if ( $aSubMenuItem['type'] == 'page' ) {
 			$aSubMenuPage = $aSubMenuItem + self::$aStructure_SubMenuPage;	// avoid undefined index warnings.
 			$this->addSubMenuPage(
-				$aSubMenuPage['strPageTitle'],
-				$aSubMenuPage['strPageSlug'],
-				$aSubMenuPage['strScreenIcon'],
+				$aSubMenuPage['title'],
+				$aSubMenuPage['page_slug'],
+				$aSubMenuPage['screen_icon'],
 				$aSubMenuPage['strCapability'],
-				$aSubMenuPage['numOrder'],	
+				$aSubMenuPage['order'],	
 				$aSubMenuPage['fShowPageHeadingTab'],
 				$aSubMenuPage['fShowInMenu']
 			);				
@@ -4574,7 +4574,7 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * 
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
-	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>strMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
@@ -4598,10 +4598,10 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 * 
 	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
 	 * <ul>
-	 * 	<li><strong>strHandleID</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
 	 * 	<li><strong>arrDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 	 * 	<li><strong>strVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>arrTranslation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
 	 * 
@@ -4611,8 +4611,8 @@ abstract class AdminPageFramework extends AdminPageFramework_SettingsAPI {
 	 *		'apf_read_me', 	// page slug
 	 *		'', 	// tab slug
 	 *		array(
-	 *			'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
-	 *			'arrTranslation' => array( 
+	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'translation' => array( 
 	 *				'a' => 'hello world!',
 	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
 	 *			),
@@ -5022,15 +5022,15 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @since			2.1.5			Moved to the base class.
 	 */
 	public static $aStructure_EnqueuingScriptsAndStyles = array(
-		'strURL' => null,
+		'href' => null,
 		'arrPostTypes' => array(),		// for meta box class
-		'strPageSlug' => null,	
-		'strTabSlug' => null,
-		'strType' => null,		// script or style
-		'strHandleID' => null,
+		'page_slug' => null,	
+		'tab_slug' => null,
+		'type' => null,		// script or style
+		'handle_id' => null,
 		'arrDependencies' => array(),
         'strVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'arrTranslation' => array(),	// only for scripts
+        'translation' => array(),	// only for scripts
         'fInFooter' => false,	// only for scripts
 		'strMedia' => 'all',	// only for styles		
 	);
@@ -5074,7 +5074,7 @@ abstract class AdminPageFramework_Properties_Base {
 	}
 	
 	/**
-	 * Calculates the subtraction of two values with the array key of <em>numOrder</em>
+	 * Calculates the subtraction of two values with the array key of <em>order</em>
 	 * 
 	 * This is used to sort arrays.
 	 * 
@@ -5083,7 +5083,7 @@ abstract class AdminPageFramework_Properties_Base {
 	 * @return			integer
 	 */ 
 	public function sortByOrder( $a, $b ) {	
-		return $a['numOrder'] - $b['numOrder'];
+		return $a['order'] - $b['order'];
 	}		
 	
 	/**
@@ -5241,30 +5241,30 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 	 * @internal
 	 */ 
 	public static $aStructure_Field = array(
-		'strFieldID'		=> null,	// ( mandatory ) the field ID
-		'strType'			=> null,	// ( mandatory ) the field type.
-		'strTitle' 			=> null,	// the field title
-		'strDescription'	=> null,	// an additional note 
+		'field_id'		=> null,	// ( mandatory ) the field ID
+		'type'			=> null,	// ( mandatory ) the field type.
+		'title' 			=> null,	// the field title
+		'description'	=> null,	// an additional note 
 		'strCapability'		=> null,	// an additional note 
-		'strTip'			=> null,	// pop up text
+		'tip'			=> null,	// pop up text
 		// 'options'			=> null,	// ? don't remember what this was for
 		'vValue'			=> null,	// allows to override the stored value
-		'vDefault'			=> null,	// allows to set default values.
+		'default'			=> null,	// allows to set default values.
 		'strName'			=> null,	// allows to set custom field name
-		'vLabel'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
+		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
 		'fIf'				=> true,
-		'strHelp'			=> null,	// since 2.1.0
-		'strHelpAside'		=> null,	// since 2.1.0
-		'fHideTitleColumn'	=> null,	// since 2.1.2
+		'help'			=> null,	// since 2.1.0
+		'helpAside'		=> null,	// since 2.1.0
+		'inpage_tab_visibilityTitleColumn'	=> null,	// since 2.1.2
 		
 		// The followings may need to be uncommented.
 		// 'strClassName' => null,		// This will be assigned automatically in the formatting method.
 		// 'strError' => null,			// error message for the field
 		// 'strBeforeField' => null,
 		// 'strAfterField' => null,
-		// 'numOrder' => null,			// do not set the default number here for this key.		
+		// 'order' => null,			// do not set the default number here for this key.		
 
-		'fRepeatable'		=> null,	// since 2.1.3		
+		'repeatable'		=> null,	// since 2.1.3		
 	);
 	
 }
@@ -5491,9 +5491,9 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	 * @since			2.0.0
 	 */ 		
 	public $aRootMenu = array(
-		'strTitle' => null,				// menu label that appears on the menu list
-		'strPageSlug' => null,			// menu slug that identifies the menu item
-		'strURLIcon16x16' => null,		// the associated icon that appears beside the label on the list
+		'title' => null,				// menu label that appears on the menu list
+		'page_slug' => null,			// menu slug that identifies the menu item
+		'hrefIcon16x16' => null,		// the associated icon that appears beside the label on the list
 		'intPosition'	=> null,		// determines the position of the menu
 		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
 	); 
@@ -5589,7 +5589,7 @@ class AdminPageFramework_Properties extends AdminPageFramework_Properties_Base {
 	/**
 	 * Indicates whether the page heading tabs should be displayed.
 	 * @since			2.0.0
-	 * @remark			Used by the showPageHeadingTabs() method.
+	 * @remark			Used by the setPageHeadingTabsVisibility() method.
 	 */ 	
 	public $bShowPageHeadingTabs = true;
 
@@ -6063,7 +6063,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 	 */ 
 	private static $aStructure_CallerInfo = array(
 		'strPath'			=> null,
-		'strType'			=> null,
+		'type'			=> null,
 		'strName'			=> null,		
 		'strURI'			=> null,
 		'strVersion'		=> null,
@@ -6071,7 +6071,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 		'strScriptURI'		=> null,
 		'strAuthorURI'		=> null,
 		'strAuthor'			=> null,
-		'strDescription'	=> null,
+		'description'	=> null,
 	);	
 	
 	/*
@@ -6089,14 +6089,14 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 		
 		$aCallerInfo = self::$aStructure_CallerInfo;
 		$aCallerInfo['strPath'] = $sCallerPath;
-		$aCallerInfo['strType'] = $this->getCallerType( $aCallerInfo['strPath'] );
+		$aCallerInfo['type'] = $this->getCallerType( $aCallerInfo['strPath'] );
 
-		if ( $aCallerInfo['strType'] == 'unknown' ) return $aCallerInfo;
+		if ( $aCallerInfo['type'] == 'unknown' ) return $aCallerInfo;
 		
-		if ( $aCallerInfo['strType'] == 'plugin' ) 
-			return $this->getScriptData( $aCallerInfo['strPath'], $aCallerInfo['strType'] ) + $aCallerInfo;
+		if ( $aCallerInfo['type'] == 'plugin' ) 
+			return $this->getScriptData( $aCallerInfo['strPath'], $aCallerInfo['type'] ) + $aCallerInfo;
 			
-		if ( $aCallerInfo['strType'] == 'theme' ) {
+		if ( $aCallerInfo['type'] == 'theme' ) {
 			$oTheme = wp_get_theme();	// stores the theme info object
 			return array(
 				'strName'			=> $oTheme->Name,
@@ -6147,9 +6147,9 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 	 */
 	protected function setFooterInfoLeft( $aScriptInfo, &$sFooterInfoLeft ) {
 		
-		$sDescription = empty( $aScriptInfo['strDescription'] ) 
+		$sDescription = empty( $aScriptInfo['description'] ) 
 			? ""
-			: "&#13;{$aScriptInfo['strDescription']}";
+			: "&#13;{$aScriptInfo['description']}";
 		$sVersion = empty( $aScriptInfo['strVersion'] )
 			? ""
 			: "&nbsp;{$aScriptInfo['strVersion']}";
@@ -6172,9 +6172,9 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 	 */	
 	protected function setFooterInfoRight( $aScriptInfo, &$sFooterInfoRight ) {
 	
-		$sDescription = empty( $aScriptInfo['strDescription'] ) 
+		$sDescription = empty( $aScriptInfo['description'] ) 
 			? ""
-			: "&#13;{$aScriptInfo['strDescription']}";
+			: "&#13;{$aScriptInfo['description']}";
 		$sVersion = empty( $aScriptInfo['strVersion'] )
 			? ""
 			: "&nbsp;{$aScriptInfo['strVersion']}";		
@@ -6231,7 +6231,7 @@ class AdminPageFramework_LinkForPostType extends AdminPageFramework_Link_Base {
 		$this->setFooterInfoRight( $this->aLibraryInfo, $this->aFooterInfo['strRight'] );
 		
 		// For the plugin listing page
-		if ( $this->aScriptInfo['strType'] == 'plugin' )
+		if ( $this->aScriptInfo['type'] == 'plugin' )
 			add_filter( 
 				'plugin_action_links_' . plugin_basename( $this->aScriptInfo['strPath'] ),
 				array( $this, 'addSettingsLinkInPluginListingPage' ), 
@@ -6338,7 +6338,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		$this->setFooterInfoLeft( $this->oProps->aScriptInfo, $this->oProps->aFooterInfo['strLeft'] );
 		$this->setFooterInfoRight( $this->oProps->aLibraryInfo, $this->oProps->aFooterInfo['strRight'] );
 	
-		if ( $this->oProps->aScriptInfo['strType'] == 'plugin' )
+		if ( $this->oProps->aScriptInfo['type'] == 'plugin' )
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['strPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}
@@ -6351,11 +6351,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	 * @remark			The scope is public because this is accessed from an extended class.
 	 */ 
 	public static $aStructure_SubMenuLink = array(		
-		'strMenuTitle' => null,
-		'strURL' => null,
+		'title' => null,
+		'href' => null,
 		'strCapability' => null,
-		'numOrder' => null,
-		'strType' => 'link',
+		'order' => null,
+		'type' => 'link',
 		'fShowPageHeadingTab' => true,
 		'fShowInMenu' => true,
 	);
@@ -6363,10 +6363,10 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		// foreach ( func_get_args() as $aSubMenuLink ) {
 			// $aSubMenuLink = $aSubMenuLink + self::$aStructure_SubMenuLink;	// avoid undefined index warnings.
 			// $this->addSubMenuLink(
-				// $aSubMenuLink['strMenuTitle'],
-				// $aSubMenuLink['strURL'],				
+				// $aSubMenuLink['title'],
+				// $aSubMenuLink['href'],				
 				// $aSubMenuLink['strCapability'],
-				// $aSubMenuLink['numOrder']			
+				// $aSubMenuLink['order']			
 			// );				
 		// }
 	// }
@@ -6374,12 +6374,12 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		
 		$iCount = count( $this->oProps->aPages );
 		$this->oProps->aPages[ $sURL ] = array(  
-			'strMenuTitle'		=> $sMenuTitle,
-			'strPageTitle'		=> $sMenuTitle,	// used for the page heading tabs.
-			'strURL'			=> $sURL,
-			'strType'			=> 'link',	// this is used to compare with the 'page' type.
+			'title'		=> $sMenuTitle,
+			'title'		=> $sMenuTitle,	// used for the page heading tabs.
+			'href'			=> $sURL,
+			'type'			=> 'link',	// this is used to compare with the 'page' type.
 			'strCapability'		=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
-			'numOrder'			=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
+			'order'			=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'	=> $bShowPageHeadingTab,
 			'fShowInMenu'		=> $bShowInMenu,
 		);	
@@ -6389,22 +6389,22 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	/*
 	 * Methods for embedding links 
 	 */ 	
-	public function addLinkToPluginDescription( $vLinks ) {
+	public function addLinkToPluginDescription( $linkss ) {
 		
-		if ( !is_array( $vLinks ) )
-			$this->oProps->aPluginDescriptionLinks[] = $vLinks;
+		if ( !is_array( $linkss ) )
+			$this->oProps->aPluginDescriptionLinks[] = $linkss;
 		else
-			$this->oProps->aPluginDescriptionLinks = array_merge( $this->oProps->aPluginDescriptionLinks , $vLinks );
+			$this->oProps->aPluginDescriptionLinks = array_merge( $this->oProps->aPluginDescriptionLinks , $linkss );
 	
 		add_filter( 'plugin_row_meta', array( $this, 'addLinkToPluginDescription_Callback' ), 10, 2 );
 
 	}
-	public function addLinkToPluginTitle( $vLinks ) {
+	public function addLinkToPluginTitle( $linkss ) {
 		
-		if ( !is_array( $vLinks ) )
-			$this->oProps->aPluginTitleLinks[] = $vLinks;
+		if ( !is_array( $linkss ) )
+			$this->oProps->aPluginTitleLinks[] = $linkss;
 		else
-			$this->oProps->aPluginTitleLinks = array_merge( $this->oProps->aPluginTitleLinks, $vLinks );
+			$this->oProps->aPluginTitleLinks = array_merge( $this->oProps->aPluginTitleLinks, $linkss );
 		
 		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['strPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
 
@@ -6441,8 +6441,8 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	public function addSettingsLinkInPluginListingPage( $aLinks ) {
 		
 		// For a custom root slug,
-		$sLinkURL = preg_match( '/^.+\.php/', $this->oProps->aRootMenu['strPageSlug'] ) 
-			? add_query_arg( array( 'page' => $this->oProps->sDefaultPageSlug ), admin_url( $this->oProps->aRootMenu['strPageSlug'] ) )
+		$sLinkURL = preg_match( '/^.+\.php/', $this->oProps->aRootMenu['page_slug'] ) 
+			? add_query_arg( array( 'page' => $this->oProps->sDefaultPageSlug ), admin_url( $this->oProps->aRootMenu['page_slug'] ) )
 			: "admin.php?page={$this->oProps->sDefaultPageSlug}";
 		
 		array_unshift(	
@@ -6459,11 +6459,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		
 		// Backward compatibility sanitization.
 		$aAddingLinks = array();
-		foreach( $this->oProps->aPluginDescriptionLinks as $vLinkHTML )
-			if ( is_array( $vLinkHTML ) )	// should not be an array
-				$aAddingLinks = array_merge( $vLinkHTML, $aAddingLinks );
+		foreach( $this->oProps->aPluginDescriptionLinks as $linksHTML )
+			if ( is_array( $linksHTML ) )	// should not be an array
+				$aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
 			else
-				$aAddingLinks[] = ( string ) $vLinkHTML;
+				$aAddingLinks[] = ( string ) $linksHTML;
 		
 		return array_merge( $aLinks, $aAddingLinks );
 		
@@ -6472,11 +6472,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 
 		// Backward compatibility sanitization.
 		$aAddingLinks = array();
-		foreach( $this->oProps->aPluginTitleLinks as $vLinkHTML )
-			if ( is_array( $vLinkHTML ) )	// should not be an array
-				$aAddingLinks = array_merge( $vLinkHTML, $aAddingLinks );
+		foreach( $this->oProps->aPluginTitleLinks as $linksHTML )
+			if ( is_array( $linksHTML ) )	// should not be an array
+				$aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
 			else
-				$aAddingLinks[] = ( string ) $vLinkHTML;
+				$aAddingLinks[] = ( string ) $linksHTML;
 		
 		return array_merge( $aLinks, $aAddingLinks );
 		
@@ -6737,23 +6737,23 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 	
 	protected static $aDefaultKeys = array(
 		'vValue'				=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
-		'vDefault'				=> null,				// ( array or string )
-		'fRepeatable'			=> false,
-		'vClassAttribute'		=> '',					// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
-		'vLabel'				=> '',					// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
-		'vDelimiter'			=> '',
+		'default'				=> null,				// ( array or string )
+		'repeatable'			=> false,
+		'class_attribute'		=> '',					// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
+		'label'				=> '',					// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+		'delimiter'			=> '',
 		'vDisable'				=> false,				// ( array or boolean ) This value indicates whether the set field is disabled or not. 
 		'vReadOnly'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
 		'vBeforeInputTag'		=> '',
 		'vAfterInputTag'		=> '',				
-		'vLabelMinWidth'		=> 140,
+		'labelMinWidth'		=> 140,
 		
 		// Mandatory keys.
-		'strFieldID' => null,		
+		'field_id' => null,		
 		
 		// For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings.
-		'strPageSlug' => null,
-		'strSectionID' => null,
+		'page_slug' => null,
+		'section_id' => null,
 		'strBeforeField' => null,
 		'strAfterField' => null,	
 	);	
@@ -6847,7 +6847,7 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			// 'vSize'					=> 1,
+			// 'size'					=> 1,
 		);	
 	}
 
@@ -6886,9 +6886,9 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 				
 		foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 
@@ -6896,8 +6896,8 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['vLabel'], $sKey, $aDefaultKeys['vLabel'] ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $aDefaultKeys['label'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 								: "" 
 							)
 							. "<div class='admin-page-framework-input-container'>"
@@ -6907,7 +6907,7 @@ class AdminPageFramework_InputFieldType_default extends AdminPageFramework_Input
 						. "</label>"
 					. "</div>"
 				. "</div>"		
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -6954,7 +6954,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vSize'					=> 30,
+			'size'					=> 30,
 			'vMaxLength'			=> 400,
 		);	
 	}
@@ -6971,9 +6971,9 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];
+			: $aField['label'];
 		$bMultiple = is_array( $aFields );
 		
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
@@ -6982,15 +6982,15 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-							. ( $sLabel && ! $aField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, 30 ) . "' "
+								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, 30 ) . "' "
 								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
-								. "type='{$aField['strType']}' "	// text, password, etc.
+								. "type='{$aField['type']}' "	// text, password, etc.
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
@@ -7000,7 +7000,7 @@ class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFie
 						. "</label>"
 					. "</div>"
 				. "</div>"		
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, '', true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				)
@@ -7048,7 +7048,7 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 			'vMin'				=> null,
 			'vMax'				=> null,
 			'vStep'				=> null,
-			'vSize'				=> 30,
+			'size'				=> 30,
 			'vMaxLength'		=> 400,
 		);	
 	}
@@ -7066,9 +7066,9 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];
+			: $aField['label'];
 			
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] = 
@@ -7076,14 +7076,14 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}' >"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-							. ( $sLabel && ! $aField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: ""
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, 30 ) . "' "
-								. "type='{$aField['strType']}' "
+								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, 30 ) . "' "
+								. "type='{$aField['type']}' "
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
@@ -7097,7 +7097,7 @@ class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputF
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, '', true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);				
@@ -7126,8 +7126,8 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vRows'					=> 4,
-			'vCols'					=> 80,
+			'rows'					=> 4,
+			'cols'					=> 80,
 			'vRich'					=> false,
 			'vMaxLength'			=> 400,
 		);	
@@ -7158,9 +7158,9 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];			
+			: $aField['label'];			
 		$bSingle = ! is_array( $aFields );
 		
 		foreach( ( array ) $aFields as $sKey => $sLabel ) {
@@ -7174,8 +7174,8 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}' >"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-							. ( $sLabel && ! $aField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. ( ! empty( $aRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
@@ -7188,11 +7188,11 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 											'wpautop' => true, // use wpautop?
 											'media_buttons' => true, // show insert/upload button(s)
 											'textarea_name' => is_array( $aFields ) ? "{$sFieldName}[{$sKey}]" : $sFieldName , // set the textarea name to something different, square brackets [] can be used here
-											'textarea_rows' => $this->getCorrespondingArrayValue( $aField['vRows'], $sKey, $aDefaultKeys['vRows'] ),
+											'textarea_rows' => $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $aDefaultKeys['rows'] ),
 											'tabindex' => '',
 											'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
 											'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-											'editor_class' => $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, '' ), // add extra class(es) to the editor textarea
+											'editor_class' => $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ), // add extra class(es) to the editor textarea
 											'teeny' => false, // output the minimal editor config used in Press This
 											'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
 											'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
@@ -7201,11 +7201,11 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 									)
 								) . $this->getScriptForRichEditor( "{$sTagID}_{$sKey}" )
 								: "<textarea id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, '' ) . "' "
-									. "rows='" . $this->getCorrespondingArrayValue( $aField['vRows'], $sKey, $aDefaultKeys['vRows'] ) . "' "
-									. "cols='" . $this->getCorrespondingArrayValue( $aField['vCols'], $sKey, $aDefaultKeys['vCols'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
+									. "rows='" . $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $aDefaultKeys['rows'] ) . "' "
+									. "cols='" . $this->getCorrespondingArrayValue( $aField['cols'], $sKey, $aDefaultKeys['cols'] ) . "' "
 									. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
-									. "type='{$aField['strType']}' "
+									. "type='{$aField['type']}' "
 									. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 									. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
@@ -7217,7 +7217,7 @@ class AdminPageFramework_InputFieldType_textarea extends AdminPageFramework_Inpu
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, '', true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, '', true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -7268,7 +7268,7 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vSize'					=> 10,
+			'size'					=> 10,
 			'vMaxLength'			=> 400,
 		);	
 	}
@@ -7372,9 +7372,9 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];
 	
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];		
+			: $aField['label'];		
 	
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] = 
@@ -7382,13 +7382,13 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"					
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( $sLabel && ! $aField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='input_color " . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+								. "class='input_color " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='text' "	// text
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
@@ -7403,7 +7403,7 @@ class AdminPageFramework_InputFieldType_color extends AdminPageFramework_InputFi
 						. $this->getColorPickerEnablerScript( "{$sTagID}_{$sKey}" )
 					. "</div>"
 				. "</div>"	// admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -7444,13 +7444,13 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 	 */
 	protected function getDefaultKeys() { 
 		return array(			
-			'arrCaptureAttributes'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-			'vSize'									=> 60,
+			'attributes_to_capture'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+			'size'									=> 60,
 			'vMaxLength'							=> 400,
 			'vImagePreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
 			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
 			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-			'fAllowExternalSource' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 		);	
 	}
 
@@ -7770,7 +7770,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 							// Escape the strings of some of the attributes.
 							var strCaption = jQuery( '<div/>' ).text( strCaption ).html();
 							var strAlt = jQuery( '<div/>' ).text( alt ).html();
-							var strTitle = jQuery( '<div/>' ).text( title ).html();						
+							var title = jQuery( '<div/>' ).text( title ).html();						
 							
 							// If the user wants to save relevant attributes, set them.
 							jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
@@ -7779,13 +7779,13 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 							jQuery( '#' + field_id + '_height' ).val( height );
 							jQuery( '#' + field_id + '_caption' ).val( strCaption );
 							jQuery( '#' + field_id + '_alt' ).val( strAlt );
-							jQuery( '#' + field_id + '_title' ).val( strTitle );						
+							jQuery( '#' + field_id + '_title' ).val( title );						
 							jQuery( '#' + field_id + '_align' ).val( align );						
 							jQuery( '#' + field_id + '_link' ).val( link );						
 							
 							// Update the preview
 							jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
-							jQuery( '#image_preview_' + field_id ).attr( 'title', strTitle );
+							jQuery( '#image_preview_' + field_id ).attr( 'title', title );
 							jQuery( '#image_preview_' + field_id ).attr( 'data-classes', classes );
 							jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
 							jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
@@ -7880,7 +7880,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 						// Escape the strings of some of the attributes.
 						var strCaption = jQuery( '<div/>' ).text( image.caption ).html();
 						var strAlt = jQuery( '<div/>' ).text( image.alt ).html();
-						var strTitle = jQuery( '<div/>' ).text( image.title ).html();
+						var title = jQuery( '<div/>' ).text( image.title ).html();
 						
 						// If the user want the attributes to be saved, set them in the input tags.
 						jQuery( 'input#' + strInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
@@ -7889,7 +7889,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 						jQuery( 'input#' + strInputID + '_height' ).val( image.height );
 						jQuery( 'input#' + strInputID + '_caption' ).val( strCaption );
 						jQuery( 'input#' + strInputID + '_alt' ).val( strAlt );
-						jQuery( 'input#' + strInputID + '_title' ).val( strTitle );
+						jQuery( 'input#' + strInputID + '_title' ).val( title );
 						jQuery( 'input#' + strInputID + '_align' ).val( image.align );
 						jQuery( 'input#' + strInputID + '_link' ).val( image.link );
 						
@@ -7899,7 +7899,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 						jQuery( '#image_preview_' + strInputID ).attr( 'data-height', image.height );
 						jQuery( '#image_preview_' + strInputID ).attr( 'data-caption', strCaption );
 						jQuery( '#image_preview_' + strInputID ).attr( 'alt', strAlt );
-						jQuery( '#image_preview_' + strInputID ).attr( 'title', strTitle );
+						jQuery( '#image_preview_' + strInputID ).attr( 'title', title );
 						jQuery( '#image_preview_' + strInputID ).attr( 'src', image.url );
 						jQuery( '#image_preview_container_' + strInputID ).show();				
 						
@@ -7976,18 +7976,18 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];
+			: $aField['label'];
 		$bMultipleFields = is_array( $aFields );	
-		$bRepeatable = $aField['fRepeatable'];
+		$bRepeatable = $aField['repeatable'];
 			
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
 					. $this->getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8007,17 +8007,17 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		private function getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['arrCaptureAttributes'] );
+			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
-				( $sLabel && ! $aField['fRepeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+				( $sLabel && ! $aField['repeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 					: ''
 				)			
 				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
@@ -8028,10 +8028,10 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['arrCaptureAttributes'] as $sAttribute )
+			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
 						. "value='" . $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $aDefaultKeys ) . "' "
@@ -8057,7 +8057,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 							. "/>"
 						. "</div>"
 					: "" )
-				. $this->getImageUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['fRepeatable'] ? true : false, $aField['fAllowExternalSource'] ? true : false );
+				. $this->getImageUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
 			
 		}
 		/**
@@ -8069,8 +8069,8 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		private function getImageInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $aDefaultKeys ) {	
 
 			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['vDefault'] )
-				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['vDefault'] );
+				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['default'] )
+				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['default'] );
 
 			return $sCaptureAttribute
 				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
@@ -8127,12 +8127,12 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'arrCaptureAttributes'					=> array(),
-			'vSize'									=> 60,
+			'attributes_to_capture'					=> array(),
+			'size'									=> 60,
 			'vMaxLength'							=> 400,
 			'strTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
 			'strLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-			'fAllowExternalSource' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 		);	
 	}
 
@@ -8308,18 +8308,18 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];			
+			: $aField['label'];			
 		$bMultipleFields = is_array( $aFields );	
-		$bRepeatable = $aField['fRepeatable'];			
+		$bRepeatable = $aField['repeatable'];			
 			
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
 					. $this->getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8337,17 +8337,17 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		private function getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $aDefaultKeys ) {
 	
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['arrCaptureAttributes'] );	
+			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );	
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
-				( $sLabel && ! $aField['fRepeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>" 
+				( $sLabel && ! $aField['repeatable']
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>" 
 					: ''
 				)
 				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 					. "type='text' "	// text
 					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
@@ -8358,10 +8358,10 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['arrCaptureAttributes'] as $sAttribute )
+			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
 						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
 						. "value='" . $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $aDefaultKeys  ) . "' "
@@ -8377,7 +8377,7 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 					. "</label>"
 				. "</div>"
-				. $this->getMediaUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['fRepeatable'] ? true : false, $aField['fAllowExternalSource'] ? true : false );
+				. $this->getMediaUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
 			
 		}
 		/**
@@ -8387,8 +8387,8 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		private function getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $aDefaultKeys ) {	
 
 			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['vDefault'] )
-				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['vDefault'] );
+				? $this->getCorrespondingArrayValue( $vValue, $sKey, $aDefaultKeys['default'] )
+				: ( isset( $vValue ) ? $vValue : $aDefaultKeys['default'] );
 
 			return $sCaptureAttribute
 				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
@@ -8445,7 +8445,7 @@ class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputF
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vSize'					=> 1,
+			'size'					=> 1,
 			'vMultiple'				=> false,				// ( array or boolean ) This value indicates whether the select tag should have the multiple attribute or not.
 			'vWidth'				=> '',
 		);	
@@ -8484,41 +8484,41 @@ class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputF
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 		
 		// The value of the label key must be an array for the select type.
-		if ( ! is_array( $aField['vLabel'] ) ) return;	
+		if ( ! is_array( $aField['label'] ) ) return;	
 
-		$bSingle = ( $this->getArrayDimension( ( array ) $aField['vLabel'] ) == 1 );
-		$aLabels = $bSingle ? array( $aField['vLabel'] ) : $aField['vLabel'];
-		foreach( $aLabels as $sKey => $vLabel ) {
+		$bSingle = ( $this->getArrayDimension( ( array ) $aField['label'] ) == 1 );
+		$aLabels = $bSingle ? array( $aField['label'] ) : $aField['label'];
+		foreach( $aLabels as $sKey => $label ) {
 			
 			$bMultiple = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $aDefaultKeys['vMultiple'] );
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
 								. "<select id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-									. "type='{$aField['strType']}' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "type='{$aField['type']}' "
 									. ( $bMultiple ? "multiple='Multiple' " : '' )
 									. "name=" . ( $bSingle ? "'{$sFieldName}" : "'{$sFieldName}[{$sKey}]" ) . ( $bMultiple ? "[]' " : "' " )
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-									. "size=" . ( $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) ) . " "
+									. "size=" . ( $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) ) . " "
 									. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
 								. ">"
-									. $this->getOptionTags( $vLabel, $vValue, $sTagID, $sKey, $bSingle, $bMultiple )
+									. $this->getOptionTags( $label, $vValue, $sTagID, $sKey, $bSingle, $bMultiple )
 								. "</select>"
 							. "</span>"
 							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8574,7 +8574,7 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			// 'vSize'					=> 1,
+			// 'size'					=> 1,
 		);	
 	}
 
@@ -8611,21 +8611,21 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 		
 		// The value of the label key must be an array for the select type.
-		if ( ! is_array( $aField['vLabel'] ) ) return;	
+		if ( ! is_array( $aField['label'] ) ) return;	
 		
-		$bSingle = ( $this->getArrayDimension( ( array ) $aField['vLabel'] ) == 1 );
-		$aLabels =  $bSingle ? array( $aField['vLabel'] ) : $aField['vLabel'];
-		foreach( $aLabels as $sKey => $vLabel )  
+		$bSingle = ( $this->getArrayDimension( ( array ) $aField['label'] ) == 1 );
+		$aLabels =  $bSingle ? array( $aField['label'] ) : $aField['label'];
+		foreach( $aLabels as $sKey => $label )  
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. $this->getRadioTags( $aField, $vValue, $vLabel, $sFieldName, $sTagID, $sKey, $bSingle, $aDefaultKeys )				
+					. $this->getRadioTags( $aField, $vValue, $label, $sFieldName, $sTagID, $sKey, $bSingle, $aDefaultKeys )				
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8645,13 +8645,13 @@ class AdminPageFramework_InputFieldType_radio extends AdminPageFramework_InputFi
 			$aOutput = array();
 			foreach ( $aLabels as $sKey => $sLabel ) 
 				$aOutput[] = 
-					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sIterationID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
 								. "<input "
 									. "id='{$sTagID}_{$sIterationID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 									. "type='radio' "
 									. "value='{$sKey}' "
 									. "name=" . ( ! $bSingle  ? "'{$sFieldName}[{$sIterationID}]' " : "'{$sFieldName}' " )
@@ -8687,7 +8687,7 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			// 'vSize'					=> 1,
+			// 'size'					=> 1,
 		);	
 	}
 
@@ -8724,23 +8724,23 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 
-		foreach( ( array ) $aField['vLabel'] as $sKey => $sLabel ) 
+		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sKey}'>"	
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
-								. "<input type='hidden' name=" .  ( is_array( $aField['vLabel'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
+								. "<input type='hidden' name=" .  ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " ) . " value='0' />"	// the unchecked value must be set prior to the checkbox input field.
 								. "<input "
 									. "id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-									. "type='{$aField['strType']}' "	// checkbox
-									. "name=" . ( is_array( $aField['vLabel'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "type='{$aField['type']}' "	// checkbox
+									. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 									. "value='1' "
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 									. ( $this->getCorrespondingArrayValue( $vValue, $sKey, null ) == 1 ? "Checked " : '' )
@@ -8753,7 +8753,7 @@ class AdminPageFramework_InputFieldType_checkbox extends AdminPageFramework_Inpu
 						. "</label>"
 					. "</div>"
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -8783,7 +8783,7 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vSizeUnits'				=> array(	// the default unit size array.
+			'size_units'				=> array(	// the default unit size array.
 				'px'	=> 'px',	// pixel
 				'%'		=> '%',		// percentage
 				'em'	=> 'em',	// font size
@@ -8794,7 +8794,7 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 				'pt'	=> 'pt',	// point
 				'pc'	=> 'pc',	// pica
 			),
-			'vSize'						=> 10,
+			'size'						=> 10,
 			'vUnitSize'					=> 1,
 			'vMaxLength'				=> 400,
 			'vMin'						=> null,
@@ -8850,25 +8850,25 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 				
-		$bSingle = ! is_array( $aField['vLabel'] );
-		$bIsSizeUnitForSingle = ( $this->getArrayDimension( ( array ) $aField['vSizeUnits'] ) == 1 );
-		$aSizeUnits = isset( $aField['vSizeUnits'] ) && is_array( $aField['vSizeUnits'] ) && $bIsSizeUnitForSingle 
-			? $aField['vSizeUnits']
-			: $aDefaultKeys['vSizeUnits'];		
+		$bSingle = ! is_array( $aField['label'] );
+		$bIsSizeUnitForSingle = ( $this->getArrayDimension( ( array ) $aField['size_units'] ) == 1 );
+		$aSizeUnits = isset( $aField['size_units'] ) && is_array( $aField['size_units'] ) && $bIsSizeUnitForSingle 
+			? $aField['size_units']
+			: $aDefaultKeys['size_units'];		
 		
-		foreach( ( array ) $aField['vLabel'] as $sKey => $sLabel ) 
+		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<label for='{$sTagID}_{$sKey}'>"
 						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
 						. ( $sLabel 
-							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel ."</span>"
+							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel ."</span>"
 							: "" 
 						)
 						. "<input id='{$sTagID}_{$sKey}' "	// number field
 							// . "style='text-align: right;'"
-							. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-							. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 							. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 							. "type='number' "	// number
 							. "name=" . ( $bSingle ? "'{$sFieldName}[size]' " : "'{$sFieldName}[{$sKey}][size]' " )
@@ -8881,8 +8881,8 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 						. "/>"
 					. "</label>"
 						. "<select id='{$sTagID}_{$sKey}' class='size-field-select'"	// select field
-							. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-							. "type='{$aField['strType']}' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "type='{$aField['type']}' "
 							. ( ( $bMultipleOptions = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $aDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
 							. "name=" . ( $bSingle ? "'{$sFieldName}[unit]" : "'{$sFieldName}[{$sKey}][unit]" ) . ( $bMultipleOptions ? "[]' " : "' " )						
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
@@ -8890,7 +8890,7 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 							. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
 						. ">"
 						. $this->getOptionTags( 
-							$bSingle ? $aSizeUnits : $this->getCorrespondingArrayValue( $aField['vSizeUnits'], $sKey, $aSizeUnits ),
+							$bSingle ? $aSizeUnits : $this->getCorrespondingArrayValue( $aField['size_units'], $sKey, $aSizeUnits ),
 							$bSingle ? $this->getCorrespondingArrayValue( $vValue['unit'], $sKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $sKey, array() ), 'unit', 'px' ),
 							$sTagID,
 							$sKey, 
@@ -8900,7 +8900,7 @@ class AdminPageFramework_InputFieldType_size extends AdminPageFramework_InputFie
 					. "</select>"
 					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);			
@@ -8954,7 +8954,7 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			// 'vSize'					=> 1,
+			// 'size'					=> 1,
 		);	
 	}
 
@@ -8981,7 +8981,7 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 	/**
 	 * Returns the output of the field type.
 	 * 
-	 * @remark			The user needs to assign the value to either the vDefault key or the vValue key in order to set the hidden field. 
+	 * @remark			The user needs to assign the value to either the default key or the vValue key in order to set the hidden field. 
 	 * If it's not set ( null value ), the below foreach will not iterate an element so no input field will be embedded.
 	 * 
 	 * @since			2.0.0
@@ -8995,9 +8995,9 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 				
 		foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 
@@ -9005,16 +9005,16 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['vLabel'], $sKey, $aDefaultKeys['vLabel'] ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $aDefaultKeys['label'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 								: "" 
 							)
 							. "<div class='admin-page-framework-input-container'>"
 								. "<input "
 									. "id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-									. "type='{$aField['strType']}' "	// hidden
-									. "name=" . ( is_array( $aField['vLabel'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+									. "type='{$aField['type']}' "	// hidden
+									. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 									. "value='" . $sValue  . "' "
 									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 								. "/>"
@@ -9023,7 +9023,7 @@ class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputF
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9053,7 +9053,7 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 	protected function getDefaultKeys() { 
 		return array(
 			'vAcceptAttribute'				=> 'audio/*|video/*|image/*|MIME_type',
-			// 'vSize'					=> 1,
+			// 'size'					=> 1,
 		);	
 	}
 
@@ -9088,9 +9088,9 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];		
+			: $aField['label'];		
 					
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] = 
@@ -9098,15 +9098,15 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( $sLabel && ! $aField['fRepeatable'] ?
-								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable'] ?
+								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: ""
 							)
 							. "<input "
 								. "id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 								. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $aDefaultKeys['vAcceptAttribute'] ) . "' "
-								. "type='{$aField['strType']}' "	// file
+								. "type='{$aField['type']}' "	// file
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $aFields, $sKey ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
@@ -9115,7 +9115,7 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9185,22 +9185,22 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 						
 		foreach( ( array ) $this->getPostTypeArrayForChecklist( $aField['arrRemove'] ) as $sKey => $sValue ) {
 			$sName = "{$sFieldName}[{$sKey}]";
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] )
 							. "<span class='admin-page-framework-input-container'>"
 								. "<input type='hidden' name='{$sName}' value='0' />"
 								. "<input "
 									. "id='{$sTagID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 									. "type='checkbox' "
 									. "name='{$sName}'"
 									. "value='1' "
@@ -9215,7 +9215,7 @@ class AdminPageFramework_InputFieldType_posttype extends AdminPageFramework_Inpu
 						. "</label>"
 					. "</div>"
 				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9263,8 +9263,8 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vTaxonomySlug'					=> 'category',			// ( string ) This is for the taxonomy field type.
-			'strHeight'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
+			'taxonomy_slugs'					=> 'category',			// ( string ) This is for the taxonomy field type.
+			'height'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
 			'strWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
 		);	
 	}
@@ -9418,28 +9418,28 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 		
 		$aTabs = array();
 		$aCheckboxes = array();
-		foreach( ( array ) $aField['vTaxonomySlug'] as $sKey => $sTaxonomySlug ) {
+		foreach( ( array ) $aField['taxonomy_slugs'] as $sKey => $sTaxonomySlug ) {
 			$sActive = isset( $sActive ) ? '' : 'active';	// inserts the active class selector into the first element.
 			$aTabs[] = 
 				"<li class='tab-box-tab'>"
 					. "<a href='#tab-{$sKey}'>"
 						. "<span class='tab-box-tab-text'>" 
-							. $this->getCorrespondingArrayValue( empty( $aField['vLabel'] ) ? null : $aField['vLabel'], $sKey, $this->getLabelFromTaxonomySlug( $sTaxonomySlug ) )
+							. $this->getCorrespondingArrayValue( empty( $aField['label'] ) ? null : $aField['label'], $sKey, $this->getLabelFromTaxonomySlug( $sTaxonomySlug ) )
 						. "</span>"
 					."</a>"
 				."</li>";
 			$aCheckboxes[] = 
-				"<div id='tab-{$sKey}' class='tab-box-content' style='height: {$aField['strHeight']};'>"
+				"<div id='tab-{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
 					. "<ul class='list:category taxonomychecklist form-no-clear'>"
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
-							'name'     => is_array( $aField['vTaxonomySlug'] ) ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}",   // name of the input
+							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}",   // name of the input
 							'selected' => $this->getSelectedKeyArray( $vValue, $sKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
 							'title_li'	=> '',	// disable the Categories heading string 
 							'hide_empty' => 0,	
@@ -9454,7 +9454,7 @@ class AdminPageFramework_InputFieldType_taxonomy extends AdminPageFramework_Inpu
 		$sTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $aTabs ) . "</ul>";
 		$sContents = 
 			"<div class='tab-box-contents-container'>"
-				. "<div class='tab-box-contents' style='height: {$aField['strHeight']};'>"
+				. "<div class='tab-box-contents' style='height: {$aField['height']};'>"
 					. implode( '', $aCheckboxes )
 				. "</div>"
 			. "</div>";
@@ -9523,10 +9523,10 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 	 */
 	protected function getDefaultKeys() { 
 		return array(		
-			'vClassAttribute'					=> 'button button-primary',
-			'vRedirect'							=> null,
-			'vLink'								=> null,
-			'vReset'							=> null,
+			'class_attribute'					=> 'button button-primary',
+			'redirect_url'							=> null,
+			'links'								=> null,
+			'is_reset'							=> null,
 		);	
 	}
 
@@ -9566,17 +9566,17 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 
 		
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
 		$sFieldNameFlat = $this->getInputFieldNameFlat( $aField );
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
-			$sRedirectURL = $this->getCorrespondingArrayValue( $aField['vRedirect'], $sKey, $aDefaultKeys['vRedirect'] );
-			$sLinkURL = $this->getCorrespondingArrayValue( $aField['vLink'], $sKey, $aDefaultKeys['vLink'] );
-			$sResetKey = $this->getCorrespondingArrayValue( $aField['vReset'], $sKey, $aDefaultKeys['vReset'] );
+			$sRedirectURL = $this->getCorrespondingArrayValue( $aField['redirect_url'], $sKey, $aDefaultKeys['redirect_url'] );
+			$sLinkURL = $this->getCorrespondingArrayValue( $aField['links'], $sKey, $aDefaultKeys['links'] );
+			$sResetKey = $this->getCorrespondingArrayValue( $aField['is_reset'], $sKey, $aDefaultKeys['is_reset'] );
 			$bResetConfirmed = $this->checkConfirmationDisplayed( $sResetKey, $sFieldNameFlat ); 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
@@ -9587,13 +9587,13 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 					. "/>"
 					. "<input type='hidden' "
 						. "name='__submit[{$sTagID}_{$sKey}][field_id]' "
-						. "value='{$aField['strFieldID']}' "
+						. "value='{$aField['field_id']}' "
 					. "/>"		
 					. "<input type='hidden' "
 						. "name='__submit[{$sTagID}_{$sKey}][name]' "
 						. "value='{$sFieldNameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
 					. "/>" 						
-					// for the vRedirect key
+					// for the redirect_url key
 					. ( $sRedirectURL 
 						? "<input type='hidden' "
 							. "name='__redirect[{$sTagID}_{$sKey}][url]' "
@@ -9605,7 +9605,7 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 						. "/>" 
 						: "" 
 					)
-					// for the vLink key
+					// for the links key
 					. ( $sLinkURL 
 						? "<input type='hidden' "
 							. "name='__link[{$sTagID}_{$sKey}][url]' "
@@ -9617,7 +9617,7 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 						. "/>" 
 						: "" 
 					)
-					// for the vReset key
+					// for the is_reset key
 					. ( $sResetKey && ! $bResetConfirmed
 						? "<input type='hidden' "
 							. "name='__reset_confirm[{$sTagID}_{$sKey}][key]' "
@@ -9641,19 +9641,19 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 						: ""
 					)
 					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "
 							. "id='{$sTagID}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-							. "type='{$aField['strType']}' "	// submit
-							. "name=" . ( is_array( $aField['vLabel'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+							. "type='{$aField['type']}' "	// submit
+							. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'submit' ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9665,7 +9665,7 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 	
 	}
 		/**
-		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the vReset key is set.
+		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the is_reset key is set.
 		 * 
 		 */
 		private function checkConfirmationDisplayed( $sResetKey, $sFlatFieldName ) {
@@ -9699,15 +9699,15 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 	protected function getInputFieldNameFlat( $aField ) {	
 	
 		return isset( $aField['strOptionKey'] ) // the meta box class does not use the option key
-			? "{$aField['strOptionKey']}|{$aField['strPageSlug']}|{$aField['strSectionID']}|{$aField['strFieldID']}"
-			: $aField['strFieldID'];
+			? "{$aField['strOptionKey']}|{$aField['page_slug']}|{$aField['section_id']}|{$aField['field_id']}"
+			: $aField['field_id'];
 		
 	}			
 	/**
 	 * Retrieves the input field value from the label.
 	 * 
 	 * This method is similar to the above <em>getInputFieldValue()</em> but this does not check the stored option value.
-	 * It uses the value set to the <var>vLabel</var> key. 
+	 * It uses the value set to the <var>label</var> key. 
 	 * This is for submit buttons including export custom field type that the label should serve as the value.
 	 * 
 	 * @remark			The submit, import, and export field types use this method.
@@ -9719,10 +9719,10 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 		// If the value key is explicitly set, use it.
 		if ( isset( $aField['vValue'] ) ) return $aField['vValue'];
 		
-		if ( isset( $aField['vLabel'] ) ) return $aField['vLabel'];
+		if ( isset( $aField['label'] ) ) return $aField['label'];
 		
 		// If the default value is set,
-		if ( isset( $aField['vDefault'] ) ) return $aField['vDefault'];
+		if ( isset( $aField['default'] ) ) return $aField['default'];
 		
 	}
 	
@@ -9744,10 +9744,10 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vExportData'					=> null,	// ( array or string or object ) This is for the export field type. 			
-			'vExportFormat'					=> 'array',	// ( array or string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
-			'vExportFileName'				=> null,	// ( array or string )	for the export field type. Do not set a default value here.
-			'vClassAttribute'				=> 'button button-primary',	// ( array or string )	
+			'export_data'					=> null,	// ( array or string or object ) This is for the export field type. 			
+			'export_format'					=> 'array',	// ( array or string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+			'export_file_name'				=> null,	// ( array or string )	for the export field type. Do not set a default value here.
+			'class_attribute'				=> 'button button-primary',	// ( array or string )	
 		);	
 	}
 
@@ -9783,24 +9783,24 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['vLabel'];		
+			// : $aField['label'];		
 				
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
 		
 		// If vValue is not an array and the export data set, set the transient. ( it means single )
-		if ( isset( $aField['vExportData'] ) && ! is_array( $vValue ) )
-			set_transient( md5( "{$aField['strClassName']}_{$aField['strFieldID']}" ), $aField['vExportData'], 60*2 );	// 2 minutes.
+		if ( isset( $aField['export_data'] ) && ! is_array( $vValue ) )
+			set_transient( md5( "{$aField['strClassName']}_{$aField['field_id']}" ), $aField['export_data'], 60*2 );	// 2 minutes.
 		
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
 			
-			$sExportFormat = $this->getCorrespondingArrayValue( $aField['vExportFormat'], $sKey, $aDefaultKeys['vExportFormat'] );
+			$sExportFormat = $this->getCorrespondingArrayValue( $aField['export_format'], $sKey, $aDefaultKeys['export_format'] );
 			
 			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
 			$bIsDataSet = false;
-			if ( isset( $vValue[ $sKey ] ) && isset( $aField['vExportData'][ $sKey ] ) ) {
-				set_transient( md5( "{$aField['strClassName']}_{$aField['strFieldID']}_{$sKey}" ), $aField['vExportData'][ $sKey ], 60*2 );	// 2 minutes.
+			if ( isset( $vValue[ $sKey ] ) && isset( $aField['export_data'][ $sKey ] ) ) {
+				set_transient( md5( "{$aField['strClassName']}_{$aField['field_id']}_{$sKey}" ), $aField['export_data'][ $sKey ], 60*2 );	// 2 minutes.
 				$bIsDataSet = true;
 			}
 			
@@ -9808,40 +9808,40 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					// embed the field id and input id
 					. "<input type='hidden' "
-						. "name='__export[{$aField['strFieldID']}][input_id]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__export[{$aField['field_id']}][input_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='{$sTagID}_{$sKey}' "
 					. "/>"
 					. "<input type='hidden' "
-						. "name='__export[{$aField['strFieldID']}][field_id]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$aField['strFieldID']}' "
+						. "name='__export[{$aField['field_id']}][field_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
+						. "value='{$aField['field_id']}' "
 					. "/>"					
 					. "<input type='hidden' "
-						. "name='__export[{$aField['strFieldID']}][file_name]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vExportFileName'], $sKey, $this->generateExportFileName( $aField['strOptionKey'], $sExportFormat ) )
+						. "name='__export[{$aField['field_id']}][file_name]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
+						. "value='" . $this->getCorrespondingArrayValue( $aField['export_file_name'], $sKey, $this->generateExportFileName( $aField['strOptionKey'], $sExportFormat ) )
 					. "' />"
 					. "<input type='hidden' "
-						. "name='__export[{$aField['strFieldID']}][format]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__export[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . $sExportFormat
 					. "' />"				
 					. "<input type='hidden' "
-						. "name='__export[{$aField['strFieldID']}][transient]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__export[{$aField['field_id']}][transient]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . ( $bIsDataSet ? 1 : 0 )
 					. "' />"				
 					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "
 							. "id='{$sTagID}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the export button is a custom submit button.
-							// . "name=" . ( is_array( $aField['vLabel'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
-							. "name='__export[submit][{$aField['strFieldID']}]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+							// . "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+							. "name='__export[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'export_options' ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
@@ -9898,9 +9898,9 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vClassAttribute'					=> 'import button button-primary',	// ( array or string )	
+			'class_attribute'					=> 'import button button-primary',	// ( array or string )	
 			'vAcceptAttribute'					=> 'audio/*|video/*|image/*|MIME_type',
-			'vClassAttributeUpload'				=> 'import',
+			'class_attributeUpload'				=> 'import',
 			'vImportOptionKey'					=> null,	// ( array or string )	for the import field type. The default value is the set option key for the framework.
 			'vImportFormat'						=> 'array',	// ( array or string )	for the import field type.
 			'vMerge'							=> false,	// ( array or boolean ) [2.1.5+] for the import field
@@ -9939,7 +9939,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		// $aFields = $aField['fRepeatable'] ? 
+		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
 	
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
@@ -9949,47 +9949,47 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					// embed the field id and input id
 					. "<input type='hidden' "
-						. "name='__import[{$aField['strFieldID']}][input_id]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__import[{$aField['field_id']}][input_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='{$sTagID}_{$sKey}' "
 					. "/>"
 					. "<input type='hidden' "
-						. "name='__import[{$aField['strFieldID']}][field_id]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$aField['strFieldID']}' "
+						. "name='__import[{$aField['field_id']}][field_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
+						. "value='{$aField['field_id']}' "
 					. "/>"		
 					. "<input type='hidden' "
-						. "name='__import[{$aField['strFieldID']}][do_merge]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__import[{$aField['field_id']}][do_merge]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $aField['vMerge'], $sKey, $aDefaultKeys['vMerge'] ) . "' "
 					. "/>"							
 					. "<input type='hidden' "
-						. "name='__import[{$aField['strFieldID']}][import_option_key]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__import[{$aField['field_id']}][import_option_key]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportOptionKey'], $sKey, $aField['strOptionKey'] )
 					. "' />"
 					. "<input type='hidden' "
-						. "name='__import[{$aField['strFieldID']}][format]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $aDefaultKeys['vImportFormat'] )	// array, text, or json.
 					. "' />"			
 					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "		// upload button
 							. "id='{$sTagID}_{$sKey}_file' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttributeUpload'], $sKey, $aDefaultKeys['vClassAttributeUpload'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attributeUpload'], $sKey, $aDefaultKeys['class_attributeUpload'] ) . "' "
 							. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $aDefaultKeys['vAcceptAttribute'] ) . "' "
 							. "type='file' "	// upload field. the file type will be stored in $_FILE
-							. "name='__import[{$aField['strFieldID']}]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+							. "name='__import[{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )				
 						. "/>"
 						. "<input "		// import button
 							. "id='{$sTagID}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
+							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the import button is a custom submit button.
-							. "name='__import[submit][{$aField['strFieldID']}]" . ( is_array( $aField['vLabel'] ) ? "[{$sKey}]' " : "' " )
+							. "name='__import[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'import_options' ), true ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
 					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, '' )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);		
@@ -10111,8 +10111,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		if ( ! empty( $aField['strName'] ) ) return $aField['strName'];
 		
 		return isset( $aField['strOptionKey'] ) // the meta box class does not use the option key
-			? "{$aField['strOptionKey']}[{$aField['strPageSlug']}][{$aField['strSectionID']}][{$aField['strFieldID']}]"
-			: $aField['strFieldID'];
+			? "{$aField['strOptionKey']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
+			: $aField['field_id'];
 		
 	}
 
@@ -10123,7 +10123,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		
 		// Check if a previously saved option value exists or not.
 		//  for regular setting pages. Meta boxes do not use these keys.
-		if ( isset( $aField['strPageSlug'], $aField['strSectionID'] ) ) {			
+		if ( isset( $aField['page_slug'], $aField['section_id'] ) ) {			
 		
 			$vValue = $this->getInputFieldValueFromOptionTable( $aField, $aOptions );
 			if ( $vValue != '' ) return $vValue;
@@ -10138,24 +10138,24 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		}
 		
 		// If the default value is set,
-		if ( isset( $aField['vDefault'] ) ) return $aField['vDefault'];
+		if ( isset( $aField['default'] ) ) return $aField['default'];
 		
 	}	
 	private function getInputFieldValueFromOptionTable( &$aField, &$aOptions ) {
 		
-		if ( ! isset( $aOptions[ $aField['strPageSlug'] ][ $aField['strSectionID'] ][ $aField['strFieldID'] ] ) )
+		if ( ! isset( $aOptions[ $aField['page_slug'] ][ $aField['section_id'] ][ $aField['field_id'] ] ) )
 			return;
 						
-		$vValue = $aOptions[ $aField['strPageSlug'] ][ $aField['strSectionID'] ][ $aField['strFieldID'] ];
+		$vValue = $aOptions[ $aField['page_slug'] ][ $aField['section_id'] ][ $aField['field_id'] ];
 		
 		// Check if it's not an array return it.
 		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
 		
 		// If it's an array, check if there is an empty value in each element.
-		$vDefault = isset( $aField['vDefault'] ) ? $aField['vDefault'] : array(); 
+		$default = isset( $aField['default'] ) ? $aField['default'] : array(); 
 		foreach ( $vValue as $sKey => &$sElement ) 
 			if ( $sElement == '' )
-				$sElement = $this->getCorrespondingArrayValue( $vDefault, $sKey, '' );
+				$sElement = $this->getCorrespondingArrayValue( $default, $sKey, '' );
 		
 		return $vValue;
 			
@@ -10163,16 +10163,16 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	}	
 	private function getInputFieldValueFromPostTable( $iPostID, &$aField ) {
 		
-		$vValue = get_post_meta( $iPostID, $aField['strFieldID'], true );
+		$vValue = get_post_meta( $iPostID, $aField['field_id'], true );
 		
 		// Check if it's not an array return it.
 		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
 		
 		// If it's an array, check if there is an empty value in each element.
-		$vDefault = isset( $aField['vDefault'] ) ? $aField['vDefault'] : array(); 
+		$default = isset( $aField['default'] ) ? $aField['default'] : array(); 
 		foreach ( $vValue as $sKey => &$sElement ) 
 			if ( $sElement == '' )
-				$sElement = $this->getCorrespondingArrayValue( $vDefault, $sKey, '' );
+				$sElement = $this->getCorrespondingArrayValue( $default, $sKey, '' );
 		
 		return $vValue;
 		
@@ -10181,11 +10181,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	private function getInputTagID( $aField )  {
 		
 		// For Settings API's form fields should have these key values.
-		if ( isset( $aField['strSectionID'], $aField['strFieldID'] ) )
-			return "{$aField['strSectionID']}_{$aField['strFieldID']}";
+		if ( isset( $aField['section_id'], $aField['field_id'] ) )
+			return "{$aField['section_id']}_{$aField['field_id']}";
 			
 		// For meta box form fields,
-		if ( isset( $aField['strFieldID'] ) ) return $aField['strFieldID'];
+		if ( isset( $aField['field_id'] ) ) return $aField['field_id'];
 		if ( isset( $aField['strName'] ) ) return $aField['strName'];	// the name key is for the input name attribute but it's better than nothing.
 		
 		// Not Found - it's not a big deal to have an empty value for this. It's just for the anchor link.
@@ -10202,12 +10202,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	public function getInputField( $sFieldType ) {
 		
 		// Prepend the field error message.
-		$sOutput = isset( $this->aErrors[ $this->aField['strSectionID'] ][ $this->aField['strFieldID'] ] )
-			? "<span style='color:red;'>*&nbsp;{$this->aField['strError']}" . $this->aErrors[ $this->aField['strSectionID'] ][ $this->aField['strFieldID'] ] . "</span><br />"
+		$sOutput = isset( $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] )
+			? "<span style='color:red;'>*&nbsp;{$this->aField['strError']}" . $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 		
 		// Prepeare the field class selector 
-		$this->sFieldClassSelector = $this->aField['fRepeatable']
+		$this->sFieldClassSelector = $this->aField['repeatable']
 			? "admin-page-framework-field repeatable"
 			: "admin-page-framework-field";
 			
@@ -10223,12 +10223,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 		);			
 				
 		// Add the description
-		$sOutput .= ( isset( $this->aField['strDescription'] ) && trim( $this->aField['strDescription'] ) != '' ) 
-			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['strDescription']}</span></p>"
+		$sOutput .= ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
+			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['description']}</span></p>"
 			: '';
 			
 		// Add the repeater script
-		$sOutput .= $this->aField['fRepeatable']
+		$sOutput .= $this->aField['repeatable']
 			? $this->getRepeaterScript( $this->sTagID, count( ( array ) $this->vValue ) )
 			: '';
 			
@@ -11210,17 +11210,17 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	* <code>	public function setUp() {		
 	* 	$this->addSettingFields(
 	* 		array(
-	* 			'strFieldID'		=> 'sample_metabox_text_field',
-	* 			'strTitle'			=> 'Text Input',
-	* 			'strDescription'	=> 'The description for the field.',
-	* 			'strType'			=> 'text',
+	* 			'field_id'		=> 'sample_metabox_text_field',
+	* 			'title'			=> 'Text Input',
+	* 			'description'	=> 'The description for the field.',
+	* 			'type'			=> 'text',
 	* 		),
 	* 		array(
-	* 			'strFieldID'		=> 'sample_metabox_textarea_field',
-	* 			'strTitle'			=> 'Textarea',
-	* 			'strDescription'	=> 'The description for the field.',
-	* 			'strType'			=> 'textarea',
-	* 			'vDefault'			=> 'This is a default text.',
+	* 			'field_id'		=> 'sample_metabox_textarea_field',
+	* 			'title'			=> 'Textarea',
+	* 			'description'	=> 'The description for the field.',
+	* 			'type'			=> 'textarea',
+	* 			'default'			=> 'This is a default text.',
 	* 		)
 	* 	);		
 	* }</code>
@@ -11238,17 +11238,17 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 	* <h4>Example</h4>
 	* <code>    $this->addSettingFields(
     *     array(
-    *         'strFieldID'        => 'sample_metabox_text_field',
-    *         'strTitle'          => 'Text Input',
-    *         'strDescription'    => 'The description for the field.',
-    *         'strType'           => 'text',
+    *         'field_id'        => 'sample_metabox_text_field',
+    *         'title'          => 'Text Input',
+    *         'description'    => 'The description for the field.',
+    *         'type'           => 'text',
     *     ),
     *     array(
-    *         'strFieldID'        => 'sample_metabox_textarea_field',
-    *         'strTitle'          => 'Textarea',
-    *         'strDescription'    => 'The description for the field.',
-    *         'strType'           => 'textarea',
-    *         'vDefault'          => 'This is a default text.',
+    *         'field_id'        => 'sample_metabox_textarea_field',
+    *         'title'          => 'Textarea',
+    *         'description'    => 'The description for the field.',
+    *         'type'           => 'textarea',
+    *         'default'          => 'This is a default text.',
     *     )
     * );</code>
 	* 
@@ -11281,10 +11281,10 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		$aField = $aField + AdminPageFramework_MetaBox_Properties::$aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
-		$aField['strFieldID'] = $this->oUtil->sanitizeSlug( $aField['strFieldID'] );
+		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
 		
 		// Check the mandatory keys' values are set.
-		if ( ! isset( $aField['strFieldID'], $aField['strType'] ) ) return;	// these keys are necessary.
+		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
 						
 		// If a custom condition is set and it's not true, skip.
 		if ( ! $aField['fIf'] ) return;
@@ -11309,14 +11309,14 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
 				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
 			)
-			&& $aField['strHelp']
+			&& $aField['help']
 		) {
 			
-			$this->addHelpTextForFormFields( $aField['strTitle'], $aField['strHelp'], $aField['strHelpAside'] );
+			$this->addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['helpAside'] );
 							
 		}
 	
-		$this->oProps->aFields[ $aField['strFieldID'] ] = $aField;
+		$this->oProps->aFields[ $aField['field_id'] ] = $aField;
 	
 	}
 		/**
@@ -11328,7 +11328,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		 */
 		private function setFieldHeadTagElements( $aField ) {
 			
-			$sFieldType = $aField['strType'];
+			$sFieldType = $aField['type'];
 			
 			// Set the global flag to indicate whether the elements are already added and enqueued.
 			if ( isset( $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) && $GLOBALS['arrAdminPageFramework']['arrFieldFlags'][ $sFieldType ] ) return;
@@ -11434,7 +11434,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			$aField = $aField + AdminPageFramework_MetaBox_Properties::$aStructure_Field;
 			
 			// get value of this field if it exists for this post
-			$sStoredValue = get_post_meta( $oPost->ID, $aField['strFieldID'], true );
+			$sStoredValue = get_post_meta( $oPost->ID, $aField['field_id'], true );
 			$aField['vValue'] = $sStoredValue ? $sStoredValue : $aField['vValue'];
 			
 			// Check capability. If the access level is not sufficient, skip.
@@ -11444,18 +11444,18 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			// Begin a table row. 
 			
 			// If it's a hidden input type, do now draw a table row
-			if ( $aField['strType'] == 'hidden' ) {
+			if ( $aField['type'] == 'hidden' ) {
 				$sOut .= "<tr><td style='height: 0; padding: 0; margin: 0; line-height: 0;'>"
 					. $this->getFieldOutput( $aField )
 					. "</td></tr>";
 				continue;
 			}
 			$sOut .= "<tr>";
-			if ( ! $aField['fHideTitleColumn'] )
-				$sOut .= "<th><label for='{$aField['strFieldID']}'>"
-						. "<a id='{$aField['strFieldID']}'></a>"
-						. "<span title='" . strip_tags( isset( $aField['strTip'] ) ? $aField['strTip'] : $aField['strDescription'] ) . "'>"
-						. $aField['strTitle'] 
+			if ( ! $aField['inpage_tab_visibilityTitleColumn'] )
+				$sOut .= "<th><label for='{$aField['field_id']}'>"
+						. "<a id='{$aField['field_id']}'></a>"
+						. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
+						. $aField['title'] 
 						. "</span>"
 						. "</label></th>";		
 			$sOut .= "<td>";
@@ -11477,18 +11477,18 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 			// Avoid undefined index warnings
 			$aField = $aField + AdminPageFramework_MetaBox_Properties::$aStructure_Field;
 
-			$this->oProps->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['strFieldID'], true );
+			$this->oProps->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 			
 		}
 	}	
 	private function getFieldOutput( $aField ) {
 
 		// Set the input field name which becomes the option key of the custom meta field of the post.
-		$aField['strName'] = isset( $aField['strName'] ) ? $aField['strName'] : $aField['strFieldID'];
+		$aField['strName'] = isset( $aField['strName'] ) ? $aField['strName'] : $aField['field_id'];
 
 		// Render the form field. 		
-		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['strType'] ]['callRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['strType'] ]['callRenderField'] )
-			? $aField['strType']
+		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['callRenderField'] )
+			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 		$oField = new AdminPageFramework_InputField( $aField, $this->oProps->aOptions, array(), $this->oProps->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );	// currently the error array is not supported for meta-boxes
 		$oField->isMetaBox( true );
@@ -11498,8 +11498,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		return $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProps->sClassName . '_' . 'field_' . $aField['strFieldID'],	// this filter will be deprecated
-				'field_' . $this->oProps->sClassName . '_' . $aField['strFieldID']	// field_ + {extended class name} + _ {field id}
+				$this->oProps->sClassName . '_' . 'field_' . $aField['field_id'],	// this filter will be deprecated
+				'field_' . $this->oProps->sClassName . '_' . $aField['field_id']	// field_ + {extended class name} + _ {field id}
 			),
 			$sFieldOutput,
 			$aField // the field array
@@ -11507,7 +11507,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 		// return $this->oUtil->addAndApplyFilter(
 			// $this,
-			// $this->oProps->sClassName . '_' . 'field_' . $aField['strFieldID'],	// filter: class name + _ + field_ + field id
+			// $this->oProps->sClassName . '_' . 'field_' . $aField['field_id'],	// filter: class name + _ + field_ + field id
 			// $sFieldOutput,
 			// $aField // the field array
 		// );	
@@ -11536,7 +11536,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		// Compose an array consisting of the submitted registered field values.
 		$aInput = array();
 		foreach( $this->oProps->aFields as $aField ) 
-			$aInput[ $aField['strFieldID'] ] = isset( $_POST[ $aField['strFieldID'] ] ) ? $_POST[ $aField['strFieldID'] ] : null;
+			$aInput[ $aField['field_id'] ] = isset( $_POST[ $aField['field_id'] ] ) ? $_POST[ $aField['field_id'] ] : null;
 			
 		// Prepare the old value array.
 		$aOriginal = array();
@@ -11556,7 +11556,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 				continue;
 			} 
 			// if ( '' == $sNewValue && $sOldValue ) 
-				// delete_post_meta( $iPostID, $aField['strFieldID'], $sOldValue );
+				// delete_post_meta( $iPostID, $aField['field_id'], $sOldValue );
 			
 		} // end foreach
 		

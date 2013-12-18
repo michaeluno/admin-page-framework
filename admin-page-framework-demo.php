@@ -47,60 +47,60 @@ class APF_Demo extends AdminPageFramework {
 		$this->addSubMenuItems(
 			/* 	
 			  for sub-menu pages, e.g.
-			  	'strPageTitle' => 'Your Page Title',
-				'strPageSlug'] => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
-				'strScreenIcon' => 'edit',
+			  	'title' => 'Your Page Title',
+				'page_slug' => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
+				'screen_icon' => 'edit',
 				'strCapability' => 'manage-options',
-				'numOrder' => 10,
+				'order' => 10,
 				
 			  for sub-menu links, e.g.
-				'strMenuTitle' => 'Google',
-				'strURL' => 'http://www.google.com',
+				'title' => 'Google',
+				'href' => 'http://www.google.com',
 				
 			*/
 			array(
-				'strPageTitle' => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'apf_builtin_field_types',
-				'strScreenIcon' => 'options-general',	// one of the screen type from the below can be used.
+				'title' => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_builtin_field_types',
+				'screen_icon' => 'options-general',	// one of the screen type from the below can be used.
 				/*	Screen Types:
 					'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
 				*/							
-				'numOrder' => 1,	// optional
+				'order' => 1,	// optional
 			),
 			array(
-				'strPageTitle' => __( 'Custom Field Types', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'apf_custom_field_types',
-				'strScreenIcon' => 'options-general',
-				'numOrder' => 2,	// optional
+				'title' => __( 'Custom Field Types', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_custom_field_types',
+				'screen_icon' => 'options-general',
+				'order' => 2,	// optional
 			),			
 			array(
-				'strPageTitle' => __( 'Manage Options', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'apf_manage_options',
-				'strScreenIcon' => 'link-manager',	
-				'numOrder' => 3,	// optional
+				'title' => __( 'Manage Options', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_manage_options',
+				'screen_icon' => 'link-manager',	
+				'order' => 3,	// optional
 			),
 			array(
-				'strPageTitle' => __( 'Sample Page', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'apf_sample_page',
-				'strScreenIcon' => dirname( __FILE__ ) . '/asset/image/wp_logo_bw_32x32.png',	// the icon file path can be used
+				'title' => __( 'Sample Page', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_sample_page',
+				'screen_icon' => dirname( __FILE__ ) . '/asset/image/wp_logo_bw_32x32.png',	// the icon file path can be used
 			),					
 			array(
-				'strPageTitle' => __( 'Hidden Page', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'apf_hidden_page',
-				'strScreenIcon' => plugins_url( 'asset/image/wp_logo_bw_32x32.png', __FILE__ ),	// the icon url can be used
+				'title' => __( 'Hidden Page', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_hidden_page',
+				'screen_icon' => plugins_url( 'asset/image/wp_logo_bw_32x32.png', __FILE__ ),	// the icon url can be used
 				'fShowInMenu' => false,
 			),						
 			array(
-				'strPageTitle' => __( 'Read Me', 'admin-page-framework-demo' ),
-				'strPageSlug' => 'apf_read_me',
-				'strScreenIcon' => 'page',
+				'title' => __( 'Read Me', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_read_me',
+				'screen_icon' => 'page',
 			),			
 			array(
-				'strMenuTitle' => __( 'Documentation', 'admin-page-framework-demo' ),
-				'strURL' => 'http://admin-page-framework.michaeluno.jp/en/v2/',
-				'fPageHeadingTab' => false,
+				'title' => __( 'Documentation', 'admin-page-framework-demo' ),
+				'href' => 'http://admin-page-framework.michaeluno.jp/en/v2/',
+				'page_heading_tab_visibility' => false,
 			)
 		);
 				
@@ -109,57 +109,57 @@ class APF_Demo extends AdminPageFramework {
 			 * Built-in Field Types
 			 * */
 			array(
-				'strPageSlug'	=> 'apf_builtin_field_types',
-				'strTabSlug'	=> 'textfields',
-				'strTitle'		=> 'Text Fields',
-				'numOrder'		=> 1,				
+				'page_slug'	=> 'apf_builtin_field_types',
+				'tab_slug'	=> 'textfields',
+				'title'		=> 'Text Fields',
+				'order'		=> 1,				
 			),		
 			array(
-				'strPageSlug'	=> 'apf_builtin_field_types',
-				'strTabSlug'	=> 'selectors',
-				'strTitle'		=> 'Selectors',
+				'page_slug'	=> 'apf_builtin_field_types',
+				'tab_slug'	=> 'selectors',
+				'title'		=> 'Selectors',
 			),					
 			array(
-				'strPageSlug'	=> 'apf_builtin_field_types',
-				'strTabSlug'	=> 'files',
-				'strTitle'		=> __( 'Files', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_builtin_field_types',
+				'tab_slug'	=> 'files',
+				'title'		=> __( 'Files', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strPageSlug'	=> 'apf_builtin_field_types',
-				'strTabSlug'	=> 'checklist',
-				'strTitle'		=> 'Checklist',
+				'page_slug'	=> 'apf_builtin_field_types',
+				'tab_slug'	=> 'checklist',
+				'title'		=> 'Checklist',
 			),					
 			array(
-				'strPageSlug'	=> 'apf_builtin_field_types',
-				'strTabSlug'	=> 'misc',
-				'strTitle'		=> 'MISC',	
+				'page_slug'	=> 'apf_builtin_field_types',
+				'tab_slug'	=> 'misc',
+				'title'		=> 'MISC',	
 			),		
 			array(
-				'strPageSlug'	=> 'apf_builtin_field_types',
-				'strTabSlug'	=> 'verification',
-				'strTitle'		=> 'Verification',	
+				'page_slug'	=> 'apf_builtin_field_types',
+				'tab_slug'	=> 'verification',
+				'title'		=> 'Verification',	
 			)
 		);
 		$this->addInPageTabs(
 			array(
-				'strPageSlug'	=> 'apf_custom_field_types',
-				'strTabSlug'	=> 'geometry',
-				'strTitle'		=> __( 'Geometry', 'admin-page-framework-demo' ),	
+				'page_slug'	=> 'apf_custom_field_types',
+				'tab_slug'	=> 'geometry',
+				'title'		=> __( 'Geometry', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'strPageSlug'	=> 'apf_custom_field_types',
-				'strTabSlug'	=> 'date',
-				'strTitle'		=> __( 'Date & Time', 'admin-page-framework-demo' ),	
+				'page_slug'	=> 'apf_custom_field_types',
+				'tab_slug'	=> 'date',
+				'title'		=> __( 'Date & Time', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'strPageSlug'	=> 'apf_custom_field_types',
-				'strTabSlug'	=> 'dial',
-				'strTitle'		=> __( 'Dials', 'admin-page-framework-demo' ),	
+				'page_slug'	=> 'apf_custom_field_types',
+				'tab_slug'	=> 'dial',
+				'title'		=> __( 'Dials', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'strPageSlug'	=> 'apf_custom_field_types',
-				'strTabSlug'	=> 'font',
-				'strTitle'		=> __( 'Fonts', 'admin-page-framework-demo' ),	
+				'page_slug'	=> 'apf_custom_field_types',
+				'tab_slug'	=> 'font',
+				'title'		=> __( 'Fonts', 'admin-page-framework-demo' ),	
 			),			
 			array()
 		);
@@ -168,38 +168,38 @@ class APF_Demo extends AdminPageFramework {
 			 * Manage Options
 			 * */
 			array(
-				'strPageSlug'	=> 'apf_manage_options',
-				'strTabSlug'	=> 'saved_data',
-				'strTitle'		=> 'Saved Data',
+				'page_slug'	=> 'apf_manage_options',
+				'tab_slug'	=> 'saved_data',
+				'title'		=> 'Saved Data',
 			),
 			array(
-				'strPageSlug'	=> 'apf_manage_options',
-				'strTabSlug'	=> 'properties',
-				'strTitle'		=> __( 'Properties', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_manage_options',
+				'tab_slug'	=> 'properties',
+				'title'		=> __( 'Properties', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strPageSlug'	=> 'apf_manage_options',
-				'strTabSlug'	=> 'messages',
-				'strTitle'		=> __( 'Messages', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_manage_options',
+				'tab_slug'	=> 'messages',
+				'title'		=> __( 'Messages', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'strPageSlug'	=> 'apf_manage_options',
-				'strTabSlug'	=> 'export_import',
-				'strTitle'		=> __( 'Export / Import', 'admin-page-framework-demo' ),			
+				'page_slug'	=> 'apf_manage_options',
+				'tab_slug'	=> 'export_import',
+				'title'		=> __( 'Export / Import', 'admin-page-framework-demo' ),			
 			),
 			array(
-				'strPageSlug'	=> 'apf_manage_options',
-				'strTabSlug'	=> 'delete_options',
-				'strTitle'		=> __( 'Reset', 'admin-page-framework-demo' ),
-				'numOrder'		=> 99,	
+				'page_slug'	=> 'apf_manage_options',
+				'tab_slug'	=> 'delete_options',
+				'title'		=> __( 'Reset', 'admin-page-framework-demo' ),
+				'order'		=> 99,	
 			),						
 			array(
-				'strPageSlug'	=> 'apf_manage_options',
-				'strTabSlug'	=> 'delete_options_confirm',
-				'strTitle'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
-				'fHide'			=> true,
-				'strParentTabSlug' => 'delete_options',
-				'numOrder'		=> 97,
+				'page_slug'	=> 'apf_manage_options',
+				'tab_slug'	=> 'delete_options_confirm',
+				'title'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
+				'inpage_tab_visibility'			=> true,
+				'parent_tab_slug' => 'delete_options',
+				'order'		=> 97,
 			)
 		);
 		$this->addInPageTabs(
@@ -207,36 +207,36 @@ class APF_Demo extends AdminPageFramework {
 			 * Read Me
 			 * */
 			array(
-				'strPageSlug'	=> 'apf_read_me',
-				'strTabSlug'	=> 'description',
-				'strTitle'		=> __( 'Description', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_read_me',
+				'tab_slug'	=> 'description',
+				'title'		=> __( 'Description', 'admin-page-framework-demo' ),
 			),				
 			array(
-				'strPageSlug'	=> 'apf_read_me',
-				'strTabSlug'	=> 'installation',
-				'strTitle'		=> __( 'Installation', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_read_me',
+				'tab_slug'	=> 'installation',
+				'title'		=> __( 'Installation', 'admin-page-framework-demo' ),
 			),	
 			array(
-				'strPageSlug'	=> 'apf_read_me',
-				'strTabSlug'	=> 'frequently_asked_questions',
-				'strTitle'		=> __( 'FAQ', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_read_me',
+				'tab_slug'	=> 'frequently_asked_questions',
+				'title'		=> __( 'FAQ', 'admin-page-framework-demo' ),
 			),		
 			array(
-				'strPageSlug'	=> 'apf_read_me',
-				'strTabSlug'	=> 'other_notes',
-				'strTitle'		=> __( 'Other Notes', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_read_me',
+				'tab_slug'	=> 'other_notes',
+				'title'		=> __( 'Other Notes', 'admin-page-framework-demo' ),
 			),					
 			array(
-				'strPageSlug'	=> 'apf_read_me',
-				'strTabSlug'	=> 'changelog',
-				'strTitle'		=> __( 'Change Log', 'admin-page-framework-demo' ),
+				'page_slug'	=> 'apf_read_me',
+				'tab_slug'	=> 'changelog',
+				'title'		=> __( 'Change Log', 'admin-page-framework-demo' ),
 			),						
 			array()
 		);			
 		
 		// Page style.
-		$this->showPageHeadingTabs( false );		// disables the page heading tabs by passing false.
-		$this->showPageTitle( false, 'apf_read_me' );	// disable the page title of a specific page.
+		$this->setPageHeadingTabsVisibility( false );		// disables the page heading tabs by passing false.
+		$this->setPageTitleVisibility( false, 'apf_read_me' );	// disable the page title of a specific page.
 		$this->setInPageTabTag( 'h2' );		
 		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
@@ -250,8 +250,8 @@ class APF_Demo extends AdminPageFramework {
 			'apf_read_me', 	// page slug
 			'', 	// tab slug
 			array(
-				'strHandleID' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
-				'arrTranslation' => array( 
+				'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+				'translation' => array( 
 					'a' => 'hello world!',
 					'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
 				),
@@ -261,155 +261,155 @@ class APF_Demo extends AdminPageFramework {
 		// Contextual help tabs.
 		$this->addHelpTab( 
 			array(
-				'strPageSlug'				=> 'apf_builtin_field_types',	// ( mandatory )
-				// 'strPageTabSlug'			=> null,	// ( optional )
-				'strHelpTabTitle'			=> 'Admin Page Framework',
-				'strHelpTabID'				=> 'admin_page_framework',	// ( mandatory )
-				'strHelpTabContent'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
-				'strHelpTabSidebarContent'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+				'page_slug'				=> 'apf_builtin_field_types',	// ( mandatory )
+				// 'page_tab_slug'			=> null,	// ( optional )
+				'help_tab_title'			=> 'Admin Page Framework',
+				'help_tab_id'				=> 'admin_page_framework',	// ( mandatory )
+				'help_tab_content'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
+				'help_tab_sidebar_content'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
 			)
 		);
 		
 		// Add setting sections
 		$this->addSettingSections(
 			array(
-				'strSectionID'		=> 'text_fields',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'textfields',
-				'strTitle'			=> 'Text Fields',
-				'strDescription'	=> 'These are text type fields.',
-				'numOrder'			=> 10,
+				'section_id'		=> 'text_fields',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'textfields',
+				'title'			=> 'Text Fields',
+				'description'	=> 'These are text type fields.',
+				'order'			=> 10,
 			),	
 			array(
-				'strSectionID'		=> 'selectors',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'selectors',
-				'strTitle'			=> 'Selectors and Checkboxes',
-				'strDescription'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
+				'section_id'		=> 'selectors',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'selectors',
+				'title'			=> 'Selectors and Checkboxes',
+				'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
 			),
 			array(
-				'strSectionID'		=> 'sizes',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'selectors',
-				'strTitle'			=> 'Sizes',
+				'section_id'		=> 'sizes',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'selectors',
+				'title'			=> 'Sizes',
 			),			
 			array(
-				'strSectionID'		=> 'image_select',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'files',
-				'strTitle'			=> 'Image Selector',
-				'strDescription'	=> 'Set an image url with jQuwey based image selector.',
+				'section_id'		=> 'image_select',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'files',
+				'title'			=> 'Image Selector',
+				'description'	=> 'Set an image url with jQuwey based image selector.',
 			),
 			array(
-				'strSectionID'		=> 'color_picker',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'misc',
-				'strTitle'			=> __( 'Colors', 'admin-page-framework-demo' ),
+				'section_id'		=> 'color_picker',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'misc',
+				'title'			=> __( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strSectionID'		=> 'media_upload',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'files',
-				'strTitle'			=> __( 'Media Uploader', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
+				'section_id'		=> 'media_upload',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'files',
+				'title'			=> __( 'Media Uploader', 'admin-page-framework-demo' ),
+				'description'	=> __( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strSectionID'		=> 'checklists',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'checklist',
-				'strTitle'			=> 'Checklists',
-				'strDescription'	=> 'Post type and taxonomy checklists ( custom checkbox ).',
+				'section_id'		=> 'checklists',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'checklist',
+				'title'			=> 'Checklists',
+				'description'	=> 'Post type and taxonomy checklists ( custom checkbox ).',
 			),	
 			array(
-				'strSectionID'		=> 'hidden_field',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'misc',
-				'strTitle'			=> 'Hidden Fields',
-				'strDescription'	=> 'These are hidden fields.',
+				'section_id'		=> 'hidden_field',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'misc',
+				'title'			=> 'Hidden Fields',
+				'description'	=> 'These are hidden fields.',
 			),								
 			array(
-				'strSectionID'		=> 'file_uploads',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'files',
-				'strTitle'			=> __( 'File Uploads', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
+				'section_id'		=> 'file_uploads',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'files',
+				'title'			=> __( 'File Uploads', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'strSectionID'		=> 'submit_buttons',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'misc',
-				'strTitle'			=> __( 'Submit Buttons', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
+				'section_id'		=> 'submit_buttons',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'misc',
+				'title'			=> __( 'Submit Buttons', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'strSectionID'		=> 'verification',
-				'strPageSlug'		=> 'apf_builtin_field_types',
-				'strTabSlug'		=> 'verification',
-				'strTitle'			=> __( 'Verify Submitted Data', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
+				'section_id'		=> 'verification',
+				'page_slug'		=> 'apf_builtin_field_types',
+				'tab_slug'		=> 'verification',
+				'title'			=> __( 'Verify Submitted Data', 'admin-page-framework-demo' ),
+				'description'	=> __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
 			),					
 			array()
 		);
 		
 		$this->addSettingSections(	
 			array(
-				'strSectionID'		=> 'geometry',
-				'strPageSlug'		=> 'apf_custom_field_types',
-				'strTabSlug'		=> 'geometry',
-				'strTitle'			=> __( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
+				'section_id'		=> 'geometry',
+				'page_slug'		=> 'apf_custom_field_types',
+				'tab_slug'		=> 'geometry',
+				'title'			=> __( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
+				'description'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
 			),				
 			array(
-				'strSectionID'		=> 'date_pickers',
-				'strPageSlug'		=> 'apf_custom_field_types',
-				'strTabSlug'		=> 'date',
-				'strTitle'			=> __( 'Date Custom Field Type', 'admin-page-framework' ),
-				'strDescription'	=> __( 'These are date and time pickers.', 'admin-page-framework-demo' ),
+				'section_id'		=> 'date_pickers',
+				'page_slug'		=> 'apf_custom_field_types',
+				'tab_slug'		=> 'date',
+				'title'			=> __( 'Date Custom Field Type', 'admin-page-framework' ),
+				'description'	=> __( 'These are date and time pickers.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strSectionID'		=> 'dial',
-				'strPageSlug'		=> 'apf_custom_field_types',
-				'strTabSlug'		=> 'dial',
-				'strTitle'			=> __( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
+				'section_id'		=> 'dial',
+				'page_slug'		=> 'apf_custom_field_types',
+				'tab_slug'		=> 'dial',
+				'title'			=> __( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strSectionID'		=> 'font',
-				'strPageSlug'		=> 'apf_custom_field_types',
-				'strTabSlug'		=> 'font',
-				'strTitle'			=> __( 'Font Custom Field Type', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'This is still experimental.', 'admin-page-framework-demo' ),				
+				'section_id'		=> 'font',
+				'page_slug'		=> 'apf_custom_field_types',
+				'tab_slug'		=> 'font',
+				'title'			=> __( 'Font Custom Field Type', 'admin-page-framework-demo' ),
+				'description' => __( 'This is still experimental.', 'admin-page-framework-demo' ),				
 			),
 			array()
 		);
 		
 		$this->addSettingSections(	
 			array(
-				'strSectionID'		=> 'submit_buttons_manage',
-				'strPageSlug'		=> 'apf_manage_options',
-				'strTabSlug'		=> 'delete_options',
-				'strTitle'			=> 'Reset Button',
-				'numOrder'			=> 10,
+				'section_id'		=> 'submit_buttons_manage',
+				'page_slug'		=> 'apf_manage_options',
+				'tab_slug'		=> 'delete_options',
+				'title'			=> 'Reset Button',
+				'order'			=> 10,
 			),			
 			array(
-				'strSectionID'		=> 'submit_buttons_confirm',
-				'strPageSlug'		=> 'apf_manage_options',
-				'strTabSlug'		=> 'delete_options_confirm',
-				'strTitle'			=> 'Confirmation',
-				'strDescription'	=> "<div class='settings-error error'><p><strong>Are you sure you want to delete all the options?</strong></p></div>",
-				'numOrder'			=> 10,
+				'section_id'		=> 'submit_buttons_confirm',
+				'page_slug'		=> 'apf_manage_options',
+				'tab_slug'		=> 'delete_options_confirm',
+				'title'			=> 'Confirmation',
+				'description'	=> "<div class='settings-error error'><p><strong>Are you sure you want to delete all the options?</strong></p></div>",
+				'order'			=> 10,
 			),				
 			array(
-				'strSectionID'		=> 'exports',
-				'strPageSlug'		=> 'apf_manage_options',
-				'strTabSlug'		=> 'export_import',
-				'strTitle'			=> 'Export Data',
-				'strDescription'	=> 'After exporting the options, change and save new options and then import the file to see if the options get restored.',
+				'section_id'		=> 'exports',
+				'page_slug'		=> 'apf_manage_options',
+				'tab_slug'		=> 'export_import',
+				'title'			=> 'Export Data',
+				'description'	=> 'After exporting the options, change and save new options and then import the file to see if the options get restored.',
 			),				
 			array(
-				'strSectionID'		=> 'imports',
-				'strPageSlug'		=> 'apf_manage_options',
-				'strTabSlug'		=> 'export_import',
-				'strTitle'			=> 'Import Data',
+				'section_id'		=> 'imports',
+				'page_slug'		=> 'apf_manage_options',
+				'tab_slug'		=> 'export_import',
+				'title'			=> 'Import Data',
 			),			
 			array()			
 		);
@@ -417,92 +417,92 @@ class APF_Demo extends AdminPageFramework {
 		// Add setting fields
 		$this->addSettingFields(
 			array(	// Single text field
-				'strFieldID' => 'text',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Text', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
-				'strHelp' => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' ),
-				'strType' => 'text',
-				'numOrder' => 1,
-				'vDefault' => 123456,
-				'vSize' => 40,
+				'field_id' => 'text',
+				'section_id' => 'text_fields',
+				'title' => __( 'Text', 'admin-page-framework-demo' ),
+				'description' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
+				'help' => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' ),
+				'type' => 'text',
+				'order' => 1,
+				'default' => 123456,
+				'size' => 40,
 			),	
 			array(	// Password Field
-				'strFieldID' => 'password',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Password', 'admin-page-framework-demo' ),
-				'strTip' => __( 'This input will be masked.', 'admin-page-framework-demo' ),
-				'strType' => 'password',
-				'strHelp' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
-				'vSize' => 20,
+				'field_id' => 'password',
+				'section_id' => 'text_fields',
+				'title' => __( 'Password', 'admin-page-framework-demo' ),
+				'tip' => __( 'This input will be masked.', 'admin-page-framework-demo' ),
+				'type' => 'password',
+				'help' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
+				'size' => 20,
 			),			
 			array(	// number Field
-				'strFieldID' => 'number',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Number', 'admin-page-framework-demo' ),
-				'strType' => 'number',
+				'field_id' => 'number',
+				'section_id' => 'text_fields',
+				'title' => __( 'Number', 'admin-page-framework-demo' ),
+				'type' => 'number',
 			),					
 			array(	// Multiple text fields
-				'strFieldID' => 'text_multiple',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-				'strDescription' => 'These are multiple text fields.',	// additional notes besides the form field
-				'strHelp' => __( 'Multiple text fields can be passed by setting an array to the vLabel key.', 'admin-page-framework-demo' ),
-				'strType' => 'text',
-				'vDefault' => array(
+				'field_id' => 'text_multiple',
+				'section_id' => 'text_fields',
+				'title' => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
+				'description' => 'These are multiple text fields.',	// additional notes besides the form field
+				'help' => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
+				'type' => 'text',
+				'default' => array(
 					'Hello World',
 					'Foo bar',
 					'Yes, we can.'
 				),
-				'vLabel' => array( 
+				'label' => array( 
 					'First Item: ', 
 					'Second Item: ', 
 					'Third Item: ' 
 				),
-				'vSize' => array(
+				'size' => array(
 					20,
 					40,
 					60,
 				),
-				'vDelimiter' => '<br />',
+				'delimiter' => '<br />',
 			),		
 			array(	// Repeatable text fields
-				'strFieldID' => 'text_repeatable',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
-				'strType' => 'text',
-				'vDelimiter' => '',
-				'vSize' => 60,
-				'fRepeatable' => true,
-				'vDefault' => array( 'a', 'b', 'c', ),
+				'field_id' => 'text_repeatable',
+				'section_id' => 'text_fields',
+				'title' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
+				'description' => __( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
+				'type' => 'text',
+				'delimiter' => '',
+				'size' => 60,
+				'repeatable' => true,
+				'default' => array( 'a', 'b', 'c', ),
 			),				
 			array(	// Text Area
-				'strFieldID' => 'textarea',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Single Text Area', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'Type a text string here.', 'admin-page-framework-demo' ),
-				'strType' => 'textarea',
-				'vDefault' => 'Hello World! This is set as the default string.',
-				'vRows' => 6,
-				'vCols' => 60,
+				'field_id' => 'textarea',
+				'section_id' => 'text_fields',
+				'title' => __( 'Single Text Area', 'admin-page-framework-demo' ),
+				'description' => __( 'Type a text string here.', 'admin-page-framework-demo' ),
+				'type' => 'textarea',
+				'default' => 'Hello World! This is set as the default string.',
+				'rows' => 6,
+				'cols' => 60,
 			),
 			array(	// Repeatable Text Areas
-				'strFieldID' => 'textarea_repeatable',
-				'strSectionID' => 'text_fields',
-				'strTitle' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
-				'strType' => 'textarea',
-				'fRepeatable' => true,
-				'vDelimiter' => '',
-				'vRows' => 3,
-				'vCols' => 60,
+				'field_id' => 'textarea_repeatable',
+				'section_id' => 'text_fields',
+				'title' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
+				'type' => 'textarea',
+				'repeatable' => true,
+				'delimiter' => '',
+				'rows' => 3,
+				'cols' => 60,
 			),			
 			array(	// Rich Text Editors
-				'strFieldID' => 'rich_textarea',
-				'strSectionID' => 'text_fields',
-				'strTitle' => 'Rich Text Area',
-				'strType' => 'textarea',
-				'vLabel' => array(
+				'field_id' => 'rich_textarea',
+				'section_id' => 'text_fields',
+				'title' => 'Rich Text Area',
+				'type' => 'textarea',
+				'label' => array(
 					'default' => '',
 					'custom' => '',
 				),
@@ -512,75 +512,75 @@ class APF_Demo extends AdminPageFramework {
 				),
 			),			
 			array(	// Multiple text areas
-				'strFieldID' => 'textarea_multiple',
-				'strSectionID' => 'text_fields',
-				'strTitle' => 'Multiple Text Areas',
-				'strDescription' => 'These are multiple text areas.',
-				'strType' => 'textarea',
-				'vLabel' => array(
+				'field_id' => 'textarea_multiple',
+				'section_id' => 'text_fields',
+				'title' => 'Multiple Text Areas',
+				'description' => 'These are multiple text areas.',
+				'type' => 'textarea',
+				'label' => array(
 					'First Text Area: ',
 					'Second Text Area: ',
 					'Third Text Area: ',
 				),
-				'vDefault' => array( 
+				'default' => array( 
 					'The first default text.',
 					'The second default text.',
 					'The third default text.',
 				),
-				'vRows' => array(
+				'rows' => array(
 					5,
 					3,
 					2,
 				),
-				'vCols' => array(
+				'cols' => array(
 					60,
 					40,
 					20,
 				),
-				'vDelimiter' => '<br />',
+				'delimiter' => '<br />',
 			)
 		);
 		$this->addSettingFields(
 			array(	// Single Drop-down List
-				'strFieldID' => 'select',
-				'strSectionID' => 'selectors',
-				'strTitle' => 'Dropdown List',
-				'strDescription' => 'This is a drop down list.',
-				'strHelp' => __( 'This is the <em>select</em> field type.', 'admin-page-framework' ),
-				'strType' => 'select',
-				'vDefault' => 2,
-				'vLabel' => array( 'red', 'blue', 'yellow', 'orange' )
+				'field_id' => 'select',
+				'section_id' => 'selectors',
+				'title' => 'Dropdown List',
+				'description' => 'This is a drop down list.',
+				'help' => __( 'This is the <em>select</em> field type.', 'admin-page-framework' ),
+				'type' => 'select',
+				'default' => 2,
+				'label' => array( 'red', 'blue', 'yellow', 'orange' )
 			),	
 			array(	// Single Drop-down List with Multiple Options
-				'strFieldID' => 'select_multiple_options',
-				'strSectionID' => 'selectors',
-				'strTitle' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'Press the Shift key to select multiple items.', 'admin-page-framework-demo' ),
-				'strHelp' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
-				'strType' => 'select',
+				'field_id' => 'select_multiple_options',
+				'section_id' => 'selectors',
+				'title' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
+				'description' => __( 'Press the Shift key to select multiple items.', 'admin-page-framework-demo' ),
+				'help' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
+				'type' => 'select',
 				'vMultiple' => true,
-				'vDefault' => 2,
-				'vSize' => 10,	
+				'default' => 2,
+				'size' => 10,	
 				'vWidth' => '200px',	// The width property value of CSS.
-				'vLabel' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' )
+				'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' )
 			),			
 			array(	// Drop-down Lists with Mixed Types
-				'strFieldID' => 'select_mixed',
-				'strSectionID' => 'selectors',
-				'strTitle' => __( 'Multiple Dropdown Lists with Mixed Types', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'This is multiple sets of drop down list.', 'admin-page-framework-demo' ),
-				'strType' => 'select',
-				'vLabel' => array( 
+				'field_id' => 'select_mixed',
+				'section_id' => 'selectors',
+				'title' => __( 'Multiple Dropdown Lists with Mixed Types', 'admin-page-framework-demo' ),
+				'description' => __( 'This is multiple sets of drop down list.', 'admin-page-framework-demo' ),
+				'type' => 'select',
+				'label' => array( 
 					array( 'dark', 'light' ),
 					array( 'river', 'mountain', 'sky', ),
 					array( 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
 				),
-				'vSize' => array(
+				'size' => array(
 					1,
 					1,
 					5,
 				),
-				'vDefault' => array(
+				'default' => array(
 					1,
 					2,
 					0
@@ -592,284 +592,284 @@ class APF_Demo extends AdminPageFramework {
 				),
 			),					
 			array(	// Single set of radio buttons
-				'strFieldID' => 'radio',
-				'strSectionID' => 'selectors',
-				'strTitle' => 'Radio Button',
-				'strDescription' => 'Choose one from the radio buttons.',
-				'strType' => 'radio',
-				'vLabel' => array( 'a' => 'apple', 'b' => 'banana', 'c' => 'cherry' ),
-				'vDefault' => 'b',	// banana				
+				'field_id' => 'radio',
+				'section_id' => 'selectors',
+				'title' => 'Radio Button',
+				'description' => 'Choose one from the radio buttons.',
+				'type' => 'radio',
+				'label' => array( 'a' => 'apple', 'b' => 'banana', 'c' => 'cherry' ),
+				'default' => 'b',	// banana				
 			),
 			array(	// Multiple sets of radio buttons
-				'strFieldID' => 'radio_multiple',
-				'strSectionID' => 'selectors',
-				'strTitle' => 'Multiple Sets of Radio Buttons',
-				'strDescription' => 'Multiple sets of radio buttons.',
-				'strType' => 'radio',
-				'vLabel' => array( 
+				'field_id' => 'radio_multiple',
+				'section_id' => 'selectors',
+				'title' => 'Multiple Sets of Radio Buttons',
+				'description' => 'Multiple sets of radio buttons.',
+				'type' => 'radio',
+				'label' => array( 
 					array( 1 => 'one', 2 => 'two' ),
 					array( 3 => 'three', 4 => 'four', 5 => 'five' ),
 					array( 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine' ),
 				),
-				'vDefault' => array(
+				'default' => array(
 					2,
 					4,
 					8,
 				),
-				'vDelimiter' => '<br />',
+				'delimiter' => '<br />',
 			),			
 			array(	// Single Checkbox
-				'strFieldID' => 'checkbox',
-				'strSectionID' => 'selectors',
-				'strTitle' => 'Single Checkbox',
-				'strTip' => 'The description key can be omitted though.',
-				'strDescription' => 'Check box\'s label can be a string, not an array.',	//'
-				'strType' => 'checkbox',
-				'vLabel' => 'One',	// notice that the label key is not an array
-				'vDefault' => False,
+				'field_id' => 'checkbox',
+				'section_id' => 'selectors',
+				'title' => 'Single Checkbox',
+				'tip' => 'The description key can be omitted though.',
+				'description' => 'Check box\'s label can be a string, not an array.',	//'
+				'type' => 'checkbox',
+				'label' => 'One',	// notice that the label key is not an array
+				'default' => False,
 			),	
 			array(	// Multiple Checkboxes
-				'strFieldID' => 'checkboxes',
-				'strSectionID' => 'selectors',
-				'strTitle' => 'Multiple Checkboxes',
-				'strDescription' => 'The description can be omitted.',
-				'strType' => 'checkbox',
-				'vLabel' => array( 'moon' => 'Moon', 'earth' => 'Earth', 'sun' => 'Sun', 'mars' => 'Mars' ),
-				'vDefault' => array( 'moon' => True, 'earth' => False, 'sun' => True, 'mars' => False ),
+				'field_id' => 'checkboxes',
+				'section_id' => 'selectors',
+				'title' => 'Multiple Checkboxes',
+				'description' => 'The description can be omitted.',
+				'type' => 'checkbox',
+				'label' => array( 'moon' => 'Moon', 'earth' => 'Earth', 'sun' => 'Sun', 'mars' => 'Mars' ),
+				'default' => array( 'moon' => True, 'earth' => False, 'sun' => True, 'mars' => False ),
 			),
 			array(	// Size
-				'strFieldID'		=> 'size_filed',
-				'strSectionID'		=> 'sizes',
-				'strTitle'			=> __( 'Size', 'admin-page-framework-demo' ),
-				'strHelp'			=> __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
-				'strDescription'	=> __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
-				'strType'			=> 'size',
-				'vDefault'			=> array( 'size' => 5, 'unit' => '%' ),
+				'field_id'		=> 'size_filed',
+				'section_id'		=> 'sizes',
+				'title'			=> __( 'Size', 'admin-page-framework-demo' ),
+				'help'			=> __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
+				'description'	=> __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
+				'type'			=> 'size',
+				'default'			=> array( 'size' => 5, 'unit' => '%' ),
 			),			
 			array(	// Size with custom units
-				'strFieldID'		=> 'size_custom_unit_filed',
-				'strSectionID'		=> 'sizes',
-				'strTitle'			=> __( 'Size with Custom Units', 'admin-page-framework-demo' ),
-				'strHelp'			=> __( 'The units can be specified so it can be quantity, length, or capacity etc.', 'admin-page-framework-demo' ),
-				'strType'			=> 'size',
-				'vSizeUnits'		=> array(
+				'field_id'		=> 'size_custom_unit_filed',
+				'section_id'		=> 'sizes',
+				'title'			=> __( 'Size with Custom Units', 'admin-page-framework-demo' ),
+				'help'			=> __( 'The units can be specified so it can be quantity, length, or capacity etc.', 'admin-page-framework-demo' ),
+				'type'			=> 'size',
+				'size_units'		=> array(
 					'grain'	=> 'grains',
 					'dram'	=> 'drams',
 					'ounce'	=> 'ounces',
 					'pounds'	=> 'pounds',
 				),
-				'vDefault'			=> array( 'size' => 200, 'unit' => 'ounce' ),
+				'default'			=> array( 'size' => 200, 'unit' => 'ounce' ),
 			),						
 			array(	// Multiple Sizes
-				'strFieldID' => 'sizes_filed',
-				'strSectionID' => 'sizes',
-				'strTitle' => __( 'Multiple Sizes', 'admin-page-framework-demo' ),
-				'strType' => 'size',
-				'vLabel' => array(
+				'field_id' => 'sizes_filed',
+				'section_id' => 'sizes',
+				'title' => __( 'Multiple Sizes', 'admin-page-framework-demo' ),
+				'type' => 'size',
+				'label' => array(
 					'weight'	=> __( 'Weight', 'admin-page-framework-demo' ),
 					'length'	=> __( 'Length', 'admin-page-framework-demo' ),
 					'capacity'	=> __( 'File Size', 'admin-page-framework-demo' ),
 				),
-				'vSizeUnits' => array( 	// notice that the array key structure corresponds to the vLabel array's.
+				'size_units' => array( 	// notice that the array key structure corresponds to the label array's.
 					'weight'	=> array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
 					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
 				),
-				'vDefault' => array(
+				'default' => array(
 					'weight' => array( 'size' => 15, 'unit' => 'g' ),
 					'length' => array( 'size' => 100, 'unit' => 'mm' ),
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
 				),		
-				'vDelimiter' => '<br />',
+				'delimiter' => '<br />',
 			)
 		);
 		$this->addSettingFields(			
 			array( // Image Selector
-				'strFieldID' => 'image_select_field',
-				'strSectionID' => 'image_select',
-				'strTitle' => __( 'Select an Image', 'admin-page-framework-demo' ),
-				'strType' => 'image',
-				'vLabel' => array( 'First Image', 'Second Image', 'Third Image' ),
-				'vDefault' => array( admin_url( 'images/wordpress-logo.png' ) ), 
-				'fAllowExternalSource' => false,
+				'field_id' => 'image_select_field',
+				'section_id' => 'image_select',
+				'title' => __( 'Select an Image', 'admin-page-framework-demo' ),
+				'type' => 'image',
+				'label' => array( 'First Image', 'Second Image', 'Third Image' ),
+				'default' => array( admin_url( 'images/wordpress-logo.png' ) ), 
+				'allow_external_source' => false,
 			),		
 			array( // Image selector with additional attributes
-				'strFieldID' => 'image_with_attributes',
-				'strSectionID' => 'image_select',
-				'strTitle' => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
-				'strType' => 'image',
-				'vDelimiter' => '',
-				'arrCaptureAttributes' => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
+				'field_id' => 'image_with_attributes',
+				'section_id' => 'image_select',
+				'title' => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
+				'type' => 'image',
+				'delimiter' => '',
+				'attributes_to_capture' => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
 			),					
 			array(	// Repeatable Image Fields
-				'strFieldID' => 'image_select_field_repeater',
-				'strSectionID' => 'image_select',
-				'strTitle' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
-				'vDelimiter' => '',
-				'fRepeatable' => true,
-				'strType' => 'image',
+				'field_id' => 'image_select_field_repeater',
+				'section_id' => 'image_select',
+				'title' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
+				'delimiter' => '',
+				'repeatable' => true,
+				'type' => 'image',
 			),
 			array( // Media File
-				'strFieldID' => 'media_field',
-				'strSectionID' => 'media_upload',
-				'strTitle' => __( 'Media File', 'admin-page-framework-demo' ),
-				'strType' => 'media',
-				'fAllowExternalSource' => false,
+				'field_id' => 'media_field',
+				'section_id' => 'media_upload',
+				'title' => __( 'Media File', 'admin-page-framework-demo' ),
+				'type' => 'media',
+				'allow_external_source' => false,
 			),	
 			array( // Media File with Attributes
-				'strFieldID' => 'media_with_attributes',
-				'strSectionID' => 'media_upload',
-				'strTitle' => __( 'Media File with Attributes', 'admin-page-framework-demo' ),
-				'strType' => 'media',
-				'arrCaptureAttributes' => array( 'id', 'caption', 'description' ),
+				'field_id' => 'media_with_attributes',
+				'section_id' => 'media_upload',
+				'title' => __( 'Media File with Attributes', 'admin-page-framework-demo' ),
+				'type' => 'media',
+				'attributes_to_capture' => array( 'id', 'caption', 'description' ),
 			),				
 			array( // Media Files
-				'strFieldID' => 'media_fields',
-				'strSectionID' => 'media_upload',
-				'strTitle' => __( 'Multiple Media Files', 'admin-page-framework-demo' ),
-				'strType' => 'media',
-				'fRepeatable' => true,
+				'field_id' => 'media_fields',
+				'section_id' => 'media_upload',
+				'title' => __( 'Multiple Media Files', 'admin-page-framework-demo' ),
+				'type' => 'media',
+				'repeatable' => true,
 			),				
 			array( // Single File Upload Field
-				'strFieldID' => 'file_single',
-				'strSectionID' => 'file_uploads',
-				'strTitle' => __( 'Single File Upload', 'admin-page-framework-demo' ),
-				'strType' => 'file',
-				'vLabel' => 'Select the file:',
+				'field_id' => 'file_single',
+				'section_id' => 'file_uploads',
+				'title' => __( 'Single File Upload', 'admin-page-framework-demo' ),
+				'type' => 'file',
+				'label' => 'Select the file:',
 			),					
 			array( // Multiple File Upload Fields
-				'strFieldID' => 'file_multiple',
-				'strSectionID' => 'file_uploads',
-				'strTitle' => __( 'Multiple File Uploads', 'admin-page-framework-demo' ),
-				'strType' => 'file',
-				'vLabel' => array( 'Fist File:', 'Second File:', 'Third File:' ),
-				'vDelimiter' => '<br />',
+				'field_id' => 'file_multiple',
+				'section_id' => 'file_uploads',
+				'title' => __( 'Multiple File Uploads', 'admin-page-framework-demo' ),
+				'type' => 'file',
+				'label' => array( 'Fist File:', 'Second File:', 'Third File:' ),
+				'delimiter' => '<br />',
 			),	
 			array( // Single File Upload Field
-				'strFieldID' => 'file_repeatable',
-				'strSectionID' => 'file_uploads',
-				'strTitle' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
-				'strType' => 'file',
-				'fRepeatable' => true,
+				'field_id' => 'file_repeatable',
+				'section_id' => 'file_uploads',
+				'title' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
+				'type' => 'file',
+				'repeatable' => true,
 			)
 		);
 		$this->addSettingFields(			
 			array(
-				'strFieldID' => 'post_type_checklist',
-				'strSectionID' => 'checklists',
-				'strTitle' => 'Post Types',
-				'strType' => 'posttype',
+				'field_id' => 'post_type_checklist',
+				'section_id' => 'checklists',
+				'title' => 'Post Types',
+				'type' => 'posttype',
 			),											
 			array(
-				'strFieldID' => 'taxonomy_checklist',
-				'strSectionID' => 'checklists',
-				'strTitle' => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
-				'strType' => 'taxonomy',
-				'strHeight' => '200px',
-				'vTaxonomySlug' => array( 'category', 'post_tag' ),
+				'field_id' => 'taxonomy_checklist',
+				'section_id' => 'checklists',
+				'title' => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
+				'type' => 'taxonomy',
+				'height' => '200px',
+				'taxonomy_slugs' => array( 'category', 'post_tag' ),
 			),				
 			array(
-				'strFieldID' => 'taxonomy_checklist_all',
-				'strSectionID' => 'checklists',
-				'strTitle' => __( 'All Taxonomies', 'admin-page-framework-demo' ),
-				'strType' => 'taxonomy',
-				'strHeight' => '200px',
-				'vTaxonomySlug' => get_taxonomies( '', 'names' ),
+				'field_id' => 'taxonomy_checklist_all',
+				'section_id' => 'checklists',
+				'title' => __( 'All Taxonomies', 'admin-page-framework-demo' ),
+				'type' => 'taxonomy',
+				'height' => '200px',
+				'taxonomy_slugs' => get_taxonomies( '', 'names' ),
 			)
 		);
 		$this->addSettingFields(			
 			array( // Color Picker
-				'strFieldID' => 'color_picker_field',
-				'strSectionID' => 'color_picker',
-				'strTitle' => __( 'Color Picker', 'admin-page-framework-demo' ),
-				'strType' => 'color',
+				'field_id' => 'color_picker_field',
+				'section_id' => 'color_picker',
+				'title' => __( 'Color Picker', 'admin-page-framework-demo' ),
+				'type' => 'color',
 			),					
 			array( // Multiple Color Pickers
-				'strFieldID' => 'multiple_color_picker_field',
-				'strSectionID' => 'color_picker',
-				'strTitle' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
-				'strType' => 'color',
-				'vLabel' => array( 'First Color', 'Second Color', 'Third Color' ),
-				'vDelimiter' => '<br />',
+				'field_id' => 'multiple_color_picker_field',
+				'section_id' => 'color_picker',
+				'title' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
+				'type' => 'color',
+				'label' => array( 'First Color', 'Second Color', 'Third Color' ),
+				'delimiter' => '<br />',
 			),				
 			array( // Repeatable Color Pickers
-				'strFieldID' => 'color_picker_repeatable_field',
-				'strSectionID' => 'color_picker',
-				'strTitle' => __( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
-				'strType' => 'color',
-				'fRepeatable' => true,
+				'field_id' => 'color_picker_repeatable_field',
+				'section_id' => 'color_picker',
+				'title' => __( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
+				'type' => 'color',
+				'repeatable' => true,
 			),										
 			array( // Single Hidden Field
-				'strFieldID' => 'hidden_single',
-				'strSectionID' => 'hidden_field',
-				'strTitle' => __( 'Single Hidden Field', 'admin-page-framework-demo' ),
-				'strType' => 'hidden',
-				'vDefault' => 'test value',
-				'vLabel' => 'Test label.',
+				'field_id' => 'hidden_single',
+				'section_id' => 'hidden_field',
+				'title' => __( 'Single Hidden Field', 'admin-page-framework-demo' ),
+				'type' => 'hidden',
+				'default' => 'test value',
+				'label' => 'Test label.',
 			),			
 			array( // Multiple Hidden Fields
-				'strFieldID' => 'hidden_miltiple',
-				'strSectionID' => 'hidden_field',
-				'strTitle' => 'Multiple Hidden Field',
-				'strType' => 'hidden',
-				'vDefault' => array( 'a', 'b', 'c' ),
-				'vLabel' => array( 'Hidden Field 1', 'Hidden Field 2', 'Hidden Field 3' ),
+				'field_id' => 'hidden_miltiple',
+				'section_id' => 'hidden_field',
+				'title' => 'Multiple Hidden Field',
+				'type' => 'hidden',
+				'default' => array( 'a', 'b', 'c' ),
+				'label' => array( 'Hidden Field 1', 'Hidden Field 2', 'Hidden Field 3' ),
 			),							
 			array( // Submit button as a link
-				'strFieldID' => 'submit_button_link',
-				'strSectionID' => 'submit_buttons',
-				'strTitle' => 'Link Button',
-				'strType' => 'submit',
-				'strDescription' => 'This button serves as a hyper link.',
-				'vLabel' => array( 'Google', 'Yahoo', 'Bing' ),
-				'vLink'	=> array( 'http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com' ),
-				'vClassAttribute' => 'button button-secondary',
-				'vDelimiter' => '',
+				'field_id' => 'submit_button_link',
+				'section_id' => 'submit_buttons',
+				'title' => 'Link Button',
+				'type' => 'submit',
+				'description' => 'This button serves as a hyper link.',
+				'label' => array( 'Google', 'Yahoo', 'Bing' ),
+				'links'	=> array( 'http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com' ),
+				'class_attribute' => 'button button-secondary',
+				'delimiter' => '',
 			),			
 			array( // Submit button as a redirect
-				'strFieldID' => 'submit_button_redirect',
-				'strSectionID' => 'submit_buttons',
-				'strTitle' => 'Redirect Button',
-				'strType' => 'submit',
-				'strDescription' => 'Unlike the above link buttons, this button saves the options and then redirects to: ' . admin_url(),
-				'vLabel' => 'Dashboard',
-				'vRedirect'	=> admin_url(),
-				'vClassAttribute' => 'button button-secondary',
+				'field_id' => 'submit_button_redirect',
+				'section_id' => 'submit_buttons',
+				'title' => 'Redirect Button',
+				'type' => 'submit',
+				'description' => 'Unlike the above link buttons, this button saves the options and then redirects to: ' . admin_url(),
+				'label' => 'Dashboard',
+				'redirect_url'	=> admin_url(),
+				'class_attribute' => 'button button-secondary',
 			),
 			array( // Reset Submit button
-				'strFieldID' => 'submit_button_reset',
-				'strSectionID' => 'submit_buttons',
-				'strTitle' => 'Reset Button',
-				'strType' => 'submit',
-				'vLabel' => __( 'Reset', 'admin-page-framework-demo' ),
-				'vReset' => true,
-				// 'vClassAttribute' => 'button button-secondary',
+				'field_id' => 'submit_button_reset',
+				'section_id' => 'submit_buttons',
+				'title' => 'Reset Button',
+				'type' => 'submit',
+				'label' => __( 'Reset', 'admin-page-framework-demo' ),
+				'is_reset' => true,
+				// 'class_attribute' => 'button button-secondary',
 			)
 		);
 		$this->addSettingFields(			
 			array(
-				'strFieldID' => 'verify_text_field',
-				'strSectionID' => 'verification',
-				'strTitle' => __( 'Verify Text Input', 'admin-page-framework-demo' ),
-				'strType' => 'text',
-				'strDescription' => __( 'Enter a non numeric value here.', 'admin-page-framework-demo' ),
+				'field_id' => 'verify_text_field',
+				'section_id' => 'verification',
+				'title' => __( 'Verify Text Input', 'admin-page-framework-demo' ),
+				'type' => 'text',
+				'description' => __( 'Enter a non numeric value here.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'strFieldID' => 'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
-				'strSectionID' => 'verification',
-				'strType' => 'submit',		
-				'vLabel' => __( 'Verify', 'admin-page-framework-demo' ),
+				'field_id' => 'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
+				'section_id' => 'verification',
+				'type' => 'submit',		
+				'label' => __( 'Verify', 'admin-page-framework-demo' ),
 			)
 		);	
 		
 		$this->addSettingFields(			
 			array(
-				'strFieldID' => 'geometrical_coordinates',
-				'strSectionID' => 'geometry',
-				'strTitle' => __( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
-				'strType' => 'geometry',
-				'strDescription' => __( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
-				'vDefault' => array(
+				'field_id' => 'geometrical_coordinates',
+				'section_id' => 'geometry',
+				'title' => __( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
+				'type' => 'geometry',
+				'description' => __( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
+				'default' => array(
 					'latitude' => 20,
 					'longitude' => 20,
 				),
@@ -877,67 +877,67 @@ class APF_Demo extends AdminPageFramework {
 		);
 		$this->addSettingFields(
 			array(	// Single date picker
-				'strFieldID' => 'date',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Date', 'admin-page-framework-demo' ),
-				'strType' => 'date',
-				'vDateFormat' => 'yy/mm/dd',	// yy/mm/dd is the default format.
+				'field_id' => 'date',
+				'section_id' => 'date_pickers',
+				'title' => __( 'Date', 'admin-page-framework-demo' ),
+				'type' => 'date',
+				'date_format' => 'yy/mm/dd',	// yy/mm/dd is the default format.
 			),			
 			array(	// Multiple date pickers
-				'strFieldID' => 'dates',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Dates', 'admin-page-framework-demo' ),
-				'strType' => 'date',
-				'vLabel' => array( 
+				'field_id' => 'dates',
+				'section_id' => 'date_pickers',
+				'title' => __( 'Dates', 'admin-page-framework-demo' ),
+				'type' => 'date',
+				'label' => array( 
 					'start' => __( 'Start Date: ', 'amin-page-framework-demo' ), 
 					'end' => __( 'End Date: ', 'amin-page-framework-demo' ), 
 				),
-				'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
-				'vDelimiter' => '<br />',
+				'date_format' => 'yy-mm-dd',	// yy/mm/dd is the default format.
+				'delimiter' => '<br />',
 			),	
 			array(	// Single time picker
-				'strFieldID' => 'time',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Time', 'admin-page-framework-demo' ),
-				'strType' => 'time',
-				'vTimeFormat' => 'H:mm',	// H:mm is the default format.
+				'field_id' => 'time',
+				'section_id' => 'date_pickers',
+				'title' => __( 'Time', 'admin-page-framework-demo' ),
+				'type' => 'time',
+				'time_format' => 'H:mm',	// H:mm is the default format.
 			),		
 			array(	// Single date time picker
-				'strFieldID' => 'date_time',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Date & Time', 'admin-page-framework-demo' ),
-				'strType' => 'date_time',
-				'vDateFormat' => 'yy-mm-dd',	// H:mm is the default format.
-				'vTimeFormat' => 'H:mm',	// H:mm is the default format.
+				'field_id' => 'date_time',
+				'section_id' => 'date_pickers',
+				'title' => __( 'Date & Time', 'admin-page-framework-demo' ),
+				'type' => 'date_time',
+				'date_format' => 'yy-mm-dd',	// H:mm is the default format.
+				'time_format' => 'H:mm',	// H:mm is the default format.
 			),		
 			array(	// Multiple date time pickers
-				'strFieldID' => 'dates_time_multiple',
-				'strSectionID' => 'date_pickers',
-				'strTitle' => __( 'Multiple Date and Time', 'admin-page-framework-demo' ),
-				'strDescription' => __( 'With different time formats', 'admin-page-framework-demo' ),
-				'strType' => 'date_time',
-				'vLabel' => array( 
+				'field_id' => 'dates_time_multiple',
+				'section_id' => 'date_pickers',
+				'title' => __( 'Multiple Date and Time', 'admin-page-framework-demo' ),
+				'description' => __( 'With different time formats', 'admin-page-framework-demo' ),
+				'type' => 'date_time',
+				'label' => array( 
 					__( 'Default', 'amin-page-framework-demo' ), 
 					__( 'AM PM', 'amin-page-framework-demo' ), 
 					__( 'Time Zone', 'amin-page-framework-demo' ), 
 				),
-				'vTimeFormat' => array(
+				'time_format' => array(
 					'H:mm',
 					'hh:mm tt',
 					'hh:mm tt z',
 				),
-				'vDateFormat' => 'yy-mm-dd',	// yy/mm/dd is the default format.
-				'vDelimiter' => '<br />',
+				'date_format' => 'yy-mm-dd',	// yy/mm/dd is the default format.
+				'delimiter' => '<br />',
 			),				
 			array()
 		);
 		$this->addSettingFields(			
 			array(
-				'strFieldID' => 'dials',
-				'strSectionID' => 'dial',
-				'strTitle' => __( 'Multiple Dials', 'admin-page-framework-demo' ),
-				'strType' => 'dial',
-				'vLabel' => array(
+				'field_id' => 'dials',
+				'section_id' => 'dial',
+				'title' => __( 'Multiple Dials', 'admin-page-framework-demo' ),
+				'type' => 'dial',
+				'label' => array(
 					__( 'Disable display input', 'admin-page-framework-demo' ),
 					__( 'Cursor mode', 'admin-page-framework-demo' ),
 					__( 'Display previous value (effect)', 'admin-page-framework-demo' ),				
@@ -946,7 +946,7 @@ class APF_Demo extends AdminPageFramework {
 					__( '5-digit values, step 1000', 'admin-page-framework-demo' ),				
 				),
 				// For details, see https://github.com/aterrien/jQuery-Knob
-				'vDataAttribute' => array( 
+				'data_attribute' => array( 
 					array(
 						'width' => 100,
 						'displayInput' => 'false',
@@ -980,11 +980,11 @@ class APF_Demo extends AdminPageFramework {
 				),
 			),
 			array(
-				'strFieldID' => 'dial_big',
-				'strSectionID' => 'dial',
-				'strTitle' => __( 'Big', 'admin-page-framework-demo' ),
-				'strType' => 'dial',
-				'vDataAttribute' => array(
+				'field_id' => 'dial_big',
+				'section_id' => 'dial',
+				'title' => __( 'Big', 'admin-page-framework-demo' ),
+				'type' => 'dial',
+				'data_attribute' => array(
 					'width' => 400,
 					'height' => 400,
 				),
@@ -994,82 +994,82 @@ class APF_Demo extends AdminPageFramework {
 		
 		$this->addSettingFields(			
 			array(
-				'strFieldID' => 'font_field',
-				'strSectionID' => 'font',
-				'strTitle' => __( 'Font Upload', 'admin-page-framework-demo' ),
-				'strType' => 'font',
-				'strDescription' => __( 'Set the URL of the font.', 'admin-page-framework-demo' ),
+				'field_id' => 'font_field',
+				'section_id' => 'font',
+				'title' => __( 'Font Upload', 'admin-page-framework-demo' ),
+				'type' => 'font',
+				'description' => __( 'Set the URL of the font.', 'admin-page-framework-demo' ),
 			),
 			array()
 		);
 		
 		$this->addSettingFields(			
 			array( // Delete Option Button
-				'strFieldID' => 'submit_manage',
-				'strSectionID' => 'submit_buttons_manage',
-				'strTitle' => 'Delete Options',
-				'strType' => 'submit',
-				'vClassAttribute' => 'button-secondary',
-				'vLabel' => 'Delete Options',
-				'vLink'	=> admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
+				'field_id' => 'submit_manage',
+				'section_id' => 'submit_buttons_manage',
+				'title' => 'Delete Options',
+				'type' => 'submit',
+				'class_attribute' => 'button-secondary',
+				'label' => 'Delete Options',
+				'links'	=> admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
 			),			
 			array( // Delete Option Confirmation Button
-				'strFieldID' => 'submit_delete_options_confirmation',
-				'strSectionID' => 'submit_buttons_confirm',
-				'strTitle' => 'Delete Options',
-				'strType' => 'submit',
-				'vClassAttribute' => 'button-secondary',
-				'vLabel' => 'Delete Options',
-				'vRedirect'	=> admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' )
+				'field_id' => 'submit_delete_options_confirmation',
+				'section_id' => 'submit_buttons_confirm',
+				'title' => 'Delete Options',
+				'type' => 'submit',
+				'class_attribute' => 'button-secondary',
+				'label' => 'Delete Options',
+				'redirect_url'	=> admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' )
 			),			
 			array(
-				'strFieldID' => 'export_format_type',			
-				'strSectionID' => 'exports',
-				'strTitle' => 'Export Format Type',
-				'strType' => 'radio',
-				'strDescription' => 'Choose the file format. Array means the PHP serialized array.',
-				'vLabel' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
-				'vDefault' => 'array',
+				'field_id' => 'export_format_type',			
+				'section_id' => 'exports',
+				'title' => 'Export Format Type',
+				'type' => 'radio',
+				'description' => 'Choose the file format. Array means the PHP serialized array.',
+				'label' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
+				'default' => 'array',
 			),			
 			array(	// Single Export Button
-				'strFieldID' => 'export_single',
-				'strSectionID' => 'exports',
-				// 'strTitle' => 'Single Export Button',
-				'strType' => 'export',
-				'strDescription' => __( 'Download the saved option data.', 'admin-page-framework-demo' ),
-				'vLabel' => 'Export Options',
+				'field_id' => 'export_single',
+				'section_id' => 'exports',
+				// 'title' => 'Single Export Button',
+				'type' => 'export',
+				'description' => __( 'Download the saved option data.', 'admin-page-framework-demo' ),
+				'label' => 'Export Options',
 			),
 			array(	// Multiple Export Buttons
-				'strFieldID' => 'export_multiple',
-				'strSectionID' => 'exports',
-				'strTitle' => 'Multiple Export Buttons',
-				'strType' => 'export',
-				'strDescription' => __( 'Download the custom set data.', 'admin-page-framework-demo' ),
-				'vLabel' => array( 'Pain Text', 'JSON', 'Serialized Array' ),
-				'vExportFileName' => array( 'plain_text.txt', 'json.json', 'serialized_array.txt' ),
-				'vExportFormat' => array( 'text', 'json', 'array' ),
-				'vExportData' => array(
+				'field_id' => 'export_multiple',
+				'section_id' => 'exports',
+				'title' => 'Multiple Export Buttons',
+				'type' => 'export',
+				'description' => __( 'Download the custom set data.', 'admin-page-framework-demo' ),
+				'label' => array( 'Pain Text', 'JSON', 'Serialized Array' ),
+				'export_file_name' => array( 'plain_text.txt', 'json.json', 'serialized_array.txt' ),
+				'export_format' => array( 'text', 'json', 'array' ),
+				'export_data' => array(
 					'Hello World!',	// export plain text
 					( array ) $this->oProps,	// export an object
 					array( 'a', 'b', 'c' ),	// export a serialized array
 				),
 			),		
 			array(
-				'strFieldID' => 'import_format_type',			
-				'strSectionID' => 'imports',
-				'strTitle' => 'Import Format Type',
-				'strType' => 'radio',
-				'strDescription' => 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.',
-				'vLabel' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
-				'vDefault' => 'array',
+				'field_id' => 'import_format_type',			
+				'section_id' => 'imports',
+				'title' => 'Import Format Type',
+				'type' => 'radio',
+				'description' => 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.',
+				'label' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
+				'default' => 'array',
 			),
 			array(	// Single Import Button
-				'strFieldID' => 'import_single',
-				'strSectionID' => 'imports',
-				'strTitle' => 'Single Import Field',
-				'strType' => 'import',
-				'strDescription' => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
-				'vLabel' => 'Import Options',
+				'field_id' => 'import_single',
+				'section_id' => 'imports',
+				'title' => 'Single Import Field',
+				'type' => 'import',
+				'description' => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
+				'label' => 'Import Options',
 				// 'vImportFormat' => isset( $_POST[ $this->oProps->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProps->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
 			),			
 			array()
@@ -1427,118 +1427,118 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 		
 		$this->addSettingFields(
 			array(
-				'strFieldID'		=> 'sample_metabox_text_field',
-				'strTitle'			=> 'Text Input',
-				'strDescription'	=> 'The description for the field.',
-				'strType'			=> 'text',
-				'strHelp'			=> 'This is help text.',
-				'strHelpAside'		=> 'This is additional help text which goes to the side bar of the help pane.',
+				'field_id'		=> 'sample_metabox_text_field',
+				'title'			=> 'Text Input',
+				'description'	=> 'The description for the field.',
+				'type'			=> 'text',
+				'help'			=> 'This is help text.',
+				'helpAside'		=> 'This is additional help text which goes to the side bar of the help pane.',
 			),
 			array(
-				'strFieldID'		=> 'sample_metabox_textarea_field',
-				'strTitle'			=> 'Textarea',
-				'strDescription'	=> 'The description for the field.',
-				'strHelp'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-				'strType'			=> 'textarea',
-				'vCols'				=> 60,
-				'vDefault'			=> 'This is a default text.',
+				'field_id'		=> 'sample_metabox_textarea_field',
+				'title'			=> 'Textarea',
+				'description'	=> 'The description for the field.',
+				'help'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
+				'type'			=> 'textarea',
+				'cols'				=> 60,
+				'default'			=> 'This is a default text.',
 			),
 			array(	// Rich Text Editor
-				'strFieldID' 		=> 'sample_rich_textarea',
-				'strTitle' 			=> 'Rich Text Editor',
-				'strType' 			=> 'textarea',
+				'field_id' 		=> 'sample_rich_textarea',
+				'title' 			=> 'Rich Text Editor',
+				'type' 			=> 'textarea',
 				'vRich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
 			),				
 			array(
-				'strFieldID'		=> 'checkbox_field',
-				'strTitle'			=> 'Checkbox Input',
-				'strDescription'	=> 'The description for the field.',
-				'strType'			=> 'checkbox',
-				'vLabel'			=> 'This is a check box.',
+				'field_id'		=> 'checkbox_field',
+				'title'			=> 'Checkbox Input',
+				'description'	=> 'The description for the field.',
+				'type'			=> 'checkbox',
+				'label'			=> 'This is a check box.',
 			),
 			array(
-				'strFieldID'		=> 'select_filed',
-				'strTitle'			=> 'Select Box',
-				'strDescription'	=> 'The description for the field.',
-				'strType'			=> 'select',
-				'vLabel' => array( 
+				'field_id'		=> 'select_filed',
+				'title'			=> 'Select Box',
+				'description'	=> 'The description for the field.',
+				'type'			=> 'select',
+				'label' => array( 
 					'one' => __( 'One', 'demo' ),
 					'two' => __( 'Two', 'demo' ),
 					'three' => __( 'Three', 'demo' ),
 				),
-				'vDefault' 			=> 'one',	// 0 means the first item
+				'default' 			=> 'one',	// 0 means the first item
 			),		
 			array (
-				'strFieldID'		=> 'radio_field',
-				'strTitle'			=> 'Radio Group',
-				'strDescription'	=> 'The description for the field.',
-				'strType'			=> 'radio',
-				'vLabel' => array( 
+				'field_id'		=> 'radio_field',
+				'title'			=> 'Radio Group',
+				'description'	=> 'The description for the field.',
+				'type'			=> 'radio',
+				'label' => array( 
 					'one' => __( 'Option One', 'demo' ),
 					'two' => __( 'Option Two', 'demo' ),
 					'three' => __( 'Option Three', 'demo' ),
 				),
-				'vDefault' => 'one',
+				'default' => 'one',
 			),
 			array (
-				'strFieldID'		=> 'checkbox_group_field',
-				'strTitle'			=> 'Checkbox Group',
-				'strDescription'	=> 'The description for the field.',
-				'strType'			=> 'checkbox',
-				'vLabel' => array( 
+				'field_id'		=> 'checkbox_group_field',
+				'title'			=> 'Checkbox Group',
+				'description'	=> 'The description for the field.',
+				'type'			=> 'checkbox',
+				'label' => array( 
 					'one' => __( 'Option One', 'admin-page-framework-demo' ),
 					'two' => __( 'Option Two', 'admin-page-framework-demo' ),
 					'three' => __( 'Option Three', 'admin-page-framework-demo' ),
 				),
-				'vDefault' => array(
+				'default' => array(
 					'one' => true,
 					'two' => false,
 					'three' => false,
 				),
 			),			
 			array (
-				'strFieldID'		=> 'image_field',
-				'strTitle'			=> 'Image',
-				'strDescription'	=> 'The description for the field.',
-				'strType'			=> 'image',
+				'field_id'		=> 'image_field',
+				'title'			=> 'Image',
+				'description'	=> 'The description for the field.',
+				'type'			=> 'image',
 			),		
 			array (
-				'strFieldID'		=> 'color_field',
-				'strTitle'			=> __( 'Color', 'admin-page-framework-demo' ),
-				'strType'			=> 'color',
+				'field_id'		=> 'color_field',
+				'title'			=> __( 'Color', 'admin-page-framework-demo' ),
+				'type'			=> 'color',
 			),	
 			array (
-				'strFieldID'		=> 'size_field',
-				'strTitle'			=> __( 'Size', 'admin-page-framework-demo' ),
-				'strType'			=> 'size',
-				'vDefault'			=> array( 'size' => 5, 'unit' => '%' ),
+				'field_id'		=> 'size_field',
+				'title'			=> __( 'Size', 'admin-page-framework-demo' ),
+				'type'			=> 'size',
+				'default'			=> array( 'size' => 5, 'unit' => '%' ),
 			),						
 			array (
-				'strFieldID'		=> 'sizes_field',
-				'strTitle'			=> __( 'Multiple Sizes', 'admin-page-framework-demo' ),
-				'strType'			=> 'size',
-				'vLabel' => array(
+				'field_id'		=> 'sizes_field',
+				'title'			=> __( 'Multiple Sizes', 'admin-page-framework-demo' ),
+				'type'			=> 'size',
+				'label' => array(
 					'weight'	=> __( 'Weight', 'admin-page-framework-demo' ),
 					'length'	=> __( 'Length', 'admin-page-framework-demo' ),
 					'capacity'	=> __( 'File Size', 'admin-page-framework-demo' ),
 				),
-				'vSizeUnits' => array( 	// notice that the array key structure corresponds to the vLabel array's.
+				'size_units' => array( 	// notice that the array key structure corresponds to the label array's.
 					'weight'	=> array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
 					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
 				),
-				'vDefault' => array(
+				'default' => array(
 					'weight' => array( 'size' => 15, 'unit' => 'g' ),
 					'length' => array( 'size' => 100, 'unit' => 'mm' ),
 					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
 				),		
-				'vDelimiter' => '<br />',
+				'delimiter' => '<br />',
 			),		
 			array (
-				'strFieldID'		=> 'taxonomy_checklist',
-				'strTitle'			=> __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
-				'strType'			=> 'taxonomy',
-				'vTaxonomySlug' => get_taxonomies( '', 'names' ),
+				'field_id'		=> 'taxonomy_checklist',
+				'title'			=> __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
+				'type'			=> 'taxonomy',
+				'taxonomy_slugs' => get_taxonomies( '', 'names' ),
 			),				
 			array()
 		);		
@@ -1596,4 +1596,3 @@ new APF_MetaBox(
  * Happy coding!
  * 
  */
- 

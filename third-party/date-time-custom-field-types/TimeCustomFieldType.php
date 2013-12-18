@@ -6,8 +6,8 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vSize'					=> 10,
-			'vTimeFormat'	 		=> 'H:mm',				// ( array or string ) This is for the date field type that specifies the date format.
+			'size'					=> 10,
+			'time_format'	 		=> 'H:mm',				// ( array or string ) This is for the date field type that specifies the date format.
 			'vMaxLength'			=> 400,
 		);	
 	}
@@ -83,9 +83,9 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 		$sFieldClassSelector = $aField['strFieldClassSelector'];
 		$aDefaultKeys = $aFieldDefinition['arrDefaultKeys'];	
 		
-		$aFields = $aField['fRepeatable'] ? 
+		$aFields = $aField['repeatable'] ? 
 			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['vLabel'];		
+			: $aField['label'];		
 		
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] = 
@@ -93,13 +93,13 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $aDefaultKeys['vBeforeInputTag'] ) 
-							. ( $sLabel && ! $aField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['vLabelMinWidth'], $sKey, $aDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+							. ( $sLabel && ! $aField['repeatable']
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
 							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['vClassAttribute'], $sKey, $aDefaultKeys['vClassAttribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['vSize'], $sKey, $aDefaultKeys['vSize'] ) . "' "
+								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $aDefaultKeys['class_attribute'] ) . "' "
+								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $aDefaultKeys['size'] ) . "' "
 								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $aDefaultKeys['vMaxLength'] ) . "' "
 								. "type='text' "	// text, password, etc.
 								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
@@ -110,9 +110,9 @@ class TimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"	// end of label container
-					. $this->getTimePickerEnablerScript( "{$sTagID}_{$sKey}", $this->getCorrespondingArrayValue( $aField['vTimeFormat'], $sKey, $aDefaultKeys['vTimeFormat'] ) )
+					. $this->getTimePickerEnablerScript( "{$sTagID}_{$sKey}", $this->getCorrespondingArrayValue( $aField['time_format'], $sKey, $aDefaultKeys['time_format'] ) )
 				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['vDelimiter'], $sKey, $aDefaultKeys['vDelimiter'], true ) )
+				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
