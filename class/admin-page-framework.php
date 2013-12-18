@@ -1854,8 +1854,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Help {
 		 * */
 		
 		$aDefaultMessages = array(
-			$this->oMsg->___( 'option_cleared' ),
-			$this->oMsg->___( 'option_updated' ),
+			$this->oMsg->__( 'option_cleared' ),
+			$this->oMsg->__( 'option_updated' ),
 		);
 		
 		foreach ( ( array ) $wp_settings_errors as $iIndex => $aDetails ) {
@@ -3140,7 +3140,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// Set the update notice
 		$bEmpty = empty( $aInput );
 		$this->setSettingNotice( 
-			$bEmpty ? $this->oMsg->___( 'option_cleared' ) : $this->oMsg->___( 'option_updated' ), 
+			$bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
 			$bEmpty ? 'error' : 'updated', 
 			$this->oProps->sOptionKey,	// the id
 			false	// do not override
@@ -3166,13 +3166,13 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Set up the field error array.
 		$aErrors = array();
-		$aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->___( 'reset_options' );
+		$aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->__( 'reset_options' );
 		$this->setFieldErrors( $aErrors );
 		
 		// Set a flag that the confirmation is displayed
 		set_transient( md5( "reset_confirm_" . $sPressedFieldName ), $sPressedFieldName, 60*2 );
 		
-		$this->setSettingNotice( $this->oMsg->___( 'confirm_perform_task' ) );
+		$this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
 		
 		return $this->getPageOptions( $sPageSlug ); 			
 		
@@ -3187,14 +3187,14 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		if ( $sKeyToReset == 1 or $sKeyToReset === true ) {
 			delete_option( $this->oProps->sOptionKey );
-			$this->setSettingNotice( $this->oMsg->___( 'option_been_reset' ) );
+			$this->setSettingNotice( $this->oMsg->__( 'option_been_reset' ) );
 			return array();
 		}
 		
 		unset( $this->oProps->aOptions[ trim( $sKeyToReset ) ] );
 		unset( $aInput[ trim( $sKeyToReset ) ] );
 		update_option( $this->oProps->sOptionKey, $this->oProps->aOptions );
-		$this->setSettingNotice( $this->oMsg->___( 'specified_option_been_deleted' ) );
+		$this->setSettingNotice( $this->oMsg->__( 'specified_option_been_deleted' ) );
 	
 		return $aInput;	// the returned array will be saved with the Settings API.
 	}
@@ -3251,20 +3251,20 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		
 		// Check if there is an upload error.
 		if ( $oImport->getError() > 0 ) {
-			$this->setSettingNotice( $this->oMsg->___( 'import_error' ) );	
+			$this->setSettingNotice( $this->oMsg->__( 'import_error' ) );	
 			return $aStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Check the uploaded file type.
 		if ( ! in_array( $oImport->getType(), array( 'text/plain', 'application/octet-stream' ) ) ) {	// .json file is dealt as binary file.
-			$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );		
+			$this->setSettingNotice( $this->oMsg->__( 'uploaded_file_type_not_supported' ) );		
 			return $aStoredOptions;	// do not change the framework's options.
 		}
 		
 		// Retrieve the importing data.
 		$vData = $oImport->getImportData();
 		if ( $vData === false ) {
-			$this->setSettingNotice( $this->oMsg->___( 'could_not_load_importing_data' ) );		
+			$this->setSettingNotice( $this->oMsg->__( 'could_not_load_importing_data' ) );		
 			return $aStoredOptions;	// do not change the framework's options.
 		}
 		
@@ -3306,7 +3306,7 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 		// Set the update notice
 		$bEmpty = empty( $vData );
 		$this->setSettingNotice( 
-			$bEmpty ? $this->oMsg->___( 'not_imported_data' ) : $this->oMsg->___( 'imported_data' ), 
+			$bEmpty ? $this->oMsg->__( 'not_imported_data' ) : $this->oMsg->__( 'imported_data' ), 
 			$bEmpty ? 'error' : 'updated',
 			$this->oProps->sOptionKey,	// message id
 			false	// do not override 
@@ -4794,7 +4794,7 @@ class AdminPageFramework_Messages {
 		);		
 		
 	}
-	public function ___( $sKey ) {
+	public function __( $sKey ) {
 		
 		return isset( $this->aMessages[ $sKey ] )
 			? __( $this->aMessages[ $sKey ], $this->sTextDomain )
@@ -4802,7 +4802,7 @@ class AdminPageFramework_Messages {
 			
 	}
 	
-	public function __e( $sKey ) {
+	public function _e( $sKey ) {
 		
 		if ( isset( $this->aMessages[ $sKey ] ) )
 			_e( $this->aMessages[ $sKey ], $this->sTextDomain );
@@ -6182,7 +6182,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utilities
 			? $aScriptInfo['sName'] 
 			: "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";	
 	
-		$sFooterInfoRight = $this->oMsg->___( 'powered_by' ) . '&nbsp;' 
+		$sFooterInfoRight = $this->oMsg->__( 'powered_by' ) . '&nbsp;' 
 			. $sLibraryInfo
 			. ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
 		
@@ -6274,7 +6274,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		
 		$this->oMsg = $oMsg;
 		
-		$this->sSettingPageLinkTitle = $this->oMsg->___( 'manage' );
+		$this->sSettingPageLinkTitle = $this->oMsg->__( 'manage' );
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
@@ -6499,7 +6499,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		
 		array_unshift(	
 			$aLinks,
-			'<a href="' . $sLinkURL . '">' . $this->oMsg->___( 'settings' ) . '</a>'
+			'<a href="' . $sLinkURL . '">' . $this->oMsg->__( 'settings' ) . '</a>'
 		); 
 		return $aLinks;
 		
@@ -6583,10 +6583,10 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 		$sOutput = 
 			"<div id='admin-page-framework-page-load-stats'>"
 				. "<ul>"
-					. "<li>" . sprintf( $this->oMsg->___( 'queries_in_seconds' ), $nQueryCount, $nSeconds ) . "</li>"
-					. "<li>" . sprintf( $this->oMsg->___( 'out_of_x_memory_used' ), $memory_usage, $memory_limit, round( ( $memory_usage / $memory_limit ), 2 ) * 100 . '%' ) . "</li>"
-					. "<li>" . sprintf( $this->oMsg->___( 'peak_memory_usage' ), $memory_peak_usage ) . "</li>"
-					. "<li>" . sprintf( $this->oMsg->___( 'initial_memory_usage' ), $sInitialMemoryUsage ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->__( 'queries_in_seconds' ), $nQueryCount, $nSeconds ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->__( 'out_of_x_memory_used' ), $memory_usage, $memory_limit, round( ( $memory_usage / $memory_limit ), 2 ) * 100 . '%' ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->__( 'peak_memory_usage' ), $memory_peak_usage ) . "</li>"
+					. "<li>" . sprintf( $this->oMsg->__( 'initial_memory_usage' ), $sInitialMemoryUsage ) . "</li>"
 				. "</ul>"
 			. "</div>";
 		return $sFooterHTML . $sOutput;
@@ -7506,8 +7506,8 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	
 			. $this->getScript_ImageSelector( 
 				"admin_page_framework", 
-				$this->oMsg->___( 'upload_image' ),
-				$this->oMsg->___( 'use_this_image' )
+				$this->oMsg->__( 'upload_image' ),
+				$this->oMsg->__( 'use_this_image' )
 		);
 	}
 		/**
@@ -8091,7 +8091,7 @@ class AdminPageFramework_InputFieldType_image extends AdminPageFramework_InputFi
 						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
 						. "data-enable_external_source='" . ( $bExternalSource ? 1 : 0 ) . "'"
 					. ">"
-						. $this->oMsg->___( 'select_image' )
+						. $this->oMsg->__( 'select_image' )
 				."</a>";
 			
 			$sScript = "
@@ -8150,8 +8150,8 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
 			. $this->getScript_MediaUploader(
 				"admin_page_framework", 
-				$this->oMsg->___( 'upload_file' ),
-				$this->oMsg->___( 'use_this_file' )
+				$this->oMsg->__( 'upload_file' ),
+				$this->oMsg->__( 'use_this_file' )
 			);
 	}	
 		/**
@@ -8408,7 +8408,7 @@ class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFi
 						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
 						. "data-enable_external_source='" . ( $bExternalSource ? 1 : 0 ) . "'"
 					. ">"
-						. $this->oMsg->___( 'select_file' )
+						. $this->oMsg->__( 'select_file' )
 				."</a>";
 			
 			$sScript = "
@@ -9647,7 +9647,7 @@ class AdminPageFramework_InputFieldType_submit extends AdminPageFramework_InputF
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='{$aField['type']}' "	// submit
 							. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
-							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'submit' ) ) . "' "
+							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'submit' ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
@@ -9835,7 +9835,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 							. "type='submit' "	// the export button is a custom submit button.
 							// . "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
 							. "name='__export[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'export_options' ) ) . "' "
+							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'export_options' ) ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
@@ -9983,7 +9983,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the import button is a custom submit button.
 							. "name='__import[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->___( 'import_options' ), true ) . "' "
+							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'import_options' ), true ) . "' "
 							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
@@ -10273,8 +10273,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 	 */
 	private function getRepeaterScript( $sTagID, $iFieldCount ) {
 
-		$sAdd = $this->oMsg->___( 'add' );
-		$sRemove = $this->oMsg->___( 'remove' );
+		$sAdd = $this->oMsg->__( 'add' );
+		$sRemove = $this->oMsg->__( 'remove' );
 		$sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : "";
 		$sButtons = 
 			"<div class='admin-page-framework-repeatable-field-buttons'>"
@@ -10667,12 +10667,12 @@ abstract class AdminPageFramework_PostType {
 		$this->oProps->sClassHash = md5( $this->oProps->sClassName );
 		$this->oProps->aColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',		// Checkbox for bulk actions. 
-			'title'			=> $this->oMsg->___( 'title' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-			'author'		=> $this->oMsg->___( 'author' ), 	// Post author.
-			// 'categories'	=> $this->oMsg->___( 'categories' ),	// Categories the post belongs to. 
-			// 'tags'		=> $this->oMsg->___( 'tags' ), 		//	Tags for the post. 
+			'title'			=> $this->oMsg->__( 'title' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+			'author'		=> $this->oMsg->__( 'author' ), 	// Post author.
+			// 'categories'	=> $this->oMsg->__( 'categories' ),	// Categories the post belongs to. 
+			// 'tags'		=> $this->oMsg->__( 'tags' ), 		//	Tags for the post. 
 			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-			'date'			=> $this->oMsg->___( 'date' ), 		// The date and publish status of the post. 
+			'date'			=> $this->oMsg->__( 'date' ), 		// The date and publish status of the post. 
 		);			
 		$this->oProps->sCallerPath = $sCallerPath;
 		
@@ -11019,7 +11019,7 @@ abstract class AdminPageFramework_PostType {
 
 			// This function will echo the drop down list based on the passed array argument.
 			wp_dropdown_categories( array(
-				'show_option_all' => $this->oMsg->___( 'show_all' ) . ' ' . $oTaxonomy->label,
+				'show_option_all' => $this->oMsg->__( 'show_all' ) . ' ' . $oTaxonomy->label,
 				'taxonomy' 	  => $sTaxonomySulg,
 				'name' 		  => $oTaxonomy->name,
 				'orderby' 	  => 'name',
@@ -11383,7 +11383,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Hel
 		
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
-		return $this->oProps->sThickBoxButtonUseThis ?  $this->oProps->sThickBoxButtonUseThis : $this->oMsg->___( 'use_this_image' );
+		return $this->oProps->sThickBoxButtonUseThis ?  $this->oProps->sThickBoxButtonUseThis : $this->oMsg->__( 'use_this_image' );
 		
 	}
 	
