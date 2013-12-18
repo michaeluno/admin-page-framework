@@ -6201,9 +6201,9 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
  */
 class AdminPageFramework_Debug {
 		
-	public function dumpArray( $arr, $sFilePath=null ) {
+	static public function dumpArray( $arr, $sFilePath=null ) {
 				
-		echo $this->getArray( $arr, $sFilePath );
+		echo self::getArray( $arr, $sFilePath );
 		
 	}
 	
@@ -6211,7 +6211,7 @@ class AdminPageFramework_Debug {
 	 * 
 	 * @since			2.1.6			The $bEncloseInTag parameter is added.
 	 */
-	public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
+	static public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
 			
 		if ( $sFilePath ) 
 			self::logArray( $arr, $sFilePath );			
