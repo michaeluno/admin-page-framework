@@ -772,7 +772,7 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	 * @since			2.1.0
 	 * @internal
 	 */ 
-	public static $_aStructure_HelpTab = array(
+	protected static $_aStructure_HelpTab = array(
 		'page_slug'				=> null,	// ( mandatory )
 		'page_tab_slug'			=> null,	// ( optional )
 		'help_tab_title'			=> null,	// ( mandatory )
@@ -849,7 +849,7 @@ abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
 	protected function addHelpTab( $aHelpTab ) {
 		
 		// Avoid undefined index warnings.
-		$aHelpTab = ( array ) $aHelpTab + AdminPageFramework_Help::$_aStructure_HelpTab;
+		$aHelpTab = ( array ) $aHelpTab + self::$_aStructure_HelpTab;
 		
 		// If the key is not set, that means the help tab array is not created yet. So create it and go back.
 		if ( ! isset( $this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) {
@@ -3544,13 +3544,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$sFieldOutput = $oField->getInputField( $sFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 
-		// echo $this->oUtil->addAndApplyFilter(
-			// $this,
-			// $this->oProps->sClassName . '_' .  self::$aPrefixesForCallbacks['field_'] . $sFieldID,	// filter: class name + _ + section_ + section id
-			// $sFieldOutput,
-			// $aField // the field array
-		// );	
-
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
@@ -3636,13 +3629,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$sSectionID = substr( $sMethodName, strlen( 'section_pre_' ) );	// X will be the section ID in section_pre_X
 		
 		if ( ! isset( $this->oProps->aSections[ $sSectionID ] ) ) return;	// if it is not added
-
-		// echo  $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-			// $this,
-			// $this->oProps->sClassName . '_' .  self::$aPrefixesForCallbacks['section_'] . $sSectionID,	// class name + _ + section_ + section id
-			// '<p>' . $this->oProps->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
-			// $this->oProps->aSections[ $sSectionID ]['description']	// the original description
-		// );		
 		
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
@@ -3698,13 +3684,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Define field types.
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
 		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->aFieldTypeDefinitions, $this->oProps->sClassName, $this->oMsg );
-// var_dump( $this->oProps->aFieldTypeDefinitions );		
+
 		$this->oProps->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
 			self::$aPrefixesForCallbacks['field_types_'] . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
 			$this->oProps->aFieldTypeDefinitions
 		);		
-// var_dump( $this->oProps->aFieldTypeDefinitions );
+
 		// Register settings sections 
 		uasort( $this->oProps->aSections, array( $this->oProps, 'sortByOrder' ) ); 
 		foreach( $this->oProps->aSections as $aSection ) {
@@ -3750,8 +3736,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			if ( ! empty( $aField['help'] ) )
 				$this->addHelpTab( 
 					array(
-						'page_slug'				=> $aField['page_slug'],
-						'page_tab_slug'			=> $aField['tab_slug'],
+						'page_slug'					=> $aField['page_slug'],
+						'page_tab_slug'				=> $aField['tab_slug'],
 						'help_tab_title'			=> $aField['sSectionTitle'],
 						'help_tab_id'				=> $aField['section_id'],
 						'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
@@ -3800,7 +3786,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				
 			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
 				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
-
 				
 			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
 			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
