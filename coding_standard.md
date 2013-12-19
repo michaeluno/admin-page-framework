@@ -58,13 +58,17 @@ When it's internal and it's certain that the user will not need to modify the va
 
 ## Function and Method Naming ##
 
+Add the underscore prefix for internal private/protected methods.
+
+	_fomrmatArray();
+
 Start from always a verb.
 
 Use the camel-back notation.
 
-	doMyStuff()
+	doMyStuff();
 	
 For callback functions, prepend `replyTo` to help understand it's a callback.
 
-	replyToDoMyStuff()
+	replyToDoMyStuff();
 	
