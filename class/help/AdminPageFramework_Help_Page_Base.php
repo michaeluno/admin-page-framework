@@ -23,8 +23,9 @@ abstract class AdminPageFramework_Help_Page_Base {
 	 * @access			protected
 	 * @remark			The sidebar contents in the help pane can be set but if it's called from the meta box class and the page loads in regular post types; the sidebar text may be overridden by the default one.
 	 * @since			2.1.0
+	 * @internal
 	 */  
-	protected function setHelpTab( $sID, $sTitle, $aContents, $aSideBarContents=array() ) {
+	protected function _setHelpTab( $sID, $sTitle, $aContents, $aSideBarContents=array() ) {
 		
 		if ( empty( $aContents ) ) return;
 		
