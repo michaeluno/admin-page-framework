@@ -16,7 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
 abstract class AdminPageFramework_Page {
-			
+				
 	/**
 	 * Stores the prefixes of the filters used by this framework.
 	 * 
@@ -101,6 +101,12 @@ abstract class AdminPageFramework_Page {
 		'parent_tab_slug' => null,	// this needs to be set if the above show_inpage_tab is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
 	);
 	
+	
+	function __construct() {	
+	
+		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
+		
+	}
 		
 	/**
 	 * Sets whether the page title is displayed or not.

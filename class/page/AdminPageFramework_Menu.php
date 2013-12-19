@@ -57,6 +57,14 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
 	);
 	 
+	function __construct() {
+		
+		add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );		
+		
+		parent::__construct();
+		
+	}
+	 
 	/**
 	 * Sets to which top level page is going to be adding sub-pages.
 	 * 

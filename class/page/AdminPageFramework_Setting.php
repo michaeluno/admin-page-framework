@@ -78,6 +78,15 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	protected $aFieldErrors;		// Do not set a value here since it is checked to see it's null.
 							
+	function __construct() {
+		
+		add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
+		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects
+		
+		parent::__construct();
+		
+	}
+							
 	/**
 	* Sets the given message to be displayed in the next page load. 
 	* 
@@ -1051,6 +1060,40 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		return isset( $this->oProps->aSections[ $sSectionID ]['page_slug'] )
 			? $this->oProps->aSections[ $sSectionID ]['page_slug']
 			: null;			
+	}
+	
+	/**
+	 * Check if a redirect transient is set and if so it redirects to the set page.
+	 * 
+	 * @remark			A callback method for the admin_init hook.
+	 */
+	public function _replyToCheckRedirects() {
+
+		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
+		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProps->isPageAdded( $_GET['page'] ) ) return; 
+		
+		// If the Settings API has not updated the options, do nothing.
+		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
+
+		// Check the settings error transient.
+		$aError = $this->getFieldErrors( $_GET['page'], false );
+		if ( ! empty( $aError ) ) return;
+		
+		// Okay, it seems the submitted data have been updated successfully.
+		$sTransient = md5( trim( "redirect_{$this->oProps->sClassName}_{$_GET['page']}" ) );
+		$sURL = get_transient( $sTransient );
+		if ( $sURL === false ) return;
+		
+		// The redirect URL seems to be set.
+		delete_transient( $sTransient );	// we don't need it any more.
+		
+		// if the redirect page is outside the plugin admin page, delete the plugin settings admin notices as well.
+		// if ( ! $this->oCore->IsPluginPage( $sURL ) ) 	
+			// delete_transient( md5( 'SettingsErrors_' . $this->oCore->sClassName . '_' . $this->oCore->sPageSlug ) );
+				
+		// Go to the page.
+		$this->oUtil->goRedirect( $sURL );
+		
 	}
 	
 	/**

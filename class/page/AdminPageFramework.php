@@ -231,53 +231,32 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @access			public
 	 * @since			2.0.0
-	 * @param			string		$sOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
-	 * @param			string		$sCallerPath			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-	 * @param			string		$sCapability			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed here( http://codex.wordpress.org/Roles_and_Capabilities ). If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
-	 * @param			string		$sTextDomain			( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's text strings. Default: admin-page-framework.
-	 * @remark			the scope is public because often <code>parent::__construct()</code> is used.
-	 * @return			void		returns nothing.
+	 * @param			string			$sOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
+	 * @param			string			$sCallerPath		( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+	 * @param			string			$sCapability		( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed here( http://codex.wordpress.org/Roles_and_Capabilities ). If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
+	 * @param			string			$sTextDomain		( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's text strings. Default: admin-page-framework.
+	 * @return			void			returns nothing.
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ){
-				 
-		// Variables
-		$sClassName = get_class( $this );
-		
+				 		
 		// Objects
-		$this->oProps = new AdminPageFramework_Property_Page( $this, $sClassName, $sOptionKey, $sCapability );
+		$this->oProps = new AdminPageFramework_Property_Page( $this, get_class( $this ), $sOptionKey, $sCapability );
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProps, $this->oMsg );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProps );
-		$this->oUtil = new AdminPageFramework_Utility;
-		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $sCallerPath, $this->oMsg );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProps );
+		$this->oUtil = new AdminPageFramework_Utility;
+		$this->oDebug = new AdminPageFramework_Debug;
 								
-		if ( is_admin() ) {
-
-			// Hook the menu action - adds the menu items.
+		if ( is_admin() ) 
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
-			
-			// AdminPageFramework_Menu
-			add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );
-			
-			// AdminPageFramework_Page
-			add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method.
-			
-			// AdminPageFramework_Setting
-			add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );
-			
-			// Redirect Buttons
-			add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );
-												
-			// The capability for the settings. $this->oProps->sOptionKey is the part that is set in the settings_fields() function.
-			// This prevents the "Cheatin' huh?" message.
-			add_filter( "option_page_capability_{$this->oProps->sOptionKey}", array( $this->oProps, '_replyToGetCapability' ) );
-						
-			// For earlier loading than $this->setUp
-			$this->oUtil->addAndDoAction( $this, self::$_aPrefixes['start_'] . $this->oProps->sClassName );
 		
-		}
+		parent::__construct();
+																					
+		// For earlier loading than $this->setUp
+		$this->oUtil->addAndDoAction( $this, self::$_aPrefixes['start_'] . $this->oProps->sClassName );
+
 	}	
 		
 	/**
@@ -724,38 +703,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		$this->oProps->aFooterInfo['sRight'] = $bAppend 
 			? $this->oProps->aFooterInfo['sRight'] . $sHTML
 			: $sHTML;
-		
-	}
-		
-	/* 
-	 * Callback methods
-	 */ 
-	public function _replyToCheckRedirects() {
-
-		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
-		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProps->isPageAdded( $_GET['page'] ) ) return; 
-		
-		// If the Settings API has not updated the options, do nothing.
-		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
-
-		// Check the settings error transient.
-		$aError = $this->getFieldErrors( $_GET['page'], false );
-		if ( ! empty( $aError ) ) return;
-		
-		// Okay, it seems the submitted data have been updated successfully.
-		$sTransient = md5( trim( "redirect_{$this->oProps->sClassName}_{$_GET['page']}" ) );
-		$sURL = get_transient( $sTransient );
-		if ( $sURL === false ) return;
-		
-		// The redirect URL seems to be set.
-		delete_transient( $sTransient );	// we don't need it any more.
-		
-		// if the redirect page is outside the plugin admin page, delete the plugin settings admin notices as well.
-		// if ( ! $this->oCore->IsPluginPage( $sURL ) ) 	
-			// delete_transient( md5( 'SettingsErrors_' . $this->oCore->sClassName . '_' . $this->oCore->sPageSlug ) );
-				
-		// Go to the page.
-		$this->oUtil->goRedirect( $sURL );
 		
 	}
 			

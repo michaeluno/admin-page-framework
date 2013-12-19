@@ -224,6 +224,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		$this->sClassHash = md5( $sClassName );
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 		$this->sCapability = empty( $sCapability ) ? $this->sCapability : $sCapability;
+
+		// The capability for the settings. $this->sOptionKey is the part that is set in the settings_fields() function.
+		// This prevents the "Cheatin' huh?" message.
+		add_filter( "option_page_capability_{$this->sOptionKey}", array( $this, '_replyToGetCapability' ) );
 		
 	}
 	
