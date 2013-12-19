@@ -1129,7 +1129,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			self::$_aPrefixesForCallbacks['field_types_'] . $this->oProp->sClassName,	// 'field_types_' . {extended class name}
+			'field_types_' . $this->oProp->sClassName,	// 'field_types_' . {extended class name}
 			$this->oProp->aFieldTypeDefinitions
 		);		
 

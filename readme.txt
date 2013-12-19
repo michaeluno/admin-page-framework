@@ -186,6 +186,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_{...}` filters and they were renamed.
 * Changed: All the callback methods to have the prefix of `replyTo`.
 * Changed: All the internal methods to have the prefix of an underscore.
 * Changed: All the variable names used in the code to apply the Alternative PHP Hungarian Notation.

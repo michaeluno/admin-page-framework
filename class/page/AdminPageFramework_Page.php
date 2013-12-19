@@ -61,22 +61,6 @@ abstract class AdminPageFramework_Page {
 	);
 
 	/**
-	 * Unlike $_aPrefixes, these require to set the return value.
-	 * 
-	 * @since			2.0.0
-	 * @var				array
-	 * @static
-	 * @access			protected
-	 * @internal
-	 */ 	
-	protected static $_aPrefixesForCallbacks = array(
-		'section_'		=> 'section_',
-		'field_'		=> 'field_',
-		'field_types_'	=> 'field_types_',
-		'validation_'	=> 'validation_',
-	);
-	
-	/**
 	 * Stores the ID selector names for screen icons. <em>generic</em> is not available in WordPress v3.4.x.
 	 * 
 	 * @since			2.0.0
