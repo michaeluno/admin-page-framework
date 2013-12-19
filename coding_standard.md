@@ -58,7 +58,7 @@ When it's internal and it's certain that the user will not need to modify the va
 
 ## Function and Method Naming ##
 
-Add the underscore prefix for internal private/protected methods.
+Add the underscore prefix for internal methods regardless of the scope. The *internal* means that the user will not need to use it.
 
 	_fomrmatArray();
 
@@ -71,4 +71,3 @@ Use the camel-back notation.
 For callback functions, prepend `replyTo` to help understand it's a callback.
 
 	replyToDoMyStuff();
-	
