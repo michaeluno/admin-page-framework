@@ -184,6 +184,13 @@ If you want to change it to something else, modify the `oMsg` object. It has the
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
 
 == Changelog ==
+ 
+= 3.0.0b =
+* Changed: All the callback methods to have the prefix of `replyTo`.
+* Changed: All the internal methods to have the prefix of an underscore.
+* Changed: All the variable names used in the code to apply the Alternative PHP Hungarian Notation.
+* Changed: Some of the class names used internally.
+* Changed: ( ***Breaking Change*** ) all the names of array keys to consist of lower case characters and underscores.
 
 = 2.1.7 =
 * Added: the `enqueueScript()` and the `enqueueStyle()` methods for the post type class.
@@ -201,7 +208,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: a sample custom field type, `dial`, in the demo plugin.
 * Added: sample custom field types, `date`, `time`, and `date_time` in the demo plugin.
 * Added: additional input fields to the custom `geometry` field type to retrieve the location name and the elevation.
-* Removed:  ( ***Breaking Change*** ) the `date` field type.
+* Removed: ( ***Breaking Change*** ) the `date` field type.
 * Added: the ability to set an icon with a file path for the `setRootMenuPage()`, `addSubMenuPage()`, and `getStylesForPostTypeScreenIcon()` methods.
 
 = 2.1.5 - 12/08/2013 =
