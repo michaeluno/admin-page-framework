@@ -34,7 +34,6 @@ function includeAdminPageFramework() {
 	include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
 	new AdminPageFramework_RegisterClasses( $sDirPath );
 	
-	
 }	
 endif;
 includeAdminPageFramework();
@@ -47,14 +46,14 @@ if ( ! class_exists( 'AdminPageFramework_Help_Page_Base' ) ) :
  * 
  * @since			2.1.0
  */
-abstract class AdminPageFramework_Help_Page_Base extends AdminPageFramework_Debug {
+abstract class AdminPageFramework_Help_Page_Base {
 	
 	/**
 	 * Stores the screen object.
 	 * @var				object
 	 * @since			2.1.0
 	 */ 
-	protected $oScreen;
+	protected $_oScreen;
 	
 	/**
 	 * Sets the contextual help tab.
@@ -70,8 +69,8 @@ abstract class AdminPageFramework_Help_Page_Base extends AdminPageFramework_Debu
 		
 		if ( empty( $aContents ) ) return;
 		
-		$this->oScreen = isset( $this->oScreen ) ? $this->oScreen : get_current_screen();
-		$this->oScreen->add_help_tab( 
+		$this->_oScreen = isset( $this->_oScreen ) ? $this->_oScreen : get_current_screen();
+		$this->_oScreen->add_help_tab( 
 			array(
 				'id'	=> $sID,
 				'title'	=> $sTitle,
@@ -80,7 +79,7 @@ abstract class AdminPageFramework_Help_Page_Base extends AdminPageFramework_Debu
 		);						
 		
 		if ( ! empty( $aSideBarContents ) )
-			$this->oScreen->set_help_sidebar( implode( PHP_EOL, $aSideBarContents ) );
+			$this->_oScreen->set_help_sidebar( implode( PHP_EOL, $aSideBarContents ) );
 			
 	}
 	
@@ -116,7 +115,7 @@ abstract class AdminPageFramework_Help_MetaBox extends AdminPageFramework_Help_P
 	 *	);</code>
 	 * 
 	 * @since			2.1.0
-	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>registerHelpTabTextForMetaBox()</em> method.
+	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
 	 * @remark			The user may use this method to add contextual help text.
 	 */ 
 	protected function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
@@ -132,7 +131,7 @@ abstract class AdminPageFramework_Help_MetaBox extends AdminPageFramework_Help_P
 	 * 
 	 * @since			2.1.0
 	 * @uses			addHelpText()
-	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>registerHelpTabTextForMetaBox()</em> method.
+	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
 	 */ 	
 	protected function addHelpTextForFormFields( $sFieldTitle, $sHelpText, $sHelpTextSidebar="" ) {
 		$this->addHelpText(
@@ -150,7 +149,7 @@ abstract class AdminPageFramework_Help_MetaBox extends AdminPageFramework_Help_P
 	 * @remark			A call back for the <em>load-{page hook}</em> action hook.
 	 * @remark			The method name implies that this is for meta boxes. This does not mean this method is only for meta box form fields. Extra help text can be added with the <em>addHelpText()</em> method.
 	 */ 
-	public function registerHelpTabTextForMetaBox() {
+	public function replyToRegisterHelpTabTextForMetaBox() {
 	
 		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return;
 		if ( isset( $_GET['post_type'] ) && ! in_array( $_GET['post_type'], $this->oProps->aPostTypes ) ) return;
@@ -209,7 +208,7 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 	 * @since			2.1.0
 	 * @internal
 	 */	 
-	public function registerHelpTabs() {
+	public function replyToRegisterHelpTabs() {
 			
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$sCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProps->aDefaultInPageTabs[ $sCurrentPageSlug ] ) ? $this->oProps->aDefaultInPageTabs[ $sCurrentPageSlug ] : '' );
@@ -283,7 +282,7 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 
 		// This line will be reached if the help tab array is already set. In this case, just append an array element into the keys.
 		if ( ! empty( $aHelpTab['help_tab_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id']]['aContent'][] = $this->formatHelpDescription( $aHelpTab['help_tab_content'] );
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aContent'][] = $this->formatHelpDescription( $aHelpTab['help_tab_content'] );
 		if ( ! empty( $aHelpTab['help_tab_sidebar_content'] ) )
 			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
 		
@@ -3606,7 +3605,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			add_action( 'admin_init', array( $this, 'checkRedirects' ) );
 						
 			// The contextual help pane.
-			add_action( "admin_head", array( $this, 'registerHelpTabs' ), 200 );
+			add_action( "admin_head", array( $this, 'replyToRegisterHelpTabs' ), 200 );
 						
 			// The capability for the settings. $this->oProps->sOptionKey is the part that is set in the settings_fields() function.
 			// This prevents the "Cheatin' huh?" message.
@@ -10503,7 +10502,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_Help_MetaBo
 			add_action( 'save_post', array( $this, 'saveMetaBoxFields' ) );
 						
 			// the contextual help pane
-			add_action( "load-{$GLOBALS['pagenow']}", array( $this, 'registerHelpTabTextForMetaBox' ), 20 );	
+			add_action( "load-{$GLOBALS['pagenow']}", array( $this, 'replyToRegisterHelpTabTextForMetaBox' ), 20 );	
 	
 			if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
 				add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );		
