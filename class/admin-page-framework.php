@@ -41,13 +41,13 @@ includeAdminPageFramework();
 
 
 
-if ( ! class_exists( 'AdminPageFramework_Help_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Help_Page_Base' ) ) :
 /**
  * Provides base methods and properties for manipulating the contextual help tabs.
  * 
  * @since			2.1.0
  */
-abstract class AdminPageFramework_Help_Base extends AdminPageFramework_Debug {
+abstract class AdminPageFramework_Help_Page_Base extends AdminPageFramework_Debug {
 	
 	/**
 	 * Stores the screen object.
@@ -95,14 +95,14 @@ abstract class AdminPageFramework_Help_Base extends AdminPageFramework_Debug {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_MetaBox_Help' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Help_MetaBox' ) ) :
 /**
  * Provides methods to manipulate the contextual help tab .
  * 
  * @since			2.1.0
- * @extends			AdminPageFramework_Help_Base
+ * @extends			AdminPageFramework_Help_Page_Base
  */
-abstract class AdminPageFramework_MetaBox_Help extends AdminPageFramework_Help_Base {
+abstract class AdminPageFramework_Help_MetaBox extends AdminPageFramework_Help_Page_Base {
 	
 	/**
 	 * Adds the given HTML text to the contextual help pane.
@@ -128,7 +128,7 @@ abstract class AdminPageFramework_MetaBox_Help extends AdminPageFramework_Help_B
 	 * Adds the given HTML text to the contextual help pane.
 	 * 
 	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
-	 * On contrary to the <em>addHelpTab()</em> method of the AdminPageFramework_Help class, the help tab title is already determined and the meta box ID and the title will be used.
+	 * On contrary to the <em>addHelpTab()</em> method of the AdminPageFramework_Help_Page class, the help tab title is already determined and the meta box ID and the title will be used.
 	 * 
 	 * @since			2.1.0
 	 * @uses			addHelpText()
@@ -169,7 +169,7 @@ abstract class AdminPageFramework_MetaBox_Help extends AdminPageFramework_Help_B
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Help' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Help_Page' ) ) :
 /**
  * Provides methods to manipulate the help screen sections.
  * 
@@ -178,10 +178,10 @@ if ( ! class_exists( 'AdminPageFramework_Help' ) ) :
  * @since				2.1.0
  * @package				Admin Page Framework
  * @subpackage			Admin Page Framework - Page
- * @extends				AdminPageFramework_Help_Base
+ * @extends				AdminPageFramework_Help_Page_Base
  * @staticvar			array			$_aStructure_HelpTab			stores the array structure of the help tab array.
  */
-abstract class AdminPageFramework_Help extends AdminPageFramework_Help_Base {
+abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page_Base {
 	
 	/**
 	 * Represents the structure of help tab array.
@@ -995,8 +995,8 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  *
  * @abstract
  * @since			2.0.0
- * @since			2.1.0		Extends AdminPageFramework_Help.
- * @extends			AdminPageFramework_Help
+ * @since			2.1.0		Extends AdminPageFramework_Help_Page.
+ * @extends			AdminPageFramework_Help_Page
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
  * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
@@ -1005,7 +1005,7 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
-abstract class AdminPageFramework_Page extends AdminPageFramework_Help {
+abstract class AdminPageFramework_Page extends AdminPageFramework_Help_Page {
 			
 	/**
 	 * Stores the prefixes of the filters used by this framework.
@@ -10499,7 +10499,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Meta Box
  */
-abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Help {
+abstract class AdminPageFramework_MetaBox extends AdminPageFramework_Help_MetaBox {
 	
 	// Objects
 	/**
