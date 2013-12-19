@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_Help_Page' ) ) :
+if ( ! class_exists( 'AdminPageFramework_HelpPane_Page' ) ) :
 /**
  * Provides methods to manipulate the help screen sections.
  * 
@@ -8,10 +8,10 @@ if ( ! class_exists( 'AdminPageFramework_Help_Page' ) ) :
  * @since				2.1.0
  * @package				Admin Page Framework
  * @subpackage			Admin Page Framework - Page
- * @extends				AdminPageFramework_Help_Page_Base
+ * @extends				AdminPageFramework_HelpPane_Base
  * @staticvar			array			$_aStructure_HelpTabUserArray			stores the array structure of the help tab array.
  */
-abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page_Base {
+abstract class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
 	
 	/**
 	 * Represents the structure of help tab array that is used by the user to set a help tab content.

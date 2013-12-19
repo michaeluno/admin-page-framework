@@ -1,12 +1,12 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_Help_MetaBox' ) ) :
+if ( ! class_exists( 'AdminPageFramework_HelpPane_MetaBox' ) ) :
 /**
  * Provides methods to manipulate the contextual help tab .
  * 
  * @since			2.1.0
- * @extends			AdminPageFramework_Help_Page_Base
+ * @extends			AdminPageFramework_HelpPane_Base
  */
-abstract class AdminPageFramework_Help_MetaBox extends AdminPageFramework_Help_Page_Base {
+abstract class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Base {
 	
 	/**
 	 * Adds the given HTML text to the contextual help pane.
@@ -32,7 +32,7 @@ abstract class AdminPageFramework_Help_MetaBox extends AdminPageFramework_Help_P
 	 * Adds the given HTML text to the contextual help pane.
 	 * 
 	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
-	 * On contrary to the <em>addHelpTab()</em> method of the AdminPageFramework_Help_Page class, the help tab title is already determined and the meta box ID and the title will be used.
+	 * On contrary to the <em>addHelpTab()</em> method of the AdminPageFramework_HelpPane_Page class, the help tab title is already determined and the meta box ID and the title will be used.
 	 * 
 	 * @since			2.1.0
 	 * @uses			addHelpText()

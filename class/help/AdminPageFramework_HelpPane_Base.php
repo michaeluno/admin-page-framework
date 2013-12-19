@@ -1,11 +1,11 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_Help_Page_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_HelpPane_Base' ) ) :
 /**
  * Provides base methods and properties for manipulating the contextual help tabs.
  * 
  * @since			2.1.0
  */
-abstract class AdminPageFramework_Help_Page_Base {
+abstract class AdminPageFramework_HelpPane_Base {
 	
 	/**
 	 * Stores the screen object.

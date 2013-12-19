@@ -695,8 +695,8 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  *
  * @abstract
  * @since			2.0.0
- * @since			2.1.0		Extends AdminPageFramework_Help_Page.
- * @extends			AdminPageFramework_Help_Page
+ * @since			2.1.0		Extends AdminPageFramework_HelpPane_Page.
+ * @extends			AdminPageFramework_HelpPane_Page
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
  * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
@@ -705,7 +705,7 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
-abstract class AdminPageFramework_Page extends AdminPageFramework_Help_Page {
+abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page {
 			
 	/**
 	 * Stores the prefixes of the filters used by this framework.
@@ -10182,7 +10182,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Meta Box
  */
-abstract class AdminPageFramework_MetaBox extends AdminPageFramework_Help_MetaBox {
+abstract class AdminPageFramework_MetaBox extends AdminPageFramework_HelpPane_MetaBox {
 	
 	// Objects
 	/**
