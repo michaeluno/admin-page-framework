@@ -261,11 +261,11 @@ class APF_Demo extends AdminPageFramework {
 		// Contextual help tabs.
 		$this->addHelpTab( 
 			array(
-				'page_slug'				=> 'apf_builtin_field_types',	// ( mandatory )
+				'page_slug'					=> 'apf_builtin_field_types',	// ( mandatory )
 				// 'page_tab_slug'			=> null,	// ( optional )
 				'help_tab_title'			=> 'Admin Page Framework',
 				'help_tab_id'				=> 'admin_page_framework',	// ( mandatory )
-				'help_tab_content'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
+				'help_tab_content'			=> __( 'This contextual help text can be set with the <code>addHelpTab()</code> method.', 'admin-page-framework' ),
 				'help_tab_sidebar_content'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
 			)
 		);

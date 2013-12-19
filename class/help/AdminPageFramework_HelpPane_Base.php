@@ -3,9 +3,11 @@ if ( ! class_exists( 'AdminPageFramework_HelpPane_Base' ) ) :
 /**
  * Provides base methods and properties for manipulating the contextual help tabs.
  * 
+ * @package				Admin Page Framework
+ * @subpackage			Admin Page Framework - Help Pane
  * @since			2.1.0
  */
-abstract class AdminPageFramework_HelpPane_Base {
+abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug {
 	
 	/**
 	 * Stores the screen object.

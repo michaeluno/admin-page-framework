@@ -3328,6 +3328,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		$this->oProps = new AdminPageFramework_Properties( $this, $sClassName, $sOptionKey, $sCapability );
 		$this->oMsg = AdminPageFramework_Messages::instantiate( $sTextDomain );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProps, $this->oMsg );
+		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProps );
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $sCallerPath, $this->oMsg );
@@ -3349,10 +3350,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			
 			// Redirect Buttons
 			add_action( 'admin_init', array( $this, 'checkRedirects' ) );
-						
-			// The contextual help pane.
-			add_action( "admin_head", array( $this, 'replyToRegisterHelpTabs' ), 200 );
-						
+												
 			// The capability for the settings. $this->oProps->sOptionKey is the part that is set in the settings_fields() function.
 			// This prevents the "Cheatin' huh?" message.
 			add_filter( "option_page_capability_{$this->oProps->sOptionKey}", array( $this->oProps, 'getCapability' ) );
@@ -3403,6 +3401,46 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 
 		
 	}	
+	
+	/*
+	 * Methods for Help Pane
+	 */
+	/**
+	 * Adds the given contextual help tab contents into the property.
+	 * 
+	 * <h4>Contextual Help Tab Array Structure</h4>
+	 * <ul>
+	 * 	<li><strong>page_slug</strong> - ( required ) the page slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>help_tab_title</strong> - ( required ) the title of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_id</strong> - ( required ) the id of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_content</strong> - ( optional ) the HTML string content of the the contextual help tab.</li>
+	 * 	<li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
+	 * </ul>
+	 * 
+	 * <h4>Example</h4>
+	 * <code>	$this->addHelpTab( 
+	 *		array(
+	 *			'page_slug'				=> 'first_page',	// ( mandatory )
+	 *			// 'page_tab_slug'			=> null,	// ( optional )
+	 *			'help_tab_title'			=> 'Admin Page Framework',
+	 *			'help_tab_id'				=> 'admin_page_framework',	// ( mandatory )
+	 *			'help_tab_content'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
+	 *			'help_tab_sidebar_content'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+	 *		)
+	 *	);</code>
+	 * 
+	 * @since			2.1.0
+	 * @remark			Called when registering setting sections and fields.
+	 * @remark			The user may use this method.
+	 * @param			array			$aHelpTab				The help tab array. The key structure is detailed in the description part.
+	 * @return			void
+	 */ 
+	public function addHelpTab( $aHelpTab ) {
+		$this->oHelpPane->_addHelpTab( $aHelpTab );
+	}
+	
+	
 	
 	/**
 	 * Determines whether the method name matches the pre-defined hook prefixes.
@@ -10182,7 +10220,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Meta Box
  */
-abstract class AdminPageFramework_MetaBox extends AdminPageFramework_HelpPane_MetaBox {
+abstract class AdminPageFramework_MetaBox {
 	
 	// Objects
 	/**
@@ -10228,6 +10266,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_HelpPane_Me
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oProps = new AdminPageFramework_MetaBox_Properties( $this );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProps );
+		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProps );
 			
 		// Properties
 		$this->oProps->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
@@ -10246,10 +10285,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_HelpPane_Me
 			
 			add_action( 'add_meta_boxes', array( $this, 'addMetaBox' ) );
 			add_action( 'save_post', array( $this, 'saveMetaBoxFields' ) );
-						
-			// the contextual help pane
-			add_action( "load-{$GLOBALS['pagenow']}", array( $this, 'replyToRegisterHelpTabTextForMetaBox' ), 20 );	
-	
+							
 			if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
 				add_filter( 'gettext', array( $this, 'replaceThickBoxText' ) , 1, 2 );		
 	
@@ -10258,6 +10294,28 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_HelpPane_Me
 		// Hooks
 		$this->oUtil->addAndDoAction( $this, "{$this->oProps->sPrefixStart}{$this->oProps->sClassName}" );
 		
+	}
+	
+	/*
+	 * Help Pane
+	 */
+	/**
+	 * Adds the given HTML text to the contextual help pane.
+	 * 
+	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->addHelpText( 
+	 *		__( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
+	 *		__( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
+	 *	);</code>
+	 * 
+	 * @since			2.1.0
+	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
+	 * @remark			The user may use this method to add contextual help text.
+	 */ 
+	public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
+		$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
 	}
 	
 	/**
@@ -10385,12 +10443,9 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_HelpPane_Me
 				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
 			)
 			&& $aField['help']
-		) {
-			
-			$this->addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
-							
-		}
-	
+		) 			
+			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
+				
 		$this->oProps->aFields[ $aField['field_id'] ] = $aField;
 	
 	}

@@ -3,16 +3,16 @@ if ( ! class_exists( 'AdminPageFramework_HelpPane_Page' ) ) :
 /**
  * Provides methods to manipulate the help screen sections.
  * 
- * @abstract
  * @remark				Shared with the both AdminPageFramework and AdminPageFramework_PostType.
  * @since				2.1.0
+ * @since				3.0.0			Become not abstract.
  * @package				Admin Page Framework
- * @subpackage			Admin Page Framework - Page
+ * @subpackage			Admin Page Framework - Help Pane
  * @extends				AdminPageFramework_HelpPane_Base
  * @staticvar			array			$_aStructure_HelpTabUserArray			stores the array structure of the help tab array.
  */
-abstract class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
-	
+class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
+		
 	/**
 	 * Represents the structure of help tab array that is used by the user to set a help tab content.
 	 * 
@@ -28,6 +28,15 @@ abstract class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpP
 		'help_tab_sidebar_content'	=> null,	// ( optional )
 	);
 
+	function __construct( $oProps ) {
+		
+		$this->oProps = $oProps;
+		
+		// The contextual help pane.
+		add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 );		
+		
+	}
+	
 	/**
 	 * Registers help tabs to the help toggle pane.
 	 * 
@@ -39,7 +48,7 @@ abstract class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpP
 	 * @since			2.1.0
 	 * @internal
 	 */	 
-	public function replyToRegisterHelpTabs() {
+	public function _replyToRegisterHelpTabs() {
 			
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		$sCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProps->aDefaultInPageTabs[ $sCurrentPageSlug ] ) ? $this->oProps->aDefaultInPageTabs[ $sCurrentPageSlug ] : '' );
@@ -50,7 +59,7 @@ abstract class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpP
 		foreach( $this->oProps->aHelpTabs as $aHelpTab ) {
 			
 			if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) continue;
-			if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) & $sCurrentPageTabSlug != $aHelpTab['sPageTabSlug'] ) continue;
+			if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentPageTabSlug != $aHelpTab['sPageTabSlug'] ) continue;
 				
 			$this->_setHelpTab( 
 				$aHelpTab['sID'], 
@@ -67,33 +76,22 @@ abstract class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpP
 	 * 
 	 * <h4>Contextual Help Tab Array Structure</h4>
 	 * <ul>
-	 * 	<li><strong>page_slug</strong> - the page slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>page_slug</strong> - ( required ) the page slug of the page that the contextual help tab and its contents are displayed.</li>
 	 * 	<li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
-	 * 	<li><strong>help_tab_title</strong> - the title of the contextual help tab.</li>
-	 * 	<li><strong>help_tab_id</strong> - the id of the contextual help tab.</li>
-	 * 	<li><strong>help_tab_content</strong> - the HTML string content of the the contextual help tab.</li>
+	 * 	<li><strong>help_tab_title</strong> - ( required ) the title of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_id</strong> - ( required ) the id of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_content</strong> - ( optional ) the HTML string content of the the contextual help tab.</li>
 	 * 	<li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
 	 * </ul>
-	 * 
-	 * <h4>Example</h4>
-	 * <code>	$this->addHelpTab( 
-	 *		array(
-	 *			'page_slug'				=> 'first_page',	// ( mandatory )
-	 *			// 'page_tab_slug'			=> null,	// ( optional )
-	 *			'help_tab_title'			=> 'Admin Page Framework',
-	 *			'help_tab_id'				=> 'admin_page_framework',	// ( mandatory )
-	 *			'help_tab_content'			=> __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
-	 *			'help_tab_sidebar_content'	=> __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
-	 *		)
-	 *	);</code>
-	 * 
+	 *  
 	 * @since			2.1.0
 	 * @remark			Called when registering setting sections and fields.
-	 * @remark			The user may use this method.
+	 * @remark			This is internal because the main class uses a bypass method to call this method where the user will interact with.
 	 * @param			array			$aHelpTab				The help tab array. The key structure is detailed in the description part.
 	 * @return			void
+	 * @internal
 	 */ 
-	protected function addHelpTab( $aHelpTab ) {
+	public function _addHelpTab( $aHelpTab ) {
 		
 		// Avoid undefined index warnings.
 		$aHelpTab = ( array ) $aHelpTab + self::$_aStructure_HelpTabUserArray;
