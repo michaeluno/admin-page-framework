@@ -32,8 +32,8 @@ function includeAdminPageFramework() {
 	
 	$sDirPath = dirname( __FILE__ );
 	include_once( $sDirPath . '/AdminPageFramework_RegisterClasses.php' );
-	$oRC = new AdminPageFramework_RegisterClasses( $sDirPath );
-	$oRC->registerClasses();
+	new AdminPageFramework_RegisterClasses( $sDirPath );
+	
 	
 }	
 endif;
@@ -190,8 +190,8 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 	 * @internal
 	 */ 
 	protected static $_aStructure_HelpTab = array(
-		'page_slug'				=> null,	// ( mandatory )
-		'page_tab_slug'			=> null,	// ( optional )
+		'page_slug'					=> null,	// ( mandatory )
+		'page_tab_slug'				=> null,	// ( optional )
 		'help_tab_title'			=> null,	// ( mandatory )
 		'help_tab_id'				=> null,	// ( mandatory )
 		'help_tab_content'			=> null,	// ( optional )
@@ -271,12 +271,12 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 		// If the key is not set, that means the help tab array is not created yet. So create it and go back.
 		if ( ! isset( $this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) {
 			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array(
-				'sID' => $aHelpTab['help_tab_id'],
-				'title' => $aHelpTab['help_tab_title'],
-				'aContent' => ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
-				'aSidebar' => ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
-				'page_slug' => $aHelpTab['page_slug'],
-				'page_tab_slug' => $aHelpTab['page_tab_slug'],
+				'sID'				=> $aHelpTab['help_tab_id'],
+				'title'				=> $aHelpTab['help_tab_title'],
+				'aContent'			=> ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
+				'aSidebar'			=> ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
+				'page_slug'			=> $aHelpTab['page_slug'],
+				'page_tab_slug'		=> $aHelpTab['page_tab_slug'],
 			);
 			return;
 		}
@@ -301,6 +301,26 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_Base' ) ) :
  * 
  */
 abstract class AdminPageFramework_HeadTag_Base {
+	
+	/**
+	 * Represents the structure of the array for enqueuing scripts and styles.
+	 * @since			2.1.2
+	 * @since			2.1.5			Moved to the base class.
+	 * @since			3.0.0			Moved from the property class.
+	 */
+	protected static $_aStructure_EnqueuingScriptsAndStyles = array(
+		'href' => null,
+		'aPostTypes' => array(),		// for meta box class
+		'page_slug' => null,	
+		'tab_slug' => null,
+		'type' => null,		// script or style
+		'handle_id' => null,
+		'aDependencies' => array(),
+        'sVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'translation' => array(),	// only for scripts
+        'fInFooter' => false,	// only for scripts
+		'sMedia' => 'all',	// only for styles		
+	);	
 	
 	function __construct( $oProps ) {
 		
@@ -378,74 +398,14 @@ abstract class AdminPageFramework_HeadTag_Base {
 
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_HeadTag_Pages' ) ) :
+if ( ! class_exists( 'AdminPageFramework_HeadTag_Page' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag for the main framework class.
  * 
  * @since			2.1.5
- * @var			boolean		$bIsMediaUploaderScriptEnqueued		indicates whether the JavaScript script for media uploader is enqueued.
- * @var			boolean		$bIsTaxonomyChecklistScriptAdded	indicates whether the JavaScript script for taxonomy checklist is enqueued.
- * @var			boolean		$bIsImageFieldScriptEnqueued		indicates whether the JavaScript script for image selector is enqueued.
- * @var			boolean		$bIsMediaUploaderScriptAdded		indicates whether the JavaScript script for media uploader is enqueued.
- * @var			boolean		$bIsColorFieldScriptEnqueued		indicates whether the JavaScript script for color picker is enqueued.
- * @var			boolean		$bIsDateFieldScriptEnqueued			indicates whether the JavaScript script for date picker is enqueued.
-
  */
-class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
+class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 
-	/**
-	 * A flag that indicates whether the JavaScript script for media uploader is enqueued.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
-	 * @internal
-	 */ 
-	protected $bIsMediaUploaderScriptEnqueued = false;
-
-	/**
-	 * A flag that indicates whether the JavaScript script for taxonomy checklist boxes.
-	 * 
-	 * @since			2.1.1
-	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
-	 * @internal
-	 */
-	protected $bIsTaxonomyChecklistScriptAdded = false;	
-	
-	/**
-	 * A flag that indicates whether the JavaScript script for image selector is enqueued.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
-	 * @internal
-	 */ 	
-	protected $bIsImageFieldScriptEnqueued = false;	
-	
-	/**
-	 * A flag that indicates whether the JavaScript script for media uploader is added.
-	 * @since			2.1.3
-	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
-	 * @internal
-	 */
-	protected $bIsMediaUploaderScriptAdded = false;	
-	
-	/**
-	 * A flag that indicates whether the JavaScript script for color picker is enqueued.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
-	 * @internal
-	 */ 		
-	protected $bIsColorFieldScriptEnqueued = false;	
-	
-	/**
-	 * A flag that indicates whether the JavaScript script for date picker is enqueued.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_Setting.
-	 * @internal
-	 */ 			
-	protected $bIsDateFieldScriptEnqueued = false;		
-	
 	/**
 	 * Adds the stored CSS rules in the property into the head tag.
 	 * 
@@ -557,7 +517,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 				'type' => 'style',
 				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
 			),
-			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
+			self::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
@@ -630,7 +590,7 @@ class AdminPageFramework_HeadTag_Pages extends AdminPageFramework_HeadTag_Base {
 				'type' => 'script',
 				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
 			),
-			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
+			self::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
@@ -681,10 +641,6 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
  * 
  */
 class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
-		
-	/*
-	 * Callback functions 
-	 */
 	
 	/**
 	 * Appends the CSS rules of the framework in the head tag. 
@@ -816,7 +772,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 				'type' => 'style',
 				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
 			),
-			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
+			self::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
@@ -876,7 +832,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 				'type' => 'script',
 				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
 			),
-			AdminPageFramework_Properties::$_aStructure_EnqueuingScriptsAndStyles
+			self::$_aStructure_EnqueuingScriptsAndStyles
 		);
 		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
@@ -898,7 +854,6 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	
 }
 endif;
-
 
 if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
 /**
@@ -3598,7 +3553,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @since			2.1.5
 	 * @access			protected
-	 * @var				object			an instance of AdminPageFramework_HeadTag_Pages will be assigne in the constructor.
+	 * @var				object			an instance of AdminPageFramework_HeadTag_Page will be assigne in the constructor.
 	 */
 	protected $oHeadTag;
 	
@@ -3631,7 +3586,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oLink = new AdminPageFramework_Link( $this->oProps, $sCallerPath, $this->oMsg );
-		$this->oHeadTag = new AdminPageFramework_HeadTag_Pages( $this->oProps );
+		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProps );
 								
 		if ( is_admin() ) {
 
@@ -4470,24 +4425,7 @@ abstract class AdminPageFramework_Properties_Base {
 	 */
 	public static $sDefaultStyleIE = '';
 		
-	/**
-	 * Represents the structure of the array for enqueuing scripts and styles.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved to the base class.
-	 */
-	public static $_aStructure_EnqueuingScriptsAndStyles = array(
-		'href' => null,
-		'aPostTypes' => array(),		// for meta box class
-		'page_slug' => null,	
-		'tab_slug' => null,
-		'type' => null,		// script or style
-		'handle_id' => null,
-		'aDependencies' => array(),
-        'sVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'translation' => array(),	// only for scripts
-        'fInFooter' => false,	// only for scripts
-		'sMedia' => 'all',	// only for styles		
-	);
+
 	/**
 	 * Stores enqueuing script URLs and their criteria.
 	 * @since			2.1.2

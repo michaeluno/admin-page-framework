@@ -1,71 +1,91 @@
 <?php
 class AdminPageFramework_RegisterClasses {
 	
-	function __construct( $sClassDirPath, & $aClassPaths=array() ) {
-		
-		$this->aClassPaths = $aClassPaths;	// the link to the array storing registered classes outside this object.
-		$this->sClassDirPath = trailingslashit( $sClassDirPath );	
-		$this->aClassFileNames = array_map( array( $this, 'getBaseName' ), glob( $this->sClassDirPath . '*.php' ) );
-		$this->setUpClassArray();
-				
-	}
-	public function getBaseName( $sPath ) {
-		return basename( $sPath );
-	}	
+	/**
+	 * Stores the registered classes with the key of the class name and the value of the file path.
+	 */
+	protected $aClass = array();
 	
 	/**
-	 * Sets up the array consisting of class paths with the key of file base name.
 	 * 
-	 * This array is referred by the auto-loader callback and pass the stored file path. 
-	 * So the plugin can be extended by modifying this path locations so that the plugin loads the modified classes
-	 * instead of the built-in ones.
-	 * 
-	 * An example of the structure of $this->aClassPath 
-	 * 
-		Array (
-			[AdminPageFramework_APIRequestTransient.php] => ...\wp36x\wp-content\plugins\amazon-auto-links/class/AdminPageFramework_APIRequestTransient.php
-			[AdminPageFramework_AdminPage.php] => ...\wp36x\wp-content\plugins\amazon-auto-links/class/AdminPageFramework_AdminPage.php
-			[AdminPageFramework_AdminPage_.php] => ...\wp36x\wp-content\plugins\amazon-auto-links/class/AdminPageFramework_AdminPage_.php
-			...
-			...
-		)
+	 * param			array			$aClasses			the link to the array storing registered classes outside this object.
+	 * The structure of %aClasses must be consist of elements of a key-value pair of a file path and the key of the class name.
+	 * array(
+	 * 	'MyClassName' => 'MyClassName.php',
+	 * 	'MyClassName2' => 'MyClassName2.php',
+	 * )
 	 * 
 	 */
-	function setUpClassArray() {
-				
-		foreach( $this->aClassFileNames as $sClassFileName ) {
+	
+	function __construct( $sClassDirPath, & $aClasses=array(), $aAllowedExtensions=array( 'php', 'inc' ) ) {
 			
-			// if it's set, do not register ( add it to the array ).
-			if ( isset( $this->aClassPaths[ $sClassFileName ] ) ) continue;
-			
-			$this->aClassPaths[ $sClassFileName ] = $this->sClassDirPath . $sClassFileName;	
+		$this->aClasses = $aClasses + $this->composeClassArray( $sClassDirPath, $aAllowedExtensions );
+		$this->registerClasses();
 		
-		}
-
 	}
+	
+	/**
+	 * Sets up the array consisting of class paths with the key of file name w/o extension.
+	 */
+	protected function composeClassArray( $sClassDirPath, $aAllowedExtensions ) {
+		
+		$sClassDirPath = rtrim( $sClassDirPath, '\\/' ) . DIRECTORY_SEPARATOR;	// ensures the trailing (back/)slash exists.
+		$aFilePaths = $this->doRecursiveGlob( $sClassDirPath . '*.' . $this->getGlobPatternExtensionPart( $aAllowedExtensions ), GLOB_BRACE );
+
+		/*
+		 * Now the structure of $aFilePaths looks like:
+			array
+			  0 => string '.../class/MyClass.php'
+			  1 => string '.../class/MyClass2.php'
+			  2 => string '.../class/MyClass3.php'
+			  ...
+		 * 
+		 */		 
+		$aClasses = array();
+		foreach( $aFilePaths as $sFilePath )
+			$aClasses[ pathinfo( $sFilePath, PATHINFO_FILENAME ) ] = $sFilePath;	// the file name without extension will be assigned to the key
+
+		return $aClasses;
+			
+	}
+		/**
+		 * Composes the file pattern of the file extension part used for the glob() function with the given file extensions.
+		 */
+		protected function getGlobPatternExtensionPart( $aExtensions=array( 'php', 'inc' ) ) {
+			return empty( $aExtensions ) 
+				? '*'
+				: '{' . implode( ',', $aExtensions ) . '}';
+		}
+		
+		/**
+		 * The recursive version of the glob() function.
+		 */
+		protected function doRecursiveGlob( $sPathPatten, $iFlags=0 ) {
+
+			$aFiles = glob( $sPathPatten, $iFlags );
+			foreach ( glob( dirname( $sPathPatten ) . '/*', GLOB_ONLYDIR|GLOB_NOSORT ) as $sDirPath )
+				$aFiles = array_merge( $aFiles, $this->doRecursiveGlob( $sDirPath . '/' . basename( $sPathPatten ), $iFlags ) );
+		
+			return $aFiles;
+			
+		}
+		 
 	
 	/**
 	 * Performs registration of the callback.
 	 * 
 	 * This registers the method to be triggered when an unknown class is instantiated. 
 	 * 
-	 * @remark			The front-end method. 
 	 */
-	public function registerClasses() {
-		
-		spl_autoload_register( array( $this, 'callBackFromAutoLoader' ) );
-		
-	}
-	
-	public function callBackFromAutoLoader( $sClassName ) {
-		
-		$sBaseName = $sClassName . '.php';
-		
-		if ( ! in_array( $sBaseName, $this->aClassFileNames ) ) return;
-		
-		if ( file_exists( $this->aClassPaths[ $sBaseName ] ) ) 
-			include_once( $this->aClassPaths[ $sBaseName ] );
-		
-	}
+	protected function registerClasses() {
+		spl_autoload_register( array( $this, 'replyToAutoLoader' ) );
+	}	
+		/**
+		 * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
+		 */
+		public function replyToAutoLoader( $sCalledUnknownClassName ) {			
+			if ( array_key_exists( $sCalledUnknownClassName, $this->aClasses ) &&  file_exists( $this->aClasses[ $sCalledUnknownClassName ] ) ) 
+				include_once( $this->aClasses[ $sCalledUnknownClassName ] );
+		}
 	
 }
