@@ -31,7 +31,7 @@ if ( ! function_exists( 'includeAdminPageFramework' ) ) :
 function includeAdminPageFramework() {
 	
 	$sDirPath = dirname( __FILE__ );
-	include_once( $sDirPath . '/AdminPageFramework_RegisterClasses.php' );
+	include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
 	new AdminPageFramework_RegisterClasses( $sDirPath );
 	
 	
