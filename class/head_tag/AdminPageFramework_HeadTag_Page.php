@@ -26,9 +26,9 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		
 		// Print out the filtered styles.
 		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$_aPrefixes['style_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
+		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
 		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$_aPrefixes['style_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
+		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
 		if ( ! empty( $sStyle ) )
 			echo 
 				"<style type='text/css' id='admin-page-framework-style'>" 
@@ -61,7 +61,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$_aPrefixes['script_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sScript )
+				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'script_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sScript )
 			. "</script>";		
 		
 	}

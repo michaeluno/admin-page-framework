@@ -752,8 +752,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		 */
 		private function _isFrameworkCallbackMethod( $sMethodName ) {
 
-			if ( substr( $sMethodName, 0, strlen( "{$this->oProp->sClassName}_" ) ) == "{$this->oProp->sClassName}_" )	// e.g. {instantiated class name} + _field_ + {field id}
-				return true;
+			// if ( substr( $sMethodName, 0, strlen( "{$this->oProp->sClassName}_" ) ) == "{$this->oProp->sClassName}_" )	// e.g. {instantiated class name} + _field_ + {field id}
+				// return true;
 			
 			if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProp->sClassName}_" ) ) == "validation_{$this->oProp->sClassName}_" )	// e.g. validation_{instantiated class name}_ + {field id / input id}
 				return true;
@@ -761,10 +761,10 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" )	// e.g. field_types_{instantiated class name}
 				return true;
 				
-			foreach( self::$_aPrefixes as $sPrefix ) {
+			foreach( self::$_aPrefixes as $sPrefix ) 
 				if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
 					return true;
-			}
+			
 			return false;
 		}
 	

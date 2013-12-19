@@ -9,10 +9,10 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @since			3.0.0		No longer extends AdminPageFramework_HelpPane_Page.
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
- * @staticvar		array		$_aPrefixes						stores the prefix strings for filter and action hooks.
- * @staticvar		array		$_aPrefixesForCallbacks			unlike $_aPrefixes, these require to set the return value.
+ * @staticvar		array		$_aPrefixes							stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$_aPrefixesForCallbacks				unlike $_aPrefixes, these require to set the return value.
  * @staticvar		array		$_aScreenIconIDs					stores the ID selector names for screen icons.
- * @staticvar		array		$_aPrefixes						stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$_aPrefixes							stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
 abstract class AdminPageFramework_Page {
@@ -30,26 +30,34 @@ abstract class AdminPageFramework_Page {
 	 * @internal
 	 */ 
 	public static $_aPrefixes = array(	
-		'start_'		=> 'start_',
-		'load_'			=> 'load_',
-		'do_before_'	=> 'do_before_',
-		'do_after_'		=> 'do_after_',
-		'do_form_'		=> 'do_form_',
-		'do_'			=> 'do_',
-		'head_'			=> 'head_',
-		'content_'		=> 'content_',
-		'foot_'			=> 'foot_',
-		'validation_'	=> 'validation_',
-		'export_name'	=> 'export_name',
-		'export_format' => 'export_format',
-		'export_'		=> 'export_',
-		'import_name'	=> 'import_name',
-		'import_format'	=> 'import_format',
-		'import_'		=> 'import_',
-		'style_'		=> 'style_',
-		'script_'		=> 'script_',
-		'field_'		=> 'field_',
-		'section_'		=> 'section_',
+		'start_'			=> 'start_',
+		'load_'				=> 'load_',
+		'do_before_'		=> 'do_before_',
+		'do_after_'			=> 'do_after_',
+		'do_form_'			=> 'do_form_',
+		'do_'				=> 'do_',
+		'content_top_'		=> 'content_top_',
+		'content_'			=> 'content_',
+		'content_bottom_'	=> 'content_bottom_',
+		'validation_'		=> 'validation_',
+		'export_name'		=> 'export_name',
+		'export_format' 	=> 'export_format',
+		'export_'			=> 'export_',
+		'import_name'		=> 'import_name',
+		'import_format'		=> 'import_format',
+		'import_'			=> 'import_',
+		'style_'			=> 'style_',
+		'style_ie_'			=> 'style_ie_',
+		'script_'			=> 'script_',
+		
+		'field_'			=> 'field_',
+		'section_'			=> 'section_',
+		'fields_'			=> 'fields_',
+		'sections_'			=> 'sections_',
+		'pages_'			=> 'pages_',
+		'tabs_'				=> 'tabs_',
+		
+		'field_types_'		=> 'field_types_',
 	);
 
 	/**
@@ -234,7 +242,7 @@ abstract class AdminPageFramework_Page {
 	protected function renderPage( $sPageSlug, $sTabSlug=null ) {
 
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_before_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 		?>
 		<div class="wrap">
 			<?php
@@ -244,13 +252,13 @@ abstract class AdminPageFramework_Page {
 				$sHead .= $this->getInPageTabs( $sPageSlug, $this->oProp->sInPageTabTag );
 
 				// Apply filters in this order, in-page tab -> page -> global.
-				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['head_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sHead );
+				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_top_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sHead );
 			?>
 			<div class="admin-page-framework-container">
 				<?php
 					$this->showSettingsErrors();
 						
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_form_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_form_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 
 					echo $this->getFormOpeningTag();	// <form ... >
 					
@@ -267,10 +275,10 @@ abstract class AdminPageFramework_Page {
 					ob_end_clean(); // end buffer and remove the buffer
 								
 					// Apply the content filters.
-					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['content_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
+					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
 	
 					// Do the page actions.
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 						
 				?>
 				
@@ -280,12 +288,12 @@ abstract class AdminPageFramework_Page {
 				
 			<?php	
 				// Apply the foot filters.
-				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['foot_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
+				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_bottom_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
 			?>
 		</div><!-- End Wrap -->
 		<?php
 		// Do actions after rendering the page.
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_after_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_after_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
 		
 	}
 	
@@ -648,7 +656,7 @@ abstract class AdminPageFramework_Page {
 			// Apply filters to let modify the in-page tab array.
 			$this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 				$this,
-				"{$this->oProp->sClassName}_{$sPageSlug}_tabs",
+				"tabs_{$this->oProp->sClassName}_{$sPageSlug}",
 				$this->oProp->aInPageTabs[ $sPageSlug ]			
 			);	
 			// Added in-page arrays may be missing necessary keys so merge them with the default array structure.

@@ -955,8 +955,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
-				self::$_aPrefixesForCallbacks['field_'] . $this->oProp->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
+				// $this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
+				'field_' . $this->oProp->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
 			),
 			$sFieldOutput,
 			$aField // the field array
@@ -1041,8 +1041,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
-				self::$_aPrefixesForCallbacks['section_'] . $this->oProp->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
+				// $this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
+				'section_' . $this->oProp->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
 			),
 			'<p>' . $this->oProp->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
 			$this->oProp->aSections[ $sSectionID ]['description']	// the original description
@@ -1245,7 +1245,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to let other scripts to add sections.
 		$aSections = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			"{$this->oProp->sClassName}_setting_sections",
+			"sections_{$this->oProp->sClassName}",
 			$aSections
 		);
 		
@@ -1334,7 +1334,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to let other scripts to add fields.
 		$aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
 			$this,
-			"{$this->oProp->sClassName}_setting_fields",
+			"fields_{$this->oProp->sClassName}",
 			$aFields
 		); 
 		

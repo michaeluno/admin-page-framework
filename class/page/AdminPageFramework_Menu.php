@@ -336,7 +336,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		// Apply filters to let other scripts add sub menu pages.
 		$this->oProp->aPages = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			"{$this->oProp->sClassName}_pages", 
+			"pages_{$this->oProp->sClassName}", 
 			$this->oProp->aPages
 		);
 		
