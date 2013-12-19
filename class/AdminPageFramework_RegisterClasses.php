@@ -4,7 +4,7 @@ class AdminPageFramework_RegisterClasses {
 	/**
 	 * Stores the registered classes with the key of the class name and the value of the file path.
 	 */
-	protected $aClass = array();
+	protected $_aClasses = array();
 	
 	/**
 	 * 
@@ -16,10 +16,9 @@ class AdminPageFramework_RegisterClasses {
 	 * )
 	 * 
 	 */
-	
 	function __construct( $sClassDirPath, & $aClasses=array(), $aAllowedExtensions=array( 'php', 'inc' ) ) {
 			
-		$this->aClasses = $aClasses + $this->composeClassArray( $sClassDirPath, $aAllowedExtensions );
+		$this->_aClasses = $aClasses + $this->composeClassArray( $sClassDirPath, $aAllowedExtensions );
 		$this->registerClasses();
 		
 	}
@@ -84,8 +83,8 @@ class AdminPageFramework_RegisterClasses {
 		 * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
 		 */
 		public function replyToAutoLoader( $sCalledUnknownClassName ) {			
-			if ( array_key_exists( $sCalledUnknownClassName, $this->aClasses ) &&  file_exists( $this->aClasses[ $sCalledUnknownClassName ] ) ) 
-				include_once( $this->aClasses[ $sCalledUnknownClassName ] );
+			if ( array_key_exists( $sCalledUnknownClassName, $this->_aClasses ) &&  file_exists( $this->_aClasses[ $sCalledUnknownClassName ] ) ) 
+				include_once( $this->_aClasses[ $sCalledUnknownClassName ] );
 		}
 	
 }
