@@ -32,7 +32,7 @@ class APF_Demo extends AdminPageFramework {
 				include_once( $sFilePath );
 					
 		// 2. Instantiate the classes - the $oMsg object is optional if you use the framework's messages.
-		$oMsg = AdminPageFramework_Messages::instantiate( 'admin-page-framework-demo' );
+		$oMsg = AdminPageFramework_Message::instantiate( 'admin-page-framework-demo' );
 		new DateCustomFieldType( 'APF_Demo', 'date', $oMsg );
 		new TimeCustomFieldType( 'APF_Demo', 'time', $oMsg );
 		new DateTimeCustomFieldType( 'APF_Demo', 'date_time', $oMsg );
