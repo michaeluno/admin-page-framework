@@ -79,10 +79,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * @since			2.0.0
 	 */ 		
 	public $aRootMenu = array(
-		'title' => null,				// menu label that appears on the menu list
-		'page_slug' => null,			// menu slug that identifies the menu item
-		'hrefIcon16x16' => null,		// the associated icon that appears beside the label on the list
-		'intPosition'	=> null,		// determines the position of the menu
+		'sTitle' => null,				// menu label that appears on the menu list
+		'sPageSlug' => null,			// menu slug that identifies the menu item
+		'sIcon16x16' => null,		// the associated icon that appears beside the label on the list
+		'iPosition'	=> null,		// determines the position of the menu
 		'fCreateRoot' => null,			// indicates whether the framework should create the root menu or not.
 	); 
 	
@@ -233,7 +233,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public function &__get( $sName ) {
 		
 		// If $this->aOptions is called for the first time, retrieve the option data from the database and assign to the property.
-		// One this is done, calling $this->aOptions will not trigger the __get() magic method any more.
+		// Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
 		// Without the the ampersand in the method name, it causes a PHP warning.
 		if ( $sName == 'aOptions' ) {
 			$this->aOptions = $this->getOptions();
@@ -285,7 +285,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		
 		$vOptions = get_option( $this->sOptionKey );
 		if ( empty( $vOptions ) )
-			return array();		// casting array causes an 0 key element. So this way it can be avoided
+			return array();		// casting array causes a 0 key element. So this way it can be avoided
 		
 		if ( is_array( $vOptions ) )	// if it's array, no problem.
 			return $vOptions;
@@ -297,7 +297,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	/*
 	 * callback methods
 	 */ 
-	public function getCapability() {
+	public function _replyToGetCapability() {
 		return $this->sCapability;
 	}	
 		

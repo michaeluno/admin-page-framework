@@ -259,20 +259,20 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 			
 			// AdminPageFramework_Menu
-			add_action( 'admin_menu', array( $this, 'buildMenus' ), 98 );
+			add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );
 			
 			// AdminPageFramework_Page
-			add_action( 'admin_menu', array( $this, 'finalizeInPageTabs' ), 99 );	// must be called before the registerSettings() method.
+			add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method.
 			
 			// AdminPageFramework_Setting
-			add_action( 'admin_menu', array( $this, 'registerSettings' ), 100 );
+			add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );
 			
 			// Redirect Buttons
-			add_action( 'admin_init', array( $this, 'checkRedirects' ) );
+			add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );
 												
 			// The capability for the settings. $this->oProps->sOptionKey is the part that is set in the settings_fields() function.
 			// This prevents the "Cheatin' huh?" message.
-			add_filter( "option_page_capability_{$this->oProps->sOptionKey}", array( $this->oProps, 'getCapability' ) );
+			add_filter( "option_page_capability_{$this->oProps->sOptionKey}", array( $this->oProps, '_replyToGetCapability' ) );
 						
 			// For earlier loading than $this->setUp
 			$this->oUtil->addAndDoAction( $this, self::$_aPrefixes['start_'] . $this->oProps->sClassName );
@@ -730,7 +730,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	/* 
 	 * Callback methods
 	 */ 
-	public function checkRedirects() {
+	public function _replyToCheckRedirects() {
 
 		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
 		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProps->isPageAdded( $_GET['page'] ) ) return; 

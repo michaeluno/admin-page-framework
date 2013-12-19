@@ -173,7 +173,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @remark			The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			array		$aSection1				the section array.
 	* @param			array		$aSection2				( optional ) another section array.
 	* @param			array		$_and_more					( optional ) add more section array to the next parameters as many as necessary.
@@ -195,7 +195,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @access			protected
 	 * @param			array		$aSection				the section array.
 	 * @remark			The user may use this method in their extended class definition.
-	 * @remark			The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	 */
 	protected function addSettingSection( $aSection ) {
 		
@@ -238,7 +238,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @remark			The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			string			$sSectionID1			the section ID to remove.
 	* @param			string			$sSectionID2			( optional ) another section ID to remove.
 	* @param			string			$_and_more				( optional ) add more section IDs to the next parameters as many as necessary.
@@ -463,7 +463,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @remark			The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			array			$aField1			the field array.
 	* @param			array			$aField2			( optional ) another field array.
 	* @param			array			$_and_more			( optional ) add more field arrays to the next parameters as many as necessary.
@@ -520,7 +520,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access 			protected
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @remark			The actual registration will be performed in the <em>registerSettings()</em> method with the <em>admin_menu</em> hook.
+	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			string			$sFieldID1				the field ID to remove.
 	* @param			string			$sFieldID2				( optional ) another field ID to remove.
 	* @param			string			$_and_more					( optional ) add more field IDs to the next parameters as many as necessary.
@@ -1068,7 +1068,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @remark			The callback method for the <em>admin_menu</em> hook.
 	 * @return			void
 	 */ 
-	public function registerSettings() {
+	public function _replyToRegisterSettings() {
 		
 		// Format ( sanitize ) the section and field arrays.
 		$this->oProps->aSections = $this->formatSectionArrays( $this->oProps->aSections );
@@ -1159,7 +1159,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		/**
 		 * Sets the given field type's enqueuing scripts and styles.
 		 * 
-		 * A helper function for the above registerSettings() method.
+		 * A helper function for the above _replyToRegisterSettings() method.
 		 * 
 		 * @since			2.1.5
 		 */

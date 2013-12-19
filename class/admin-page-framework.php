@@ -754,8 +754,8 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	public function addSettingsLinkInPluginListingPage( $aLinks ) {
 		
 		// For a custom root slug,
-		$sLinkURL = preg_match( '/^.+\.php/', $this->oProps->aRootMenu['page_slug'] ) 
-			? add_query_arg( array( 'page' => $this->oProps->sDefaultPageSlug ), admin_url( $this->oProps->aRootMenu['page_slug'] ) )
+		$sLinkURL = preg_match( '/^.+\.php/', $this->oProps->aRootMenu['sPageSlug'] ) 
+			? add_query_arg( array( 'page' => $this->oProps->sDefaultPageSlug ), admin_url( $this->oProps->aRootMenu['sPageSlug'] ) )
 			: "admin.php?page={$this->oProps->sDefaultPageSlug}";
 		
 		array_unshift(	
@@ -5756,7 +5756,7 @@ abstract class AdminPageFramework_MetaBox {
 		/**
 		 * Sets the given field type's enqueuing scripts and styles.
 		 * 
-		 * A helper function for the above registerSettings() method.
+		 * A helper function for the above _replyToRegisterSettings() method.
 		 * 
 		 * @since			2.1.5
 		 */

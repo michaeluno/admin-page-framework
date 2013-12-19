@@ -68,23 +68,23 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * );</code>
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.6			The $sURLIcon16x16 parameter accepts a file path.
+	 * @since			2.1.6			The $sIcon16x16 parameter accepts a file path.
 	 * @remark			Only one root page can be set per one class instance.
 	 * @param			string			$sRootMenuLabel			If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
 	 * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
-	 * @param			string			$sURLIcon16x16			( optional ) the URL or the file path of the menu icon. The size should be 16 by 16 in pixel.
+	 * @param			string			$sIcon16x16			( optional ) the URL or the file path of the menu icon. The size should be 16 by 16 in pixel.
 	 * @param			string			$iMenuPosition			( optional ) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
 	 * @return			void
 	 */
-	protected function setRootMenuPage( $sRootMenuLabel, $sURLIcon16x16=null, $iMenuPosition=null ) {
+	protected function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
 
 		$sRootMenuLabel = trim( $sRootMenuLabel );
 		$sSlug = $this->isBuiltInMenuItem( $sRootMenuLabel );	// if true, this method returns the slug
 		$this->oProps->aRootMenu = array(
-			'title'			=> $sRootMenuLabel,
-			'page_slug' 		=> $sSlug ? $sSlug : $this->oProps->sClassName,	
-			'hrefIcon16x16'	=> $this->oUtil->resolveSRC( $sURLIcon16x16, true ),
-			'intPosition'		=> $iMenuPosition,
+			'sTitle'			=> $sRootMenuLabel,
+			'sPageSlug' 		=> $sSlug ? $sSlug : $this->oProps->sClassName,	
+			'sIcon16x16'		=> $this->oUtil->resolveSRC( $sIcon16x16, true ),
+			'iPosition'			=> $iMenuPosition,
 			'fCreateRoot'		=> $sSlug ? false : true,
 		);	
 					
@@ -106,7 +106,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 */ 
 	protected function setRootMenuPageBySlug( $sRootMenuSlug ) {
 		
-		$this->oProps->aRootMenu['page_slug'] = $sRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
+		$this->oProps->aRootMenu['sPageSlug'] = $sRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
 		$this->oProps->aRootMenu['fCreateRoot'] = false;		// indicates to use an existing menu item. 
 		
 	}
@@ -207,12 +207,12 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 
 		$sHookName = add_menu_page(  
 			$this->oProps->sClassName,						// Page title - will be invisible anyway
-			$this->oProps->aRootMenu['title'],				// Menu title - should be the root page title.
+			$this->oProps->aRootMenu['sTitle'],				// Menu title - should be the root page title.
 			$this->oProps->sCapability,						// Capability - access right
-			$this->oProps->aRootMenu['page_slug'],			// Menu ID 
+			$this->oProps->aRootMenu['sPageSlug'],			// Menu ID 
 			'', //array( $this, $this->oProps->sClassName ), 	// Page content displaying function
-			$this->oProps->aRootMenu['hrefIcon16x16'],		// icon path
-			isset( $this->oProps->aRootMenu['intPosition'] ) ? $this->oProps->aRootMenu['intPosition'] : null	// menu position
+			$this->oProps->aRootMenu['sIcon16x16'],		// icon path
+			isset( $this->oProps->aRootMenu['iPosition'] ) ? $this->oProps->aRootMenu['iPosition'] : null	// menu position
 		);
 
 	}
@@ -243,7 +243,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		
 		// Add the sub-page to the sub-menu
 		$aResult = array();
-		$sRootPageSlug = $this->oProps->aRootMenu['page_slug'];
+		$sRootPageSlug = $this->oProps->aRootMenu['sPageSlug'];
 		$sMenuLabel = plugin_basename( $sRootPageSlug );	// Make it compatible with the add_submenu_page() function.
 		
 		// If it's a page - it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
@@ -319,7 +319,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * 
 	 * @since			2.0.0
 	 */
-	public function buildMenus() {
+	public function _replyToBuildMenu() {
 		
 		// If the root menu label is not set but the slug is set, 
 		if ( $this->oProps->aRootMenu['fCreateRoot'] ) 
@@ -350,7 +350,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 						
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProps->aRootMenu['fCreateRoot'] ) 
-			remove_submenu_page( $this->oProps->aRootMenu['page_slug'], $this->oProps->aRootMenu['page_slug'] );
+			remove_submenu_page( $this->oProps->aRootMenu['sPageSlug'], $this->oProps->aRootMenu['sPageSlug'] );
 		
 	}	
 }

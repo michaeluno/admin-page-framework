@@ -633,7 +633,7 @@ abstract class AdminPageFramework_Page {
 	 * @remark			A callback for the <em>admin_menu</em> hook.
 	 * @return			void
 	 */ 		
-	public function finalizeInPageTabs() {
+	public function _replyToFinalizeInPageTabs() {
 	
 		foreach( $this->oProps->aPages as $sPageSlug => $aPage ) {
 			
