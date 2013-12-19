@@ -38,657 +38,6 @@ function includeAdminPageFramework() {
 endif;
 includeAdminPageFramework();
 
-if ( ! class_exists( 'AdminPageFramework_HeadTag_Base' ) ) :
-/**
- * Provides methods to enqueue or insert head tag elements into the head tag.
- * 
- * @since			2.1.5
- * 
- */
-abstract class AdminPageFramework_HeadTag_Base {
-	
-	/**
-	 * Represents the structure of the array for enqueuing scripts and styles.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved to the base class.
-	 * @since			3.0.0			Moved from the property class.
-	 */
-	protected static $_aStructure_EnqueuingScriptsAndStyles = array(
-		'href' => null,
-		'aPostTypes' => array(),		// for meta box class
-		'page_slug' => null,	
-		'tab_slug' => null,
-		'type' => null,		// script or style
-		'handle_id' => null,
-		'aDependencies' => array(),
-        'sVersion' => false,		// although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'translation' => array(),	// only for scripts
-        'fInFooter' => false,	// only for scripts
-		'sMedia' => 'all',	// only for styles		
-	);	
-	
-	function __construct( $oProps ) {
-		
-		$this->oProps = $oProps;
-		$this->oUtil = new AdminPageFramework_Utility;
-				
-		// Hook the admin header to insert custom admin stylesheet.
-		add_action( 'admin_head', array( $this, 'replyToAddStyle' ) );
-		add_action( 'admin_head', array( $this, 'replyToAddScript' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'replyToEnqueueScripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'replyToEnqueueStyles' ) );
-		
-	}	
-	
-	/*
-	 * Methods that should be overridden in extended classes.
-	 */
-	public function replyToAddStyle() {}
-	public function replyToAddScript() {}
-	protected function enqueueSRCByConditoin() {}
- 	
-	/*
-	 * Shared methods
-	 */
-		
-	/**
-	 * Performs actual enqueuing items. 
-	 * 
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class.
-	 * @internal
-	 */
-	protected function enqueueSRC( $aEnqueueItem ) {
-		
-		// For styles
-		if ( $aEnqueueItem['type'] == 'style' ) {
-			wp_enqueue_style( $aEnqueueItem['handle_id'], $aEnqueueItem['sSRC'], $aEnqueueItem['aDependencies'], $aEnqueueItem['sVersion'], $aEnqueueItem['sMedia'] );
-			return;
-		}
-		
-		// For scripts
-		wp_enqueue_script( $aEnqueueItem['handle_id'], $aEnqueueItem['sSRC'], $aEnqueueItem['aDependencies'], $aEnqueueItem['sVersion'], $aEnqueueItem['fInFooter'] );
-		if ( $aEnqueueItem['translation'] ) 
-			wp_localize_script( $aEnqueueItem['handle_id'], $aEnqueueItem['handle_id'], $aEnqueueItem['translation'] );
-		
-	}
-	
-	/**
-	 * Takes care of added enqueuing scripts by page slug and tab slug.
-	 * 
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueStylesCalback to replyToEnqueueStyles().
-	 * @internal
-	 */	
-	public function replyToEnqueueStyles() {	
-		foreach( $this->oProps->aEnqueuingStyles as $sKey => $aEnqueuingStyle ) 
-			$this->enqueueSRCByConditoin( $aEnqueuingStyle );
-	}
-	
-	/**
-	 * Takes care of added enqueuing scripts by page slug and tab slug.
-	 * 
-	 * @remark			A callback for the admin_enqueue_scripts hook.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueScriptsCallback to callbackEnqueueScripts().
-	 * @internal
-	 */
-	public function replyToEnqueueScripts() {							
-		foreach( $this->oProps->aEnqueuingScripts as $sKey => $aEnqueuingScript ) 
-			$this->enqueueSRCByConditoin( $aEnqueuingScript );				
-	}
-	
-}
-
-endif;
-
-if ( ! class_exists( 'AdminPageFramework_HeadTag_Page' ) ) :
-/**
- * Provides methods to enqueue or insert head tag elements into the head tag for the main framework class.
- * 
- * @since			2.1.5
- */
-class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
-
-	/**
-	 * Adds the stored CSS rules in the property into the head tag.
-	 * 
-	 * @remark			A callback for the <em>admin_head</em> hook.
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from the main class.
-	 */		
-	public function replyToAddStyle() {
-		
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sPageSlug );
-		
-		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
-		if ( ! $this->oProps->isPageAdded( $sPageSlug ) ) return;
-					
-		$oCaller = $this->oProps->getParentObject();
-		
-		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Properties::$sDefaultStyle . PHP_EOL . $this->oProps->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$aPrefixes['style_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
-		$sStyleIE = AdminPageFramework_Properties::$sDefaultStyleIE . PHP_EOL . $this->oProps->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$aPrefixes['style_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
-		if ( ! empty( $sStyle ) )
-			echo 
-				"<style type='text/css' id='admin-page-framework-style'>" 
-					. $sStyle
-				. "</style>";
-		if ( ! empty( $sStyleIE ) )
-			echo 
-				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
-					. $sStyleIE
-				. "</style><![endif]-->";
-						
-	}
-	
-	/**
-	 * Adds the stored JavaScript scripts in the property into the head tag.
-	 * 
-	 * @remark			A callback for the <em>admin_head</em> hook.
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from the main class.
-	 */
-	public function replyToAddScript() {
-		
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sPageSlug );
-		
-		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
-		if ( ! $this->oProps->isPageAdded( $sPageSlug ) ) return;
-
-		$oCaller = $this->oProps->getParentObject();
-		
-		// Print out the filtered scripts.
-		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( AdminPageFramework_Page::$aPrefixes['script_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProps->sScript )
-			. "</script>";		
-		
-	}
-
-	/**
-	 * Enqueues styles by page slug and tab slug.
-	 * 
-	 * @since			2.1.5
-	 */
-	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		
-		$aHandleIDs = array();
-		foreach( ( array ) $aSRCs as $sSRC )
-			$aHandleIDs[] = $this->enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
-		return $aHandleIDs;
-		
-	}
-	/**
-	 * Enqueues a style by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>sMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
-	 * </ul>
-	 * 
-	 * @remark			The user may use this method.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class.
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-	 */	
-	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		
-		$sSRC = trim( $sSRC );
-		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProps->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
-		
-		$sSRC = $this->oUtil->resolveSRC( $sSRC );
-		
-		$sSRCHash = md5( $sSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
-			( array ) $aCustomArgs,
-			array(		
-				'sSRC' => $sSRC,
-				'page_slug' => $sPageSlug,
-				'tab_slug' => $sTabSlug,
-				'type' => 'style',
-				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
-			),
-			self::$_aStructure_EnqueuingScriptsAndStyles
-		);
-		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
-		
-	}
-	
-	/**
-	 * Enqueues scripts by page slug and tab slug.
-	 * 
-	 * @since			2.1.5
-	 */
-	public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		
-		$aHandleIDs = array();
-		foreach( ( array ) $aSRCs as $sSRC )
-			$aHandleIDs[] = $this->enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
-		return $aHandleIDs;
-		
-	}	
-	/**
-	 * Enqueues a script by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
-	 * </ul>	 
-	 * 
-	 * <h4>Example</h4>
-	 * <code>$this->enqueueScript(  
-	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
-	 *		'apf_read_me', 	// page slug
-	 *		'', 	// tab slug
-	 *		array(
-	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
-	 *			'translation' => array( 
-	 *				'a' => 'hello world!',
-	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
-	 *			),
-	 *		)
-	 *	);</code>
-	 * 
-	 * @remark			The user may use this method.
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class.
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-	 */
-	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		
-		$sSRC = trim( $sSRC );
-		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProps->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
-		
-		$sSRC = $this->oUtil->resolveSRC( $sSRC );
-		
-		$sSRCHash = md5( $sSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
-			( array ) $aCustomArgs,
-			array(		
-				'page_slug' => $sPageSlug,
-				'tab_slug' => $sTabSlug,
-				'sSRC' => $sSRC,
-				'type' => 'script',
-				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
-			),
-			self::$_aStructure_EnqueuingScriptsAndStyles
-		);
-		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
-	}
-		
-	/**
-	 * A helper function for the above replyToEnqueueScripts() and replyToEnqueueStyle() methods.
-	 * 
-	 * @since			2.1.2
-	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueSRCByPageConditoin.
-	 */
-	protected function enqueueSRCByConditoin( $aEnqueueItem ) {
-		
-		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sCurrentPageSlug );
-			
-		$sPageSlug = $aEnqueueItem['page_slug'];
-		$sTabSlug = $aEnqueueItem['tab_slug'];
-		
-		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
-		if ( ! $sPageSlug && $this->oProps->isPageAdded( $sCurrentPageSlug ) )  // means script-global(among pages added by the framework)
-			return $this->enqueueSRC( $aEnqueueItem );
-				
-		// If both tab and page slugs are specified,
-		if ( 
-			( $sPageSlug && $sCurrentPageSlug == $sPageSlug )
-			&& ( $sTabSlug && $sCurrentTabSlug == $sTabSlug )
-		) 
-			return $this->enqueueSRC( $aEnqueueItem );
-		
-		// If the tab slug is not specified and the page slug is specified, 
-		// and if the current loading page slug and the specified one matches,
-		if ( 
-			( $sPageSlug && ! $sTabSlug )
-			&& ( $sCurrentPageSlug == $sPageSlug )
-		) 
-			return $this->enqueueSRC( $aEnqueueItem );
-
-	}
-	
-}
-endif;
-
-if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
-/**
- * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
- * 
- * @since			2.1.5
- * 
- */
-class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
-	
-	/**
-	 * Appends the CSS rules of the framework in the head tag. 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to replyToAddStyle().
-	 * @remark			A callback for the <em>admin_head</em> hook.
-	 */ 	
-	public function replyToAddStyle() {
-	
-		// If it's not post (post edit) page nor the post type page,
-		if ( 
-			! (
-				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
-				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
-				) 
-			)
-		) return;	
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$sRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) return;
-		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
-				
-		$oCaller = $this->oProps->getParentObject();		
-				
-		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Properties::$sDefaultStyle . PHP_EOL . $this->oProps->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->sClassName}", $sStyle );
-		$sStyleIE = AdminPageFramework_Properties::$sDefaultStyleIE . PHP_EOL . $this->oProps->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->sClassName}", $sStyleIE );
-		if ( ! empty( $sStyle ) )
-			echo 
-				"<style type='text/css' id='admin-page-framework-style-meta-box'>" 
-					. $sStyle
-				. "</style>";
-		if ( ! empty( $sStyleIE ) )
-			echo 
-				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-meta-box'>" 
-					. $sStyleIE
-				. "</style><![endif]-->";
-			
-	}
-	
-	/**
-	 * Appends the JavaScript script of the framework in the head tag. 
-	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to replyToAddScript().
-	 * @remark			A callback for the <em>admin_head</em> hook.
-	 */ 
-	public function replyToAddScript() {
-
-		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
-		if ( 
-			! (
-				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
-				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
-				) 
-			)
-		) return;	
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$sRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) return;
-		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
-	
-		$oCaller = $this->oProps->getParentObject();
-		
-		// Print out the filtered scripts.
-		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->sClassName}", $this->oProps->sScript );
-		if ( ! empty( $sScript ) )
-			echo 
-				"<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
-					. $sScript
-				. "</script>";	
-			
-	}	
-	
-	
-	/**
-	 * Enqueues styles by page slug and tab slug.
-	 * 
-	 * @since			2.1.5
-	 */
-	public function enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-		
-		$aHandleIDs = array();
-		foreach( ( array ) $aSRCs as $sSRC )
-			$aHandleIDs[] = $this->enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );
-		return $aHandleIDs;
-		
-	}
-	/**
-	 * Enqueues a style by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>sMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
-	 * </ul>
-	 * 
-	 * @remark			The user may use this method.
-	 * @since			2.1.5			
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-	 * @param			array			$aPostTypes		(optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-	 */	
-	public function enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-		
-		$sSRC = trim( $sSRC );
-		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProps->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
-		
-		$sSRC = $this->oUtil->resolveSRC( $sSRC );
-		
-		$sSRCHash = md5( $sSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
-			( array ) $aCustomArgs,
-			array(		
-				'sSRC' => $sSRC,
-				'aPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
-				'type' => 'style',
-				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
-			),
-			self::$_aStructure_EnqueuingScriptsAndStyles
-		);
-		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
-		
-	}
-	
-	/**
-	 * Enqueues scripts by page slug and tab slug.
-	 * 
-	 * @since			2.1.5
-	 */
-	public function enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-		
-		$aHandleIDs = array();
-		foreach( ( array ) $aSRCs as $sSRC )
-			$aHandleIDs[] = $this->enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
-		return $aHandleIDs;
-		
-	}	
-	/**
-	 * Enqueues a script by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
-	 * </ul>	 
-	 * 
-	 * <h4>Example</h4>
-	 * <code>$this->enqueueScript(  
-	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
-	 *	);</code>
-	 * 
-	 * @since			2.1.5			
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-	 * @param			array			$aPostTypes		(optional) The post type slugs that the script should be added to. If not set, it applies to all the pages with the post type slugs.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-	 */
-	public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-		
-		$sSRC = trim( $sSRC );
-		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProps->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
-		
-		$sSRC = $this->oUtil->resolveSRC( $sSRC );
-		
-		$sSRCHash = md5( $sSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
-			( array ) $aCustomArgs,
-			array(		
-				'sSRC' => $sSRC,
-				'aPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
-				'type' => 'script',
-				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
-			),
-			self::$_aStructure_EnqueuingScriptsAndStyles
-		);
-		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
-	}
-
-	/**
-	 * A helper function for the above replyToEnqueueScripts() and replyToEnqueueStyle() methods.
-	 * 
-	 * @since			2.1.5
-	 */
-	protected function enqueueSRCByConditoin( $aEnqueueItem ) {
-		
-		$sCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
-				
-		if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) )		
-			return $this->enqueueSRC( $aEnqueueItem );
-			
-	}
-	
-	
-}
-endif;
-
-if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
-/**
- * Provides methods to enqueue or insert head tag elements into the head tag for the meta box class.
- * 
- * @since			2.1.5
- * @since			2.1.7			Added the replyToAddStyle() method.
- */
-class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_MetaBox {
-	
-	/**
-	 * Appends the CSS rules of the framework in the head tag. 
-	 * @since			2.1.7	
-	 * @remark			A callback for the <em>admin_head</em> hook.
-	 */ 	
-	public function replyToAddStyle() {
-	
-		// If it's not the post type's post listing page or the taxtonomy page
-		if ( 
-			! (
-				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) 
-				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProps->sPostType )				
-			)
-		) return;	
-	
-		// Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
-		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$sRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) return;
-		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
-				
-		$oCaller = $this->oProps->getParentObject();		
-				
-		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Properties::$sDefaultStyle . PHP_EOL . $this->oProps->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->sClassName}", $sStyle );
-		$sStyleIE = AdminPageFramework_Properties::$sDefaultStyleIE . PHP_EOL . $this->oProps->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->sClassName}", $sStyleIE );
-		if ( ! empty( $sStyle ) )
-			echo 
-				"<style type='text/css' id='admin-page-framework-style-post-type'>" 
-					. $sStyle
-				. "</style>";
-		if ( ! empty( $sStyleIE ) )
-			echo 
-				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-post-type'>" 
-					. $sStyleIE
-				. "</style><![endif]-->";
-			
-	}
-	/**
-	 * Appends the JavaScript script of the framework in the head tag. 
-	 * @since			2.1.7
-	 * @remark			A callback for the <em>admin_head</em> hook.
-	 */ 
-	public function replyToAddScript() {
-
-		// If it's not the post type's post listing page
-		if ( 
-			! (
-				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) 
-				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProps->sPostType )				
-			)
-		) return;	
-		
-		// Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
-		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
-	
-		// This class may be instantiated multiple times so use a global flag.
-		$sRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) return;
-		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
-	
-		$oCaller = $this->oProps->getParentObject();
-		
-		// Print out the filtered scripts.
-		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->sClassName}", $this->oProps->sScript );
-		if ( ! empty( $sScript ) )
-			echo 
-				"<script type='text/javascript' id='admin-page-framework-script-post-type'>"
-					. $sScript
-				. "</script>";	
-			
-	}	
-	
-}
-endif;
-
 if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
 /**
  * Provides methods to render admin page elements.
@@ -2904,8 +2253,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
 				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
 				
-			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
-			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
+			$this->oHeadTag->_enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			$this->oHeadTag->_enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}
 	
@@ -3403,7 +2752,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	}	
 	
 	/*
-	 * Methods for Help Pane
+	 * Help Pane Methods
 	 */
 	/**
 	 * Adds the given contextual help tab contents into the property.
@@ -3439,8 +2788,88 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	public function addHelpTab( $aHelpTab ) {
 		$this->oHelpPane->_addHelpTab( $aHelpTab );
 	}
-	
-	
+
+	/*
+	 * Head Tag Methods
+	 */
+	/**
+	 * Enqueues styles by page slug and tab slug.
+	 * 
+	 * @since			3.0.0
+	 * @remark			The user may use this method.
+	 */
+	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+	}
+	/**
+	 * Enqueues a style by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	 * </ul>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			$sPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$sTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */	
+	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
+	}
+	/**
+	 * Enqueues scripts by page slug and tab slug.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+	}	
+	/**
+	 * Enqueues a script by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>	 
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScript(  
+	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *		'apf_read_me', 	// page slug
+	 *		'', 	// tab slug
+	 *		array(
+	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'translation' => array( 
+	 *				'a' => 'hello world!',
+	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
+	 *			),
+	 *		)
+	 *	);</code>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */
+	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	
+		return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+	}
 	
 	/**
 	 * Determines whether the method name matches the pre-defined hook prefixes.
@@ -3759,71 +3188,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		$this->oUtil->goRedirect( $sURL );
 		
 	}
-	
-	
-	/**
-	 * Enqueues a style by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>sMedia</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
-	 * </ul>
-	 * 
-	 * @remark			The user may use this method.
-	 * @since			2.1.2
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-	 */	
-	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
-	}
-	
-	/**
-	 * Enqueues a script by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>aDependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>sVersion</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>fInFooter</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
-	 * </ul>	 
-	 * 
-	 * <h4>Example</h4>
-	 * <code>$this->enqueueScript(  
-	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
-	 *		'apf_read_me', 	// page slug
-	 *		'', 	// tab slug
-	 *		array(
-	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
-	 *			'translation' => array( 
-	 *				'a' => 'hello world!',
-	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
-	 *			),
-	 *		)
-	 *	);</code>
-	 * 
-	 * @remark			The user may use this method.
-	 * @since			2.1.2
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-	 */
-	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	
-		return $this->oHeadTag->enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
-	}
-		
+			
 	/**
 	 * Sets an admin notice.
 	 * 
@@ -9854,6 +9219,83 @@ abstract class AdminPageFramework_PostType {
 	* @remark			A callback for the <em>wp_loaded</em> hook.
 	*/
 	public function setUp() {}	
+		
+	/*
+	 * Head Tag Methods
+	 */
+	/**
+	 * Enqueues styles by page slug and tab slug.
+	 * 
+	 * @since			3.0.0
+	 * @remark			The user may use this method.
+	 */
+	public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProps->sPostType ), $aCustomArgs );
+	}
+	/**
+	 * Enqueues a style by page slug and tab slug.
+	 * 	
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
+	 * </ul>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			3.0.0
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */	
+	public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueStyle( $sSRC, array( $this->oProps->sPostType ), $aCustomArgs );		
+	}
+	/**
+	 * Enqueues scripts by page slug and tab slug.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueScripts( $aSRCs, array( $this->oProps->sPostType ), $aCustomArgs );
+	}	
+	/**
+	 * Enqueues a script by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>	 
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScript(  
+	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *		array(
+	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'translation' => array( 
+	 *				'a' => 'hello world!',
+	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
+	 *			),
+	 *		)
+	 *	);</code>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			3.0.0
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */
+	public function enqueueScript( $sSRC, $aCustomArgs=array() ) {	
+		return $this->oHeadTag->_enqueueScript( $sSRC, array( $this->oProps->sPostType ), $aCustomArgs );
+	}		
+	
 	
 	/**
 	 * Defines the column header items in the custom post listing table.
@@ -10295,47 +9737,7 @@ abstract class AdminPageFramework_MetaBox {
 		$this->oUtil->addAndDoAction( $this, "{$this->oProps->sPrefixStart}{$this->oProps->sClassName}" );
 		
 	}
-	
-	/*
-	 * Help Pane
-	 */
-	/**
-	 * Adds the given HTML text to the contextual help pane.
-	 * 
-	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
-	 * 
-	 * <h4>Example</h4>
-	 * <code>$this->addHelpText( 
-	 *		__( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
-	 *		__( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
-	 *	);</code>
-	 * 
-	 * @since			2.1.0
-	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
-	 * @remark			The user may use this method to add contextual help text.
-	 */ 
-	public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
-		$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
-	}
-	
-	/**
-	 * Loads the default field type definition.
-	 * 
-	 * @since			2.1.5
-	 */
-	public function replyToLoadDefaultFieldTypeDefinitions() {
-		
-		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->aFieldTypeDefinitions, $this->oProps->sClassName, $this->oMsg );		
-		$this->oProps->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-			$this,
-			'field_types_' . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
-			$this->oProps->aFieldTypeDefinitions
-		);				
-		
-	}
 
-	
 	/**
 	* The method for all necessary set-ups.
 	* 
@@ -10365,6 +9767,125 @@ abstract class AdminPageFramework_MetaBox {
 	*/	 
 	public function setUp() {}
 	
+	/*
+	 * Help Pane
+	 */
+	/**
+	 * Adds the given HTML text to the contextual help pane.
+	 * 
+	 * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->addHelpText( 
+	 *		__( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
+	 *		__( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
+	 *	);</code>
+	 * 
+	 * @since			2.1.0
+	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
+	 * @remark			The user may use this method to add contextual help text.
+	 */ 
+	public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
+		$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
+	}
+	
+	/*
+	 * Head Tag Methods
+	 */
+	/**
+	 * Enqueues styles by page slug and tab slug.
+	 * 
+	 * @since			3.0.0
+	 * @remark			The user may use this method.
+	 */
+	public function enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueStyles( $aSRCs, $aPostTypes, $aCustomArgs );
+	}
+	/**
+	 * Enqueues a style by page slug and tab slug.
+	 * 	
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
+	 * </ul>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			3.0.0
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			array			$aPostTypes		(optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
+	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */	
+	public function enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );		
+	}
+	/**
+	 * Enqueues scripts by page slug and tab slug.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
+		return $this->oHeadTag->_enqueueScripts( $aSRCs, $aPostTypes, $aCustomArgs );
+	}	
+	/**
+	 * Enqueues a script by page slug and tab slug.
+	 * 
+	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>	 
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScript(  
+	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *		array( 'my_post_type_slug' ),
+	 *		array(
+	 *			'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
+	 *			'translation' => array( 
+	 *				'a' => 'hello world!',
+	 *				'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
+	 *			),
+	 *		)
+	 *	);</code>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 */
+	public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {	
+		return $this->oHeadTag->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
+	}	
+		
+	/**
+	 * Loads the default field type definition.
+	 * 
+	 * @since			2.1.5
+	 */
+	public function replyToLoadDefaultFieldTypeDefinitions() {
+		
+		// This class adds filters for the field type definitions so that framework's default field types will be added.
+		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->aFieldTypeDefinitions, $this->oProps->sClassName, $this->oMsg );		
+		$this->oProps->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+			$this,
+			'field_types_' . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
+			$this->oProps->aFieldTypeDefinitions
+		);				
+		
+	}
+		
 	/**
 	* Adds the given field array items into the field array property. 
 	* 
@@ -10479,8 +10000,8 @@ abstract class AdminPageFramework_MetaBox {
 			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
 				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
 
-			$this->oHeadTag->enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
-			$this->oHeadTag->enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
+			$this->oHeadTag->_enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			$this->oHeadTag->_enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}		
 
@@ -10634,14 +10155,7 @@ abstract class AdminPageFramework_MetaBox {
 			$sFieldOutput,
 			$aField // the field array
 		);		
-		
-		// return $this->oUtil->addAndApplyFilter(
-			// $this,
-			// $this->oProps->sClassName . '_' . 'field_' . $aField['field_id'],	// filter: class name + _ + field_ + field id
-			// $sFieldOutput,
-			// $aField // the field array
-		// );	
-				
+						
 	}
 		
 	/**
