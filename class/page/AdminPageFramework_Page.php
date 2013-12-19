@@ -122,10 +122,10 @@ abstract class AdminPageFramework_Page {
 	protected function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['fShowPageTitle'] = $bShow;
+			$this->oProp->aPages[ $sPageSlug ]['fShowPageTitle'] = $bShow;
 		else {
-			$this->oProps->bShowPageTitle = $bShow;
-			foreach( $this->oProps->aPages as &$aPage ) 
+			$this->oProp->bShowPageTitle = $bShow;
+			foreach( $this->oProp->aPages as &$aPage ) 
 				$aPage['fShowPageTitle'] = $bShow;
 		}
 	}	
@@ -146,10 +146,10 @@ abstract class AdminPageFramework_Page {
 	protected function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['fShowPageHeadingTabs'] = $bShow;
+			$this->oProp->aPages[ $sPageSlug ]['fShowPageHeadingTabs'] = $bShow;
 		else {
-			$this->oProps->bShowPageHeadingTabs = $bShow;
-			foreach( $this->oProps->aPages as &$aPage ) 
+			$this->oProp->bShowPageHeadingTabs = $bShow;
+			foreach( $this->oProp->aPages as &$aPage ) 
 				$aPage['fShowPageHeadingTabs'] = $bShow;
 		}
 	}
@@ -168,10 +168,10 @@ abstract class AdminPageFramework_Page {
 	protected function showInPageTabs( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['fShowInPageTabs'] = $bShow;
+			$this->oProp->aPages[ $sPageSlug ]['fShowInPageTabs'] = $bShow;
 		else {
-			$this->oProps->bShowInPageTabs = $bShow;
-			foreach( $this->oProps->aPages as &$aPage )
+			$this->oProp->bShowInPageTabs = $bShow;
+			foreach( $this->oProp->aPages as &$aPage )
 				$aPage['fShowInPageTabs'] = $bShow;
 		}
 	}
@@ -191,10 +191,10 @@ abstract class AdminPageFramework_Page {
 	protected function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['sInPageTabTag'] = $sTag;
+			$this->oProp->aPages[ $sPageSlug ]['sInPageTabTag'] = $sTag;
 		else {
-			$this->oProps->sInPageTabTag = $sTag;
-			foreach( $this->oProps->aPages as &$aPage )
+			$this->oProp->sInPageTabTag = $sTag;
+			foreach( $this->oProp->aPages as &$aPage )
 				$aPage['sInPageTabTag'] = $sTag;
 		}
 	}
@@ -214,10 +214,10 @@ abstract class AdminPageFramework_Page {
 	protected function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProps->aPages[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
+			$this->oProp->aPages[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
 		else {
-			$this->oProps->sPageHeadingTabTag = $sTag;
-			foreach( $this->oProps->aPages as &$aPage )
+			$this->oProp->sPageHeadingTabTag = $sTag;
+			foreach( $this->oProp->aPages as &$aPage )
 				$aPage[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
 		}
 	}
@@ -234,23 +234,23 @@ abstract class AdminPageFramework_Page {
 	protected function renderPage( $sPageSlug, $sTabSlug=null ) {
 
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_before_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_before_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 		?>
 		<div class="wrap">
 			<?php
 				// Screen icon, page heading tabs(page title), and in-page tabs.
 				$sHead = $this->getScreenIcon( $sPageSlug );	
-				$sHead .= $this->getPageHeadingTabs( $sPageSlug, $this->oProps->sPageHeadingTabTag ); 	
-				$sHead .= $this->getInPageTabs( $sPageSlug, $this->oProps->sInPageTabTag );
+				$sHead .= $this->getPageHeadingTabs( $sPageSlug, $this->oProp->sPageHeadingTabTag ); 	
+				$sHead .= $this->getInPageTabs( $sPageSlug, $this->oProp->sInPageTabTag );
 
 				// Apply filters in this order, in-page tab -> page -> global.
-				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['head_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sHead );
+				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['head_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sHead );
 			?>
 			<div class="admin-page-framework-container">
 				<?php
 					$this->showSettingsErrors();
 						
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_form_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_form_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 
 					echo $this->getFormOpeningTag();	// <form ... >
 					
@@ -258,8 +258,8 @@ abstract class AdminPageFramework_Page {
 					ob_start(); // start buffer
 							 					
 					// Render the form elements by Settings API
-					if ( $this->oProps->bEnableForm ) {
-						settings_fields( $this->oProps->sOptionKey );	// this value also determines the $option_page global variable value.
+					if ( $this->oProp->bEnableForm ) {
+						settings_fields( $this->oProp->sOptionKey );	// this value also determines the $option_page global variable value.
 						do_settings_sections( $sPageSlug ); 
 					}				
 					 
@@ -267,10 +267,10 @@ abstract class AdminPageFramework_Page {
 					ob_end_clean(); // end buffer and remove the buffer
 								
 					// Apply the content filters.
-					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['content_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
+					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['content_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
 	
 					// Do the page actions.
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 						
 				?>
 				
@@ -280,12 +280,12 @@ abstract class AdminPageFramework_Page {
 				
 			<?php	
 				// Apply the foot filters.
-				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['foot_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
+				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['foot_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
 			?>
 		</div><!-- End Wrap -->
 		<?php
 		// Do actions after rendering the page.
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_after_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_after_'], $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
 		
 	}
 	
@@ -303,13 +303,13 @@ abstract class AdminPageFramework_Page {
 		// WordPress automatically performs the settings_errors() function in the options pages. See options-head.php.
 		if ( $GLOBALS['pagenow'] == 'options-general.php' ) return;	
 		
-		$aSettingsMessages = get_settings_errors( $this->oProps->sOptionKey );
+		$aSettingsMessages = get_settings_errors( $this->oProp->sOptionKey );
 		
 		// If custom messages are added, remove the default one. 
 		if ( count( $aSettingsMessages ) > 1 ) 
 			$this->removeDefaultSettingsNotice();
 		
-		settings_errors( $this->oProps->sOptionKey );	// Show the message like "The options have been updated" etc.
+		settings_errors( $this->oProp->sOptionKey );	// Show the message like "The options have been updated" etc.
 	
 	}
 
@@ -345,7 +345,7 @@ abstract class AdminPageFramework_Page {
 		
 		foreach ( ( array ) $wp_settings_errors as $iIndex => $aDetails ) {
 			
-			if ( $aDetails['setting'] != $this->oProps->sOptionKey ) continue;
+			if ( $aDetails['setting'] != $this->oProp->sOptionKey ) continue;
 			
 			if ( in_array( $aDetails['message'], $aDefaultMessages ) )
 				unset( $wp_settings_errors[ $iIndex ] );
@@ -361,8 +361,8 @@ abstract class AdminPageFramework_Page {
 	 */ 
 	protected function getFormOpeningTag() {
 		
-		if ( ! $this->oProps->bEnableForm ) return '';
-		return "<form action='options.php' method='post' enctype='{$this->oProps->sFormEncType}'>";
+		if ( ! $this->oProp->bEnableForm ) return '';
+		return "<form action='options.php' method='post' enctype='{$this->oProp->sFormEncType}'>";
 	
 	}
 	
@@ -374,7 +374,7 @@ abstract class AdminPageFramework_Page {
 	 */ 	
 	protected function getFormClosingTag( $sPageSlug, $sTabSlug ) {
 
-		if ( ! $this->oProps->bEnableForm ) return '';	
+		if ( ! $this->oProp->bEnableForm ) return '';	
 		return "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
 			. "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL			
 			. "</form><!-- End Form -->";
@@ -390,12 +390,12 @@ abstract class AdminPageFramework_Page {
 	private function getScreenIcon( $sPageSlug ) {
 
 		// If the icon path is explicitly set, use it.
-		if ( isset( $this->oProps->aPages[ $sPageSlug ]['hrefIcon32x32'] ) ) 
-			return '<div class="icon32" style="background-image: url(' . $this->oProps->aPages[ $sPageSlug ]['hrefIcon32x32'] . ');"><br /></div>';
+		if ( isset( $this->oProp->aPages[ $sPageSlug ]['hrefIcon32x32'] ) ) 
+			return '<div class="icon32" style="background-image: url(' . $this->oProp->aPages[ $sPageSlug ]['hrefIcon32x32'] . ');"><br /></div>';
 		
 		// If the screen icon ID is explicitly set, use it.
-		if ( isset( $this->oProps->aPages[ $sPageSlug ]['screen_iconID'] ) )
-			return '<div class="icon32" id="icon-' . $this->oProps->aPages[ $sPageSlug ]['screen_iconID'] . '"><br /></div>';
+		if ( isset( $this->oProp->aPages[ $sPageSlug ]['screen_iconID'] ) )
+			return '<div class="icon32" id="icon-' . $this->oProp->aPages[ $sPageSlug ]['screen_iconID'] . '"><br /></div>';
 			
 		// Retrieve the screen object for the current page.
 		$oScreen = get_current_screen();
@@ -405,7 +405,7 @@ abstract class AdminPageFramework_Page {
 		if ( empty( $sIconIDAttribute ) && $oScreen->post_type ) 
 			$sClass .= ' ' . sanitize_html_class( 'icon32-posts-' . $oScreen->post_type );
 		
-		if ( empty( $sIconIDAttribute ) || $sIconIDAttribute == $this->oProps->sClassName )
+		if ( empty( $sIconIDAttribute ) || $sIconIDAttribute == $this->oProp->sClassName )
 			$sIconIDAttribute = 'generic';		// the default value
 		
 		return '<div id="icon-' . $sIconIDAttribute . '" class="' . $sClass . '"><br /></div>';
@@ -438,24 +438,24 @@ abstract class AdminPageFramework_Page {
 	private function getPageHeadingTabs( $sCurrentPageSlug, $sTag='h2', $aOutput=array() ) {
 		
 		// If the page title is disabled, return an empty string.
-		if ( ! $this->oProps->aPages[ $sCurrentPageSlug ][ 'fShowPageTitle' ] ) return "";
+		if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'fShowPageTitle' ] ) return "";
 
-		$sTag = $this->oProps->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
-			? $this->oProps->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
+		$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
+			? $this->oProp->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
 			: $sTag;
 	
 		// If the page heading tab visibility is disabled, return the title.
-		if ( ! $this->oProps->aPages[ $sCurrentPageSlug ][ 'fShowPageHeadingTabs' ] )
-			return "<{$sTag}>" . $this->oProps->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";		
+		if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'fShowPageHeadingTabs' ] )
+			return "<{$sTag}>" . $this->oProp->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";		
 		
-		foreach( $this->oProps->aPages as $aSubPage ) {
+		foreach( $this->oProp->aPages as $aSubPage ) {
 			
 			// For added sub-pages
 			if ( isset( $aSubPage['page_slug'] ) && $aSubPage['fShowPageHeadingTab'] ) {
 				// Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
 				$sClassActive =  $sCurrentPageSlug == $aSubPage['page_slug']  ? 'nav-tab-active' : '';		
 				$aOutput[] = "<a class='nav-tab {$sClassActive}' "
-					. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['page_slug'], 'tab' => false ), $this->oProps->aDisallowedQueryKeys ) 
+					. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['page_slug'], 'tab' => false ), $this->oProp->aDisallowedQueryKeys ) 
 					. "'>"
 					. $aSubPage['title']
 					. "</a>";	
@@ -488,39 +488,39 @@ abstract class AdminPageFramework_Page {
 	private function getInPageTabs( $sCurrentPageSlug, $sTag='h3', $aOutput=array() ) {
 		
 		// If in-page tabs are not set, return an empty string.
-		if ( empty( $this->oProps->aInPageTabs[ $sCurrentPageSlug ] ) ) return implode( '', $aOutput );
+		if ( empty( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] ) ) return implode( '', $aOutput );
 				
 		// Determine the current tab slug.
-		$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sCurrentPageSlug );
+		$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
 		$sCurrentTabSlug = $this->getParentTabSlug( $sCurrentPageSlug, $sCurrentTabSlug );
 		
-		$sTag = $this->oProps->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
-			? $this->oProps->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
+		$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
+			? $this->oProp->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
 			: $sTag;
 	
 		// If the in-page tabs' visibility is set to false, returns the title.
-		if ( ! $this->oProps->aPages[ $sCurrentPageSlug ][ 'fShowInPageTabs' ]	)
-			return isset( $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
-				? "<{$sTag}>{$this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
+		if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'fShowInPageTabs' ]	)
+			return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
+				? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
 				: "";
 	
 		// Get the actual string buffer.
-		foreach( $this->oProps->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
+		foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 					
 			// If it's hidden and its parent tab is not set, skip
 			if ( $aInPageTab['show_inpage_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
 			
 			// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
-			$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
+			$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
 				? $aInPageTab['parent_tab_slug'] 
 				: $aInPageTab['tab_slug'];
 				
 			// Check if the current tab slug matches the iteration slug. If not match, assign blank; otherwise, put the active class name.
 			$bIsActiveTab = ( $sCurrentTabSlug == $sInPageTabSlug );
 			$aOutput[ $sInPageTabSlug ] = "<a class='nav-tab " . ( $bIsActiveTab ? "nav-tab-active" : "" ) . "' "
-				. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProps->aDisallowedQueryKeys ) 
+				. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProp->aDisallowedQueryKeys ) 
 				. "'>"
-				. $this->oProps->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['title'] //	"{$aInPageTab['title']}"
+				. $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['title'] //	"{$aInPageTab['title']}"
 				. "</a>";
 		
 		}		
@@ -542,11 +542,11 @@ abstract class AdminPageFramework_Page {
 	 */ 	
 	private function getParentTabSlug( $sPageSlug, $sTabSlug ) {
 		
-		$sParentTabSlug = isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug'] ) 
-			? $this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
+		$sParentTabSlug = isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug'] ) 
+			? $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
 			: $sTabSlug;
 		
-		return isset( $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab'] ) && $this->oProps->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab']
+		return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab']
 			? ""
 			: $sParentTabSlug;
 
@@ -570,9 +570,9 @@ abstract class AdminPageFramework_Page {
 		
 		$sTabSlug = $this->oUtil->sanitizeSlug( $sTabSlug );
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		$iCountElement = isset( $this->oProps->aInPageTabs[ $sPageSlug ] ) ? count( $this->oProps->aInPageTabs[ $sPageSlug ] ) : 0;
+		$iCountElement = isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ? count( $this->oProp->aInPageTabs[ $sPageSlug ] ) : 0;
 		if ( ! empty( $sTabSlug ) && ! empty( $sPageSlug ) ) 
-			$this->oProps->aInPageTabs[ $sPageSlug ][ $sTabSlug ] = array(
+			$this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ] = array(
 				'page_slug'	=> $sPageSlug,
 				'title'		=> trim( $sTabTitle ),
 				'tab_slug'	=> $sTabSlug,
@@ -641,31 +641,31 @@ abstract class AdminPageFramework_Page {
 	 */ 		
 	public function _replyToFinalizeInPageTabs() {
 	
-		foreach( $this->oProps->aPages as $sPageSlug => $aPage ) {
+		foreach( $this->oProp->aPages as $sPageSlug => $aPage ) {
 			
-			if ( ! isset( $this->oProps->aInPageTabs[ $sPageSlug ] ) ) continue;
+			if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) continue;
 			
 			// Apply filters to let modify the in-page tab array.
-			$this->oProps->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+			$this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 				$this,
-				"{$this->oProps->sClassName}_{$sPageSlug}_tabs",
-				$this->oProps->aInPageTabs[ $sPageSlug ]			
+				"{$this->oProp->sClassName}_{$sPageSlug}_tabs",
+				$this->oProp->aInPageTabs[ $sPageSlug ]			
 			);	
 			// Added in-page arrays may be missing necessary keys so merge them with the default array structure.
-			foreach( $this->oProps->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) 
+			foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) 
 				$aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
 						
 			// Sort the in-page tab array.
-			uasort( $this->oProps->aInPageTabs[ $sPageSlug ], array( $this->oProps, 'sortByOrder' ) );
+			uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this->oProp, 'sortByOrder' ) );
 			
 			// Set the default tab for the page.
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $aInPageTab, is also used as reference in the above foreach.
-			foreach( $this->oProps->aInPageTabs[ $sPageSlug ] as $sTabSlug => &$aInPageTab ) { 	
+			foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as $sTabSlug => &$aInPageTab ) { 	
 			
 				if ( ! isset( $aInPageTab['tab_slug'] ) ) continue;	
 				
 				// Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
-				$this->oProps->aDefaultInPageTabs[ $sPageSlug ] = $aInPageTab['tab_slug'];
+				$this->oProp->aDefaultInPageTabs[ $sPageSlug ] = $aInPageTab['tab_slug'];
 					
 				break;	// The first iteration item is the default one.
 			}

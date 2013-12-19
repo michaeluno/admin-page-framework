@@ -28,9 +28,9 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
 		'help_tab_sidebar_content'	=> null,	// ( optional )
 	);
 
-	function __construct( $oProps ) {
+	function __construct( $oProp ) {
 		
-		$this->oProps = $oProps;
+		$this->oProp = $oProp;
 		
 		// The contextual help pane.
 		add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 );		
@@ -51,12 +51,12 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
 	public function _replyToRegisterHelpTabs() {
 			
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		$sCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProps->aDefaultInPageTabs[ $sCurrentPageSlug ] ) ? $this->oProps->aDefaultInPageTabs[ $sCurrentPageSlug ] : '' );
+		$sCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProp->aDefaultInPageTabs[ $sCurrentPageSlug ] ) ? $this->oProp->aDefaultInPageTabs[ $sCurrentPageSlug ] : '' );
 		
 		if ( empty( $sCurrentPageSlug ) ) return;
-		if ( ! $this->oProps->isPageAdded( $sCurrentPageSlug ) ) return;
+		if ( ! $this->oProp->isPageAdded( $sCurrentPageSlug ) ) return;
 		
-		foreach( $this->oProps->aHelpTabs as $aHelpTab ) {
+		foreach( $this->oProp->aHelpTabs as $aHelpTab ) {
 			
 			if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) continue;
 			if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentPageTabSlug != $aHelpTab['sPageTabSlug'] ) continue;
@@ -97,8 +97,8 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
 		$aHelpTab = ( array ) $aHelpTab + self::$_aStructure_HelpTabUserArray;
 		
 		// If the key is not set, that means the help tab array is not created yet. So create it and go back.
-		if ( ! isset( $this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) {
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array(
+		if ( ! isset( $this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) {
+			$this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array(
 				'sID'				=> $aHelpTab['help_tab_id'],
 				'sTitle'			=> $aHelpTab['help_tab_title'],
 				'aContent'			=> ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->_formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
@@ -111,9 +111,9 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
 
 		// This line will be reached if the help tab array is already set. In this case, just append an array element into the keys.
 		if ( ! empty( $aHelpTab['help_tab_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aContent'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_content'] );
+			$this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aContent'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_content'] );
 		if ( ! empty( $aHelpTab['help_tab_sidebar_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
+			$this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
 		
 	}
 	

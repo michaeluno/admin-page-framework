@@ -1050,7 +1050,7 @@ class APF_Demo extends AdminPageFramework {
 				'export_format' => array( 'text', 'json', 'array' ),
 				'export_data' => array(
 					'Hello World!',	// export plain text
-					( array ) $this->oProps,	// export an object
+					( array ) $this->oProp,	// export an object
 					array( 'a', 'b', 'c' ),	// export a serialized array
 				),
 			),		
@@ -1070,7 +1070,7 @@ class APF_Demo extends AdminPageFramework {
 				'type' => 'import',
 				'description' => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
 				'label' => 'Import Options',
-				// 'vImportFormat' => isset( $_POST[ $this->oProps->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProps->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
+				// 'vImportFormat' => isset( $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
 			),			
 			array()
 		);
@@ -1108,15 +1108,15 @@ class APF_Demo extends AdminPageFramework {
 		?>
 		<h3>Saved Data</h3>
 		<?php
-			echo $this->oDebug->getArray( $this->oProps->aOptions ); 
+			echo $this->oDebug->getArray( $this->oProp->aOptions ); 
 	}
 	public function do_apf_manage_options_properties() {	// do_ + page slug + _ + tab slug
 		?>
 		<h3><?php _e( 'Framework Properties', 'admin-page-framework-demo' ); ?></h3>
 		<p><?php _e( 'You can view and modify the property values stored in the framework.', 'admin-page-framework-demo' ); ?></p>
-		<pre><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProps ) );</code></pre>		
+		<pre><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProp ) );</code></pre>		
 		<?php
-			$this->oDebug->dumpArray( get_object_vars( $this->oProps ) );
+			$this->oDebug->dumpArray( get_object_vars( $this->oProp ) );
 	}
 	public function do_apf_manage_options_messages() {	// do_ + page slug + _ + tab slug
 		?>
@@ -1151,15 +1151,15 @@ class APF_Demo extends AdminPageFramework {
 	 * */
 	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
 		
-		return isset( $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['exports']['export_format_type'] ) 
-			? $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['exports']['export_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['exports']['export_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['exports']['export_format_type']
 			: $sFormatType;
 		
 	}	
 	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_ + page slug + _ + tab slug
 		
-		return isset( $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['imports']['import_format_type'] ) 
-			? $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['imports']['import_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['imports']['import_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['imports']['import_format_type']
 			: $sFormatType;
 		
 	}
@@ -1216,11 +1216,11 @@ class APF_Demo extends AdminPageFramework {
 
 		// Display the uploaded file information.
 		$aFileErrors = array();
-		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_single'];
-		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][0];
-		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][1];
-		$aFileErrors[] = $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][2];
-		foreach( $_FILES[ $this->oProps->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_repeatable'] as $aFile )
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_single'];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][0];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][1];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][2];
+		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_repeatable'] as $aFile )
 			$aFileErrors[] = $aFile;
 			
 		if ( in_array( 0, $aFileErrors ) ) 
@@ -1233,7 +1233,7 @@ class APF_Demo extends AdminPageFramework {
 	public function validation_APF_Demo( $aInput, $aOldOptions ) {
 		
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
-		if ( isset( $_POST[ $this->oProps->sOptionKey ]['apf_manage_options']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
+		if ( isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
 			return array();
 			
 		return $aInput;

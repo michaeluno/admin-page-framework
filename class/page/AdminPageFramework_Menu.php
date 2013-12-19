@@ -88,9 +88,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 
 		$sRootMenuLabel = trim( $sRootMenuLabel );
 		$sSlug = $this->isBuiltInMenuItem( $sRootMenuLabel );	// if true, this method returns the slug
-		$this->oProps->aRootMenu = array(
+		$this->oProp->aRootMenu = array(
 			'sTitle'			=> $sRootMenuLabel,
-			'sPageSlug' 		=> $sSlug ? $sSlug : $this->oProps->sClassName,	
+			'sPageSlug' 		=> $sSlug ? $sSlug : $this->oProp->sClassName,	
 			'sIcon16x16'		=> $this->oUtil->resolveSRC( $sIcon16x16, true ),
 			'iPosition'			=> $iMenuPosition,
 			'fCreateRoot'		=> $sSlug ? false : true,
@@ -114,8 +114,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 */ 
 	protected function setRootMenuPageBySlug( $sRootMenuSlug ) {
 		
-		$this->oProps->aRootMenu['sPageSlug'] = $sRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
-		$this->oProps->aRootMenu['fCreateRoot'] = false;		// indicates to use an existing menu item. 
+		$this->oProp->aRootMenu['sPageSlug'] = $sRootMenuSlug;	// do not sanitize the slug here because post types includes a question mark.
+		$this->oProp->aRootMenu['fCreateRoot'] = false;		// indicates to use an existing menu item. 
 		
 	}
 	
@@ -167,9 +167,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	protected function addSubMenuPage( $sPageTitle, $sPageSlug, $sScreenIcon=null, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
 		
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		$iCount = count( $this->oProps->aPages );
-		$aPreviouslySetPage = isset( $this->oProps->aPages[ $sPageSlug ] ) 
-			? $this->oProps->aPages[ $sPageSlug ]
+		$iCount = count( $this->oProp->aPages );
+		$aPreviouslySetPage = isset( $this->oProp->aPages[ $sPageSlug ] ) 
+			? $this->oProp->aPages[ $sPageSlug ]
 			: array();
 		$aThisPage = array(  
 			'title'				=> $sPageTitle,
@@ -177,17 +177,17 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			'type'					=> 'page',	// this is used to compare with the link type.
 			'hrefIcon32x32'			=> $this->oUtil->resolveSRC( $sScreenIcon, true ),
 			'screen_iconID'			=> in_array( $sScreenIcon, self::$_aScreenIconIDs ) ? $sScreenIcon : null,
-			'sCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
+			'sCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProp->sCapability,
 			'order'					=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'		=> $bShowPageHeadingTab,
 			'fShowInMenu'				=> $bShowInMenu,	// since 1.3.4			
-			'fShowPageTitle'			=> $this->oProps->bShowPageTitle,			// boolean
-			'fShowPageHeadingTabs'		=> $this->oProps->bShowPageHeadingTabs,		// boolean
-			'fShowInPageTabs'			=> $this->oProps->bShowInPageTabs,			// boolean
-			'sInPageTabTag'			=> $this->oProps->sInPageTabTag,			// string
-			'sPageHeadingTabTag'		=> $this->oProps->sPageHeadingTabTag,		// string			
+			'fShowPageTitle'			=> $this->oProp->bShowPageTitle,			// boolean
+			'fShowPageHeadingTabs'		=> $this->oProp->bShowPageHeadingTabs,		// boolean
+			'fShowInPageTabs'			=> $this->oProp->bShowInPageTabs,			// boolean
+			'sInPageTabTag'			=> $this->oProp->sInPageTabTag,			// string
+			'sPageHeadingTabTag'		=> $this->oProp->sPageHeadingTabTag,		// string			
 		);
-		$this->oProps->aPages[ $sPageSlug ] = $this->oUtil->uniteArraysRecursive( $aThisPage, $aPreviouslySetPage );
+		$this->oProp->aPages[ $sPageSlug ] = $this->oUtil->uniteArraysRecursive( $aThisPage, $aPreviouslySetPage );
 			
 	}
 	
@@ -214,13 +214,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	private function registerRootMenuPage() {
 
 		$sHookName = add_menu_page(  
-			$this->oProps->sClassName,						// Page title - will be invisible anyway
-			$this->oProps->aRootMenu['sTitle'],				// Menu title - should be the root page title.
-			$this->oProps->sCapability,						// Capability - access right
-			$this->oProps->aRootMenu['sPageSlug'],			// Menu ID 
-			'', //array( $this, $this->oProps->sClassName ), 	// Page content displaying function
-			$this->oProps->aRootMenu['sIcon16x16'],		// icon path
-			isset( $this->oProps->aRootMenu['iPosition'] ) ? $this->oProps->aRootMenu['iPosition'] : null	// menu position
+			$this->oProp->sClassName,						// Page title - will be invisible anyway
+			$this->oProp->aRootMenu['sTitle'],				// Menu title - should be the root page title.
+			$this->oProp->sCapability,						// Capability - access right
+			$this->oProp->aRootMenu['sPageSlug'],			// Menu ID 
+			'', //array( $this, $this->oProp->sClassName ), 	// Page content displaying function
+			$this->oProp->aRootMenu['sIcon16x16'],		// icon path
+			isset( $this->oProp->aRootMenu['iPosition'] ) ? $this->oProp->aRootMenu['iPosition'] : null	// menu position
 		);
 
 	}
@@ -251,7 +251,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		
 		// Add the sub-page to the sub-menu
 		$aResult = array();
-		$sRootPageSlug = $this->oProps->aRootMenu['sPageSlug'];
+		$sRootPageSlug = $this->oProp->aRootMenu['sPageSlug'];
 		$sMenuLabel = plugin_basename( $sRootPageSlug );	// Make it compatible with the add_submenu_page() function.
 		
 		// If it's a page - it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
@@ -266,7 +266,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 				$sPageSlug,	// menu_slug
 				// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $aResult[ $sPageSlug ] )
 				// will be executed and it triggers the __call magic method with the method name of "md5 class hash + _page_ + this page slug".
-				array( $this, $this->oProps->sClassHash . '_page_' . $sPageSlug )
+				array( $this, $this->oProp->sClassHash . '_page_' . $sPageSlug )
 			);			
 			
 			add_action( "load-" . $aResult[ $sPageSlug ] , array( $this, "load_pre_" . $sPageSlug ) );
@@ -283,7 +283,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 						unset( $GLOBALS['submenu'][ $sMenuLabel ][ $iIndex ] );
 						
 						// The page title in the browser window title bar will miss the page title as this is left as it is.
-						$this->oProps->aHiddenPages[ $sPageSlug ] = $sTitle;
+						$this->oProp->aHiddenPages[ $sPageSlug ] = $sTitle;
 						add_filter( 'admin_title', array( $this, 'fixPageTitleForHiddenPages' ), 10, 2 );
 						
 						break;
@@ -315,8 +315,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 */
 	public function fixPageTitleForHiddenPages( $sAdminTitle, $sPageTitle ) {
 
-		if ( isset( $_GET['page'], $this->oProps->aHiddenPages[ $_GET['page'] ] ) )
-			return $this->oProps->aHiddenPages[ $_GET['page'] ] . $sAdminTitle;
+		if ( isset( $_GET['page'], $this->oProp->aHiddenPages[ $_GET['page'] ] ) )
+			return $this->oProp->aHiddenPages[ $_GET['page'] ] . $sAdminTitle;
 			
 		return $sAdminTitle;
 		
@@ -330,35 +330,35 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	public function _replyToBuildMenu() {
 		
 		// If the root menu label is not set but the slug is set, 
-		if ( $this->oProps->aRootMenu['fCreateRoot'] ) 
+		if ( $this->oProp->aRootMenu['fCreateRoot'] ) 
 			$this->registerRootMenuPage();
 		
 		// Apply filters to let other scripts add sub menu pages.
-		$this->oProps->aPages = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+		$this->oProp->aPages = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			"{$this->oProps->sClassName}_pages", 
-			$this->oProps->aPages
+			"{$this->oProp->sClassName}_pages", 
+			$this->oProp->aPages
 		);
 		
 		// Sort the page array.
-		uasort( $this->oProps->aPages, array( $this->oProps, 'sortByOrder' ) ); 
+		uasort( $this->oProp->aPages, array( $this->oProp, 'sortByOrder' ) ); 
 		
 		// Set the default page, the first element.
-		foreach ( $this->oProps->aPages as $aPage ) {
+		foreach ( $this->oProp->aPages as $aPage ) {
 			
 			if ( ! isset( $aPage['page_slug'] ) ) continue;
-			$this->oProps->sDefaultPageSlug = $aPage['page_slug'];
+			$this->oProp->sDefaultPageSlug = $aPage['page_slug'];
 			break;
 			
 		}
 		
 		// Register them.
-		foreach ( $this->oProps->aPages as &$aSubMenuItem ) 
-			$this->oProps->aRegisteredSubMenuPages = $this->registerSubMenuPage( $aSubMenuItem );
+		foreach ( $this->oProp->aPages as &$aSubMenuItem ) 
+			$this->oProp->aRegisteredSubMenuPages = $this->registerSubMenuPage( $aSubMenuItem );
 						
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
-		if ( $this->oProps->aRootMenu['fCreateRoot'] ) 
-			remove_submenu_page( $this->oProps->aRootMenu['sPageSlug'], $this->oProps->aRootMenu['sPageSlug'] );
+		if ( $this->oProp->aRootMenu['fCreateRoot'] ) 
+			remove_submenu_page( $this->oProp->aRootMenu['sPageSlug'], $this->oProp->aRootMenu['sPageSlug'] );
 		
 	}	
 }

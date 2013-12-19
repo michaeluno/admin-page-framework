@@ -22,8 +22,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			! (
 				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
 				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
+					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
+					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) )		// edit post page
 				) 
 			)
 		) return;	
@@ -33,13 +33,13 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		if ( isset( $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) return;
 		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
 				
-		$oCaller = $this->oProps->getParentObject();		
+		$oCaller = $this->oProp->getParentObject();		
 				
 		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProps->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->sClassName}", $sStyle );
-		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProps->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->sClassName}", $sStyleIE );
+		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
+		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $sStyle );
+		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
+		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $sStyleIE );
 		if ( ! empty( $sStyle ) )
 			echo 
 				"<style type='text/css' id='admin-page-framework-style-meta-box'>" 
@@ -67,8 +67,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			! (
 				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
 				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
+					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
+					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) )		// edit post page
 				) 
 			)
 		) return;	
@@ -78,10 +78,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		if ( isset( $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) return;
 		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
 	
-		$oCaller = $this->oProps->getParentObject();
+		$oCaller = $this->oProp->getParentObject();
 		
 		// Print out the filtered scripts.
-		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->sClassName}", $this->oProps->sScript );
+		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProp->sClassName}", $this->oProp->sScript );
 		if ( ! empty( $sScript ) )
 			echo 
 				"<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
@@ -129,22 +129,22 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 		$sSRC = trim( $sSRC );
 		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProps->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
+		if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
 		
 		$sSRC = $this->oUtil->resolveSRC( $sSRC );
 		
 		$sSRCHash = md5( $sSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+		$this->oProp->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
 			( array ) $aCustomArgs,
 			array(		
 				'sSRC' => $sSRC,
-				'aPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
+				'aPostTypes' => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
 				'sType' => 'style',
-				'handle_id' => 'style_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedStyleIndex ),
+				'handle_id' => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
 			),
 			self::$_aStructure_EnqueuingScriptsAndStyles
 		);
-		return $this->oProps->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
+		return $this->oProp->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
 		
 	}
 	
@@ -187,22 +187,22 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 		$sSRC = trim( $sSRC );
 		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProps->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
+		if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
 		
 		$sSRC = $this->oUtil->resolveSRC( $sSRC );
 		
 		$sSRCHash = md5( $sSRC );	// setting the key based on the url prevents duplicate items
-		$this->oProps->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+		$this->oProp->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
 			( array ) $aCustomArgs,
 			array(		
 				'sSRC' => $sSRC,
-				'aPostTypes' => empty( $aPostTypes ) ? $this->oProps->aPostTypes : $aPostTypes,
+				'aPostTypes' => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
 				'sType' => 'script',
-				'handle_id' => 'script_' . $this->oProps->sClassName . '_' .  ( ++$this->oProps->iEnqueuedScriptIndex ),
+				'handle_id' => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
 			),
 			self::$_aStructure_EnqueuingScriptsAndStyles
 		);
-		return $this->oProps->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
+		return $this->oProp->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
 
 	/**

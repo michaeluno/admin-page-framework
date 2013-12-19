@@ -20,7 +20,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		if ( 
 			! (
 				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) 
-				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProps->sPostType )				
+				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )				
 			)
 		) return;	
 	
@@ -32,13 +32,13 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		if ( isset( $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) return;
 		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
 				
-		$oCaller = $this->oProps->getParentObject();		
+		$oCaller = $this->oProp->getParentObject();		
 				
 		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProps->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProps->sClassName}", $sStyle );
-		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProps->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProps->sClassName}", $sStyleIE );
+		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
+		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $sStyle );
+		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
+		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $sStyleIE );
 		if ( ! empty( $sStyle ) )
 			echo 
 				"<style type='text/css' id='admin-page-framework-style-post-type'>" 
@@ -63,7 +63,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		if ( 
 			! (
 				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) 
-				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProps->sPostType )				
+				&& ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )				
 			)
 		) return;	
 		
@@ -75,10 +75,10 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		if ( isset( $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) return;
 		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
 	
-		$oCaller = $this->oProps->getParentObject();
+		$oCaller = $this->oProp->getParentObject();
 		
 		// Print out the filtered scripts.
-		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProps->sClassName}", $this->oProps->sScript );
+		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProp->sClassName}", $this->oProp->sScript );
 		if ( ! empty( $sScript ) )
 			echo 
 				"<script type='text/javascript' id='admin-page-framework-script-post-type'>"

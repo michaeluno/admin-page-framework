@@ -178,7 +178,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* @access		protected
 	* @var			object			an instance of AdminPageFramework_Property_Page will be assigned in the constructor.
     */		
-	protected $oProps;	
+	protected $oProp;	
 	
 	/**
     * The object that provides the debug methods. 
@@ -222,6 +222,24 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	protected $oHeadTag;
 	
 	/**
+	 * Inserts page load information into the footer area of the page. 
+	 * 
+	 * @since			2.1.7
+	 * @access			protected
+	 * @var				object			
+	 */
+	protected $oPageLoadInfo;
+	
+	/**
+	 * Provides methods to manipulate contextual help pane.
+	 * 
+	 * @since			3.0.0
+	 * @access			protected
+	 * @var				object			
+	 */
+	protected $oHelpPane;
+	
+	/**
 	 * The constructor of the main class.
 	 * 
 	 * <h4>Example</h4>
@@ -240,12 +258,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ){
 				 		
 		// Objects
-		$this->oProps = new AdminPageFramework_Property_Page( $this, get_class( $this ), $sOptionKey, $sCapability );
+		$this->oProp = new AdminPageFramework_Property_Page( $this, get_class( $this ), $sOptionKey, $sCapability );
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
-		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProps, $this->oMsg );
-		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProps );
-		$this->oLink = new AdminPageFramework_Link( $this->oProps, $sCallerPath, $this->oMsg );
-		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProps );
+		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
+		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
+		$this->oLink = new AdminPageFramework_Link( $this->oProp, $sCallerPath, $this->oMsg );
+		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oDebug = new AdminPageFramework_Debug;
 								
@@ -255,51 +273,51 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		parent::__construct();
 																					
 		// For earlier loading than $this->setUp
-		$this->oUtil->addAndDoAction( $this, self::$_aPrefixes['start_'] . $this->oProps->sClassName );
+		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );
 
 	}	
-		
+
 	/**
-	 * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
-	 * 
-	 * @access			public
-	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
-	 * @param			string		$sMethodName		the called method name. 
-	 * @param			array		$aArgs			the argument array. The first element holds the parameters passed to the called method.
-	 * @return			mixed		depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
-	 * @since			2.0.0
-	 */
-	public function __call( $sMethodName, $aArgs=null ) {		
-				 
-		// Variables
-		// The currently loading in-page tab slug. Careful that not all cases $sMethodName have the page slug.
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProps->getDefaultInPageTab( $sPageSlug );	
-
-		// If it is a pre callback method, call the redirecting method.
-		// add_settings_section() callback
-		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' ) return $this->renderSectionDescription( $sMethodName );  // section_pre_
+	* The method for all the necessary set-ups.
+	* 
+	* The users should override this method to set-up necessary settings. 
+	* To perform certain tasks prior to this method, use the <em>start_ + extended class name</em> hook that is triggered at the end of the class constructor.
+	* 
+	* <h4>Example</h4>
+	* <code>public function setUp() {
+	* 	$this->setRootMenuPage( 'APF Form' ); 
+	* 	$this->addSubMenuItems(
+	* 		array(
+	* 			'title' => 'Form Fields',
+	* 			'page_slug' => 'apf_form_fields',
+	* 		)
+	* 	);		
+	* 	$this->addSettingSections(
+	* 		array(
+	* 			'section_id'		=> 'text_fields',
+	* 			'page_slug'		=> 'apf_form_fields',
+	* 			'title'			=> 'Text Fields',
+	* 			'description'	=> 'These are text type fields.',
+	* 		)
+	* 	);
+	* 	$this->addSettingFields(
+	* 		array(	
+	* 			'field_id' => 'text',
+	* 			'section_id' => 'text_fields',
+	* 			'title' => 'Text',
+	* 			'type' => 'text',
+	* 		)	
+	* 	);			
+	* }</code>
+	* @abstract
+	* @since			2.0.0
+	* @remark			This is a callback for the <em>wp_loaded</em> hook. Thus, its public.
+	* @remark			In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this is triggered with the <em>wp_loaded</em> hook.
+	* @access 			public
+	* @return			void
+	*/	
+	public function setUp() {}
 		
-		// add_settings_field() callback
-		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )	== 'field_pre_' ) return $this->renderSettingField( $aArgs[ 0 ], $sPageSlug );  // field_pre_
-		
-		// register_setting() callback
-		if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' ) return $this->doValidationCall( $sMethodName, $aArgs[ 0 ] );  // section_pre_
-
-		// load-{page} callback
-		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )	== 'load_pre_' ) return $this->doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load_pre_
-
-		// The callback of the call_page_{page slug} action hook
-		if ( $sMethodName == $this->oProps->sClassHash . '_page_' . $sPageSlug )
-			return $this->renderPage( $sPageSlug, $sTabSlug );	
-		
-		// If it's one of the framework's callback methods, do nothing.	
-		if ( $this->isFrameworkCallbackMethod( $sMethodName ) )
-			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter, otherwise, it's an action.		
-
-		
-	}	
-	
 	/*
 	 * Help Pane Methods
 	 */
@@ -419,73 +437,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	
 		return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
 	}
-	
-	/**
-	 * Determines whether the method name matches the pre-defined hook prefixes.
-	 * @access			private
-	 * @since			2.0.0
-	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
-	 * @param			string			$sMethodName			the called method name
-	 * @return			boolean			If it is a framework's callback method, returns true; otherwise, false.
-	 */
-	private function isFrameworkCallbackMethod( $sMethodName ) {
-
-		if ( substr( $sMethodName, 0, strlen( "{$this->oProps->sClassName}_" ) ) == "{$this->oProps->sClassName}_" )	// e.g. {instantiated class name} + _field_ + {field id}
-			return true;
-		
-		if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProps->sClassName}_" ) ) == "validation_{$this->oProps->sClassName}_" )	// e.g. validation_{instantiated class name}_ + {field id / input id}
-			return true;
-
-		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProps->sClassName}" ) ) == "field_types_{$this->oProps->sClassName}" )	// e.g. field_types_{instantiated class name}
-			return true;
-			
-		foreach( self::$_aPrefixes as $sPrefix ) {
-			if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
-				return true;
-		}
-		return false;
-	}
-	
-	/**
-	* The method for all the necessary set-ups.
-	* 
-	* The users should override this method to set-up necessary settings. 
-	* To perform certain tasks prior to this method, use the <em>start_ + extended class name</em> hook that is triggered at the end of the class constructor.
-	* 
-	* <h4>Example</h4>
-	* <code>public function setUp() {
-	* 	$this->setRootMenuPage( 'APF Form' ); 
-	* 	$this->addSubMenuItems(
-	* 		array(
-	* 			'title' => 'Form Fields',
-	* 			'page_slug' => 'apf_form_fields',
-	* 		)
-	* 	);		
-	* 	$this->addSettingSections(
-	* 		array(
-	* 			'section_id'		=> 'text_fields',
-	* 			'page_slug'		=> 'apf_form_fields',
-	* 			'title'			=> 'Text Fields',
-	* 			'description'	=> 'These are text type fields.',
-	* 		)
-	* 	);
-	* 	$this->addSettingFields(
-	* 		array(	
-	* 			'field_id' => 'text',
-	* 			'section_id' => 'text_fields',
-	* 			'title' => 'Text',
-	* 			'type' => 'text',
-	* 		)	
-	* 	);			
-	* }</code>
-	* @abstract
-	* @since			2.0.0
-	* @remark			This is a callback for the <em>wp_loaded</em> hook. Thus, its public.
-	* @remark			In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this is triggered with the <em>wp_loaded</em> hook.
-	* @access 			public
-	* @return			void
-	*/	
-	public function setUp() {}
 	
 	/**
 	* Adds sub-menu items on the left sidebar of the administration panel. 
@@ -647,9 +598,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		$this->oLink->addLinkToPluginTitle( func_get_args() );		
 	}
 	 
-	/*
-	 * Methods that access the properties.
-	 */
 	/**
 	 * Sets the overall capability.
 	 * 
@@ -658,12 +606,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @since			2.0.0
 	 * @see				http://codex.wordpress.org/Roles_and_Capabilities
-	 * @remark			The user may directly edit <code>$this->oProps->sCapability</code> instead.
+	 * @remark			The user may directly edit <code>$this->oProp->sCapability</code> instead.
 	 * @param			string			$sCapability			The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for the created pages.
 	 * @return			void
 	 */ 
 	protected function setCapability( $sCapability ) {
-		$this->oProps->sCapability = $sCapability;	
+		$this->oProp->sCapability = $sCapability;	
 	}
 
 	/**
@@ -673,17 +621,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <code>$this->setFooterInfoLeft( '&lt;br /&gt;Custom Text on the left hand side.' );</code>
 	 * 
 	 * @since			2.0.0
-	 * @remark			The user may directly edit <code>$this->oProps->aFooterInfo['sLeft']</code> instead.
+	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sLeft']</code> instead.
 	 * @param			string			$sHTML			The HTML code to insert.
 	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
 	protected function setFooterInfoLeft( $sHTML, $bAppend=true ) {
-		
-		$this->oProps->aFooterInfo['sLeft'] = $bAppend 
-			? $this->oProps->aFooterInfo['sLeft'] . $sHTML
+		$this->oProp->aFooterInfo['sLeft'] = $bAppend 
+			? $this->oProp->aFooterInfo['sLeft'] . PHP_EOL . $sHTML
 			: $sHTML;
-		
 	}
 	
 	/**
@@ -693,17 +639,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <code>$this->setFooterInfoRight( '&lt;br /&gt;Custom Text on the right hand side.' );</code>
 	 * 
 	 * @since			2.0.0
-	 * @remark			The user may directly edit <code>$this->oProps->aFooterInfo['sRight']</code> instead.
+	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sRight']</code> instead.
 	 * @param			string			$sHTML			The HTML code to insert.
 	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
 	protected function setFooterInfoRight( $sHTML, $bAppend=true ) {
-		
-		$this->oProps->aFooterInfo['sRight'] = $bAppend 
-			? $this->oProps->aFooterInfo['sRight'] . $sHTML
+		$this->oProp->aFooterInfo['sRight'] = $bAppend 
+			? $this->oProp->aFooterInfo['sRight'] . PHP_EOL . $sHTML
 			: $sHTML;
-		
 	}
 			
 	/**
@@ -721,12 +665,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	protected function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {
 			
 		$sID = $sID ? $sID : md5( $sMessage );
-		$this->oProps->aAdminNotices[ md5( $sMessage ) ] = array(  
+		$this->oProp->aAdminNotices[ md5( $sMessage ) ] = array(  
 			'sMessage' => $sMessage,
 			'sClassSelector' => $sClassSelector,
 			'sID' => $sID,
 		);
-		add_action( 'admin_notices', array( $this, 'printAdminNotices' ) );
+		add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
 		
 	}
 	/**
@@ -734,9 +678,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @since			2.1.2
 	 * @internal
 	 */
-	public function printAdminNotices() {
+	public function _replyToPrintAdminNotices() {
 		
-		foreach( $this->oProps->aAdminNotices as $aAdminNotice ) 
+		foreach( $this->oProp->aAdminNotices as $aAdminNotice ) 
 			echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' ><p>"
 				. $aAdminNotice['sMessage']
 				. "</p></div>";
@@ -747,24 +691,82 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the disallowed query keys in the links that the framework generates.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setDisallowedQueryKeys( array( 'my-custom-admin-notice' ) );</code>
+	 * <code>$this->setDisallowedQueryKeys( 'my-custom-admin-notice' );</code>
 	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
+	 * @since			3.0.0			It also accepts a string.
 	 */
-	public function setDisallowedQueryKeys( $aQueryKeys, $bAppend=true ) {
+	public function setDisallowedQueryKeys( $asQueryKeys, $bAppend=true ) {
 		
 		if ( ! $bAppend ) {
-			$this->oProps->aDisallowedQueryKeys = $aQueryKeys;
+			$this->oProp->aDisallowedQueryKeys = ( array ) $asQueryKeys;
 			return;
 		}
 		
-		$aNewQueryKeys = array_merge( $aQueryKeys, $this->oProps->aDisallowedQueryKeys );
+		$aNewQueryKeys = array_merge( ( array ) $asQueryKeys, $this->oProp->aDisallowedQueryKeys );
 		$aNewQueryKeys = array_filter( $aNewQueryKeys );	// drop non-values
 		$aNewQueryKeys = array_unique( $aNewQueryKeys );	// drop duplicates
-		$this->oProps->aDisallowedQueryKeys = $aNewQueryKeys;
+		$this->oProp->aDisallowedQueryKeys = $aNewQueryKeys;
 		
 	}
+	
+	/**
+	 * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
+	 * 
+	 * @access			public
+	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
+	 * @param			string		$sMethodName		the called method name. 
+	 * @param			array		$aArgs			the argument array. The first element holds the parameters passed to the called method.
+	 * @return			mixed		depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
+	 * @since			2.0.0
+	 */
+	public function __call( $sMethodName, $aArgs=null ) {		
+				 
+		// The currently loading in-page tab slug. Be careful that not all cases $sMethodName have the page slug.
+		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
+		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
+
+		// If it is a pre callback method, call the redirecting method.		
+		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' ) return $this->renderSectionDescription( $sMethodName );  // add_settings_section() callback				
+		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )	== 'field_pre_' ) return $this->renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback		
+		if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' ) return $this->doValidationCall( $sMethodName, $aArgs[ 0 ] ); // register_setting() callback
+		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )	== 'load_pre_' ) return $this->doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
+
+		// The callback of the call_page_{page slug} action hook
+		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug )
+			return $this->renderPage( $sPageSlug, $sTabSlug );	
+		
+		// If it's one of the framework's callback methods, do nothing.	
+		if ( $this->_isFrameworkCallbackMethod( $sMethodName ) )
+			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter, otherwise, it's an action.		
+		
+	}	
+		/**
+		 * Determines whether the method name matches the pre-defined hook prefixes.
+		 * @access			private
+		 * @since			2.0.0
+		 * @remark			the users do not need to call or extend this method unless they know what they are doing.
+		 * @param			string			$sMethodName			the called method name
+		 * @return			boolean			If it is a framework's callback method, returns true; otherwise, false.
+		 */
+		private function _isFrameworkCallbackMethod( $sMethodName ) {
+
+			if ( substr( $sMethodName, 0, strlen( "{$this->oProp->sClassName}_" ) ) == "{$this->oProp->sClassName}_" )	// e.g. {instantiated class name} + _field_ + {field id}
+				return true;
+			
+			if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProp->sClassName}_" ) ) == "validation_{$this->oProp->sClassName}_" )	// e.g. validation_{instantiated class name}_ + {field id / input id}
+				return true;
+
+			if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" )	// e.g. field_types_{instantiated class name}
+				return true;
+				
+			foreach( self::$_aPrefixes as $sPrefix ) {
+				if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
+					return true;
+			}
+			return false;
+		}
 	
 }
 endif;

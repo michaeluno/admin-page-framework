@@ -114,11 +114,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		// Check if the same message has been added already.
 		$aWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
-		$sID = isset( $sID ) ? $sID : $this->oProps->sOptionKey; 	// the id attribute for the message div element.
+		$sID = isset( $sID ) ? $sID : $this->oProp->sOptionKey; 	// the id attribute for the message div element.
 
 		foreach( $aWPSettingsErrors as $iIndex => $aSettingsError ) {
 			
-			if ( $aSettingsError['setting'] != $this->oProps->sOptionKey ) continue;
+			if ( $aSettingsError['setting'] != $this->oProp->sOptionKey ) continue;
 						
 			// If the same message is added, no need to add another.
 			if ( $aSettingsError['message'] == $sMsg ) return;
@@ -134,7 +134,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		}
 
 		add_settings_error( 
-			$this->oProps->sOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
+			$this->oProp->sOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
 			$sID, 
 			$sMsg,	// error or updated
 			$sType
@@ -228,10 +228,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( ! $aSection['fIf'] ) return;
 		
 		// If the access level is set and it is not sufficient, skip.
-		$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProps->sCapability;
+		$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProp->sCapability;
 		if ( ! current_user_can( $aSection['sCapability'] ) ) return;	// since 1.0.2.1
 		
-		$this->oProps->aSections[ $aSection['section_id'] ] = $aSection;	
+		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
 			
 	}
 	
@@ -256,8 +256,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	protected function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {	
 		
 		foreach( func_get_args() as $sSectionID ) 
-			if ( isset( $this->oProps->aSections[ $sSectionID ] ) )
-				unset( $this->oProps->aSections[ $sSectionID ] );
+			if ( isset( $this->oProp->aSections[ $sSectionID ] ) )
+				unset( $this->oProp->aSections[ $sSectionID ] );
 		
 	}
 	
@@ -510,10 +510,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( ! $aField['fIf'] ) return;			
 		
 		// If the access level is not sufficient, skip.
-		$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProps->sCapability;
+		$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProp->sCapability;
 		if ( ! current_user_can( $aField['sCapability'] ) ) return; 
 								
-		$this->oProps->aFields[ $aField['field_id'] ] = $aField;		
+		$this->oProp->aFields[ $aField['field_id'] ] = $aField;		
 		
 	}
 	
@@ -538,8 +538,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	protected function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
 				
 		foreach( func_get_args() as $sFieldID ) 
-			if ( isset( $this->oProps->aFields[ $sFieldID ] ) )
-				unset( $this->oProps->aFields[ $sFieldID ] );
+			if ( isset( $this->oProp->aFields[ $sFieldID ] ) )
+				unset( $this->oProp->aFields[ $sFieldID ] );
 
 	}	
 	
@@ -555,7 +555,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	protected function doPageLoadCall( $sPageSlug, $sTabSlug, $aArg ) {
 
 		// Do actions, class name -> page -> in-page tab.
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
 		
 	}
 			
@@ -580,9 +580,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		// Check if custom submit keys are set [part 1]
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
-			return $this->importOptions( $this->oProps->aOptions, $sPageSlug, $sTabSlug );
+			return $this->importOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug );
 		if ( isset( $_POST['__export']['submit'] ) ) 
-			die( $this->exportOptions( $this->oProps->aOptions, $sPageSlug, $sTabSlug ) );		
+			die( $this->exportOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug ) );		
 		if ( isset( $_POST['__reset_confirm'] ) && $sPressedFieldName = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__reset_confirm'], 'key' ) )
 			return $this->askResetOptions( $sPressedFieldName, $sPageSlug );			
 		if ( isset( $_POST['__link'] ) && $sLinkURL = $this->getPressedCustomSubmitButtonSiblingValue( $_POST['__link'], 'url' ) )
@@ -602,7 +602,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$this->setSettingNotice( 
 			$bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
 			$bEmpty ? 'error' : 'updated', 
-			$this->oProps->sOptionKey,	// the id
+			$this->oProp->sOptionKey,	// the id
 			false	// do not override
 		);
 		
@@ -646,14 +646,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	private function resetOptions( $sKeyToReset, $aInput ) {
 		
 		if ( $sKeyToReset == 1 or $sKeyToReset === true ) {
-			delete_option( $this->oProps->sOptionKey );
+			delete_option( $this->oProp->sOptionKey );
 			$this->setSettingNotice( $this->oMsg->__( 'option_been_reset' ) );
 			return array();
 		}
 		
-		unset( $this->oProps->aOptions[ trim( $sKeyToReset ) ] );
+		unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ] );
 		unset( $aInput[ trim( $sKeyToReset ) ] );
-		update_option( $this->oProps->sOptionKey, $this->oProps->aOptions );
+		update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
 		$this->setSettingNotice( $this->oMsg->__( 'specified_option_been_deleted' ) );
 	
 		return $aInput;	// the returned array will be saved with the Settings API.
@@ -661,7 +661,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	
 	private function setRedirectTransients( $sURL ) {
 		if ( empty( $sURL ) ) return;
-		$sTransient = md5( trim( "redirect_{$this->oProps->sClassName}_{$_POST['page_slug']}" ) );
+		$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_POST['page_slug']}" ) );
 		return set_transient( $sTransient, $sURL , 60*2 );
 	}
 		
@@ -731,7 +731,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to the data format type.
 		$sFormatType = $this->oUtil->addAndApplyFilters(
 			$this,
-			array( "import_format_{$sPageSlug}_{$sTabSlug}", "import_format_{$sPageSlug}", "import_format_{$this->oProps->sClassName}_{$sPressedInputID}", "import_format_{$this->oProps->sClassName}_{$sPressedFieldID}", "import_format_{$this->oProps->sClassName}" ),
+			array( "import_format_{$sPageSlug}_{$sTabSlug}", "import_format_{$sPageSlug}", "import_format_{$this->oProp->sClassName}_{$sPressedInputID}", "import_format_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_format_{$this->oProp->sClassName}" ),
 			$oImport->getFormatType(),	// the set format type, array, json, or text.
 			$sPressedFieldID,
 			$sPressedInputID
@@ -744,7 +744,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to the importing option key.
 		$sImportOptionKey = $this->oUtil->addAndApplyFilters(
 			$this,
-			array( "import_option_key_{$sPageSlug}_{$sTabSlug}", "import_option_key_{$sPageSlug}", "import_option_key_{$this->oProps->sClassName}_{$sPressedInputID}", "import_option_key_{$this->oProps->sClassName}_{$sPressedFieldID}", "import_option_key_{$this->oProps->sClassName}" ),
+			array( "import_option_key_{$sPageSlug}_{$sTabSlug}", "import_option_key_{$sPageSlug}", "import_option_key_{$this->oProp->sClassName}_{$sPressedInputID}", "import_option_key_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_option_key_{$this->oProp->sClassName}" ),
 			$oImport->getSiblingValue( 'import_option_key' ),	
 			$sPressedFieldID,
 			$sPressedInputID
@@ -753,7 +753,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to the importing data.
 		$vData = $this->oUtil->addAndApplyFilters(
 			$this,
-			array( "import_{$sPageSlug}_{$sTabSlug}", "import_{$sPageSlug}", "import_{$this->oProps->sClassName}_{$sPressedInputID}", "import_{$this->oProps->sClassName}_{$sPressedFieldID}", "import_{$this->oProps->sClassName}" ),
+			array( "import_{$sPageSlug}_{$sTabSlug}", "import_{$sPageSlug}", "import_{$this->oProp->sClassName}_{$sPressedInputID}", "import_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_{$this->oProp->sClassName}" ),
 			$vData,
 			$aStoredOptions,
 			$sPressedFieldID,
@@ -768,11 +768,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$this->setSettingNotice( 
 			$bEmpty ? $this->oMsg->__( 'not_imported_data' ) : $this->oMsg->__( 'imported_data' ), 
 			$bEmpty ? 'error' : 'updated',
-			$this->oProps->sOptionKey,	// message id
+			$this->oProp->sOptionKey,	// message id
 			false	// do not override 
 		);
 				
-		if ( $sImportOptionKey != $this->oProps->sOptionKey ) {
+		if ( $sImportOptionKey != $this->oProp->sOptionKey ) {
 			update_option( $sImportOptionKey, $vData );
 			return $aStoredOptions;	// do not change the framework's options.
 		}
@@ -785,7 +785,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	}
 	private function exportOptions( $vData, $sPageSlug, $sTabSlug ) {
 
-		$oExport = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProps->sClassName );
+		$oExport = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProp->sClassName );
 		$sPressedFieldID = $oExport->getSiblingValue( 'field_id' );
 		$sPressedInputID = $oExport->getSiblingValue( 'input_id' );
 		
@@ -799,7 +799,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// and the magic method should be triggered.			
 		$vData = $this->oUtil->addAndApplyFilters(
 			$this,
-			array( "export_{$sPageSlug}_{$sTabSlug}", "export_{$sPageSlug}", "export_{$this->oProps->sClassName}_{$sPressedInputID}", "export_{$this->oProps->sClassName}_{$sPressedFieldID}", "export_{$this->oProps->sClassName}" ),
+			array( "export_{$sPageSlug}_{$sTabSlug}", "export_{$sPageSlug}", "export_{$this->oProp->sClassName}_{$sPressedInputID}", "export_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_{$this->oProp->sClassName}" ),
 			$vData,
 			$sPressedFieldID,
 			$sPressedInputID
@@ -807,7 +807,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		$sFileName = $this->oUtil->addAndApplyFilters(
 			$this,
-			array( "export_name_{$sPageSlug}_{$sTabSlug}", "export_name_{$sPageSlug}", "export_name_{$this->oProps->sClassName}_{$sPressedInputID}", "export_name_{$this->oProps->sClassName}_{$sPressedFieldID}", "export_name_{$this->oProps->sClassName}" ),
+			array( "export_name_{$sPageSlug}_{$sTabSlug}", "export_name_{$sPageSlug}", "export_name_{$this->oProp->sClassName}_{$sPressedInputID}", "export_name_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_name_{$this->oProp->sClassName}" ),
 			$oExport->getFileName(),
 			$sPressedFieldID,
 			$sPressedInputID
@@ -815,7 +815,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	
 		$sFormatType = $this->oUtil->addAndApplyFilters(
 			$this,
-			array( "export_format_{$sPageSlug}_{$sTabSlug}", "export_format_{$sPageSlug}", "export_format_{$this->oProps->sClassName}_{$sPressedInputID}", "export_format_{$this->oProps->sClassName}_{$sPressedFieldID}", "export_format_{$this->oProps->sClassName}" ),
+			array( "export_format_{$sPageSlug}_{$sTabSlug}", "export_format_{$sPageSlug}", "export_format_{$this->oProp->sClassName}_{$sPressedInputID}", "export_format_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_format_{$this->oProp->sClassName}" ),
 			$oExport->getFormat(),
 			$sPressedFieldID,
 			$sPressedInputID
@@ -852,14 +852,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 		// for the input ID
 		if ( $sPressedInputID )
-			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->sClassName}_{$sPressedInputID}", $aInput, $this->oProps->aOptions );
+			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedInputID}", $aInput, $this->oProp->aOptions );
 		
 		// for the field ID
 		if ( $sPressedFieldID )
-			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->sClassName}_{$sPressedFieldID}", $aInput, $this->oProps->aOptions );
+			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedFieldID}", $aInput, $this->oProp->aOptions );
 		
 		// for the class
-		$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProps->sClassName}", $aInput, $this->oProps->aOptions );
+		$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $this->oProp->aOptions );
 
 		return $aInput;
 	
@@ -877,8 +877,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	private function getPageOptions( $sPageSlug ) {
 				
 		$aStoredPageOptions = array();
-		if ( isset( $this->oProps->aOptions[ $sPageSlug ] ) )
-			$aStoredPageOptions[ $sPageSlug ] = $this->oProps->aOptions[ $sPageSlug ];
+		if ( isset( $this->oProp->aOptions[ $sPageSlug ] ) )
+			$aStoredPageOptions[ $sPageSlug ] = $this->oProp->aOptions[ $sPageSlug ];
 		
 		return $aStoredPageOptions;
 		
@@ -897,8 +897,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	private function getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 	
 		$aOtherTabOptions = array();
-		if ( isset( $this->oProps->aOptions[ $sPageSlug ] ) )
-			$aOtherTabOptions[ $sPageSlug ] = $this->oProps->aOptions[ $sPageSlug ];
+		if ( isset( $this->oProp->aOptions[ $sPageSlug ] ) )
+			$aOtherTabOptions[ $sPageSlug ] = $this->oProp->aOptions[ $sPageSlug ];
 			
 		// Remove the elements of the given keys so that the other stored elements will remain. 
 		// They are the other form section elements which need to be returned.
@@ -919,7 +919,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	private function getOtherPageOptions( $sPageSlug ) {
 	
-		$aOtherPageOptions = $this->oProps->aOptions;
+		$aOtherPageOptions = $this->oProp->aOptions;
 		if ( isset( $aOtherPageOptions[ $sPageSlug ] ) )
 			unset( $aOtherPageOptions[ $sPageSlug ] );
 		return $aOtherPageOptions;
@@ -937,26 +937,26 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	protected function renderSettingField( $sFieldID, $sPageSlug ) {
 			
 		// If the specified field does not exist, do nothing.
-		if ( ! isset( $this->oProps->aFields[ $sFieldID ] ) ) return;	// if it is not added, return
-		$aField = $this->oProps->aFields[ $sFieldID ];
+		if ( ! isset( $this->oProp->aFields[ $sFieldID ] ) ) return;	// if it is not added, return
+		$aField = $this->oProp->aFields[ $sFieldID ];
 		
 		// Retrieve the field error array.
 		$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->getFieldErrors( $sPageSlug ); 
 
 		// Render the form field. 		
-		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
+		$sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-		$oField = new AdminPageFramework_InputField( $aField, $this->oProps->aOptions, $this->aFieldErrors, $this->oProps->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );
+		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );
 		$sFieldOutput = $oField->getInputField( $sFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProps->sClassName . '_' .  self::$_aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
-				self::$_aPrefixesForCallbacks['field_'] . $this->oProps->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
+				$this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
+				self::$_aPrefixesForCallbacks['field_'] . $this->oProp->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
 			),
 			$sFieldOutput,
 			$aField // the field array
@@ -976,7 +976,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( ! isset( $_GET['settings-updated'] ) ) return null;
 		
 		// Find the transient.
-		$sTransient = md5( $this->oProps->sClassName . '_' . $sPageSlug );
+		$sTransient = md5( $this->oProp->sClassName . '_' . $sPageSlug );
 		$aFieldErrors = get_transient( $sTransient );
 		if ( $bDelete )
 			delete_transient( $sTransient );	
@@ -1018,8 +1018,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	protected function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {
 		
-		$sID = isset( $sID ) ? $sID : ( isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProps->sClassName ) );	
-		set_transient( md5( $this->oProps->sClassName . '_' . $sID ), $aErrors, $nSavingDuration );	// store it for 5 minutes ( 60 seconds * 5 )
+		$sID = isset( $sID ) ? $sID : ( isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProp->sClassName ) );	
+		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $nSavingDuration );	// store it for 5 minutes ( 60 seconds * 5 )
 	
 	}
 
@@ -1036,16 +1036,16 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 		$sSectionID = substr( $sMethodName, strlen( 'section_pre_' ) );	// X will be the section ID in section_pre_X
 		
-		if ( ! isset( $this->oProps->aSections[ $sSectionID ] ) ) return;	// if it is not added
+		if ( ! isset( $this->oProp->aSections[ $sSectionID ] ) ) return;	// if it is not added
 		
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProps->sClassName . '_' .  self::$_aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
-				self::$_aPrefixesForCallbacks['section_'] . $this->oProps->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
+				$this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
+				self::$_aPrefixesForCallbacks['section_'] . $this->oProp->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
 			),
-			'<p>' . $this->oProps->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
-			$this->oProps->aSections[ $sSectionID ]['description']	// the original description
+			'<p>' . $this->oProp->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
+			$this->oProp->aSections[ $sSectionID ]['description']	// the original description
 		);		
 			
 	}
@@ -1057,8 +1057,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @return			string|null
 	 */ 
 	private function getPageSlugBySectionID( $sSectionID ) {
-		return isset( $this->oProps->aSections[ $sSectionID ]['page_slug'] )
-			? $this->oProps->aSections[ $sSectionID ]['page_slug']
+		return isset( $this->oProp->aSections[ $sSectionID ]['page_slug'] )
+			? $this->oProp->aSections[ $sSectionID ]['page_slug']
 			: null;			
 	}
 	
@@ -1070,7 +1070,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	public function _replyToCheckRedirects() {
 
 		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
-		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProps->isPageAdded( $_GET['page'] ) ) return; 
+		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProp->isPageAdded( $_GET['page'] ) ) return; 
 		
 		// If the Settings API has not updated the options, do nothing.
 		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
@@ -1080,7 +1080,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( ! empty( $aError ) ) return;
 		
 		// Okay, it seems the submitted data have been updated successfully.
-		$sTransient = md5( trim( "redirect_{$this->oProps->sClassName}_{$_GET['page']}" ) );
+		$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
 		$sURL = get_transient( $sTransient );
 		if ( $sURL === false ) return;
 		
@@ -1114,28 +1114,28 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	public function _replyToRegisterSettings() {
 		
 		// Format ( sanitize ) the section and field arrays.
-		$this->oProps->aSections = $this->formatSectionArrays( $this->oProps->aSections );
-		$this->oProps->aFields = $this->formatFieldArrays( $this->oProps->aFields );	// must be done after the formatSectionArrays().
+		$this->oProp->aSections = $this->formatSectionArrays( $this->oProp->aSections );
+		$this->oProp->aFields = $this->formatFieldArrays( $this->oProp->aFields );	// must be done after the formatSectionArrays().
 				
 		// If there is no section or field to add, do nothing.
 		if ( 
 			$GLOBALS['pagenow'] != 'options.php'
-			&& ( count( $this->oProps->aSections ) == 0 || count( $this->oProps->aFields ) == 0 ) 
+			&& ( count( $this->oProp->aSections ) == 0 || count( $this->oProp->aFields ) == 0 ) 
 		) return;
 				
 		// Define field types.
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->aFieldTypeDefinitions, $this->oProps->sClassName, $this->oMsg );
+		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
 
-		$this->oProps->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			self::$_aPrefixesForCallbacks['field_types_'] . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
-			$this->oProps->aFieldTypeDefinitions
+			self::$_aPrefixesForCallbacks['field_types_'] . $this->oProp->sClassName,	// 'field_types_' . {extended class name}
+			$this->oProp->aFieldTypeDefinitions
 		);		
 
 		// Register settings sections 
-		uasort( $this->oProps->aSections, array( $this->oProps, 'sortByOrder' ) ); 
-		foreach( $this->oProps->aSections as $aSection ) {
+		uasort( $this->oProp->aSections, array( $this->oProp, 'sortByOrder' ) ); 
+		foreach( $this->oProp->aSections as $aSection ) {
 			add_settings_section(	// Add the given section
 				$aSection['section_id'],	//  section ID
 				"<a id='{$aSection['section_id']}'></a>" . $aSection['title'],		// title - place the anchor in front of the title.
@@ -1159,8 +1159,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		// Register settings fields
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		uasort( $this->oProps->aFields, array( $this->oProps, 'sortByOrder' ) ); 
-		foreach( $this->oProps->aFields as $aField ) {
+		uasort( $this->oProp->aFields, array( $this->oProp, 'sortByOrder' ) ); 
+		foreach( $this->oProp->aFields as $aField ) {
 
 			add_settings_field(	// Add the given field.
 				$aField['field_id'],
@@ -1191,11 +1191,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		}
 		
 		// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
-		$this->oProps->bEnableForm = true;
+		$this->oProp->bEnableForm = true;
 		register_setting(	
-			$this->oProps->sOptionKey,	// the option group name.	
-			$this->oProps->sOptionKey,	// the option key name that will be stored in the option table in the database.
-			array( $this, 'validation_pre_' . $this->oProps->sClassName )	// validation method
+			$this->oProp->sOptionKey,	// the option group name.	
+			$this->oProp->sOptionKey,	// the option key name that will be stored in the option table in the database.
+			array( $this, 'validation_pre_' . $this->oProp->sClassName )	// validation method
 		); 
 		
 	}
@@ -1215,22 +1215,22 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
 
 			// If the field type is not defined, return.
-			if ( ! isset( $this->oProps->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
+			if ( ! isset( $this->oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
 
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
-				call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
+				call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
 			
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
-				$this->oProps->sScript .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
+				$this->oProp->sScript .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
-				$this->oProps->sStyle .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
+				$this->oProp->sStyle .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
-				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
+				$this->oProp->sStyleIE .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
 				
-			$this->oHeadTag->_enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
-			$this->oHeadTag->_enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
+			$this->oHeadTag->_enqueueStyles( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			$this->oHeadTag->_enqueueScripts( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}
 	
@@ -1245,7 +1245,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to let other scripts to add sections.
 		$aSections = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			"{$this->oProps->sClassName}_setting_sections",
+			"{$this->oProp->sClassName}_setting_sections",
 			$aSections
 		);
 		
@@ -1273,7 +1273,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			if ( ! $this->isSettingSectionOfCurrentTab( $aSection ) )  continue;
 			
 			// If the access level is set and it is not sufficient, skip.
-			$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProps->sCapability;
+			$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProp->sCapability;
 			if ( ! current_user_can( $aSection['sCapability'] ) ) continue;	// since 1.0.2.1
 		
 			// If a custom condition is set and it's not true, skip,
@@ -1312,9 +1312,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// 2. If $_GET['tab'] is not set and the page slug is stored in the tab array, 
 		// consider the default tab which should be loaded without the tab query value in the url
 		$sPageSlug = $aSection['page_slug'];
-		if ( ! isset( $_GET['tab'] ) && isset( $this->oProps->aInPageTabs[ $sPageSlug ] ) ) {
+		if ( ! isset( $_GET['tab'] ) && isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) {
 		
-			$sDefaultTabSlug = isset( $this->oProps->aDefaultInPageTabs[ $sPageSlug ] ) ? $this->oProps->aDefaultInPageTabs[ $sPageSlug ] : '';
+			$sDefaultTabSlug = isset( $this->oProp->aDefaultInPageTabs[ $sPageSlug ] ) ? $this->oProp->aDefaultInPageTabs[ $sPageSlug ] : '';
 			if ( $sDefaultTabSlug  == $aSection['tab_slug'] ) return true;		// should be registered.			
 				
 		}
@@ -1334,7 +1334,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Apply filters to let other scripts to add fields.
 		$aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
 			$this,
-			"{$this->oProps->sClassName}_setting_fields",
+			"{$this->oProp->sClassName}_setting_fields",
 			$aFields
 		); 
 		
@@ -1352,13 +1352,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			// If the section that this field belongs to is not set, no need to register this field.
 			// The $aSection property must be formatted prior to perform this method.
-			if ( ! isset( $this->oProps->aSections[ $aField['section_id'] ] ) ) continue;
+			if ( ! isset( $this->oProp->aSections[ $aField['section_id'] ] ) ) continue;
 			
 			// Check the mandatory keys' values.
 			if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) continue;	// these keys are necessary.
 			
 			// If the access level is not sufficient, skip.
-			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProps->sCapability;
+			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProp->sCapability;
 			if ( ! current_user_can( $aField['sCapability'] ) ) continue; 
 						
 			// If the condition is not met, skip.
@@ -1369,12 +1369,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			// Set the tip, option key, instantiated class name, and page slug elements.
 			$aField['tip'] = strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] );
-			$aField['sOptionKey'] = $this->oProps->sOptionKey;
-			$aField['sClassName'] = $this->oProps->sClassName;
+			$aField['sOptionKey'] = $this->oProp->sOptionKey;
+			$aField['sClassName'] = $this->oProp->sClassName;
 			// $aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
-			$aField['page_slug'] = $this->oProps->aSections[ $aField['section_id'] ]['page_slug'];
-			$aField['tab_slug'] = $this->oProps->aSections[ $aField['section_id'] ]['tab_slug'];
-			$aField['sSectionTitle'] = $this->oProps->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
+			$aField['page_slug'] = $this->oProp->aSections[ $aField['section_id'] ]['page_slug'];
+			$aField['tab_slug'] = $this->oProp->aSections[ $aField['section_id'] ]['tab_slug'];
+			$aField['sSectionTitle'] = $this->oProp->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
 			
 			// Add the element to the new returning array.
 			$aNewFieldArrays[ $aField['field_id'] ] = $aField;
@@ -1393,7 +1393,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */
 	protected function getFieldValue( $sFieldNameToFind ) {
 
-		foreach( $this->oProps->aOptions as $sPageSlug => $aSections )  
+		foreach( $this->oProp->aOptions as $sPageSlug => $aSections )  
 			foreach( $aSections as $sSectionName => $aFields ) 
 				foreach( $aFields as $sFieldName => $vValue ) 
 					if ( trim( $sFieldNameToFind ) == trim( $sFieldName ) )

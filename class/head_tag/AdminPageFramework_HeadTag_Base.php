@@ -34,9 +34,9 @@ abstract class AdminPageFramework_HeadTag_Base {
 		
 	);	
 	
-	function __construct( $oProps ) {
+	function __construct( $oProp ) {
 		
-		$this->oProps = $oProps;
+		$this->oProp = $oProp;
 		$this->oUtil = new AdminPageFramework_Utility;
 				
 		// Hook the admin header to insert custom admin stylesheet.
@@ -90,7 +90,7 @@ abstract class AdminPageFramework_HeadTag_Base {
 	 * @internal
 	 */	
 	public function _replyToEnqueueStyles() {	
-		foreach( $this->oProps->aEnqueuingStyles as $sKey => $aEnqueuingStyle ) 
+		foreach( $this->oProp->aEnqueuingStyles as $sKey => $aEnqueuingStyle ) 
 			$this->_enqueueSRCByConditoin( $aEnqueuingStyle );
 	}
 	
@@ -104,7 +104,7 @@ abstract class AdminPageFramework_HeadTag_Base {
 	 * @internal
 	 */
 	public function _replyToEnqueueScripts() {							
-		foreach( $this->oProps->aEnqueuingScripts as $sKey => $aEnqueuingScript ) 
+		foreach( $this->oProp->aEnqueuingScripts as $sKey => $aEnqueuingScript ) 
 			$this->_enqueueSRCByConditoin( $aEnqueuingScript );				
 	}
 	

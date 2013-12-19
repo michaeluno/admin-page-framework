@@ -11,9 +11,9 @@ if ( ! class_exists( 'AdminPageFramework_HelpPane_MetaBox' ) ) :
  */
 class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Base {
 	
-	function __construct( $oProps ) {
+	function __construct( $oProp ) {
 		
-		$this->oProps = $oProps;
+		$this->oProp = $oProp;
 		
 		// the contextual help pane
 		add_action( "load-{$GLOBALS['pagenow']}", array( $this, '_replyToRegisterHelpTabTextForMetaBox' ), 20 );	
@@ -30,8 +30,8 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 	 * @internal
 	 */ 
 	public function _addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
-		$this->oProps->aHelpTabText[] = "<div class='contextual-help-description'>" . $sHTMLContent . "</div>";
-		$this->oProps->aHelpTabTextSide[] = "<div class='contextual-help-description'>" . $sHTMLSidebarContent . "</div>";
+		$this->oProp->aHelpTabText[] = "<div class='contextual-help-description'>" . $sHTMLContent . "</div>";
+		$this->oProp->aHelpTabTextSide[] = "<div class='contextual-help-description'>" . $sHTMLSidebarContent . "</div>";
 	}
 	
 	/**
@@ -65,15 +65,15 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 	public function _replyToRegisterHelpTabTextForMetaBox() {
 	
 		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return;
-		if ( isset( $_GET['post_type'] ) && ! in_array( $_GET['post_type'], $this->oProps->aPostTypes ) ) return;
-		if ( ! isset( $_GET['post_type'] ) && ! in_array( 'post', $this->oProps->aPostTypes ) ) return;
-		if ( isset( $_GET['post'], $_GET['action'] ) && ! in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) ) return; // edit post page
+		if ( isset( $_GET['post_type'] ) && ! in_array( $_GET['post_type'], $this->oProp->aPostTypes ) ) return;
+		if ( ! isset( $_GET['post_type'] ) && ! in_array( 'post', $this->oProp->aPostTypes ) ) return;
+		if ( isset( $_GET['post'], $_GET['action'] ) && ! in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) ) return; // edit post page
 		
 		$this->_setHelpTab( 	// this method is defined in the base class.
-			$this->oProps->sMetaBoxID, 
-			$this->oProps->sTitle, 
-			$this->oProps->aHelpTabText, 
-			$this->oProps->aHelpTabTextSide 
+			$this->oProp->sMetaBoxID, 
+			$this->oProp->sTitle, 
+			$this->oProp->aHelpTabText, 
+			$this->oProp->aHelpTabTextSide 
 		);
 		
 	}

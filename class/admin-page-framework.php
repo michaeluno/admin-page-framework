@@ -643,26 +643,26 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	 * The property object, commonly shared.
 	 * @since			2.0.0
 	 */ 
-	private $oProps;
+	private $oProp;
 	
-	public function __construct( &$oProps, $sCallerPath=null, $oMsg=null ) {
+	public function __construct( &$oProp, $sCallerPath=null, $oMsg=null ) {
 		
 		if ( ! is_admin() ) return;
 		
-		$this->oProps = $oProps;
+		$this->oProp = $oProp;
 		$this->sCallerPath = file_exists( $sCallerPath ) ? $sCallerPath : $this->getCallerPath();
-		$this->oProps->aScriptInfo = $this->getCallerInfo( $this->sCallerPath ); 
-		$this->oProps->aLibraryInfo = $this->getLibraryInfo();
+		$this->oProp->aScriptInfo = $this->getCallerInfo( $this->sCallerPath ); 
+		$this->oProp->aLibraryInfo = $this->getLibraryInfo();
 		$this->oMsg = $oMsg;
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-		$this->setFooterInfoLeft( $this->oProps->aScriptInfo, $this->oProps->aFooterInfo['sLeft'] );
-		$this->setFooterInfoRight( $this->oProps->aLibraryInfo, $this->oProps->aFooterInfo['sRight'] );
+		$this->setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
+		$this->setFooterInfoRight( $this->oProp->aLibraryInfo, $this->oProp->aFooterInfo['sRight'] );
 	
-		if ( $this->oProps->aScriptInfo['type'] == 'plugin' )
-			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['sPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
+		if ( $this->oProp->aScriptInfo['type'] == 'plugin' )
+			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}
 
@@ -685,13 +685,13 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 
 	public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
 		
-		$iCount = count( $this->oProps->aPages );
-		$this->oProps->aPages[ $sURL ] = array(  
+		$iCount = count( $this->oProp->aPages );
+		$this->oProp->aPages[ $sURL ] = array(  
 			'title'		=> $sMenuTitle,
 			'title'		=> $sMenuTitle,	// used for the page heading tabs.
 			'href'			=> $sURL,
 			'type'			=> 'link',	// this is used to compare with the 'page' type.
-			'sCapability'		=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
+			'sCapability'		=> isset( $sCapability ) ? $sCapability : $this->oProp->sCapability,
 			'order'			=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'	=> $bShowPageHeadingTab,
 			'fShowInMenu'		=> $bShowInMenu,
@@ -705,9 +705,9 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	public function addLinkToPluginDescription( $linkss ) {
 		
 		if ( !is_array( $linkss ) )
-			$this->oProps->aPluginDescriptionLinks[] = $linkss;
+			$this->oProp->aPluginDescriptionLinks[] = $linkss;
 		else
-			$this->oProps->aPluginDescriptionLinks = array_merge( $this->oProps->aPluginDescriptionLinks , $linkss );
+			$this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $linkss );
 	
 		add_filter( 'plugin_row_meta', array( $this, 'addLinkToPluginDescription_Callback' ), 10, 2 );
 
@@ -715,11 +715,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	public function addLinkToPluginTitle( $linkss ) {
 		
 		if ( !is_array( $linkss ) )
-			$this->oProps->aPluginTitleLinks[] = $linkss;
+			$this->oProp->aPluginTitleLinks[] = $linkss;
 		else
-			$this->oProps->aPluginTitleLinks = array_merge( $this->oProps->aPluginTitleLinks, $linkss );
+			$this->oProp->aPluginTitleLinks = array_merge( $this->oProp->aPluginTitleLinks, $linkss );
 		
-		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProps->aScriptInfo['sPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
 
 	}
 	
@@ -734,29 +734,29 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	 */ 
 	public function addInfoInFooterLeft( $sLinkHTML='' ) {
 
-		if ( ! isset( $_GET['page'] ) || ! $this->oProps->isPageAdded( $_GET['page'] )  ) 
+		if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) 
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 		
-		if ( empty( $this->oProps->aScriptInfo['sName'] ) ) return $sLinkHTML;
+		if ( empty( $this->oProp->aScriptInfo['sName'] ) ) return $sLinkHTML;
 		
-		return $this->oProps->aFooterInfo['sLeft'];
+		return $this->oProp->aFooterInfo['sLeft'];
 
 	}
 	public function addInfoInFooterRight( $sLinkHTML='' ) {
 
-		if ( ! isset( $_GET['page'] ) || ! $this->oProps->isPageAdded( $_GET['page'] )  ) 
+		if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) 
 			return $sLinkHTML;	// $sLinkTHML is given by the hook.
 			
-		return $this->oProps->aFooterInfo['sRight'];
+		return $this->oProp->aFooterInfo['sRight'];
 			
 	}
 	
 	public function addSettingsLinkInPluginListingPage( $aLinks ) {
 		
 		// For a custom root slug,
-		$sLinkURL = preg_match( '/^.+\.php/', $this->oProps->aRootMenu['sPageSlug'] ) 
-			? add_query_arg( array( 'page' => $this->oProps->sDefaultPageSlug ), admin_url( $this->oProps->aRootMenu['sPageSlug'] ) )
-			: "admin.php?page={$this->oProps->sDefaultPageSlug}";
+		$sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu['sPageSlug'] ) 
+			? add_query_arg( array( 'page' => $this->oProp->sDefaultPageSlug ), admin_url( $this->oProp->aRootMenu['sPageSlug'] ) )
+			: "admin.php?page={$this->oProp->sDefaultPageSlug}";
 		
 		array_unshift(	
 			$aLinks,
@@ -768,11 +768,11 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 	
 	public function addLinkToPluginDescription_Callback( $aLinks, $sFile ) {
 
-		if ( $sFile != plugin_basename( $this->oProps->aScriptInfo['sPath'] ) ) return $aLinks;
+		if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) return $aLinks;
 		
 		// Backward compatibility sanitization.
 		$aAddingLinks = array();
-		foreach( $this->oProps->aPluginDescriptionLinks as $linksHTML )
+		foreach( $this->oProp->aPluginDescriptionLinks as $linksHTML )
 			if ( is_array( $linksHTML ) )	// should not be an array
 				$aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
 			else
@@ -785,7 +785,7 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 
 		// Backward compatibility sanitization.
 		$aAddingLinks = array();
-		foreach( $this->oProps->aPluginTitleLinks as $linksHTML )
+		foreach( $this->oProp->aPluginTitleLinks as $linksHTML )
 			if ( is_array( $linksHTML ) )	// should not be an array
 				$aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
 			else
@@ -808,11 +808,11 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_Base' ) ) :
  */
 abstract class AdminPageFramework_PageLoadInfo_Base {
 	
-	function __construct( $oProps, $oMsg ) {
+	function __construct( $oProp, $oMsg ) {
 		
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			
-			$this->oProps = $oProps;
+			$this->oProp = $oProp;
 			$this->oMsg = $oMsg;
 			$this->nInitialMemoryUsage = memory_get_usage();
 			add_action( 'admin_menu', array( $this, 'replyToSetPageLoadInfoInFooter' ), 999 );	// must be loaded after the sub pages are registered
@@ -920,10 +920,10 @@ class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadIn
 	 * 
 	 * @remark			This class should be instantiated via this method.
 	 */
-	public static function instantiate( $oProps, $oMsg ) {
+	public static function instantiate( $oProp, $oMsg ) {
 		
 		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_PageLoadInfo_Page ) ) 
-			self::$_oInstance = new AdminPageFramework_PageLoadInfo_Page( $oProps, $oMsg );
+			self::$_oInstance = new AdminPageFramework_PageLoadInfo_Page( $oProp, $oMsg );
 		return self::$_oInstance;
 		
 	}		
@@ -935,7 +935,7 @@ class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadIn
 		
 		// For added pages
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		if ( $this->oProps->isPageAdded( $sCurrentPageSlug ) ) 
+		if ( $this->oProp->isPageAdded( $sCurrentPageSlug ) ) 
 			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadInfo' ), 999 );
 	
 	}		
@@ -961,10 +961,10 @@ class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLo
 	 * 
 	 * @remark			This class should be instantiated via this method.
 	 */
-	public static function instantiate( $oProps, $oMsg ) {
+	public static function instantiate( $oProp, $oMsg ) {
 		
 		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_PageLoadInfo_PostType ) ) 
-			self::$_oInstance = new AdminPageFramework_PageLoadInfo_PostType( $oProps, $oMsg );
+			self::$_oInstance = new AdminPageFramework_PageLoadInfo_PostType( $oProp, $oMsg );
 		return self::$_oInstance;
 		
 	}	
@@ -978,7 +978,7 @@ class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLo
 		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
 	
 		// For post type pages
-		if ( isset( $_GET['post_type'], $this->oProps->sPostType ) && $_GET['post_type'] == $this->oProps->sPostType )
+		if ( isset( $_GET['post_type'], $this->oProp->sPostType ) && $_GET['post_type'] == $this->oProp->sPostType )
 			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadInfo' ), 999 );
 		
 	}	
@@ -4916,17 +4916,17 @@ abstract class AdminPageFramework_PostType {
 		
 		// Objects
 		$this->oUtil = new AdminPageFramework_Utility;
-		$this->oProps = new AdminPageFramework_Property_PostType( $this );
+		$this->oProp = new AdminPageFramework_Property_PostType( $this );
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
-		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProps );
-		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_PostType::instantiate( $this->oProps, $this->oMsg );
+		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProp );
+		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_PostType::instantiate( $this->oProp, $this->oMsg );
 		
 		// Properties
-		$this->oProps->sPostType = $this->oUtil->sanitizeSlug( $sPostType );
-		$this->oProps->aPostTypeArgs = $aArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		$this->oProps->sClassName = get_class( $this );
-		$this->oProps->sClassHash = md5( $this->oProps->sClassName );
-		$this->oProps->aColumnHeaders = array(
+		$this->oProp->sPostType = $this->oUtil->sanitizeSlug( $sPostType );
+		$this->oProp->aPostTypeArgs = $aArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+		$this->oProp->sClassName = get_class( $this );
+		$this->oProp->sClassHash = md5( $this->oProp->sClassName );
+		$this->oProp->aColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',		// Checkbox for bulk actions. 
 			'title'			=> $this->oMsg->__( 'title' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
 			'author'		=> $this->oMsg->__( 'author' ), 	// Post author.
@@ -4935,18 +4935,18 @@ abstract class AdminPageFramework_PostType {
 			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
 			'date'			=> $this->oMsg->__( 'date' ), 		// The date and publish status of the post. 
 		);			
-		$this->oProps->sCallerPath = $sCallerPath;
+		$this->oProp->sCallerPath = $sCallerPath;
 		
 		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
 		
-		if ( $this->oProps->sPostType != '' && is_admin() ) {			
+		if ( $this->oProp->sPostType != '' && is_admin() ) {			
 		
 			add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
 			
 			// For table columns
-			add_filter( "manage_{$this->oProps->sPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
-			add_filter( "manage_edit-{$this->oProps->sPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
-			add_action( "manage_{$this->oProps->sPostType}_posts_custom_column", array( $this, 'setColumnCell' ), 10, 2 );
+			add_filter( "manage_{$this->oProp->sPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
+			add_filter( "manage_edit-{$this->oProp->sPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
+			add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, 'setColumnCell' ), 10, 2 );
 			
 			// For filters
 			add_action( 'restrict_manage_posts', array( $this, 'addAuthorTableFilter' ) );
@@ -4957,12 +4957,12 @@ abstract class AdminPageFramework_PostType {
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			
 			// Links
-			$this->oLink = new AdminPageFramework_Link_PostType( $this->oProps->sPostType, $this->oProps->sCallerPath, $this->oMsg );
+			$this->oLink = new AdminPageFramework_Link_PostType( $this->oProp->sPostType, $this->oProp->sCallerPath, $this->oMsg );
 			
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		}
 	
-		$this->oUtil->addAndDoAction( $this, "{$this->oProps->sPrefix_Start}{$this->oProps->sClassName}" );
+		$this->oUtil->addAndDoAction( $this, "{$this->oProp->sPrefix_Start}{$this->oProp->sClassName}" );
 		
 	}
 	
@@ -5013,7 +5013,7 @@ abstract class AdminPageFramework_PostType {
 	 * @remark			The user may use this method.
 	 */
 	public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProps->sPostType ), $aCustomArgs );
+		return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
 	}
 	/**
 	 * Enqueues a style by page slug and tab slug.
@@ -5034,7 +5034,7 @@ abstract class AdminPageFramework_PostType {
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyle( $sSRC, array( $this->oProps->sPostType ), $aCustomArgs );		
+		return $this->oHeadTag->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );		
 	}
 	/**
 	 * Enqueues scripts by page slug and tab slug.
@@ -5042,7 +5042,7 @@ abstract class AdminPageFramework_PostType {
 	 * @since			3.0.0
 	 */
 	public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueScripts( $aSRCs, array( $this->oProps->sPostType ), $aCustomArgs );
+		return $this->oHeadTag->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
 	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
@@ -5076,7 +5076,7 @@ abstract class AdminPageFramework_PostType {
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $aCustomArgs=array() ) {	
-		return $this->oHeadTag->_enqueueScript( $sSRC, array( $this->oProps->sPostType ), $aCustomArgs );
+		return $this->oHeadTag->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
 	}		
 	
 	
@@ -5089,7 +5089,7 @@ abstract class AdminPageFramework_PostType {
 	 * @return			void
 	 */ 
 	public function setColumnHeader( $aColumnHeaders ) {
-		return $this->oProps->aColumnHeaders;
+		return $this->oProp->aColumnHeaders;
 	}	
 	
 	/**
@@ -5100,7 +5100,7 @@ abstract class AdminPageFramework_PostType {
 	 * @remark			The user may override this method in their class definition.
 	 */ 
 	public function setSortableColumns( $aColumns ) {
-		return $this->oProps->aColumnSortable;
+		return $this->oProp->aColumnSortable;
 	}
 	
 	/*
@@ -5117,7 +5117,7 @@ abstract class AdminPageFramework_PostType {
 	* return			void
 	*/ 
 	protected function setAutoSave( $bEnableAutoSave=True ) {
-		$this->oProps->bEnableAutoSave = $bEnableAutoSave;		
+		$this->oProp->bEnableAutoSave = $bEnableAutoSave;		
 	}
 	
 	/**
@@ -5150,15 +5150,15 @@ abstract class AdminPageFramework_PostType {
 	protected function addTaxonomy( $sTaxonomySlug, $aArgs ) {
 		
 		$sTaxonomySlug = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
-		$this->oProps->aTaxonomies[ $sTaxonomySlug ] = $aArgs;	
+		$this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;	
 		if ( isset( $aArgs['show_table_filter'] ) && $aArgs['show_table_filter'] )
-			$this->oProps->aTaxonomyTableFilters[] = $sTaxonomySlug;
+			$this->oProp->aTaxonomyTableFilters[] = $sTaxonomySlug;
 		if ( isset( $aArgs['show_in_sidebar_menus'] ) && ! $aArgs['show_in_sidebar_menus'] )
-			$this->oProps->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProps->sPostType}" ] = "edit.php?post_type={$this->oProps->sPostType}";
+			$this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
 				
-		if ( count( $this->oProps->aTaxonomyTableFilters ) == 1 )
+		if ( count( $this->oProp->aTaxonomyTableFilters ) == 1 )
 			add_action( 'init', array( $this, 'registerTaxonomies' ) );	// the hook should not be admin_init because taxonomies need to be accessed in regular pages.
-		if ( count( $this->oProps->aTaxonomyRemoveSubmenuPages ) == 1 )
+		if ( count( $this->oProp->aTaxonomyRemoveSubmenuPages ) == 1 )
 			add_action( 'admin_menu', array( $this, 'removeTexonomySubmenuPages' ), 999 );		
 			
 	}	
@@ -5174,7 +5174,7 @@ abstract class AdminPageFramework_PostType {
 	* @return			void
 	*/ 
 	protected function setAuthorTableFilter( $bEnableAuthorTableFileter=false ) {
-		$this->oProps->bEnableAuthorTableFileter = $bEnableAuthorTableFileter;
+		$this->oProp->bEnableAuthorTableFileter = $bEnableAuthorTableFileter;
 	}
 	
 	/**
@@ -5188,7 +5188,7 @@ abstract class AdminPageFramework_PostType {
 	 * @return			void
 	 */ 
 	protected function setPostTypeArgs( $aArgs ) {
-		$this->oProps->aPostTypeArgs = $aArgs;
+		$this->oProp->aPostTypeArgs = $aArgs;
 	}
 	
 	/**
@@ -5245,7 +5245,7 @@ abstract class AdminPageFramework_PostType {
 			#edit-slug-box {
 				display: {$sNone};
 			}
-			#icon-edit.icon32.icon32-posts-" . $this->oProps->sPostType . " {
+			#icon-edit.icon32.icon32-posts-" . $this->oProp->sPostType . " {
 				background: url('" . $sSRC . "') no-repeat;
 				background-size: 32px 32px;
 			}			
@@ -5258,41 +5258,41 @@ abstract class AdminPageFramework_PostType {
 	 */
 	public function addStyle() {
 
-		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->oProps->sPostType )
+		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->oProp->sPostType )
 			return;
 
 		// If the screen icon url is specified
-		if ( isset( $this->oProps->aPostTypeArgs['screen_icon'] ) && $this->oProps->aPostTypeArgs['screen_icon'] )
-			$this->oProps->sStyle = $this->getStylesForPostTypeScreenIcon( $this->oProps->aPostTypeArgs['screen_icon'] );
+		if ( isset( $this->oProp->aPostTypeArgs['screen_icon'] ) && $this->oProp->aPostTypeArgs['screen_icon'] )
+			$this->oProp->sStyle = $this->getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs['screen_icon'] );
 			
-		$this->oProps->sStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProps->sClassName}", $this->oProps->sStyle );
+		$this->oProp->sStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
 		
 		// Print out the filtered styles.
-		if ( ! empty( $this->oProps->sStyle ) )
+		if ( ! empty( $this->oProp->sStyle ) )
 			echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
-				. $this->oProps->sStyle
+				. $this->oProp->sStyle
 				. "</style>";			
 		
 	}
 	
 	public function registerPostType() {
 
-		register_post_type( $this->oProps->sPostType, $this->oProps->aPostTypeArgs );
+		register_post_type( $this->oProp->sPostType, $this->oProp->aPostTypeArgs );
 		
-		$bIsPostTypeSet = get_option( "post_type_rules_flased_{$this->oProps->sPostType}" );
+		$bIsPostTypeSet = get_option( "post_type_rules_flased_{$this->oProp->sPostType}" );
 		if ( $bIsPostTypeSet !== true ) {
 		   flush_rewrite_rules( false );
-		   update_option( "post_type_rules_flased_{$this->oProps->sPostType}", true );
+		   update_option( "post_type_rules_flased_{$this->oProp->sPostType}", true );
 		}
 
 	}	
 
 	public function registerTaxonomies() {
 		
-		foreach( $this->oProps->aTaxonomies as $sTaxonomySlug => $aArgs ) 
+		foreach( $this->oProp->aTaxonomies as $sTaxonomySlug => $aArgs ) 
 			register_taxonomy(
 				$sTaxonomySlug,
-				$this->oProps->sPostType,
+				$this->oProp->sPostType,
 				$aArgs	// for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 			);	
 			
@@ -5300,15 +5300,15 @@ abstract class AdminPageFramework_PostType {
 	
 	public function removeTexonomySubmenuPages() {
 		
-		foreach( $this->oProps->aTaxonomyRemoveSubmenuPages as $sSubmenuPageSlug => $sTopLevelPageSlug )
+		foreach( $this->oProp->aTaxonomyRemoveSubmenuPages as $sSubmenuPageSlug => $sTopLevelPageSlug )
 			remove_submenu_page( $sTopLevelPageSlug, $sSubmenuPageSlug );
 		
 	}
 	
 	public function disableAutoSave() {
 		
-		if ( $this->oProps->bEnableAutoSave ) return;
-		if ( $this->oProps->sPostType != get_post_type() ) return;
+		if ( $this->oProp->bEnableAutoSave ) return;
+		if ( $this->oProp->sPostType != get_post_type() ) return;
 		wp_dequeue_script( 'autosave' );
 			
 	}
@@ -5318,10 +5318,10 @@ abstract class AdminPageFramework_PostType {
 	 */ 
 	public function addAuthorTableFilter() {
 		
-		if ( ! $this->oProps->bEnableAuthorTableFileter ) return;
+		if ( ! $this->oProp->bEnableAuthorTableFileter ) return;
 		
 		if ( ! ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) 
-			&& in_array( strtolower( $_GET['post_type'] ), array( $this->oProps->sPostType ) ) ) )
+			&& in_array( strtolower( $_GET['post_type'] ), array( $this->oProp->sPostType ) ) ) )
 			return;
 		
 		wp_dropdown_users( array(
@@ -5339,16 +5339,16 @@ abstract class AdminPageFramework_PostType {
 	 */ 
 	public function addTaxonomyTableFilter() {
 		
-		if ( $GLOBALS['typenow'] != $this->oProps->sPostType ) return;
+		if ( $GLOBALS['typenow'] != $this->oProp->sPostType ) return;
 		
 		// If there is no post added to the post type, do nothing.
-		$oPostCount = wp_count_posts( $this->oProps->sPostType );
+		$oPostCount = wp_count_posts( $this->oProp->sPostType );
 		if ( $oPostCount->publish + $oPostCount->future + $oPostCount->draft + $oPostCount->pending + $oPostCount->private + $oPostCount->trash == 0 )
 			return;
 		
 		foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySulg ) {
 			
-			if ( ! in_array( $sTaxonomySulg, $this->oProps->aTaxonomyTableFilters ) ) continue;
+			if ( ! in_array( $sTaxonomySulg, $this->oProp->aTaxonomyTableFilters ) ) continue;
 			
 			$oTaxonomy = get_taxonomy( $sTaxonomySulg );
  
@@ -5379,7 +5379,7 @@ abstract class AdminPageFramework_PostType {
 		
 		foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySlug ) {
 			
-			if ( ! in_array( $sTaxonomySlug, $this->oProps->aTaxonomyTableFilters ) ) continue;
+			if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) continue;
 			
 			$sVar = &$oQuery->query_vars[ $sTaxonomySlug ];
 			if ( ! isset( $sVar ) ) continue;
@@ -5395,11 +5395,11 @@ abstract class AdminPageFramework_PostType {
 	
 	public function setColumnCell( $sColumnTitle, $iPostID ) { 
 	
-		// foreach ( $this->oProps->aColumnHeaders as $sColumnHeader => $sColumnHeaderTranslated ) 
+		// foreach ( $this->oProp->aColumnHeaders as $sColumnHeader => $sColumnHeaderTranslated ) 
 			// if ( $sColumnHeader == $sColumnTitle ) 
 			
 		// cell_{post type}_{custom column key}
-		echo $this->oUtil->addAndApplyFilter( $this, "{$this->oProps->sPrefix_Cell}{$this->oProps->sPostType}_{$sColumnTitle}", $sCell='', $iPostID );
+		echo $this->oUtil->addAndApplyFilter( $this, "{$this->oProp->sPrefix_Cell}{$this->oProp->sPostType}_{$sColumnTitle}", $sCell='', $iPostID );
 				  
 	}
 	
@@ -5407,7 +5407,7 @@ abstract class AdminPageFramework_PostType {
 	 * Magic method - this prevents PHP's not-a-valid-callback errors.
 	*/
 	public function __call( $sMethodName, $aArgs=null ) {	
-		if ( substr( $sMethodName, 0, strlen( $this->oProps->sPrefix_Cell ) ) == $this->oProps->sPrefix_Cell ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( $this->oProp->sPrefix_Cell ) ) == $this->oProp->sPrefix_Cell ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "style_" ) )== "style_" ) return $aArgs[0];
 	}
 	
@@ -5489,19 +5489,19 @@ abstract class AdminPageFramework_MetaBox {
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
-		$this->oProps = new AdminPageFramework_Property_MetaBox( $this );
-		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProps );
-		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProps );
+		$this->oProp = new AdminPageFramework_Property_MetaBox( $this );
+		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
+		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );
 			
 		// Properties
-		$this->oProps->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
-		$this->oProps->sTitle = $sTitle;
-		$this->oProps->aPostTypes = is_string( $vPostTypes ) ? array( $vPostTypes ) : $vPostTypes;	
-		$this->oProps->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
-		$this->oProps->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'
-		$this->oProps->sClassName = get_class( $this );
-		$this->oProps->sClassHash = md5( $this->oProps->sClassName );
-		$this->oProps->sCapability = $sCapability;
+		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
+		$this->oProp->sTitle = $sTitle;
+		$this->oProp->aPostTypes = is_string( $vPostTypes ) ? array( $vPostTypes ) : $vPostTypes;	
+		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
+		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'
+		$this->oProp->sClassName = get_class( $this );
+		$this->oProp->sClassHash = md5( $this->oProp->sClassName );
+		$this->oProp->sCapability = $sCapability;
 				
 		if ( is_admin() ) {
 			
@@ -5517,7 +5517,7 @@ abstract class AdminPageFramework_MetaBox {
 		}
 		
 		// Hooks
-		$this->oUtil->addAndDoAction( $this, "{$this->oProps->sPrefixStart}{$this->oProps->sClassName}" );
+		$this->oUtil->addAndDoAction( $this, "{$this->oProp->sPrefixStart}{$this->oProp->sClassName}" );
 		
 	}
 
@@ -5660,11 +5660,11 @@ abstract class AdminPageFramework_MetaBox {
 	public function replyToLoadDefaultFieldTypeDefinitions() {
 		
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProps->aFieldTypeDefinitions, $this->oProps->sClassName, $this->oMsg );		
-		$this->oProps->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );		
+		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			'field_types_' . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
-			$this->oProps->aFieldTypeDefinitions
+			'field_types_' . $this->oProp->sClassName,	// 'field_types_' . {extended class name}
+			$this->oProp->aFieldTypeDefinitions
 		);				
 		
 	}
@@ -5730,8 +5730,8 @@ abstract class AdminPageFramework_MetaBox {
 		if ( 
 			in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
 			&& ( 
-				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
-				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
+				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
+				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) )		// edit post page
 			)
 		) {
 			// Set relevant scripts and styles for the input field.
@@ -5743,14 +5743,14 @@ abstract class AdminPageFramework_MetaBox {
 		if ( 
 			in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
 			&& ( 
-				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProps->aPostTypes ) )
-				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProps->aPostTypes ) )		// edit post page
+				( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
+				|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) )		// edit post page
 			)
 			&& $aField['help']
 		) 			
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 				
-		$this->oProps->aFields[ $aField['field_id'] ] = $aField;
+		$this->oProp->aFields[ $aField['field_id'] ] = $aField;
 	
 	}
 		/**
@@ -5769,22 +5769,22 @@ abstract class AdminPageFramework_MetaBox {
 			$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
 
 			// If the field type is not defined, return.
-			if ( ! isset( $this->oProps->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
+			if ( ! isset( $this->oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
 
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
-				call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
+				call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
 			
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
-				$this->oProps->sScript .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
+				$this->oProp->sScript .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
-				$this->oProps->sStyle .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
+				$this->oProp->sStyle .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
 				
-			if ( is_callable( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
-				$this->oProps->sStyleIE .= call_user_func_array( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
+				$this->oProp->sStyleIE .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
 
-			$this->oHeadTag->_enqueueStyles( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
-			$this->oHeadTag->_enqueueScripts( $this->oProps->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
+			$this->oHeadTag->_enqueueStyles( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			$this->oHeadTag->_enqueueScripts( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}		
 
@@ -5817,7 +5817,7 @@ abstract class AdminPageFramework_MetaBox {
 		
 		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
 
-		return $this->oProps->sThickBoxButtonUseThis ?  $this->oProps->sThickBoxButtonUseThis : $this->oMsg->__( 'use_this_image' );
+		return $this->oProp->sThickBoxButtonUseThis ?  $this->oProp->sThickBoxButtonUseThis : $this->oMsg->__( 'use_this_image' );
 		
 	}
 	
@@ -5831,15 +5831,15 @@ abstract class AdminPageFramework_MetaBox {
 	 */ 
 	public function addMetaBox() {
 		
-		foreach( $this->oProps->aPostTypes as $sPostType ) 
+		foreach( $this->oProp->aPostTypes as $sPostType ) 
 			add_meta_box( 
-				$this->oProps->sMetaBoxID, 		// id
-				$this->oProps->sTitle, 	// title
+				$this->oProp->sMetaBoxID, 		// id
+				$this->oProp->sTitle, 	// title
 				array( $this, 'echoMetaBoxContents' ), 	// callback
 				$sPostType,		// post type
-				$this->oProps->sContext, 	// context
-				$this->oProps->sPriority,	// priority
-				$this->oProps->aFields	// argument
+				$this->oProp->sContext, 	// context
+				$this->oProp->sPriority,	// priority
+				$this->oProp->aFields	// argument
 			);
 			
 	}	
@@ -5856,7 +5856,7 @@ abstract class AdminPageFramework_MetaBox {
 	public function echoMetaBoxContents( $oPost, $vArgs ) {	
 		
 		// Use nonce for verification
-		$sOut = wp_nonce_field( $this->oProps->sMetaBoxID, $this->oProps->sMetaBoxID, true, false );
+		$sOut = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Begin the field table and loop
 		$sOut .= '<table class="form-table">';
@@ -5872,7 +5872,7 @@ abstract class AdminPageFramework_MetaBox {
 			$aField['vValue'] = $sStoredValue ? $sStoredValue : $aField['vValue'];
 			
 			// Check capability. If the access level is not sufficient, skip.
-			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProps->sCapability;
+			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProp->sCapability;
 			if ( ! current_user_can( $aField['sCapability'] ) ) continue; 			
 			
 			// Begin a table row. 
@@ -5911,7 +5911,7 @@ abstract class AdminPageFramework_MetaBox {
 			// Avoid undefined index warnings
 			$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 
-			$this->oProps->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
+			$this->oProp->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 			
 		}
 	}	
@@ -5921,10 +5921,10 @@ abstract class AdminPageFramework_MetaBox {
 		$aField['sName'] = isset( $aField['sName'] ) ? $aField['sName'] : $aField['field_id'];
 
 		// Render the form field. 		
-		$sFieldType = isset( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProps->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
+		$sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
-		$oField = new AdminPageFramework_InputField( $aField, $this->oProps->aOptions, array(), $this->oProps->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );	// currently the error array is not supported for meta-boxes
+		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, array(), $this->oProp->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );	// currently the error array is not supported for meta-boxes
 		$oField->isMetaBox( true );
 		$sFieldOutput = $oField->getInputField( $sFieldType );	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
@@ -5932,8 +5932,8 @@ abstract class AdminPageFramework_MetaBox {
 		return $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProps->sClassName . '_' . 'field_' . $aField['field_id'],	// this filter will be deprecated
-				'field_' . $this->oProps->sClassName . '_' . $aField['field_id']	// field_ + {extended class name} + _ {field id}
+				$this->oProp->sClassName . '_' . 'field_' . $aField['field_id'],	// this filter will be deprecated
+				'field_' . $this->oProp->sClassName . '_' . $aField['field_id']	// field_ + {extended class name} + _ {field id}
 			),
 			$sFieldOutput,
 			$aField // the field array
@@ -5953,16 +5953,16 @@ abstract class AdminPageFramework_MetaBox {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		
 		// If our nonce isn't there, or we can't verify it, bail
-		if ( ! isset( $_POST[ $this->oProps->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProps->sMetaBoxID ], $this->oProps->sMetaBoxID ) ) return;
+		if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) return;
 			
 		// Check permissions
-		if ( in_array( $_POST['post_type'], $this->oProps->aPostTypes )   
-			&& ( ( ! current_user_can( $this->oProps->sCapability, $iPostID ) ) || ( ! current_user_can( $this->oProps->sCapability, $iPostID ) ) )
+		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes )   
+			&& ( ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) || ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) )
 		) return;
 
 		// Compose an array consisting of the submitted registered field values.
 		$aInput = array();
-		foreach( $this->oProps->aFields as $aField ) 
+		foreach( $this->oProp->aFields as $aField ) 
 			$aInput[ $aField['field_id'] ] = isset( $_POST[ $aField['field_id'] ] ) ? $_POST[ $aField['field_id'] ] : null;
 			
 		// Prepare the old value array.
@@ -5971,7 +5971,7 @@ abstract class AdminPageFramework_MetaBox {
 			$aOriginal[ $sFieldID ] = get_post_meta( $iPostID, $sFieldID, true );
 					
 		// Apply filters to the array of the submitted values.
-		$aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProps->sClassName}", $aInput, $aOriginal );
+		$aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aInput, $aOriginal );
 
 		// Loop through fields and save the data.
 		foreach ( $aInput as $sFieldID => $vValue ) {
@@ -5995,30 +5995,30 @@ abstract class AdminPageFramework_MetaBox {
 	function __call( $sMethodName, $aArgs=null ) {	
 		
 		// the start_ action hook.
-		if ( $sMethodName == $this->oProps->sPrefixStart . $this->oProps->sClassName ) return;
+		if ( $sMethodName == $this->oProp->sPrefixStart . $this->oProp->sClassName ) return;
 
 		// the class name + field_ field ID filter.
-		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProps->sClassName . '_' ) ) == 'field_' . $this->oProps->sClassName . '_' )
+		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' )
 			return $aArgs[ 0 ];
 		
 		// the class name + field_ field ID filter.
-		if ( substr( $sMethodName, 0, strlen( $this->oProps->sClassName . '_' . 'field_' ) ) == $this->oProps->sClassName . '_' . 'field_' )
+		if ( substr( $sMethodName, 0, strlen( $this->oProp->sClassName . '_' . 'field_' ) ) == $this->oProp->sClassName . '_' . 'field_' )
 			return $aArgs[ 0 ];
 
 		// the field_types_ + class name filter. [2.1.5+]
-		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProps->sClassName}" ) ) == "field_types_{$this->oProps->sClassName}" )
+		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" )
 			return $aArgs[ 0 ];		
 			
 		// the script_ + class name	filter.
-		if ( substr( $sMethodName, 0, strlen( "script_{$this->oProps->sClassName}" ) ) == "script_{$this->oProps->sClassName}" )
+		if ( substr( $sMethodName, 0, strlen( "script_{$this->oProp->sClassName}" ) ) == "script_{$this->oProp->sClassName}" )
 			return $aArgs[ 0 ];		
 	
 		// the style_ + class name	filter.
-		if ( substr( $sMethodName, 0, strlen( "style_{$this->oProps->sClassName}" ) ) == "style_{$this->oProps->sClassName}" )
+		if ( substr( $sMethodName, 0, strlen( "style_{$this->oProp->sClassName}" ) ) == "style_{$this->oProp->sClassName}" )
 			return $aArgs[ 0 ];		
 
 		// the validation_ + class name	filter.
-		if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProps->sClassName}" ) ) == "validation_{$this->oProps->sClassName}" )
+		if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProp->sClassName}" ) ) == "validation_{$this->oProp->sClassName}" )
 			return $aArgs[ 0 ];				
 			
 	}
