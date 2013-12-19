@@ -204,7 +204,7 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 	 * @since			2.1.0
 	 * @remark			Called when registering setting sections and fields.
 	 * @remark			The user may use this method.
-	 * @param			array			$aHelpTab				The help tab array. The key structure is explained in the description part.
+	 * @param			array			$aHelpTab				The help tab array. The key structure is detailed in the description part.
 	 * @return			void
 	 */ 
 	protected function addHelpTab( $aHelpTab ) {
@@ -217,8 +217,8 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array(
 				'sID'				=> $aHelpTab['help_tab_id'],
 				'title'				=> $aHelpTab['help_tab_title'],
-				'aContent'			=> ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
-				'aSidebar'			=> ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
+				'aContent'			=> ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->_formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(),
+				'aSidebar'			=> ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->_formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(),
 				'page_slug'			=> $aHelpTab['page_slug'],
 				'page_tab_slug'		=> $aHelpTab['page_tab_slug'],
 			);
@@ -227,9 +227,9 @@ abstract class AdminPageFramework_Help_Page extends AdminPageFramework_Help_Page
 
 		// This line will be reached if the help tab array is already set. In this case, just append an array element into the keys.
 		if ( ! empty( $aHelpTab['help_tab_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aContent'][] = $this->formatHelpDescription( $aHelpTab['help_tab_content'] );
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aContent'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_content'] );
 		if ( ! empty( $aHelpTab['help_tab_sidebar_content'] ) )
-			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
+			$this->oProps->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] );
 		
 	}
 	
@@ -1950,7 +1950,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'fIf' => true,	
 		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
 		'help' => null,
-		'helpAside' => null,
+		'help_aside' => null,
 	);	
 	
 	/**
@@ -1982,7 +1982,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'fIf' 				=> true,
 		'order'			=> null,	// do not set the default number here for this key.		
 		'help'			=> null,	// since 2.1.0
-		'helpAside'		=> null,	// since 2.1.0
+		'help_aside'		=> null,	// since 2.1.0
 		'repeatable'		=> null,	// since 2.1.3
 	);	
 	
@@ -2065,7 +2065,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* <li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
 	* <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	* <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-	* <li><strong>helpAside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	* <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
 	* </ul>
 	* 
 	* <h4>Example</h4>
@@ -2199,7 +2199,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 	<li><strong>labelMinWidth</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
 	* 	<li><strong>vDisable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
 	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-	*	<li><strong>helpAside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
 	* </ul>
 	* <h4>Field Types</h4>
 	* <p>Each field type uses specific array keys.</p>
@@ -3020,12 +3020,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			if ( ! empty( $aSection['help'] ) )
 				$this->addHelpTab( 
 					array(
-						'page_slug'				=> $aSection['page_slug'],
-						'page_tab_slug'			=> $aSection['tab_slug'],
+						'page_slug'					=> $aSection['page_slug'],
+						'page_tab_slug'				=> $aSection['tab_slug'],
 						'help_tab_title'			=> $aSection['title'],
 						'help_tab_id'				=> $aSection['section_id'],
 						'help_tab_content'			=> $aSection['help'],
-						'help_tab_sidebar_content'	=> $aSection['helpAside'] ? $aSection['helpAside'] : "",
+						'help_tab_sidebar_content'	=> $aSection['help_aside'] ? $aSection['help_aside'] : "",
 					)
 				);
 				
@@ -3058,7 +3058,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						'help_tab_id'				=> $aField['section_id'],
 						'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
 														. $aField['help'],
-						'help_tab_sidebar_content'	=> $aField['helpAside'] ? $aField['helpAside'] : "",
+						'help_tab_sidebar_content'	=> $aField['help_aside'] ? $aField['help_aside'] : "",
 					)
 				);
 
@@ -4590,7 +4590,7 @@ class AdminPageFramework_MetaBox_Properties extends AdminPageFramework_Propertie
 		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
 		'fIf'				=> true,
 		'help'			=> null,	// since 2.1.0
-		'helpAside'		=> null,	// since 2.1.0
+		'help_aside'		=> null,	// since 2.1.0
 		'show_inpage_tabTitleColumn'	=> null,	// since 2.1.2
 		
 		// The followings may need to be uncommented.
@@ -10586,7 +10586,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_Help_MetaBo
 			&& $aField['help']
 		) {
 			
-			$this->addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['helpAside'] );
+			$this->addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 							
 		}
 	
