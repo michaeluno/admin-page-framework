@@ -45,16 +45,16 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @abstract
  * @since			2.0.0
  * @since			2.1.0		Extends AdminPageFramework_HelpPane_Page.
- * @extends			AdminPageFramework_HelpPane_Page
+ * @since			3.0.0		No longer extends AdminPageFramework_HelpPane_Page.
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
- * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
- * @staticvar		array		$aPrefixesForCallbacks			unlike $aPrefixes, these require to set the return value.
- * @staticvar		array		$aScreenIconIDs					stores the ID selector names for screen icons.
- * @staticvar		array		$aPrefixes						stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$_aPrefixes						stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$_aPrefixesForCallbacks			unlike $_aPrefixes, these require to set the return value.
+ * @staticvar		array		$_aScreenIconIDs					stores the ID selector names for screen icons.
+ * @staticvar		array		$_aPrefixes						stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
-abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page {
+abstract class AdminPageFramework_Page {
 			
 	/**
 	 * Stores the prefixes of the filters used by this framework.
@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 	 * @access			public
 	 * @internal
 	 */ 
-	public static $aPrefixes = array(	
+	public static $_aPrefixes = array(	
 		'start_'		=> 'start_',
 		'load_'			=> 'load_',
 		'do_before_'	=> 'do_before_',
@@ -92,7 +92,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 	);
 
 	/**
-	 * Unlike $aPrefixes, these require to set the return value.
+	 * Unlike $_aPrefixes, these require to set the return value.
 	 * 
 	 * @since			2.0.0
 	 * @var				array
@@ -100,7 +100,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 	 * @access			protected
 	 * @internal
 	 */ 	
-	protected static $aPrefixesForCallbacks = array(
+	protected static $_aPrefixesForCallbacks = array(
 		'section_'		=> 'section_',
 		'field_'		=> 'field_',
 		'field_types_'	=> 'field_types_',
@@ -116,7 +116,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 	 * @access			protected
 	 * @internal
 	 */ 	
-	protected static $aScreenIconIDs = array(
+	protected static $_aScreenIconIDs = array(
 		'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 		'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 		'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',
@@ -267,7 +267,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 	protected function renderPage( $sPageSlug, $sTabSlug=null ) {
 
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['do_before_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_before_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
 		?>
 		<div class="wrap">
 			<?php
@@ -277,13 +277,13 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 				$sHead .= $this->getInPageTabs( $sPageSlug, $this->oProps->sInPageTabTag );
 
 				// Apply filters in this order, in-page tab -> page -> global.
-				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['head_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sHead );
+				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['head_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sHead );
 			?>
 			<div class="admin-page-framework-container">
 				<?php
 					$this->showSettingsErrors();
 						
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['do_form_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_form_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
 
 					echo $this->getFormOpeningTag();	// <form ... >
 					
@@ -300,10 +300,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 					ob_end_clean(); // end buffer and remove the buffer
 								
 					// Apply the content filters.
-					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['content_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
+					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['content_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
 	
 					// Do the page actions.
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['do_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );	
 						
 				?>
 				
@@ -313,12 +313,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_HelpPane_Page 
 				
 			<?php	
 				// Apply the foot filters.
-				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['foot_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
+				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['foot_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
 			?>
 		</div><!-- End Wrap -->
 		<?php
 		// Do actions after rendering the page.
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$aPrefixes['do_after_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );
+		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( self::$_aPrefixes['do_after_'], $this->oProps->sClassName, $sPageSlug, $sTabSlug, true ) );
 		
 	}
 	
@@ -717,7 +717,7 @@ if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
  * @extends			AdminPageFramework_Page
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
- * @staticvar		array	$aBuiltInRootMenuSlugs	stores the WordPress built-in menu slugs.
+ * @staticvar		array	$_aBuiltInRootMenuSlugs	stores the WordPress built-in menu slugs.
  * @staticvar		array	$_aStructure_SubMenuPage	represents the structure of the sub-menu page array.
  */
 abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
@@ -731,7 +731,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @static
 	 * @internal
 	 */ 
-	protected static $aBuiltInRootMenuSlugs = array(
+	protected static $_aBuiltInRootMenuSlugs = array(
 		// All keys must be lower case to support case insensitive look-ups.
 		'dashboard' => 			'index.php',
 		'posts' => 				'edit.php',
@@ -877,7 +877,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			'page_slug'				=> $sPageSlug,
 			'type'					=> 'page',	// this is used to compare with the link type.
 			'hrefIcon32x32'			=> $this->oUtil->resolveSRC( $sScreenIcon, true ),
-			'screen_iconID'			=> in_array( $sScreenIcon, self::$aScreenIconIDs ) ? $sScreenIcon : null,
+			'screen_iconID'			=> in_array( $sScreenIcon, self::$_aScreenIconIDs ) ? $sScreenIcon : null,
 			'sCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProps->sCapability,
 			'order'					=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
 			'fShowPageHeadingTab'		=> $bShowPageHeadingTab,
@@ -902,8 +902,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	protected function isBuiltInMenuItem( $sMenuLabel ) {
 		
 		$sMenuLabelLower = strtolower( $sMenuLabel );
-		if ( array_key_exists( $sMenuLabelLower, self::$aBuiltInRootMenuSlugs ) )
-			return self::$aBuiltInRootMenuSlugs[ $sMenuLabelLower ];
+		if ( array_key_exists( $sMenuLabelLower, self::$_aBuiltInRootMenuSlugs ) )
+			return self::$_aBuiltInRootMenuSlugs[ $sMenuLabelLower ];
 		
 	}
 	
@@ -2013,8 +2013,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProps->sClassName . '_' .  self::$aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
-				self::$aPrefixesForCallbacks['field_'] . $this->oProps->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
+				$this->oProps->sClassName . '_' .  self::$_aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
+				self::$_aPrefixesForCallbacks['field_'] . $this->oProps->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
 			),
 			$sFieldOutput,
 			$aField // the field array
@@ -2099,8 +2099,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				$this->oProps->sClassName . '_' .  self::$aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
-				self::$aPrefixesForCallbacks['section_'] . $this->oProps->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
+				$this->oProps->sClassName . '_' .  self::$_aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
+				self::$_aPrefixesForCallbacks['section_'] . $this->oProps->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
 			),
 			'<p>' . $this->oProps->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
 			$this->oProps->aSections[ $sSectionID ]['description']	// the original description
@@ -2153,7 +2153,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 		$this->oProps->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
-			self::$aPrefixesForCallbacks['field_types_'] . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
+			self::$_aPrefixesForCallbacks['field_types_'] . $this->oProps->sClassName,	// 'field_types_' . {extended class name}
 			$this->oProps->aFieldTypeDefinitions
 		);		
 
@@ -2705,7 +2705,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			add_filter( "option_page_capability_{$this->oProps->sOptionKey}", array( $this->oProps, 'getCapability' ) );
 						
 			// For earlier loading than $this->setUp
-			$this->oUtil->addAndDoAction( $this, self::$aPrefixes['start_'] . $this->oProps->sClassName );
+			$this->oUtil->addAndDoAction( $this, self::$_aPrefixes['start_'] . $this->oProps->sClassName );
 		
 		}
 	}	
@@ -2890,7 +2890,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProps->sClassName}" ) ) == "field_types_{$this->oProps->sClassName}" )	// e.g. field_types_{instantiated class name}
 			return true;
 			
-		foreach( self::$aPrefixes as $sPrefix ) {
+		foreach( self::$_aPrefixes as $sPrefix ) {
 			if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
 				return true;
 		}
