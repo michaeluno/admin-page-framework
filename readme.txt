@@ -186,12 +186,15 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
-* Deprecated: ( ***Breaking Change*** ) the `foot_{...}` filters and they is renamed to `content_bottom_{...}`.
-* Deprecated: ( ***Breaking Change*** ) the `head_{...}` filters and they is renamed to `content_top_{...}`.
-* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_setting_fields` filter and it is renamed to `fields_{extended class name}`.
-* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_setting_sections` filter and it is renamed to `sections_{extended class name}`.
-* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter and it is renamed to `section_{extended class name}_{section id}`.
-* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter and it is renamed to `section_{extended class name}_{section id}`.
+* Changed: ( ***Breaking Change*** ) the name of the `showInPageTabs()` method to `setInPageTabsVisibility()`.
+* Changed: ( ***Breaking Change*** ) the name of the `showPageHeadingTabs()` method to `setPageHeadingTabsVisibility()`.
+* Changed: ( ***Breaking Change*** ) the name of the `showPageTitle()` method to `setPageTitleVisibility()`.
+* Changed: ( ***Breaking Change*** ) the `foot_{...}` filters to be renamed to `content_bottom_{...}`.
+* Changed: ( ***Breaking Change*** ) the `head_{...}` filters to be renamed to `content_top_{...}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_fields` filter to be renamed to `fields_{extended class name}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_sections` filter to be renamed to `sections_{extended class name}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter to be renamed to `section_{extended class name}_{section id}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter to be renamed to `section_{extended class name}_{section id}`.
 * Changed: the scope of all the methods intended to be used by the user to `public` from `protected`.
 * Changed: all the callback methods to have the prefix of `replyTo`.
 * Changed: all the internal methods to have the prefix of an underscore.

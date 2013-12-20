@@ -129,7 +129,7 @@ abstract class AdminPageFramework_Base {
 	public function addInPageTab() {}
 	public function setPageTitleVisibility() {}
 	public function setPageHeadingTabsVisibility() {}
-	public function showInPageTabs() {}
+	public function setInPageTabsVisibility() {}
 	public function setInPageTabTag() {}
 	public function setPageHeadingTabTag() {}
 	

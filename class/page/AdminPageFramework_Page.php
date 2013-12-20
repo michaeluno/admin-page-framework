@@ -235,13 +235,13 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * Sometimes, it is required to disable in-page tabs in certain pages. In that case, use the second parameter.
 	 * 
 	 * @since			2.1.1
-	 * @since			3.0.0			Changed the scope to public.
+	 * @since			3.0.0			Changed the scope to public. Changed the name from showInPageTabs() to setInPageTabsVisibility().
 	 * @param			boolean			$bShow				If false, in-page tabs will be disabled.
 	 * @param			string			$sPageSlug		The page to apply the visibility setting. If not set, it applies to all the pages.
 	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */
-	public function showInPageTabs( $bShow=true, $sPageSlug='' ) {
+	public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
 			$this->oProp->aPages[ $sPageSlug ]['fShowInPageTabs'] = $bShow;
