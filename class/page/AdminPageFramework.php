@@ -349,6 +349,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
+	 * @since			3.0.0			Changed the scope to public
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
 	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
@@ -406,16 +407,17 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	*	);</code>
 	* 
 	* @since			2.0.0
+	* @since			3.0.0			Changed the scope to public.
 	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @param			array		$aSubMenuItem1		a first sub-menu array.
 	* @param			array		$aSubMenuItem2		( optional ) a second sub-menu array.
 	* @param			array		$_and_more				( optional ) third and add items as many as necessary with next parameters.
-	* @access 			protected
+	* @access 			public
 	* @return			void
 	*/		
-	protected function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
+	public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
 		foreach ( func_get_args() as $aSubMenuItem ) 
 			$this->addSubMenuItem( $aSubMenuItem );		
 	}
@@ -428,13 +430,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* The array structure of the parameter is documented in the <em>addSubMenuItem()</em> method section.
 	* 
 	* @since			2.0.0
+	* @since			3.0.0			Changed the scope to public.
 	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	* @remark			This is not intended to be used by the user.
+	* @remark			The user may use this method.
 	* @param			array		$aSubMenuItem			a first sub-menu array.
-	* @access 			private
+	* @access 			public
 	* @return			void
 	*/	
-	private function addSubMenuItem( $aSubMenuItem ) {
+	public function addSubMenuItem( $aSubMenuItem ) {
 		if ( isset( $aSubMenuItem['href'] ) ) {
 			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link::$_aStructure_SubMenuLink;
 			$this->oLink->addSubMenuLink(
@@ -464,16 +467,17 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* Adds the given link into the menu on the left sidebar of the administration panel.
 	* 
 	* @since			2.0.0
+	* @since			3.0.0			Changed the scope to public from protected.
 	* @remark			The user may use this method in their extended class definition.
 	* @param			string		$sMenuTitle			the menu title.
 	* @param			string		$sURL					the URL linked to the menu.
 	* @param			string		$sCapability			( optional ) the access level. ( http://codex.wordpress.org/Roles_and_Capabilities)
 	* @param			string		$nOrder				( optional ) the order number. The larger it is, the lower the position it gets.
 	* @param			string		$bShowPageHeadingTab		( optional ) if set to false, the menu title will not be listed in the tab navigation menu at the top of the page.
-	* @access 			protected
+	* @access 			public
 	* @return			void
 	*/	
-	protected function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
+	public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
 		$this->oLink->addSubMenuLink( $sMenuTitle, $sURL, $sCapability, $nOrder, $bShowPageHeadingTab, $bShowInMenu );
 	}
 
@@ -487,15 +491,16 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	*	);</code>
 	* 
 	* @since			2.0.0
+	* @since			3.0.0			Changed the scope to public from protected.
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @param			string			$sTaggedLinkHTML1			the tagged HTML link text.
 	* @param			string			$sTaggedLinkHTML2			( optional ) another tagged HTML link text.
 	* @param			string			$_and_more					( optional ) add more as many as want by adding items to the next parameters.
-	* @access 			protected
+	* @access 			public
 	* @return			void
 	*/		
-	protected function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {				
+	public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {				
 		$this->oLink->addLinkToPluginDescription( func_get_args() );		
 	}
 
@@ -508,15 +513,16 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	*	);</code>
 	* 
 	* @since			2.0.0
+	* @since			3.0.0			Changed the scope to public from protected.
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @param			string			$sTaggedLinkHTML1			the tagged HTML link text.
 	* @param			string			$sTaggedLinkHTML2			( optional ) another tagged HTML link text.
 	* @param			string			$_and_more					( optional ) add more as many as want by adding items to the next parameters.
-	* @access 			protected
+	* @access 			public
 	* @return			void
 	*/	
-	protected function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {	
+	public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {	
 		$this->oLink->addLinkToPluginTitle( func_get_args() );		
 	}
 	 
@@ -527,12 +533,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <code>$this->setCpability( 'read' );		// let subscribers access the pages.</code>
 	 * 
 	 * @since			2.0.0
+	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @see				http://codex.wordpress.org/Roles_and_Capabilities
 	 * @remark			The user may directly edit <code>$this->oProp->sCapability</code> instead.
 	 * @param			string			$sCapability			The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for the created pages.
 	 * @return			void
+	 * @access			public
 	 */ 
-	protected function setCapability( $sCapability ) {
+	public function setCapability( $sCapability ) {
 		$this->oProp->sCapability = $sCapability;	
 	}
 
@@ -543,12 +551,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <code>$this->setFooterInfoLeft( '&lt;br /&gt;Custom Text on the left hand side.' );</code>
 	 * 
 	 * @since			2.0.0
+	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sLeft']</code> instead.
 	 * @param			string			$sHTML			The HTML code to insert.
 	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
+	 * @access			public
 	 * @return			void
 	 */	
-	protected function setFooterInfoLeft( $sHTML, $bAppend=true ) {
+	public function setFooterInfoLeft( $sHTML, $bAppend=true ) {
 		$this->oProp->aFooterInfo['sLeft'] = $bAppend 
 			? $this->oProp->aFooterInfo['sLeft'] . PHP_EOL . $sHTML
 			: $sHTML;
@@ -560,13 +570,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <h4>Example</h4>
 	 * <code>$this->setFooterInfoRight( '&lt;br /&gt;Custom Text on the right hand side.' );</code>
 	 * 
+	 * @access			public
 	 * @since			2.0.0
+	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sRight']</code> instead.
 	 * @param			string			$sHTML			The HTML code to insert.
 	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
-	protected function setFooterInfoRight( $sHTML, $bAppend=true ) {
+	public function setFooterInfoRight( $sHTML, $bAppend=true ) {
 		$this->oProp->aFooterInfo['sRight'] = $bAppend 
 			? $this->oProp->aFooterInfo['sRight'] . PHP_EOL . $sHTML
 			: $sHTML;
@@ -578,13 +590,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <h4>Example</h4>
 	 * <code>$this->setAdminNotice( sprintf( 'Please click <a href="%1$s">here</a> to upgrade the options.', admin_url( 'admin.php?page="my_page"' ) ), 'updated' );</code>
 	 * 
+	 * @access			public
 	 * @remark			It should be used before the 'admin_notices' hook is triggered.
 	 * @since			2.1.2
+	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @param			string			$sMessage				The message to display
 	 * @param			string			$sClassSelector		( optional ) The class selector used in the message HTML element. 'error' and 'updated' are prepared by WordPress but it's not limited to them and can pass a custom name. Default: 'error'
 	 * @param			string			$sID					( optional ) The ID of the message. If not set, the hash of the message will be used.
 	 */
-	protected function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {
+	public function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {
 			
 		$sID = $sID ? $sID : md5( $sMessage );
 		$this->oProp->aAdminNotices[ md5( $sMessage ) ] = array(  
@@ -595,19 +609,19 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
 		
 	}
-	/**
-	 * A helper function for the above setAdminNotice() method.
-	 * @since			2.1.2
-	 * @internal
-	 */
-	public function _replyToPrintAdminNotices() {
-		
-		foreach( $this->oProp->aAdminNotices as $aAdminNotice ) 
-			echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' ><p>"
-				. $aAdminNotice['sMessage']
-				. "</p></div>";
-		
-	}	
+		/**
+		 * A helper function for the above setAdminNotice() method.
+		 * @since			2.1.2
+		 * @internal
+		 */
+		public function _replyToPrintAdminNotices() {
+			
+			foreach( $this->oProp->aAdminNotices as $aAdminNotice ) 
+				echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' ><p>"
+					. $aAdminNotice['sMessage']
+					. "</p></div>";
+			
+		}	
 	
 	/**
 	 * Sets the disallowed query keys in the links that the framework generates.
@@ -617,7 +631,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @remark			The user may use this method.
 	 * @since			2.1.2
-	 * @since			3.0.0			It also accepts a string.
+	 * @since			3.0.0			It also accepts a string. Changed the scope to public.
+	 * @access			public
 	 */
 	public function setDisallowedQueryKeys( $asQueryKeys, $bAppend=true ) {
 		
@@ -674,7 +689,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		 */
 		private function _isFrameworkCallbackMethod( $sMethodName ) {
 				
-			foreach( self::$_aPrefixes as $sPrefix ) 
+			foreach( self::$_aHookPrefixes as $sPrefix ) 
 				if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
 					return true;
 			

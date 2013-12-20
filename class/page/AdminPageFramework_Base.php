@@ -104,7 +104,27 @@ abstract class AdminPageFramework_Base {
 		
 	}
 	
-	/* Methods defined in AdminPageFramework_Page */
+	/* Methods that should be defined in the user's class. */
+	public function setUp() {}
+	
+	/* Defined in AdminPageFramework */
+	public function addHelpTab() {}
+	public function enqueueStyles() {}
+	public function enqueueStyle() {}
+	public function enqueueScripts() {}
+	public function enqueueScript() {}
+	public function addSubMenuItems() {}
+	public function addSubMenuItem() {}
+	public function addSubMenuLink() {}
+	public function addLinkToPluginDescription() {}
+	public function addLinkToPluginTitle() {}
+	public function setCapability() {}
+	public function setFooterInfoLeft() {}
+	public function setFooterInfoRight() {}
+	public function setAdminNotice() {}
+	public function setDisallowedQueryKeys() {}
+	
+	/* Defined in AdminPageFramework_Page */
 	public function addInPageTabs() {}
 	public function addInPageTab() {}
 	public function setPageTitleVisibility() {}

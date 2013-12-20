@@ -9,10 +9,8 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @since			3.0.0		No longer extends AdminPageFramework_HelpPane_Page.
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
- * @staticvar		array		$_aPrefixes							stores the prefix strings for filter and action hooks.
- * @staticvar		array		$_aPrefixesForCallbacks				unlike $_aPrefixes, these require to set the return value.
  * @staticvar		array		$_aScreenIconIDs					stores the ID selector names for screen icons.
- * @staticvar		array		$_aPrefixes							stores the prefix strings for filter and action hooks.
+ * @staticvar		array		$_aHookPrefixes							stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
 abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
@@ -29,7 +27,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @access			public
 	 * @internal
 	 */ 
-	public static $_aPrefixes = array(	
+	public static $_aHookPrefixes = array(	
 		'start_'			=> 'start_',
 		'load_'				=> 'load_',
 		'do_before_'		=> 'do_before_',

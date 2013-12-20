@@ -957,7 +957,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				// $this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['field_'] . $sFieldID,	// this filter will be deprecated
 				'field_' . $this->oProp->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
 			),
 			$sFieldOutput,
@@ -1043,7 +1042,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				// $this->oProp->sClassName . '_' .  self::$_aPrefixesForCallbacks['section_'] . $sSectionID,	// this filter will be deprecated
 				'section_' . $this->oProp->sClassName . '_' . $sSectionID	// section_ + {extended class name} + _ {section id}
 			),
 			'<p>' . $this->oProp->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
