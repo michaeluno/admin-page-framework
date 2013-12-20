@@ -362,126 +362,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	}
 	
 	/**
-	* Adds sub-menu items on the left sidebar of the administration panel. 
-	* 
-	* It supports pages and links. Each of them has the specific array structure.
-	* 
-	* <h4>Sub-menu Page Array</h4>
-	* <ul>
-	* <li><strong>title</strong> - ( string ) the page title of the page.</li>
-	* <li><strong>page_slug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-	* <li><strong>screen_icon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel.
-	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
-	*	<p><strong>Notes</strong>: the <em>generic</em> icon is available WordPress version 3.5 or above.</p>
-	* </li>
-	* <li><strong>sCapability</strong> - ( optional, string ) the access level to the created admin pages defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-	* </ul>
-	* <h4>Sub-menu Link Array</h4>
-	* <ul>
-	* <li><strong>title</strong> - ( string ) the link title.</li>
-	* <li><strong>href</strong> - ( string ) the URL of the target link.</li>
-	* <li><strong>sCapability</strong> - ( optional, string ) the access level to show the item, defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-	* </ul>
-	* 
-	* <h4>Example</h4>
-	* <code>$this->addSubMenuItems(
-	*		array(
-	*			'title' => 'Various Form Fields',
-	*			'page_slug' => 'first_page',
-	*			'screen_icon' => 'options-general',
-	*		),
-	*		array(
-	*			'title' => 'Manage Options',
-	*			'page_slug' => 'second_page',
-	*			'screen_icon' => 'link-manager',
-	*		),
-	*		array(
-	*			'title' => 'Google',
-	*			'href' => 'http://www.google.com',	
-	*			'fShowPageHeadingTab' => false,	// this removes the title from the page heading tabs.
-	*		),
-	*	);</code>
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Changed the scope to public.
-	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	* @remark			The user may use this method in their extended class definition.
-	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @param			array		$aSubMenuItem1		a first sub-menu array.
-	* @param			array		$aSubMenuItem2		( optional ) a second sub-menu array.
-	* @param			array		$_and_more				( optional ) third and add items as many as necessary with next parameters.
-	* @access 			public
-	* @return			void
-	*/		
-	public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
-		foreach ( func_get_args() as $aSubMenuItem ) 
-			$this->addSubMenuItem( $aSubMenuItem );		
-	}
-	
-	/**
-	* Adds the given sub-menu item on the left sidebar of the administration panel.
-	* 
-	* This only adds one single item, called by the above <em>addSubMenuItem()</em> method.
-	* 
-	* The array structure of the parameter is documented in the <em>addSubMenuItem()</em> method section.
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Changed the scope to public.
-	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	* @remark			The user may use this method.
-	* @param			array		$aSubMenuItem			a first sub-menu array.
-	* @access 			public
-	* @return			void
-	*/	
-	public function addSubMenuItem( $aSubMenuItem ) {
-		if ( isset( $aSubMenuItem['href'] ) ) {
-			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link::$_aStructure_SubMenuLink;
-			$this->oLink->addSubMenuLink(
-				$aSubMenuLink['title'],
-				$aSubMenuLink['href'],
-				$aSubMenuLink['sCapability'],
-				$aSubMenuLink['order'],
-				$aSubMenuLink['fShowPageHeadingTab'],
-				$aSubMenuLink['fShowInMenu']
-			);			
-		}
-		else { // if ( $aSubMenuItem['type'] == 'page' ) {
-			$aSubMenuPage = $aSubMenuItem + self::$_aStructure_SubMenuPage;	// avoid undefined index warnings.
-			$this->addSubMenuPage(
-				$aSubMenuPage['title'],
-				$aSubMenuPage['page_slug'],
-				$aSubMenuPage['screen_icon'],
-				$aSubMenuPage['sCapability'],
-				$aSubMenuPage['order'],	
-				$aSubMenuPage['fShowPageHeadingTab'],
-				$aSubMenuPage['fShowInMenu']
-			);				
-		}
-	}
-
-	/**
-	* Adds the given link into the menu on the left sidebar of the administration panel.
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Changed the scope to public from protected.
-	* @remark			The user may use this method in their extended class definition.
-	* @param			string		$sMenuTitle			the menu title.
-	* @param			string		$sURL					the URL linked to the menu.
-	* @param			string		$sCapability			( optional ) the access level. ( http://codex.wordpress.org/Roles_and_Capabilities)
-	* @param			string		$nOrder				( optional ) the order number. The larger it is, the lower the position it gets.
-	* @param			string		$bShowPageHeadingTab		( optional ) if set to false, the menu title will not be listed in the tab navigation menu at the top of the page.
-	* @access 			public
-	* @return			void
-	*/	
-	public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
-		$this->oLink->addSubMenuLink( $sMenuTitle, $sURL, $sCapability, $nOrder, $bShowPageHeadingTab, $bShowInMenu );
-	}
-
-	/**
 	* Adds the given link(s) into the description cell of the plugin listing table.
 	* 
 	* <h4>Example</h4>
@@ -665,10 +545,10 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
 
 		// If it is a pre callback method, call the redirecting method.		
-		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' ) return $this->renderSectionDescription( $sMethodName );  // add_settings_section() callback				
-		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )	== 'field_pre_' ) return $this->renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback		
-		if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' ) return $this->doValidationCall( $sMethodName, $aArgs[ 0 ] ); // register_setting() callback
-		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )	== 'load_pre_' ) return $this->doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
+		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' )	return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback	- defined in AdminPageFramework_Setting
+		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )		== 'field_pre_' )	return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
+		if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' )	return $this->_doValidationCall( $sMethodName, $aArgs[ 0 ] ); // register_setting() callback - defined in AdminPageFramework_Setting
+		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )		== 'load_pre_' )	return $this->_doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
 
 		// The callback of the call_page_{page slug} action hook
 		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug )
@@ -694,6 +574,22 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 					return true;
 			
 			return false;
+			
+		}
+
+		/**
+		 * Redirects the callback of the load-{page} action hook to the framework's callback.
+		 * 
+		 * @since			2.1.0
+		 * @access			protected
+		 * @internal
+		 * @remark			This method will be triggered before the header gets sent.
+		 * @return			void
+		 */ 
+		protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $aArg ) {
+
+			// Do actions, class name -> page -> in-page tab.
+			$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
 			
 		}
 	

@@ -5735,7 +5735,7 @@ abstract class AdminPageFramework_MetaBox {
 			)
 		) {
 			// Set relevant scripts and styles for the input field.
-			$this->setFieldHeadTagElements( $aField );
+			$this->_setFieldHeadTagElements( $aField );
 
 		}
 		
@@ -5756,11 +5756,11 @@ abstract class AdminPageFramework_MetaBox {
 		/**
 		 * Sets the given field type's enqueuing scripts and styles.
 		 * 
-		 * A helper function for the above _replyToRegisterSettings() method.
+		 * A helper function for the above addSettingField() method.
 		 * 
 		 * @since			2.1.5
 		 */
-		private function setFieldHeadTagElements( $aField ) {
+		private function _setFieldHeadTagElements( $aField ) {
 			
 			$sFieldType = $aField['type'];
 			

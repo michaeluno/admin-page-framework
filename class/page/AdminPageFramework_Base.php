@@ -113,9 +113,6 @@ abstract class AdminPageFramework_Base {
 	public function enqueueStyle() {}
 	public function enqueueScripts() {}
 	public function enqueueScript() {}
-	public function addSubMenuItems() {}
-	public function addSubMenuItem() {}
-	public function addSubMenuLink() {}
 	public function addLinkToPluginDescription() {}
 	public function addLinkToPluginTitle() {}
 	public function setCapability() {}
@@ -133,6 +130,25 @@ abstract class AdminPageFramework_Base {
 	public function setInPageTabTag() {}
 	public function setPageHeadingTabTag() {}
 	
+	/* Defined in AdminPageFramework_Menu */
+	public function setRootMenuPage() {}
+	public function setRootMenuPageBySlug() {}
+	public function addSubMenuItems() {}
+	public function addSubMenuItem() {}
+	public function addSubMenuLink() {}	
+	public function addSubMenuPages() {}
+	public function addSubMenuPage() {}
+	
+	/* Defined in AdminPageFramework_Setting */
+	public function setSettingNotice() {}
+	public function addSettingSections() {}
+	public function addSettingSection() {}
+	public function removeSettingSections() {}	
+	public function addSettingFields() {}
+	public function addSettingField() {}
+	public function removeSettingFields() {}
+	public function setFieldErrors() {}
+	public function getFieldValue() {}
 	
 
 }

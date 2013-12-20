@@ -200,7 +200,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: all the internal methods to have the prefix of an underscore.
 * Changed: all the variable names used in the code to apply the Alternative PHP Hungarian Notation.
 * Changed: some of the class names used internally.
-* Changed: ( ***Breaking Change*** ) all the names of array keys to consist of lower case characters and underscores.
+* Changed: ( ***Breaking Change*** ) all the names of array keys with which the user may interact to consist of lower case characters and underscores.
 
 = 2.1.7 =
 * Added: the `enqueueScript()` and the `enqueueStyle()` methods for the post type class.
