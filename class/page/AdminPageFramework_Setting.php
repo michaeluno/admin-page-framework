@@ -83,7 +83,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
 		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects
 		
-		parent::__construct();
+		// Call the parent constructor.
+		$aArgs = func_get_args();
+		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
 		
 	}
 							

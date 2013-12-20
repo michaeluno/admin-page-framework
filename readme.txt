@@ -186,11 +186,17 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
-* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_{...}` filters and they were renamed.
-* Changed: All the callback methods to have the prefix of `replyTo`.
-* Changed: All the internal methods to have the prefix of an underscore.
-* Changed: All the variable names used in the code to apply the Alternative PHP Hungarian Notation.
-* Changed: Some of the class names used internally.
+* Deprecated: ( ***Breaking Change*** ) the `foot_{...}` filters and they is renamed to `content_bottom_{...}`.
+* Deprecated: ( ***Breaking Change*** ) the `head_{...}` filters and they is renamed to `content_top_{...}`.
+* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_setting_fields` filter and it is renamed to `fields_{extended class name}`.
+* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_setting_sections` filter and it is renamed to `sections_{extended class name}`.
+* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter and it is renamed to `section_{extended class name}_{section id}`.
+* Deprecated: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter and it is renamed to `section_{extended class name}_{section id}`.
+* Changed: the scope of all the methods intended to be used by the user to `public` from `protected`.
+* Changed: all the callback methods to have the prefix of `replyTo`.
+* Changed: all the internal methods to have the prefix of an underscore.
+* Changed: all the variable names used in the code to apply the Alternative PHP Hungarian Notation.
+* Changed: some of the class names used internally.
 * Changed: ( ***Breaking Change*** ) all the names of array keys to consist of lower case characters and underscores.
 
 = 2.1.7 =

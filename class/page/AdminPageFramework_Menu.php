@@ -61,7 +61,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		
 		add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );		
 		
-		parent::__construct();
+		// Call the parent constructor.
+		$aArgs = func_get_args();
+		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
+
 		
 	}
 	 
