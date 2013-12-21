@@ -12,6 +12,25 @@ if ( ! class_exists( 'AdminPageFramework_Property_Base' ) ) :
 abstract class AdminPageFramework_Property_Base {
 
 	/**
+	 * Represents the structure of the script info array.
+	 * @internal
+	 * @since			2.0.0
+	 * @since			3.0.0			Moved from the link class.
+	 */ 
+	private static $_aStructure_CallerInfo = array(
+		'sPath'			=> null,
+		'sType'			=> null,
+		'sName'			=> null,		
+		'sURI'			=> null,
+		'sVersion'		=> null,
+		'sThemeURI'		=> null,
+		'sScriptURI'		=> null,
+		'sAuthorURI'		=> null,
+		'sAuthor'			=> null,
+		'sDescription'	=> null,
+	);	
+	
+	/**
 	 * Stores the library information.
 	 * 
 	 * @since			3.0.0
@@ -31,6 +50,13 @@ abstract class AdminPageFramework_Property_Base {
 	 * @since			3.0.0
 	 */
 	public $sCallerPath;
+	
+	/**
+	 * Stores the caller script data
+	 * 
+	 * @since			Unknown
+	 */
+	public $aScriptInfo;		// do not assign a value here since it is checked whether it is set or not.
 	
 	/**
 	 * Stores the extended class name that instantiated the property object.
@@ -266,7 +292,8 @@ abstract class AdminPageFramework_Property_Base {
 		$this->oCaller = $oCaller;
 		$this->sCallerPath = $sCallerPath;
 		$this->sClassName = $sClassName;		
-		$this->sClassHash = md5( $sClassName );		
+		$this->sClassHash = md5( $sClassName );	
+		$this->aScriptInfo = $this->getCallerInfo( $sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
 			: array();
@@ -325,6 +352,55 @@ abstract class AdminPageFramework_Property_Base {
 		return self::$_aLibraryData;
 		
 	}
-	
+
+	/*
+	 * Methods for getting script info.
+	 */ 	 
+	/**
+	 * Retrieves the caller script information whether it's a theme or plugin or something else.
+	 * 
+	 * @since			2.0.0
+	 * @since			3.0.0			Moved from the link class.
+	 * @remark			The information can be used to embed into the footer etc.
+	 * @return			array			The information of the script.
+	 */	 
+	protected function getCallerInfo( $sCallerPath=null ) {
+		
+		$aCallerInfo = self::$_aStructure_CallerInfo;
+		$aCallerInfo['sPath'] = $sCallerPath;
+		$aCallerInfo['sType'] = $this->_getCallerType( $aCallerInfo['sPath'] );
+
+		if ( $aCallerInfo['sType'] == 'unknown' ) return $aCallerInfo;
+		
+		if ( $aCallerInfo['sType'] == 'plugin' ) 
+			return AdminPageFramework_WPUtility::getScriptData( $aCallerInfo['sPath'], $aCallerInfo['sType'] ) + $aCallerInfo;
+			
+		if ( $aCallerInfo['sType'] == 'theme' ) {
+			$oTheme = wp_get_theme();	// stores the theme info object
+			return array(
+				'sName'			=> $oTheme->Name,
+				'sVersion' 		=> $oTheme->Version,
+				'sThemeURI'		=> $oTheme->get( 'ThemeURI' ),
+				'sURI'			=> $oTheme->get( 'ThemeURI' ),
+				'sAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
+				'sAuthor'			=> $oTheme->get( 'Author' ),				
+			) + $aCallerInfo;	
+		}
+	}	
+		/**
+		 * Determines the script type.
+		 * 
+		 * It tries to find what kind of script this is, theme, plugin or something else from the given path.
+		 * @since			2.0.0
+		 * @since			3.0.0			Moved from the link class.
+		 * @return		string				Returns either 'theme', 'plugin', or 'unknown'
+		 */ 
+		private function _getCallerType( $sScriptPath ) {
+			
+			if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) return 'theme';
+			if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) return 'plugin';
+			return 'unknown';	
+		
+		}	
 }
 endif;

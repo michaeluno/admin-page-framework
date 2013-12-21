@@ -83,13 +83,6 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
 	 * @since			2.0.0
 	 * @since			2.1.0			Moved to AdminPageFramework_Property_PostType.
 	 * @internal
-	 * @access			protected
-	 */ 	
-	public $sPrefix_Start = 'start_';
-	/**
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved to AdminPageFramework_Property_PostType.
-	 * @internal
 	 */ 	
 	public $sPrefix_Cell = 'cell_';
 	

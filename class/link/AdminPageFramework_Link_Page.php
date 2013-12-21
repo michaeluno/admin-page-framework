@@ -30,18 +30,17 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		if ( ! is_admin() ) return;
 		
 		$this->oProp = $oProp;
-		$this->sCallerPath = file_exists( $sCallerPath ) ? $sCallerPath : $this->getCallerPath();
-		$this->oProp->aScriptInfo = $this->getCallerInfo( $this->sCallerPath ); 
+		$this->sCallerPath = file_exists( $sCallerPath ) ? $sCallerPath : $this->getCallerScriptPath();
 		$this->oMsg = $oMsg;
 		
 		// Add script info into the footer 
-		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
-		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
-		$this->setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
-		$this->setFooterInfoRight( AdminPageFramework_Property_Base::_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );
+		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
+		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
+		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
+		$this->_setFooterInfoRight( AdminPageFramework_Property_Base::_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );
 	
 		if ( $this->oProp->aScriptInfo['sType'] == 'plugin' )
-			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
+			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) );
 
 	}
 
@@ -111,7 +110,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	 * @since			2.0.0
 	 * @remark			A callback for the filter hook, <em>admin_footer_text</em>.
 	 */ 
-	public function addInfoInFooterLeft( $sLinkHTML='' ) {
+	public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
 
 		if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) 
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
@@ -121,7 +120,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		return $this->oProp->aFooterInfo['sLeft'];
 
 	}
-	public function addInfoInFooterRight( $sLinkHTML='' ) {
+	public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
 
 		if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) 
 			return $sLinkHTML;	// $sLinkTHML is given by the hook.
@@ -130,7 +129,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 			
 	}
 	
-	public function addSettingsLinkInPluginListingPage( $aLinks ) {
+	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
 		
 		// For a custom root slug,
 		$sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu['sPageSlug'] ) 

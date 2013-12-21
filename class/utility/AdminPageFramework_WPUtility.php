@@ -167,10 +167,10 @@ abstract class AdminPageFramework_WPUtility {
 	 * An alternative to get_plugin_data() as some users change the location of the wp-admin directory.
 	 * 
 	 * @since			2.0.0
-	 * @since			3.0.0			Changed the scope to public.
+	 * @since			3.0.0			Changed the scope to public and become static.
 	 * @access			public
 	 */ 
-	public function getScriptData( $sPath, $sType='plugin' )	{
+	static public function getScriptData( $sPath, $sType='plugin' )	{
 	
 		$aData = get_file_data( 
 			$sPath, 

@@ -124,12 +124,12 @@ abstract class AdminPageFramework_PostType {
 			add_action( 'admin_head', array( $this, 'addStyle' ) );
 			
 			// Links
-			$this->oLink = new AdminPageFramework_Link_PostType( $this->oProp->sPostType, $this->oProp->sCallerPath, $this->oMsg );
+			$this->oLink = new AdminPageFramework_Link_PostType( $this->oProp, $this->oMsg );
 			
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
 		}
 	
-		$this->oUtil->addAndDoAction( $this, "{$this->oProp->sPrefix_Start}{$this->oProp->sClassName}" );
+		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
 	}
 	
