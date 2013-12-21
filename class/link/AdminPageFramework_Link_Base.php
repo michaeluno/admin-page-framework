@@ -10,90 +10,17 @@ if ( ! class_exists( 'AdminPageFramework_Link_Base' ) ) :
  * @subpackage		Admin Page Framework - Link
  */
 abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
-	
-	/**
-	 * @internal
-	 * @since			2.0.0
-	 */ 
-	private static $_aStructure_CallerInfo = array(
-		'sPath'			=> null,
-		'sType'			=> null,
-		'sName'			=> null,		
-		'sURI'			=> null,
-		'sVersion'		=> null,
-		'sThemeURI'		=> null,
-		'sScriptURI'		=> null,
-		'sAuthorURI'		=> null,
-		'sAuthor'			=> null,
-		'sDescription'	=> null,
-	);	
-	
-	/*
-	 * Methods for getting script info.
-	 */ 
-	 
-	/**
-	 * Retrieves the caller script information whether it's a theme or plugin or something else.
-	 * 
-	 * @since			2.0.0
-	 * @remark			The information can be used to embed into the footer etc.
-	 * @return			array			The information of the script.
-	 */	 
-	protected function getCallerInfo( $sCallerPath=null ) {
 		
-		$aCallerInfo = self::$_aStructure_CallerInfo;
-		$aCallerInfo['sPath'] = $sCallerPath;
-		$aCallerInfo['sType'] = $this->_getCallerType( $aCallerInfo['sPath'] );
-
-		if ( $aCallerInfo['sType'] == 'unknown' ) return $aCallerInfo;
-		
-		if ( $aCallerInfo['sType'] == 'plugin' ) 
-			return $this->getScriptData( $aCallerInfo['sPath'], $aCallerInfo['sType'] ) + $aCallerInfo;
-			
-		if ( $aCallerInfo['sType'] == 'theme' ) {
-			$oTheme = wp_get_theme();	// stores the theme info object
-			return array(
-				'sName'			=> $oTheme->Name,
-				'sVersion' 		=> $oTheme->Version,
-				'sThemeURI'		=> $oTheme->get( 'ThemeURI' ),
-				'sURI'			=> $oTheme->get( 'ThemeURI' ),
-				'sAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
-				'sAuthor'			=> $oTheme->get( 'Author' ),				
-			) + $aCallerInfo;	
-		}
-	}	
-		/**
-		 * Determines the script type.
-		 * 
-		 * It tries to find what kind of script this is, theme, plugin or something else from the given path.
-		 * @since			2.0.0
-		 * @return		string				Returns either 'theme', 'plugin', or 'unknown'
-		 */ 
-		private function _getCallerType( $sScriptPath ) {
-			
-			if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) return 'theme';
-			if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) return 'plugin';
-			return 'unknown';	
-		
-		}
-	protected function getCallerPath() {
-
-		foreach( debug_backtrace() as $aDebugInfo )  {			
-			if ( $aDebugInfo['file'] == __FILE__ ) continue;
-			return $aDebugInfo['file'];	// return the first found item.
-		}
-	}	
-	
 	/**
 	 * Sets the default footer text on the left hand side.
 	 * 
 	 * @since			2.1.1
 	 */
-	protected function setFooterInfoLeft( $aScriptInfo, &$sFooterInfoLeft ) {
+	protected function _setFooterInfoLeft( $aScriptInfo, &$sFooterInfoLeft ) {
 		
-		$sDescription = empty( $aScriptInfo['description'] ) 
+		$sDescription = empty( $aScriptInfo['sDescription'] ) 
 			? ""
-			: "&#13;{$aScriptInfo['description']}";
+			: "&#13;{$aScriptInfo['sDescription']}";
 		$sVersion = empty( $aScriptInfo['sVersion'] )
 			? ""
 			: "&nbsp;{$aScriptInfo['sVersion']}";
@@ -114,11 +41,11 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
 	 * 
 	 * @since			2.1.1
 	 */	
-	protected function setFooterInfoRight( $aScriptInfo, &$sFooterInfoRight ) {
+	protected function _setFooterInfoRight( $aScriptInfo, &$sFooterInfoRight ) {
 	
-		$sDescription = empty( $aScriptInfo['description'] ) 
+		$sDescription = empty( $aScriptInfo['sDescription'] ) 
 			? ""
-			: "&#13;{$aScriptInfo['description']}";
+			: "&#13;{$aScriptInfo['sDescription']}";
 		$sVersion = empty( $aScriptInfo['sVersion'] )
 			? ""
 			: "&nbsp;{$aScriptInfo['sVersion']}";		
