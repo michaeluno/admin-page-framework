@@ -199,6 +199,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: all the callback methods to have the prefix of `replyTo`.
 * Changed: all the internal methods to have the prefix of an underscore.
 * Changed: all the variable names used in the code to apply the Alternative PHP Hungarian Notation.
+* Changed: ( ***Breaking Change*** ) the name of the property `oProps` to `oProp`.
+* Changed: ( ***Breaking Change*** ) the name of the class `AdminPageFramework_CustomFieldType` to `AdminPageFramework_FieldType`.
 * Changed: some of the class names used internally.
 * Changed: ( ***Breaking Change*** ) all the names of array keys with which the user may interact to consist of lower case characters and underscores.
 
