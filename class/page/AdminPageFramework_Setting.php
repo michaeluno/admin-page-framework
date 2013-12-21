@@ -29,8 +29,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'tab_slug' => null,
 		'title' => null,
 		'description' => null,
-		'sCapability' => null,
-		'fIf' => true,	
+		'capability' => null,
+		'if' => true,	
 		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
 		'help' => null,
 		'help_aside' => null,
@@ -46,25 +46,25 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	protected static $_aStructure_Field = array(
-		'field_id'		=> null, 		// ( mandatory )
+		'field_id'			=> null, 		// ( mandatory )
 		'section_id'		=> null,		// ( mandatory )
-		'sSectionTitle'	=> null,		// This will be assigned automatically in the formatting method.
-		'type'			=> null,		// ( mandatory )
-		'page_slug'		=> null,		// This will be assigned automatically in the formatting method.
-		'tab_slug'		=> null,		// This will be assigned automatically in the formatting method.
-		'sOptionKey'		=> null,		// This will be assigned automatically in the formatting method.
-		'sClassName'		=> null,		// This will be assigned automatically in the formatting method.
-		'sCapability'		=> null,		
-		'title'			=> null,
-		'tip'			=> null,
-		'description'	=> null,
+		'section_title'		=> null,		// This will be assigned automatically in the formatting method.
+		'type'				=> null,		// ( mandatory )
+		'page_slug'			=> null,		// This will be assigned automatically in the formatting method.
+		'tab_slug'			=> null,		// This will be assigned automatically in the formatting method.
+		'option_key'		=> null,		// This will be assigned automatically in the formatting method.
+		'class_name'		=> null,		// This will be assigned automatically in the formatting method.
+		'capability'		=> null,		
+		'title'				=> null,
+		'tip'				=> null,
+		'description'		=> null,
 		'sName'			=> null,		// the name attribute of the input field.
-		'sError'			=> null,		// error message for the field
-		'sBeforeField'	=> null,
-		'sAfterField'		=> null,
-		'fIf' 				=> true,
-		'order'			=> null,	// do not set the default number here for this key.		
-		'help'			=> null,	// since 2.1.0
+		'error_message'		=> null,		// error message for the field
+		'before_field'		=> null,
+		'after_field'		=> null,
+		'if' 				=> true,
+		'order'				=> null,	// do not set the default number here for this key.		
+		'help'				=> null,	// since 2.1.0
 		'help_aside'		=> null,	// since 2.1.0
 		'repeatable'		=> null,	// since 2.1.3
 	);	
@@ -230,11 +230,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( $GLOBALS['pagenow'] != 'options.php' && ! $sCurrentPageSlug || $sCurrentPageSlug !=  $aSection['page_slug'] ) return;				
 
 		// If the custom condition is set and it's not true, skip.
-		if ( ! $aSection['fIf'] ) return;
+		if ( ! $aSection['if'] ) return;
 		
 		// If the access level is set and it is not sufficient, skip.
-		$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProp->sCapability;
-		if ( ! current_user_can( $aSection['sCapability'] ) ) return;	// since 1.0.2.1
+		$aSection['capability'] = isset( $aSection['capability'] ) ? $aSection['capability'] : $this->oProp->sCapability;
+		if ( ! current_user_can( $aSection['capability'] ) ) return;	// since 1.0.2.1
 		
 		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
 			
@@ -516,11 +516,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) return;	// these keys are necessary.
 		
 		// If the custom condition is set and it's not true, skip.
-		if ( ! $aField['fIf'] ) return;			
+		if ( ! $aField['if'] ) return;			
 		
 		// If the access level is not sufficient, skip.
-		$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProp->sCapability;
-		if ( ! current_user_can( $aField['sCapability'] ) ) return; 
+		$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
+		if ( ! current_user_can( $aField['capability'] ) ) return; 
 								
 		$this->oProp->aFields[ $aField['field_id'] ] = $aField;		
 		
@@ -1189,7 +1189,7 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 					array(
 						'page_slug'					=> $aField['page_slug'],
 						'page_tab_slug'				=> $aField['tab_slug'],
-						'help_tab_title'			=> $aField['sSectionTitle'],
+						'help_tab_title'			=> $aField['section_title'],
 						'help_tab_id'				=> $aField['section_id'],
 						'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
 														. $aField['help'],
@@ -1294,11 +1294,11 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 				if ( ! $this->_isSettingSectionOfCurrentTab( $aSection ) )  continue;
 				
 				// If the access level is set and it is not sufficient, skip.
-				$aSection['sCapability'] = isset( $aSection['sCapability'] ) ? $aSection['sCapability'] : $this->oProp->sCapability;
-				if ( ! current_user_can( $aSection['sCapability'] ) ) continue;	// since 1.0.2.1
+				$aSection['capability'] = isset( $aSection['capability'] ) ? $aSection['capability'] : $this->oProp->sCapability;
+				if ( ! current_user_can( $aSection['capability'] ) ) continue;	// since 1.0.2.1
 			
 				// If a custom condition is set and it's not true, skip,
-				if ( $aSection['fIf'] !== true ) continue;
+				if ( $aSection['if'] !== true ) continue;
 			
 				// Set the order.
 				$aSection['order']	= is_numeric( $aSection['order'] ) ? $aSection['order'] : count( $aNewSectionArray ) + 10;
@@ -1379,23 +1379,23 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 				if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) continue;	// these keys are necessary.
 				
 				// If the access level is not sufficient, skip.
-				$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProp->sCapability;
-				if ( ! current_user_can( $aField['sCapability'] ) ) continue; 
+				$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
+				if ( ! current_user_can( $aField['capability'] ) ) continue; 
 							
 				// If the condition is not met, skip.
-				if ( $aField['fIf'] !== true ) continue;
+				if ( $aField['if'] !== true ) continue;
 							
 				// Set the order.
 				$aField['order']	= is_numeric( $aField['order'] ) ? $aField['order'] : count( $aNewFieldArrays ) + 10;
 				
 				// Set the tip, option key, instantiated class name, and page slug elements.
 				$aField['tip'] = strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] );
-				$aField['sOptionKey'] = $this->oProp->sOptionKey;
-				$aField['sClassName'] = $this->oProp->sClassName;
+				$aField['option_key'] = $this->oProp->sOptionKey;
+				$aField['class_name'] = $this->oProp->sClassName;
 				// $aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : null;
 				$aField['page_slug'] = $this->oProp->aSections[ $aField['section_id'] ]['page_slug'];
 				$aField['tab_slug'] = $this->oProp->aSections[ $aField['section_id'] ]['tab_slug'];
-				$aField['sSectionTitle'] = $this->oProp->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
+				$aField['section_title'] = $this->oProp->aSections[ $aField['section_id'] ]['title'];	// used for the contextual help pane.
 				
 				// Add the element to the new returning array.
 				$aNewFieldArrays[ $aField['field_id'] ] = $aField;

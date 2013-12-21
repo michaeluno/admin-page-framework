@@ -141,23 +141,23 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		'type'			=> null,	// ( mandatory ) the field type.
 		'title' 			=> null,	// the field title
 		'description'	=> null,	// an additional note 
-		'sCapability'		=> null,	// an additional note 
+		'capability'		=> null,	// an additional note 
 		'tip'			=> null,	// pop up text
 		// 'options'			=> null,	// ? don't remember what this was for
 		'vValue'			=> null,	// allows to override the stored value
 		'default'			=> null,	// allows to set default values.
 		'sName'			=> null,	// allows to set custom field name
 		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
-		'fIf'				=> true,
+		'if'				=> true,
 		'help'			=> null,	// since 2.1.0
 		'help_aside'		=> null,	// since 2.1.0
 		'show_in_page_tabTitleColumn'	=> null,	// since 2.1.2
 		
 		// The followings may need to be uncommented.
-		// 'sClassName' => null,		// This will be assigned automatically in the formatting method.
-		// 'sError' => null,			// error message for the field
-		// 'sBeforeField' => null,
-		// 'sAfterField' => null,
+		// 'class_name' => null,		// This will be assigned automatically in the formatting method.
+		// 'error_message' => null,			// error message for the field
+		// 'before_field' => null,
+		// 'after_field' => null,
 		// 'order' => null,			// do not set the default number here for this key.		
 
 		'repeatable'		=> null,	// since 2.1.3		

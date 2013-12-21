@@ -63,7 +63,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	// protected static $_aStructure_SubMenuLinkForSystem = array(
 		// 'sTitle' => null,
 		// 'sHref' => null,
-		// 'sCapability' => null,
+		// 'capability' => null,
 		// 'nOrder' => null,
 		// 'sType' => 'link',
 		// 'fShowPageHeadingTab' => true,
@@ -110,7 +110,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		// 'sType' => 'page',
 // 'sIcon32x32' => null,
 // 'sScreenIconID' => null,
-// 'sCapability' => null, 		
+// 'capability' => null, 		
 // 'nOrder' => null,
 // 'fShowPageHeadingTab' => true,
 // 'fShowInMenu' => true,		
@@ -371,7 +371,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		'sType' => 'page',
 'sIcon32x32' => null,
 'sScreenIconID' => null,
-'sCapability' => null, 		
+'capability' => null, 		
 'nOrder' => null,
 'fShowPageHeadingTab' => true,
 'fShowInMenu' => true,		
@@ -542,7 +542,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 					$sRootPageSlug,						// the root(parent) page slug
 					$sTitle,								// page_title
 					$sTitle,								// menu_title
-					$sCapability,				 			// sCapability
+					$sCapability,				 			// capability
 					$sPageSlug,	// menu_slug
 					// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $aResult[ $sPageSlug ] )
 					// will be executed and it triggers the __call magic method with the method name of "md5 class hash + _page_ + this page slug".

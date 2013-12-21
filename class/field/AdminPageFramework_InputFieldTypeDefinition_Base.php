@@ -28,8 +28,8 @@ abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPag
 		// For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings.
 		'page_slug' => null,
 		'section_id' => null,
-		'sBeforeField' => null,
-		'sAfterField' => null,	
+		'before_field' => null,
+		'after_field' => null,	
 	);	
 	
 	protected $oMsg;

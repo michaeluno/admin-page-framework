@@ -78,7 +78,7 @@ class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputF
 					. "/>"							
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][import_option_key]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportOptionKey'], $sKey, $aField['sOptionKey'] )
+						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportOptionKey'], $sKey, $aField['option_key'] )
 					. "' />"
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )

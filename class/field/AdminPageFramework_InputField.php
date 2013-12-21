@@ -54,8 +54,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 		// If the name key is explicitly set, use it
 		if ( ! empty( $aField['sName'] ) ) return $aField['sName'];
 		
-		return isset( $aField['sOptionKey'] ) // the meta box class does not use the option key
-			? "{$aField['sOptionKey']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
+		return isset( $aField['option_key'] ) // the meta box class does not use the option key
+			? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
 			: $aField['field_id'];
 		
 	}
@@ -147,10 +147,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 		
 		// Prepend the field error message.
 		$sOutput = isset( $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] )
-			? "<span style='color:red;'>*&nbsp;{$this->aField['sError']}" . $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] . "</span><br />"
+			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 		
-		// Prepeare the field class selector 
+		// Prepare the field class selector 
 		$this->sFieldClassSelector = $this->aField['repeatable']
 			? "admin-page-framework-field repeatable"
 			: "admin-page-framework-field";
@@ -179,9 +179,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 		return $this->getRepeaterScriptGlobal( $this->sTagID )
 			. "<fieldset>"
 				. "<div class='admin-page-framework-fields'>"
-					. $this->aField['sBeforeField'] 
+					. $this->aField['before_field'] 
 					. $sOutput
-					. $this->aField['sAfterField']
+					. $this->aField['after_field']
 				. "</div>"
 			. "</fieldset>";
 		

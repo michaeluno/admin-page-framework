@@ -61,7 +61,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 		
 		// If vValue is not an array and the export data set, set the transient. ( it means single )
 		if ( isset( $aField['export_data'] ) && ! is_array( $vValue ) )
-			set_transient( md5( "{$aField['sClassName']}_{$aField['field_id']}" ), $aField['export_data'], 60*2 );	// 2 minutes.
+			set_transient( md5( "{$aField['class_name']}_{$aField['field_id']}" ), $aField['export_data'], 60*2 );	// 2 minutes.
 		
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
 			
@@ -70,7 +70,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
 			$bIsDataSet = false;
 			if ( isset( $vValue[ $sKey ] ) && isset( $aField['export_data'][ $sKey ] ) ) {
-				set_transient( md5( "{$aField['sClassName']}_{$aField['field_id']}_{$sKey}" ), $aField['export_data'][ $sKey ], 60*2 );	// 2 minutes.
+				set_transient( md5( "{$aField['class_name']}_{$aField['field_id']}_{$sKey}" ), $aField['export_data'][ $sKey ], 60*2 );	// 2 minutes.
 				$bIsDataSet = true;
 			}
 			
@@ -87,7 +87,7 @@ class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputF
 					. "/>"					
 					. "<input type='hidden' "
 						. "name='__export[{$aField['field_id']}][file_name]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['export_file_name'], $sKey, $this->generateExportFileName( $aField['sOptionKey'], $sExportFormat ) )
+						. "value='" . $this->getCorrespondingArrayValue( $aField['export_file_name'], $sKey, $this->generateExportFileName( $aField['option_key'], $sExportFormat ) )
 					. "' />"
 					. "<input type='hidden' "
 						. "name='__export[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )

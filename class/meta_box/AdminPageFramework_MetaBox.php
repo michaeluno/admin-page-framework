@@ -305,7 +305,7 @@ abstract class AdminPageFramework_MetaBox {
 		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
 						
 		// If a custom condition is set and it's not true, skip.
-		if ( ! $aField['fIf'] ) return;
+		if ( ! $aField['if'] ) return;
 							
 		// Load head tag elements for fields.
 		if ( 
@@ -453,8 +453,8 @@ abstract class AdminPageFramework_MetaBox {
 			$aField['vValue'] = $sStoredValue ? $sStoredValue : $aField['vValue'];
 			
 			// Check capability. If the access level is not sufficient, skip.
-			$aField['sCapability'] = isset( $aField['sCapability'] ) ? $aField['sCapability'] : $this->oProp->sCapability;
-			if ( ! current_user_can( $aField['sCapability'] ) ) continue; 			
+			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
+			if ( ! current_user_can( $aField['capability'] ) ) continue; 			
 			
 			// Begin a table row. 
 			

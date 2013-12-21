@@ -50,7 +50,7 @@ class APF_Demo extends AdminPageFramework {
 			  	'title' => 'Your Page Title',
 				'page_slug' => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
 				'screen_icon' => 'edit',
-				'sCapability' => 'manage-options',
+				'capability' => 'manage-options',
 				'order' => 10,
 				
 			  for sub-menu links, e.g.
