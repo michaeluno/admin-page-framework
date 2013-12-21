@@ -11,6 +11,50 @@ if ( ! class_exists( 'AdminPageFramework_Base' ) ) :
 abstract class AdminPageFramework_Base {
 	
 	/**
+	 * Stores the prefixes of the filters used by this framework.
+	 * 
+	 * This must not use the private scope as the extended class accesses it, such as 'start_' and must use the public since another class uses this externally.
+	 * 
+	 * @since			2.0.0
+	 * @since			2.1.5			Made it public from protected since the HeadTag class accesses it.
+	 * @since			3.0.0			Moved from AdminPageFramework_Page. Changed the scope to protected as the head tag class no longer access this property.
+	 * @var				array
+	 * @static
+	 * @access			protected
+	 * @internal
+	 */ 
+	protected static $_aHookPrefixes = array(	
+		'start_'			=> 'start_',
+		'load_'				=> 'load_',
+		'do_before_'		=> 'do_before_',
+		'do_after_'			=> 'do_after_',
+		'do_form_'			=> 'do_form_',
+		'do_'				=> 'do_',
+		'content_top_'		=> 'content_top_',
+		'content_'			=> 'content_',
+		'content_bottom_'	=> 'content_bottom_',
+		'validation_'		=> 'validation_',
+		'export_name'		=> 'export_name',
+		'export_format' 	=> 'export_format',
+		'export_'			=> 'export_',
+		'import_name'		=> 'import_name',
+		'import_format'		=> 'import_format',
+		'import_'			=> 'import_',
+		'style_'			=> 'style_',
+		'style_ie_'			=> 'style_ie_',
+		'script_'			=> 'script_',
+		
+		'field_'			=> 'field_',
+		'section_'			=> 'section_',
+		'fields_'			=> 'fields_',
+		'sections_'			=> 'sections_',
+		'pages_'			=> 'pages_',
+		'tabs_'				=> 'tabs_',
+		
+		'field_types_'		=> 'field_types_',
+	);
+	
+	/**
     * The common properties shared among sub-classes. 
 	* 
 	* @since			2.0.0

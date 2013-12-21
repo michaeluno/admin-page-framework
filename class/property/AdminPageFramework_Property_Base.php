@@ -251,8 +251,9 @@ abstract class AdminPageFramework_Property_Base {
 	 * @since			2.0.0
 	 * @remark			a callback method for uasort().
 	 * @return			integer
+	 * @internal
 	 */ 
-	public function sortByOrder( $a, $b ) {	
+	public function _sortByOrder( $a, $b ) {	
 		return $a['order'] - $b['order'];
 	}		
 	
@@ -263,10 +264,10 @@ abstract class AdminPageFramework_Property_Base {
 	 * 
 	 * @since			2.1.5
 	 * @access			public	
-	 * @internal
 	 * @return			object			The caller class object.
+	 * @internal
 	 */		
-	public function getParentObject() {
+	public function _getParentObject() {
 		return $this->oCaller;
 	}
 	

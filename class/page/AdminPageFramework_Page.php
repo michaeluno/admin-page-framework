@@ -16,49 +16,6 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
 abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				
 	/**
-	 * Stores the prefixes of the filters used by this framework.
-	 * 
-	 * This must not use the private scope as the extended class accesses it, such as 'start_' and must use the public since another class uses this externally.
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.5			Made it public from protected since the HeadTag class accesses it.
-	 * @var				array
-	 * @static
-	 * @access			public
-	 * @internal
-	 */ 
-	public static $_aHookPrefixes = array(	
-		'start_'			=> 'start_',
-		'load_'				=> 'load_',
-		'do_before_'		=> 'do_before_',
-		'do_after_'			=> 'do_after_',
-		'do_form_'			=> 'do_form_',
-		'do_'				=> 'do_',
-		'content_top_'		=> 'content_top_',
-		'content_'			=> 'content_',
-		'content_bottom_'	=> 'content_bottom_',
-		'validation_'		=> 'validation_',
-		'export_name'		=> 'export_name',
-		'export_format' 	=> 'export_format',
-		'export_'			=> 'export_',
-		'import_name'		=> 'import_name',
-		'import_format'		=> 'import_format',
-		'import_'			=> 'import_',
-		'style_'			=> 'style_',
-		'style_ie_'			=> 'style_ie_',
-		'script_'			=> 'script_',
-		
-		'field_'			=> 'field_',
-		'section_'			=> 'section_',
-		'fields_'			=> 'fields_',
-		'sections_'			=> 'sections_',
-		'pages_'			=> 'pages_',
-		'tabs_'				=> 'tabs_',
-		
-		'field_types_'		=> 'field_types_',
-	);
-
-	/**
 	 * Stores the ID selector names for screen icons. <em>generic</em> is not available in WordPress v3.4.x.
 	 * 
 	 * @since			2.0.0
@@ -161,7 +118,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @param			boolean			$bHide				( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
 	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above show_inpage_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.
 	 * @remark			Use this method to add in-page tabs to ensure the array holds all the necessary keys.
-	 * @remark			In-page tabs are different from page-heading tabs which is automatically added with page titles.
+	 * @remark			In-page tabs are different from page-heading tabs which are automatically added with page titles.
 	 * @return			void
 	 */ 		
 	public function addInPageTab( $sPageSlug, $sTabTitle, $sTabSlug, $nOrder=null, $bHide=null, $sParentTabSlug=null ) {	
@@ -628,9 +585,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 
 			}
 
-	/*
-	 * Callbacks
-	 */
 	/**
 	 * Finalizes the in-page tab property array.
 	 * 
@@ -659,7 +613,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				$aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
 						
 			// Sort the in-page tab array.
-			uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this->oProp, 'sortByOrder' ) );
+			uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this->oProp, '_sortByOrder' ) );
 			
 			// Set the default tab for the page.
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $aInPageTab, is also used as reference in the above foreach.

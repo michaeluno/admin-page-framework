@@ -22,7 +22,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
 		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
 					
-		$oCaller = $this->oProp->getParentObject();
+		$oCaller = $this->oProp->_getParentObject();
 		
 		// Print out the filtered styles.
 		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
@@ -57,7 +57,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
 		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
 
-		$oCaller = $this->oProp->getParentObject();
+		$oCaller = $this->oProp->_getParentObject();
 		
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script'>"

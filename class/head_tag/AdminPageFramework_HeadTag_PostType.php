@@ -32,7 +32,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		if ( isset( $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) return;
 		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
 				
-		$oCaller = $this->oProp->getParentObject();		
+		$oCaller = $this->oProp->_getParentObject();		
 				
 		// Print out the filtered styles.
 		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
@@ -75,7 +75,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		if ( isset( $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) return;
 		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
 	
-		$oCaller = $this->oProp->getParentObject();
+		$oCaller = $this->oProp->_getParentObject();
 		
 		// Print out the filtered scripts.
 		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProp->sClassName}", $this->oProp->sScript );

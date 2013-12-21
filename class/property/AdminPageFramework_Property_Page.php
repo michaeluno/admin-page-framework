@@ -289,7 +289,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		
 		$vOptions = get_option( $this->sOptionKey );
 		if ( empty( $vOptions ) )
-			return array();		// casting array causes a 0 key element. So this way it can be avoided
+			return array();		// casting array causes a 0 key element when the value is empty. So this way it can be avoided
 		
 		if ( is_array( $vOptions ) )	// if it's array, no problem.
 			return $vOptions;
