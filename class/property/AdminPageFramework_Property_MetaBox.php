@@ -151,7 +151,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		'fIf'				=> true,
 		'help'			=> null,	// since 2.1.0
 		'help_aside'		=> null,	// since 2.1.0
-		'show_inpage_tabTitleColumn'	=> null,	// since 2.1.2
+		'show_in_page_tabTitleColumn'	=> null,	// since 2.1.2
 		
 		// The followings may need to be uncommented.
 		// 'sClassName' => null,		// This will be assigned automatically in the formatting method.

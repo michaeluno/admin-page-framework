@@ -90,7 +90,7 @@ class APF_Demo extends AdminPageFramework {
 				'title' => __( 'Hidden Page', 'admin-page-framework-demo' ),
 				'page_slug' => 'apf_hidden_page',
 				'screen_icon' => plugins_url( 'asset/image/wp_logo_bw_32x32.png', __FILE__ ),	// the icon url can be used
-				'fShowInMenu' => false,
+				'show_in_menu' => false,
 			),						
 			array(
 				'title' => __( 'Read Me', 'admin-page-framework-demo' ),
@@ -197,7 +197,7 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=> 'apf_manage_options',
 				'tab_slug'	=> 'delete_options_confirm',
 				'title'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
-				'show_inpage_tab'			=> true,
+				'show_in_page_tab'			=> true,
 				'parent_tab_slug' => 'delete_options',
 				'order'		=> 97,
 			)

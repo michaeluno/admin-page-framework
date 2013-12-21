@@ -43,67 +43,34 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) );
 
 	}
-
-	
-	/**	
-	 * 
-	 * @since			2.0.0
-	 * @since			2.1.4			Changed to be static since it is used from multiple classes.
-	 * @remark			The scope is public because this is accessed from an extended class.
-	 */ 
-	public static $_aStructure_SubMenuLink = array(		
-		'title' => null,
-		'href' => null,
-		'sCapability' => null,
-		'order' => null,
-		'type' => 'link',
-		'fShowPageHeadingTab' => true,
-		'fShowInMenu' => true,
-	);
-
-	public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
-		
-		$iCount = count( $this->oProp->aPages );
-		$this->oProp->aPages[ $sURL ] = array(  
-			'title'		=> $sMenuTitle,
-			'title'		=> $sMenuTitle,	// used for the page heading tabs.
-			'href'			=> $sURL,
-			'type'			=> 'link',	// this is used to compare with the 'page' type.
-			'sCapability'		=> isset( $sCapability ) ? $sCapability : $this->oProp->sCapability,
-			'order'			=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
-			'fShowPageHeadingTab'	=> $bShowPageHeadingTab,
-			'fShowInMenu'		=> $bShowInMenu,
-		);	
-			
-	}
 			
 	/*
 	 * Methods for embedding links 
-	 */ 	
-	public function addLinkToPluginDescription( $linkss ) {
+	 * 
+	 */
+	/**
+	 * @internal
+	 */
+	public function _addLinkToPluginDescription( $linkss ) {
 		
 		if ( !is_array( $linkss ) )
 			$this->oProp->aPluginDescriptionLinks[] = $linkss;
 		else
 			$this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $linkss );
 	
-		add_filter( 'plugin_row_meta', array( $this, 'addLinkToPluginDescription_Callback' ), 10, 2 );
+		add_filter( 'plugin_row_meta', array( $this, '_replyToAddLinkToPluginDescription' ), 10, 2 );
 
 	}
-	public function addLinkToPluginTitle( $linkss ) {
+	public function _addLinkToPluginTitle( $linkss ) {
 		
 		if ( !is_array( $linkss ) )
 			$this->oProp->aPluginTitleLinks[] = $linkss;
 		else
 			$this->oProp->aPluginTitleLinks = array_merge( $this->oProp->aPluginTitleLinks, $linkss );
 		
-		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, 'AddLinkToPluginTitle_Callback' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, '_replyToAddLinkToPluginTitle' ) );
 
 	}
-	
-	/*
-	 * Callback methods
-	 */ 
 	
 	/**
 	 * 
@@ -144,7 +111,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		
 	}	
 	
-	public function addLinkToPluginDescription_Callback( $aLinks, $sFile ) {
+	public function _replyToAddLinkToPluginDescription( $aLinks, $sFile ) {
 
 		if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) return $aLinks;
 		
@@ -159,7 +126,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		return array_merge( $aLinks, $aAddingLinks );
 		
 	}			
-	public function addLinkToPluginTitle_Callback( $aLinks ) {
+	public function _replyToAddLinkToPluginTitle( $aLinks ) {
 
 		// Backward compatibility sanitization.
 		$aAddingLinks = array();

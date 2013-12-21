@@ -466,7 +466,7 @@ abstract class AdminPageFramework_MetaBox {
 				continue;
 			}
 			$sOut .= "<tr>";
-			if ( ! $aField['show_inpage_tabTitleColumn'] )
+			if ( ! $aField['show_in_page_tabTitleColumn'] )
 				$sOut .= "<th><label for='{$aField['field_id']}'>"
 						. "<a id='{$aField['field_id']}'></a>"
 						. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"

@@ -192,9 +192,11 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: ( ***Breaking Change*** ) the name of the `showPageTitle()` method to `setPageTitleVisibility()`.
 * Changed: ( ***Breaking Change*** ) the `foot_{...}` filters to be renamed to `content_bottom_{...}`.
 * Changed: ( ***Breaking Change*** ) the `head_{...}` filters to be renamed to `content_top_{...}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_{page slug}_tabs` filter to be renamed to `tabs_{extended class name}_{page slug}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_pages` filter to be renamed to `pages_{extended class name}`.
 * Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_fields` filter to be renamed to `fields_{extended class name}`.
 * Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_sections` filter to be renamed to `sections_{extended class name}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter to be renamed to `section_{extended class name}_{section id}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_field_{field id}` filter to be renamed to `field_{extended class name}_{field id}`.
 * Changed: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter to be renamed to `section_{extended class name}_{section id}`.
 * Changed: the scope of all the methods intended to be used by the user to `public` from `protected`.
 * Changed: all the callback methods to have the prefix of `replyTo`.

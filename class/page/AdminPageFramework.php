@@ -386,7 +386,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* @return			void
 	*/		
 	public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {				
-		$this->oLink->addLinkToPluginDescription( func_get_args() );		
+		$this->oLink->_addLinkToPluginDescription( func_get_args() );		
 	}
 
 	/**
@@ -408,7 +408,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* @return			void
 	*/	
 	public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {	
-		$this->oLink->addLinkToPluginTitle( func_get_args() );		
+		$this->oLink->_addLinkToPluginTitle( func_get_args() );		
 	}
 	 
 	/**

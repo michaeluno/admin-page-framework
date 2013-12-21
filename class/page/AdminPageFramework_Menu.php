@@ -9,7 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Page
  * @staticvar		array	$_aBuiltInRootMenuSlugs	stores the WordPress built-in menu slugs.
- * @staticvar		array	$_aStructure_SubMenuPage	represents the structure of the sub-menu page array.
+ * @staticvar		array	$_aStructure_SubMenuPageForUser	represents the structure of the sub-menu page array.
  */
 abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	
@@ -38,8 +38,40 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		'network admin' => 		"network_admin_menu",
 	);		
 
+	/**	
+	 * Represents the structure of the sub-menu link array for the users.
+	 * @since			2.0.0
+	 * @since			2.1.4			Changed to be static since it is used from multiple classes.
+	 * @since			3.0.0			Moved from the link class.
+	 * @remark			The scope is public because this is accessed from an extended class.
+	 */ 
+	protected static $_aStructure_SubMenuLinkForUser = array(		
+		'type' => 'link',	
+		'title' => null,	// required
+		'href' => null,		// required
+		'capability' => null,	// optional
+		'order' => null,	// optional
+		'show_page_heading_tab' => true,
+		'show_in_menu' => true,
+	);
+	
 	/**
-	 * Represents the structure of sub-menu page array.
+	 * Represents the structure of the sub-menu link array for the system.
+	 * 
+	 * @since			3.0.0
+	 */
+	// protected static $_aStructure_SubMenuLinkForSystem = array(
+		// 'sTitle' => null,
+		// 'sHref' => null,
+		// 'sCapability' => null,
+		// 'nOrder' => null,
+		// 'sType' => 'link',
+		// 'fShowPageHeadingTab' => true,
+		// 'fShowInMenu' => true,	
+	// );
+	
+	/**
+	 * Represents the structure of sub-menu page array for the users.
 	 * 
 	 * @since			2.0.0
 	 * @remark			Not for the user.
@@ -47,15 +79,47 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @static
 	 * @internal
 	 */ 
-	protected static $_aStructure_SubMenuPage = array(
-		'title' => null, 
-		'page_slug' => null, 
-		'screen_icon' => null,
-		'sCapability' => null, 
-		'order' => null,
-		'fShowPageHeadingTab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
-		'fShowInMenu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
+	protected static $_aStructure_SubMenuPageForUser = array(
+		'type'						=> 'page',	// this is used to compare with the link type.
+		'title'						=> null, 
+		'page_slug'					=> null, 
+		'screen_icon'				=> null,	// this will become either href_icon_32x32 or screen_icon_id
+		'capability'				=> null, 
+		'order'						=> null,
+		'show_page_heading_tab'		=> true,	// if this is false, the page title won't be displayed in the page heading tab.
+		'show_in_menu' 				=> true,	// if this is false, the menu label will not be displayed in the sidebar menu.		
+		'href_icon_32x32'			=> null,
+		'screen_icon_id'			=> null,
+		'show_page_heading_tab'		=> null,
+		'show_menu'					=> null,
+		'show_page_title'			=> null,
+		'show_page_heading_tabs'	=> null,
+		'show_in_page_tabs'			=> null,
+		'in_page_tab_tag'			=> null,
+		'page_heading_tab_tag'		=> null,
 	);
+	
+	/**
+	 * Represents the structure of the sub-menu page array for the system.
+	 * 
+	 * @since			3.0.0
+	 */	
+	// protected static $_aStructure_SubMenuPageForSystem = array(
+		// 'sTitle' => null,
+		// 'sPageSlug' => null,
+		// 'sType' => 'page',
+// 'sIcon32x32' => null,
+// 'sScreenIconID' => null,
+// 'sCapability' => null, 		
+// 'nOrder' => null,
+// 'fShowPageHeadingTab' => true,
+// 'fShowInMenu' => true,		
+// 'show_page_title'			=> null,			// boolean
+// 'fShowPageHeadingTabs'		=> null,		// boolean
+// 'fShowInPageTabs'			=> null,			// boolean
+// 'sInPageTabTag'				=> null,			// string
+// 'sPageHeadingTabTag'		=> null,		// string			
+	// );
 	 
 	function __construct() {
 		
@@ -64,7 +128,6 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		// Call the parent constructor.
 		$aArgs = func_get_args();
 		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
-
 		
 	} 
 	 
@@ -180,7 +243,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	*		array(
 	*			'title' => 'Google',
 	*			'href' => 'http://www.google.com',	
-	*			'fShowPageHeadingTab' => false,	// this removes the title from the page heading tabs.
+	*			'show_page_heading_tab' => false,	// this removes the title from the page heading tabs.
 	*		),
 	*	);</code>
 	* 
@@ -216,29 +279,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	* @return			void
 	*/	
 	public function addSubMenuItem( $aSubMenuItem ) {
-		if ( isset( $aSubMenuItem['href'] ) ) {
-			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link_Page::$_aStructure_SubMenuLink;
-			$this->oLink->addSubMenuLink(
-				$aSubMenuLink['title'],
-				$aSubMenuLink['href'],
-				$aSubMenuLink['sCapability'],
-				$aSubMenuLink['order'],
-				$aSubMenuLink['fShowPageHeadingTab'],
-				$aSubMenuLink['fShowInMenu']
-			);			
-		}
-		else { // if ( $aSubMenuItem['type'] == 'page' ) {
-			$aSubMenuPage = $aSubMenuItem + self::$_aStructure_SubMenuPage;	// avoid undefined index warnings.
-			$this->addSubMenuPage(
-				$aSubMenuPage['title'],
-				$aSubMenuPage['page_slug'],
-				$aSubMenuPage['screen_icon'],
-				$aSubMenuPage['sCapability'],
-				$aSubMenuPage['order'],	
-				$aSubMenuPage['fShowPageHeadingTab'],
-				$aSubMenuPage['fShowInMenu']
-			);				
-		}
+		if ( isset( $aSubMenuItem['href'] ) ) 
+			$this->addSubMenuLink( $aSubMenuItem );
+		else 
+			$this->addSubMenuPage( $aSubMenuItem );
 	}
 
 	/**
@@ -255,8 +299,17 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	* @access 			public
 	* @return			void
 	*/	
-	public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
-		$this->oLink->addSubMenuLink( $sMenuTitle, $sURL, $sCapability, $nOrder, $bShowPageHeadingTab, $bShowInMenu );
+	public function addSubMenuLink( array $aSubMenuLink ) {
+	// public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
+		
+		// If required keys are not set, return.
+		if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) return;
+		
+		// If the set URL is not valid, return.
+		if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) return;
+
+		$this->oProp->aPages[ $aSubMenuLink['href'] ] = $this->_formatSubmenuLinkArray( $aSubMenuLink );
+			
 	}	
 	
 	/**
@@ -272,17 +325,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @remark			The user may use this method.
 	 */ 
 	public function addSubMenuPages() {
-		foreach ( func_get_args() as $aSubMenuPage ) {
-			$aSubMenuPage = $aSubMenuPage + self::$_aStructure_SubMenuPage;	// avoid undefined index warnings.
-			$this->addSubMenuPage(
-				$aSubMenuPage['title'],
-				$aSubMenuPage['page_slug'],
-				$aSubMenuPage['screen_icon'],
-				$aSubMenuPage['sCapability'],
-				$aSubMenuPage['order'],
-				$aSubMenuPage['fShowPageHeadingTab']
-			);				
-		}
+		foreach ( func_get_args() as $aSubMenuPage ) 
+			$this->addSubMenuPage( $aSubMenuPage );
 	}
 	
 	/**
@@ -308,33 +352,43 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @param			boolean			$bShowInMenu			( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.
 	 * @return			void
 	 */ 
-	public function addSubMenuPage( $sPageTitle, $sPageSlug, $sScreenIcon=null, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
+	public function addSubMenuPage( array $aSubMenuPage ) {
+	// public function addSubMenuPage( $sPageTitle, $sPageSlug, $sScreenIcon=null, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
 		
-		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		$iCount = count( $this->oProp->aPages );
-		$aPreviouslySetPage = isset( $this->oProp->aPages[ $sPageSlug ] ) 
-			? $this->oProp->aPages[ $sPageSlug ]
-			: array();
-		$aThisPage = array(  
-			'title'				=> $sPageTitle,
-			'page_slug'				=> $sPageSlug,
-			'type'					=> 'page',	// this is used to compare with the link type.
-			'hrefIcon32x32'			=> $this->oUtil->resolveSRC( $sScreenIcon, true ),
-			'screen_iconID'			=> in_array( $sScreenIcon, self::$_aScreenIconIDs ) ? $sScreenIcon : null,
-			'sCapability'				=> isset( $sCapability ) ? $sCapability : $this->oProp->sCapability,
-			'order'					=> is_numeric( $nOrder ) ? $nOrder : $iCount + 10,
-			'fShowPageHeadingTab'		=> $bShowPageHeadingTab,
-			'fShowInMenu'				=> $bShowInMenu,	// since 1.3.4			
-			'fShowPageTitle'			=> $this->oProp->bShowPageTitle,			// boolean
-			'fShowPageHeadingTabs'		=> $this->oProp->bShowPageHeadingTabs,		// boolean
-			'fShowInPageTabs'			=> $this->oProp->bShowInPageTabs,			// boolean
-			'sInPageTabTag'			=> $this->oProp->sInPageTabTag,			// string
-			'sPageHeadingTabTag'		=> $this->oProp->sPageHeadingTabTag,		// string			
-		);
-		$this->oProp->aPages[ $sPageSlug ] = $this->oUtil->uniteArraysRecursive( $aThisPage, $aPreviouslySetPage );
+/* 	 $_aStructure_SubMenuPageForUser = array(
+		'title' => null, 
+		'page_slug' => null, 
+		'screen_icon' => null,
+		'capability' => null, 
+		'order' => null,
+		'show_page_heading_tab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
+		'show_in_menu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
+	);
+	
+	$_aStructure_SubMenuPageForSystem = array(
+		'sTitle' => null,
+		'sPageSlug' => null,
+		'sType' => 'page',
+'sIcon32x32' => null,
+'sScreenIconID' => null,
+'sCapability' => null, 		
+'nOrder' => null,
+'fShowPageHeadingTab' => true,
+'fShowInMenu' => true,		
+'show_page_title'			=> null,			// boolean
+'fShowPageHeadingTabs'		=> null,		// boolean
+'fShowInPageTabs'			=> null,			// boolean
+'sInPageTabTag'				=> null,			// string
+'sPageHeadingTabTag'		=> null,		// string			
+	);		 */
+		if ( ! isset( $aSubMenuPage['page_slug'] ) ) return;
 			
+		$aSubMenuPage['page_slug'] = $this->oUtil->sanitizeSlug( $aSubMenuPage['page_slug'] );
+		$this->oProp->aPages[ $aSubMenuPage['page_slug'] ] = $this->_formatSubMenuPageArray( $aSubMenuPage );
+
+		
 	}
-				
+					
 	/**
 	 * Builds the sidebar menu of the added pages.
 	 * 
@@ -366,8 +420,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		}
 		
 		// Register them.
-		foreach ( $this->oProp->aPages as &$aSubMenuItem ) 
-			$this->oProp->aRegisteredSubMenuPages = $this->_registerSubMenuPage( $aSubMenuItem );
+		foreach ( $this->oProp->aPages as &$aSubMenuItem ) {
+			$aSubMenuItem = $this->_formatSubMenuItemArray( $aSubMenuItem );	// needs to be sanitized because there are hook filters applied to this array.
+			$this->_registerSubMenuItem( $aSubMenuItem );
+		}
 						
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProp->aRootMenu['fCreateRoot'] ) 
@@ -393,27 +449,84 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		}
 		
 		/**
-		 * Registers the sub-menu page.
+		 * Formats the sub-menu item arrays.
+		 * @since			3.0.0
+		 */
+		private function _formatSubMenuItemArray( $aSubMenuItem ) {
+			
+			if ( isset( $aSubMenuItem['page_slug'] ) )
+				return $this->_formatSubMenuPageArray( $aSubMenuItem );
+				
+			if ( isset( $aSubMenuItem['href'] ) )
+				return $this->_formatSubmenuLinkArray( $aSubMenuItem ); 
+				
+			return array();
+			
+		}
+		
+		/**
+		 * Formats the given sub-menu link array.
+		 * @since			3.0.0
+		 */
+		private function _formatSubmenuLinkArray( $aSubMenuLink ) {
+			
+			// If the set URL is not valid, return.
+			if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) return array();
+			
+			return $this->oUtil->uniteArrays(		
+				array(  
+					'capability'	=> isset( $aSubMenuLink['capability'] ) ? $aSubMenuLink['capability'] : $this->oProp->sCapability,
+					'order'			=> isset( $aSubMenuLink['order'] ) && is_numeric( $aSubMenuLink['order'] ) ? $aSubMenuLink['order'] : count( $this->oProp->aPages ) + 10,
+				),
+				$aSubMenuLink + self::$_aStructure_SubMenuLinkForUser
+			);			
+			
+		}
+		/**
+		 * Formats the given sub-menu page array.
+		 * @since			3.0.0
+		 */
+		private function _formatSubMenuPageArray( $aSubMenuPage ) {
+			
+			$aSubMenuPage = $aSubMenuPage + self::$_aStructure_SubMenuPageForUser;
+
+			$aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );			
+			return $this->oUtil->uniteArrays(
+				array(  
+					'href_icon_32x32'			=> $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
+					'screen_icon_id'			=> in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) ? $aSubMenuPage['screen_icon'] : null,		// $_aScreenIconIDs is defined in the page class.
+					'capability'				=> isset( $aSubMenuPage['capability'] ) ? $aSubMenuPage['capability'] : $this->oProp->sCapability,
+					'order'						=> is_numeric( $aSubMenuPage['order'] ) ? $aSubMenuPage['order'] : count( $this->oProp->aPages ) + 10,
+				),
+				$aSubMenuPage,
+				array(
+					'show_page_title'			=> $this->oProp->bShowPageTitle,			// boolean
+					'show_page_heading_tabs'	=> $this->oProp->bShowPageHeadingTabs,		// boolean
+					'show_in_page_tabs'			=> $this->oProp->bShowInPageTabs,			// boolean
+					'in_page_tab_tag'			=> $this->oProp->sInPageTabTag,				// string
+					'page_heading_tab_tag'		=> $this->oProp->sPageHeadingTabTag,		// string
+				)
+			);			
+			
+		}
+		
+		/**
+		 * Registers the sub-menu item.
 		 * 
 		 * @since			2.0.0
+		 * @since			3.0.0			Changed the name from registerSubMenuPage().
 		 * @remark			Used in the buildMenu() method. 
 		 * @remark			Within the <em>admin_menu</em> hook callback process.
 		 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
 		 */ 
-		private function _registerSubMenuPage( $aArgs ) {
-		
-			// Format the argument array since it may be added by the third party scripts via the hook.
-			$aArgs = isset( $aArgs['type'] ) && $aArgs['type'] == 'link' 
-				? $aArgs + AdminPageFramework_Link_Page::$_aStructure_SubMenuLink	// for link
-				: $aArgs + self::$_aStructure_SubMenuPage;	// for page
-			
+		private function _registerSubMenuItem( $aArgs ) {
+				
 			// Variables
 			$sType = $aArgs['type'];	// page or link
 			$sTitle = $sType == 'page' ? $aArgs['title'] : $aArgs['title'];
-			$sCapability = $aArgs['sCapability'];
+			$sCapability = isset( $aArgs['capability'] ) ? $aArgs['capability'] : $this->oProp->sCapability;
 				
 			// Check the capability
-			$sCapability = isset( $sCapability ) ? $sCapability : $this->sCapability;
 			if ( ! current_user_can( $sCapability ) ) return;		
 			
 			// Add the sub-page to the sub-menu
@@ -439,7 +552,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 				add_action( "load-" . $aResult[ $sPageSlug ] , array( $this, "load_pre_" . $sPageSlug ) );
 					
 				// If the visibility option is false, remove the one just added from the sub-menu array
-				if ( ! $aArgs['fShowInMenu'] ) {
+				if ( ! $aArgs['show_in_menu'] ) {
 
 					foreach( ( array ) $GLOBALS['submenu'][ $sMenuLabel ] as $iIndex => $aSubMenu ) {
 						
@@ -460,7 +573,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 					
 			} 
 			// If it's a link,
-			if ( $sType == 'link' && $aArgs['fShowInMenu'] ) {
+			if ( $sType == 'link' && $aArgs['show_in_menu'] ) {
 				
 				if ( ! isset( $GLOBALS['submenu'][ $sMenuLabel ] ) )
 					$GLOBALS['submenu'][ $sMenuLabel ] = array();

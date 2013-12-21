@@ -44,8 +44,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		'tab_slug' => null,
 		'title' => null,
 		'order' => null,
-		'show_inpage_tab'	=> null,
-		'parent_tab_slug' => null,	// this needs to be set if the above show_inpage_tab is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
+		'show_in_page_tab'	=> null,
+		'parent_tab_slug' => null,	// this needs to be set if the above show_in_page_tab is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
 	);
 	
 	
@@ -70,8 +70,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * 	<li><strong>tab_slug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
 	 * 	<li><strong>title</strong> - ( string ) the title of the tab.</li>
 	 * 	<li><strong>order</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
-	 * 	<li><strong>show_inpage_tab</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
-	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above show_inpage_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+	 * 	<li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
+	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
 	 * </ul>
 	 * 
 	 * <h4>Example</h4>
@@ -102,7 +102,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		foreach( func_get_args() as $aTab ) {
 			if ( ! is_array( $aTab ) ) continue;
 			$aTab = $aTab + self::$_aStructure_InPageTabElements;	// avoid undefined index warnings.
-			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['show_inpage_tab'], $aTab['parent_tab_slug'] );
+			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['show_in_page_tab'], $aTab['parent_tab_slug'] );
 		}
 		
 	}
@@ -116,7 +116,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @param			string			$sTabSlug			The tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).
 	 * @param			integer			$nOrder				( optional ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.
 	 * @param			boolean			$bHide				( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
-	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above show_inpage_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.
+	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.
 	 * @remark			Use this method to add in-page tabs to ensure the array holds all the necessary keys.
 	 * @remark			In-page tabs are different from page-heading tabs which are automatically added with page titles.
 	 * @return			void
@@ -132,7 +132,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				'title'		=> trim( $sTabTitle ),
 				'tab_slug'	=> $sTabSlug,
 				'order'		=> is_numeric( $nOrder ) ? $nOrder : $iCountElement + 10,
-				'show_inpage_tab'			=> ( $bHide ),
+				'show_in_page_tab'			=> ( $bHide ),
 				'parent_tab_slug' => ! empty( $sParentTabSlug ) ? $this->oUtil->sanitizeSlug( $sParentTabSlug ) : null,
 			);
 	
@@ -153,11 +153,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProp->aPages[ $sPageSlug ]['fShowPageTitle'] = $bShow;
+			$this->oProp->aPages[ $sPageSlug ]['show_page_title'] = $bShow;
 		else {
 			$this->oProp->bShowPageTitle = $bShow;
 			foreach( $this->oProp->aPages as &$aPage ) 
-				$aPage['fShowPageTitle'] = $bShow;
+				$aPage['show_page_title'] = $bShow;
 		}
 	}	
 	
@@ -178,11 +178,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProp->aPages[ $sPageSlug ]['fShowPageHeadingTabs'] = $bShow;
+			$this->oProp->aPages[ $sPageSlug ]['show_page_heading_tabs'] = $bShow;
 		else {
 			$this->oProp->bShowPageHeadingTabs = $bShow;
 			foreach( $this->oProp->aPages as &$aPage ) 
-				$aPage['fShowPageHeadingTabs'] = $bShow;
+				$aPage['show_page_heading_tabs'] = $bShow;
 		}
 	}
 	
@@ -201,11 +201,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProp->aPages[ $sPageSlug ]['fShowInPageTabs'] = $bShow;
+			$this->oProp->aPages[ $sPageSlug ]['show_in_page_tabs'] = $bShow;
 		else {
 			$this->oProp->bShowInPageTabs = $bShow;
 			foreach( $this->oProp->aPages as &$aPage )
-				$aPage['fShowInPageTabs'] = $bShow;
+				$aPage['show_in_page_tabs'] = $bShow;
 		}
 	}
 	
@@ -225,11 +225,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProp->aPages[ $sPageSlug ]['sInPageTabTag'] = $sTag;
+			$this->oProp->aPages[ $sPageSlug ]['in_page_tab_tag'] = $sTag;
 		else {
 			$this->oProp->sInPageTabTag = $sTag;
 			foreach( $this->oProp->aPages as &$aPage )
-				$aPage['sInPageTabTag'] = $sTag;
+				$aPage['in_page_tab_tag'] = $sTag;
 		}
 	}
 	
@@ -249,11 +249,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
 		if ( ! empty( $sPageSlug ) )
-			$this->oProp->aPages[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
+			$this->oProp->aPages[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
 		else {
 			$this->oProp->sPageHeadingTabTag = $sTag;
 			foreach( $this->oProp->aPages as &$aPage )
-				$aPage[ $sPageSlug ]['sPageHeadingTabTag'] = $sTag;
+				$aPage[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
 		}
 	}
 	
@@ -424,12 +424,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		private function _getScreenIcon( $sPageSlug ) {
 
 			// If the icon path is explicitly set, use it.
-			if ( isset( $this->oProp->aPages[ $sPageSlug ]['hrefIcon32x32'] ) ) 
-				return '<div class="icon32" style="background-image: url(' . $this->oProp->aPages[ $sPageSlug ]['hrefIcon32x32'] . ');"><br /></div>';
+			if ( isset( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) ) 
+				return '<div class="icon32" style="background-image: url(' . $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] . ');"><br /></div>';
 			
 			// If the screen icon ID is explicitly set, use it.
-			if ( isset( $this->oProp->aPages[ $sPageSlug ]['screen_iconID'] ) )
-				return '<div class="icon32" id="icon-' . $this->oProp->aPages[ $sPageSlug ]['screen_iconID'] . '"><br /></div>';
+			if ( isset( $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] ) )
+				return '<div class="icon32" id="icon-' . $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] . '"><br /></div>';
 				
 			// Retrieve the screen object for the current page.
 			$oScreen = get_current_screen();
@@ -471,20 +471,20 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		private function _getPageHeadingTabs( $sCurrentPageSlug, $sTag='h2', $aOutput=array() ) {
 			
 			// If the page title is disabled, return an empty string.
-			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'fShowPageTitle' ] ) return "";
+			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_title' ] ) return "";
 
-			$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
-				? $this->oProp->aPages[ $sCurrentPageSlug ][ 'sPageHeadingTabTag' ]
+			$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
+				? $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
 				: $sTag;
 		
 			// If the page heading tab visibility is disabled, return the title.
-			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'fShowPageHeadingTabs' ] )
+			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] )
 				return "<{$sTag}>" . $this->oProp->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";		
 			
 			foreach( $this->oProp->aPages as $aSubPage ) {
 				
 				// For added sub-pages
-				if ( isset( $aSubPage['page_slug'] ) && $aSubPage['fShowPageHeadingTab'] ) {
+				if ( isset( $aSubPage['page_slug'] ) && $aSubPage['show_page_heading_tab'] ) {
 					// Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
 					$sClassActive =  $sCurrentPageSlug == $aSubPage['page_slug']  ? 'nav-tab-active' : '';		
 					$aOutput[] = "<a class='nav-tab {$sClassActive}' "
@@ -498,7 +498,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				if ( 
 					isset( $aSubPage['href'] )
 					&& $aSubPage['type'] == 'link' 
-					&& $aSubPage['fShowPageHeadingTab']
+					&& $aSubPage['show_page_heading_tab']
 				) 
 					$aOutput[] = "<a class='nav-tab link' "
 						. "href='{$aSubPage['href']}'>"
@@ -527,12 +527,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 			$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
 			$sCurrentTabSlug = $this->_getParentTabSlug( $sCurrentPageSlug, $sCurrentTabSlug );
 			
-			$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
-				? $this->oProp->aPages[ $sCurrentPageSlug ][ 'sInPageTabTag' ]
+			$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
+				? $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
 				: $sTag;
 		
 			// If the in-page tabs' visibility is set to false, returns the title.
-			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'fShowInPageTabs' ]	)
+			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_in_page_tabs' ]	)
 				return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
 					? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
 					: "";
@@ -541,7 +541,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 			foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 						
 				// If it's hidden and its parent tab is not set, skip
-				if ( $aInPageTab['show_inpage_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
+				if ( $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
 				
 				// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
 				$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
@@ -570,7 +570,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 			 * Retrieves the parent tab slug from the given tab slug.
 			 * 
 			 * @since			2.0.0
-			 * @since			2.1.2			If the parent slug has the show_inpage_tab to be true, it returns an empty string.
+			 * @since			2.1.2			If the parent slug has the show_in_page_tab to be true, it returns an empty string.
 			 * @return			string			the parent tab slug.
 			 */ 	
 			private function _getParentTabSlug( $sPageSlug, $sTabSlug ) {
@@ -579,7 +579,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 					? $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
 					: $sTabSlug;
 				
-				return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_inpage_tab']
+				return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_in_page_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_in_page_tab']
 					? ""
 					: $sParentTabSlug;
 
