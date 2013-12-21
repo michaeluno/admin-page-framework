@@ -216,15 +216,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * @since			2.1.5			The $oCaller parameter was added.
 	 * @return			void
 	 */ 
-	public function __construct( $oCaller, $sClassName, $sOptionKey, $sCapability='manage_options' ) {
+	public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options' ) {
 		
-		parent::__construct( $oCaller );
+		parent::__construct( $oCaller, $sCallerPath, $sClassName );
 		
-		$this->sClassName = $sClassName;		
-		$this->sClassHash = md5( $sClassName );
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 		$this->sCapability = empty( $sCapability ) ? $this->sCapability : $sCapability;
-
+				
 		// The capability for the settings. $this->sOptionKey is the part that is set in the settings_fields() function.
 		// This prevents the "Cheatin' huh?" message.
 		add_filter( "option_page_capability_{$this->sOptionKey}", array( $this, '_replyToGetCapability' ) );

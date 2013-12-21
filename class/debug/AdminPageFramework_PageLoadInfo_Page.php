@@ -27,13 +27,14 @@ class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadIn
 	
 	/**
 	 * Sets the hook if the current page is one of the framework's added pages.
+	 * @internal
 	 */ 
-	public function replyToSetPageLoadInfoInFooter() {
+	public function _replyToSetPageLoadInfoInFooter() {
 		
 		// For added pages
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
 		if ( $this->oProp->isPageAdded( $sCurrentPageSlug ) ) 
-			add_filter( 'update_footer', array( $this, 'replyToGetPageLoadInfo' ), 999 );
+			add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
 	
 	}		
 	

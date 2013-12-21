@@ -1,16 +1,17 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_Link' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Link_Page' ) ) :
 /**
  * Provides methods for HTML link elements for admin pages created by the framework, except the pages of custom post types.
  *
  * Embeds links in the footer and plugin's listing table etc.
  * 
  * @since			2.0.0
+ * @since			3.0.0			Changed the name to AdminPageFramework_Link_Page_Page from AdminPageFramework_Link_Page.
  * @extends			AdminPageFramework_Link_Base
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
+class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	
 	/**
 	 * Stores the caller script path.
@@ -31,16 +32,15 @@ class AdminPageFramework_Link extends AdminPageFramework_Link_Base {
 		$this->oProp = $oProp;
 		$this->sCallerPath = file_exists( $sCallerPath ) ? $sCallerPath : $this->getCallerPath();
 		$this->oProp->aScriptInfo = $this->getCallerInfo( $this->sCallerPath ); 
-		$this->oProp->aLibraryInfo = $this->getLibraryInfo();
 		$this->oMsg = $oMsg;
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
 		$this->setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
-		$this->setFooterInfoRight( $this->oProp->aLibraryInfo, $this->oProp->aFooterInfo['sRight'] );
+		$this->setFooterInfoRight( AdminPageFramework_Property_Base::_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );
 	
-		if ( $this->oProp->aScriptInfo['type'] == 'plugin' )
+		if ( $this->oProp->aScriptInfo['sType'] == 'plugin' )
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, 'addSettingsLinkInPluginListingPage' ) );
 
 	}

@@ -73,7 +73,7 @@ abstract class AdminPageFramework_MetaBox {
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
-		$this->oProp = new AdminPageFramework_Property_MetaBox( $this );
+		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );
 			
@@ -83,9 +83,6 @@ abstract class AdminPageFramework_MetaBox {
 		$this->oProp->aPostTypes = is_string( $vPostTypes ) ? array( $vPostTypes ) : $vPostTypes;	
 		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
 		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'
-		$this->oProp->sClassName = get_class( $this );
-		$this->oProp->sClassHash = md5( $this->oProp->sClassName );
-		$this->oProp->sCapability = $sCapability;
 				
 		if ( is_admin() ) {
 			

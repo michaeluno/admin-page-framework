@@ -83,7 +83,7 @@ class AdminPageFramework_Message {
 			// AdminPageFramework_Link_Base
 			'powered_by'	=> __( 'Powered by', 'admin-page-framework' ),
 			
-			// AdminPageFramework_Link
+			// AdminPageFramework_Link_Page
 			'settings'		=> __( 'Settings', 'admin-page-framework' ),
 			
 			// AdminPageFramework_Link_PostType

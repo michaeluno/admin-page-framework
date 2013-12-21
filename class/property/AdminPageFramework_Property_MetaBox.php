@@ -163,5 +163,13 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		'repeatable'		=> null,	// since 2.1.3		
 	);
 	
+	function __construct( $oCaller, $strClassName, $sCapability ) {
+		
+		parent::__construct( $oCaller, null, $strClassName );		// meta boxes don't need the caller script path.
+		
+		$this->oProp->sCapability = $sCapability;
+		
+	}
+	
 }
 endif;

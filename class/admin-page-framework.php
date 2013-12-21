@@ -33,7 +33,8 @@ function includeAdminPageFramework() {
 	$sDirPath = dirname( __FILE__ );
 	include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
 	new AdminPageFramework_RegisterClasses( $sDirPath );
+	AdminPageFramework_Property_Base::_setLibraryData( __FILE__ );
 	
 }	
-endif;
 includeAdminPageFramework();
+endif;

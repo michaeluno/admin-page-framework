@@ -17,7 +17,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
 	 */ 
 	private static $_aStructure_CallerInfo = array(
 		'sPath'			=> null,
-		'type'			=> null,
+		'sType'			=> null,
 		'sName'			=> null,		
 		'sURI'			=> null,
 		'sVersion'		=> null,
@@ -25,13 +25,13 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
 		'sScriptURI'		=> null,
 		'sAuthorURI'		=> null,
 		'sAuthor'			=> null,
-		'description'	=> null,
+		'sDescription'	=> null,
 	);	
 	
 	/*
 	 * Methods for getting script info.
 	 */ 
-	
+	 
 	/**
 	 * Retrieves the caller script information whether it's a theme or plugin or something else.
 	 * 
@@ -43,14 +43,14 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
 		
 		$aCallerInfo = self::$_aStructure_CallerInfo;
 		$aCallerInfo['sPath'] = $sCallerPath;
-		$aCallerInfo['type'] = $this->getCallerType( $aCallerInfo['sPath'] );
+		$aCallerInfo['sType'] = $this->_getCallerType( $aCallerInfo['sPath'] );
 
-		if ( $aCallerInfo['type'] == 'unknown' ) return $aCallerInfo;
+		if ( $aCallerInfo['sType'] == 'unknown' ) return $aCallerInfo;
 		
-		if ( $aCallerInfo['type'] == 'plugin' ) 
-			return $this->getScriptData( $aCallerInfo['sPath'], $aCallerInfo['type'] ) + $aCallerInfo;
+		if ( $aCallerInfo['sType'] == 'plugin' ) 
+			return $this->getScriptData( $aCallerInfo['sPath'], $aCallerInfo['sType'] ) + $aCallerInfo;
 			
-		if ( $aCallerInfo['type'] == 'theme' ) {
+		if ( $aCallerInfo['sType'] == 'theme' ) {
 			$oTheme = wp_get_theme();	// stores the theme info object
 			return array(
 				'sName'			=> $oTheme->Name,
@@ -61,31 +61,21 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
 				'sAuthor'			=> $oTheme->get( 'Author' ),				
 			) + $aCallerInfo;	
 		}
-	}
-
-	/**
-	 * Retrieves the library script info.
-	 * 
-	 * @since			2.1.1
-	 */
-	protected function getLibraryInfo() {
-		return $this->getScriptData( __FILE__, 'library' ) + self::$_aStructure_CallerInfo;
-	}
-	
-	/**
-	 * Determines the script type.
-	 * 
-	 * It tries to find what kind of script this is, theme, plugin or something else from the given path.
-	 * @since			2.0.0
-	 * @return		string				Returns either 'theme', 'plugin', or 'unknown'
-	 */ 
-	protected function getCallerType( $sScriptPath ) {
+	}	
+		/**
+		 * Determines the script type.
+		 * 
+		 * It tries to find what kind of script this is, theme, plugin or something else from the given path.
+		 * @since			2.0.0
+		 * @return		string				Returns either 'theme', 'plugin', or 'unknown'
+		 */ 
+		private function _getCallerType( $sScriptPath ) {
+			
+			if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) return 'theme';
+			if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) return 'plugin';
+			return 'unknown';	
 		
-		if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) return 'theme';
-		if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) return 'plugin';
-		return 'unknown';	
-	
-	}
+		}
 	protected function getCallerPath() {
 
 		foreach( debug_backtrace() as $aDebugInfo )  {			

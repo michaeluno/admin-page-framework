@@ -80,7 +80,11 @@ abstract class AdminPageFramework_PostType {
 		
 		// Objects
 		$this->oUtil = new AdminPageFramework_Utility;
-		$this->oProp = new AdminPageFramework_Property_PostType( $this );
+		$this->oProp = new AdminPageFramework_Property_PostType( 
+			$this, 
+			$sCallerPath ? trim( $sCallerPath ) : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.			
+			get_class( $this )	// class name
+		);
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProp );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_PostType::instantiate( $this->oProp, $this->oMsg );
@@ -88,8 +92,8 @@ abstract class AdminPageFramework_PostType {
 		// Properties
 		$this->oProp->sPostType = $this->oUtil->sanitizeSlug( $sPostType );
 		$this->oProp->aPostTypeArgs = $aArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		$this->oProp->sClassName = get_class( $this );
-		$this->oProp->sClassHash = md5( $this->oProp->sClassName );
+		// $this->oProp->sClassName = get_class( $this );
+		// $this->oProp->sClassHash = md5( $this->oProp->sClassName );
 		$this->oProp->aColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',		// Checkbox for bulk actions. 
 			'title'			=> $this->oMsg->__( 'title' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
@@ -99,7 +103,6 @@ abstract class AdminPageFramework_PostType {
 			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
 			'date'			=> $this->oMsg->__( 'date' ), 		// The date and publish status of the post. 
 		);			
-		$this->oProp->sCallerPath = $sCallerPath;
 		
 		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
 		

@@ -213,5 +213,22 @@ class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 		
 	}
 	
+	/**
+	 * Attempts to find the caller scrip path.
+	 * 
+	 * @since			3.0.0
+	 * @return			string
+	 */
+	static public function getCallerScriptPath( $sThisFile=__FILE__ ) {
+
+		$sCallerFilePath = '';
+		foreach( debug_backtrace() as $aDebugInfo )  {			
+			$sCallerFilePath = $aDebugInfo['file'];
+			if ( $sCallerFilePath == __FILE__ || $sCallerFilePath ==  $sThisFile ) continue;
+			break;	// the first found item.
+		}
+		return $sCallerFilePath;
+	}	
+	
 }
 endif;

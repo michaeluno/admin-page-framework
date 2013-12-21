@@ -217,7 +217,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	*/	
 	public function addSubMenuItem( $aSubMenuItem ) {
 		if ( isset( $aSubMenuItem['href'] ) ) {
-			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link::$_aStructure_SubMenuLink;
+			$aSubMenuLink = $aSubMenuItem + AdminPageFramework_Link_Page::$_aStructure_SubMenuLink;
 			$this->oLink->addSubMenuLink(
 				$aSubMenuLink['title'],
 				$aSubMenuLink['href'],
@@ -404,7 +404,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		
 			// Format the argument array since it may be added by the third party scripts via the hook.
 			$aArgs = isset( $aArgs['type'] ) && $aArgs['type'] == 'link' 
-				? $aArgs + AdminPageFramework_Link::$_aStructure_SubMenuLink	// for link
+				? $aArgs + AdminPageFramework_Link_Page::$_aStructure_SubMenuLink	// for link
 				: $aArgs + self::$_aStructure_SubMenuPage;	// for page
 			
 			// Variables

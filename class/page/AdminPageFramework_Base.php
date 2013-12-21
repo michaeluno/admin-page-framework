@@ -90,7 +90,7 @@ abstract class AdminPageFramework_Base {
 	* @since			2.0.0
 	* @since			3.0.0			Moved from the main class.
 	* @access			protected
-	* @var				object			an instance of AdminPageFramework_Link will be assigned in the constructor.
+	* @var				object			an instance of AdminPageFramework_Link_Page will be assigned in the constructor.
     */		
 	protected $oLink;
 	
@@ -137,11 +137,11 @@ abstract class AdminPageFramework_Base {
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 				
 		// Objects
-		$this->oProp = new AdminPageFramework_Property_Page( $this, get_class( $this ), $sOptionKey, $sCapability );
+		$this->oProp = new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability );
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
-		$this->oLink = new AdminPageFramework_Link( $this->oProp, $sCallerPath, $this->oMsg );
+		$this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $sCallerPath, $this->oMsg );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oDebug = new AdminPageFramework_Debug;		

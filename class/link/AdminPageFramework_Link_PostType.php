@@ -27,8 +27,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		$this->sPostTypeSlug = $sPostTypeSlug;
 		$this->sCallerPath = file_exists( $sCallerPath ) ? $sCallerPath : $this->getCallerPath();
 		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath ); 
-		$this->aLibraryInfo = $this->getLibraryInfo();
-		
+			
 		$this->oMsg = $oMsg;
 		
 		$this->sSettingPageLinkTitle = $this->oMsg->__( 'manage' );
@@ -37,10 +36,10 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		add_filter( 'update_footer', array( $this, 'addInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, 'addInfoInFooterLeft' ) );	
 		$this->setFooterInfoLeft( $this->aScriptInfo, $this->aFooterInfo['sLeft'] );
-		$this->setFooterInfoRight( $this->aLibraryInfo, $this->aFooterInfo['sRight'] );
+		$this->setFooterInfoRight( AdminPageFramework_Property_Base::_getLibraryData(), $this->aFooterInfo['sRight'] );
 		
 		// For the plugin listing page
-		if ( $this->aScriptInfo['type'] == 'plugin' )
+		if ( $this->aScriptInfo['sType'] == 'plugin' )
 			add_filter( 
 				'plugin_action_links_' . plugin_basename( $this->aScriptInfo['sPath'] ),
 				array( $this, 'addSettingsLinkInPluginListingPage' ), 

@@ -12,11 +12,38 @@ if ( ! class_exists( 'AdminPageFramework_Property_Base' ) ) :
 abstract class AdminPageFramework_Property_Base {
 
 	/**
+	 * Stores the library information.
+	 * 
+	 * @since			3.0.0
+	 */
+	static public $_aLibraryData;	// do not assign anything here because it is checked whether it is set.
+
+	/**
 	 * Stores the main (caller) object.
 	 * 
 	 * @since			2.1.5
 	 */
 	protected $oCaller;	
+	
+	/**
+	 * Stores the caller script file path.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $sCallerPath;
+	
+	/**
+	 * Stores the extended class name that instantiated the property object.
+	 * 
+	 * @since			
+	 */
+	public $sClassName;
+	
+	/**
+	 * The MD5 hash string of the extended class name.
+	 * @since			
+	 */
+	public $sClassHash;
 	
 	/**
 	 * Stores the script to be embedded in the head tag.
@@ -234,9 +261,12 @@ abstract class AdminPageFramework_Property_Base {
 	 */	
 	public $iEnqueuedStyleIndex = 0;		
 		
-	function __construct( $oCaller ) {
+	function __construct( $oCaller, $sCallerPath, $sClassName ) {
 		
 		$this->oCaller = $oCaller;
+		$this->sCallerPath = $sCallerPath;
+		$this->sClassName = $sClassName;		
+		$this->sClassHash = md5( $sClassName );		
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
 			: array();
@@ -269,6 +299,31 @@ abstract class AdminPageFramework_Property_Base {
 	 */		
 	public function _getParentObject() {
 		return $this->oCaller;
+	}
+	
+	/**
+	 * Sets the library information property.
+	 * @internal
+	 * @since			3.0.0
+	 */
+	static public function _setLibraryData( $sLibraryFilePath ) {
+		self::$_aLibraryData = AdminPageFramework_WPUtility::getScriptData( $sLibraryFilePath, 'library' );
+	}
+	/**
+	 * Returns the set library data array.
+	 * 
+	 * @internal
+	 * @since			3.0.0
+	 */
+	static public function _getLibraryData( $sLibraryFilePath=null ) {
+		
+		if ( isset( self::$_aLibraryData ) ) return self::$_aLibraryData;
+		
+		if ( $sLibraryFilePath ) 
+			self::_setLibraryData( $sLibraryFilePath );
+			
+		return self::$_aLibraryData;
+		
 	}
 	
 }
