@@ -185,7 +185,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 2.1.7 =
+= 2.1.7 - 12/23/2013 =
 * Fixed a bug that the screen icon could not be retrieved when the `strScreenIcon` key was not set (started to occur around v2.1.6).
 * Added: the `import_mime_types_{...}` filter that receives the array holding allowed MIME types so that the user can add custom MIME types for the imported files.
 * Added: the `enqueueScript()` and the `enqueueStyle()` methods for the post type class.
