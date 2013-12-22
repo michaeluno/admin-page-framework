@@ -194,6 +194,22 @@ abstract class AdminPageFramework_Base {
 	public function setFieldErrors() {}
 	public function getFieldValue() {}
 	
+	
+	/* Shared methods */
+	/**
+	 * Calculates the subtraction of two values with the array key of <em>order</em>
+	 * 
+	 * This is used to sort arrays.
+	 * 
+	 * @since			2.0.0
+	 * @since			3.0.0			Moved from the property class.
+	 * @remark			a callback method for uasort().
+	 * @return			integer
+	 * @internal
+	 */ 
+	public function _sortByOrder( $a, $b ) {	
+		return $a['order'] - $b['order'];
+	}	
 
 }
 endif;

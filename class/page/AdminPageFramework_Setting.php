@@ -1158,7 +1158,7 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 		);		
 
 		// Register settings sections 
-		uasort( $this->oProp->aSections, array( $this->oProp, '_sortByOrder' ) ); 
+		uasort( $this->oProp->aSections, array( $this, '_sortByOrder' ) ); 
 		foreach( $this->oProp->aSections as $aSection ) {
 			add_settings_section(	// Add the given section
 				$aSection['section_id'],	//  section ID
@@ -1183,7 +1183,7 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 		
 		// Register settings fields
 		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		uasort( $this->oProp->aFields, array( $this->oProp, '_sortByOrder' ) ); 
+		uasort( $this->oProp->aFields, array( $this, '_sortByOrder' ) ); 
 		foreach( $this->oProp->aFields as $aField ) {
 
 			add_settings_field(	// Add the given field.

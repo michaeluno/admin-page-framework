@@ -408,7 +408,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		);
 		
 		// Sort the page array.
-		uasort( $this->oProp->aPages, array( $this->oProp, '_sortByOrder' ) ); 
+		uasort( $this->oProp->aPages, array( $this, '_sortByOrder' ) ); 
 		
 		// Set the default page, the first element.
 		foreach ( $this->oProp->aPages as $aPage ) {

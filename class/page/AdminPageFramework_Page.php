@@ -613,7 +613,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				$aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
 						
 			// Sort the in-page tab array.
-			uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this->oProp, '_sortByOrder' ) );
+			uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this, '_sortByOrder' ) );
 			
 			// Set the default tab for the page.
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $aInPageTab, is also used as reference in the above foreach.

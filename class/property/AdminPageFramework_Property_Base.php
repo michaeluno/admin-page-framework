@@ -299,21 +299,7 @@ abstract class AdminPageFramework_Property_Base {
 			: array();
 
 	}
-	
-	/**
-	 * Calculates the subtraction of two values with the array key of <em>order</em>
-	 * 
-	 * This is used to sort arrays.
-	 * 
-	 * @since			2.0.0
-	 * @remark			a callback method for uasort().
-	 * @return			integer
-	 * @internal
-	 */ 
-	public function _sortByOrder( $a, $b ) {	
-		return $a['order'] - $b['order'];
-	}		
-	
+		
 	/**
 	 * Returns the caller object.
 	 * 
