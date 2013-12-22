@@ -184,7 +184,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @param			string			$sOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
 	 * @param			string			$sCallerPath		( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
 	 * @param			string			$sCapability		( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed here( http://codex.wordpress.org/Roles_and_Capabilities ). If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
-	 * @param			string			$sTextDomain		( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's text strings. Default: admin-page-framework.
+	 * @param			string			$sTextDomain		( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's system messages. Default: admin-page-framework.
 	 * @return			void			returns nothing.
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ){
