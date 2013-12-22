@@ -3261,9 +3261,18 @@ abstract class AdminPageFramework_SettingsAPI extends AdminPageFramework_Menu {
 			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
-		// Check the uploaded file type.
-		if ( ! in_array( $oImport->getType(), array( 'text/plain', 'application/octet-stream' ) ) ) {	// .json file is dealt as binary file.
-			$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );		
+		// Apply filters to the uploaded file's MIME type.
+		$arrMIMEType = $this->oUtil->addAndApplyFilters(
+			$this,
+			array( "import_mime_types_{$strPageSlug}_{$strTabSlug}", "import_mime_types_{$strPageSlug}", "import_mime_types_{$this->oProps->strClassName}_{$strPressedInputID}", "import_mime_types_{$this->oProps->strClassName}_{$strPressedFieldID}", "import_mime_types_{$this->oProps->strClassName}" ),
+			array( 'text/plain', 'application/octet-stream' ),	// .json file is dealt as a binary file.
+			$strPressedFieldID,
+			$strPressedInputID
+		);		
+
+		// Check the uploaded file MIME type.
+		if ( ! in_array( $oImport->getType(), $arrMIMEType ) ) {	
+			$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );
 			return $arrStoredOptions;	// do not change the framework's options.
 		}
 		
@@ -5890,7 +5899,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 		
 	}
 	public function getType() {
-		
+
 		return $this->getElementInFilesArray( $this->arrFilesImport, $this->arrElementKey, 'type' );
 		
 	}
