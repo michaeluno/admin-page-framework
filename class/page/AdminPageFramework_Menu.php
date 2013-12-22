@@ -278,7 +278,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	* @access 			public
 	* @return			void
 	*/	
-	public function addSubMenuItem( $aSubMenuItem ) {
+	public function addSubMenuItem( array $aSubMenuItem ) {
 		if ( isset( $aSubMenuItem['href'] ) ) 
 			$this->addSubMenuLink( $aSubMenuItem );
 		else 
