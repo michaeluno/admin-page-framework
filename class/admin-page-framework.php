@@ -1909,7 +1909,7 @@ abstract class AdminPageFramework_Pages extends AdminPageFramework_Help {
 	 * @since			2.0.0
 	 */ 	
 	private function getScreenIcon( $strPageSlug ) {
-
+AdminPageFramework_Debug::logArray( $this->oProps->arrPages[ $strPageSlug ] );
 		// If the icon path is explicitly set, use it.
 		if ( isset( $this->oProps->arrPages[ $strPageSlug ]['strURLIcon32x32'] ) ) 
 			return '<div class="icon32" style="background-image: url(' . $this->oProps->arrPages[ $strPageSlug ]['strURLIcon32x32'] . ');"><br /></div>';
@@ -2364,7 +2364,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 			'strPageTitle'				=> $strPageTitle,
 			'strPageSlug'				=> $strPageSlug,
 			'strType'					=> 'page',	// this is used to compare with the link type.
-			'strURLIcon32x32'			=> $this->oUtil->resolveSRC( $strScreenIcon, true ),
+			'strURLIcon32x32'			=> $strScreenIcon ? $this->oUtil->resolveSRC( $strScreenIcon, true ) : null,
 			'strScreenIconID'			=> in_array( $strScreenIcon, self::$arrScreenIconIDs ) ? $strScreenIcon : null,
 			'strCapability'				=> isset( $strCapability ) ? $strCapability : $this->oProps->strCapability,
 			'numOrder'					=> is_numeric( $numOrder ) ? $numOrder : $intCount + 10,
