@@ -492,8 +492,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 
 			$aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );			
 			return $this->oUtil->uniteArrays(
-				array(  
-					'href_icon_32x32'			=> $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
+				array( 
+					'href_icon_32x32'			=> $aSubMenuPage['screen_icon'] ? $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ) : null,
 					'screen_icon_id'			=> in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) ? $aSubMenuPage['screen_icon'] : null,		// $_aScreenIconIDs is defined in the page class.
 					'capability'				=> isset( $aSubMenuPage['capability'] ) ? $aSubMenuPage['capability'] : $this->oProp->sCapability,
 					'order'						=> is_numeric( $aSubMenuPage['order'] ) ? $aSubMenuPage['order'] : count( $this->oProp->aPages ) + 10,
