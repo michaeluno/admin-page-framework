@@ -290,10 +290,10 @@ abstract class AdminPageFramework_Property_Base {
 	function __construct( $oCaller, $sCallerPath, $sClassName ) {
 		
 		$this->oCaller = $oCaller;
-		$this->sCallerPath = $sCallerPath;
+		$this->sCallerPath = $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
 		$this->sClassName = $sClassName;		
 		$this->sClassHash = md5( $sClassName );	
-		$this->aScriptInfo = $this->getCallerInfo( $sCallerPath );
+		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
 			: array();
