@@ -1280,6 +1280,3 @@ class APF_Demo extends AdminPageFramework {
 	} 
 	
 }
-// Instantiate the main framework class so that the pages and form fields will be created. 
-if ( is_admin() )  
-	new APF_Demo;

@@ -45,6 +45,11 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
 		$this->setFooterInfoRight( '<br />Custom text on the right hand side' );
 		
+		
+		
+		add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );
+		
+	
 	}
 	
 	/*
@@ -75,37 +80,28 @@ class APF_PostType extends AdminPageFramework_PostType {
 		return "the post id is : {$iPostID}";
 		
 	}
+	
+	public function replyToPrintOptionValues( $sContent ) {
+		
+		if ( ! isset( $GLOBALS['post']->ID ) || get_post_type() != 'apf_posts' ) return $sContent;
+			
+		// 1. To retrieve the meta box data	- get_post_meta( $post->ID ) will return an array of all the meta field values.
+		// or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
+		$iPostID = $GLOBALS['post']->ID;
+		$aPostData = array();
+		foreach( ( array ) get_post_custom_keys( $iPostID ) as $sKey ) 	// This way, array will be unserialized; easier to view.
+			$aPostData[ $sKey ] = get_post_meta( $iPostID, $sKey, true );
+		
+		// 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
+		// The key name is the class name by default. This can be changed by passing an arbitrary string 
+		// to the first parameter of the constructor of the AdminPageFramework class.		
+		$aSavedOptions = get_option( 'APF_Demo' );
+			
+		return "<h3>" . __( 'Saved Meta Field Values', 'admin-page-framework-demo' ) . "</h3>" 
+			. $this->oDebug->getArray( $aPostData )
+			. "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
+			. $this->oDebug->getArray( $aSavedOptions );
 
+	}	
 	
 }
-new APF_PostType( 
-	'apf_posts', 	// post type slug
-	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		'labels' => array(
-			'name' => 'Admin Page Framework',
-			'all_items' => __( 'Sample Posts', 'admin-page-framework-demo' ),
-			'singular_name' => 'Admin Page Framework',
-			'add_new' => 'Add New',
-			'add_new_item' => 'Add New APF Post',
-			'edit' => 'Edit',
-			'edit_item' => 'Edit APF Post',
-			'new_item' => 'New APF Post',
-			'view' => 'View',
-			'view_item' => 'View APF Post',
-			'search_items' => 'Search APF Post',
-			'not_found' => 'No APF Post found',
-			'not_found_in_trash' => 'No APF Post found in Trash',
-			'parent' => 'Parent APF Post'
-		),
-		'public' => true,
-		'menu_position' => 110,
-		// 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
-		'supports' => array( 'title' ),
-		'taxonomies' => array( '' ),
-		'has_archive' => true,
-		'show_admin_column' => true,	// ( framework specific key ) this is for custom taxonomies to automatically add the column in the listing table.
-		'menu_icon' => plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ),
-		// ( framework specific key ) this sets the screen icon for the post type.
-		'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
-	)		
-);	// should not use "if ( is_admin() )" for the this class because posts of custom post type can be accessed from the front-end pages.
