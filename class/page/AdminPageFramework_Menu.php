@@ -90,8 +90,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		'show_in_menu' 				=> true,	// if this is false, the menu label will not be displayed in the sidebar menu.		
 		'href_icon_32x32'			=> null,
 		'screen_icon_id'			=> null,
-		'show_page_heading_tab'		=> null,
-		'show_menu'					=> null,
+		// 'show_menu'					=> null,	<-- not sure what this was for.
 		'show_page_title'			=> null,
 		'show_page_heading_tabs'	=> null,
 		'show_in_page_tabs'			=> null,
@@ -159,7 +158,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		$this->oProp->aRootMenu = array(
 			'sTitle'			=> $sRootMenuLabel,
 			'sPageSlug' 		=> $sSlug ? $sSlug : $this->oProp->sClassName,	
-			'sIcon16x16'		=> $this->oUtil->resolveSRC( $sIcon16x16, true ),
+			'sIcon16x16'		=> $sIcon16x16 ? $this->oUtil->resolveSRC( $sIcon16x16, true ) : null,
 			'iPosition'			=> $iMenuPosition,
 			'fCreateRoot'		=> $sSlug ? false : true,
 		);	
@@ -494,7 +493,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			return $this->oUtil->uniteArrays(
 				array( 
 					'href_icon_32x32'			=> $aSubMenuPage['screen_icon'] ? $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ) : null,
-					'screen_icon_id'			=> in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) ? $aSubMenuPage['screen_icon'] : null,		// $_aScreenIconIDs is defined in the page class.
+					'screen_icon_id'			=> in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) ? $aSubMenuPage['screen_icon'] : 'generic',		// $_aScreenIconIDs is defined in the page class.
 					'capability'				=> isset( $aSubMenuPage['capability'] ) ? $aSubMenuPage['capability'] : $this->oProp->sCapability,
 					'order'						=> is_numeric( $aSubMenuPage['order'] ) ? $aSubMenuPage['order'] : count( $this->oProp->aPages ) + 10,
 				),

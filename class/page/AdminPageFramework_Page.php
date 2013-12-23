@@ -480,7 +480,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 			// If the page heading tab visibility is disabled, or only one page is registered, return the title.
 			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] || count( $this->oProp->aPages ) == 1 )
 				return "<{$sTag}>" . $this->oProp->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";		
-			
+
 			foreach( $this->oProp->aPages as $aSubPage ) {
 				
 				// For added sub-pages
@@ -500,12 +500,13 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 					&& $aSubPage['type'] == 'link' 
 					&& $aSubPage['show_page_heading_tab']
 				) 
-					$aOutput[] = "<a class='nav-tab link' "
+					$aOutput[] = 
+						"<a class='nav-tab link' "
 						. "href='{$aSubPage['href']}'>"
-						. $aSubPage['title']
+							. $aSubPage['title']
 						. "</a>";					
 				
-			}
+			}			
 			return "<div class='admin-page-framework-page-heading-tab'><{$sTag} class='nav-tab-wrapper'>" 
 				.  implode( '', $aOutput ) 
 				. "</{$sTag}></div>";
