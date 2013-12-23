@@ -88,6 +88,7 @@ abstract class AdminPageFramework_PostType {
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_PostType( $this->oProp );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_PostType::instantiate( $this->oProp, $this->oMsg );
+		$this->oDebug = new AdminPageFramework_Debug;
 		
 		// Properties
 		$this->oProp->sPostType = $this->oUtil->sanitizeSlug( $sPostType );
