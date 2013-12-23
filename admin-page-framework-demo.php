@@ -11,7 +11,36 @@
 
 if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
+
+class APF_BasicUsage extends AdminPageFramework {
 	
+	public function setUp() {
+		
+		$this->setRootMenuPage( 'Admin Page Framework' );
+		$this->addSubMenuItems(
+			array(
+				'title' => __( 'First Page', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_first_page',
+			),
+			array(
+				'title' => __( 'Second Page', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_second_page',
+			)
+		);
+		
+		$this->setPageHeadingTabsVisibility( true );		// disables the page heading tabs by passing false.
+	}	
+	
+	public function do_apf_first_page() {	// do_ + {page slug}
+		?>
+			<h3><?php _e( 'Page Title', 'admin-page-framework-demo' ); ?></h3>
+			<p><?php _e( 'Hi there!', 'admin-page-framework-demo' ); ?></p>
+		<?php
+	}
+	
+}
+new APF_BasicUsage;
+
 class APF_Demo extends AdminPageFramework {
 
 	public function start_APF_Demo() {	// start_{extended class name}
@@ -41,7 +70,7 @@ class APF_Demo extends AdminPageFramework {
 		
 	}
 
-    public function setUp() {
+	public function setUp() {
 
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
 		$this->addSubMenuItems(

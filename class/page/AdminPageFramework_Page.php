@@ -477,8 +477,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				? $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
 				: $sTag;
 		
-			// If the page heading tab visibility is disabled, return the title.
-			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] )
+			// If the page heading tab visibility is disabled, or only one page is registered, return the title.
+			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] || count( $this->oProp->aPages ) == 1 )
 				return "<{$sTag}>" . $this->oProp->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";		
 			
 			foreach( $this->oProp->aPages as $aSubPage ) {
