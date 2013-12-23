@@ -219,12 +219,14 @@ class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 	 * @since			3.0.0
 	 * @return			string
 	 */
-	static public function getCallerScriptPath( $sThisFile=__FILE__ ) {
-
+	static public function getCallerScriptPath( $asRedirectedFiles=array( __FILE__ ) ) {
+		
+		$aRedirectedFiles = ( array ) $asRedirectedFiles;
+		$aRedirectedFiles[] = __FILE__;
 		$sCallerFilePath = '';
 		foreach( debug_backtrace() as $aDebugInfo )  {			
 			$sCallerFilePath = $aDebugInfo['file'];
-			if ( $sCallerFilePath == __FILE__ || $sCallerFilePath ==  $sThisFile ) continue;
+			if ( in_array( $sCallerFilePath, $aRedirectedFiles ) ) continue;
 			break;	// the first found item.
 		}
 		return $sCallerFilePath;
