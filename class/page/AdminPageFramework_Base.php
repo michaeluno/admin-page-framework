@@ -141,7 +141,7 @@ abstract class AdminPageFramework_Base {
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
-		$this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $sCallerPath, $this->oMsg );
+		$this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $this->oMsg );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
 		$this->oUtil = new AdminPageFramework_Utility;
 		$this->oDebug = new AdminPageFramework_Debug;		

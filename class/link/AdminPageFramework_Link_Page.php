@@ -14,23 +14,16 @@ if ( ! class_exists( 'AdminPageFramework_Link_Page' ) ) :
 class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	
 	/**
-	 * Stores the caller script path.
-	 * @since			2.0.0
-	 */ 
-	private $sCallerPath;
-	
-	/**
 	 * The property object, commonly shared.
 	 * @since			2.0.0
 	 */ 
 	private $oProp;
 	
-	public function __construct( &$oProp, $sCallerPath=null, $oMsg=null ) {
+	public function __construct( &$oProp, $oMsg=null ) {
 		
 		if ( ! is_admin() ) return;
 		
 		$this->oProp = $oProp;
-		$this->sCallerPath = file_exists( $sCallerPath ) ? $sCallerPath : $this->getCallerScriptPath();
 		$this->oMsg = $oMsg;
 		
 		// Add script info into the footer 
