@@ -147,8 +147,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @remark			Only one root page can be set per one class instance.
 	 * @param			string			$sRootMenuLabel			If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
 	 * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
-	 * @param			string			$sIcon16x16			( optional ) the URL or the file path of the menu icon. The size should be 16 by 16 in pixel.
-	 * @param			string			$iMenuPosition			( optional ) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
+	 * @param			string			$sIcon16x16			( optional ) either of the following items.
+	 * 	- the URL of the menu icon with the size of 16 by 16 in pixel.
+	 *  - the file path of the menu icon with the size of 16 by 16 in pixel.
+	 *  - the name of a Dashicons helper class to use a font icon, e.g. <code>dashicons-editor-customchar</code>.
+	 *  - the string, 'none', to leave div.wp-menu-image empty so an icon can be added via CSS.
+	 *  - a base64-encoded SVG using a data URI, which will be colored to match the color scheme. This should begin with 'data:image/svg+xml;base64,'.
+	 * @param			string			$iMenuPosition		( optional ) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
 	 * @return			void
 	 */
 	public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
@@ -158,7 +163,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		$this->oProp->aRootMenu = array(
 			'sTitle'			=> $sRootMenuLabel,
 			'sPageSlug' 		=> $sSlug ? $sSlug : $this->oProp->sClassName,	
-			'sIcon16x16'		=> $sIcon16x16 ? $this->oUtil->resolveSRC( $sIcon16x16, true ) : null,
+			'sIcon16x16'		=> $this->oUtil->resolveSRC( $sIcon16x16 ),
 			'iPosition'			=> $iMenuPosition,
 			'fCreateRoot'		=> $sSlug ? false : true,
 		);	
@@ -492,7 +497,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			$aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );			
 			return $this->oUtil->uniteArrays(
 				array( 
-					'href_icon_32x32'			=> $aSubMenuPage['screen_icon'] ? $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ) : null,
+					'href_icon_32x32'			=> $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
 					'screen_icon_id'			=> in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) ? $aSubMenuPage['screen_icon'] : 'generic',		// $_aScreenIconIDs is defined in the page class.
 					'capability'				=> isset( $aSubMenuPage['capability'] ) ? $aSubMenuPage['capability'] : $this->oProp->sCapability,
 					'order'						=> is_numeric( $aSubMenuPage['order'] ) ? $aSubMenuPage['order'] : count( $this->oProp->aPages ) + 10,

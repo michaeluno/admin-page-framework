@@ -309,7 +309,10 @@ abstract class AdminPageFramework_WPUtility {
 	 * @since			2.1.6			Moved from the AdminPageFramework_HeadTag_Base class. Added the $bReturnNullIfNotExist parameter.
 	 */
 	static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {	
-		
+
+		if ( ! $sSRC )	
+			return $bReturnNullIfNotExist ? null : $sSRC;
+			
 		// It is a url
 		if ( filter_var( $sSRC, FILTER_VALIDATE_URL ) )
 			return $sSRC;

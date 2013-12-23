@@ -16,7 +16,10 @@ class APF_BasicUsage extends AdminPageFramework {
 	
 	public function setUp() {
 		
-		$this->setRootMenuPage( 'Admin Page Framework' );
+		$this->setRootMenuPage( 
+			'Admin Page Framework',
+			version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ? 'dashicons-format-audio' : null	// dash-icons are supported since WordPress v3.8
+		);
 		$this->addSubMenuItems(
 			array(
 				'title' => __( 'First Page', 'admin-page-framework-demo' ),
@@ -36,6 +39,7 @@ class APF_BasicUsage extends AdminPageFramework {
 			<h3><?php _e( 'Page Title', 'admin-page-framework-demo' ); ?></h3>
 			<p><?php _e( 'Hi there!', 'admin-page-framework-demo' ); ?></p>
 		<?php
+		$this->oDebug->dumpArray( $this->oProp->aPages );
 	}
 	
 }
