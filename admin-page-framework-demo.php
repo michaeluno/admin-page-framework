@@ -39,7 +39,8 @@ class APF_BasicUsage extends AdminPageFramework {
 			<h3><?php _e( 'Page Title', 'admin-page-framework-demo' ); ?></h3>
 			<p><?php _e( 'Hi there!', 'admin-page-framework-demo' ); ?></p>
 		<?php
-		$this->oDebug->dumpArray( $this->oProp->aPages );
+		// $this->oDebug->dumpArray( $this->oProp->aPages );
+		// $this->oDebug->dumpArray( AdminPageFramework_PageLoadInfo_Page::$aClassNames );
 	}
 	
 }

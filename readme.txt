@@ -186,6 +186,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Fixed: a bug that page load info in the footer area was not embedded when multiple root pages are created.
+* Added: the ability for the `setRootMenuPage()` method to support dash-icons, base64-encoded SVG, and the string `none` value for the second parameter.
 * Moved: the method to retrieve library data into the property base class and they will be stored as static properties.
 * Changed: ( ***Breaking Change*** ) the name of the `showInPageTabs()` method to `setInPageTabsVisibility()`.
 * Changed: ( ***Breaking Change*** ) the name of the `showPageHeadingTabs()` method to `setPageHeadingTabsVisibility()`.

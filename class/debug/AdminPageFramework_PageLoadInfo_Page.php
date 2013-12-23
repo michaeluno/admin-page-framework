@@ -11,16 +11,21 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_Page' ) ) :
 class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadInfo_Base {
 	
 	private static $_oInstance;
+	private static $aClassNames = array();
 	
 	/**
-	 * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
+	 * Ensures that only one instance of this class object exists per class. ( no multiple instances of this object on a particular class ) 
 	 * 
 	 * @remark			This class should be instantiated via this method.
 	 */
 	public static function instantiate( $oProp, $oMsg ) {
 		
-		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_PageLoadInfo_Page ) ) 
-			self::$_oInstance = new AdminPageFramework_PageLoadInfo_Page( $oProp, $oMsg );
+		if ( in_array( $oProp->sClassName, self::$aClassNames ) )
+			return self::$_oInstance;
+		
+		self::$aClassNames[] = $oProp->sClassName;
+		self::$_oInstance = new AdminPageFramework_PageLoadInfo_Page( $oProp, $oMsg );
+		
 		return self::$_oInstance;
 		
 	}		
