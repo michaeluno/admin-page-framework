@@ -9,6 +9,10 @@
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
+/* Exit if accessed directly */
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/* Define constants */
 define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
@@ -16,9 +20,31 @@ define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( APFDEMO_DIRNAME . '/class/admin-page-framework.php' );
 
-/* Include the demo class that creates a custom post type. */
+if ( is_admin() ) :
+	
+	/*  Create an example page group */
+	include_once( APFDEMO_DIRNAME . '/example/APF_BasicUsage.php' );	// Include the basic usage example that creates a root page and its sub-pages.
+	new APF_BasicUsage;
+
+	/* Adds pages and forms in the custom post type root page */
+	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
+	new APF_Demo;
+
+	/* Create a meta box with form fields */
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox.php' );	// Include the demo class that creates a meta box.
+	new APF_MetaBox(
+		'sample_custom_meta_box',
+		'My Custom Meta Box',
+		array( 'apf_posts' ),	// post, page, etc.
+		'normal',
+		'default'
+	);
+	
+endif;
+
+/* Creates a custom post type */
 include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
-new APF_PostType( 
+new APF_PostType( 	// this class deals with front-end components so is_admin() is not necessary.
 	'apf_posts', 	// post type slug
 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 		'labels' => array(
@@ -48,29 +74,8 @@ new APF_PostType(
 		// ( framework specific key ) this sets the screen icon for the post type.
 		'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
 	)
-);	// should not use "if ( is_admin() )" for the this class because posts of custom post type can be accessed from the front-end pages.
+);	
 	
-if ( is_admin() ) :
-	
-	/* Include the basic usage example that creates a root page and its sub-pages. */
-	include_once( APFDEMO_DIRNAME . '/example/APF_BasicUsage.php' );
-	new APF_BasicUsage;
-
-	/* Instantiate the main framework class so that the pages and form fields will be created. */
-	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
-	new APF_Demo;
-
-	/* Include the demo class that creates a meta box. */
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox.php' );
-	new APF_MetaBox(
-		'sample_custom_meta_box',
-		'My Custom Meta Box',
-		array( 'apf_posts' ),	// post, page, etc.
-		'normal',
-		'default'
-	);
-	
-endif;
 	
 /*
  * 
