@@ -2283,11 +2283,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Pages {
 		$this->oProps->arrRootMenu = array(
 			'strTitle'			=> $strRootMenuLabel,
 			'strPageSlug' 		=> $strSlug ? $strSlug : $this->oProps->strClassName,	
-			'strURLIcon16x16'	=> $this->oUtil->resolveSRC( $strURLIcon16x16, true ),
+			'strURLIcon16x16'	=> $this->oUtil->resolveSRC( $strURLIcon16x16 ),
 			'intPosition'		=> $intMenuPosition,
 			'fCreateRoot'		=> $strSlug ? false : true,
 		);	
-					
+
 	}
 	
 	/**
