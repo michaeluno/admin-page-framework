@@ -1138,15 +1138,15 @@ class APF_Demo extends AdminPageFramework {
 	 * */
 	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
 		
-		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['exports']['export_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['exports']['export_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type']
 			: $sFormatType;
 		
 	}	
 	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_ + page slug + _ + tab slug
 		
-		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['imports']['import_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['imports']['import_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['import_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['import_format_type']
 			: $sFormatType;
 		
 	}
@@ -1178,10 +1178,10 @@ class APF_Demo extends AdminPageFramework {
 		$aErrors = array();
 
 		// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.
-		if ( ! is_numeric( $aNewInput['apf_builtin_field_types']['verification']['verify_text_field'] ) ) {
+		if ( ! is_numeric( $aNewInput['apf_builtin_field_types']['verify_text_field'] ) ) {
 			
 			// Start with the section key in $aErrors, not the key of page slug.
-			$aErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $aNewInput['apf_builtin_field_types']['verification']['verify_text_field'];	
+			$aErrors['verify_text_field'] = 'The value must be numeric: ' . $aNewInput['apf_builtin_field_types']['verify_text_field'];	
 			$bVerified = false;
 			
 		}
@@ -1220,7 +1220,7 @@ class APF_Demo extends AdminPageFramework {
 	public function validation_APF_Demo( $aInput, $aOldOptions ) {
 		
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
-		if ( isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) 
+		if ( isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['submit_delete_options_confirmation'] ) ) 
 			return array();
 			
 		return $aInput;

@@ -190,7 +190,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	protected function getInputFieldNameFlat( $aField ) {	
 	
 		return isset( $aField['option_key'] ) // the meta box class does not use the option key
-			? "{$aField['option_key']}|{$aField['page_slug']}|{$aField['section_id']}|{$aField['field_id']}"
+			? "{$aField['option_key']}|{$aField['page_slug']}|{$aField['field_id']}"
 			: $aField['field_id'];
 		
 	}			

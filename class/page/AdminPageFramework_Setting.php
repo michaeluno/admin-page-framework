@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'title'				=> null,
 		'tip'				=> null,
 		'description'		=> null,
-		'sName'			=> null,		// the name attribute of the input field.
+		'name'				=> null,		// the name attribute of the input field.
 		'error_message'		=> null,		// error message for the field
 		'before_field'		=> null,
 		'after_field'		=> null,
@@ -67,6 +67,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'help'				=> null,	// since 2.1.0
 		'help_aside'		=> null,	// since 2.1.0
 		'repeatable'		=> null,	// since 2.1.3
+		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
 	);	
 	
 	/**
@@ -600,18 +601,17 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * Useful when you don't know the section name but it's a bit slower than accessing the property value by specifying the section name.
 	 * 
 	 * @since			2.1.2
-	 * @since			3.0.0			Changed the scope to public from protected.
+	 * @since			3.0.0			Changed the scope to public from protected. Dropped the sections.
 	 * @access			public
 	 */
 	public function getFieldValue( $sFieldNameToFind ) {
 
-		foreach( $this->oProp->aOptions as $sPageSlug => $aSections )  
-			foreach( $aSections as $sSectionName => $aFields ) 
-				foreach( $aFields as $sFieldName => $vValue ) 
-					if ( trim( $sFieldNameToFind ) == trim( $sFieldName ) )
-						return $vValue;	
-		
+		$sFieldNameToFind = trim( $sFieldNameToFind );
+		foreach( $this->oProp->aOptions as $sPageSlug => $aFields )  
+			if ( array_key_exists( $sFieldNameToFind, $aFields ) )
+				return $aFields[ $sFieldNameToFind ];
 		return null;
+		
 	}
 			
 	/**
@@ -674,12 +674,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			// Retrieve the pressed button's associated submit field ID and its section ID.
 			$aNameKeys = explode( '|', $sPressedFieldName );	
-			$sSectionID = $aNameKeys[ 2 ]; 
-			$sFieldID = $aNameKeys[ 3 ];
+			$sFieldID = $aNameKeys[ 2 ];
 			
 			// Set up the field error array.
 			$aErrors = array();
-			$aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->__( 'reset_options' );
+			$aErrors[ $sFieldID ] = $this->oMsg->__( 'reset_options' );
 			$this->setFieldErrors( $aErrors );
 			
 			// Set a flag that the confirmation is displayed
@@ -742,9 +741,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				
 				// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
 				// The isset() checks if the associated button is actually pressed or not.
-				if ( count( $aNameKeys ) == 4 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ] ) )
+				if ( count( $aNameKeys ) == 3 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ] ) )
 					return $aSubElements[ $sTargetKey ];
-				if ( count( $aNameKeys ) == 5 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ][ $aNameKeys[4] ] ) )
+				if ( count( $aNameKeys ) == 4 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ] ) )
 					return $aSubElements[ $sTargetKey ];
 					
 			}
@@ -773,18 +772,18 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			}
 
 			// Apply filters to the uploaded file's MIME type.
-			$arrMIMEType = $this->oUtil->addAndApplyFilters(
+			$aMIMEType = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "import_mime_types_{$strPageSlug}_{$strTabSlug}", "import_mime_types_{$strPageSlug}", "import_mime_types_{$this->oProps->strClassName}_{$strPressedInputID}", "import_mime_types_{$this->oProps->strClassName}_{$strPressedFieldID}", "import_mime_types_{$this->oProps->strClassName}" ),
+				array( "import_mime_types_{$sPageSlug}_{$sTabSlug}", "import_mime_types_{$sPageSlug}", "import_mime_types_{$this->oProp->sClassName}_{$sPressedInputID}", "import_mime_types_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_mime_types_{$this->oProp->sClassName}" ),
 				array( 'text/plain', 'application/octet-stream' ),        // .json file is dealt as a binary file.
-				$strPressedFieldID,
-				$strPressedInputID
+				$sPressedFieldID,
+				$sPressedInputID
 			);                
 
 			// Check the uploaded file MIME type.
-			if ( ! in_array( $oImport->getType(), $arrMIMEType ) ) {        
+			if ( ! in_array( $oImport->getType(), $aMIMEType ) ) {        
 				$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );
-				return $arrStoredOptions;        // do not change the framework's options.
+				return $aStoredOptions;        // do not change the framework's options.
 			}
 			
 			// Check the uploaded file type.
@@ -1033,7 +1032,7 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 			$sFieldOutput,
 			$aField // the field array
 		);
-		
+	
 	}
 	
 	/**

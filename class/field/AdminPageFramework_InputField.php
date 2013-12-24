@@ -46,16 +46,22 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 			: array();
 		
 	}	
-		
+	
+	/**
+	 * 
+	 * @since			2.0.0
+	 * @since			3.0.0			Dropped the section key.
+	 */
 	private function getInputFieldName( $aField=null ) {
 		
 		$aField = isset( $aField ) ? $aField : $this->aField;
 		
 		// If the name key is explicitly set, use it
-		if ( ! empty( $aField['sName'] ) ) return $aField['sName'];
+		if ( ! empty( $aField['name'] ) ) return $aField['name'];
 		
 		return isset( $aField['option_key'] ) // the meta box class does not use the option key
-			? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
+			? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['field_id']}]"
+			// ? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
 			: $aField['field_id'];
 		
 	}
@@ -87,19 +93,19 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	}	
 	private function getInputFieldValueFromOptionTable( &$aField, &$aOptions ) {
 		
-		if ( ! isset( $aOptions[ $aField['page_slug'] ][ $aField['section_id'] ][ $aField['field_id'] ] ) )
+		if ( ! isset( $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ] ) )
 			return;
 						
-		$vValue = $aOptions[ $aField['page_slug'] ][ $aField['section_id'] ][ $aField['field_id'] ];
+		$vValue = $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ];
 		
-		// Check if it's not an array return it.
+		// If it's not an array, return it.
 		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
 		
 		// If it's an array, check if there is an empty value in each element.
-		$default = isset( $aField['default'] ) ? $aField['default'] : array(); 
+		$vDefault = isset( $aField['default'] ) ? $aField['default'] : array(); 
 		foreach ( $vValue as $sKey => &$sElement ) 
 			if ( $sElement == '' )
-				$sElement = $this->getCorrespondingArrayValue( $default, $sKey, '' );
+				$sElement = $this->getCorrespondingArrayValue( $vDefault, $sKey, '' );
 		
 		return $vValue;
 			
@@ -130,7 +136,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 			
 		// For meta box form fields,
 		if ( isset( $aField['field_id'] ) ) return $aField['field_id'];
-		if ( isset( $aField['sName'] ) ) return $aField['sName'];	// the name key is for the input name attribute but it's better than nothing.
+		if ( isset( $aField['name'] ) ) return $aField['name'];	// the name key is for the input name attribute but it's better than nothing.
 		
 		// Not Found - it's not a big deal to have an empty value for this. It's just for the anchor link.
 		return '';
@@ -146,8 +152,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	public function getInputField( $sFieldType ) {
 		
 		// Prepend the field error message.
-		$sOutput = isset( $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] )
-			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] . "</span><br />"
+		$sOutput = isset( $this->aErrors[ $this->aField['field_id'] ] )
+			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 		
 		// Prepare the field class selector 
