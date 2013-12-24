@@ -1149,7 +1149,7 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 				
 		// Define field types.
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_BuiltinInputFieldTypeDefinitions( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
+		new AdminPageFramework_RegisterBuiltinFieldTypes( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
 
 		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,

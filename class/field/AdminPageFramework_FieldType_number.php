@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_number' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) :
 /**
  * Defines the number, and range field type.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_number' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_number extends AdminPageFramework_InputFieldTypeDefinition_Base {
+class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_Base {
 
 	/**
 	 * Registers the field type.

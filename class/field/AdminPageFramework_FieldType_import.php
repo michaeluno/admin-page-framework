@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_import' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_import' ) ) :
 /**
  * Defines the import field type.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_import' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_import extends AdminPageFramework_InputFieldType_submit {
+class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
 	
 	/**
 	 * Returns the array of the field type specific default keys.

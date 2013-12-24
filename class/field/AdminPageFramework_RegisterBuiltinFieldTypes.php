@@ -1,14 +1,14 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_BuiltinInputFieldTypeDefinitions' ) ) :
+if ( ! class_exists( 'AdminPageFramework_RegisterBuiltinFieldTypes' ) ) :
 /**
  * Provides means to define custom input fields not only by the framework but also by the user.
  * 
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
- * @since			2.1.6			Changed the name from AdminPageFramework_InputFieldTypeDefinitions
+ * @since			2.1.6			Changed the name from AdminPageFramework_FieldTypeDefinitions
  */
-class AdminPageFramework_BuiltinInputFieldTypeDefinitions  {
+class AdminPageFramework_RegisterBuiltinFieldTypes  {
 	
 	/**
 	 * Holds the default input field labels
@@ -38,7 +38,7 @@ class AdminPageFramework_BuiltinInputFieldTypeDefinitions  {
 	
 	function __construct( &$aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
 		foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug => $aSlugs ) {
-			$sInstantiatingClassName = "AdminPageFramework_InputFieldType_{$sFieldTypeSlug}";
+			$sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
 			if ( class_exists( $sInstantiatingClassName ) ) {
 				$oFieldType = new $sInstantiatingClassName( $sExtendedClassName, $sFieldTypeSlug, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
 				foreach( $aSlugs as $sSlug )

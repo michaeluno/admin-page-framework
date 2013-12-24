@@ -8,5 +8,5 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  * @since			2.1.5
  * @since			3.0.0			Changed the name from AdminPageFramework_CustomFieldType to AdminPageFramework_FieldType.
  */
-abstract class AdminPageFramework_FieldType extends AdminPageFramework_InputFieldTypeDefinition_Base {}
+abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base {}
 endif;

@@ -1,5 +1,5 @@
 <?php
-class FontCustomFieldType extends AdminPageFramework_InputFieldType_image {
+class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 
 	function __construct( $sClassName, $sFieldTypeSlug, $oMsg=null, $bAutoRegister=true ) {
 		

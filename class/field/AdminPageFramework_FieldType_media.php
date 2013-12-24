@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_media' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_media' ) ) :
 /**
  * Defines the media field type.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_media' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_media extends AdminPageFramework_InputFieldType_image {
+class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
 	
 	/**
 	 * Returns the array of the field type specific default keys.

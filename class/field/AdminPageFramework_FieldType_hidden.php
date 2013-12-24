@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_hidden' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_hidden' ) ) :
 /**
  * Defines the hidden field type.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_hidden' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_hidden extends AdminPageFramework_InputFieldTypeDefinition_Base {
+class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_Base {
 	
 	/**
 	 * Returns the array of the field type specific default keys.

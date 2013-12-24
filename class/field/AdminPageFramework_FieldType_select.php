@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_select' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_select' ) ) :
 /**
  * Defines the select field type.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_select' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_select extends AdminPageFramework_InputFieldTypeDefinition_Base {
+class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_Base {
 	
 	/**
 	 * Returns the array of the field type specific default keys.

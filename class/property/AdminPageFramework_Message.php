@@ -89,7 +89,7 @@ class AdminPageFramework_Message {
 			// AdminPageFramework_Link_PostType
 			'manage'		=> __( 'Manage', 'admin-page-framework' ),
 			
-			// AdminPageFramework_InputFieldTypeDefinition_Base
+			// AdminPageFramework_FieldType_Base
 			'select_image'			=> __( 'Select Image', 'admin-page-framework' ),
 			'upload_file'			=> __( 'Upload File', 'admin-page-framework' ),
 			'use_this_file'			=> __( 'Use This File', 'admin-page-framework' ),

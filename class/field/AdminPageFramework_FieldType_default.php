@@ -1,20 +1,19 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_file' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_default' ) ) :
 /**
- * Defines the file field type.
+ * Defines the default field type.
  * 
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFieldTypeDefinition_Base {
+class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_Base {
 	
 	/**
 	 * Returns the array of the field type specific default keys.
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'vAcceptAttribute'				=> 'audio/*|video/*|image/*|MIME_type',
 			// 'size'					=> 1,
 		);	
 	}
@@ -41,6 +40,10 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 	
 	/**
 	 * Returns the output of the field type.
+	 * 
+	 * This one is triggered when the called field type is unknown. This does not insert the input tag but just renders the value stored in the $vValue variable.
+	 * 
+	 * @since			2.1.5				
 	 */
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
@@ -50,41 +53,36 @@ class AdminPageFramework_InputFieldType_file extends AdminPageFramework_InputFie
 		$sFieldClassSelector = $aField['sFieldClassSelector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
-		$aFields = $aField['repeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['label'];		
-					
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
+		// $aFields = $aField['repeatable'] ? 
+			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
+			// : $aField['label'];		
+				
+		foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 
 				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$sTagID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
-							. ( $sLabel && ! $aField['repeatable'] ?
-								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
-								: ""
+							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+								: "" 
 							)
-							. "<input "
-								. "id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-								. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $_aDefaultKeys['vAcceptAttribute'] ) . "' "
-								. "type='{$aField['type']}' "	// file
-								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $aFields, $sKey ) . "' "
-								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-							. "/>"
+							. "<div class='admin-page-framework-input-container'>"
+								. $sValue
+							. "</div>"
 							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
 						. "</label>"
 					. "</div>"
-				. "</div>"
+				. "</div>"		
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 					
-		return "<div class='admin-page-framework-field-file' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-default' id='{$sTagID}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";
+		
 	}
 
 }

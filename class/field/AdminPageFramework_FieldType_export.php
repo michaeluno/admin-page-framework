@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_export' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_export' ) ) :
 /**
  * Defines the export field type.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_export' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_export extends AdminPageFramework_InputFieldType_submit {
+class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
 	
 	/**
 	 * Returns the array of the field type specific default keys.

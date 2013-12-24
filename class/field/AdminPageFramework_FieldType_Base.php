@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinition_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
 /**
  * The base class of field type classes that define input field types.
  * 
@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinition_Base' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-abstract class AdminPageFramework_InputFieldTypeDefinition_Base extends AdminPageFramework_Utility {
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Utility {
 	
 	protected static $_aDefaultKeys = array(
 		'vValue'				=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.

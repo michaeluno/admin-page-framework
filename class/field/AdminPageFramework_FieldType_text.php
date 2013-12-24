@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_text' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldType_text' ) ) :
 /**
  * Defines the text field type.
  * 
@@ -9,7 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_InputFieldType_text' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_InputFieldType_text extends AdminPageFramework_InputFieldTypeDefinition_Base {
+class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Base {
 
 	/**
 	 * Registers the field type.
