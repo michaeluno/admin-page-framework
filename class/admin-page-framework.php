@@ -15,14 +15,14 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				2.1.7
+ * @version				2.1.7.1
  */
 /*
 	Library Name: Admin Page Framework
 	Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
 	Author:  Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 2.1.7
+	Version: 2.1.7.1
 	Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
 	Description: Provides simpler means of building administration pages for plugin and theme developers.
 */
@@ -341,6 +341,9 @@ abstract class AdminPageFramework_WPUtilities {
 	 * @since			2.1.6			Moved from the AdminPageFramework_HeadTag_Base class. Added the $fReturnNullIfNotExist parameter.
 	 */
 	static public function resolveSRC( $strSRC, $fReturnNullIfNotExist=false ) {	
+		
+		if ( ! $strSRC )	
+			return $fReturnNullIfNotExist ? null : $strSRC;	
 		
 		// It is a url
 		if ( filter_var( $strSRC, FILTER_VALIDATE_URL ) )
@@ -6740,7 +6743,7 @@ class AdminPageFramework_Debug {
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_InputFieldType_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_InputFieldTypeDefinition_Base' ) ) :
 /**
  * The base class of field type classes that define input field types.
  * 
