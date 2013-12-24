@@ -185,7 +185,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 2.1.7.1 =
+= 2.1.7.1 - 12/25/2013 =
 * Added: an example of basic usage of creating a page group as well as specifying a dashicon. 
 * Added: the ability for the `setRootMenuPage()` method to accept `dashicons`, the `none` value, and SVG base64 encoded icon for the second parameter.
 * Fixed: a bug that the `color` field type was replaced with the `taxonomy` field type and the `taxonomy` field type was not available.
