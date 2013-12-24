@@ -44,11 +44,8 @@ class APF_PostType extends AdminPageFramework_PostType {
 
 		$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
 		$this->setFooterInfoRight( '<br />Custom text on the right hand side' );
-		
-		
-		
-		add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );
-		
+			
+		add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );	
 	
 	}
 	

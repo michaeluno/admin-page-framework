@@ -76,9 +76,7 @@ new APF_PostType( 	// this class deals with front-end components so is_admin() i
 	)
 );	
 	
-	
 /*
- * 
  * If you find this framework useful, include it in your project!
  * And please leave a nice comment in the review page, http://wordpress.org/support/view/plugin-reviews/admin-page-framework
  * 
@@ -86,5 +84,4 @@ new APF_PostType( 	// this class deals with front-end components so is_admin() i
  * https://github.com/michaeluno/admin-page-framework/issues
  * 
  * Happy coding!
- * 
  */
