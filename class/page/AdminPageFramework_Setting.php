@@ -884,7 +884,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$sPressedFieldID,
 				$sPressedInputID
 			);	// export_name_{$sPageSlug}_{$sTabSlug}, export_name_{$sPageSlug}, export_name_{$sClassName}_{pressed input id}, export_name_{$sClassName}_{pressed field id}, export_name_{$sClassName}	
-		
+	
 			$sFormatType = $this->oUtil->addAndApplyFilters(
 				$this,
 				array( "export_format_{$sPageSlug}_{$sTabSlug}", "export_format_{$sPageSlug}", "export_format_{$this->oProp->sClassName}_{$sPressedInputID}", "export_format_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_format_{$this->oProp->sClassName}" ),
