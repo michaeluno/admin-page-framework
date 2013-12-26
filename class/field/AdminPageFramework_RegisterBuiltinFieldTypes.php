@@ -18,7 +18,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 	protected static $aDefaultFieldTypeSlugs = array(
 		'default' => array( 'default' ),	// undefined ones will be applied 
 		'text' => array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ),
-		'number' => array( 'number', 'range' ),
+		// 'number' => array( 'number', 'range' ),
 		// 'textarea' => array( 'textarea' ),
 		// 'radio' => array( 'radio' ),
 		// 'checkbox' => array( 'checkbox' ),

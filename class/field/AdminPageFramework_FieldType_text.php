@@ -53,17 +53,17 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 
 		$aOutput = array();
 		$nIndex = $aField['index'];
-		$sInptID = isset( $aField['attributes']['id'] ) ? $aField['attributes']['id'] : "{$aField['field_id']}_{$nIndex}";
+		$sInputID = isset( $aField['attributes']['id'] ) ? $aField['attributes']['id'] : "{$aField['field_id']}_{$nIndex}";
 		$aAttributes = $aField['attributes'] + array(
-			'id' => $sInptID,
+			'id' => $sInputID,
 			'name' => $aField['is_multiple'] ? "{$aField['field_name']}[{$nIndex}]" : $aField['field_name'],
 			'value' => $aField['value'],
 			'type' => $aField['type'],	// text, password, etc.
 		);	
 		$aOutput[] = 
-			"<div class='{$aField['field_class_selector']}' id='field-{$sInptID}'>"
+			"<div class='{$aField['field_class_selector']}' id='field-{$sInputID}'>"
 				. "<div class='admin-page-framework-input-label-container'>"
-					. "<label for='{$sInptID}'>"
+					. "<label for='{$sInputID}'>"
 						. $aField['before_input_tag']
 						. ( $aField['label'] && ! $aField['is_repeatable']
 							? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['labelMinWidth'] . "px;'>" . $aField['label'] . "</span>"
@@ -75,12 +75,12 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 				. "</div>"
 			. "</div>"		
 			. ( ( $sDelimiter = $aField['delimiter'] )
-				? "<div class='delimiter' id='delimiter-{$sInptID}'>" . $sDelimiter . "</div>"
+				? "<div class='delimiter' id='delimiter-{$sInputID}'>" . $sDelimiter . "</div>"
 				: ""
 			)
 		;
 				
-		return "<div class='admin-page-framework-field-text' id='{$aField['tag_id']}'>" 
+		return "<div class='admin-page-framework-field-{$aField['type']}' id='{$aField['tag_id']}-{$sInputID}'>" 
 				. implode( PHP_EOL, $aOutput ) 
 			. "</div>";			
 

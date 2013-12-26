@@ -59,7 +59,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 		
 		return isset( $aField['option_key'] ) // the meta box class does not use the option key
 			? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['field_id']}]"
-			// ? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['section_id']}][{$aField['field_id']}]"
 			: $aField['field_id'];
 		
 	}
@@ -210,10 +209,10 @@ return $vValue;
 		$aOutput[] = $this->aField['is_repeatable']
 			? $this->_getRepeaterScript( $this->aField['tag_id'], count( $aFields ) )
 			: '';
-			
+
 		return $this->getRepeaterScriptGlobal( $this->aField['tag_id'] )
 			. "<fieldset>"
-				. "<div class='admin-page-framework-fields'>"
+				. "<div class='admin-page-framework-fields' id='{$this->aField['tag_id']}'>"
 					. $this->aField['before_field'] 
 					. implode( PHP_EOL, $aOutput )
 					. $this->aField['after_field']
@@ -228,7 +227,10 @@ return $vValue;
 		 * @since			3.0.0
 		 */
 		protected function _composeFieldsArray( $aField, $aOptions ) {
-			
+
+			/* Get the set value(s) */
+			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
+		
 			/* Separate the first field and sub-fields */
 			$aFirstField = array();
 			$aSubFields = array();
@@ -239,16 +241,23 @@ return $vValue;
 					$aFirstField[ $nsIndex ] = $vFieldElement;
 			}		
 			
-			/* Put them together in one array */
+			/* Create the sub-fields of repeatable fields based on the saved values */
+			if ( $aField['is_repeatable'] ) 
+				foreach( ( array ) $vSavedValue as $iIndex => $vValue ) {
+					if ( $iIndex == 0 ) continue;
+					$aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
+						? $aSubFields[ $iIndex - 1 ] 
+						: array();			
+				}
+			
+			/* Put the initial field and the sub-fields together in one array */
 			foreach( $aSubFields as &$aSubField ) 
 				$aSubField = $aSubField + $aFirstField;
 			$aFields = array_merge( array( $aFirstField ), $aSubFields );
-			
-			/* Get the set value(s) */
-			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );		
+					
+			/* Set the saved values */		
 			if ( count( $aSubFields ) > 0 || $aField['is_repeatable'] || $aField['is_sortable'] ) {	// means the elements are saved in an array.
 				foreach( $aFields as $iIndex => &$aThisField ) {
-					
 					$aThisField['saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null;
 					$aThisField['is_multiple'] = true;
 				}
@@ -439,23 +448,7 @@ return $vValue;
 							var fExternalSource = jQuery( media_uploader_button ).attr( 'data-enable_external_source' );
 							setAPFMediaUploader( previous_id, true, fExternalSource );	
 						}						
-					}
-					
-					// Date pickers - somehow it needs to destroy the both previous one and the added one and assign the new date pickers 
-					var date_picker_script = element.find( 'script.date-picker-enabler-script' );
-					if ( date_picker_script.length > 0 ) {
-						var previous_id = date_picker_script.attr( 'data-id' );
-						date_picker_script.attr( 'data-id', function( index, name ){ return updateID( index, name ) } );
-
-						jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker( 'destroy' ); 
-						jQuery( '#' + date_picker_script.attr( 'data-id' ) ).datepicker({
-							dateFormat : date_picker_script.attr( 'data-date_format' )
-						});						
-						jQuery( '#' + previous_id ).datepicker( 'destroy' ); //here
-						jQuery( '#' + previous_id ).datepicker({
-							dateFormat : date_picker_script.attr( 'data-date_format' )
-						});												
-					}				
+					}	
 									
 				}
 				
