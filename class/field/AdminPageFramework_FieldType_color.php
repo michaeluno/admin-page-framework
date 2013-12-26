@@ -80,6 +80,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * @access			public	
 	 * @internal
 	 * @return			string			The image selector script.
+	 * @see				https://github.com/Automattic/Iris
 	 */ 
 	public function replyToGetInputScripts() {
 		return "

@@ -29,9 +29,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 				
 		// Global variable
 		$GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
-			? $GLOBALS['aAdminPageFramework']['aFieldFlags'] 
+			? $GLOBALS['aAdminPageFramework']['aFieldFlags']
 			: array();
 		
+		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] ) ) {
+			
+			add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackScript' ) );
+			$GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] = true;
+			
+		}
 	}	
 	
 	/**
@@ -166,7 +172,7 @@ return $vValue;
 				: $this->aFieldTypeDefinitions['default'];
 				
 			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
-				? "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}'>"
+				? "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}' data-type='{$aField['type']}'>"
 					. call_user_func_array(
 						$aFieldTypeDefinition['hfRenderField'],
 						array( $aField )
@@ -353,7 +359,7 @@ return $vValue;
 					nodeElement.attr( 'id', function( index, name ) { return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
-					
+										
 					// Color Pickers
 					var nodeColorInput = nodeElement.find( 'input.input_color' );
 					if ( nodeColorInput.length > 0 ) {
@@ -439,6 +445,9 @@ return $vValue;
 					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
 					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
 
+					// Call the registered callback functions
+					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
+					
 					nodeNewField.insertAfter( nodeFieldContainer );		// add the cloned new field element
 
 					// Increment the names and ids of the next following siblings.
@@ -500,6 +509,54 @@ return $vValue;
 			});
 		</script>";
 	}
+
+	/**
+	 * @since			3.0.0
+	 */
+	public function _replyToAddRegisterCallbackScript() {
+		
+		$sScript = 
+			"
+(function ( $ ) {
 	
+	// The method that gets triggered when a repeatable field add button is pressed.
+	$.fn.callBackAddRepeatableField = function( sFieldType, sID ) {
+		var nodeThis = this;
+		$.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
+			if ( jQuery.isFunction( hfCallback ) )
+				hfCallback( nodeThis, sFieldType, sID );
+		});
+	};
+	
+	$.fn.registerAPFCallback = function( oOptions ) {
+		// This is the easiest way to have default options.
+		var oSettings = $.extend({
+			// These are the defaults.
+			color: '#556b2f',
+			backgroundColor: 'white',
+			added_repeatable_field: function() {},
+			
+		}, oOptions );
+
+		if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
+			$.fn.aAPFAddRepeatableFieldCallbacks = [];
+		}
+		
+		// Store the callback function
+		$.fn.aAPFAddRepeatableFieldCallbacks.push( oSettings.added_repeatable_field );
+		
+		// Greenify the collection based on the settings variable.
+		return this.css({
+			color: oSettings.color,
+			backgroundColor: oSettings.backgroundColor
+		});
+	};
+	
+}( jQuery ));			
+			";
+		echo "<script type='text/javascript' class='admin-page-framework-register-callback'>{$sScript}</script>";
+
+		
+	}
 }
 endif;

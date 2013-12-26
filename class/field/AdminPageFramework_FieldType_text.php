@@ -67,8 +67,37 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 					. $aField['after_input_tag']
 				. "</label>"
 			. "</div>"
+// . $this->getRepeatEventScript( $aField['tag_id'] )
 		;
 		
+	}
+	
+	public function replyToGetInputScripts() {
+		return "
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sID ) {
+						console.log( 'id : '  + sID );
+						console.log( 'type : '  + sFieldType );
+						console.log( 'type fron node: '  + node.data( 'type' ) );
+					}
+				});
+			});
+		";		
+	}		
+	
+	/**
+	 * Returns the JavaScript array for the field output configurations.
+	 */
+	private function getRepeatEventScript( $strTagID ) {
+		
+		return	
+			"<script type='text/javascript' class='color-picker-enabler-script'>
+				jQuery( document ).ready( function(){
+					jQuery( '#{$strTagID}' ).greenify();
+				});
+			</script>";
+
 	}
 	
 }
