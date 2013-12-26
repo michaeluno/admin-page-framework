@@ -5,6 +5,7 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  *
  * @since			2.0.0
  * @since			2.0.1			Added the <em>size</em> type.
+ * @since			2.1.5			Separated the methods that defines field types to different classes.
  * @extends			AdminPageFramework_Utility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Field
@@ -15,20 +16,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	 * Indicates whether the creating fields are for meta box or not.
 	 * @since			2.1.2
 	 */
-	private $bIsMetaBox = false;
-		
-	// protected static $_aStructure_FieldDefinition = array(
-		// 'sSlug'	=> null,
-		// 'hfRenderField' => null,
-		// 'hfGetScripts' => null,
-		// 'hfGetStyles' => null,
-		// 'hfGetIEStyles' => null,
-		// 'hfFieldLoader' => null,
-		// 'aEnqueueScripts' => null,
-		// 'aEnqueueStyles' => null,
-		// 'aDefaultKeys' => null,
-	// );
-	
+	private $_bIsMetaBox = false;
+			
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 			
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
@@ -48,14 +37,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	/**
 	 * 
 	 * @since			2.0.0
-	 * @since			3.0.0			Dropped the section key.
+	 * @since			3.0.0			Dropped the section key. Deprecated the 'name' field key to override the name attribute since the new 'attribute' key supports the functionality.
 	 */
 	private function _getInputFieldName( $aField=null ) {
 		
 		$aField = isset( $aField ) ? $aField : $this->aField;
-		
-		// If the name key is explicitly set, use it
-		if ( ! empty( $aField['name'] ) ) return $aField['name'];
 		
 		return isset( $aField['option_key'] ) // the meta box class does not use the option key
 			? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['field_id']}]"
@@ -70,28 +56,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	 */
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
-		// If the value key is explicitly set, use it.
-		// if ( isset( $aField['vValue'] ) ) return $aField['vValue'];
-		
 		// Check if a previously saved option value exists or not.
 		//  for regular setting pages. Meta boxes do not use these keys.
-		if ( isset( $aField['page_slug'], $aField['section_id'] ) ) {			
-		
+		if ( isset( $aField['page_slug'], $aField['section_id'] ) ) 
 			return $this->_getInputFieldValueFromOptionTable( $aField, $aOptions );
-			
-			
-		} 
+		
 		// For meta boxes
-		else if ( isset( $_GET['action'], $_GET['post'] ) ) {
-
+		if ( isset( $_GET['action'], $_GET['post'] ) ) 
 			return $this->_getInputFieldValueFromPostTable( $_GET['post'], $aField );
 			
-			
-		}
-		
-		// If the default value is set,
-		// if ( isset( $aField['default'] ) ) return $aField['default'];
-		
 	}	
 	
 	/**
@@ -210,7 +183,7 @@ return $vValue;
 			? $this->_getRepeaterScript( $this->aField['tag_id'], count( $aFields ) )
 			: '';
 
-		return $this->getRepeaterScriptGlobal( $this->aField['tag_id'] )
+		return $this->_getRepeaterScriptGlobal( $this->aField['tag_id'] )
 			. "<fieldset>"
 				. "<div class='admin-page-framework-fields' id='{$this->aField['tag_id']}'>"
 					. $this->aField['before_field'] 
@@ -293,9 +266,9 @@ return $vValue;
 	public function isMetaBox( $bTrueOrFalse=null ) {
 		
 		if ( isset( $bTrueOrFalse ) ) 
-			$this->bIsMetaBox = $bTrueOrFalse;
+			$this->_bIsMetaBox = $bTrueOrFalse;
 			
-		return $this->bIsMetaBox;
+		return $this->_bIsMetaBox;
 		
 	}
 	
@@ -341,7 +314,7 @@ return $vValue;
 	 * Returns the script that will be referred multiple times.
 	 * since			2.1.3
 	 */
-	private function getRepeaterScriptGlobal( $sID ) {
+	private function _getRepeaterScriptGlobal( $sID ) {
 
 		if ( $this->bIsRepeatableScriptCalled ) return '';
 		$this->bIsRepeatableScriptCalled = true;
