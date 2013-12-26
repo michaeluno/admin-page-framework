@@ -139,28 +139,28 @@ return $vValue;
 		
 		$aOutput = array();
 		
-		/* Prepend the field error message. */
+		/* 1. Prepend the field error message. */
 		$aOutput[] = isset( $this->aErrors[ $this->aField['field_id'] ] )
 			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 					
-		/* Set new elements */
+		/* 2. Set new elements */
 		$this->aField['field_name'] = $this->_getInputFieldName( $this->aField );
 		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
 
-		/* Compose fields array for sub-fields	*/
+		/* 3. Compose fields array for sub-fields	*/
 		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
 		
-		/* Get the field output. */
+		/* 4. Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
 			
-			/* Set some new elements */ 
+			/* 4-1. Set some new elements */ 
 			$aField['index'] = $sKey;
 			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
 			$aField['field_name'] = $aField['is_multiple'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
 			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
 			
-			/* Retrieve the field definition for this type - this process enabels to have mixed field types in sub-fields */ 
+			/* 4-2. Retrieve the field definition for this type - this process enabels to have mixed field types in sub-fields */ 
 			$aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $aField['type'] ] )
 				? $this->aFieldTypeDefinitions[ $aField['type'] ] 
 				: $this->aFieldTypeDefinitions['default'];
@@ -180,12 +180,12 @@ return $vValue;
 
 		}
 				
-		/* Add the description */
+		/* 5. Add the description */
 		$aOutput[] = ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
 			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['description']}</span></p>"
 			: '';
 			
-		/* Add the repeater script */
+		/* 6. Add the repeater script */
 		$aOutput[] = $this->aField['is_repeatable']
 			? $this->_getRepeaterScript( $this->aField['tag_id'], count( $aFields ) )
 			: '';
@@ -431,8 +431,10 @@ return $vValue;
 				addAPFRepeatableField = function( sFieldContainerID ) {	
 
 					var nodeFieldContainer = jQuery( '#' + sFieldContainerID );
-					var nodeNewField = nodeFieldContainer.clone( true );
-
+					var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
+					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
+					
+					updateAPFRepeatableFields( nodeNewField );	// Rebind the click event to the buttons
 					nodeNewField.find( 'input,textarea' ).val( '' );	// empty the value		
 					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
 					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
@@ -443,29 +445,35 @@ return $vValue;
 					nodeFieldContainer.nextAll().each( function() {
 						updateAPFIDsAndNames( jQuery( this ), true );
 					});
-
-					var nodeRemoveButtons =  nodeFieldContainer.closest( '.admin-page-framework-fields' ).find( '.repeatable-field-remove' );
+		
+					var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
 					if ( nodeRemoveButtons.length > 1 ) 
 						nodeRemoveButtons.show();				
-					
+										
 					// Return the newly created element
 					return nodeNewField;
 					
 				}
 				
-				updateAPFRepeatableFields = function( sID ) {
+				// This function gets triggered when the document becomes ready.
+				updateAPFRepeatableFields = function( vTagIDOrNode ) {
+				
+					var nodeAddButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
+						? jQuery( '#' + vTagIDOrNode + ' .repeatable-field-add' )
+						: vTagIDOrNode.find( '.repeatable-field-add' );
 				
 					// Add button behaviour
-					jQuery( '#' + sID + ' .repeatable-field-add' ).click( function() {
-						
+					nodeAddButtons.click( function() {
 						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
 						addAPFRepeatableField( nodeFieldContainer.attr( 'id' ) );
 						return false;
-						
 					});		
 					
 					// Remove button behaviour
-					jQuery( '#' + sID + ' .repeatable-field-remove' ).click( function() {
+					var nodeRemoveButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
+						? jQuery( '#' + vTagIDOrNode + ' .repeatable-field-remove' )
+						: vTagIDOrNode.find( '.repeatable-field-remove' );
+					nodeRemoveButtons.click( function() {
 						
 						// Need to remove two elements: the field container and the delimiter element.
 						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
@@ -476,12 +484,14 @@ return $vValue;
 							updateAPFIDsAndNames( jQuery( this ), false );	// the second parameter value indicates it's for decrement.
 						});
 
-						// nodeFieldDelimiter.remove();
 						nodeFieldContainer.remove();
-						
-						var iFieldsCount = jQuery( '#' + sID + ' .repeatable-field-remove' ).length;
+
+						var nodeRemoveButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
+							? jQuery( '#' + vTagIDOrNode + ' .repeatable-field-remove' )
+							: vTagIDOrNode.find( '.repeatable-field-remove' );						
+						var iFieldsCount = nodeRemoveButtons.length;
 						if ( iFieldsCount == 1 ) {
-							jQuery( '#' + sID + ' .repeatable-field-remove' ).css( 'display', 'none' );
+							nodeRemoveButtons.css( 'display', 'none' );
 						}
 						return false;
 					});
