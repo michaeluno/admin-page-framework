@@ -18,8 +18,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		'class_attribute'		=> '',					// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
 		'label'					=> '',					// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
 		'delimiter'				=> '',
-		'is_disabled'				=> false,				// ( array or boolean ) This value indicates whether the set field is disabled or not. 
-		'is_read_only'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
+		// 'is_disabled'				=> false,				// ( array or boolean ) This value indicates whether the set field is disabled or not. 
+		// 'is_read_only'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
 		'before_input_tag'		=> '',
 		'after_input_tag'		=> '',				
 		'label_min_width'		=> 140,
@@ -32,6 +32,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		'section_id' => null,
 		'before_field' => null,
 		'after_field' => null,	
+		
+		'attributes'			=> array(
+			'disabled'			=> '',	// set 'Disabled' to make it disabled
+		),
 	);	
 	
 	protected $oMsg;
@@ -103,8 +107,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	protected function getHTMLTagAttributesFromArray( array $aAttributes ) {
 		
 		$aOutput = array();
-		foreach( $aAttributes as $sAttribute => $sProperty )
+		foreach( $aAttributes as $sAttribute => $sProperty ) {
+			if ( empty( $sProperty ) && $sProperty !== 0  )	continue;	// drop non-value elements.
 			$aOutput[] = "{$sAttribute}='{$sProperty}'";
+		}
 		return implode( ' ', $aOutput );
 		
 	}

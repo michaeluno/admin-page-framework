@@ -67,7 +67,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 					. $aField['after_input_tag']
 				. "</label>"
 			. "</div>"
-// . $this->getRepeatEventScript( $aField['tag_id'] )
 		;
 		
 	}
@@ -85,20 +84,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 			});
 		";		
 	}		
-	
-	/**
-	 * Returns the JavaScript array for the field output configurations.
-	 */
-	private function getRepeatEventScript( $strTagID ) {
 		
-		return	
-			"<script type='text/javascript' class='color-picker-enabler-script'>
-				jQuery( document ).ready( function(){
-					jQuery( '#{$strTagID}' ).greenify();
-				});
-			</script>";
-
-	}
-	
 }
 endif;
