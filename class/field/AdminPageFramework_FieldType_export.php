@@ -98,7 +98,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 						. "value='" . ( $bIsDataSet ? 1 : 0 )
 					. "' />"				
 					. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
 						. "<input "
 							. "id='{$tag_id}_{$sKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "

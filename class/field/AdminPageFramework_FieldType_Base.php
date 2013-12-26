@@ -22,7 +22,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		'is_read_only'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
 		'before_input_tag'		=> '',
 		'after_input_tag'		=> '',				
-		'labelMinWidth'		=> 140,
+		'label_min_width'		=> 140,
 		
 		// Mandatory keys.
 		'field_id' => null,		

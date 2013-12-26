@@ -475,7 +475,7 @@ class APF_Demo extends AdminPageFramework {
 				'type' => 'text',
 				'delimiter' => '',
 				'size' => 60,
-				'repeatable' => true,
+				'is_repeatable' => true,
 				'default' => array( 'a', 'b', 'c', ),
 			),				
 			array(	// Text Area
@@ -493,7 +493,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'text_fields',
 				'title' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'type' => 'textarea',
-				'repeatable' => true,
+				'is_repeatable' => true,
 				'delimiter' => '',
 				'rows' => 3,
 				'cols' => 60,
@@ -707,7 +707,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'image_select',
 				'title' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
 				'delimiter' => '',
-				'repeatable' => true,
+				'is_repeatable' => true,
 				'type' => 'image',
 			),
 			array( // Media File
@@ -729,7 +729,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'media_upload',
 				'title' => __( 'Multiple Media Files', 'admin-page-framework-demo' ),
 				'type' => 'media',
-				'repeatable' => true,
+				'is_repeatable' => true,
 			),				
 			array( // Single File Upload Field
 				'field_id' => 'file_single',
@@ -751,7 +751,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'file_uploads',
 				'title' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
 				'type' => 'file',
-				'repeatable' => true,
+				'is_repeatable' => true,
 			)
 		);
 		$this->addSettingFields(			
@@ -798,7 +798,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'color_picker',
 				'title' => __( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
 				'type' => 'color',
-				'repeatable' => true,
+				'is_repeatable' => true,
 			),										
 			array( // Single Hidden Field
 				'field_id' => 'hidden_single',

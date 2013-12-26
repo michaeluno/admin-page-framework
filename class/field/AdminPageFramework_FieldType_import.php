@@ -85,7 +85,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $_aDefaultKeys['vImportFormat'] )	// array, text, or json.
 					. "' />"			
 					. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
 						. "<input "		// upload button
 							. "id='{$tag_id}_{$sKey}_file' "
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attributeUpload'], $sKey, $_aDefaultKeys['class_attributeUpload'] ) . "' "

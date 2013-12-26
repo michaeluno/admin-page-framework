@@ -139,46 +139,53 @@ return $vValue;
 		
 		$aOutput = array();
 		
-		// Prepend the field error message.
+		/* Prepend the field error message. */
 		$aOutput[] = isset( $this->aErrors[ $this->aField['field_id'] ] )
 			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
-		
-		// Prepare the field class selector 
-		$sFieldClassSelector = $this->aField['is_repeatable']
-			? "admin-page-framework-field repeatable"
-			: "admin-page-framework-field";
-			
-		// Set new elements
+					
+		/* Set new elements */
 		$this->aField['field_name'] = $this->_getInputFieldName( $this->aField );
 		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
-		$this->aField['field_class_selector'] = $sFieldClassSelector;
-			
-		// Compose fields array for sub-fields	
+
+		/* Compose fields array for sub-fields	*/
 		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
 		
-		// Get the field output.
+		/* Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
-			$aField['index'] = $sKey;			
-// var_dump( $aField );			
+			
+			/* Set some new elements */ 
+			$aField['index'] = $sKey;
+			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
+			$aField['field_name'] = $aField['is_multiple'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
+			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
+			
+			/* Retrieve the field definition for this type - this process enabels to have mixed field types in sub-fields */ 
 			$aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $aField['type'] ] )
 				? $this->aFieldTypeDefinitions[ $aField['type'] ] 
 				: $this->aFieldTypeDefinitions['default'];
+				
 			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
-				? call_user_func_array(
-					$aFieldTypeDefinition['hfRenderField'],
-					array( $aField )
-				)
+				? "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}'>"
+					. call_user_func_array(
+						$aFieldTypeDefinition['hfRenderField'],
+						array( $aField )
+					)
+					. ( ( $sDelimiter = $aField['delimiter'] )
+						? "<div class='delimiter' id='delimiter-{$aField['input_id']}'>" . $sDelimiter . "</div>"
+						: ""
+					)
+					. "</div>"
 				: "";
 
 		}
 				
-		// Add the description
+		/* Add the description */
 		$aOutput[] = ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
 			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['description']}</span></p>"
 			: '';
 			
-		// Add the repeater script
+		/* Add the repeater script */
 		$aOutput[] = $this->aField['is_repeatable']
 			? $this->_getRepeaterScript( $this->aField['tag_id'], count( $aFields ) )
 			: '';
@@ -284,27 +291,22 @@ return $vValue;
 	 * 
 	 * @since			2.1.3
 	 */
-	private function _getRepeaterScript( $tag_id, $iFieldCount ) {
+	private function _getRepeaterScript( $sTagID, $iFieldCount ) {
 
 		$sAdd = $this->oMsg->__( 'add' );
 		$sRemove = $this->oMsg->__( 'remove' );
 		$sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : "";
 		$sButtons = 
 			"<div class='admin-page-framework-repeatable-field-buttons'>"
-				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$sAdd}' data-id='{$tag_id}'>+</a>"
-				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$sRemove}' {$sVisibility} data-id='{$tag_id}'>-</a>"
+				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$sAdd}' data-id='{$sTagID}'>+</a>"
+				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$sRemove}' {$sVisibility} data-id='{$sTagID}'>-</a>"
 			. "</div>";
 
 		return
 			"<script type='text/javascript'>
 				jQuery( document ).ready( function() {
-				
-					// Adds the buttons
-					jQuery( '#{$tag_id} .admin-page-framework-field' ).append( \"{$sButtons}\" );
-					
-					// Update the fields
-					updateAPFRepeatableFields( '{$tag_id}' );
-					
+					jQuery( '#{$sTagID} .admin-page-framework-field' ).append( \"{$sButtons}\" );	// Adds the buttons
+					updateAPFRepeatableFields( '{$sTagID}' );	// Update the fields					
 				});
 			</script>";
 		
@@ -325,7 +327,7 @@ return $vValue;
 				// Global function literals
 				
 				// This function modifies the ids and names of the tags of input, textarea, and relevant tags for repeatable fields.
-				updateAPFIDsAndNames = function( element, fIncrementOrDecrement ) {
+				updateAPFIDsAndNames = function( nodeElement, fIncrementOrDecrement ) {
 
 					var updateID = function( index, name ) {
 						
@@ -348,12 +350,12 @@ return $vValue;
 						
 					}					
 				
-					element.attr( 'id', function( index, name ) { return updateID( index, name ) } );
-					element.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-					element.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
+					nodeElement.attr( 'id', function( index, name ) { return updateID( index, name ) } );
+					nodeElement.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+					nodeElement.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 					
 					// Color Pickers
-					var nodeColorInput = element.find( 'input.input_color' );
+					var nodeColorInput = nodeElement.find( 'input.input_color' );
 					if ( nodeColorInput.length > 0 ) {
 						
 							var previous_id = nodeColorInput.attr( 'id' );
@@ -370,7 +372,7 @@ return $vValue;
 								nodeNewColorInput.val( sInputValue );	// set the default value	
 								nodeNewColorInput.attr( 'style', sInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
 								
-								var nodeFarbtastic = element.find( '.colorpicker' );
+								var nodeFarbtastic = nodeElement.find( '.colorpicker' );
 								var nodeNewFarbtastic = nodeFarbtastic.clone();	// re-clone without bind elements.
 								
 								// Remove the old elements
@@ -379,31 +381,31 @@ return $vValue;
 									nodeIris.remove();	
 								} else {
 									jQuery( '#' + previous_id ).remove();	// WP 3.4.x or below
-									element.find( '.colorpicker' ).remove();	// WP 3.4.x or below
+									nodeElement.find( '.colorpicker' ).remove();	// WP 3.4.x or below
 								}
 							
 								// Add the new elements
-								element.prepend( nodeNewFarbtastic );
-								element.prepend( nodeNewColorInput );
+								nodeElement.prepend( nodeNewFarbtastic );
+								nodeElement.prepend( nodeNewColorInput );
 								
 							}
 							
-							element.find( '.colorpicker' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-							element.find( '.colorpicker' ).attr( 'rel', function( index, name ){ return updateID( index, name ) } );					
+							nodeElement.find( '.colorpicker' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+							nodeElement.find( '.colorpicker' ).attr( 'rel', function( index, name ){ return updateID( index, name ) } );					
 
 							// Renew the color picker script
-							var cloned_id = element.find( 'input.input_color' ).attr( 'id' );
+							var cloned_id = nodeElement.find( 'input.input_color' ).attr( 'id' );
 							registerAPFColorPickerField( cloned_id );					
 					
 					}
 
 					// Image uploader buttons and image preview elements
-					image_uploader_button = element.find( '.select_image' );
+					image_uploader_button = nodeElement.find( '.select_image' );
 					if ( image_uploader_button.length > 0 ) {
-						var previous_id = element.find( '.image-field input' ).attr( 'id' );
+						var previous_id = nodeElement.find( '.image-field input' ).attr( 'id' );
 						image_uploader_button.attr( 'id', function( index, name ){ return updateID( index, name ) } );
-						element.find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-						element.find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+						nodeElement.find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+						nodeElement.find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					
 						if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
 							var fExternalSource = jQuery( image_uploader_button ).attr( 'data-enable_external_source' );
@@ -412,9 +414,9 @@ return $vValue;
 					}
 					
 					// Media uploader buttons
-					media_uploader_button = element.find( '.select_media' );
+					media_uploader_button = nodeElement.find( '.select_media' );
 					if ( media_uploader_button.length > 0 ) {
-						var previous_id = element.find( '.media-field input' ).attr( 'id' );
+						var previous_id = nodeElement.find( '.media-field input' ).attr( 'id' );
 						media_uploader_button.attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					
 						if ( jQuery( media_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
@@ -428,31 +430,26 @@ return $vValue;
 				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
 				addAPFRepeatableField = function( sFieldContainerID ) {	
 
-					var field_container = jQuery( '#' + sFieldContainerID );
-					var field_delimiter_id = sFieldContainerID.replace( 'field-', 'delimiter-' );
-					var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
-					
-					var field_new = field_container.clone( true );
-					var delimiter_new = field_delimiter.clone( true );
-					var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
-			
-					field_new.find( 'input,textarea' ).val( '' );	// empty the value		
-					field_new.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
-					field_new.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
-					delimiter_new.insertAfter( target_element );	// add the delimiter
-					field_new.insertAfter( target_element );		// add the cloned new field element
+					var nodeFieldContainer = jQuery( '#' + sFieldContainerID );
+					var nodeNewField = nodeFieldContainer.clone( true );
+
+					nodeNewField.find( 'input,textarea' ).val( '' );	// empty the value		
+					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
+					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
+
+					nodeNewField.insertAfter( nodeFieldContainer );		// add the cloned new field element
 
 					// Increment the names and ids of the next following siblings.
-					target_element.nextAll().each( function() {
+					nodeFieldContainer.nextAll().each( function() {
 						updateAPFIDsAndNames( jQuery( this ), true );
 					});
 
-					var remove_buttons =  field_container.closest( '.admin-page-framework-fields' ).find( '.repeatable-field-remove' );
-					if ( remove_buttons.length > 1 ) 
-						remove_buttons.show();				
+					var nodeRemoveButtons =  nodeFieldContainer.closest( '.admin-page-framework-fields' ).find( '.repeatable-field-remove' );
+					if ( nodeRemoveButtons.length > 1 ) 
+						nodeRemoveButtons.show();				
 					
 					// Return the newly created element
-					return field_new;
+					return nodeNewField;
 					
 				}
 				
@@ -461,8 +458,8 @@ return $vValue;
 					// Add button behaviour
 					jQuery( '#' + sID + ' .repeatable-field-add' ).click( function() {
 						
-						var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
-						addAPFRepeatableField( field_container.attr( 'id' ) );
+						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
+						addAPFRepeatableField( nodeFieldContainer.attr( 'id' ) );
 						return false;
 						
 					});		
@@ -471,22 +468,19 @@ return $vValue;
 					jQuery( '#' + sID + ' .repeatable-field-remove' ).click( function() {
 						
 						// Need to remove two elements: the field container and the delimiter element.
-						var field_container = jQuery( this ).closest( '.admin-page-framework-field' );
-						var field_container_id = field_container.attr( 'id' );				
-						var field_delimiter_id = field_container_id.replace( 'field-', 'delimiter-' );
-						var field_delimiter = field_container.siblings( '#' + field_delimiter_id );
-						var target_element = ( jQuery( field_delimiter ).length ) ? field_delimiter : field_container;
+						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
+						var nodeFieldContainer_id = nodeFieldContainer.attr( 'id' );				
 
 						// Decrement the names and ids of the next following siblings.
-						target_element.nextAll().each( function() {
+						nodeFieldContainer.nextAll().each( function() {
 							updateAPFIDsAndNames( jQuery( this ), false );	// the second parameter value indicates it's for decrement.
 						});
 
-						field_delimiter.remove();
-						field_container.remove();
+						// nodeFieldDelimiter.remove();
+						nodeFieldContainer.remove();
 						
-						var fieldsCount = jQuery( '#' + sID + ' .repeatable-field-remove' ).length;
-						if ( fieldsCount == 1 ) {
+						var iFieldsCount = jQuery( '#' + sID + ' .repeatable-field-remove' ).length;
+						if ( iFieldsCount == 1 ) {
 							jQuery( '#' + sID + ' .repeatable-field-remove' ).css( 'display', 'none' );
 						}
 						return false;

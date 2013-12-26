@@ -582,7 +582,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
 				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
+					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>"
 					: ''
 				)			
 				. "<input id='{$tag_id}_{$sKey}' "	// the main url element does not have the suffix of the attribute

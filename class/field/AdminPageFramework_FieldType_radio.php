@@ -85,7 +85,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 			$aOutput = array();
 			foreach ( $aLabels as $sKey => $sLabel ) 
 				$aOutput[] = 
-					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
+					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
 						. "<label for='{$tag_id}_{$sIterationID}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 							. "<span class='admin-page-framework-input-container'>"

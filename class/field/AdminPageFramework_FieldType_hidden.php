@@ -66,7 +66,7 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 						. "<label for='{$tag_id}_{$sKey}'>"
 							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
+								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>{$sLabel}</span>" 
 								: "" 
 							)
 							. "<div class='admin-page-framework-input-container'>"

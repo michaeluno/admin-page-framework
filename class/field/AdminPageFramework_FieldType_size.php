@@ -93,7 +93,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 					. "<label for='{$tag_id}_{$sKey}'>"
 						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 						. ( $sLabel 
-							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel ."</span>"
+							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel ."</span>"
 							: "" 
 						)
 						. "<input id='{$tag_id}_{$sKey}' "	// number field

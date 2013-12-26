@@ -34,8 +34,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			// 'size'					=> 30,
-			// 'max_length'			=> 400,
 			'attributes'			=> array(
 				'size'	=> 30,
 				'maxlength' => 400,
@@ -51,39 +49,26 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 */
 	public function replyToGetInputField( $aField ) {
 
-		$aOutput = array();
-		$nIndex = $aField['index'];
-		$sInputID = isset( $aField['attributes']['id'] ) ? $aField['attributes']['id'] : "{$aField['field_id']}_{$nIndex}";
 		$aAttributes = $aField['attributes'] + array(
-			'id' => $sInputID,
-			'name' => $aField['is_multiple'] ? "{$aField['field_name']}[{$nIndex}]" : $aField['field_name'],
+			'id' => $aField['input_id'],
+			'name' => $aField['field_name'],
 			'value' => $aField['value'],
 			'type' => $aField['type'],	// text, password, etc.
 		);	
-		$aOutput[] = 
-			"<div class='{$aField['field_class_selector']}' id='field-{$sInputID}'>"
-				. "<div class='admin-page-framework-input-label-container'>"
-					. "<label for='{$sInputID}'>"
-						. $aField['before_input_tag']
-						. ( $aField['label'] && ! $aField['is_repeatable']
-							? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['labelMinWidth'] . "px;'>" . $aField['label'] . "</span>"
-							: "" 
-						)
-						. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
-						. $aField['after_input_tag']
-					. "</label>"
-				. "</div>"
-			. "</div>"		
-			. ( ( $sDelimiter = $aField['delimiter'] )
-				? "<div class='delimiter' id='delimiter-{$sInputID}'>" . $sDelimiter . "</div>"
-				: ""
-			)
+		return 
+			"<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input_tag']
+					. ( $aField['label'] && ! $aField['is_repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
+					. $aField['after_input_tag']
+				. "</label>"
+			. "</div>"
 		;
-				
-		return "<div class='admin-page-framework-field-{$aField['type']}' id='{$aField['tag_id']}-{$sInputID}'>" 
-				. implode( PHP_EOL, $aOutput ) 
-			. "</div>";			
-
+		
 	}
 	
 }

@@ -297,7 +297,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 	<li><strong>before_input_tag</strong> - ( optional, string|array ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
 	* 	<li><strong>after_input_tag</strong> - ( optional, string|array ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
 	* 	<li><strong>class_attribute</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>class</em>.</li>
-	* 	<li><strong>labelMinWidth</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
+	* 	<li><strong>label_min_width</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
 	* 	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
 	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
 	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
