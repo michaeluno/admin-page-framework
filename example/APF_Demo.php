@@ -412,7 +412,9 @@ class APF_Demo extends AdminPageFramework {
 				'type' => 'text',
 				'order' => 1,
 				'default' => 123456,
-				'size' => 40,
+				'attributes' => array(
+					'size' => 40,
+				),
 			),	
 			array(	// Password Field
 				'field_id' => 'password',
@@ -421,7 +423,21 @@ class APF_Demo extends AdminPageFramework {
 				'tip' => __( 'This input will be masked.', 'admin-page-framework-demo' ),
 				'type' => 'password',
 				'help' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
-				'size' => 20,
+				'attributes' => array(
+					'size' => 20,
+				),
+			),		
+			array(	// Read-only
+				'field_id' => 'read_only_text',
+				'section_id' => 'text_fields',
+				'title' => __( 'Read Only', 'admin-page-framework-demo' ),
+				'type' => 'text',
+				'attributes' => array(
+					'size' => 20,
+					'readonly' => 'ReadOnly',
+					// 'disabled' => 'Disabled',		// disabled can be specified like so
+				),
+				'value' => __( 'This is a read-only value.', 'admin-page-framework-demo' ),
 			),			
 			array(	// number Field
 				'field_id' => 'number',
@@ -436,22 +452,20 @@ class APF_Demo extends AdminPageFramework {
 				'description' => 'These are multiple text fields.',	// additional notes besides the form field
 				'help' => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
 				'type' => 'text',
-				'default' => array(
-					'Hello World',
-					'Foo bar',
-					'Yes, we can.'
-				),
-				'label' => array( 
-					'First Item: ', 
-					'Second Item: ', 
-					'Third Item: ' 
-				),
-				'size' => array(
-					20,
-					40,
-					60,
-				),
+				'default' => 'Hello World',
+				'label' => 'First Item: ',
+				'size' => 20,
 				'delimiter' => '<br />',
+				array(
+					'default' => 'Foo bar',
+					'label' => 'Second Item: ',
+					'size' => 40,
+				),
+				array(
+					'default' => 'Yes, we can',
+					'label' => 'Third Item: ',
+					'size' => 60,
+				),				
 			),		
 			array(	// Repeatable text fields
 				'field_id' => 'text_repeatable',

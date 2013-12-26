@@ -66,7 +66,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'order'				=> null,	// do not set the default number here for this key.		
 		'help'				=> null,	// since 2.1.0
 		'help_aside'		=> null,	// since 2.1.0
-		'repeatable'		=> null,	// since 2.1.3
+'repeatable'		=> null,	// since 2.1.3
+		'is_repeatable'		=> null,	// since 2.1.3
+		'is_sortable'		=> null,	// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
 	);	
 	
@@ -157,8 +159,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* <li><strong>page_slug</strong> - (  string ) the page slug that the section belongs to.</li>
 	* <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
 	* <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
-	* <li><strong>sCapability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
-	* <li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
+	* <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
 	* <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	* <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
 	* <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
@@ -281,22 +283,22 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
-	* 	<li><strong>sCapability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
-	* 	<li><strong>sName</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
-	* 	<li><strong>sError</strong> - ( optional, string ) the error message to display above the input field.</li>
-	* 	<li><strong>sBeforeField</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
-	* 	<li><strong>sAfterField</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
-	* 	<li><strong>fIf</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
+	* 	<li><strong>capability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* 	<li><strong>name</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
+	* 	<li><strong>error_message</strong> - ( optional, string ) the error message to display above the input field.</li>
+	* 	<li><strong>before_field</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
+	* 	<li><strong>after_field</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
+	* 	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
 	* 	<li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	* 	<li><strong>label</strong> - ( optional|mandatory, string|array ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key while some require it.</li>
 	* 	<li><strong>default</strong> - ( optional, string|array ) the default value(s) assigned to the input tag's value attribute.</li>
-	* 	<li><strong>vValue</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>value</em> attribute to override the default or stored value.</li>
+	* 	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>value</em> attribute to override the default or stored value.</li>
 	* 	<li><strong>delimiter</strong> - ( optional, string|array ) the HTML string that delimits multiple elements. This is available if the <var>label</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
-	* 	<li><strong>vBeforeInputTag</strong> - ( optional, string|array ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
-	* 	<li><strong>vAfterInputTag</strong> - ( optional, string|array ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>before_input_tag</strong> - ( optional, string|array ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>after_input_tag</strong> - ( optional, string|array ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
 	* 	<li><strong>class_attribute</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>class</em>.</li>
 	* 	<li><strong>labelMinWidth</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
-	* 	<li><strong>vDisable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
+	* 	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
 	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
 	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
 	* </ul>
@@ -305,40 +307,40 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* <ul>
 	* 	<li><strong>text</strong> - a text input field which allows the user to type text.</li>
 	* 		<ul>
-	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	* 			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>password</strong> - a password input field which allows the user to type text.</li>
 	* 		<ul>
-	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	* 			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>	* 
 	* 		</ul>
 	* 	<li><strong>datetime, datetime-local, email, month, search, tel, time, url, week</strong> - HTML5 input fields types. Some browsers do not support these.</li>
 	* 		<ul>
-	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	* 			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 		</ul>
 	* 	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do not support these.</li>
 	* 		<ul>
-	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	* 			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 			<li><strong>vMax</strong> - ( optional, integer|array ) the number that indicates the <em>max</em> attribute of the input field.</li>
 	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
 	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+]( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>textarea</strong> - a textarea input field. The following array keys are supported.
 	* 		<ul>
-	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	*			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>rows</strong> - ( optional, integer|array ) the number of rows of the textarea field.</li>
 	* 			<li><strong>cols</strong> - ( optional, integer|array ) the number of cols of the textarea field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>vRich</strong> - [2.1.2+]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
 	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
 	* 			</li>
@@ -361,13 +363,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 			</li>
 	* 			<li><strong>vMultiple</strong> - ( optional, boolean|array ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
 	* 			<li><strong>vWidth</strong> - ( optional, string|array ) the width of the dropdown list including the unit. e.g. 120px</li>
-	* 			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	* 			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the number input field.</li>
 	* 			<li><strong>vUnitSize</strong> - [2.1.5+]( optional, integer|array ) the number that indicates the <em>size</em> attribute of the select(unit) input field.</li>
 	* 			<li><strong>vMax</strong> - ( optional, integer|array ) the number that indicates the <em>max</em> attribute of the input field.</li>
 	* 			<li><strong>vMin</strong> - ( optional, integer|array ) the number that indicates the <em>min</em> attribute of the input field.</li>
 	* 			<li><strong>vStep</strong> - ( optional, integer|array ) the number that indicates the <em>step</em> attribute of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the <em>size</em> attribute of the input field.</li>
 	* 	</ul>
 	* 	<li><strong>hidden</strong> - a hidden input field.</li>
@@ -397,9 +399,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 		</ul>
 	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>
-	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	*			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>vImagePreview</strong> - ( optional, boolean|array ) if this is set to false, the image preview will be disabled.</li>
 	* 			<li><strong>sTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>sLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
@@ -409,9 +411,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 		</ul>
 	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>
-	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	*			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>sTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>sLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
@@ -420,9 +422,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 		</ul>
 	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
 	* 		<ul>
-	*			<li><strong>vReadOnly</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
+	*			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
-	* 			<li><strong>vMaxLength</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
+	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
 	* 			<li><strong>repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
 	* 		</ul>
 	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.</li>
@@ -604,12 +606,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @since			3.0.0			Changed the scope to public from protected. Dropped the sections.
 	 * @access			public
 	 */
-	public function getFieldValue( $sFieldNameToFind ) {
+	public function getFieldValue( $field_nameToFind ) {
 
-		$sFieldNameToFind = trim( $sFieldNameToFind );
+		$field_nameToFind = trim( $field_nameToFind );
 		foreach( $this->oProp->aOptions as $sPageSlug => $aFields )  
-			if ( array_key_exists( $sFieldNameToFind, $aFields ) )
-				return $aFields[ $sFieldNameToFind ];
+			if ( array_key_exists( $field_nameToFind, $aFields ) )
+				return $aFields[ $field_nameToFind ];
 		return null;
 		
 	}
@@ -731,7 +733,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 */ 
 		private function _getPressedCustomSubmitButtonSiblingValue( $aPostElements, $sTargetKey='url' ) {	
 		
-			foreach( $aPostElements as $sFieldName => $aSubElements ) {
+			foreach( $aPostElements as $field_name => $aSubElements ) {
 				
 				/*
 				 * $aSubElements['name']	- the input field name property of the submit button, delimited by pipe (|) e.g. APF_GettingStarted|first_page|submit_buttons|submit_button_link
@@ -1020,8 +1022,8 @@ private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );
-		$sFieldOutput = $oField->getInputField( $sFieldType );	// field output
+		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
+		$sFieldOutput = $oField->_getInputFieldOutput();	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 
 		echo $this->oUtil->addAndApplyFilters(

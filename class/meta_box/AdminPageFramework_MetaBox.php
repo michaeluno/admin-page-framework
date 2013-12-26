@@ -507,7 +507,7 @@ abstract class AdminPageFramework_MetaBox {
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, array(), $this->oProp->aFieldTypeDefinitions[ $sFieldType ], $this->oMsg );	// currently the error array is not supported for meta-boxes
 		$oField->isMetaBox( true );
-		$sFieldOutput = $oField->getInputField( $sFieldType );	// field output
+		$sFieldOutput = $oField->_getInputFieldOutput();	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 		
 		return $this->oUtil->addAndApplyFilters(

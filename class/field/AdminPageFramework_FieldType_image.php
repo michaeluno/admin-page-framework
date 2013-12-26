@@ -16,7 +16,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		return array(			
 			'attributes_to_capture'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
 			'size'									=> 60,
-			'vMaxLength'							=> 400,
+			'max_length'							=> 400,
 			'vImagePreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
 			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
 			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
@@ -541,9 +541,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -554,15 +554,15 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
-					. $this->getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"					
+					. $this->getImageInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
-		return "<div class='admin-page-framework-field-image' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-image' id='{$tag_id}'>" 
 				. implode( PHP_EOL, $aOutput ) 
 			. "</div>";		
 		
@@ -574,7 +574,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added some parameters.
 		 */
-		private function getImageInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
+		private function getImageInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );
@@ -585,49 +585,49 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 					: ''
 				)			
-				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
+				. "<input id='{$tag_id}_{$sKey}' "	// the main url element does not have the suffix of the attribute
 					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
 					. "type='text' "	// text
-					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
+					. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
 					. "value='" . ( $sImageURL = $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys  ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
+					. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
 			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
-					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
+					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
 						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
+						. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . "[{$sAttribute}]' " 
 						. "value='" . $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys ) . "' "
-						. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+						. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 					. "/>";
 			
 			// Returns the outputs as well as the uploader buttons and the preview element.
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
-					. "<label for='{$sTagID}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+					. "<label for='{$tag_id}_{$sKey}' >"
+						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 					. "</label>"
 				. "</div>"
 				. ( $this->getCorrespondingArrayValue( $aField['vImagePreview'], $sKey, true )
-					? "<div id='image_preview_container_{$sTagID}_{$sKey}' "
+					? "<div id='image_preview_container_{$tag_id}_{$sKey}' "
 							. "class='image_preview' "
 							. "style='" . ( $sImageURL ? "" : "display : none;" ) . "'"
 						. ">"
 							. "<img src='{$sImageURL}' "
-								. "id='image_preview_{$sTagID}_{$sKey}' "
+								. "id='image_preview_{$tag_id}_{$sKey}' "
 							. "/>"
 						. "</div>"
 					: "" )
-				. $this->getImageUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
+				. $this->getImageUploaderButtonScript( "{$tag_id}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
 			
 		}
 		/**

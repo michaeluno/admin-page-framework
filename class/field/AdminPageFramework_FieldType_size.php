@@ -27,7 +27,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 			),
 			'size'						=> 10,
 			'vUnitSize'					=> 1,
-			'vMaxLength'				=> 400,
+			'max_length'				=> 400,
 			'vMin'						=> null,
 			'vMax'						=> null,
 			'vStep'						=> null,
@@ -76,9 +76,9 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 				
 		$bSingle = ! is_array( $aField['label'] );
@@ -89,54 +89,54 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 		
 		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) 
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<label for='{$sTagID}_{$sKey}'>"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
+					. "<label for='{$tag_id}_{$sKey}'>"
+						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 						. ( $sLabel 
 							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel ."</span>"
 							: "" 
 						)
-						. "<input id='{$sTagID}_{$sKey}' "	// number field
+						. "<input id='{$tag_id}_{$sKey}' "	// number field
 							// . "style='text-align: right;'"
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-							. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
+							. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
 							. "type='number' "	// number
-							. "name=" . ( $bSingle ? "'{$sFieldName}[size]' " : "'{$sFieldName}[{$sKey}][size]' " )
+							. "name=" . ( $bSingle ? "'{$field_name}[size]' " : "'{$field_name}[{$sKey}][size]' " )
 							. "value='" . ( $bSingle ? $this->getCorrespondingArrayValue( $vValue['size'], $sKey, '' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $sKey, array() ), 'size', '' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-							. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
+							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
 							. "min='" . $this->getCorrespondingArrayValue( $aField['vMin'], $sKey, $_aDefaultKeys['vMin'] ) . "' "
 							. "max='" . $this->getCorrespondingArrayValue( $aField['vMax'], $sKey, $_aDefaultKeys['vMax'] ) . "' "
 							. "step='" . $this->getCorrespondingArrayValue( $aField['vStep'], $sKey, $_aDefaultKeys['vStep'] ) . "' "					
 						. "/>"
 					. "</label>"
-						. "<select id='{$sTagID}_{$sKey}' class='size-field-select'"	// select field
+						. "<select id='{$tag_id}_{$sKey}' class='size-field-select'"	// select field
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='{$aField['type']}' "
 							. ( ( $bMultipleOptions = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $_aDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
-							. "name=" . ( $bSingle ? "'{$sFieldName}[unit]" : "'{$sFieldName}[{$sKey}][unit]" ) . ( $bMultipleOptions ? "[]' " : "' " )						
-							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+							. "name=" . ( $bSingle ? "'{$field_name}[unit]" : "'{$field_name}[{$sKey}][unit]" ) . ( $bMultipleOptions ? "[]' " : "' " )						
+							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 							. "size=" . ( $this->getCorrespondingArrayValue( $aField['vUnitSize'], $sKey, $_aDefaultKeys['vUnitSize'] ) ) . " "
 							. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $_aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
 						. ">"
 						. $this->getOptionTags( 
 							$bSingle ? $aSizeUnits : $this->getCorrespondingArrayValue( $aField['size_units'], $sKey, $aSizeUnits ),
 							$bSingle ? $this->getCorrespondingArrayValue( $vValue['unit'], $sKey, 'px' ) : $this->getCorrespondingArrayValue( $this->getCorrespondingArrayValue( $vValue, $sKey, array() ), 'unit', 'px' ),
-							$sTagID,
+							$tag_id,
 							$sKey, 
 							true, 	// since the above value is directly passed, call the function as a single element.
 							$bMultipleOptions 
 						)
 					. "</select>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+					. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);			
 
-		return "<div class='admin-page-framework-field-size' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-size' id='{$tag_id}'>" 
 			. implode( '', $aOutput )
 		. "</div>";
 		
@@ -146,15 +146,15 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 		 * 
 		 * @since			2.0.0
 		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
-		 * @since			2.1.5			Added the $sTagID parameter. Moved from AdminPageFramwrodk_InputField.
+		 * @since			2.1.5			Added the $tag_id parameter. Moved from AdminPageFramwrodk_InputField.
 		 */ 
-		private function getOptionTags( $aLabels, $vValue, $sTagID, $sIterationID, $bSingle, $bMultiple=false ) {	
+		private function getOptionTags( $aLabels, $vValue, $tag_id, $sIterationID, $bSingle, $bMultiple=false ) {	
 
 			$aOutput = array();
 			foreach ( $aLabels as $sKey => $sLabel ) {
 				$aValue = $bSingle ? ( array ) $vValue : ( array ) $this->getCorrespondingArrayValue( $vValue, $sIterationID, array() ) ;
 				$aOutput[] = "<option "
-						. "id='{$sTagID}_{$sIterationID}_{$sKey}' "
+						. "id='{$tag_id}_{$sIterationID}_{$sKey}' "
 						. "value='{$sKey}' "
 						. (	$bMultiple 
 							? ( in_array( $sKey, $aValue ) ? 'selected="Selected"' : '' )

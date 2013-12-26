@@ -45,24 +45,24 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 	 * 
 	 * @since			2.1.5				
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
+	public function replyToGetInputField( $aField ) {
+/*
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
 			// : $aField['label'];		
 				
-		foreach( ( array ) $vValue as $sKey => $sValue ) 
+		 foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+						. "<label for='{$tag_id}_{$sKey}'>"
+							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
 								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 								: "" 
@@ -70,18 +70,18 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 							. "<div class='admin-page-framework-input-container'>"
 								. $sValue
 							. "</div>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"		
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 					
-		return "<div class='admin-page-framework-field-default' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-default' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
-			. "</div>";
+			. "</div>"; */
 		
 	}
 

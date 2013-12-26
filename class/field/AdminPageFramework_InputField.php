@@ -17,29 +17,27 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	 */
 	private $bIsMetaBox = false;
 		
-	protected static $_aStructure_FieldDefinition = array(
-		'hfRenderField' => null,
-		'hfGetScripts' => null,
-		'hfGetStyles' => null,
-		'hfGetIEStyles' => null,
-		'hfFieldLoader' => null,
-		'aEnqueueScripts' => null,
-		'aEnqueueStyles' => null,
-		'aDefaultKeys' => null,
-	);
+	// protected static $_aStructure_FieldDefinition = array(
+		// 'sSlug'	=> null,
+		// 'hfRenderField' => null,
+		// 'hfGetScripts' => null,
+		// 'hfGetStyles' => null,
+		// 'hfGetIEStyles' => null,
+		// 'hfFieldLoader' => null,
+		// 'aEnqueueScripts' => null,
+		// 'aEnqueueStyles' => null,
+		// 'aDefaultKeys' => null,
+	// );
 	
-	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldDefinition, &$oMsg ) {
+	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 			
-		$this->aField = $aField + $aFieldDefinition['aDefaultKeys'] + self::$_aStructure_FieldDefinition;	// better not to merge recursively because some elements are array by default, not as multiple elements.
-		$this->aFieldDefinition = $aFieldDefinition;
+		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
+		$this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
+		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->aOptions = $aOptions;
 		$this->aErrors = $aErrors ? $aErrors : array();
 		$this->oMsg = $oMsg;
-			
-		$this->sFieldName = $this->getInputFieldName();
-		$this->sTagID = $this->getInputTagID( $aField );
-		$this->vValue = $this->getInputFieldValue( $aField, $aOptions );
-		
+				
 		// Global variable
 		$GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
 			? $GLOBALS['aAdminPageFramework']['aFieldFlags'] 
@@ -52,7 +50,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	 * @since			2.0.0
 	 * @since			3.0.0			Dropped the section key.
 	 */
-	private function getInputFieldName( $aField=null ) {
+	private function _getInputFieldName( $aField=null ) {
 		
 		$aField = isset( $aField ) ? $aField : $this->aField;
 		
@@ -65,55 +63,71 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 			: $aField['field_id'];
 		
 	}
-
-	private function getInputFieldValue( &$aField, $aOptions ) {	
+	
+	/**
+	 * 
+	 * @since			2.0.0
+	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys.
+	 */
+	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
 		// If the value key is explicitly set, use it.
-		if ( isset( $aField['vValue'] ) ) return $aField['vValue'];
+		// if ( isset( $aField['vValue'] ) ) return $aField['vValue'];
 		
 		// Check if a previously saved option value exists or not.
 		//  for regular setting pages. Meta boxes do not use these keys.
 		if ( isset( $aField['page_slug'], $aField['section_id'] ) ) {			
 		
-			$vValue = $this->getInputFieldValueFromOptionTable( $aField, $aOptions );
-			if ( $vValue != '' ) return $vValue;
+			return $this->_getInputFieldValueFromOptionTable( $aField, $aOptions );
+			
 			
 		} 
 		// For meta boxes
 		else if ( isset( $_GET['action'], $_GET['post'] ) ) {
 
-			$vValue = $this->getInputFieldValueFromPostTable( $_GET['post'], $aField );
-			if ( $vValue != '' ) return $vValue;
+			return $this->_getInputFieldValueFromPostTable( $_GET['post'], $aField );
+			
 			
 		}
 		
 		// If the default value is set,
-		if ( isset( $aField['default'] ) ) return $aField['default'];
+		// if ( isset( $aField['default'] ) ) return $aField['default'];
 		
 	}	
-	private function getInputFieldValueFromOptionTable( &$aField, &$aOptions ) {
+	
+	/**
+	 * 
+	 * @since			2.0.0
+	 * @since			3.0.0			Dropped the check of default values.
+	 */
+	private function _getInputFieldValueFromOptionTable( &$aField, &$aOptions ) {
 		
 		if ( ! isset( $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ] ) )
 			return;
 						
-		$vValue = $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ];
+		return $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ];
 		
-		// If it's not an array, return it.
-		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
-		
-		// If it's an array, check if there is an empty value in each element.
-		$vDefault = isset( $aField['default'] ) ? $aField['default'] : array(); 
-		foreach ( $vValue as $sKey => &$sElement ) 
-			if ( $sElement == '' )
-				$sElement = $this->getCorrespondingArrayValue( $vDefault, $sKey, '' );
-		
-		return $vValue;
-			
+/* // If it's not an array, return it.
+if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
+
+// If it's an array, check if there is an empty value in each element.
+$vDefault = isset( $aField['default'] ) ? $aField['default'] : array(); 
+foreach ( $vValue as $sKey => &$sElement ) 
+	if ( $sElement == '' )
+		$sElement = $this->getCorrespondingArrayValue( $vDefault, $sKey, '' );
+
+return $vValue;
+ */			
 		
 	}	
-	private function getInputFieldValueFromPostTable( $iPostID, &$aField ) {
+	/**
+	 * 
+	 * @since			2.0.0
+	 * @subce			3.0.0			Dropped the check of default values
+	 */
+	private function _getInputFieldValueFromPostTable( $iPostID, &$aField ) {
 		
-		$vValue = get_post_meta( $iPostID, $aField['field_id'], true );
+		return get_post_meta( $iPostID, $aField['field_id'], true );
 		
 		// Check if it's not an array return it.
 		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
@@ -128,7 +142,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 		
 	}
 		
-	private function getInputTagID( $aField )  {
+	private function _getInputTagID( $aField )  {
 		
 		// For Settings API's form fields should have these key values.
 		if ( isset( $aField['section_id'], $aField['field_id'] ) )
@@ -149,49 +163,116 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	 * @since			2.0.0
 	 * @since			2.1.6			Moved the repeater script outside the fieldset tag.
 	 */ 
-	public function getInputField( $sFieldType ) {
+	public function _getInputFieldOutput() {
+		
+		$aOutput = array();
 		
 		// Prepend the field error message.
-		$sOutput = isset( $this->aErrors[ $this->aField['field_id'] ] )
+		$aOutput[] = isset( $this->aErrors[ $this->aField['field_id'] ] )
 			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 		
 		// Prepare the field class selector 
-		$this->sFieldClassSelector = $this->aField['repeatable']
+		$sFieldClassSelector = $this->aField['is_repeatable']
 			? "admin-page-framework-field repeatable"
 			: "admin-page-framework-field";
 			
-		// Add new elements
-		$this->aField['sFieldName'] = $this->sFieldName;
-		$this->aField['sTagID'] = $this->sTagID;
-		$this->aField['sFieldClassSelector'] = $this->sFieldClassSelector;
-
+		// Set new elements
+		$this->aField['field_name'] = $this->_getInputFieldName( $this->aField );
+		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
+		$this->aField['field_class_selector'] = $sFieldClassSelector;
+			
+		// Compose fields array for sub-fields	
+		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
+		
 		// Get the field output.
-		$sOutput .= call_user_func_array( 
-			$this->aFieldDefinition['hfRenderField'], 
-			array( $this->vValue, $this->aField, $this->aOptions, $this->aErrors, $this->aFieldDefinition )
-		);			
+		foreach( $aFields as $sKey => $aField ) {
+			$aField['index'] = $sKey;			
+// var_dump( $aField );			
+			$aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $aField['type'] ] )
+				? $this->aFieldTypeDefinitions[ $aField['type'] ] 
+				: $this->aFieldTypeDefinitions['default'];
+			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
+				? call_user_func_array(
+					$aFieldTypeDefinition['hfRenderField'],
+					array( $aField )
+				)
+				: "";
+
+		}
 				
 		// Add the description
-		$sOutput .= ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
+		$aOutput[] = ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
 			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['description']}</span></p>"
 			: '';
 			
 		// Add the repeater script
-		$sOutput .= $this->aField['repeatable']
-			? $this->getRepeaterScript( $this->sTagID, count( ( array ) $this->vValue ) )
+		$aOutput[] = $this->aField['is_repeatable']
+			? $this->_getRepeaterScript( $this->aField['tag_id'], count( $aFields ) )
 			: '';
 			
-		return $this->getRepeaterScriptGlobal( $this->sTagID )
+		return $this->getRepeaterScriptGlobal( $this->aField['tag_id'] )
 			. "<fieldset>"
 				. "<div class='admin-page-framework-fields'>"
 					. $this->aField['before_field'] 
-					. $sOutput
+					. implode( PHP_EOL, $aOutput )
 					. $this->aField['after_field']
 				. "</div>"
 			. "</fieldset>";
 		
 	}
+	
+		/**
+		 * Returns the array of fields 
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function _composeFieldsArray( $aField, $aOptions ) {
+			
+			/* Separate the first field and sub-fields */
+			$aFirstField = array();
+			$aSubFields = array();
+			foreach( $aField as $nsIndex => $vFieldElement ) {
+				if ( is_numeric( $nsIndex ) ) 
+					$aSubFields[] = $vFieldElement;
+				else 
+					$aFirstField[ $nsIndex ] = $vFieldElement;
+			}		
+			
+			/* Put them together in one array */
+			foreach( $aSubFields as &$aSubField ) 
+				$aSubField = $aSubField + $aFirstField;
+			$aFields = array_merge( array( $aFirstField ), $aSubFields );
+			
+			/* Get the set value(s) */
+			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );		
+			if ( count( $aSubFields ) > 0 || $aField['is_repeatable'] || $aField['is_sortable'] ) {	// means the elements are saved in an array.
+				foreach( $aFields as $iIndex => &$aThisField ) {
+					
+					$aThisField['saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null;
+					$aThisField['is_multiple'] = true;
+				}
+			} else {
+				$aFields[ 0 ]['saved_value'] = $vSavedValue;
+				$aFields[ 0 ]['is_multiple'] = false;
+			} 
+
+			/* Determine the value */
+			unset( $aThisField );	// PHP requires this for a previously used variable as reference.
+			foreach( $aFields as &$aThisField ) 
+				$aThisField['value'] = isset( $aThisField['value'] ) 
+					? $aThisField['value'] 
+					: ( isset( $aThisField['saved_value'] ) 
+						? $aThisField['saved_value']
+						: ( isset( $aThisField['default'] )
+							? $aThisField['default']
+							: null
+						)
+					);
+
+			return $aFields;
+			
+		}
 	
 	/**
 	 * Sets or return the flag that indicates whether the creating fields are for meta boxes or not.
@@ -221,15 +302,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	 * 
 	 * @since			2.1.3
 	 */
-	private function getRepeaterScript( $sTagID, $iFieldCount ) {
+	private function _getRepeaterScript( $tag_id, $iFieldCount ) {
 
 		$sAdd = $this->oMsg->__( 'add' );
 		$sRemove = $this->oMsg->__( 'remove' );
 		$sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : "";
 		$sButtons = 
 			"<div class='admin-page-framework-repeatable-field-buttons'>"
-				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$sAdd}' data-id='{$sTagID}'>+</a>"
-				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$sRemove}' {$sVisibility} data-id='{$sTagID}'>-</a>"
+				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$sAdd}' data-id='{$tag_id}'>+</a>"
+				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$sRemove}' {$sVisibility} data-id='{$tag_id}'>-</a>"
 			. "</div>";
 
 		return
@@ -237,10 +318,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 				jQuery( document ).ready( function() {
 				
 					// Adds the buttons
-					jQuery( '#{$sTagID} .admin-page-framework-field' ).append( \"{$sButtons}\" );
+					jQuery( '#{$tag_id} .admin-page-framework-field' ).append( \"{$sButtons}\" );
 					
 					// Update the fields
-					updateAPFRepeatableFields( '{$sTagID}' );
+					updateAPFRepeatableFields( '{$tag_id}' );
 					
 				});
 			</script>";

@@ -50,23 +50,23 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
 	
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
-		$sFieldNameFlat = $this->getInputFieldNameFlat( $aField );
+		$field_nameFlat = $this->getInputFieldNameFlat( $aField );
 		foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					// embed the field id and input id
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][input_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$sTagID}_{$sKey}' "
+						. "value='{$tag_id}_{$sKey}' "
 					. "/>"
 					. "<input type='hidden' "
 						. "name='__import[{$aField['field_id']}][field_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
@@ -84,33 +84,33 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $_aDefaultKeys['vImportFormat'] )	// array, text, or json.
 					. "' />"			
-					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
+					. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, '' ) 
 					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "		// upload button
-							. "id='{$sTagID}_{$sKey}_file' "
+							. "id='{$tag_id}_{$sKey}_file' "
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attributeUpload'], $sKey, $_aDefaultKeys['class_attributeUpload'] ) . "' "
 							. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $_aDefaultKeys['vAcceptAttribute'] ) . "' "
 							. "type='file' "	// upload field. the file type will be stored in $_FILE
 							. "name='__import[{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )				
+							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )				
 						. "/>"
 						. "<input "		// import button
-							. "id='{$sTagID}_{$sKey}' "
+							. "id='{$tag_id}_{$sKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the import button is a custom submit button.
 							. "name='__import[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'import_options' ), true ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, '' )
+					. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, '' )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);		
 					
-		return "<div class='admin-page-framework-field-import' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-import' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";
 		

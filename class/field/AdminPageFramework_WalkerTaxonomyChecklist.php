@@ -8,7 +8,7 @@ if ( ! class_exists( 'AdminPageFramework_WalkerTaxonomyChecklist' ) ) :
  * @see				Walker : wp-includes/class-wp-walker.php
  * @see				Walker_Category : wp-includes/category-template.php
  * @since			2.0.0
- * @since			2.1.5			Added the sTagID key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
+ * @since			2.1.5			Added the tag_id key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
  * @extends			Walker_Category
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Field
@@ -48,7 +48,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 			'name' 		=> null,
 			'disabled'	=> null,
 			'selected'	=> array(),
-			'sTagID'	=> null,
+			'tag_id'	=> null,
 		);
 		
 		$iID = $oCategory->term_id;
@@ -56,7 +56,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		$sChecked = in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '';
 		$sDisabled = $aArgs['disabled'] ? 'disabled="Disabled"' : '';
 		$sClass = 'category-list';
-		$sID = "{$aArgs['sTagID']}_{$sTaxonomy}_{$iID}";
+		$sID = "{$aArgs['tag_id']}_{$sTaxonomy}_{$iID}";
 		$sOutput .= "\n"
 			. "<li id='list-{$sID}' $sClass>" 
 				. "<label for='{$sID}' class='taxonomy-checklist-label'>"

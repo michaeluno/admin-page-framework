@@ -186,6 +186,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the ability to mix field types in sub-fields.
+* Changed: ( ***Breaking Change*** ) the structure of field arrays which define how the field should be rendered.
 * Changed: ( ***Breaking Change*** ) dropped the section from the saved option array structure.
 * Fixed: a bug that page load info in the footer area was not embedded when multiple root pages are created.
 * Added: the ability for the `setRootMenuPage()` method to support dash-icons, base64-encoded SVG, and the string `none` value for the second parameter.

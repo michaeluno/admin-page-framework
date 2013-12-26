@@ -8,7 +8,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		return array(
 			'size'					=> 10,
 			'time_format'	 		=> 'H:mm',				// ( array or string ) This is for the date field type that specifies the date format.
-			'vMaxLength'			=> 400,
+			'max_length'			=> 400,
 		);	
 	}
 
@@ -78,9 +78,9 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -89,35 +89,35 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+						. "<label for='{$tag_id}_{$sKey}'>"
+							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 							. ( $sLabel && ! $aField['repeatable']
 								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
 							)
-							. "<input id='{$sTagID}_{$sKey}' "
+							. "<input id='{$tag_id}_{$sKey}' "
 								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
+								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
 								. "type='text' "	// text, password, etc.
-								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+								. "name=" . ( is_array( $aFields ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
 								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
+								. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
+								. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
 							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 						. "</label>"
 					. "</div>"	// end of label container
-					. $this->getTimePickerEnablerScript( "{$sTagID}_{$sKey}", $this->getCorrespondingArrayValue( $aField['time_format'], $sKey, $_aDefaultKeys['time_format'] ) )
+					. $this->getTimePickerEnablerScript( "{$tag_id}_{$sKey}", $this->getCorrespondingArrayValue( $aField['time_format'], $sKey, $_aDefaultKeys['time_format'] ) )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
-		return "<div class='admin-page-framework-field-date' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-date' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";
 		

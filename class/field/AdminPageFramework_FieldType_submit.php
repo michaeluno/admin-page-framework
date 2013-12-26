@@ -52,9 +52,9 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -63,94 +63,94 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 
 		
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
-		$sFieldNameFlat = $this->getInputFieldNameFlat( $aField );
+		$field_nameFlat = $this->getInputFieldNameFlat( $aField );
 		foreach( ( array ) $vValue as $sKey => $sValue ) {
 			$sRedirectURL = $this->getCorrespondingArrayValue( $aField['redirect_url'], $sKey, $_aDefaultKeys['redirect_url'] );
 			$sLinkURL = $this->getCorrespondingArrayValue( $aField['links'], $sKey, $_aDefaultKeys['links'] );
 			$sResetKey = $this->getCorrespondingArrayValue( $aField['is_reset'], $sKey, $_aDefaultKeys['is_reset'] );
-			$bResetConfirmed = $this->checkConfirmationDisplayed( $sResetKey, $sFieldNameFlat ); 
+			$bResetConfirmed = $this->checkConfirmationDisplayed( $sResetKey, $field_nameFlat ); 
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					// embed the field id and input id
 					. "<input type='hidden' "
-						. "name='__submit[{$sTagID}_{$sKey}][input_id]' "
-						. "value='{$sTagID}_{$sKey}' "
+						. "name='__submit[{$tag_id}_{$sKey}][input_id]' "
+						. "value='{$tag_id}_{$sKey}' "
 					. "/>"
 					. "<input type='hidden' "
-						. "name='__submit[{$sTagID}_{$sKey}][field_id]' "
+						. "name='__submit[{$tag_id}_{$sKey}][field_id]' "
 						. "value='{$aField['field_id']}' "
 					. "/>"		
 					. "<input type='hidden' "
-						. "name='__submit[{$sTagID}_{$sKey}][name]' "
-						. "value='{$sFieldNameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
+						. "name='__submit[{$tag_id}_{$sKey}][name]' "
+						. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
 					. "/>" 						
 					// for the redirect_url key
 					. ( $sRedirectURL 
 						? "<input type='hidden' "
-							. "name='__redirect[{$sTagID}_{$sKey}][url]' "
+							. "name='__redirect[{$tag_id}_{$sKey}][url]' "
 							. "value='" . $sRedirectURL . "' "
 						. "/>" 
 						. "<input type='hidden' "
-							. "name='__redirect[{$sTagID}_{$sKey}][name]' "
-							. "value='{$sFieldNameFlat}" . ( is_array( $vValue ) ? "|{$sKey}" : "'" )
+							. "name='__redirect[{$tag_id}_{$sKey}][name]' "
+							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}" : "'" )
 						. "/>" 
 						: "" 
 					)
 					// for the links key
 					. ( $sLinkURL 
 						? "<input type='hidden' "
-							. "name='__link[{$sTagID}_{$sKey}][url]' "
+							. "name='__link[{$tag_id}_{$sKey}][url]' "
 							. "value='" . $sLinkURL . "' "
 						. "/>"
 						. "<input type='hidden' "
-							. "name='__link[{$sTagID}_{$sKey}][name]' "
-							. "value='{$sFieldNameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
+							. "name='__link[{$tag_id}_{$sKey}][name]' "
+							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
 						. "/>" 
 						: "" 
 					)
 					// for the is_reset key
 					. ( $sResetKey && ! $bResetConfirmed
 						? "<input type='hidden' "
-							. "name='__reset_confirm[{$sTagID}_{$sKey}][key]' "
-							. "value='" . $sFieldNameFlat . "' "
+							. "name='__reset_confirm[{$tag_id}_{$sKey}][key]' "
+							. "value='" . $field_nameFlat . "' "
 						. "/>"
 						. "<input type='hidden' "
-							. "name='__reset_confirm[{$sTagID}_{$sKey}][name]' "
-							. "value='{$sFieldNameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
+							. "name='__reset_confirm[{$tag_id}_{$sKey}][name]' "
+							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
 						. "/>" 
 						: ""
 					)
 					. ( $sResetKey && $bResetConfirmed
 						? "<input type='hidden' "
-							. "name='__reset[{$sTagID}_{$sKey}][key]' "
+							. "name='__reset[{$tag_id}_{$sKey}][key]' "
 							. "value='" . $sResetKey . "' "
 						. "/>"
 						. "<input type='hidden' "
-							. "name='__reset[{$sTagID}_{$sKey}][name]' "
-							. "value='{$sFieldNameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
+							. "name='__reset[{$tag_id}_{$sKey}][name]' "
+							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
 						. "/>" 
 						: ""
 					)
-					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+					. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "
-							. "id='{$sTagID}_{$sKey}' "
+							. "id='{$tag_id}_{$sKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='{$aField['type']}' "	// submit
-							. "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+							. "name=" . ( is_array( $aField['label'] ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'submit' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+					. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 				. "</div>" // end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
 		}
-		return "<div class='admin-page-framework-field-submit' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-submit' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";		
 	

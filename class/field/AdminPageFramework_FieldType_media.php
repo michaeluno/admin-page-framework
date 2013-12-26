@@ -16,7 +16,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 		return array(
 			'attributes_to_capture'					=> array(),
 			'size'									=> 60,
-			'vMaxLength'							=> 400,
+			'max_length'							=> 400,
 			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
 			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
 			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
@@ -190,9 +190,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		$aFields = $aField['repeatable'] ? 
@@ -203,15 +203,15 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 			
 		foreach( ( array ) $aFields as $sKey => $sLabel ) 
 			$aOutput[] =
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"					
-					. $this->getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"					
+					. $this->getMediaInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
-		return "<div class='admin-page-framework-field-media' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-media' id='{$tag_id}'>" 
 				. implode( PHP_EOL, $aOutput ) 
 			. "</div>";		
 			
@@ -221,7 +221,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 		 * 
 		 * @since			2.1.3
 		 */
-		private function getMediaInputTags( $vValue, $aField, $sFieldName, $sTagID, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
+		private function getMediaInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 	
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );	
@@ -232,39 +232,39 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>" 
 					: ''
 				)
-				. "<input id='{$sTagID}_{$sKey}' "	// the main url element does not have the suffix of the attribute
+				. "<input id='{$tag_id}_{$sKey}' "	// the main url element does not have the suffix of the attribute
 					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
+					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
 					. "type='text' "	// text
-					. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
+					. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
 					. "value='" . ( $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
+					. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
+					. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
 				. "/>"	
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
 			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
 				$aOutputs[] = 
-					"<input id='{$sTagID}_{$sKey}_{$sAttribute}' "
+					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
 						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $bMultipleFields ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}" ) . "[{$sAttribute}]' " 
+						. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . "[{$sAttribute}]' " 
 						. "value='" . $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys  ) . "' "
-						. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+						. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 					. "/>";
 			
 			// Returns the outputs as well as the uploader buttons and the preview element.
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
-					. "<label for='{$sTagID}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] )
+					. "<label for='{$tag_id}_{$sKey}' >"
+						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] )
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 					. "</label>"
 				. "</div>"
-				. $this->getMediaUploaderButtonScript( "{$sTagID}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
+				. $this->getMediaUploaderButtonScript( "{$tag_id}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
 			
 		}
 		/**

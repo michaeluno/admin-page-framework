@@ -17,7 +17,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 			'rows'					=> 4,
 			'cols'					=> 80,
 			'vRich'					=> false,
-			'vMaxLength'			=> 400,
+			'max_length'			=> 400,
 		);	
 	}
 	
@@ -41,9 +41,9 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
 		
 		$aFields = $aField['repeatable'] ? 
@@ -58,10 +58,10 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 				: $this->getCorrespondingArrayValue( $aField['vRich'], $sKey, null );
 				
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$sTagID}_{$sKey}' >"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
+						. "<label for='{$tag_id}_{$sKey}' >"
+							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, '' ) 
 							. ( $sLabel && ! $aField['repeatable']
 								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
 								: "" 
@@ -69,13 +69,13 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 							. ( ! empty( $aRichEditorSettings ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
 								? wp_editor( 
 									$this->getCorrespondingArrayValue( $vValue, $sKey, null ), 
-									"{$sTagID}_{$sKey}",  
+									"{$tag_id}_{$sKey}",  
 									$this->uniteArrays( 
 										( array ) $aRichEditorSettings,
 										array(
 											'wpautop' => true, // use wpautop?
 											'media_buttons' => true, // show insert/upload button(s)
-											'textarea_name' => is_array( $aFields ) ? "{$sFieldName}[{$sKey}]" : $sFieldName , // set the textarea name to something different, square brackets [] can be used here
+											'textarea_name' => is_array( $aFields ) ? "{$field_name}[{$sKey}]" : $field_name , // set the textarea name to something different, square brackets [] can be used here
 											'textarea_rows' => $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $_aDefaultKeys['rows'] ),
 											'tabindex' => '',
 											'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
@@ -87,32 +87,32 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 											'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
 										)
 									)
-								) . $this->getScriptForRichEditor( "{$sTagID}_{$sKey}" )
-								: "<textarea id='{$sTagID}_{$sKey}' "
+								) . $this->getScriptForRichEditor( "{$tag_id}_{$sKey}" )
+								: "<textarea id='{$tag_id}_{$sKey}' "
 									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
 									. "rows='" . $this->getCorrespondingArrayValue( $aField['rows'], $sKey, $_aDefaultKeys['rows'] ) . "' "
 									. "cols='" . $this->getCorrespondingArrayValue( $aField['cols'], $sKey, $_aDefaultKeys['cols'] ) . "' "
-									. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
+									. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
 									. "type='{$aField['type']}' "
-									. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
-									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-									. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
+									. "name=" . ( is_array( $aFields ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
+									. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
 								. ">"
 									. $this->getCorrespondingArrayValue( $vValue, $sKey, null )
 								. "</textarea>"
 							)
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, '' )
+							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, '' )
 						. "</label>"
 					. "</div>"
 				. "</div>"
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
 		}
 		
-		return "<div class='admin-page-framework-field-textarea' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-textarea' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";		
 

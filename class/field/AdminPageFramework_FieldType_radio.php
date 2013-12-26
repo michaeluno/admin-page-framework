@@ -46,9 +46,9 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -62,15 +62,15 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 		$aLabels =  $bSingle ? array( $aField['label'] ) : $aField['label'];
 		foreach( $aLabels as $sKey => $label )  
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. $this->getRadioTags( $aField, $vValue, $label, $sFieldName, $sTagID, $sKey, $bSingle, $_aDefaultKeys )				
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
+					. $this->getRadioTags( $aField, $vValue, $label, $field_name, $tag_id, $sKey, $bSingle, $_aDefaultKeys )				
 				. "</div>"
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 				
-		return "<div class='admin-page-framework-field-radio' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-radio' id='{$tag_id}'>" 
 				. implode( '', $aOutput )
 			. "</div>";
 		
@@ -78,31 +78,31 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 		/**
 		 * A helper function for the <em>getRadioField()</em> method.
 		 * @since			2.0.0
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added the $aField, $sFieldName, $_aDefaultKeys, $sTagID, and $vValue parameter.
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added the $aField, $field_name, $_aDefaultKeys, $tag_id, and $vValue parameter.
 		 */ 
-		private function getRadioTags( $aField, $vValue, $aLabels, $sFieldName, $sTagID, $sIterationID, $bSingle, $_aDefaultKeys ) {
+		private function getRadioTags( $aField, $vValue, $aLabels, $field_name, $tag_id, $sIterationID, $bSingle, $_aDefaultKeys ) {
 			
 			$aOutput = array();
 			foreach ( $aLabels as $sKey => $sLabel ) 
 				$aOutput[] = 
 					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
-						. "<label for='{$sTagID}_{$sIterationID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+						. "<label for='{$tag_id}_{$sIterationID}_{$sKey}'>"
+							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 							. "<span class='admin-page-framework-input-container'>"
 								. "<input "
-									. "id='{$sTagID}_{$sIterationID}_{$sKey}' "
+									. "id='{$tag_id}_{$sIterationID}_{$sKey}' "
 									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 									. "type='radio' "
 									. "value='{$sKey}' "
-									. "name=" . ( ! $bSingle  ? "'{$sFieldName}[{$sIterationID}]' " : "'{$sFieldName}' " )
+									. "name=" . ( ! $bSingle  ? "'{$field_name}[{$sIterationID}]' " : "'{$field_name}' " )
 									. ( $this->getCorrespondingArrayValue( $vValue, $sIterationID, null ) == $sKey ? 'Checked ' : '' )
-									. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+									. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 								. "/>"							
 							. "</span>"
 							. "<span class='admin-page-framework-input-label-string'>"
 								. $sLabel
 							. "</span>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 						. "</label>"
 					. "</div>";
 

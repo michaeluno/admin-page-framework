@@ -11,6 +11,8 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_text' ) ) :
  */
 class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Base {
 
+	protected $sFieldTypeSlug = 'text';
+
 	/**
 	 * Registers the field type.
 	 * 
@@ -32,61 +34,55 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'size'					=> 30,
-			'vMaxLength'			=> 400,
-		);	
+			// 'size'					=> 30,
+			// 'max_length'			=> 400,
+			'attributes'			=> array(
+				'size'	=> 30,
+				'maxlength' => 400,
+				'class' => '',	
+			),
+		) + self::$_aDefaultKeys;	// $_aDefaultKeys is defined in the base class.
 	}
 	/**
 	 * Returns the output of the text input field.
 	 * 
 	 * @since			2.1.5
+	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetInputField( $aField ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
-		
-		$aFields = $aField['repeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['label'];
-		$bMultiple = is_array( $aFields );
-		
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
-			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$sTagID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
-							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>" . $sLabel . "</span>"
-								: "" 
-							)
-							. "<input id='{$sTagID}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, '' ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, 30 ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['vMaxLength'], $sKey, $_aDefaultKeys['vMaxLength'] ) . "' "
-								. "type='{$aField['type']}' "	// text, password, etc.
-								. "name=" . ( is_array( $aFields ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $aField['vReadOnly'], $sKey ) ? "readonly='readonly' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, '' )
-						. "</label>"
-					. "</div>"
-				. "</div>"		
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, '', true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				)
-			;
+		$nIndex = $aField['index'];
+		$sInptID = isset( $aField['attributes']['id'] ) ? $aField['attributes']['id'] : "{$aField['field_id']}_{$nIndex}";
+		$aAttributes = $aField['attributes'] + array(
+			'id' => $sInptID,
+			'name' => $aField['is_multiple'] ? "{$aField['field_name']}[{$nIndex}]" : $aField['field_name'],
+			'value' => $aField['value'],
+			'type' => $aField['type'],	// text, password, etc.
+		);	
+		$aOutput[] = 
+			"<div class='{$aField['field_class_selector']}' id='field-{$sInptID}'>"
+				. "<div class='admin-page-framework-input-label-container'>"
+					. "<label for='{$sInptID}'>"
+						. $aField['before_input_tag']
+						. ( $aField['label'] && ! $aField['is_repeatable']
+							? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['labelMinWidth'] . "px;'>" . $aField['label'] . "</span>"
+							: "" 
+						)
+						. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
+						. $aField['after_input_tag']
+					. "</label>"
+				. "</div>"
+			. "</div>"		
+			. ( ( $sDelimiter = $aField['delimiter'] )
+				? "<div class='delimiter' id='delimiter-{$sInptID}'>" . $sDelimiter . "</div>"
+				: ""
+			)
+		;
 				
-		return "<div class='admin-page-framework-field-text' id='{$sTagID}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";
+		return "<div class='admin-page-framework-field-text' id='{$aField['tag_id']}'>" 
+				. implode( PHP_EOL, $aOutput ) 
+			. "</div>";			
 
 	}
 	

@@ -87,9 +87,9 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 					
 		if ( isset( $vValue['latitude'], $vValue['longitude'] ) )
@@ -97,16 +97,16 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 
 		foreach( ( array ) $vValue as $sKey => $aValue ) {
 			$sClassAttribute = $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] );
-			$sName = is_array( $aField['label'] ) ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}";
+			$sName = is_array( $aField['label'] ) ? "{$field_name}[{$sKey}]" : "{$field_name}";
 			$nLatitude = isset( $aValue['latitude'] ) ? $aValue['latitude'] : 20;
 			$nLongitude = isset( $aValue['longitude'] ) ? $aValue['longitude'] : 20; 
 			$nElevation = isset( $aValue['elevation'] ) ? $aValue['elevation'] : null; 
 			$sPlaceName = isset( $aValue['place_name'] ) ? $aValue['place_name'] : ''; 
-			$sDisabled = ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' );
+			$sDisabled = ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' );
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container geometry'>"
-						. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, $_aDefaultKeys['vBeforeInputTag'] ) 
+						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
 						. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
 							? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>{$sLabel}</span>" 
 							: "" 
@@ -114,43 +114,43 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 						. "<div class='admin-page-framework-input-container'>"
 							. "<div class='gllpLatlonPicker'>"
 								. "<div class='gllpMap map'>Google Maps</div>"
-								. "<label for='{$sTagID}_{$sKey}_button' class='update-button'>"
-									. "<input type='button' class='gllpUpdateButton button button-small' id='{$sTagID}_{$sKey}_button' value='" . __( 'Update Map', 'admin-page-framework-demo' ) . "' {$sDisabled} />"
+								. "<label for='{$tag_id}_{$sKey}_button' class='update-button'>"
+									. "<input type='button' class='gllpUpdateButton button button-small' id='{$tag_id}_{$sKey}_button' value='" . __( 'Update Map', 'admin-page-framework-demo' ) . "' {$sDisabled} />"
 								. "</label>"								
-								. "<label for='{$sTagID}_{$sKey}_latitude'>"
+								. "<label for='{$tag_id}_{$sKey}_latitude'>"
 									. "<span class='inline-label-text'>" . __( 'Latitude', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpLatitude {$sClassAttribute}' id='{$sTagID}_{$sKey}_latitude' name='{$sName}[latitude]' value='{$nLatitude}' {$sDisabled}/>"
+									. "<input type='text' class='gllpLatitude {$sClassAttribute}' id='{$tag_id}_{$sKey}_latitude' name='{$sName}[latitude]' value='{$nLatitude}' {$sDisabled}/>"
 								. "</label><br />"
-								. "<label for='{$sTagID}_{$sKey}_longitude'>"
+								. "<label for='{$tag_id}_{$sKey}_longitude'>"
 									. "<span class='inline-label-text'>" . __( 'Longitude', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpLongitude {$sClassAttribute}' id='{$sTagID}_{$sKey}_longitude' name='{$sName}[longitude]' value='{$nLongitude}' {$sDisabled}/>"
+									. "<input type='text' class='gllpLongitude {$sClassAttribute}' id='{$tag_id}_{$sKey}_longitude' name='{$sName}[longitude]' value='{$nLongitude}' {$sDisabled}/>"
 								. "</label><br />"
-								. "<label for='{$sTagID}_{$sKey}_longitude'>"
+								. "<label for='{$tag_id}_{$sKey}_longitude'>"
 									. "<span class='inline-label-text'>" . __( 'Elevation', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpElevation {$sClassAttribute}' id='{$sTagID}_{$sKey}_elevation' name='{$sName}[elevation]' value='{$nElevation}' {$sDisabled}/> " . __( "metres", "admin-page-framework-demo" )
+									. "<input type='text' class='gllpElevation {$sClassAttribute}' id='{$tag_id}_{$sKey}_elevation' name='{$sName}[elevation]' value='{$nElevation}' {$sDisabled}/> " . __( "metres", "admin-page-framework-demo" )
 								. "</label><br />"								
-								. "<label for='{$sTagID}_{$sKey}_name'>"
+								. "<label for='{$tag_id}_{$sKey}_name'>"
 									. "<span class='inline-label-text'>" . __( 'Place Name', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpLocationName {$sClassAttribute}' id='{$sTagID}_{$sKey}_place_name' name='{$sName}[place_name]' value='{$sPlaceName}' {$sDisabled}/> "
+									. "<input type='text' class='gllpLocationName {$sClassAttribute}' id='{$tag_id}_{$sKey}_place_name' name='{$sName}[place_name]' value='{$sPlaceName}' {$sDisabled}/> "
 								. "</label><br />"
-								. "<label for='{$sTagID}_{$sKey}_zoom'>"
+								. "<label for='{$tag_id}_{$sKey}_zoom'>"
 									. "<span class='inline-label-text'>" . __( 'zoom', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpZoom' id='{$sTagID}_{$sKey}_zoom' value='3'/>"
+									. "<input type='text' class='gllpZoom' id='{$tag_id}_{$sKey}_zoom' value='3'/>"
 								. "</label><br />"
 							. "</div>"							
 						. "</div>"
-						. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+						. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 						. "</label>"
 					. "</div>"
 				
 				. "</div>"
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 		}
 					
-		return "<div class='admin-page-framework-field-geometry' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-geometry' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";
 		

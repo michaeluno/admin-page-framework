@@ -48,9 +48,9 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -75,11 +75,11 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 			}
 			
 			$aOutput[] = 
-				"<div class='{$sFieldClassSelector}' id='field-{$sTagID}_{$sKey}'>"
+				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					// embed the field id and input id
 					. "<input type='hidden' "
 						. "name='__export[{$aField['field_id']}][input_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$sTagID}_{$sKey}' "
+						. "value='{$tag_id}_{$sKey}' "
 					. "/>"
 					. "<input type='hidden' "
 						. "name='__export[{$aField['field_id']}][field_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
@@ -97,28 +97,28 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 						. "name='__export[{$aField['field_id']}][transient]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . ( $bIsDataSet ? 1 : 0 )
 					. "' />"				
-					. $this->getCorrespondingArrayValue( $aField['vBeforeInputTag'], $sKey, '' ) 
+					. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, '' ) 
 					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['labelMinWidth'], $sKey, $_aDefaultKeys['labelMinWidth'] ) . "px;'>"
 						. "<input "
-							. "id='{$sTagID}_{$sKey}' "
+							. "id='{$tag_id}_{$sKey}' "
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='submit' "	// the export button is a custom submit button.
-							// . "name=" . ( is_array( $aField['label'] ) ? "'{$sFieldName}[{$sKey}]' " : "'{$sFieldName}' " )
+							// . "name=" . ( is_array( $aField['label'] ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
 							. "name='__export[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'export_options' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['vDisable'], $sKey ) ? "disabled='Disabled' " : '' )
+							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['vAfterInputTag'], $sKey, $_aDefaultKeys['vAfterInputTag'] )
+					. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
 				. "</div>" // end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$sTagID}_{$sKey}'>" . $sDelimiter . "</div>"
+					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
 					: ""
 				);
 									
 		}
 					
-		return "<div class='admin-page-framework-field-export' id='{$sTagID}'>" 
+		return "<div class='admin-page-framework-field-export' id='{$tag_id}'>" 
 				. implode( '', $aOutput ) 
 			. "</div>";		
 	

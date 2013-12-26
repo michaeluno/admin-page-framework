@@ -164,9 +164,9 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
-		$sFieldName = $aField['sFieldName'];
-		$sTagID = $aField['sTagID'];
-		$sFieldClassSelector = $aField['sFieldClassSelector'];
+		$field_name = $aField['field_name'];
+		$tag_id = $aField['tag_id'];
+		$field_class_selector = $aField['field_class_selector'];
 		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
 		
 		// $aFields = $aField['repeatable'] ? 
@@ -190,13 +190,13 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 					. "<ul class='list:category taxonomychecklist form-no-clear'>"
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
-							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$sFieldName}[{$sKey}]" : "{$sFieldName}",   // name of the input
+							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$field_name}[{$sKey}]" : "{$field_name}",   // name of the input
 							'selected' => $this->getSelectedKeyArray( $vValue, $sKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
 							'title_li'	=> '',	// disable the Categories heading string 
 							'hide_empty' => 0,	
 							'echo'	=> false,	// returns the output
 							'taxonomy' => $sTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
-							'sTagID' => $sTagID,
+							'tag_id' => $tag_id,
 						) )					
 					. "</ul>"			
 					. "<!--[if IE]><b>.</b><![endif]-->"
@@ -211,7 +211,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 			. "</div>";
 			
 		$sOutput = 
-			"<div id='{$sTagID}' class='{$sFieldClassSelector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['sWidth']};'>"
+			"<div id='{$tag_id}' class='{$field_class_selector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['sWidth']};'>"
 				. $sTabs . PHP_EOL
 				. $sContents . PHP_EOL
 			. "</div>";
