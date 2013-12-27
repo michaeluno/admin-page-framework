@@ -9,7 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
  */
 abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Utility {
 	
-	protected $sFieldTypeSlug = array( 'default' );
+	protected $aFieldTypeSlugs = array( 'default' );
 	
 	protected static $_aDefaultKeys = array(
 		'value'					=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
