@@ -508,7 +508,6 @@ class APF_Demo extends AdminPageFramework {
 				'title' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'type' => 'textarea',
 				'is_repeatable' => true,
-				'rich' => true,
 				// 'delimiter' => '',
 				'attributes' => array(
 					'rows' => 3,

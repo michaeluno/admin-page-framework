@@ -15,21 +15,20 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 * Defines the field type slugs used for this field type.
 	 */
 	protected $aFieldTypeSlugs = array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week', );
-
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'attributes'			=> array(
-				'size'	=> 30,
-				'maxlength' => 400,
-				'class' => '',	
-			),
-		) + self::$_aDefaultKeys;	// $_aDefaultKeys is defined in the base class.
-	}
-	
+	protected $aDefaultKeys = array(
+		'attributes'	=> array(
+			'size'	=>	30,
+			'maxlength'	=>	400,
+			'class'	=>	'',	
+		),	
+	);
+
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 

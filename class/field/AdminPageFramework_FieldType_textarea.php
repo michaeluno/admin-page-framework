@@ -14,28 +14,27 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 	 */
 	protected $aFieldTypeSlugs = array( 'textarea' );
 
-	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'rich'				=> false,
-			'attributes'			=> array(		
-				'autofocus' => '',
-				'cols'	=> 60,
-				'disabled' => '',
-				'formNew' => '',
-				'maxlength' => '',
-				'placeholder' => '',
-				'readonly' => '',
-				'required' => '',
-				'rows' => 4,
-				'wrap' => '',			
-			),
-		) + self::$_aDefaultKeys;	// $_aDefaultKeys is defined in the base class.	
-	}
-	
+	protected $aDefaultKeys = array(
+		'rich'				=> false,
+		'attributes'			=> array(		
+			'autofocus' => '',
+			'cols'	=> 60,
+			'disabled' => '',
+			'formNew' => '',
+			'maxlength' => '',
+			'placeholder' => '',
+			'readonly' => '',
+			'required' => '',
+			'rows' => 4,
+			'wrap' => '',			
+		),
+	);
+		
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 

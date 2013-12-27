@@ -10,6 +10,12 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_color' ) ) :
 class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Base {
 	
 	/**
+	 * Defines the field type slugs used for this field type.
+	 */
+	protected $aFieldTypeSlugs = array( 'color' );
+	
+	
+	/**
 	 * Returns the array of the field type specific default keys.
 	 */
 	protected function getDefaultKeys() { 

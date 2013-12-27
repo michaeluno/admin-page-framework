@@ -9,8 +9,21 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
  */
 abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Utility {
 	
+	/**
+	 * Defines the slugs used for this field type.
+	 * This should be overridden in the extended class.
+	 */
 	protected $aFieldTypeSlugs = array( 'default' );
 	
+	/**
+	 * Defines the default key-values of the extended field type. 
+	 * This should be overridden in the extended class.
+	 */
+	protected $aDefaultKeys = array();
+	
+	/**
+	 * Defines the default key-values of all field types.
+	 */
 	protected static $_aDefaultKeys = array(
 		'value'					=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
 		'default'				=> null,				// ( array or string )
@@ -87,7 +100,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 			'hfFieldLoader' => array( $this, "replyToFieldLoader" ),
 			'aEnqueueScripts' => $this->getEnqueuingScripts(),	// urls of the scripts
 			'aEnqueueStyles' => $this->getEnqueuingStyles(),	// urls of the styles
-			'aDefaultKeys' => $this->uniteArrays( $this->getDefaultKeys(), self::$_aDefaultKeys ), 
+			'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
 		);
 		
 	}
@@ -102,7 +115,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	public function replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
 	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
 	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
-	protected function getDefaultKeys() { return array(); }
+	// protected function getDefaultKeys() { 
+		// return $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys );
+	// }
 	
 		
 	/**

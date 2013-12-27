@@ -522,6 +522,9 @@ return $vValue;
 	// The method that gets triggered when a repeatable field add button is pressed.
 	$.fn.callBackAddRepeatableField = function( sFieldType, sID ) {
 		var nodeThis = this;
+		if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
+			$.fn.aAPFAddRepeatableFieldCallbacks = [];
+		}		
 		$.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
 			if ( jQuery.isFunction( hfCallback ) )
 				hfCallback( nodeThis, sFieldType, sID );
