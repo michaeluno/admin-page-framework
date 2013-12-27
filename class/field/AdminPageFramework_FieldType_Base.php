@@ -9,7 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
  */
 abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Utility {
 	
-	protected $sFieldTypeSlug = 'default';
+	protected $sFieldTypeSlug = array( 'default' );
 	
 	protected static $_aDefaultKeys = array(
 		'value'					=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
@@ -40,9 +40,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	
 	protected $oMsg;
 	
-	function __construct( $sClassName, $sFieldTypeSlug='', $oMsg=null, $bAutoRegister=true ) {
+	function __construct( $sClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
 			
-		$this->sFieldTypeSlug = $sFieldTypeSlug ? $sFieldTypeSlug : $this->sFieldTypeSlug;
+		$this->aFieldTypeSlugs = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
 		$this->sClassName = $sClassName;
 		$this->oMsg	= $oMsg;
 		
@@ -56,13 +56,15 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	 * Registers the field type.
 	 * 
 	 * A callback function for the field_types_{$sClassName} filter.
-	 * 
+	 * @since			2.1.5
 	 */
 	public function replyToRegisterInputFieldType( $aFieldDefinitions ) {
 		
-		$aFieldDefinitions[ $this->sFieldTypeSlug ] = $this->getDefinitionArray();
-		return $aFieldDefinitions;
-		
+		foreach ( $this->aFieldTypeSlugs as $sFieldTypeSlug )
+			$aFieldDefinitions[ $sFieldTypeSlug ] = $this->getDefinitionArray( $sFieldTypeSlug );
+
+		return $aFieldDefinitions;		
+
 	}
 	
 	/**
@@ -70,11 +72,13 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	 * 
 	 * @remark			The scope is public since AdminPageFramework_FieldType class allows the user to use this method.
 	 * @since			2.1.5
+	 * @since			3.0.0			Added the $sFieldTypeSlug parameter.
 	 */
-	public function getDefinitionArray() {
+	public function getDefinitionArray( $sFieldTypeSlug='' ) {
 		
 		return array(
-			'sSlug'	=> $this->sFieldTypeSlug,
+			'sFieldTypeSlug'	=> $sFieldTypeSlug,
+			'aFieldTypeSlugs'	=> $this->aFieldTypeSlugs,
 			'hfRenderField' => array( $this, "replyToGetInputField" ),
 			'hfGetScripts' => array( $this, "replyToGetInputScripts" ),
 			'hfGetStyles' => array( $this, "replyToGetInputStyles" ),

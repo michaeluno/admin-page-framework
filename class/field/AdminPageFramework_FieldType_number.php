@@ -10,19 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) :
 class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_Base {
 
 	/**
-	 * Registers the field type.
+	 * Defines the field type slugs used for this field type.
 	 * 
-	 * A callback function for the field_types_{$sClassName} filter.
-	 * 
-	 * @remark			Since there are the other type slugs that are shared with the text field type, register them as well. 
 	 */
-	public function replyToRegisterInputFieldType( $aFieldDefinitions ) {
-		
-		foreach ( array( 'number', 'range' ) as $sTextTypeSlug ) 
-			$aFieldDefinitions[ $sTextTypeSlug ] = $this->getDefinitionArray();
-		return $aFieldDefinitions;
-		
-	}
+	protected $aFieldTypeSlugs = array( 'number', 'range' );
 	
 	/**
 	 * Returns the array of the field type specific default keys.

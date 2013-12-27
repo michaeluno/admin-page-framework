@@ -10,24 +10,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_text' ) ) :
  * @since			2.1.5
  */
 class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Base {
-
-	protected $sFieldTypeSlug = 'text';
-
+	
 	/**
-	 * Registers the field type.
+	 * Defines the field type slugs used for this field type.
 	 * 
-	 * A callback function for the field_types_{$sClassName} filter.
-	 * 
-	 * @remark			Since there are the other type slugs that are shared with the text field type, register them as well. 
 	 */
-	public function replyToRegisterInputFieldType( $aFieldDefinitions ) {
-		
-		foreach ( array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week', ) as $sTextTypeSlug )
-			$aFieldDefinitions[ $sTextTypeSlug ] = $this->getDefinitionArray();
+	protected $aFieldTypeSlugs = array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week', );
 
-		return $aFieldDefinitions;
-		
-	}
 	
 	/**
 	 * Returns the array of the field type specific default keys.
