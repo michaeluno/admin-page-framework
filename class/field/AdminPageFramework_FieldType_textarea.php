@@ -125,6 +125,26 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 			</script>";		
 			
 		}	
-	
+
+	// public function replyToGetInputScripts() {
+		// $aJSArray = json_encode( $this->aFieldTypeSlugs );
+		// return "
+			// jQuery( document ).ready( function(){
+				// jQuery().registerAPFCallback( {				
+					// added_repeatable_field: function( node, sFieldType, sID ) {
+						// if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) {
+							// return;
+						// }
+						// console.log( 'This is a textarea field type.' );
+						// console.log( {$aJSArray} );
+						// console.log( 'id : '  + sID );
+						// console.log( 'type : '  + sFieldType );
+						// console.log( 'type fron node: '  + node.data( 'type' ) );
+					// }
+				// });
+			// });
+		// ";		
+	// }	
+		
 }
 endif;
