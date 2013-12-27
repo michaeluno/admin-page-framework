@@ -454,17 +454,23 @@ class APF_Demo extends AdminPageFramework {
 				'type' => 'text',
 				'default' => 'Hello World',
 				'label' => 'First Item: ',
-				'size' => 20,
+				'attributes' => array(
+					'size' => 20,				
+				),
 				'delimiter' => '<br />',
 				array(
 					'default' => 'Foo bar',
 					'label' => 'Second Item: ',
-					'size' => 40,
+					'attributes' => array(
+						'size' => 40,
+					)
 				),
 				array(
 					'default' => 'Yes, we can',
 					'label' => 'Third Item: ',
-					'size' => 60,
+					'attributes' => array(
+						'size' => 60,
+					)
 				),				
 			),		
 			array(	// Repeatable text fields
@@ -476,7 +482,13 @@ class APF_Demo extends AdminPageFramework {
 				'delimiter' => '',
 				'size' => 60,
 				'is_repeatable' => true,
-				'default' => array( 'a', 'b', 'c', ),
+				'default' => 'a',
+				array(
+					'default' => 'b',
+				),
+				array(
+					'default' => 'c',
+				),
 			),				
 			array(	// Text Area
 				'field_id' => 'textarea',
@@ -485,8 +497,10 @@ class APF_Demo extends AdminPageFramework {
 				'description' => __( 'Type a text string here.', 'admin-page-framework-demo' ),
 				'type' => 'textarea',
 				'default' => 'Hello World! This is set as the default string.',
-				'rows' => 6,
-				'cols' => 60,
+				'attributes' => array(
+					'rows' => 6,
+					'cols' => 60,
+				)
 			),
 			array(	// Repeatable Text Areas
 				'field_id' => 'textarea_repeatable',
@@ -494,9 +508,13 @@ class APF_Demo extends AdminPageFramework {
 				'title' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'type' => 'textarea',
 				'is_repeatable' => true,
-				'delimiter' => '',
-				'rows' => 3,
-				'cols' => 60,
+				'rich' => true,
+				// 'delimiter' => '',
+				'attributes' => array(
+					'rows' => 3,
+					'cols' => 60,
+				)
+
 			),			
 			array(	// Rich Text Editors
 				'field_id' => 'rich_textarea',
