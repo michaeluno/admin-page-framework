@@ -30,7 +30,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		// 'export' => array( 'export' ),
 		// 'image' => array( 'image' ),
 		// 'media' => array( 'media' ),
-		// 'color' => array( 'color' ),
+		'color' => array( 'color' ),
 		// 'taxonomy' => array( 'taxonomy' ),
 		// 'posttype' => array( 'posttype' ),
 		// 'size' => array( 'size' ),

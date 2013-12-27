@@ -14,16 +14,15 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 */
 	protected $aFieldTypeSlugs = array( 'color' );
 	
-	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the default key-values of this field type. 
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'size'					=> 10,
-			'max_length'			=> 400,
-		);	
-	}
+	protected $aDefaultKeys = array(
+		'attributes'	=> array(
+			'size'	=>	10,
+			'maxlength'	=>	400,
+		),	
+	);
 
 	/**
 	 * Loads the field type necessary components.
@@ -55,7 +54,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 */ 
 	public function replyToGetInputStyles() {
 		return 
-		"/* Color Picker */
+			"/* Color Picker */
 			.repeatable .colorpicker {
 				display: inline;
 			}
@@ -71,7 +70,10 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 				width: inherit;
 				height: auto;
 				margin-top: -11px;
-			}	
+			}
+			.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {
+				vertical-align: top; 
+			}
 			" . PHP_EOL;		
 	}	
 	
@@ -117,59 +119,43 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	/**
+	 * Returns the output of the text input field.
+	 * 
+	 * @since			2.1.5
+	 * @since			3.0.0			Removed unnecessary parameters.
+	 */
+	public function replyToGetInputField( $aField ) {
 
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];
-	
-		$aFields = $aField['repeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['label'];		
-	
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$tag_id}_{$sKey}'>"					
-							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
-							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>"
-								: "" 
-							)
-							. "<input id='{$tag_id}_{$sKey}' "
-								. "class='input_color " . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
-								. "type='text' "	// text
-								. "name=" . ( is_array( $aFields ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
-								. "value='" . ( $this->getCorrespondingArrayValue( $vValue, $sKey, 'transparent' ) ) . "' "
-								. "color='" . ( $this->getCorrespondingArrayValue( $vValue, $sKey, 'transparent' ) ) . "' "
-								. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
-						. "</label>"
-						. "<div class='colorpicker' id='color_{$tag_id}_{$sKey}' rel='{$tag_id}_{$sKey}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
-						. $this->getColorPickerEnablerScript( "{$tag_id}_{$sKey}" )
-					. "</div>"
-				. "</div>"	// admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-color' id='{$tag_id}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";	
+		$aAttributes = $aField['attributes'] + array(
+			'id'	=>	$aField['input_id'],
+			'name'	=>	$aField['field_name'],
+			'value'	=>	$aField['value'],
+			'type'	=>	'text',	// it must be text
+			'color'	=>	$aField['value'],	// same as the value
+		);
+		$aAttributes['class'] = trim( 'input_color ' . $aAttributes['class'] );
+		return 
+			"<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input_tag']
+					. ( $aField['label'] && ! $aField['is_repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
+					. $aField['after_input_tag']
+				. "</label>"
+				. "<div class='colorpicker' id='color_{$aField['input_id']}' rel='{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
+				. $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )				
+			. "</div>"
+		;
 		
 	}
 		/**
 		 * A helper function for the above getColorField() method to add a script to enable the color picker.
 		 */
-		private function getColorPickerEnablerScript( $sInputID ) {
+		private function _getColorPickerEnablerScript( $sInputID ) {
 			return
 				"<script type='text/javascript' class='color-picker-enabler-script'>
 					jQuery( document ).ready( function(){

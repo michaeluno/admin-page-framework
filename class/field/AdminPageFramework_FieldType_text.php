@@ -25,7 +25,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 		'attributes'	=> array(
 			'size'	=>	30,
 			'maxlength'	=>	400,
-			'class'	=>	'',	
 		),	
 	);
 
