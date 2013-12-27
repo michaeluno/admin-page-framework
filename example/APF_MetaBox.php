@@ -30,7 +30,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 				'field_id' 		=> 'sample_rich_textarea',
 				'title' 			=> 'Rich Text Editor',
 				'type' 			=> 'textarea',
-				'vRich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
+				'rich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
 			),				
 			array(
 				'field_id'		=> 'checkbox_field',

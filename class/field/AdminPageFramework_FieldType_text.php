@@ -13,7 +13,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	
 	/**
 	 * Defines the field type slugs used for this field type.
-	 * 
 	 */
 	protected $aFieldTypeSlugs = array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week', );
 
@@ -30,6 +29,19 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 			),
 		) + self::$_aDefaultKeys;	// $_aDefaultKeys is defined in the base class.
 	}
+	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetInputStyles() {
+		return 
+		"	/* Text Field Type */
+			.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
+				vertical-align: top; 
+			}
+		" . PHP_EOL;		
+	}	
+	
 	/**
 	 * Returns the output of the text input field.
 	 * 

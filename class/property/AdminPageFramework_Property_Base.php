@@ -181,8 +181,7 @@ abstract class AdminPageFramework_Property_Base {
 			display: inline-block;
 			vertical-align: middle; 
 		}
-		.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container,
-		.admin-page-framework-field-textarea .admin-page-framework-field .admin-page-framework-input-label-container,
+		
 		.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field-select .admin-page-framework-field .admin-page-framework-input-label-container
 		{

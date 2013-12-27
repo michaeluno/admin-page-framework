@@ -19,7 +19,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		'default' => array( 'default' ),	// undefined ones will be applied 
 		'text' => array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ),
 		'number' => array( 'number', 'range' ),
-		// 'textarea' => array( 'textarea' ),
+		'textarea' => array( 'textarea' ),
 		// 'radio' => array( 'radio' ),
 		// 'checkbox' => array( 'checkbox' ),
 		// 'select' => array( 'select' ),

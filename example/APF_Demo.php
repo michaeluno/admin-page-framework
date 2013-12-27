@@ -503,13 +503,13 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'text_fields',
 				'title' => 'Rich Text Area',
 				'type' => 'textarea',
-				'label' => array(
-					'default' => '',
-					'custom' => '',
-				),
-				'vRich' => array( 
-					'default' => true,	// just pass non empty value for the default rich editor.
-					'custom' => array( 'media_buttons' => false, 'tinymce' => false ),	// pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
+				'rich'	=> true,	// just pass non empty value to enable the rich editor.
+				array(
+					// pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
+					'rich' => array( 
+						'media_buttons' => false, 
+						'tinymce' => false
+					),	
 				),
 			),			
 			array(	// Multiple text areas
@@ -518,27 +518,29 @@ class APF_Demo extends AdminPageFramework {
 				'title' => 'Multiple Text Areas',
 				'description' => 'These are multiple text areas.',
 				'type' => 'textarea',
-				'label' => array(
-					'First Text Area: ',
-					'Second Text Area: ',
-					'Third Text Area: ',
-				),
-				'default' => array( 
-					'The first default text.',
-					'The second default text.',
-					'The third default text.',
-				),
-				'rows' => array(
-					5,
-					3,
-					2,
-				),
-				'cols' => array(
-					60,
-					40,
-					20,
-				),
+				'label' => __( 'First Text Area: ', 'admin-page-framework-demo' ),
+				'default' => __( 'The first default text.', 'admin-page-framework-demo' ),
 				'delimiter' => '<br />',
+				'attributes' => array(
+					'rows' => 5,
+					'cols' => 60,
+				),
+				array(
+					'label' => __( 'Second Text Area: ', 'admin-page-framework-demo' ),
+					'default' => __( 'The second default text.', 'admin-page-framework-demo' ),
+					'attributes' => array(
+						'rows' => 3,
+						'cols' => 40,
+					),					
+				),
+				array(
+					'label' => __( 'Third Text Area: ', 'admin-page-framework-demo' ),
+					'default' => __( 'The third default text.', 'admin-page-framework-demo' ),
+					'attributes' => array(
+						'rows' => 2,
+						'cols' => 20,
+					),									
+				),	
 			)
 		);
 		$this->addSettingFields(
