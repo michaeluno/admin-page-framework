@@ -40,7 +40,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug => $aSlugs ) {
 			$sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
 			if ( class_exists( $sInstantiatingClassName ) ) {
-				$oFieldType = new $sInstantiatingClassName( $sExtendedClassName, $sFieldTypeSlug, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
+				$oFieldType = new $sInstantiatingClassName( $sExtendedClassName, null, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
 				foreach( $aSlugs as $sSlug )
 					$aFieldTypeDefinitions[ $sSlug ] = $oFieldType->getDefinitionArray();
 			}
