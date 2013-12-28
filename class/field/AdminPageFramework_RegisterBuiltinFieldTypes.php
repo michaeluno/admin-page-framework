@@ -20,7 +20,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		'text',
 		'number',
 		'textarea',
-		// 'radio',
+		'radio',
 		// 'checkbox',
 		// 'select',
 		'hidden',

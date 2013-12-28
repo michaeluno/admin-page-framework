@@ -608,8 +608,8 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Single set of radio buttons
 				'field_id' => 'radio',
 				'section_id' => 'selectors',
-				'title' => 'Radio Button',
-				'description' => 'Choose one from the radio buttons.',
+				'title' => __( 'Radio Button', 'admin-page-framework-demo' ),
+				'description' => __( 'Choose one from the radio buttons.', 'admin-page-framework-demo' ),
 				'type' => 'radio',
 				'label' => array( 'a' => 'apple', 'b' => 'banana', 'c' => 'cherry' ),
 				'default' => 'b',	// banana				
@@ -617,20 +617,29 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Multiple sets of radio buttons
 				'field_id' => 'radio_multiple',
 				'section_id' => 'selectors',
-				'title' => 'Multiple Sets of Radio Buttons',
-				'description' => 'Multiple sets of radio buttons.',
+				'title' => __( 'Multiple Sets of Radio Buttons', 'admin-page-framework-demo' ),
+				'description' => __( 'Multiple sets of radio buttons.', 'admin-page-framework-demo' ),
 				'type' => 'radio',
-				'label' => array( 
-					array( 1 => 'one', 2 => 'two' ),
-					array( 3 => 'three', 4 => 'four', 5 => 'five' ),
-					array( 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine' ),
-				),
-				'default' => array(
-					2,
-					4,
-					8,
-				),
 				'delimiter' => '<br />',
+				'default' => 2,
+				'label' => array( 1 => 'one', 2 => 'two' ),
+				array(
+					'default' => 4,
+					'label' => array( 3 => 'three', 4 => 'four', 5 => 'five' ),
+				),
+				array(
+					'default' => 8,
+					'label' => array( 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine' ),
+				),
+			),	
+			array(	// Repeatable radio buttons
+				'field_id' => 'radio_repeatable',
+				'section_id' => 'selectors',
+				'title' => __( 'Repeatable Radio Buttons', 'admin-page-framework-demo' ),
+				'type' => 'radio',
+				'label' => array( 'Off', 'On' ),
+				'default' => 1,
+				'is_repeatable'	=> true,
 			),			
 			array(	// Single Checkbox
 				'field_id' => 'checkbox',
@@ -1053,9 +1062,9 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'field_id' => 'export_format_type',			
 				'section_id' => 'exports',
-				'title' => 'Export Format Type',
+				'title' => __( 'Export Format Type', 'admin-page-framework-demo' ),
 				'type' => 'radio',
-				'description' => 'Choose the file format. Array means the PHP serialized array.',
+				'description' => __( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
 				'label' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
 				'default' => 'array',
 			),			
@@ -1085,9 +1094,9 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'field_id' => 'import_format_type',			
 				'section_id' => 'imports',
-				'title' => 'Import Format Type',
+				'title' => __( 'Import Format Type', 'admin-page-framework-demo' ),
 				'type' => 'radio',
-				'description' => 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.',
+				'description' => __( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
 				'label' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
 				'default' => 'array',
 			),

@@ -10,13 +10,18 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_radio' ) ) :
 class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Base {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			// 'size'					=> 1,
-		);	
-	}
+	public $aFieldTypeSlugs = array( 'radio' );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 */
+	protected $aDefaultKeys = array(
+		'label'			=> array(),
+		'attributes'	=> array(
+		),
+	);
 
 	/**
 	 * Loads the field type necessary components.
@@ -25,89 +30,73 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 	}	
 	
 	/**
-	 * Returns the field type specific JavaScript script.
-	 */ 
-	public function replyToGetScripts() {
-		return "";		
-	}	
-
-	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetStyles() {
 		return "";		
 	}
+
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetScripts() {
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
+		return "			
+			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
+				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+													
+						/* the jQuery clone() method looses the checked state of radio buttons so re-check them again */	
+						node.closest( '.admin-page-framework-fields' )
+							.find( 'input[type=radio][checked=checked]' )
+							.attr( 'checked', 'checked' );
+									
+					}
+				});
+			});
+		";				
+	}		
 	
 	/**
 	 * Returns the output of the field type.
 	 * 
 	 * @since			2.1.5
+	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
+	public function replyToGetField( $aField ) {
+		
 		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['label'];		
-		
-		// The value of the label key must be an array for the select type.
-		if ( ! is_array( $aField['label'] ) ) return;	
-		
-		$bSingle = ( $this->getArrayDimension( ( array ) $aField['label'] ) == 1 );
-		$aLabels =  $bSingle ? array( $aField['label'] ) : $aField['label'];
-		foreach( $aLabels as $sKey => $label )  
+		$sValue = $aField['attributes']['value'];
+		foreach( $aField['label'] as $sKey =>$sLabel ) {
+			$aField['attributes'] = array(
+				'type'	=> 'radio',
+				'checked'	=> $sValue == $sKey ? 'checked' : '',
+				'value' => $sKey,
+				'id' => $aField['input_id'] . '_' . $sKey,
+				'data-default' => $aField['default'],
+			) + $aField['attributes'];
 			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					. $this->getRadioTags( $aField, $vValue, $label, $field_name, $tag_id, $sKey, $bSingle, $_aDefaultKeys )				
-				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-radio' id='{$tag_id}'>" 
-				. implode( '', $aOutput )
-			. "</div>";
-		
-	}
-		/**
-		 * A helper function for the <em>getRadioField()</em> method.
-		 * @since			2.0.0
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added the $aField, $field_name, $_aDefaultKeys, $tag_id, and $vValue parameter.
-		 */ 
-		private function getRadioTags( $aField, $vValue, $aLabels, $field_name, $tag_id, $sIterationID, $bSingle, $_aDefaultKeys ) {
-			
-			$aOutput = array();
-			foreach ( $aLabels as $sKey => $sLabel ) 
-				$aOutput[] = 
-					"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
-						. "<label for='{$tag_id}_{$sIterationID}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
+				"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
+					. "<label for='{$aField['attributes']['id']}'>"
+						. $aField['before_input_tag']			
 							. "<span class='admin-page-framework-input-container'>"
-								. "<input "
-									. "id='{$tag_id}_{$sIterationID}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-									. "type='radio' "
-									. "value='{$sKey}' "
-									. "name=" . ( ! $bSingle  ? "'{$field_name}[{$sIterationID}]' " : "'{$field_name}' " )
-									. ( $this->getCorrespondingArrayValue( $vValue, $sIterationID, null ) == $sKey ? 'Checked ' : '' )
-									. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-								. "/>"							
+								. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class	
 							. "</span>"
 							. "<span class='admin-page-framework-input-label-string'>"
 								. $sLabel
-							. "</span>"
-							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
-						. "</label>"
-					. "</div>";
-
-			return implode( '', $aOutput );
+							. "</span>"						
+						. $aField['after_input_tag']
+					. "</label>"					
+				. "</div>";
 		}
+		return implode( PHP_EOL, $aOutput );
+			
+	}
 
 }
 endif;

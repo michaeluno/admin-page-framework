@@ -365,7 +365,8 @@ return $vValue;
 						});
 						
 					}					
-				
+					
+					/* Increment/decrement the index inserted in the id and name */
 					nodeElement.attr( 'id', function( index, name ) { return updateID( index, name ) } );
 					nodeElement.find( 'label' ).attr( 'for', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
@@ -406,7 +407,7 @@ return $vValue;
 					var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
 					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
 
-					nodeNewField.find( 'input,textarea' ).val( '' );	// empty the value		
+					nodeNewField.find( 'input:not([type=radio], [type=checkbox]),textarea' ).val( '' );	// empty the value		
 					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
 					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
 
@@ -415,12 +416,12 @@ return $vValue;
 					
 					/* Add the cloned new field element */
 					nodeNewField.insertAfter( nodeFieldContainer );	
-					
+
 					/* Increment the names and ids of the next following siblings. */
 					nodeFieldContainer.nextAll().each( function() {
 						updateAPFIDsAndNames( jQuery( this ), true );
 					});
-					
+				
 					/* Call the registered callback functions */
 					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
 					

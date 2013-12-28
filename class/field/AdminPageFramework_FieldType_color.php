@@ -123,7 +123,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 						
-						/* If the input tag is not foundm do nothing  */
+						/* If the input tag is not found, do nothing  */
 						var nodeNewColorInput = node.find( 'input.input_color' );
 						if ( nodeNewColorInput.length <= 0 ) return;
 						
