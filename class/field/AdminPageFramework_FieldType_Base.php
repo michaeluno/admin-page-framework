@@ -12,8 +12,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	/**
 	 * Defines the slugs used for this field type.
 	 * This should be overridden in the extended class.
+	 * @access			public
 	 */
-	protected $aFieldTypeSlugs = array( 'default' );
+	public $aFieldTypeSlugs = array( 'default' );
 	
 	/**
 	 * Defines the default key-values of the extended field type. 

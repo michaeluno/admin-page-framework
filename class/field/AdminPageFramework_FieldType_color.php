@@ -12,7 +12,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Defines the field type slugs used for this field type.
 	 */
-	protected $aFieldTypeSlugs = array( 'color' );
+	public $aFieldTypeSlugs = array( 'color' );
 	
 	/**
 	 * Defines the default key-values of this field type. 

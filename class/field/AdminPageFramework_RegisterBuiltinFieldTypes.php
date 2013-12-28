@@ -16,32 +16,32 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 	 * @since			2.1.5
 	 */
 	protected static $aDefaultFieldTypeSlugs = array(
-		'default' => array( 'default' ),	// undefined ones will be applied 
-		'text' => array( 'text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'time', 'url', 'week' ),
-		'number' => array( 'number', 'range' ),
-		'textarea' => array( 'textarea' ),
-		// 'radio' => array( 'radio' ),
-		// 'checkbox' => array( 'checkbox' ),
-		// 'select' => array( 'select' ),
-		// 'hidden' => array( 'hidden' ),
-		// 'file' => array( 'file' ),
-		// 'submit' => array( 'submit' ),
-		// 'import' => array( 'import' ),
-		// 'export' => array( 'export' ),
-		// 'image' => array( 'image' ),
-		// 'media' => array( 'media' ),
-		'color' => array( 'color' ),
-		// 'taxonomy' => array( 'taxonomy' ),
-		// 'posttype' => array( 'posttype' ),
-		// 'size' => array( 'size' ),
+		'default', // undefined ones will be applied 
+		'text',
+		'number',
+		'textarea',
+		// 'radio',
+		// 'checkbox',
+		// 'select',
+		'hidden',
+		// 'file',
+		// 'submit',
+		// 'import',
+		// 'export',
+		// 'image',
+		// 'media',
+		'color',
+		// 'taxonomy',
+		// 'posttype',
+		// 'size',
 	);	
 	
 	function __construct( &$aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
-		foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug => $aSlugs ) {
+		foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug ) {
 			$sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
 			if ( class_exists( $sInstantiatingClassName ) ) {
 				$oFieldType = new $sInstantiatingClassName( $sExtendedClassName, null, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
-				foreach( $aSlugs as $sSlug )
+				foreach( $oFieldType->aFieldTypeSlugs as $sSlug )
 					$aFieldTypeDefinitions[ $sSlug ] = $oFieldType->getDefinitionArray();
 			}
 		}

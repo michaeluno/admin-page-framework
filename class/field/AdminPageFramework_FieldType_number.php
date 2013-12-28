@@ -12,7 +12,7 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_B
 	/**
 	 * Defines the field type slugs used for this field type.
 	 */
-	protected $aFieldTypeSlugs = array( 'number', 'range' );
+	public $aFieldTypeSlugs = array( 'number', 'range' );
 
 	/**
 	 * Defines the default key-values of this field type. 

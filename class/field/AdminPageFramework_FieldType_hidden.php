@@ -10,14 +10,15 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_hidden' ) ) :
 class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_Base {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			// 'size'					=> 1,
-		);	
-	}
-
+	public $aFieldTypeSlugs = array( 'hidden' );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 */
+	protected $aDefaultKeys = array();
+	
 	/**
 	 * Loads the field type necessary components.
 	 */ 
@@ -46,8 +47,27 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 	 * 
 	 * @since			2.0.0
 	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
+	 * @since			3.0.0				Removed unnecessary elements including the parameters.
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $aField ) {
+
+		return 
+			"<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input_tag']
+					. ( $aField['label'] && ! $aField['is_repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class
+					. $aField['after_input_tag']
+				. "</label>"
+			. "</div>"
+		;
+		
+	}
+		
+	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];

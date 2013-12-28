@@ -13,7 +13,7 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 	 * Defines the default key-values of this field type. 
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
-	protected $aDefaultKeys = array(
+	public $aDefaultKeys = array(
 		// 'attributes'	=> array(
 			// 'size'	=>	30,
 			// 'maxlength'	=>	400,

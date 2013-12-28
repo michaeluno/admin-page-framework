@@ -12,7 +12,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 	/**
 	 * Defines the field type slugs used for this field type.
 	 */
-	protected $aFieldTypeSlugs = array( 'textarea' );
+	public $aFieldTypeSlugs = array( 'textarea' );
 
 	/**
 	 * Defines the default key-values of this field type. 
