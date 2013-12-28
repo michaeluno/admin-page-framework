@@ -29,14 +29,14 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return "";		
 	}
 	
@@ -45,7 +45,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
@@ -100,7 +100,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	}	
 	
 		/**
-		 * A helper function for the above replyToGetInputField() methods.
+		 * A helper function for the above replyToGetField() methods.
 		 * 
 		 * @since			2.0.0
 		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.

@@ -76,7 +76,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return $this->getScript_FontSelector(
 				"admin_page_framework", 
 				__( 'Upload Font', 'admin-page-framework-demo' ),
@@ -242,7 +242,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return "";
 	}
 	
@@ -268,7 +268,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
@@ -299,7 +299,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	}	
 	
 		/**
-		 * A helper function for the above replyToGetInputField() method to return input elements.
+		 * A helper function for the above replyToGetField() method to return input elements.
 		 * 
 		 */
 		private function getFontInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {

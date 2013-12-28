@@ -38,7 +38,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return 
 		"	/* Rich Text Editor */
 			.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
@@ -56,7 +56,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 	 * @since			2.1.5
 	 * @since			3.0.0			Removed redundant elements including parameters.
 	 */
-	public function replyToGetInputField( $aField ) {
+	public function replyToGetField( $aField ) {
 
 		return 
 			"<div class='admin-page-framework-input-label-container'>"

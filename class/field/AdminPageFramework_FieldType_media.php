@@ -33,7 +33,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
 			. $this->getScript_MediaUploader(
 				"admin_page_framework", 
@@ -170,7 +170,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return
 		"/* Media Uploader Button */
 			.admin-page-framework-field-media input {
@@ -187,7 +187,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];

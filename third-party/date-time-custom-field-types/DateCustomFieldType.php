@@ -39,14 +39,14 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return "
 		/* Date Picker */
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
@@ -66,7 +66,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the output of the geometry custom field type.
 	 * 
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
@@ -114,7 +114,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 		
 	}	
 		/**
-		 * A helper function for the above replyToGetInputField() method.
+		 * A helper function for the above replyToGetField() method.
 		 * 
 		 */
 		private function getDatePickerEnablerScript( $sID, $sDateFormat ) {

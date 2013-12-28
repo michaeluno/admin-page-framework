@@ -27,14 +27,14 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return "";		
 	}
 	
@@ -48,7 +48,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	 * 
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];

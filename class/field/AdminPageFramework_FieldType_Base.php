@@ -93,9 +93,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		return array(
 			'sFieldTypeSlug'	=> $sFieldTypeSlug,
 			'aFieldTypeSlugs'	=> $this->aFieldTypeSlugs,
-			'hfRenderField' => array( $this, "replyToGetInputField" ),
-			'hfGetScripts' => array( $this, "replyToGetInputScripts" ),
-			'hfGetStyles' => array( $this, "replyToGetInputStyles" ),
+			'hfRenderField' => array( $this, "replyToGetField" ),
+			'hfGetScripts' => array( $this, "replyToGetScripts" ),
+			'hfGetStyles' => array( $this, "replyToGetStyles" ),
 			'hfGetIEStyles' => array( $this, "replyToGetInputIEStyles" ),
 			'hfFieldLoader' => array( $this, "replyToFieldLoader" ),
 			'aEnqueueScripts' => $this->getEnqueuingScripts(),	// urls of the scripts
@@ -109,9 +109,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	 * These methods should be overridden in the extended class.
 	 */
 	public function replytToGetInputField() { return ''; }	// should return the field output
-	public function replyToGetInputScripts() { return ''; }	// should return the script
+	public function replyToGetScripts() { return ''; }	// should return the script
 	public function replyToGetInputIEStyles() { return ''; }	// should return the style for IE
-	public function replyToGetInputStyles() { return ''; }	// should return the style
+	public function replyToGetStyles() { return ''; }	// should return the style
 	public function replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
 	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
 	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items

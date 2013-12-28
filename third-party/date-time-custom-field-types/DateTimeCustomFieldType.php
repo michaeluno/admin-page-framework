@@ -54,14 +54,14 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return "";		
 	}
 
@@ -76,7 +76,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the output of the field type.
 	 * 
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];

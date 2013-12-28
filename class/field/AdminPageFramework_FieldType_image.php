@@ -72,7 +72,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {		
+	public function replyToGetScripts() {		
 		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	
 			. $this->getScript_ImageSelector( 
 				"admin_page_framework", 
@@ -482,7 +482,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return 
 			"/* Image Field Preview Container */
 			.admin-page-framework-field .image_preview {
@@ -538,7 +538,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
@@ -569,7 +569,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	}	
 	
 		/**
-		 * A helper function for the above replyToGetInputField() method to return input elements.
+		 * A helper function for the above replyToGetField() method to return input elements.
 		 * 
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added some parameters.

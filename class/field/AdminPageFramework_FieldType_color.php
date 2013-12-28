@@ -53,7 +53,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return 
 			"/* Color Picker */
 			.repeatable .colorpicker {
@@ -91,7 +91,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * @return			string			The image selector script.
 	 * @see				https://github.com/Automattic/Iris
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		$aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "
 			registerAPFColorPickerField = function( sInputID ) {
@@ -154,17 +154,12 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	}	
 	
 	/**
-	 * Returns the output of the field type.
-	 * 
-	 * @since			2.1.5
-	 */
-	/**
-	 * Returns the output of the text input field.
+	 * Returns the output of the color field.
 	 * 
 	 * @since			2.1.5
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetInputField( $aField ) {
+	public function replyToGetField( $aField ) {
 
 		$aField['attributes'] = array(
 			'color'	=>	$aField['value'],	

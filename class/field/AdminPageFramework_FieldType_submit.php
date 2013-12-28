@@ -30,14 +30,14 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
+	public function replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	public function replyToGetStyles() {
 		return 		
 		"/* Submit Buttons */
 		.admin-page-framework-field input[type='submit'] {
@@ -49,7 +49,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 * Returns the output of the field type.
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 */
-	public function replyToGetInputField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
