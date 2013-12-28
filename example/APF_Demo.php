@@ -824,16 +824,24 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'hidden_field',
 				'title' => __( 'Single Hidden Field', 'admin-page-framework-demo' ),
 				'type' => 'hidden',
-				'default' => 'test value',
-				'label' => 'Test label.',
+				'default' => __( 'Test value', 'admin-page-framework-demo' ),
+				'label' => __( 'Test label', 'admin-page-framework-demo' ),
 			),			
 			array( // Multiple Hidden Fields
 				'field_id' => 'hidden_miltiple',
 				'section_id' => 'hidden_field',
 				'title' => 'Multiple Hidden Field',
 				'type' => 'hidden',
-				'default' => array( 'a', 'b', 'c' ),
-				'label' => array( 'Hidden Field 1', 'Hidden Field 2', 'Hidden Field 3' ),
+				'label'	=> __( 'Hidden Field 1', 'admin-page-framework-demo' ),
+				'default' => 'a',
+				array(
+					'label'	=> __( 'Hidden Field 2', 'admin-page-framework-demo' ),
+					'default'	=> 'b',
+				),
+				array(
+					'label'	=> __( 'Hidden Field 3', 'admin-page-framework-demo' ),
+					'default'	=> 'c',
+				),
 			),							
 			array( // Submit button as a link
 				'field_id' => 'submit_button_link',
