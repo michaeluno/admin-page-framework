@@ -367,6 +367,7 @@ return $vValue;
 					}					
 				
 					nodeElement.attr( 'id', function( index, name ) { return updateID( index, name ) } );
+					nodeElement.find( 'label' ).attr( 'for', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 										
@@ -404,69 +405,81 @@ return $vValue;
 					var nodeFieldContainer = jQuery( '#' + sFieldContainerID );
 					var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
 					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
-					
-					updateAPFRepeatableFields( nodeNewField );	// Rebind the click event to the buttons
+
 					nodeNewField.find( 'input,textarea' ).val( '' );	// empty the value		
 					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
 					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
-					
-					nodeNewField.insertAfter( nodeFieldContainer );		// add the cloned new field element
 
-					// Increment the names and ids of the next following siblings.
+					/* Rebind the click event to the buttons */
+					updateAPFRepeatableFields( nodeNewField );
+					
+					/* Add the cloned new field element */
+					nodeNewField.insertAfter( nodeFieldContainer );	
+					
+					/* Increment the names and ids of the next following siblings. */
 					nodeFieldContainer.nextAll().each( function() {
 						updateAPFIDsAndNames( jQuery( this ), true );
 					});
-
-					// Call the registered callback functions
+					
+					/* Call the registered callback functions */
 					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
 					
+					/* If more than one fields are created, show the Remove button */
 					var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
 					if ( nodeRemoveButtons.length > 1 ) 
 						nodeRemoveButtons.show();				
 										
-					// Return the newly created element
+					/* Return the newly created element */
 					return nodeNewField;
 					
 				}
 				
-				// This function gets triggered when the document becomes ready.
+				/* This function gets triggered when the document becomes ready. 
+					The tag id of the fields container is given for multiple fields to deal with at once.
+					Otherwise, a node object is given to deal with a singe field.
+				*/
 				updateAPFRepeatableFields = function( vTagIDOrNode ) {
-				
+
+					var sTagID = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
+						? vTagIDOrNode
+						: vTagIDOrNode.closest( '.admin-page-framework-fields' ).attr( 'id' );
+										
+					/* The Add button behaviour - if the tag id is given, multiple buttons will be selected. 
+					 * Otherwise, a field node is given and single button will be selected. */
 					var nodeAddButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
-						? jQuery( '#' + vTagIDOrNode + ' .repeatable-field-add' )
-						: vTagIDOrNode.find( '.repeatable-field-add' );
-				
-					// Add button behaviour
-					nodeAddButtons.click( function() {
+						? jQuery( '#' + sTagID + ' .repeatable-field-add' )
+						: jQuery( vTagIDOrNode ).find( '.repeatable-field-add' );
+					nodeAddButtons.click( function() {						
 						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
 						addAPFRepeatableField( nodeFieldContainer.attr( 'id' ) );
 						return false;
 					});		
 					
-					// Remove button behaviour
-					var nodeRemoveButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
-						? jQuery( '#' + vTagIDOrNode + ' .repeatable-field-remove' )
-						: vTagIDOrNode.find( '.repeatable-field-remove' );
-					nodeRemoveButtons.click( function() {
+					/* The Remove button behaviour */
+					var nodeRemobeButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
+						? jQuery( '#' + sTagID + ' .repeatable-field-remove' )
+						: jQuery( vTagIDOrNode.find( '.repeatable-field-remove' ) );
+					nodeRemobeButtons.click( function() {
 						
-						// Need to remove two elements: the field container and the delimiter element.
+						/* Need to remove the element: the field container */
 						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
-						var nodeFieldContainer_id = nodeFieldContainer.attr( 'id' );				
-
-						// Decrement the names and ids of the next following siblings.
+						var nodeFieldsContainer = jQuery( this ).closest( '.admin-page-framework-fields' );
+						
+						/* Decrement the names and ids of the next following siblings. */
 						nodeFieldContainer.nextAll().each( function() {
 							updateAPFIDsAndNames( jQuery( this ), false );	// the second parameter value indicates it's for decrement.
 						});
 
+						/* Remove the field */
 						nodeFieldContainer.remove();
-
-						var nodeRemoveButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
-							? jQuery( '#' + vTagIDOrNode + ' .repeatable-field-remove' )
-							: vTagIDOrNode.find( '.repeatable-field-remove' );						
+						
+						/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
+						var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove' );
 						var iFieldsCount = nodeRemoveButtons.length;
 						if ( iFieldsCount == 1 ) {
 							nodeRemoveButtons.css( 'display', 'none' );
 						}
+
 						return false;
 					});
 									
@@ -476,6 +489,7 @@ return $vValue;
 	}
 
 	/**
+	 * Returns the JavaScript script that adds the methods to jQuery object that enables for the user to register framework specific callback methods.
 	 * @since			3.0.0
 	 */
 	public function _replyToAddRegisterCallbackScript() {
