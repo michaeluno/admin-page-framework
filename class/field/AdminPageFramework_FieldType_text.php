@@ -48,12 +48,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 */
 	public function replyToGetInputField( $aField ) {
 
-		$aAttributes = $aField['attributes'] + array(
-			'id' => $aField['input_id'],
-			'name' => $aField['field_name'],
-			'value' => $aField['value'],
-			'type' => $aField['type'],	// text, password, etc.
-		);	
 		return 
 			"<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
@@ -62,33 +56,13 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
+					. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input_tag']
 				. "</label>"
 			. "</div>"
 		;
 		
 	}
-	
-	// public function replyToGetInputScripts() {
-		// $aJSArray = json_encode( $this->aFieldTypeSlugs );
-		// return "
-			// jQuery( document ).ready( function(){
-				// jQuery().registerAPFCallback( {				
-					// added_repeatable_field: function( node, sFieldType, sID ) {
-						// if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) {
-							// return;
-						// }
-						// console.log( 'This is a text field type.' );
-						// console.log( {$aJSArray} );
-						// console.log( 'id : '  + sID );
-						// console.log( 'type : '  + sFieldType );
-						// console.log( 'type fron node: '  + node.data( 'type' ) );
-					// }
-				// });
-			// });
-		// ";		
-	// }		
-		
+			
 }
 endif;

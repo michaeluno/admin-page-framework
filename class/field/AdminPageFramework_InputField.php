@@ -21,6 +21,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 			
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
+		unset( $aFieldTypeDefinition['aDefaultKeys']['attributes'] );	// the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
 		$this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->aOptions = $aOptions;
@@ -160,17 +161,26 @@ return $vValue;
 		/* 4. Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
 			
-			/* 4-1. Set some new elements */ 
-			$aField['index'] = $sKey;
-			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
-			$aField['field_name'] = $aField['is_multiple'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
-			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
-			
-			/* 4-2. Retrieve the field definition for this type - this process enabels to have mixed field types in sub-fields */ 
+			/* 4-1. Retrieve the field definition for this type - this process enables to have mixed field types in sub-fields */ 
 			$aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $aField['type'] ] )
 				? $this->aFieldTypeDefinitions[ $aField['type'] ] 
 				: $this->aFieldTypeDefinitions['default'];
 				
+			/* 4-2. Set some new elements */ 
+			$aField['index'] = $sKey;
+			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
+			$aField['field_name'] = $aField['is_multiple'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
+			$aField['attributes'] = ( array ) $aField['attributes']	// user set values
+				+ array(	// the automatically generated values
+					'id' => $aField['input_id'],
+					'name' => $aField['field_name'],
+					'value' => $aField['value'],
+					'type' => $aField['type'],	// text, password, etc.
+				)
+				+ ( array ) $aFieldTypeDefinition['aDefaultKeys']['attributes'];			
+			
+			/* 4-3. Callback the registered function to output the field */
+			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
 			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
 				? "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}' data-type='{$aField['type']}'>"
 					. call_user_func_array(

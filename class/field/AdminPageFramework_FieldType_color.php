@@ -21,7 +21,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 		'attributes'	=> array(
 			'size'	=>	10,
 			'maxlength'	=>	400,
-			// 'value'	=> 'transparent',	<-- todo: not sure why this breaks the user's set value.
+			'value'	=> 'transparent',
 		),	
 	);
 
@@ -166,14 +166,12 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 */
 	public function replyToGetInputField( $aField ) {
 
-		$aAttributes = $aField['attributes'] + array(
-			'id'	=>	$aField['input_id'],
-			'name'	=>	$aField['field_name'],
-			'value'	=>	$aField['value'] ? $aField['value'] : 'transparent',
-			'color'	=>	$aField['value'] ? $aField['value'] : 'transparent',	// same as the value
+		$aField['attributes'] = array(
+			'color'	=>	$aField['value'],	
 			'type'	=>	'text',	// it must be text
-		);
-		$aAttributes['class'] = trim( 'input_color ' . $aAttributes['class'] );
+			'class' =>	trim( 'input_color ' . $aField['attributes']['class'] ),
+		) + $aField['attributes'];
+
 		return 
 			"<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
@@ -182,7 +180,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
+					. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input_tag']
 				. "</label>"
 				. "<div class='colorpicker' id='color_{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )	// rel='{$aField['input_id']}'

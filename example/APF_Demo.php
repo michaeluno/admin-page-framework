@@ -481,14 +481,8 @@ class APF_Demo extends AdminPageFramework {
 				'type' => 'text',
 				'delimiter' => '',
 				'size' => 60,
-				'is_repeatable' => true,
 				'default' => 'a',
-				array(
-					'default' => 'b',
-				),
-				array(
-					'default' => 'c',
-				),
+				'is_repeatable' => true,
 			),				
 			array(	// Text Area
 				'field_id' => 'textarea',

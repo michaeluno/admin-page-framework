@@ -58,11 +58,6 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 	 */
 	public function replyToGetInputField( $aField ) {
 
-		$aAttributes = $aField['attributes'] + array(
-			'id' => $aField['input_id'],
-			'name' => $aField['field_name'],
-			'type' => $aField['type'],	// textarea
-		);	
 		return 
 			"<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
@@ -74,26 +69,26 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 					. ( ! empty( $aField['rich'] ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
 							? wp_editor( 
 								$aField['value'],
-								$aAttributes['id'],  
+								$aField['attributes']['id'],  
 								$this->uniteArrays( 
 									( array ) $aField['rich'],
 									array(
 										'wpautop' => true, // use wpautop?
 										'media_buttons' => true, // show insert/upload button(s)
-										'textarea_name' => $aAttributes['name'],
-										'textarea_rows' => $aAttributes['rows'],
+										'textarea_name' => $aField['attributes']['name'],
+										'textarea_rows' => $aField['attributes']['rows'],
 										'tabindex' => '',
 										'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
 										'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-										'editor_class' => $aAttributes['class'], // add extra class(es) to the editor textarea
+										'editor_class' => $aField['attributes']['class'], // add extra class(es) to the editor textarea
 										'teeny' => false, // output the minimal editor config used in Press This
 										'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
 										'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
 										'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
 									)
 								)
-							) . $this->_getScriptForRichEditor( $aAttributes['id'] )
-							: "<textarea " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " >"	// this method is defined in the base class
+							) . $this->_getScriptForRichEditor( $aField['attributes']['id'] )
+							: "<textarea " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " >"	// this method is defined in the base class
 									. $aField['value']
 								. "</textarea>"
 					)
@@ -124,26 +119,6 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 			</script>";		
 			
 		}	
-
-	// public function replyToGetInputScripts() {
-		// $aJSArray = json_encode( $this->aFieldTypeSlugs );
-		// return "
-			// jQuery( document ).ready( function(){
-				// jQuery().registerAPFCallback( {				
-					// added_repeatable_field: function( node, sFieldType, sID ) {
-						// if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) {
-							// return;
-						// }
-						// console.log( 'This is a textarea field type.' );
-						// console.log( {$aJSArray} );
-						// console.log( 'id : '  + sID );
-						// console.log( 'type : '  + sFieldType );
-						// console.log( 'type fron node: '  + node.data( 'type' ) );
-					// }
-				// });
-			// });
-		// ";		
-	// }	
 		
 }
 endif;

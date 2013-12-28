@@ -44,12 +44,6 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_B
 	 */
 	public function replyToGetInputField( $aField ) {
 
-		$aAttributes = $aField['attributes'] + array(
-			'id' => $aField['input_id'],
-			'name' => $aField['field_name'],
-			'value' => $aField['value'],
-			'type' => $aField['type'],	// number
-		);	
 		return 
 			"<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
@@ -58,7 +52,7 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_B
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
+					. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input_tag']
 				. "</label>"
 			. "</div>"
