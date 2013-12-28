@@ -66,53 +66,6 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 		;
 		
 	}
-		
-	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['label'];		
-				
-		foreach( ( array ) $vValue as $sKey => $sValue ) 
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$tag_id}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
-							. ( ( $sLabel = $this->getCorrespondingArrayValue( $aField['label'], $sKey, $_aDefaultKeys['label'] ) ) 
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>{$sLabel}</span>" 
-								: "" 
-							)
-							. "<div class='admin-page-framework-input-container'>"
-								. "<input "
-									. "id='{$tag_id}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-									. "type='{$aField['type']}' "	// hidden
-									. "name=" . ( is_array( $aField['label'] ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
-									. "value='" . $sValue  . "' "
-									. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-								. "/>"
-							. "</div>"
-							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-					
-		return "<div class='admin-page-framework-field-hidden' id='{$tag_id}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";
-		
-	}
-
+	
 }
 endif;
