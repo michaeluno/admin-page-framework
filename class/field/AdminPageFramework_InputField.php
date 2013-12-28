@@ -334,8 +334,8 @@ return $vValue;
 	 */
 	private function _getRepeaterScriptGlobal( $sID ) {
 
-		if ( $this->bIsRepeatableScriptCalled ) return '';
-		$this->bIsRepeatableScriptCalled = true;
+		if ( isset( $GLOBALS['aAdminPageFramework']['bIsRepeatableScriptCalled'] ) && $GLOBALS['aAdminPageFramework']['bIsRepeatableScriptCalled'] ) return '';
+		$GLOBALS['aAdminPageFramework']['bIsRepeatableScriptCalled'] = true;
 		return 
 		"<script type='text/javascript'>
 			jQuery( document ).ready( function() {
