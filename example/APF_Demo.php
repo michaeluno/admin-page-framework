@@ -809,8 +809,14 @@ class APF_Demo extends AdminPageFramework {
 				'section_id' => 'color_picker',
 				'title' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
 				'type' => 'color',
-				'label' => array( 'First Color', 'Second Color', 'Third Color' ),
+				'label' => __( 'First Color', 'admin-page-framework-demo' ),
 				'delimiter' => '<br />',
+				array(
+					'label' => __( 'Second Color', 'admin-page-framework-demo' ),
+				),
+				array(
+					'label' => __( 'Third Color', 'admin-page-framework-demo' ),
+				),				
 			),				
 			array( // Repeatable Color Pickers
 				'field_id' => 'color_picker_repeatable_field',
@@ -1255,7 +1261,6 @@ class APF_Demo extends AdminPageFramework {
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
 		if ( isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['submit_delete_options_confirmation'] ) ) 
 			return array();
-			
 		return $aInput;
 		
 	}

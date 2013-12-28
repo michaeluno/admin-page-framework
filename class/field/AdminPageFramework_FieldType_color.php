@@ -21,6 +21,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 		'attributes'	=> array(
 			'size'	=>	10,
 			'maxlength'	=>	400,
+			// 'value'	=> 'transparent',	<-- todo: not sure why this breaks the user's set value.
 		),	
 	);
 
@@ -91,11 +92,12 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * @see				https://github.com/Automattic/Iris
 	 */ 
 	public function replyToGetInputScripts() {
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "
 			registerAPFColorPickerField = function( sInputID ) {
 				'use strict';
-				// This if statement checks if the color picker element exists within jQuery UI
-				// If it does exist then we initialize the WordPress color picker on our text input field
+				/* This if statement checks if the color picker element exists within jQuery UI
+				 If it does exist then we initialize the WordPress color picker on our text input field */
 				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
 					var myColorPickerOptions = {
 						defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
@@ -107,11 +109,48 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 					jQuery( '#' + sInputID ).wpColorPicker( myColorPickerOptions );
 				}
 				else {
-					// We use farbtastic if the WordPress color picker widget doesn't exist
+					/* We use farbtastic if the WordPress color picker widget doesn't exist */
 					jQuery( '#color_' + sInputID ).farbtastic( '#' + sInputID );
 				}
 			}
-		";		
+			
+			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
+				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+						
+						/* If the input tag is not foundm do nothing  */
+						var nodeNewColorInput = node.find( 'input.input_color' );
+						if ( nodeNewColorInput.length <= 0 ) return;
+						
+						var sInputID = nodeNewColorInput.attr( 'id' );
+		
+						/* Reset the value of the color picker */
+						var sInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent';	// For WP 3.4.x or below
+						var sInputStyle = sInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
+						nodeNewColorInput.val( sInputValue );	// set the default value	
+						nodeNewColorInput.attr( 'style', sInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
+						
+						/* Replace the old color picker elements with the new one */
+						nodeIris = node.find( '#' + sInputID ).closest( '.wp-picker-container' );	
+						if ( nodeIris.length > 0 ) {	// WP 3.5+
+							jQuery( nodeIris ).replaceWith( nodeNewColorInput );
+						} 
+						else {	// WP 3.4.x -				
+							node.find( '.colorpicker' ).replaceWith( '<div class=\'colorpicker\' id=\'color_' + sInputID + '\'></div>' );	
+						}
+					
+						/* Bind the color picker script */					
+						registerAPFColorPickerField( sInputID );						
+						
+					}
+				});
+			});
+		";				
 	}	
 	
 	/**
@@ -130,9 +169,9 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 		$aAttributes = $aField['attributes'] + array(
 			'id'	=>	$aField['input_id'],
 			'name'	=>	$aField['field_name'],
-			'value'	=>	$aField['value'],
+			'value'	=>	$aField['value'] ? $aField['value'] : 'transparent',
+			'color'	=>	$aField['value'] ? $aField['value'] : 'transparent',	// same as the value
 			'type'	=>	'text',	// it must be text
-			'color'	=>	$aField['value'],	// same as the value
 		);
 		$aAttributes['class'] = trim( 'input_color ' . $aAttributes['class'] );
 		return 
@@ -146,7 +185,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 					. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class
 					. $aField['after_input_tag']
 				. "</label>"
-				. "<div class='colorpicker' id='color_{$aField['input_id']}' rel='{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )
+				. "<div class='colorpicker' id='color_{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )	// rel='{$aField['input_id']}'
 				. $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )				
 			. "</div>"
 		;
@@ -163,7 +202,6 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 					});
 				</script>";
 		}	
-
 	
 }
 endif;

@@ -360,51 +360,6 @@ return $vValue;
 					nodeElement.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 										
-					// Color Pickers
-					var nodeColorInput = nodeElement.find( 'input.input_color' );
-					if ( nodeColorInput.length > 0 ) {
-						
-							var previous_id = nodeColorInput.attr( 'id' );
-							
-							if ( fIncrementOrDecrement > 0 ) {	// Add
-					
-								// For WP 3.5+
-								var nodeNewColorInput = nodeColorInput.clone();	// re-clone without bind events.
-								
-								// For WP 3.4.x or below
-								var sInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent';
-								var sInputStyle = sInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
-								
-								nodeNewColorInput.val( sInputValue );	// set the default value	
-								nodeNewColorInput.attr( 'style', sInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
-								
-								var nodeFarbtastic = nodeElement.find( '.colorpicker' );
-								var nodeNewFarbtastic = nodeFarbtastic.clone();	// re-clone without bind elements.
-								
-								// Remove the old elements
-								nodeIris = jQuery( '#' + previous_id ).closest( '.wp-picker-container' );	
-								if ( nodeIris.length > 0 ) {	// WP 3.5+
-									nodeIris.remove();	
-								} else {
-									jQuery( '#' + previous_id ).remove();	// WP 3.4.x or below
-									nodeElement.find( '.colorpicker' ).remove();	// WP 3.4.x or below
-								}
-							
-								// Add the new elements
-								nodeElement.prepend( nodeNewFarbtastic );
-								nodeElement.prepend( nodeNewColorInput );
-								
-							}
-							
-							nodeElement.find( '.colorpicker' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-							nodeElement.find( '.colorpicker' ).attr( 'rel', function( index, name ){ return updateID( index, name ) } );					
-
-							// Renew the color picker script
-							var cloned_id = nodeElement.find( 'input.input_color' ).attr( 'id' );
-							registerAPFColorPickerField( cloned_id );					
-					
-					}
-
 					// Image uploader buttons and image preview elements
 					image_uploader_button = nodeElement.find( '.select_image' );
 					if ( image_uploader_button.length > 0 ) {
@@ -444,9 +399,6 @@ return $vValue;
 					nodeNewField.find( 'input,textarea' ).val( '' );	// empty the value		
 					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
 					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
-
-					// Call the registered callback functions
-					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
 					
 					nodeNewField.insertAfter( nodeFieldContainer );		// add the cloned new field element
 
@@ -454,7 +406,10 @@ return $vValue;
 					nodeFieldContainer.nextAll().each( function() {
 						updateAPFIDsAndNames( jQuery( this ), true );
 					});
-		
+
+					// Call the registered callback functions
+					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
+					
 					var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
 					if ( nodeRemoveButtons.length > 1 ) 
 						nodeRemoveButtons.show();				
