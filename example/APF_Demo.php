@@ -612,7 +612,8 @@ class APF_Demo extends AdminPageFramework {
 				'description' => __( 'Choose one from the radio buttons.', 'admin-page-framework-demo' ),
 				'type' => 'radio',
 				'label' => array( 'a' => 'apple', 'b' => 'banana', 'c' => 'cherry' ),
-				'default' => 'b',	// banana				
+				'default' => 'b',	// banana, its key is specified
+				'after_input_tag' => '<br />',
 			),
 			array(	// Multiple sets of radio buttons
 				'field_id' => 'radio_multiple',
@@ -641,24 +642,50 @@ class APF_Demo extends AdminPageFramework {
 				'default' => 1,
 				'is_repeatable'	=> true,
 			),			
-			array(	// Single Checkbox
+			array(	// Single checkbox item - set a check box item to the 'label' element.
 				'field_id' => 'checkbox',
 				'section_id' => 'selectors',
-				'title' => 'Single Checkbox',
-				'tip' => 'The description key can be omitted though.',
-				'description' => 'Check box\'s label can be a string, not an array.',	//'
+				'title' => __( 'Single Checkbox', 'admin-page-framework-demo' ),
+				'tip' => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
+				'description' => __( 'Check box\'s label can be a string, not an array.', 'admin-page-framework-demo' ),	//' syntax fixer
 				'type' => 'checkbox',
-				'label' => 'One',	// notice that the label key is not an array
-				'default' => False,
+				'label' => __( 'Check me.', 'admin-page-framework-demo' ),
+				'default' => false,
 			),	
-			array(	// Multiple Checkboxes
-				'field_id' => 'checkboxes',
+			array(	// Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
+				'field_id' => 'checkbox_multiple_items',
 				'section_id' => 'selectors',
-				'title' => 'Multiple Checkboxes',
-				'description' => 'The description can be omitted.',
+				'title' => __( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
+				'description' => __( 'The description can be omitted.', 'admin-page-framework-demo' ),
 				'type' => 'checkbox',
 				'label' => array( 'moon' => 'Moon', 'earth' => 'Earth', 'sun' => 'Sun', 'mars' => 'Mars' ),
-				'default' => array( 'moon' => True, 'earth' => False, 'sun' => True, 'mars' => False ),
+				'after_input_tag'	=> '<br />',
+				'default' => array( 'moon' => true, 'earth' => false, 'sun' => true, 'mars' => false ),
+			),
+			array(	// Multiple sets of checkbox fields
+				'field_id'	=> 'checkbox_multiple_fields',
+				'section_id'	=> 'selectors',
+				'title'	=>	__( 'Multiple Sets of Checkboxes', 'admin-page-framework-demo' ),
+				'type'	=>	'checkbox',
+				'label'	=>	array( 'a' => 'A', 'b' => 'B', 'c' => 'C' ),
+				'default'	=>	array( 'a' => false, 'b' => true, 'c' => false ),
+				'delimiter'	=> '<hr />',
+				array(
+					'label'	=>	array( 'd' => 'D', 'e' => 'E', 'f' => 'F' ),
+					'default'	=>	array( 'd' => true, 'e' => false, 'f' => false ),
+				),
+				array(
+					'label'	=>	array( 'g' => 'G', 'h' => 'H', 'i' => 'I' ),
+					'default'	=>	array( 'g' => false, 'h' => false, 'i' => true ),
+				),					
+			),
+			array(
+				'field_id'	=> 'checkbox_repeatable_fields',
+				'section_id'	=> 'selectors',
+				'title'	=> __( 'Repeatable Checkboxes', 'admin-page-framework-demo' ),
+				'type'	=> 'checkbox',
+				'label'	=> array( 'x', 'y', 'z' ),
+				'is_repeatable' => true,
 			),
 			array(	// Size
 				'field_id'		=> 'size_filed',

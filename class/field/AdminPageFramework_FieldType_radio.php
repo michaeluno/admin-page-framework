@@ -81,18 +81,19 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 				'data-default' => $aField['default'],
 			) + $aField['attributes'];
 			$aOutput[] = 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
+				$aField['before_input_tag']			
+				. "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
 					. "<label for='{$aField['attributes']['id']}'>"
-						. $aField['before_input_tag']			
-							. "<span class='admin-page-framework-input-container'>"
-								. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class	
-							. "</span>"
-							. "<span class='admin-page-framework-input-label-string'>"
-								. $sLabel
-							. "</span>"						
-						. $aField['after_input_tag']
+						. "<span class='admin-page-framework-input-container'>"
+							. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class	
+						. "</span>"
+						. "<span class='admin-page-framework-input-label-string'>"
+							. $sLabel
+						. "</span>"	
 					. "</label>"					
-				. "</div>";
+				. "</div>"
+				. $aField['after_input_tag'];
+				
 		}
 		return implode( PHP_EOL, $aOutput );
 			
