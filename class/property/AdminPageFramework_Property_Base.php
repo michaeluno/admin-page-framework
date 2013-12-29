@@ -124,7 +124,8 @@ abstract class AdminPageFramework_Property_Base {
 			clear: both; 
 			margin-top: 16px;
 		} 		
-
+				
+		/* Contextual Help Page */
 		.contextual-help-description {
 			clear: left;	
 			display: block;
@@ -132,6 +133,14 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.contextual-help-tab-title {
 			font-weight: bold;
+		}
+
+		/* HR */
+		.admin-page-framework-fields hr {
+			border: 0; 
+			height: 0;
+			border-top: 1px solid #dfdfdf; 
+			
 		}
 		
 		/* Delimiter */
