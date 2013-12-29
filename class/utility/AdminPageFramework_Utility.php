@@ -232,5 +232,16 @@ class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 		return $sCallerFilePath;
 	}	
 	
+	/**
+	 * Determines whether the key is the last element of an array.
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function isLastElement( array $aArray, $sKey ) {
+		end( $aArray );
+		return $sKey === key( $aArray );
+	}	
+		
+	
 }
 endif;
