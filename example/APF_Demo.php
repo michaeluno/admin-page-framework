@@ -558,12 +558,17 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Single Drop-down List
 				'field_id' => 'select',
 				'section_id' => 'selectors',
-				'title' => 'Dropdown List',
-				'description' => 'This is a drop down list.',
-				'help' => __( 'This is the <em>select</em> field type.', 'admin-page-framework' ),
+				'title' => __( 'Dropdown List', 'admin-page-framework-demo' ),
 				'type' => 'select',
-				'default' => 2,
-				'label' => array( 'red', 'blue', 'yellow', 'orange' )
+				'description' => __( 'This is a drop down list.', 'admin-page-framework-demo' ),
+				'help' => __( 'This is the <em>select</em> field type.', 'admin-page-framework-demo' ),
+				'default' => 2,	// the index key of the label array below which yields 'Yellow'.
+				'label' => array( 
+					0	=>	'Red', 
+					1	=>	'Blue',
+					2	=>	'Yellow',
+					3	=>	'Orange',
+				),
 			),	
 			array(	// Single Drop-down List with Multiple Options
 				'field_id' => 'select_multiple_options',
@@ -572,37 +577,38 @@ class APF_Demo extends AdminPageFramework {
 				'description' => __( 'Press the Shift key to select multiple items.', 'admin-page-framework-demo' ),
 				'help' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
 				'type' => 'select',
-				'vMultiple' => true,
-				'default' => 2,
+				'is_multiple' => true,
+				'default' => 3,	// note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array..
 				'size' => 10,	
-				'vWidth' => '200px',	// The width property value of CSS.
-				'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' )
+				// 'vWidth' => '200px',	// The width property value of CSS.
+				'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
 			),			
 			array(	// Drop-down Lists with Mixed Types
-				'field_id' => 'select_mixed',
+				'field_id' => 'select_multiple_fields',
 				'section_id' => 'selectors',
-				'title' => __( 'Multiple Dropdown Lists with Mixed Types', 'admin-page-framework-demo' ),
+				'title' => __( 'Multiple Dropdown Lists Fields', 'admin-page-framework-demo' ),
 				'description' => __( 'This is multiple sets of drop down list.', 'admin-page-framework-demo' ),
 				'type' => 'select',
-				'label' => array( 
-					array( 'dark', 'light' ),
-					array( 'river', 'mountain', 'sky', ),
-					array( 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
+				'label' => array( 'dark', 'light' ),
+				'default' => 1,
+				'attributes' => array(	// the 'attributes' array element for the select type has two keys: 'select' and 'option'. The both implies the tag name of the field and set the attributes in each array.
+					'select' => array(
+						'size' => 1,
+					)
 				),
-				'size' => array(
-					1,
-					1,
-					5,
+				array(
+					'label'	=>	array( 'river', 'mountain', 'sky', ),
+					'default'	=>	2,
 				),
-				'default' => array(
-					1,
-					2,
-					0
-				),
-				'vMultiple' => array(
-					false,	// normal
-					false,	// normal
-					true,	// multiple options
+				array(
+					'label'	=>	array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
+					'default'	=>	array( 3, 4 ),
+					'attributes' => array(
+						'select'	=> array(
+							'size' => 5,
+							'multiple'	=> 'multiple',	// instead of 'is_multiple'	=> true, it is possible by setting it by the attribute key.
+						),
+					)					
 				),
 			),					
 			array(	// Single set of radio buttons

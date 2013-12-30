@@ -31,7 +31,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 			'vMin'						=> null,
 			'vMax'						=> null,
 			'vStep'						=> null,
-			'vMultiple'					=> false,
+			'is_multiple'					=> false,
 			'vWidth'					=> '',
 		);	
 	}
@@ -114,7 +114,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 						. "<select id='{$tag_id}_{$sKey}' class='size-field-select'"	// select field
 							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
 							. "type='{$aField['type']}' "
-							. ( ( $bMultipleOptions = $this->getCorrespondingArrayValue( $aField['vMultiple'], $sKey, $_aDefaultKeys['vMultiple'] ) ) ? "multiple='Multiple' " : '' )
+							. ( ( $bMultipleOptions = $this->getCorrespondingArrayValue( $aField['is_multiple'], $sKey, $_aDefaultKeys['is_multiple'] ) ) ? "multiple='Multiple' " : '' )
 							. "name=" . ( $bSingle ? "'{$field_name}[unit]" : "'{$field_name}[{$sKey}][unit]" ) . ( $bMultipleOptions ? "[]' " : "' " )						
 							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 							. "size=" . ( $this->getCorrespondingArrayValue( $aField['vUnitSize'], $sKey, $_aDefaultKeys['vUnitSize'] ) ) . " "

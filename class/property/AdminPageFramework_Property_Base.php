@@ -180,7 +180,6 @@ abstract class AdminPageFramework_Property_Base {
 			padding-right: 1em; 
 		}
 		.admin-page-framework-field-radio .admin-page-framework-input-label-container,
-		.admin-page-framework-field-select .admin-page-framework-input-label-container,
 		.admin-page-framework-field-checkbox .admin-page-framework-input-label-container 
 		{
 			padding-right: 1em;
@@ -191,11 +190,7 @@ abstract class AdminPageFramework_Property_Base {
 			vertical-align: middle; 
 		}
 		
-		.admin-page-framework-field-select .admin-page-framework-field .admin-page-framework-input-label-container
-		{
-			vertical-align: top; 
-		}
-		.admin-page-framework-field-image .admin-page-framework-field .admin-page-framework-input-label-container {			
+		.admin-page-framework-field-image .admin-page-framework-input-label-container {			
 			vertical-align: middle;
 		}
 		.admin-page-framework-field .admin-page-framework-input-label-container,
@@ -209,13 +204,13 @@ abstract class AdminPageFramework_Property_Base {
 			margin-top: 2px;
 		}
 		
-		.admin-page-framework-field-posttype .admin-page-framework-field input[type='checkbox'] { 
+		.admin-page-framework-field-posttype input[type='checkbox'] { 
 			margin-top: 0px;
 		}
-		.admin-page-framework-field-posttype .admin-page-framework-field {
+		.admin-page-framework-field-posttype {
 			display: inline-block;
 		}
-		.admin-page-framework-field-radio .admin-page-framework-field .admin-page-framework-input-container {
+		.admin-page-framework-field-radio .admin-page-framework-input-container {
 			display: inline;
 		}
 		

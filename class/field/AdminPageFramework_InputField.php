@@ -157,7 +157,8 @@ return $vValue;
 
 		/* 3. Compose fields array for sub-fields	*/
 		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
-		
+// if ( $this->aField['field_id'] == 'select_multiple_options' )
+	// var_dump( $aFields );		
 		/* 4. Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
 			
@@ -169,16 +170,18 @@ return $vValue;
 			/* 4-2. Set some new elements */ 
 			$aField['index'] = $sKey;
 			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
-			$aField['field_name'] = $aField['is_multiple'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
-			$aField['attributes'] = ( array ) $aField['attributes']	// user set values
-				+ array(	// the automatically generated values
+			$aField['field_name'] = $aField['_is_multiple_fields'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
+			$aField['attributes'] = $this->uniteArrays(
+				( array ) $aField['attributes'],	// user set values
+				array(	// the automatically generated values
 					'id' => $aField['input_id'],
 					'name' => $aField['field_name'],
 					'value' => $aField['value'],
 					'type' => $aField['type'],	// text, password, etc.
-				)
-				+ ( array ) $aFieldTypeDefinition['aDefaultKeys']['attributes'];			
-			
+				),
+				( array ) $aFieldTypeDefinition['aDefaultKeys']['attributes']
+			);
+
 			/* 4-3. Callback the registered function to output the field */        			
 			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
 			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
@@ -254,12 +257,12 @@ return $vValue;
 			/* Set the saved values */		
 			if ( count( $aSubFields ) > 0 || $aField['is_repeatable'] || $aField['is_sortable'] ) {	// means the elements are saved in an array.
 				foreach( $aFields as $iIndex => &$aThisField ) {
-					$aThisField['saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null;
-					$aThisField['is_multiple'] = true;
+					$aThisField['_saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null;
+					$aThisField['_is_multiple_fields'] = true;
 				}
 			} else {
-				$aFields[ 0 ]['saved_value'] = $vSavedValue;
-				$aFields[ 0 ]['is_multiple'] = false;
+				$aFields[ 0 ]['_saved_value'] = $vSavedValue;
+				$aFields[ 0 ]['_is_multiple_fields'] = false;
 			} 
 
 			/* Determine the value */
@@ -267,8 +270,8 @@ return $vValue;
 			foreach( $aFields as &$aThisField ) 
 				$aThisField['value'] = isset( $aThisField['value'] ) 
 					? $aThisField['value'] 
-					: ( isset( $aThisField['saved_value'] ) 
-						? $aThisField['saved_value']
+					: ( isset( $aThisField['_saved_value'] ) 
+						? $aThisField['_saved_value']
 						: ( isset( $aThisField['default'] )
 							? $aThisField['default']
 							: null

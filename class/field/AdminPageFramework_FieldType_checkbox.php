@@ -47,6 +47,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 	 * Returns the output of the field type.
 	 * 
 	 * @since			2.1.5
+	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
 	public function replyToGetField( $aField ) {
 
@@ -61,7 +62,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 			) + $aField['attributes'];
 			$aOutput[] =
 				$aField['before_input_tag']
-				. "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
+				. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: {$aField['label_min_width']}px;'>"
 					. "<label for='{$aAttributes['id']}'>"
 						. "<span class='admin-page-framework-input-container'>"
 							. "<input type='hidden' name='{$aAttributes['name']}' value='0' />"	// the unchecked value must be set prior to the checkbox input field.
