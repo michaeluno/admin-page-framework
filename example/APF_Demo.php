@@ -564,25 +564,62 @@ class APF_Demo extends AdminPageFramework {
 				'help' => __( 'This is the <em>select</em> field type.', 'admin-page-framework-demo' ),
 				'default' => 2,	// the index key of the label array below which yields 'Yellow'.
 				'label' => array( 
-					0	=>	'Red', 
+					0	=>	'Red',		
 					1	=>	'Blue',
 					2	=>	'Yellow',
 					3	=>	'Orange',
 				),
+				'description'	=> __( 'The key of the array of the <code>label</code> element serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-demo' )
+					. ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> element, specify the KEY.', 'admin-page-framework-demo' ),
 			),	
 			array(	// Single Drop-down List with Multiple Options
 				'field_id' => 'select_multiple_options',
 				'section_id' => 'selectors',
 				'title' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
-				'description' => __( 'Press the Shift key to select multiple items.', 'admin-page-framework-demo' ),
 				'help' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
 				'type' => 'select',
 				'is_multiple' => true,
 				'default' => 3,	// note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array..
 				'size' => 10,	
-				// 'vWidth' => '200px',	// The width property value of CSS.
 				'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
-			),			
+				'description' => __( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
+			),	
+			array(	// Single Drop-down List with Multiple Options
+				'field_id' => 'select_multiple_groups',
+				'section_id' => 'selectors',
+				'title' => __( 'Dropdown List with Groups', 'admin-page-framework-demo' ),
+				'type' => 'select',
+				'default' => 'b',
+				'label' => array( 	
+					'alphabets'	=>	array( 	// the key must be unique throughout this 'label' element array.
+						'a'	=>	'a', 	
+						'b'	=>	'b', 
+						'c'	=>	'c',
+					),
+					'numbers'	=>	array( 
+						0	=>	'0',
+						1	=>	'1',
+						2	=>	'2', 
+					),
+				),
+				'attributes'	=>	array(
+					'select'	=> array(
+						'style'	=> "width: 200px;",
+					),
+					'option'	=> array(
+						1		=> array(
+							'disabled'	=> 'Disabled',
+							'style'		=>	'background-color: #ECECEC; color: #888;',
+						),
+					),
+					'optgroup'	=> array(
+						'style'	=> 'background-color: #DDD',
+					)
+				),
+				'description'	=> __( 'To create grouped options, pass arrays with the key of the group label and pass the options as an array inside them.', 'admin-page-framework-demo' )
+					. ' ' . __( 'To style the pulldown(dropdown) list, use the <code>attributes</code> key. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-demo' ),
+
+			),				
 			array(	// Drop-down Lists with Mixed Types
 				'field_id' => 'select_multiple_fields',
 				'section_id' => 'selectors',
@@ -591,7 +628,7 @@ class APF_Demo extends AdminPageFramework {
 				'type' => 'select',
 				'label' => array( 'dark', 'light' ),
 				'default' => 1,
-				'attributes' => array(	// the 'attributes' array element for the select type has two keys: 'select' and 'option'. The both implies the tag name of the field and set the attributes in each array.
+				'attributes' => array(	
 					'select' => array(
 						'size' => 1,
 					)

@@ -186,6 +186,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the ability to set tag attributes with the `attributes` key by passing an array with the key of the attribute name and the value of the property value for input fields.
 * Added: the ability to mix field types in sub-fields.
 * Changed: ( ***Breaking Change*** ) the structure of field arrays which define how the field should be rendered.
 * Changed: ( ***Breaking Change*** ) dropped the section from the saved option array structure.

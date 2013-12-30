@@ -9,7 +9,6 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_select' ) ) :
  */
 class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_Base {
 	
-	
 	/**
 	 * Defines the field type slugs used for this field type.
 	 */
@@ -28,9 +27,8 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 				'multiple'	=> '',	// set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
 				'required'	=> '',		
 			),
-			'option'	=> array(
-			
-			),
+			'optgroup'	=> array(),
+			'option'	=> array(),
 		),
 	);
 
@@ -81,7 +79,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 				. "<label for='{$aField['input_id']}'>"
 					. "<span class='admin-page-framework-input-container'>"
 						. "<select " . $this->getHTMLTagAttributesFromArray( $aField['attributes']['select'] ) . " >"
-							. $this->_getOptionTags( $aField )
+							. $this->_getOptionTags( $aField, $aField['label'] )
 						. "</select>"
 					. "</span>"
 				. "</label>"					
@@ -98,12 +96,28 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 		 * @since			3.0.0			Reconstructed entirely.
 		 * @internal
 		 */ 	
-		private function _getOptionTags( &$aField ) {
+		private function _getOptionTags( &$aField, $aLabel ) {
 			
 			$aOutput = array();
 			$aValue = ( array ) $aField['attributes']['value'];
-			foreach( $aField['label'] as $sKey => $sLabel ) {
+			foreach( $aLabel as $sKey => $asLabel ) {
 				
+				// For the optgroup tag,
+				if ( is_array( $asLabel ) ) {	// optgroup
+				
+					$aAttributes = isset( $aField['attributes']['optgroup'][ $sKey ] ) && is_array( $aField['attributes']['optgroup'][ $sKey ] )
+						? $aField['attributes']['optgroup'][ $sKey ] + $aField['attributes']['optgroup']
+						: $aField['attributes']['optgroup'];
+						
+					$aOutput[] = 
+						"<optgroup label='{$sKey}'" . $this->getHTMLTagAttributesFromArray( $aAttributes ) . ">"
+						. $this->_getOptionTags( $aField, $asLabel )
+						. "</optgroup>";
+					continue;
+					
+				}
+				
+				// For the option tag,
 				$aValue = isset( $aField['attributes']['option'][ $sKey ]['value'] )
 					? $aField['attributes']['option'][ $sKey ]['value']
 					: $aValue;
@@ -112,11 +126,14 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 					'id'	=> $aField['input_id'] . '_' . $sKey,
 					'value'	=> $sKey,
 					'selected'	=> in_array( $sKey, $aValue ) ? 'Selected' : '',
-				) + $aField['attributes']['option'];
+				) + ( isset( $aField['attributes']['option'][ $sKey ] ) && is_array( $aField['attributes']['option'][ $sKey ] )
+					? $aField['attributes']['option'][ $sKey ] + $aField['attributes']['option']
+					: $aField['attributes']['option']
+				);
 				
 				$aOutput[] =
 					"<option " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " >"	
-						. $sLabel
+						. $asLabel
 					. "</option>";
 					
 			}
@@ -124,67 +141,5 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 			
 		}
 		
-	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-
-		if ( ! is_array( $aField['label'] ) ) return;	
-
-		$bSingle = ( $this->getArrayDimension( ( array ) $aField['label'] ) == 1 );
-		$aLabels = $bSingle ? array( $aField['label'] ) : $aField['label'];
-		foreach( $aLabels as $sKey => $label ) {
-			
-			$bMultiple = $this->getCorrespondingArrayValue( $aField['is_multiple'], $sKey, $_aDefaultKeys['is_multiple'] );
-			$aOutput[] = 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
-					. "<label for='{$tag_id}_{$sKey}'>"
-						. "<span class='admin-page-framework-input-container'>"
-							. "<select id='{$tag_id}_{$sKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-								. "type='{$aField['type']}' "
-								. ( $bMultiple ? "multiple='Multiple' " : '' )
-								. "name=" . ( $bSingle ? "'{$field_name}" : "'{$field_name}[{$sKey}]" ) . ( $bMultiple ? "[]' " : "' " )
-								. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-								. "size=" . ( $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) ) . " "
-								. ( ( $sWidth = $this->getCorrespondingArrayValue( $aField['vWidth'], $sKey, $_aDefaultKeys['vWidth'] ) ) ? "style='width:{$sWidth};' " : "" )
-							. ">"
-								. $this->getOptionTags( $label, $vValue, $tag_id, $sKey, $bSingle, $bMultiple )
-							. "</select>"
-						. "</span>"
-					. "</label>"
-				. "</div>";
-				
-		}
-	}		
-		/**
-		 * A helper function for the above replyToGetField() methods.
-		 * 
-		 * @since			2.0.0
-		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
-		 * @since			2.1.5			Added the $tag_id parameter.
-		 */ 
-		private function getOptionTags( $aLabels, $vValue, $tag_id, $sIterationID, $bSingle, $bMultiple=false ) {	
-
-			$aOutput = array();
-			foreach ( $aLabels as $sKey => $sLabel ) {
-				$aValue = $bSingle ? ( array ) $vValue : ( array ) $this->getCorrespondingArrayValue( $vValue, $sIterationID, array() ) ;
-				$aOutput[] = "<option "
-						. "id='{$tag_id}_{$sIterationID}_{$sKey}' "
-						. "value='{$sKey}' "
-						. (	$bMultiple 
-							? ( in_array( $sKey, $aValue ) ? 'selected="Selected"' : '' )
-							: ( $this->getCorrespondingArrayValue( $vValue, $sIterationID, null ) == $sKey ? "selected='Selected'" : "" )
-						)
-					. ">"
-						. $sLabel
-					. "</option>";
-			}
-			return implode( '', $aOutput );
-		}
-	
 }
 endif;
