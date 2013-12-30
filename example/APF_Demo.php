@@ -34,60 +34,60 @@ class APF_Demo extends AdminPageFramework {
 		$this->addSubMenuItems(
 			/* 	
 			  for sub-menu pages, e.g.
-			  	'title' => 'Your Page Title',
-				'page_slug' => 'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
-				'screen_icon' => 'edit',
-				'capability' => 'manage-options',
-				'order' => 10,
+			  	'title'	=>	'Your Page Title',
+				'page_slug'	=>	'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
+				'screen_icon'	=>	'edit',
+				'capability'	=>	'manage-options',
+				'order'	=>	10,
 				
 			  for sub-menu links, e.g.
-				'title' => 'Google',
-				'href' => 'http://www.google.com',
+				'title'	=>	'Google',
+				'href'	=>	'http://www.google.com',
 				
 			*/
 			array(
-				'title' => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
-				'page_slug' => 'apf_builtin_field_types',
-				'screen_icon' => 'options-general',	// one of the screen type from the below can be used.
+				'title'	=>	__( 'Built-in Field Types', 'admin-page-framework-demo' ),
+				'page_slug'	=>	'apf_builtin_field_types',
+				'screen_icon'	=>	'options-general',	// one of the screen type from the below can be used.
 				/*	Screen Types:
 					'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
 				*/							
-				'order' => 1,	// optional
+				'order'	=>	1,	// optional
 			),
 			array(
-				'title' => __( 'Custom Field Types', 'admin-page-framework-demo' ),
-				'page_slug' => 'apf_custom_field_types',
-				'screen_icon' => 'options-general',
-				'order' => 2,	// optional
+				'title'	=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
+				'page_slug'	=>	'apf_custom_field_types',
+				'screen_icon'	=>	'options-general',
+				'order'	=>	2,	// optional
 			),			
 			array(
-				'title' => __( 'Manage Options', 'admin-page-framework-demo' ),
-				'page_slug' => 'apf_manage_options',
-				'screen_icon' => 'link-manager',	
-				'order' => 3,	// optional
+				'title'	=>	__( 'Manage Options', 'admin-page-framework-demo' ),
+				'page_slug'	=>	'apf_manage_options',
+				'screen_icon'	=>	'link-manager',	
+				'order'	=>	3,	// optional
 			),
 			array(
-				'title' => __( 'Sample Page', 'admin-page-framework-demo' ),
-				'page_slug' => 'apf_sample_page',
-				'screen_icon' => dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png',	// the icon file path can be used
+				'title'	=>	__( 'Sample Page', 'admin-page-framework-demo' ),
+				'page_slug'	=>	'apf_sample_page',
+				'screen_icon'	=>	dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png',	// the icon file path can be used
 			),					
 			array(
-				'title' => __( 'Hidden Page', 'admin-page-framework-demo' ),
-				'page_slug' => 'apf_hidden_page',
-				'screen_icon' => plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE ),	// the icon url can be used
-				'show_in_menu' => false,
+				'title'	=>	__( 'Hidden Page', 'admin-page-framework-demo' ),
+				'page_slug'	=>	'apf_hidden_page',
+				'screen_icon'	=>	plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE ),	// the icon url can be used
+				'show_in_menu'	=>	false,
 			),						
 			array(
-				'title' => __( 'Read Me', 'admin-page-framework-demo' ),
-				'page_slug' => 'apf_read_me',
-				'screen_icon' => 'page',
+				'title'	=>	__( 'Read Me', 'admin-page-framework-demo' ),
+				'page_slug'	=>	'apf_read_me',
+				'screen_icon'	=>	'page',
 			),			
 			array(
-				'title' => __( 'Documentation', 'admin-page-framework-demo' ),
-				'href' => 'http://admin-page-framework.michaeluno.jp/en/v2/',
-				'page_heading_tab_visibility' => false,
+				'title'	=>	__( 'Documentation', 'admin-page-framework-demo' ),
+				'href'	=>	'http://admin-page-framework.michaeluno.jp/en/v2/',
+				'page_heading_tab_visibility'	=>	false,
 			)
 		);
 				
@@ -185,7 +185,7 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'	=> 'delete_options_confirm',
 				'title'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
 				'show_in_page_tab'			=> true,
-				'parent_tab_slug' => 'delete_options',
+				'parent_tab_slug'	=>	'delete_options',
 				'order'		=> 97,
 			)
 		);
@@ -237,10 +237,10 @@ class APF_Demo extends AdminPageFramework {
 			'apf_read_me', 	// page slug
 			'', 	// tab slug
 			array(
-				'handle_id' => 'my_script',	// this handle ID also is used as the object name for the translation array below.
-				'translation' => array( 
-					'a' => 'hello world!',
-					'style_handle_id' => $sStyleHandle,	// check the enqueued style handle ID here.
+				'handle_id'	=>	'my_script',	// this handle ID also is used as the object name for the translation array below.
+				'translation'	=>	array( 
+					'a'	=>	'hello world!',
+					'style_handle_id'	=>	$sStyleHandle,	// check the enqueued style handle ID here.
 				),
 			)
 		);
@@ -364,7 +364,7 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'		=> 'apf_custom_field_types',
 				'tab_slug'		=> 'font',
 				'title'			=> __( 'Font Custom Field Type', 'admin-page-framework-demo' ),
-				'description' => __( 'This is still experimental.', 'admin-page-framework-demo' ),				
+				'description'	=>	__( 'This is still experimental.', 'admin-page-framework-demo' ),				
 			),
 			array()
 		);
@@ -404,193 +404,192 @@ class APF_Demo extends AdminPageFramework {
 		// Add setting fields
 		$this->addSettingFields(
 			array(	// Single text field
-				'field_id' => 'text',
-				'section_id' => 'text_fields',
-				'title' => __( 'Text', 'admin-page-framework-demo' ),
-				'description' => __( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
-				'help' => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' ),
-				'type' => 'text',
-				'order' => 1,
-				'default' => 123456,
-				'attributes' => array(
-					'size' => 40,
+				'field_id'	=>	'text',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
+				'help'	=>	__( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'order'	=>	1,
+				'default'	=>	123456,
+				'attributes'	=>	array(
+					'size'	=>	40,
 				),
 			),	
 			array(	// Password Field
-				'field_id' => 'password',
-				'section_id' => 'text_fields',
-				'title' => __( 'Password', 'admin-page-framework-demo' ),
-				'tip' => __( 'This input will be masked.', 'admin-page-framework-demo' ),
-				'type' => 'password',
-				'help' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
-				'attributes' => array(
-					'size' => 20,
+				'field_id'	=>	'password',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Password', 'admin-page-framework-demo' ),
+				'tip'	=>	__( 'This input will be masked.', 'admin-page-framework-demo' ),
+				'type'	=>	'password',
+				'help'	=>	__( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ),	//'
+				'attributes'	=>	array(
+					'size'	=>	20,
 				),
 			),		
 			array(	// Read-only
-				'field_id' => 'read_only_text',
-				'section_id' => 'text_fields',
-				'title' => __( 'Read Only', 'admin-page-framework-demo' ),
-				'type' => 'text',
-				'attributes' => array(
-					'size' => 20,
-					'readonly' => 'ReadOnly',
-					// 'disabled' => 'Disabled',		// disabled can be specified like so
+				'field_id'	=>	'read_only_text',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Read Only', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'attributes'	=>	array(
+					'size'	=>	20,
+					'readonly'	=>	'ReadOnly',
+					// 'disabled'	=>	'Disabled',		// disabled can be specified like so
 				),
-				'value' => __( 'This is a read-only value.', 'admin-page-framework-demo' ),
+				'value'	=>	__( 'This is a read-only value.', 'admin-page-framework-demo' ),
 			),			
 			array(	// number Field
-				'field_id' => 'number',
-				'section_id' => 'text_fields',
-				'title' => __( 'Number', 'admin-page-framework-demo' ),
-				'type' => 'number',
+				'field_id'	=>	'number',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Number', 'admin-page-framework-demo' ),
+				'type'	=>	'number',
 			),					
 			array(	// Multiple text fields
-				'field_id' => 'text_multiple',
-				'section_id' => 'text_fields',
-				'title' => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-				'description' => 'These are multiple text fields.',	// additional notes besides the form field
-				'help' => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
-				'type' => 'text',
-				'default' => 'Hello World',
-				'label' => 'First Item: ',
-				'attributes' => array(
-					'size' => 20,				
+				'field_id'	=>	'text_multiple',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Multiple Text Fields', 'admin-page-framework-demo' ),
+				'description'	=>	'These are multiple text fields.',	// additional notes besides the form field
+				'help'	=>	__( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	'Hello World',
+				'label'	=>	'First Item: ',
+				'attributes'	=>	array(
+					'size'	=>	20,				
 				),
-				'delimiter' => '<br />',
+				'delimiter'	=>	'<br />',
 				array(
-					'default' => 'Foo bar',
-					'label' => 'Second Item: ',
-					'attributes' => array(
-						'size' => 40,
+					'default'	=>	'Foo bar',
+					'label'	=>	'Second Item: ',
+					'attributes'	=>	array(
+						'size'	=>	40,
 					)
 				),
 				array(
-					'default' => 'Yes, we can',
-					'label' => 'Third Item: ',
-					'attributes' => array(
-						'size' => 60,
+					'default'	=>	'Yes, we can',
+					'label'	=>	'Third Item: ',
+					'attributes'	=>	array(
+						'size'	=>	60,
 					)
 				),				
 			),		
 			array(	// Repeatable text fields
-				'field_id' => 'text_repeatable',
-				'section_id' => 'text_fields',
-				'title' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
-				'description' => __( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
-				'type' => 'text',
-				'delimiter' => '',
-				'size' => 60,
-				'default' => 'a',
-				'is_repeatable' => true,
+				'field_id'	=>	'text_repeatable',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'delimiter'	=>	'',
+				'size'	=>	60,
+				'default'	=>	'a',
+				'is_repeatable'	=>	true,
 			),				
 			array(	// Text Area
-				'field_id' => 'textarea',
-				'section_id' => 'text_fields',
-				'title' => __( 'Single Text Area', 'admin-page-framework-demo' ),
-				'description' => __( 'Type a text string here.', 'admin-page-framework-demo' ),
-				'type' => 'textarea',
-				'default' => 'Hello World! This is set as the default string.',
-				'attributes' => array(
-					'rows' => 6,
-					'cols' => 60,
+				'field_id'	=>	'textarea',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Single Text Area', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Type a text string here.', 'admin-page-framework-demo' ),
+				'type'	=>	'textarea',
+				'default'	=>	'Hello World! This is set as the default string.',
+				'attributes'	=>	array(
+					'rows'	=>	6,
+					'cols'	=>	60,
 				)
 			),
 			array(	// Repeatable Text Areas
-				'field_id' => 'textarea_repeatable',
-				'section_id' => 'text_fields',
-				'title' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
-				'type' => 'textarea',
-				'is_repeatable' => true,
-				// 'delimiter' => '',
-				'attributes' => array(
-					'rows' => 3,
-					'cols' => 60,
+				'field_id'	=>	'textarea_repeatable',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
+				'type'	=>	'textarea',
+				'is_repeatable'	=>	true,
+				// 'delimiter'	=>	'',
+				'attributes'	=>	array(
+					'rows'	=>	3,
+					'cols'	=>	60,
 				)
 
 			),			
 			array(	// Rich Text Editors
-				'field_id' => 'rich_textarea',
-				'section_id' => 'text_fields',
-				'title' => 'Rich Text Area',
-				'type' => 'textarea',
+				'field_id'	=>	'rich_textarea',
+				'section_id'	=>	'text_fields',
+				'title'	=>	'Rich Text Area',
+				'type'	=>	'textarea',
 				'rich'	=> true,	// just pass non empty value to enable the rich editor.
 				array(
 					// pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
-					'rich' => array( 
-						'media_buttons' => false, 
-						'tinymce' => false
+					'rich'	=>	array( 
+						'media_buttons'	=>	false, 
+						'tinymce'	=>	false
 					),	
 				),
 			),			
 			array(	// Multiple text areas
-				'field_id' => 'textarea_multiple',
-				'section_id' => 'text_fields',
-				'title' => 'Multiple Text Areas',
-				'description' => 'These are multiple text areas.',
-				'type' => 'textarea',
-				'label' => __( 'First Text Area: ', 'admin-page-framework-demo' ),
-				'default' => __( 'The first default text.', 'admin-page-framework-demo' ),
-				'delimiter' => '<br />',
-				'attributes' => array(
-					'rows' => 5,
-					'cols' => 60,
+				'field_id'	=>	'textarea_multiple',
+				'section_id'	=>	'text_fields',
+				'title'	=>	'Multiple Text Areas',
+				'description'	=>	'These are multiple text areas.',
+				'type'	=>	'textarea',
+				'label'	=>	__( 'First Text Area: ', 'admin-page-framework-demo' ),
+				'default'	=>	__( 'The first default text.', 'admin-page-framework-demo' ),
+				'delimiter'	=>	'<br />',
+				'attributes'	=>	array(
+					'rows'	=>	5,
+					'cols'	=>	60,
 				),
 				array(
-					'label' => __( 'Second Text Area: ', 'admin-page-framework-demo' ),
-					'default' => __( 'The second default text.', 'admin-page-framework-demo' ),
-					'attributes' => array(
-						'rows' => 3,
-						'cols' => 40,
+					'label'	=>	__( 'Second Text Area: ', 'admin-page-framework-demo' ),
+					'default'	=>	__( 'The second default text.', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'rows'	=>	3,
+						'cols'	=>	40,
 					),					
 				),
 				array(
-					'label' => __( 'Third Text Area: ', 'admin-page-framework-demo' ),
-					'default' => __( 'The third default text.', 'admin-page-framework-demo' ),
-					'attributes' => array(
-						'rows' => 2,
-						'cols' => 20,
+					'label'	=>	__( 'Third Text Area: ', 'admin-page-framework-demo' ),
+					'default'	=>	__( 'The third default text.', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'rows'	=>	2,
+						'cols'	=>	20,
 					),									
 				),	
 			)
 		);
 		$this->addSettingFields(
 			array(	// Single Drop-down List
-				'field_id' => 'select',
-				'section_id' => 'selectors',
-				'title' => __( 'Dropdown List', 'admin-page-framework-demo' ),
-				'type' => 'select',
-				'description' => __( 'This is a drop down list.', 'admin-page-framework-demo' ),
-				'help' => __( 'This is the <em>select</em> field type.', 'admin-page-framework-demo' ),
-				'default' => 2,	// the index key of the label array below which yields 'Yellow'.
-				'label' => array( 
+				'field_id'	=>	'select',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Dropdown List', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'help'	=>	__( 'This is the <em>select</em> field type.', 'admin-page-framework-demo' ),
+				'default'	=>	2,	// the index key of the label array below which yields 'Yellow'.
+				'label'	=>	array( 
 					0	=>	'Red',		
 					1	=>	'Blue',
 					2	=>	'Yellow',
 					3	=>	'Orange',
 				),
-				'description'	=> __( 'The key of the array of the <code>label</code> element serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-demo' )
+				'description'	=>	__( 'The key of the array of the <code>label</code> element serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-demo' )
 					. ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> element, specify the KEY.', 'admin-page-framework-demo' ),
 			),	
 			array(	// Single Drop-down List with Multiple Options
-				'field_id' => 'select_multiple_options',
-				'section_id' => 'selectors',
-				'title' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
-				'help' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
-				'type' => 'select',
-				'is_multiple' => true,
-				'default' => 3,	// note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array..
-				'size' => 10,	
-				'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
-				'description' => __( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
+				'field_id'	=>	'select_multiple_options',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
+				'help'	=>	__( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
+				'type'	=>	'select',
+				'is_multiple'	=>	true,
+				'default'	=>	3,	// note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array..
+				'size'	=>	10,	
+				'label'	=>	array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
+				'description'	=>	__( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
 			),	
 			array(	// Single Drop-down List with Multiple Options
-				'field_id' => 'select_multiple_groups',
-				'section_id' => 'selectors',
-				'title' => __( 'Dropdown List with Groups', 'admin-page-framework-demo' ),
-				'type' => 'select',
-				'default' => 'b',
-				'label' => array( 	
+				'field_id'	=>	'select_multiple_groups',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Dropdown List with Groups', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'default'	=>	'b',
+				'label'	=>	array( 	
 					'alphabets'	=>	array( 	// the key must be unique throughout this 'label' element array.
 						'a'	=>	'a', 	
 						'b'	=>	'b', 
@@ -621,16 +620,16 @@ class APF_Demo extends AdminPageFramework {
 
 			),				
 			array(	// Drop-down Lists with Mixed Types
-				'field_id' => 'select_multiple_fields',
-				'section_id' => 'selectors',
-				'title' => __( 'Multiple Dropdown Lists Fields', 'admin-page-framework-demo' ),
-				'description' => __( 'This is multiple sets of drop down list.', 'admin-page-framework-demo' ),
-				'type' => 'select',
-				'label' => array( 'dark', 'light' ),
-				'default' => 1,
-				'attributes' => array(	
-					'select' => array(
-						'size' => 1,
+				'field_id'	=>	'select_multiple_fields',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Multiple Dropdown Lists Fields', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'These are multiple sets of drop down list.', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'label'	=>	array( 'dark', 'light' ),
+				'default'	=>	1,
+				'attributes'	=>	array(	
+					'select'	=>	array(
+						'size'	=>	1,
 					)
 				),
 				array(
@@ -640,86 +639,100 @@ class APF_Demo extends AdminPageFramework {
 				array(
 					'label'	=>	array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
 					'default'	=>	array( 3, 4 ),
-					'attributes' => array(
+					'attributes'	=>	array(
 						'select'	=> array(
-							'size' => 5,
+							'size'	=>	5,
 							'multiple'	=> 'multiple',	// instead of 'is_multiple'	=> true, it is possible by setting it by the attribute key.
 						),
 					)					
 				),
 			),					
+			array(	// Repeatable Drop-down List
+				'field_id'	=>	'select_repeatable',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Repeatable Dropdown List', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'is_repeatable'	=> true,
+				'description'	=>	__( 'To enable repeatable fields, set the <code>is_repeatable</code> key to true.', 'admin-page-framework-demo' ),
+				'default'	=>	1,
+				'label'	=>	array( 
+					1	=>	'On',		
+					0	=>	'Off',
+				),
+
+			),				
 			array(	// Single set of radio buttons
-				'field_id' => 'radio',
-				'section_id' => 'selectors',
-				'title' => __( 'Radio Button', 'admin-page-framework-demo' ),
-				'description' => __( 'Choose one from the radio buttons.', 'admin-page-framework-demo' ),
-				'type' => 'radio',
-				'label' => array( 'a' => 'apple', 'b' => 'banana', 'c' => 'cherry' ),
-				'default' => 'b',	// banana, its key is specified
-				'after_input_tag' => '<br />',
+				'field_id'	=>	'radio',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Radio Button', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Choose one from the radio buttons.', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'label'	=>	array( 'a'	=>	'apple', 'b'	=>	'banana', 'c'	=>	'cherry' ),
+				'default'	=>	'b',	// banana, its key is specified
+				'after_input_tag'	=>	'<br />',
 			),
 			array(	// Multiple sets of radio buttons
-				'field_id' => 'radio_multiple',
-				'section_id' => 'selectors',
-				'title' => __( 'Multiple Sets of Radio Buttons', 'admin-page-framework-demo' ),
-				'description' => __( 'Multiple sets of radio buttons.', 'admin-page-framework-demo' ),
-				'type' => 'radio',
-				'delimiter' => '<br />',
-				'default' => 2,
-				'label' => array( 1 => 'one', 2 => 'two' ),
+				'field_id'	=>	'radio_multiple',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Multiple Sets of Radio Buttons', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Multiple sets of radio buttons.', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'delimiter'	=>	'<br />',
+				'default'	=>	2,
+				'label'	=>	array( 1 => 'one', 2 => 'two' ),
 				array(
-					'default' => 4,
-					'label' => array( 3 => 'three', 4 => 'four', 5 => 'five' ),
+					'default'	=>	4,
+					'label'	=>	array( 3 => 'three', 4 => 'four', 5 => 'five' ),
 				),
 				array(
-					'default' => 8,
-					'label' => array( 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine' ),
+					'default'	=>	8,
+					'label'	=>	array( 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine' ),
 				),
 			),	
 			array(	// Repeatable radio buttons
-				'field_id' => 'radio_repeatable',
-				'section_id' => 'selectors',
-				'title' => __( 'Repeatable Radio Buttons', 'admin-page-framework-demo' ),
-				'type' => 'radio',
-				'label' => array( 'Off', 'On' ),
-				'default' => 1,
+				'field_id'	=>	'radio_repeatable',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Repeatable Radio Buttons', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'label'	=>	array( 'Off', 'On' ),
+				'default'	=>	1,
 				'is_repeatable'	=> true,
 			),			
 			array(	// Single checkbox item - set a check box item to the 'label' element.
-				'field_id' => 'checkbox',
-				'section_id' => 'selectors',
-				'title' => __( 'Single Checkbox', 'admin-page-framework-demo' ),
-				'tip' => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
-				'description' => __( 'Check box\'s label can be a string, not an array.', 'admin-page-framework-demo' ),	//' syntax fixer
-				'type' => 'checkbox',
-				'label' => __( 'Check me.', 'admin-page-framework-demo' ),
-				'default' => false,
+				'field_id'	=>	'checkbox',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Single Checkbox', 'admin-page-framework-demo' ),
+				'tip'	=>	__( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Check box\'s label can be a string, not an array.', 'admin-page-framework-demo' ),	//' syntax fixer
+				'type'	=>	'checkbox',
+				'label'	=>	__( 'Check me.', 'admin-page-framework-demo' ),
+				'default'	=>	false,
 			),	
 			array(	// Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
-				'field_id' => 'checkbox_multiple_items',
-				'section_id' => 'selectors',
-				'title' => __( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
-				'description' => __( 'The description can be omitted.', 'admin-page-framework-demo' ),
-				'type' => 'checkbox',
-				'label' => array( 'moon' => 'Moon', 'earth' => 'Earth', 'sun' => 'Sun', 'mars' => 'Mars' ),
+				'field_id'	=>	'checkbox_multiple_items',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'The description can be omitted.', 'admin-page-framework-demo' ),
+				'type'	=>	'checkbox',
+				'label'	=>	array( 'moon'	=>	'Moon', 'earth'	=>	'Earth', 'sun'	=>	'Sun', 'mars'	=>	'Mars' ),
 				'after_input_tag'	=> '<br />',
-				'default' => array( 'moon' => true, 'earth' => false, 'sun' => true, 'mars' => false ),
+				'default'	=>	array( 'moon'	=>	true, 'earth'	=>	false, 'sun'	=>	true, 'mars'	=>	false ),
 			),
 			array(	// Multiple sets of checkbox fields
 				'field_id'	=> 'checkbox_multiple_fields',
 				'section_id'	=> 'selectors',
 				'title'	=>	__( 'Multiple Sets of Checkboxes', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
-				'label'	=>	array( 'a' => 'A', 'b' => 'B', 'c' => 'C' ),
-				'default'	=>	array( 'a' => false, 'b' => true, 'c' => false ),
+				'label'	=>	array( 'a'	=>	'A', 'b'	=>	'B', 'c'	=>	'C' ),
+				'default'	=>	array( 'a'	=>	false, 'b'	=>	true, 'c'	=>	false ),
 				'delimiter'	=> '<hr />',
 				array(
-					'label'	=>	array( 'd' => 'D', 'e' => 'E', 'f' => 'F' ),
-					'default'	=>	array( 'd' => true, 'e' => false, 'f' => false ),
+					'label'	=>	array( 'd'	=>	'D', 'e'	=>	'E', 'f'	=>	'F' ),
+					'default'	=>	array( 'd'	=>	true, 'e'	=>	false, 'f'	=>	false ),
 				),
 				array(
-					'label'	=>	array( 'g' => 'G', 'h' => 'H', 'i' => 'I' ),
-					'default'	=>	array( 'g' => false, 'h' => false, 'i' => true ),
+					'label'	=>	array( 'g'	=>	'G', 'h'	=>	'H', 'i'	=>	'I' ),
+					'default'	=>	array( 'g'	=>	false, 'h'	=>	false, 'i'	=>	true ),
 				),					
 			),
 			array(
@@ -728,7 +741,7 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=> __( 'Repeatable Checkboxes', 'admin-page-framework-demo' ),
 				'type'	=> 'checkbox',
 				'label'	=> array( 'x', 'y', 'z' ),
-				'is_repeatable' => true,
+				'is_repeatable'	=>	true,
 			),
 			array(	// Size
 				'field_id'		=> 'size_filed',
@@ -737,7 +750,7 @@ class APF_Demo extends AdminPageFramework {
 				'help'			=> __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
 				'type'			=> 'size',
-				'default'			=> array( 'size' => 5, 'unit' => '%' ),
+				'default'			=> array( 'size'	=>	5, 'unit'	=>	'%' ),
 			),			
 			array(	// Size with custom units
 				'field_id'		=> 'size_custom_unit_filed',
@@ -751,168 +764,168 @@ class APF_Demo extends AdminPageFramework {
 					'ounce'	=> 'ounces',
 					'pounds'	=> 'pounds',
 				),
-				'default'			=> array( 'size' => 200, 'unit' => 'ounce' ),
+				'default'			=> array( 'size'	=>	200, 'unit'	=>	'ounce' ),
 			),						
 			array(	// Multiple Sizes
-				'field_id' => 'sizes_filed',
-				'section_id' => 'sizes',
-				'title' => __( 'Multiple Sizes', 'admin-page-framework-demo' ),
-				'type' => 'size',
-				'label' => array(
+				'field_id'	=>	'sizes_filed',
+				'section_id'	=>	'sizes',
+				'title'	=>	__( 'Multiple Sizes', 'admin-page-framework-demo' ),
+				'type'	=>	'size',
+				'label'	=>	array(
 					'weight'	=> __( 'Weight', 'admin-page-framework-demo' ),
 					'length'	=> __( 'Length', 'admin-page-framework-demo' ),
 					'capacity'	=> __( 'File Size', 'admin-page-framework-demo' ),
 				),
-				'size_units' => array( 	// notice that the array key structure corresponds to the label array's.
+				'size_units'	=>	array( 	// notice that the array key structure corresponds to the label array's.
 					'weight'	=> array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
-					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
+					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb'	=>	'gb', 'tb'	=>	'tb' ),
 				),
-				'default' => array(
-					'weight' => array( 'size' => 15, 'unit' => 'g' ),
-					'length' => array( 'size' => 100, 'unit' => 'mm' ),
-					'capacity' => array( 'size' => 30, 'unit' => 'mb' ),
+				'default'	=>	array(
+					'weight'	=>	array( 'size'	=>	15, 'unit'	=>	'g' ),
+					'length'	=>	array( 'size'	=>	100, 'unit'	=>	'mm' ),
+					'capacity'	=>	array( 'size'	=>	30, 'unit'	=>	'mb' ),
 				),		
-				'delimiter' => '<br />',
+				'delimiter'	=>	'<br />',
 			)
 		);
 		$this->addSettingFields(			
 			array( // Image Selector
-				'field_id' => 'image_select_field',
-				'section_id' => 'image_select',
-				'title' => __( 'Select an Image', 'admin-page-framework-demo' ),
-				'type' => 'image',
-				'label' => array( 'First Image', 'Second Image', 'Third Image' ),
-				'default' => array( admin_url( 'images/wordpress-logo.png' ) ), 
-				'allow_external_source' => false,
+				'field_id'	=>	'image_select_field',
+				'section_id'	=>	'image_select',
+				'title'	=>	__( 'Select an Image', 'admin-page-framework-demo' ),
+				'type'	=>	'image',
+				'label'	=>	array( 'First Image', 'Second Image', 'Third Image' ),
+				'default'	=>	array( admin_url( 'images/wordpress-logo.png' ) ), 
+				'allow_external_source'	=>	false,
 			),		
 			array( // Image selector with additional attributes
-				'field_id' => 'image_with_attributes',
-				'section_id' => 'image_select',
-				'title' => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
-				'type' => 'image',
-				'delimiter' => '',
-				'attributes_to_capture' => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
+				'field_id'	=>	'image_with_attributes',
+				'section_id'	=>	'image_select',
+				'title'	=>	__( 'Save Image Attributes', 'admin-page-framework-demo' ),
+				'type'	=>	'image',
+				'delimiter'	=>	'',
+				'attributes_to_capture'	=>	array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
 			),					
 			array(	// Repeatable Image Fields
-				'field_id' => 'image_select_field_repeater',
-				'section_id' => 'image_select',
-				'title' => __( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
-				'delimiter' => '',
-				'is_repeatable' => true,
-				'type' => 'image',
+				'field_id'	=>	'image_select_field_repeater',
+				'section_id'	=>	'image_select',
+				'title'	=>	__( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
+				'delimiter'	=>	'',
+				'is_repeatable'	=>	true,
+				'type'	=>	'image',
 			),
 			array( // Media File
-				'field_id' => 'media_field',
-				'section_id' => 'media_upload',
-				'title' => __( 'Media File', 'admin-page-framework-demo' ),
-				'type' => 'media',
-				'allow_external_source' => false,
+				'field_id'	=>	'media_field',
+				'section_id'	=>	'media_upload',
+				'title'	=>	__( 'Media File', 'admin-page-framework-demo' ),
+				'type'	=>	'media',
+				'allow_external_source'	=>	false,
 			),	
 			array( // Media File with Attributes
-				'field_id' => 'media_with_attributes',
-				'section_id' => 'media_upload',
-				'title' => __( 'Media File with Attributes', 'admin-page-framework-demo' ),
-				'type' => 'media',
-				'attributes_to_capture' => array( 'id', 'caption', 'description' ),
+				'field_id'	=>	'media_with_attributes',
+				'section_id'	=>	'media_upload',
+				'title'	=>	__( 'Media File with Attributes', 'admin-page-framework-demo' ),
+				'type'	=>	'media',
+				'attributes_to_capture'	=>	array( 'id', 'caption', 'description' ),
 			),				
 			array( // Media Files
-				'field_id' => 'media_fields',
-				'section_id' => 'media_upload',
-				'title' => __( 'Multiple Media Files', 'admin-page-framework-demo' ),
-				'type' => 'media',
-				'is_repeatable' => true,
+				'field_id'	=>	'media_fields',
+				'section_id'	=>	'media_upload',
+				'title'	=>	__( 'Multiple Media Files', 'admin-page-framework-demo' ),
+				'type'	=>	'media',
+				'is_repeatable'	=>	true,
 			),				
 			array( // Single File Upload Field
-				'field_id' => 'file_single',
-				'section_id' => 'file_uploads',
-				'title' => __( 'Single File Upload', 'admin-page-framework-demo' ),
-				'type' => 'file',
-				'label' => 'Select the file:',
+				'field_id'	=>	'file_single',
+				'section_id'	=>	'file_uploads',
+				'title'	=>	__( 'Single File Upload', 'admin-page-framework-demo' ),
+				'type'	=>	'file',
+				'label'	=>	'Select the file:',
 			),					
 			array( // Multiple File Upload Fields
-				'field_id' => 'file_multiple',
-				'section_id' => 'file_uploads',
-				'title' => __( 'Multiple File Uploads', 'admin-page-framework-demo' ),
-				'type' => 'file',
-				'label' => array( 'Fist File:', 'Second File:', 'Third File:' ),
-				'delimiter' => '<br />',
+				'field_id'	=>	'file_multiple',
+				'section_id'	=>	'file_uploads',
+				'title'	=>	__( 'Multiple File Uploads', 'admin-page-framework-demo' ),
+				'type'	=>	'file',
+				'label'	=>	array( 'Fist File:', 'Second File:', 'Third File:' ),
+				'delimiter'	=>	'<br />',
 			),	
 			array( // Single File Upload Field
-				'field_id' => 'file_repeatable',
-				'section_id' => 'file_uploads',
-				'title' => __( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
-				'type' => 'file',
-				'is_repeatable' => true,
+				'field_id'	=>	'file_repeatable',
+				'section_id'	=>	'file_uploads',
+				'title'	=>	__( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
+				'type'	=>	'file',
+				'is_repeatable'	=>	true,
 			)
 		);
 		$this->addSettingFields(			
 			array(
-				'field_id' => 'post_type_checklist',
-				'section_id' => 'checklists',
-				'title' => 'Post Types',
-				'type' => 'posttype',
+				'field_id'	=>	'post_type_checklist',
+				'section_id'	=>	'checklists',
+				'title'	=>	'Post Types',
+				'type'	=>	'posttype',
 			),											
 			array(
-				'field_id' => 'taxonomy_checklist',
-				'section_id' => 'checklists',
-				'title' => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
-				'type' => 'taxonomy',
-				'height' => '200px',
-				'taxonomy_slugs' => array( 'category', 'post_tag' ),
+				'field_id'	=>	'taxonomy_checklist',
+				'section_id'	=>	'checklists',
+				'title'	=>	__( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
+				'type'	=>	'taxonomy',
+				'height'	=>	'200px',
+				'taxonomy_slugs'	=>	array( 'category', 'post_tag' ),
 			),				
 			array(
-				'field_id' => 'taxonomy_checklist_all',
-				'section_id' => 'checklists',
-				'title' => __( 'All Taxonomies', 'admin-page-framework-demo' ),
-				'type' => 'taxonomy',
-				'height' => '200px',
-				'taxonomy_slugs' => get_taxonomies( '', 'names' ),
+				'field_id'	=>	'taxonomy_checklist_all',
+				'section_id'	=>	'checklists',
+				'title'	=>	__( 'All Taxonomies', 'admin-page-framework-demo' ),
+				'type'	=>	'taxonomy',
+				'height'	=>	'200px',
+				'taxonomy_slugs'	=>	get_taxonomies( '', 'names' ),
 			)
 		);
 		$this->addSettingFields(			
 			array( // Color Picker
-				'field_id' => 'color_picker_field',
-				'section_id' => 'color_picker',
-				'title' => __( 'Color Picker', 'admin-page-framework-demo' ),
-				'type' => 'color',
+				'field_id'	=>	'color_picker_field',
+				'section_id'	=>	'color_picker',
+				'title'	=>	__( 'Color Picker', 'admin-page-framework-demo' ),
+				'type'	=>	'color',
 			),					
 			array( // Multiple Color Pickers
-				'field_id' => 'multiple_color_picker_field',
-				'section_id' => 'color_picker',
-				'title' => __( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
-				'type' => 'color',
-				'label' => __( 'First Color', 'admin-page-framework-demo' ),
-				'delimiter' => '<br />',
+				'field_id'	=>	'multiple_color_picker_field',
+				'section_id'	=>	'color_picker',
+				'title'	=>	__( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
+				'type'	=>	'color',
+				'label'	=>	__( 'First Color', 'admin-page-framework-demo' ),
+				'delimiter'	=>	'<br />',
 				array(
-					'label' => __( 'Second Color', 'admin-page-framework-demo' ),
+					'label'	=>	__( 'Second Color', 'admin-page-framework-demo' ),
 				),
 				array(
-					'label' => __( 'Third Color', 'admin-page-framework-demo' ),
+					'label'	=>	__( 'Third Color', 'admin-page-framework-demo' ),
 				),				
 			),				
 			array( // Repeatable Color Pickers
-				'field_id' => 'color_picker_repeatable_field',
-				'section_id' => 'color_picker',
-				'title' => __( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
-				'type' => 'color',
-				'is_repeatable' => true,
+				'field_id'	=>	'color_picker_repeatable_field',
+				'section_id'	=>	'color_picker',
+				'title'	=>	__( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'color',
+				'is_repeatable'	=>	true,
 			),										
 			array( // Single Hidden Field
-				'field_id' => 'hidden_single',
-				'section_id' => 'hidden_field',
-				'title' => __( 'Single Hidden Field', 'admin-page-framework-demo' ),
-				'type' => 'hidden',
-				'default' => __( 'Test value', 'admin-page-framework-demo' ),
-				'label' => __( 'Test label', 'admin-page-framework-demo' ),
+				'field_id'	=>	'hidden_single',
+				'section_id'	=>	'hidden_field',
+				'title'	=>	__( 'Single Hidden Field', 'admin-page-framework-demo' ),
+				'type'	=>	'hidden',
+				'default'	=>	__( 'Test value', 'admin-page-framework-demo' ),
+				'label'	=>	__( 'Test label', 'admin-page-framework-demo' ),
 			),			
 			array( // Multiple Hidden Fields
-				'field_id' => 'hidden_miltiple',
-				'section_id' => 'hidden_field',
-				'title' => 'Multiple Hidden Field',
-				'type' => 'hidden',
+				'field_id'	=>	'hidden_miltiple',
+				'section_id'	=>	'hidden_field',
+				'title'	=>	'Multiple Hidden Field',
+				'type'	=>	'hidden',
 				'label'	=> __( 'Hidden Field 1', 'admin-page-framework-demo' ),
-				'default' => 'a',
+				'default'	=>	'a',
 				array(
 					'label'	=> __( 'Hidden Field 2', 'admin-page-framework-demo' ),
 					'default'	=> 'b',
@@ -923,128 +936,128 @@ class APF_Demo extends AdminPageFramework {
 				),
 			),							
 			array( // Submit button as a link
-				'field_id' => 'submit_button_link',
-				'section_id' => 'submit_buttons',
-				'title' => 'Link Button',
-				'type' => 'submit',
-				'description' => 'This button serves as a hyper link.',
-				'label' => array( 'Google', 'Yahoo', 'Bing' ),
+				'field_id'	=>	'submit_button_link',
+				'section_id'	=>	'submit_buttons',
+				'title'	=>	'Link Button',
+				'type'	=>	'submit',
+				'description'	=>	'This button serves as a hyper link.',
+				'label'	=>	array( 'Google', 'Yahoo', 'Bing' ),
 				'links'	=> array( 'http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com' ),
-				'class_attribute' => 'button button-secondary',
-				'delimiter' => '',
+				'class_attribute'	=>	'button button-secondary',
+				'delimiter'	=>	'',
 			),			
 			array( // Submit button as a redirect
-				'field_id' => 'submit_button_redirect',
-				'section_id' => 'submit_buttons',
-				'title' => 'Redirect Button',
-				'type' => 'submit',
-				'description' => 'Unlike the above link buttons, this button saves the options and then redirects to: ' . admin_url(),
-				'label' => 'Dashboard',
+				'field_id'	=>	'submit_button_redirect',
+				'section_id'	=>	'submit_buttons',
+				'title'	=>	'Redirect Button',
+				'type'	=>	'submit',
+				'description'	=>	'Unlike the above link buttons, this button saves the options and then redirects to: ' . admin_url(),
+				'label'	=>	'Dashboard',
 				'redirect_url'	=> admin_url(),
-				'class_attribute' => 'button button-secondary',
+				'class_attribute'	=>	'button button-secondary',
 			),
 			array( // Reset Submit button
-				'field_id' => 'submit_button_reset',
-				'section_id' => 'submit_buttons',
-				'title' => 'Reset Button',
-				'type' => 'submit',
-				'label' => __( 'Reset', 'admin-page-framework-demo' ),
-				'is_reset' => true,
-				// 'class_attribute' => 'button button-secondary',
+				'field_id'	=>	'submit_button_reset',
+				'section_id'	=>	'submit_buttons',
+				'title'	=>	'Reset Button',
+				'type'	=>	'submit',
+				'label'	=>	__( 'Reset', 'admin-page-framework-demo' ),
+				'is_reset'	=>	true,
+				// 'class_attribute'	=>	'button button-secondary',
 			)
 		);
 		$this->addSettingFields(			
 			array(
-				'field_id' => 'verify_text_field',
-				'section_id' => 'verification',
-				'title' => __( 'Verify Text Input', 'admin-page-framework-demo' ),
-				'type' => 'text',
-				'description' => __( 'Enter a non numeric value here.', 'admin-page-framework-demo' ),
+				'field_id'	=>	'verify_text_field',
+				'section_id'	=>	'verification',
+				'title'	=>	__( 'Verify Text Input', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'description'	=>	__( 'Enter a non numeric value here.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'field_id' => 'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
-				'section_id' => 'verification',
-				'type' => 'submit',		
-				'label' => __( 'Verify', 'admin-page-framework-demo' ),
+				'field_id'	=>	'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
+				'section_id'	=>	'verification',
+				'type'	=>	'submit',		
+				'label'	=>	__( 'Verify', 'admin-page-framework-demo' ),
 			)
 		);	
 		
 		$this->addSettingFields(			
 			array(
-				'field_id' => 'geometrical_coordinates',
-				'section_id' => 'geometry',
-				'title' => __( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
-				'type' => 'geometry',
-				'description' => __( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
-				'default' => array(
-					'latitude' => 20,
-					'longitude' => 20,
+				'field_id'	=>	'geometrical_coordinates',
+				'section_id'	=>	'geometry',
+				'title'	=>	__( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
+				'type'	=>	'geometry',
+				'description'	=>	__( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
+				'default'	=>	array(
+					'latitude'	=>	20,
+					'longitude'	=>	20,
 				),
 			)
 		);
 		$this->addSettingFields(
 			array(	// Single date picker
-				'field_id' => 'date',
-				'section_id' => 'date_pickers',
-				'title' => __( 'Date', 'admin-page-framework-demo' ),
-				'type' => 'date',
-				'date_format' => 'yy/mm/dd',	// yy/mm/dd is the default format.
+				'field_id'	=>	'date',
+				'section_id'	=>	'date_pickers',
+				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
+				'type'	=>	'date',
+				'date_format'	=>	'yy/mm/dd',	// yy/mm/dd is the default format.
 			),			
 			array(	// Multiple date pickers
-				'field_id' => 'dates',
-				'section_id' => 'date_pickers',
-				'title' => __( 'Dates', 'admin-page-framework-demo' ),
-				'type' => 'date',
-				'label' => array( 
-					'start' => __( 'Start Date: ', 'amin-page-framework-demo' ), 
-					'end' => __( 'End Date: ', 'amin-page-framework-demo' ), 
+				'field_id'	=>	'dates',
+				'section_id'	=>	'date_pickers',
+				'title'	=>	__( 'Dates', 'admin-page-framework-demo' ),
+				'type'	=>	'date',
+				'label'	=>	array( 
+					'start'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ), 
+					'end'	=>	__( 'End Date: ', 'amin-page-framework-demo' ), 
 				),
-				'date_format' => 'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter' => '<br />',
+				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
+				'delimiter'	=>	'<br />',
 			),	
 			array(	// Single time picker
-				'field_id' => 'time',
-				'section_id' => 'date_pickers',
-				'title' => __( 'Time', 'admin-page-framework-demo' ),
-				'type' => 'time',
-				'time_format' => 'H:mm',	// H:mm is the default format.
+				'field_id'	=>	'time',
+				'section_id'	=>	'date_pickers',
+				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
+				'type'	=>	'time',
+				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),		
 			array(	// Single date time picker
-				'field_id' => 'date_time',
-				'section_id' => 'date_pickers',
-				'title' => __( 'Date & Time', 'admin-page-framework-demo' ),
-				'type' => 'date_time',
-				'date_format' => 'yy-mm-dd',	// H:mm is the default format.
-				'time_format' => 'H:mm',	// H:mm is the default format.
+				'field_id'	=>	'date_time',
+				'section_id'	=>	'date_pickers',
+				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
+				'type'	=>	'date_time',
+				'date_format'	=>	'yy-mm-dd',	// H:mm is the default format.
+				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),		
 			array(	// Multiple date time pickers
-				'field_id' => 'dates_time_multiple',
-				'section_id' => 'date_pickers',
-				'title' => __( 'Multiple Date and Time', 'admin-page-framework-demo' ),
-				'description' => __( 'With different time formats', 'admin-page-framework-demo' ),
-				'type' => 'date_time',
-				'label' => array( 
+				'field_id'	=>	'dates_time_multiple',
+				'section_id'	=>	'date_pickers',
+				'title'	=>	__( 'Multiple Date and Time', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'With different time formats', 'admin-page-framework-demo' ),
+				'type'	=>	'date_time',
+				'label'	=>	array( 
 					__( 'Default', 'amin-page-framework-demo' ), 
 					__( 'AM PM', 'amin-page-framework-demo' ), 
 					__( 'Time Zone', 'amin-page-framework-demo' ), 
 				),
-				'time_format' => array(
+				'time_format'	=>	array(
 					'H:mm',
 					'hh:mm tt',
 					'hh:mm tt z',
 				),
-				'date_format' => 'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter' => '<br />',
+				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
+				'delimiter'	=>	'<br />',
 			),				
 			array()
 		);
 		$this->addSettingFields(			
 			array(
-				'field_id' => 'dials',
-				'section_id' => 'dial',
-				'title' => __( 'Multiple Dials', 'admin-page-framework-demo' ),
-				'type' => 'dial',
-				'label' => array(
+				'field_id'	=>	'dials',
+				'section_id'	=>	'dial',
+				'title'	=>	__( 'Multiple Dials', 'admin-page-framework-demo' ),
+				'type'	=>	'dial',
+				'label'	=>	array(
 					__( 'Disable display input', 'admin-page-framework-demo' ),
 					__( 'Cursor mode', 'admin-page-framework-demo' ),
 					__( 'Display previous value (effect)', 'admin-page-framework-demo' ),				
@@ -1053,47 +1066,47 @@ class APF_Demo extends AdminPageFramework {
 					__( '5-digit values, step 1000', 'admin-page-framework-demo' ),				
 				),
 				// For details, see https://github.com/aterrien/jQuery-Knob
-				'data_attribute' => array( 
+				'data_attribute'	=>	array( 
 					array(
-						'width' => 100,
-						'displayInput' => 'false',
+						'width'	=>	100,
+						'displayInput'	=>	'false',
 					),
 					array(
-						'width' => 150,
-						'cursor' => 'true',
+						'width'	=>	150,
+						'cursor'	=>	'true',
 						'thickness'	=> '.3', 
-						'fgColor' => '#222222',
+						'fgColor'	=>	'#222222',
 					),					
 					array(
-						'width' => 200,
+						'width'	=>	200,
 						'min'	=> -100, 
 						'displayPrevious'	=> 'true', // a boolean value also needs to be passed as string
 					),
 					array(
-						'angleOffset' => 90,
-						'linecap' => 'round',
+						'angleOffset'	=>	90,
+						'linecap'	=>	'round',
 					),
 					array(
-						'fgColor' => '#66CC66',
-						'angleOffset' => -125,
-						'angleArc' => 250,
+						'fgColor'	=>	'#66CC66',
+						'angleOffset'	=>	-125,
+						'angleArc'	=>	250,
 					),
 					array(
-						'step' => 1000,
-						'min' => -15000,
-						'max' => 15000,
-						'displayPrevious' => true,
+						'step'	=>	1000,
+						'min'	=>	-15000,
+						'max'	=>	15000,
+						'displayPrevious'	=>	true,
 					),                        
 				),
 			),
 			array(
-				'field_id' => 'dial_big',
-				'section_id' => 'dial',
-				'title' => __( 'Big', 'admin-page-framework-demo' ),
-				'type' => 'dial',
-				'data_attribute' => array(
-					'width' => 400,
-					'height' => 400,
+				'field_id'	=>	'dial_big',
+				'section_id'	=>	'dial',
+				'title'	=>	__( 'Big', 'admin-page-framework-demo' ),
+				'type'	=>	'dial',
+				'data_attribute'	=>	array(
+					'width'	=>	400,
+					'height'	=>	400,
 				),
 			),
 			array()
@@ -1101,83 +1114,83 @@ class APF_Demo extends AdminPageFramework {
 		
 		$this->addSettingFields(			
 			array(
-				'field_id' => 'font_field',
-				'section_id' => 'font',
-				'title' => __( 'Font Upload', 'admin-page-framework-demo' ),
-				'type' => 'font',
-				'description' => __( 'Set the URL of the font.', 'admin-page-framework-demo' ),
+				'field_id'	=>	'font_field',
+				'section_id'	=>	'font',
+				'title'	=>	__( 'Font Upload', 'admin-page-framework-demo' ),
+				'type'	=>	'font',
+				'description'	=>	__( 'Set the URL of the font.', 'admin-page-framework-demo' ),
 			),
 			array()
 		);
 		
 		$this->addSettingFields(			
 			array( // Delete Option Button
-				'field_id' => 'submit_manage',
-				'section_id' => 'submit_buttons_manage',
-				'title' => 'Delete Options',
-				'type' => 'submit',
-				'class_attribute' => 'button-secondary',
-				'label' => 'Delete Options',
+				'field_id'	=>	'submit_manage',
+				'section_id'	=>	'submit_buttons_manage',
+				'title'	=>	'Delete Options',
+				'type'	=>	'submit',
+				'class_attribute'	=>	'button-secondary',
+				'label'	=>	'Delete Options',
 				'links'	=> admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
 			),			
 			array( // Delete Option Confirmation Button
-				'field_id' => 'submit_delete_options_confirmation',
-				'section_id' => 'submit_buttons_confirm',
-				'title' => 'Delete Options',
-				'type' => 'submit',
-				'class_attribute' => 'button-secondary',
-				'label' => 'Delete Options',
+				'field_id'	=>	'submit_delete_options_confirmation',
+				'section_id'	=>	'submit_buttons_confirm',
+				'title'	=>	'Delete Options',
+				'type'	=>	'submit',
+				'class_attribute'	=>	'button-secondary',
+				'label'	=>	'Delete Options',
 				'redirect_url'	=> admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' )
 			),			
 			array(
-				'field_id' => 'export_format_type',			
-				'section_id' => 'exports',
-				'title' => __( 'Export Format Type', 'admin-page-framework-demo' ),
-				'type' => 'radio',
-				'description' => __( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
-				'label' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
-				'default' => 'array',
+				'field_id'	=>	'export_format_type',			
+				'section_id'	=>	'exports',
+				'title'	=>	__( 'Export Format Type', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'description'	=>	__( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
+				'label'	=>	array( 'array'	=>	'Serialized Array', 'json'	=>	'JSON', 'text'	=>	'Text' ),
+				'default'	=>	'array',
 			),			
 			array(	// Single Export Button
-				'field_id' => 'export_single',
-				'section_id' => 'exports',
-				// 'title' => 'Single Export Button',
-				'type' => 'export',
-				'description' => __( 'Download the saved option data.', 'admin-page-framework-demo' ),
-				'label' => 'Export Options',
+				'field_id'	=>	'export_single',
+				'section_id'	=>	'exports',
+				// 'title'	=>	'Single Export Button',
+				'type'	=>	'export',
+				'description'	=>	__( 'Download the saved option data.', 'admin-page-framework-demo' ),
+				'label'	=>	'Export Options',
 			),
 			array(	// Multiple Export Buttons
-				'field_id' => 'export_multiple',
-				'section_id' => 'exports',
-				'title' => 'Multiple Export Buttons',
-				'type' => 'export',
-				'description' => __( 'Download the custom set data.', 'admin-page-framework-demo' ),
-				'label' => array( 'Pain Text', 'JSON', 'Serialized Array' ),
-				'export_file_name' => array( 'plain_text.txt', 'json.json', 'serialized_array.txt' ),
-				'export_format' => array( 'text', 'json', 'array' ),
-				'export_data' => array(
+				'field_id'	=>	'export_multiple',
+				'section_id'	=>	'exports',
+				'title'	=>	'Multiple Export Buttons',
+				'type'	=>	'export',
+				'description'	=>	__( 'Download the custom set data.', 'admin-page-framework-demo' ),
+				'label'	=>	array( 'Pain Text', 'JSON', 'Serialized Array' ),
+				'export_file_name'	=>	array( 'plain_text.txt', 'json.json', 'serialized_array.txt' ),
+				'export_format'	=>	array( 'text', 'json', 'array' ),
+				'export_data'	=>	array(
 					'Hello World!',	// export plain text
 					( array ) $this->oProp,	// export an object
 					array( 'a', 'b', 'c' ),	// export a serialized array
 				),
 			),		
 			array(
-				'field_id' => 'import_format_type',			
-				'section_id' => 'imports',
-				'title' => __( 'Import Format Type', 'admin-page-framework-demo' ),
-				'type' => 'radio',
-				'description' => __( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
-				'label' => array( 'array' => 'Serialized Array', 'json' => 'JSON', 'text' => 'Text' ),
-				'default' => 'array',
+				'field_id'	=>	'import_format_type',			
+				'section_id'	=>	'imports',
+				'title'	=>	__( 'Import Format Type', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'description'	=>	__( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
+				'label'	=>	array( 'array'	=>	'Serialized Array', 'json'	=>	'JSON', 'text'	=>	'Text' ),
+				'default'	=>	'array',
 			),
 			array(	// Single Import Button
-				'field_id' => 'import_single',
-				'section_id' => 'imports',
-				'title' => 'Single Import Field',
-				'type' => 'import',
-				'description' => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
-				'label' => 'Import Options',
-				// 'vImportFormat' => isset( $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
+				'field_id'	=>	'import_single',
+				'section_id'	=>	'imports',
+				'title'	=>	'Single Import Field',
+				'type'	=>	'import',
+				'description'	=>	__( 'Upload the saved option data.', 'admin-page-framework-demo' ),
+				'label'	=>	'Import Options',
+				// 'vImportFormat'	=>	isset( $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
 			),			
 			array()
 		);
@@ -1240,7 +1253,7 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_sample_page() {
 		
 		echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-demo' ) . "</p>";
-		$sLinkToHiddenPage = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) );
+		$sLinkToHiddenPage = $this->oUtil->getQueryAdminURL( array( 'page'	=>	'apf_hidden_page' ) );
 		echo "<a href='{$sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-demo' ). "</a>";
 	
 	}
@@ -1248,7 +1261,7 @@ class APF_Demo extends AdminPageFramework {
 		
 		echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-demo' ) . "</p>";
 		echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-demo' ) . "</p>";
-		$sLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
+		$sLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page'	=>	'apf_sample_page' ) );
 		echo "<a href='{$sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
 		
 	}

@@ -69,16 +69,17 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	 */
 	public function replyToGetField( $aField ) {
 			
-		$aField['attributes']['select'] = array(
+		$aSelectAttributes = array(
 			'id'	=>	$aField['input_id'],
 			'multiple'	=>	$aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
 		) + $aField['attributes']['select'];
-// var_dump( $aField );
+		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['field_name'] : "{$aField['field_name']}[]";
+
 		return $aField['before_input_tag']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"
 				. "<label for='{$aField['input_id']}'>"
 					. "<span class='admin-page-framework-input-container'>"
-						. "<select " . $this->getHTMLTagAttributesFromArray( $aField['attributes']['select'] ) . " >"
+						. "<select " . $this->getHTMLTagAttributesFromArray( $aSelectAttributes ) . " >"
 							. $this->_getOptionTags( $aField, $aField['label'] )
 						. "</select>"
 					. "</span>"
@@ -100,6 +101,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 			
 			$aOutput = array();
 			$aValue = ( array ) $aField['attributes']['value'];
+
 			foreach( $aLabel as $sKey => $asLabel ) {
 				
 				// For the optgroup tag,
@@ -125,12 +127,12 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 				$aAttributes = array(
 					'id'	=> $aField['input_id'] . '_' . $sKey,
 					'value'	=> $sKey,
-					'selected'	=> in_array( $sKey, $aValue ) ? 'Selected' : '',
+					'selected'	=> in_array( ( string ) $sKey, $aValue ) ? 'Selected' : '',
 				) + ( isset( $aField['attributes']['option'][ $sKey ] ) && is_array( $aField['attributes']['option'][ $sKey ] )
 					? $aField['attributes']['option'][ $sKey ] + $aField['attributes']['option']
 					: $aField['attributes']['option']
 				);
-				
+
 				$aOutput[] =
 					"<option " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " >"	
 						. $asLabel
