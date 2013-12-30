@@ -241,7 +241,22 @@ class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 		end( $aArray );
 		return $sKey === key( $aArray );
 	}	
+	
+	/**
+	 * Generates the string of attributes to be embedded in an HTML tag.
+	 * @since			3.0.0
+	 */
+	protected function getHTMLTagAttributesFromArray( array $aAttributes ) {
 		
+		$aOutput = array();
+		foreach( $aAttributes as $sAttribute => $sProperty ) {
+			if ( empty( $sProperty ) && $sProperty !== 0  )	continue;	// drop non-value elements.
+			if ( is_array( $sProperty ) || is_object( $sProperty ) ) continue;	// must be resolved as a string.
+			$aOutput[] = "{$sAttribute}='{$sProperty}'";
+		}
+		return implode( ' ', $aOutput );
+		
+	}	
 	
 }
 endif;

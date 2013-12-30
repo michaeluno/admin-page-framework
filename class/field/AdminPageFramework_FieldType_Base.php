@@ -120,21 +120,6 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		// return $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys );
 	// }
 	
-		
-	/**
-	 * Generates the string of attributes to be embedded in an HTML tag.
-	 * @since			3.0.0
-	 */
-	protected function getHTMLTagAttributesFromArray( array $aAttributes ) {
-		
-		$aOutput = array();
-		foreach( $aAttributes as $sAttribute => $sProperty ) {
-			if ( empty( $sProperty ) && $sProperty !== 0  )	continue;	// drop non-value elements.
-			$aOutput[] = "{$sAttribute}='{$sProperty}'";
-		}
-		return implode( ' ', $aOutput );
-		
-	}
 	
 }
 endif;
