@@ -372,8 +372,8 @@ return $vValue;
 					/* Increment/decrement the index inserted in the id and name */
 					nodeElement.attr( 'id', function( index, name ) { return updateID( index, name ) } );
 					nodeElement.find( 'label' ).attr( 'for', function( index, name ){ return updateID( index, name ) } );
-					nodeElement.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-					nodeElement.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
+					nodeElement.find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+					nodeElement.find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 										
 					// Image uploader buttons and image preview elements
 					image_uploader_button = nodeElement.find( '.select_image' );

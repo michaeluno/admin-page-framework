@@ -654,10 +654,11 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'select',
 				'is_repeatable'	=> true,
 				'description'	=>	__( 'To enable repeatable fields, set the <code>is_repeatable</code> key to true.', 'admin-page-framework-demo' ),
-				'default'	=>	1,
+				'default'	=>	'y',
 				'label'	=>	array( 
-					1	=>	'On',		
-					0	=>	'Off',
+					'x'	=>	'X',
+					'y'	=>	'Y',		
+					'z'	=>	'Z',		
 				),
 
 			),				
