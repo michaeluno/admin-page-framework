@@ -6,7 +6,7 @@ class APF_Demo extends AdminPageFramework {
 		/*
 		 * ( Optional ) Register custom field types.
 		 */			
-		// 1. Include the file that defines the custom field type. 
+		/* 1. Include the file that defines the custom field type. */
 		$aFiles = array(
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
@@ -18,7 +18,7 @@ class APF_Demo extends AdminPageFramework {
 			if ( file_exists( $sFilePath ) )
 				include_once( $sFilePath );
 					
-		// 2. Instantiate the classes - the $oMsg object is optional if you use the framework's messages.
+		/* 2. Instantiate the classes - the $oMsg object is optional if you use the framework's messages. */
 		$oMsg = AdminPageFramework_Message::instantiate( 'admin-page-framework-demo' );
 		new DateCustomFieldType( 'APF_Demo', 'date', $oMsg );
 		new TimeCustomFieldType( 'APF_Demo', 'time', $oMsg );
@@ -27,16 +27,19 @@ class APF_Demo extends AdminPageFramework {
 		new FontCustomFieldType( 'APF_Demo', 'font', $oMsg );			
 		
 	}
-
+	
+	/*
+	 *	( Required ) In the setUp() method, you will define how pages and form elements should be composed.
+	 */
 	public function setUp() {
 
-		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
-		$this->addSubMenuItems(
+		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	// ( required )
+		$this->addSubMenuItems(	// ( required )
 			/* 	
 			  for sub-menu pages, e.g.
 			  	'title'	=>	'Your Page Title',
 				'page_slug'	=>	'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
-				'screen_icon'	=>	'edit',
+				'screen_icon'	=>	'edit',				// for WordPress 3.7.x or below
 				'capability'	=>	'manage-options',
 				'order'	=>	10,
 				
@@ -54,19 +57,19 @@ class APF_Demo extends AdminPageFramework {
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
 				*/							
-				'order'	=>	1,	// optional
+				'order'	=>	1,	// ( optional ) - if you don't set this, an index will be assigned internally in the added order
 			),
 			array(
 				'title'	=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
 				'page_slug'	=>	'apf_custom_field_types',
 				'screen_icon'	=>	'options-general',
-				'order'	=>	2,	// optional
+				'order'	=>	2,	// ( optional )
 			),			
 			array(
 				'title'	=>	__( 'Manage Options', 'admin-page-framework-demo' ),
 				'page_slug'	=>	'apf_manage_options',
 				'screen_icon'	=>	'link-manager',	
-				'order'	=>	3,	// optional
+				'order'	=>	3,	// ( optional )
 			),
 			array(
 				'title'	=>	__( 'Sample Page', 'admin-page-framework-demo' ),
@@ -90,21 +93,26 @@ class APF_Demo extends AdminPageFramework {
 				'page_heading_tab_visibility'	=>	false,
 			)
 		);
-				
-		$this->addInPageTabs(
+		
+		/*
+		 * In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
+		 * Page-heading tabs show the titles of sub-page items which belong to the set root page. 
+		 * In-page tabs show tabs that you define to be embedded within an individual page.
+		 */
+		$this->addInPageTabs(	// ( optional )
 			/*
-			 * Built-in Field Types
+			 * In-page tabs to display built-in field types
 			 * */
 			array(
 				'page_slug'	=> 'apf_builtin_field_types',
-				'tab_slug'	=> 'textfields',
-				'title'		=> 'Text Fields',
-				'order'		=> 1,				
+				'tab_slug'	=> 'textfields',	// avoid hyphen(dash), dots, and white spaces
+				'title'		=> __( 'Text Fields', 'admin-page-framework-demo' ),
+				'order'		=> 1,		// ( optional ) - if you don't set this, an index will be assigned internally in the added order
 			),		
 			array(
 				'page_slug'	=> 'apf_builtin_field_types',
 				'tab_slug'	=> 'selectors',
-				'title'		=> 'Selectors',
+				'title'		=> __( 'Selectors', 'admin-page-framework-demo' ),
 			),					
 			array(
 				'page_slug'	=> 'apf_builtin_field_types',
@@ -114,20 +122,23 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'page_slug'	=> 'apf_builtin_field_types',
 				'tab_slug'	=> 'checklist',
-				'title'		=> 'Checklist',
+				'title'		=> __( 'Checklist', 'admin-page-framework-demo' ),
 			),					
 			array(
 				'page_slug'	=> 'apf_builtin_field_types',
 				'tab_slug'	=> 'misc',
-				'title'		=> 'MISC',	
+				'title'		=> __( 'MISC', 'admin-page-framework-demo' ),	
 			),		
 			array(
 				'page_slug'	=> 'apf_builtin_field_types',
 				'tab_slug'	=> 'verification',
-				'title'		=> 'Verification',	
+				'title'		=> __( 'Verification', 'admin-page-framework-demo' ),	
 			)
 		);
-		$this->addInPageTabs(
+		$this->addInPageTabs(	// ( optional )
+			/*
+			 * Page-heading tabs for custom field types
+			 */
 			array(
 				'page_slug'	=> 'apf_custom_field_types',
 				'tab_slug'	=> 'geometry',
@@ -147,10 +158,9 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=> 'apf_custom_field_types',
 				'tab_slug'	=> 'font',
 				'title'		=> __( 'Fonts', 'admin-page-framework-demo' ),	
-			),			
-			array()
+			)
 		);
-		$this->addInPageTabs(
+		$this->addInPageTabs(	// ( optional )
 			/*
 			 * Manage Options
 			 * */
@@ -180,16 +190,16 @@ class APF_Demo extends AdminPageFramework {
 				'title'		=> __( 'Reset', 'admin-page-framework-demo' ),
 				'order'		=> 99,	
 			),						
-			array(
+			array(	// TIPS: you can hide an in-page tab by setting the 'show_in_page_tab' key 
 				'page_slug'	=> 'apf_manage_options',
 				'tab_slug'	=> 'delete_options_confirm',
 				'title'		=> __( 'Reset Confirmation', 'admin-page-framework-demo' ),
-				'show_in_page_tab'			=> true,
+'show_in_page_tab'	=>	true,	// <-- not sure why this is true
 				'parent_tab_slug'	=>	'delete_options',
-				'order'		=> 97,
+				'order'		=>	97,
 			)
 		);
-		$this->addInPageTabs(
+		$this->addInPageTabs(	// ( optional )
 			/*
 			 * Read Me
 			 * */
@@ -217,21 +227,26 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=> 'apf_read_me',
 				'tab_slug'	=> 'changelog',
 				'title'		=> __( 'Change Log', 'admin-page-framework-demo' ),
-			),						
-			array()
+			)
 		);			
 		
-		// Page style.
-		$this->setPageHeadingTabsVisibility( false );		// disables the page heading tabs by passing false.
+		/* ( optional ) Determine the page style */
+		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
 		$this->setPageTitleVisibility( false, 'apf_read_me' );	// disable the page title of a specific page.
-		$this->setInPageTabTag( 'h2' );		
-		// $this->showInPageTabs( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
+		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
+		// $this->setInPageTabsVisibility( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
-		// Enqueue styles - $this->enqueueStyle(  'stylesheet url / path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		/* 
+		 * ( optional ) Enqueue styles  
+		 * $this->enqueueStyle(  'stylesheet url / path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 * */
 		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );
 		$sStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );
 		
-		// Enqueue scripts - $this->enqueueScript(  'script url / relative path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		/*
+		 * ( optional )Enqueue scripts
+		 * $this->enqueueScript(  'script url / relative path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 */
 		$this->enqueueScript(  
 			plugins_url( 'asset/js/test.js' , APFDEMO_FILE ),	// source url or path
 			'apf_read_me', 	// page slug
@@ -245,7 +260,9 @@ class APF_Demo extends AdminPageFramework {
 			)
 		);
 			
-		// Contextual help tabs.
+		/*
+		 * ( optional ) Contextual help pane
+		 */
 		$this->addHelpTab( 
 			array(
 				'page_slug'					=> 'apf_builtin_field_types',	// ( mandatory )
@@ -257,79 +274,84 @@ class APF_Demo extends AdminPageFramework {
 			)
 		);
 		
-		// Add setting sections
+		/*
+		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of things: sections and fields.
+		 * A section groups fields and fields belongs to a section. So a section needs to be created prior to fields.
+		 * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
+		 */
+		/* Add setting sections */
 		$this->addSettingSections(
 			array(
-				'section_id'		=> 'text_fields',
+				'section_id'		=> 'text_fields',	// avoid hyphen(dash), dots, and white spaces
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'textfields',
-				'title'			=> 'Text Fields',
-				'description'	=> 'These are text type fields.',
-				'order'			=> 10,
+				'title'			=> __( 'Text Fields', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are text type fields.', 'admin-page-framework-demo' ),	// ( optional )
+				'order'			=> 10,	// ( optional ) - if you don't set this, an index will be assigned internally in the added order
 			),	
 			array(
-				'section_id'		=> 'selectors',
+				'section_id'	=> 'selectors',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'selectors',
-				'title'			=> 'Selectors and Checkboxes',
-				'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
+				'title'			=> __( 'Selectors and Checkboxes', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'admin-page-framework-demo' ),
 			),
 			array(
-				'section_id'		=> 'sizes',
+				'section_id'	=> 'sizes',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'selectors',
-				'title'			=> 'Sizes',
+				'title'			=> __( 'Sizes', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'section_id'		=> 'image_select',
+				'section_id'	=> 'image_select',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'files',
-				'title'			=> 'Image Selector',
-				'description'	=> 'Set an image url with jQuwey based image selector.',
+				'title'			=> __( 'Image Selector', 'admin-page-framework-demo' ),
+				'description'	=> __( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'section_id'		=> 'color_picker',
+				'section_id'	=> 'color_picker',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'misc',
 				'title'			=> __( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
-				'section_id'		=> 'media_upload',
+				'section_id'	=> 'media_upload',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'files',
 				'title'			=> __( 'Media Uploader', 'admin-page-framework-demo' ),
 				'description'	=> __( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'section_id'		=> 'checklists',
+				'section_id'	=> 'checklists',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'checklist',
-				'title'			=> 'Checklists',
-				'description'	=> 'Post type and taxonomy checklists ( custom checkbox ).',
+				'title'			=> __( 'Checklists', 'admin-page-framework-demo' ),
+				'description'	=> __( 'Post type and taxonomy checklists ( custom checkbox ).', 'admin-page-framework-demo' ),
 			),	
 			array(
-				'section_id'		=> 'hidden_field',
+				'section_id'	=> 'hidden_field',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'misc',
-				'title'			=> 'Hidden Fields',
-				'description'	=> 'These are hidden fields.',
+				'title'			=> __( 'Hidden Fields', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are hidden fields.', 'admin-page-framework-demo' ),
 			),								
 			array(
-				'section_id'		=> 'file_uploads',
+				'section_id'	=> 'file_uploads',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'files',
 				'title'			=> __( 'File Uploads', 'admin-page-framework-demo' ),
 				'description'	=> __( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'section_id'		=> 'submit_buttons',
+				'section_id'	=> 'submit_buttons',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'misc',
 				'title'			=> __( 'Submit Buttons', 'admin-page-framework-demo' ),
 				'description'	=> __( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'section_id'		=> 'verification',
+				'section_id'	=> 'verification',
 				'page_slug'		=> 'apf_builtin_field_types',
 				'tab_slug'		=> 'verification',
 				'title'			=> __( 'Verify Submitted Data', 'admin-page-framework-demo' ),
@@ -337,17 +359,16 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array()
 		);
-		
 		$this->addSettingSections(	
 			array(
-				'section_id'		=> 'geometry',
+				'section_id'	=> 'geometry',
 				'page_slug'		=> 'apf_custom_field_types',
 				'tab_slug'		=> 'geometry',
 				'title'			=> __( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=> __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
 			),				
 			array(
-				'section_id'		=> 'date_pickers',
+				'section_id'	=> 'date_pickers',
 				'page_slug'		=> 'apf_custom_field_types',
 				'tab_slug'		=> 'date',
 				'title'			=> __( 'Date Custom Field Type', 'admin-page-framework' ),
@@ -368,7 +389,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array()
 		);
-		
 		$this->addSettingSections(	
 			array(
 				'section_id'		=> 'submit_buttons_manage',
@@ -401,7 +421,7 @@ class APF_Demo extends AdminPageFramework {
 			array()			
 		);
 		
-		// Add setting fields
+		/* Add setting fields */
 		$this->addSettingFields(
 			array(	// Single text field
 				'field_id'	=>	'text',
@@ -1306,7 +1326,7 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_ + {extended class name} + _ + {field ID}
+	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_ + {extended class name} + _ + {submit field ID}
 		
 		// Set a flag.
 		$bVerified = true;
@@ -1358,7 +1378,7 @@ class APF_Demo extends AdminPageFramework {
 		
 	}
 	
-	public function validation_APF_Demo( $aInput, $aOldOptions ) {
+	public function validation_APF_Demo( $aInput, $aOldOptions ) {	// validation_{extended class name}
 		
 		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
 		if ( isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['submit_delete_options_confirmation'] ) ) 
