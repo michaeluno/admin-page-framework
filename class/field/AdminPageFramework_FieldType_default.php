@@ -50,7 +50,8 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 	 */
 	public function replyToGetField( $aField ) {
 		return 
-			"<div class='admin-page-framework-input-label-container'>"
+			$aField['before_field']
+			. "<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input_tag']
 					. ( $aField['label'] && ! $aField['is_repeatable']
@@ -61,6 +62,7 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 					. $aField['after_input_tag']
 				. "</label>"
 			. "</div>"
+			. $aField['after_field']
 		;		
 	}
 

@@ -212,9 +212,9 @@ return $vValue;
 		return $this->_getRepeaterScriptGlobal( $this->aField['tag_id'] )
 			. "<fieldset>"
 				. "<div class='admin-page-framework-fields' id='{$this->aField['tag_id']}'>"
-					. $this->aField['before_field'] 
+					. $this->aField['before_fields'] 
 					. implode( PHP_EOL, $aOutput )
-					. $this->aField['after_field']
+					. $this->aField['after_fields']
 				. "</div>"
 			. "</fieldset>";
 		

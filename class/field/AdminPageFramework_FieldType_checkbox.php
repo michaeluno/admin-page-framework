@@ -61,9 +61,10 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 				'name'	=> is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$sKey}]" : $aField['attributes']['name'],
 			) + $aField['attributes'];
 			$aOutput[] =
-				$aField['before_input_tag']
+				$aField['before_field']
 				. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: {$aField['label_min_width']}px;'>"
 					. "<label for='{$aAttributes['id']}'>"
+						. $aField['before_input_tag']
 						. "<span class='admin-page-framework-input-container'>"
 							. "<input type='hidden' name='{$aAttributes['name']}' value='0' />"	// the unchecked value must be set prior to the checkbox input field.
 							. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class	
@@ -71,9 +72,10 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 						. "<span class='admin-page-framework-input-label-string'>"
 							. $sLabel
 						. "</span>"
+						. $aField['after_input_tag']
 					. "</label>"					
 				. "</div>"
-				. $aField['after_input_tag'];
+				. $aField['after_field'];
 		}	
 		return implode( PHP_EOL, $aOutput );
 	}	

@@ -36,6 +36,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		// 'is_read_only'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
 		'before_input_tag'		=> '',
 		'after_input_tag'		=> '',				
+		'before_field' => null,
+		'after_field' => null,			
 		'label_min_width'		=> 140,
 		
 		/* Mandatory keys */
@@ -44,8 +46,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		/* For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings. */
 		'page_slug' => null,
 		'section_id' => null,
-		'before_field' => null,
-		'after_field' => null,	
+		'before_fields' => null,
+		'after_fields' => null,	
 		
 		'attributes'			=> array(
 			'disabled'			=> '',	// set 'Disabled' to make it disabled
@@ -116,10 +118,6 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	public function replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
 	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
 	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
-	// protected function getDefaultKeys() { 
-		// return $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys );
-	// }
-	
 	
 }
 endif;
