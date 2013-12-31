@@ -666,11 +666,18 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'radio',
 				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Radio Button', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'Choose one from the radio buttons.', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'label'	=>	array( 'a'	=>	'apple', 'b'	=>	'banana', 'c'	=>	'cherry' ),
 				'default'	=>	'b',	// banana, its key is specified
 				'after_input_tag'	=>	'<br />',
+				'attributes'	=>	array(
+					'b'	=>	array(
+						'disabled'	=> 'Disabled',
+					),
+				),
+				'description'	=>	__( 'Use the <code>after_input_tag</code> key to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-demo' )
+					. ' ' . __( 'To disable elements(or apply different attributes) on an individual element basis, use the <code>attributes</code> key and create the element whose key name is the radio input element value.', 'admin-page-framework-demo' ),
+				
 			),
 			array(	// Multiple sets of radio buttons
 				'field_id'	=>	'radio_multiple',
@@ -695,8 +702,8 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Repeatable Radio Buttons', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
-				'label'	=>	array( 'Off', 'On' ),
-				'default'	=>	1,
+				'label'	=>	array( 1 => 'On', 0 => 'Off' ),
+				'default'	=>	1,	// set the key
 				'is_repeatable'	=> true,
 			),			
 			array(	// Single checkbox item - set a check box item to the 'label' element.

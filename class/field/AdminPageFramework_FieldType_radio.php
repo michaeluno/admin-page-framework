@@ -73,19 +73,23 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 		$aOutput = array();
 		$sValue = $aField['attributes']['value'];
 		foreach( $aField['label'] as $sKey =>$sLabel ) {
-			$aField['attributes'] = array(
+			
+			$aInputAttributes = array(
 				'type'	=> 'radio',
 				'checked'	=> $sValue == $sKey ? 'checked' : '',
 				'value' => $sKey,
 				'id' => $aField['input_id'] . '_' . $sKey,
 				'data-default' => $aField['default'],
-			) + $aField['attributes'];
+			) + (	isset( $aField['attributes'][ $sKey ] ) && is_array( $aField['attributes'][ $sKey ] )
+				? $aField['attributes'][ $sKey ] + $aField['attributes']
+				: $aField['attributes']
+			);
 			$aOutput[] = 
 				$aField['before_input_tag']			
 				. "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
-					. "<label for='{$aField['attributes']['id']}'>"
+					. "<label for='{$aInputAttributes['id']}'>"
 						. "<span class='admin-page-framework-input-container'>"
-							. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class	
+							. "<input " . $this->getHTMLTagAttributesFromArray( $aInputAttributes ) . " />"	// this method is defined in the base class	
 						. "</span>"
 						. "<span class='admin-page-framework-input-label-string'>"
 							. $sLabel
