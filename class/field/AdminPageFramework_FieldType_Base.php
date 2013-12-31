@@ -59,7 +59,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 			
 		$this->aFieldTypeSlugs = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
 		$this->sClassName = $sClassName;
-		$this->oMsg	= $oMsg;
+		$this->oMsg	= $oMsg ? $oMsg : AdminPageFramework_Message::instantiate();
 		
 		// This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
 		if ( $bAutoRegister )
