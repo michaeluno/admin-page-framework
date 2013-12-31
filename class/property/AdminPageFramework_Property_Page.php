@@ -187,7 +187,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * This sets globally among the script using the framework. 
 	 * 
 	 * @since			2.1.2
-	 * @remark			Used by the showInPageTabs() method.
+	 * @remark			Used by the setInPageTabsVisibility() method.
 	 */
 	public $bShowInPageTabs = true;
 
@@ -211,7 +211,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 
-	 * @remark			Used by the showInPageTabs() method.
+	 * @remark			Used by the setInPageTabsVisibility() method.
 	 * @since			2.0.0
 	 * @since			2.1.5			The $oCaller parameter was added.
 	 * @return			void
