@@ -82,7 +82,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 					. $aField['before_input']
 					. "<span class='admin-page-framework-input-container'>"
 						. "<select " . $this->generateAttributes( $aSelectAttributes ) . " >"
-							. $this->_getOptionTags( $aField, $aField['label'] )
+							. $this->_getOptionTags( $aField['input_id'], $aField['attributes'], $aField['label'] )
 						. "</select>"
 					. "</span>"
 					. $aField['after_input']
@@ -99,46 +99,47 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 		 * @since			2.0.1			Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
 		 * @since			2.1.5			Added the $tag_id parameter.
 		 * @since			3.0.0			Reconstructed entirely.
+		 * @remark			The scope is protected as the size unit type uses this.
 		 * @internal
 		 */ 	
-		private function _getOptionTags( &$aField, $aLabel ) {
+		protected function _getOptionTags( $sInputID, &$aAttributes, $aLabel ) {
 			
 			$aOutput = array();
-			$aValue = ( array ) $aField['attributes']['value'];
+			$aValue = ( array ) $aAttributes['value'];
 
 			foreach( $aLabel as $sKey => $asLabel ) {
 				
 				// For the optgroup tag,
 				if ( is_array( $asLabel ) ) {	// optgroup
 				
-					$aAttributes = isset( $aField['attributes']['optgroup'][ $sKey ] ) && is_array( $aField['attributes']['optgroup'][ $sKey ] )
-						? $aField['attributes']['optgroup'][ $sKey ] + $aField['attributes']['optgroup']
-						: $aField['attributes']['optgroup'];
+					$aOptGroupAttributes = isset( $aAttributes['optgroup'][ $sKey ] ) && is_array( $aAttributes['optgroup'][ $sKey ] )
+						? $aAttributes['optgroup'][ $sKey ] + $aAttributes['optgroup']
+						: $aAttributes['optgroup'];
 						
 					$aOutput[] = 
-						"<optgroup label='{$sKey}'" . $this->generateAttributes( $aAttributes ) . ">"
-						. $this->_getOptionTags( $aField, $asLabel )
+						"<optgroup label='{$sKey}'" . $this->generateAttributes( $aOptGroupAttributes ) . ">"
+						. $this->_getOptionTags( $sInputID, $aAttributes, $asLabel )
 						. "</optgroup>";
 					continue;
 					
 				}
 				
 				// For the option tag,
-				$aValue = isset( $aField['attributes']['option'][ $sKey ]['value'] )
-					? $aField['attributes']['option'][ $sKey ]['value']
+				$aValue = isset( $aAttributes['option'][ $sKey ]['value'] )
+					? $aAttributes['option'][ $sKey ]['value']
 					: $aValue;
 				
-				$aAttributes = array(
-					'id'	=> $aField['input_id'] . '_' . $sKey,
+				$aOptionAttributes = array(
+					'id'	=> $sInputID . '_' . $sKey,
 					'value'	=> $sKey,
 					'selected'	=> in_array( ( string ) $sKey, $aValue ) ? 'Selected' : '',
-				) + ( isset( $aField['attributes']['option'][ $sKey ] ) && is_array( $aField['attributes']['option'][ $sKey ] )
-					? $aField['attributes']['option'][ $sKey ] + $aField['attributes']['option']
-					: $aField['attributes']['option']
+				) + ( isset( $aAttributes['option'][ $sKey ] ) && is_array( $aAttributes['option'][ $sKey ] )
+					? $aAttributes['option'][ $sKey ] + $aAttributes['option']
+					: $aAttributes['option']
 				);
 
 				$aOutput[] =
-					"<option " . $this->generateAttributes( $aAttributes ) . " >"	
+					"<option " . $this->generateAttributes( $aOptionAttributes ) . " >"	
 						. $asLabel
 					. "</option>";
 					
