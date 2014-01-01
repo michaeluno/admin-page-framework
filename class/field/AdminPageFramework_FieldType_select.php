@@ -81,7 +81,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
 					. "<span class='admin-page-framework-input-container'>"
-						. "<select " . $this->getHTMLTagAttributesFromArray( $aSelectAttributes ) . " >"
+						. "<select " . $this->generateAttributes( $aSelectAttributes ) . " >"
 							. $this->_getOptionTags( $aField, $aField['label'] )
 						. "</select>"
 					. "</span>"
@@ -116,7 +116,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 						: $aField['attributes']['optgroup'];
 						
 					$aOutput[] = 
-						"<optgroup label='{$sKey}'" . $this->getHTMLTagAttributesFromArray( $aAttributes ) . ">"
+						"<optgroup label='{$sKey}'" . $this->generateAttributes( $aAttributes ) . ">"
 						. $this->_getOptionTags( $aField, $asLabel )
 						. "</optgroup>";
 					continue;
@@ -138,7 +138,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 				);
 
 				$aOutput[] =
-					"<option " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " >"	
+					"<option " . $this->generateAttributes( $aAttributes ) . " >"	
 						. $asLabel
 					. "</option>";
 					

@@ -90,7 +90,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 					. "<label for='{$aInputAttributes['id']}'>"
 						. $this->getFieldElementByKey( $aField['before_input'], $sKey )
 						. "<span class='admin-page-framework-input-container'>"
-							. "<input " . $this->getHTMLTagAttributesFromArray( $aInputAttributes ) . " />"	// this method is defined in the utility class	
+							. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the utility class	
 						. "</span>"
 						. "<span class='admin-page-framework-input-label-string'>"
 							. $sLabel

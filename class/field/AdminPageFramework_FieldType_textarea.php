@@ -88,7 +88,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 									)
 								)
 							) . $this->_getScriptForRichEditor( $aField['attributes']['id'] )
-							: "<textarea " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " >"	// this method is defined in the base class
+							: "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >"	// this method is defined in the base class
 									. $aField['value']
 								. "</textarea>"
 					)

@@ -67,7 +67,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 						. $aField['before_input']
 						. "<span class='admin-page-framework-input-container'>"
 							. "<input type='hidden' name='{$aAttributes['name']}' value='0' />"	// the unchecked value must be set prior to the checkbox input field.
-							. "<input " . $this->getHTMLTagAttributesFromArray( $aAttributes ) . " />"	// this method is defined in the base class	
+							. "<input " . $this->generateAttributes( $aAttributes ) . " />"	// this method is defined in the base class	
 						. "</span>"
 						. "<span class='admin-page-framework-input-label-string'>"
 							. $sLabel

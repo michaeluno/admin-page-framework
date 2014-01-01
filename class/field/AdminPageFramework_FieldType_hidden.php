@@ -60,7 +60,7 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class
+					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"

@@ -243,10 +243,17 @@ class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 	}	
 	
 	/**
-	 * Generates the string of attributes to be embedded in an HTML tag.
+	 * Generates the string of attributes to be embedded in an HTML tag from an associative array.
+	 * 
+	 * For example, 
+	 * 	array( 'id' => 'my_id', 'name' => 'my_name', 'style' => 'background-color:#fff' )
+	 * becomes
+	 * 	id="my_id" name="my_name" style="background-color:#fff"
+	 * 
+	 * This is mostly used by the method to output input fields.
 	 * @since			3.0.0
 	 */
-	protected function getHTMLTagAttributesFromArray( array $aAttributes ) {
+	protected function generateAttributes( array $aAttributes ) {
 		
 		$aOutput = array();
 		foreach( $aAttributes as $sAttribute => $sProperty ) {

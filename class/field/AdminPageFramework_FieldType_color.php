@@ -176,7 +176,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. "<input " . $this->getHTMLTagAttributesFromArray( $aField['attributes'] ) . " />"	// this method is defined in the base class
+					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
 				. "</label>"
 				. "<div class='colorpicker' id='color_{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )	// rel='{$aField['input_id']}'
