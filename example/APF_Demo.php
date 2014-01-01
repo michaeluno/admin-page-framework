@@ -958,8 +958,14 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'file_uploads',
 				'title'	=>	__( 'Multiple File Uploads', 'admin-page-framework-demo' ),
 				'type'	=>	'file',
-				'label'	=>	array( 'Fist File:', 'Second File:', 'Third File:' ),
+				'label'	=>	__( 'First File', 'admin-page-framework-demo' ),
 				'delimiter'	=>	'<br />',
+				array(
+					'label'	=>	__( 'Second File', 'admin-page-framework-demo' ),
+				),
+				array(
+					'label'	=>	__( 'Third File', 'admin-page-framework-demo' ),
+				),				
 			),	
 			array( // Single File Upload Field
 				'field_id'	=>	'file_repeatable',
@@ -967,7 +973,8 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
 				'type'	=>	'file',
 				'is_repeatable'	=>	true,
-			)
+			),
+			array()
 		);
 		$this->addSettingFields(			
 			array(
@@ -1533,11 +1540,11 @@ class APF_Demo extends AdminPageFramework {
 
 		// Display the uploaded file information.
 		$aFileErrors = array();
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_single'];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][0];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][1];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_multiple'][2];
-		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_uploads']['file_repeatable'] as $aFile )
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_single'];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][0];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][1];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][2];
+		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_repeatable'] as $aFile )
 			$aFileErrors[] = $aFile;
 			
 		if ( in_array( 0, $aFileErrors ) ) 

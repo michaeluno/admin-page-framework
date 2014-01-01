@@ -24,7 +24,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		'checkbox',
 		'select',
 		'hidden',
-		// 'file',
+		'file',
 		'submit',
 		// 'import',
 		// 'export',
