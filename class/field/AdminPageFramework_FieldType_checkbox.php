@@ -58,7 +58,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 			$aInputAttributes = array(
 				'id' => $aField['input_id'] . '_' . $sKey,
 				'checked'	=> $this->getCorrespondingArrayValue( $asValue, $sKey, null ) == 1 ? 'checked' : '',
-				'value' => 1,	// must be always 1 for the checkbox type
+				'value' => 1,	// must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
 				'name'	=> is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$sKey}]" : $aField['attributes']['name'],
 			) 
 			+ $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )

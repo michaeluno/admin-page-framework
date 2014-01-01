@@ -73,21 +73,27 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 		$aOutput = array();
 		$sValue = $aField['attributes']['value'];
 		foreach( $aField['label'] as $sKey =>$sLabel ) {
-			
+
+			/* Prepare attributes */
 			$aInputAttributes = array(
 				'type'	=> 'radio',
 				'checked'	=> $sValue == $sKey ? 'checked' : '',
 				'value' => $sKey,
 				'id' => $aField['input_id'] . '_' . $sKey,
 				'data-default' => $aField['default'],
-			) + (	isset( $aField['attributes'][ $sKey ] ) && is_array( $aField['attributes'][ $sKey ] )
-				? $aField['attributes'][ $sKey ] + $aField['attributes']
-				: $aField['attributes']
+			) 
+			+ $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
+			+ $aField['attributes'];
+			$aLabelAttributes = array(
+				'for'	=>	$aInputAttributes['id'],
+				'class'	=>	$aInputAttributes['disabled'] ? 'disabled' : '',
 			);
+			
+			/* Insert the output */
 			$aOutput[] = 
 				$this->getFieldElementByKey( $aField['before_field'], $sKey )
 				. "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
-					. "<label for='{$aInputAttributes['id']}'>"
+					. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 						. $this->getFieldElementByKey( $aField['before_input'], $sKey )
 						. "<span class='admin-page-framework-input-container'>"
 							. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the utility class	
