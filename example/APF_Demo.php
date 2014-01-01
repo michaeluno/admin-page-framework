@@ -689,7 +689,7 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Radio Button', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'label'	=>	array( 'a'	=>	'Apple', 'b'	=>	'Banana ( this option is disabled. )', 'c'	=>	'Cherry' ),
-				'default'	=>	'b',	// yields Banana; its key is specified
+				'default'	=>	'c',	// yields Cherry; its key is specified.
 				'after_label'	=>	'<br />',
 				'attributes'	=>	array(
 					'b'	=>	array(

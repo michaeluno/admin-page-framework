@@ -195,9 +195,6 @@ abstract class AdminPageFramework_Property_Base {
 			display: inline-block;		
 			vertical-align: middle;
 		}
-		.admin-page-framework-field-radio .admin-page-framework-input-container {
-			display: inline;
-		}
 		
 		/* Repeatable Fields */		
 		.admin-page-framework-field.repeatable {

@@ -40,6 +40,9 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 			.admin-page-framework-field-radio .admin-page-framework-input-label-container {
 				padding-right: 1em;
 			}			
+			.admin-page-framework-field-radio .admin-page-framework-input-container {
+				display: inline;
+			}			
 		";
 	}
 
