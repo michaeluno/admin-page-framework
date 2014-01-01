@@ -7,17 +7,30 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_posttype' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
+
+	/**
+	 * Defines the field type slugs used for this field type.
+	 */
+	public $aFieldTypeSlugs = array( 'posttype', );
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'aRemove'					=> array( 'revision', 'attachment', 'nav_menu_item' ), // for the posttype checklist field type
-		);	
-	}
-
+	protected $aDefaultKeys = array(
+		'slugs_to_remove'		=>	null,	// the default array will be assigned in the rendering method.
+		'attributes'	=>	array(
+			'size'	=>	30,
+			'maxlength'	=>	400,
+		),	
+	);
+	protected $aDefaultRemovingPostTypeSlugs = array(
+		'revision', 
+		'attachment', 
+		'nav_menu_item',
+	);
 	/**
 	 * Loads the field type necessary components.
 	 */ 
@@ -35,7 +48,14 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetStyles() {
-		return "";		
+		return "/* Posttype Field Type */
+			.admin-page-framework-field input[type='checkbox'] {
+				margin-right: 0.5em;
+			}			
+			.admin-page-framework-field-posttype .admin-page-framework-input-label-container {
+				padding-right: 1em;
+			}	
+		";		
 	}
 	
 	/**
@@ -45,57 +65,14 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	 * 
 	 * @remark			the posttype checklist field does not support multiple elements by passing an array of labels.
 	 * @since			2.0.0
-	 * 
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 * @since			3.0.0			Reconstructed entirely.
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $aField ) {
 
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['label'];		
-						
-		foreach( ( array ) $this->getPostTypeArrayForChecklist( $aField['aRemove'] ) as $sKey => $sValue ) {
-			$sName = "{$field_name}[{$sKey}]";
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
-						. "<label for='{$tag_id}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] )
-							. "<span class='admin-page-framework-input-container'>"
-								. "<input type='hidden' name='{$sName}' value='0' />"
-								. "<input "
-									. "id='{$tag_id}_{$sKey}' "
-									. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-									. "type='checkbox' "
-									. "name='{$sName}'"
-									. "value='1' "
-									. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-									. ( $this->getCorrespondingArrayValue( $vValue, $sKey, false ) == 1 ? "Checked " : '' )				
-								. "/>"
-							. "</span>"
-							. "<span class='admin-page-framework-input-label-string'>"
-								. $sValue
-							. "</span>"				
-							. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
-						. "</label>"
-					. "</div>"
-				. "</div>"
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		}
-		return "<div class='admin-page-framework-field-posttype' id='{$tag_id}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";
-		
+		$aField['label'] = $this->_getPostTypeArrayForChecklist( isset( $aField['slugs_to_remove'] ) ? $aField['slugs_to_remove'] : $this->aDefaultRemovingPostTypeSlugs );
+		return parent::replyToGetField( $aField );
+			
 	}	
 	
 		/**
@@ -106,7 +83,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 		 * @since			2.1.5			Moved from AdminPageFramework_InputTag.
 		 * @return			array			The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
 		 */ 
-		private function getPostTypeArrayForChecklist( $aRemoveNames, $aPostTypes=array() ) {
+		private function _getPostTypeArrayForChecklist( $aRemoveNames, $aPostTypes=array() ) {
 			
 			foreach( get_post_types( '','objects' ) as $oPostType ) 
 				if (  isset( $oPostType->name, $oPostType->label ) ) 

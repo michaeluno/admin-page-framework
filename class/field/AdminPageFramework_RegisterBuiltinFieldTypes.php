@@ -32,7 +32,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		// 'media',
 		'color',
 		// 'taxonomy',
-		// 'posttype',
+		'posttype',
 		'size',
 	);	
 	

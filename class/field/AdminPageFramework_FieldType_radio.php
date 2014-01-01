@@ -98,7 +98,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 			
 			/* Insert the output */
 			$aOutput[] = 
-				$this->getFieldElementByKey( $aField['before_field'], $sKey )
+				$this->getFieldElementByKey( $aField['before_label'], $sKey )
 				. "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: {$aField['label_min_width']}px;'>"
 					. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 						. $this->getFieldElementByKey( $aField['before_input'], $sKey )
@@ -111,7 +111,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 						. $this->getFieldElementByKey( $aField['after_input'], $sKey )
 					. "</label>"
 				. "</div>"
-				. $this->getFieldElementByKey( $aField['after_field'], $sKey )
+				. $this->getFieldElementByKey( $aField['after_label'], $sKey )
 				;
 				
 		}

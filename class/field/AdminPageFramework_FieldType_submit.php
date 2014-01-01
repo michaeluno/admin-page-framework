@@ -74,7 +74,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		);
 		
 		return 
-			$aField['before_field']
+			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container'>"
 				. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 					. $aField['before_input']
@@ -83,7 +83,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"
-			. $aField['after_field'];
+			. $aField['after_label'];
 		
 	}
 	

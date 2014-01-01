@@ -63,6 +63,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) {
 			
 			$aInputAttributes = array(
+				'type'	=> 'checkbox',	// needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
 				'id' => $aField['input_id'] . '_' . $sKey,
 				'checked'	=> $this->getCorrespondingArrayValue( $asValue, $sKey, null ) == 1 ? 'checked' : '',
 				'value' => 1,	// must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
@@ -77,7 +78,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 			);
 			
 			$aOutput[] =
-				$this->getFieldElementByKey( $aField['before_field'], $sKey )
+				$this->getFieldElementByKey( $aField['before_label'], $sKey )
 				. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: {$aField['label_min_width']}px;'>"
 					. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 						. $this->getFieldElementByKey( $aField['before_input'], $sKey )
@@ -91,7 +92,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 						. $this->getFieldElementByKey( $aField['after_input'], $sKey )
 					. "</label>"					
 				. "</div>"
-				. $this->getFieldElementByKey( $aField['after_field'], $sKey );
+				. $this->getFieldElementByKey( $aField['after_label'], $sKey );
 				
 		}	
 		return implode( PHP_EOL, $aOutput );

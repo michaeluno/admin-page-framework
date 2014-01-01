@@ -152,11 +152,11 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		
 		/* 3. Return the output */
 		return
-			$aField['before_field']
+			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"
 				/* The size (number) part */
 				. "<label " . $this->generateAttributes( $aSizeLabelAttributes ) . ">"
-					. $this->getFieldElementByKey( $aField['before_field'], 'size' )
+					. $this->getFieldElementByKey( $aField['before_label'], 'size' )
 					. ( $aField['label'] && ! $aField['is_repeatable']
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
@@ -166,7 +166,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 				. "</label>"
 				/* The unit (select) part */
 				. "<label " . $this->generateAttributes( $aUnitLabelAttributes ) . ">"
-					. $this->getFieldElementByKey( $aField['before_field'], 'unit' )
+					. $this->getFieldElementByKey( $aField['before_label'], 'unit' )
 					. "<span class='admin-page-framework-input-container'>"
 						. "<select " . $this->generateAttributes( $aUnitAttributes ) . " >"
 							. $this->_getOptionTags( $aUnitAttributes['id'], $aBaseAttributes, $aField['units'] )	// this method is defined in the select field type class
@@ -175,7 +175,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 					. $this->getFieldElementByKey( $aField['after_input'], 'unit' )
 				. "</label>"					
 			. "</div>"
-			. $aField['after_field']; 			
+			. $aField['after_label']; 			
 		
 	}
 

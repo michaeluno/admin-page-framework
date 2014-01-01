@@ -34,10 +34,12 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		'delimiter'	=>	'',
 		// 'is_disabled'	=>	false,	// ( array or boolean ) This value indicates whether the set field is disabled or not. 
 		// 'is_read_only'	=>	false,	// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
-		'before_input'	=> '',
-		'after_input'	=> '',				
-		'before_field'	=> null,
-		'after_field'	=> null,			
+		'before_input'	=>	'',
+		'after_input'	=>	'',				
+		'before_label'	=>	null,
+		'after_label'	=>	null,	
+		'before_field'	=>	null,
+		'after_field'	=>	null,
 		'label_min_width'	=> 140,	// in pixel
 		
 		/* Mandatory keys */

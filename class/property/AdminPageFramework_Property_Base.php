@@ -195,13 +195,6 @@ abstract class AdminPageFramework_Property_Base {
 			display: inline-block;		
 			vertical-align: middle;
 		}
-		
-		.admin-page-framework-field-posttype input[type='checkbox'] { 
-			margin-top: 0px;
-		}
-		.admin-page-framework-field-posttype {
-			display: inline-block;
-		}
 		.admin-page-framework-field-radio .admin-page-framework-input-container {
 			display: inline;
 		}

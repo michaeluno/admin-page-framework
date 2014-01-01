@@ -156,8 +156,8 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		// The followings may need to be uncommented.
 		// 'class_name' => null,		// This will be assigned automatically in the formatting method.
 		// 'error_message' => null,			// error message for the field
-		// 'before_field' => null,
-		// 'after_field' => null,
+		// 'before_label' => null,
+		// 'after_label' => null,
 		// 'order' => null,			// do not set the default number here for this key.		
 
 		'repeatable'		=> null,	// since 2.1.3		

@@ -60,8 +60,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'description'		=> null,
 		'name'				=> null,		// the name attribute of the input field.
 		'error_message'		=> null,		// error message for the field
-		'before_field'		=> null,
-		'after_field'		=> null,
+		'before_label'		=> null,
+		'after_label'		=> null,
 		'if' 				=> true,
 		'order'				=> null,	// do not set the default number here for this key.		
 		'help'				=> null,	// since 2.1.0
@@ -435,7 +435,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 		</ul>
 	* 	<li><strong>posttype</strong> - a posttype check list. This is a set of check boxes listing post type slugs.</li>
 	* 		<ul>
-	* 			<li><strong>aRemove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item' )</code></li>
+	* 			<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item' )</code></li>
 	* 		</ul>
 
 	* </ul>	

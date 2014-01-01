@@ -168,7 +168,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 		) + $aField['attributes'];
 
 		return 
-			$aField['before_field']
+			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
@@ -182,7 +182,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 				. "<div class='colorpicker' id='color_{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )	// rel='{$aField['input_id']}'
 				. $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )				
 			. "</div>"
-			. $aField['after_field'];
+			. $aField['after_label'];
 		
 	}
 		/**

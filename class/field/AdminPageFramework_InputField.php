@@ -215,7 +215,8 @@ return $vValue;
 			/* 4-3. Callback the registered function to output the field */        			
 			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
 			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
-				? "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}' data-type='{$aField['type']}'>"
+				? 	$aField['before_field']
+					. "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}' data-type='{$aField['type']}'>"
 					. call_user_func_array(
 						$aFieldTypeDefinition['hfRenderField'],
 						array( $aField )
@@ -225,6 +226,7 @@ return $vValue;
 						: ""
 					)
 					. "</div>"
+					. $aField['after_field']
 				: "";
 
 		}

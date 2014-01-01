@@ -76,7 +76,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['field_name'] : "{$aField['field_name']}[]";
 
 		return
-			$aField['before_field']
+			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
@@ -88,7 +88,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 					. $aField['after_input']
 				. "</label>"					
 			. "</div>"
-			. $aField['after_field']; 
+			. $aField['after_label']; 
 			
 		
 	}

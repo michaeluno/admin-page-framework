@@ -690,7 +690,7 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'radio',
 				'label'	=>	array( 'a'	=>	'Apple', 'b'	=>	'Banana ( this option is disabled. )', 'c'	=>	'Cherry' ),
 				'default'	=>	'b',	// yields Banana; its key is specified
-				'after_field'	=>	'<br />',
+				'after_label'	=>	'<br />',
 				'attributes'	=>	array(
 					'b'	=>	array(
 						'disabled'	=>	'Disabled',
@@ -760,7 +760,7 @@ class APF_Demo extends AdminPageFramework {
 					),
 				),
 				'description'	=>	__( 'It is possible to disable checkbox items on an individual basis.', 'admin-page-framework-demo' ),
-				'after_field'	=>	'<br />',
+				'after_label'	=>	'<br />',
 			),
 			array(	// Multiple sets of checkbox fields
 				'field_id'	=>	'checkbox_multiple_fields',
@@ -973,9 +973,30 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'field_id'	=>	'post_type_checklist',
 				'section_id'	=>	'checklists',
-				'title'	=>	'Post Types',
+				'title'	=>	__( 'Post Types', 'admin-page-framework-demo' ),
 				'type'	=>	'posttype',
-			),											
+			),		
+			array(
+				'field_id'	=>	'post_type_multiple_checklists',
+				'section_id'	=>	'checklists',
+				'title'	=>	__( 'Multiple Post Type Check lists', 'admin-page-framework-demo' ),
+				'type'	=>	'posttype',
+				'before_field'	=>	'<h4>' . __( 'For A', 'admin-page-framework-demo' ) . '</h4>',
+				array(
+					'before_field'	=>	'<h4>' . __( 'For B', 'admin-page-framework-demo' ) . '</h4>',
+				),
+				array(
+					'before_field'	=>	'<h4>' . __( 'For C', 'admin-page-framework-demo' ) . '</h4>',
+				),
+			),					
+			array(
+				'field_id'	=>	'post_type_checklist_repeatable',
+				'section_id'	=>	'checklists',
+				'title'	=>	__( 'Repeatable Post Type Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'posttype',
+				'is_repeatable'	=> true,
+				'delimiter'	=> '<hr />',
+			),					
 			array(
 				'field_id'	=>	'taxonomy_checklist',
 				'section_id'	=>	'checklists',

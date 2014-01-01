@@ -52,7 +52,7 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 	public function replyToGetField( $aField ) {
 
 		return 
-			$aField['before_field']
+			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
@@ -64,7 +64,7 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"
-			. $aField['after_field'];
+			. $aField['after_label'];
 		
 	}
 	
