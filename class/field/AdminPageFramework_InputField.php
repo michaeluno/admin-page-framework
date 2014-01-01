@@ -354,7 +354,7 @@ return $vValue;
 		return
 			"<script type='text/javascript'>
 				jQuery( document ).ready( function() {
-					jQuery( '#{$sTagID} .admin-page-framework-field' ).append( \"{$sButtons}\" );	// Adds the buttons
+					jQuery( '#{$sTagID} .admin-page-framework-field' ).prepend( \"{$sButtons}\" );	// Adds the buttons
 					updateAPFRepeatableFields( '{$sTagID}' );	// Update the fields					
 				});
 			</script>";
