@@ -91,7 +91,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 			$aOutput[] = 
 				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					. "<label for='{$tag_id}_{$sKey}'>"
-						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
+						. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] ) 
 						. ( $sLabel 
 							? "<span class='admin-page-framework-input-label-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel ."</span>"
 							: "" 
@@ -129,7 +129,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_Bas
 							$bMultipleOptions 
 						)
 					. "</select>"
-					. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
+					. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"

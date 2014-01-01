@@ -259,9 +259,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
 					. "<label for='{$tag_id}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] )
+						. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] )
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
+						. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
 					. "</label>"
 				. "</div>"
 				. $this->getMediaUploaderButtonScript( "{$tag_id}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );

@@ -612,9 +612,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			return 
 				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
 					. "<label for='{$tag_id}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
+						. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] ) 
 						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
+						. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
 					. "</label>"
 				. "</div>"
 				. ( $this->getCorrespondingArrayValue( $aField['vImagePreview'], $sKey, true )

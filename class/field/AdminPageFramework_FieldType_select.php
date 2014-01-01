@@ -79,13 +79,13 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 			$aField['before_field']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"
 				. "<label for='{$aField['input_id']}'>"
-					. $aField['before_input_tag']
+					. $aField['before_input']
 					. "<span class='admin-page-framework-input-container'>"
 						. "<select " . $this->getHTMLTagAttributesFromArray( $aSelectAttributes ) . " >"
 							. $this->_getOptionTags( $aField, $aField['label'] )
 						. "</select>"
 					. "</span>"
-					. $aField['after_input_tag']
+					. $aField['after_input']
 				. "</label>"					
 			. "</div>"
 			. $aField['after_field']; 

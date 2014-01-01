@@ -84,7 +84,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
 						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $_aDefaultKeys['vImportFormat'] )	// array, text, or json.
 					. "' />"			
-					. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, '' ) 
+					. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, '' ) 
 					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
 						. "<input "		// upload button
 							. "id='{$tag_id}_{$sKey}_file' "
@@ -103,7 +103,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 						. "/>"
 					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, '' )
+					. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, '' )
 				. "</div>"	// end of admin-page-framework-field
 				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
 					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"

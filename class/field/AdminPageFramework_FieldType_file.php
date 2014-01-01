@@ -59,7 +59,7 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_Bas
 				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
 					. "<div class='admin-page-framework-input-label-container'>"
 						. "<label for='{$tag_id}_{$sKey}'>"
-							. $this->getCorrespondingArrayValue( $aField['before_input_tag'], $sKey, $_aDefaultKeys['before_input_tag'] ) 
+							. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] ) 
 							. ( $sLabel && ! $aField['repeatable'] ?
 								"<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>"
 								: ""
@@ -73,7 +73,7 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_Bas
 								. "value='" . $this->getCorrespondingArrayValue( $aFields, $sKey ) . "' "
 								. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
 							. "/>"
-							. $this->getCorrespondingArrayValue( $aField['after_input_tag'], $sKey, $_aDefaultKeys['after_input_tag'] )
+							. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
 						. "</label>"
 					. "</div>"
 				. "</div>"

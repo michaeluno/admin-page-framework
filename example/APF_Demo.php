@@ -689,13 +689,16 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'radio',
 				'label'	=>	array( 'a'	=>	'apple', 'b'	=>	'banana', 'c'	=>	'cherry' ),
 				'default'	=>	'b',	// banana, its key is specified
-				'after_input_tag'	=>	'<br />',
+				'after_field'	=>	'<br />',
+				'after_input' => array(
+					'b'	=>	__( 'This input tag is disabled.', 'admin-page-framework-demo' )
+				),
 				'attributes'	=>	array(
 					'b'	=>	array(
 						'disabled'	=> 'Disabled',
 					),
 				),
-				'description'	=>	__( 'Use the <code>after_input_tag</code> key to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-demo' )
+				'description'	=>	__( 'Use the <code>after_input</code> key to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-demo' )
 					. ' ' . __( 'To disable elements(or apply different attributes) on an individual element basis, use the <code>attributes</code> key and create the element whose key name is the radio input element value.', 'admin-page-framework-demo' ),
 				
 			),
@@ -743,7 +746,7 @@ class APF_Demo extends AdminPageFramework {
 				'description'	=>	__( 'The description can be omitted.', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
 				'label'	=>	array( 'moon'	=>	'Moon', 'earth'	=>	'Earth', 'sun'	=>	'Sun', 'mars'	=>	'Mars' ),
-				'after_input_tag'	=> '<br />',
+				'after_input'	=> '<br />',
 				'default'	=>	array( 'moon'	=>	true, 'earth'	=>	false, 'sun'	=>	true, 'mars'	=>	false ),
 			),
 			array(	// Multiple sets of checkbox fields

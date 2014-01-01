@@ -34,8 +34,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 		'delimiter'				=> '',
 		// 'is_disabled'				=> false,				// ( array or boolean ) This value indicates whether the set field is disabled or not. 
 		// 'is_read_only'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
-		'before_input_tag'		=> '',
-		'after_input_tag'		=> '',				
+		'before_input'		=> '',
+		'after_input'		=> '',				
 		'before_field' => null,
 		'after_field' => null,			
 		'label_min_width'		=> 140,
@@ -119,5 +119,27 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
 	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
 	
+	/*
+	 * Shared methods
+	 */
+	/**
+	 * Returns the element value of the given field element.
+	 * 
+	 * When there are multiple input/select tags in one field such as for the radio and checkbox input type, 
+	 * the framework user can specify the key to apply the element value. In this case, this method will be used.
+	 * 
+	 * @since			3.0.0
+	 */
+	protected function getFieldElementByKey( $asElement, $sKey, $asDefault='' ) {
+		
+		if ( ! is_array( $asElement ) )
+			return $asElement;
+				
+		$aElements = &$asElement;	// it is an array
+		return isset( $aElements[ $sKey ] )
+			? $aElements[ $sKey ]
+			: $asDefault;
+		
+	}	
 }
 endif;
