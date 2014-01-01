@@ -427,10 +427,10 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'text',
 				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'Type something here.', 'admin-page-framework-demo' ),	// additional notes besides the form field
-				'help'	=>	__( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Type something here. This text is inserted with the <code>description</code> key in the field definition array.', 'admin-page-framework-demo' ),
+				'help'	=>	__( 'This is a text field and typed text will be saved. This text is inserted with the <code>help</code> key in the field definition array.', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
-				'order'	=>	1,
+				'order'	=>	1,	// ( optional )
 				'default'	=>	123456,
 				'attributes'	=>	array(
 					'size'	=>	40,
@@ -459,6 +459,7 @@ class APF_Demo extends AdminPageFramework {
 					// 'disabled'	=>	'Disabled',		// disabled can be specified like so
 				),
 				'value'	=>	__( 'This is a read-only value.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'The attribute can be set with the <code>attributes</code> key.', 'admin-page-framework-demo' ),
 			),			
 			array(	// Number Field
 				'field_id'	=>	'number',
@@ -470,7 +471,6 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'text_multiple',
 				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-				'description'	=>	'These are multiple text fields.',	// additional notes besides the form field
 				'help'	=>	__( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'default'	=>	'Hello World',
@@ -493,16 +493,17 @@ class APF_Demo extends AdminPageFramework {
 						'size'	=>	60,
 					)
 				),				
+				'description'	=>	__( 'These are multiple text fields. To include multiple input fields associated with one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
 			),		
 			array(	// Repeatable text fields
 				'field_id'	=>	'text_repeatable',
 				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'size'	=>	60,
 				'default'	=>	'a',
 				'is_repeatable'	=>	true,
+				'description'	=>	__( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>is_repeatable</code> key to true.', 'admin-page-framework-demo' ),
 			),				
 			array(	// Text Area
 				'field_id'	=>	'textarea',
@@ -510,11 +511,11 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Single Text Area', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Type a text string here.', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
-				'default'	=>	'Hello World! This is set as the default string.',
+				'default'	=>	__( 'Hello World! This is set as the default string.', 'admin-page-framework-demo' ),
 				'attributes'	=>	array(
 					'rows'	=>	6,
 					'cols'	=>	60,
-				)
+				),
 			),
 			array(	// Repeatable Text Areas
 				'field_id'	=>	'textarea_repeatable',
@@ -531,7 +532,7 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Rich Text Editors
 				'field_id'	=>	'rich_textarea',
 				'section_id'	=>	'text_fields',
-				'title'	=>	'Rich Text Area',
+				'title'	=>	__( 'Rich Text Area', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'rich'	=> true,	// just pass non empty value to enable the rich editor.
 				array(
@@ -557,10 +558,11 @@ class APF_Demo extends AdminPageFramework {
 				),
 				array(
 					'label'	=>	__( 'Second Text Area: ', 'admin-page-framework-demo' ),
-					'default'	=>	__( 'The second default text.', 'admin-page-framework-demo' ),
+					'default'	=>	__( 'The second default text. See the background color is different from the others. This is done with the attributes key.', 'admin-page-framework-demo' ),
 					'attributes'	=>	array(
 						'rows'	=>	3,
 						'cols'	=>	40,
+						'style'	=>	'background-color: #F0F8FA;'	// this changes the style of the textarea tag.
 					),					
 				),
 				array(
@@ -620,7 +622,7 @@ class APF_Demo extends AdminPageFramework {
 						2	=>	'2', 
 					),
 				),
-				'attributes'	=>	array(
+				'attributes'	=>	array(	// the 'attributes' element of the select field type has three keys: select, 'option', and 'optgroup'.
 					'select'	=> array(
 						'style'	=> "width: 200px;",
 					),
