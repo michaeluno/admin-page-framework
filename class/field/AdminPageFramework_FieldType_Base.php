@@ -26,19 +26,19 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Util
 	 * Defines the default key-values of all field types.
 	 */
 	protected static $_aDefaultKeys = array(
-		'value'					=> null,				// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
-		'default'				=> null,				// ( array or string )
-		'is_repeatable'			=> false,
-		// 'class_attribute'		=> '',					// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
-		'label'					=> '',					// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
-		'delimiter'				=> '',
-		// 'is_disabled'				=> false,				// ( array or boolean ) This value indicates whether the set field is disabled or not. 
-		// 'is_read_only'				=> false,				// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
-		'before_input'		=> '',
-		'after_input'		=> '',				
-		'before_field' => null,
-		'after_field' => null,			
-		'label_min_width'		=> 140,
+		'value'	=>	null,	// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
+		'default'	=>	null,	// ( array or string )
+		'is_repeatable'	=>	false,
+		// 'class_attribute'	=>	'',		// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
+		'label'	=>	'',	// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+		'delimiter'	=>	'',
+		// 'is_disabled'	=>	false,	// ( array or boolean ) This value indicates whether the set field is disabled or not. 
+		// 'is_read_only'	=>	false,	// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
+		'before_input'	=> '',
+		'after_input'	=> '',				
+		'before_field'	=> null,
+		'after_field'	=> null,			
+		'label_min_width'	=> 140,	// in pixel
 		
 		/* Mandatory keys */
 		'field_id' => null,		

@@ -10,16 +10,23 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_submit' ) ) :
 class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_Base {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(		
-			'class_attribute'					=> 'button button-primary',
-			'redirect_url'							=> null,
-			'links'								=> null,
-			'is_reset'							=> null,
-		);	
-	}
+	public $aFieldTypeSlugs = array( 'submit', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'redirect_url'	=>	null,
+		'href'	=>	null,
+		'is_reset'	=>	null,		
+		'attributes'	=> array(
+			'class'	=>	'button button-primary',
+		),	
+	);	
 
 	/**
 	 * Loads the field type necessary components.
@@ -49,117 +56,112 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 * Returns the output of the field type.
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
+	public function replyToGetField( $aField ) {
 		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['label'];		
+		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'submit' );
 
+		$aInputAttributes = array(
+			'value'	=>	( $sValue = $this->getInputFieldValueFromLabel( $aField ) ),
+		) + $aField['attributes']
+		+ array(
+			'title'	=>	$sValue,
+		);
 		
-		$vValue = $this->getInputFieldValueFromLabel( $aField );
-		$field_nameFlat = $this->getInputFieldNameFlat( $aField );
-		foreach( ( array ) $vValue as $sKey => $sValue ) {
-			$sRedirectURL = $this->getCorrespondingArrayValue( $aField['redirect_url'], $sKey, $_aDefaultKeys['redirect_url'] );
-			$sLinkURL = $this->getCorrespondingArrayValue( $aField['links'], $sKey, $_aDefaultKeys['links'] );
-			$sResetKey = $this->getCorrespondingArrayValue( $aField['is_reset'], $sKey, $_aDefaultKeys['is_reset'] );
-			$bResetConfirmed = $this->checkConfirmationDisplayed( $sResetKey, $field_nameFlat ); 
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					// embed the field id and input id
-					. "<input type='hidden' "
-						. "name='__submit[{$tag_id}_{$sKey}][input_id]' "
-						. "value='{$tag_id}_{$sKey}' "
-					. "/>"
-					. "<input type='hidden' "
-						. "name='__submit[{$tag_id}_{$sKey}][field_id]' "
-						. "value='{$aField['field_id']}' "
-					. "/>"		
-					. "<input type='hidden' "
-						. "name='__submit[{$tag_id}_{$sKey}][name]' "
-						. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
-					. "/>" 						
-					// for the redirect_url key
-					. ( $sRedirectURL 
-						? "<input type='hidden' "
-							. "name='__redirect[{$tag_id}_{$sKey}][url]' "
-							. "value='" . $sRedirectURL . "' "
-						. "/>" 
-						. "<input type='hidden' "
-							. "name='__redirect[{$tag_id}_{$sKey}][name]' "
-							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}" : "'" )
-						. "/>" 
-						: "" 
-					)
-					// for the links key
-					. ( $sLinkURL 
-						? "<input type='hidden' "
-							. "name='__link[{$tag_id}_{$sKey}][url]' "
-							. "value='" . $sLinkURL . "' "
-						. "/>"
-						. "<input type='hidden' "
-							. "name='__link[{$tag_id}_{$sKey}][name]' "
-							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
-						. "/>" 
-						: "" 
-					)
-					// for the is_reset key
-					. ( $sResetKey && ! $bResetConfirmed
-						? "<input type='hidden' "
-							. "name='__reset_confirm[{$tag_id}_{$sKey}][key]' "
-							. "value='" . $field_nameFlat . "' "
-						. "/>"
-						. "<input type='hidden' "
-							. "name='__reset_confirm[{$tag_id}_{$sKey}][name]' "
-							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
-						. "/>" 
-						: ""
-					)
-					. ( $sResetKey && $bResetConfirmed
-						? "<input type='hidden' "
-							. "name='__reset[{$tag_id}_{$sKey}][key]' "
-							. "value='" . $sResetKey . "' "
-						. "/>"
-						. "<input type='hidden' "
-							. "name='__reset[{$tag_id}_{$sKey}][name]' "
-							. "value='{$field_nameFlat}" . ( is_array( $vValue ) ? "|{$sKey}'" : "'" )
-						. "/>" 
-						: ""
-					)
-					. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
-						. "<input "
-							. "id='{$tag_id}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-							. "type='{$aField['type']}' "	// submit
-							. "name=" . ( is_array( $aField['label'] ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
-							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'submit' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
-				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		}
-		return "<div class='admin-page-framework-field-submit' id='{$tag_id}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";		
-	
+		$aLabelAttributes = array(
+			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
+			'for'	=>	$aInputAttributes['id'],
+			'class'	=>	$aInputAttributes['disabled'] ? 'disabled' : '',			
+		);
+		
+		return 
+			$aField['before_field']
+			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container'>"
+				. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
+					. $aField['before_input']
+					. $this->_getEmbeddedHiddenInputFields( $aField )
+					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
+					. $aField['after_input']
+				. "</label>"
+			. "</div>"
+			. $aField['after_field'];
+		
 	}
+	
+	/**
+	 * Returns the output of hidden fields for the submit type that enables custom submit buttons.
+	 * @since			3.0.0
+	 */
+	protected function _getEmbeddedHiddenInputFields( &$aField ) {
+
+		return	
+			"<input type='hidden' "
+				. "name='__submit[{$aField['input_id']}][input_id]' "
+					. "value='{$aField['input_id']}'"
+			. "/>"
+			. "<input type='hidden' "
+				. "name='__submit[{$aField['input_id']}][field_id]' "
+				. "value='{$aField['field_id']}'"
+			. "/>"		
+			. "<input type='hidden' "
+				. "name='__submit[{$aField['input_id']}][name]' "
+				. "value='{$aField['_field_name_flat']}'"
+			. "/>" 						
+			/* for the redirect_url key */
+			. ( $aField['redirect_url']
+				? "<input type='hidden' "
+					. "name='__redirect[{$aField['input_id']}][url]' "
+					. "value='{$aField['redirect_url']}'"
+				. "/>" 
+				. "<input type='hidden' "
+					. "name='__redirect[{$aField['input_id']}][name]' "
+					. "value='{$aField['_field_name_flat']}'"
+				. "/>" 
+				: "" 
+			)
+			/* for the href key */
+			. ( $aField['href']
+				? "<input type='hidden' "
+					. "name='__link[{$aField['input_id']}][url]' "
+					. "value='{$aField['href']}'"
+				. "/>"
+				. "<input type='hidden' "
+					. "name='__link[{$aField['input_id']}][name]' "
+					. "value='{$aField['_field_name_flat']}'"
+				. "/>" 
+				: "" 
+			)
+			/* for the is_reset key */
+			. ( $aField['is_reset'] && ( ! ( $bResetConfirmed = $this->_checkConfirmationDisplayed( $aField['is_reset'], $aField['_field_name_flat'] ) ) )
+				? "<input type='hidden' "
+					. "name='__reset_confirm[{$aField['input_id']}][key]' "
+					. "value='{$aField['_field_name_flat']}'"
+				. "/>"
+				. "<input type='hidden' "
+					. "name='__reset_confirm[{$aField['input_id']}][name]' "
+					. "value='{$aField['_field_name_flat']}'"
+				. "/>" 
+				: ""
+			)
+			. ( $aField['is_reset'] && $bResetConfirmed
+				? "<input type='hidden' "
+					. "name='__reset[{$aField['input_id']}][key]' "
+					. "value='{$aField['is_reset']}'"
+				. "/>"
+				. "<input type='hidden' "
+					. "name='__reset[{$aField['input_id']}][name]' "
+					. "value='{$aField['_field_name_flat']}'"
+				. "/>" 
+				: ""
+			);
+		
+	}
+		
+	
 		/**
 		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the is_reset key is set.
 		 * 
 		 */
-		private function checkConfirmationDisplayed( $sResetKey, $sFlatFieldName ) {
+		private function _checkConfirmationDisplayed( $sResetKey, $sFlatFieldName ) {
 				
 			if ( ! $sResetKey ) return false;
 			
@@ -177,23 +179,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	/*
 	 *	Shared Methods 
 	 */
-	/**
-	 * Retrieves the field name attribute whose dimensional elements are delimited by the pile character.
-	 * 
-	 * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
-	 * This is used to create a reference the submit field name to determine which button is pressed.
-	 * 
-	 * @remark			Used by the import and submit field types.
-	 * @since			2.0.0
-	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_InputField.
-	 */ 
-	protected function getInputFieldNameFlat( $aField ) {	
-	
-		return isset( $aField['option_key'] ) // the meta box class does not use the option key
-			? "{$aField['option_key']}|{$aField['page_slug']}|{$aField['field_id']}"
-			: $aField['field_id'];
-		
-	}			
+
 	/**
 	 * Retrieves the input field value from the label.
 	 * 
@@ -207,13 +193,11 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 */ 
 	protected function getInputFieldValueFromLabel( $aField ) {	
 		
-		// If the value key is explicitly set, use it.
-		if ( isset( $aField['vValue'] ) ) return $aField['vValue'];
+		if ( isset( $aField['value'] ) ) return $aField['value'];	// If the value key is explicitly set, use it.
 		
-		if ( isset( $aField['label'] ) ) return $aField['label'];
+		if ( isset( $aField['label'] ) ) return $aField['label'];	
 		
-		// If the default value is set,
-		if ( isset( $aField['default'] ) ) return $aField['default'];
+		if ( isset( $aField['default'] ) ) return $aField['default'];	// If the default value is set,
 		
 	}
 	

@@ -450,7 +450,7 @@ abstract class AdminPageFramework_MetaBox {
 			
 			// get value of this field if it exists for this post
 			$sStoredValue = get_post_meta( $oPost->ID, $aField['field_id'], true );
-			$aField['vValue'] = $sStoredValue ? $sStoredValue : $aField['vValue'];
+			$aField['value'] = $sStoredValue ? $sStoredValue : $aField['value'];
 			
 			// Check capability. If the access level is not sufficient, skip.
 			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;

@@ -1045,26 +1045,58 @@ class APF_Demo extends AdminPageFramework {
 					'default'	=>	'c',
 				),
 			),							
+			array(	// Default Submit Button
+				'field_id'	=>	'submit_button_field',
+				'section_id'	=>	'submit_buttons',
+				'title'	=>	__( 'Submit Button', 'admin-page-framework-demo' ),
+				'type'	=>	'submit',
+				'description'	=>	__( 'This is the default submit button.', 'admin-page-framework-demo' ),
+			),
+			
 			array( // Submit button as a link
 				'field_id'	=>	'submit_button_link',
 				'section_id'	=>	'submit_buttons',
-				'title'	=>	'Link Button',
 				'type'	=>	'submit',
-				'description'	=>	'This button serves as a hyper link.',
-				'label'	=>	array( 'Google', 'Yahoo', 'Bing' ),
-				'links'	=>	array( 'http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com' ),
-				'class_attribute'	=>	'button button-secondary',
-				'delimiter'	=>	'',
+				'title'	=>	__( 'Link Button', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'These buttons serve as a hyper link. Set the url to the <code>href</code> key to enable this option.', 'admin-page-framework-demo' ),
+				'label'	=>	__( 'Google', 'admin-page-framework-demo' ),
+				'href'	=>	'http://www.google.com',
+				'attributes'	=>	array(
+					'class'	=>	'button button-secondary',				
+					'title'	=>	__( 'Go to Google!', 'admin-page-framework-demo' ),
+					'style'	=>	'background-color: #C1DCFA;',
+				),
+				array(
+					'label'	=>	__( 'Yahoo', 'admin-page-framework-demo' ),
+					'href'	=>	'http://www.yahoo.com',
+					'attributes'	=>	array(
+						'class'	=>	'button button-secondary',			
+						'title'	=>	__( 'Go to Yahoo!', 'admin-page-framework-demo' ),
+						'style'	=>	'background-color: #C8AEFF;',
+					),
+				),
+				array(
+					'label'	=>	__( 'Bing', 'admin-page-framework-demo' ),
+					'href'	=>	'http://www.bing.com',
+					'attributes'	=>	array(
+						'class'	=>	'button button-secondary',			
+						'title'	=>	__( 'Go to Bing!', 'admin-page-framework-demo' ),
+						'style'	=>	'background-color: #FFE5AE;',
+					),			
+				),				
 			),			
 			array( // Submit button as a redirect
 				'field_id'	=>	'submit_button_redirect',
 				'section_id'	=>	'submit_buttons',
 				'title'	=>	'Redirect Button',
 				'type'	=>	'submit',
-				'description'	=>	'Unlike the above link buttons, this button saves the options and then redirects to: ' . admin_url(),
-				'label'	=>	'Dashboard',
+				'description'	=>	sprintf( __( 'Unlike the above link buttons, this button saves the options and then redirects to: <code>%1$s</code>', 'admin-page-framework-demo' ), admin_url() )
+					. ' ' . __( 'To enable this functionality, set the url to the <code>redirect_url</code> key in the field definition array.', 'admin-page-framework-demo' ),
+				'label'	=>	__( 'Dashboard', 'admin-page-framework-demo' ),
 				'redirect_url'	=>	admin_url(),
-				'class_attribute'	=>	'button button-secondary',
+				'attributes'	=>	array(
+					'class'	=>	'button button-secondary',
+				),
 			),
 			array( // Reset Submit button
 				'field_id'	=>	'submit_button_reset',
@@ -1073,8 +1105,12 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'submit',
 				'label'	=>	__( 'Reset', 'admin-page-framework-demo' ),
 				'is_reset'	=>	true,
-				// 'class_attribute'	=>	'button button-secondary',
-			)
+				'attributes'	=>	array(
+					'class'	=>	'button button-secondary',
+				),
+				'description'	=>	__( 'If you press this button, a confirmation message will appear and then if you press it again, it resets the option.', 'admin-page-framework-demo' ),
+			),
+			array()
 		);
 		$this->addSettingFields(			
 			array(
@@ -1241,7 +1277,7 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'submit',
 				'class_attribute'	=>	'button-secondary',
 				'label'	=>	'Delete Options',
-				'links'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
+				'href'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
 			),			
 			array( // Delete Option Confirmation Button
 				'field_id'	=>	'submit_delete_options_confirmation',

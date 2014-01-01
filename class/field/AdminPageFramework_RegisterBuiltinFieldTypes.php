@@ -25,7 +25,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		'select',
 		'hidden',
 		// 'file',
-		// 'submit',
+		'submit',
 		// 'import',
 		// 'export',
 		// 'image',

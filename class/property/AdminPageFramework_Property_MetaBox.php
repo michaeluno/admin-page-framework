@@ -144,7 +144,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		'capability'		=> null,	// an additional note 
 		'tip'			=> null,	// pop up text
 		// 'options'			=> null,	// ? don't remember what this was for
-		'vValue'			=> null,	// allows to override the stored value
+		'value'			=> null,	// allows to override the stored value
 		'default'			=> null,	// allows to set default values.
 		'sName'			=> null,	// allows to set custom field name
 		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.

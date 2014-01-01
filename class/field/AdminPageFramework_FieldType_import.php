@@ -59,7 +59,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
 	
 		$vValue = $this->getInputFieldValueFromLabel( $aField );
-		$field_nameFlat = $this->getInputFieldNameFlat( $aField );
+		$field_nameFlat = $this->getFlatInputFieldName( $aField );
 		foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 
 				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"

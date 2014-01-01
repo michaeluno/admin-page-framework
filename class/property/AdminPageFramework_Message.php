@@ -100,7 +100,7 @@ class AdminPageFramework_Message {
 			'out_of_x_memory_used'	=> __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' ),
 			'peak_memory_usage'		=> __( 'Peak memory usage %s MB.', 'admin-page-framework' ),
 			'initial_memory_usage'	=> __( 'Initial memory usage  %s MB.', 'admin-page-framework' ),
-			
+						
 		);		
 		
 	}
