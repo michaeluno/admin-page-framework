@@ -335,7 +335,7 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'		=>	'misc',
 				'title'			=>	__( 'Hidden Fields', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are hidden fields.', 'admin-page-framework-demo' ),
-			),								
+			),			
 			array(
 				'section_id'	=>	'file_uploads',
 				'page_slug'		=>	'apf_builtin_field_types',
@@ -1028,6 +1028,15 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'hidden',
 				'default'	=>	__( 'Test value', 'admin-page-framework-demo' ),
 				'label'	=>	__( 'Test label', 'admin-page-framework-demo' ),
+			),
+			array( // Single Hidden Field
+				'field_id'	=>	'hidden_repeatable',
+				'section_id'	=>	'hidden_field',
+				'title'	=>	__( 'Repeatable Hidden Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'hidden',
+				'value'	=>	'HIIDENVALUE',
+				'label'	=>	__( 'Repeat Me', 'admin-page-framework-demo' ),
+				'is_repeatable'	=> true,
 			),			
 			array( // Multiple Hidden Fields
 				'field_id'	=>	'hidden_miltiple',

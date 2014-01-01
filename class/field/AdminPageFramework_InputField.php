@@ -440,7 +440,7 @@ return $vValue;
 					var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
 					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
 
-					nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit]),textarea' ).val( '' );	// empty the value		
+					nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value		
 					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
 					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
 
