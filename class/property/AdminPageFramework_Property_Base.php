@@ -164,6 +164,9 @@ abstract class AdminPageFramework_Property_Base {
 			margin-top: 1px;
 			margin-bottom: 1px;
 		}
+		.admin-page-framework-field label{
+			width: 100%;
+		}
 		.admin-page-framework-field .admin-page-framework-input-label-container {
 			margin-bottom: 0.25em;
 		}

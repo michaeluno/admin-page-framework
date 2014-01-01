@@ -88,6 +88,9 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		.admin-page-framework-field-size select.size-field-select {
 			vertical-align: 0px;			
 		}
+		.admin-page-framework-field-size label {
+			width: auto;
+		} 
 		" . PHP_EOL;
 	}
 	
