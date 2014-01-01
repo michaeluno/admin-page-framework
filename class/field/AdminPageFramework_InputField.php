@@ -81,7 +81,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 			)
 			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
 				? ""
-				: "|{sKey}"
+				: "|{$sKey}"
 			);
 	}
 	
