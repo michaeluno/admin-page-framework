@@ -446,6 +446,7 @@ class APF_Demo extends AdminPageFramework {
 				'attributes'	=>	array(
 					'size'	=>	20,
 				),
+				'description'	=> __( 'The entered characters will be masked.', 'admin-page-framework-demo' ),
 			),		
 			array(	// Read-only
 				'field_id'	=>	'read_only_text',
@@ -459,7 +460,7 @@ class APF_Demo extends AdminPageFramework {
 				),
 				'value'	=>	__( 'This is a read-only value.', 'admin-page-framework-demo' ),
 			),			
-			array(	// number Field
+			array(	// Number Field
 				'field_id'	=>	'number',
 				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Number', 'admin-page-framework-demo' ),
@@ -499,7 +500,6 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Press + / - to add / remove the fields.', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
-				'delimiter'	=>	'',
 				'size'	=>	60,
 				'default'	=>	'a',
 				'is_repeatable'	=>	true,
@@ -522,12 +522,11 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'is_repeatable'	=>	true,
-				// 'delimiter'	=>	'',
 				'attributes'	=>	array(
 					'rows'	=>	3,
 					'cols'	=>	60,
-				)
-
+				),
+				'description'	=> __( 'Currently the repeatable field functionality is not supported for the rich text editor.', 'admin-page-framework-demo' ),
 			),			
 			array(	// Rich Text Editors
 				'field_id'	=>	'rich_textarea',
@@ -687,12 +686,9 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Radio Button', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
-				'label'	=>	array( 'a'	=>	'apple', 'b'	=>	'banana', 'c'	=>	'cherry' ),
-				'default'	=>	'b',	// banana, its key is specified
+				'label'	=>	array( 'a'	=>	'Apple', 'b'	=>	'Banana ( this option is disabled. )', 'c'	=>	'Cherry' ),
+				'default'	=>	'b',	// yields Banana; its key is specified
 				'after_field'	=>	'<br />',
-				'after_input' => array(
-					'b'	=>	__( 'This input tag is disabled.', 'admin-page-framework-demo' )
-				),
 				'attributes'	=>	array(
 					'b'	=>	array(
 						'disabled'	=> 'Disabled',
@@ -708,7 +704,7 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Multiple Sets of Radio Buttons', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Multiple sets of radio buttons.', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
-				'delimiter'	=>	'<br />',
+				'delimiter'	=>	'<hr />',
 				'default'	=>	2,
 				'label'	=>	array( 1 => 'one', 2 => 'two' ),
 				array(
@@ -743,11 +739,26 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'checkbox_multiple_items',
 				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'The description can be omitted.', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
-				'label'	=>	array( 'moon'	=>	'Moon', 'earth'	=>	'Earth', 'sun'	=>	'Sun', 'mars'	=>	'Mars' ),
-				'after_input'	=> '<br />',
-				'default'	=>	array( 'moon'	=>	true, 'earth'	=>	false, 'sun'	=>	true, 'mars'	=>	false ),
+				'label'	=>	array( 
+					'moon'	=>	__( 'Moon', 'admin-page-framework-demo' ),
+					'earth'	=>	__( 'Earth (this option is disabled.)', 'admin-page-framework-demo' ),
+					'sun'	=>	__( 'Sun', 'admin-page-framework-demo' ),
+					'mars'	=>	__( 'Mars', 'admin-page-framework-demo' ),
+				),
+				'default'	=>	array( 
+					'moon'	=>	true, 
+					'earth'	=>	false, 
+					'sun'	=>	true, 
+					'mars'	=>	false,
+				),
+				'attributes'	=>	array(
+					'earth'	=> array(
+						'disabled'	=>	'Disabled',
+					),
+				),
+				'description'	=>	__( 'It is possible to disable checkbox items on an individual basis.', 'admin-page-framework-demo' ),
+				'after_field'	=> '<br />',
 			),
 			array(	// Multiple sets of checkbox fields
 				'field_id'	=> 'checkbox_multiple_fields',
@@ -764,7 +775,8 @@ class APF_Demo extends AdminPageFramework {
 				array(
 					'label'	=>	array( 'g'	=>	'G', 'h'	=>	'H', 'i'	=>	'I' ),
 					'default'	=>	array( 'g'	=>	false, 'h'	=>	false, 'i'	=>	true ),
-				),					
+				),				
+				'description'	=>	__( 'To create multiple fields for one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'field_id'	=> 'checkbox_repeatable_fields',
