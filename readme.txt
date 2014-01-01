@@ -190,10 +190,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the ability to set tag attributes on field tags on an individual basis in the `select`, `radio`, and `checkbox` field types.
 * Added: the ability to set tag attributes with the `attributes` key by passing an array with the key of the attribute name and the value of the property value for input fields.
 * Added: the ability to mix field types in sub-fields.
-* Changed: ( ***Breaking Change*** ) the structure of field arrays which define how the field should be rendered.
+* Added: the `after_fields` and the `before_fields` keys to the field definition array.
+* Changed: ( ***Breaking Change*** ) the structure of field definition arrays which define how the field should be rendered.
 * Changed: ( ***Breaking Change*** ) dropped the section from the saved option array structure.
 * Fixed: a bug that page load info in the footer area was not embedded when multiple root pages are created.
-* Added: the ability for the `setRootMenuPage()` method to support dash-icons, base64-encoded SVG, and the string `none` value for the second parameter.
 * Moved: the method to retrieve library data into the property base class and they will be stored as static properties.
 * Changed: ( ***Breaking Change*** ) the name of the `showInPageTabs()` method to `setInPageTabsVisibility()`.
 * Changed: ( ***Breaking Change*** ) the name of the `showPageHeadingTabs()` method to `setPageHeadingTabsVisibility()`.
@@ -216,7 +216,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: ( ***Breaking Change*** ) apart from the conversion to the lower case, renamed some of the keys of the field definition array and the section field definition array.
 * Changed: ( ***Breaking Change*** ) all the names of array keys with which the user may interact to consist of lower case characters and underscores.
 
-= 2.1.7 =
+= 2.1.7.1 - 12/25/2013 =
+* Added: an example of basic usage of creating a page group as well as specifying a dashicon.
+* Added: the ability for the `setRootMenuPage()` method to accept `dashicons`, the `none` value, and SVG base64 encoded icon for the second parameter.
+* Fixed: a bug that the `color` field type was replaced with the `taxonomy` field type and the `taxonomy` field type was not available.
+
+= 2.1.7 - 12/23/2013 =
 * Fixed a bug that the screen icon could not be retrieved when the `strScreenIcon` key was not set (started to occur around v2.1.6).
 * Added: the `import_mime_types_{...}` filter that receives the array holding allowed MIME types so that the user can add custom MIME types for the imported files.
 * Added: the `enqueueScript()` and the `enqueueStyle()` methods for the post type class.
