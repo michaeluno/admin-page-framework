@@ -1002,7 +1002,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
-				'height'	=>	'200px',
+				'height'	=>	'200px',	// ( optional )
 				'taxonomy_slugs'	=>	array( 'category', 'post_tag' ),
 			),				
 			array(
@@ -1010,9 +1010,31 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'checklists',
 				'title'	=>	__( 'All Taxonomies', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
-				'height'	=>	'200px',
-				'taxonomy_slugs'	=>	get_taxonomies( '', 'names' ),
-			)
+				'taxonomy_slugs'	=>	$aTaxnomies = get_taxonomies( '', 'names' ),
+			),
+			array(
+				'field_id'	=>	'taxonomy_multiple_checklists',
+				'section_id'	=>	'checklists',
+				'title'	=>	__( 'Multiple Taxonomy Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'taxonomy',
+				'taxonomy_slugs'	=>	$aTaxnomies,
+				'before_field'	=>	'<h4>' . __( 'For A', 'admin-page-framework-demo' ) . '</h4>',
+				array(  
+					'before_field'	=>	'<h4>' . __( 'For B', 'admin-page-framework-demo' ) . '</h4>',
+				),
+				array(  
+					'before_field'	=>	'<h4>' . __( 'For C', 'admin-page-framework-demo' ) . '</h4>',
+				),				
+			),
+			array(
+				'field_id'	=>	'taxonomy_checklist_repeatable',
+				'section_id'	=>	'checklists',
+				'title'	=>	__( 'Repeatable Taxonomy Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'taxonomy',
+				'is_repeatable'	=> true,
+				'taxonomy_slugs'	=>	$aTaxnomies,
+			),
+			array()
 		);
 		$this->addSettingFields(			
 			array( // Color Picker

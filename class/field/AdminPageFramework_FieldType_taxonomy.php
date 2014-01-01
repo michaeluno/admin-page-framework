@@ -10,15 +10,35 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_taxonomy' ) ) :
 class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_Base {
 	
 	/**
+	 * Defines the field type slugs used for this field type.
+	 */
+	public $aFieldTypeSlugs = array( 'taxonomy', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'taxonomy_slugs'				=> 'category',			// ( array|string ) This is for the taxonomy field type.
+		'height'						=> '250px',				// 
+		'max_width'						=> '100$',				// for the taxonomy checklist field type, since 2.1.1.		
+		'attributes'	=> array(
+			// 'size'	=>	30,
+			// 'maxlength'	=>	400,
+		),	
+	);
+	
+	/**
 	 * Returns the array of the field type specific default keys.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'taxonomy_slugs'					=> 'category',			// ( string ) This is for the taxonomy field type.
-			'height'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
-			'sWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
-		);	
-	}
+	// protected function getDefaultKeys() { 
+		// return array(
+			// 'taxonomy_slugs'				=> 'category',			// ( array ) This is for the taxonomy field type.
+			// 'height'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
+			// 'sWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
+		// );	
+	// }
 
 	/**
 	 * Loads the field type necessary components.
@@ -35,32 +55,74 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	 * @since			2.1.5			Moved from AdminPageFramework_Property_Base().
 	 */ 
 	public function replyToGetScripts() {
-		return "
+		
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
+		return "	
 			jQuery( document ).ready( function() {
-				jQuery( '.tab-box-container' ).each( function() {
-					jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
+				/* For tabs */
+				var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
+					jQuery( nodeTabBoxContainer ).each( function() {
+						jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
+							
+							if ( i == 0 )
+								jQuery( this ).addClass( 'active' );
+								
+							jQuery( this ).click( function( e ){
+									 
+								// Prevents jumping to the anchor which moves the scroll bar.
+								e.preventDefault();
+								
+								// Remove the active tab and set the clicked tab to be active.
+								jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
+								jQuery( this ).addClass( 'active' );
+								
+								// Find the element id and select the content element with it.
+								var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
+								active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
+								active_content.siblings().css( 'display', 'none' );
+								
+							});
+						});		
+					});
+				}		
+				enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
+
+				/*	The repeatable event */
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 						
-						if ( i == 0 )
-							jQuery( this ).addClass( 'active' );
+						var fIncrementOrDecrement = 1;
+						var updateID = function( index, name ) {
 							
-						jQuery( this ).click( function( e ){
-								 
-							// Prevents jumping to the anchor which moves the scroll bar.
-							e.preventDefault();
+							if ( typeof name === 'undefined' ) {
+								return name;
+							}
+							return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
+								return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
+							});
 							
-							// Remove the active tab and set the clicked tab to be active.
-							jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
-							jQuery( this ).addClass( 'active' );
+						}
+						var updateName = function( index, name ) {
 							
-							// Find the element id and select the content element with it.
-							var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
-							active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
-							active_content.siblings().css( 'display', 'none' );
+							if ( typeof name === 'undefined' ) {
+								return name;
+							}
+							return name.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {				
+								return '[' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
+							});
 							
-						});
-					});			
+						}
+						node.find( 'div' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+						node.find( 'li.tab-box-tab a' ).attr( 'href', function( index, name ){ return updateID( index, name ) } );
+						
+						enableAPFTabbedBox( node.find( '.tab-box-container' ) );
+						
+					}
 				});
-			});
+			});			
 		";
 	}
 	
@@ -107,8 +169,10 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 				background-color: #fff;
 			}
 			.admin-page-framework-field .tab-box-container { 
-				position: relative; width: 100%; 
-
+				position: relative; 
+				width: 100%; 
+				clear: both;
+				margin-bottom: 1em;
 			}
 			.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
 			.admin-page-framework-field .tab-box-contents-container {  
@@ -161,47 +225,43 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	 * @since			2.1.1			The checklist boxes are rendered in a tabbed single box.
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $aField ) {
 
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['label'];		
-		
 		$aTabs = array();
 		$aCheckboxes = array();
 		foreach( ( array ) $aField['taxonomy_slugs'] as $sKey => $sTaxonomySlug ) {
-			$sActive = isset( $sActive ) ? '' : 'active';	// inserts the active class selector into the first element.
+			
+			$aInputAttributes = isset( $aField['attributes'][ $sKey ] ) && is_array( $aField['attributes'][ $sKey ] )
+				? $aField['attributes'][ $sKey ] + $aField['attributes']
+				: $aField['attributes'];
+				
 			$aTabs[] = 
 				"<li class='tab-box-tab'>"
-					. "<a href='#tab-{$sKey}'>"
+					. "<a href='#tab_{$aField['input_id']}_{$sKey}'>"
 						. "<span class='tab-box-tab-text'>" 
-							. $this->getCorrespondingArrayValue( empty( $aField['label'] ) ? null : $aField['label'], $sKey, $this->getLabelFromTaxonomySlug( $sTaxonomySlug ) )
+							. $this->_getLabelFromTaxonomySlug( $sTaxonomySlug )
 						. "</span>"
 					."</a>"
 				."</li>";
 			$aCheckboxes[] = 
-				"<div id='tab-{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
+				"<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
 					. "<ul class='list:category taxonomychecklist form-no-clear'>"
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
-							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$field_name}[{$sKey}]" : "{$field_name}",   // name of the input
-							'selected' => $this->getSelectedKeyArray( $vValue, $sKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
+							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['field_name']}[{$sTaxonomySlug}]" : $aField['field_name'],   // name of the input
+							'selected' => $this->_getSelectedKeyArray( $aField['value'], $sKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
 							'title_li'	=> '',	// disable the Categories heading string 
 							'hide_empty' => 0,	
 							'echo'	=> false,	// returns the output
 							'taxonomy' => $sTaxonomySlug,	// the taxonomy slug (id) such as category and post_tag 
-							'tag_id' => $tag_id,
+							'input_id' => $aField['input_id'],
+							'attributes'	=> $aInputAttributes,
 						) )					
 					. "</ul>"			
 					. "<!--[if IE]><b>.</b><![endif]-->"
 				. "</div>";
 		}
+
 		$sTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $aTabs ) . "</ul>";
 		$sContents = 
 			"<div class='tab-box-contents-container'>"
@@ -211,16 +271,33 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 			. "</div>";
 			
 		$sOutput = 
-			"<div id='{$tag_id}' class='{$field_class_selector} admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['sWidth']};'>"
+			"<div id='{$aField['field_id']}' class=' admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
 				. $sTabs . PHP_EOL
 				. $sContents . PHP_EOL
 			. "</div>";
 
-		return $sOutput;
-
-	}	
+		return $sOutput;		
+		
+		return 
+			$aField['before_label']
+			. "<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input']
+					. ( $aField['label'] && ! $aField['is_repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
+					. $aField['after_input']
+				. "</label>"
+			. "</div>"
+			. $aField['after_label'];
+		
+	}
 	
 		/**
+		 * Returns an array consisting of keys whose value is true.
+		 * 
 		 * A helper function for the above getTaxonomyChecklistField() method. 
 		 * 
 		 * @since			2.0.0
@@ -228,27 +305,29 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 		 * @param			string			$sKey			
 		 * @return			array			Returns an array consisting of keys whose value is true.
 		 */ 
-		private function getSelectedKeyArray( $vValue, $sKey ) {
+		private function _getSelectedKeyArray( $vValue, $sKey ) {
 					
 			$vValue = ( array ) $vValue;	// cast array because the initial value (null) may not be an array.
-			$iArrayDimension = $this->getArrayDimension( ( array ) $vValue );
+			$iArrayDimension = $this->getArrayDimension( $vValue );
 					
 			if ( $iArrayDimension == 1 )
 				$aKeys = $vValue;
 			else if ( $iArrayDimension == 2 )
 				$aKeys = ( array ) $this->getCorrespondingArrayValue( $vValue, $sKey, false );
-				
+
 			return array_keys( $aKeys, true );
 		
 		}
 	
 		/**
+		 * Retrieves the label of the given taxonomy by its slug.
+		 * 
 		 * A helper function for the above getTaxonomyChecklistField() method.
 		 * 
 		 * @since			2.1.1
 		 * 
 		 */
-		private function getLabelFromTaxonomySlug( $sTaxonomySlug ) {
+		private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
 			
 			$oTaxonomy = get_taxonomy( $sTaxonomySlug );
 			return isset( $oTaxonomy->label )

@@ -31,7 +31,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		// 'image',
 		// 'media',
 		'color',
-		// 'taxonomy',
+		'taxonomy',
 		'posttype',
 		'size',
 	);	

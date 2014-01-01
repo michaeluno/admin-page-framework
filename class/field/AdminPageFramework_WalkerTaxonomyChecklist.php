@@ -45,23 +45,39 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		*/
 		
 		$aArgs = $aArgs + array(
-			'name' 		=> null,
-			'disabled'	=> null,
-			'selected'	=> array(),
-			'tag_id'	=> null,
+			'name' 		=>	null,
+			'disabled'	=>	null,
+			'selected'	=>	array(),
+			'input_id'	=>	null,
+			'attributes'	=>	array(),
+			'taxonomy'	=>	null,
 		);
 		
 		$iID = $oCategory->term_id;
 		$sTaxonomy = empty( $aArgs['taxonomy'] ) ? 'category' : $aArgs['taxonomy'];
-		$sChecked = in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '';
-		$sDisabled = $aArgs['disabled'] ? 'disabled="Disabled"' : '';
-		$sClass = 'category-list';
-		$sID = "{$aArgs['tag_id']}_{$sTaxonomy}_{$iID}";
+		
+		// $sDisabled = $aArgs['disabled'] ? 'disabled="Disabled"' : '';
+		// $sClass = 'category-list';
+		$sID = "{$aArgs['input_id']}_{$sTaxonomy}_{$iID}";
+		// $sChecked = in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '';
+		
+		$aInputAttributes = isset( $aInputAttributes[ $iID ] ) 
+			? $aInputAttributes[ $iID ] + $aArgs['attributes']
+			: $aArgs['attributes'];
+		
+		$aInputAttributes = array(
+			'id'	=>	$sID,
+			'value'	=>	1,	// must be 1
+			'type'	=>	'checkbox',
+			'name'	=>	"{$aArgs['name']}[{$iID}]",
+			'checked'	=>	in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '',
+		) + $aInputAttributes;
 		$sOutput .= "\n"
-			. "<li id='list-{$sID}' $sClass>" 
+			. "<li id='list-{$sID}' class='category-list'>" 
 				. "<label for='{$sID}' class='taxonomy-checklist-label'>"
 					. "<input value='0' type='hidden' name='{$aArgs['name']}[{$iID}]' />"
-					. "<input id='{$sID}' value='1' type='checkbox' name='{$aArgs['name']}[{$iID}]' {$sChecked} {$sDisabled} />"
+					// . "<input id='{$sID}' value='1' type='checkbox' name='{$aArgs['name']}[{$iID}]' {$sChecked} {$sDisabled} />"
+					. "<input " . AdminPageFramework_Utility::generateAttributes( $aInputAttributes ) . " />"
 					. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
 				. "</label>";	
 			// no need to close </li> since it is dealt in end_el().

@@ -253,7 +253,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
 	 * This is mostly used by the method to output input fields.
 	 * @since			3.0.0
 	 */
-	protected function generateAttributes( array $aAttributes ) {
+	static public function generateAttributes( array $aAttributes ) {
 		
 		$aOutput = array();
 		foreach( $aAttributes as $sAttribute => $sProperty ) {
