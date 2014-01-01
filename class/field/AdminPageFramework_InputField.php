@@ -157,8 +157,7 @@ return $vValue;
 
 		/* 3. Compose fields array for sub-fields	*/
 		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
-// if ( $this->aField['field_id'] == 'select_multiple_options' )
-	// var_dump( $aFields );		
+
 		/* 4. Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
 			

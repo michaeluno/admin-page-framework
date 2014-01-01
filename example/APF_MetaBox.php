@@ -105,7 +105,7 @@ class APF_MetaBox extends AdminPageFramework_MetaBox {
 					'length'	=> __( 'Length', 'admin-page-framework-demo' ),
 					'capacity'	=> __( 'File Size', 'admin-page-framework-demo' ),
 				),
-				'size_units' => array( 	// notice that the array key structure corresponds to the label array's.
+				'units' => array( 	// notice that the array key structure corresponds to the label array's.
 					'weight'	=> array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
 					'length'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
 					'capacity'	=> array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),

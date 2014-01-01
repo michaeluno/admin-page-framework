@@ -33,7 +33,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		'color',
 		// 'taxonomy',
 		// 'posttype',
-		// 'size',
+		'size',
 	);	
 	
 	function __construct( &$aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
