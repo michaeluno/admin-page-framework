@@ -66,16 +66,19 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		+ array(
 			'title'	=>	$sValue,
 		);
-		
 		$aLabelAttributes = array(
 			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
 			'for'	=>	$aInputAttributes['id'],
 			'class'	=>	$aInputAttributes['disabled'] ? 'disabled' : '',			
 		);
+		$aLabelContainerAttributes = array(
+			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
+			'class'	=>	'admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container',
+		);
 		
 		return 
 			$aField['before_label']
-			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container'>"
+			. "<div " . $this->generateAttributes( $aLabelContainerAttributes ) . ">"
 				. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 					. $aField['before_input']
 					. $this->_getEmbeddedHiddenInputFields( $aField )
