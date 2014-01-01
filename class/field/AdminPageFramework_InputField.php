@@ -42,19 +42,49 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utility {
 	}	
 	
 	/**
+	 * Returns the field name for the input tag name attribute.
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Dropped the section key. Deprecated the 'name' field key to override the name attribute since the new 'attribute' key supports the functionality.
 	 */
-	private function _getInputFieldName( $aField=null ) {
+	private function _getInputFieldName( $aField=null, $sKey='' ) {
 		
+		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$aField = isset( $aField ) ? $aField : $this->aField;
-		
-		return isset( $aField['option_key'] ) // the meta box class does not use the option key
-			? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['field_id']}]"
-			: $aField['field_id'];
-		
+		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
+				? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['field_id']}]"
+				: $aField['field_id']
+			) 
+			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
+				? ''
+				: "[{$sKey}]"
+			);
 	}
+	
+	/**
+	 * Retrieves the field name attribute whose dimensional elements are delimited by the pile character.
+	 * 
+	 * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
+	 * This is used to create a reference the submit field name to determine which button is pressed.
+	 * 
+	 * @remark			Used by the import and submit field types.
+	 * @since			2.0.0
+	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_InputField.
+	 * @since			3.0.0			Moved from the submit field type class.
+	 */ 
+	protected function _getFlatInputFieldName( &$aField, $sKey='' ) {	
+		
+		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
+		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
+				? "{$aField['option_key']}|{$aField['page_slug']}|{$aField['field_id']}"
+				: $aField['field_id'] 
+			)
+			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
+				? ""
+				: "|{sKey}"
+			);
+	}
+	
 	
 	/**
 	 * 
@@ -152,15 +182,14 @@ return $vValue;
 			: '';		
 					
 		/* 2. Set new elements */
-		$this->aField['field_name'] = $this->_getInputFieldName( $this->aField );
 		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
-
+			
 		/* 3. Compose fields array for sub-fields	*/
 		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
 
 		/* 4. Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
-			
+
 			/* 4-1. Retrieve the field definition for this type - this process enables to have mixed field types in sub-fields */ 
 			$aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $aField['type'] ] )
 				? $this->aFieldTypeDefinitions[ $aField['type'] ] 
@@ -169,7 +198,9 @@ return $vValue;
 			/* 4-2. Set some new elements */ 
 			$aField['index'] = $sKey;
 			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
-			$aField['field_name'] = $aField['_is_multiple_fields'] ? "{$aField['field_name']}[{$sKey}]" : $aField['field_name'];
+			$aField['field_name']	= $this->_getInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	
+			$aField['_field_name_flat']	= $this->_getFlatInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	// used for submit, export, import field types			
+			
 			$aField['attributes'] = $this->uniteArrays(
 				( array ) $aField['attributes'],	// user set values
 				array(	// the automatically generated values
@@ -280,7 +311,7 @@ return $vValue;
 			return $aFields;
 			
 		}
-	
+
 	/**
 	 * Sets or return the flag that indicates whether the creating fields are for meta boxes or not.
 	 * 
