@@ -134,7 +134,12 @@ abstract class AdminPageFramework_Property_Base {
 		.contextual-help-tab-title {
 			font-weight: bold;
 		}
-
+		
+		/* Form Elements */
+		/* Disabled */
+		.admin-page-framework-fields .disabled {
+			color: #888;
+		}
 		/* HR */
 		.admin-page-framework-fields hr {
 			border: 0; 
