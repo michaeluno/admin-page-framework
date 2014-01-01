@@ -335,7 +335,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		 */ 
 		private function _getFormOpeningTag() {	
 			return $this->oProp->bEnableForm
-				? "<form action='options.php' method='post' enctype='{$this->oProp->sFormEncType}'>"
+				? "<form action='options.php' method='post' enctype='{$this->oProp->sFormEncType}' id='admin-page-framework-form'>"
 				: "";
 		}
 		/**
