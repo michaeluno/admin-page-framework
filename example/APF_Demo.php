@@ -704,7 +704,7 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'radio_multiple',
 				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Multiple Sets of Radio Buttons', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'Multiple sets of radio buttons.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> key.', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'delimiter'	=>	'<hr />',
 				'default'	=>	2,
