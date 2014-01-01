@@ -33,7 +33,14 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetStyles() {
-		return "";		
+		return "/* Radio Field Type */
+			.admin-page-framework-field input[type='radio'] {
+				margin-right: 0.5em;
+			}		
+			.admin-page-framework-field-radio .admin-page-framework-input-label-container {
+				padding-right: 1em;
+			}			
+		";
 	}
 
 	/**

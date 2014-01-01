@@ -172,11 +172,6 @@ abstract class AdminPageFramework_Property_Base {
 				margin-bottom: 0.5em;
 			}
 		}			
-		.admin-page-framework-field input[type='radio'],
-		.admin-page-framework-field input[type='checkbox']
-		{
-			margin-right: 0.5em;
-		}		
 		
 		.admin-page-framework-field .admin-page-framework-input-label-string {
 			padding-right: 1em;	/* for checkbox label strings, a right padding is needed */
@@ -184,17 +179,10 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-field .admin-page-framework-input-button-container {
 			padding-right: 1em; 
 		}
-		.admin-page-framework-field-radio .admin-page-framework-input-label-container,
-		.admin-page-framework-field-checkbox .admin-page-framework-input-label-container 
-		{
-			padding-right: 1em;
-		}
-
 		.admin-page-framework-field .admin-page-framework-input-container {
 			display: inline-block;
 			vertical-align: middle; 
 		}
-		
 		.admin-page-framework-field-image .admin-page-framework-input-label-container {			
 			vertical-align: middle;
 		}
@@ -203,10 +191,6 @@ abstract class AdminPageFramework_Property_Base {
 		{
 			display: inline-block;		
 			vertical-align: middle;
-		}
-		.admin-page-framework-field-textarea .admin-page-framework-input-label-string {
-			vertical-align: top;
-			margin-top: 2px;
 		}
 		
 		.admin-page-framework-field-posttype input[type='checkbox'] { 

@@ -40,7 +40,14 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetStyles() {
-		return "";		
+		return "/* Checkbox field type */
+			.admin-page-framework-field input[type='checkbox'] {
+				margin-right: 0.5em;
+			}			
+			.admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
+				padding-right: 1em;
+			}			
+		";
 	}
 	
 	/**
