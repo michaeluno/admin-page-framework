@@ -54,30 +54,41 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 		$aOutput = array();
 		$asValue = $aField['attributes']['value'];
 		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) {
-			$aAttributes = array(
+			
+			$aInputAttributes = array(
 				'id' => $aField['input_id'] . '_' . $sKey,
 				'checked'	=> $this->getCorrespondingArrayValue( $asValue, $sKey, null ) == 1 ? 'checked' : '',
 				'value' => 1,	// must be always 1 for the checkbox type
 				'name'	=> is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$sKey}]" : $aField['attributes']['name'],
-			) + $aField['attributes'];
+			) 
+			+ $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
+			+ $aField['attributes'];
+		
+			$aLabelAttributes = array(
+				'for'	=>	$aInputAttributes['id'],
+				'class'	=>	$aInputAttributes['disabled'] ? 'disabled' : '',
+			);
+			
 			$aOutput[] =
-				$aField['before_field']
+				$this->getFieldElementByKey( $aField['before_field'], $sKey )
 				. "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: {$aField['label_min_width']}px;'>"
-					. "<label for='{$aAttributes['id']}'>"
-						. $aField['before_input']
+					. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
+						. $this->getFieldElementByKey( $aField['before_input'], $sKey )
 						. "<span class='admin-page-framework-input-container'>"
-							. "<input type='hidden' name='{$aAttributes['name']}' value='0' />"	// the unchecked value must be set prior to the checkbox input field.
-							. "<input " . $this->generateAttributes( $aAttributes ) . " />"	// this method is defined in the base class	
+							. "<input type='hidden' name='{$aInputAttributes['name']}' value='0' />"	// the unchecked value must be set prior to the checkbox input field.
+							. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class	
 						. "</span>"
 						. "<span class='admin-page-framework-input-label-string'>"
 							. $sLabel
 						. "</span>"
-						. $aField['after_input']
+						. $this->getFieldElementByKey( $aField['after_input'], $sKey )
 					. "</label>"					
 				. "</div>"
-				. $aField['after_field'];
+				. $this->getFieldElementByKey( $aField['after_field'], $sKey );
+				
 		}	
 		return implode( PHP_EOL, $aOutput );
+		
 	}	
 	
 }
