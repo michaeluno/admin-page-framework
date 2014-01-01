@@ -22,17 +22,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 	 */
 	protected $aDefaultKeys = array(
 		'is_multiple'	=> false,	
-		'units'				=> array(	// the default unit size array.
-			'px'	=> 'px',	// pixel
-			'%'		=> '%',		// percentage
-			'em'	=> 'em',	// font size
-			'ex'	=> 'ex',	// font height
-			'in'	=> 'in',	// inch
-			'cm'	=> 'cm',	// centimetre
-			'mm'	=> 'mm',	// millimetre
-			'pt'	=> 'pt',	// point
-			'pc'	=> 'pc',	// pica
-		),		
+		'units'		=> null,	// do not define units here since this will be merged with the user defined field array.
 		'attributes'	=> array(
 			'size'	=>	array(
 				'size'	=>	10,
@@ -54,6 +44,25 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		),	
 	);
 	
+	/**
+	 * Defines the default units.
+	 * 
+	 * This goes to the 'units' element of the field definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	protected $aDefaultUnits = array(
+		'px'	=> 'px',	// pixel
+		'%'		=> '%',		// percentage
+		'em'	=> 'em',	// font size
+		'ex'	=> 'ex',	// font height
+		'in'	=> 'in',	// inch
+		'cm'	=> 'cm',	// centimetre
+		'mm'	=> 'mm',	// millimetre
+		'pt'	=> 'pt',	// point
+		'pc'	=> 'pc',	// pica
+	);
+		
 	/**
 	 * Loads the field type necessary components.
 	 */ 
@@ -93,14 +102,19 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 	 * @since			3.0.0			Reconstructed entirely which involves dropping unnecessary parameters and renaming keys in the field definition array.
 	 */
 	public function replyToGetField( $aField ) {
-
-		/* 1. Prepare attributes */
+	
+		/* 1. Initial set-up of the field definition array */
+		$aField['units'] = isset( $aField['units'] ) 
+			? $aField['units']
+			: $this->aDefaultUnits;
+	
+		/* 2. Prepare attributes */
 		
-		/* 1-1. Base attributes */
+		/* 2-1. Base attributes */
 		$aBaseAttributes = $aField['attributes'];
 		unset( $aBaseAttributes['unit'], $aBaseAttributes['size'] ); 
 		
-		/* 1-2. Size attributes */		
+		/* 2-2. Size attributes */		
 		$aSizeAttributes = array(
 			'type'	=>	'number',
 			'id' =>	$aField['input_id'] . '_' . 'size',
@@ -110,13 +124,13 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		+ $this->getFieldElementByKey( $aField['attributes'], 'size', $this->aDefaultKeys['attributes']['size'] )
 		+ $aBaseAttributes;
 		
-		/* 1-3. Size label attributes */		
+		/* 2-3. Size label attributes */		
 		$aSizeLabelAttributes = array(
 			'for'	=>	$aSizeAttributes['id'],
 			'class'	=>	$aSizeAttributes['disabled'] ? 'disabled' : '',
 		);
 		
-		/* 1-4. Unit attributes */		
+		/* 2-4. Unit attributes */		
 		$aUnitAttributes = array(
 			'type'	=>	'select',
 			'id'	=>	$aField['input_id']	. '_' . 'unit',
@@ -127,13 +141,13 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		+ $aBaseAttributes;
 		$aUnitAttributes['name'] = empty( $aUnitAttributes['multiple'] ) ? "{$aField['field_name']}[unit]" : "{$aField['field_name']}[unit][]";
 		
-		/* 1-5. Unit label attributes */		
+		/* 2-5. Unit label attributes */		
 		$aUnitLabelAttributes = array(
 			'for'	=>	$aUnitAttributes['id'],
 			'class'	=>	$aUnitAttributes['disabled'] ? 'disabled' : '',
 		);
 		
-		/* 2. Return the output */
+		/* 3. Return the output */
 		return
 			$aField['before_field']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"

@@ -611,7 +611,7 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'select',
 				'default'	=>	'b',
 				'label'	=>	array( 	
-					'alphabets'	=>	array( 	// the key must be unique throughout this 'label' element array.
+					'alphabets'	=>	array( 	// each key must be unique throughout this 'label' element array.
 						'a'	=>	'a', 	
 						'b'	=>	'b', 
 						'c'	=>	'c',
@@ -792,51 +792,105 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'		=>	'size_field',
 				'section_id'	=>	'sizes',
 				'title'			=>	__( 'Size', 'admin-page-framework-demo' ),
-				'help'			=>	__( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ),
+				'help'			=>	$sDescription = __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ) 
+					. ' ' . $sDescription,
 				'type'			=>	'size',
 				'default'		=>	array( 
 					'size'	=>	5, 
 					'unit'	=>	'%' 
 				),
-			),			
-			// array(	// Size with custom units
-				// 'field_id'		=>	'size_custom_unit_field',
-				// 'section_id'	=>	'sizes',
-				// 'title'			=>	__( 'Size with Custom Units', 'admin-page-framework-demo' ),
-				// 'help'			=>	__( 'The units can be specified so it can be quantity, length, or capacity etc.', 'admin-page-framework-demo' ),
-				// 'type'			=>	'size',
-				// 'units'	=>	array(
-					// 'grain'	=>	__( 'grains', 'admin-page-framework-demo' ),
-					// 'dram'	=>	__( 'drams', 'admin-page-framework-demo' ),
-					// 'ounce'	=>	__( 'ounces', 'admin-page-framework-demo' ),
-					// 'pounds'	=>	__( 'pounds', 'admin-page-framework-demo' ),
-				// ),
-				// 'default'		=>	array( 
-					// 'size'	=>	200,
-					// 'unit'	=>	'ounce' 
-				// ),
-			// ),						
-			// array(	// Multiple Size Fields
-				// 'field_id'	=>	'sizes_field',
-				// 'section_id'	=>	'sizes',
-				// 'title'	=>	__( 'Multiple Sizes', 'admin-page-framework-demo' ),
-				// 'type'	=>	'size',
-				// 'label'	=>	__( 'Weight', 'admin-page-framework-demo' ),
-				// 'units'	=>	array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
-				// 'default'	=>	array( 'size'	=>	15, 'unit'	=>	'g' ),
-				// 'delimiter'	=>	'<br />',
-				// array(
-					// 'label'	=>	__( 'Length', 'admin-page-framework-demo' ),
-					// 'units'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
-					// 'default'	=>	array( 'size'	=>	100, 'unit'	=>	'mm' ),
-				// ),
-				// array(
-					// 'capacity'	=>	__( 'File Size', 'admin-page-framework-demo' ),
-					// 'units'	=>	array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb'	=>	'gb', 'tb'	=>	'tb' ),
-					// 'default'	=>	array( 'size'	=>	30, 'unit'	=>	'mb' ),
-				// ),				
-			// ),
+			),		
+			array(	// Size with custom units
+				'field_id'		=>	'size_custom_unit_field',
+				'section_id'	=>	'sizes',
+				'title'			=>	__( 'Size with Custom Units', 'admin-page-framework-demo' ),
+				'help'			=>	$sDescription = __( 'The units can be specified so it can be quantity, length, or capacity etc.', 'admin-page-framework-demo' ),
+				'description'	=>	$sDescription,
+				'type'			=>	'size',
+				'units'	=>	array(
+					'grain'	=>	__( 'grains', 'admin-page-framework-demo' ),
+					'dram'	=>	__( 'drams', 'admin-page-framework-demo' ),
+					'ounce'	=>	__( 'ounces', 'admin-page-framework-demo' ),
+					'pounds'	=>	__( 'pounds', 'admin-page-framework-demo' ),
+				),
+				'default'		=>	array( 
+					'size'	=>	200,
+					'unit'	=>	'ounce' 
+				),
+			),	
+			array(	// Size with custom attributes
+				'field_id'		=>	'size_field_custom_attributes',
+				'section_id'	=>	'sizes',
+				'title'			=>	__( 'Size with Custom Attributes', 'admin-page-framework-demo' ),
+				'type'			=>	'size',
+				'units'	=>	array(	// Pass the group label as the key of an option array.
+					__( 'Metric Unit System', 'admin-page-framework' )	=>	array( 	// each key must be unique throughout this 'label' element array.
+						'mm'	=>	'mm (' . __( 'millimetre', 'admin-page-framework' ) . ')', 
+						'cm'	=>	'cm (' . __( 'centmeter', 'admin-page-framework' ) . ')', 
+						'm'	=>	'm (' . __( 'meter', 'admin-page-framework' ) . ')', 
+						'km'	=>	'km (' . __( 'kilometer', 'admin-page-framework' ) . ')', 
+					),
+					__( 'Imperial and US Unit System', 'admin-page-framework' )	=>	array( 
+						'in'	=>	'in (' . __( 'inch', 'admin-page-framework' ) . ')', 
+						'ft'	=>	'ft (' . __( 'foot', 'admin-page-framework' ) . ')', 
+						'yd'	=>	'yd (' . __( 'yard', 'admin-page-framework' ) . ')', 
+						'ml'	=>	'ml (' . __( 'mile', 'admin-page-framework' ) . ')', 
+					),			
+					__( 'Astronomical Units', 'admin-page-framework' )	=>	array( 
+						'au'	=>	'au (' . __( 'astronomical unit', 'admin-page-framework' ) . ')', 
+						'ly'	=>	'ly (' . __( 'light year', 'admin-page-framework' ) . ')', 
+						'pc'	=>	'pc (' . __( 'parsec', 'admin-page-framework' ) . ')', 
+					),			
+				),
+				'default'		=>	array( 
+					'size'	=>	15.2, 
+					'unit'	=>	'ft' 
+				),
+				'attributes'	=> array(	// the size field type has four initial keys: size, option, optgroup.
+					'size'	=>	array(
+						'style'	=>	'background-color: #FAF0F0;',
+						'step'	=>	0.1,
+					),
+					'unit'	=>	array(
+						'style'	=>	'background-color: #F0FAF4',
+					),
+					'option'	=>	array(
+						'cm'	=>	array(	// applies only to the 'cm' element of the option elements
+							'disabled'	=>	'Disabled',
+							'class'	=>	'disabled',
+						),
+						'style'	=>	'background-color: #F7EFFF',	// applies to all the option elements
+					),
+					'optgroup'	=> array(
+						'style'	=>	'background-color: #EFEFEF',
+						__( 'Astronomical Units', 'admin-page-framework' )	=> array(
+							'disabled' => 'Disabled',
+						),
+					),
+				),
+				'description'	=>	__( 'The <code>size</code> field type has four initial keys in the <code>attributes</code> array element: <code>size</code>, <code>unit</code>, <code>optgroup</code>, and <code>option</code>.', 'admin-page-framework-demo' ),
+			),
+			array(	// Multiple Size Fields
+				'field_id'	=>	'sizes_field',
+				'section_id'	=>	'sizes',
+				'title'	=>	__( 'Multiple Sizes', 'admin-page-framework-demo' ),
+				'type'	=>	'size',
+				'label'	=>	__( 'Weight', 'admin-page-framework-demo' ),
+				'units'	=>	array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
+				'default'	=>	array( 'size'	=>	15, 'unit'	=>	'g' ),
+				'delimiter'	=>	'<hr />',
+				array(
+					'label'	=>	__( 'Length', 'admin-page-framework-demo' ),
+					'units'	=> array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
+					'default'	=>	array( 'size'	=>	100, 'unit'	=>	'mm' ),
+				),
+				array(
+					'label'	=>	__( 'File Size', 'admin-page-framework-demo' ),
+					'units'	=>	array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb'	=>	'gb', 'tb'	=>	'tb' ),
+					'default'	=>	array( 'size'	=>	30, 'unit'	=>	'mb' ),
+				),				
+			),
 			array()
 		);
 		$this->addSettingFields(			
