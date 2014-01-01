@@ -891,7 +891,13 @@ class APF_Demo extends AdminPageFramework {
 					'default'	=>	array( 'size'	=>	30, 'unit'	=>	'mb' ),
 				),				
 			),
-			array()
+			array(	// Repeatable Size Fields
+				'field_id'		=>	'size_repeatable_fields',
+				'section_id'	=>	'sizes',
+				'title'			=>	__( 'Repeatable Size Fields', 'admin-page-framework-demo' ),
+				'type'			=>	'size',
+				'is_repeatable'	=>	true,
+			)
 		);
 		$this->addSettingFields(			
 			array( // Image Selector
