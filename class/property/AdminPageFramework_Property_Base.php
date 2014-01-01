@@ -165,6 +165,7 @@ abstract class AdminPageFramework_Property_Base {
 			margin-bottom: 1px;
 		}
 		.admin-page-framework-field label{
+			display: inline-block;	/* for WordPress v3.7.x or below */
 			width: 100%;
 		}
 		.admin-page-framework-field .admin-page-framework-input-label-container {
