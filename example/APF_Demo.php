@@ -1051,8 +1051,7 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Submit Button', 'admin-page-framework-demo' ),
 				'type'	=>	'submit',
 				'description'	=>	__( 'This is the default submit button.', 'admin-page-framework-demo' ),
-			),
-			
+			),		
 			array( // Submit button as a link
 				'field_id'	=>	'submit_button_link',
 				'section_id'	=>	'submit_buttons',
