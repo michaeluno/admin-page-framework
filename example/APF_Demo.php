@@ -194,7 +194,7 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=>	'apf_manage_options',
 				'tab_slug'	=>	'delete_options_confirm',
 				'title'		=>	__( 'Reset Confirmation', 'admin-page-framework-demo' ),
-'show_in_page_tab'	=>	true,	// <-- not sure why this is true
+				'show_in_page_tab'	=>	false,
 				'parent_tab_slug'	=>	'delete_options',
 				'order'		=>	97,
 			)

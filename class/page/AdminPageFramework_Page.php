@@ -44,8 +44,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		'tab_slug' => null,
 		'title' => null,
 		'order' => null,
-		'show_in_page_tab'	=> null,
-		'parent_tab_slug' => null,	// this needs to be set if the above show_in_page_tab is true so that the plugin can mark the parent tab to be active when the hidden page is accessed.
+'show_in_page_tab'	=> true,
+		'parent_tab_slug' => null,	// this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
 	);
 	
 	
@@ -115,13 +115,13 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @param			string			$sTabTitle			The title of the tab.
 	 * @param			string			$sTabSlug			The tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).
 	 * @param			integer			$nOrder				( optional ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.
-	 * @param			boolean			$bHide				( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
+	 * @param			boolean			$bShowInPageTab		( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
 	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.
 	 * @remark			Use this method to add in-page tabs to ensure the array holds all the necessary keys.
 	 * @remark			In-page tabs are different from page-heading tabs which are automatically added with page titles.
 	 * @return			void
 	 */ 		
-	public function addInPageTab( $sPageSlug, $sTabTitle, $sTabSlug, $nOrder=null, $bHide=null, $sParentTabSlug=null ) {	
+	public function addInPageTab( $sPageSlug, $sTabTitle, $sTabSlug, $nOrder=null, $bShowInPageTab=false, $sParentTabSlug=null ) {	
 		
 		$sTabSlug = $this->oUtil->sanitizeSlug( $sTabSlug );
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
@@ -132,7 +132,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				'title'		=> trim( $sTabTitle ),
 				'tab_slug'	=> $sTabSlug,
 				'order'		=> is_numeric( $nOrder ) ? $nOrder : $iCountElement + 10,
-				'show_in_page_tab'			=> ( $bHide ),
+				'show_in_page_tab'	=> ( $bShowInPageTab ),
 				'parent_tab_slug' => ! empty( $sParentTabSlug ) ? $this->oUtil->sanitizeSlug( $sParentTabSlug ) : null,
 			);
 	
@@ -537,12 +537,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
 					? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
 					: "";
-		
+// var_dump( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] );
 			// Get the actual string buffer.
 			foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 						
 				// If it's hidden and its parent tab is not set, skip
-				if ( $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
+				if ( ! $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
 				
 				// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
 				$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
@@ -551,6 +551,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 					
 				// Check if the current tab slug matches the iteration slug. If not match, assign blank; otherwise, put the active class name.
 				$bIsActiveTab = ( $sCurrentTabSlug == $sInPageTabSlug );
+
 				$aOutput[ $sInPageTabSlug ] = "<a class='nav-tab " . ( $bIsActiveTab ? "nav-tab-active" : "" ) . "' "
 					. "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProp->aDisallowedQueryKeys ) 
 					. "'>"
@@ -579,10 +580,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 				$sParentTabSlug = isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug'] ) 
 					? $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
 					: $sTabSlug;
-				
+ 
 				return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_in_page_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_in_page_tab']
-					? ""
-					: $sParentTabSlug;
+					? $sParentTabSlug
+					: '';
 
 			}
 
