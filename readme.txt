@@ -186,6 +186,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the ability to set option group in the `select` field type.
+* Added: the ability to set tag attributes on field tags on an individual basis in the `select`, `radio`, and `checkbox` field types.
 * Added: the ability to set tag attributes with the `attributes` key by passing an array with the key of the attribute name and the value of the property value for input fields.
 * Added: the ability to mix field types in sub-fields.
 * Changed: ( ***Breaking Change*** ) the structure of field arrays which define how the field should be rendered.
@@ -211,6 +213,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: ( ***Breaking Change*** ) the name of the property `oProps` to `oProp`.
 * Changed: ( ***Breaking Change*** ) the name of the class `AdminPageFramework_CustomFieldType` to `AdminPageFramework_FieldType`.
 * Changed: some of the class names used internally.
+* Changed: ( ***Breaking Change*** ) apart from the conversion to the lower case, renamed some of the keys of the field definition array and the section field definition array.
 * Changed: ( ***Breaking Change*** ) all the names of array keys with which the user may interact to consist of lower case characters and underscores.
 
 = 2.1.7 =
