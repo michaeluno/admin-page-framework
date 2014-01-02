@@ -32,12 +32,11 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetStyles() {
-		return 
-		"	/* Text Field Type */
-			.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
-				vertical-align: top; 
-			}
-		" . PHP_EOL;		
+		return "/* Text Field Type */
+				.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
+					vertical-align: top; 
+				}
+			" . PHP_EOL;		
 	}	
 	
 	/**

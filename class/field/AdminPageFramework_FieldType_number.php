@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text {
 
 	/**
 	 * Defines the field type slugs used for this field type.
@@ -35,6 +35,26 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_B
 			'autocomplete' => '',
 		),
 	);
+
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+	public function replyToFieldLoader() {
+	}	
+	
+	/**
+	 * Returns the field type specific JavaScript script.
+	 */ 
+	public function replyToGetScripts() {
+		return "";		
+	}	
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	public function replyToGetStyles() {
+		return "";		
+	}
 	
 	/**
 	 * Returns the output of the text input field.
@@ -43,23 +63,7 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_B
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
 	public function replyToGetField( $aField ) {
-
-		return 
-			$aField['before_label']
-			. "<div class='admin-page-framework-input-label-container'>"
-				. "<label for='{$aField['input_id']}'>"
-					. $aField['before_input']
-					. ( $aField['label'] && ! $aField['is_repeatable']
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
-						: "" 
-					)
-					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
-					. $aField['after_input']
-				. "</label>"
-			. "</div>"
-			. $aField['after_label'];
-		
-		
+		return parent::replyToGetField( $aField );
 	}
 		
 }
