@@ -718,7 +718,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$oImport = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );	
 			$sPressedFieldID = $oImport->getSiblingValue( 'field_id' );
 			$sPressedInputID = $oImport->getSiblingValue( 'input_id' );
-			$bMerge = $oImport->getSiblingValue( 'do_merge' );
+			$bMerge = $oImport->getSiblingValue( 'is_merge' );
 			
 			// Check if there is an upload error.
 			if ( $oImport->getError() > 0 ) {
@@ -771,7 +771,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$sImportOptionKey = $this->oUtil->addAndApplyFilters(
 				$this,
 				array( "import_option_key_{$sPageSlug}_{$sTabSlug}", "import_option_key_{$sPageSlug}", "import_option_key_{$this->oProp->sClassName}_{$sPressedInputID}", "import_option_key_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_option_key_{$this->oProp->sClassName}" ),
-				$oImport->getSiblingValue( 'import_option_key' ),	
+				$oImport->getSiblingValue( 'option_key' ),	
 				$sPressedFieldID,
 				$sPressedInputID
 			);	// import_option_key_{$sPageSlug}_{$sTabSlug}, import_option_key_{$sPageSlug}, import_option_key_{$sClassName}_{pressed input id}, import_option_key_{$sClassName}_{pressed field id}, import_option_key_{$sClassName}			

@@ -20,8 +20,8 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
-		'data'	=>	null,	// ( array or string or object ) This is for the export field type. Do not set a value here.		
-		'format'	=>	'array',	// ( string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+		'data'	=>	null,	// ( array|string|object ) This is for the export field type. Do not set a value here.		
+		'format'	=>	'json',	// ( string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
 		'file_name'	=>	null,	// ( string )	for the export field type. Do not set a default value here.	
 		'attributes'	=> array(
 			'class'	=>	'button button-primary',
@@ -75,10 +75,10 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	 * Returns the output of hidden fields for this field type that enables custom submit buttons.
 	 * @since			3.0.0
 	 */
-	protected function _getEmbeddedHiddenInputFields( &$aField ) {
+	protected function _getExtraInputFields( &$aField ) {
 
 		return
-			"<input type='hidden' "	// embed the field id and input id
+			"<input type='hidden' "
 				. "name='__export[{$aField['field_id']}][input_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
 				. "value='{$aField['input_id']}' "
 			. "/>"

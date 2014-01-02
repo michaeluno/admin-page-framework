@@ -54,6 +54,7 @@ class AdminPageFramework_Message {
 			'option_cleared'		=> __( 'The options have been cleared.', 'admin-page-framework' ),
 			'export'				=> __( 'Export', 'admin-page-framework' ),
 			'export_options'		=> __( 'Export Options', 'admin-page-framework' ),
+			'import_options'		=> __( 'Import', 'admin-page-framework' ),
 			'import_options'		=> __( 'Import Options', 'admin-page-framework' ),
 			'submit'				=> __( 'Submit', 'admin-page-framework' ),
 			'import_error'			=> __( 'An error occurred while uploading the import file.', 'admin-page-framework' ),

@@ -10,19 +10,33 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_import' ) ) :
 class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'class_attribute'					=> 'import button button-primary',	// ( array or string )	
-			'vAcceptAttribute'					=> 'audio/*|video/*|image/*|MIME_type',
-			'class_attributeUpload'				=> 'import',
-			'vImportOptionKey'					=> null,	// ( array or string )	for the import field type. The default value is the set option key for the framework.
-			'vImportFormat'						=> 'array',	// ( array or string )	for the import field type.
-			'vMerge'							=> false,	// ( array or boolean ) [2.1.5+] for the import field
-		);	
-	}
-
+	public $aFieldTypeSlugs = array( 'import', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'option_key'	=>	null,
+		'format'		=>	'json',
+		'is_merge'		=>	false,
+		'attributes'	=> array(
+			'file'	=>	array(
+				'accept'	=>	'audio/*|video/*|image/*|MIME_type',
+				'class'		=>	'import',
+				'type'		=>	'file',
+			),
+			'submit'	=>	array(
+			
+				'class'	=>	'import button button-primary',
+				'type'	=>	'submit',
+			),
+		),	
+	);
+	
 	/**
 	 * Loads the field type necessary components.
 	 */ 
@@ -47,74 +61,62 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	 * Returns the output of the field type.
 	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function replyToGetField( $aField ) {
+		
+		/* Set some required values */
+		$aField['attributes']['name'] = "__import[submit][{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' );		
+		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'import' );
+		
+		return parent::replyToGetField( $aField );		
+	}	
+	
+	/**
+	 * Returns the output of hidden fields for this field type that enables custom submit buttons.
+	 * @since			3.0.0
+	 */
+	protected function _getExtraInputFields( &$aField ) {
 
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-	
-		$vValue = $this->_getInputFieldValueFromLabel( $aField );
-		$field_nameFlat = $this->getFlatInputFieldName( $aField );
-		foreach( ( array ) $vValue as $sKey => $sValue ) 
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					// embed the field id and input id
-					. "<input type='hidden' "
-						. "name='__import[{$aField['field_id']}][input_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$tag_id}_{$sKey}' "
-					. "/>"
-					. "<input type='hidden' "
-						. "name='__import[{$aField['field_id']}][field_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$aField['field_id']}' "
-					. "/>"		
-					. "<input type='hidden' "
-						. "name='__import[{$aField['field_id']}][do_merge]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vMerge'], $sKey, $_aDefaultKeys['vMerge'] ) . "' "
-					. "/>"							
-					. "<input type='hidden' "
-						. "name='__import[{$aField['field_id']}][import_option_key]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportOptionKey'], $sKey, $aField['option_key'] )
-					. "' />"
-					. "<input type='hidden' "
-						. "name='__import[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['vImportFormat'], $sKey, $_aDefaultKeys['vImportFormat'] )	// array, text, or json.
-					. "' />"			
-					. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
-						. "<input "		// upload button
-							. "id='{$tag_id}_{$sKey}_file' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attributeUpload'], $sKey, $_aDefaultKeys['class_attributeUpload'] ) . "' "
-							. "accept='" . $this->getCorrespondingArrayValue( $aField['vAcceptAttribute'], $sKey, $_aDefaultKeys['vAcceptAttribute'] ) . "' "
-							. "type='file' "	// upload field. the file type will be stored in $_FILE
-							. "name='__import[{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )				
-						. "/>"
-						. "<input "		// import button
-							. "id='{$tag_id}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-							. "type='submit' "	// the import button is a custom submit button.
-							. "name='__import[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'import_options' ), true ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, '' )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);		
-					
-		return "<div class='admin-page-framework-field-import' id='{$tag_id}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";
-		
+		$aHiddenAttributes = array( 'type'	=>	'hidden', );		
+		return	
+			"<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__import[{$aField['field_id']}][input_id]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'value'	=>	$aField['input_id'],
+				) + $aHiddenAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__import[{$aField['field_id']}][field_id]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'value'	=>	$aField['field_id'],
+				) + $aHiddenAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__import[{$aField['field_id']}][is_merge]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'value'	=>	$aField['is_merge'],
+				) + $aHiddenAttributes
+			) . "/>"	
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__import[{$aField['field_id']}][option_key]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'value'	=>	$aField['option_key'],
+				) + $aHiddenAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__import[{$aField['field_id']}][format]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'value'	=>	$aField['format'],
+				) + $aHiddenAttributes
+			) . "/>"	
+			. "<input " . $this->generateAttributes( 
+				array(
+					'id'	=>	"{$aField['input_id']}_file",
+					'type'	=>	'file',
+					'name'	=>	"__import[{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' ),
+				) + $aField['attributes']['file']			
+			) . " />";
+
 	}
-	
+		
 }
 endif;

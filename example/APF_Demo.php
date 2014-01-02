@@ -1407,11 +1407,10 @@ class APF_Demo extends AdminPageFramework {
 			array(	// Single Import Button
 				'field_id'	=>	'import_single',
 				'section_id'	=>	'imports',
-				'title'	=>	'Single Import Field',
+				'title'	=>	__( 'Single Import Field', 'admin-page-framework-demo' ),
 				'type'	=>	'import',
 				'description'	=>	__( 'Upload the saved option data.', 'admin-page-framework-demo' ),
 				'label'	=>	'Import Options',
-				// 'vImportFormat'	=>	isset( $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] ) ? $_POST[ $this->oProp->sClassName ]['apf_manage_options']['imports']['import_format_type'] : 'array',
 			),			
 			array()
 		);

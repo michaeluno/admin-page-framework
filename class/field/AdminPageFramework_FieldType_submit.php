@@ -82,7 +82,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 			. "<div " . $this->generateAttributes( $aLabelContainerAttributes ) . ">"
 				. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 					. $aField['before_input']
-					. $this->_getEmbeddedHiddenInputFields( $aField )
+					. $this->_getExtraInputFields( $aField )
 					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
 				. "</label>"
@@ -95,7 +95,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 * Returns the output of hidden fields for this field type that enables custom submit buttons.
 	 * @since			3.0.0
 	 */
-	protected function _getEmbeddedHiddenInputFields( &$aField ) {
+	protected function _getExtraInputFields( &$aField ) {
 
 		return	
 			"<input type='hidden' "
