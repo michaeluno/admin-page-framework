@@ -29,8 +29,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 				'class'		=>	'import',
 				'type'		=>	'file',
 			),
-			'submit'	=>	array(
-			
+			'submit'	=>	array(	
 				'class'	=>	'import button button-primary',
 				'type'	=>	'submit',
 			),

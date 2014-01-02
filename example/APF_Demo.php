@@ -1489,28 +1489,28 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_ + {extended class name} + _ + {field id}
+	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{field id}
 		
 		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type'] ) 
 			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type']
 			: $sFormatType;
 		
 	}	
-	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_ + page slug + _ + tab slug
+	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_{page slug}_{tab slug}
 		
 		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['import_format_type'] ) 
 			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['import_format_type']
 			: $sFormatType;
 		
 	}
-	public function import_APF_Demo_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_ + {extended class name} + _ + {field id}
+	public function import_APF_Demo_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{field id}
 
 		if ( $sImportFormat == 'text' ) {
 			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
 			return $aOldOptions;
 		}
 		
-		$this->setSettingNotice( __( 'Importing options are validated.', 'admin-page-framework-demo' ), 'updated' );
+		$this->setSettingNotice( __( 'Importing options were validated.', 'admin-page-framework-demo' ), 'updated' );
 		return $vData;
 		
 	}
@@ -1518,31 +1518,33 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_ + {extended class name} + _ + {submit field ID}
+	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_{extended class name}_{submit field ID}
 		
-		// Set a flag.
+		/* Set a flag. */
 		$bVerified = true;
 		
-		// We store values that have an error in an array and pass it to the setFieldErrors() method.
-		// It internally stores the error array in a temporary area of the database called transient.
-		// The used name of the transient is a md5 hash of 'instantiated class name' + '_' + 'page slug'. 
-		// The library class will search for this transient when it renders the form fields 
-		// and if it is found, it will display the error message set in the field array. 
+		/* 
+		 	We store values that have an error in an array and pass it to the setFieldErrors() method.
+			It internally stores the error array in a temporary area of the database called transient.
+			The used name of the transient is a md5 hash of 'instantiated class name' + '_' + 'page slug'. 
+			The library class will search for this transient when it renders the form fields 
+			and if it is found, it will display the error message set in the field array. 	
+		*/
 		$aErrors = array();
 
-		// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.
+		/* Check if the submitted value meets your criteria. As an example, here a numeric value is expected. */
 		if ( ! is_numeric( $aNewInput['apf_builtin_field_types']['verify_text_field'] ) ) {
 			
-			// Start with the section key in $aErrors, not the key of page slug.
+			/*	Start with the section key in $aErrors, not the key of page slug. */
 			$aErrors['verify_text_field'] = 'The value must be numeric: ' . $aNewInput['apf_builtin_field_types']['verify_text_field'];	
 			$bVerified = false;
 			
 		}
 		
-		// An invalid value is found.
+		/* An invalid value is found. */
 		if ( ! $bVerified ) {
 		
-			// Set the error array for the input fields.
+			/* Set the error array for the input fields. */
 			$this->setFieldErrors( $aErrors );		
 			$this->setSettingNotice( 'There was an error in your input.' );
 			return $aOldOptions;
@@ -1552,9 +1554,9 @@ class APF_Demo extends AdminPageFramework {
 		return $aNewInput;		
 		
 	}
-	public function validation_apf_builtin_field_types_files( $aInput, $aOldPageOptions ) {	// validation_ + page slug + _ + tab slug
+	public function validation_apf_builtin_field_types_files( $aInput, $aOldPageOptions ) {	// validation_{page slug}_{tab slug}
 
-		// Display the uploaded file information.
+		/* Display the uploaded file information. */
 		$aFileErrors = array();
 		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_single'];
 		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][0];
