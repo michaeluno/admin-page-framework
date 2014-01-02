@@ -196,7 +196,7 @@ return $vValue;
 				: $this->aFieldTypeDefinitions['default'];
 				
 			/* 4-2. Set some new elements */ 
-			$aField['index'] = $sKey;
+			$aField['_index'] = $sKey;
 			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
 			$aField['field_name']	= $this->_getInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	
 			$aField['_field_name_flat']	= $this->_getFlatInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	// used for submit, export, import field types			

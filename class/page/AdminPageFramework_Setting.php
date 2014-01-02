@@ -393,9 +393,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 		</ul>
 	* 	<li><strong>export</strong> - an export input field. This is a custom submit field.</li>
 	* 		<ul>
-	* 			<li><strong>export_file_name</strong> - ( optional, string|array ) the file name to download.</li>
-	* 			<li><strong>export_format</strong> - ( optional, string|array ) the format type. array, json, or text is supported. Default: array.</li>
-	* 			<li><strong>export_data</strong> - ( optional, string|array|object ) the data to export.</li>
+	* 			<li><strong>file_name</strong> - ( optional, string|array ) the file name to download.</li>
+	* 			<li><strong>format</strong> - ( optional, string|array ) the format type. array, json, or text is supported. Default: array.</li>
+	* 			<li><strong>data</strong> - ( optional, string|array|object ) the data to export.</li>
 	* 		</ul>
 	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.</li>
 	* 		<ul>

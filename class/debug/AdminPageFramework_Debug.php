@@ -26,17 +26,17 @@ class AdminPageFramework_Debug {
 	 * If a file pass is given, it saves the output in the file.
 	 * 
 	 * @since			2.1.6			The $bEncloseInTag parameter is added.
+	 * @since			3.0.0			Changed the $bEncloseInTag parameter to bEscape.
 	 */
-	static public function getArray( $arr, $sFilePath=null, $bEncloseInTag=true ) {
+	static public function getArray( $arr, $sFilePath=null, $bEscape=true ) {
 			
 		if ( $sFilePath ) 
 			self::logArray( $arr, $sFilePath );			
 			
 		// esc_html() has a bug that breaks with complex HTML code.
-		$sResult = htmlspecialchars( print_r( $arr, true ) );
-		return $bEncloseInTag
-			? "<pre class='dump-array'>" . $sResult . "</pre>"
-			: $sResult;
+		return $bEscape
+			? "<pre class='dump-array'>" . htmlspecialchars( print_r( $arr, true ) ) . "</pre>"
+			: print_r( $arr, true );	// non-escape is used for exporting data into file.
 		
 	}	
 	

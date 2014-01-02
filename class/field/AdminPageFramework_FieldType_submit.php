@@ -61,7 +61,8 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'submit' );
 
 		$aInputAttributes = array(
-			'value'	=>	( $sValue = $this->getInputFieldValueFromLabel( $aField ) ),
+			'type'	=>	'submit',	// must be set because child class including export will use this method; in that case the export type will be assigned which input tag does not support
+			'value'	=>	( $sValue = $this->_getInputFieldValueFromLabel( $aField ) ),
 		) + $aField['attributes']
 		+ array(
 			'title'	=>	$sValue,
@@ -91,7 +92,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	}
 	
 	/**
-	 * Returns the output of hidden fields for the submit type that enables custom submit buttons.
+	 * Returns the output of hidden fields for this field type that enables custom submit buttons.
 	 * @since			3.0.0
 	 */
 	protected function _getEmbeddedHiddenInputFields( &$aField ) {
@@ -99,7 +100,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		return	
 			"<input type='hidden' "
 				. "name='__submit[{$aField['input_id']}][input_id]' "
-					. "value='{$aField['input_id']}'"
+				. "value='{$aField['input_id']}'"
 			. "/>"
 			. "<input type='hidden' "
 				. "name='__submit[{$aField['input_id']}][field_id]' "
@@ -194,7 +195,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 * @since			2.0.0
 	 * @since			2.1.5			Moved from AdminPageFramwrork_InputField. Changed the scope to protected from private. Removed the second parameter.
 	 */ 
-	protected function getInputFieldValueFromLabel( $aField ) {	
+	protected function _getInputFieldValueFromLabel( $aField ) {	
 		
 		if ( isset( $aField['value'] ) ) return $aField['value'];	// If the value key is explicitly set, use it.
 		

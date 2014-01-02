@@ -35,8 +35,9 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 	public function getTransientIfSet( $vData ) {
 		
 		if ( $this->bIsDataSet ) {
-			$sKey = $this->aElementKey[1];
-			$sTransient = isset( $this->aElementKey[1] ) ? "{$this->sClassName}_{$this->sFieldID}_{$this->aElementKey[1]}" : "{$this->sClassName}_{$this->sFieldID}";
+			$sTransient = isset( $this->aElementKey[1] ) 
+				? "{$this->sClassName}_{$this->sFieldID}_{$this->aElementKey[1]}" 
+				: "{$this->sClassName}_{$this->sFieldID}";
 			$tmp = get_transient( md5( $sTransient ) );
 			if ( $tmp !== false ) {
 				$vData = $tmp;
@@ -90,9 +91,10 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 		switch ( strtolower( $sFormatType ) ) {
 			case 'text':	// for plain text.
 				if ( is_array( $vData ) || is_object( $vData ) ) {
-					$oDebug = new AdminPageFramework_Debug;
-					$sData = $oDebug->getArray( $vData );
-					die( $sData );
+					// $oDebug = new AdminPageFramework_Debug;
+					// $sData = $oDebug->getArray( $vData );
+					die( AdminPageFramework_Debug::getArray( $vData, null, false ) );
+					 
 				}
 				die( $vData );
 			case 'json':	// for json.

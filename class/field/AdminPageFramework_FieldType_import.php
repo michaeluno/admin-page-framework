@@ -58,7 +58,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 		// $aFields = $aField['repeatable'] ? 
 			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
 	
-		$vValue = $this->getInputFieldValueFromLabel( $aField );
+		$vValue = $this->_getInputFieldValueFromLabel( $aField );
 		$field_nameFlat = $this->getFlatInputFieldName( $aField );
 		foreach( ( array ) $vValue as $sKey => $sValue ) 
 			$aOutput[] = 

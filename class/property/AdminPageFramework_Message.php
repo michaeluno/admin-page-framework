@@ -52,6 +52,7 @@ class AdminPageFramework_Message {
 			// AdminPageFramework
 			'option_updated'		=> __( 'The options have been updated.', 'admin-page-framework' ),
 			'option_cleared'		=> __( 'The options have been cleared.', 'admin-page-framework' ),
+			'export'				=> __( 'Export', 'admin-page-framework' ),
 			'export_options'		=> __( 'Export Options', 'admin-page-framework' ),
 			'import_options'		=> __( 'Import Options', 'admin-page-framework' ),
 			'submit'				=> __( 'Submit', 'admin-page-framework' ),

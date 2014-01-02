@@ -1352,32 +1352,49 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Export Format Type', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'description'	=>	__( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 'array'	=>	'Serialized Array', 'json'	=>	'JSON', 'text'	=>	'Text' ),
+				'label'	=>	array( 
+					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
+					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
+					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				),
 				'default'	=>	'array',
 			),			
 			array(	// Single Export Button
 				'field_id'	=>	'export_single',
 				'section_id'	=>	'exports',
-				// 'title'	=>	'Single Export Button',
 				'type'	=>	'export',
 				'description'	=>	__( 'Download the saved option data.', 'admin-page-framework-demo' ),
-				'label'	=>	'Export Options',
 			),
 			array(	// Multiple Export Buttons
 				'field_id'	=>	'export_multiple',
 				'section_id'	=>	'exports',
-				'title'	=>	'Multiple Export Buttons',
+				'title'	=>	__( 'Multiple Export Buttons', 'admin-page-framework-demo' ),
 				'type'	=>	'export',
-				'description'	=>	__( 'Download the custom set data.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 'Pain Text', 'JSON', 'Serialized Array' ),
-				'export_file_name'	=>	array( 'plain_text.txt', 'json.json', 'serialized_array.txt' ),
-				'export_format'	=>	array( 'text', 'json', 'array' ),
-				'export_data'	=>	array(
-					'Hello World!',	// export plain text
-					( array ) $this->oProp,	// export an object
-					array( 'a', 'b', 'c' ),	// export a serialized array
+				'label'	=>	__( 'Pain Text', 'admin-page-framework-demo' ),
+				'file_name'	=>	'plain_text.txt',
+				'format'	=>	'text',
+				array(
+					'label'	=>	__( 'JSON', 'admin-page-framework-demo' ),
+					'file_name'	=>	'json.json', 
+					'format'	=>	'json',
 				),
-			),		
+				array(
+					'label'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
+					'file_name'	=>	'serialized_array.txt', 
+					'format'	=>	'array',
+				),
+				'description'	=>	__( 'To set a file name, use the <code>file_name</code> key in the field definition array.', 'admin-page-framework-demo' )
+				 . ' ' . __( 'To set the data format, use the <code>format</code> key in the field definition array.', 'admin-page-framework-demo' ),	
+			),	
+			array(	// Custom Data to Export
+				'field_id'	=>	'export_custom_data',
+				'section_id'	=>	'exports',		
+				'title'	=>	__( 'Custom Exporting Data', 'admin-page-framework-demo' ),
+				'type'	=>	'export',
+				'data'	=>	__( 'Hello World!', 'admin-page-framework-demo' ),
+				'label'	=>	__( 'Export Custom Data', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> key in the field definition array.', 'admin-page-framework-demo' ),	
+			),
 			array(
 				'field_id'	=>	'import_format_type',			
 				'section_id'	=>	'imports',

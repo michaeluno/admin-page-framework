@@ -10,16 +10,23 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_export' ) ) :
 class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'export_data'					=> null,	// ( array or string or object ) This is for the export field type. 			
-			'export_format'					=> 'array',	// ( array or string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
-			'export_file_name'				=> null,	// ( array or string )	for the export field type. Do not set a default value here.
-			'class_attribute'				=> 'button button-primary',	// ( array or string )	
-		);	
-	}
+	public $aFieldTypeSlugs = array( 'export', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'data'	=>	null,	// ( array or string or object ) This is for the export field type. Do not set a value here.		
+		'format'	=>	'array',	// ( string )	for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+		'file_name'	=>	null,	// ( string )	for the export field type. Do not set a default value here.	
+		'attributes'	=> array(
+			'class'	=>	'button button-primary',
+		),	
+	);	
 
 	/**
 	 * Loads the field type necessary components.
@@ -45,93 +52,65 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	 * Returns the output of the field type.
 	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		// $aFields = $aField['repeatable'] ? 
-			// ( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			// : $aField['label'];		
-				
-		$vValue = $this->getInputFieldValueFromLabel( $aField );
-		
-		// If vValue is not an array and the export data set, set the transient. ( it means single )
-		if ( isset( $aField['export_data'] ) && ! is_array( $vValue ) )
-			set_transient( md5( "{$aField['class_name']}_{$aField['field_id']}" ), $aField['export_data'], 60*2 );	// 2 minutes.
-		
-		foreach( ( array ) $vValue as $sKey => $sValue ) {
+	public function replyToGetField( $aField ) {
 			
-			$sExportFormat = $this->getCorrespondingArrayValue( $aField['export_format'], $sKey, $_aDefaultKeys['export_format'] );
-			
-			// If it's one of the multiple export buttons and the export data is explictly set for the element, store it as transient in the option table.
-			$bIsDataSet = false;
-			if ( isset( $vValue[ $sKey ] ) && isset( $aField['export_data'][ $sKey ] ) ) {
-				set_transient( md5( "{$aField['class_name']}_{$aField['field_id']}_{$sKey}" ), $aField['export_data'][ $sKey ], 60*2 );	// 2 minutes.
-				$bIsDataSet = true;
-			}
-			
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					// embed the field id and input id
-					. "<input type='hidden' "
-						. "name='__export[{$aField['field_id']}][input_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$tag_id}_{$sKey}' "
-					. "/>"
-					. "<input type='hidden' "
-						. "name='__export[{$aField['field_id']}][field_id]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='{$aField['field_id']}' "
-					. "/>"					
-					. "<input type='hidden' "
-						. "name='__export[{$aField['field_id']}][file_name]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $this->getCorrespondingArrayValue( $aField['export_file_name'], $sKey, $this->generateExportFileName( $aField['option_key'], $sExportFormat ) )
-					. "' />"
-					. "<input type='hidden' "
-						. "name='__export[{$aField['field_id']}][format]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . $sExportFormat
-					. "' />"				
-					. "<input type='hidden' "
-						. "name='__export[{$aField['field_id']}][transient]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-						. "value='" . ( $bIsDataSet ? 1 : 0 )
-					. "' />"				
-					. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, '' ) 
-					. "<span class='admin-page-framework-input-button-container admin-page-framework-input-container' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>"
-						. "<input "
-							. "id='{$tag_id}_{$sKey}' "
-							. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-							. "type='submit' "	// the export button is a custom submit button.
-							// . "name=" . ( is_array( $aField['label'] ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
-							. "name='__export[submit][{$aField['field_id']}]" . ( is_array( $aField['label'] ) ? "[{$sKey}]' " : "' " )
-							. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, $this->oMsg->__( 'export_options' ) ) . "' "
-							. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-						. "/>"
-					. "</span>"
-					. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
-				. "</div>" // end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-									
+		/* Set the transient data to export - If the value is not an array and the export data is set. */
+		if ( isset( $aField['data'] ) ) {
+			$sTransient = $aField['_is_multiple_fields']
+				? md5( "{$aField['class_name']}_{$aField['field_id']}_{$aField['_index']}" )
+				: md5( "{$aField['class_name']}_{$aField['field_id']}" );
+			set_transient( $sTransient, $aField['data'], 60*2 );	// 2 minutes.
 		}
-					
-		return "<div class='admin-page-framework-field-export' id='{$tag_id}'>" 
-				. implode( '', $aOutput ) 
-			. "</div>";		
-	
+		
+		/* Set some required values */
+		$aField['attributes']['name'] = "__export[submit][{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' );
+		$aField['file_name'] = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
+		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'export' );
+		
+		return parent::replyToGetFIeld( $aField );
+		
 	}
 	
+	/**
+	 * Returns the output of hidden fields for this field type that enables custom submit buttons.
+	 * @since			3.0.0
+	 */
+	protected function _getEmbeddedHiddenInputFields( &$aField ) {
+
+		return
+			"<input type='hidden' "	// embed the field id and input id
+				. "name='__export[{$aField['field_id']}][input_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
+				. "value='{$aField['input_id']}' "
+			. "/>"
+			. "<input type='hidden' "
+				. "name='__export[{$aField['field_id']}][field_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
+				. "value='{$aField['field_id']}' "
+			. "/>"					
+			. "<input type='hidden' "
+				. "name='__export[{$aField['field_id']}][file_name]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
+				. "value='{$aField['file_name']}' " 
+			. "/>"
+			. "<input type='hidden' "
+				. "name='__export[{$aField['field_id']}][format]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
+				. "value='{$aField['format']}' "
+			. "/>"				
+			. "<input type='hidden' "
+				. "name='__export[{$aField['field_id']}][transient]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
+				. "value='" . ( isset( $aField['data'] ) ) . "'"
+			. "/>";
+					
+	}
+			
 		/**
+		 * Generates a file name for the exporting data.
+		 * 
 		 * A helper function for the above method.
 		 * 
 		 * @remark			Currently only array, text or json is supported.
 		 * @since			2.0.0
 		 * @since			2.1.5			Moved from the AdminPageFramework_InputField class.
 		 */ 
-		private function generateExportFileName( $sOptionKey, $sExportFormat='text' ) {
+		private function _generateExportFileName( $sOptionKey, $sExportFormat='json' ) {
 				
 			switch ( trim( strtolower( $sExportFormat ) ) ) {
 				case 'text':	// for plain text.
