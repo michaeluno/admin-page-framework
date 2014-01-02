@@ -30,14 +30,14 @@ abstract class AdminPageFramework_CustomSubmitFields {
 		if ( ! isset( $aElement[ $sFirstDimensionKey ] ) || ! is_array( $aElement[ $sFirstDimensionKey ] ) ) return 'ERROR_A';
 
 		/* For single element, e.g.
-		 * <input type="hidden" name="__import[import_single][import_option_key]" value="APF_GettingStarted">
+		 * <input type="hidden" name="__import[import_single][option_key]" value="APF_GettingStarted">
 		 * <input type="hidden" name="__import[import_single][format]" value="array">
 		 * */	
 		if ( isset( $aElement[ $sFirstDimensionKey ][ $sElementKey ] ) && ! is_array( $aElement[ $sFirstDimensionKey ][ $sElementKey ] ) )
 			return $aElement[ $sFirstDimensionKey ][ $sElementKey ];
 
 		/* For multiple elements, e.g.
-		 * <input type="hidden" name="__import[import_multiple][import_option_key][2]" value="APF_GettingStarted.txt">
+		 * <input type="hidden" name="__import[import_multiple][option_key][2]" value="APF_GettingStarted.txt">
 		 * <input type="hidden" name="__import[import_multiple][format][2]" value="array">
 		 * */
 		if ( ! isset( $aElementKey[ 1 ] ) ) return 'ERROR_B';
