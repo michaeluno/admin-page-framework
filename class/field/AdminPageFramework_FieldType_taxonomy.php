@@ -24,22 +24,9 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 		'height'						=> '250px',				// 
 		'max_width'						=> '100$',				// for the taxonomy checklist field type, since 2.1.1.		
 		'attributes'	=> array(
-			// 'size'	=>	30,
-			// 'maxlength'	=>	400,
 		),	
 	);
 	
-	/**
-	 * Returns the array of the field type specific default keys.
-	 */
-	// protected function getDefaultKeys() { 
-		// return array(
-			// 'taxonomy_slugs'				=> 'category',			// ( array ) This is for the taxonomy field type.
-			// 'height'						=> '250px',				// for the taxonomy checklist field type, since 2.1.1.
-			// 'sWidth'						=> '100%',				// for the taxonomy checklist field type, since 2.1.1.		
-		// );	
-	// }
-
 	/**
 	 * Loads the field type necessary components.
 	 */ 
@@ -262,37 +249,22 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 				. "</div>";
 		}
 
-		$sTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( '', $aTabs ) . "</ul>";
+		$sTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( PHP_EOL, $aTabs ) . "</ul>";
 		$sContents = 
 			"<div class='tab-box-contents-container'>"
 				. "<div class='tab-box-contents' style='height: {$aField['height']};'>"
-					. implode( '', $aCheckboxes )
+					. implode( PHP_EOL, $aCheckboxes )
 				. "</div>"
 			. "</div>";
 			
 		$sOutput = 
-			"<div id='{$aField['field_id']}' class=' admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
+			"<div id='{$aField['field_id']}' class='admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
 				. $sTabs . PHP_EOL
 				. $sContents . PHP_EOL
 			. "</div>";
 
 		return $sOutput;		
-		
-		return 
-			$aField['before_label']
-			. "<div class='admin-page-framework-input-label-container'>"
-				. "<label for='{$aField['input_id']}'>"
-					. $aField['before_input']
-					. ( $aField['label'] && ! $aField['is_repeatable']
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
-						: "" 
-					)
-					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
-					. $aField['after_input']
-				. "</label>"
-			. "</div>"
-			. $aField['after_label'];
-		
+				
 	}
 	
 		/**
