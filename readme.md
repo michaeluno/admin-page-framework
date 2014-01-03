@@ -47,7 +47,7 @@ There are various ways you can contribute:
 
 ## Copyright and License ##
 Released under the [GPL v2](license.txt) or later.
-Copyright © 2013 Michael Uno
+Copyright © 2014 Michael Uno
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
