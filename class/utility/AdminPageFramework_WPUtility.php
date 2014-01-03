@@ -3,13 +3,12 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility' ) ) :
 /**
  * Provides utility methods which use WordPress functions.
  *
- * @abstract
  * @since			2.0.0
- * @extends			n/a
+ * @extends			AdminPageFramework_Utility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-abstract class AdminPageFramework_WPUtility {
+class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 
 	/**
 	 * Triggers the do_action() function with the given action names and the arguments.
@@ -326,6 +325,18 @@ abstract class AdminPageFramework_WPUtility {
 		
 		// Otherwise, let's assume the string is a relative path 'to the WordPress installed absolute path'.
 		return $sSRC;
+		
+	}	
+	
+	/**
+	 * Enhances the parent method generateAttributes() by escaping the attribute values.
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function generateAttributes( array $aAttributes ) {
+		
+		$aAttributes = array_map( 'esc_attr', $aAttributes );
+		return parent::generateAttributes( $aAttributes );
 		
 	}	
 	

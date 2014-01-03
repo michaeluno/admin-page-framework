@@ -4,11 +4,10 @@ if ( ! class_exists( 'AdminPageFramework_Utility' ) ) :
  * Provides utility methods which do not use WordPress functions.
  *
  * @since			2.0.0
- * @extends			AdminPageFramework_WPUtility
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
-class AdminPageFramework_Utility extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Utility {
 	
 	/**
 	 * Converts non-alphabetic characters to underscore.

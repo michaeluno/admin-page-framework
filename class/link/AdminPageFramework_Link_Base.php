@@ -9,7 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_Link_Base' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Link
  */
-abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Utility {
+abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility {
 		
 	/**
 	 * Sets the default footer text on the left hand side.

@@ -143,7 +143,7 @@ abstract class AdminPageFramework_Base {
 		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
 		$this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $this->oMsg );
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
-		$this->oUtil = new AdminPageFramework_Utility;
+		$this->oUtil = new AdminPageFramework_WPUtility;
 		$this->oDebug = new AdminPageFramework_Debug;		
 		
 	}

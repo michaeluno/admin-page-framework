@@ -37,7 +37,7 @@ abstract class AdminPageFramework_HeadTag_Base {
 	function __construct( $oProp ) {
 		
 		$this->oProp = $oProp;
-		$this->oUtil = new AdminPageFramework_Utility;
+		$this->oUtil = new AdminPageFramework_WPUtility;
 				
 		// Hook the admin header to insert custom admin stylesheet.
 		add_action( 'admin_head', array( $this, '_replyToAddStyle' ) );

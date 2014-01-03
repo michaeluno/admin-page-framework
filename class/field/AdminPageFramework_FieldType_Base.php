@@ -7,7 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
  * @subpackage		Admin Page Framework - Field
  * @since			2.1.5
  */
-abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Utility {
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
 	
 	/**
 	 * Defines the slugs used for this field type.

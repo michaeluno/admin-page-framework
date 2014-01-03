@@ -77,7 +77,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 				. "<label for='{$sID}' class='taxonomy-checklist-label'>"
 					. "<input value='0' type='hidden' name='{$aArgs['name']}[{$iID}]' />"
 					// . "<input id='{$sID}' value='1' type='checkbox' name='{$aArgs['name']}[{$iID}]' {$sChecked} {$sDisabled} />"
-					. "<input " . AdminPageFramework_Utility::generateAttributes( $aInputAttributes ) . " />"
+					. "<input " . AdminPageFramework_WPUtility::generateAttributes( $aInputAttributes ) . " />"
 					. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
 				. "</label>";	
 			// no need to close </li> since it is dealt in end_el().

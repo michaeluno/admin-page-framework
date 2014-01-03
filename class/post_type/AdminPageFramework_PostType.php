@@ -79,7 +79,7 @@ abstract class AdminPageFramework_PostType {
 	public function __construct( $sPostType, $aArgs=array(), $sCallerPath=null, $sTextDomain='admin-page-framework' ) {
 		
 		// Objects
-		$this->oUtil = new AdminPageFramework_Utility;
+		$this->oUtil = new AdminPageFramework_WPUtility;
 		$this->oProp = new AdminPageFramework_Property_PostType( 
 			$this, 
 			$sCallerPath ? trim( $sCallerPath ) : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.			

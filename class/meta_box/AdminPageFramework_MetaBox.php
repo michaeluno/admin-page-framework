@@ -70,7 +70,7 @@ abstract class AdminPageFramework_MetaBox {
 	function __construct( $sMetaBoxID, $sTitle, $vPostTypes=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
 		// Objects
-		$this->oUtil = new AdminPageFramework_Utility;
+		$this->oUtil = new AdminPageFramework_WPUtility;
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
 		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );

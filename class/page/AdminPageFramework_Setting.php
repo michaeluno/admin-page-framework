@@ -357,11 +357,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	*			<li><strong>is_read_only</strong> - ( optional, boolean|array ) if this is set to true, the <em>readonly</em> attribute will be inserted into the field input tag.</li>
 	* 			<li><strong>size</strong> - ( optional, integer|array ) the number that indicates the size of the input field.</li>
 	* 			<li><strong>max_length</strong> - ( optional, integer|array ) the number that indicates the <em>maxlength</em> attribute of the input field.</li>
-	* 			<li><strong>vImagePreview</strong> - ( optional, boolean|array ) if this is set to false, the image preview will be disabled.</li>
+	* 			<li><strong>show_preview</strong> - ( optional, boolean|array ) if this is set to false, the image preview will be disabled.</li>
 	* 			<li><strong>sTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>sLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
 	* 			<li><strong>is_repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
-	* 			<li><strong>attributes_to_capture</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_capture' => array( 'id', 'caption', 'description' )</code></li>
+	* 			<li><strong>extra_attributes</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'extra_attributes' => array( 'id', 'caption', 'description' )</code></li>
 	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
 	* 		</ul>
 	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.</li>
@@ -372,7 +372,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 			<li><strong>sTickBoxTitle</strong> - ( optional, string ) the text label displayed in the media uploader box's title.</li>
 	* 			<li><strong>sLabelUseThis</strong> - ( optional, string ) the text label displayed in the button of the media uploader to set the image.</li>
 	* 			<li><strong>is_repeatable</strong> - [2.1.3+] ( optional, boolean|array ) whether the fields should be repeatable. If is true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
-	* 			<li><strong>attributes_to_capture</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_capture' => array( 'id', 'caption', 'description' )</code></li>
+	* 			<li><strong>extra_attributes</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'extra_attributes' => array( 'id', 'caption', 'description' )</code></li>
 	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
 	* 		</ul>
 	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
