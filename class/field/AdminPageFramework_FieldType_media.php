@@ -64,15 +64,23 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 			if ( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
 				return "
 					jQuery( document ).ready( function(){
-						jQuery( '.select_media' ).click( function() {
-							pressed_id = jQuery( this ).attr( 'id' );
-							field_id = pressed_id.substring( 13 );	// remove the select_file_ prefix
-							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );					
-							tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=media&amp;TB_iframe=true', false );
-							return false;	// do not click the button after the script by returning false.
-						});
 						
-						window.original_send_to_editor = window.send_to_editor;
+						/**
+						 * Bind/rebinds the thickbox script the given selector element.
+						 * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
+						 */
+						setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
+							jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
+							jQuery( '#select_media_' + sInputID ).click( function() {
+								var sPressedID = jQuery( this ).attr( 'id' );
+								window.sInputID = sPressedID.substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
+								window.original_send_to_editor = window.send_to_editor;
+								var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+								tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+								return false;	// do not click the button after the script by returning false.									
+							});	
+						}			
+														
 						window.send_to_editor = function( sRawHTML, param ) {
 
 							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
@@ -81,8 +89,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : '';	// attachment ID	
 						
 							// If the user wants to save relavant attributes, set them.
-							jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-							jQuery( '#' + field_id + '_id' ).val( id );			
+							var sInputID = window.sInputID;
+							jQuery( '#' + sInputID ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+							jQuery( '#' + sInputID + '_id' ).val( id );			
 								
 							// restore the original send_to_editor
 							window.send_to_editor = window.original_send_to_editor;
@@ -96,7 +105,11 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 				
 			return "
 			jQuery( document ).ready( function(){		
+				
 				// Global Function Literal 
+				/**
+				 * Binds/rebinds the uploader button script to the specified element with the given ID.
+				 */				
 				setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
 					jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
@@ -183,8 +196,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function replyToGetStyles() {
-		return
-		"/* Media Uploader Button */
+		return "/* Media Uploader Button */
 			.admin-page-framework-field-media input {
 				margin-right: 0.5em;
 			}
@@ -227,19 +239,16 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 						'data-enable_external_source' => $bExternalSource ? 1 : 0,
 					) + $aButtonAttributes
 				) . ">"
-					. $this->oMsg->__( 'select_image' )
+					. $this->oMsg->__( 'select_file' )
 				."</a>";
 				
 			$sScript = "
 				if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
 					jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
-				}" . PHP_EOL;
-
-			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
-				$sScript .="
-					jQuery( document ).ready( function(){			
-						setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
-					});" . PHP_EOL;	
+				}
+				jQuery( document ).ready( function(){			
+					setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+				});" . PHP_EOL;	
 					
 			return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $sScript . "</script>". PHP_EOL;
 
