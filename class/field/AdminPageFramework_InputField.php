@@ -283,8 +283,7 @@ return $vValue;
 			
 			/* Put the initial field and the sub-fields together in one array */
 			foreach( $aSubFields as &$aSubField ) 
-				$aSubField = $this->uniteArrays( $aSubField, $aFirstField );	// the 'attributes' array of some field types have more than one dimensions.
-				// $aSubField = $aSubField + $aFirstField;
+				$aSubField = $this->uniteArrays( $aSubField, $aFirstField );	// the 'attributes' array of some field types have more than one dimensions. // $aSubField = $aSubField + $aFirstField;
 			$aFields = array_merge( array( $aFirstField ), $aSubFields );
 					
 			/* Set the saved values */		

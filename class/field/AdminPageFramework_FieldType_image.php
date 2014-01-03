@@ -10,36 +10,53 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_image' ) ) :
 class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Base {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(			
-			'attributes_to_capture'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-			'size'									=> 60,
-			'max_length'							=> 400,
-			'vImagePreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
-			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
-		);	
-	}
+	public $aFieldTypeSlugs = array( 'image', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'extra_attributes'	=>	array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+		'show_preview'	=>	true,
+		'allow_external_source'	=>	true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+		'attributes'	=>	array(
+			'input'		=> array(
+				'size'	=>	40,
+				'maxlength'	=>	400,			
+			),
+			'button'	=>	array(
+			),
+			'preview'	=>	array(
+			),			
+		),	
+	);
+
+
+/**
+ * Returns the array of the field type specific default keys.
+ */
+protected function getDefaultKeys() { 
+	return array(			
+		// 'extra_attributes'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+		// 'size'									=> 60,
+		// 'max_length'							=> 400,
+		// 'show_preview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
+		'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
+		'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
+		// 'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+	);	
+}
 
 	/**
 	 * Loads the field type necessary components.
 	 */ 
 	public function replyToFieldLoader() {
-		$this->enqueueMediaUploader();	
-	}	
-	/**
-	 * Enqueues scripts and styles for the media uploader.
-	 * 
-	 * @remark			Used by the image and media field types.
-	 * @since			2.1.5
-	 */
-	protected function enqueueMediaUploader() {
-		
-		// add_filter( 'gettext', array( $this, 'replyToReplacingThickBoxText' ) , 1, 2 );
-		add_filter( 'media_upload_tabs', array( $this, 'replyToRemovingMediaLibraryTab' ) );
+				
+		add_filter( 'media_upload_tabs', array( $this, '_replyToRemovingMediaLibraryTab' ) );
 		
 		wp_enqueue_script( 'jquery' );			
 		wp_enqueue_script( 'thickbox' );
@@ -50,20 +67,21 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		else		
 			wp_enqueue_script( 'media-upload' );
 			
-	}
+	}	
 		/**
 		 * Removes the From URL tab from the media uploader.
 		 * 
 		 * since			2.1.3
-		 * since			2.1.5			Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to replyToRemovingMediaLibraryTab().
+		 * since			2.1.5			Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to _replyToRemovingMediaLibraryTab().
 		 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
+		 * @internal
 		 */
-		public function replyToRemovingMediaLibraryTab( $aTabs ) {
+		public function _replyToRemovingMediaLibraryTab( $aTabs ) {
 			
 			if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $aTabs;
 			
 			if ( ! $_REQUEST['enable_external_source'] )
-				unset( $aTabs['type_url'] );	// removes the From URL tab in the thick box.
+				unset( $aTabs['type_url'] );	// removes the 'From URL' tab in the thick box.
 			
 			return $aTabs;
 			
@@ -73,8 +91,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	public function replyToGetScripts() {		
-		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	
-			. $this->getScript_ImageSelector( 
+		return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL	
+			. $this->_getScript_ImageSelector( 
 				"admin_page_framework", 
 				$this->oMsg->__( 'upload_image' ),
 				$this->oMsg->__( 'use_this_image' )
@@ -87,15 +105,15 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_Property_Base.
 		 */
-		protected function getScript_CustomMediaUploaderObject() {
+		protected function _getScript_CustomMediaUploaderObject() {
 			
-			 $bLoaded = isset( $GLOBALS['aAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] )
-				? $GLOBALS['aAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] : false;
+			 $bLoaded = isset( $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] )
+				? $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] : false;
 			
 			if( ! function_exists( 'wp_enqueue_media' ) || $bLoaded )	// means the WordPress version is 3.4.x or below
 				return "";
 			
-			$GLOBALS['aAdminPageFramework']['fIsLoadedCustomMediaUploaderObject'] = true;
+			$GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] = true;
 			
 			// Global function literal
 			return "
@@ -308,7 +326,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		 * @since			2.0.0
 		 * @since			2.1.5			Moved from the AdminPageFramework_Property_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
 		 */		
-		private function getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
+		private function _getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
 			
 			if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
 				return "
@@ -523,13 +541,16 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				max-width: 100%;
 				display: block;
 			}
-		/* Image Uploader Button */
+			/* Image Uploader Input Field */
 			.admin-page-framework-field-image input {
 				margin-right: 0.5em;
+				vertical-align: middle;	
 			}
+			/* Image Uploader Button */
 			.select_image.button.button-small {
 				vertical-align: baseline;
-			}			
+			}		
+		
 		" . PHP_EOL;	
 	}
 	
@@ -537,138 +558,122 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	 * Returns the output of the field type.
 	 * 
 	 * @since			2.1.5
+	 * @since			3.0.0			Reconstructed entirely.
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
+	public function replyToGetField( $aField ) {
+		
+		/* Variables */
 		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
+		$iCountAttributes = count( ( array ) $aField['extra_attributes'] );	// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+		$sCaptureAttribute = $iCountAttributes ? 'url' : '';
+		$sImageURL = $sCaptureAttribute
+				? ( isset( $aField['attributes']['value'][ $sCaptureAttribute ] ) ? $aField['attributes']['value'][ $sCaptureAttribute ] : "" )
+				: $aField['attributes']['value'];
 		
-		$aFields = $aField['repeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['label'];
-		$bMultipleFields = is_array( $aFields );	
-		$bRepeatable = $aField['repeatable'];
-			
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
-			$aOutput[] =
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"					
-					. $this->getImageInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-image' id='{$tag_id}'>" 
-				. implode( PHP_EOL, $aOutput ) 
-			. "</div>";		
+		/* Set up the attribute arrays */
+		$aBaseAttributes = $aField['attributes'];
+		unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'] );
+		$aInputAttributes = array(
+			'name'	=>	$aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
+			'value'	=>	$sImageURL,
+			'type'	=>	'text',
+		) + $aField['attributes']['input'] + $aBaseAttributes;
+		$aButtonAtributes = $aField['attributes']['button'] + $aBaseAttributes;
+		$aPreviewAtrributes = $aField['attributes']['preview'] + $aBaseAttributes;
+
+		/* Compose the field output */
+		$aOutput[] =
+			$aField['before_label']
+			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input']
+					. ( $aField['label'] && ! $aField['is_repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
+					. $this->getExtraInputFields( $aField )
+					. $aField['after_input']
+				. "</label>"
+			. "</div>"			
+			. $aField['after_label']
+			. ( $aField['show_preview'] ? $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) : '' )
+			. $this->_getImageUploaderButtonScript( $aField['input_id'], $aField['is_repeatable'], $aField['allow_external_source'], $aButtonAtributes );
+			;		
 		
-	}	
-	
+		return implode( PHP_EOL, $aOutput );
+		
+	}
 		/**
-		 * A helper function for the above replyToGetField() method to return input elements.
-		 * 
-		 * @since			2.1.3
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField. Added some parameters.
+		 * Returns extra input fields to set capturing attributes.
+		 * @since			3.0.0
 		 */
-		private function getImageInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
-			
-			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );
-			
-			// The URL input field is mandatory as the preview element uses it.
-			$aOutputs = array(
-				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>"
-					: ''
-				)			
-				. "<input id='{$tag_id}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
-					. "type='text' "	// text
-					. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $sImageURL = $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys  ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
-				. "/>"	
-			);
+		protected function getExtraInputFields( &$aField ) {
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
-				$aOutputs[] = 
-					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . "[{$sAttribute}]' " 
-						. "value='" . $this->getImageInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys ) . "' "
-						. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-					. "/>";
-			
-			// Returns the outputs as well as the uploader buttons and the preview element.
-			return 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
-					. "<label for='{$tag_id}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] ) 
-						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
-					. "</label>"
-				. "</div>"
-				. ( $this->getCorrespondingArrayValue( $aField['vImagePreview'], $sKey, true )
-					? "<div id='image_preview_container_{$tag_id}_{$sKey}' "
-							. "class='image_preview' "
-							. "style='" . ( $sImageURL ? "" : "display : none;" ) . "'"
-						. ">"
-							. "<img src='{$sImageURL}' "
-								. "id='image_preview_{$tag_id}_{$sKey}' "
-							. "/>"
-						. "</div>"
-					: "" )
-				. $this->getImageUploaderButtonScript( "{$tag_id}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
+			$aOutputs = array();
+			foreach( ( array ) $aField['extra_attributes'] as $sAttribute )
+				$aOutputs[] = "<input " . $this->generateAttributes( 
+						array(
+							'id'	=>	"{$aField['input_id']}_{$sAttribute}",
+							'type'	=>	'hidden',
+							'name'	=>	"{$aField['field_name']}[{$sAttribute}]",
+							'disabled'	=>	isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '',
+							'value'	=>	isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
+						)
+					) . "/>";
+			return implode( PHP_EOL, $aOutputs );
 			
 		}
+		
 		/**
-		 * A helper function for the above getImageInputTags() method that retrieve the specified input field value.
-		 * 
-		 * @since			2.1.3
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField
+		 * Returns the output of the preview box.
+		 * @since			3.0.0
 		 */
-		private function getImageInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $_aDefaultKeys ) {	
+		protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) {
 
-			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $_aDefaultKeys['default'] )
-				: ( isset( $vValue ) ? $vValue : $_aDefaultKeys['default'] );
+			$sImageURL = $this->resolveSRC( $sImageURL, true );
+			return 
+				"<div " . $this->generateAttributes( 
+						array(
+							'id'	=>	"image_preview_container_{$aField['input_id']}",							
+							'class'	=>	'image_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ),
+							'style'	=> ( $sImageURL ? '' : "display; none; "  ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ),
+						) + $aPreviewAtrributes
+					)
+				. ">"
+					. "<img src='{$sImageURL}' "
+						. "id='image_preview_{$aField['input_id']}' "
+					. "/>"
+				. "</div>";
 
-			return $sCaptureAttribute
-				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
-				: $vValue;
-			
 		}
+			
 		/**
 		 * A helper function for the above getImageInputTags() method to add a image button script.
 		 * 
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 		 */
-		private function getImageUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource ) {
+		private function _getImageUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
 			
-			$sButton ="<a id='select_image_{$sInputID}' "
-						. "href='#' "
-						. "class='select_image button button-small'"
-						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
-						. "data-enable_external_source='" . ( $bExternalSource ? 1 : 0 ) . "'"
-					. ">"
-						. $this->oMsg->__( 'select_image' )
+			$sButton = 
+				"<a " . $this->generateAttributes( 
+					array(
+						'id'	=>	"select_image_{$sInputID}",
+						'href'	=>	'#',
+						'class'	=>	'select_image button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+						'data-uploader_type'	=>	function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+						'data-enable_external_source' => $bExternalSource ? 1 : 0,
+					) + $aButtonAttributes
+				) . ">"
+					. $this->oMsg->__( 'select_image' )
 				."</a>";
-			
+				
 			$sScript = "
 				if ( jQuery( 'a#select_image_{$sInputID}' ).length == 0 ) {
 					jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
-				}			
-			" . PHP_EOL;
+				}" . PHP_EOL;
 
 			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
 				$sScript .="
@@ -676,8 +681,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
 					});" . PHP_EOL;	
 					
-			return "<script type='text/javascript'>" . $sScript . "</script>" . PHP_EOL;
+			return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $sScript . "</script>". PHP_EOL;
 
-		}	
+		}
 }
 endif;

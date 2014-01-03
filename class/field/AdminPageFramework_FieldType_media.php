@@ -14,7 +14,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	 */
 	protected function getDefaultKeys() { 
 		return array(
-			'attributes_to_capture'					=> array(),
+			'extra_attributes'					=> array(),
 			'size'									=> 60,
 			'max_length'							=> 400,
 			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
@@ -34,7 +34,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	public function replyToGetScripts() {
-		return $this->getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
+		return $this->_getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
 			. $this->getScript_MediaUploader(
 				"admin_page_framework", 
 				$this->oMsg->__( 'upload_file' ),
@@ -224,7 +224,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 		private function getMediaInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 	
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['attributes_to_capture'] );	
+			$iCountAttributes = count( ( array ) $aField['extra_attributes'] );	
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
@@ -245,7 +245,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['attributes_to_capture'] as $sAttribute )
+			foreach( ( array ) $aField['extra_attributes'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
 						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
