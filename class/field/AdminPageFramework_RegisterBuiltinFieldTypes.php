@@ -29,7 +29,7 @@ class AdminPageFramework_RegisterBuiltinFieldTypes  {
 		'import',
 		'export',
 		'image',
-		'media',
+		// 'media',
 		'color',
 		'taxonomy',
 		'posttype',

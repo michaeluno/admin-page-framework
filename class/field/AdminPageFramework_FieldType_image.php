@@ -80,8 +80,71 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				"admin_page_framework", 
 				$this->oMsg->__( 'upload_image' ),
 				$this->oMsg->__( 'use_this_image' )
-		);
+			)  . PHP_EOL
+			. $this->_getScript_RepeatEvent();
 	}
+		/**
+		 * Returns the JavaScript script that handles repeatable events. 
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function _getScript_RepeatEvent() {
+
+			$aJSArray = json_encode( $this->aFieldTypeSlugs );
+			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
+				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
+			return"
+			jQuery( document ).ready( function(){
+		
+				var updateID = function( index, name ) {
+					var fIncrementOrDecrement = 1;	// increment only 
+					if ( typeof name === 'undefined' ) {
+						return name;
+					}
+					return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
+						return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
+					});
+				}
+				
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						var nodeImageUploaderButton = node.find( '.select_image' );
+						if ( nodeImageUploaderButton.length <= 0 )  return;
+						
+				
+						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements */
+						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
+						nodeFieldContainer.nextAll().andSelf().each( function() {
+
+							nodeButton = jQuery( this ).find( '.select_image' );
+							nodeButton.attr( 'id', function( index, name ){ return updateID( index, name ) } );
+							jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );							
+
+							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script set the preview image in the wrong place. */						
+							var nodeImageInput = jQuery( this ).find( '.image-field input' );
+							if ( nodeImageInput.length <= 0 ) return true;
+							
+							var sInputID = nodeImageInput.attr( 'id' );
+							
+							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+						
+							setAPFImageUploader( sInputID, true, fExternalSource );	
+													
+							
+						});						
+					
+					}
+				});
+			});" . PHP_EOL;	
+			
+		}
+		
 		/**
 		 * Returns the JavaScript script that creates a custom media uploader object.
 		 * 
@@ -312,18 +375,25 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		 */		
 		private function _getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
 			
-			if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
+			if ( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
 				return "
 					jQuery( document ).ready( function(){
-						jQuery( '.select_image' ).click( function() {
-							pressed_id = jQuery( this ).attr( 'id' );
-							field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix
-							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-							tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-							return false;	// do not click the button after the script by returning false.
-						});
+						/**
+						 * Bind/rebinds the thickbox script the given selector element.
+						 * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
+						 */
+						setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+							jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
+							jQuery( '#select_image_' + sInputID ).click( function() {
+								var sPressedID = jQuery( this ).attr( 'id' );
+								window.sInputID = sPressedID.substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
+								window.original_send_to_editor = window.send_to_editor;
+								var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+								tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+								return false;	// do not click the button after the script by returning false.									
+							});	
+						}			
 						
-						window.original_send_to_editor = window.send_to_editor;
 						window.send_to_editor = function( sRawHTML ) {
 
 							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
@@ -343,30 +413,32 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 							var sCaption = jQuery( '<div/>' ).text( sCaption ).html();
 							var sAlt = jQuery( '<div/>' ).text( alt ).html();
 							var title = jQuery( '<div/>' ).text( title ).html();						
-							
+				
 							// If the user wants to save relevant attributes, set them.
-							jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-							jQuery( '#' + field_id + '_id' ).val( id );
-							jQuery( '#' + field_id + '_width' ).val( width );
-							jQuery( '#' + field_id + '_height' ).val( height );
-							jQuery( '#' + field_id + '_caption' ).val( sCaption );
-							jQuery( '#' + field_id + '_alt' ).val( sAlt );
-							jQuery( '#' + field_id + '_title' ).val( title );						
-							jQuery( '#' + field_id + '_align' ).val( align );						
-							jQuery( '#' + field_id + '_link' ).val( link );						
+							var sInputID = window.sInputID;	// window.sInputID should be assigned when the thickbox is opened.
+				
+							jQuery( '#' + sInputID ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+							jQuery( '#' + sInputID + '_id' ).val( id );
+							jQuery( '#' + sInputID + '_width' ).val( width );
+							jQuery( '#' + sInputID + '_height' ).val( height );
+							jQuery( '#' + sInputID + '_caption' ).val( sCaption );
+							jQuery( '#' + sInputID + '_alt' ).val( sAlt );
+							jQuery( '#' + sInputID + '_title' ).val( title );						
+							jQuery( '#' + sInputID + '_align' ).val( align );						
+							jQuery( '#' + sInputID + '_link' ).val( link );						
 							
 							// Update the preview
-							jQuery( '#image_preview_' + field_id ).attr( 'alt', alt );
-							jQuery( '#image_preview_' + field_id ).attr( 'title', title );
-							jQuery( '#image_preview_' + field_id ).attr( 'data-classes', classes );
-							jQuery( '#image_preview_' + field_id ).attr( 'data-id', id );
-							jQuery( '#image_preview_' + field_id ).attr( 'src', src );	// updates the preview image
-							jQuery( '#image_preview_container_' + field_id ).css( 'display', '' );	// updates the visibility
-							jQuery( '#image_preview_' + field_id ).show()	// updates the visibility
+							jQuery( '#image_preview_' + sInputID ).attr( 'alt', alt );
+							jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
+							jQuery( '#image_preview_' + sInputID ).attr( 'data-classes', classes );
+							jQuery( '#image_preview_' + sInputID ).attr( 'data-id', id );
+							jQuery( '#image_preview_' + sInputID ).attr( 'src', src );	// updates the preview image
+							jQuery( '#image_preview_container_' + sInputID ).css( 'display', '' );	// updates the visibility
+							jQuery( '#image_preview_' + sInputID ).show()	// updates the visibility
 							
 							// restore the original send_to_editor
 							window.send_to_editor = window.original_send_to_editor;
-							
+
 							// close the thickbox
 							tb_remove();	
 
@@ -377,6 +449,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			return "jQuery( document ).ready( function(){
 
 				// Global Function Literal 
+				/**
+				 * Binds/rebinds the uploader button script to the specified element with the given ID.
+				 */
 				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
 					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
@@ -533,8 +608,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			/* Image Uploader Button */
 			.select_image.button.button-small {
 				vertical-align: baseline;
-			}		
-		
+			}
 		" . PHP_EOL;	
 	}
 	
@@ -556,7 +630,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		
 		/* Set up the attribute arrays */
 		$aBaseAttributes = $aField['attributes'];
-		unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'] );
+		unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'], $aBaseAttributes['name'], $aBaseAttributes['value'], $aBaseAttributes['type'] );
 		$aInputAttributes = array(
 			'name'	=>	$aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
 			'value'	=>	$sImageURL,
@@ -657,13 +731,10 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			$sScript = "
 				if ( jQuery( 'a#select_image_{$sInputID}' ).length == 0 ) {
 					jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
-				}" . PHP_EOL;
-
-			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
-				$sScript .="
-					jQuery( document ).ready( function(){			
-						setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
-					});" . PHP_EOL;	
+				}
+				jQuery( document ).ready( function(){			
+					setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+				});" . PHP_EOL;	
 					
 			return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $sScript . "</script>". PHP_EOL;
 

@@ -406,20 +406,7 @@ return $vValue;
 					nodeElement.find( 'label' ).attr( 'for', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
-										
-					// Image uploader buttons and image preview elements
-					image_uploader_button = nodeElement.find( '.select_image' );
-					if ( image_uploader_button.length > 0 ) {
-						var previous_id = nodeElement.find( '.image-field input' ).attr( 'id' );
-						image_uploader_button.attr( 'id', function( index, name ){ return updateID( index, name ) } );
-						nodeElement.find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-						nodeElement.find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-					
-						if ( jQuery( image_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
-							var fExternalSource = jQuery( image_uploader_button ).attr( 'data-enable_external_source' );
-							setAPFImageUploader( previous_id, true, fExternalSource );	
-						}						
-					}
+
 					
 					// Media uploader buttons
 					media_uploader_button = nodeElement.find( '.select_media' );
