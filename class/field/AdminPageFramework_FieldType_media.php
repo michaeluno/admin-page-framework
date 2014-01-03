@@ -51,8 +51,66 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 				"admin_page_framework", 
 				$this->oMsg->__( 'upload_file' ),
 				$this->oMsg->__( 'use_this_file' )
-			);
+			) . PHP_EOL
+			. $this->_getScript_RepeatEvent();
 	}	
+	
+		/**
+		 * Returns the JavaScript script that handles repeatable events. 
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function _getScript_RepeatEvent() {
+
+			$aJSArray = json_encode( $this->aFieldTypeSlugs );
+			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
+				renew the upload button (while it does on the input tag value), the renewal task must be dealt here separately. */
+			return"
+			jQuery( document ).ready( function(){
+		
+				var updateID = function( index, name ) {
+					var fIncrementOrDecrement = 1;	// increment only 
+					if ( typeof name === 'undefined' ) {
+						return name;
+					}
+					return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
+						return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
+					});
+				}
+				
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						var nodeMediaUploaderButton = node.find( '.select_media' );
+						if ( nodeMediaUploaderButton.length <= 0 )  return;
+						
+						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements */
+						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
+						nodeFieldContainer.nextAll().andSelf().each( function() {
+
+							nodeButton = jQuery( this ).find( '.select_media' );
+							nodeButton.attr( 'id', function( index, name ){ return updateID( index, name ) } );
+							// jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
+							// jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );							
+
+							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script sets the preview image in the wrong place. */						
+							var nodeMediaInput = jQuery( this ).find( '.media-field input' );
+							if ( nodeMediaInput.length <= 0 ) return true;
+							var sInputID = nodeMediaInput.attr( 'id' );							
+							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+							setAPFMediaUploader( sInputID, true, fExternalSource );	
+							
+						});						
+					}
+				});
+			});" . PHP_EOL;	
+			
+		}
+		
 		/**
 		 * Returns the media uploader JavaScript script to be loaded in the head tag of the created admin pages.
 		 * 
@@ -75,13 +133,14 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 								var sPressedID = jQuery( this ).attr( 'id' );
 								window.sInputID = sPressedID.substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
 								window.original_send_to_editor = window.send_to_editor;
+								window.send_to_editor = hfAPFSendToEditorMedia;
 								var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
 								tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
 								return false;	// do not click the button after the script by returning false.									
 							});	
 						}			
 														
-						window.send_to_editor = function( sRawHTML, param ) {
+						var hfAPFSendToEditorMedia = function( sRawHTML, param ) {
 
 							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
 							var src = jQuery( 'a', sHTML ).attr( 'href' );
@@ -199,10 +258,11 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 		return "/* Media Uploader Button */
 			.admin-page-framework-field-media input {
 				margin-right: 0.5em;
+				vertical-align: middle;	
 			}
 			.select_media.button.button-small {
 				vertical-align: baseline;
-			}		
+			}
 		";
 	}
 	

@@ -407,19 +407,6 @@ return $vValue;
 					nodeElement.find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					nodeElement.find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 
-					
-					// Media uploader buttons
-					media_uploader_button = nodeElement.find( '.select_media' );
-					if ( media_uploader_button.length > 0 ) {
-						var previous_id = nodeElement.find( '.media-field input' ).attr( 'id' );
-						media_uploader_button.attr( 'id', function( index, name ){ return updateID( index, name ) } );
-					
-						if ( jQuery( media_uploader_button ).data( 'uploader_type' ) == '1' ) {	// for Wordpress 3.5 or above
-							var fExternalSource = jQuery( media_uploader_button ).attr( 'data-enable_external_source' );
-							setAPFMediaUploader( previous_id, true, fExternalSource );	
-						}						
-					}	
-									
 				}
 				
 				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.

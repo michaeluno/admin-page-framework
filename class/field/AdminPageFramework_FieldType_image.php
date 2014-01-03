@@ -125,7 +125,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );							
 
 							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-							 * otherwise, the script set the preview image in the wrong place. */						
+							 * otherwise, the script sets the preview image in the wrong place. */						
 							var nodeImageInput = jQuery( this ).find( '.image-field input' );
 							if ( nodeImageInput.length <= 0 ) return true;
 							
@@ -383,13 +383,14 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 								var sPressedID = jQuery( this ).attr( 'id' );
 								window.sInputID = sPressedID.substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
 								window.original_send_to_editor = window.send_to_editor;
+								window.send_to_editor = hfAPFSendToEditorImage;
 								var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
 								tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
 								return false;	// do not click the button after the script by returning false.									
 							});	
 						}			
 						
-						window.send_to_editor = function( sRawHTML ) {
+						var hfAPFSendToEditorImage = function( sRawHTML ) {
 
 							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
 							var src = jQuery( 'img', sHTML ).attr( 'src' );
@@ -637,7 +638,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		/* Compose the field output */
 		$aOutput[] =
 			$aField['before_label']
-			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
+			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>"	// image-field ( this will be media-field for the media field type )
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
 					. ( $aField['label'] && ! $aField['is_repeatable']
