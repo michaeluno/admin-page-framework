@@ -92,7 +92,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 
 			$aJSArray = json_encode( $this->aFieldTypeSlugs );
 			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
-				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
+				renew the upload button and the preview elements (while it does on the input tag value), the renewal task must be dealt here separately. */
 			return"
 			jQuery( document ).ready( function(){
 		
@@ -115,7 +115,6 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						var nodeImageUploaderButton = node.find( '.select_image' );
 						if ( nodeImageUploaderButton.length <= 0 )  return;
 						
-				
 						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements */
 						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						nodeFieldContainer.nextAll().andSelf().each( function() {
@@ -131,14 +130,10 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 							if ( nodeImageInput.length <= 0 ) return true;
 							
 							var sInputID = nodeImageInput.attr( 'id' );
-							
 							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-						
 							setAPFImageUploader( sInputID, true, fExternalSource );	
-													
 							
 						});						
-					
 					}
 				});
 			});" . PHP_EOL;	
@@ -157,7 +152,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			 $bLoaded = isset( $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] )
 				? $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] : false;
 			
-			if( ! function_exists( 'wp_enqueue_media' ) || $bLoaded )	// means the WordPress version is 3.4.x or below
+			if ( ! function_exists( 'wp_enqueue_media' ) || $bLoaded )	// means the WordPress version is 3.4.x or below
 				return "";
 			
 			$GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] = true;
