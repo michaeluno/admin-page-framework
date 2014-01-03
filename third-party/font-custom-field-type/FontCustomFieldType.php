@@ -26,7 +26,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	 */
 	protected function getDefaultKeys() { 
 		return array(			
-			'extra_attributes'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+			'attributes_to_store'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
 			'size'									=> 60,
 			'max_length'							=> 400,
 			'vFontPreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
@@ -305,7 +305,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 		private function getFontInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
 			
 			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['extra_attributes'] );
+			$iCountAttributes = count( ( array ) $aField['attributes_to_store'] );
 			
 			// The URL input field is mandatory as the preview element uses it.
 			$aOutputs = array(
@@ -326,7 +326,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 			);
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['extra_attributes'] as $sAttribute )
+			foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
 				$aOutputs[] = 
 					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
 						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "

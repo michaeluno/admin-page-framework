@@ -937,7 +937,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'image_select',
 				'title'	=>	__( 'Save Image Attributes', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
-				'extra_attributes'	=>	array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
+				'attributes_to_store'	=>	array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
 			),					
 			array(	// Repeatable Image Fields
 				'field_id'	=>	'image_select_field_repeater',
@@ -964,7 +964,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'media_upload',
 				'title'	=>	__( 'Media File with Attributes', 'admin-page-framework-demo' ),
 				'type'	=>	'media',
-				'extra_attributes'	=>	array( 'id', 'caption', 'description' ),
+				'attributes_to_store'	=>	array( 'id', 'caption', 'description' ),
 			),				
 			array( // Media Files
 				'field_id'	=>	'media_fields',

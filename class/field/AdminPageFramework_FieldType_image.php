@@ -20,7 +20,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
-		'extra_attributes'	=>	array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+		'attributes_to_store'	=>	array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
 		'show_preview'	=>	true,
 		'allow_external_source'	=>	true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
 		'attributes'	=>	array(
@@ -34,22 +34,6 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			),			
 		),	
 	);
-
-
-/**
- * Returns the array of the field type specific default keys.
- */
-protected function getDefaultKeys() { 
-	return array(			
-		// 'extra_attributes'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-		// 'size'									=> 60,
-		// 'max_length'							=> 400,
-		// 'show_preview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
-		'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-		'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-		// 'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
-	);	
-}
 
 	/**
 	 * Loads the field type necessary components.
@@ -564,7 +548,7 @@ protected function getDefaultKeys() {
 		
 		/* Variables */
 		$aOutput = array();
-		$iCountAttributes = count( ( array ) $aField['extra_attributes'] );	// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+		$iCountAttributes = count( ( array ) $aField['attributes_to_store'] );	// If the saving extra attributes are not specified, the input field will be single only for the URL. 
 		$sCaptureAttribute = $iCountAttributes ? 'url' : '';
 		$sImageURL = $sCaptureAttribute
 				? ( isset( $aField['attributes']['value'][ $sCaptureAttribute ] ) ? $aField['attributes']['value'][ $sCaptureAttribute ] : "" )
@@ -598,8 +582,8 @@ protected function getDefaultKeys() {
 			. "</div>"			
 			. $aField['after_label']
 			. ( $aField['show_preview'] ? $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) : '' )
-			. $this->_getImageUploaderButtonScript( $aField['input_id'], $aField['is_repeatable'], $aField['allow_external_source'], $aButtonAtributes );
-			;		
+			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['is_repeatable'], $aField['allow_external_source'], $aButtonAtributes );
+		;
 		
 		return implode( PHP_EOL, $aOutput );
 		
@@ -612,7 +596,7 @@ protected function getDefaultKeys() {
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
 			$aOutputs = array();
-			foreach( ( array ) $aField['extra_attributes'] as $sAttribute )
+			foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
 				$aOutputs[] = "<input " . $this->generateAttributes( 
 						array(
 							'id'	=>	"{$aField['input_id']}_{$sAttribute}",
@@ -655,7 +639,7 @@ protected function getDefaultKeys() {
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 		 */
-		private function _getImageUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
+		protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
 			
 			$sButton = 
 				"<a " . $this->generateAttributes( 

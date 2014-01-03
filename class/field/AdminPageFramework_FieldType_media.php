@@ -10,32 +10,44 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_media' ) ) :
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
 	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'extra_attributes'					=> array(),
-			'size'									=> 60,
-			'max_length'							=> 400,
-			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
-		);	
-	}
-
+	public $aFieldTypeSlugs = array( 'media', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'attributes_to_store'	=>	array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+		'show_preview'	=>	true,
+		'allow_external_source'	=>	true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+		'attributes'	=>	array(
+			'input'		=> array(
+				'size'	=>	40,
+				'maxlength'	=>	400,			
+			),
+			'button'	=>	array(
+			),
+			'preview'	=>	array(
+			),			
+		),	
+	);
+	
 	/**
 	 * Loads the field type necessary components.
 	 */ 
 	public function replyToFieldLoader() {
-		$this->enqueueMediaUploader();
+		parent::replyToFieldLoader();
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	public function replyToGetScripts() {
-		return $this->_getScript_CustomMediaUploaderObject()	. PHP_EOL	// defined in the parent class
-			. $this->getScript_MediaUploader(
+		return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL	// defined in the parent class
+			. $this->_getScript_MediaUploader(
 				"admin_page_framework", 
 				$this->oMsg->__( 'upload_file' ),
 				$this->oMsg->__( 'use_this_file' )
@@ -47,7 +59,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 		 * @since			2.1.3
 		 * @since			2.1.5			Moved from ... Chaned the name from getMediaUploaderScript().
 		 */
-		private function getScript_MediaUploader( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
+		private function _getScript_MediaUploader( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
 			
 			if ( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
 				return "
@@ -187,122 +199,41 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
-		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-		
-		$aFields = $aField['repeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['label'];			
-		$bMultipleFields = is_array( $aFields );	
-		$bRepeatable = $aField['repeatable'];			
-			
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
-			$aOutput[] =
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"					
-					. $this->getMediaInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-media' id='{$tag_id}'>" 
-				. implode( PHP_EOL, $aOutput ) 
-			. "</div>";		
-			
+	public function replyToGetField( $aField ) {
+		return parent::replyToGetField( $aField );
 	}
+		
 		/**
-		 * A helper function for the above getImageField() method to return input elements.
+		 * Returns the output of the preview box.
+		 * @since			3.0.0
+		 */
+		protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) { return ""; }
+		
+		/**
+		 * A helper function for the above getImageInputTags() method to add a image button script.
 		 * 
 		 * @since			2.1.3
-		 */
-		private function getMediaInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
-	
-			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['extra_attributes'] );	
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+		 */		
+		protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
 			
-			// The URL input field is mandatory as the preview element uses it.
-			$aOutputs = array(
-				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>" 
-					: ''
-				)
-				. "<input id='{$tag_id}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
-					. "type='text' "	// text
-					. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
-				. "/>"	
-			);
-			
-			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			foreach( ( array ) $aField['extra_attributes'] as $sAttribute )
-				$aOutputs[] = 
-					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . "[{$sAttribute}]' " 
-						. "value='" . $this->getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys  ) . "' "
-						. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-					. "/>";
-			
-			// Returns the outputs as well as the uploader buttons and the preview element.
-			return 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container media-field'>"
-					. "<label for='{$tag_id}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] )
-						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
-					. "</label>"
-				. "</div>"
-				. $this->getMediaUploaderButtonScript( "{$tag_id}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false );
-			
-		}
-		/**
-		 * A helper function for the above getMediaInputTags() method that retrieve the specified input field value.
-		 * @since			2.1.3
-		 */
-		private function getMediaInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $_aDefaultKeys ) {	
-
-			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $_aDefaultKeys['default'] )
-				: ( isset( $vValue ) ? $vValue : $_aDefaultKeys['default'] );
-
-			return $sCaptureAttribute
-				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
-				: $vValue;
-			
-		}		
-		/**
-		 * A helper function for the above getMediaInputTags() method to add a image button script.
-		 * 
-		 * @since			2.1.3
-		 */
-		private function getMediaUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource ) {
-			
-			$sButton ="<a id='select_media_{$sInputID}' "
-						. "href='#' "
-						. "class='select_media button button-small'"
-						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
-						. "data-enable_external_source='" . ( $bExternalSource ? 1 : 0 ) . "'"
-					. ">"
-						. $this->oMsg->__( 'select_file' )
+			$sButton = 
+				"<a " . $this->generateAttributes( 
+					array(
+						'id'	=>	"select_media_{$sInputID}",
+						'href'	=>	'#',
+						'class'	=>	'select_media button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+						'data-uploader_type'	=>	function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+						'data-enable_external_source' => $bExternalSource ? 1 : 0,
+					) + $aButtonAttributes
+				) . ">"
+					. $this->oMsg->__( 'select_image' )
 				."</a>";
-			
+				
 			$sScript = "
 				if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
 					jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
-				}			
-			" . PHP_EOL;
+				}" . PHP_EOL;
 
 			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
 				$sScript .="
@@ -310,9 +241,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 						setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
 					});" . PHP_EOL;	
 					
-			return "<script type='text/javascript'>" . $sScript . "</script>" . PHP_EOL;
+			return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $sScript . "</script>". PHP_EOL;
 
-		}	
+		}
 		
 }
 endif;
