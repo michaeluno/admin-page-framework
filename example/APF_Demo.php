@@ -422,6 +422,9 @@ class APF_Demo extends AdminPageFramework {
 		);
 		
 		/* Add setting fields */
+		/*
+		 * Text input - text, password, number, textarea, rich text editor
+		 */
 		$this->addSettingFields(
 			array(	// Single text field
 				'field_id'	=>	'text',
@@ -575,6 +578,10 @@ class APF_Demo extends AdminPageFramework {
 				),	
 			)
 		);
+		
+		/*
+		 * Selectors - dropdown (pulldown) list, checkbox, radio buttons, size selector
+		 */
 		$this->addSettingFields(
 			array(	// Single Drop-down List
 				'field_id'	=>	'select',
@@ -899,6 +906,10 @@ class APF_Demo extends AdminPageFramework {
 				'is_repeatable'	=>	true,
 			)
 		);
+		
+		/*
+		 * Files - media, image, and uploader
+		 */
 		$this->addSettingFields(			
 			array( // Image Selector
 				'field_id'	=>	'image_select_field',
@@ -1003,6 +1014,10 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array()
 		);
+		
+		/*
+		 * Check lists
+		 */
 		$this->addSettingFields(			
 			array(
 				'field_id'	=>	'post_type_checklist',
@@ -1070,6 +1085,10 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array()
 		);
+		
+		/*
+		 * MISC fields
+		 */
 		$this->addSettingFields(			
 			array( // Color Picker
 				'field_id'	=>	'color_picker_field',
@@ -1213,6 +1232,10 @@ class APF_Demo extends AdminPageFramework {
 			)
 		);	
 		
+		/*
+		 * Custom Field Types - in order to use these types, those custom field types must be registered. 
+		 * The way to register a field type is demonstrated in the start_{extended class name} callback function.
+		 */
 		$this->addSettingFields(			
 			array(
 				'field_id'	=>	'geometrical_coordinates',
