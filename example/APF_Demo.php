@@ -366,7 +366,7 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'		=>	'geometry',
 				'title'			=>	__( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
-			),				
+			),	
 			array(
 				'section_id'	=>	'date_pickers',
 				'page_slug'		=>	'apf_custom_field_types',
@@ -1666,19 +1666,19 @@ class APF_Demo extends AdminPageFramework {
 	 * Custom field types - This is another way to register a custom field type. 
 	 * This method gets fired when the framework tries to define field types. 
 	 */
- 	public function field_types_APF_Demo( $aFieldTypeDefinitions ) {	// field_types_ + {extended class name}
+ 	public function field_types_APF_Demo( $aFieldTypeDefinitions ) {	// field_types_{extended class name}
 				
-		// 1. Include the file that defines the custom field type. 
-		// This class should extend the predefined abstract class that the library prepares already with necessary methods.
+		/* 1. Include the file that defines the custom field type. 
+		 This class should extend the predefined abstract class that the library prepares already with necessary methods. */
 		$sFilePath = dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
 		if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
 		
-		// 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
-		// Then assign it to the filtering array with the key of the field type slug. 
-		$oFieldType = new GeometryCustomFieldType( 'APF_Demo', 'geometry', $this->oMsg );
+		/* 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
+		 Then assign it to the filtering array with the key of the field type slug. */
+		$oFieldType = new GeometryCustomFieldType( 'APF_Demo' );
 		$aFieldTypeDefinitions['geometry'] = $oFieldType->getDefinitionArray();
 		
-		// 3. Return the modified array.
+		/* 3. Return the modified array. */
 		return $aFieldTypeDefinitions;
 		
 	} 
