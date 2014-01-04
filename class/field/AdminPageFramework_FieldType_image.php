@@ -96,45 +96,66 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			return"
 			jQuery( document ).ready( function(){
 		
-				var updateID = function( index, name ) {
-					var fIncrementOrDecrement = 1;	// increment only 
-					if ( typeof name === 'undefined' ) {
-						return name;
-					}
-					return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
-						return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
-					});
-				}
-				
 				jQuery().registerAPFCallback( {				
 					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+						
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If the uploader buttons are not found, do nothing */
-						var nodeImageUploaderButton = node.find( '.select_image' );
-						if ( nodeImageUploaderButton.length <= 0 )  return;
+						if ( node.find( '.select_image' ).length <= 0 )  return;
 						
-						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements */
+						/* Remove the value of the cloned preview element */
+						node.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
+						node.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
+						
+						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
 						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						nodeFieldContainer.nextAll().andSelf().each( function() {
 
-							nodeButton = jQuery( this ).find( '.select_image' );
-							nodeButton.attr( 'id', function( index, name ){ return updateID( index, name ) } );
-							jQuery( this ).find( '.image_preview' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-							jQuery( this ).find( '.image_preview img' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );							
-
+							nodeButton = jQuery( this ).find( '.select_image' );							
+							nodeButton.incrementIDAttribute( 'id' );
+							jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id' );
+							jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id' );
+							
 							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
 							 * otherwise, the script sets the preview image in the wrong place. */						
 							var nodeImageInput = jQuery( this ).find( '.image-field input' );
 							if ( nodeImageInput.length <= 0 ) return true;
 							
-							var sInputID = nodeImageInput.attr( 'id' );
 							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-							setAPFImageUploader( sInputID, true, fExternalSource );	
+							setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );	
 							
-						});						
-					}
+						});
+					},
+					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+						
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						if ( node.find( '.select_image' ).length <= 0 )  return;						
+						
+						/* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
+						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
+						nodeFieldContainer.nextAll().andSelf().each( function() {
+							
+							nodeButton = jQuery( this ).find( '.select_image' );							
+							nodeButton.decrementIDAttribute( 'id' );
+							jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id' );
+							jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id' );
+							
+							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script sets the preview image in the wrong place. */						
+							var nodeImageInput = jQuery( this ).find( '.image-field input' );
+							if ( nodeImageInput.length <= 0 ) return true;
+							
+							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+							setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );	
+							
+						});
+						
+					},
 				});
 			});" . PHP_EOL;	
 			

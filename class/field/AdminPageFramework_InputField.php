@@ -35,7 +35,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] ) ) {
 			
-			add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackScript' ) );
+			add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
+			add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
 			$GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] = true;
 			
 		}
@@ -374,41 +375,7 @@ return $vValue;
 		return 
 		"<script type='text/javascript'>
 			jQuery( document ).ready( function() {
-				
-				// Global function literals
-				
-				// This function modifies the ids and names of the tags of input, textarea, and relevant tags for repeatable fields.
-				updateAPFIDsAndNames = function( nodeElement, fIncrementOrDecrement ) {
-
-					var updateID = function( index, name ) {
-						
-						if ( typeof name === 'undefined' ) {
-							return name;
-						}
-						return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
-							return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
-						});
-						
-					}
-					var updateName = function( index, name ) {
-						
-						if ( typeof name === 'undefined' ) {
-							return name;
-						}
-						return name.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {				
-							return '[' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
-						});
-						
-					}					
-					
-					/* Increment/decrement the index inserted in the id and name */
-					nodeElement.attr( 'id', function( index, name ) { return updateID( index, name ) } );
-					nodeElement.find( 'label' ).attr( 'for', function( index, name ){ return updateID( index, name ) } );
-					nodeElement.find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-					nodeElement.find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
-
-				}
-				
+								
 				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
 				addAPFRepeatableField = function( sFieldContainerID ) {	
 
@@ -417,8 +384,6 @@ return $vValue;
 					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
 
 					nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value		
-					nodeNewField.find( '.image_preview' ).hide();					// for the image field type, hide the preview element
-					nodeNewField.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
 
 					/* Rebind the click event to the buttons */
 					updateAPFRepeatableFields( nodeNewField );
@@ -428,7 +393,10 @@ return $vValue;
 
 					/* Increment the names and ids of the next following siblings. */
 					nodeFieldContainer.nextAll().each( function() {
-						updateAPFIDsAndNames( jQuery( this ), true );
+						jQuery( this ).incrementIDAttribute( 'id' );
+						jQuery( this ).find( 'label' ).incrementIDAttribute( 'for' );
+						jQuery( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
+						jQuery( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
 					});
 				
 					/* Call the registered callback functions */
@@ -477,7 +445,10 @@ return $vValue;
 						
 						/* Decrement the names and ids of the next following siblings. */
 						nodeFieldContainer.nextAll().each( function() {
-							updateAPFIDsAndNames( jQuery( this ), false );	// the second parameter value indicates it's for decrement.
+							jQuery( this ).decrementIDAttribute( 'id' );
+							jQuery( this ).find( 'label' ).decrementIDAttribute( 'for' );
+							jQuery( this ).find( 'input,textarea,select' ).decrementIDAttribute( 'id' );
+							jQuery( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name' );																	
 						});
 
 						/* Call the registered callback functions */
@@ -501,74 +472,131 @@ return $vValue;
 		</script>";
 	}
 
+	public function _replyToAddAttributeUpdaterjQueryPlugin() {
+		
+		$sScript = "
+		/**
+		 * Attribute increment/decrement jQuery Plugin
+		 */		
+		(function ( $ ) {
+		
+			/**
+			 * Increments a first found digit with the prefix of underscore in a specified attribute value.
+			 */
+			$.fn.incrementIDAttribute = function( sAttribute ) {				
+				return this.attr( sAttribute, function( index, val ) {	
+					return updateID( index, val, 1 );
+				}); 
+			};
+			/**
+			 * Decrements a first found digit with the prefix of underscore in a specified attribute value.
+			 */
+			$.fn.decrementIDAttribute = function( sAttribute ) {
+				return this.attr( sAttribute, function( index, val ) {
+					return updateID( index, val, 0 );
+				}); 
+			};
+			/**
+			 * Increments a first found digit enclosed in [] in a specified attribute value.
+			 */
+			$.fn.incrementNameAttribute = function( sAttribute ) {				
+				return this.attr( sAttribute, function( index, val ) {	
+					return updateName( index, val, 1 );
+				}); 
+			};
+			/**
+			 * Decrements a first found digit enclosed in [] in a specified attribute value.
+			 */
+			$.fn.decrementNameAttribute = function( sAttribute ) {
+				return this.attr( sAttribute, function( index, val ) {
+					return updateName( index, val, 0 );
+				}); 
+			};		
+			var updateID = function( index, sID, bIncrement ) {
+				if ( typeof sID === 'undefined' ) return sID;
+				return sID.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
+					return '_' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
+				});
+			}
+			var updateName = function( index, sName, bIncrement ) {
+				if ( typeof sName === 'undefined' ) return sName;
+				return sName.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {				
+					return '[' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
+				});
+			}
+				
+		}( jQuery ));";
+		
+		echo "<script type='text/javascript' class='admin-page-framework-attribute-updater'>{$sScript}</script>";
+		
+	}
+	
 	/**
 	 * Returns the JavaScript script that adds the methods to jQuery object that enables for the user to register framework specific callback methods.
 	 * @since			3.0.0
 	 */
-	public function _replyToAddRegisterCallbackScript() {
+	public function _replyToAddRegisterCallbackjQueryPlugin() {
 		
-		$sScript = 
-			"
-(function ( $ ) {
-	
-	// The method that gets triggered when a repeatable field add button is pressed.
-	$.fn.callBackAddRepeatableField = function( sFieldType, sID ) {
-		var nodeThis = this;
-		if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
-			$.fn.aAPFAddRepeatableFieldCallbacks = [];
-		}		
-		$.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-			if ( jQuery.isFunction( hfCallback ) )
-				hfCallback( nodeThis, sFieldType, sID );
-		});
-	};
-	
-	$.fn.callBackRemoveRepeatableField = function( sFieldType, sID ) {
-		var nodeThis = this;
-		if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
-			$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
-		}		
-		$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-			if ( jQuery.isFunction( hfCallback ) )
-				hfCallback( nodeThis, sFieldType, sID );
-		});
-	};
-	
-	$.fn.registerAPFCallback = function( oOptions ) {
-		
-		// This is the easiest way to have default options.
-		var oSettings = $.extend({
-			// The user specifies the settings with the following options.
-			added_repeatable_field: function() {},
-			removed_repeatable_field: function() {},
-		}, oOptions );
+		$sScript = "
+			(function ( $ ) {
+				
+				// The method that gets triggered when a repeatable field add button is pressed.
+				$.fn.callBackAddRepeatableField = function( sFieldType, sID ) {
+					var nodeThis = this;
+					if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
+						$.fn.aAPFAddRepeatableFieldCallbacks = [];
+					}		
+					$.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
+						if ( jQuery.isFunction( hfCallback ) )
+							hfCallback( nodeThis, sFieldType, sID );
+					});
+				};
+				
+				$.fn.callBackRemoveRepeatableField = function( sFieldType, sID ) {
+					var nodeThis = this;
+					if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
+						$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
+					}		
+					$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach( function( hfCallback ) {
+						if ( jQuery.isFunction( hfCallback ) )
+							hfCallback( nodeThis, sFieldType, sID );
+					});
+				};
+				
+				$.fn.registerAPFCallback = function( oOptions ) {
+					
+					// This is the easiest way to have default options.
+					var oSettings = $.extend({
+						// The user specifies the settings with the following options.
+						added_repeatable_field: function() {},
+						removed_repeatable_field: function() {},
+					}, oOptions );
 
-		// Set up arrays to store callback functions
-		if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
-			$.fn.aAPFAddRepeatableFieldCallbacks = [];
-		}
-		if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
-			$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
-		}			
-		
-		// Store the callback function
-		$.fn.aAPFAddRepeatableFieldCallbacks.push( oSettings.added_repeatable_field );
-		$.fn.aAPFRemoveRepeatableFieldCallbacks.push( oSettings.removed_repeatable_field );
-		
-		return;
-		
-		// Greenify the collection based on the settings variable.
-		return this.css({
-			color: oSettings.color,
-			backgroundColor: oSettings.backgroundColor
-		});
-	};
-	
-}( jQuery ));			
-			";
+					// Set up arrays to store callback functions
+					if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
+						$.fn.aAPFAddRepeatableFieldCallbacks = [];
+					}
+					if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
+						$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
+					}			
+					
+					// Store the callback function
+					$.fn.aAPFAddRepeatableFieldCallbacks.push( oSettings.added_repeatable_field );
+					$.fn.aAPFRemoveRepeatableFieldCallbacks.push( oSettings.removed_repeatable_field );
+					
+					return;
+					
+					// Greenify the collection based on the settings variable.
+					return this.css({
+						color: oSettings.color,
+						backgroundColor: oSettings.backgroundColor
+					});
+				};
+				
+			}( jQuery ));";
+			
 		echo "<script type='text/javascript' class='admin-page-framework-register-callback'>{$sScript}</script>";
 
-		
 	}
 }
 endif;
