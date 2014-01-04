@@ -82,7 +82,6 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		
 	} 
 	
-
 	/**
 	 * Returns IE specific CSS rules.
 	 */
