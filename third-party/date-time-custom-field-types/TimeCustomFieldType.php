@@ -93,7 +93,6 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 	
 	/**
 	 * Returns the output of the field type.
-	 * 
 	 */
 	protected function getField( $aField ) { 
 			
@@ -119,35 +118,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 			. $aField['after_label'];
 		
 	}	
-	public function __replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
-
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
-			$aOutput[] = 
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$tag_id}_{$sKey}'>"
-							. ( $sLabel && ! $aField['repeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>"
-								: "" 
-							)
-							. "<input id='{$tag_id}_{$sKey}' "
-								
-								
-								. "name=" . ( is_array( $aFields ) ? "'{$field_name}[{$sKey}]' " : "'{$field_name}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $vValue, $sKey, null ) . "' "
-							. "/>"
-						. "</label>"
-					. "</div>"	// end of label container
-					. $this->getTimePickerEnablerScript( "{$tag_id}_{$sKey}", $this->getCorrespondingArrayValue( $aField['time_format'], $sKey, $_aDefaultKeys['time_format'] ) )
-				. "</div>"	// end of admin-page-framework-field
-;
-		
-	}
+	
 		/**
 		 * A helper function for the above getDateField() method.
 		 * 
