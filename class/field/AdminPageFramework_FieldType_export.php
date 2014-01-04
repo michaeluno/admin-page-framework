@@ -67,7 +67,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 		$aField['file_name'] = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'export' );
 		
-		return parent::replyToGetFIeld( $aField );
+		return parent::_replyToGetField( $aField );
 		
 	}
 	
