@@ -99,7 +99,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				jQuery().registerAPFCallback( {				
 					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
 						
-						/* If it is not the color field type, do nothing. */
+						/* If it is not the image field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If the uploader buttons are not found, do nothing */

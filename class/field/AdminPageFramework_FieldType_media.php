@@ -72,7 +72,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 				
 					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
 						
-						/* If it is not the color field type, do nothing. */
+						/* If it is not the media field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If the uploader buttons are not found, do nothing */
