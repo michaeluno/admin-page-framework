@@ -30,7 +30,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
@@ -41,7 +41,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	 * @since			2.1.1
 	 * @since			2.1.5			Moved from AdminPageFramework_Property_Base().
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		
 		$aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "	
@@ -116,7 +116,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return 
 		"/* Taxonomy Field Type */
 			.admin-page-framework-field .taxonomy-checklist li { 
@@ -193,7 +193,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputIEStyles() {
+	public function _replyToGetInputIEStyles() {
 		return 	".tab-box-content { display: block; }
 			.tab-box-contents { overflow: hidden;position: relative; }
 			b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
@@ -212,7 +212,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	 * @since			2.1.1			The checklist boxes are rendered in a tabbed single box.
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 
 		$aTabs = array();
 		$aCheckboxes = array();

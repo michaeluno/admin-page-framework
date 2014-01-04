@@ -31,20 +31,20 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return 		
 		"/* Submit Buttons */
 		.admin-page-framework-field input[type='submit'] {
@@ -56,7 +56,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 * Returns the output of the field type.
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 		
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'submit' );
 

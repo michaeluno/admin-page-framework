@@ -39,20 +39,20 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "";		
 	}
 	
@@ -62,8 +62,8 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
 	 * @since			2.1.5
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetField( $aField ) {
-		return parent::replyToGetField( $aField );
+	public function _replyToGetField( $aField ) {
+		return parent::_replyToGetField( $aField );
 	}
 		
 }

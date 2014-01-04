@@ -38,7 +38,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 				
 		add_filter( 'media_upload_tabs', array( $this, '_replyToRemovingMediaLibraryTab' ) );
 		
@@ -74,7 +74,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {		
+	public function _replyToGetScripts() {		
 		return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL	
 			. $this->_getScript_ImageSelector( 
 				"admin_page_framework", 
@@ -576,7 +576,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return 
 			"/* Image Field Preview Container */
 			.admin-page-framework-field .image_preview {
@@ -635,7 +635,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	 * @since			2.1.5
 	 * @since			3.0.0			Reconstructed entirely.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 		
 		/* Variables */
 		$aOutput = array();

@@ -40,7 +40,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 		
 		$this->enqueueMediaUploader();	// defined in the parent class.
 	
@@ -76,7 +76,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return $this->getScript_FontSelector(
 				"admin_page_framework", 
 				__( 'Upload Font', 'admin-page-framework-demo' ),
@@ -242,21 +242,21 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "";
 	}
 	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
-	protected function getEnqueuingScripts() { 
+	protected function _replyToGetEnqueuingScripts() { 
 		return array();
 	}	
 
 	/**
 	 * Returns an array holding the urls of enqueuing styles.
 	 */
-	protected function getEnqueuingStyles() { 
+	protected function _replyToGetEnqueuingStyles() { 
 		return array(
 			dirname( __FILE__ ) . '/css/font-field-type.css',
 			dirname( __FILE__ ) . '/css/jquery.nouislider.css',
@@ -268,7 +268,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
@@ -299,7 +299,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 	}	
 	
 		/**
-		 * A helper function for the above replyToGetField() method to return input elements.
+		 * A helper function for the above _replyToGetField() method to return input elements.
 		 * 
 		 */
 		private function getFontInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {

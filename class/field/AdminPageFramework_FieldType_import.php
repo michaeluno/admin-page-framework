@@ -39,20 +39,20 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "";		
 	}
 	
@@ -60,13 +60,13 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	 * Returns the output of the field type.
 	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 		
 		/* Set some required values */
 		$aField['attributes']['name'] = "__import[submit][{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' );		
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'import' );
 		
-		return parent::replyToGetField( $aField );		
+		return parent::_replyToGetField( $aField );		
 	}	
 	
 	/**

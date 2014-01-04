@@ -66,20 +66,20 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return
 		"/* Size Field Type */
 		.admin-page-framework-field-size input {
@@ -104,7 +104,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField. Changed the name from getSizeField().
 	 * @since			3.0.0			Reconstructed entirely which involves dropping unnecessary parameters and renaming keys in the field definition array.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 	
 		/* 1. Initial set-up of the field definition array */
 		$aField['units'] = isset( $aField['units'] ) 

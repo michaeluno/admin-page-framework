@@ -23,20 +23,20 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "";		
 	}
 	
@@ -48,7 +48,7 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_
 	 * @since			2.1.5				
 	 * @since			3.0.0			Removed unnecessary elements as well as parameters.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 		return 
 			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container'>"

@@ -34,20 +34,20 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "/* Posttype Field Type */
 			.admin-page-framework-field input[type='checkbox'] {
 				margin-right: 0.5em;
@@ -68,10 +68,10 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 	 * @since			3.0.0			Reconstructed entirely.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 
 		$aField['label'] = $this->_getPostTypeArrayForChecklist( isset( $aField['slugs_to_remove'] ) ? $aField['slugs_to_remove'] : $this->aDefaultRemovingPostTypeSlugs );
-		return parent::replyToGetField( $aField );
+		return parent::_replyToGetField( $aField );
 			
 	}	
 	

@@ -95,13 +95,13 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		return array(
 			'sFieldTypeSlug'	=> $sFieldTypeSlug,
 			'aFieldTypeSlugs'	=> $this->aFieldTypeSlugs,
-			'hfRenderField' => array( $this, "replyToGetField" ),
-			'hfGetScripts' => array( $this, "replyToGetScripts" ),
-			'hfGetStyles' => array( $this, "replyToGetStyles" ),
-			'hfGetIEStyles' => array( $this, "replyToGetInputIEStyles" ),
-			'hfFieldLoader' => array( $this, "replyToFieldLoader" ),
-			'aEnqueueScripts' => $this->getEnqueuingScripts(),	// urls of the scripts
-			'aEnqueueStyles' => $this->getEnqueuingStyles(),	// urls of the styles
+			'hfRenderField' => array( $this, "_replyToGetField" ),
+			'hfGetScripts' => array( $this, "_replyToGetScripts" ),
+			'hfGetStyles' => array( $this, "_replyToGetStyles" ),
+			'hfGetIEStyles' => array( $this, "_replyToGetInputIEStyles" ),
+			'hfFieldLoader' => array( $this, "_replyToFieldLoader" ),
+			'aEnqueueScripts' => $this->_replyToGetEnqueuingScripts(),	// urls of the scripts
+			'aEnqueueStyles' => $this->_replyToGetEnqueuingStyles(),	// urls of the styles
 			'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
 		);
 		
@@ -110,11 +110,11 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	/*
 	 * These methods should be overridden in the extended class.
 	 */
-	public function replytToGetInputField( $aField ) { return ''; }	// should return the field output
-	public function replyToGetScripts() { return ''; }	// should return the script
-	public function replyToGetInputIEStyles() { return ''; }	// should return the style for IE
-	public function replyToGetStyles() { return ''; }	// should return the style
-	public function replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
+	public function _replyToGetField( $aField ) { return ''; }	// should return the field output
+	public function _replyToGetScripts() { return ''; }	// should return the script
+	public function _replyToGetInputIEStyles() { return ''; }	// should return the style for IE
+	public function _replyToGetStyles() { return ''; }	// should return the style
+	public function _replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
 	
 	/**
 	 * 
@@ -122,14 +122,14 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 * Optionally, an option array can be passed to specify dependencies etc.
 	 * array( array( 'src' => 'http://...my_script1.js', 'dependencies' => array( 'jquery' ) ), 'http://.../my_script2.js' )
 	 */
-	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
+	protected function _replyToGetEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
 	
 	/**
 	 * return			array			e.g. each element can hold a sting of the source url: array( 'http://..../my_style.css', 'http://..../my_style2.css' )
 	 * Optionally, an option array can be passed to specify dependencies etc.
 	 * array( array( 'src' => 'http://...my_style1.css', 'dependencies' => array( 'jquery' ) ), 'http://.../my_style2.css' )
 	 */
-	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
+	protected function _replyToGetEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
 	
 	/*
 	 * Shared methods

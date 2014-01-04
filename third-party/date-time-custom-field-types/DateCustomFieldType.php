@@ -15,14 +15,14 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 	}	
 	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
-	// protected function getEnqueuingScripts() { 
+	// protected function _replyToGetEnqueuingScripts() { 
 		// return array(
 		// );
 	// }	
@@ -30,7 +30,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns an array holding the urls of enqueuing styles.
 	 */
-	protected function getEnqueuingStyles() { 
+	protected function _replyToGetEnqueuingStyles() { 
 		return array(
 			dirname( __FILE__ ) . '/css/jquery-ui-1.10.3.min.css',
 		); 
@@ -39,14 +39,14 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "
 		/* Date Picker */
 		.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
@@ -58,7 +58,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputIEStyles() {
+	public function _replyToGetInputIEStyles() {
 		return "";		
 	}
 	
@@ -66,7 +66,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the output of the geometry custom field type.
 	 * 
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];
@@ -114,7 +114,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 		
 	}	
 		/**
-		 * A helper function for the above replyToGetField() method.
+		 * A helper function for the above _replyToGetField() method.
 		 * 
 		 */
 		private function getDatePickerEnablerScript( $sID, $sDateFormat ) {

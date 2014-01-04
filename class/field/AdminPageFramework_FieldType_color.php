@@ -33,7 +33,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from enqueueColorFieldScript().
 	 * @see				http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 		
 		// If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
 		if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
@@ -53,7 +53,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return 
 			"/* Color Picker */
 			.repeatable .colorpicker {
@@ -91,7 +91,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * @return			string			The image selector script.
 	 * @see				https://github.com/Automattic/Iris
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		$aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "
 			registerAPFColorPickerField = function( sInputID ) {
@@ -159,7 +159,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	 * @since			2.1.5
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 
 		$aField['attributes'] = array(
 			'color'	=>	$aField['value'],	

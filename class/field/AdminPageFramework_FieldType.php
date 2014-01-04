@@ -10,39 +10,51 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  */
 abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base {
 
-	public function replytToGetInputField( $aField ) { 
-		return $this->getField( $aField ); 
-	}	// should return the field output
-	public function replyToGetScripts() { 
-		return $this->getScripts();
-	}	// should return the script
-	public function replyToGetInputIEStyles() { 
-		return $this->getIEStyles(); 
-	}	// should return the style for IE
-	public function replyToGetStyles() { 
-		return $this->getStyles(); 
-	}	// should return the style
-	public function replyToFieldLoader() {
-		$this->load();
-	}	// do stuff that should be done when the field type is loaded for the first time.	
-	protected function getEnqueuingScripts() { return $this->enqueueScripts(); }	// should return an array holding the urls of enqueuing items
-	protected function getEnqueuingStyles() { return $this->enqueueStyles(); }	// should return an array holding the urls of enqueuing items
+	/*
+	 *	Convert internal method names for the users to use to be easy to read. 
+	 */
+	public function _replyToFieldLoader() { $this->setUp(); }	// do stuff that should be done when the field type is loaded for the first time.	
+	public function _replyToGetScripts() { return $this->getScripts(); }	// should return the script
+	public function _replyToGetInputIEStyles() { return $this->getIEStyles(); }	// should return the style for IE
+	public function _replyToGetStyles() { return $this->getStyles(); }	// should return the style
+	public function _replyToGetField( $aField ) {  return $this->getField( $aField ); }	// should return the field output
+	protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }	// should return an array holding the urls of enqueuing items
+	protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); }	// should return an array holding the urls of enqueuing items
 	
 	/*
-	 * Available Methods
+	 * Required Properties
 	 */
-	
-	/*	
-	 * Aliases of the internal callback methods to provide readable names - these methods should be overridden in extended classes defined by the user.
+	/**
+	 * Defines the field type slugs used for this field type.
+	 * 
+	 * e.g. $aFieldTypeSlugs = array( 'my_field_type' )
 	 */
-	protected function load() {}
-	protected function getScripts() {} 
-	protected function getIEStyles() {}
-	protected function getStyles() {}
-	protected function getField( $aField ) {}
+	public $aFieldTypeSlugs = array();
 	
-	protected function enqueueScripts() { return array(); }	// should return an array holding the urls of enqueuing items
-	protected function enqueueStyles() { return array(); }	// should return an array holding the urls of enqueuing items
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * e.g. $aDefaultKeys = array(
+	*	 	'attributes'	=> array(
+				'size'	=>	30,
+				'maxlength'	=>	400,
+			),
+		)
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array();
+	
+	/*
+	 * Available Methods for Users - these methods should be overridden in extended classes.
+	 */
+	protected function setUp() {}
+	protected function getScripts() { return ''; } 
+	protected function getIEStyles() { return ''; }
+	protected function getStyles() { return ''; }
+	protected function getField( $aField ) { return ''; }
+	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
+	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
 	
 }
 endif;

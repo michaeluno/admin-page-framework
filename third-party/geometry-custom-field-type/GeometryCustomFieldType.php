@@ -13,14 +13,14 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 		
 	}	
 	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
-	protected function getEnqueuingScripts() { 
+	protected function _replyToGetEnqueuingScripts() { 
 		return array(
 			"http://maps.googleapis.com/maps/api/js?sensor=false",	// load this first
 			dirname( __FILE__ ) . '/js/jquery-gmaps-latlon-picker.js',	// load this next - a file path can be passed, ( as well as a url )
@@ -30,7 +30,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns an array holding the urls of enqueuing styles.
 	 */
-	protected function getEnqueuingStyles() { 
+	protected function _replyToGetEnqueuingStyles() { 
 		return array(
 			dirname( __FILE__ ) . '/css/jquery-gmaps-latlon-picker.css',	// a file path can be passed, ( as well as a url )
 		); 
@@ -39,14 +39,14 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "
 			.admin-page-framework-input-label-container.geometry, 
 			.geometry .admin-page-framework-input-container
@@ -76,7 +76,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputIEStyles() {
+	public function _replyToGetInputIEStyles() {
 		return "";		
 	}
 	
@@ -84,7 +84,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the output of the geometry custom field type.
 	 * 
 	 */
-	public function replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
+	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
 
 		$aOutput = array();
 		$field_name = $aField['field_name'];

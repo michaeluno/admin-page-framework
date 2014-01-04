@@ -22,20 +22,20 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "";		
 	}
 	
@@ -49,7 +49,7 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
 	 * @since			3.0.0				Removed unnecessary elements including the parameters.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 
 		return 
 			$aField['before_label']

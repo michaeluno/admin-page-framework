@@ -31,7 +31,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "/* Text Field Type */
 				.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
 					vertical-align: top; 
@@ -45,7 +45,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 	 * @since			2.1.5
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 
 		return 
 			$aField['before_label']

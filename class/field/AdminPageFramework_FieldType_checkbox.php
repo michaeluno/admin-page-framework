@@ -26,20 +26,20 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
+	public function _replyToFieldLoader() {
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return "";		
 	}	
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "/* Checkbox field type */
 			.admin-page-framework-field input[type='checkbox'] {
 				margin-right: 0.5em;
@@ -56,7 +56,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 	 * @since			2.1.5
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
-	public function replyToGetField( $aField ) {
+	public function _replyToGetField( $aField ) {
 
 		$aOutput = array();
 		$asValue = $aField['attributes']['value'];

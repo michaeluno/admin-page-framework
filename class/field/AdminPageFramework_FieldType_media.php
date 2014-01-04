@@ -38,14 +38,14 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
-		parent::replyToFieldLoader();
+	public function _replyToFieldLoader() {
+		parent::_replyToFieldLoader();
 	}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetScripts() {
+	public function _replyToGetScripts() {
 		return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL	// defined in the parent class
 			. $this->_getScript_MediaUploader(
 				"admin_page_framework", 
@@ -266,7 +266,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetStyles() {
+	public function _replyToGetStyles() {
 		return "/* Media Uploader Button */
 			.admin-page-framework-field-media input {
 				margin-right: 0.5em;
@@ -283,8 +283,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 	 * 
 	 * @since			2.1.5
 	 */
-	public function replyToGetField( $aField ) {
-		return parent::replyToGetField( $aField );
+	public function _replyToGetField( $aField ) {
+		return parent::_replyToGetField( $aField );
 	}
 		
 		/**
