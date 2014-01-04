@@ -26,14 +26,11 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 * Defines the default key-values of all field types.
 	 */
 	protected static $_aDefaultKeys = array(
-		'value'	=>	null,	// ( array or string ) this suppress the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
+		'value'	=>	null,	// ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
 		'default'	=>	null,	// ( array or string )
 		'is_repeatable'	=>	false,
-		// 'class_attribute'	=>	'',		// ( array or string ) the class attribute of the input field. Do not set an empty value here, but null because the submit field type uses own default value.
-		'label'	=>	'',	// ( array or string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+		'label'	=>	'',	// ( string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
 		'delimiter'	=>	'',
-		// 'is_disabled'	=>	false,	// ( array or boolean ) This value indicates whether the set field is disabled or not. 
-		// 'is_read_only'	=>	false,	// ( array or boolean ) sets the readonly attribute to text and textarea input fields.
 		'before_input'	=>	'',
 		'after_input'	=>	'',				
 		'before_label'	=>	null,
@@ -113,12 +110,25 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	/*
 	 * These methods should be overridden in the extended class.
 	 */
-	public function replytToGetInputField() { return ''; }	// should return the field output
+	public function replytToGetInputField( $aField ) { return ''; }	// should return the field output
 	public function replyToGetScripts() { return ''; }	// should return the script
 	public function replyToGetInputIEStyles() { return ''; }	// should return the style for IE
 	public function replyToGetStyles() { return ''; }	// should return the style
 	public function replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
+	
+	/**
+	 * 
+	 * return			array			e.g. each element can hold a sting of the source url: array( 'http://..../my_script.js', 'http://..../my_script2.js' )
+	 * Optionally, an option array can be passed to specify dependencies etc.
+	 * array( array( 'src' => 'http://...my_script1.js', 'dependencies' => array( 'jquery' ) ), 'http://.../my_script2.js' )
+	 */
 	protected function getEnqueuingScripts() { return array(); }	// should return an array holding the urls of enqueuing items
+	
+	/**
+	 * return			array			e.g. each element can hold a sting of the source url: array( 'http://..../my_style.css', 'http://..../my_style2.css' )
+	 * Optionally, an option array can be passed to specify dependencies etc.
+	 * array( array( 'src' => 'http://...my_style1.css', 'dependencies' => array( 'jquery' ) ), 'http://.../my_style2.css' )
+	 */
 	protected function getEnqueuingStyles() { return array(); }	// should return an array holding the urls of enqueuing items
 	
 	/*

@@ -363,9 +363,21 @@ abstract class AdminPageFramework_MetaBox {
 				
 			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
 				$this->oProp->sStyleIE .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
-
-			$this->oHeadTag->_enqueueStyles( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
-			$this->oHeadTag->_enqueueScripts( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
+					
+			foreach( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
+				if ( is_string( $asSource ) )
+					$this->oHeadTag->_enqueueStyle( $asSource );
+				else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
+					$this->oHeadTag->_enqueueStyle( $asSource[ 'src' ], array(), $asSource );
+			}
+			foreach( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] as $asSource ) {
+				if ( is_string( $asSource ) )
+					$this->oHeadTag->_enqueueScript( $asSource );
+				else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
+					$this->oHeadTag->_enqueueScript( $asSource[ 'src' ], array(), $asSource );
+			}							
+			// $this->oHeadTag->_enqueueStyles( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] );
+			// $this->oHeadTag->_enqueueScripts( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] );
 					
 		}		
 
