@@ -46,27 +46,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 			dirname( __FILE__ ) . '/css/jquery-ui-timepicker-addon.min.css',
 		); 
 	}	
-	
-	/**
-	 * Loads the field type necessary components.
-	 */ 
-/* 	public function _replyToFieldLoader() {
-
-		wp_enqueue_script( 'jquery-ui-datepicker' );
-	
-		wp_enqueue_script(
-			'jquery-ui-timepicker',
-			$this->resolveSRC( dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js' ),
-			array( 'jquery-ui-datepicker' )	// dependency
-		);
-		wp_enqueue_script(
-			'jquery-ui-sliderAccess',
-			$this->resolveSRC( dirname( __FILE__ ) . '/js/jquery-ui-sliderAccess.js' ),
-			array( 'jquery-ui-timepicker' ) // dependency
-		);		
 		
-	}	 */
-	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
