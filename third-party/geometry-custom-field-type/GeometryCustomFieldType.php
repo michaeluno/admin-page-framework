@@ -84,7 +84,6 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 						: "" 
 					)
 					. $this->getInputs( $aField )
-					// . "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"
