@@ -11,7 +11,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			// dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			// dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
@@ -21,7 +21,7 @@ class APF_Demo extends AdminPageFramework {
 		new DateCustomFieldType( 'APF_Demo' );
 		new TimeCustomFieldType( 'APF_Demo' );
 		new DateTimeCustomFieldType( 'APF_Demo' );
-// new DialCustomFieldType( 'APF_Demo' );
+		new DialCustomFieldType( 'APF_Demo' );
 // new FontCustomFieldType( 'APF_Demo' );			
 		
 	}
@@ -1329,59 +1329,75 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'dial',
 				'title'	=>	__( 'Multiple Dials', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
-				'label'	=>	array(
-					__( 'Disable display input', 'admin-page-framework-demo' ),
-					__( 'Cursor mode', 'admin-page-framework-demo' ),
-					__( 'Display previous value (effect)', 'admin-page-framework-demo' ),				
-					__( 'Angle offset', 'admin-page-framework-demo' ),				
-					__( 'Angle offset and arc', 'admin-page-framework-demo' ),				
-					__( '5-digit values, step 1000', 'admin-page-framework-demo' ),				
-				),
-				// For details, see https://github.com/aterrien/jQuery-Knob
-				'data_attribute'	=>	array( 
-					array(
-						'width'	=>	100,
-						'displayInput'	=>	'false',
+				'label'	=>	__( 'Default', 'admin-page-framework-demo' ),
+				array(					
+					'label'	=>	__( 'Disable display input', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						// For details, see https://github.com/aterrien/jQuery-Knob
+						'data-width'	=>	100,
+						'data-displayInput'	=> 'false',
 					),
-					array(
-						'width'	=>	150,
-						'cursor'	=>	'true',
-						'thickness'	=>	'.3', 
-						'fgColor'	=>	'#222222',
+				),				
+				array(					
+					'label'	=>	__( 'Cursor mode', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'data-width'	=>	150,
+						'data-cursor'	=>	'true',
+						'data-thickness'	=>	'.3', 
+						'data-fgColor'	=>	'#222222',					
+					),
+				),
+				array(
+					'label'	=>	__( 'Display previous value (effect)', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'data-width'	=>	200,
+						'data-min'	=>	-100, 
+						'data-displayPrevious'	=>	'true', // a boolean value also needs to be passed as string
 					),					
-					array(
-						'width'	=>	200,
-						'min'	=>	-100, 
-						'displayPrevious'	=>	'true', // a boolean value also needs to be passed as string
-					),
-					array(
-						'angleOffset'	=>	90,
-						'linecap'	=>	'round',
-					),
-					array(
-						'fgColor'	=>	'#66CC66',
-						'angleOffset'	=>	-125,
-						'angleArc'	=>	250,
-					),
-					array(
-						'step'	=>	1000,
-						'min'	=>	-15000,
-						'max'	=>	15000,
-						'displayPrevious'	=>	true,
-					),                        
 				),
+				array(
+					'label'	=>	__( 'Angle offset', 'admin-page-framework-demo' ),				
+					'attributes'	=>	array(
+						'data-angleOffset'	=>	90,
+						'data-linecap'	=>	'round',
+					),										
+				),
+				array(
+					'label'	=>	__( 'Angle offset and arc', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'data-fgColor'	=>	'#66CC66',
+						'data-angleOffset'	=>	-125,
+						'data-angleArc'	=>	250,
+					),										
+				),
+				array(
+					'label'	=>	__( '5-digit values, step 1000', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'data-step'	=>	1000,
+						'data-min'	=>	-15000,
+						'data-max'	=>	15000,
+						'data-displayPrevious'	=>	true,
+					),										
+				),
+
 			),
 			array(
 				'field_id'	=>	'dial_big',
 				'section_id'	=>	'dial',
 				'title'	=>	__( 'Big', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
-				'data_attribute'	=>	array(
-					'width'	=>	400,
-					'height'	=>	400,
+				'attributes'	=>	array(
+					'data-width'	=>	400,
+					'data-height'	=>	400,
 				),
 			),
-			array()
+			array(
+				'field_id'	=>	'dial_repeatable',
+				'section_id'	=>	'dial',
+				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
+				'type'	=>	'dial',
+				'is_repeatable'	=> true,
+			)
 		);
 		
 		$this->addSettingFields(			

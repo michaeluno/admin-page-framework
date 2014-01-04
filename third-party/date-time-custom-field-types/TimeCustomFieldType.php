@@ -89,8 +89,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the field type specific CSS rules.
 	 */ 
 	protected function getStyles() { return ""; }
-	
-	
+		
 	/**
 	 * Returns the output of the field type.
 	 */
