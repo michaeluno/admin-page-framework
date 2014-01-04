@@ -69,8 +69,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	}
 	
 	/**
-	 * Returns the output of the geometry custom field type.
-	 * 
+	 * Returns the output of this field type.
 	 */
 	protected function getField( $aField ) { 
 			
