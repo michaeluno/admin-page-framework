@@ -12,7 +12,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-			// dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
 			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
@@ -22,10 +22,10 @@ class APF_Demo extends AdminPageFramework {
 		new TimeCustomFieldType( 'APF_Demo' );
 		new DateTimeCustomFieldType( 'APF_Demo' );
 		new DialCustomFieldType( 'APF_Demo' );
-// new FontCustomFieldType( 'APF_Demo' );			
-		
+		new FontCustomFieldType( 'APF_Demo' );
+
 	}
-	
+
 	/*
 	 *	( Required ) In the setUp() method, you will define how pages and form elements should be composed.
 	 */
@@ -1396,7 +1396,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'dial',
 				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
-				'is_repeatable'	=> true,
+				'is_repeatable'	=>	true,
 			)
 		);
 		
@@ -1408,6 +1408,13 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'font',
 				'description'	=>	__( 'Set the URL of the font.', 'admin-page-framework-demo' ),
 			),
+			array(
+				'field_id'	=>	'font_field_repeatable',
+				'section_id'	=>	'font',
+				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
+				'type'	=>	'font',
+				'is_repeatable'	=>	 true,
+			),			
 			array()
 		);
 		

@@ -20,11 +20,11 @@ p.font-preview-text
 }
 
 
-/* Image Uploader Button */
-.admin-page-framework-field-image input {
+/* Font Uploader Button */
+.admin-page-framework-field-font input {
 	margin-right: 0.5em;
 }
-.select_image.button.button-small {
+.select_font.button.button-small {
 	vertical-align: baseline;
 }	
 

@@ -1,10 +1,36 @@
 <?php
-class FontCustomFieldType extends AdminPageFramework_FieldType_image {
+class FontCustomFieldType extends AdminPageFramework_FieldType {
 
-	function __construct( $sClassName, $sFieldTypeSlug, $oMsg=null, $bAutoRegister=true ) {
-		
-		parent::__construct( $sClassName, $sFieldTypeSlug, $oMsg, $bAutoRegister );	
-		
+	/**
+	 * Defines the field type slugs used for this field type.
+	 */
+	public $aFieldTypeSlugs = array( 'font', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'attributes_to_store'	=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+		'show_preview'	=> true,	// ( boolean )
+		'allow_external_source'	=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
+		'preview_text'	=> 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
+		'attributes'	=>	array(
+			'input'	=>	array(
+				'size'	=>	60,	
+				'maxlength'	=>	400,
+			),
+			'preview'	=>	array(),
+			'button'	=>	array(),
+		),	
+	);
+
+	function __construct() {
+				
+		$aArgs = func_get_args();
+		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );	// Call the parent constructor.
+				
 		add_filter( 'upload_mimes', array( $this, 'replyToFilterUploadMimes' ) );
 
 	}
@@ -20,70 +46,197 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 			$aMimes['svg'] = 'image/svg+xml';
 			return $aMimes;						
 		}
-		
-	/**
-	 * Returns the array of the field type specific default keys.
-	 */
-	protected function getDefaultKeys() { 
-		return array(			
-			'attributes_to_store'					=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-			'size'									=> 60,
-			'max_length'							=> 400,
-			'vFontPreview'							=> true,	// ( array or boolean )	This is for the image field type. For array, each element should contain a boolean value ( true/false ).
-			'sTickBoxTitle' 						=> '',		// ( string ) This is for the image field type.
-			'sLabelUseThis' 						=> '',		// ( string ) This is for the image field type.			
-			'allow_external_source' 					=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
-			'vPreviewText'							=> 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
-		);	
-	}
 
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function _replyToFieldLoader() {
+	public function setUp() {
 		
 		$this->enqueueMediaUploader();	// defined in the parent class.
-	
-		// The global functions
-		wp_enqueue_script(
+		
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-ui-core' );
+
+ 		wp_enqueue_script(
 			'getAPFFontUploaderSelectObject',
 			$this->resolveSRC( dirname( __FILE__ ) . '/js/getAPFFontUploaderSelectObject.js' ),
 			array( 'jquery' )	// dependency
 		);
 		wp_localize_script(
 			'getAPFFontUploaderSelectObject', 
-			'oAPFFontUploader', 
+			'oAPFFontUploader', 	// the translation object name - used in the above script
 			array(  
 				'upload_font' => __( 'Upload Font', 'admin-page-framework-demo' ),
 				'use_this_font' => __( 'Use This Font', 'admin-page-framework-demo' ),
 			) 
 		);
-		wp_enqueue_script(
-			'setFontPreview',
-			$this->resolveSRC( dirname( __FILE__ ) . '/js/setFontPreview.js' ),
-			array( 'jquery' )	// dependency
-		);		
-		
-		// noUISlider
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script(
-			'nouislider',
-			$this->resolveSRC( dirname( __FILE__ ) . '/js/jquery.nouislider.js' ),
-			array( 'jquery-ui-core' )	// dependency
-		);			
-	}	
 	
+	}	
+
+	/**
+	 * Returns an array holding the urls of enqueuing scripts.
+	 */
+	protected function getEnqueuingScripts() { 
+		return array(
+			array( 'src'	=>	dirname( __FILE__ ) . '/js/setFontPreview.js', 'dependencies'	=> array( 'jquery' ) ),
+			array( 'src'	=>	dirname( __FILE__ ) . '/js/jquery.nouislider.js', 'dependencies'	=> array( 'jquery-ui-core' ) ),			
+		);
+	}
+	
+	/**
+	 * Returns an array holding the urls of enqueuing styles.
+	 */
+	protected function getEnqueuingStyles() { 
+		return array(
+			dirname( __FILE__ ) . '/css/font-field-type.css',
+			dirname( __FILE__ ) . '/css/jquery.nouislider.css',		
+		); 
+	}			
+
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function _replyToGetScripts() {
-		return $this->getScript_FontSelector(
+	protected function getScripts() { 
+		return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL
+			. $this->getScript_FontSelector(
 				"admin_page_framework", 
 				__( 'Upload Font', 'admin-page-framework-demo' ),
 				__( 'Use This Font', 'admin-page-framework-demo' )
-			);
+			) . PHP_EOL
+			. $this->getScript_CreateSlider()
+			. $this->getScript_RepeatableFields();
 	}
+	
+	protected function getScript_CreateSlider() {
+		
+		return "
+			createFontSizeChangeSlider = function( sInputID ) {
+				var sSliderID = 'slider_' + sInputID;
+				var sSliderContainerID = 'slider_container_' + sInputID;
+				return '<div class=\"fontSliderHolder\" id=\"' + sSliderContainerID + '\" >'
+					+ '<div class=\"sliderT\">A</div>'
+					+ '<div class=\"holder\"><div id=\"' + sSliderID + '\" class=\"noUiSlider\"></div></div>'
+					+ '<div class=\"sliderB\">A</div>'
+				+ '</div>';
+				
+			}
+		";
+		
+	}
+	
+	protected function getScript_RepeatableFields() {
+			
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
+		/*	The below function will be triggered when a new repeatable field is added. */
+		return "
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not this field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
+						/* If the input tag is not found, do nothing  */
+						var nodeNewFontInput = node.find( '.font-field input' );
+						if ( nodeNewFontInput.length <= 0 ) return;
+				
+						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
+						var aParsedIds = [];
+						node.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function() {
+
+							nodeButton = jQuery( this ).find( '.select_font' );							
+							nodeButton.incrementIDAttribute( 'id' );
+							jQuery( this ).find( '.font_preview' ).incrementIDAttribute( 'id' );
+							jQuery( this ).find( '.font-preview-text' ).incrementIDAttribute( 'id' );
+							jQuery( this ).find( '.fontSliderHolder' ).incrementIDAttribute( 'id' );
+							jQuery( this ).find( '.noUiSlider' ).incrementIDAttribute( 'id' );
+							
+							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script sets the preview image in the wrong place. */						
+							var nodeFontInput = jQuery( this ).find( '.font-field input' );
+							if ( nodeFontInput.length <= 0 ) return true;
+							
+							var sInputID = nodeFontInput.attr( 'id' );
+							if ( jQuery.inArray( sInputID, aParsedIds ) !== -1 )	return true;
+							aParsedIds.push( sInputID );							
+							
+							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+							setAPFFontUploader( sInputID, true, fExternalSource );	
+							
+							jQuery( '#font_preview_' + sInputID ).css( 'font-family', sInputID );
+			
+							// Run noUiSlider input:not(:checked) 
+							var sSliderID = 'slider_' + sInputID;
+							var sPreviewID = 'font_preview_' + sInputID;
+							
+							jQuery( this ).find( '.fontSliderHolder' ).replaceWith( createFontSizeChangeSlider( sInputID ) );
+							jQuery( '#' + sSliderID ).noUiSlider({
+								range: [ 100, 300 ],
+								start: 150,
+								step: 1,
+								handles: 1,
+								slide: function() {
+									jQuery( '#' + sPreviewID ).css( 'font-size', jQuery( this ).val() + '%' );
+								}				
+							});
+						});		
+						return false;
+					},
+					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+						
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						if ( node.find( '.select_font' ).length <= 0 )  return;						
+
+						/* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
+						var aParsedIds = [];
+						node.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function() {		
+							
+							nodeButton = jQuery( this ).find( '.select_font' );							
+							nodeButton.decrementIDAttribute( 'id' );
+							jQuery( this ).find( '.font_preview' ).decrementIDAttribute( 'id' );
+							jQuery( this ).find( '.font-preview-text' ).decrementIDAttribute( 'id' );
+							// jQuery( this ).find( '.fontSliderHolder' ).decrementIDAttribute( 'id' );
+							// jQuery( this ).find( '.noUiSlider' ).decrementIDAttribute( 'id' );								
+							
+							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script sets the preview image in the wrong place. */						
+							var nodeFontInput = jQuery( this ).find( '.font-field input' );
+							if ( nodeFontInput.length <= 0 ) return true;
+							
+							var sInputID = nodeFontInput.attr( 'id' );							
+							if ( jQuery.inArray( sInputID, aParsedIds ) !== -1 )	return true;
+							aParsedIds.push( sInputID );
+							
+							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+							setAPFFontUploader( nodeFontInput.attr( 'id' ), true, fExternalSource );	
+							
+							jQuery( '#font_preview_' + sInputID ).css( 'font-family', sInputID );
+							
+							// Run noUiSlider
+							var sSliderID = 'slider_' + sInputID;
+							var sPreviewID = 'font_preview_' + sInputID;
+							jQuery( this ).find( '.fontSliderHolder' ).replaceWith( createFontSizeChangeSlider( sInputID ) );
+							jQuery( '#' + sSliderID ).noUiSlider({
+								range: [ 100, 300 ],
+								start: 150,
+								step: 1,
+								handles: 1,
+								slide: function() {
+									jQuery( '#' + sPreviewID ).css( 'font-size', jQuery( this ).val() + '%' );
+								}				
+							});							
+							
+						});
+						
+					}					
+				});
+			});		
+		" . PHP_EOL;
+	}	
+	
 		/**
 		 * Returns the font selector JavaScript script to be loaded in the head tag of the created admin pages.
 		 */		
@@ -92,46 +245,50 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 			if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
 				return "
 					jQuery( document ).ready( function(){
-						jQuery( '.select_image' ).click( function() {
-							
-							// This needs to be done every time the button gets clicked. Otherwise, it will not work from the second time.
-							window.original_send_to_editor = window.send_to_editor;
-							window.send_to_editor = function( sRawHTML ) {
-
-								var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
-								var src = jQuery( 'a', sHTML ).attr( 'href' );
-
-								// If the user wants to save relevant attributes, set them.
-								jQuery( '#' + field_id ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-															
-								// restore the original send_to_editor
-								window.send_to_editor = window.original_send_to_editor;
-															
-								// close the thickbox
-								tb_remove();	
-								
-								// Set the font preview
-								setFontPreview( src, field_id );					
-							}
-							
-							pressed_id = jQuery( this ).attr( 'id' );
-							field_id = pressed_id.substring( 13 );	// remove the select_image_ prefix							
-							var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-							tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-							return false;	// do not click the button after the script by returning false.
-							
-						});
 						
+						setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
+							jQuery( '#select_font_' + sInputID ).unbind( 'click' );	// for repeatable fields
+							jQuery( '#select_font_' + sInputID ).click( function() {
+								var sPressedID = jQuery( this ).attr( 'id' );
+								window.sInputID = sPressedID.substring( 12 );	// remove the select_font_ prefix and set a property to pass it to the editor callback method.
+								window.original_send_to_editor = window.send_to_editor;
+								window.send_to_editor = hfAPFSendToEditorFont;
+								var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+								tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+								return false;	// do not click the button after the script by returning false.									
+							});	
+						}					
+						
+						var hfAPFSendToEditorFont = function( sRawHTML ) {
+							
+							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
+							var src = jQuery( 'a', sHTML ).attr( 'href' );
+
+							// If the user wants to save relevant attributes, set them.
+							var sInputID = window.sInputID;	// window.sInputID should be assigned when the thickbox is opened.
+							jQuery( '#' + sInputID ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+																					
+							// restore the original send_to_editor
+							window.send_to_editor = window.original_send_to_editor;
+																					
+							// Set the font preview
+							setFontPreview( src, sInputID );		
+							
+							// close the thickbox
+							tb_remove();							
+							
+						}
+												
 					});
 				";
 					
 			return "jQuery( document ).ready( function(){
 
 				// Global Function Literal 
-				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+				setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
-					jQuery( '#select_image_' + sInputID ).click( function( e ) {
+					jQuery( '#select_font_' + sInputID ).unbind( 'click' );	// for repeatable fields
+					jQuery( '#select_font_' + sInputID ).click( function( e ) {
 						
 						window.wpActiveEditor = null;						
 						e.preventDefault();
@@ -220,14 +377,14 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 						// jQuery( 'input#' + sInputID + '_link' ).val( image.link );
 						
 						// Update up the preview
-						// jQuery( '#image_preview_' + sInputID ).attr( 'data-id', image.id );
-						// jQuery( '#image_preview_' + sInputID ).attr( 'data-width', image.width );
-						// jQuery( '#image_preview_' + sInputID ).attr( 'data-height', image.height );
-						// jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', sCaption );
-						// jQuery( '#image_preview_' + sInputID ).attr( 'alt', sAlt );
-						// jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
-						// jQuery( '#image_preview_' + sInputID ).attr( 'src', image.url );
-						// jQuery( '#image_preview_container_' + sInputID ).show();				
+						// jQuery( '#font_preview_' + sInputID ).attr( 'data-id', image.id );
+						// jQuery( '#font_preview_' + sInputID ).attr( 'data-width', image.width );
+						// jQuery( '#font_preview_' + sInputID ).attr( 'data-height', image.height );
+						// jQuery( '#font_preview_' + sInputID ).attr( 'data-caption', sCaption );
+						// jQuery( '#font_preview_' + sInputID ).attr( 'alt', sAlt );
+						// jQuery( '#font_preview_' + sInputID ).attr( 'title', title );
+						// jQuery( '#font_preview_' + sInputID ).attr( 'src', image.url );
+						// jQuery( '#font_preview_container_' + sInputID ).show();				
 					
 						// Change the font-face
 						setFontPreview( image.url, sInputID );
@@ -238,192 +395,165 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 			});
 			";
 		}
-	
+		
+	/**
+	 * Returns IE specific CSS rules.
+	 */
+	protected function getIEStyles() { return ''; }
+
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function _replyToGetStyles() {
-		return "";
-	}
-	
-	/**
-	 * Returns an array holding the urls of enqueuing scripts.
-	 */
-	protected function _replyToGetEnqueuingScripts() { 
-		return array();
-	}	
-
-	/**
-	 * Returns an array holding the urls of enqueuing styles.
-	 */
-	protected function _replyToGetEnqueuingStyles() { 
-		return array(
-			dirname( __FILE__ ) . '/css/font-field-type.css',
-			dirname( __FILE__ ) . '/css/jquery.nouislider.css',
-		); 
-	}	
-	
+	protected function getStyles() { return ""; }
+		
 	/**
 	 * Returns the output of the field type.
-	 * 
-	 * @since			2.1.5
 	 */
-	public function _replyToGetField( $vValue, $aField, $aOptions, $aErrors, $aFieldDefinition ) {
-
+	protected function getField( $aField ) { 
+		
+		/* Variables */
 		$aOutput = array();
-		$field_name = $aField['field_name'];
-		$tag_id = $aField['tag_id'];
-		$field_class_selector = $aField['field_class_selector'];
-		$_aDefaultKeys = $aFieldDefinition['aDefaultKeys'];	
+		$iCountAttributes = count( ( array ) $aField['attributes_to_store'] );	// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+		$sCaptureAttribute = $iCountAttributes ? 'url' : '';
+		$sFontURL = $sCaptureAttribute
+			? ( isset( $aField['attributes']['value'][ $sCaptureAttribute ] ) ? $aField['attributes']['value'][ $sCaptureAttribute ] : "" )
+			: $aField['attributes']['value'];
 		
-		$aFields = $aField['repeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $aField['label'];
-		$bMultipleFields = is_array( $aFields );	
-		$bRepeatable = $aField['repeatable'];
-			
-		foreach( ( array ) $aFields as $sKey => $sLabel ) 
-			$aOutput[] =
-				"<div class='{$field_class_selector}' id='field-{$tag_id}_{$sKey}'>"					
-					. $this->getFontInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys )
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $sDelimiter = $this->getCorrespondingArrayValue( $aField['delimiter'], $sKey, $_aDefaultKeys['delimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$tag_id}_{$sKey}'>" . $sDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-image' id='{$tag_id}'>" 
-				. implode( PHP_EOL, $aOutput ) 
-			. "</div>";		
+		/* Set up the attribute arrays */
+		$aBaseAttributes = $aField['attributes'];
+		unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'], $aBaseAttributes['name'], $aBaseAttributes['value'], $aBaseAttributes['type'] );
+		$aInputAttributes = array(
+			'name'	=>	$aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
+			'value'	=>	$sFontURL,
+			'type'	=>	'text',
+		) + $aField['attributes']['input'] + $aBaseAttributes;
+		$aButtonAtributes = $aField['attributes']['button'] + $aBaseAttributes;
+		$aPreviewAtrributes = $aField['attributes']['preview'] + $aBaseAttributes;
+
+		/* Compose the field output */
+		$aOutput[] =
+			$aField['before_label']
+			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>"	// image-field ( this will be media-field for the media field type )
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input']
+					. ( $aField['label'] && ! $aField['is_repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
+					. $this->getExtraInputFields( $aField )
+					. $aField['after_input']
+				. "</label>"
+			. "</div>"			
+			. $aField['after_label']
+			. $this->_getPreviewContainer( $aField, $sFontURL, $aPreviewAtrributes )
+			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['is_repeatable'], $aField['allow_external_source'], $aButtonAtributes );
+			;
+					
+		return implode( PHP_EOL, $aOutput );
 		
-	}	
-	
+	}
 		/**
-		 * A helper function for the above _replyToGetField() method to return input elements.
-		 * 
+		 * Returns extra input fields to set capturing attributes.
+		 * @since			3.0.0
 		 */
-		private function getFontInputTags( $vValue, $aField, $field_name, $tag_id, $sKey, $sLabel, $bMultipleFields, $_aDefaultKeys ) {
-			
-			// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-			$iCountAttributes = count( ( array ) $aField['attributes_to_store'] );
-			
-			// The URL input field is mandatory as the preview element uses it.
-			$aOutputs = array(
-				( $sLabel && ! $aField['repeatable']
-					? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $aField['label_min_width'], $sKey, $_aDefaultKeys['label_min_width'] ) . "px;'>" . $sLabel . "</span>"
-					: ''
-				)			
-				. "<input id='{$tag_id}_{$sKey}' "	// the main url element does not have the suffix of the attribute
-					. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-					. "size='" . $this->getCorrespondingArrayValue( $aField['size'], $sKey, $_aDefaultKeys['size'] ) . "' "
-					. "maxlength='" . $this->getCorrespondingArrayValue( $aField['max_length'], $sKey, $_aDefaultKeys['max_length'] ) . "' "
-					. "type='text' "	// text
-					. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . ( $iCountAttributes ? "[url]" : "" ) .  "' "
-					. "value='" . ( $sFontURL = $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $iCountAttributes ? 'url' : '', $_aDefaultKeys  ) ) . "' "
-					. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-					. ( $this->getCorrespondingArrayValue( $aField['is_read_only'], $sKey ) ? "readonly='readonly' " : '' )
-				. "/>"	
-			);
+		protected function getExtraInputFields( &$aField ) {
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
+			$aOutputs = array();
 			foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
-				$aOutputs[] = 
-					"<input id='{$tag_id}_{$sKey}_{$sAttribute}' "
-						. "class='" . $this->getCorrespondingArrayValue( $aField['class_attribute'], $sKey, $_aDefaultKeys['class_attribute'] ) . "' "
-						. "type='hidden' " 	// other additional attributes are hidden
-						. "name='" . ( $bMultipleFields ? "{$field_name}[{$sKey}]" : "{$field_name}" ) . "[{$sAttribute}]' " 
-						. "value='" . $this->getFontInputValue( $vValue, $sKey, $bMultipleFields, $sAttribute, $_aDefaultKeys ) . "' "
-						. ( $this->getCorrespondingArrayValue( $aField['is_disabled'], $sKey ) ? "disabled='Disabled' " : '' )
-					. "/>";
+				$aOutputs[] = "<input " . $this->generateAttributes( 
+						array(
+							'id'	=>	"{$aField['input_id']}_{$sAttribute}",
+							'type'	=>	'hidden',
+							'name'	=>	"{$aField['field_name']}[{$sAttribute}]",
+							'disabled'	=>	isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '',
+							'value'	=>	isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
+						)
+					) . "/>";
+			return implode( PHP_EOL, $aOutputs );
 			
-			// Returns the outputs as well as the uploader buttons and the preview element.
+		}	
+		
+		/**
+		 * Returns the output of the preview box.
+		 * @since			3.0.0
+		 */
+		protected function _getPreviewContainer( $aField, $sFontURL, $aPreviewAtrributes ) {
+
+			if ( ! $aField['show_preview'] ) return '';
+			
+			$sFontURL = $this->resolveSRC( $sFontURL, true );
 			return 
-				"<div class='admin-page-framework-input-label-container admin-page-framework-input-container image-field'>"
-					. "<label for='{$tag_id}_{$sKey}' >"
-						. $this->getCorrespondingArrayValue( $aField['before_input'], $sKey, $_aDefaultKeys['before_input'] ) 
-						. implode( PHP_EOL, $aOutputs ) . PHP_EOL
-						. $this->getCorrespondingArrayValue( $aField['after_input'], $sKey, $_aDefaultKeys['after_input'] )
-					. "</label>"
+				"<div " . $this->generateAttributes( 
+						array(
+							'id'	=>	"font_preview_container_{$aField['input_id']}",							
+							'class'	=>	'font_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ),
+							// 'style'	=> ( $sFontURL ? '' : "display; none; "  ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ),
+						) + $aPreviewAtrributes
+					)
+				. ">"
+					. "<p class='font-preview-text' id='font_preview_{$aField['input_id']}' style='font-family: {$aField['input_id']}; opacity: 1;'>"
+						. $aField['preview_text']
+					. "</p>"					
 				. "</div>"
-				. ( $this->getCorrespondingArrayValue( $aField['vFontPreview'], $sKey, $_aDefaultKeys['vFontPreview'] )
-					? "<div id='image_preview_container_{$tag_id}_{$sKey}' "
-							. "class='font_preview' "
-						. ">"
-							. "<p class='font-preview-text' id='font_preview_{$tag_id}_{$sKey}' style='font-family: {$tag_id}_{$sKey}; opacity: 1;'>"
-								// . "<apex:sectionHeader title='' subtitle='BrowserFix' />"
-								. $this->getCorrespondingArrayValue( $aField['vPreviewText'], $sKey, $_aDefaultKeys['vPreviewText'] )
-							. "</p>"
-						. "</div>"
-					: "" )
-				. $this->getScopedStyle( "{$tag_id}_{$sKey}", $sFontURL )
-				. $this->getFontChangeScript( "{$tag_id}_{$sKey}", $sFontURL )
-				. $this->getFontUploaderButtonScript( "{$tag_id}_{$sKey}", $aField['repeatable'] ? true : false, $aField['allow_external_source'] ? true : false )
-				. $this->getFontSizeChangerElement( "{$tag_id}_{$sKey}", "image_preview_container_{$tag_id}_{$sKey}", "font_preview_{$tag_id}_{$sKey}" );
-			
+				. $this->getScopedStyle( $aField['input_id'], $sFontURL )
+				. $this->getFontChangeScript( $aField['input_id'], $sFontURL )
+				. $this->getFontSizeChangerElement( $aField['input_id'], "font_preview_container_{$aField['input_id']}", "font_preview_{$aField['input_id']}" )
+			;
 		}
+		
 		/**
-		 * A helper function for the above method that retrieve the specified input field value.
-		 */
-		private function getFontInputValue( $vValue, $sKey, $bMultipleFields, $sCaptureAttribute, $_aDefaultKeys ) {	
-
-			$vValue = $bMultipleFields
-				? $this->getCorrespondingArrayValue( $vValue, $sKey, $_aDefaultKeys['default'] )
-				: ( isset( $vValue ) ? $vValue : $_aDefaultKeys['default'] );
-
-			return $sCaptureAttribute
-				? ( isset( $vValue[ $sCaptureAttribute ] ) ? $vValue[ $sCaptureAttribute ] : "" )
-				: $vValue;
-			
-		}
-		/**
-		 * A helper function for the above method to add a image button script.
+		 * A helper function for the above getImageInputTags() method to add a image button script.
 		 * 
+		 * @since			2.1.3
+		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
 		 */
-		private function getFontUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource ) {
+		protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
 			
-			$sButton ="<a id='select_image_{$sInputID}' "
-						. "href='#' "
-						. "class='select_image button button-small'"
-						. "data-uploader_type='" . ( function_exists( 'wp_enqueue_media' ) ? 1 : 0 ) . "'"
-						. "data-enable_external_source='" . ( $bExternalSource ? 1 : 0 ) . "'"
-					. ">"
-						. __( 'Font URL', 'admin-page-framework' )
+			$sButton = 
+				"<a " . $this->generateAttributes( 
+					array(
+						'id'	=>	"select_font_{$sInputID}",
+						'href'	=>	'#',
+						'class'	=>	'select_font button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+						'data-uploader_type'	=>	function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+						'data-enable_external_source' => $bExternalSource ? 1 : 0,
+					) + $aButtonAttributes
+				) . ">"
+					. __( 'Select Font', 'admin-page-framework-demo' )
 				."</a>";
-			
+				
 			$sScript = "
-				if ( jQuery( 'a#select_image_{$sInputID}' ).length == 0 ) {
+				if ( jQuery( 'a#select_font_{$sInputID}' ).length == 0 ) {
 					jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
-				}			
-			" . PHP_EOL;
-
-			if( function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.5 or above
-				$sScript .="
-					jQuery( document ).ready( function(){			
-						setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
-					});" . PHP_EOL;	
+				}
+				jQuery( document ).ready( function(){			
+					setAPFFontUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+				});" . PHP_EOL;	
 					
-			return "<script type='text/javascript'>" . $sScript . "</script>" . PHP_EOL;
+			return "<script type='text/javascript' class='admin-page-framework-font-uploader-button'>" . $sScript . "</script>". PHP_EOL;
 
-		}
+		}		
 		
 		private function getScopedStyle( $sInputID, $sFontURL ) {
 			
 			$sFormat = $this->getFontFormat( $sFontURL );
 			return "
-			<style id='font_preview_style_{$sInputID}'>
-				@font-face { 
-					font-family: '{$sInputID}'; 
-					src: url( {$sFontURL} ) format( '{$sFormat}' );
-				}
-			</style>
+				<style id='font_preview_style_{$sInputID}'>
+					@font-face { 
+						font-family: '{$sInputID}'; 
+						src: url( {$sFontURL} ) format( '{$sFormat}' );
+					}
+				</style>
 			";
 			
 		}
 		
-		private function getFontSizeChangerElement( $tag_id, $sPreviewContainerID, $sPreviewID ) {
+		private function getFontSizeChangerElement( $sInputID, $sPreviewContainerID, $sPreviewID ) {
 			
-			$sSliderID = "slider_{$tag_id}";
-			$sSliderContainerID = "slider_container_{$tag_id}";
+			$sSliderID = "slider_{$sInputID}";
+			$sSliderContainerID = "slider_container_{$sInputID}";
 			$sFontSizeChangerHTML = 
 				"<div class='fontSliderHolder' id='{$sSliderContainerID}' >"
 					. "<div class='sliderT'>A</div>"
@@ -437,7 +567,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 						
 						// Write the element
 						if ( jQuery( '#{$sSliderContainerID}' ).length == 0 ) {
-							jQuery( '#{$sPreviewContainerID}' ).before( \"{$sFontSizeChangerHTML}\" );
+							// jQuery( '#{$sPreviewContainerID}' ).before( \"{$sFontSizeChangerHTML}\" );
+							jQuery( '#{$sPreviewContainerID}' ).before( createFontSizeChangeSlider( \"{$sInputID}\" ) );
 						}
 						
 						// Run noUiSlider
@@ -456,8 +587,14 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 		}
 		
 		private function getFontChangeScript( $sInputID, $sFontURL ) {
-			
-			$sFormat = $this->getFontFormat( $sFontURL );
+			return "
+				<script type='text/javascript' >
+					jQuery( document ).ready( function() {
+						setFontPreview( '{$sFontURL}', {'$sInputID'} );
+					}); 
+				</script>";		
+						
+/* 			$sFormat = $this->getFontFormat( $sFontURL );
 			return "
 				<script type='text/javascript'>
 					
@@ -468,7 +605,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType_image {
 					var sCSS = '@font-face { font-family: \"{$sInputID}\"; src: url( ' + '{$sFontURL}' + ' ) format( \"{$sFormat}\" ) }';
 					jQuery( 'head' ).append( '<style id=\"font_preview_style_' + '{$sInputID}' + '\" type=\"text/css\">' +  sCSS + '</style>' );
 					
-				</script>";		
+				</script>";	 */	
 			
 		}
 	

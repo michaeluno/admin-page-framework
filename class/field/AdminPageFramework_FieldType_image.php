@@ -38,38 +38,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function _replyToFieldLoader() {
-				
-		add_filter( 'media_upload_tabs', array( $this, '_replyToRemovingMediaLibraryTab' ) );
-		
-		wp_enqueue_script( 'jquery' );			
-		wp_enqueue_script( 'thickbox' );
-		wp_enqueue_style( 'thickbox' );
-	
-		if ( function_exists( 'wp_enqueue_media' ) ) 	// means the WordPress version is 3.5 or above
-			wp_enqueue_media();	
-		else		
-			wp_enqueue_script( 'media-upload' );
-			
+	public function _replyToFieldLoader() {		
+		$this->enqueueMediaUploader();
 	}	
-		/**
-		 * Removes the From URL tab from the media uploader.
-		 * 
-		 * since			2.1.3
-		 * since			2.1.5			Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to _replyToRemovingMediaLibraryTab().
-		 * @remark			A callback for the <em>media_upload_tabs</em> hook.	
-		 * @internal
-		 */
-		public function _replyToRemovingMediaLibraryTab( $aTabs ) {
-			
-			if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $aTabs;
-			
-			if ( ! $_REQUEST['enable_external_source'] )
-				unset( $aTabs['type_url'] );	// removes the 'From URL' tab in the thick box.
-			
-			return $aTabs;
-			
-		}	
 	
 	/**
 	 * Returns the field type specific JavaScript script.
@@ -161,223 +132,6 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			
 		}
 		
-		/**
-		 * Returns the JavaScript script that creates a custom media uploader object.
-		 * 
-		 * @remark			Used by the image and media field types.
-		 * @since			2.1.3
-		 * @since			2.1.5			Moved from AdminPageFramework_Property_Base.
-		 */
-		protected function _getScript_CustomMediaUploaderObject() {
-			
-			 $bLoaded = isset( $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] )
-				? $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] : false;
-			
-			if ( ! function_exists( 'wp_enqueue_media' ) || $bLoaded )	// means the WordPress version is 3.4.x or below
-				return "";
-			
-			$GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] = true;
-			
-			// Global function literal
-			return "
-				getAPFCustomMediaUploaderSelectObject = function() {
-					return wp.media.view.MediaFrame.Select.extend({
-
-						initialize: function() {
-							wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
-
-							_.defaults( this.options, {
-								multiple:  true,
-								editing:   false,
-								state:    'insert'
-							});
-
-							this.createSelection();
-							this.createStates();
-							this.bindHandlers();
-							this.createIframeStates();
-						},
-
-						createStates: function() {
-							var options = this.options;
-
-							// Add the default states.
-							this.states.add([
-								// Main states.
-								new wp.media.controller.Library({
-									id:         'insert',
-									title:      'Insert Media',
-									priority:   20,
-									toolbar:    'main-insert',
-									filterable: 'image',
-									library:    wp.media.query( options.library ),
-									multiple:   options.multiple ? 'reset' : false,
-									editable:   true,
-
-									// If the user isn't allowed to edit fields,
-									// can they still edit it locally?
-									allowLocalEdits: true,
-
-									// Show the attachment display settings.
-									displaySettings: true,
-									// Update user settings when users adjust the
-									// attachment display settings.
-									displayUserSettings: true
-								}),
-
-								// Embed states.
-								new wp.media.controller.Embed(),
-							]);
-
-
-							if ( wp.media.view.settings.post.featuredImageId ) {
-								this.states.add( new wp.media.controller.FeaturedImage() );
-							}
-						},
-
-						bindHandlers: function() {
-							// from Select
-							this.on( 'router:create:browse', this.createRouter, this );
-							this.on( 'router:render:browse', this.browseRouter, this );
-							this.on( 'content:create:browse', this.browseContent, this );
-							this.on( 'content:render:upload', this.uploadContent, this );
-							this.on( 'toolbar:create:select', this.createSelectToolbar, this );
-							//
-
-							this.on( 'menu:create:gallery', this.createMenu, this );
-							this.on( 'toolbar:create:main-insert', this.createToolbar, this );
-							this.on( 'toolbar:create:main-gallery', this.createToolbar, this );
-							this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
-							this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
-
-							var handlers = {
-									menu: {
-										'default': 'mainMenu'
-									},
-
-									content: {
-										'embed':          'embedContent',
-										'edit-selection': 'editSelectionContent'
-									},
-
-									toolbar: {
-										'main-insert':      'mainInsertToolbar'
-									}
-								};
-
-							_.each( handlers, function( regionHandlers, region ) {
-								_.each( regionHandlers, function( callback, handler ) {
-									this.on( region + ':render:' + handler, this[ callback ], this );
-								}, this );
-							}, this );
-						},
-
-						// Menus
-						mainMenu: function( view ) {
-							view.set({
-								'library-separator': new wp.media.View({
-									className: 'separator',
-									priority: 100
-								})
-							});
-						},
-
-						// Content
-						embedContent: function() {
-							var view = new wp.media.view.Embed({
-								controller: this,
-								model:      this.state()
-							}).render();
-
-							this.content.set( view );
-							view.url.focus();
-						},
-
-						editSelectionContent: function() {
-							var state = this.state(),
-								selection = state.get('selection'),
-								view;
-
-							view = new wp.media.view.AttachmentsBrowser({
-								controller: this,
-								collection: selection,
-								selection:  selection,
-								model:      state,
-								sortable:   true,
-								search:     false,
-								dragInfo:   true,
-
-								AttachmentView: wp.media.view.Attachment.EditSelection
-							}).render();
-
-							view.toolbar.set( 'backToLibrary', {
-								text:     'Return to Library',
-								priority: -100,
-
-								click: function() {
-									this.controller.content.mode('browse');
-								}
-							});
-
-							// Browse our library of attachments.
-							this.content.set( view );
-						},
-
-						// Toolbars
-						selectionStatusToolbar: function( view ) {
-							var editable = this.state().get('editable');
-
-							view.set( 'selection', new wp.media.view.Selection({
-								controller: this,
-								collection: this.state().get('selection'),
-								priority:   -40,
-
-								// If the selection is editable, pass the callback to
-								// switch the content mode.
-								editable: editable && function() {
-									this.controller.content.mode('edit-selection');
-								}
-							}).render() );
-						},
-
-						mainInsertToolbar: function( view ) {
-							var controller = this;
-
-							this.selectionStatusToolbar( view );
-
-							view.set( 'insert', {
-								style:    'primary',
-								priority: 80,
-								text:     'Select Image',
-								requires: { selection: true },
-
-								click: function() {
-									var state = controller.state(),
-										selection = state.get('selection');
-
-									controller.close();
-									state.trigger( 'insert', selection ).reset();
-								}
-							});
-						},
-
-						featuredImageToolbar: function( toolbar ) {
-							this.createSelectToolbar( toolbar, {
-								text:  'Set Featured Image',
-								state: this.options.state || 'upload'
-							});
-						},
-
-						mainEmbedToolbar: function( toolbar ) {
-							toolbar.view = new wp.media.view.Toolbar.Embed({
-								controller: this,
-								text: 'Insert Image'
-							});
-						}		
-					});
-				}
-			";
-		}	
 		/**
 		 * Returns the image selector JavaScript script to be loaded in the head tag of the created admin pages.
 		 * @var				string
@@ -672,7 +426,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				. "</label>"
 			. "</div>"			
 			. $aField['after_label']
-			. ( $aField['show_preview'] ? $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) : '' )
+			. $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes )
 			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['is_repeatable'], $aField['allow_external_source'], $aButtonAtributes );
 		;
 		
@@ -707,6 +461,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		 */
 		protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) {
 
+			if ( ! $aField['show_preview'] ) return '';
+			
 			$sImageURL = $this->resolveSRC( $sImageURL, true );
 			return 
 				"<div " . $this->generateAttributes( 
