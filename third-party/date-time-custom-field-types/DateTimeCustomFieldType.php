@@ -1,22 +1,57 @@
 <?php
 class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
-		
+	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'size'					=> 20,
-			'date_format'	 		=> 'yy/mm/dd',
-			'time_format'	 		=> 'H:mm',
-			'max_length'			=> 400,
-		);	
-	}
-
+	public $aFieldTypeSlugs = array( 'date_time', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'date_format'	=>	'yy/mm/dd',
+		'time_format'	=> 'H:mm',
+		'attributes'	=>	array(
+			'size'	=>	10,
+			'maxlength'	=>	400,
+		),	
+	);
+	
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function _replyToFieldLoader() {
+	public function setUp() {
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+	}	
+
+	/**
+	 * Returns an array holding the urls of enqueuing scripts.
+	 */
+	protected function getEnqueuingScripts() { 
+		return array(
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-sliderAccess.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
+		
+		);
+	}	
+	
+	/**
+	 * Returns an array holding the urls of enqueuing styles.
+	 */
+	protected function getEnqueuingStyles() { 
+		return array(
+			dirname( __FILE__ ) . '/css/jquery-ui-1.10.3.min.css',
+			dirname( __FILE__ ) . '/css/jquery-ui-timepicker-addon.min.css',
+		); 
+	}	
+	
+	/**
+	 * Loads the field type necessary components.
+	 */ 
+/* 	public function _replyToFieldLoader() {
 
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 	
@@ -31,47 +66,52 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 			array( 'jquery-ui-timepicker' ) // dependency
 		);		
 		
-	}	
-	
-	/**
-	 * Returns an array holding the urls of enqueuing scripts.
-	 */
-	protected function _replyToGetEnqueuingScripts() { 
-		return array(
-		);
-	}	
-
-	/**
-	 * Returns an array holding the urls of enqueuing styles.
-	 */
-	protected function _replyToGetEnqueuingStyles() { 
-		return array(
-			dirname( __FILE__ ) . '/css/jquery-ui-1.10.3.min.css',
-			dirname( __FILE__ ) . '/css/jquery-ui-timepicker-addon.min.css',
-		); 
-	}	
+	}	 */
 	
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function _replyToGetScripts() {
-		return "";		
-	}	
+	protected function getScripts() { 
+return "";
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
+		/*	The below function will be triggered when a new repeatable field is added. */
+		return "
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	public function _replyToGetStyles() {
-		return "";		
-	}
+						/* If the input tag is not found, do nothing  */
+						var nodeNewDatePickerInput = node.find( 'input.datepicker' );
+						if ( nodeNewDatePickerInput.length <= 0 ) return;
 
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	public function _replyToGetInputIEStyles() {
-		return "";		
-	}
+						/* Bind the date picker script */
+						nodeNewDatePickerInput.removeClass( 'hasDatepicker' );
+						nodeNewDatePickerInput.datepicker({
+							dateFormat : nodeNewDatePickerInput.data( 'date_format' ),
+						});					
+						
+					}
+				});
+			});		
+		
+		" . PHP_EOL;
+		
+	} 
 	
+
+	/**
+	 * Returns IE specific CSS rules.
+	 */
+	protected function getIEStyles() { return ''; }
+
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	protected function getStyles() { return ""; }	
+		
 	/**
 	 * Returns the output of the field type.
 	 * 
@@ -133,14 +173,14 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		 */
 		private function getDateTimePickerEnablerScript( $sID, $sDateFormat, $sTimeFormat ) {
 			return 
-				"<script type='text/javascript' class='date-time-picker-enabler-script' data-id='{$sID}' data-time_format='{$sTimeFormat}'>
+				// "<script type='text/javascript' class='date-time-picker-enabler-script' data-id='{$sID}' data-time_format='{$sTimeFormat}'>
+				"<script type='text/javascript' class='date-time-picker-enabler-script'>
 					jQuery( document ).ready( function() {
 						jQuery( '#{$sID}' ).datetimepicker({
 							timeFormat : '{$sTimeFormat}',
 							dateFormat : '{$sDateFormat}',
 							showButtonPanel : false,
 						});
-
 					});
 				</script>";
 		}
