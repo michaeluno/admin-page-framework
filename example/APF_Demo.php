@@ -11,20 +11,18 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+			// dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+			// dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
-			if ( file_exists( $sFilePath ) )
-				include_once( $sFilePath );
+			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
 					
-		/* 2. Instantiate the classes - the $oMsg object is optional if you use the framework's messages. */
-		$oMsg = AdminPageFramework_Message::instantiate( 'admin-page-framework-demo' );
-		new DateCustomFieldType( 'APF_Demo', 'date', $oMsg );
-		new TimeCustomFieldType( 'APF_Demo', 'time', $oMsg );
-		new DateTimeCustomFieldType( 'APF_Demo', 'date_time', $oMsg );
-		new DialCustomFieldType( 'APF_Demo', 'dial', $oMsg );
-		new FontCustomFieldType( 'APF_Demo', 'font', $oMsg );			
+		/* 2. Instantiate the classes  */
+		new DateCustomFieldType( 'APF_Demo' );
+		new TimeCustomFieldType( 'APF_Demo' );
+		new DateTimeCustomFieldType( 'APF_Demo' );
+// new DialCustomFieldType( 'APF_Demo' );
+// new FontCustomFieldType( 'APF_Demo' );			
 		
 	}
 	
@@ -1255,54 +1253,74 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'date_pickers',
 				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
 				'type'	=>	'date',
-				'date_format'	=>	'yy/mm/dd',	// yy/mm/dd is the default format.
-			),			
+			),		
 			array(	// Multiple date pickers
 				'field_id'	=>	'dates',
 				'section_id'	=>	'date_pickers',
 				'title'	=>	__( 'Dates', 'admin-page-framework-demo' ),
 				'type'	=>	'date',
-				'label'	=>	array( 
-					'start'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ), 
-					'end'	=>	__( 'End Date: ', 'amin-page-framework-demo' ), 
-				),
+				'label'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ),
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'<br />',
+				'delimiter'	=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
+				array( 
+					'label'	=>	__( 'End Date: ', 'amin-page-framework-demo' ), 
+				),
 			),	
+			array(	// Repeatable date picker fields
+				'field_id'	=>	'date_repeatable',
+				'section_id'	=>	'date_pickers',
+				'type'	=>	'date',
+				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
+				'is_repeatable'	=> true,
+			),			
 			array(	// Single time picker
 				'field_id'	=>	'time',
 				'section_id'	=>	'date_pickers',
-				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
 				'type'	=>	'time',
+				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
-			),		
+			),
+			array(	// Repeatable time picker fields
+				'field_id'	=>	'time_repeatable',
+				'section_id'	=>	'date_pickers',
+				'type'	=>	'time',
+				'title'	=>	__( 'Repeatable Time Fields', 'admin-page-framework-demo' ),
+				'is_repeatable'	=> true,
+			),
 			array(	// Single date time picker
 				'field_id'	=>	'date_time',
 				'section_id'	=>	'date_pickers',
-				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
 				'type'	=>	'date_time',
-				'date_format'	=>	'yy-mm-dd',	// H:mm is the default format.
+				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
+				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),		
 			array(	// Multiple date time pickers
 				'field_id'	=>	'dates_time_multiple',
 				'section_id'	=>	'date_pickers',
+				'type'	=>	'date_time',
 				'title'	=>	__( 'Multiple Date and Time', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'With different time formats', 'admin-page-framework-demo' ),
-				'type'	=>	'date_time',
-				'label'	=>	array( 
-					__( 'Default', 'amin-page-framework-demo' ), 
-					__( 'AM PM', 'amin-page-framework-demo' ), 
-					__( 'Time Zone', 'amin-page-framework-demo' ), 
-				),
-				'time_format'	=>	array(
-					'H:mm',
-					'hh:mm tt',
-					'hh:mm tt z',
-				),
+				'label'	=>	__( 'Default', 'amin-page-framework-demo' ), 
+				'time_format'	=>	'H:mm',
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'<br />',
-			),				
+				'delimiter'	=>	'<br />',				
+				array(
+					'label'	=>	__( 'AM PM', 'amin-page-framework-demo' ), 
+					'time_format'	=>	'hh:mm tt',
+				),
+				array(
+					'label'	=>	__( 'Time Zone', 'amin-page-framework-demo' ), 
+					'time_format'	=>	'hh:mm tt z',
+				),	
+			),
+			array(	// Single date time picker
+				'field_id'	=>	'date_time_repeatable',
+				'section_id'	=>	'date_pickers',
+				'type'	=>	'date_time',
+				'title'	=>	__( 'Repeatable Date & Time Fields', 'admin-page-framework-demo' ),
+				'is_repeatable'	=> true,
+			),		
 			array()
 		);
 		$this->addSettingFields(			

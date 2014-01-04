@@ -185,16 +185,17 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.admin-page-framework-field .admin-page-framework-input-container {
 			display: inline-block;
-			vertical-align: middle; 
+			vertical-align: middle;
 		}
 		.admin-page-framework-field-image .admin-page-framework-input-label-container {			
 			vertical-align: middle;
 		}
+		
 		.admin-page-framework-field .admin-page-framework-input-label-container,
 		.admin-page-framework-field .admin-page-framework-input-label-string
 		{
 			display: inline-block;		
-			vertical-align: middle;
+			vertical-align: middle; 
 		}
 		
 		/* Repeatable Fields */		
