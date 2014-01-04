@@ -480,6 +480,9 @@ return $vValue;
 							updateAPFIDsAndNames( jQuery( this ), false );	// the second parameter value indicates it's for decrement.
 						});
 
+						/* Call the registered callback functions */
+						nodeFieldContainer.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );	
+					
 						/* Remove the field */
 						nodeFieldContainer.remove();
 						
@@ -520,22 +523,39 @@ return $vValue;
 		});
 	};
 	
+	$.fn.callBackRemoveRepeatableField = function( sFieldType, sID ) {
+		var nodeThis = this;
+		if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
+			$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
+		}		
+		$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach( function( hfCallback ) {
+			if ( jQuery.isFunction( hfCallback ) )
+				hfCallback( nodeThis, sFieldType, sID );
+		});
+	};
+	
 	$.fn.registerAPFCallback = function( oOptions ) {
+		
 		// This is the easiest way to have default options.
 		var oSettings = $.extend({
-			// These are the defaults.
-			color: '#556b2f',
-			backgroundColor: 'white',
+			// The user specifies the settings with the following options.
 			added_repeatable_field: function() {},
-			
+			removed_repeatable_field: function() {},
 		}, oOptions );
 
+		// Set up arrays to store callback functions
 		if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
 			$.fn.aAPFAddRepeatableFieldCallbacks = [];
 		}
+		if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
+			$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
+		}			
 		
 		// Store the callback function
 		$.fn.aAPFAddRepeatableFieldCallbacks.push( oSettings.added_repeatable_field );
+		$.fn.aAPFRemoveRepeatableFieldCallbacks.push( oSettings.removed_repeatable_field );
+		
+		return;
 		
 		// Greenify the collection based on the settings variable.
 		return this.css({
