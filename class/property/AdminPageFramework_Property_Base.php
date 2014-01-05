@@ -89,7 +89,7 @@ abstract class AdminPageFramework_Property_Base {
 	 * @since			2.1.5			Moved from each extended property class.
 	 * @internal
 	 */ 		
-	public $sStyle = '';	
+	public $sStyle = '';
 	
 	/**
 	 * Stores the CSS rules for IE to be embedded in the head tag.
@@ -109,6 +109,14 @@ abstract class AdminPageFramework_Property_Base {
 	public $aFieldTypeDefinitions = array();
 	
 	/**
+	 * The default JavaScript script loaded in the head tag of the created admin pages.
+	 * 
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public static $_sDefaultScript = "";
+	
+	/**
 	 * The default CSS rules loaded in the head tag of the created admin pages.
 	 * 
 	 * @since			2.0.0
@@ -118,7 +126,7 @@ abstract class AdminPageFramework_Property_Base {
 	 * @access			public	
 	 * @internal	
 	 */
-	public static $sDefaultStyle =
+	public static $_sDefaultStyle =
 		".wrap div.updated, 
 		.wrap div.settings-error { 
 			clear: both; 
@@ -240,7 +248,7 @@ abstract class AdminPageFramework_Property_Base {
 	 * @since			2.1.1
 	 * @since			2.1.5			Moved the contents to the taxonomy field definition so it become an empty string.
 	 */
-	public static $sDefaultStyleIE = '';
+	public static $_sDefaultStyleIE = '';
 		
 
 	/**

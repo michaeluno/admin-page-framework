@@ -35,9 +35,9 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		$oCaller = $this->oProp->_getParentObject();		
 				
 		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
+		$sStyle = AdminPageFramework_Property_PostType::$_sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $sStyle );
-		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
+		$sStyleIE = AdminPageFramework_Property_PostType::$_sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
 		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $sStyleIE );
 		if ( ! empty( $sStyle ) )
 			echo 

@@ -28,31 +28,50 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			)
 		) return;	
 	
-		// This class may be instantiated multiple times so use a global flag.
-		$sRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_StyleLoaded" ] ) return;
-		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
-				
-		$oCaller = $this->oProp->_getParentObject();		
-				
-		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $sStyle );
-		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $sStyleIE );
-		if ( ! empty( $sStyle ) )
-			echo 
-				"<style type='text/css' id='admin-page-framework-style-meta-box'>" 
-					. $sStyle
-				. "</style>";
-		if ( ! empty( $sStyleIE ) )
-			echo 
-				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-meta-box'>" 
-					. $sStyleIE
-				. "</style><![endif]-->";
+		$this->_printCommonStyles();
+		$this->_printClassSpecificStyles();
 			
 	}
-	
+		/**
+		 *	Prints the inline stylesheet of this class stored in this class property.
+		 *	@since			3.0.0
+		 */
+		private function _printClassSpecificStyles() {
+				
+			$oCaller = $this->oProp->_getParentObject();		
+
+			// Print out the filtered styles.
+			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
+			if ( $sStyle )
+				echo "<style type='text/css' id='admin-page-framework-style-meta-box-{$this->oProp->sClassName}'>{$sStyle}</style>";
+				
+			$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
+			if ( $sStyleIE )
+				echo  "<!--[if IE]><style type='text/css' id='admin-page-framework-ie-style-meta-box-{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";
+		
+		}
+		/**
+		 * Prints the inline stylesheet of the meta-box common CSS rules with the style tag.
+		 * 
+		 * @remark			The meta box class may be instantiated multiple times so use a global flag.
+		 * @since			3.0.0
+		 */
+		private function _printCommonStyles() {
+			
+			$sBaseClassName = get_class();
+			if ( isset( $GLOBALS[ "{$sBaseClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sBaseClassName}_StyleLoaded" ] ) return;
+			$GLOBALS[ "{$sBaseClassName}_StyleLoaded" ] = true;			
+			
+			$oCaller = $this->oProp->_getParentObject();				
+			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_MetaBox::$_sDefaultStyle );
+			if ( $sStyle )
+				echo "<style type='text/css' id='admin-page-framework-style-meta-box-common'>{$sStyle}</style>";
+
+			$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_common_{$this->oProp->sClassName}", AdminPageFramework_Property_MetaBox::$_sDefaultStyleIE );
+			if ( $sStyleIE )
+				echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-meta-box-common'>{$sStyleIE}</style><![endif]-->";
+				
+		}
 	/**
 	 * Appends the JavaScript script of the framework in the head tag. 
 	 * @since			2.0.0
@@ -73,22 +92,38 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			)
 		) return;	
 	
-		// This class may be instantiated multiple times so use a global flag.
-		$sRootClassName = get_class();
-		if ( isset( $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] ) return;
-		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
-	
-		$oCaller = $this->oProp->_getParentObject();
-		
-		// Print out the filtered scripts.
-		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProp->sClassName}", $this->oProp->sScript );
-		if ( ! empty( $sScript ) )
-			echo 
-				"<script type='text/javascript' id='admin-page-framework-script-meta-box'>"
-					. $sScript
-				. "</script>";	
+		$this->_printCommonScripts();
+		$this->_printClassSpecificScripts();
 			
 	}	
+		/**
+		 *	Prints the inline scripts of this class stored in this class property.
+		 *	@since			3.0.0
+		 */
+		private function _printClassSpecificScripts() {
+				
+			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getParentObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
+			if ( $sScript )
+				echo "<script type='text/javascript' id='admin-page-framework-script-meta-box-{$this->oProp->sClassName}'>{$sScript}</script>";				
+	
+		}
+		/**
+		 * Prints the inline scripts of the meta-box common scripts.
+		 * 
+		 * @remark			The meta box class may be instantiated multiple times so use a global flag.
+		 * @since			3.0.0
+		 */
+		private function _printCommonScripts() {
+			
+			$sBaseClassName = get_class();
+			if ( isset( $GLOBALS[ "{$sBaseClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sBaseClassName}_ScriptLoaded" ] ) return;
+			$GLOBALS[ "{$sBaseClassName}_ScriptLoaded" ] = true;
+			
+			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getParentObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_MetaBox::$_sDefaultScript );
+			if ( $sScript )
+				echo "<script type='text/javascript' id='admin-page-framework-style-meta-box-common'>{$sScript}</script>";
+		
+		}	
 	
 	
 	/**

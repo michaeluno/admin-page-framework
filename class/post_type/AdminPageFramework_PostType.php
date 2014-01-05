@@ -431,7 +431,7 @@ abstract class AdminPageFramework_PostType {
 
 		// If the screen icon url is specified
 		if ( isset( $this->oProp->aPostTypeArgs['screen_icon'] ) && $this->oProp->aPostTypeArgs['screen_icon'] )
-			$this->oProp->sStyle = $this->getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs['screen_icon'] );
+			$this->oProp->sStyle .= $this->getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs['screen_icon'] );
 			
 		$this->oProp->sStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
 		

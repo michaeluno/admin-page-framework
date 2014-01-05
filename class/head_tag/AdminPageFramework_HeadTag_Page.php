@@ -25,9 +25,9 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		$oCaller = $this->oProp->_getParentObject();
 		
 		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Property_Page::$sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
+		$sStyle = AdminPageFramework_Property_Page::$_sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
-		$sStyleIE = AdminPageFramework_Property_Page::$sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
+		$sStyleIE = AdminPageFramework_Property_Page::$_sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
 		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
 		if ( ! empty( $sStyle ) )
 			echo 

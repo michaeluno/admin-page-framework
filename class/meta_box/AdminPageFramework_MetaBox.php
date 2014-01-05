@@ -281,7 +281,7 @@ abstract class AdminPageFramework_MetaBox {
 
 		foreach( func_get_args() as $aField ) 
 			$this->addSettingField( $aField );
-		
+
 	}	
 	/**
 	* Adds the given field array items into the field array property.
@@ -358,7 +358,7 @@ abstract class AdminPageFramework_MetaBox {
 			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
 				$this->oProp->sScript .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
 				
-			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
+			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) ) 
 				$this->oProp->sStyle .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
 				
 			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
@@ -592,28 +592,34 @@ abstract class AdminPageFramework_MetaBox {
 		if ( $sMethodName == $this->oProp->sPrefixStart . $this->oProp->sClassName ) return;
 
 		// the class name + field_ field ID filter.
-		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' )
-			return $aArgs[ 0 ];
+		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
 		
 		// the class name + field_ field ID filter.
-		if ( substr( $sMethodName, 0, strlen( $this->oProp->sClassName . '_' . 'field_' ) ) == $this->oProp->sClassName . '_' . 'field_' )
-			return $aArgs[ 0 ];
+		if ( substr( $sMethodName, 0, strlen( $this->oProp->sClassName . '_' . 'field_' ) ) == $this->oProp->sClassName . '_' . 'field_' ) return $aArgs[ 0 ];
 
 		// the field_types_ + class name filter. [2.1.5+]
-		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" )
-			return $aArgs[ 0 ];		
-			
-		// the script_ + class name	filter.
-		if ( substr( $sMethodName, 0, strlen( "script_{$this->oProp->sClassName}" ) ) == "script_{$this->oProp->sClassName}" )
-			return $aArgs[ 0 ];		
-	
-		// the style_ + class name	filter.
-		if ( substr( $sMethodName, 0, strlen( "style_{$this->oProp->sClassName}" ) ) == "style_{$this->oProp->sClassName}" )
-			return $aArgs[ 0 ];		
+		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];		
 
+		// the script_common + class name filter.	[3.0.0+]
+		if ( substr( $sMethodName, 0, strlen( "script_common_{$this->oProp->sClassName}" ) ) == "script_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
+
+		// the script_ + class name filter.
+		if ( substr( $sMethodName, 0, strlen( "script_{$this->oProp->sClassName}" ) ) == "script_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
+
+		// the style_ie_common_ + class name filter.	[3.0.0+]
+		if ( substr( $sMethodName, 0, strlen( "style_ie_common_{$this->oProp->sClassName}" ) ) == "style_ie_common_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
+			
+		// the style_common + class name filter.	[3.0.0+]
+		if ( substr( $sMethodName, 0, strlen( "style_common_{$this->oProp->sClassName}" ) ) == "style_common_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
+
+		// the style_ie + class name filter.
+		if ( substr( $sMethodName, 0, strlen( "style_ie_{$this->oProp->sClassName}" ) ) == "style_ie_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
+					
+		// the style_ + class name filter.
+		if ( substr( $sMethodName, 0, strlen( "style_{$this->oProp->sClassName}" ) ) == "style_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
+						
 		// the validation_ + class name	filter.
-		if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProp->sClassName}" ) ) == "validation_{$this->oProp->sClassName}" )
-			return $aArgs[ 0 ];				
+		if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProp->sClassName}" ) ) == "validation_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 			
 	}
 }

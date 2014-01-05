@@ -40,8 +40,8 @@ abstract class AdminPageFramework_HeadTag_Base {
 		$this->oUtil = new AdminPageFramework_WPUtility;
 				
 		// Hook the admin header to insert custom admin stylesheet.
-		add_action( 'admin_head', array( $this, '_replyToAddStyle' ) );
-		add_action( 'admin_head', array( $this, '_replyToAddScript' ) );
+		add_action( 'admin_head', array( $this, '_replyToAddStyle' ), 999 );
+		add_action( 'admin_head', array( $this, '_replyToAddScript' ), 999 );
 		add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueStyles' ) );
 		
