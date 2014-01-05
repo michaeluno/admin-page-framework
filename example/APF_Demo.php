@@ -1,7 +1,7 @@
 <?php
 class APF_Demo extends AdminPageFramework {
 
-	public function start_APF_Demo() {	// start_{extended class name}
+	public function start_APF_Demo() {	// start_{extended class name} - this method gets automatically triggered at the end of the class constructor.
 		
 		/*
 		 * ( Optional ) Register custom field types.
@@ -29,15 +29,18 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 *	( Required ) In the setUp() method, you will define how pages and form elements should be composed.
 	 */
-	public function setUp() {
+	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
-		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	// ( required )
-		$this->addSubMenuItems(	// ( required )
+		/* ( required ) Set the root page */
+		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	
+		
+		/* ( required ) Add sub-menu items (pages or links) */
+		$this->addSubMenuItems(	
 			/* 	
 			  for sub-menu pages, e.g.
 			  	'title'	=>	'Your Page Title',
 				'page_slug'	=>	'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
-				'screen_icon'	=>	'edit',				// for WordPress 3.7.x or below
+				'screen_icon'	=>	'edit',				// for WordPress v3.7.x or below
 				'capability'	=>	'manage-options',
 				'order'	=>	10,
 				
@@ -50,7 +53,7 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Built-in Field Types', 'admin-page-framework-demo' ),
 				'page_slug'	=>	'apf_builtin_field_types',
 				'screen_icon'	=>	'options-general',	// one of the screen type from the below can be used.
-				/*	Screen Types:
+				/*	Screen Types (for WordPress v3.7.x or below) :
 					'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
 					'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
@@ -93,11 +96,11 @@ class APF_Demo extends AdminPageFramework {
 		);
 		
 		/*
-		 * In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
+		 * ( optional ) Add in-page tabs - In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
 		 * Page-heading tabs show the titles of sub-page items which belong to the set root page. 
 		 * In-page tabs show tabs that you define to be embedded within an individual page.
 		 */
-		$this->addInPageTabs(	// ( optional )
+		$this->addInPageTabs(
 			/*
 			 * In-page tabs to display built-in field types
 			 * */
@@ -273,12 +276,12 @@ class APF_Demo extends AdminPageFramework {
 		);
 		
 		/*
-		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of things: sections and fields.
-		 * A section groups fields and fields belongs to a section. So a section needs to be created prior to fields.
+		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
+		 * A section groups fields and fields belong to a section. So a section needs to be created prior to fields.
 		 * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
 		 */
 		/* Add setting sections */
-		$this->addSettingSections(
+		$this->addSettingSections(	
 			array(
 				'section_id'		=>	'text_fields',	// avoid hyphen(dash), dots, and white spaces
 				'page_slug'		=>	'apf_builtin_field_types',
@@ -1399,7 +1402,6 @@ class APF_Demo extends AdminPageFramework {
 				'is_repeatable'	=>	true,
 			)
 		);
-		
 		$this->addSettingFields(			
 			array(
 				'field_id'	=>	'font_field',
@@ -1418,6 +1420,9 @@ class APF_Demo extends AdminPageFramework {
 			array()
 		);
 		
+		/*
+		 * Fields for the manage option page.
+		 */
 		$this->addSettingFields(			
 			array( // Delete Option Button
 				'field_id'	=>	'submit_manage',
@@ -1506,6 +1511,9 @@ class APF_Demo extends AdminPageFramework {
 			array()
 		);
 		
+		/*
+		 * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
+		 */
  		$this->addLinkToPluginDescription( 
 			"<a href='http://www.google.com'>Google</a>",
 			"<a href='http://www.yahoo.com'>Yahoo!</a>",
@@ -1519,29 +1527,29 @@ class APF_Demo extends AdminPageFramework {
     }
 		
 	/*
-	 * Built-in Field Types
+	 * Built-in Field Types Page
 	 * */
-	public function do_apf_builtin_field_types() {
+	public function do_apf_builtin_field_types() {	// do_{page slug}
 		submit_button();
 	}
 	
 	/*
-	 * Custon Field Types
+	 * Custon Field Types Page
 	 * */
-	public function do_apf_custom_field_types() {
+	public function do_apf_custom_field_types() {	// do_{page slug}
 		submit_button();
 	}
 	
 	/*
-	 * Manage Options
+	 * Manage Options Page
 	 * */
-	public function do_apf_manage_options_saved_data() {	// do_ + page slug + _ + tab slug
+	public function do_apf_manage_options_saved_data() {	// do_{page slug}_{tab slug}
 		?>
 		<h3>Saved Data</h3>
 		<?php
 			echo $this->oDebug->getArray( $this->oProp->aOptions ); 
 	}
-	public function do_apf_manage_options_properties() {	// do_ + page slug + _ + tab slug
+	public function do_apf_manage_options_properties() {	// do_{page slug}_{tab slug}
 		?>
 		<h3><?php _e( 'Framework Properties', 'admin-page-framework-demo' ); ?></h3>
 		<p><?php _e( 'You can view and modify the property values stored in the framework.', 'admin-page-framework-demo' ); ?></p>
@@ -1549,7 +1557,7 @@ class APF_Demo extends AdminPageFramework {
 		<?php
 			$this->oDebug->dumpArray( get_object_vars( $this->oProp ) );
 	}
-	public function do_apf_manage_options_messages() {	// do_ + page slug + _ + tab slug
+	public function do_apf_manage_options_messages() {	// do_{page slug}_{tab slug}
 		?>
 		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
 		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
@@ -1580,7 +1588,7 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{field id}
+	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export button field id}
 		
 		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type'] ) 
 			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type']
@@ -1594,7 +1602,7 @@ class APF_Demo extends AdminPageFramework {
 			: $sFormatType;
 		
 	}
-	public function import_APF_Demo_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{field id}
+	public function import_APF_Demo_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{import button field id}
 
 		if ( $sImportFormat == 'text' ) {
 			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
@@ -1611,10 +1619,10 @@ class APF_Demo extends AdminPageFramework {
 	 * */
 	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_{extended class name}_{submit field ID}
 		
-		/* Set a flag. */
+		/* 1. Set a flag. */
 		$bVerified = true;
 		
-		/* 
+		/* 2. Prepare an error array.
 		 	We store values that have an error in an array and pass it to the setFieldErrors() method.
 			It internally stores the error array in a temporary area of the database called transient.
 			The used name of the transient is a md5 hash of 'instantiated class name' + '_' + 'page slug'. 
@@ -1623,19 +1631,19 @@ class APF_Demo extends AdminPageFramework {
 		*/
 		$aErrors = array();
 
-		/* Check if the submitted value meets your criteria. As an example, here a numeric value is expected. */
+		/* 3. Check if the submitted value meets your criteria. As an example, here a numeric value is expected. */
 		if ( ! is_numeric( $aNewInput['apf_builtin_field_types']['verify_text_field'] ) ) {
 			
-			/*	Start with the section key in $aErrors, not the key of page slug. */
-			$aErrors['verify_text_field'] = 'The value must be numeric: ' . $aNewInput['apf_builtin_field_types']['verify_text_field'];	
+			/* 3-1. Start with the key of the field ID in $aErrors, not the key of page slug. */
+			$aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . $aNewInput['apf_builtin_field_types']['verify_text_field'];
 			$bVerified = false;
 			
 		}
 		
-		/* An invalid value is found. */
+		/* 4. An invalid value is found. */
 		if ( ! $bVerified ) {
 		
-			/* Set the error array for the input fields. */
+			/* 4-1. Set the error array for the input fields. */
 			$this->setFieldErrors( $aErrors );		
 			$this->setSettingNotice( 'There was an error in your input.' );
 			return $aOldOptions;
@@ -1673,7 +1681,7 @@ class APF_Demo extends AdminPageFramework {
 	}
 			
 	/*
-	 * Read Me
+	 * Read Me Page
 	 * */ 
 	public function do_before_apf_read_me() {		// do_before_ + page slug 
 
