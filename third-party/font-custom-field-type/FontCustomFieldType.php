@@ -394,7 +394,12 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	protected function getStyles() { return ""; }
+	protected function getStyles() { 
+		return "/* Font Custom Field Type */
+			.admin-page-framework-field-font .admin-page-framework-repeatable-field-buttons {
+				margin-left: 1em;				
+			}" . PHP_EOL;
+	 }
 		
 	/**
 	 * Returns the output of the field type.
@@ -582,21 +587,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 					jQuery( document ).ready( function() {
 						setFontPreview( '{$sFontURL}', {'$sInputID'} );
 					}); 
-				</script>";		
-						
-/* 			$sFormat = $this->getFontFormat( $sFontURL );
-			return "
-				<script type='text/javascript'>
-					
-					// Remove the previous style element for the preview
-					jQuery( '#font_preview_style_' + '{$sInputID}' ).remove();
-					
-					// Set the new url for the preview 
-					var sCSS = '@font-face { font-family: \"{$sInputID}\"; src: url( ' + '{$sFontURL}' + ' ) format( \"{$sFormat}\" ) }';
-					jQuery( 'head' ).append( '<style id=\"font_preview_style_' + '{$sInputID}' + '\" type=\"text/css\">' +  sCSS + '</style>' );
-					
-				</script>";	 */	
-			
+				</script>";			
 		}
 	
 			private function getFontFormat( $sURL ) {
