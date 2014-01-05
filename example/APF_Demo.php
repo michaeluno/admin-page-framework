@@ -108,7 +108,7 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'textfields',	// avoid hyphen(dash), dots, and white spaces
-				'title'		=>	__( 'Text Fields', 'admin-page-framework-demo' ),
+				'title'		=>	__( 'Text', 'admin-page-framework-demo' ),
 				'order'		=>	1,		// ( optional ) - if you don't set this, an index will be assigned internally in the added order
 			),		
 			array(
@@ -135,7 +135,13 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'verification',
 				'title'		=>	__( 'Verification', 'admin-page-framework-demo' ),	
-			)
+			),
+			array(
+				'page_slug'	=>	'apf_builtin_field_types',
+				'tab_slug'	=>	'mixed_types',
+				'title'		=>	__( 'Mixed', 'admin-page-framework-demo' ),	
+			),
+			array()
 		);
 		$this->addInPageTabs(	// ( optional )
 			/*
@@ -358,7 +364,14 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'		=>	'verification',
 				'title'			=>	__( 'Verify Submitted Data', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
-			),					
+			),
+			array(
+				'section_id'	=>	'mixed_types',
+				'page_slug'		=>	'apf_builtin_field_types',
+				'tab_slug'		=>	'mixed_types',
+				'title'			=>	__( 'Mixed Field Types', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'As of v3, it is possible to mix field types in one field on a per-ID basis.', 'admin-page-framework-demo' ),
+			),				
 			array()
 		);
 		$this->addSettingSections(	
@@ -1233,6 +1246,21 @@ class APF_Demo extends AdminPageFramework {
 				'label'	=>	__( 'Verify', 'admin-page-framework-demo' ),
 			)
 		);	
+		$this->addSettingFields(			
+			array(
+				'field_id'	=>	'mixed_fields',
+				'section_id'	=>	'mixed_types',
+				'title'	=>	__( 'Text and Hidden', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	'abc',
+				array(
+					'type'	=>	'hidden',
+					'value'	=>	'xyz',
+				),
+				'description'	=> __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the user input.', 'admin-page-framework-demo' ),
+			),
+			array()
+		);	
 		
 		/*
 		 * Custom Field Types - in order to use these types, those custom field types must be registered. 
@@ -1547,7 +1575,10 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_manage_options_saved_data() {	// do_{page slug}_{tab slug}
 		?>
 		<h3>Saved Data</h3>
-		<?php
+		<p><?php 
+			echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the extended class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
+			echo ' ' . sprintf( __( 'It is stored in the <code>$this->oProp-sOptionKey</code> class property so you may access it directly to confirm the value. So the required code would be <code>get_option( %1$s );</code>.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
+			echo ' ' . __( 'If you are retrieving them within the framework class, simply call <code>$this->oProp->aOptions</code>.', 'admin-page-framework-demo' );
 			echo $this->oDebug->getArray( $this->oProp->aOptions ); 
 	}
 	public function do_apf_manage_options_properties() {	// do_{page slug}_{tab slug}
