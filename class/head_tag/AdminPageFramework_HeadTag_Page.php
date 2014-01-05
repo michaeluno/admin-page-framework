@@ -21,25 +21,17 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		
 		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
 		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
-					
+							
+		// Print out the filtered styles.		
 		$oCaller = $this->oProp->_getParentObject();
-		
-		// Print out the filtered styles.
-		$sStyle = AdminPageFramework_Property_Page::$_sDefaultStyle . PHP_EOL . $this->oProp->sStyle;
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyle );
-		$sStyleIE = AdminPageFramework_Property_Page::$_sDefaultStyleIE . PHP_EOL . $this->oProp->sStyleIE;
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sStyleIE );
-		if ( ! empty( $sStyle ) )
-			echo 
-				"<style type='text/css' id='admin-page-framework-style'>" 
-					. $sStyle
-				. "</style>";
-		if ( ! empty( $sStyleIE ) )
-			echo 
-				"<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>" 
-					. $sStyleIE
-				. "</style><![endif]-->";
-						
+		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
+			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyle );
+		if ( $sStyle )
+			echo "<style type='text/css' id='admin-page-framework-style'>{$sStyle}</style>";
+		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyleIE )
+			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyleIE );			
+		if ( $sStyleIE )
+			echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>{$sStyleIE}</style><![endif]-->";						
 	}
 	
 	/**

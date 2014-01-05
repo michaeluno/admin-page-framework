@@ -40,8 +40,10 @@ abstract class AdminPageFramework_Base {
 		'import_name'		=> 'import_name',
 		'import_format'		=> 'import_format',
 		'import_'			=> 'import_',
-		'style_'			=> 'style_',
+		'style_common_ie_'	=> 'style_common_ie_',
+		'style_common_'		=> 'style_common_',
 		'style_ie_'			=> 'style_ie_',
+		'style_'			=> 'style_',
 		'script_'			=> 'script_',
 		
 		'field_'			=> 'field_',

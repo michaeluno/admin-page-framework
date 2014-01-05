@@ -51,50 +51,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	
 		if ( ! $this->_isMetaBoxPage() ) return;	// if it's not post (post edit) page nor the post type page,
 	
-		$this->_printCommonStyles();
-		$this->_printClassSpecificStyles();
+		$this->_printCommonStyles( 'admin-page-framework-style-meta-box-common', get_class() );
+		$this->_printClassSpecificStyles( 'admin-page-framework-style-meta-box' );
 			
 	}
-		/**
-		 *	Prints the inline stylesheet of this class stored in this class property.
-		 *	@since			3.0.0
-		 */
-		private function _printClassSpecificStyles() {
-				
-			$oCaller = $this->oProp->_getParentObject();		
-
-			// Print out the filtered styles.
-			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
-			if ( $sStyle )
-				echo "<style type='text/css' id='admin-page-framework-style-meta-box-{$this->oProp->sClassName}'>{$sStyle}</style>";
-				
-			$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
-			if ( $sStyleIE )
-				echo  "<!--[if IE]><style type='text/css' id='admin-page-framework-ie-style-meta-box-{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";
-		
-		}
-		/**
-		 * Prints the inline stylesheet of the meta-box common CSS rules with the style tag.
-		 * 
-		 * @remark			The meta box class may be instantiated multiple times so use a global flag.
-		 * @since			3.0.0
-		 */
-		private function _printCommonStyles() {
-			
-			$sBaseClassName = get_class();
-			if ( isset( $GLOBALS[ "{$sBaseClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sBaseClassName}_StyleLoaded" ] ) return;
-			$GLOBALS[ "{$sBaseClassName}_StyleLoaded" ] = true;			
-			
-			$oCaller = $this->oProp->_getParentObject();				
-			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_MetaBox::$_sDefaultStyle );
-			if ( $sStyle )
-				echo "<style type='text/css' id='admin-page-framework-style-meta-box-common'>{$sStyle}</style>";
-
-			$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_common_{$this->oProp->sClassName}", AdminPageFramework_Property_MetaBox::$_sDefaultStyleIE );
-			if ( $sStyleIE )
-				echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-meta-box-common'>{$sStyleIE}</style><![endif]-->";
-				
-		}
 	/**
 	 * Appends the JavaScript script of the framework in the head tag. 
 	 * @since			2.0.0
@@ -106,39 +66,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 
 		if ( ! $this->_isMetaBoxPage() ) return;	// if it's not post (post edit) page nor the post type page,
 	
-		$this->_printCommonScripts();
-		$this->_printClassSpecificScripts();
+		$this->_printCommonScripts( 'admin-page-framework-style-meta-box-common', get_class() );
+		$this->_printClassSpecificScripts( 'admin-page-framework-script-meta-box' );
 			
 	}	
-		/**
-		 *	Prints the inline scripts of this class stored in this class property.
-		 *	@since			3.0.0
-		 */
-		private function _printClassSpecificScripts() {
-				
-			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getParentObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
-			if ( $sScript )
-				echo "<script type='text/javascript' id='admin-page-framework-script-meta-box-{$this->oProp->sClassName}'>{$sScript}</script>";				
-	
-		}
-		/**
-		 * Prints the inline scripts of the meta-box common scripts.
-		 * 
-		 * @remark			The meta box class may be instantiated multiple times so use a global flag.
-		 * @since			3.0.0
-		 */
-		private function _printCommonScripts() {
-			
-			$sBaseClassName = get_class();
-			if ( isset( $GLOBALS[ "{$sBaseClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sBaseClassName}_ScriptLoaded" ] ) return;
-			$GLOBALS[ "{$sBaseClassName}_ScriptLoaded" ] = true;
-			
-			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getParentObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_MetaBox::$_sDefaultScript );
-			if ( $sScript )
-				echo "<script type='text/javascript' id='admin-page-framework-style-meta-box-common'>{$sScript}</script>";
-		
-		}	
-	
 	
 	/**
 	 * Enqueues styles by page slug and tab slug.
