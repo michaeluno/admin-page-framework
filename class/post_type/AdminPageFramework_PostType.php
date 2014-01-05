@@ -576,6 +576,9 @@ abstract class AdminPageFramework_PostType {
 	*/
 	public function __call( $sMethodName, $aArgs=null ) {	
 		if ( substr( $sMethodName, 0, strlen( $this->oProp->sPrefix_Cell ) ) == $this->oProp->sPrefix_Cell ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( "style_ie_common_" ) )== "style_ie_common_" ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( "style_common_" ) )== "style_common_" ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( "style_ie_" ) )== "style_ie_" ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "style_" ) )== "style_" ) return $aArgs[0];
 	}
 	
