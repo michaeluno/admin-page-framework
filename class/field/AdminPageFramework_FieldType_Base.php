@@ -56,15 +56,16 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	
 	protected $oMsg;
 	
-	function __construct( $sClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
+	function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
 			
 		$this->aFieldTypeSlugs = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
-		$this->sClassName = $sClassName;
 		$this->oMsg	= $oMsg ? $oMsg : AdminPageFramework_Message::instantiate();
 		
 		// This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
-		if ( $bAutoRegister )
-			add_filter( "field_types_{$sClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+		if ( $bAutoRegister ) {
+			foreach( ( array ) $asClassName as $sClassName  )
+				add_filter( "field_types_{$sClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+		}
 	
 	}	
 	
