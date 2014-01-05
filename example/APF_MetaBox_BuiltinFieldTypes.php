@@ -19,7 +19,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 		 */
 		$this->addSettingFields(
 			array(
-				'field_id'		=> 'sample_metabox_text_field',
+				'field_id'		=> 'metabox_text_field',
 				'type'			=> 'text',
 				'title'			=> __( 'Text Input', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
@@ -27,7 +27,13 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'help_aside'	=> 'This is additional help text which goes to the side bar of the help pane.',
 			),
 			array(
-				'field_id'		=> 'sample_metabox_textarea_field',
+				'field_id'		=> 'metabox_text_field_repeatable',
+				'type'			=> 'text',
+				'title'			=> __( 'Text Repeatable', 'admin-page-framework-demo' ),
+				'is_repeatable'	=>	true
+			),			
+			array(
+				'field_id'		=> 'metabox_textarea_field',
 				'type'			=> 'textarea',
 				'title'			=> __( 'Text Area', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
@@ -38,7 +44,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				),
 			),
 			array(	// Rich Text Editor
-				'field_id' 		=> 'sample_rich_textarea',
+				'field_id' 		=> 'rich_textarea',
 				'type' 			=> 'textarea',
 				'title' 		=> __( 'Rich Text Editor', 'admin-page-framework-demo' ),
 				'rich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
