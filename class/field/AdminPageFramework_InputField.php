@@ -262,7 +262,7 @@ return $vValue;
 
 			/* Get the set value(s) */
 			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
-		
+			
 			/* Separate the first field and sub-fields */
 			$aFirstField = array();
 			$aSubFields = array();
@@ -300,7 +300,8 @@ return $vValue;
 
 			/* Determine the value */
 			unset( $aThisField );	// PHP requires this for a previously used variable as reference.
-			foreach( $aFields as &$aThisField ) 
+			foreach( $aFields as &$aThisField ) {
+				$aThisField['_is_value_set_by_user'] = isset( $aThisField['value'] );
 				$aThisField['value'] = isset( $aThisField['value'] ) 
 					? $aThisField['value'] 
 					: ( isset( $aThisField['_saved_value'] ) 
@@ -309,7 +310,8 @@ return $vValue;
 							? $aThisField['default']
 							: null
 						)
-					);
+					);					
+			}
 
 			return $aFields;
 			

@@ -460,9 +460,9 @@ abstract class AdminPageFramework_MetaBox {
 			// Avoid undefined index warnings
 			$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 			
-			// get value of this field if it exists for this post
-			$sStoredValue = get_post_meta( $oPost->ID, $aField['field_id'], true );
-			$aField['value'] = $sStoredValue ? $sStoredValue : $aField['value'];
+// get value of this field if it exists for this post
+// $sStoredValue = get_post_meta( $oPost->ID, $aField['field_id'], true );
+// $aField['value'] = $sStoredValue ? $sStoredValue : $aField['value'];
 			
 			// Check capability. If the access level is not sufficient, skip.
 			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
@@ -470,13 +470,13 @@ abstract class AdminPageFramework_MetaBox {
 			
 			// Begin a table row. 
 			
-			// If it's a hidden input type, do now draw a table row
-			if ( $aField['type'] == 'hidden' ) {
-				$sOut .= "<tr><td style='height: 0; padding: 0; margin: 0; line-height: 0;'>"
-					. $this->getFieldOutput( $aField )
-					. "</td></tr>";
-				continue;
-			}
+// If it's a hidden input type, do now draw a table row
+// if ( $aField['type'] == 'hidden' ) {
+	// $sOut .= "<tr><td style='height: 0; padding: 0; margin: 0; line-height: 0;'>"
+		// . $this->getFieldOutput( $aField )
+		// . "</td></tr>";
+	// continue;
+// }
 			$sOut .= "<tr>";
 			if ( ! $aField['show_in_page_tabTitleColumn'] )
 				$sOut .= "<th><label for='{$aField['field_id']}'>"
