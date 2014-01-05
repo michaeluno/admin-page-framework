@@ -9,6 +9,38 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
 class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
 	
 	/**
+	 * Stores the post type slug of the post id assigned to the currently loaded page with the %_GET['post'] element.
+	 * @internal
+	 */
+	private $_sPostTypeSlugOfCurrentPost = null;
+	
+	/**
+	 * Checks wither the currently loading page is appropriate for the meta box to be displayed.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	private function _isMetaBoxPage() {
+			
+		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return false;
+		
+		if ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
+			return true;
+				
+		$this->_sPostTypeSlugOfCurrentPost = isset( $this->_sPostTypeSlugOfCurrentPost ) 
+			? $this->_sPostTypeSlugOfCurrentPost 
+			: ( isset( $_GET['post'], $_GET['action'] )
+				? get_post_type( $_GET['post'] )
+				: ''
+			);
+		
+		if ( in_array( $this->_sPostTypeSlugOfCurrentPost, $this->oProp->aPostTypes ) )
+			return true;	// edit post page
+				
+		return false;
+		
+	}
+	
+	/**
 	 * Appends the CSS rules of the framework in the head tag. 
 	 * @since			2.0.0
 	 * @since			2.1.5			Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to replyToAddStyle().
@@ -17,16 +49,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 */ 	
 	public function _replyToAddStyle() {
 	
-		// If it's not post (post edit) page nor the post type page,
-		if ( 
-			! (
-				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
-				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) )		// edit post page
-				) 
-			)
-		) return;	
+		if ( ! $this->_isMetaBoxPage() ) return;	// if it's not post (post edit) page nor the post type page,
 	
 		$this->_printCommonStyles();
 		$this->_printClassSpecificStyles();
@@ -81,16 +104,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 */ 
 	public function _replyToAddScript() {
 
-		// If it's not post (post edit) page nor the post type page, do not add scripts for media uploader.
-		if ( 
-			! (
-				in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) 
-				&& ( 
-					( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
-					|| ( isset( $_GET['post'], $_GET['action'] ) && in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) )		// edit post page
-				) 
-			)
-		) return;	
+		if ( ! $this->_isMetaBoxPage() ) return;	// if it's not post (post edit) page nor the post type page,
 	
 		$this->_printCommonScripts();
 		$this->_printClassSpecificScripts();
