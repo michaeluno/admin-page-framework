@@ -133,17 +133,18 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 				jQuery().registerAPFCallback( {				
 					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
 			
-						/* If it is not this field type, do nothing. */
-						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
-
-						/* If the input tag is not found, do nothing  */
-						var nodeNewFontInput = node.find( '.font-field input' );
-						if ( nodeNewFontInput.length <= 0 ) return;
+						/* 1. Return if not for this field type */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	// if it is not this field type
+						if ( node.find( '.font-field input' ).length <= 0 ) return;	// if the input tag is not found, do nothing
 				
-						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
-						var aParsedIds = [];
+						/* 2. Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
 						node.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function() {
-
+							
+							/* 2-1. Check if the parsing node holds necessary elements. */
+							var nodeFontInput = jQuery( this ).find( '.font-field input' );
+							if ( nodeFontInput.length <= 0 ) return true;
+														
+							/* 2-2. Deal with three elements: the Select Font button, the preview box, the preview font size change slider. */
 							nodeButton = jQuery( this ).find( '.select_font' );							
 							nodeButton.incrementIDAttribute( 'id' );
 							jQuery( this ).find( '.font_preview' ).incrementIDAttribute( 'id' );
@@ -151,32 +152,25 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 							jQuery( this ).find( '.fontSliderHolder' ).incrementIDAttribute( 'id' );
 							jQuery( this ).find( '.noUiSlider' ).incrementIDAttribute( 'id' );
 							
-							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-							 * otherwise, the script sets the preview image in the wrong place. */						
-							var nodeFontInput = jQuery( this ).find( '.font-field input' );
-							if ( nodeFontInput.length <= 0 ) return true;
+							/* 2-3. Rebind functions to each element and update the associated properties. */
 							
-							var sInputID = nodeFontInput.attr( 'id' );
-							if ( jQuery.inArray( sInputID, aParsedIds ) !== -1 )	return true;
-							aParsedIds.push( sInputID );							
+							/* 2-3-1. Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script sets the preview image in the wrong place. */
+							var sInputID = nodeFontInput.attr( 'id' );								 
+							setAPFFontUploader( sInputID, true, nodeButton.attr( 'data-enable_external_source' ) );	
 							
-							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-							setAPFFontUploader( sInputID, true, fExternalSource );	
-							
+							/* 2-3-2. Update the font-family style of the preview box. */
 							jQuery( '#font_preview_' + sInputID ).css( 'font-family', sInputID );
 			
-							// Run noUiSlider input:not(:checked) 
-							var sSliderID = 'slider_' + sInputID;
-							var sPreviewID = 'font_preview_' + sInputID;
-							
-							jQuery( this ).find( '.fontSliderHolder' ).replaceWith( createFontSizeChangeSlider( sInputID ) );
-							jQuery( '#' + sSliderID ).noUiSlider({
+							/* 2-3-3. Rebind the noUiSlider script to the font-size changer slider. */
+							jQuery( this ).find( '#slider_container_' + sInputID ).replaceWith( createFontSizeChangeSlider( sInputID ) );
+							jQuery( this ).find( '#slider_' + sInputID ).noUiSlider({
 								range: [ 100, 300 ],
 								start: 150,
 								step: 1,
 								handles: 1,
 								slide: function() {
-									jQuery( '#' + sPreviewID ).css( 'font-size', jQuery( this ).val() + '%' );
+									jQuery( '#font_preview_' + sInputID ).css( 'font-size', jQuery( this ).val() + '%' );
 								}				
 							});
 						});		
@@ -184,50 +178,46 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 					},
 					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
 						
-						/* If it is not the color field type, do nothing. */
-						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
-											
-						/* If the uploader buttons are not found, do nothing */
-						if ( node.find( '.select_font' ).length <= 0 )  return;						
+						/* 1. Return if not for this field type */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	// if it is not this field type
+						if ( node.find( '.select_font' ).length <= 0 )  return;		// if the input tag is not found, do nothing				
 
-						/* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-						var aParsedIds = [];
+						/* 2. Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
 						node.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function() {		
 							
+							/* 2-1. Check if the parsing node holds necessary elements. */
+							var nodeFontInput = jQuery( this ).find( '.font-field input' );
+							if ( nodeFontInput.length <= 0 ) return true;
+														
+							/* 2-2. Deal with three elements: the Select Font button, the preview box, the preview font size change slider. */
 							nodeButton = jQuery( this ).find( '.select_font' );							
 							nodeButton.decrementIDAttribute( 'id' );
 							jQuery( this ).find( '.font_preview' ).decrementIDAttribute( 'id' );
 							jQuery( this ).find( '.font-preview-text' ).decrementIDAttribute( 'id' );
 							// jQuery( this ).find( '.fontSliderHolder' ).decrementIDAttribute( 'id' );
-							// jQuery( this ).find( '.noUiSlider' ).decrementIDAttribute( 'id' );								
+							// jQuery( this ).find( '.noUiSlider' ).decrementIDAttribute( 'id' );							
 							
-							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-							 * otherwise, the script sets the preview image in the wrong place. */						
-							var nodeFontInput = jQuery( this ).find( '.font-field input' );
-							if ( nodeFontInput.length <= 0 ) return true;
+							/* 2-3. Rebind functions to each element and update the associated properties. */
+						
+							/* 2-3-1. Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+							 * otherwise, the script sets the preview image in the wrong place. */
+							var sInputID = nodeFontInput.attr( 'id' );
+							setAPFFontUploader( sInputID, true, nodeButton.attr( 'data-enable_external_source' ) );	
 							
-							var sInputID = nodeFontInput.attr( 'id' );							
-							if ( jQuery.inArray( sInputID, aParsedIds ) !== -1 )	return true;
-							aParsedIds.push( sInputID );
+							/* 2-3-2. Update the font-family style of the preview box. */
+							jQuery( '#font_preview_' + sInputID ).css( 'font-family', sInputID );							
 							
-							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-							setAPFFontUploader( nodeFontInput.attr( 'id' ), true, fExternalSource );	
-							
-							jQuery( '#font_preview_' + sInputID ).css( 'font-family', sInputID );
-							
-							// Run noUiSlider
-							var sSliderID = 'slider_' + sInputID;
-							var sPreviewID = 'font_preview_' + sInputID;
-							jQuery( this ).find( '.fontSliderHolder' ).replaceWith( createFontSizeChangeSlider( sInputID ) );
-							jQuery( '#' + sSliderID ).noUiSlider({
+							/* 2-3-3. Rebind the noUiSlider script to the font-size changer slider. */
+							jQuery( this ).find( '#slider_container_' + sInputID ).replaceWith( createFontSizeChangeSlider( sInputID ) );
+							jQuery( this ).find( '#slider_' + sInputID ).noUiSlider({
 								range: [ 100, 300 ],
 								start: 150,
 								step: 1,
 								handles: 1,
 								slide: function() {
-									jQuery( '#' + sPreviewID ).css( 'font-size', jQuery( this ).val() + '%' );
+									jQuery( '#font_preview_' + sInputID ).css( 'font-size', jQuery( this ).val() + '%' );
 								}				
-							});							
+							});		
 							
 						});
 						
