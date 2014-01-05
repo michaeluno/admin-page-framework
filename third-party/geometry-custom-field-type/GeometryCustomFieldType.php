@@ -128,8 +128,8 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 			$aLocationNameAttributes = array(
 				'type'	=>	'text',
 				'id'	=>	"{$aField['input_id']}_name",
-				'value'	=>	isset( $aField['attributes']['value']['name'] ) ? $aField['attributes']['value']['name'] : '',
-				'name'	=>	"{$aField['field_name']}[name]",
+				'value'	=>	isset( $aField['attributes']['value']['localtion_name'] ) ? $aField['attributes']['value']['localtion_name'] : '',
+				'name'	=>	"{$aField['field_name']}[localtion_name]",
 			) + $aField['attributes']['location_name'] + $aBaseAttributes;			
 			$aLocationNameAttributes['class'] .= ' gllpLocationName';
 			
