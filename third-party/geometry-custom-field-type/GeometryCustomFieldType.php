@@ -65,7 +65,9 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the field type specific CSS rules.
 	 */ 
 	protected function getStyles() {
-		return "";
+		return "/* Geometry Custom Field Type */
+			.admin-page-framework-field .gllpMap {width: 100%}
+		";
 	}
 	
 	/**

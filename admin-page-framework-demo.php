@@ -31,10 +31,19 @@ if ( is_admin() ) :
 	new APF_Demo;
 
 	/* Create a meta box with form fields */
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox.php' );	// Include the demo class that creates a meta box.
-	new APF_MetaBox(
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	// Include the demo class that creates a meta box.
+	new APF_MetaBox_BuiltinFieldTypes(
 		'sample_custom_meta_box',
-		'My Custom Meta Box',
+		__( 'Demo Meta Box with Built-in Field Types', 'admin-page-framework-demo' ),
+		array( 'apf_posts' ),	// post, page, etc.
+		'normal',
+		'default'
+	);
+
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );	// Include the demo class that creates a meta box.
+	new APF_MetaBox_CustomFieldTypes(
+		'sample_custom_meta_box_with_custom_field_types',
+		__( 'Demo Meta Box with Custom Field Types', 'admin-page-framework-demo' ),
 		array( 'apf_posts' ),	// post, page, etc.
 		'normal',
 		'default'

@@ -18,11 +18,12 @@ class APF_Demo extends AdminPageFramework {
 			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
 					
 		/* 2. Instantiate the classes  */
-		new DateCustomFieldType( 'APF_Demo' );
-		new TimeCustomFieldType( 'APF_Demo' );
-		new DateTimeCustomFieldType( 'APF_Demo' );
-		new DialCustomFieldType( 'APF_Demo' );
-		new FontCustomFieldType( 'APF_Demo' );
+		$sClassName = get_class( $this );
+		new DateCustomFieldType( $sClassName );
+		new TimeCustomFieldType( $sClassName );
+		new DateTimeCustomFieldType( $sClassName );
+		new DialCustomFieldType( $sClassName );
+		new FontCustomFieldType( $sClassName );
 
 	}
 
@@ -1552,7 +1553,7 @@ class APF_Demo extends AdminPageFramework {
 	public function do_apf_manage_options_properties() {	// do_{page slug}_{tab slug}
 		?>
 		<h3><?php _e( 'Framework Properties', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can view and modify the property values stored in the framework.', 'admin-page-framework-demo' ); ?></p>
+		<p><?php _e( 'You can view the property values stored in the framework. Advanced users may change the property values by directly modifying the <code>$this->oProp</code> object.', 'admin-page-framework-demo' ); ?></p>
 		<pre><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProp ) );</code></pre>		
 		<?php
 			$this->oDebug->dumpArray( get_object_vars( $this->oProp ) );
