@@ -21,7 +21,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 			
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
-		unset( $aFieldTypeDefinition['aDefaultKeys']['attributes'] );	// the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
+		$aFieldTypeDefinition['aDefaultKeys']['attributes'] = array();	// the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
 		$this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->aOptions = $aOptions;
