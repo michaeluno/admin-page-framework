@@ -34,10 +34,10 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 				
 		// Print out the filtered styles.
 		$oCaller = $this->oProp->_getParentObject();
-		if ( $sStyle )
-			echo "<style type='text/css' id='admin-page-framework-style-post-type'>{$sStyle}</style>";		
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_PostType::$_sDefaultStyle )
 			. $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
+		if ( $sStyle )
+			echo "<style type='text/css' id='admin-page-framework-style-post-type'>{$sStyle}</style>";
 		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", AdminPageFramework_Property_PostType::$_sDefaultStyleIE )
 			. $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
 		if ( $sStyleIE )
