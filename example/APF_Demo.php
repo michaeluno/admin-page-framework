@@ -518,10 +518,41 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
-				'size'	=>	60,
 				'default'	=>	'a',
 				'is_repeatable'	=>	true,
 				'description'	=>	__( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>is_repeatable</code> key to true.', 'admin-page-framework-demo' ),
+			),		
+			array(	// Sortable text fields
+				'field_id'	=>	'text_sortable',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Sortable Text Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	'a',
+				'label'	=>	__( 'Sortable Item', 'admin-page-framework-demo' ),
+				'is_sortable'	=>	true,
+				'description'	=>	__( 'Drag and drop the fields to change the order.', 'admin-page-framework-demo' ),
+				array(
+					'default'	=>	'b',
+				),
+				array(
+					'default'	=>	'c',
+				),				
+				array(
+					'label'	=>	__( 'Disabled Item', 'admin-page-framework-demo' ),
+					'default'	=>	'd',
+					'attributes'	=>	array(
+						'disabled'	=> 'Disabled',
+					),
+				),								
+				'delimiter'	=> '<br />',
+			),	
+			array(	// Sortable + Repeatable text fields
+				'field_id'	=>	'text_repeatable_and_sortable',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Repeatable & Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'is_repeatable'	=>	true,
+				'is_sortable'	=>	true,
 			),				
 			array(	// Text Area
 				'field_id'	=>	'textarea',
@@ -547,6 +578,16 @@ class APF_Demo extends AdminPageFramework {
 				),
 				'description'	=>	__( 'Currently the repeatable field functionality is not supported for the rich text editor.', 'admin-page-framework-demo' ),
 			),			
+			array(	// Sortable Text Areas
+				'field_id'	=>	'textarea_sortable',
+				'section_id'	=>	'text_fields',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'textarea',
+				'is_sortable'	=>	true,
+				'label'	=>	__( 'Sortable Item', 'admin-page-framework-demo' ),
+				array(),	// the second item
+				array(),	// the third item
+			),				
 			array(	// Rich Text Editors
 				'field_id'	=>	'rich_textarea',
 				'section_id'	=>	'text_fields',
@@ -703,8 +744,28 @@ class APF_Demo extends AdminPageFramework {
 					'y'	=>	'Y',		
 					'z'	=>	'Z',		
 				),
-
-			),				
+			),		
+			array(	// Sortable Drop-down List
+				'field_id'	=>	'select_sortable',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'is_sortable'	=>	true,
+				'default'	=>	'iii',
+				'before_label'	=> 
+					"<span style='vertical-align:baseline; min-width: 140px; display:inline-block; margin-top: 0.5em; padding-bottom: 0.2em;'>" 
+						. __( 'Sortable Item', 'admin-page-framework-demo' ) 
+					. "</span>",
+				'label'	=>	array( 
+					'i'	=>	'I',
+					'ii'	=>	'II',	
+					'iii'	=>	'III',		
+					'iiv'	=>	'IIV',		
+				),
+				array(),	// the second item	
+				array(),	// the third item
+				array(),	// the forth item
+			),					
 			array(	// Single set of radio buttons
 				'field_id'	=>	'radio',
 				'section_id'	=>	'selectors',
@@ -746,8 +807,20 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable Radio Buttons', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'label'	=>	array( 1 =>	'On', 0 =>	'Off' ),
-				'default'	=>	1,	// set the key
+				'default'	=>	1,	// set the key of the label array
 				'is_repeatable'	=>	true,
+			),	
+			array(	// Sortable radio buttons
+				'field_id'	=>	'radio_sortable',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'label'	=>	array( 1 =>	'On', 0 =>	'Off' ),
+				'default'	=>	1,	// set the key of the label array
+				'is_sortable'	=>	true,
+				array(),	// the second item
+				array(),	// the third item
+				array(),	// the fourth item
 			),			
 			array(	// Single checkbox item - set a check box item to the 'label' element.
 				'field_id'	=>	'checkbox',
@@ -802,7 +875,7 @@ class APF_Demo extends AdminPageFramework {
 				),				
 				'description'	=>	__( 'To create multiple fields for one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
 			),
-			array(
+			array(	// Repeatable check boxes
 				'field_id'	=>	'checkbox_repeatable_fields',
 				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Repeatable Checkboxes', 'admin-page-framework-demo' ),
@@ -810,6 +883,17 @@ class APF_Demo extends AdminPageFramework {
 				'label'	=>	array( 'x', 'y', 'z' ),
 				'is_repeatable'	=>	true,
 			),
+			array(	// sortable check boxes
+				'field_id'	=>	'checkbox_sortable_fields',
+				'section_id'	=>	'selectors',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'checkbox',
+				'label'	=>	array( 'x', 'y', 'z' ),
+				'is_sortable'	=>	true,
+				array(),
+				array(),
+				array(),
+			),			
 			array(	// Size
 				'field_id'		=>	'size_field',
 				'section_id'	=>	'sizes',
@@ -919,7 +1003,17 @@ class APF_Demo extends AdminPageFramework {
 				'title'			=>	__( 'Repeatable Size Fields', 'admin-page-framework-demo' ),
 				'type'			=>	'size',
 				'is_repeatable'	=>	true,
-			)
+			),
+			array(	// Sortable Size Fields
+				'field_id'		=>	'size_sortable_fields',
+				'section_id'	=>	'sizes',
+				'title'			=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'			=>	'size',
+				'is_sortable'	=>	true,
+				array(),
+				array(),
+				array(),
+			)			
 		);
 		
 		/*
