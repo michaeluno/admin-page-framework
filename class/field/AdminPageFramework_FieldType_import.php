@@ -53,7 +53,10 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	 * Returns the field type specific CSS rules.
 	 */ 
 	public function _replyToGetStyles() {
-		return "";		
+		return "/* Import Field */
+		.admin-page-framework-field-import input {
+			margin-right: 0.5em;
+		}" . PHP_EOL;
 	}
 	
 	/**
