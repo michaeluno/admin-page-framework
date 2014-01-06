@@ -217,11 +217,9 @@ abstract class AdminPageFramework_Property_Base {
 			display: block;
 		}
 		.admin-page-framework-repeatable-field-buttons {
-			float: right;
-			
-			/* margin-bottom: 0.5em; */
+			float: right;		
+			margin-bottom: 0.5em;
 			margin-top: 0.2em;
-			clear: both;
 
 		}
 		.admin-page-framework-repeatable-field-buttons .repeatable-field-button {
@@ -234,7 +232,7 @@ abstract class AdminPageFramework_Property_Base {
 		/* Sortable Fields */
 		.sortable .admin-page-framework-field {
 			clear: both;
-			display: block;
+			display: inline-block;
 			padding: 1em 1em 0.72em;
 			margin-top: 1px;
 			border-top-width: 1px;

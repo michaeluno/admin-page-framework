@@ -33,6 +33,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			? $GLOBALS['aAdminPageFramework']['aFieldFlags']
 			: array();
 		
+		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] ) ) {
+			
+			add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
+			$GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] = true;
+			
+		}		
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] ) ) {
 			
 			add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
@@ -40,6 +46,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			$GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] = true;
 			
 		}
+
+		
 	}	
 	
 	/**
@@ -209,23 +217,31 @@ return $vValue;
 					'name' => $aField['field_name'],
 					'value' => $aField['value'],
 					'type' => $aField['type'],	// text, password, etc.
+					'disabled'	=> null,
 				),
 				( array ) $aFieldTypeDefinition['aDefaultKeys']['attributes']
 			);
 
-			/* 4-3. Callback the registered function to output the field */        			
-			$sRepeatable = $this->aField['is_repeatable'] ? 'repeatable' : '';
+			/* 4-3. Callback the registered function to output the field */
+			$_aFieldAttributes = array(
+				'id'	=>	"field-{$aField['input_id']}",
+				'class'	=>	"admin-page-framework-field admin-page-framework-field-{$aField['type']}" 
+					. ( $aField['attributes']['disabled'] ? ' disabled' : '' ),
+				'data-type'	=>	"{$aField['type']}",
+			);
 			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
 				? 	$aField['before_field']
-					. "<div class='admin-page-framework-field admin-page-framework-field-{$aField['type']} {$sRepeatable}' id='field-{$aField['input_id']}' data-type='{$aField['type']}'>"
-					. call_user_func_array(
-						$aFieldTypeDefinition['hfRenderField'],
-						array( $aField )
-					)
-					. ( ( $sDelimiter = $aField['delimiter'] ) && ! $this->isLastElement( $aFields, $sKey )
-						? "<div class='delimiter' id='delimiter-{$aField['input_id']}'>" . $sDelimiter . "</div>"
-						: ""
-					)
+					. "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">"
+						. call_user_func_array(
+							$aFieldTypeDefinition['hfRenderField'],
+							array( $aField )
+						)
+						. ( ( $sDelimiter = $aField['delimiter'] )
+						// . ( ( $sDelimiter = $aField['delimiter'] ) && ! $this->isLastElement( $aFields, $sKey )
+							? "<div class='delimiter' id='delimiter-{$aField['input_id']}'>" . $sDelimiter . "</div>"
+							: ""
+						)
+						
 					. "</div>"
 					. $aField['after_field']
 				: "";
@@ -239,12 +255,23 @@ return $vValue;
 			
 		/* 6. Add the repeater script */
 		$aOutput[] = $this->aField['is_repeatable']
-			? $this->_getRepeaterScript( $this->aField['tag_id'], count( $aFields ) )
+			? $this->_getRepeaterFieldEnablerScript( $this->aField['tag_id'], count( $aFields ) )
 			: '';
 
-		return $this->_getRepeaterScriptGlobal( $this->aField['tag_id'] )
+		/* 7. Add the sortable script */
+		$aOutput[] = $this->aField['is_sortable'] && ( count( $aFields ) > 1 || $this->aField['is_repeatable'] )
+			? $this->_getSortableFieldEnablerScript( $this->aField['tag_id'] )
+			: '';			
+			
+		$_aFieldsContainerAttributes = array(
+			'id'	=> $this->aField['tag_id'],
+			'class'	=> 'admin-page-framework-fields'
+				. ( $this->aField['is_repeatable'] ? ' repeatable' : '' )
+				. ( $this->aField['is_sortable'] ? ' sortable' : '' ),
+		);
+		return $this->_getRepeaterScriptGlobal()
 			. "<fieldset>"
-				. "<div class='admin-page-framework-fields' id='{$this->aField['tag_id']}'>"
+				. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
 					. $this->aField['before_fields'] 
 					. implode( PHP_EOL, $aOutput )
 					. $this->aField['after_fields']
@@ -345,7 +372,7 @@ return $vValue;
 	 * 
 	 * @since			2.1.3
 	 */
-	private function _getRepeaterScript( $sTagID, $iFieldCount ) {
+	private function _getRepeaterFieldEnablerScript( $sTagID, $iFieldCount ) {
 
 		$sAdd = $this->oMsg->__( 'add' );
 		$sRemove = $this->oMsg->__( 'remove' );
@@ -370,50 +397,15 @@ return $vValue;
 	 * Returns the script that will be referred multiple times.
 	 * since			2.1.3
 	 */
-	private function _getRepeaterScriptGlobal( $sID ) {
+	// public function _replyToAddRepeatableFieldScript() {
+	private function _getRepeaterScriptGlobal() {
 
 		if ( isset( $GLOBALS['aAdminPageFramework']['bIsRepeatableScriptCalled'] ) && $GLOBALS['aAdminPageFramework']['bIsRepeatableScriptCalled'] ) return '';
 		$GLOBALS['aAdminPageFramework']['bIsRepeatableScriptCalled'] = true;
-		return 
-		"<script type='text/javascript'>
+		return
+		"<script type='text/javascript' class='admin-page-framework-repeatable-field-script'>
 			jQuery( document ).ready( function() {
-								
-				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
-				addAPFRepeatableField = function( sFieldContainerID ) {	
-
-					var nodeFieldContainer = jQuery( '#' + sFieldContainerID );
-					var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
-					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
-
-					nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value		
-
-					/* Rebind the click event to the buttons */
-					updateAPFRepeatableFields( nodeNewField );
-					
-					/* Add the cloned new field element */
-					nodeNewField.insertAfter( nodeFieldContainer );	
-
-					/* Increment the names and ids of the next following siblings. */
-					nodeFieldContainer.nextAll().each( function() {
-						jQuery( this ).incrementIDAttribute( 'id' );
-						jQuery( this ).find( 'label' ).incrementIDAttribute( 'for' );
-						jQuery( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
-						jQuery( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
-					});
-				
-					/* Call the registered callback functions */
-					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
-					
-					/* If more than one fields are created, show the Remove button */
-					var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
-					if ( nodeRemoveButtons.length > 1 ) 
-						nodeRemoveButtons.show();				
-										
-					/* Return the newly created element */
-					return nodeNewField;
-					
-				}
-				
+												
 				/* This function gets triggered when the document becomes ready. 
 					The tag id of the fields container is given for multiple fields to deal with at once.
 					Otherwise, a node object is given to deal with a singe field.
@@ -470,6 +462,42 @@ return $vValue;
 					});
 									
 				}
+		
+				// This function is called from the updateAPFRepeatableFields() and from the media uploader for multiple file selections.
+				addAPFRepeatableField = function( sFieldContainerID ) {	
+
+					var nodeFieldContainer = jQuery( '#' + sFieldContainerID );
+					var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
+					var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
+
+					nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value		
+
+					/* Rebind the click event to the buttons */
+					updateAPFRepeatableFields( nodeNewField );
+					
+					/* Add the cloned new field element */
+					nodeNewField.insertAfter( nodeFieldContainer );	
+
+					/* Increment the names and ids of the next following siblings. */
+					nodeFieldContainer.nextAll().each( function() {
+						jQuery( this ).incrementIDAttribute( 'id' );
+						jQuery( this ).find( 'label' ).incrementIDAttribute( 'for' );
+						jQuery( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
+						jQuery( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
+					});
+				
+					/* Call the registered callback functions */
+					nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
+					
+					/* If more than one fields are created, show the Remove button */
+					var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
+					if ( nodeRemoveButtons.length > 1 ) 
+						nodeRemoveButtons.show();				
+										
+					/* Return the newly created element */
+					return nodeNewField;
+					
+				}
 			});
 		</script>";
 	}
@@ -514,6 +542,8 @@ return $vValue;
 					return updateName( index, val, 0 );
 				}); 
 			};		
+			
+			/* Local Function Literals */
 			var updateID = function( index, sID, bIncrement ) {
 				if ( typeof sID === 'undefined' ) return sID;
 				return sID.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
@@ -600,5 +630,159 @@ return $vValue;
 		echo "<script type='text/javascript' class='admin-page-framework-register-callback'>{$sScript}</script>";
 
 	}
+	
+	/**
+	 * Returns the sortable JavaScript script to be loaded in the head tag of the created admin pages.
+	 * @since			3.0.0
+	 * @access			public	
+	 * @internal
+	 * @see				https://github.com/farhadi/
+	 */
+	public function _replyToAddSortableFieldPlugin() {
+		
+		wp_enqueue_script( 'jquery-ui-sortable' );
+		
+		/**
+		 * HTML5 Sortable jQuery Plugin
+		 * http://farhadi.ir/projects/html5sortable
+		 * 
+		 * Copyright 2012, Ali Farhadi
+		 * Released under the MIT license.
+		 */
+		echo "<script type='text/javascript' class='admin-page-framework-sortable-field-plugin'>
+			(function($) {
+			var dragging, placeholders = $();
+			$.fn.sortable = function(options) {
+				var method = String(options);
+				options = $.extend({
+					connectWith: false
+				}, options);
+				return this.each(function() {
+					if (/^enable|disable|destroy$/.test(method)) {
+						var items = $(this).children($(this).data('items')).attr('draggable', method == 'enable');
+						if (method == 'destroy') {
+							items.add(this).removeData('connectWith items')
+								.off('dragstart.h5s dragend.h5s selectstart.h5s dragover.h5s dragenter.h5s drop.h5s');
+						}
+						return;
+					}
+					var isHandle, index, items = $(this).children(options.items);
+					var placeholder = $('<' + (/^ul|ol$/i.test(this.tagName) ? 'li' : 'div') + ' class=\"sortable-placeholder\">');
+					items.find(options.handle).mousedown(function() {
+						isHandle = true;
+					}).mouseup(function() {
+						isHandle = false;
+					});
+					$(this).data('items', options.items)
+					placeholders = placeholders.add(placeholder);
+					if (options.connectWith) {
+						$(options.connectWith).add(this).data('connectWith', options.connectWith);
+					}
+					items.attr('draggable', 'true').on('dragstart.h5s', function(e) {
+						if (options.handle && !isHandle) {
+							return false;
+						}
+						isHandle = false;
+						var dt = e.originalEvent.dataTransfer;
+						dt.effectAllowed = 'move';
+						dt.setData('Text', 'dummy');
+						index = (dragging = $(this)).addClass('sortable-dragging').index();
+					}).on('dragend.h5s', function() {
+						dragging.removeClass('sortable-dragging').show();
+						placeholders.detach();
+						if (index != dragging.index()) {
+							items.parent().trigger('sortupdate', {item: dragging});
+						}
+						dragging = null;
+					}).not('a[href], img').on('selectstart.h5s', function() {
+						this.dragDrop && this.dragDrop();
+						return false;
+					}).end().add([this, placeholder]).on('dragover.h5s dragenter.h5s drop.h5s', function(e) {
+						if (!items.is(dragging) && options.connectWith !== $(dragging).parent().data('connectWith')) {
+							return true;
+						}
+						if (e.type == 'drop') {
+							e.stopPropagation();
+							placeholders.filter(':visible').after(dragging);
+							return false;
+						}
+						e.preventDefault();
+						e.originalEvent.dataTransfer.dropEffect = 'move';
+						if (items.is(this)) {
+							if (options.forcePlaceholderSize) {
+								placeholder.height(dragging.outerHeight());
+							}
+							dragging.hide();
+							$(this)[placeholder.index() < $(this).index() ? 'after' : 'before'](placeholder);
+							placeholders.not(placeholder).detach();
+						} else if (!placeholders.is(this) && !$(this).children(options.items).length) {
+							placeholders.detach();
+							$(this).append(placeholder);
+						}
+						return false;
+					});
+				});
+			};
+			})(jQuery);
+		</script>";
+			
+	}
+	
+	private function _getSortableFieldEnablerScript( $strFieldsContainerID ) {
+		
+		return 
+			"<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>
+				jQuery( document ).ready( function() {
+
+					jQuery( '#{$strFieldsContainerID}.sortable' ).sortable(
+						{	items: '> div:not( .disabled )', }
+					).bind( 'sortupdate', function() {
+			
+						/* Rename the ids and names */
+						var iCount = 0;
+						jQuery( this ).children( 'div' ).each( function() {
+
+							jQuery( this ).attr( 'id', function( index, name ) { return setID( iCount, name ) } );
+							jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iCount, name ) } );
+							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iCount, name ) } );
+							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iCount, name ) } );				
+
+							/* Radio buttons loose their selections so reassign them */
+							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
+								var sAttr = jQuery( this ).prop( 'checked' );
+								if ( typeof sAttr !== 'undefined' && sAttr !== false) 
+									jQuery( this ).attr( 'checked', 'Checked' );
+							});
+								
+							iCount++;
+						});
+						
+						/* It seems radio buttons need to be taken cared of again */
+						jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
+						
+					}); 
+					
+					/* Helper Local Function Literals */
+					var setID = function( index, name ) {
+						
+						if ( typeof name === 'undefined' ) return name;
+						return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {
+							return '_' + index;
+						});
+						
+					}
+					var setName = function( index, name ) {
+						
+						if ( typeof name === 'undefined' ) return name;
+						return name.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {
+							return '[' + index;
+						});
+						
+					}				
+					
+				});
+			</script>";
+	}
+	
 }
 endif;
