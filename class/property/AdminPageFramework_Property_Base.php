@@ -145,8 +145,13 @@ abstract class AdminPageFramework_Property_Base {
 		
 		/* Form Elements */
 		/* Disabled */
-		.admin-page-framework-fields .disabled {
-			color: #888;
+		.admin-page-framework-fields .disabled,
+		.admin-page-framework-fields .disabled input,
+		.admin-page-framework-fields .disabled textarea,
+		.admin-page-framework-fields .disabled select,
+		.admin-page-framework-fields .disabled option
+		{
+			color: #BBB;
 		}
 		/* HR */
 		.admin-page-framework-fields hr {
@@ -207,13 +212,17 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Repeatable Fields */		
-		.admin-page-framework-field.repeatable {
+		.repeatable .admin-page-framework-field {
 			clear: both;
 			display: block;
 		}
 		.admin-page-framework-repeatable-field-buttons {
 			float: right;
-			margin-bottom: 0.5em;
+			
+			/* margin-bottom: 0.5em; */
+			margin-top: 0.2em;
+			clear: both;
+
 		}
 		.admin-page-framework-repeatable-field-buttons .repeatable-field-button {
 			margin: 0 2px;
@@ -222,10 +231,35 @@ abstract class AdminPageFramework_Property_Base {
 			text-align: center;
 		}
 
-		/* Import Field */
-		.admin-page-framework-field-import input {
-			margin-right: 0.5em;
-		}
+		/* Sortable Fields */
+		.sortable .admin-page-framework-field {
+			clear: both;
+			display: block;
+			padding: 1em 1em 0.72em;
+			margin-top: 1px;
+			border-top-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;			
+			text-shadow: #fff 0 1px 0;
+			-webkit-box-shadow: 0 1px 0 #fff;
+			box-shadow: 0 1px 0 #fff;
+			-webkit-box-shadow: inset 0 1px 0 #fff;
+			box-shadow: inset 0 1px 0 #fff;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			background: #f1f1f1;
+			background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));
+			background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);
+			background-image:    -moz-linear-gradient(bottom, #ececec, #f9f9f9);
+			background-image:      -o-linear-gradient(bottom, #ececec, #f9f9f9);
+			background-image: linear-gradient(to top, #ececec, #f9f9f9);
+			border: 1px solid #CCC;
+			background: #F6F6F6;	
+		}		
+		
 		/* Page Load Stats */
 		#admin-page-framework-page-load-stats {
 			clear: both;
