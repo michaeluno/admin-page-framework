@@ -797,17 +797,18 @@ return $vValue;
 					jQuery( '#{$strFieldsContainerID}.sortable' ).sortable(
 						{	items: '> div:not( .disabled )', }
 					).bind( 'sortupdate', function() {
-			
 						/* Rename the ids and names */
 						var nodeFields = jQuery( this ).children( 'div' );
-						var iCount = 0;
+						var iCount = 1;
 						var iMaxCount = nodeFields.length;
-						jQuery( this ).children( 'div' ).reverse().each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
 
-							jQuery( this ).attr( 'id', function( index, name ) { return setID( iMaxCount - iCount, name ) } );
-							jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iMaxCount - iCount, name ) } );
-							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iMaxCount - iCount, name ) } );
-							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iMaxCount - iCount, name ) } );				
+						jQuery( jQuery( this ).children( 'div' ).reverse() ).each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
+
+							var iIndex = ( iMaxCount - iCount );
+							jQuery( this ).attr( 'id', function( index, name ) { return setID( iIndex, name ) } );
+							jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iIndex, name ) } );
+							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iIndex, name ) } );
+							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iIndex, name ) } );				
 
 							/* Radio buttons loose their selections, so reassign them */
 							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
