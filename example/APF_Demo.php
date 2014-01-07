@@ -1090,6 +1090,21 @@ class APF_Demo extends AdminPageFramework {
 				),	
 				'description'	=> __( 'In repeatable fields, you can select multiple items at once.', 'admin-page-framework-demo' ),
 			),
+			array(	// Sortable Image Fields
+				'field_id'	=>	'image_select_field_sortable',
+				'section_id'	=>	'image_select',
+				'title'	=>	__( 'Sortable Image Fields', 'admin-page-framework-demo' ),
+				'type'	=>	'image',
+				'is_sortable'	=>	true,
+				'attributes'	=> array(
+					'preview'	=> array(
+						'style'	=> 'max-width: 200px;'
+					),
+				),	
+				array(),	// the second item
+				array(),	// the third item
+				'description'	=> __( 'Image fields can be sortable. This may be useful when you need to let the user set an order of images.', 'admin-page-framework-demo' ),
+			),			
 			array( // Media File
 				'field_id'	=>	'media_field',
 				'section_id'	=>	'media_upload',
@@ -1104,13 +1119,22 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'media',
 				'attributes_to_store'	=>	array( 'id', 'caption', 'description' ),
 			),				
-			array( // Media Files
-				'field_id'	=>	'media_fields',
+			array( // Repeatable Media Files
+				'field_id'	=>	'media_repeatable_fields',
 				'section_id'	=>	'media_upload',
-				'title'	=>	__( 'Multiple Media Files', 'admin-page-framework-demo' ),
+				'title'	=>	__( 'Repeatable Media Files', 'admin-page-framework-demo' ),
 				'type'	=>	'media',
 				'is_repeatable'	=>	true,
 			),				
+			array( // Sortable Media Files
+				'field_id'	=>	'media_sortable_fields',
+				'section_id'	=>	'media_upload',
+				'title'	=>	__( 'Sortable Media Files', 'admin-page-framework-demo' ),
+				'type'	=>	'media',
+				'is_sortable'	=>	true,
+				array(),	// the second item
+				array(),	// the third item.
+			),			
 			array( // Single File Upload Field
 				'field_id'	=>	'file_single',
 				'section_id'	=>	'file_uploads',
@@ -1131,7 +1155,7 @@ class APF_Demo extends AdminPageFramework {
 				array(
 					'label'	=>	__( 'Third File', 'admin-page-framework-demo' ),
 				),				
-			),	
+			),			
 			array( // Single File Upload Field
 				'field_id'	=>	'file_repeatable',
 				'section_id'	=>	'file_uploads',
