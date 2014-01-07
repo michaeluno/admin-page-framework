@@ -1383,7 +1383,7 @@ class APF_Demo extends AdminPageFramework {
 						'style'	=>	'display: inline; clear:none;'	// since the rich editor does not accept the cols attribute, set the width by inline-style.
 					),
 				),				
-				'description'	=> __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the user input.', 'admin-page-framework-demo' ),
+				'description'	=> __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the visible elements.', 'admin-page-framework-demo' ),
 			),
 			array()
 		);	
