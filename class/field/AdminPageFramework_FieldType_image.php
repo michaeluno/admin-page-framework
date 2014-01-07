@@ -469,7 +469,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						array(
 							'id'	=>	"image_preview_container_{$aField['input_id']}",							
 							'class'	=>	'image_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ),
-							'style'	=> ( $sImageURL ? '' : "display; none; "  ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ),
+							'style'	=> ( $sImageURL ? '' : "display: none; "  ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ),
 						) + $aPreviewAtrributes
 					)
 				. ">"
