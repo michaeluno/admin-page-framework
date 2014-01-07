@@ -75,6 +75,9 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 			.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {
 				vertical-align: top; 
 			}
+			.admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {
+				margin-top: 0;
+			}
 			" . PHP_EOL;		
 	}	
 	
