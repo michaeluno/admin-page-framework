@@ -336,8 +336,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			.admin-page-framework-field .image_preview {
 				border: none; 
 				clear:both; 
-				margin-top: 1em;
-				margin-bottom: 1em;
+				margin-top: 0.4em;
+				margin-bottom: 0.8em;
 				display: block; 
 				
 			}		
@@ -379,9 +379,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			}
 			/* Image Uploader Button */
 			.select_image.button.button-small {
-				margin-top: 0.1em;
-				margin-right: 0.4em;
-				
+				margin-top: 0.1em;				
 			}
 		" . PHP_EOL;	
 	}

@@ -274,7 +274,6 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 			}
 			.select_media.button.button-small {
 				margin-top: 0.1em;
-				margin-right: 0.4em;
 			}
 		";
 	}

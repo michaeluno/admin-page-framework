@@ -192,7 +192,6 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.admin-page-framework-field .admin-page-framework-input-label-container {
 			margin-bottom: 0.25em;
-			margin-right: 0.5em;	/* gives a space between input elements and repeater field buttons */
 		}
 		@media only screen and ( max-width: 780px ) {	/* For WordPress v3.8 or greater */
 			.admin-page-framework-field .admin-page-framework-input-label-container {
@@ -228,13 +227,11 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.admin-page-framework-repeatable-field-buttons {
 			float: right;		
-			margin-bottom: 0.5em;
-			margin-top: 0.1em;
-			
+			margin: 0.1em 0 0.5em 0.3em;
 			vertical-align: middle;
 		}
 		.admin-page-framework-repeatable-field-buttons .repeatable-field-button {
-			margin: 0 2px;
+			margin: 0 0.1em;
 			font-weight: normal;
 			vertical-align: middle;
 			text-align: center;
