@@ -127,7 +127,9 @@ abstract class AdminPageFramework_Property_Base {
 	 * @internal	
 	 */
 	public static $_sDefaultStyle =
-		".wrap div.updated, 
+		"
+		/* Settings Notice */
+		.wrap div.updated, 
 		.wrap div.settings-error { 
 			clear: both; 
 			margin-top: 16px;
@@ -144,38 +146,45 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Form Elements */
+		/* Fields Container */
+		.admin-page-framework-fields {
+			display: table;	/* the block property does not give the element the solid height */
+			width: 100%;
+		}
+		
 		/* Disabled */
 		.admin-page-framework-fields .disabled,
 		.admin-page-framework-fields .disabled input,
 		.admin-page-framework-fields .disabled textarea,
 		.admin-page-framework-fields .disabled select,
-		.admin-page-framework-fields .disabled option
-		{
+		.admin-page-framework-fields .disabled option {
 			color: #BBB;
 		}
+		
 		/* HR */
 		.admin-page-framework-fields hr {
 			border: 0; 
 			height: 0;
 			border-top: 1px solid #dfdfdf; 
-			
 		}
 		
 		/* Delimiter */
 		.admin-page-framework-fields .delimiter {
 			display: inline;
 		}
+		
 		/* Description */
-		.admin-page-framework-fields .admin-page-framework-fields-description {
-			/* margin-top: 0px; */
-			/* margin-bottom: 0.5em; */
+		.admin-page-framework-fields-description {
+/* 			display: block;	/* required to start from a new line */
+			clear: both;	/* required to start from a new line */ */
 			margin-bottom: 0;
 		}
-		/* Input form elements */
+		/* Field Container */
 		.admin-page-framework-field {
-			display: inline;
-			margin-top: 1px;
-			margin-bottom: 1px;
+			float: left;
+			clear: both;
+			display: inline-block;
+			margin: 1px 0;
 		}
 		.admin-page-framework-field label{
 			display: inline-block;	/* for WordPress v3.7.x or below */
@@ -183,6 +192,7 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.admin-page-framework-field .admin-page-framework-input-label-container {
 			margin-bottom: 0.25em;
+			margin-right: 0.5em;	/* gives a space between input elements and repeater field buttons */
 		}
 		@media only screen and ( max-width: 780px ) {	/* For WordPress v3.8 or greater */
 			.admin-page-framework-field .admin-page-framework-input-label-container {
@@ -219,8 +229,9 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-repeatable-field-buttons {
 			float: right;		
 			margin-bottom: 0.5em;
-			margin-top: 0.2em;
-
+			margin-top: 0.1em;
+			
+			vertical-align: middle;
 		}
 		.admin-page-framework-repeatable-field-buttons .repeatable-field-button {
 			margin: 0 2px;
@@ -232,9 +243,10 @@ abstract class AdminPageFramework_Property_Base {
 		/* Sortable Fields */
 		.sortable .admin-page-framework-field {
 			clear: both;
+			float: left;
 			display: inline-block;
 			padding: 1em 1em 0.72em;
-			margin-top: 1px;
+			margin: 1px 0 0 0;
 			border-top-width: 1px;
 			border-bottom-width: 1px;
 			border-bottom-style: solid;
@@ -257,6 +269,9 @@ abstract class AdminPageFramework_Property_Base {
 			border: 1px solid #CCC;
 			background: #F6F6F6;	
 		}		
+		.admin-page-framework-fields.sortable {
+			margin-bottom: 1.2em;	/* each sortable field does not have a margin bottom so this rule gives a margin between the fields and the description */
+		}
 		
 		/* Page Load Stats */
 		#admin-page-framework-page-load-stats {

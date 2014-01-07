@@ -339,6 +339,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				margin-top: 1em;
 				margin-bottom: 1em;
 				display: block; 
+				
 			}		
 			@media only screen and ( max-width: 1200px ) {
 				.admin-page-framework-field .image_preview {
@@ -378,7 +379,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			}
 			/* Image Uploader Button */
 			.select_image.button.button-small {
-				vertical-align: baseline;
+				margin-top: 0.1em;
+				margin-right: 0.4em;
+				
 			}
 		" . PHP_EOL;	
 	}
@@ -423,6 +426,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
 					. $this->getExtraInputFields( $aField )
 					. $aField['after_input']
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"			
 			. $aField['after_label']

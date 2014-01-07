@@ -20,36 +20,60 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 			
+		/* 1. Set up the properties that will be accessed later in the methods. */
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
-		$aFieldTypeDefinition['aDefaultKeys']['attributes'] = array();	// the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
+		
+		/* 
+		 * 1-1. Set up the 'attributes' array - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
+		 * There are required keys in the attributes array: 'fieldset', 'fields', and 'field'; these should not be removed here.
+		 * */
+		$aFieldTypeDefinition['aDefaultKeys']['attributes'] = array(	
+			'fieldset'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'],
+			'fields'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'],
+			'field'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],
+		);	
 		$this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->aOptions = $aOptions;
 		$this->aErrors = $aErrors ? $aErrors : array();
 		$this->oMsg = $oMsg;
 				
-		// Global variable
-		$GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
-			? $GLOBALS['aAdminPageFramework']['aFieldFlags']
-			: array();
-		
-		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] ) ) {
+		/* 2. Load necessary JavaScript scripts */
+		$this->_loadScripts();
+
+	}	
+		/**
+		 * Inserts necessary JavaScript scripts for fields.
+		 * @since			3.0.0
+		 */
+		private function _loadScripts() {
 			
-			add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
-			$GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] = true;
+			// Global variable
+			$GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
+				? $GLOBALS['aAdminPageFramework']['aFieldFlags']
+				: array();
 			
-		}		
-		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] ) ) {
-			
-			add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
-			add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
-			$GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] = true;
+			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedUtilityPluins'] ) ) {
+				
+				add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
+				add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
+				$GLOBALS['aAdminPageFramework']['bEnqueuedUtilityPluins'] = true;
+				
+			}
+			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] ) ) {
+				
+				add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
+				$GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] = true;
+				
+			}
+			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] ) ) {
+				
+				add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
+				$GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] = true;
+				
+			}					
 			
 		}
-
-		
-	}	
-	
 	/**
 	 * Returns the field name for the input tag name attribute.
 	 * 
@@ -183,10 +207,11 @@ return $vValue;
 	 */ 
 	public function _getInputFieldOutput() {
 		
-		$aOutput = array();
+		$aFieldsOutput = array(); 
+		$aExtraOutput = array();
 		
 		/* 1. Prepend the field error message. */
-		$aOutput[] = isset( $this->aErrors[ $this->aField['field_id'] ] )
+		$aFieldsOutput[] = isset( $this->aErrors[ $this->aField['field_id'] ] )
 			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['field_id'] ] . "</span><br />"
 			: '';		
 					
@@ -228,20 +253,23 @@ return $vValue;
 				'class'	=>	"admin-page-framework-field admin-page-framework-field-{$aField['type']}" 
 					. ( $aField['attributes']['disabled'] ? ' disabled' : '' ),
 				'data-type'	=>	"{$aField['type']}",
-			);
-			$aOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
-				? 	$aField['before_field']
+			) + $aField['attributes']['field'];
+			$aFieldsOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
+				? $aField['before_field']
 					. "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">"
 						. call_user_func_array(
 							$aFieldTypeDefinition['hfRenderField'],
 							array( $aField )
 						)
 						. ( ( $sDelimiter = $aField['delimiter'] )
-						// . ( ( $sDelimiter = $aField['delimiter'] ) && ! $this->isLastElement( $aFields, $sKey )
-							? "<div class='delimiter' id='delimiter-{$aField['input_id']}'>" . $sDelimiter . "</div>"
+							? "<div " . $this->generateAttributes( array(
+									'class'	=>	'delimiter',
+									'id'	=>	"delimiter-{$aField['input_id']}",
+									'style'	=>	$this->isLastElement( $aFields, $sKey ) ? "display:none;" : "",
+								) ) . ">{$sDelimiter}</div>"
+
 							: ""
 						)
-						
 					. "</div>"
 					. $aField['after_field']
 				: "";
@@ -249,33 +277,39 @@ return $vValue;
 		}
 				
 		/* 5. Add the description */
-		$aOutput[] = ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
+		$aExtraOutput[] = ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
 			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['description']}</span></p>"
 			: '';
 			
 		/* 6. Add the repeater script */
-		$aOutput[] = $this->aField['is_repeatable']
-			? $this->_getRepeaterFieldEnablerScript( $this->aField['tag_id'], count( $aFields ) )
+		$aExtraOutput[] = $this->aField['is_repeatable']
+			? $this->_getRepeaterFieldEnablerScript( 'fields-' . $this->aField['tag_id'], count( $aFields ) )
 			: '';
 
 		/* 7. Add the sortable script */
-		$aOutput[] = $this->aField['is_sortable'] && ( count( $aFields ) > 1 || $this->aField['is_repeatable'] )
-			? $this->_getSortableFieldEnablerScript( $this->aField['tag_id'] )
+		$aExtraOutput[] = $this->aField['is_sortable'] && ( count( $aFields ) > 1 || $this->aField['is_repeatable'] )
+			? $this->_getSortableFieldEnablerScript( 'fields-' . $this->aField['tag_id'] )
 			: '';			
-			
-		$_aFieldsContainerAttributes = array(
+		
+		/* 8. Return the entire output */
+		$_aFieldsSetAttributes = array(
 			'id'	=> $this->aField['tag_id'],
+			'class'	=> 'admin-page-framework-fieldset',
+		) + $this->aField['attributes']['fieldset'];
+		$_aFieldsContainerAttributes = array(
+			'id'	=> 'fields-' . $this->aField['tag_id'],
 			'class'	=> 'admin-page-framework-fields'
 				. ( $this->aField['is_repeatable'] ? ' repeatable' : '' )
 				. ( $this->aField['is_sortable'] ? ' sortable' : '' ),
-		);
+		) + $this->aField['attributes']['fields'];
 		return $this->_getRepeaterScriptGlobal()
-			. "<fieldset>"
+			. "<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
 				. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
 					. $this->aField['before_fields'] 
-					. implode( PHP_EOL, $aOutput )
+					. implode( PHP_EOL, $aFieldsOutput )
 					. $this->aField['after_fields']
 				. "</div>"
+				. implode( PHP_EOL, $aExtraOutput )
 			. "</fieldset>";
 		
 	}
@@ -386,7 +420,19 @@ return $vValue;
 		return
 			"<script type='text/javascript'>
 				jQuery( document ).ready( function() {
-					jQuery( '#{$sTagID} .admin-page-framework-field' ).prepend( \"{$sButtons}\" );	// Adds the buttons
+					
+					nodePositionIndicators = jQuery( '#{$sTagID} .admin-page-framework-field .repeatable-field-buttons' );
+					if ( nodePositionIndicators.length > 0 ) {
+						
+						/* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
+						nodePositionIndicators.replaceWith( \"{$sButtons}\" );
+						
+					} else {
+						
+						/* Otherwise, insert the button element at the beginning of the field tag */
+						jQuery( '#{$sTagID} .admin-page-framework-field' ).prepend( \"{$sButtons}\" );	// Adds the buttons
+					}
+					
 					updateAPFRepeatableFields( '{$sTagID}' );	// Update the fields					
 				});
 			</script>";
@@ -632,6 +678,20 @@ return $vValue;
 	}
 	
 	/**
+	 * Adds jQuery utility plugins.
+	 * @since				3.0.0
+	 */
+	public function _replyToAddUtilityPlugins() {
+		
+		echo "<script type='text/javascript' class='admin-page-framework-utility-plugins'>
+			(function($) {
+				$.fn.reverse = [].reverse;
+			})(jQuery);		
+		</script>";
+		
+	}
+	
+	/**
 	 * Returns the sortable JavaScript script to be loaded in the head tag of the created admin pages.
 	 * @since			3.0.0
 	 * @access			public	
@@ -739,15 +799,17 @@ return $vValue;
 					).bind( 'sortupdate', function() {
 			
 						/* Rename the ids and names */
+						var nodeFields = jQuery( this ).children( 'div' );
 						var iCount = 0;
-						jQuery( this ).children( 'div' ).each( function() {
+						var iMaxCount = nodeFields.length;
+						jQuery( this ).children( 'div' ).reverse().each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
 
-							jQuery( this ).attr( 'id', function( index, name ) { return setID( iCount, name ) } );
-							jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iCount, name ) } );
-							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iCount, name ) } );
-							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iCount, name ) } );				
+							jQuery( this ).attr( 'id', function( index, name ) { return setID( iMaxCount - iCount, name ) } );
+							jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iMaxCount - iCount, name ) } );
+							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iMaxCount - iCount, name ) } );
+							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iMaxCount - iCount, name ) } );				
 
-							/* Radio buttons loose their selections so reassign them */
+							/* Radio buttons loose their selections, so reassign them */
 							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
 								var sAttr = jQuery( this ).prop( 'checked' );
 								if ( typeof sAttr !== 'undefined' && sAttr !== false) 
@@ -757,7 +819,7 @@ return $vValue;
 							iCount++;
 						});
 						
-						/* It seems radio buttons need to be taken cared of again */
+						/* It seems radio buttons need to be taken cared of again. Othwrsize, the checked items will be gone. */
 						jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
 						
 					}); 

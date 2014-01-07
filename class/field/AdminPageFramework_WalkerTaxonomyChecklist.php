@@ -55,11 +55,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		
 		$iID = $oCategory->term_id;
 		$sTaxonomy = empty( $aArgs['taxonomy'] ) ? 'category' : $aArgs['taxonomy'];
-		
-		// $sDisabled = $aArgs['disabled'] ? 'disabled="Disabled"' : '';
-		// $sClass = 'category-list';
 		$sID = "{$aArgs['input_id']}_{$sTaxonomy}_{$iID}";
-		// $sChecked = in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '';
 		
 		$aInputAttributes = isset( $aInputAttributes[ $iID ] ) 
 			? $aInputAttributes[ $iID ] + $aArgs['attributes']
@@ -72,15 +68,14 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 			'name'	=>	"{$aArgs['name']}[{$iID}]",
 			'checked'	=>	in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '',
 		) + $aInputAttributes;
-		$sOutput .= "\n"
+		$sOutput .= "\n"	// the variable is by reference so the modification takes an effect
 			. "<li id='list-{$sID}' class='category-list'>" 
 				. "<label for='{$sID}' class='taxonomy-checklist-label'>"
 					. "<input value='0' type='hidden' name='{$aArgs['name']}[{$iID}]' />"
-					// . "<input id='{$sID}' value='1' type='checkbox' name='{$aArgs['name']}[{$iID}]' {$sChecked} {$sDisabled} />"
 					. "<input " . AdminPageFramework_WPUtility::generateAttributes( $aInputAttributes ) . " />"
 					. esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
 				. "</label>";	
-			// no need to close </li> since it is dealt in end_el().
+			/* no need to close the </li> tag since it is dealt in the end_el() method. */
 			
 	}
 }

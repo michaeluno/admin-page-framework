@@ -58,6 +58,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 					)
 					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"
 			. $aField['after_label'];

@@ -97,6 +97,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 									. $aField['value']
 								. "</textarea>"
 					)
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"

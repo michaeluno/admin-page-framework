@@ -50,8 +50,14 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		'after_fields' => null,	
 		
 		'attributes'			=> array(
+			/* Root Attributes - the root attributes are assumed to be for the input tag. */
 			'disabled'			=> '',	// set 'Disabled' to make it disabled
 			'class'				=> '',
+			
+			/* Component Attributes */
+			'fieldset'	=> array(),	// attributes applied to the field group container tag that holds all the field components including descriptions and scripts.
+			'fields'	=>	array(),	// attributes applied to the fields container tag that holds all sub-fields.
+			'field'	=>	array(),	// attributes applied to each field container tag.
 		),
 	);	
 	
@@ -145,9 +151,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 * @since			3.0.0
 	 */
 	protected function getFieldElementByKey( $asElement, $sKey, $asDefault='' ) {
-		
-		if ( ! is_array( $asElement ) )
-			return $asElement;
+					
+		if ( ! is_array( $asElement ) || ! isset( $sKey ) ) return $asElement;
 				
 		$aElements = &$asElement;	// it is an array
 		return isset( $aElements[ $sKey ] )

@@ -163,7 +163,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 			}
 			.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
 			.admin-page-framework-field .tab-box-contents-container {  
-				padding: 0 0 0 20px; 
+				padding: 0 2em 0 1.8em;
 				border: 1px solid #dfdfdf; 
 				background-color: #fff;
 			}
@@ -232,6 +232,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 				."</li>";
 			$aCheckboxes[] = 
 				"<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
+					. $this->getFieldElementByKey( $aField['before_label'], $sKey )
 					. "<ul class='list:category taxonomychecklist form-no-clear'>"
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
@@ -246,6 +247,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 						) )					
 					. "</ul>"			
 					. "<!--[if IE]><b>.</b><![endif]-->"
+					. $this->getFieldElementByKey( $aField['after_label'], $sKey )
 				. "</div>";
 		}
 
@@ -257,13 +259,14 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 				. "</div>"
 			. "</div>";
 			
-		$sOutput = 
-			"<div id='{$aField['field_id']}' class='admin-page-framework-field-taxonomy tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
+		return ''
+			// ( is_array( $aField['before_label'] ) ? '' : ( string ) $aField['before_label'] )
+			. "<div id='tabbox-{$aField['field_id']}' class='tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
 				. $sTabs . PHP_EOL
 				. $sContents . PHP_EOL
-			. "</div>";
-
-		return $sOutput;		
+			. "</div>"
+			// . ( is_array( $aField['after_label'] ) ? '' : ( string ) $aField['after_label'] )
+			;
 				
 	}
 	

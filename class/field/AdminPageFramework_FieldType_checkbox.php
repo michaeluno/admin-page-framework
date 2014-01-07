@@ -57,9 +57,10 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 	 * @since			3.0.0			Removed unnecessary parameters.
 	 */
 	public function _replyToGetField( $aField ) {
-
+// var_dump( $aField['before_label'] );
 		$aOutput = array();
 		$asValue = $aField['attributes']['value'];
+		// $aOutput[] = is_array( $aField['before_label'] ) ? '' : $aField['before_label'];
 		foreach( ( array ) $aField['label'] as $sKey => $sLabel ) {
 			
 			$aInputAttributes = array(
@@ -95,6 +96,8 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 				. $this->getFieldElementByKey( $aField['after_label'], $sKey );
 				
 		}	
+		// $aOutput[] = is_array( $aField['after_label'] ) ? '' : $aField['after_label'];
+		
 		return implode( PHP_EOL, $aOutput );
 		
 	}	

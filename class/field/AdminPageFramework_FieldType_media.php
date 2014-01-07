@@ -273,7 +273,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 				vertical-align: middle;	
 			}
 			.select_media.button.button-small {
-				vertical-align: baseline;
+				margin-top: 0.1em;
+				margin-right: 0.4em;
 			}
 		";
 	}

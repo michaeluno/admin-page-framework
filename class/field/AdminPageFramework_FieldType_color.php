@@ -178,6 +178,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 					)
 					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 				. "<div class='colorpicker' id='color_{$aField['input_id']}'></div>"	// this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x )	// rel='{$aField['input_id']}'
 				. $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )				

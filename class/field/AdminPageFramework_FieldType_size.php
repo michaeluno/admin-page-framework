@@ -173,6 +173,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 						. "</select>"
 					. "</span>"
 					. $this->getFieldElementByKey( $aField['after_input'], 'unit' )
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"					
 			. "</div>"
 			. $aField['after_label']; 			

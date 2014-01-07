@@ -594,6 +594,11 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Rich Text Area', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'rich'	=>	true,	// just pass non empty value to enable the rich editor.
+				'attributes'	=>	array(
+					'field'	=>	array(
+						'style'	=>	'width: 100%;'	// since the rich editor does not accept the cols attribute, set the width by inline-style.
+					),
+				),
 				array(
 					// pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
 					'rich'	=>	array( 
@@ -714,7 +719,10 @@ class APF_Demo extends AdminPageFramework {
 				'attributes'	=>	array(	
 					'select'	=>	array(
 						'size'	=>	1,
-					)
+					),
+					'field'	=>	array(
+						'style'	=>	'display: inline; clear: none',	// this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
+					),
 				),
 				array(
 					'label'	=>	array( 'river', 'mountain', 'sky', ),
@@ -792,6 +800,11 @@ class APF_Demo extends AdminPageFramework {
 				'delimiter'	=>	'<hr />',
 				'default'	=>	2,
 				'label'	=>	array( 1 =>	'one', 2 =>	'two' ),
+				'attributes'	=> array(
+					'field'	=>	array(
+						'style'	=>	'width: 100%;',
+					),
+				),
 				array(
 					'default'	=>	4,
 					'label'	=>	array( 3 =>	'three', 4 =>	'four', 5 =>	'five' ),
@@ -865,6 +878,11 @@ class APF_Demo extends AdminPageFramework {
 				'label'	=>	array( 'a'	=>	'A', 'b'	=>	'B', 'c'	=>	'C' ),
 				'default'	=>	array( 'a'	=>	false, 'b'	=>	true, 'c'	=>	false ),
 				'delimiter'	=>	'<hr />',
+				'attributes'	=> array(
+					'field'	=>	array(
+						'style'	=>	'width: 100%;',
+					),
+				),				
 				array(
 					'label'	=>	array( 'd'	=>	'D', 'e'	=>	'E', 'f'	=>	'F' ),
 					'default'	=>	array( 'd'	=>	true, 'e'	=>	false, 'f'	=>	false ),
@@ -1139,12 +1157,17 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Multiple Post Type Check lists', 'admin-page-framework-demo' ),
 				'type'	=>	'posttype',
-				'before_field'	=>	'<h4>' . __( 'For A', 'admin-page-framework-demo' ) . '</h4>',
+				'before_field'	=>	'<p style="clear: both; font-weight: bold;">' . __( 'For A', 'admin-page-framework-demo' ) . '</p>',
 				array(
-					'before_field'	=>	'<h4>' . __( 'For B', 'admin-page-framework-demo' ) . '</h4>',
+					'before_field'	=>	'<p style="clear: both; font-weight: bold;">' . __( 'For B', 'admin-page-framework-demo' ) . '</p>',
 				),
 				array(
-					'before_field'	=>	'<h4>' . __( 'For C', 'admin-page-framework-demo' ) . '</h4>',
+					'before_field'	=>	'<p style="clear: both; font-weight: bold;">' . __( 'For C', 'admin-page-framework-demo' ) . '</p>',
+				),
+				'attributes'	=>	array(
+					'field'	=>	array(
+						'style'	=>	'margin-bottom: 1em;',
+					)
 				),
 			),					
 			array(
@@ -1176,12 +1199,12 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Multiple Taxonomy Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
 				'taxonomy_slugs'	=>	$aTaxnomies,
-				'before_field'	=>	'<h4>' . __( 'For A', 'admin-page-framework-demo' ) . '</h4>',
+				'before_field'	=>	'<p style="clear:both; font-weight: bold;">' . __( 'For I', 'admin-page-framework-demo' ) . '</p>',
 				array(  
-					'before_field'	=>	'<h4>' . __( 'For B', 'admin-page-framework-demo' ) . '</h4>',
+					'before_field'	=>	'<p style="clear:both; font-weight: bold;">' . __( 'For II', 'admin-page-framework-demo' ) . '</p>',
 				),
 				array(  
-					'before_field'	=>	'<h4>' . __( 'For C', 'admin-page-framework-demo' ) . '</h4>',
+					'before_field'	=>	'<p style="clear:both; font-weight: bold;">' . __( 'For III', 'admin-page-framework-demo' ) . '</p>',
 				),				
 			),
 			array(
@@ -1258,6 +1281,7 @@ class APF_Demo extends AdminPageFramework {
 					'label'	=>	__( 'Hidden Field 3', 'admin-page-framework-demo' ),
 					'default'	=>	'c',
 				),
+				'is_sortable'	=>	true,
 			),							
 			array(	// Default Submit Button
 				'field_id'	=>	'submit_button_field',
@@ -1278,6 +1302,9 @@ class APF_Demo extends AdminPageFramework {
 					'class'	=>	'button button-secondary',				
 					'title'	=>	__( 'Go to Google!', 'admin-page-framework-demo' ),
 					'style'	=>	'background-color: #C1DCFA;',
+					'field'	=>	array(
+						'style'	=>	'display: inline; clear: none;',
+					),
 				),
 				array(
 					'label'	=>	__( 'Yahoo', 'admin-page-framework-demo' ),
@@ -1351,6 +1378,11 @@ class APF_Demo extends AdminPageFramework {
 					'type'	=>	'hidden',
 					'value'	=>	'xyz',
 				),
+				'attributes'	=>	array(
+					'field'	=>	array(
+						'style'	=>	'display: inline; clear:none;'	// since the rich editor does not accept the cols attribute, set the width by inline-style.
+					),
+				),				
 				'description'	=> __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the user input.', 'admin-page-framework-demo' ),
 			),
 			array()

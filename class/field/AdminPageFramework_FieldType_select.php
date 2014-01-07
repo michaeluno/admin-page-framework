@@ -86,10 +86,10 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 						. "</select>"
 					. "</span>"
 					. $aField['after_input']
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"					
 			. "</div>"
-			. $aField['after_label']; 
-			
+			. $aField['after_label']; 		
 		
 	}
 		/**
