@@ -66,9 +66,24 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 						nodeNewDatePickerInput.removeClass( 'hasDatepicker' );
 						nodeNewDatePickerInput.datepicker({
 							dateFormat : nodeNewDatePickerInput.data( 'date_format' ),
-						});					
+						});			
 						
-					}
+					},
+					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+
+						/* Return if it is not the type. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */						
+						
+						/* Bind the date picker script */
+						node.children( '.admin-page-framework-field' ).each( function() {
+							nodeInput = jQuery( this ).find( 'input.datepicker' );
+							nodeInput.removeClass( 'hasDatepicker' );
+							nodeInput.datepicker({
+								dateFormat : nodeInput.data( 'date_format' ),
+							});													
+						});
+					},
+										
 				});
 			});		
 		
@@ -115,6 +130,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 					)
 					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"
 			. $this->getDatePickerEnablerScript( $aField['input_id'], $aField['date_format'] )

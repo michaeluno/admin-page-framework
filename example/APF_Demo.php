@@ -1452,9 +1452,18 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'date_repeatable',
 				'section_id'	=>	'date_pickers',
 				'type'	=>	'date',
-				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
+				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'is_repeatable'	=> true,
 			),			
+			array(	// Sortable date picker fields
+				'field_id'	=>	'date_sortable',
+				'section_id'	=>	'date_pickers',
+				'type'	=>	'date',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'is_sortable'	=> true,
+				array(),	// the second item
+				array(),	// the third item
+			),				
 			array(	// Single time picker
 				'field_id'	=>	'time',
 				'section_id'	=>	'date_pickers',
@@ -1469,6 +1478,15 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable Time Fields', 'admin-page-framework-demo' ),
 				'is_repeatable'	=> true,
 			),
+			array(	// Sortable tune picker fields
+				'field_id'	=>	'time_sortable',
+				'section_id'	=>	'date_pickers',
+				'type'	=>	'time',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'is_sortable'	=> true,
+				array(),	// the second item
+				array(),	// the third item
+			),				
 			array(	// Single date time picker
 				'field_id'	=>	'date_time',
 				'section_id'	=>	'date_pickers',
@@ -1502,6 +1520,15 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Repeatable Date & Time Fields', 'admin-page-framework-demo' ),
 				'is_repeatable'	=> true,
+			),	
+			array(	// Sortable date_time picker fields
+				'field_id'	=>	'date_time_sortable',
+				'section_id'	=>	'date_pickers',
+				'type'	=>	'date_time',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'is_sortable'	=> true,
+				array(),	// the second item
+				array(),	// the third item
 			),		
 			array()
 		);
