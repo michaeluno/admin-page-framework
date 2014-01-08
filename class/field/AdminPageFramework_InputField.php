@@ -252,7 +252,7 @@ return $vValue;
 				'id'	=>	"field-{$aField['input_id']}",
 				'class'	=>	"admin-page-framework-field admin-page-framework-field-{$aField['type']}" 
 					. ( $aField['attributes']['disabled'] ? ' disabled' : '' ),
-				'data-type'	=>	"{$aField['type']}",
+				'data-type'	=>	"{$aField['type']}",	// this is referred by the repeatable field JavaScript script.
 			) + $aField['attributes']['field'];
 			$aFieldsOutput[] = is_callable( $aFieldTypeDefinition['hfRenderField'] ) 
 				? $aField['before_field']
@@ -301,6 +301,7 @@ return $vValue;
 			'class'	=> 'admin-page-framework-fields'
 				. ( $this->aField['is_repeatable'] ? ' repeatable' : '' )
 				. ( $this->aField['is_sortable'] ? ' sortable' : '' ),
+			'data-type'	=> $this->aField['type'],	// this is referred by the sortable field JavaScript script.
 		) + $this->aField['attributes']['fields'];
 		return $this->_getRepeaterScriptGlobal()
 			. "<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
@@ -420,19 +421,12 @@ return $vValue;
 		return
 			"<script type='text/javascript'>
 				jQuery( document ).ready( function() {
-					
 					nodePositionIndicators = jQuery( '#{$sTagID} .admin-page-framework-field .repeatable-field-buttons' );
-					if ( nodePositionIndicators.length > 0 ) {
-						
-						/* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
-						nodePositionIndicators.replaceWith( \"{$sButtons}\" );
-						
-					} else {
-						
-						/* Otherwise, insert the button element at the beginning of the field tag */
+					if ( nodePositionIndicators.length > 0 ) {	/* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
+						nodePositionIndicators.replaceWith( \"{$sButtons}\" );						
+					} else {	/* Otherwise, insert the button element at the beginning of the field tag */
 						jQuery( '#{$sTagID} .admin-page-framework-field' ).prepend( \"{$sButtons}\" );	// Adds the buttons
-					}
-					
+					}					
 					updateAPFRepeatableFields( '{$sTagID}' );	// Update the fields					
 				});
 			</script>";
@@ -822,6 +816,9 @@ return $vValue;
 						
 						/* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
 						jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
+						
+						/* Callback the registered functions */
+						jQuery( this ).callBackSortedFields( jQuery( this ).data( 'type' ), jQuery( this ).attr( 'id' ) );
 						
 					}); 
 					
