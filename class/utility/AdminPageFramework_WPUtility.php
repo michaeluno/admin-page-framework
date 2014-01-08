@@ -335,7 +335,11 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 	 */
 	static public function generateAttributes( array $aAttributes ) {
 		
-		$aAttributes = array_map( 'esc_attr', $aAttributes );
+		foreach( $aAttributes as $sAttribute => &$asProperty ) {
+			if ( is_array( $asProperty ) || is_object( $asProperty ) )
+				unset( $aAttributes[ $sAttribute ] );
+			$asProperty = esc_attr( $asProperty );	 // $aAttributes = array_map( 'esc_attr', $aAttributes );	// this also converts arrays into string value, Array.
+		}		
 		return parent::generateAttributes( $aAttributes );
 		
 	}	
