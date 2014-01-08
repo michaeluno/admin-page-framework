@@ -87,7 +87,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$aField = isset( $aField ) ? $aField : $this->aField;
 		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
-				? "{$aField['option_key']}[{$aField['page_slug']}][{$aField['field_id']}]"
+				? "{$aField['option_key']}[{$aField['field_id']}]"
 				: $aField['field_id']
 			) 
 			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
@@ -111,7 +111,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
-				? "{$aField['option_key']}|{$aField['page_slug']}|{$aField['field_id']}"
+				? "{$aField['option_key']}|{$aField['field_id']}"
 				: $aField['field_id'] 
 			)
 			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
@@ -146,10 +146,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	private function _getInputFieldValueFromOptionTable( &$aField, &$aOptions ) {
 		
-		if ( ! isset( $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ] ) )
+		if ( ! isset( $aOptions[ $aField['field_id'] ] ) )
 			return;
 						
-		return $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ];
+		return $aOptions[ $aField['field_id'] ];
+// return $aOptions[ $aField['page_slug'] ][ $aField['field_id'] ];
 		
 /* // If it's not an array, return it.
 if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
@@ -827,10 +828,6 @@ return $vValue;
 							jQuery( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
 							jQuery( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
 							jQuery( this ).find( 'input,textarea,select' ).setIndexNameAttribute( 'name', iIndex );
-							// jQuery( this ).attr( 'id', function( index, name ) { return setID( iIndex, name ) } );
-							// jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iIndex, name ) } );
-							// jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iIndex, name ) } );
-							// jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iIndex, name ) } );				
 
 							/* Radio buttons loose their selections when IDs and names are updated, so reassign them */
 							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
@@ -848,25 +845,7 @@ return $vValue;
 						/* Callback the registered functions */
 						jQuery( this ).callBackSortedFields( jQuery( this ).data( 'type' ), jQuery( this ).attr( 'id' ) );
 						
-					}); 
-					
-					/* Helper Local Function Literals */
-					var setID = function( index, name ) {
-						
-						if ( typeof name === 'undefined' ) return name;
-						return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {
-							return '_' + index;
-						});
-						
-					}
-					var setName = function( index, name ) {
-						
-						if ( typeof name === 'undefined' ) return name;
-						return name.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {
-							return '[' + index;
-						});
-						
-					}				
+					}); 		
 					
 				});
 			</script>";

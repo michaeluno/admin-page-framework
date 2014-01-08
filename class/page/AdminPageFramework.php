@@ -191,14 +191,13 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 				 										
 		if ( is_admin() ) 
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );
-		
+	
 		parent::__construct( 
 			$sOptionKey, 
 			$sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.
 			$sCapability, 
 			$sTextDomain 
 		);
-																					
 		// For earlier loading than $this->setUp
 		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );
 

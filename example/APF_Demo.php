@@ -1686,11 +1686,11 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'radio',
 				'description'	=>	__( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
 				'label'	=>	array( 
-					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
 					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
+					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
 					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
 				),
-				'default'	=>	'array',
+				'default'	=>	'json',
 			),			
 			array(	// Single Export Button
 				'field_id'	=>	'export_single',
@@ -1706,6 +1706,11 @@ class APF_Demo extends AdminPageFramework {
 				'label'	=>	__( 'Pain Text', 'admin-page-framework-demo' ),
 				'file_name'	=>	'plain_text.txt',
 				'format'	=>	'text',
+				'attributes'	=>	array(
+					'field'	=>	array(
+						'style'	=>	'display: inline; clear: none;',
+					),
+				),
 				array(
 					'label'	=>	__( 'JSON', 'admin-page-framework-demo' ),
 					'file_name'	=>	'json.json', 
@@ -1734,8 +1739,12 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Import Format Type', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'description'	=>	__( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 'array'	=>	'Serialized Array', 'json'	=>	'JSON', 'text'	=>	'Text' ),
-				'default'	=>	'array',
+				'label'	=>	array( 
+					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
+					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
+					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				),
+				'default'	=>	'json',
 			),
 			array(	// Single Import Button
 				'field_id'	=>	'import_single',
@@ -1760,7 +1769,8 @@ class APF_Demo extends AdminPageFramework {
 		$this->addLinkToPluginTitle(
 			"<a href='http://www.wordpress.org'>WordPress</a>"
 		);
-		
+// var_dump( __METHOD__ );		
+// var_dump( $this->oProp->aSections );		
     }
 		
 	/*
@@ -1830,15 +1840,15 @@ class APF_Demo extends AdminPageFramework {
 	 * */
 	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export button field id}
 		
-		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['export_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['export_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['export_format_type']
 			: $sFormatType;
 		
 	}	
 	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_{page slug}_{tab slug}
 		
-		return isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['import_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['import_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['import_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['import_format_type']
 			: $sFormatType;
 		
 	}
@@ -1872,10 +1882,9 @@ class APF_Demo extends AdminPageFramework {
 		$aErrors = array();
 
 		/* 3. Check if the submitted value meets your criteria. As an example, here a numeric value is expected. */
-		if ( ! is_numeric( $aNewInput['apf_builtin_field_types']['verify_text_field'] ) ) {
+		if ( ! is_numeric( $aNewInput['verify_text_field'] ) ) {
 			
-			/* 3-1. Start with the key of the field ID in $aErrors, not the key of page slug. */
-			$aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . $aNewInput['apf_builtin_field_types']['verify_text_field'];
+			$aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . $aNewInput['verify_text_field'];
 			$bVerified = false;
 			
 		}
@@ -1897,15 +1906,15 @@ class APF_Demo extends AdminPageFramework {
 
 		/* Display the uploaded file information. */
 		$aFileErrors = array();
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_single'];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][0];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][1];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_multiple'][2];
-		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['apf_builtin_field_types']['file_repeatable'] as $aFile )
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_single'];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_multiple'][0];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_multiple'][1];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_multiple'][2];
+		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['file_repeatable'] as $aFile )
 			$aFileErrors[] = $aFile;
 			
 		if ( in_array( 0, $aFileErrors ) ) 
-			$this->setSettingNotice( '<h3>File(s) Uploaded</h3>' . $this->oDebug->getArray( $_FILES ), 'updated' );
+			$this->setSettingNotice( __( '<h3>File(s) Uploaded</h3>', 'admin-page-framework-demo' ) . $this->oDebug->getArray( $_FILES ), 'updated' );
 		
 		return $aInput;
 		
@@ -1913,9 +1922,8 @@ class APF_Demo extends AdminPageFramework {
 	
 	public function validation_APF_Demo( $aInput, $aOldOptions ) {	// validation_{extended class name}
 		
-		// If the delete options button is pressed, return an empty array that will delete the entire options stored in the database.
-		if ( isset( $_POST[ $this->oProp->sOptionKey ]['apf_manage_options']['submit_delete_options_confirmation'] ) ) 
-			return array();
+		/* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
+		if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_delete_options_confirmation'] ) ) return array();
 		return $aInput;
 		
 	}
@@ -1932,10 +1940,8 @@ class APF_Demo extends AdminPageFramework {
 	}
 	public function do_apf_read_me_description() {		// do_ + page slug + _ + tab slug
 		echo $this->aWPReadMe['sections']['description'];
-		// var_dump( $this->aWPReadMe );
 	}
 	public function do_apf_read_me_installation() {		// do_ + page slug + _ + tab slug
-		// echo htmlspecialchars( $this->aWPReadMe['sections']['installation'], ENT_QUOTES, bloginfo( 'charset' ) );
 		echo $this->aWPReadMe['sections']['installation'];
 	}
 	public function do_apf_read_me_frequently_asked_questions() {	// do_ + page slug + _ + tab slug

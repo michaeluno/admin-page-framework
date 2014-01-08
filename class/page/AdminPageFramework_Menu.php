@@ -120,7 +120,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 // 'sPageHeadingTabTag'		=> null,		// string			
 	// );
 	 
-	function __construct() {
+
+	function __construct() {		
 		
 		add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );		
 		
