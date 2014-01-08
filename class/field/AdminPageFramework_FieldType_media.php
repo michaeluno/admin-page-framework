@@ -113,7 +113,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							var nodeImageInput = jQuery( this ).find( '.media-field input' );
 							if ( nodeImageInput.length <= 0 ) return true;
 							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-							setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );	
+							setAPFMediaUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );	
 							
 						});
 						
