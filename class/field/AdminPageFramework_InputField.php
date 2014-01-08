@@ -26,13 +26,15 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		/* 
 		 * 1-1. Set up the 'attributes' array - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
 		 * There are required keys in the attributes array: 'fieldset', 'fields', and 'field'; these should not be removed here.
-		 * */
+		 */
 		$aFieldTypeDefinition['aDefaultKeys']['attributes'] = array(	
 			'fieldset'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'],
 			'fields'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'],
 			'field'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],
 		);	
 		$this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
+		
+		/* 1-2. Store the other properties */
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->aOptions = $aOptions;
 		$this->aErrors = $aErrors ? $aErrors : array();
@@ -198,7 +200,6 @@ return $vValue;
 		return '';
 			
 	}		
-	
 	
 	/** 
 	 * Retrieves the input field HTML output.
@@ -448,7 +449,7 @@ return $vValue;
 												
 				/* This function gets triggered when the document becomes ready. 
 					The tag id of the fields container is given for multiple fields to deal with at once.
-					Otherwise, a node object is given to deal with a singe field.
+					Otherwise, a node object is given to deal with a single field.
 				*/
 				updateAPFRepeatableFields = function( vTagIDOrNode ) {
 
@@ -468,10 +469,10 @@ return $vValue;
 					});		
 					
 					/* The Remove button behaviour */
-					var nodeRemobeButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
+					var nodeRemoveButtons = ( typeof vTagIDOrNode == 'string' || vTagIDOrNode instanceof String )
 						? jQuery( '#' + sTagID + ' .repeatable-field-remove' )
 						: jQuery( vTagIDOrNode.find( '.repeatable-field-remove' ) );
-					nodeRemobeButtons.click( function() {
+					nodeRemoveButtons.click( function() {
 						
 						/* Need to remove the element: the field container */
 						var nodeFieldContainer = jQuery( this ).closest( '.admin-page-framework-field' );
@@ -494,9 +495,7 @@ return $vValue;
 						/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
 						var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove' );
 						var iFieldsCount = nodeRemoveButtons.length;
-						if ( iFieldsCount == 1 ) {
-							nodeRemoveButtons.css( 'display', 'none' );
-						}
+						if ( iFieldsCount == 1 ) nodeRemoveButtons.css( 'display', 'none' );
 
 						return false;
 					});
@@ -531,8 +530,7 @@ return $vValue;
 					
 					/* If more than one fields are created, show the Remove button */
 					var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
-					if ( nodeRemoveButtons.length > 1 ) 
-						nodeRemoveButtons.show();				
+					if ( nodeRemoveButtons.length > 1 ) nodeRemoveButtons.show();				
 										
 					/* Return the newly created element */
 					return nodeNewField;
@@ -554,46 +552,72 @@ return $vValue;
 			 * Increments a first found digit with the prefix of underscore in a specified attribute value.
 			 */
 			$.fn.incrementIDAttribute = function( sAttribute ) {				
-				return this.attr( sAttribute, function( index, val ) {	
-					return updateID( index, val, 1 );
-				}); 
-			};
-			/**
-			 * Decrements a first found digit with the prefix of underscore in a specified attribute value.
-			 */
-			$.fn.decrementIDAttribute = function( sAttribute ) {
-				return this.attr( sAttribute, function( index, val ) {
-					return updateID( index, val, 0 );
+				return this.attr( sAttribute, function( iIndex, sValue ) {	
+					return updateID( iIndex, sValue, 1 );
 				}); 
 			};
 			/**
 			 * Increments a first found digit enclosed in [] in a specified attribute value.
 			 */
 			$.fn.incrementNameAttribute = function( sAttribute ) {				
-				return this.attr( sAttribute, function( index, val ) {	
-					return updateName( index, val, 1 );
+				return this.attr( sAttribute, function( iIndex, sValue ) {	
+					return updateName( iIndex, sValue, 1 );
 				}); 
 			};
+	
+			/**
+			 * Decrements a first found digit with the prefix of underscore in a specified attribute value.
+			 */
+			$.fn.decrementIDAttribute = function( sAttribute ) {
+				return this.attr( sAttribute, function( iIndex, sValue ) {
+					return updateID( iIndex, sValue, -1 );
+				}); 
+			};			
 			/**
 			 * Decrements a first found digit enclosed in [] in a specified attribute value.
 			 */
 			$.fn.decrementNameAttribute = function( sAttribute ) {
-				return this.attr( sAttribute, function( index, val ) {
-					return updateName( index, val, 0 );
+				return this.attr( sAttribute, function( iIndex, sValue ) {
+					return updateName( iIndex, sValue, -1 );
 				}); 
+			};				
+			
+			/* Sets the current index to the ID attribute */
+			$.fn.setIndexIDAttribute = function( sAttribute, iIndex ){
+				return this.attr( sAttribute, function( i, sValue ) {
+					return updateID( iIndex, sValue, 0 );
+				});
+			};
+			/* Sets the current index to the name attribute */
+			$.fn.setIndexNameAttribute = function( sAttribute, iIndex ){
+				return this.attr( sAttribute, function( i, sValue ) {
+					return updateName( iIndex, sValue, 0 );
+				});
 			};		
 			
 			/* Local Function Literals */
-			var updateID = function( index, sID, bIncrement ) {
+			var updateID = function( iIndex, sID, bIncrement ) {
 				if ( typeof sID === 'undefined' ) return sID;
-				return sID.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
-					return '_' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
+				return sID.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {
+					if ( bIncrement === 1 )
+						return '_' + ( Number(n) + 1 );
+					else if ( bIncrement === -1 )
+						return '_' + ( Number(n) - 1 );
+					else 
+						return '_' + ( iIndex );
+					// return '_' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
 				});
 			}
-			var updateName = function( index, sName, bIncrement ) {
+			var updateName = function( iIndex, sName, bIncrement ) {
 				if ( typeof sName === 'undefined' ) return sName;
-				return sName.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {				
-					return '[' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
+				return sName.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {	
+					if ( bIncrement === 1 )
+						return '[' + ( Number(n) + 1 );
+					else if ( bIncrement === -1 )
+						return '[' + ( Number(n) - 1 );
+					else 
+						return '[' + ( iIndex );
+					// return '[' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
 				});
 			}
 				
@@ -639,7 +663,7 @@ return $vValue;
 					});
 				};
 				
-				// The method that registers callbacks. This will be used in field type definition class.
+				// The method that registers callbacks. This will be called in field type definition class.
 				$.fn.registerAPFCallback = function( oOptions ) {
 					
 					// This is the easiest way to have default options.
@@ -799,10 +823,14 @@ return $vValue;
 						jQuery( jQuery( this ).children( 'div' ).reverse() ).each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
 
 							var iIndex = ( iMaxCount - iCount );
-							jQuery( this ).attr( 'id', function( index, name ) { return setID( iIndex, name ) } );
-							jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iIndex, name ) } );
-							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iIndex, name ) } );
-							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iIndex, name ) } );				
+							jQuery( this ).setIndexIDAttribute( 'id' );
+							jQuery( this ).find( 'label' ).setIndexIDAttribute( 'for' );
+							jQuery( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
+							jQuery( this ).find( 'input,textarea,select' ).setIndexNameAttribute( 'name', iIndex );
+							// jQuery( this ).attr( 'id', function( index, name ) { return setID( iIndex, name ) } );
+							// jQuery( this ).find( 'label' ).attr( 'for', function( index, name ){ return setID( iIndex, name ) } );
+							// jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iIndex, name ) } );
+							// jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iIndex, name ) } );				
 
 							/* Radio buttons loose their selections when IDs and names are updated, so reassign them */
 							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
