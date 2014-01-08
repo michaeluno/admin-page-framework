@@ -127,6 +127,31 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						});
 						
 					},
+					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+
+						/* 1. Return if it is not the type. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */						
+						if ( node.find( '.select_image' ).length <= 0 )  return;	/* If the uploader buttons are not found, do nothing */
+						
+						/* 2. Update the Select File button */
+						var iCount = 0;
+						node.children( '.admin-page-framework-field' ).each( function() {
+							
+							nodeButton = jQuery( this ).find( '.select_image' );
+							
+							/* 2-1. Set the current iteration index to the button ID, and the image preview elements */
+							nodeButton.setIndexIDAttribute( 'id', iCount );	
+							jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount );
+							jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount );
+							
+							/* 2-2. Rebuind the uploader script to the button */
+							var nodeImageInput = jQuery( this ).find( '.image-field input' );
+							if ( nodeImageInput.length <= 0 ) return true;
+							setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+	
+							iCount++;
+						});
+					},					
 				});
 			});" . PHP_EOL;	
 			
