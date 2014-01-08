@@ -621,26 +621,31 @@ return $vValue;
 				// The method that gets triggered when a repeatable field add button is pressed.
 				$.fn.callBackAddRepeatableField = function( sFieldType, sID ) {
 					var nodeThis = this;
-					if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
-						$.fn.aAPFAddRepeatableFieldCallbacks = [];
-					}		
+					if ( ! $.fn.aAPFAddRepeatableFieldCallbacks ) $.fn.aAPFAddRepeatableFieldCallbacks = [];
 					$.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-						if ( jQuery.isFunction( hfCallback ) )
-							hfCallback( nodeThis, sFieldType, sID );
+						if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID );
 					});
 				};
 				
+				// The method that gets triggered when a repeatable field remove button is pressed.
 				$.fn.callBackRemoveRepeatableField = function( sFieldType, sID ) {
 					var nodeThis = this;
-					if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
-						$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
-					}		
+					if ( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ) $.fn.aAPFRemoveRepeatableFieldCallbacks = [];
 					$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-						if ( jQuery.isFunction( hfCallback ) )
-							hfCallback( nodeThis, sFieldType, sID );
+						if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID );
+					});
+				};
+
+				// The method that gets triggered when a sortable field is dropped and the sort event occurred
+				$.fn.callBackSortedFields = function( sFieldType, sID ) {
+					var nodeThis = this;
+					if ( ! $.fn.aAPFSortedFieldsCallbacks ) $.fn.aAPFSortedFieldsCallbacks = [];
+					$.fn.aAPFSortedFieldsCallbacks.forEach( function( hfCallback ) {
+						if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID );
 					});
 				};
 				
+				// The method that registers callbacks. This will be used in field type definition class.
 				$.fn.registerAPFCallback = function( oOptions ) {
 					
 					// This is the easiest way to have default options.
@@ -648,27 +653,21 @@ return $vValue;
 						// The user specifies the settings with the following options.
 						added_repeatable_field: function() {},
 						removed_repeatable_field: function() {},
+						sorted_fields: function() {},
 					}, oOptions );
 
 					// Set up arrays to store callback functions
-					if( ! $.fn.aAPFAddRepeatableFieldCallbacks ){
-						$.fn.aAPFAddRepeatableFieldCallbacks = [];
-					}
-					if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ){
-						$.fn.aAPFRemoveRepeatableFieldCallbacks = [];
-					}			
-					
-					// Store the callback function
+					if( ! $.fn.aAPFAddRepeatableFieldCallbacks ) $.fn.aAPFAddRepeatableFieldCallbacks = [];
+					if( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ) $.fn.aAPFRemoveRepeatableFieldCallbacks = [];
+					if( ! $.fn.aAPFSortedFieldsCallbacks ) $.fn.aAPFSortedFieldsCallbacks = [];
+
+					// Store the callback functions
 					$.fn.aAPFAddRepeatableFieldCallbacks.push( oSettings.added_repeatable_field );
 					$.fn.aAPFRemoveRepeatableFieldCallbacks.push( oSettings.removed_repeatable_field );
+					$.fn.aAPFSortedFieldsCallbacks.push( oSettings.sorted_fields );
 					
 					return;
-					
-					// Greenify the collection based on the settings variable.
-					return this.css({
-						color: oSettings.color,
-						backgroundColor: oSettings.backgroundColor
-					});
+
 				};
 				
 			}( jQuery ));";
@@ -795,8 +794,9 @@ return $vValue;
 				jQuery( document ).ready( function() {
 
 					jQuery( '#{$strFieldsContainerID}.sortable' ).sortable(
-						{	items: '> div:not( .disabled )', }
+						{	items: '> div:not( .disabled )', }	// the options for the sortable plugin
 					).bind( 'sortupdate', function() {
+						
 						/* Rename the ids and names */
 						var nodeFields = jQuery( this ).children( 'div' );
 						var iCount = 1;
@@ -810,7 +810,7 @@ return $vValue;
 							jQuery( this ).find( 'input,textarea,select' ).attr( 'id', function( index, name ){ return setID( iIndex, name ) } );
 							jQuery( this ).find( 'input,textarea,select' ).attr( 'name', function( index, name ){ return setName( iIndex, name ) } );				
 
-							/* Radio buttons loose their selections, so reassign them */
+							/* Radio buttons loose their selections when IDs and names are updated, so reassign them */
 							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
 								var sAttr = jQuery( this ).prop( 'checked' );
 								if ( typeof sAttr !== 'undefined' && sAttr !== false) 
@@ -820,7 +820,7 @@ return $vValue;
 							iCount++;
 						});
 						
-						/* It seems radio buttons need to be taken cared of again. Othwrsize, the checked items will be gone. */
+						/* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
 						jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
 						
 					}); 
