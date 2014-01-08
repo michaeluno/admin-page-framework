@@ -1596,6 +1596,15 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'font',
 				'is_repeatable'	=>	 true,
 			),			
+			array(
+				'field_id'	=>	'font_field_sortable',
+				'section_id'	=>	'font',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'font',
+				'is_sortable'	=>	 true,
+				array(),	// second
+				array(),	// third
+			),			
 			array()
 		);
 		

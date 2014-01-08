@@ -218,10 +218,51 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 									jQuery( '#font_preview_' + sInputID ).css( 'font-size', jQuery( this ).val() + '%' );
 								}				
 							});		
-							
 						});
+					},				
+					
+					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+
+						/* 1. Return if it is not the type. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */						
+						if ( node.find( '.select_font' ).length <= 0 )  return;	/* If the uploader buttons are not found, do nothing */
 						
-					}					
+						/* 2. Update the Select File button */
+						var iCount = 0;
+						node.children( '.admin-page-framework-field' ).each( function() {
+							
+							nodeButton = jQuery( this ).find( '.select_font' );
+							
+							/* 2-1. Set the current iteration index to the button ID and the preview elements */
+							nodeButton.setIndexIDAttribute( 'id', iCount );	
+							jQuery( this ).find( '.font_preview' ).setIndexIDAttribute( 'id', iCount );
+							jQuery( this ).find( '.font-preview-text' ).setIndexIDAttribute( 'id', iCount );
+							
+							/* 2-2. Rebind the uploader script to the button */
+							var nodeFontInput = jQuery( this ).find( '.font-field input' );
+							if ( nodeFontInput.length <= 0 ) return true;
+							var sInputID = nodeFontInput.attr( 'id' );
+							setAPFFontUploader( sInputID, true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+							
+							/* 2-2-2. Update the font-family style of the preview box. */
+							jQuery( '#font_preview_' + sInputID ).css( 'font-family', sInputID );							
+							
+							/* 2-2-3. Rebind the noUiSlider script to the font-size changer slider. */
+							jQuery( this ).find( '#slider_container_' + sInputID ).replaceWith( createFontSizeChangeSlider( sInputID ) );
+							jQuery( this ).find( '#slider_' + sInputID ).noUiSlider({
+								range: [ 100, 300 ],
+								start: 150,
+								step: 1,
+								handles: 1,
+								slide: function() {
+									jQuery( '#font_preview_' + sInputID ).css( 'font-size', jQuery( this ).val() + '%' );
+								}				
+							});	
+							
+							iCount++;
+						});
+					},		
+					
 				});
 			});		
 		" . PHP_EOL;
