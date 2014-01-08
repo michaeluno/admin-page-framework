@@ -147,19 +147,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 		return $bReverse ? array_reverse( $aFilters ) : $aFilters;	
 		
 	}
-	
-	/**
-	 * Redirects to the given URL and exits. Saves one extra line, exit;.
-	 * 
-	 * @since			2.0.0
-	 */ 
-	public function goRedirect( $sURL ) {
 		
-		if ( ! function_exists('wp_redirect') ) include_once( ABSPATH . WPINC . '/pluggable.php' );
-		die( wp_redirect( $sURL ) );
-		
-	}
-	
 	/**
 	 * Returns an array of plugin data from the given path.		
 	 * 
