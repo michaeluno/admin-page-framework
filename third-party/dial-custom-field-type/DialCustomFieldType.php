@@ -63,11 +63,11 @@ class DialCustomFieldType extends AdminPageFramework_FieldType {
 						/* Remove unnecessary elements */
 						nodeNewDialInput.closest( '.admin-page-framework-field' ).find( 'canvas' ).remove();
 						
-						
 						/* Bind the knob script */
-						nodeNewDialInput.knob();		
+						nodeNewDialInput.knob();
 						
-					}
+					},
+					
 				});
 			});		
 		
@@ -88,6 +88,10 @@ class DialCustomFieldType extends AdminPageFramework_FieldType {
 			.admin-page-framework-field-dial .admin-page-framework-input-label-container {
 				padding-right: 1em;
 				padding-bottom: 2em;
+			}
+			.sortable .admin-page-framework-field-dial .admin-page-framework-input-label-container {
+				padding-right: 0;
+				padding-bottom: 0;				
 			}
 			.admin-page-framework-field-dial .admin-page-framework-input-label-string {
 				vertical-align: top;

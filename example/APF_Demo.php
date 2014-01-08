@@ -1539,6 +1539,11 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Multiple Dials', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
 				'label'	=>	__( 'Default', 'admin-page-framework-demo' ),
+				'attributes'	=>	array(	
+					'field'	=>	array(
+						'style'	=>	'display: inline; clear: none',	// this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
+					),
+				),
 				array(					
 					'label'	=>	__( 'Disable display input', 'admin-page-framework-demo' ),
 					'attributes'	=>	array(
@@ -1606,7 +1611,24 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
 				'is_repeatable'	=>	true,
-			)
+			),
+			array(
+				'field_id'	=>	'dial_sortable',
+				'section_id'	=>	'dial',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'type'	=>	'dial',
+				'is_sortable'	=>	true,
+				'attributes'	=>	array(	
+					'field'	=>	array(
+						'style'	=>	'display: inline; clear: none',	// this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
+					),
+					'data-width'	=>	100,
+					'data-height'	=> 	100,
+				),				
+				array(),	// the second item
+				array(),	// the third item
+				array(),	// the fourth item
+			)			
 		);
 		$this->addSettingFields(			
 			array(
