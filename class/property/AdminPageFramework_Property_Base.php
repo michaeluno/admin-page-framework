@@ -24,9 +24,9 @@ abstract class AdminPageFramework_Property_Base {
 		'sURI'			=> null,
 		'sVersion'		=> null,
 		'sThemeURI'		=> null,
-		'sScriptURI'		=> null,
-		'sAuthorURI'		=> null,
-		'sAuthor'			=> null,
+		'sScriptURI'	=> null,
+		'sAuthorURI'	=> null,
+		'sAuthor'		=> null,
 		'sDescription'	=> null,
 	);	
 	
@@ -175,8 +175,6 @@ abstract class AdminPageFramework_Property_Base {
 		
 		/* Description */
 		.admin-page-framework-fields-description {
-/* 			display: block;	/* required to start from a new line */
-			clear: both;	/* required to start from a new line */ */
 			margin-bottom: 0;
 		}
 		/* Field Container */
@@ -242,7 +240,7 @@ abstract class AdminPageFramework_Property_Base {
 			clear: both;
 			float: left;
 			display: inline-block;
-			padding: 1em 1em 0.72em;
+			padding: 1em 1.2em 0.72em;
 			margin: 1px 0 0 0;
 			border-top-width: 1px;
 			border-bottom-width: 1px;
