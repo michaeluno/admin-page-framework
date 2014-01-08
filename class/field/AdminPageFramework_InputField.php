@@ -823,8 +823,8 @@ return $vValue;
 						jQuery( jQuery( this ).children( 'div' ).reverse() ).each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
 
 							var iIndex = ( iMaxCount - iCount );
-							jQuery( this ).setIndexIDAttribute( 'id' );
-							jQuery( this ).find( 'label' ).setIndexIDAttribute( 'for' );
+							jQuery( this ).setIndexIDAttribute( 'id', iIndex );
+							jQuery( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
 							jQuery( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
 							jQuery( this ).find( 'input,textarea,select' ).setIndexNameAttribute( 'name', iIndex );
 							// jQuery( this ).attr( 'id', function( index, name ) { return setID( iIndex, name ) } );
