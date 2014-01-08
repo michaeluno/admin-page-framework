@@ -127,7 +127,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							nodeButton = jQuery( this ).find( '.select_media' );
 							
 							/* 2-1. Set the current iteration index to the button ID */
-							nodeButton.setIndexIDAttribute( 'id' );	
+							nodeButton.setIndexIDAttribute( 'id', iCount );	
 							
 							/* 2-2. Rebuind the uploader script to the button */
 							var nodeMediaInput = jQuery( this ).find( '.media-field input' );
