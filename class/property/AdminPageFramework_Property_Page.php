@@ -283,6 +283,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 
 	}	
 	
+	/**
+	 * Retrieves the framework's saved options from the options table of the database.
+	 * @since			2.0.0
+	 */
 	public function getOptions() {
 		
 		$vOptions = get_option( $this->sOptionKey );
@@ -291,6 +295,26 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		return ( array ) $vOptions;	// finally cast array.
 		
 	}
+	
+	/**
+	 * Returns the default values of all the added fields.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getDefaultOptions() {
+		
+		$_aDefaultOptions = array();
+		foreach( $this->aFields as $sFieldID => $_aField ) 					
+			$_aDefaultOptions[ $sFieldID ] = isset( $_aField['value'] )
+				? $_aField['value']
+				: ( isset( $_aField['default'] )
+					? $_aField['default']
+					: null
+				);
+		return $_aDefaultOptions;		
+		
+	}
+	
 	
 	/*
 	 * callback methods

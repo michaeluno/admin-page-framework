@@ -22,6 +22,8 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Color Picker** - it lets the user easily pick colors.
 * **Rich Text Editor** - supports the rich text editor form input.
+* **Repeatable Fields** - supports repeatable fields.
+* **Sortable Fields** - supports sortable fields.
 * **Reset Button** - create a reset button that lets your users to initialize the saved options.
 * **Settings API Implemented** - it uses the [WordPress Settings API](http://codex.wordpress.org/Settings_API) for creating the form so the standard option design will be employed.
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
@@ -37,7 +39,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * `radio` - a set of radio buttons.
 * `checkbox` - a check box.
 * `select` - a dropdown list.
-* `submit` - a submit field that the user  
+* `submit` - a submit field that the user send the form data. 
 * `hidden` - a hidden field that is useful to embed hidden values. 
 * `file` - a file field that lets the user upload files.
 * `media` - a custom text field with the media uploader that sets the file URL.
@@ -186,6 +188,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Changed: the all the registered field default values to be saved regardless of the page where the user submits the form.
+* Changed: it to store all added sections and fields into the property object regardless of they belong to currently loading page and with some other conditions.
 * Added: the ability to sort fields by drag and drop.
 * Fixed: a bug that meta box specific styles were not loaded per class basis when multiple meta box class instances were created and they were displayed in the same page; only the first instantiated meta box class's styles were loaded.
 * Added: the filters, `style_common_{extended meta box class name}`, `style_ie_common_{extended meta box class name}`, `style_ie_{extended meta box class name}`.
@@ -195,7 +199,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the ability to mix field types in sub-fields.
 * Added: the `after_fields` and the `before_fields` keys to the field definition array.
 * Changed: ( ***Breaking Change*** ) the structure of field definition arrays which define how the field should be rendered.
-* Changed: ( ***Breaking Change*** ) dropped the section from the saved option array structure.
+* Changed: ( ***Breaking Change*** ) dropped the page slug and the section dimensions from the saved option array structure.
 * Fixed: a bug that page load info in the footer area was not embedded when multiple root pages are created.
 * Moved: the method to retrieve library data into the property base class and they will be stored as static properties.
 * Changed: ( ***Breaking Change*** ) the name of the `showInPageTabs()` method to `setInPageTabsVisibility()`.

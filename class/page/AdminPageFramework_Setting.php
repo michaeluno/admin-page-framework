@@ -224,17 +224,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$aSection['page_slug'] = $this->oUtil->sanitizeSlug( $aSection['page_slug'] );
 		$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
 		
-		
-// If the page slug does not match the current loading page, there is no need to register form sections and fields.
-// if ( $GLOBALS['pagenow'] != 'options.php' && ! $sCurrentPageSlug || $sCurrentPageSlug !=  $aSection['page_slug'] ) return;				
-
-// If the custom condition is set and it's not true, skip.
-// if ( ! $aSection['if'] ) return;
-
-// If the access level is set and it is not sufficient, skip.
-// $aSection['capability'] = isset( $aSection['capability'] ) ? $aSection['capability'] : $this->oProp->sCapability;
-// if ( ! current_user_can( $aSection['capability'] ) ) return;	// since 1.0.2.1
-		
 		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
 
 	}
@@ -444,7 +433,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		if ( ! is_array( $aField ) ) return;
 
-		// Check the mandatory keys' values are set.
+		// Check the required keys
 		if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) return;	// these keys are necessary.
 		
 		$aField = $aField + self::$_aStructure_Field;	// avoid undefined index warnings.
@@ -452,15 +441,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
 		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
-		
-		
-// If the custom condition is set and it's not true, skip.
-// if ( ! $aField['if'] ) return;			
-		
-// If the access level is not sufficient, skip.
-// $aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
-// if ( ! current_user_can( $aField['capability'] ) ) return; 
-								
+										
 		$this->oProp->aFields[ $aField['field_id'] ] = $aField;		
 		
 	}
@@ -539,14 +520,21 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * Useful when you don't know the section name but it's a bit slower than accessing the property value by specifying the section name.
 	 * 
 	 * @since			2.1.2
-	 * @since			3.0.0			Changed the scope to public from protected. Dropped the sections.
+	 * @since			3.0.0			Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
 	 * @access			public
 	 */
 	public function getFieldValue( $sFieldID ) {
-
-		return isset( $this->oProp->aOptions[ $sFieldID ] )
-			? $this->oProp->aOptions[ $sFieldID ]
-			: null;
+		
+		/* If it's saved, return it */
+		if ( array_key_exists( $sFieldID, $this->oProp->aOptions ) )
+			return $this->oProp->aOptions[ $sFieldID ];
+	
+		/* Otherwise, search the default value */
+		$_aDefaultOptions = $this->oProp->getDefaultOptions();
+		if ( array_key_exists( $sFieldID, $_aDefaultOptions ) )
+			return $_aDefaultOptions[ $sFieldID ];
+			
+		return null;
 					
 	}
 			
@@ -562,14 +550,15 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	protected function _doValidationCall( $sMethodName, $aInput ) {
 		
+		/* 1-1. Set up variables */
 		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
 		
-		// Retrieve the submit field ID(the container that holds submit input tags) and the input ID(this determines exactly which submit button is pressed).
+		/* 1-2. Retrieve the submit field ID(the container that holds submit input tags) and the input ID(this determines exactly which submit button is pressed). */
 		$sPressedFieldID = isset( $_POST['__submit'] ) ? $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'field_id' ) : '';
 		$sPressedInputID = isset( $_POST['__submit'] ) ? $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'input_id' ) : '';
 		
-		// Check if custom submit keys are set [part 1]
+		/* 2. Check if custom submit keys are set [part 1] */
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
 			return $this->_importOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug );
 		if ( isset( $_POST['__export']['submit'] ) ) 
@@ -581,14 +570,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( isset( $_POST['__redirect'] ) && $sRedirectURL = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__redirect'], 'url' ) )
 			$this->_setRedirectTransients( $sRedirectURL );
 				
-		// Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name}
+		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
 		$aInput = $this->_getFilteredOptions( $aInput, $sPageSlug, $sTabSlug, $sPressedFieldID, $sPressedInputID );
 		
-		// Check if custom submit keys are set [part 2] - these should be done after applying the filters.
+		/* 4. Check if custom submit keys are set [part 2] - these should be done after applying the filters. */
 		if ( isset( $_POST['__reset'] ) && $sKeyToReset = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__reset'], 'key' ) )
 			$aInput = $this->_resetOptions( $sKeyToReset, $aInput );
 		
-		// Set the update notice
+		/* 5. Set the update notice */
 		$bEmpty = empty( $aInput );
 		$this->setSettingNotice( 
 			$bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
@@ -609,8 +598,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		private function _askResetOptions( $sPressedFieldName, $sPageSlug ) {
 			
 			// Retrieve the pressed button's associated submit field ID.
-			$aNameKeys = explode( '|', $sPressedFieldName );	
-$sFieldID = $aNameKeys[ 1 ];	// since the page slug and the section have been dropped from the saved option structure
+			$aNameKeys = explode( '|', $sPressedFieldName );	// e.g. OptionKey|field_id
+			$sFieldID = $aNameKeys[ 1 ];	
 			
 			// Set up the field error array.
 			$aErrors = array();
@@ -622,7 +611,7 @@ $sFieldID = $aNameKeys[ 1 ];	// since the page slug and the section have been dr
 			
 			$this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
 			
-			return $this->_getPageOptions( $sPageSlug ); 			
+			return $this->_getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
 			
 		}
 		
@@ -634,14 +623,13 @@ $sFieldID = $aNameKeys[ 1 ];	// since the page slug and the section have been dr
 		 */
 		private function _resetOptions( $sKeyToReset, $aInput ) {
 			
-			if ( $sKeyToReset == 1 or $sKeyToReset === true ) {
+			if ( $sKeyToReset == 1 || $sKeyToReset === true ) {
 				delete_option( $this->oProp->sOptionKey );
 				$this->setSettingNotice( $this->oMsg->__( 'option_been_reset' ) );
 				return array();
 			}
 			
-			unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ] );
-			unset( $aInput[ trim( $sKeyToReset ) ] );
+			unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ], $aInput[ trim( $sKeyToReset ) ] );
 			update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
 			$this->setSettingNotice( $this->oMsg->__( 'specified_option_been_deleted' ) );
 		
@@ -845,96 +833,119 @@ $sFieldID = $aNameKeys[ 1 ];	// since the page slug and the section have been dr
 		 */
 		private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug, $sPressedFieldID, $sPressedInputID ) {
 
-$aStoredPageOptions = $this->_getPageOptions( $sPageSlug ); 			
+			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions() );
 
 			// for the input ID
 			if ( $sPressedInputID )
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedInputID}", $aInput, $this->oProp->aOptions );
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedInputID}", $aInput, $_aOptions );
 			
 			// for the field ID
 			if ( $sPressedFieldID )
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedFieldID}", $aInput, $this->oProp->aOptions );
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedFieldID}", $aInput, $_aOptions );
 							
 			// for tabs
-			if ( $sTabSlug && $sPageSlug )	{
-				$aRegisteredSectionKeysForThisTab = isset( $aInput[ $sPageSlug ] ) ? array_keys( $aInput[ $sPageSlug ] ) : array();			
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aStoredPageOptions );	// $aInput: new values, $aStoredPageOptions: old values
-$aInput = $this->oUtil->uniteArraysRecursive( $aInput, $this->_getOtherTabOptions( $sPageSlug, $aRegisteredSectionKeysForThisTab ) );
+			if ( $sTabSlug && $sPageSlug )	{	
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $this->_getTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );	// $aInput: new values, $aStoredPageOptions: old values
+				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );
 			}
 			
 			// for pages	
 			if ( $sPageSlug )	{
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $aStoredPageOptions ); // $aInput: new values, $aStoredPageOptions: old values
-$aInput = $this->oUtil->uniteArraysRecursive( $aInput, $this->_getOtherPageOptions( $sPageSlug ) );
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values
+				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
 			}
 		
 			// for the class
-			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $this->oProp->aOptions );
+			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
 
 			return $aInput;
 		
 		}	
-	
-/**
- * Retrieves the stored options of the given page slug.
- * 
- * Other pages' option data will not be contained in the returning array.
- * This is used to pass the old option array to the validation callback method.
- * 
- * @since			2.0.0
- * @return			array			the stored options of the given page slug. If not found, an empty array will be returned.
- */ 
-private function _getPageOptions( $sPageSlug ) {
 			
-	$aStoredPageOptions = array();
-	if ( isset( $this->oProp->aOptions[ $sPageSlug ] ) )
-		$aStoredPageOptions[ $sPageSlug ] = $this->oProp->aOptions[ $sPageSlug ];
+			/**
+			 * Retrieves the stored options of the given tab slug.
+			 * @since			3.0.0
+			 */
+			private function _getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {
+				
+				$_aStoredOptionsOfTheTab = array();
+				if ( ! $sTabSlug ) return $_aStoredOptionsOfTheTab;
+				foreach( $this->oProp->aFields as $_aField ) {
+					if ( isset( $_aField['page_slug'], $_aField['tab_slug'] ) && $_aField['page_slug'] == $sPageSlug && $_aField['tab_slug'] == $sTabSlug ) {
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					}
+				}		
+				return $_aStoredOptionsOfTheTab;
+				
+			}
 	
-	return $aStoredPageOptions;
-	
-}
-	
-/**
- * Retrieves the stored options excluding the currently specified tab's sections and their fields.
- * 
- * This is used to merge the submitted form data with the previously stored option data of the form elements 
- * that belong to the in-page tab of the given page.
- * 
- * @since			2.0.0
- * @return			array			the stored options excluding the currently specified tab's sections and their fields.
- * 	 If not found, an empty array will be returned.
- */ 
-private function _getOtherTabOptions( $sPageSlug, $aSectionKeysForTheTab ) {
+			/**
+			 * Retrieves the stored options of the given page slug.
+			 * 
+			 * The other pages' option data will not be contained in the returning array.
+			 * This is used to pass the old option array to the validation callback method.
+			 * 
+			 * @since			2.0.0
+			 * @return			array			the stored options of the given page slug. If not found, an empty array will be returned.
+			 */ 
+			private function _getPageOptions( $aOptions, $sPageSlug ) {
+						
+				$_aStoredOptionsOfThePage = array();
+				foreach( $this->oProp->aFields as $_aField ) {
+					if ( isset( $_aField['page_slug'] ) && $_aField['page_slug'] == $sPageSlug ) {
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					}
+				}
+				return $_aStoredOptionsOfThePage;
+				
+			}
+				
+			/**
+			 * Retrieves the stored options excluding the currently specified tab's sections and their fields.
+			 * 
+			 * This is used to merge the submitted form data with the previously stored option data of the form elements 
+			 * that belong to the in-page tab of the given page.
+			 * 
+			 * @since			2.0.0
+			 * @since			3.0.0			The second parameter was changed to a tab slug.
+			 * @return			array			the stored options excluding the currently specified tab's sections and their fields.
+			 * 	 If not found, an empty array will be returned.
+			 */ 
+			private function _getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
 
-	$aOtherTabOptions = array();
-	if ( isset( $this->oProp->aOptions[ $sPageSlug ] ) )
-		$aOtherTabOptions[ $sPageSlug ] = $this->oProp->aOptions[ $sPageSlug ];
-		
-	// Remove the elements of the given keys so that the other stored elements will remain. 
-	// They are the other form section elements which need to be returned.
-	foreach( $aSectionKeysForTheTab as $aSectionKey ) 
-		unset( $aOtherTabOptions[ $sPageSlug ][ $aSectionKey ] );
-		
-	return $aOtherTabOptions;
-	
-}
-	
-/**
- * Retrieves the stored options excluding the key of the given page slug.
- * 
- * This is used to merge the submitted form input data with the previously stored option data except the given page.
- * 
- * @since			2.0.0
- * @return			array			the array storing the options excluding the key of the given page slug. 
- */ 
-private function _getOtherPageOptions( $sPageSlug ) {
+				$_aStoredOptionsNotOfTheTab = array();
+				foreach( $this->oProp->aFields as $_aField ) {
+					if ( isset( $_aField['page_slug'], $_aField['tab_slug'] ) && $_aField['page_slug'] == $sPageSlug && $_aField['tab_slug'] != $sTabSlug ) {
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					}
+				}					
+				return $_aStoredOptionsNotOfTheTab;
+				
+			}
+				
+			/**
+			 * Retrieves the stored options excluding the key of the given page slug.
+			 * 
+			 * This is used to merge the submitted form input data with the previously stored option data except the given page.
+			 * 
+			 * @since			2.0.0
+			 * @return			array			the array storing the options excluding the key of the given page slug. 
+			 */ 
+			private function _getOtherPageOptions( $aOptions, $sPageSlug ) {
 
-	$aOtherPageOptions = $this->oProp->aOptions;
-	if ( isset( $aOtherPageOptions[ $sPageSlug ] ) )
-		unset( $aOtherPageOptions[ $sPageSlug ] );
-	return $aOtherPageOptions;
-	
-}
+				$_aStoredOptionsNotOfThePage = array();
+				foreach( $this->oProp->aFields as $_aField ) {
+					if ( isset( $_aField['page_slug'] ) && $_aField['page_slug'] != $sPageSlug ) {
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					}
+				}			
+				return $_aStoredOptionsNotOfThePage;
+				
+			}
 	
 	/**
 	 * Renders the registered setting fields.
@@ -1072,9 +1083,8 @@ private function _getOtherPageOptions( $sPageSlug ) {
 		 * Note that we use local variables for the applying items. This allows the framework to refer the added sections and fields for later use. 
 		 * */
 		$this->_formatSectionArrays( $this->oProp->aSections );	// passed by reference.
+		$this->_formatFieldArrays( $this->oProp->aFields, $this->oProp->aSections );	
 		$_aSections = $this->_applyConditionsForSections( $this->oProp->aSections );
-
-		$this->_formatFieldArrays( $this->oProp->aFields, $_aSections );	
 		$_aFields = $this->_applyConditionsForFields( $this->oProp->aFields, $_aSections );
 
 		/* 2. If there is no section or field to add, do nothing. */
