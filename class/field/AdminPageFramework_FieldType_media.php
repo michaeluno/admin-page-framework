@@ -251,7 +251,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 									} else{
 										
 										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
-										var new_field = addAPFRepeatableField( field_container.attr( 'id' ) );
+										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
 										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
 										setPreviewElement( sInputIDOfNewField, attachment );
 			
