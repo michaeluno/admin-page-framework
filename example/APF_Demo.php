@@ -519,8 +519,12 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'default'	=>	'a',
-				'is_repeatable'	=>	true,
-				'description'	=>	__( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>is_repeatable</code> key to true.', 'admin-page-framework-demo' ),
+				'is_repeatable'	=>	array(
+					'max'	=>	10,
+					'min'	=>	3,
+				),
+				'description'	=>	__( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>is_repeatable</code> key to true.', 'admin-page-framework-demo' )
+					. __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> keys in the repeatable field setting array.' ),
 			),		
 			array(	// Sortable text fields
 				'field_id'	=>	'text_sortable',
@@ -571,7 +575,10 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
-				'is_repeatable'	=>	true,
+				'is_repeatable'	=>	array(
+					'max'	=>	20,
+					'min'	=>	2,
+				),
 				'attributes'	=>	array(
 					'rows'	=>	3,
 					'cols'	=>	60,
