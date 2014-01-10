@@ -54,7 +54,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_date_repeatable',
 				'type'			=> 'date',
 				'title'			=> __( 'Date Repeatable', 'admin-page-framework-demo' ),				
-				'is_repeatable'	=>	true,
+				'repeatable'	=>	true,
 			),			
 			array(
 				'field_id'		=> 'metabox_date_time',
@@ -65,7 +65,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_date_time_repeatable',
 				'type'			=> 'date_time',
 				'title'			=> __( 'Date Time Repeatable', 'admin-page-framework-demo' ),				
-				'is_repeatable'	=>	true,				
+				'repeatable'	=>	true,				
 			),			
 			array(
 				'field_id'		=> 'metabox_time',
@@ -76,7 +76,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_time_repeatable',
 				'type'			=> 'time',
 				'title'			=> __( 'Time Repeatable', 'admin-page-framework-demo' ),				
-				'is_repeatable'	=>	true,
+				'repeatable'	=>	true,
 			),
 			array(
 				'field_id'		=> 'metabox_dial',
@@ -87,7 +87,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_dial_repeatable',
 				'type'			=> 'dial',
 				'title'			=> __( 'Dial Repeatable', 'admin-page-framework-demo' ),				
-				'is_repeatable'	=>	true,
+				'repeatable'	=>	true,
 			),
 			array(
 				'field_id'		=> 'metabox_font',
@@ -98,7 +98,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_font_repeatable',
 				'type'			=> 'font',
 				'title'			=> __( 'Font Repeatable', 'admin-page-framework-demo' ),				
-				'is_repeatable'	=>	true,
+				'repeatable'	=>	true,
 			),
 			
 			array()

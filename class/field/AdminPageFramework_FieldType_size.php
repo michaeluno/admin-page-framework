@@ -157,7 +157,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 				/* The size (number) part */
 				. "<label " . $this->generateAttributes( $aSizeLabelAttributes ) . ">"
 					. $this->getFieldElementByKey( $aField['before_label'], 'size' )
-					. ( $aField['label'] && ! $aField['is_repeatable']
+					. ( $aField['label'] && ! $aField['repeatable']
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)

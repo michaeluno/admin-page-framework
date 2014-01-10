@@ -80,7 +80,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 			. "<div class='admin-page-framework-input-label-container'>"
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
-					. ( $aField['label'] && ! $aField['is_repeatable']
+					. ( $aField['label'] && ! $aField['repeatable']
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)

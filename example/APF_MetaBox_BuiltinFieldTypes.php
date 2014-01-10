@@ -30,7 +30,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_text_field_repeatable',
 				'type'			=> 'text',
 				'title'			=> __( 'Text Repeatable', 'admin-page-framework-demo' ),
-				'is_repeatable'	=>	true
+				'repeatable'	=>	true
 			),			
 			array(
 				'field_id'		=> 'metabox_textarea_field',

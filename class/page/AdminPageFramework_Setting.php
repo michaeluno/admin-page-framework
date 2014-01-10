@@ -66,8 +66,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'order'				=> null,		// do not set the default number here for this key.		
 		'help'				=> null,		// since 2.1.0
 		'help_aside'		=> null,		// since 2.1.0
-		'is_repeatable'		=> null,		// since 2.1.3
-		'is_sortable'		=> null,		// since 2.1.3
+		'repeatable'		=> null,		// since 2.1.3
+		'sortable'		=> null,		// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
 	);	
 	
@@ -286,7 +286,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
 	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
 	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
-	*	<li><strong>is_repeatable</strong> - [3.0.0+] ( optional, boolean ) whether the fields should be repeatable. If true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields.</li>
+	*	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether the fields should be repeatable. If it yields true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. Optionally an setting array can be passed.
+	*		<h4>Repeatable Fields Setting Array</h4>
+	*		<ul>
+	*			<li><code>max</code> - the allowed maximum number of fields to be repeated.</li>
+	*			<li><code>min</code> - the allowed minimum number of fields to be repeated.</li>
+	*		</ul>
+	*	</li>
 	*	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value pairs representing the attribute and its property. Note that some field types have specific keys in the first dimensions. e.g.<code>array( 'class' => 'my_custom_class_selector', 'style' => 'background-color:#777', 'size' => 20, )</code></li>
 	* </ul>
 	* <h4>Field Types</h4>

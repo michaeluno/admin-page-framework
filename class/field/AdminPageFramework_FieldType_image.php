@@ -442,7 +442,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>"	// image-field ( this will be media-field for the media field type )
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
-					. ( $aField['label'] && ! $aField['is_repeatable']
+					. ( $aField['label'] && ! $aField['repeatable']
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
@@ -454,7 +454,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			. "</div>"			
 			. $aField['after_label']
 			. $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes )
-			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['is_repeatable'], $aField['allow_external_source'], $aButtonAtributes );
+			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $aButtonAtributes );
 		;
 		
 		return implode( PHP_EOL, $aOutput );

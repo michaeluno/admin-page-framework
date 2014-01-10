@@ -28,8 +28,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	protected static $_aDefaultKeys = array(
 		'value'	=>	null,	// ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
 		'default'	=>	null,	// ( array or string )
-		'is_repeatable'	=>	false,
-		'is_sortable'	=>	false,
+		'repeatable'	=>	false,
+		'sortable'	=>	false,
 		'label'	=>	'',	// ( string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
 		'delimiter'	=>	'',
 		'before_input'	=>	'',

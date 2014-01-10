@@ -277,12 +277,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			: '';
 			
 		/* 6. Add the repeater script */
-		$aExtraOutput[] = $this->aField['is_repeatable']
-			? $this->_getRepeaterFieldEnablerScript( 'fields-' . $this->aField['tag_id'], count( $aFields ), $this->aField['is_repeatable'] )
+		$aExtraOutput[] = $this->aField['repeatable']
+			? $this->_getRepeaterFieldEnablerScript( 'fields-' . $this->aField['tag_id'], count( $aFields ), $this->aField['repeatable'] )
 			: '';
 
 		/* 7. Add the sortable script */
-		$aExtraOutput[] = $this->aField['is_sortable'] && ( count( $aFields ) > 1 || $this->aField['is_repeatable'] )
+		$aExtraOutput[] = $this->aField['sortable'] && ( count( $aFields ) > 1 || $this->aField['repeatable'] )
 			? $this->_getSortableFieldEnablerScript( 'fields-' . $this->aField['tag_id'] )
 			: '';			
 		
@@ -294,8 +294,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		$_aFieldsContainerAttributes = array(
 			'id'	=> 'fields-' . $this->aField['tag_id'],
 			'class'	=> 'admin-page-framework-fields'
-				. ( $this->aField['is_repeatable'] ? ' repeatable' : '' )
-				. ( $this->aField['is_sortable'] ? ' sortable' : '' ),
+				. ( $this->aField['repeatable'] ? ' repeatable' : '' )
+				. ( $this->aField['sortable'] ? ' sortable' : '' ),
 			'data-type'	=> $this->aField['type'],	// this is referred by the sortable field JavaScript script.
 		) + $this->aField['attributes']['fields'];
 		return 
@@ -331,7 +331,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			}		
 			
 			/* Create the sub-fields of repeatable fields based on the saved values */
-			if ( $aField['is_repeatable'] ) 
+			if ( $aField['repeatable'] ) 
 				foreach( ( array ) $vSavedValue as $iIndex => $vValue ) {
 					if ( $iIndex == 0 ) continue;
 					$aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
@@ -345,7 +345,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			$aFields = array_merge( array( $aFirstField ), $aSubFields );
 					
 			/* Set the saved values */		
-			if ( count( $aSubFields ) > 0 || $aField['is_repeatable'] || $aField['is_sortable'] ) {	// means the elements are saved in an array.
+			if ( count( $aSubFields ) > 0 || $aField['repeatable'] || $aField['sortable'] ) {	// means the elements are saved in an array.
 				foreach( $aFields as $iIndex => &$aThisField ) {
 					$aThisField['_saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null;
 					$aThisField['_is_multiple_fields'] = true;
