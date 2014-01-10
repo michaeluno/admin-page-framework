@@ -448,9 +448,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	public function _replyToAddRepeatableFieldjQueryPlugin() {
 		
-		// $sCannotAddMore = $this->oMsg->__( '' );
-		$sCannotAddMore =  __( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' );
-		$sCannotRemoveMore =  __( 'The allowed minimum number of fields is {0}.', 'admin-page-framework' );	
+		$sCannotAddMore = $this->oMsg->__( 'allowed_maximum_number_of_fields' );
+		$sCannotRemoveMore =  $this->oMsg->__( 'allowed_minimum_number_of_fields' );
 		
 		$sScript = "		
 		(function ( $ ) {
