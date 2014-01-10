@@ -61,7 +61,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 													
-						/* the jQuery clone() method looses the checked state of radio buttons so re-check them again */	
+						/* the checked state of radio buttons somehow lose so re-check them again */	
 						node.closest( '.admin-page-framework-fields' )
 							.find( 'input[type=radio][checked=checked]' )
 							.attr( 'checked', 'checked' );

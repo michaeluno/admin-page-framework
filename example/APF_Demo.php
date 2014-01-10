@@ -13,6 +13,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
 			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
@@ -24,6 +25,7 @@ class APF_Demo extends AdminPageFramework {
 		new DateTimeCustomFieldType( $sClassName );
 		new DialCustomFieldType( $sClassName );
 		new FontCustomFieldType( $sClassName );
+		new SampleCustomFieldType( $sClassName );
 
 	}
 
@@ -166,6 +168,11 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'font',
 				'title'		=>	__( 'Fonts', 'admin-page-framework-demo' ),	
+			),
+			array(
+				'page_slug'	=>	'apf_custom_field_types',
+				'tab_slug'	=>	'sample',
+				'title'		=>	__( 'Sample', 'admin-page-framework-demo' ),	
 			)
 		);
 		$this->addInPageTabs(	// ( optional )
@@ -390,23 +397,30 @@ class APF_Demo extends AdminPageFramework {
 				'description'	=>	__( 'These are date and time pickers.', 'admin-page-framework-demo' ),
 			),
 			array(
-				'section_id'		=>	'dial',
+				'section_id'	=>	'dial',
 				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'dial',
 				'title'			=>	__( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
 			),
 			array(
-				'section_id'		=>	'font',
+				'section_id'	=>	'font',
 				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'font',
 				'title'			=>	__( 'Font Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is still experimental.', 'admin-page-framework-demo' ),				
 			),
+			array(
+				'section_id'	=>	'sample',
+				'page_slug'		=>	'apf_custom_field_types',
+				'tab_slug'		=>	'sample',
+				'title'			=>	__( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),				
+			),			
 			array()
 		);
 		$this->addSettingSections(	
 			array(
-				'section_id'		=>	'submit_buttons_manage',
+				'section_id'	=>	'submit_buttons_manage',
 				'page_slug'		=>	'apf_manage_options',
 				'tab_slug'		=>	'delete_options',
 				'title'			=>	'Reset Button',
@@ -1035,9 +1049,9 @@ class APF_Demo extends AdminPageFramework {
 				'title'			=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'			=>	'size',
 				'sortable'	=>	true,
-				array(),
-				array(),
-				array(),
+				array(),	// the second item
+				array(),	// the third item
+				array(),	// the fourth item
 			)			
 		);
 		
@@ -1415,7 +1429,7 @@ class APF_Demo extends AdminPageFramework {
 					),
 				),				
 				'description'	=> __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the visible elements.', 'admin-page-framework-demo' ),
-			),
+			),		
 			array()
 		);	
 		
@@ -1662,6 +1676,45 @@ class APF_Demo extends AdminPageFramework {
 				array(),	// third
 			),			
 			array()
+		);
+		$this->addSettingFields(
+			array(
+				'field_id'	=>	'sample_field',
+				'section_id'	=>	'sample',
+				'type'	=>	'sample',
+				'title'	=>	__( 'Sample', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'This sample custom field demonstrates how to display a certain element after selecting a radio button.', 'admin-page-framework-demo' ),
+				// 'default'	=> 'red',
+				'label'	=>	array(
+					'red'	=> __( 'Red', 'admin-page-framework-demo' ),
+					'blue'	=> __( 'Blue', 'admin-page-framework-demo' ),
+					'green'	=> __( 'Green', 'admin-page-framework-demo' ),
+				),
+				'hidden'	=> array(	// the field type specific key. This is defined in the
+					'red' => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
+					'blue' => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
+					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
+				),
+			),
+			array(
+				'field_id'	=>	'sample_field_repeatable',
+				'section_id'	=>	'sample',
+				'type'	=>	'sample',
+				'title'	=>	__( 'Sample', 'admin-page-framework-demo' ),
+				// 'default'	=> 'red',
+				'label'	=>	array(
+					'red'	=> __( 'Red', 'admin-page-framework-demo' ),
+					'blue'	=> __( 'Blue', 'admin-page-framework-demo' ),
+					'green'	=> __( 'Green', 'admin-page-framework-demo' ),
+				),
+				'hidden'	=> array(	// the field type specific key. This is defined in the
+					'red' => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
+					'blue' => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
+					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
+				),
+				'repeatable'	=> true,
+			),		
+			array()			
 		);
 		
 		/*

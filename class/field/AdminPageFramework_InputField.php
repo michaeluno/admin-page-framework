@@ -229,6 +229,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
 			$aField['field_name']	= $this->_getInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	
 			$aField['_field_name_flat']	= $this->_getFlatInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	// used for submit, export, import field types			
+			$aField['_field_container_id'] = "field-{$aField['input_id']}";	// used in the attribute below plus it is also used in the sample custom field type.
+			$aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}";
 			
 			$aField['attributes'] = $this->uniteArrays(
 				( array ) $aField['attributes'],	// user set values
@@ -244,7 +246,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 
 			/* 4-3. Callback the registered function to output the field */
 			$_aFieldAttributes = array(
-				'id'	=>	"field-{$aField['input_id']}",
+				'id'	=>	$aField['_field_container_id'],
 				'class'	=>	"admin-page-framework-field admin-page-framework-field-{$aField['type']}" 
 					. ( $aField['attributes']['disabled'] ? ' disabled' : '' ),
 				'data-type'	=>	"{$aField['type']}",	// this is referred by the repeatable field JavaScript script.
@@ -540,7 +542,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 					$( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
 					$( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
 				});
-			
+				
+				/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
+				nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
+				
 				/* Call the registered callback functions */
 				nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );					
 				
