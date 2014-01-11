@@ -65,31 +65,47 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 						/* If it is not this field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
-						/* If the input tag is not found, do nothing  */
-						var nodeRadioButtons = nodeField.find( 'input[type=radio]' );
-						if ( nodeRadioButtons.length <= 0 ) return;
-
-						/* Update the hidden elements' ID */				
-						nodeField.find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
+						// var nodeFields = nodeField.closest( '.admin-page-framework-fields' );
 						
-						/* The checked states will be gone after updating the ID of radio buttons so re-check them again */	
-						nodeField.closest( '.admin-page-framework-fields' )
-							.find( 'input[type=radio][checked=checked]' )
-							.attr( 'checked', 'Checked' );
-						
-						/* Rebind the event */
-						jQuery.each( nodeRadioButtons, function( i, val ) {
-							jQuery( this ).change( function() {
+						nodeField.nextAll().andSelf().each( function() {
+							
+							/* Update the hidden elements' ID */		
+							jQuery( this ).find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
+							
+							/* The checked states will be gone after updating the ID of radio buttons so re-check them again */	
+							jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );
+							
+							/* Rebind the event */	
+							jQuery( this ).find( 'input[type=radio]' ).change( function() {
 								jQuery( this ).closest( '.admin-page-framework-field' )
 									.find( 'input[type=radio]' )
 									.attr( 'checked', false );			
 								jQuery( this ).attr( 'checked', 'Checked' );
 								revealSelection( jQuery( this ).attr( 'id' ) );
 							});
-						});
-								
+						});								
 					},
-					
+					removed_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
+						
+						/* If it is not this field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;						
+						
+						nodeField.nextAll().each( function() {
+							
+							/* Update the hidden elements' ID */		
+							jQuery( this ).find( '.sample_hidden_element' ).decrementIDAttribute( 'id' );
+										
+							/* Rebind the event */	
+							jQuery( this ).find( 'input[type=radio]' ).change( function() {
+								jQuery( this ).closest( '.admin-page-framework-field' )
+									.find( 'input[type=radio]' )
+									.attr( 'checked', false );			
+								jQuery( this ).attr( 'checked', 'Checked' );
+								revealSelection( jQuery( this ).attr( 'id' ) );
+							});
+						});							
+						
+					},
 				});
 			});		
 		
