@@ -6,8 +6,11 @@ Admin Page Framework is an open source library for WordPress developed under GPL
 
 ## Screenshots ##
 
-->[![Admin Page Framework - Text, Password, and Textarea](https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s600/admin_page_framework_v3.png)](https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s0/admin_page_framework_v3.png "Text, Password, and Textarea")<-
+<p align="center">
+[![Admin Page Framework - Text, Password, and Textarea](https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s600/admin_page_framework_v3.png)](https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s0/admin_page_framework_v3.png "Text, Password, and Textarea")<-
+</p>
 
+<a href="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s0/admin_page_framework_v3_selectors.png"><img style="float:left;" src="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s144/admin_page_framework_v3_selectors.png" alt="Admin Page Framework - Selectors"/></a>
 <div style="float: left">[![Admin Page Framework - Selectors](https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s144/admin_page_framework_v3_selectors.png)](https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s0/admin_page_framework_v3_selectors.png "Selectors")</div>
 <div style="float: left">[![Admin Page Framework - Image, Media Library, and File Uploads](https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s144/admin_page_framework_v3_files.png)](https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s0/admin_page_framework_v3_files.png "Files - Image, Media Library, Uploads")</div>
 <div style="float: left">[![Admin Page Framework - Taxonomies and Post Types Checklist](https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s144/admin_page_framework_v3_checklist.png)](https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s0/admin_page_framework_v3_checklist.png "Checklist - Taxonomies, Post Types")</div>
