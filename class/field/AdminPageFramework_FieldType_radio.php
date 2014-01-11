@@ -56,16 +56,24 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					added_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 													
-						/* the checked state of radio buttons somehow lose so re-check them again */	
-						node.closest( '.admin-page-framework-fields' )
+						/* the checked state of radio buttons somehow lose their values so re-check them again */	
+						nodeField.closest( '.admin-page-framework-fields' )
 							.find( 'input[type=radio][checked=checked]' )
 							.attr( 'checked', 'checked' );
-									
+							
+						/* Rebind the checked attribute updater */
+						nodeField.find( 'input[type=radio]' ).change( function() {
+							jQuery( this ).closest( '.admin-page-framework-field' )
+								.find( 'input[type=radio]' )
+								.attr( 'checked', false );
+							jQuery( this ).attr( 'checked', 'Checked' );
+						});
+
 					}
 				});
 			});
@@ -118,9 +126,28 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 				;
 				
 		}
+		$aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
 		return implode( PHP_EOL, $aOutput );
 			
 	}
-	
+		/**
+		 * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
+		 * This helps repeatable field script that duplicate the last checked item.
+		 * @sinec			3.0.0
+		 */
+		private function _getUpdateCheckedScript( $sFieldContainerID ) {
+			return 
+				"<script type='text/javascript' class='radio-button-checked-attribute-updater'>
+					jQuery( document ).ready( function(){
+						jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
+							jQuery( this ).closest( '.admin-page-framework-field' )
+								.find( 'input[type=radio]' )
+								.attr( 'checked', false );
+							jQuery( this ).attr( 'checked', 'Checked' );
+						});
+					});				
+				</script>";		
+			
+		}	
 }
 endif;
