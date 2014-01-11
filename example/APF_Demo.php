@@ -14,6 +14,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
 			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
@@ -26,11 +27,12 @@ class APF_Demo extends AdminPageFramework {
 		new DialCustomFieldType( $sClassName );
 		new FontCustomFieldType( $sClassName );
 		new SampleCustomFieldType( $sClassName );
+		new RevealerCustomFieldType( $sClassName );
 
 	}
 
 	/*
-	 *	( Required ) In the setUp() method, you will define how pages and form elements should be composed.
+	 *	( Required ) In the setUp() method, you will define how the pages and the form elements should be composed.
 	 */
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
@@ -78,12 +80,12 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'title'	=>	__( 'Sample Page', 'admin-page-framework-demo' ),
 				'page_slug'	=>	'apf_sample_page',
-				'screen_icon'	=>	dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png',	// the icon file path can be used
+				'screen_icon'	=>	dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png',	// ( for WP v3.7.1 or below ) the icon _file path_ can be used
 			),					
 			array(
 				'title'	=>	__( 'Hidden Page', 'admin-page-framework-demo' ),
 				'page_slug'	=>	'apf_hidden_page',
-				'screen_icon'	=>	plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE ),	// the icon url can be used
+				'screen_icon'	=>	plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE ),	// ( for WP v3.7.1 or below ) the icon _url_ can be used
 				'show_in_menu'	=>	false,
 			),						
 			array(
@@ -173,6 +175,11 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'sample',
 				'title'		=>	__( 'Sample', 'admin-page-framework-demo' ),	
+			),
+			array(
+				'page_slug'	=>	'apf_custom_field_types',
+				'tab_slug'	=>	'revealer',
+				'title'		=>	__( 'Revealer', 'admin-page-framework-demo' ),	
 			)
 		);
 		$this->addInPageTabs(	// ( optional )
@@ -416,6 +423,13 @@ class APF_Demo extends AdminPageFramework {
 				'title'			=>	__( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),				
 			),			
+			array(
+				'section_id'	=>	'revealer',
+				'page_slug'		=>	'apf_custom_field_types',
+				'tab_slug'		=>	'revealer',
+				'title'			=>	__( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'When the user select an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),				
+			),						
 			array()
 		);
 		$this->addSettingSections(	
@@ -1713,10 +1727,36 @@ class APF_Demo extends AdminPageFramework {
 					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
 				),
 				'repeatable'	=> true,
-			),		
-			array()			
+			)	
 		);
-		
+		$this->addSettingFields(
+			array(
+				'field_id'	=>	'revealer_field',
+				'section_id'	=>	'revealer',
+				'type'	=>	'revealer',
+				'title'	=>	__( 'Revealer', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'When you select an item, it reveals a hidden field based on the selection.', 'admin-page-framework-demo' ),
+				'label'	=>	array(
+					'field_a'	=> __( 'Field A', 'admin-page-framework-demo' ),
+					'field_b'	=> __( 'Field B', 'admin-page-framework-demo' ),
+					'field_c'	=> __( 'Field C', 'admin-page-framework-demo' ),
+				),
+				array(
+					'type'	=>	'text',				
+				),
+				array(
+					'type'	=>	'radio',
+					'label'	=>	array(
+						1	=>	__( 'Yes', 'admin-page-framework-demo' ),
+						0	=>	__( 'No', 'admin-page-framework-demo' ),
+					),
+				),
+				array(
+					'type'	=>	'checkbox',
+					'label'	=>	__( 'Check me.', 'admin-page-framework-demo' )
+				),				
+			)
+		);
 		/*
 		 * Fields for the manage option page.
 		 */

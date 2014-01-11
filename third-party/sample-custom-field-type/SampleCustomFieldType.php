@@ -183,7 +183,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 		
 		private function getRevealerScript( $sFieldContainerID, $sDefaultSelectionID ) {
 			return 
-				"<script type='text/javascript' class=''>
+				"<script type='text/javascript'>
 					jQuery( document ).ready( function(){
 						jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
 							jQuery( this ).closest( '.admin-page-framework-field' )
