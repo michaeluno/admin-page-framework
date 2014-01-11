@@ -242,8 +242,8 @@ class APF_Demo extends AdminPageFramework {
 		 * ( optional ) Enqueue styles  
 		 * $this->enqueueStyle(  'stylesheet url / path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
 		 * */
-		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );
-		$sStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );
+		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
+		$sStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well
 		
 		/*
 		 * ( optional )Enqueue scripts
@@ -293,75 +293,65 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(
 				'section_id'	=>	'selectors',
-				'page_slug'		=>	'apf_builtin_field_types',
+				// 'page_slug'		=>	'apf_builtin_field_types',	// <-- the method remembers the last used page slug and the tab slug so they can be omitted from the second parameter.
 				'tab_slug'		=>	'selectors',
 				'title'			=>	__( 'Selectors and Checkboxes', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'sizes',
-				'page_slug'		=>	'apf_builtin_field_types',
-				'tab_slug'		=>	'selectors',
+				// 'tab_slug'		=>	'selectors',	// <-- similar to the page slug, if the tab slug is the same as the previous one, it can be omitted.
 				'title'			=>	__( 'Sizes', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'section_id'	=>	'image_select',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'files',
 				'title'			=>	__( 'Image Selector', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'color_picker',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'misc',
 				'title'			=>	__( 'Colors', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'media_upload',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'files',
 				'title'			=>	__( 'Media Uploader', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Upload binary files in addition to images.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'checklists',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'checklist',
 				'title'			=>	__( 'Checklists', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Post type and taxonomy checklists ( custom checkbox ).', 'admin-page-framework-demo' ),
 			),	
 			array(
 				'section_id'	=>	'hidden_field',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'misc',
 				'title'			=>	__( 'Hidden Fields', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are hidden fields.', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'section_id'	=>	'file_uploads',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'files',
 				'title'			=>	__( 'File Uploads', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'section_id'	=>	'submit_buttons',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'misc',
 				'title'			=>	__( 'Submit Buttons', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
 			),			
 			array(
 				'section_id'	=>	'verification',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'verification',
 				'title'			=>	__( 'Verify Submitted Data', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'mixed_types',
-				'page_slug'		=>	'apf_builtin_field_types',
 				'tab_slug'		=>	'mixed_types',
 				'title'			=>	__( 'Mixed Field Types', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'As of v3, it is possible to mix field types in one field on a per-ID basis.', 'admin-page-framework-demo' ),
