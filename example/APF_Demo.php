@@ -283,9 +283,10 @@ class APF_Demo extends AdminPageFramework {
 		 */
 		/* Add setting sections */
 		$this->addSettingSections(	
+			'apf_builtin_field_types',
 			array(
 				'section_id'		=>	'text_fields',	// avoid hyphen(dash), dots, and white spaces
-				'page_slug'		=>	'apf_builtin_field_types',
+				// 'page_slug'		=>	'apf_builtin_field_types',	// <-- the method remembers the last used page slug and the tab slug so they can be omitted from the second parameter.
 				'tab_slug'		=>	'textfields',
 				'title'			=>	__( 'Text Fields', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are text type fields.', 'admin-page-framework-demo' ),	// ( optional )
@@ -293,7 +294,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(
 				'section_id'	=>	'selectors',
-				// 'page_slug'		=>	'apf_builtin_field_types',	// <-- the method remembers the last used page slug and the tab slug so they can be omitted from the second parameter.
 				'tab_slug'		=>	'selectors',
 				'title'			=>	__( 'Selectors and Checkboxes', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'admin-page-framework-demo' ),
@@ -305,7 +305,7 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array(
 				'section_id'	=>	'image_select',
-				'tab_slug'		=>	'files',
+				'tab_slug'		=>	'files',	// the target tab slug wil lbe renewed 
 				'title'			=>	__( 'Image Selector', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-demo' ),
 			),
@@ -361,41 +361,36 @@ class APF_Demo extends AdminPageFramework {
 		$this->addSettingSections(	
 			array(
 				'section_id'	=>	'geometry',
-				'page_slug'		=>	'apf_custom_field_types',
-				'tab_slug'		=>	'geometry',
+				'page_slug'		=>	'apf_custom_field_types',	// renew the target page slug
+				'tab_slug'		=>	'geometry',	
 				'title'			=>	__( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
 			),	
 			array(
 				'section_id'	=>	'date_pickers',
-				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'date',
 				'title'			=>	__( 'Date Custom Field Type', 'admin-page-framework' ),
 				'description'	=>	__( 'These are date and time pickers.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'dial',
-				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'dial',
 				'title'			=>	__( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'font',
-				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'font',
 				'title'			=>	__( 'Font Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is still experimental.', 'admin-page-framework-demo' ),				
 			),
 			array(
 				'section_id'	=>	'sample',
-				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'sample',
 				'title'			=>	__( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),				
 			),			
 			array(
 				'section_id'	=>	'revealer',
-				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'revealer',
 				'title'			=>	__( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),				
@@ -411,23 +406,20 @@ class APF_Demo extends AdminPageFramework {
 				'order'			=>	10,
 			),			
 			array(
-				'section_id'		=>	'submit_buttons_confirm',
-				'page_slug'		=>	'apf_manage_options',
+				'section_id'	=>	'submit_buttons_confirm',
 				'tab_slug'		=>	'delete_options_confirm',
 				'title'			=>	'Confirmation',
 				'description'	=>	"<div class='settings-error error'><p><strong>Are you sure you want to delete all the options?</strong></p></div>",
 				'order'			=>	10,
 			),				
 			array(
-				'section_id'		=>	'exports',
-				'page_slug'		=>	'apf_manage_options',
+				'section_id'	=>	'exports',
 				'tab_slug'		=>	'export_import',
 				'title'			=>	'Export Data',
 				'description'	=>	'After exporting the options, change and save new options and then import the file to see if the options get restored.',
 			),				
 			array(
-				'section_id'		=>	'imports',
-				'page_slug'		=>	'apf_manage_options',
+				'section_id'	=>	'imports',
 				'tab_slug'		=>	'export_import',
 				'title'			=>	'Import Data',
 			),			
