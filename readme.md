@@ -52,6 +52,37 @@ The latest development version can be downloaded [here](https://github.com/micha
 
 It includes the demo plugin which uses the framework and is ready to be installed as a WordPress plugin. Just upload the unpacked folder to the `...\wp-content\plugins` folder then activate it. The sample pages will be created.
 
+## Example ##
+
+	<?php
+	/* Plugin Name: Admin Page Framework - Getting Started */ 
+
+	if ( ! class_exists( 'AdminPageFramework' ) )
+		include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
+		
+	class APF extends AdminPageFramework {
+
+		function setUp() {
+			
+			$this->setRootMenuPage( 'Settings' );	
+			$this->addSubMenuPage(
+				'My First Page',	// page and menu title
+				'myfirstpage'		// page slug
+			);
+		
+		}
+
+		function do_myfirstpage() {  // do_{page slug}
+			?>
+			<h3>Say Something</h3>
+			<p>This is my first admin page!</p>
+			<?php   
+		}
+		
+	}
+	new APF;
+	// That's it!
+
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
 
