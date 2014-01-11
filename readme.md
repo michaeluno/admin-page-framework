@@ -54,6 +54,7 @@ It includes the demo plugin which uses the framework and is ready to be installe
 
 ## Example ##
 
+```PHP
 	<?php
 	/* Plugin Name: Admin Page Framework - Getting Started */ 
 
@@ -82,6 +83,7 @@ It includes the demo plugin which uses the framework and is ready to be installe
 	}
 	new APF;
 	// That's it!
+```
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
