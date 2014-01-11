@@ -428,7 +428,7 @@ class APF_Demo extends AdminPageFramework {
 				'page_slug'		=>	'apf_custom_field_types',
 				'tab_slug'		=>	'revealer',
 				'title'			=>	__( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'When the user select an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),				
+				'description'	=>	__( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),				
 			),						
 			array()
 		);
