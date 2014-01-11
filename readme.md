@@ -7,18 +7,44 @@ Admin Page Framework is an open source library for WordPress developed under GPL
 ## Screenshots ##
 
 <p align="center">
-[![Admin Page Framework - Text, Password, and Textarea](https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s600/admin_page_framework_v3.png)](https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s0/admin_page_framework_v3.png "Text, Password, and Textarea")<-
+	<a href="https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s0/admin_page_framework_v3.png" title="Admin Page Framework - Text, Password, and Textarea">
+		<img src="https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s600/admin_page_framework_v3.png" alt="Admin Page Framework - Text, Password, and Textarea" />
+	</a>
 </p>
 
-<a href="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s0/admin_page_framework_v3_selectors.png"><img style="float:left;" src="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s144/admin_page_framework_v3_selectors.png" alt="Admin Page Framework - Selectors"/></a>
-<div style="float: left">[![Admin Page Framework - Selectors](https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s144/admin_page_framework_v3_selectors.png)](https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s0/admin_page_framework_v3_selectors.png "Selectors")</div>
-<div style="float: left">[![Admin Page Framework - Image, Media Library, and File Uploads](https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s144/admin_page_framework_v3_files.png)](https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s0/admin_page_framework_v3_files.png "Files - Image, Media Library, Uploads")</div>
-<div style="float: left">[![Admin Page Framework - Taxonomies and Post Types Checklist](https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s144/admin_page_framework_v3_checklist.png)](https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s0/admin_page_framework_v3_checklist.png "Checklist - Taxonomies, Post Types")</div>
-<div style="float: left">[![Admin Page Framework - Misc](https://lh3.googleusercontent.com/-jhy50e9D6J0/UtDfIRoBq5I/AAAAAAAABf8/7Y4tRzZUSsc/s144/admin_page_framework_v3_misc.png)](https://lh3.googleusercontent.com/-jhy50e9D6J0/UtDfIRoBq5I/AAAAAAAABf8/7Y4tRzZUSsc/s0/admin_page_framework_v3_misc.png "Date Picker, Color Picker, Link Buttons")</div>
-<div style="float: left">[![Admin Page Framework - Form Input Verification](https://lh4.googleusercontent.com/-MZUbpV_y9x8/UtDfI89MaWI/AAAAAAAABgI/Ji9ki25uHCU/s144/admin_page_framework_v3_verification.png)](https://lh4.googleusercontent.com/-MZUbpV_y9x8/UtDfI89MaWI/AAAAAAAABgI/Ji9ki25uHCU/s0/admin_page_framework_v3_verification.png "Form Input Verification")</div>
-<div style="float: left">[![Admin Page Framework - Export and Import Options](https://lh6.googleusercontent.com/-cmgLpnx3iIA/UtDfHZdsxvI/AAAAAAAABfk/BklgC-MnqWY/s144/admin_page_framework_v3_export_%2526_import.png)](https://lh6.googleusercontent.com/-cmgLpnx3iIA/UtDfHZdsxvI/AAAAAAAABfk/BklgC-MnqWY/s0/admin_page_framework_v3_export_%2526_import.png "Export and Import Options")</div>
-<div style="float: left">[![Admin Page Framework - Contextual Help Pane](https://lh5.googleusercontent.com/-YujIDW7LMdU/UtDfGcrDjrI/AAAAAAAABfM/EMA4NF3WgYU/s144/admin_page_framework_help_pane.png)](https://lh5.googleusercontent.com/-YujIDW7LMdU/UtDfGcrDjrI/AAAAAAAABfM/EMA4NF3WgYU/s0/admin_page_framework_help_pane.png "Contextual Help Pane")</div>
-<div style="float: left">[![Admin Page Framework - Custom Post Type and Meta Box](https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s144/admin_page_framework_meta_box_fields.png)](https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s0/admin_page_framework_meta_box_fields.png "Custom Post Type and Meta Box")</div>
+<div style="margin:20px; float:left">
+	<a href="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s0/admin_page_framework_v3_selectors.png" title="Admin Page Framework - Selectors">
+		<img src="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s144/admin_page_framework_v3_selectors.png" alt="Admin Page Framework - Selectors" />
+	</a>
+	&nbsp;
+	<a href="https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s0/admin_page_framework_v3_files.png" title="Admin Page Framework - Image, Media Library, and File Uploads">
+		<img src="https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s144/admin_page_framework_v3_files.png" alt="Admin Page Framework - Image, Media Library, and File Uploads" />
+	</a>
+	&nbsp;
+	<a href="https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s0/admin_page_framework_v3_checklist.png" title="Admin Page Framework - Taxonomies and Post Types Checklist">
+		<img src="https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s144/admin_page_framework_v3_checklist.png" alt="Admin Page Framework - Taxonomies and Post Types Checklist" />
+	</a>
+	&nbsp;
+	<a href="https://lh3.googleusercontent.com/-jhy50e9D6J0/UtDfIRoBq5I/AAAAAAAABf8/7Y4tRzZUSsc/s0/admin_page_framework_v3_misc.png" title="Admin Page Framework - Misc">
+		<img src="https://lh3.googleusercontent.com/-jhy50e9D6J0/UtDfIRoBq5I/AAAAAAAABf8/7Y4tRzZUSsc/s144/admin_page_framework_v3_misc.png" alt="Admin Page Framework - Misc" />
+	</a>
+	&nbsp;
+	<a href="https://lh4.googleusercontent.com/-MZUbpV_y9x8/UtDfI89MaWI/AAAAAAAABgI/Ji9ki25uHCU/s0/admin_page_framework_v3_verification.png" title="Admin Page Framework - Form Input Verification">
+		<img src="https://lh4.googleusercontent.com/-MZUbpV_y9x8/UtDfI89MaWI/AAAAAAAABgI/Ji9ki25uHCU/s144/admin_page_framework_v3_verification.png" alt="Admin Page Framework - Form Input Verification" />
+	</a>
+	&nbsp;
+	<a href="https://lh6.googleusercontent.com/-cmgLpnx3iIA/UtDfHZdsxvI/AAAAAAAABfk/BklgC-MnqWY/s0/admin_page_framework_v3_export_%2526_import.png" title="Admin Page Framework - Export and Import Options">
+		<img src="https://lh6.googleusercontent.com/-cmgLpnx3iIA/UtDfHZdsxvI/AAAAAAAABfk/BklgC-MnqWY/s144/admin_page_framework_v3_export_%2526_import.png" alt="Admin Page Framework - Export and Import Options" />
+	</a>
+	&nbsp;
+	<a href="https://lh5.googleusercontent.com/-YujIDW7LMdU/UtDfGcrDjrI/AAAAAAAABfM/EMA4NF3WgYU/s0/admin_page_framework_help_pane.png" title="Admin Page Framework - Contextual Help Pane">
+		<img src="https://lh5.googleusercontent.com/-YujIDW7LMdU/UtDfGcrDjrI/AAAAAAAABfM/EMA4NF3WgYU/s144/admin_page_framework_help_pane.png" alt="Admin Page Framework - Contextual Help Pane" />
+	</a>
+	&nbsp;
+	<a href="https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s0/admin_page_framework_meta_box_fields.png" title="Admin Page Framework - Custom Post Type and Meta Box">
+		<img src="https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s144/admin_page_framework_meta_box_fields.png" alt="Admin Page Framework - Custom Post Type and Meta Box" />
+	</a>	
+</div>
 
 ## Installation ##
 
