@@ -1736,24 +1736,40 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'revealer',
 				'title'	=>	__( 'Revealer', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'When you select an item, it reveals a hidden field based on the selection.', 'admin-page-framework-demo' ),
-				'label'	=>	array(
-					'field_a'	=> __( 'Field A', 'admin-page-framework-demo' ),
-					'field_b'	=> __( 'Field B', 'admin-page-framework-demo' ),
-					'field_c'	=> __( 'Field C', 'admin-page-framework-demo' ),
+				'label'	=>	array(	// the keys represent their field container IDs: field-{field id}_{index}
+					'field-revealer_field_1'	=> __( 'Field A', 'admin-page-framework-demo' ),		
+					'field-revealer_field_2'	=> __( 'Field B', 'admin-page-framework-demo' ),
+					'field-revealer_field_3'	=> __( 'Field C', 'admin-page-framework-demo' ),
 				),
-				array(
-					'type'	=>	'text',				
+				array(	// Hidden Field A
+					'type'	=>	'text',			
+					'label'	=>	'',
+					'attributes'	=>	array(
+						'field'	=>	array(
+							'style'	=>	'display:none;',	// this hides the field 
+						),
+					),		
 				),
-				array(
+				array(	// Hidden Field B
 					'type'	=>	'radio',
 					'label'	=>	array(
 						1	=>	__( 'Yes', 'admin-page-framework-demo' ),
 						0	=>	__( 'No', 'admin-page-framework-demo' ),
 					),
+					'attributes'	=>	array(
+						'field'	=>	array(
+							'style'	=>	'display:none;',
+						),
+					),					
 				),
-				array(
+				array(	// Hidden Field C
 					'type'	=>	'checkbox',
-					'label'	=>	__( 'Check me.', 'admin-page-framework-demo' )
+					'label'	=>	__( 'Check me.', 'admin-page-framework-demo' ),
+					'attributes'	=>	array(
+						'field'	=>	array(
+							'style'	=>	'display:none;',
+						),
+					),			
 				),				
 			)
 		);

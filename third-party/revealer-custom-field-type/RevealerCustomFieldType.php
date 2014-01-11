@@ -53,53 +53,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	protected function getScripts() { 
-
-		$aJSArray = json_encode( $this->aFieldTypeSlugs );
-		/*	The below function will be triggered when a new repeatable field is added. */
-		return "
-			jQuery( document ).ready( function(){
-				
-				revealSelection = function( sSelectedInputID ) {
-					jQuery( '#hidden-' + sSelectedInputID ).siblings().hide();
-					jQuery( '#hidden-' + sSelectedInputID ).show();
-				}
-				
-				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
-			
-						/* If it is not this field type, do nothing. */
-						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
-
-						/* If the input tag is not found, do nothing  */
-						var nodeRadioButtons = nodeField.find( 'input[type=radio]' );
-						if ( nodeRadioButtons.length <= 0 ) return;
-
-						/* Update the hidden elements' ID */				
-						nodeField.find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
-						
-						/* The checked states will be gone after updating the ID of radio buttons so re-check them again */	
-						nodeField.closest( '.admin-page-framework-fields' )
-							.find( 'input[type=radio][checked=checked]' )
-							.attr( 'checked', 'Checked' );
-						
-						/* Rebind the event */
-						jQuery.each( nodeRadioButtons, function( i, val ) {
-							jQuery( this ).change( function() {
-								jQuery( this ).closest( '.admin-page-framework-field' )
-									.find( 'input[type=radio]' )
-									.attr( 'checked', false );			
-								jQuery( this ).attr( 'checked', 'Checked' );
-								revealSelection( jQuery( this ).attr( 'id' ) );
-							});
-						});
-								
-					},
-					
-				});
-			});		
-		
-		" . PHP_EOL;
-		
+		return "";
 	}
 
 	/**
@@ -195,18 +149,16 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 			
 		}
 		
-		private function getRevealerScript( $sInputID, $sDefaultSelectionID='' ) {
+		private function getRevealerScript( $sInputID ) {
 			return 
 				"<script type='text/javascript' class=''>
 					jQuery( document ).ready( function(){
 						jQuery( '#{$sInputID}' ).change( function() {
-							// jQuery( this ).closest( '.admin-page-framework-field' )
-								// .find( 'select' )
-								// .attr( 'selected', false );
-							// jQuery( this ).attr( 'selected', 'Selected' );
-							revealSelection( jQuery( this ).attr( 'id' ) );
+							var nodeSelectedField = jQuery( '#' + jQuery( this ).val() );
+							nodeSelectedField.siblings( '.admin-page-framework-field:not( :first-child )' ).hide();
+							nodeSelectedField.show();							
 						});
-						// revealSelection( '{$sDefaultSelectionID}' );	// do it for the default one
+						jQuery( '#' + jQuery( '#{$sInputID}' ).val() ).show();
 					});				
 				</script>";		
 			
