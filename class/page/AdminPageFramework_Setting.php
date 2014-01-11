@@ -197,7 +197,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
 		
 		static $__sTargetPageSlug;	// stores the target page slug which will be applied when no page slug is specified.
-		static $__sTargetTabSlug;	// stores the target tab slug which will be applied when no page slug is specified.
+		static $__sTargetTabSlug;	// stores the target tab slug which will be applied when no tab slug is specified.
 		foreach( func_get_args() as $asSection ) {
 			
 			if ( ! is_array( $asSection ) ) {
@@ -222,16 +222,25 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @access			public
-	 * @param			array		$aSection				the section array.
+	 * @param			array|string		$asSection				the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
 	 * @remark			The user may use this method in their extended class definition.
 	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	 */
-	public function addSettingSection( $aSection ) {
+	public function addSettingSection( $asSection ) {
 				
-		if ( ! is_array( $aSection ) ) return;
-		if ( ! isset( $aSection['section_id'], $aSection['page_slug'] ) ) return;	// these keys are necessary.
+		static $__sTargetPageSlug;	// stores the target page slug which will be applied when no page slug is specified.
+		static $__sTargetTabSlug;	// stores the target tab slug which will be applied when no tab slug is specified.
 
-		$aSection = $aSection + self::$_aStructure_Section;	// avoid undefined index warnings.
+		if ( ! is_array( $asSection ) ) {
+			$__sTargetPageSlug = is_string( $asSection ) ? $asSection : $__sTargetPageSlug;
+			return;
+		} 
+		
+		$aSection = $asSection;
+		$__sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $__sTargetPageSlug;
+		$__sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $__sTargetTabSlug;		
+		$aSection = $this->oUtil->uniteArrays( $aSection, self::$_aStructure_Section, array( 'page_slug' => $__sTargetPageSlug, 'tab_slug' => $__sTargetTabSlug ) );	// avoid undefined index warnings.
+		if ( ! isset( $asSection['section_id'], $asSection['page_slug'] ) ) return;	// these keys are necessary.
 		
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 		$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
