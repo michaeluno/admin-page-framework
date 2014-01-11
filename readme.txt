@@ -188,6 +188,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the ability to set the target page slug in the `addInPageTabs()` method so that the page slug key can be omitted for the next passing tab arrays.
 * Added: the ability to set options for repeatable fields including the maximum number of fields and the minimum number of fields.
 * Changed: the all the registered field default values to be saved regardless of the page where the user submits the form.
 * Changed: it to store all added sections and fields into the property object regardless of they belong to currently loading page and with some other conditions.

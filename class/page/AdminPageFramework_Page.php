@@ -77,32 +77,51 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * <h4>Example</h4>
 	 * <code>$this->addInPageTabs(
 	 *		array(
+	 *			'page_slug' => 'myfirstpage'
 	 *			'tab_slug' => 'firsttab',
 	 *			'title' => __( 'Text Fields', 'my-text-domain' ),
+	 *		),
+	 *		array(
 	 *			'page_slug' => 'myfirstpage'
+	 *			'tab_slug' => 'secondtab',
+	 *			'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
+	 *		)
+	 *	);</code>
+	 * <code>$this->addInPageTabs(
+	 * 		'myfirstpage', // sets the target page slug so that it will be applied to the next tab array which does not have the page slug element.
+	 *		array(
+	 *			'tab_slug' => 'firsttab',
+	 *			'title' => __( 'Text Fields', 'my-text-domain' ),
 	 *		),
 	 *		array(
 	 *			'tab_slug' => 'secondtab',
 	 *			'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
-	 *			'page_slug' => 'myfirstpage'
 	 *		)
 	 *	);</code>
-	 * 
 	 * @since			2.0.0
-	 * @since			3.0.0			Changed the scope to public.
+	 * @since			3.0.0			Changed the scope to public. Added page slug target support. 
 	 * @param			array			$aTab1			The in-page tab array.
 	 * @param			array			$aTab2			Another in-page tab array.
 	 * @param			array			$_and_more			Add in-page tab arrays as many as necessary to the next parameters.
+	 * @param			string			(optional) $sPageSlug			If the passed parameter item is a string, it will be stored as the target page slug so that it will be applied to the next passed tab arrays as the page_slug element.
 	 * @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	 * @remark			In-page tabs are different from page-heading tabs which is automatically added with page titles.	 
 	 * @return			void
 	 */ 			
 	public function addInPageTabs( $aTab1, $aTab2=null, $_and_more=null ) {
 		
-		foreach( func_get_args() as $aTab ) {
-			if ( ! is_array( $aTab ) ) continue;
-			$aTab = $aTab + self::$_aStructure_InPageTabElements;	// avoid undefined index warnings.
+		static $__sTargetPageSlug;	// stores the target page slug which will be applied when no page slug is specified.
+		foreach( func_get_args() as $asTab ) {
+			
+			if ( ! is_array( $asTab ) ) {
+				$__sTargetPageSlug = is_string( $asTab ) ? $asTab : $__sTargetPageSlug;
+				continue;
+			} 
+			
+			$aTab = $this->oUtil->uniteArrays( $asTab, self::$_aStructure_InPageTabElements, array( 'page_slug' => $__sTargetPageSlug ) );	// avoid undefined index warnings.
+			$__sTargetPageSlug = $aTab['page_slug'];
 			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['show_in_page_tab'], $aTab['parent_tab_slug'] );
+			
 		}
 		
 	}

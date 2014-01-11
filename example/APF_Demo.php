@@ -109,39 +109,33 @@ class APF_Demo extends AdminPageFramework {
 			/*
 			 * In-page tabs to display built-in field types
 			 * */
+			'apf_builtin_field_types',	// set the target page slug so that the 'page_slug' key can be omitted from the next continuing in-page tab arrays.
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'textfields',	// avoid hyphen(dash), dots, and white spaces
 				'title'		=>	__( 'Text', 'admin-page-framework-demo' ),
 				'order'		=>	1,		// ( optional ) - if you don't set this, an index will be assigned internally in the added order
 			),		
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'selectors',
 				'title'		=>	__( 'Selectors', 'admin-page-framework-demo' ),
 			),					
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'files',
 				'title'		=>	__( 'Files', 'admin-page-framework-demo' ),
 			),
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'checklist',
 				'title'		=>	__( 'Checklist', 'admin-page-framework-demo' ),
 			),					
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'misc',
 				'title'		=>	__( 'MISC', 'admin-page-framework-demo' ),	
 			),		
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'verification',
 				'title'		=>	__( 'Verification', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'page_slug'	=>	'apf_builtin_field_types',
 				'tab_slug'	=>	'mixed_types',
 				'title'		=>	__( 'Mixed', 'admin-page-framework-demo' ),	
 			),
@@ -151,33 +145,28 @@ class APF_Demo extends AdminPageFramework {
 			/*
 			 * Page-heading tabs for custom field types
 			 */
+			'apf_custom_field_types',
 			array(
-				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'geometry',
 				'title'		=>	__( 'Geometry', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'date',
 				'title'		=>	__( 'Date & Time', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'dial',
 				'title'		=>	__( 'Dials', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'font',
 				'title'		=>	__( 'Fonts', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'sample',
 				'title'		=>	__( 'Sample', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'page_slug'	=>	'apf_custom_field_types',
 				'tab_slug'	=>	'revealer',
 				'title'		=>	__( 'Revealer', 'admin-page-framework-demo' ),	
 			)
@@ -186,34 +175,29 @@ class APF_Demo extends AdminPageFramework {
 			/*
 			 * Manage Options
 			 * */
+			'apf_manage_options',
 			array(
-				'page_slug'	=>	'apf_manage_options',
 				'tab_slug'	=>	'saved_data',
 				'title'		=>	'Saved Data',
 			),
 			array(
-				'page_slug'	=>	'apf_manage_options',
 				'tab_slug'	=>	'properties',
 				'title'		=>	__( 'Properties', 'admin-page-framework-demo' ),
 			),
 			array(
-				'page_slug'	=>	'apf_manage_options',
 				'tab_slug'	=>	'messages',
 				'title'		=>	__( 'Messages', 'admin-page-framework-demo' ),
 			),			
 			array(
-				'page_slug'	=>	'apf_manage_options',
 				'tab_slug'	=>	'export_import',
 				'title'		=>	__( 'Export / Import', 'admin-page-framework-demo' ),			
 			),
 			array(
-				'page_slug'	=>	'apf_manage_options',
 				'tab_slug'	=>	'delete_options',
 				'title'		=>	__( 'Reset', 'admin-page-framework-demo' ),
 				'order'		=>	99,	
 			),						
-			array(	// TIPS: you can hide an in-page tab by setting the 'show_in_page_tab' key 
-				'page_slug'	=>	'apf_manage_options',
+			array(	// TIPS: you can hide an in-page tab by setting the 'show_in_page_tab' key
 				'tab_slug'	=>	'delete_options_confirm',
 				'title'		=>	__( 'Reset Confirmation', 'admin-page-framework-demo' ),
 				'show_in_page_tab'	=>	false,
@@ -225,28 +209,24 @@ class APF_Demo extends AdminPageFramework {
 			/*
 			 * Read Me
 			 * */
+			'apf_read_me',
 			array(
-				'page_slug'	=>	'apf_read_me',
 				'tab_slug'	=>	'description',
 				'title'		=>	__( 'Description', 'admin-page-framework-demo' ),
 			),				
 			array(
-				'page_slug'	=>	'apf_read_me',
 				'tab_slug'	=>	'installation',
 				'title'		=>	__( 'Installation', 'admin-page-framework-demo' ),
 			),	
 			array(
-				'page_slug'	=>	'apf_read_me',
 				'tab_slug'	=>	'frequently_asked_questions',
 				'title'		=>	__( 'FAQ', 'admin-page-framework-demo' ),
 			),		
 			array(
-				'page_slug'	=>	'apf_read_me',
 				'tab_slug'	=>	'other_notes',
 				'title'		=>	__( 'Other Notes', 'admin-page-framework-demo' ),
 			),					
 			array(
-				'page_slug'	=>	'apf_read_me',
 				'tab_slug'	=>	'changelog',
 				'title'		=>	__( 'Change Log', 'admin-page-framework-demo' ),
 			)
