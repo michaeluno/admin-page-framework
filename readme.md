@@ -55,34 +55,34 @@ It includes the demo plugin which uses the framework and is ready to be installe
 ## Example ##
 
 ```PHP
-	<?php
-	/* Plugin Name: Admin Page Framework - Getting Started */ 
+<?php
+/* Plugin Name: Admin Page Framework - Getting Started */ 
 
-	if ( ! class_exists( 'AdminPageFramework' ) )
-		include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
-		
-	class APF extends AdminPageFramework {
+if ( ! class_exists( 'AdminPageFramework' ) )
+	include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
+	
+class APF extends AdminPageFramework {
 
-		function setUp() {
-			
-			$this->setRootMenuPage( 'Settings' );	
-			$this->addSubMenuPage(
-				'My First Page',	// page and menu title
-				'myfirstpage'		// page slug
-			);
+	function setUp() {
 		
-		}
-
-		function do_myfirstpage() {  // do_{page slug}
-			?>
-			<h3>Say Something</h3>
-			<p>This is my first admin page!</p>
-			<?php   
-		}
-		
+		$this->setRootMenuPage( 'Settings' );	
+		$this->addSubMenuPage(
+			'My First Page',	// page and menu title
+			'myfirstpage'		// page slug
+		);
+	
 	}
-	new APF;
-	// That's it!
+
+	function do_myfirstpage() {  // do_{page slug}
+		?>
+		<h3>Say Something</h3>
+		<p>This is my first admin page!</p>
+		<?php   
+	}
+	
+}
+new APF;
+// That's it!
 ```
 
 ## Bugs ##
