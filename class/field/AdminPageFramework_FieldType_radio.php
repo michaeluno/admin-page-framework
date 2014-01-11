@@ -140,9 +140,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 				"<script type='text/javascript' class='radio-button-checked-attribute-updater'>
 					jQuery( document ).ready( function(){
 						jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
-							jQuery( this ).closest( '.admin-page-framework-field' )
-								.find( 'input[type=radio]' )
-								.attr( 'checked', false );
+							jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio]' ).attr( 'checked', false );
 							jQuery( this ).attr( 'checked', 'Checked' );
 						});
 					});				
