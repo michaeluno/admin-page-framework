@@ -342,8 +342,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				}
 			
 			/* Put the initial field and the sub-fields together in one array */
-			foreach( $aSubFields as &$aSubField ) 
+			foreach( $aSubFields as &$aSubField ) {
+				
+				/* Before merging recursively, evacuate the label element which should not be merged */
+				$aLabel = isset( $aSubField['label'] ) 
+					? $aSubField['label']
+					: ( isset( $aFirstField['label'] )
+						 ? $aFirstField['label'] 
+						 : null
+					);
+				
+				/* Do recursive array merging */
 				$aSubField = $this->uniteArrays( $aSubField, $aFirstField );	// the 'attributes' array of some field types have more than one dimensions. // $aSubField = $aSubField + $aFirstField;
+				
+				/* Restore the label elemnet */
+				$aSubField['label']	= $aLabel;
+				
+			}
 			$aFields = array_merge( array( $aFirstField ), $aSubFields );
 					
 			/* Set the saved values */		
