@@ -183,14 +183,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 
 	public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
+		
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		if ( ! empty( $sPageSlug ) )
+		if ( $sPageSlug ) {
 			$this->oProp->aPages[ $sPageSlug ]['show_page_heading_tabs'] = $bShow;
-		else {
-			$this->oProp->bShowPageHeadingTabs = $bShow;
-			foreach( $this->oProp->aPages as &$aPage ) 
-				$aPage['show_page_heading_tabs'] = $bShow;
-		}
+			return;			
+		}		
+		$this->oProp->bShowPageHeadingTabs = $bShow;
+		foreach( $this->oProp->aPages as &$aPage ) 
+			$aPage['show_page_heading_tabs'] = $bShow;
+		
 	}
 	
 	/**
@@ -206,14 +208,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */
 	public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {
+		
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		if ( ! empty( $sPageSlug ) )
+		if ( $sPageSlug ) {
 			$this->oProp->aPages[ $sPageSlug ]['show_in_page_tabs'] = $bShow;
-		else {
-			$this->oProp->bShowInPageTabs = $bShow;
-			foreach( $this->oProp->aPages as &$aPage )
-				$aPage['show_in_page_tabs'] = $bShow;
+			return;
 		}
+		$this->oProp->bShowInPageTabs = $bShow;
+		foreach( $this->oProp->aPages as &$aPage )
+			$aPage['show_in_page_tabs'] = $bShow;
+		
 	}
 	
 	/**
@@ -230,14 +234,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 	
 	public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
+		
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		if ( ! empty( $sPageSlug ) )
+		if ( $sPageSlug ) {
 			$this->oProp->aPages[ $sPageSlug ]['in_page_tab_tag'] = $sTag;
-		else {
-			$this->oProp->sInPageTabTag = $sTag;
-			foreach( $this->oProp->aPages as &$aPage )
-				$aPage['in_page_tab_tag'] = $sTag;
+			return;
 		}
+		$this->oProp->sInPageTabTag = $sTag;
+		foreach( $this->oProp->aPages as &$aPage )
+			$aPage['in_page_tab_tag'] = $sTag;
+		
 	}
 	
 	/**
@@ -254,14 +260,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */
 	public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {
+		
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		if ( ! empty( $sPageSlug ) )
+		if ( $sPageSlug ) {
 			$this->oProp->aPages[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
-		else {
-			$this->oProp->sPageHeadingTabTag = $sTag;
-			foreach( $this->oProp->aPages as &$aPage )
-				$aPage[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
+			return;
 		}
+		$this->oProp->sPageHeadingTabTag = $sTag;
+		foreach( $this->oProp->aPages as &$aPage )
+			$aPage[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
+		
 	}
 	
 	/*
