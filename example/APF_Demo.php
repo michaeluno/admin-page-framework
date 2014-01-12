@@ -1626,15 +1626,17 @@ class APF_Demo extends AdminPageFramework {
 		);
 		$this->addSettingFields(
 			array(
-				'field_id'	=>	'revealer_field',
+				'field_id'	=>	'revealer_subfield',
 				'section_id'	=>	'revealer',
 				'type'	=>	'revealer',
-				'title'	=>	__( 'Revealer', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'When you select an item, it reveals a hidden field based on the selection.', 'admin-page-framework-demo' ),
+				'title'	=>	__( 'Reveal Sub Fields', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'When you select an item, it reveals one of the hidden sub-fields.', 'admin-page-framework-demo' ),
+				'value'	=>	'undefined',	// always set the Select a Field label.
 				'label'	=>	array(	// the keys represent their field container IDs: field-{field id}_{index}
-					'field-revealer_field_1'	=> __( 'Field A', 'admin-page-framework-demo' ),		
-					'field-revealer_field_2'	=> __( 'Field B', 'admin-page-framework-demo' ),
-					'field-revealer_field_3'	=> __( 'Field C', 'admin-page-framework-demo' ),
+					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
+					'field-revealer_subfield_1'	=> __( 'Field A', 'admin-page-framework-demo' ),		
+					'field-revealer_subfield_2'	=> __( 'Field B', 'admin-page-framework-demo' ),
+					'field-revealer_subfield_3'	=> __( 'Field C', 'admin-page-framework-demo' ),
 				),
 				array(	// Hidden Field A
 					'type'	=>	'text',			
@@ -1666,7 +1668,39 @@ class APF_Demo extends AdminPageFramework {
 						),
 					),			
 				),				
-			)
+			),
+			array(
+				'field_id'	=>	'revealer_field_by_id',
+				'section_id'	=>	'revealer',
+				'type'	=>	'revealer',			
+				'title'	=>	__( 'Reveal Field By ID' ),
+				'value'	=>	'undefined',	// always set the Select a Field label.
+				'label'	=>	array(	// the keys represent their tag id to reveal: fieldrow-{field id} ( note that this ids only will be applied when JavaScript is enabled )
+					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
+					'fieldrow-revealer_field_option_a'	=> __( 'Option A', 'admin-page-framework-demo' ),		
+					'fieldrow-revealer_field_option_b'	=> __( 'Option B', 'admin-page-framework-demo' ),
+				),
+				'description'	=>	__( 'On contrary to the above example, that reveals the sub-fields, this one specifies one of external fields defined separately.', 'admin-page-framework-demo' ),
+			),
+			array(
+				'field_id'	=>	'revealer_field_option_a',
+				'section_id'	=>	'revealer',
+				'type'	=>	'textarea',		
+				'default'	=>	__( 'Hi there!', 'admin-page-framework-demo' ),
+				'after_fields'	=>	"<script type='text/javascript'>
+					jQuery( '#fieldset-revealer_field_option_a' ).closest( 'tr' ).hide();	
+				</script>",	// this script will hide the table row containing the field right away,
+			),
+			array(
+				'field_id'	=>	'revealer_field_option_b',				
+				'section_id'	=>	'revealer',
+				'type'	=>	'password',		
+				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
+				'after_fields'	=>	"<script type='text/javascript'>
+					jQuery( '#fieldset-revealer_field_option_b' ).closest( 'tr' ).hide();
+				</script>", // this script will hide the table row containing the field right away,
+			),
+			array()
 		);
 		/*
 		 * Fields for the manage option page.

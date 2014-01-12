@@ -56,29 +56,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				: array();
 			
 			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedUtilityPluins'] ) ) {
-				
 				add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
 				add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
 				$GLOBALS['aAdminPageFramework']['bEnqueuedUtilityPluins'] = true;
-				
 			}
 			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRepeatableFieldScript'] ) ) {
-				
 				add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
 				$GLOBALS['aAdminPageFramework']['bEnqueuedRepeatableFieldScript'] = true;
-				
 			}
 			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] ) ) {
-				
 				add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
 				$GLOBALS['aAdminPageFramework']['bEnqueuedSortableFieldScript'] = true;
-				
 			}
 			if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] ) ) {
-				
 				add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
 				$GLOBALS['aAdminPageFramework']['bEnqueuedRegisterCallbackScript'] = true;
-				
 			}
 			
 		}
@@ -183,8 +175,8 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	private function _getInputTagID( $aField )  {
 		
 		// For Settings API's form fields should have these key values.
-		if ( isset( $aField['section_id'], $aField['field_id'] ) )
-			return "{$aField['section_id']}_{$aField['field_id']}";
+		// if ( isset( $aField['section_id'], $aField['field_id'] ) )	// deprecated 
+			// return "{$aField['section_id']}_{$aField['field_id']}";
 			
 		// For meta box form fields,
 		if ( isset( $aField['field_id'] ) ) return $aField['field_id'];
@@ -231,6 +223,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			$aField['_field_name_flat']	= $this->_getFlatInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	// used for submit, export, import field types			
 			$aField['_field_container_id'] = "field-{$aField['input_id']}";	// used in the attribute below plus it is also used in the sample custom field type.
 			$aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}";
+			$aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}";
 			
 			$aField['attributes'] = $this->uniteArrays(
 				( array ) $aField['attributes'],	// user set values
@@ -286,12 +279,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		/* 7. Add the sortable script */
 		$aExtraOutput[] = $this->aField['sortable'] && ( count( $aFields ) > 1 || $this->aField['repeatable'] )
 			? $this->_getSortableFieldEnablerScript( 'fields-' . $this->aField['tag_id'] )
-			: '';			
-		
+			: '';		
+				
 		/* 8. Return the entire output */
 		$_aFieldsSetAttributes = array(
-			'id'	=> $this->aField['tag_id'],
+			'id'	=> 'fieldset-' . $this->aField['tag_id'],
 			'class'	=> 'admin-page-framework-fieldset',
+			'data-field_id'	=>	$this->aField['tag_id'],
 		) + $this->aField['attributes']['fieldset'];
 		$_aFieldsContainerAttributes = array(
 			'id'	=> 'fields-' . $this->aField['tag_id'],
@@ -302,6 +296,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		) + $this->aField['attributes']['fields'];
 		return 
 			"<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
+				. $this->_getTableRowIDSetterScript( $this->aField['tag_id'] )	// this needs to be done before each field output gets rendered.
 				. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
 					. $this->aField['before_fields'] 
 					. implode( PHP_EOL, $aFieldsOutput )
@@ -942,6 +937,16 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 					
 				});
 			</script>";
+	}
+	
+	/**
+	 * Sets ids to the table rows containing form fields.
+	 * @since			3.0.0
+	 */
+	private function _getTableRowIDSetterScript( $sTagID ) {
+		return "<script type='text/javascript' class='admin-page-framework-table-row-id-setter-script'>
+			jQuery( '#fieldset-{$sTagID}' ).closest( 'tr' ).attr( 'id', 'fieldrow-{$sTagID}' );
+		</script>";
 	}
 	
 }

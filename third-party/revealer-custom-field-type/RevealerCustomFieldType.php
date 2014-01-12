@@ -30,7 +30,14 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function setUp() {}	
+	public function setUp() {
+		
+		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRevealerjQueryPlugin'] ) ) {
+			add_action( 'admin_footer', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
+			$GLOBALS['aAdminPageFramework']['bEnqueuedRevealerjQueryPlugin'] = true;
+		}
+		
+	}	
 
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
@@ -100,6 +107,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 			. "</div>"
 			. $aField['after_label']
 			. $this->getRevealerScript( $aField['input_id'] )
+			. $this->getConcealerScript( $aField['label'] )
 			;
 		
 	}
@@ -151,17 +159,66 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 		
 		private function getRevealerScript( $sInputID ) {
 			return 
-				"<script type='text/javascript' class=''>
+				"<script type='text/javascript' >
 					jQuery( document ).ready( function(){
-						jQuery( '#{$sInputID}' ).change( function() {
-							var nodeSelectedField = jQuery( '#' + jQuery( this ).val() );
-							nodeSelectedField.siblings( '.admin-page-framework-field:not( :first-child )' ).hide();
-							nodeSelectedField.show();							
-						});
-						jQuery( '#' + jQuery( '#{$sInputID}' ).val() ).show();
+						jQuery( '#{$sInputID}' ).reveal();
 					});				
-				</script>";		
-			
+				</script>";	
 		}
+		private function getConcealerScript( $aLabels ) {
+			
+			unset( $aLabels['undefined'] );	// this is an internal reserved key	
+			$aLabels = json_encode( array_keys( $aLabels ) );	// encode it to be usable in JavaScript
+			return 
+				"<script type='text/javascript' class='admin-page-framework-revealer-field-type-concealer-script'>
+					jQuery( document ).ready( function(){
+						jQuery.each( {$aLabels}, function( sKey, sValue ) {
+							jQuery( '#' + sValue ).hide();
+						});
+					});				
+				</script>";
+				
+		}
+
+	/**
+	 * Adds revealer jQuery plugin.
+	 * @since			3.0.0
+	 */
+	public function _replyToAddRevealerjQueryPlugin() {
+		
+		$sScript = "
+		/**
+		 * Attribute increment/decrement jQuery Plugin
+		 */		
+		(function ( $ ) {
+		
+			/**
+			 * Increments a first found digit with the prefix of underscore in a specified attribute value.
+			 */
+			$.fn.reveal = function() {
+				
+				var aSettings = [];
+				this.change( function() {
+					
+					var sTargetID = jQuery( this ).val();
+					var nodeElementToReveal = jQuery( '#' + sTargetID );
+console.log( sTargetID );
+					if ( sTargetID == 'undefined' ) return;
+					
+					var sLastRevealedID = aSettings.hasOwnProperty( 'last_revealed_id' ) ? aSettings['last_revealed_id'] : undefined;
+					aSettings['last_revealed_id'] = sTargetID;
+console.log( aSettings );
+console.log( 'last item: '  + sLastRevealedID );
+					$( '#' + sLastRevealedID ).hide();	// hide the previously hidden element.
+					nodeElementToReveal.show();
+				});
+				
+			};
+
+		}( jQuery ));";
+		
+		echo "<script type='text/javascript' class='admin-page-framework-revealer-jQuery-plugin'>{$sScript}</script>";
+		
+	}		
 	
 }
