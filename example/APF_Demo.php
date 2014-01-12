@@ -431,9 +431,10 @@ class APF_Demo extends AdminPageFramework {
 		 * Text input - text, password, number, textarea, rich text editor
 		 */
 		$this->addSettingFields(
+			'text_fields',
 			array(	// Single text field
 				'field_id'	=>	'text',
-				'section_id'	=>	'text_fields',
+				// 'section_id'	=>	'text_fields',	// can be omitted as it is set previously
 				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Type something here. This text is inserted with the <code>description</code> key in the field definition array.', 'admin-page-framework-demo' ),
 				'help'	=>	__( 'This is a text field and typed text will be saved. This text is inserted with the <code>help</code> key in the field definition array.', 'admin-page-framework-demo' ),
@@ -446,7 +447,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Password Field
 				'field_id'	=>	'password',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Password', 'admin-page-framework-demo' ),
 				'tip'	=>	__( 'This input will be masked.', 'admin-page-framework-demo' ),
 				'type'	=>	'password',
@@ -458,7 +458,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Read-only
 				'field_id'	=>	'read_only_text',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Read Only', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'attributes'	=>	array(
@@ -471,13 +470,11 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array(	// Number Field
 				'field_id'	=>	'number',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Number', 'admin-page-framework-demo' ),
 				'type'	=>	'number',
 			),					
 			array(	// Multiple text fields
 				'field_id'	=>	'text_multiple',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Multiple Text Fields', 'admin-page-framework-demo' ),
 				'help'	=>	__( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
@@ -505,7 +502,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Repeatable text fields
 				'field_id'	=>	'text_repeatable',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'default'	=>	'a',
@@ -518,7 +514,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Sortable text fields
 				'field_id'	=>	'text_sortable',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Sortable Text Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'default'	=>	'a',
@@ -542,7 +537,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Sortable + Repeatable text fields
 				'field_id'	=>	'text_repeatable_and_sortable',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Repeatable & Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'repeatable'	=>	true,
@@ -550,7 +544,6 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(	// Text Area
 				'field_id'	=>	'textarea',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Single Text Area', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Type a text string here.', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
@@ -562,7 +555,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Repeatable Text Areas
 				'field_id'	=>	'textarea_repeatable',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'repeatable'	=>	array(
@@ -577,7 +569,6 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array(	// Sortable Text Areas
 				'field_id'	=>	'textarea_sortable',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'sortable'	=>	true,
@@ -587,7 +578,6 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(	// Rich Text Editors
 				'field_id'	=>	'rich_textarea',
-				'section_id'	=>	'text_fields',
 				'title'	=>	__( 'Rich Text Area', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'rich'	=>	true,	// just pass non empty value to enable the rich editor.
@@ -606,9 +596,8 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array(	// Multiple text areas
 				'field_id'	=>	'textarea_multiple',
-				'section_id'	=>	'text_fields',
-				'title'	=>	'Multiple Text Areas',
-				'description'	=>	'These are multiple text areas.',
+				'title'	=>	__( 'Multiple Text Areas', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'These are multiple text areas.', 'admin-page-framework-demo' ),
 				'type'	=>	'textarea',
 				'label'	=>	__( 'First Text Area: ', 'admin-page-framework-demo' ),
 				'default'	=>	__( 'The first default text.', 'admin-page-framework-demo' ),
@@ -643,7 +632,7 @@ class APF_Demo extends AdminPageFramework {
 		$this->addSettingFields(
 			array(	// Single Drop-down List
 				'field_id'	=>	'select',
-				'section_id'	=>	'selectors',
+				'section_id'	=>	'selectors',	// reset the target section ID 
 				'title'	=>	__( 'Dropdown List', 'admin-page-framework-demo' ),
 				'type'	=>	'select',
 				'help'	=>	__( 'This is the <em>select</em> field type.', 'admin-page-framework-demo' ),
@@ -659,7 +648,7 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Single Drop-down List with Multiple Options
 				'field_id'	=>	'select_multiple_options',
-				'section_id'	=>	'selectors',
+				// 'section_id'	=>	'selectors',	// <-- this can be omitted since it is set in the previous field array
 				'title'	=>	__( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
 				'help'	=>	__( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
 				'type'	=>	'select',
@@ -671,7 +660,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Single Drop-down List with Multiple Options
 				'field_id'	=>	'select_multiple_groups',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Dropdown List with Groups', 'admin-page-framework-demo' ),
 				'type'	=>	'select',
 				'default'	=>	'b',
@@ -707,7 +695,6 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(	// Drop-down Lists with Mixed Types
 				'field_id'	=>	'select_multiple_fields',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Multiple Dropdown Lists Fields', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These are multiple sets of drop down list.', 'admin-page-framework-demo' ),
 				'type'	=>	'select',
@@ -738,7 +725,6 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array(	// Repeatable Drop-down List
 				'field_id'	=>	'select_repeatable',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Repeatable Dropdown List', 'admin-page-framework-demo' ),
 				'type'	=>	'select',
 				'repeatable'	=>	true,
@@ -752,7 +738,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Sortable Drop-down List
 				'field_id'	=>	'select_sortable',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'select',
 				'sortable'	=>	true,
@@ -773,7 +758,6 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array(	// Single set of radio buttons
 				'field_id'	=>	'radio',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Radio Button', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'label'	=>	array( 'a'	=>	'Apple', 'b'	=>	'Banana ( this option is disabled. )', 'c'	=>	'Cherry' ),
@@ -790,7 +774,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Multiple sets of radio buttons
 				'field_id'	=>	'radio_multiple',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Multiple Sets of Radio Buttons', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> key.', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
@@ -813,7 +796,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Repeatable radio buttons
 				'field_id'	=>	'radio_repeatable',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Repeatable Radio Buttons', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'label'	=>	array( 1 =>	'On', 0 =>	'Off' ),
@@ -822,7 +804,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Sortable radio buttons
 				'field_id'	=>	'radio_sortable',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
 				'label'	=>	array( 1 =>	'On', 0 =>	'Off' ),
@@ -834,7 +815,6 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array(	// Single checkbox item - set a check box item to the 'label' element.
 				'field_id'	=>	'checkbox',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Single Checkbox', 'admin-page-framework-demo' ),
 				'tip'	=>	__( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'Check box\'s label can be a string, not an array.', 'admin-page-framework-demo' ),	//' syntax fixer
@@ -844,7 +824,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
 				'field_id'	=>	'checkbox_multiple_items',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
 				'label'	=>	array( 
@@ -869,7 +848,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Multiple sets of checkbox fields
 				'field_id'	=>	'checkbox_multiple_fields',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Multiple Sets of Checkboxes', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
 				'label'	=>	array( 'a'	=>	'A', 'b'	=>	'B', 'c'	=>	'C' ),
@@ -892,7 +870,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Repeatable check boxes
 				'field_id'	=>	'checkbox_repeatable_fields',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Repeatable Checkboxes', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
 				'label'	=>	array( 'x', 'y', 'z' ),
@@ -900,18 +877,17 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// sortable check boxes
 				'field_id'	=>	'checkbox_sortable_fields',
-				'section_id'	=>	'selectors',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'checkbox',
 				'label'	=>	array( 'x', 'y', 'z' ),
 				'sortable'	=>	true,
-				array(),
-				array(),
-				array(),
+				array(),	// the second item
+				array(),	// the third item
+				array(),	// the fourth item
 			),			
 			array(	// Size
 				'field_id'		=>	'size_field',
-				'section_id'	=>	'sizes',
+				'section_id'	=>	'sizes',	// changes the target section ID
 				'title'			=>	__( 'Size', 'admin-page-framework-demo' ),
 				'help'			=>	$sDescription = __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ) 
@@ -924,7 +900,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Size with custom units
 				'field_id'		=>	'size_custom_unit_field',
-				'section_id'	=>	'sizes',
 				'title'			=>	__( 'Size with Custom Units', 'admin-page-framework-demo' ),
 				'help'			=>	$sDescription = __( 'The units can be specified so it can be quantity, length, or capacity etc.', 'admin-page-framework-demo' ),
 				'description'	=>	$sDescription,
@@ -942,7 +917,6 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Size with custom attributes
 				'field_id'		=>	'size_field_custom_attributes',
-				'section_id'	=>	'sizes',
 				'title'			=>	__( 'Size with Custom Attributes', 'admin-page-framework-demo' ),
 				'type'			=>	'size',
 				'units'	=>	array(	// Pass the group label as the key of an option array.
@@ -994,7 +968,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Multiple Size Fields
 				'field_id'	=>	'sizes_field',
-				'section_id'	=>	'sizes',
 				'title'	=>	__( 'Multiple Sizes', 'admin-page-framework-demo' ),
 				'type'	=>	'size',
 				'label'	=>	__( 'Weight', 'admin-page-framework-demo' ),
@@ -1014,14 +987,12 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Repeatable Size Fields
 				'field_id'		=>	'size_repeatable_fields',
-				'section_id'	=>	'sizes',
 				'title'			=>	__( 'Repeatable Size Fields', 'admin-page-framework-demo' ),
 				'type'			=>	'size',
 				'repeatable'	=>	true,
 			),
 			array(	// Sortable Size Fields
 				'field_id'		=>	'size_sortable_fields',
-				'section_id'	=>	'sizes',
 				'title'			=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'			=>	'size',
 				'sortable'	=>	true,
@@ -1069,14 +1040,12 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array( // Image selector with additional capturing attributes
 				'field_id'	=>	'image_with_attributes',
-				'section_id'	=>	'image_select',
 				'title'	=>	__( 'Save Image Attributes', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
 				'attributes_to_store'	=>	array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.
 			),					
 			array(	// Repeatable Image Fields
 				'field_id'	=>	'image_select_field_repeater',
-				'section_id'	=>	'image_select',
 				'title'	=>	__( 'Repeatable Image Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
 				'repeatable'	=>	true,
@@ -1089,7 +1058,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Sortable Image Fields
 				'field_id'	=>	'image_select_field_sortable',
-				'section_id'	=>	'image_select',
 				'title'	=>	__( 'Sortable Image Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
 				'sortable'	=>	true,
@@ -1111,21 +1079,18 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array( // Media File with Attributes
 				'field_id'	=>	'media_with_attributes',
-				'section_id'	=>	'media_upload',
 				'title'	=>	__( 'Media File with Attributes', 'admin-page-framework-demo' ),
 				'type'	=>	'media',
 				'attributes_to_store'	=>	array( 'id', 'caption', 'description' ),
 			),				
 			array( // Repeatable Media Files
 				'field_id'	=>	'media_repeatable_fields',
-				'section_id'	=>	'media_upload',
 				'title'	=>	__( 'Repeatable Media Files', 'admin-page-framework-demo' ),
 				'type'	=>	'media',
 				'repeatable'	=>	true,
 			),				
 			array( // Sortable Media Files
 				'field_id'	=>	'media_sortable_fields',
-				'section_id'	=>	'media_upload',
 				'title'	=>	__( 'Sortable Media Files', 'admin-page-framework-demo' ),
 				'type'	=>	'media',
 				'sortable'	=>	true,
@@ -1141,7 +1106,6 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array( // Multiple File Upload Fields
 				'field_id'	=>	'file_multiple',
-				'section_id'	=>	'file_uploads',
 				'title'	=>	__( 'Multiple File Uploads', 'admin-page-framework-demo' ),
 				'type'	=>	'file',
 				'label'	=>	__( 'First File', 'admin-page-framework-demo' ),
@@ -1155,7 +1119,6 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array( // Single File Upload Field
 				'field_id'	=>	'file_repeatable',
-				'section_id'	=>	'file_uploads',
 				'title'	=>	__( 'Repeatable File Uploads', 'admin-page-framework-demo' ),
 				'type'	=>	'file',
 				'repeatable'	=>	true,
@@ -1175,7 +1138,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(
 				'field_id'	=>	'post_type_multiple_checklists',
-				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Multiple Post Type Check lists', 'admin-page-framework-demo' ),
 				'type'	=>	'posttype',
 				'before_field'	=>	'<p style="clear: both; font-weight: bold;">' . __( 'For A', 'admin-page-framework-demo' ) . '</p>',
@@ -1193,7 +1155,6 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array(
 				'field_id'	=>	'post_type_checklist_repeatable',
-				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Repeatable Post Type Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'posttype',
 				'repeatable'	=> true,
@@ -1201,7 +1162,6 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array(
 				'field_id'	=>	'taxonomy_checklist',
-				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
 				'height'	=>	'200px',	// ( optional )
@@ -1209,14 +1169,12 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(
 				'field_id'	=>	'taxonomy_checklist_all',
-				'section_id'	=>	'checklists',
 				'title'	=>	__( 'All Taxonomies', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
 				'taxonomy_slugs'	=>	$aTaxnomies = get_taxonomies( '', 'names' ),
 			),
 			array(
 				'field_id'	=>	'taxonomy_multiple_checklists',
-				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Multiple Taxonomy Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
 				'taxonomy_slugs'	=>	$aTaxnomies,
@@ -1230,7 +1188,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'taxonomy_checklist_repeatable',
-				'section_id'	=>	'checklists',
 				'title'	=>	__( 'Repeatable Taxonomy Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'taxonomy',
 				'repeatable'	=> true,
@@ -1251,7 +1208,6 @@ class APF_Demo extends AdminPageFramework {
 			),					
 			array( // Multiple Color Pickers
 				'field_id'	=>	'multiple_color_picker_field',
-				'section_id'	=>	'color_picker',
 				'title'	=>	__( 'Multiple Color Pickers', 'admin-page-framework-demo' ),
 				'type'	=>	'color',
 				'label'	=>	__( 'First Color', 'admin-page-framework-demo' ),
@@ -1265,7 +1221,6 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array( // Repeatable Color Pickers
 				'field_id'	=>	'color_picker_repeatable_field',
-				'section_id'	=>	'color_picker',
 				'title'	=>	__( 'Repeatable Color Picker Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'color',
 				'repeatable'	=>	true,
@@ -1280,7 +1235,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array( // Single Hidden Field
 				'field_id'	=>	'hidden_repeatable',
-				'section_id'	=>	'hidden_field',
 				'title'	=>	__( 'Repeatable Hidden Fields', 'admin-page-framework-demo' ),
 				'type'	=>	'hidden',
 				'value'	=>	'HIIDENVALUE',
@@ -1289,7 +1243,6 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array( // Multiple Hidden Fields
 				'field_id'	=>	'hidden_miltiple',
-				'section_id'	=>	'hidden_field',
 				'title'	=>	'Multiple Hidden Field',
 				'type'	=>	'hidden',
 				'label'	=>	__( 'Hidden Field 1', 'admin-page-framework-demo' ),
@@ -1313,7 +1266,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array( // Submit button as a link
 				'field_id'	=>	'submit_button_link',
-				'section_id'	=>	'submit_buttons',
 				'type'	=>	'submit',
 				'title'	=>	__( 'Link Button', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'These buttons serve as a hyper link. Set the url to the <code>href</code> key to enable this option.', 'admin-page-framework-demo' ),
@@ -1348,7 +1300,6 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array( // Submit button as a redirect
 				'field_id'	=>	'submit_button_redirect',
-				'section_id'	=>	'submit_buttons',
 				'title'	=>	'Redirect Button',
 				'type'	=>	'submit',
 				'description'	=>	sprintf( __( 'Unlike the above link buttons, this button saves the options and then redirects to: <code>%1$s</code>', 'admin-page-framework-demo' ), admin_url() )
@@ -1361,7 +1312,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array( // Reset Submit button
 				'field_id'	=>	'submit_button_reset',
-				'section_id'	=>	'submit_buttons',
 				'title'	=>	'Reset Button',
 				'type'	=>	'submit',
 				'label'	=>	__( 'Reset', 'admin-page-framework-demo' ),
@@ -1383,7 +1333,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'verify_text_field_submit',	// this submit field ID can be used in a validation callback method
-				'section_id'	=>	'verification',
 				'type'	=>	'submit',		
 				'label'	=>	__( 'Verify', 'admin-page-framework-demo' ),
 			)
@@ -1435,7 +1384,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Multiple date pickers
 				'field_id'	=>	'dates',
-				'section_id'	=>	'date_pickers',
 				'title'	=>	__( 'Dates', 'admin-page-framework-demo' ),
 				'type'	=>	'date',
 				'label'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ),
@@ -1447,14 +1395,12 @@ class APF_Demo extends AdminPageFramework {
 			),	
 			array(	// Repeatable date picker fields
 				'field_id'	=>	'date_repeatable',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'date',
 				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
 			),			
 			array(	// Sortable date picker fields
 				'field_id'	=>	'date_sortable',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'date',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
@@ -1463,21 +1409,18 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(	// Single time picker
 				'field_id'	=>	'time',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'time',
 				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),
 			array(	// Repeatable time picker fields
 				'field_id'	=>	'time_repeatable',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'time',
 				'title'	=>	__( 'Repeatable Time Fields', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
 			),
 			array(	// Sortable tune picker fields
 				'field_id'	=>	'time_sortable',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'time',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
@@ -1486,7 +1429,6 @@ class APF_Demo extends AdminPageFramework {
 			),				
 			array(	// Single date time picker
 				'field_id'	=>	'date_time',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
@@ -1494,7 +1436,6 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array(	// Multiple date time pickers
 				'field_id'	=>	'dates_time_multiple',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Multiple Date and Time', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'With different time formats', 'admin-page-framework-demo' ),
@@ -1513,14 +1454,12 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(	// Single date time picker
 				'field_id'	=>	'date_time_repeatable',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Repeatable Date & Time Fields', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
 			),	
 			array(	// Sortable date_time picker fields
 				'field_id'	=>	'date_time_sortable',
-				'section_id'	=>	'date_pickers',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
@@ -1594,7 +1533,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'dial_big',
-				'section_id'	=>	'dial',
 				'title'	=>	__( 'Big', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
 				'attributes'	=>	array(
@@ -1604,14 +1542,12 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'dial_repeatable',
-				'section_id'	=>	'dial',
 				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
 				'repeatable'	=>	true,
 			),
 			array(
 				'field_id'	=>	'dial_sortable',
-				'section_id'	=>	'dial',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'dial',
 				'sortable'	=>	true,
@@ -1637,14 +1573,12 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'font_field_repeatable',
-				'section_id'	=>	'font',
 				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'type'	=>	'font',
 				'repeatable'	=>	 true,
 			),			
 			array(
 				'field_id'	=>	'font_field_sortable',
-				'section_id'	=>	'font',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'type'	=>	'font',
 				'sortable'	=>	 true,
@@ -1674,7 +1608,6 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'sample_field_repeatable',
-				'section_id'	=>	'sample',
 				'type'	=>	'sample',
 				'title'	=>	__( 'Sample', 'admin-page-framework-demo' ),
 				// 'default'	=> 'red',

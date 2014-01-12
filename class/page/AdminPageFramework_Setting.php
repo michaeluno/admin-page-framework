@@ -439,25 +439,30 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.1.2
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access			public
+	* @param			array|string	$asField			the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
 	* @return			void
 	* @remark			The user may use this method in their extended class definition.
 	*/	
-	public function addSettingField( $aField ) {
+	public function addSettingField( $asField ) {
 		
-		if ( ! is_array( $aField ) ) return;
-
-		// Check the required keys
-		if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) return;	// these keys are necessary.
+		static $__sTargetSectionID;	// stores the target page slug which will be applied when no page slug is specified.
 		
-		$aField = $aField + self::$_aStructure_Field;	// avoid undefined index warnings.
+		if ( ! is_array( $asField ) ) {
+			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
+			return;
+		}
 		
+		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
+		$aField = $this->oUtil->uniteArrays( $asField, self::$_aStructure_Field, array( 'section_id' => $__sTargetSectionID ) );
+		if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) return;	// Check the required keys as these keys are necessary.
+			
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
 		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
 										
 		$this->oProp->aFields[ $aField['field_id'] ] = $aField;		
 		
-	}
+	}	
 	
 	/**
 	* Removes the given field(s) by field ID.
@@ -579,7 +584,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( isset( $_POST['__reset_confirm'] ) && $sPressedFieldName = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__reset_confirm'], 'key' ) )
 			return $this->_askResetOptions( $sPressedFieldName, $sPageSlug );			
 		if ( isset( $_POST['__link'] ) && $sLinkURL = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__link'], 'url' ) )
-			die( wp_redirect( $sLinkURL ) );	// if the associated submit button for the link is pressed, the will be redirected.
+			die( wp_redirect( $sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
 		if ( isset( $_POST['__redirect'] ) && $sRedirectURL = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__redirect'], 'url' ) )
 			$this->_setRedirectTransients( $sRedirectURL );
 				
