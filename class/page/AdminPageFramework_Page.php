@@ -158,14 +158,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @return			void
 	 */ 
 	public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
+		
 		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		if ( ! empty( $sPageSlug ) )
+		if ( $sPageSlug ) {
 			$this->oProp->aPages[ $sPageSlug ]['show_page_title'] = $bShow;
-		else {
-			$this->oProp->bShowPageTitle = $bShow;
-			foreach( $this->oProp->aPages as &$aPage ) 
-				$aPage['show_page_title'] = $bShow;
+			return;
 		}
+		$this->oProp->bShowPageTitle = $bShow;
+		foreach( $this->oProp->aPages as &$aPage ) 
+			$aPage['show_page_title'] = $bShow;
+		
 	}	
 	
 	/**
