@@ -109,53 +109,41 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 	 * @return			void
 	 */ 			
 	public function addInPageTabs( $aTab1, $aTab2=null, $_and_more=null ) {
-		
-		static $__sTargetPageSlug;	// stores the target page slug which will be applied when no page slug is specified.
-		foreach( func_get_args() as $asTab ) {
-			
-			if ( ! is_array( $asTab ) ) {
-				$__sTargetPageSlug = is_string( $asTab ) ? $asTab : $__sTargetPageSlug;
-				continue;
-			} 
-			
-			$aTab = $this->oUtil->uniteArrays( $asTab, self::$_aStructure_InPageTabElements, array( 'page_slug' => $__sTargetPageSlug ) );	// avoid undefined index warnings.
-			$__sTargetPageSlug = $aTab['page_slug'];
-			$this->addInPageTab( $aTab['page_slug'], $aTab['title'], $aTab['tab_slug'], $aTab['order'], $aTab['show_in_page_tab'], $aTab['parent_tab_slug'] );
-			
-		}
-		
+		foreach( func_get_args() as $asTab ) $this->addInPageTab( $asTab );
 	}
+	
 	/**
 	 * Adds an in-page tab.
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public.
-	 * @param			string			$sPageSlug			The page slug that the tab belongs to.
-	 * @param			string			$sTabTitle			The title of the tab.
-	 * @param			string			$sTabSlug			The tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).
-	 * @param			integer			$nOrder				( optional ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.
-	 * @param			boolean			$bShowInPageTab		( optional ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.
-	 * @param			string			$sParentTabSlug		( optional ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.
+	 * @param			array|string	$asInPageTab			The in-page tab array or the target page slug. If the target page slug is set, the page_slug key can be omitted from next calls.
 	 * @remark			Use this method to add in-page tabs to ensure the array holds all the necessary keys.
 	 * @remark			In-page tabs are different from page-heading tabs which are automatically added with page titles.
 	 * @return			void
 	 */ 		
-	public function addInPageTab( $sPageSlug, $sTabTitle, $sTabSlug, $nOrder=null, $bShowInPageTab=false, $sParentTabSlug=null ) {	
+	public function addInPageTab( $asInPageTab ) {	
 		
-		$sTabSlug = $this->oUtil->sanitizeSlug( $sTabSlug );
-		$sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-		$iCountElement = isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ? count( $this->oProp->aInPageTabs[ $sPageSlug ] ) : 0;
-		if ( ! empty( $sTabSlug ) && ! empty( $sPageSlug ) ) 
-			$this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ] = array(
-				'page_slug'	=> $sPageSlug,
-				'title'		=> trim( $sTabTitle ),
-				'tab_slug'	=> $sTabSlug,
-				'order'		=> is_numeric( $nOrder ) ? $nOrder : $iCountElement + 10,
-				'show_in_page_tab'	=> ( $bShowInPageTab ),
-				'parent_tab_slug' => ! empty( $sParentTabSlug ) ? $this->oUtil->sanitizeSlug( $sParentTabSlug ) : null,
-			);
+		static $__sTargetPageSlug;	// stores the target page slug which will be applied when no page slug is specified.
+		if ( ! is_array( $asInPageTab ) ) {
+			$__sTargetPageSlug = is_string( $asInPageTab ) ? $asInPageTab : $__sTargetPageSlug;	// set the target page slug
+			return;
+		} 		
+		
+		$aInPageTab = $this->oUtil->uniteArrays( $asInPageTab, self::$_aStructure_InPageTabElements, array( 'page_slug' => $__sTargetPageSlug ) );	// avoid undefined index warnings.					
+		$__sTargetPageSlug = $aInPageTab['page_slug'];	// set the target page slug for next calls
+		if ( ! isset( $aInPageTab['page_slug'], $aInPageTab['tab_slug'] ) ) return;	// check the required keys.
+		
+		$iCountElement = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) : 0;
+		$aInPageTab = array(	// sanitize some elements
+			'page_slug'	=>	$this->oUtil->sanitizeSlug( $aInPageTab['page_slug'] ),
+			'tab_slug'	=>	$this->oUtil->sanitizeSlug( $aInPageTab['tab_slug'] ),
+			'order'	=>	is_numeric( $aInPageTab['order'] ) ? $aInPageTab['order'] : $iCountElement + 10,
+		) + $aInPageTab;
+
+		$this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ][ $aInPageTab['tab_slug'] ] = $aInPageTab;
 	
-	}	
+	}		
 	
 	/**
 	 * Sets whether the page title is displayed or not.
