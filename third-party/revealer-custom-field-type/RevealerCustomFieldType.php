@@ -202,13 +202,10 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 					
 					var sTargetID = jQuery( this ).val();
 					var nodeElementToReveal = jQuery( '#' + sTargetID );
-console.log( sTargetID );
 					if ( sTargetID == 'undefined' ) return;
 					
 					var sLastRevealedID = aSettings.hasOwnProperty( 'last_revealed_id' ) ? aSettings['last_revealed_id'] : undefined;
 					aSettings['last_revealed_id'] = sTargetID;
-console.log( aSettings );
-console.log( 'last item: '  + sLastRevealedID );
 					$( '#' + sLastRevealedID ).hide();	// hide the previously hidden element.
 					nodeElementToReveal.show();
 				});
