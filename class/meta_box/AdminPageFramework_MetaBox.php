@@ -525,10 +525,7 @@ abstract class AdminPageFramework_MetaBox {
 		
 		return $this->oUtil->addAndApplyFilters(
 			$this,
-			array( 
-				$this->oProp->sClassName . '_' . 'field_' . $aField['field_id'],	// this filter will be deprecated
-				'field_' . $this->oProp->sClassName . '_' . $aField['field_id']	// field_ + {extended class name} + _ {field id}
-			),
+			array( 	'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ),	// field_ + {extended class name} + _ {field id}
 			$sFieldOutput,
 			$aField // the field array
 		);		
@@ -591,12 +588,9 @@ abstract class AdminPageFramework_MetaBox {
 		// the start_ action hook.
 		if ( $sMethodName == $this->oProp->sPrefixStart . $this->oProp->sClassName ) return;
 
-		// the class name + field_ field ID filter.
+		// the field_{class name}_{...} filter.
 		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
 		
-		// the class name + field_ field ID filter.
-		if ( substr( $sMethodName, 0, strlen( $this->oProp->sClassName . '_' . 'field_' ) ) == $this->oProp->sClassName . '_' . 'field_' ) return $aArgs[ 0 ];
-
 		// the field_types_ + class name filter. [2.1.5+]
 		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];		
 
