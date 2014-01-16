@@ -1837,7 +1837,7 @@ class APF_Demo extends AdminPageFramework {
 	 * */
 	public function do_apf_manage_options_saved_data() {	// do_{page slug}_{tab slug}
 		?>
-		<h3>Saved Data</h3>
+		<h3><?php _e( 'Saved Data', 'admin-page-framework-demo' ); ?></h3>
 		<p><?php 
 			echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the extended class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
 			echo ' ' . sprintf( __( 'It is stored in the <code>$this->oProp-sOptionKey</code> class property so you may access it directly to confirm the value. So the required code would be <code>get_option( %1$s );</code>.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );

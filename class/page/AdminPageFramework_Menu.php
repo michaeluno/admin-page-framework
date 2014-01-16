@@ -427,7 +427,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		// Register them.
 		foreach ( $this->oProp->aPages as &$aSubMenuItem ) {
 			$aSubMenuItem = $this->_formatSubMenuItemArray( $aSubMenuItem );	// needs to be sanitized because there are hook filters applied to this array.
-			$this->_registerSubMenuItem( $aSubMenuItem );
+			$aSubMenuItem['_page_hook'] = $this->_registerSubMenuItem( $aSubMenuItem );	// store the page hook; this is same as the value stored in the global $page_hook or $hook_suffix variable. 
 		}
 						
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
@@ -442,12 +442,12 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		 * @since			2.0.0
 		 */ 
 		private function _registerRootMenuPage() {
-			$sHookName = add_menu_page(  
+			$this->oProp->aRootMenu['_page_hook'] = add_menu_page(  
 				$this->oProp->sClassName,						// Page title - will be invisible anyway
 				$this->oProp->aRootMenu['sTitle'],				// Menu title - should be the root page title.
 				$this->oProp->sCapability,						// Capability - access right
 				$this->oProp->aRootMenu['sPageSlug'],			// Menu ID 
-				'', //array( $this, $this->oProp->sClassName ), 	// Page content displaying function
+				'', //array( $this, $this->oProp->sClassName ), 	// Page content displaying function - the root page will be removed so no need to register a function.
 				$this->oProp->aRootMenu['sIcon16x16'],		// icon path
 				isset( $this->oProp->aRootMenu['iPosition'] ) ? $this->oProp->aRootMenu['iPosition'] : null	// menu position
 			);
@@ -530,12 +530,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			$sType = $aArgs['type'];	// page or link
 			$sTitle = $sType == 'page' ? $aArgs['title'] : $aArgs['title'];
 			$sCapability = isset( $aArgs['capability'] ) ? $aArgs['capability'] : $this->oProp->sCapability;
-				
+			$_sPageHook = '';
+			
 			// Check the capability
 			if ( ! current_user_can( $sCapability ) ) return;		
 			
 			// Add the sub-page to the sub-menu
-			$aResult = array();
+			
 			$sRootPageSlug = $this->oProp->aRootMenu['sPageSlug'];
 			$sMenuLabel = plugin_basename( $sRootPageSlug );	// Make it compatible with the add_submenu_page() function.
 			
@@ -543,19 +544,19 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			if ( $sType == 'page' && isset( $aArgs['page_slug'] ) ) {		
 				
 				$sPageSlug = $aArgs['page_slug'];
-				$aResult[ $sPageSlug ] = add_submenu_page( 
+				$_sPageHook = add_submenu_page( 
 					$sRootPageSlug,						// the root(parent) page slug
 					$sTitle,								// page_title
 					$sTitle,								// menu_title
 					$sCapability,				 			// capability
 					$sPageSlug,	// menu_slug
-					// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $aResult[ $sPageSlug ] )
+					// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $_sPageHook )
 					// will be executed and it triggers the __call magic method with the method name of "md5 class hash + _page_ + this page slug".
 					array( $this, $this->oProp->sClassHash . '_page_' . $sPageSlug )
 				);			
 				
-				add_action( "load-" . $aResult[ $sPageSlug ] , array( $this, "load_pre_" . $sPageSlug ) );
-					
+				add_action( "load-" . $_sPageHook , array( $this, "load_pre_" . $sPageSlug ) );
+
 				// If the visibility option is false, remove the one just added from the sub-menu array
 				if ( ! $aArgs['show_in_menu'] ) {
 
@@ -590,7 +591,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 				);	
 			}
 		
-			return $aResult;	// maybe useful to debug.
+			return $_sPageHook;	// will be stored in the $this->oProp->aPages property.
 
 		}		
 		

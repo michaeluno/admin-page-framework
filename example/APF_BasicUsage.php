@@ -26,7 +26,8 @@ class APF_BasicUsage extends AdminPageFramework {
 			<h3><?php _e( 'do_ + {...} Action Hooks', 'admin-page-framework-demo' ); ?></h3>
 			<p><?php _e( 'Hi there! This text is inserted by the <code>do_{page slug}</code> action hook and the callback method.', 'admin-page-framework-demo' ); ?></p>
 		<?php
-$this->oDebug->dumpArray( $this->oProp );
+// $this->oDebug->dumpArray( $this->oProp );
+// $this->oDebug->dumpArray( $screen = get_current_screen() );
 	}
 	
 	public function content_apf_second_page( $sContent ) {	// content_ + {page slug}
@@ -35,8 +36,10 @@ $this->oDebug->dumpArray( $this->oProp );
 			. "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-demo' ) . "</h3>"
 			. "<p>" 
 				. __( 'This message is inserted by the <code>content_{page slug}</code> filter.', 'admin-page-framework-demo' ) 
-			. "</p>";
-		
+			. "</p>"
+			. "<h3>" . __( 'Saved Options', 'admin-page-framework-demo' ) . "</h3>"
+			. $this->oDebug->getArray( $this->oProp->aOptions ); 
+			
 	}
 	
 }

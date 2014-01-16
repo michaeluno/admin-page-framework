@@ -60,11 +60,11 @@ abstract class AdminPageFramework_Base {
     * The common properties shared among sub-classes. 
 	* 
 	* @since			2.0.0
-	* @since			3.0.0			Changed the name from $oProps and moved from the main class.
+	* @since			3.0.0			Changed the name from $oProps and moved from the main class. Changed the scope to public as all instantiated class became to be stored in the global aAdminPageFramework variable.
 	* @access			protected
 	* @var				object			an instance of AdminPageFramework_Property_Page will be assigned in the constructor.
     */		
-	protected $oProp;	
+	public $oProp;
 	
 	/**
     * The object that provides the debug methods. 

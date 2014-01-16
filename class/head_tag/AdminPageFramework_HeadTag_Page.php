@@ -27,11 +27,14 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyle );
 		if ( $sStyle )
-			echo "<style type='text/css' id='admin-page-framework-style'>{$sStyle}</style>";
+			echo "<style type='text/css' id='admin-page-framework-style_{$this->oProp->sClassName}'>{$sStyle}</style>";
 		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyleIE )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyleIE );			
 		if ( $sStyleIE )
-			echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE'>{$sStyleIE}</style><![endif]-->";						
+			echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE_{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";						
+			
+		$this->oProp->_bAddedStyle = true;
+		
 	}
 	
 	/**
@@ -50,11 +53,13 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
 
 		$oCaller = $this->oProp->_getParentObject();
-		
+
 		// Print out the filtered scripts.
-		echo "<script type='text/javascript' id='admin-page-framework-script'>"
-				. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'script_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sScript )
-			. "</script>";		
+		echo "<script type='text/javascript' id='admin-page-framework-script_{$this->oProp->sClassName}'>"
+				. ( $sScript = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'script_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sScript ) )
+			. "</script>";
+
+		$this->oProp->_bAddedScript = true;
 		
 	}
 

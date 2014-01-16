@@ -99,7 +99,18 @@ abstract class AdminPageFramework_Property_Base {
 	 * @internal
 	 */ 
 	public $sStyleIE = '';	
-	
+
+	/**
+	 * Will store true when the style is added in the head tag.
+	 * @since			3.0.0
+	 */
+	public $_bAddedStyle = false;	
+	/**
+	 * Will store true when the script is added in the head tag.
+	 * @since			3.0.0
+	 */
+	public $_bAddedScript = false;
+
 	/**
 	 * Stores the field type definitions.
 	 * 
@@ -143,6 +154,21 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.contextual-help-tab-title {
 			font-weight: bold;
+		}
+		
+		/* Page Meta Boxes */
+		.admin-page-framework-content {
+			margin-bottom: 1.48em;		
+			display: inline-table;	/* Fixes the bottom margin gets placed at the top. */
+		}
+		
+		/* Heading - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */
+		#poststuff .admin-page-framework-content h3 {
+			font-weight: bold;
+			font-size: 1.3em;
+			margin: 1em 0;
+			padding: 0;
+			font-family: 'Open Sans', sans-serif;
 		}
 		
 		/* Form Elements */

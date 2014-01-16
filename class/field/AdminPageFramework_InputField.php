@@ -19,7 +19,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	private $_bIsMetaBox = false;
 			
 	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
-			
+
 		/* 1. Set up the properties that will be accessed later in the methods. */
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
 		
@@ -127,11 +127,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
 		// Check if a previously saved option value exists or not.
-		//  for regular setting pages. Meta boxes do not use these keys.
-		if ( isset( $aField['page_slug'], $aField['section_id'] ) ) 
+		//  for regular setting pages. Meta boxes for posts do not use these keys.
+		// Meta boxes for pages also need to retrieve the saved options as well.
+		if ( isset( $aField['page_slug'] ) ) 	// , $aField['section_id'] 
 			return $this->_getInputFieldValueFromOptionTable( $aField, $aOptions );
 		
-		// For meta boxes
+		// For meta boxes for posts
 		if ( isset( $_GET['action'], $_GET['post'] ) ) 
 			return $this->_getInputFieldValueFromPostTable( $_GET['post'], $aField );
 			

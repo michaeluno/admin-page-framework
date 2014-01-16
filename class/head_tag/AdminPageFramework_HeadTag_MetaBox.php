@@ -53,6 +53,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	
 		$this->_printCommonStyles( 'admin-page-framework-style-meta-box-common', get_class() );
 		$this->_printClassSpecificStyles( 'admin-page-framework-style-meta-box' );
+		$this->oProp->_bAddedStyle = true;
 			
 	}
 	/**
@@ -68,7 +69,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	
 		$this->_printCommonScripts( 'admin-page-framework-style-meta-box-common', get_class() );
 		$this->_printClassSpecificScripts( 'admin-page-framework-script-meta-box' );
-			
+		$this->oProp->_bAddedScript = true;
+		
 	}	
 		/**
 		 *	Prints the inline stylesheet of this class stored in this class property.

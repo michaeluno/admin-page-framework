@@ -33,11 +33,22 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 	/**
 	 * Stores the post type slugs associated with the meta box.
 	 * 
+	 * This is used in the meta box class for post type pages.
+	 * 
 	 * @since			2.0.0
 	 * @since			2.1.0			Moved from the meta box class.
 	 * @var				array
 	 */ 	
 	public $aPostTypes = array();
+	
+	/**
+	 * The condition array for page slugs associated with the meta box.
+	 * 
+	 * This is used in the meta box class for pages.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aPages = array();
 	
 	/**
 	 * Stores the parameter value, context, for the add_meta_box() function. 
@@ -76,14 +87,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 	 * @since			2.1.0			Moved from the meta box class.
 	 */ 	
 	public $sCapability = 'edit_posts';
-	
-	/**
-	 * @internal
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved from the meta box class.
-	*/ 		
-	public $sPrefixStart = 'start_';	
-	
+		
 	/**
 	 * Stores the field arrays for meta box form elements.
 	 * 
@@ -151,7 +155,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		'if'				=> true,
 		'help'			=> null,	// since 2.1.0
 		'help_aside'		=> null,	// since 2.1.0
-		'show_in_page_tabTitleColumn'	=> null,	// since 2.1.2
+		'show_title_column'	=> true,	// since 2.1.2, since 3.0.0 the default of true is set 
 		
 		// The followings may need to be uncommented.
 		// 'class_name' => null,		// This will be assigned automatically in the formatting method.

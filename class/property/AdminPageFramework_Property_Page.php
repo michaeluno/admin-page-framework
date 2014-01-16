@@ -222,6 +222,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 		$this->sCapability = empty( $sCapability ) ? $this->sCapability : $sCapability;
+		
+		/* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
+		$GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
+			? $GLOBALS['aAdminPageFramework']['aPageClasses']
+			: array();
+		$GLOBALS['aAdminPageFramework']['aPageClasses'][ $sClassName ] = $oCaller;	// The meta box class for pages needs to access the object.
+				
 				
 		// The capability for the settings. $this->sOptionKey is the part that is set in the settings_fields() function.
 		// This prevents the "Cheatin' huh?" message.

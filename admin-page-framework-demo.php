@@ -12,7 +12,7 @@
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/* Define constants */
+/* Define constants for the demo plugin */
 define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
@@ -33,22 +33,48 @@ if ( is_admin() ) :
 	/* Create a meta box with form fields */
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	// Include the demo class that creates a meta box.
 	new APF_MetaBox_BuiltinFieldTypes(
-		'sample_custom_meta_box',
-		__( 'Demo Meta Box with Built-in Field Types', 'admin-page-framework-demo' ),
-		array( 'apf_posts' ),	// post, page, etc.
-		'normal',
-		'default'
+		'sample_custom_meta_box',	// meta box ID
+		__( 'Demo Meta Box with Built-in Field Types', 'admin-page-framework-demo' ),	// title
+		array( 'apf_posts' ),	// post type slugs: post, page, etc.
+		'normal',	// context (what kind of metabox this is)
+		'default'	// priority
 	);
 
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );	// Include the demo class that creates a meta box.
 	new APF_MetaBox_CustomFieldTypes(
-		'sample_custom_meta_box_with_custom_field_types',
-		__( 'Demo Meta Box with Custom Field Types', 'admin-page-framework-demo' ),
-		array( 'apf_posts' ),	// post, page, etc.
-		'normal',
-		'default'
+		'sample_custom_meta_box_with_custom_field_types',	// meta box ID
+		__( 'Demo Meta Box with Custom Field Types', 'admin-page-framework-demo' ),		// title
+		array( 'apf_posts' ),	// post type slugs: post, page, etc.
+		'normal',	// context (what kind of metabox this is)
+		'default'	// priority
 	);
 	
+	/* Create meta boxes in the pages added with the framework */
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );	// Include the demo class that creates a meta box.
+	new APF_MetaBox_For_Pages_Normal(
+		'apf_metabox_for_pages_normal',		// meta box id
+		__( 'Sample Meta Box For Admin Pages Inserted in Normal Area' ),	// title
+		'apf_first_page',	// page slugs
+		'normal',	// context
+		'default'	// priority
+	);
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );	// Include the demo class that creates a meta box.
+	new APF_MetaBox_For_Pages_Advanced(
+		'apf_metabox_for_pages_advanced',	// meta box id
+		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
+		'apf_first_page',	// page slugs
+		'advanced',		// context
+		'default'	// priority
+	);	
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );	// Include the demo class that creates a meta box.
+	new APF_MetaBox_For_Pages_Side(
+		'apf_metabox_for_pages_side',	// meta box id
+		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
+		array( 'apf_first_page', 'apf_second_page' ),	// page slugs - setting multiple slugs is possible
+		'side',		// context
+		'default'	// priority
+	);		
+
 endif;
 
 /* Creates a custom post type */
@@ -74,13 +100,12 @@ new APF_PostType( 	// this class deals with front-end components so is_admin() i
 		),
 		'public' => true,
 		'menu_position' => 110,
-		// 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
-		'supports' => array( 'title' ),
+		'supports' => array( 'title' ), // 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
 		'taxonomies' => array( '' ),
 		'has_archive' => true,
 		'show_admin_column' => true,	// ( framework specific key ) this is for custom taxonomies to automatically add the column in the listing table.
 		'menu_icon' => plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ),
-		// ( framework specific key ) this sets the screen icon for the post type.
+		// ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
 		'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
 	)
 );	

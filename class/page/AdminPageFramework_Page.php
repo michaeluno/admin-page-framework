@@ -4,6 +4,7 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * Provides methods to render admin page elements.
  *
  * @abstract
+ * @extends			AdminPageFramework_Page_MetaBox
  * @since			2.0.0
  * @since			2.1.0		Extends AdminPageFramework_HelpPane_Page.
  * @since			3.0.0		No longer extends AdminPageFramework_HelpPane_Page.
@@ -13,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @staticvar		array		$_aHookPrefixes							stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.
  */
-abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
+abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				
 	/**
 	 * Stores the ID selector names for screen icons. <em>generic</em> is not available in WordPress v3.4.x.
@@ -47,17 +48,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 		'show_in_page_tab'	=> true,
 		'parent_tab_slug' => null,	// this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
 	);
-	
-	
+		
 	function __construct() {	
 	
 		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
+		add_filter( 'screen_layout_columns', array( $this, '_replyToSetNumberOfScreenLayoutColumns'), 10, 2 );	// sets the column layout option for meta boxes.
 		
-		// Call the parent constructor.
+		/* Call the parent constructor. */
 		$aArgs = func_get_args();
 		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
-		
-		
+				
 	}
 
 	/**
@@ -301,49 +301,120 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 
 				// Apply filters in this order, in-page tab -> page -> global.
 				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_top_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContentTop );
+
 			?>
-			<div class="admin-page-framework-container">
+			<div class="admin-page-framework-container">	
 				<?php
 					$this->_showSettingsErrors();
-						
 					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_form_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
-
 					echo $this->_getFormOpeningTag();	// <form ... >
-					
-					// Capture the output buffer
-					ob_start(); // start buffer
-							 					
-					// Render the form elements by Settings API
-					if ( $this->oProp->bEnableForm ) {
-						settings_fields( $this->oProp->sOptionKey );	// this value also determines the $option_page global variable value.
-						do_settings_sections( $sPageSlug ); 
-					}				
-					 
-					$sContent = ob_get_contents(); // assign the content buffer to a variable
-					ob_end_clean(); // end buffer and remove the buffer
-								
-					// Apply the content filters.
-					echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
-	
-					// Do the page actions.
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
-						
 				?>
+				<div id="poststuff">
+					<div id="post-body" class="metabox-holder columns-<?php echo $this->_getNumberOfColumns(); ?>">
+					<?php
+						$this->_printMainContent( $sPageSlug, $sTabSlug );
+						$this->_printMetaBox( 'side', 1 );	// defined in the parrent class.
+						$this->_printMetaBox( 'normal', 2 );
+						$this->_printMetaBox( 'advanced', 3 );
+					?>						
+					</div><!-- #post-body -->	
+				</div><!-- #poststuff -->
 				
-			<?php echo $this->_getFormClosingTag( $sPageSlug, $sTabSlug );  // </form> ?>	
-			
-			</div><!-- End admin-page-framework-container -->
+			<?php echo $this->_getFormClosingTag( $sPageSlug, $sTabSlug );  // </form> ?>
+			</div><!-- .admin-page-framework-container -->
 				
 			<?php	
 				// Apply the content_bottom filters.
 				echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_bottom_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), '' );	// empty string
 			?>
-		</div><!-- End Wrap -->
+		</div><!-- .wrap -->
 		<?php
 		// Do actions after rendering the page.
 		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_after_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
 		
 	}
+		/**
+		 * Returns the number of columns in the page.
+		 * 
+		 */
+		private function _getNumberOfColumns() {
+		
+			if ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 )
+				return 2;
+			return 1;
+
+
+			// the below does not seem to work
+			return 1 == get_current_screen()->get_columns() 
+				? '1' 
+				: '2'; 	
+			
+		}
+		/**
+		 * Renders the main content of the admin page.
+		 * @since			3.0.0
+		 */
+		private function _printMainContent( $sPageSlug, $sTabSlug ) {
+			
+			/* Check if a sidebar meta box is registered */
+			$_bIsSideMetaboxExist = ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 );
+
+			echo "<!-- main admin page content -->";
+			echo "<div class='admin-page-framework-content'>";
+			if ( $_bIsSideMetaboxExist ) 
+				echo "<div id='post-body-content'>";
+	
+			/* Capture the output buffer */
+			ob_start(); // start buffer
+										
+			// Render the form elements by Settings API
+			if ( $this->oProp->bEnableForm ) {
+				settings_fields( $this->oProp->sOptionKey );	// this value also determines the $option_page global variable value.
+				do_settings_sections( $sPageSlug ); 
+			}				
+			 
+			$sContent = ob_get_contents(); // assign the content buffer to a variable
+			ob_end_clean(); // end buffer and remove the buffer
+						
+			// Apply the content filters.
+			echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
+
+			// Do the page actions.
+			$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );			
+			
+			if ( $_bIsSideMetaboxExist )
+				echo "</div><!-- #post-body-content -->";
+			echo "</div><!-- .admin-page-framework-content -->";
+		}
+
+	/**
+	 * Sets the number of screen layout columns.
+	 * @since			3.0.0
+	 */
+	public function _replyToSetNumberOfScreenLayoutColumns( $aColumns, $sScreenID ) {	//for WordPress 2.8 we have to tell, that we support 2 columns !
+		
+		if ( ! isset( $GLOBALS['page_hook'] ) ) return;
+		add_filter( 'get_user_option_' . 'screen_layout_' . $GLOBALS['page_hook'], array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 );	// this will give the screen object the default value
+		if ( $sScreenID == $GLOBALS['page_hook'] ) 
+			$aColumns[ $GLOBALS['page_hook'] ] = 2;
+		return $aColumns;
+		
+	}
+	
+	/**
+	 * Returns the default number of screen columns
+	 * @since			3.0.0
+	 */
+	public function _replyToReturnDefaultNumberOfScreenColumns( $vStoredData, $sOptionKey, $oUser ) {
+		
+		if ( $sOptionKey != 'screen_layout_' . $GLOBALS['page_hook'] ) return $vStoredData;	// if the option key is different, do nothing.
+	
+		return ( $vStoredData )
+			? $vStoredData
+			: $this->_getNumberOfColumns();	// the default value;
+		
+	}
+	
 		/**
 		 * Retrieves the form opening tag.
 		 * 
@@ -647,6 +718,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Base {
 			}
 		}
 	}			
-
+	
 }
 endif;
