@@ -178,9 +178,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	* @return			void
 	* @remark			The user may use this method in their extended class definition.
 	*/		
-	public function addSettingField( $aField ) {
-
-		if ( ! is_array( $aField ) ) return;
+	public function addSettingField( array $aField ) {
 		
 		$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
 		
@@ -237,7 +235,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 * 
 	 * @since			2.1.5
 	 */
-	protected function _setFieldHeadTagElements( $aField ) {
+	protected function _setFieldHeadTagElements( array $aField ) {
 		
 		$sFieldType = $aField['type'];
 		

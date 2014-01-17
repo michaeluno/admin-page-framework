@@ -50,9 +50,9 @@ abstract class AdminPageFramework_HeadTag_Base {
 	/*
 	 * Methods that should be overridden in extended classes.
 	 */
-	public function _replyToAddStyle() {}
-	public function _replyToAddScript() {}
-	protected function _enqueueSRCByConditoin() {}
+	public function _replyToAddStyle() {}	// no parameter
+	public function _replyToAddScript() {}	// no parameter
+	protected function _enqueueSRCByConditoin( $aEnqueueItem ) {}
  	
 	/*
 	 * Shared methods

@@ -116,17 +116,17 @@ abstract class AdminPageFramework_MetaBox_Base {
 	/*
 	 * Head Tag Methods - should be extended.
 	 */
-	public function enqueueStyles() {}
-	public function enqueueStyle() {}
-	public function enqueueScripts() {}
-	public function enqueueScript() {}
-	public function addSettingField() {}
+	public function enqueueStyles( $aSRCs, $_vArg2=null, $_vArg3=null ) {}	// the number of arguments depend on the extended class
+	public function enqueueStyle( $sSRC, $_vArg2=null, $_vArg3=null ) {}
+	public function enqueueScripts( $aSRCs, $_vArg2=null, $_vArg3=null ) {}
+	public function enqueueScript( $sSRC, $_vArg2=null, $_vArg3=null ) {}
+	public function addSettingField( array $aField ) {}
 			
 	/*
 	 * Internal methods that should be extended.
 	 */
 	public function _replyToAddMetaBox() {}
-	protected function _setFieldHeadTagElements() {}
+	protected function _setFieldHeadTagElements( array $aField ) {}
 	
 	/**
 	 * Loads the default field type definition.
