@@ -171,7 +171,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		
 		parent::__construct( $oCaller, null, $strClassName );		// meta boxes don't need the caller script path.
 		
-		$this->oProp->sCapability = $sCapability;
+		$this->sCapability = $sCapability;
 		
 	}
 	
