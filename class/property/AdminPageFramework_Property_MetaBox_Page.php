@@ -37,6 +37,12 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 		$aArgs = func_get_args();
 		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
 		
+		/* Store the 'meta box for pages' class objects in the global storage. These will be referred by the admin page class to determine if there are added meta boxes so that the screen option does not have to be set. */
+		$GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] = isset( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
+			? $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses']
+			: array();
+		$GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'][ $aArgs[ 1 ] ] = $aArgs[ 0 ];	// The meta box class for pages needs to access the object.
+		
 	} 	
 	
 	/**

@@ -20,15 +20,16 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 */
 	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {		
 
-		// $asPageSlugs = array(
-			// 'APF_Basic',	// if the numeric key with a string value is given in the top level dimension, it is considered as the class name.
-			// 'APF_Demo' => array( 	// if a string key with the an array is given, the key will be considered as the class and 
-				// 'settings' => array( 	// if the key is not numeric, it will be considered as the page slug.
-					// 'help', 'about', 'general',
-				// ),
-				// 'manage',	// if the numeric key with a string value is given in the second dimension, the condition applies to the page slug of this string value.
-			// ),
-		// ); 
+		/* 		
+		$asPageSlugs = array(			
+			'settings' => array( 	// if the key is not numeric and the value is an array, it will be considered as a tab array.
+				'help', 		// enabled in the tab whose slug is 'help' which belongs to the page whose slug is 'settings'
+				'about', 		// enabled in the tab whose slug is 'about' which belongs to the page whose slug is 'settings'
+				'general',		// enabled in the tab whose slug is 'general' which belongs to the page whose slug is 'settings'
+			),
+			'manage',	// if the numeric key with a string value is given, the condition applies to the page slug of this string value.
+		); 
+		*/
 		
 		/* The property object needs to be done first */
 		$this->oProp = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability );		

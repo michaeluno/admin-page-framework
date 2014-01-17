@@ -52,8 +52,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	function __construct() {	
 	
 		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
-		add_filter( 'screen_layout_columns', array( $this, '_replyToSetNumberOfScreenLayoutColumns'), 10, 2 );	// sets the column layout option for meta boxes.
-		
+				
 		/* Call the parent constructor. */
 		$aArgs = func_get_args();
 		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
@@ -333,23 +332,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_after_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
 		
 	}
-		/**
-		 * Returns the number of columns in the page.
-		 * 
-		 */
-		private function _getNumberOfColumns() {
-		
-			if ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 )
-				return 2;
-			return 1;
 
-
-			// the below does not seem to work
-			return 1 == get_current_screen()->get_columns() 
-				? '1' 
-				: '2'; 	
-			
-		}
 		/**
 		 * Renders the main content of the admin page.
 		 * @since			3.0.0
@@ -386,34 +369,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				echo "</div><!-- #post-body-content -->";
 			echo "</div><!-- .admin-page-framework-content -->";
 		}
-
-	/**
-	 * Sets the number of screen layout columns.
-	 * @since			3.0.0
-	 */
-	public function _replyToSetNumberOfScreenLayoutColumns( $aColumns, $sScreenID ) {	//for WordPress 2.8 we have to tell, that we support 2 columns !
-		
-		if ( ! isset( $GLOBALS['page_hook'] ) ) return;
-		add_filter( 'get_user_option_' . 'screen_layout_' . $GLOBALS['page_hook'], array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 );	// this will give the screen object the default value
-		if ( $sScreenID == $GLOBALS['page_hook'] ) 
-			$aColumns[ $GLOBALS['page_hook'] ] = 2;
-		return $aColumns;
-		
-	}
-	
-	/**
-	 * Returns the default number of screen columns
-	 * @since			3.0.0
-	 */
-	public function _replyToReturnDefaultNumberOfScreenColumns( $vStoredData, $sOptionKey, $oUser ) {
-		
-		if ( $sOptionKey != 'screen_layout_' . $GLOBALS['page_hook'] ) return $vStoredData;	// if the option key is different, do nothing.
-	
-		return ( $vStoredData )
-			? $vStoredData
-			: $this->_getNumberOfColumns();	// the default value;
-		
-	}
 	
 		/**
 		 * Retrieves the form opening tag.

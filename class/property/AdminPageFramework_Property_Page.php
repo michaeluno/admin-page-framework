@@ -266,7 +266,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 */
 	public function isPageAdded( $sPageSlug='' ) {	
 		
-		$sPageSlug = ! empty( $sPageSlug ) ? $sPageSlug : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
+		$sPageSlug = $sPageSlug ? $sPageSlug : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
 		return ( array_key_exists( trim( $sPageSlug ), $this->aPages ) )
 			? true
 			: false;

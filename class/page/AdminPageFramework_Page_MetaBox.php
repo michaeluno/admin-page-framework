@@ -14,6 +14,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 			
 		add_action( 'admin_head', array( $this, '_replyToEnableMetaBox' ) );	// since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
 		add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
+		add_filter( 'screen_layout_columns', array( $this, '_replyToSetNumberOfScreenLayoutColumns'), 10, 2 );	// sets the column layout option for meta boxes.
 		
 		/* Call the parent constructor.	*/
 		$aArgs = func_get_args();
@@ -23,7 +24,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		
 		
 	/**
-	 * Renders the registered meta boxes for the side position.
+	 * Renders the registered meta boxes.
 	 * 
 	 * @remark			Called in the _renderPage() method.
 	 * @remark			If no meta box is registered, nothing will be printed.
@@ -42,8 +43,84 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		echo "</div>";
 
 	}
-						
+	
+	/**
+	 * Returns the number of columns in the page.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	protected function _getNumberOfColumns() {
+	
+		if ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 )
+			return 2;
+		return 1;
+
+		// the below does not seem to work
+		return 1 == get_current_screen()->get_columns() 
+			? '1' 
+			: '2'; 	
 		
+	}
+	
+	/**
+	 * Sets the number of screen layout columns.
+	 * @since			3.0.0
+	 */
+	public function _replyToSetNumberOfScreenLayoutColumns( $aColumns, $sScreenID ) {	//for WordPress 2.8 we have to tell, that we support 2 columns !
+		
+		if ( ! $this->_isMetaBoxAdded() ) return;
+		if ( ! isset( $GLOBALS['page_hook'] ) ) return;
+		
+		add_filter( 'get_user_option_' . 'screen_layout_' . $GLOBALS['page_hook'], array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 );	// this will give the screen object the default value
+		if ( $sScreenID == $GLOBALS['page_hook'] ) 
+			$aColumns[ $GLOBALS['page_hook'] ] = 2;
+		return $aColumns;
+		
+	}
+		
+		/**
+		 * Checks if there are meta boxes added to the given slug of the page.
+		 * @since			3.0.0 
+		 */
+		private function _isMetaBoxAdded( $sPageSlug='' ) {
+			
+			if ( ! isset( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] ) ) return false;
+			if ( ! is_array( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] ) ) return false;
+			$sPageSlug = $sPageSlug 
+				? $sPageSlug 
+				: ( isset( $_GET['page'] )
+					? $_GET['page']
+					: ''
+				);
+			if ( ! $sPageSlug ) return false;
+			
+			foreach( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] as $sClassName => $oMetaBox ) {
+				
+				/* For tab key array elements, the slugs are stored as a key. */
+				if ( array_key_exists ( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) return true;
+				
+				if ( in_array( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) return true;
+				
+			}
+			
+			return false;
+			
+		}
+	
+	/**
+	 * Returns the default number of screen columns
+	 * @since			3.0.0
+	 */
+	public function _replyToReturnDefaultNumberOfScreenColumns( $vStoredData, $sOptionKey, $oUser ) {
+		
+		if ( $sOptionKey != 'screen_layout_' . $GLOBALS['page_hook'] ) return $vStoredData;	// if the option key is different, do nothing.
+	
+		return ( $vStoredData )
+			? $vStoredData
+			: $this->_getNumberOfColumns();	// the default value;
+		
+	}	
+					
 	/**
 	 * Enables meta boxes for the currently loading page 
 	 * 
@@ -52,6 +129,8 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 	 * @internal
 	 */
 	public function _replyToEnableMetaBox() {
+		
+		if ( ! $this->oProp->isPageAdded() ) return;
 		
 		$oScreen = get_current_screen();
 		$sScreenID = $oScreen->id;
@@ -69,42 +148,23 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		add_action( "admin_footer-{$sScreenID}", array( $this, '_replyToAddMetaboxScript' ) );
 		
 	}
-	/**
-	 * Adds meta box script.
-	 * @remark			This method may be called multiple times if the main class is instantiated multiple times. But it is only enough to perform once.
-	 * @since			3.0.0
-	 * @internal
-	 */
-	public function _replyToAddMetaboxScript() {
+		/**
+		 * Adds meta box script.
+		 * @remark			This method may be called multiple times if the main class is instantiated multiple times. But it is only enough to perform once.
+		 * @since			3.0.0
+		 * @internal
+		 */
+		public function _replyToAddMetaboxScript() {
+				
+			if ( isset( $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] ) ) return;
+			$GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] = true;
 			
-		if ( isset( $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] ) ) return;
-		$GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] = true;
-		
-		?>
-		<script class="admin-page-framework-insert-metabox-script">
-			jQuery( document).ready( function(){ postboxes.add_postbox_toggles( pagenow ); });
-		</script>
-		<?php
-	}
+			?>
+			<script class="admin-page-framework-insert-metabox-script">
+				jQuery( document).ready( function(){ postboxes.add_postbox_toggles( pagenow ); });
+			</script>
+			<?php
+		}
 	
-	/**
-	 * Registers meta boxes with conditions.
-	 * @since			3.0.0
-	 * @internal
-	 */
-	public function _replyToAddMetaBox() {
-		
-		// foreach( $this->oProp->aMetaBoxes as $aMetaBox ) 
-			// add_meta_box( 
-				// $aMetaBox['id'], 		// id
-				// $aMetaBox['title'], 	// title
-// array( $this, '_replyToPrintMetaBoxContents' ), 	// callback
-// $sPostType,		// screen id
-				// $aMetaBox['context'], 	// context
-				// $aMetaBox['priority'],	// priority
-				// $aMetaBox['arguments']	// arguments
-			// );
-			
-	}
 }
 endif;
