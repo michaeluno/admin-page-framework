@@ -384,7 +384,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* @access 			public
 	* @return			void
 	*/		
-	public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {				
+	public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
 		$this->oLink->_addLinkToPluginDescription( func_get_args() );		
 	}
 

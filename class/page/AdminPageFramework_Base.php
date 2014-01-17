@@ -154,47 +154,47 @@ abstract class AdminPageFramework_Base {
 	public function setUp() {}
 	
 	/* Defined in AdminPageFramework */
-	public function addHelpTab() {}
-	public function enqueueStyles() {}
-	public function enqueueStyle() {}
-	public function enqueueScripts() {}
-	public function enqueueScript() {}
-	public function addLinkToPluginDescription() {}
-	public function addLinkToPluginTitle() {}
-	public function setCapability() {}
-	public function setFooterInfoLeft() {}
-	public function setFooterInfoRight() {}
-	public function setAdminNotice() {}
-	public function setDisallowedQueryKeys() {}
+	public function addHelpTab( $aHelpTab ) {}
+	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
+	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
+	public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
+	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
+	public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {}
+	public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {}
+	public function setCapability( $sCapability ) {}
+	public function setFooterInfoLeft( $sHTML, $bAppend=true ) {}
+	public function setFooterInfoRight( $sHTML, $bAppend=true ) {}
+	public function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {}
+	public function setDisallowedQueryKeys( $asQueryKeys, $bAppend=true ) {}
 	
 	/* Defined in AdminPageFramework_Page */
-	public function addInPageTabs() {}
-	public function addInPageTab() {}
-	public function setPageTitleVisibility() {}
-	public function setPageHeadingTabsVisibility() {}
-	public function setInPageTabsVisibility() {}
-	public function setInPageTabTag() {}
-	public function setPageHeadingTabTag() {}
+	public function addInPageTabs( $aTab1, $aTab2=null, $_and_more=null ) {}
+	public function addInPageTab( $asInPageTab ) {}
+	public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {}
+	public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {}
+	public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {}
+	public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {}
+	public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {}
 	
 	/* Defined in AdminPageFramework_Menu */
-	public function setRootMenuPage() {}
-	public function setRootMenuPageBySlug() {}
-	public function addSubMenuItems() {}
-	public function addSubMenuItem() {}
-	public function addSubMenuLink() {}	
-	public function addSubMenuPages() {}
-	public function addSubMenuPage() {}
+	public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {}
+	public function setRootMenuPageBySlug( $sRootMenuSlug ) {}
+	public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {}
+	public function addSubMenuItem( array $aSubMenuItem ) {}
+	public function addSubMenuLink( array $aSubMenuLink ) {}	
+	public function addSubMenuPages() {}	// no parameter
+	public function addSubMenuPage( array $aSubMenuPage ) {}
 	
 	/* Defined in AdminPageFramework_Setting */
-	public function setSettingNotice() {}
-	public function addSettingSections() {}
-	public function addSettingSection() {}
-	public function removeSettingSections() {}	
-	public function addSettingFields() {}
-	public function addSettingField() {}
-	public function removeSettingFields() {}
-	public function setFieldErrors() {}
-	public function getFieldValue() {}
+	public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {}
+	public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {}
+	public function addSettingSection( $asSection ) {}
+	public function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {}	
+	public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {}
+	public function addSettingField( $asField ) {}
+	public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {}
+	public function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {}
+	public function getFieldValue( $sFieldID ) {}
 	
 	
 	/* Shared methods */
