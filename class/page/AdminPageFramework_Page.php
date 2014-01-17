@@ -49,13 +49,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		'parent_tab_slug' => null,	// this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
 	);
 		
-	function __construct() {	
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {	
 	
 		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
 				
-		/* Call the parent constructor. */
-		$aArgs = func_get_args();
-		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
+		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 				
 	}
 

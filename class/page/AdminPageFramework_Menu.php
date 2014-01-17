@@ -121,13 +121,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	// );
 	 
 
-	function __construct() {		
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 		
 		add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );		
 		
-		// Call the parent constructor.
-		$aArgs = func_get_args();
-		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
+		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 		
 	} 
 	 

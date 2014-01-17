@@ -80,14 +80,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	protected $aFieldErrors;		// Do not set a value here since it is checked to see it's null.
 							
-	function __construct() {
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 		
 		add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
 		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects
 		
-		// Call the parent constructor.
-		$aArgs = func_get_args();
-		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
+		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 		
 	}
 							
