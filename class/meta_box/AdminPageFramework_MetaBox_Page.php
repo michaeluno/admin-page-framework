@@ -34,9 +34,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		/* The property object needs to be done first */
 		$this->oProp = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability );		
 		
-		/* Call the parent constructor. */
-		$aArgs = func_get_args();
-		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
+		parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
 		
 		/* These class uses methods that determines the current tab and page slugs based from the added pages. */
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox_Page( $this->oProp );
@@ -108,9 +106,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* @return			void
 	* @remark			The user may use this method in their extended class definition.
 	*/		
-	public function addSettingField( $aField ) {
-
-		if ( ! is_array( $aField ) ) return;
+	public function addSettingField( array $aField ) {
 		
 		$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
 		
@@ -183,7 +179,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * @since			2.1.5
 	 */
-	protected function _setFieldHeadTagElements( $aField ) {
+	protected function _setFieldHeadTagElements( array $aField ) {
 		
 		$sFieldType = $aField['type'];
 		

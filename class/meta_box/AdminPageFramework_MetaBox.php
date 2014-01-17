@@ -50,9 +50,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		/* The property object needs to be done first */
 		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
 		
-		/* Call the parent constructor. */
-		$aArgs = func_get_args();
-		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );
+		parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
 		
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
