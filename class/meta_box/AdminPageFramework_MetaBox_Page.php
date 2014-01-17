@@ -224,35 +224,53 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	/**
 	 * Adds the defined meta box.
 	 * 
+	 * @internal
 	 * @since			3.0.0
 	 * @remark			uses <em>add_meta_box()</em>.
-	 * @remark			Before this method is called, the pages need to be registered already.
+	 * @remark			Before this method is called, the pages and in-page tabs need to be registered already.
 	 * @remark			A callback for the <em>add_meta_boxes</em> hook.
 	 * @return			void
 	 */ 
 	public function _replyToAddMetaBox() {
 		
-		foreach( $this->oProp->aPageSlugs as $asPage ) {
+		foreach( $this->oProp->aPageSlugs as $sKey => $asPage ) {
 			
 			if ( is_string( $asPage ) )  {
+				$this->_addMetaBox( $asPage );
+				continue;
+			}
+			if ( ! is_array( $asPage ) ) continue;
+			
+			$sPageSlug = $sKey;
+			foreach( $asPage as $sTabSlug ) {
 				
-				$sScreenID = $this->oProp->_getScreenIDOfPage( $asPage );
+				if ( ! $this->oProp->isCurrentTab( $sTabSlug ) ) continue;
 				
-				add_meta_box( 
-					$this->oProp->sMetaBoxID, 		// id
-					$this->oProp->sTitle, 	// title
-					array( $this, '_replyToPrintMetaBoxContents' ), 	// callback
-					$sScreenID,		// screen ID
-					$this->oProp->sContext, 	// context
-					$this->oProp->sPriority,	// priority
-					$this->oProp->aFields	// argument
-				);
+				$this->_addMetaBox( $sPageSlug );
+				
 			}
 			
 		}
 				
 	}	
+		/**
+		 * Adds meta box with the given page slug.
+		 * @since			3.0.0
+		 * @internal
+		 */
+		private function _addMetaBox( $sPageSlug ) {
+			
+			add_meta_box( 
+				$this->oProp->sMetaBoxID, 		// id
+				$this->oProp->sTitle, 	// title
+				array( $this, '_replyToPrintMetaBoxContents' ), 	// callback
+				$this->oProp->_getScreenIDOfPage( $sPageSlug ),		// screen ID
+				$this->oProp->sContext, 	// context
+				$this->oProp->sPriority,	// priority
+				$this->oProp->aFields	// argument
+			);		
+			
+		}
 		
-
 }
 endif;

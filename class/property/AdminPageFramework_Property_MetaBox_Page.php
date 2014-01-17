@@ -93,6 +93,26 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	}
 	
 	/**
+	 * Checks if the current loading page is in the given page tab.
+	 * 
+	 * @remark			If the user is in the default tab page, it's possible that the $_GET['tab'] key is not set.
+	 * @since			3.0.0
+	 * return			boolean
+	 */
+	public function isCurrentTab( $sTabSlug ) {
+		
+		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		if ( ! $sCurrentPageSlug ) return false;
+		
+		$sCurrentTabSlug = isset( $_GET['tab'] ) 
+			? $_GET['tab']
+			: $this->getDefaultInPageTab( $sCurrentPageSlug );
+			
+		return ( $sTabSlug == $sCurrentTabSlug );
+
+	}
+	
+	/**
 	 * Retrieves the default in-page tab from the given tab slug.
 	 * 
 	 * @since			3.0.0

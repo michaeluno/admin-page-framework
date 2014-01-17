@@ -68,8 +68,8 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 	 */
 	public function _replyToSetNumberOfScreenLayoutColumns( $aColumns, $sScreenID ) {	//for WordPress 2.8 we have to tell, that we support 2 columns !
 		
-		if ( ! $this->_isMetaBoxAdded() ) return;
 		if ( ! isset( $GLOBALS['page_hook'] ) ) return;
+		if ( ! $this->_isMetaBoxAdded() ) return;
 		
 		add_filter( 'get_user_option_' . 'screen_layout_' . $GLOBALS['page_hook'], array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 );	// this will give the screen object the default value
 		if ( $sScreenID == $GLOBALS['page_hook'] ) 
@@ -80,7 +80,9 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		
 		/**
 		 * Checks if there are meta boxes added to the given slug of the page.
+		 * @internal
 		 * @since			3.0.0 
+		 * @return			boolean
 		 */
 		private function _isMetaBoxAdded( $sPageSlug='' ) {
 			
@@ -94,19 +96,38 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 				);
 			if ( ! $sPageSlug ) return false;
 			
-			foreach( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] as $sClassName => $oMetaBox ) {
-				
-				/* For tab key array elements, the slugs are stored as a key. */
-				if ( array_key_exists ( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) return true;
-				
-				if ( in_array( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) return true;
-				
-			}
+			foreach( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] as $sClassName => $oMetaBox ) 
+				if ( $this->_isPageOfMetaBox( $sPageSlug, $oMetaBox ) ) return true;					
 			
 			return false;
+
 			
 		}
+		/**
+		 * Checks if the given page slug belongs to the meta box of the given meta box object.
+		 * @internal
+		 * @remark			Checks the tab array in the aPageSlugs array and if the loading page tab does not match the tab elements, it yields false.
+		 * @since			3.0.0
+		 */
+		private function _isPageOfMetaBox( $sPageSlug, $oMetaBox ) {
+			
+			if ( in_array( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) return true;	// for numeric keys with a string value.
+			if ( ! array_key_exists( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) return false;	// for keys of page slugs, the key does not exist, it means not added.
+			
+			/* So the page slug key and its tab array is set. This means the user want to specify the meta box visibility per a tab basis. */		
+			$aTabs = $oMetaBox->oProp->aPageSlugs[ $sPageSlug ];
 	
+			$sCurrentTabSlug = isset( $_GET['tab'] ) 
+				? $_GET['tab']
+				: ( isset( $_GET['page'] ) 
+					? $this->oProp->getDefaultInPageTab( $_GET['page'] )
+					: ''
+				);
+			if ( $sCurrentTabSlug && in_array( $sCurrentTabSlug, $aTabs ) )	return true;
+			
+			return false;
+		}
+		
 	/**
 	 * Returns the default number of screen columns
 	 * @since			3.0.0
@@ -131,6 +152,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 	public function _replyToEnableMetaBox() {
 		
 		if ( ! $this->oProp->isPageAdded() ) return;
+		if ( ! $this->_isMetaBoxAdded() ) return;
 		
 		$oScreen = get_current_screen();
 		$sScreenID = $oScreen->id;
