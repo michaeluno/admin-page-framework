@@ -18,7 +18,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * @since			3.0.0
 	 */
-	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {		
+	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {		
 
 		/* 		
 		$asPageSlugs = array(			
@@ -38,7 +38,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		
 		/* These class uses methods that determines the current tab and page slugs based from the added pages. */
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox_Page( $this->oProp );
-		// $this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 		
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
@@ -107,7 +106,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* @remark			The user may use this method in their extended class definition.
 	*/		
 	public function addSettingField( array $aField ) {
-		
+
 		$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
@@ -126,7 +125,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		// For the contextual help pane,
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
-				
+
 		$this->oProp->aFields[ $aField['field_id'] ] = $aField;
 	
 	}
@@ -154,7 +153,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$sOptionKey = $this->_getOptionKey();
 		$aField['option_key'] = $sOptionKey ? $sOptionKey : null;
 		$aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : '';	// set an empty string to make it yield true for isset() so that saved options will be cheched.
-		
+
 		return parent::getFieldOutput( $aField );
 		
 	}

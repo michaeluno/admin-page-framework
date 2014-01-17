@@ -229,20 +229,16 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$sOut .= '<table class="form-table">';
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
 		$this->setOptionArray( $iPostID, $vArgs['args'] );
-		
+
 		foreach ( ( array ) $vArgs['args'] as $aField ) {
 			
 			// Avoid undefined index warnings
 			$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 			
-// get value of this field if it exists for this post
-// $sStoredValue = get_post_meta( $oPost->ID, $aField['field_id'], true );
-// $aField['value'] = $sStoredValue ? $sStoredValue : $aField['value'];
-			
 			// Check capability. If the access level is not sufficient, skip.
 			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
 			if ( ! current_user_can( $aField['capability'] ) ) continue; 			
-			
+		
 			// Begin a table row. 
 			$sOut .= "<tr>";
 			if ( $aField['show_title_column'] )

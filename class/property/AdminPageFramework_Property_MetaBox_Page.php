@@ -29,11 +29,11 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	
 	public $aHelpTabs = array();
 	
-	function __construct( $oCaller, $sClassName, $sCapability ) {		
+	function __construct( $oCaller, $sClassName, $sCapability='manage_options' ) {		
 		
 		add_action( 'admin_menu', array( $this, '_replyToSetUpProperties' ), 100 );			// this must be done after the menu class finishes building the menu with the _replyToBuildMenu() method.
 		
-		parent::__construct( $oCaller, null, $sClassName );
+		parent::__construct( $oCaller, $sClassName, $sCapability );
 		
 		/* Store the 'meta box for pages' class objects in the global storage. These will be referred by the admin page class to determine if there are added meta boxes so that the screen option does not have to be set. */
 		$GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] = isset( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] )
