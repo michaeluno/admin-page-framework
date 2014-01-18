@@ -348,6 +348,13 @@ abstract class AdminPageFramework_Property_Base {
 	 * @since			2.1.5			Moved to the base class.
 	 */	
 	public $iEnqueuedStyleIndex = 0;		
+	
+	/**
+	 * Stores is_admin() value to be reused. 
+	 * 
+	 * @since			3.0.0
+	 */
+	public $bIsAdmin;
 		
 	function __construct( $oCaller, $sCallerPath, $sClassName ) {
 		
@@ -359,6 +366,7 @@ abstract class AdminPageFramework_Property_Base {
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
 			: array();
+		$this->bIsAdmin = is_admin();
 
 	}
 		
