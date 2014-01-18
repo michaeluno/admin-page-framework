@@ -139,11 +139,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	}	
 		
 	private function _getInputTagID( $aField )  {
-		
-		// For Settings API's form fields should have these key values.
-		// if ( isset( $aField['section_id'], $aField['field_id'] ) )	// deprecated 
-			// return "{$aField['section_id']}_{$aField['field_id']}";
-			
+				
 		// For meta box form fields,
 		if ( isset( $aField['field_id'] ) ) return $aField['field_id'];
 		if ( isset( $aField['name'] ) ) return $aField['name'];	// the name key is for the input name attribute but it's better than nothing.
