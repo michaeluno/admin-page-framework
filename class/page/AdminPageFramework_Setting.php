@@ -67,7 +67,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'help'				=> null,		// since 2.1.0
 		'help_aside'		=> null,		// since 2.1.0
 		'repeatable'		=> null,		// since 2.1.3
-		'sortable'		=> null,		// since 2.1.3
+		'sortable'			=> null,		// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
 	);	
 	
@@ -565,7 +565,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	protected function _doValidationCall( $sMethodName, $aInput ) {
-AdminPageFramework_Debug::logArray( $_POST );
+
 		/* 1-1. Set up variables */
 		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
