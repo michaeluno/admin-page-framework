@@ -169,7 +169,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	/**
 	* Adds the given field array items into the field array property.
 	* 
-	* Itentical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
 	* 
 	* @since			2.1.2
 	* @since			3.0.0			The scope changed to public to indicate the users will use.
