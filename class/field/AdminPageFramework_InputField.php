@@ -126,52 +126,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
-		// Check if a previously saved option value exists or not.
-		//  for regular setting pages. Meta boxes for posts do not use these keys.
-		// Meta boxes for pages also need to retrieve the saved options as well.
-		if ( isset( $aField['page_slug'] ) ) 	// , $aField['section_id'] 
-			return $this->_getInputFieldValueFromOptionTable( $aField, $aOptions );
-		
+		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
+		if ( isset( $aField['page_slug'] ) ) 
+			return isset( $aOptions[ $aField['field_id'] ] )
+				? $aOptions[ $aField['field_id'] ]
+				: '';	
+
 		// For meta boxes for posts
 		if ( isset( $_GET['action'], $_GET['post'] ) ) 
-			return $this->_getInputFieldValueFromPostTable( $_GET['post'], $aField );
-			
-	}	
-	
-	/**
-	 * 
-	 * @since			2.0.0
-	 * @since			3.0.0			Dropped the check of default values.
-	 */
-	private function _getInputFieldValueFromOptionTable( &$aField, &$aOptions ) {
-		
-		if ( ! isset( $aOptions[ $aField['field_id'] ] ) )
-			return;
+			return get_post_meta( $_GET['post'], $aField['field_id'], true );
 						
-		return $aOptions[ $aField['field_id'] ];
-		
 	}	
-	/**
-	 * 
-	 * @since			2.0.0
-	 * @subce			3.0.0			Dropped the check of default values
-	 */
-	private function _getInputFieldValueFromPostTable( $iPostID, &$aField ) {
-		
-		return get_post_meta( $iPostID, $aField['field_id'], true );
-		
-		// Check if it's not an array return it.
-		if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) return $vValue;
-		
-		// If it's an array, check if there is an empty value in each element.
-		$default = isset( $aField['default'] ) ? $aField['default'] : array(); 
-		foreach ( $vValue as $sKey => &$sElement ) 
-			if ( $sElement == '' )
-				$sElement = $this->getCorrespondingArrayValue( $default, $sKey, '' );
-		
-		return $vValue;
-		
-	}
 		
 	private function _getInputTagID( $aField )  {
 		
