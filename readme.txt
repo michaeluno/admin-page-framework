@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, options framework, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.3
 Tested up to: 3.8
-Stable tag: 2.1.6
+Stable tag: 2.1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * `radio` - a set of radio buttons.
 * `checkbox` - a check box.
 * `select` - a dropdown list.
-* `submit` - a submit field that the user  
+* `submit` - a submit field that the user can send the form inputs.
 * `hidden` - a hidden field that is useful to embed hidden values. 
 * `file` - a file field that lets the user upload files.
 * `media` - a custom text field with the media uploader that sets the file URL.
@@ -184,6 +184,9 @@ If you want to change it to something else, modify the `oMsg` object. It has the
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
 
 == Changelog ==
+
+= 2.1.7.2 =
+* Fixed: the warning: `Strict standards: Declaration of ... should be compatible with ...`.
 
 = 2.1.7.1 - 12/25/2013 =
 * Added: an example of basic usage of creating a page group as well as specifying a dashicon. 
