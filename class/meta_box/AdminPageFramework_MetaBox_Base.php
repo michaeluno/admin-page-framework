@@ -68,7 +68,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'
 		
 		
-		if ( is_admin() ) {
+		if ( $this->oProp->bIsAdmin ) {
 			
 			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method.
 			add_action( 'wp_loaded', array( $this, 'setUp' ), 11 );
@@ -76,8 +76,8 @@ abstract class AdminPageFramework_MetaBox_Base {
 			add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
 			add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 							
-			if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
-				add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );		
+			// if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
+				// add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );		
 	
 		}
 		
@@ -176,40 +176,6 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {
 		foreach( func_get_args() as $aField ) $this->addSettingField( $aField );
 	}	
-
-	/**
-	 * 
-	 * since			2.1.3
-	 */
-	// public function removeMediaLibraryTab( $aTabs ) {
-		
-		// if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $aTabs;
-		
-		// if ( ! $_REQUEST['enable_external_source'] )
-			// unset( $aTabs['type_url'] );	// removes the From URL tab in the thick box.
-		
-		// return $aTabs;
-		
-	// }
-
-	/**
- 	 * Replaces the label text of a button used in the media uploader.
-	 * @since			2.0.0
-	 * @remark			A callback for the <em>gettext</em> hook.
-	 * @internal
-	 */ 
-	public function _replyToReplaceThickBoxText( $sTranslated, $sText ) {
-
-		// Replace the button label in the media thick box.
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php' ) ) ) return $sTranslated;
-		if ( $sText != 'Insert into Post' ) return $sTranslated;
-		if ( $this->oUtil->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $sTranslated;
-		
-		if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
-
-		return $this->oProp->sThickBoxButtonUseThis ?  $this->oProp->sThickBoxButtonUseThis : $this->oMsg->__( 'use_this_image' );
-		
-	}
 		
 	/**
 	 * Echoes the meta box contents.

@@ -177,9 +177,30 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		if ( function_exists( 'wp_enqueue_media' ) ) 	// means the WordPress version is 3.5 or above
 			wp_enqueue_media();	
 		else		
-			wp_enqueue_script( 'media-upload' );		
+			wp_enqueue_script( 'media-upload' );	
+
+		if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
+			add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );				
 		
 	}
+		/**
+		 * Replaces the label text of a button used in the media uploader.
+		 * @since			2.0.0
+		 * @remark			A callback for the <em>gettext</em> hook.
+		 * @internal
+		 */ 
+		public function _replyToReplaceThickBoxText( $sTranslated, $sText ) {
+
+			// Replace the button label in the media thick box.
+			if ( ! in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php' ) ) ) return $sTranslated;
+			if ( $sText != 'Insert into Post' ) return $sTranslated;
+			if ( $this->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $sTranslated;
+			
+			if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
+
+			return $this->oProp->sThickBoxButtonUseThis ?  $this->oProp->sThickBoxButtonUseThis : $this->oMsg->__( 'use_this_image' );
+			
+		}
 		/**
 		 * Removes the From URL tab from the media uploader.
 		 * 

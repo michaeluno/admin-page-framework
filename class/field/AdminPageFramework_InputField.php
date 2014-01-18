@@ -42,7 +42,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				
 		/* 2. Load necessary JavaScript scripts */
 		$this->_loadScripts();
-
+		
 	}	
 		/**
 		 * Inserts necessary JavaScript scripts for fields.
