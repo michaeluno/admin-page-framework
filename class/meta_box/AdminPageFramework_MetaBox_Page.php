@@ -98,10 +98,9 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	/**
 	* Adds the given field array items into the field array property.
 	* 
-	* Itentical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
 	* 
-	* @since			2.1.2
-	* @since			3.0.0			The scope changed to public to indicate the users will use.
+	* @since			3.0.0			
 	* @return			void
 	* @remark			The user may use this method in their extended class definition.
 	*/		
@@ -176,7 +175,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * A helper function for the above addSettingField() method.
 	 * 
-	 * @since			2.1.5
+	 * @since			3.0.0
 	 */
 	protected function _setFieldHeadTagElements( array $aField ) {
 		
