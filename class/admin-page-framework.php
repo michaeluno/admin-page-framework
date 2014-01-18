@@ -15,6 +15,17 @@
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
  * @version				3.0.0b2
+ */
+
+if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
+/**
+ * Loads the Admin Page Framework library.
+ * 
+ * @since			3.0.0
+ * @abstract
+ * @remark			The minifier script will refer this comment section to create the comment header. So don't remove the @info section.
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Utility
  * @info
  *		Library Name: Admin Page Framework
  *		Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
@@ -24,15 +35,17 @@
  *		Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  *		Description: Provides simpler means of building administration pages for plugin and theme developers.
  */
-
-if ( ! function_exists( 'includeAdminPageFramework' ) ) :
-function includeAdminPageFramework() {
+class AdminPageFramework_Bootstrap {
 	
-	$sDirPath = dirname( __FILE__ );
-	include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
-	new AdminPageFramework_RegisterClasses( $sDirPath );
-	AdminPageFramework_Property_Base::_setLibraryData( __FILE__ );
+	function __construct( $sLibraryPath ) {
+		
+		$sDirPath = dirname( $sLibraryPath );
+		include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
+		new AdminPageFramework_RegisterClasses( $sDirPath );
+		AdminPageFramework_Property_Base::_setLibraryData( $sLibraryPath );		
+		
+	}
 	
-}	
-includeAdminPageFramework();
+}
+new AdminPageFramework_Bootstrap( __FILE__ );	// do it now
 endif;
