@@ -186,6 +186,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 2.1.7.2 =
+* Fixed: a bug that the `for` attribute of the `label` tag was not updated in repeatable fields.
 * Fixed: the warning: `Strict standards: Declaration of ... should be compatible with ...`.
 
 = 2.1.7.1 - 12/25/2013 =

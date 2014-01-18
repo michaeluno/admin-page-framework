@@ -10354,6 +10354,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_Utilities {
 					}					
 				
 					element.attr( 'id', function( index, name ) { return updateID( index, name ) } );
+					element.find( 'label' ).attr( 'for', function( index, name ) { return updateID( index, name ) } );
 					element.find( 'input,textarea' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
 					element.find( 'input,textarea' ).attr( 'name', function( index, name ){ return updateName( index, name ) } );
 					
