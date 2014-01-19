@@ -145,7 +145,6 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 		}
 	
-	
 	/**
 	 * Enqueues styles by post type slug.
 	 * 

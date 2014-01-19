@@ -137,7 +137,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function _replyToLoadDefaultFieldTypeDefinitions() {
 		
 		// This class adds filters for the field type definitions so that framework's default field types will be added.
-		new AdminPageFramework_RegisterBuiltinFieldTypes( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );		
+		new AdminPageFramework_FieldTypeRegistration( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );		
 		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
 			'field_types_' . $this->oProp->sClassName,	// 'field_types_' . {extended class name}

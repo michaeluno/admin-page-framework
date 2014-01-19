@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_RegisterBuiltinFieldTypes' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FieldTypeRegistration' ) ) :
 /**
  * Provides means to define custom input fields not only by the framework but also by the user.
  * 
@@ -8,7 +8,7 @@ if ( ! class_exists( 'AdminPageFramework_RegisterBuiltinFieldTypes' ) ) :
  * @since			2.1.5
  * @since			2.1.6			Changed the name from AdminPageFramework_FieldTypeDefinitions
  */
-class AdminPageFramework_RegisterBuiltinFieldTypes  {
+class AdminPageFramework_FieldTypeRegistration  {
 	
 	/**
 	 * Holds the default input field labels
