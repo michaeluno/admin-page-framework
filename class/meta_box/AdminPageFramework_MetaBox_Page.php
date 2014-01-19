@@ -106,7 +106,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	*/		
 	public function addSettingField( array $aField ) {
 
-		$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
+		$aField = array( '_field_type' => 'page_meta_box' ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
@@ -120,7 +120,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		// Load head tag elements for fields.
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) ) 
 			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-			// $this->_setFieldHeadTagElements( $aField );	// Set relevant scripts and styles for the input field.
 		
 		// For the contextual help pane,
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $aField['help'] )

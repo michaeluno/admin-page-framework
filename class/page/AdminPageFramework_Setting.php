@@ -69,6 +69,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'repeatable'		=> null,		// since 2.1.3
 		'sortable'			=> null,		// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
+		'_field_type'		=> null,		// since 3.0.0 - an internal key that determines the field type such as page, meta box for pages, meta box for posts, or taxonomy.
 	);	
 	
 	/**
@@ -1157,7 +1158,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 			/* 5-2. Set relevant scripts and styles for the input field. */
 			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-			// $this->_setFieldHeadTagElements( $aField );
 			
 			/* 5-3. For the contextual help pane, */
 			if ( ! empty( $aField['help'] ) )
@@ -1324,7 +1324,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 				if ( ! is_array( $_aField ) ) continue;		// the element must be an array.
 				
-				$_aField = $_aField + self::$_aStructure_Field;	// avoid undefined index warnings.
+				$_aField = array( '_field_type' => 'page' ) + $_aField + self::$_aStructure_Field;	// avoid undefined index warnings.
 				
 				// Sanitize the IDs since they are used as a callback method name.
 				$_aField['field_id'] = $this->oUtil->sanitizeSlug( $_aField['field_id'] );

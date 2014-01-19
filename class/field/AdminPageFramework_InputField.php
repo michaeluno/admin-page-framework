@@ -120,6 +120,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	
 	
 	/**
+	 * Returns the stored field value.
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys.
@@ -127,14 +128,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
 		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
-		if ( isset( $aField['page_slug'] ) ) 
-			return isset( $aOptions[ $aField['field_id'] ] )
-				? $aOptions[ $aField['field_id'] ]
-				: '';	
-
-		// For meta boxes for posts
-		if ( isset( $_GET['action'], $_GET['post'] ) ) 
-			return get_post_meta( $_GET['post'], $aField['field_id'], true );
+		switch( $aField['_field_type'] ) {
+			default:
+			case 'page':
+			case 'page_meta_box':
+			case 'taxonomy':
+				return isset( $aOptions[ $aField['field_id'] ] )
+					? $aOptions[ $aField['field_id'] ]
+					: '';	
+			case 'post_meta_box':
+				return ( isset( $_GET['action'], $_GET['post'] ) ) 
+					? get_post_meta( $_GET['post'], $aField['field_id'], true )
+					: '';		
+			
+		}
+		return '';
 						
 	}	
 		
@@ -278,7 +286,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 
 			/* Get the set value(s) */
 			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
-			
+AdminPageFramework_Debug::logArray( $vSavedValue );
 			/* Separate the first field and sub-fields */
 			$aFirstField = array();
 			$aSubFields = array();

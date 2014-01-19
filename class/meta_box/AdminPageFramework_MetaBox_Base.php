@@ -198,7 +198,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		foreach ( ( array ) $vArgs['args'] as $aField ) {
 			
 			// Avoid undefined index warnings
-			$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
+			$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 			
 			// Check capability. If the access level is not sufficient, skip.
 			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
@@ -252,7 +252,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			foreach( $aFields as $iIndex => $aField ) {
 				
 				// Avoid undefined index warnings
-				$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
+				$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 
 				$this->oProp->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 				
