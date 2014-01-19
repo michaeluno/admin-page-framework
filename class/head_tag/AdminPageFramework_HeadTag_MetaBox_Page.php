@@ -8,7 +8,7 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox_Page' ) ) :
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Head Tag
  */
-abstract class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {
+class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {
 		
 	/**
 	 * Checks wither the currently loading page is appropriate for the meta box to be displayed.

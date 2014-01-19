@@ -119,7 +119,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 							
 		// Load head tag elements for fields.
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) ) 
-			$this->_setFieldHeadTagElements( $aField );	// Set relevant scripts and styles for the input field.
+			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+			// $this->_setFieldHeadTagElements( $aField );	// Set relevant scripts and styles for the input field.
 		
 		// For the contextual help pane,
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $aField['help'] )
@@ -169,51 +170,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		
 	}
 	
-		
-	/**
-	 * Sets the given field type's enqueuing scripts and styles.
-	 * 
-	 * A helper function for the above addSettingField() method.
-	 * 
-	 * @since			3.0.0
-	 */
-	protected function _setFieldHeadTagElements( array $aField ) {
-		
-		$sFieldType = $aField['type'];
-		
-		// Set the global flag to indicate whether the elements are already added and enqueued.
-		if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) return;
-		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
-
-		// If the field type is not defined, return.
-		if ( ! isset( $this->oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
-
-		if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
-			call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
-		
-		if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
-			$this->oProp->sScript .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
-			
-		if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) ) 
-			$this->oProp->sStyle .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
-			
-		if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
-			$this->oProp->sStyleIE .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
-				
-		foreach( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
-			if ( is_string( $asSource ) )
-				$this->oHeadTag->_enqueueStyle( $asSource );
-			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
-				$this->oHeadTag->_enqueueStyle( $asSource[ 'src' ], '', '', $asSource );
-		}
-		foreach( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] as $asSource ) {
-			if ( is_string( $asSource ) )
-				$this->oHeadTag->_enqueueScript( $asSource );
-			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
-				$this->oHeadTag->_enqueueScript( $asSource[ 'src' ], '', '', $asSource );
-		}							
-			
-	}			
 		
 	/**
 	 * Adds the defined meta box.

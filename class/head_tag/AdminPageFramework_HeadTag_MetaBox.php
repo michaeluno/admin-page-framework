@@ -257,7 +257,26 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		);
 		return $this->oProp->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
 	}
-
+	
+	/**
+	 * Enqueues a style source without conditions.
+	 * @remark			Used for inserting the input field head tag elements.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public function _forceToEnqueueStyle( $sSRC, $aCustomArgs=array() ) {
+		return $this->_enqueueStyle( $sSRC, array(), $aCustomArgs );
+	}
+	/**
+	 * Enqueues a script source without conditions.
+	 * @remark			Used for inserting the input field head tag elements.
+	 * @since			3.0.0
+	 * @internal
+	 */	
+	public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {
+		return $this->_enqueueScript( $sSRC, array(), $aCustomArgs );
+	}
+	
 	/**
 	 * A helper function for the _replyToEnqueueScripts() and the _replyToEnqueueStyle() methods.
 	 * 

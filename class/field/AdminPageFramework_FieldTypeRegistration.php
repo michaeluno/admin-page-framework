@@ -46,5 +46,54 @@ class AdminPageFramework_FieldTypeRegistration  {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Sets the given field type's enqueuing scripts and styles.
+	 * 
+	 * A helper function for the above addSettingField() method.
+	 * 
+	 * @since			2.1.5
+	 * @since			3.0.0			Moved to the field type registration class and made it static to be used by different classes.
+	 */
+	static public function _setFieldHeadTagElements( array $aField, $oProp, $oHeadTag ) {
+		
+		$sFieldType = $aField['type'];
+		
+		// Set the global flag to indicate whether the elements are already added and enqueued.
+		if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) return;
+		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
+
+		// If the field type is not defined, return.
+		if ( ! isset( $oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
+
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
+			call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
+		
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
+			$oProp->sScript .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
+			
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) ) 
+			$oProp->sStyle .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
+			
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
+			$oProp->sStyleIE .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
+				
+		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
+			if ( is_string( $asSource ) )
+				$oHeadTag->_forceToEnqueueScript( $asSource );
+			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )				
+				$oHeadTag->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
+
+		}
+		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] as $asSource ) {
+			if ( is_string( $asSource ) )
+				$oHeadTag->_forceToEnqueueScript( $asSource );
+			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
+				$oHeadTag->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );
+				
+		}							
+			
+	}
 }
 endif;

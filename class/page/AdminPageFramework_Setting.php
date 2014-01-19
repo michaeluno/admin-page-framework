@@ -1156,7 +1156,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			);	
 
 			/* 5-2. Set relevant scripts and styles for the input field. */
-			$this->_setFieldHeadTagElements( $aField );
+			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+			// $this->_setFieldHeadTagElements( $aField );
 			
 			/* 5-3. For the contextual help pane, */
 			if ( ! empty( $aField['help'] ) )
@@ -1194,51 +1195,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			return isset( $this->oProp->aSections[ $sSectionID ]['page_slug'] )
 				? $this->oProp->aSections[ $sSectionID ]['page_slug']
 				: null;			
-		}
-		/**
-		 * Sets the given field type's enqueuing scripts and styles.
-		 * 
-		 * A helper function for the above _replyToRegisterSettings() method.
-		 * 
-		 * @since			2.1.5
-		 * @internal
-		 */
-		private function _setFieldHeadTagElements( $aField ) {
-			
-			$sFieldType = $aField['type'];
-			
-			// Set the global flag to indicate whether the elements are already added and enqueued.
-			if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) return;
-			$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
-
-			// If the field type is not defined, return.
-			if ( ! isset( $this->oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
-
-			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
-				call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
-			
-			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
-				$this->oProp->sScript .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
-				
-			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) )
-				$this->oProp->sStyle .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
-				
-			if ( is_callable( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
-				$this->oProp->sStyleIE .= call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
-				
-			foreach( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
-				if ( is_string( $asSource ) )
-					$this->oHeadTag->_enqueueStyle( $asSource );
-				else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
-					$this->oHeadTag->_enqueueStyle( $asSource[ 'src' ], '', '', $asSource );
-			}
-			foreach( $this->oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] as $asSource ) {
-				if ( is_string( $asSource ) )
-					$this->oHeadTag->_enqueueScript( $asSource );
-				else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
-					$this->oHeadTag->_enqueueScript( $asSource[ 'src' ], '', '', $asSource );
-			}			
-				
 		}
 	
 		/**

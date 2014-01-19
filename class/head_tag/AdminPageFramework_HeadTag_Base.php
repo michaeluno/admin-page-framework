@@ -56,7 +56,9 @@ abstract class AdminPageFramework_HeadTag_Base {
 	public function _replyToAddStyle() {}	// no parameter
 	public function _replyToAddScript() {}	// no parameter
 	protected function _enqueueSRCByConditoin( $aEnqueueItem ) {}
- 	
+ 	public function _forceToEnqueueStyle( $sSRC, $aCustomArgs=array() ) {}
+ 	public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {}
+		
 	/*
 	 * Shared methods
 	 */
