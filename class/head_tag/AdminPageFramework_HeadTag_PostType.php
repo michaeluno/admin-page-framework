@@ -35,7 +35,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		$GLOBALS[ "{$sRootClassName}_StyleLoaded" ] = true;
 				
 		// Print out the filtered styles.
-		$oCaller = $this->oProp->_getParentObject();
+		$oCaller = $this->oProp->_getCallerObject();
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_PostType::$_sDefaultStyle )
 			. $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
 		if ( $sStyle )
@@ -71,7 +71,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		$GLOBALS[ "{$sRootClassName}_ScriptLoaded" ] = true;
 	
 		// Print out the filtered scripts.
-		$oCaller = $this->oProp->_getParentObject();
+		$oCaller = $this->oProp->_getCallerObject();
 		$sScript = $this->oUtil->addAndApplyFilters( $oCaller, "script_{$this->oProp->sClassName}", $this->oProp->sScript );
 		if ( $sScript )
 			echo "<script type='text/javascript' id='admin-page-framework-script-post-type'>{$sScript}</script>"; 

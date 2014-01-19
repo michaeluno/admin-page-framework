@@ -380,7 +380,7 @@ abstract class AdminPageFramework_Property_Base {
 	 * @return			object			The caller class object.
 	 * @internal
 	 */		
-	public function _getParentObject() {
+	public function _getCallerObject() {
 		return $this->oCaller;
 	}
 	

@@ -25,7 +25,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
 							
 		// Print out the filtered styles.		
-		$oCaller = $this->oProp->_getParentObject();
+		$oCaller = $this->oProp->_getCallerObject();
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyle );
 		if ( $sStyle )
@@ -54,7 +54,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
 		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
 
-		$oCaller = $this->oProp->_getParentObject();
+		$oCaller = $this->oProp->_getCallerObject();
 
 		// Print out the filtered scripts.
 		echo "<script type='text/javascript' id='admin-page-framework-script_{$this->oProp->sClassName}'>"

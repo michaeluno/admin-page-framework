@@ -80,7 +80,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		 */
 		protected function _printClassSpecificStyles( $sIDPrefix ) {
 				
-			$oCaller = $this->oProp->_getParentObject();		
+			$oCaller = $this->oProp->_getCallerObject();		
 
 			// Print out the filtered styles.
 			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
@@ -105,7 +105,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			if ( isset( $GLOBALS[ "{$sClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sClassName}_StyleLoaded" ] ) return;
 			$GLOBALS[ "{$sClassName}_StyleLoaded" ] = true;			
 			
-			$oCaller = $this->oProp->_getParentObject();				
+			$oCaller = $this->oProp->_getCallerObject();				
 			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyle );
 			if ( $sStyle )
 				echo "<style type='text/css' id='{$sIDPrefix}'>{$sStyle}</style>";
@@ -121,7 +121,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		 */
 		protected function _printClassSpecificScripts( $sIDPrefix ) {
 				
-			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getParentObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
+			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
 			if ( $sScript )
 				echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}'>{$sScript}</script>";				
 
@@ -139,7 +139,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			if ( isset( $GLOBALS[ "{$sClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sClassName}_ScriptLoaded" ] ) return;
 			$GLOBALS[ "{$sClassName}_ScriptLoaded" ] = true;
 			
-			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getParentObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultScript );
+			$sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultScript );
 			if ( $sScript )
 				echo "<script type='text/javascript' id='{$sIDPrefix}'>{$sScript}</script>";
 		
