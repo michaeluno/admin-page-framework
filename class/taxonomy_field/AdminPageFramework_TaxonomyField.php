@@ -51,7 +51,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$this->oDebug = new AdminPageFramework_Debug;
 
 		$this->oHeadTag = new AdminPageFramework_HeadTag_TaxonomyField( $this->oProp );
-// $this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
+		$this->oHelpPane = new AdminPageFramework_HelpPane_TaxonomyField( $this->oProp );		
 				
 		/* Properties */
 		$this->oProp->aTaxonomySlugs = ( array ) $asTaxonomySlug;
@@ -111,9 +111,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		// Load head tag elements for fields.
 		AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
 
-// For the contextual help pane,
-// if ( $aField['help'] )
-	// $this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
+		// For the contextual help pane,
+		if ( $aField['help'] )
+			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 				
 		$this->oProp->aFields[ $aField['field_id'] ] = $aField;
 	
