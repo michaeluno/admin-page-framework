@@ -126,7 +126,6 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * Internal methods that should be extended.
 	 */
 	public function _replyToAddMetaBox() {}
-	protected function _setFieldHeadTagElements( array $aField ) {}
 	
 	/**
 	 * Loads the default field type definition.
@@ -234,7 +233,13 @@ abstract class AdminPageFramework_MetaBox_Base {
 		echo $sOut;
 		
 	}
-	private function setOptionArray( $isPostIDOrPageSlug, $aFields ) {
+	
+	/**
+	 * 
+	 * @since			unknown
+	 * @since			3.0.0			the scope is changed to protected as the taxonomy field class redefines it.
+	 */
+	protected function setOptionArray( $isPostIDOrPageSlug, $aFields ) {
 		
 		if ( ! is_array( $aFields ) ) return;
 		
@@ -252,7 +257,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			
 		endif;
 		
-// Do something for met boxes inserted in regular pages 
+		// For page meta boxes, do nothing as the class will retrieve the option array by itself.
 		
 	}	
 	protected function getFieldOutput( $aField ) {
