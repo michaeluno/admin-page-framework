@@ -44,9 +44,10 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 * Enqueues styles by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
+	 * @remark			the $_deprecated parameter is just to avoid the PHP strict standards warning.
 	 * @internal
 	 */
-	public function _enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
+	public function _enqueueStyles( $aSRCs, $aCustomArgs=array(), $_deprecated=null ) {
 		
 		$aHandleIDs = array();
 		foreach( ( array ) $aSRCs as $sSRC )
@@ -65,14 +66,15 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	 * </ul>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0
+	 * @remark			The user may use this method.
+	 * @remark			the $_deprecated parameter is just to avoid the PHP strict standards warning.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
 	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
-	public function _enqueueStyle( $sSRC, $aCustomArgs=array() ) {
+	public function _enqueueStyle( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
 		
 		$sSRC = trim( $sSRC );
 		if ( empty( $sSRC ) ) return '';
@@ -98,8 +100,9 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 * Enqueues scripts by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
+	 * @remark			the $_deprecated parameter is just to avoid the PHP strict standards warning.
 	 */
-	public function _enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
+	public function _enqueueScripts( $aSRCs, $aCustomArgs=array(), $_deprecated=null ) {
 		
 		$aHandleIDs = array();
 		foreach( ( array ) $aSRCs as $sSRC )
@@ -119,15 +122,16 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0
+	 * @remark			The user may use this method.
+	 * @remark			the $_deprecated parameter is just to avoid the PHP strict standards warning.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
 	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 * @internal
 	 */
-	public function _enqueueScript( $sSRC, $aCustomArgs=array() ) {
+	public function _enqueueScript( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
 		
 		$sSRC = trim( $sSRC );
 		if ( empty( $sSRC ) ) return '';
