@@ -4,9 +4,11 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox_Page' ) ) :
  * Provides methods to enqueue or insert head tag elements into the head tag for the meta box class for pages added by the framework.
  * 
  * @since			3.0.0
- * 
+ * @use				AdminPageFramework_Utility
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Head Tag
  */
-class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {
+abstract class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {
 		
 	/**
 	 * Checks wither the currently loading page is appropriate for the meta box to be displayed.

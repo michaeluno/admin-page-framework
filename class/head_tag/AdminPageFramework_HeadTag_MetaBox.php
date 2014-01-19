@@ -4,7 +4,9 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
  * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
  * 
  * @since			2.1.5
- * 
+ * @use				AdminPageFramework_Utility
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Head Tag
  */
 class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
 	

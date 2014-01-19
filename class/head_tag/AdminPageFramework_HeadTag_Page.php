@@ -4,6 +4,8 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_Page' ) ) :
  * Provides methods to enqueue or insert head tag elements into the head tag for the main framework class.
  * 
  * @since			2.1.5
+ * @package			Admin Page Framework
+ * @subpackage		Admin Page Framework - Head Tag
  */
 class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 
