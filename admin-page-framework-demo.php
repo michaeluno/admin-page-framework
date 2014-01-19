@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.0b2
+	Version: 3.0.0b3
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -75,6 +75,10 @@ if ( is_admin() ) :
 		'default'	// priority
 	);		
 
+	/* Add fields in the taxonomy page */
+	include_once( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
+	new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
+	
 endif;
 
 /* Creates a custom post type */

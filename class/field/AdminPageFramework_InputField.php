@@ -285,7 +285,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 
 			/* Get the set value(s) */
 			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
-AdminPageFramework_Debug::logArray( $vSavedValue );
+
 			/* Separate the first field and sub-fields */
 			$aFirstField = array();
 			$aSubFields = array();
