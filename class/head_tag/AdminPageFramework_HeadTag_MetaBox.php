@@ -17,7 +17,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	private $_sPostTypeSlugOfCurrentPost = null;
 	
 	/**
-	 * Checks wither the currently loading page is appropriate for the meta box to be displayed.
+	 * Checks whether the currently loading page is appropriate for the meta box to be displayed.
 	 * @since			3.0.0
 	 * @internal
 	 */
