@@ -184,7 +184,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	}
 		
 	/**
-	 * A helper function for the above replyToEnqueueScripts() and replyToEnqueueStyle() methods.
+	 * A helper function for the _replyToEnqueueScripts() and _replyToEnqueueStyle() methods.
 	 * 
 	 * @since			2.1.2
 	 * @since			2.1.5			Moved from the main class. Changed the name from enqueueSRCByPageConditoin.

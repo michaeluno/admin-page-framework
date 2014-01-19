@@ -229,7 +229,6 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
 	 * 
-	 * 
 	 * @since			2.1.5			
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or relative path to the root directory of WordPress. Example: '/js/myscript.js'.
@@ -261,7 +260,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	}
 
 	/**
-	 * A helper function for the above replyToEnqueueScripts() and replyToEnqueueStyle() methods.
+	 * A helper function for the _replyToEnqueueScripts() and the _replyToEnqueueStyle() methods.
 	 * 
 	 * @since			2.1.5
 	 * @internal
