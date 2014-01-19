@@ -147,7 +147,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	
 	
 	/**
-	 * Enqueues styles by page slug and tab slug.
+	 * Enqueues styles by post type slug.
 	 * 
 	 * @since			2.1.5
 	 * @internal
@@ -161,9 +161,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 	}
 	/**
-	 * Enqueues a style by page slug and tab slug.
+	 * Enqueues a style by post type slug.
 	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <h4>Custom Argument Array for the Third Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
@@ -204,7 +204,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	}
 	
 	/**
-	 * Enqueues scripts by page slug and tab slug.
+	 * Enqueues scripts by post type slug.
 	 * 
 	 * @since			2.1.5
 	 * @internal
@@ -218,9 +218,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 		
 	}	
 	/**
-	 * Enqueues a script by page slug and tab slug.
+	 * Enqueues a script by post type slug.
 	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <h4>Custom Argument Array for the Third Parameter</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.  Array of the handles of all the registered scripts that this script depends on. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
