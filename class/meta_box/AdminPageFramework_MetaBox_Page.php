@@ -19,7 +19,9 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * @since			3.0.0
 	 */
 	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {		
-
+		
+		if ( empty( $asPageSlugs ) ) return;
+		
 		/* 		
 		$asPageSlugs = array(			
 			'settings' => array( 	// if the key is not numeric and the value is an array, it will be considered as a tab array.
@@ -41,6 +43,12 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 		
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
+
+		/* Validation hook */
+		foreach( $this->oProp->aPageSlugs as $sPageSlug )
+			add_filter( "validation_{$sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
+		
+		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
 	}
 
@@ -162,11 +170,9 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * @since			3.0.0
 	 */
 	private function _getOptionkey() {
-		
-		if ( ! isset( $_GET['page'] ) ) return null;
-		
-		return $this->oProp->getOptionKey( $_GET['page'] );
-		
+		return isset( $_GET['page'] ) 
+			? $this->oProp->getOptionKey( $_GET['page'] )
+			: null;
 	}
 	
 		
@@ -221,5 +227,14 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 			
 		}
 		
+	/**
+	 * Validates the submitted option values.
+	 * @sicne			3.0.0
+	 */
+	public function _replyToValidateOptions( $aNewOptions, $aOldOptions ) {
+		
+		return $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aNewOptions, $aOldOptions );
+		
+	}
 }
 endif;

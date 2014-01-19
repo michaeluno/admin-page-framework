@@ -67,11 +67,17 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
 		
 	}
 	
-	public function do_apf_metabox_for_pages_advanced() {	// do_{metabox id}
+	public function do_APF_MetaBox_For_Pages_Advanced() {	// do_{extended class name}
 		?>
-			<p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{metabox id}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+			<p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{extended class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
 		<?php
 		
+	}
+	
+	public function validatioN_APF_MetaBox_For_Pages_Advanced( $aNewOptions, $aOldOptions ) {
+		
+		// Do something with the submitted data.
+		return $aNewOptions;
 	}
 
 	

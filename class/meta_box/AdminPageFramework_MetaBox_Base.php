@@ -81,9 +81,6 @@ abstract class AdminPageFramework_MetaBox_Base {
 	
 		}
 		
-		// Hooks
-		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
-		
 	}
 
 	/*
@@ -206,29 +203,29 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 			// Begin a table row. 
 			$sOut .= "<tr>";
-			if ( $aField['show_title_column'] )
-				$sOut .= 
-					"<th>"
-						."<label for='{$aField['field_id']}'>"
-							. "<a id='{$aField['field_id']}'></a>"
-								. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
-									. $aField['title'] 
-								. "</span>"
-						. "</label>"
-					. "</th>";		
-			$sOut .= "<td>";
-			$sOut .= $this->getFieldOutput( $aField );
-			$sOut .= "</td>";
+				if ( $aField['show_title_column'] )
+					$sOut .= 
+						"<th>"
+							."<label for='{$aField['field_id']}'>"
+								. "<a id='{$aField['field_id']}'></a>"
+									. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
+										. $aField['title'] 
+									. "</span>"
+							. "</label>"
+						. "</th>";		
+				$sOut .= "<td>";
+					$sOut .= $this->getFieldOutput( $aField );
+				$sOut .= "</td>";
 			$sOut .= "</tr>";
 			
 		} // end foreach
 		$sOut .= '</table>'; // end table
 		
 		/* Filter the output */
-		$sOut = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sMetaBoxID, $sOut );
+		$sOut = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, $sOut );
 		
 		/* Do action */
-		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sMetaBoxID );
+		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
 			
 		echo $sOut;
 		
@@ -372,10 +369,10 @@ abstract class AdminPageFramework_MetaBox_Base {
 		if ( substr( $sMethodName, 0, strlen( "validation_{$this->oProp->sClassName}" ) ) == "validation_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 
 		// the content_{metabox id} filter. [3.0.0+]
-		if ( substr( $sMethodName, 0, strlen( "content_{$this->oProp->sMetaBoxID}" ) ) == "content_{$this->oProp->sMetaBoxID}" ) return $aArgs[ 0 ];
+		if ( substr( $sMethodName, 0, strlen( "content_{$this->oProp->sClassName}" ) ) == "content_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 			
 		// do_{meta box id} [3.0.0.+]
-		if ( substr( $sMethodName, 0, strlen( "do_{$this->oProp->sMetaBoxID}" ) ) == "do_{$this->oProp->sMetaBoxID}" ) return;
+		if ( substr( $sMethodName, 0, strlen( "do_{$this->oProp->sClassName}" ) ) == "do_{$this->oProp->sClassName}" ) return;
 		
 	}
 }

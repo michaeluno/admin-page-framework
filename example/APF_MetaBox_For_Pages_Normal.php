@@ -42,10 +42,17 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
 	/*
 	 * ( optional ) Use this method to insert your custom text.
 	 */
-	public function do_apf_metabox_for_pages_normal() {	// do_{meta box id}
+	public function do_APF_MetaBox_For_Pages_Normal() {	// do_{extended class name}
 		?>
-			<p><?php _e( 'This meta box is placed with the <code>normal</code>context and this text is inserted with the <code>do_{metabox id}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+			<p><?php _e( 'This meta box is placed with the <code>normal</code>context and this text is inserted with the <code>do_{extended class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
 		<?php
+		
+	}
+	
+	public function validation_APF_MetaBox_For_Pages_Normal( $aNewOptions, $aOldOptions ) {	// validtion_{extended class name}
+		
+		// Do something with the submitted data.
+		return $aNewOptions;
 		
 	}
 

@@ -57,6 +57,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		
 		/* Do this after the parent constructor as it creates the oProp object. */
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
+	
+		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
 	}
 
