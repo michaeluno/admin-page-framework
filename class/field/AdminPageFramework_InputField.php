@@ -123,7 +123,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * Returns the stored field value.
 	 * 
 	 * @since			2.0.0
-	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys.
+	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys. Made it use the '_field_type' internal key.
 	 */
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
@@ -139,8 +139,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			case 'post_meta_box':
 				return ( isset( $_GET['action'], $_GET['post'] ) ) 
 					? get_post_meta( $_GET['post'], $aField['field_id'], true )
-					: '';		
-			
+					: '';
 		}
 		return '';
 						
