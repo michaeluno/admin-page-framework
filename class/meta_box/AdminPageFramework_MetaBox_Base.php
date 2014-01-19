@@ -235,6 +235,9 @@ abstract class AdminPageFramework_MetaBox_Base {
 	}
 	
 	/**
+	 * Sets the aOptions property array in the property object. 
+	 * 
+	 * This array will be referred later in the getFieldOutput() method.
 	 * 
 	 * @since			unknown
 	 * @since			3.0.0			the scope is changed to protected as the taxonomy field class redefines it.
