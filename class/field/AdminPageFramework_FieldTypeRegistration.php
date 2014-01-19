@@ -81,7 +81,7 @@ class AdminPageFramework_FieldTypeRegistration  {
 				
 		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
 			if ( is_string( $asSource ) )
-				$oHeadTag->_forceToEnqueueScript( $asSource );
+				$oHeadTag->_forceToEnqueueStyle( $asSource );
 			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )				
 				$oHeadTag->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
 
