@@ -36,6 +36,7 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
  * @link			http://en.michaeluno.jp/admin-page-framework
  * @since			3.0.0
  * @remark			The minifier script will refer this comment section to create the comment header. So don't remove the @info section.
+ * @remark			This class will not be included in the minifiled version.
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
  */
