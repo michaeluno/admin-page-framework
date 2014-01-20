@@ -96,7 +96,7 @@ class APF extends AdminPageFramework {
 new APF;
 ```
 
-# Create a Form
+### Create a Form
 
 ```PHP
 <?php
