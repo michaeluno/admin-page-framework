@@ -1,4 +1,6 @@
 <?php
+/* If run from a browser, exit. */
+if ( php_sapi_name() != 'cli' ) exit;
 
 /* Include necessary files */
 require( dirname( __FILE__ ) . '/class/AdminPageFramework_Minifiler_ProgressBuffer.php' );
