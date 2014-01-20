@@ -159,7 +159,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'My First Form' );	// where to belong
+    	$this->setRootMenuPage( 'My Settings' );	// where to belong
 		$this->addSubMenuItem(
 			array(
 				'title' => 'My First Form',	// page and menu title

@@ -64,6 +64,12 @@ It includes the demo plugin which uses the framework and is ready to be installe
 
 ### Create a Page
 
+<p align="center">
+	<a href="https://lh5.googleusercontent.com/-v-XvdGmQH1k/Uty9YC3kqwI/AAAAAAAABhk/Ti2R_i6JbhU/s0/my_first_page.png" title="Admin Page Framework - Getting Started">
+		<img src="https://lh5.googleusercontent.com/-v-XvdGmQH1k/Uty9YC3kqwI/AAAAAAAABhk/Ti2R_i6JbhU/s400/my_first_page.png" alt="Admin Page Framework - Getting Started" />
+	</a>
+</p>
+
 ```PHP
 <?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
@@ -96,6 +102,12 @@ class APF extends AdminPageFramework {
 new APF;
 ```
 
+<p align="center">
+	<a href="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s0/my_first_form.png" title="Admin Page Framework - My First Form">
+		<img src="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s400/my_first_form.png" alt="Admin Page Framework - My First Form" />
+	</a>
+</p>
+
 ### Create a Form
 
 ```PHP
@@ -109,7 +121,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'My First Form' );	// where to belong
+    	$this->setRootMenuPage( 'My Settings' );	// where to belong
 		$this->addSubMenuItem(
 			array(
 				'title' => 'My First Form',	// page and menu title
