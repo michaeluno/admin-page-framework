@@ -184,7 +184,6 @@ class APF_MyFirstFrom extends AdminPageFramework {
 			),
 			array(	
 				'field_id'	=>	'submit',
-				'section_id'	=>	'my_first_text_section',
 				'type'	=>	'submit',
 			)
 		);
