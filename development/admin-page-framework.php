@@ -21,28 +21,32 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
 /**
  * Loads the Admin Page Framework library.
  * 
+ * @info
+ * Library Name: Admin Page Framework
+ * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
+ * Author:  Michael Uno
+ * Author URI: http://michaeluno.jp
+ * Version: 3.0.0b3
+ * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
+ * Description: Provides simpler means of building administration pages for plugin and theme developers.
+ * @copyright		2013-2014 Michael Uno
+ * @license			GPL v2 or later.
+ * @see				http://wordpress.org/plugins/admin-page-framework/
+ * @see				https://github.com/michaeluno/admin-page-framework
+ * @link			http://en.michaeluno.jp/admin-page-framework
  * @since			3.0.0
- * @abstract
  * @remark			The minifier script will refer this comment section to create the comment header. So don't remove the @info section.
  * @package			Admin Page Framework
  * @subpackage		Admin Page Framework - Utility
- * @info
- *		Library Name: Admin Page Framework
- *		Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
- *		Author:  Michael Uno
- *		Author URI: http://michaeluno.jp
- *		Version: 3.0.0b3
- *		Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
- *		Description: Provides simpler means of building administration pages for plugin and theme developers.
  */
 class AdminPageFramework_Bootstrap {
 	
 	function __construct( $sLibraryPath ) {
 		
+		if ( ! defined( 'ABSPATH' ) ) return; // the minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
 		$sDirPath = dirname( $sLibraryPath );
 		include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
 		new AdminPageFramework_RegisterClasses( $sDirPath );
-		AdminPageFramework_Property_Base::_setLibraryData( $sLibraryPath );		
 		
 	}
 	

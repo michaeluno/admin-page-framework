@@ -60,7 +60,7 @@ You can include your own custom field types when they are necessary. This enable
 * `font` - a font uploader and its preview.
 
 = Necessary Files =
-* **`admin-page-framework.php`** is in the *class* folder.
+* **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
 Visit [Admin Page Framework Documentation](http://admin-page-framework.michaeluno.jp/en/v2/).
@@ -123,7 +123,7 @@ You need to include the library file in your PHP script. The file is located in 
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
+    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
     
 class APF extends AdminPageFramework {
 
@@ -188,6 +188,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the minified version of the library.
 * Added: the ability to add fields in the taxonomy definition page.
 * Added: the ability to add meta boxes in pages added by the framework.
 * Added: the ability to set the target section ID in the `addSettingFields()` method so that the `section_id` key can be omitted for the next passing field arrays.

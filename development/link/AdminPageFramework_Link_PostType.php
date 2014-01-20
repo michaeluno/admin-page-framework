@@ -33,7 +33,9 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->aFooterInfo['sLeft'] );
-		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->aFooterInfo['sRight'] );
+		$aLibraryData = $this->oProp->_getLibraryData();
+		$aLibraryData['sVersion'] = $this->oProp->bIsMinifiedVersion ? $aLibraryData['sVersion'] . '.min' : $aLibraryData['sVersion'];
+		$this->_setFooterInfoRight( $aLibraryData, $this->aFooterInfo['sRight'] );
 		
 		// For the plugin listing page
 		if ( $this->oProp->aScriptInfo['sType'] == 'plugin' )

@@ -30,7 +30,9 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
-		$this->_setFooterInfoRight( AdminPageFramework_Property_Base::_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );
+		$aLibraryData = AdminPageFramework_Property_Base::_getLibraryData();
+		$aLibraryData['sVersion'] = $this->oProp->bIsMinifiedVersion ? $aLibraryData['sVersion'] . '.min' : $aLibraryData['sVersion'];
+		$this->_setFooterInfoRight( $aLibraryData, $this->oProp->aFooterInfo['sRight'] );
 	
 		if ( $this->oProp->aScriptInfo['sType'] == 'plugin' )
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) );

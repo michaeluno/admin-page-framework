@@ -355,6 +355,12 @@ abstract class AdminPageFramework_Property_Base {
 	 * @since			3.0.0
 	 */
 	public $bIsAdmin;
+	
+	/**
+	 * Stores the flag that indicates whether the library is minified or not.
+	 * @since			3.0.0
+	 */
+	public $bIsMinifiedVersion;
 		
 	function __construct( $oCaller, $sCallerPath, $sClassName ) {
 		
@@ -367,7 +373,16 @@ abstract class AdminPageFramework_Property_Base {
 			? $GLOBALS['aAdminPageFramework']
 			: array();
 		$this->bIsAdmin = is_admin();
-
+		$this->bIsMinifiedVersion = ! class_exists( 'AdminPageFramework_Bootstrap' );
+		if ( ! isset( self::$_aLibraryData ) ) {			
+			$_sLibraryMainClassName = ( $this->bIsMinifiedVersion )
+			
+				? 'AdminPageFramework'	
+				: 'AdminPageFramework_Bootstrap';	// the minified version does not have the bootstrap class.
+			$oRC = new ReflectionClass( $_sLibraryMainClassName );
+			self::_setLibraryData( $oRC->getFileName() );
+		}
+		
 	}
 		
 	/**
