@@ -102,13 +102,13 @@ class APF extends AdminPageFramework {
 new APF;
 ```
 
+### Create a Form
+
 <p align="center">
 	<a href="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s0/my_first_form.png" title="Admin Page Framework - My First Form">
 		<img src="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s400/my_first_form.png" alt="Admin Page Framework - My First Form" />
 	</a>
 </p>
-
-### Create a Form
 
 ```PHP
 <?php
