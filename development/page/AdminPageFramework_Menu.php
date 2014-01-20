@@ -335,60 +335,47 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	/**
 	 * Adds a single sub-menu page.
 	 * 
+	 * <h4>Sub Menu Page Array</h4>
+	 * <ul>
+	 * 	<li>title - ( required ) the title of the page.</li>
+	 * 	<li>page_slug - ( required ) the slug of the page. Do not use hyphens as it serves as the callback method name.</li>
+	 * 	<li>screen icon - ( optional ) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.</li>
+	 * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
+	 * <strong>Note:</strong> the <em>generic</em> ID is available since WordPress 3.5.
+	 * 	<li>capability - ( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.</li>
+	 * 	<li>order - ( optional ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	 * 	<li>show_page_heading_tab - ( optional ) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	 * 	<li>show_in_menu - ( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
+	 * 	
+	 * </ul>
 	 * <h4>Example</h4>
-	 * <code>$this->addSubMenuPage( 'My Page', 'my_page', 'edit-pages' );</code>
+	 * <code>
+		$this->addSubMenuPage(
+			array(
+				'title' => __( 'First Page', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_first_page',
+			),
+			array(
+				'title' => __( 'Second Page', 'admin-page-framework-demo' ),
+				'page_slug' => 'apf_second_page',
+			)
+		);</code>
+	 * 
 	 * 
 	 * @access			public
 	 * @since			2.0.0
 	 * @since			2.1.2			The key name page_heading_tab_visibility was changed to fShowPageHeadingTab
 	 * @since			2.1.6			$sScreenIcon accepts a file path.
-	 * @since			3.0.0			The scope was changed to public from protected.
+	 * @since			3.0.0			The scope was changed to public from protected. Deprecated all the parameters made it to accept them as an array.
 	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	 * @param			string			$sPageTitle			The title of the page.
-	 * @param			string			$sPageSlug			The slug of the page.
-	 * @param			string			$sScreenIcon			( optional ) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.
-	 * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
-	 * <strong>Note:</strong> the <em>generic</em> ID is available since WordPress 3.5.
-	 * @param			string			$sCapability			( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.
-	 * @param			integer			$nOrder				( optional ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.
-	 * @param			boolean			$bShowPageHeadingTab	( optional ) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.
-	 * @param			boolean			$bShowInMenu			( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.
 	 * @return			void
 	 */ 
 	public function addSubMenuPage( array $aSubMenuPage ) {
-	// public function addSubMenuPage( $sPageTitle, $sPageSlug, $sScreenIcon=null, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
-		
-/* 	 $_aStructure_SubMenuPageForUser = array(
-		'title' => null, 
-		'page_slug' => null, 
-		'screen_icon' => null,
-		'capability' => null, 
-		'order' => null,
-		'show_page_heading_tab' => true,	// if this is false, the page title won't be displayed in the page heading tab.
-		'show_in_menu' => true,	// if this is false, the menu label will not be displayed in the sidebar menu.
-	);
-	
-	$_aStructure_SubMenuPageForSystem = array(
-		'sTitle' => null,
-		'sPageSlug' => null,
-		'sType' => 'page',
-'sIcon32x32' => null,
-'sScreenIconID' => null,
-'capability' => null, 		
-'nOrder' => null,
-'fShowPageHeadingTab' => true,
-'fShowInMenu' => true,		
-'show_page_title'			=> null,			// boolean
-'fShowPageHeadingTabs'		=> null,		// boolean
-'fShowInPageTabs'			=> null,			// boolean
-'sInPageTabTag'				=> null,			// string
-'sPageHeadingTabTag'		=> null,		// string			
-	);		 */
+
 		if ( ! isset( $aSubMenuPage['page_slug'] ) ) return;
 			
 		$aSubMenuPage['page_slug'] = $this->oUtil->sanitizeSlug( $aSubMenuPage['page_slug'] );
 		$this->oProp->aPages[ $aSubMenuPage['page_slug'] ] = $this->_formatSubMenuPageArray( $aSubMenuPage );
-
 		
 	}
 					

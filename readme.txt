@@ -119,6 +119,7 @@ You need to include the library file in your PHP script. The file is located in 
 
 = Example Code = 
 
+<strong>Create a Page</strong>
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
@@ -130,11 +131,13 @@ class APF extends AdminPageFramework {
     function setUp() {
 		
     	$this->setRootMenuPage( 'Settings' );	
-		$this->addSubMenuPage(
-			'My First Page',	// page and menu title
-			'myfirstpage'		// page slug
+		$this->addSubMenuItem(
+			array(
+				'title' => 'My First Page',	// page and menu title
+				'page_slug' => 'myfirstpage'		// page slug
+			)
 		);
-	
+			
     }
 
     function do_myfirstpage() {  // do_ + pageslug
@@ -145,8 +148,51 @@ class APF extends AdminPageFramework {
     }
     
 }
-new APF;
-// That's it!`
+new APF;`
+
+<strong>Create a Form</strong>
+
+`if ( ! class_exists( 'AdminPageFramework' ) )
+    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    
+class APF_MyFirstFrom extends AdminPageFramework {
+
+    function setUp() {
+		
+    	$this->setRootMenuPage( 'My First Form' );	// where to belong
+		$this->addSubMenuItem(
+			array(
+				'title' => 'My First Form',	// page and menu title
+				'page_slug' => 'my_first_form'	// page slug
+			)
+		);
+			
+		$this->addSettingSections(	
+			array(
+				'section_id'	=>	'my_first_text_section',	
+				'page_slug'		=>	'my_first_form',	
+			)
+		);
+		
+		$this->addSettingFields(
+			array(	
+				'field_id'	=>	'text',
+				'section_id'	=>	'my_first_text_section',
+				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	123456,
+			),
+			array(	
+				'field_id'	=>	'submit',
+				'section_id'	=>	'my_first_text_section',
+				'type'	=>	'submit',
+			)
+		);
+		
+    }
+    
+}
+new APF_MyFirstFrom;`
 
 == Frequently asked questions ==
 = What is this for? =
