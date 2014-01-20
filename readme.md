@@ -43,6 +43,14 @@ Admin Page Framework is an open source library for WordPress developed under GPL
 	&nbsp;
 	<a href="https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s0/admin_page_framework_meta_box_fields.png" title="Admin Page Framework - Custom Post Type and Meta Box">
 		<img src="https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s144/admin_page_framework_meta_box_fields.png" alt="Admin Page Framework - Custom Post Type and Meta Box" />
+	</a>
+	&nbsp;
+	<a href="https://lh4.googleusercontent.com/-AdR4hIv2Qz8/UtyrdfT-VYI/AAAAAAAABhE/3_rz0dVy7hw/s0/meta_boxes_in_pages.png" title="Admin Page Framework - Meta Boxes in Pages Added by the Framework">
+		<img src="https://lh4.googleusercontent.com/-AdR4hIv2Qz8/UtyrdfT-VYI/AAAAAAAABhE/3_rz0dVy7hw/s144/meta_boxes_in_pages.png" alt="Admin Page Framework - Meta Boxes in Pages Added by the Framework" />
+	</a>	
+	&nbsp;
+	<a href="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s0/form_fields_in_taxonomy_page.png" title="Admin Page Framework - Form fields in Taxonomy Page">
+		<img src="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s144/form_fields_in_taxonomy_page.png" alt="Admin Page Framework - Form fields in Taxonomy Page" />
 	</a>	
 </div>
 
