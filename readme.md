@@ -81,17 +81,17 @@ class APF extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'Settings' );	
+    	$this->setRootMenuPage( 'Settings' );	// where to belong
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Page',	// page and menu title
-				'page_slug' => 'myfirstpage'		// page slug
+				'title' => 'My First Page',
+				'page_slug' => 'myfirstpage'
 			)
 		);
 			
     }
 
-    function do_myfirstpage() {  // do_ + pageslug
+    function do_myfirstpage() {  // do_{page slug}
         ?>
         <h3>Say Something</h3>
         <p>This is my first admin page!</p>
@@ -121,11 +121,11 @@ class APF_MyFirstFrom extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'My Settings' );	// where to belong
+    	$this->setRootMenuPage( 'My Settings' );	// create a root page 
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Form',	// page and menu title
-				'page_slug' => 'my_first_form'	// page slug
+				'title' => 'My First Form',
+				'page_slug' => 'my_first_form'
 			)
 		);
 			
@@ -140,7 +140,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
 			array(	
 				'field_id'	=>	'text',
 				'section_id'	=>	'my_first_text_section',
-				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'title'	=>	'Text',
 				'type'	=>	'text',
 				'default'	=>	123456,
 			),

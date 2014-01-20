@@ -115,11 +115,6 @@ You need to include the library file in your PHP script. The file is located in 
 
 <h5><strong>Step 5</strong> - Instantiate the Class</h5>
 
-`new APF_GettingStarted;`
-
-= Example Code = 
-
-<strong>Create a Page</strong>
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
@@ -130,17 +125,17 @@ class APF extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'Settings' );	
+    	$this->setRootMenuPage( 'Settings' );	// where to belong
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Page',	// page and menu title
-				'page_slug' => 'myfirstpage'		// page slug
+				'title' => 'My First Page',
+				'page_slug' => 'myfirstpage'
 			)
 		);
 			
     }
 
-    function do_myfirstpage() {  // do_ + pageslug
+    function do_myfirstpage() {  // do_{page slug}
         ?>
         <h3>Say Something</h3>
         <p>This is my first admin page!</p>
@@ -152,18 +147,21 @@ new APF;`
 
 <strong>Create a Form</strong>
 
-`if ( ! class_exists( 'AdminPageFramework' ) )
+`<?php
+/* Plugin Name: Admin Page Framework - My First Form */ 
+
+if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
     
 class APF_MyFirstFrom extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'My Settings' );	// where to belong
+    	$this->setRootMenuPage( 'My Settings' );	// create a root page 
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Form',	// page and menu title
-				'page_slug' => 'my_first_form'	// page slug
+				'title' => 'My First Form',
+				'page_slug' => 'my_first_form'
 			)
 		);
 			
@@ -178,7 +176,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
 			array(	
 				'field_id'	=>	'text',
 				'section_id'	=>	'my_first_text_section',
-				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'title'	=>	'Text',
 				'type'	=>	'text',
 				'default'	=>	123456,
 			),
