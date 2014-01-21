@@ -18,13 +18,13 @@ define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
 /* Include the library */
 if ( ! class_exists( 'AdminPageFramework' ) )
-  include_once( APFDEMO_DIRNAME . '/development/admin-page-framework.php' );
-	//include_once( 
-	//	file_exists( APFDEMO_DIRNAME . '/library/admin-page-framework.min.php' ) 
-	//		? APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
-	//		: APFDEMO_DIRNAME . '/development/admin-page-framework.php'
-	//);
-
+	include_once( 
+		file_exists( APFDEMO_DIRNAME . '/library/admin-page-framework.min.php' ) 
+			? APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
+			: APFDEMO_DIRNAME . '/development/admin-page-framework.php'
+	);
+	/* For development */
+	// include_once( APFDEMO_DIRNAME . '/development/admin-page-framework.php' );
 
 if ( is_admin() ) :
 	
