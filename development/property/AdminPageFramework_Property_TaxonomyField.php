@@ -11,6 +11,13 @@ if ( ! class_exists( 'AdminPageFramework_Property_TaxonomyField' ) ) :
 class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Property_MetaBox {
 
 	/**
+	 * Defines the property type.
+	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
+	 * @since			3.0.0
+	 */
+	public $_sPropertyType = 'taxonomy_field';
+	
+	/**
 	 * Stores the associated taxonomy slugs to the taxonomy field object.
 	 * @since			3.0.0
 	 */

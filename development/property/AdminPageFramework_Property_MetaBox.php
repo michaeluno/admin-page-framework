@@ -11,6 +11,13 @@ if ( ! class_exists( 'AdminPageFramework_Property_MetaBox' ) ) :
  * @extends			AdminPageFramework_Property_Base
  */
 class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Base {
+	
+	/**
+	 * Defines the property type.
+	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
+	 * @since			3.0.0
+	 */
+	public $_sPropertyType = 'post_meta_box';
 
 	/**
 	 * Stores the meta box id(slug).
@@ -150,7 +157,6 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		// 'options'			=> null,	// ? don't remember what this was for
 		'value'			=> null,	// allows to override the stored value
 		'default'			=> null,	// allows to set default values.
-		'sName'			=> null,	// allows to set custom field name
 		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
 		'if'				=> true,
 		'help'			=> null,	// since 2.1.0
@@ -165,6 +171,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 		// 'order' => null,			// do not set the default number here for this key.		
 
 		'repeatable'		=> null,	// since 2.1.3		
+		'sortable'			=> null,	// since 3.0.0
 	);
 	
 	function __construct( $oCaller, $sClassName, $sCapability ) {

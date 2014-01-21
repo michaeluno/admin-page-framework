@@ -52,7 +52,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 				$this->oMsg->__( 'upload_file' ),
 				$this->oMsg->__( 'use_this_file' )
 			) . PHP_EOL
-			. $this->_getScript_RepeatEvent();
+			. $this->_getScript_RegisterCallbacks();
 	}	
 	
 		/**
@@ -60,7 +60,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function _getScript_RepeatEvent() {
+		protected function _getScript_RegisterCallbacks() {
 
 			$aJSArray = json_encode( $this->aFieldTypeSlugs );
 			/*	The below JavaScript functions are a callback triggered when a new repeatable field is added and removed. Since the APF repeater script does not

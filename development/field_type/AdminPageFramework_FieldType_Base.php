@@ -10,6 +10,14 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
 abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
 	
 	/**
+	 * Stores the field set type indicating what this field is for such as for meta boxes, taxonomy fields or page fields.
+	 * @remark			This will be automatically set when head tag elements are enqueued.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public $_sFieldSetType = '';
+	
+	/**
 	 * Defines the slugs used for this field type.
 	 * This should be overridden in the extended class.
 	 * @access			public
@@ -108,6 +116,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 			'hfGetStyles' => array( $this, "_replyToGetStyles" ),
 			'hfGetIEStyles' => array( $this, "_replyToGetInputIEStyles" ),
 			'hfFieldLoader' => array( $this, "_replyToFieldLoader" ),
+			'hfFieldSetTypeSetter' => array( $this, "_replyToFieldTypeSetter" ),
 			'aEnqueueScripts' => $this->_replyToGetEnqueuingScripts(),	// urls of the scripts
 			'aEnqueueStyles' => $this->_replyToGetEnqueuingStyles(),	// urls of the styles
 			'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
@@ -123,6 +132,17 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	public function _replyToGetInputIEStyles() { return ''; }	// should return the style for IE
 	public function _replyToGetStyles() { return ''; }	// should return the style
 	public function _replyToFieldLoader() {}	// do stuff that should be done when the field type is loaded for the first time.
+	
+	/**
+	 * Sets the field set type.
+	 * 
+	 * Called when enqueuing the field type's head tag elements.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public function _replyToFieldTypeSetter( $sFieldSetType='' ) {
+		$this->_sFieldSetType = $sFieldSetType;
+	}
 	
 	/**
 	 * 
@@ -229,14 +249,14 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 */
 	protected function _getScript_CustomMediaUploaderObject() {
 		
-		 $bLoaded = isset( $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] )
-			? $GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] : false;
+		if ( ! function_exists( 'wp_enqueue_media' ) ) return "";	// means the WordPress version is 3.4.x or below
 		
-		if ( ! function_exists( 'wp_enqueue_media' ) || $bLoaded )	// means the WordPress version is 3.4.x or below
-			return "";
-		
-		$GLOBALS['aAdminPageFramework']['bIsLoadedCustomMediaUploaderObject'] = true;
-		
+		// Check if it's loaded in this field set type to prevent multiple insertions.
+		$GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'] = isset( $GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'] )
+			? $GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'] : array();
+		if ( isset( $GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'][ $this->_sFieldSetType ] ) ) return '';
+		$GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'][ $this->_sFieldSetType ] = true;
+				
 		// Global function literal
 		return "
 			getAPFCustomMediaUploaderSelectObject = function() {

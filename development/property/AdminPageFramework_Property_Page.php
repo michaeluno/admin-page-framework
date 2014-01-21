@@ -11,7 +11,14 @@ if ( ! class_exists( 'AdminPageFramework_Property_Page' ) ) :
  * @extends			AdminPageFramework_Property_Base
  */
 class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
-			
+	
+	/**
+	 * Defines the property type.
+	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
+	 * @since			3.0.0
+	 */
+	public $_sPropertyType = 'page';
+	
 	/**
 	 * Stores framework's instantiated object name.
 	 * 
