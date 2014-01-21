@@ -13,6 +13,13 @@ if ( ! class_exists( 'AdminPageFramework_Property_MetaBox_Page' ) ) :
 class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Property_MetaBox {
 
 	/**
+	 * Defines the property type.
+	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
+	 * @since			3.0.0
+	 */
+	public $_sPropertyType = 'page_meta_box';
+	
+	/**
 	 * The condition array for page slugs associated with the meta box.
 	 * 
 	 * This is used in the meta box class for pages.

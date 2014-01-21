@@ -13,6 +13,13 @@ if ( ! class_exists( 'AdminPageFramework_Property_PostType' ) ) :
 class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_Base {
 	
 	/**
+	 * Defines the property type.
+	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
+	 * @since			3.0.0
+	 */
+	public $_sPropertyType = 'post_type';
+	
+	/**
 	 * Stores the post type slug.
 	 * @since			2.0.0
 	 * @since			2.1.0			Moved to AdminPageFramework_Property_PostType.

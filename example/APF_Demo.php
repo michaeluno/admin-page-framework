@@ -1040,6 +1040,7 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array( // Image selector with additional capturing attributes
 				'field_id'	=>	'image_with_attributes',
+				'section_id'	=>	'image_select',
 				'title'	=>	__( 'Save Image Attributes', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
 				'attributes_to_store'	=>	array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ),	// some attributes cannot be captured with external URLs and the old media uploader.

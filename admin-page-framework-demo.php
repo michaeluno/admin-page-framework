@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.0b3
+	Version: 3.0.0b4
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -18,11 +18,12 @@ define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
 /* Include the library */
 if ( ! class_exists( 'AdminPageFramework' ) )
-	include_once( 
-		file_exists( APFDEMO_DIRNAME . '/library/admin-page-framework.min.php' ) 
-			? APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
-			: APFDEMO_DIRNAME . '/development/admin-page-framework.php'
-	);
+  include_once( APFDEMO_DIRNAME . '/development/admin-page-framework.php' );
+	//include_once( 
+	//	file_exists( APFDEMO_DIRNAME . '/library/admin-page-framework.min.php' ) 
+	//		? APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
+	//		: APFDEMO_DIRNAME . '/development/admin-page-framework.php'
+	//);
 
 
 if ( is_admin() ) :

@@ -52,14 +52,14 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				$this->oMsg->__( 'upload_image' ),
 				$this->oMsg->__( 'use_this_image' )
 			)  . PHP_EOL
-			. $this->_getScript_RepeatEvent();
+			. $this->_getScript_RegisterCallbacks();
 	}
 		/**
 		 * Returns the JavaScript script that handles repeatable events. 
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function _getScript_RepeatEvent() {
+		protected function _getScript_RegisterCallbacks() {
 
 			$aJSArray = json_encode( $this->aFieldTypeSlugs );
 			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
@@ -241,7 +241,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						}
 					});
 				";
-					
+
 			return "jQuery( document ).ready( function(){
 
 				// Global Function Literal 

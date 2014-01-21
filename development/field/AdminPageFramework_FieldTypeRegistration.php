@@ -47,7 +47,6 @@ class AdminPageFramework_FieldTypeRegistration  {
 		}
 	}
 	
-	
 	/**
 	 * Sets the given field type's enqueuing scripts and styles.
 	 * 
@@ -59,14 +58,20 @@ class AdminPageFramework_FieldTypeRegistration  {
 	static public function _setFieldHeadTagElements( array $aField, $oProp, $oHeadTag ) {
 		
 		$sFieldType = $aField['type'];
-		
-		// Set the global flag to indicate whether the elements are already added and enqueued.
-		if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] ) return;
-		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $sFieldType ] = true;
-
+	
+		// Set the global flag to indicate whether the elements are already added and enqueued. Note that it must be checked per a type (here property type is used).
+		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ] ) && is_array( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ] )
+			? $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ]
+			: array();
+		if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ][ $sFieldType ] ) return;
+		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ][ $sFieldType ] = true;
+				
 		// If the field type is not defined, return.
 		if ( ! isset( $oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
 
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldSetTypeSetter'] ) )
+			call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldSetTypeSetter'], array( $oProp->_sPropertyType ) );
+		
 		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
 			call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
 		
@@ -84,14 +89,12 @@ class AdminPageFramework_FieldTypeRegistration  {
 				$oHeadTag->_forceToEnqueueStyle( $asSource );
 			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )				
 				$oHeadTag->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
-
 		}
 		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] as $asSource ) {
 			if ( is_string( $asSource ) )
 				$oHeadTag->_forceToEnqueueScript( $asSource );
 			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
-				$oHeadTag->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );
-				
+				$oHeadTag->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );			
 		}							
 			
 	}
