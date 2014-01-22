@@ -80,7 +80,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	protected $aFieldErrors;		// Do not set a value here since it is checked to see it's null.
-							
+	
+	/**
+	 * Registers necessary hooks and sets up properties.
+	 * 
+	 * @internal
+	 */
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 		
 		add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
@@ -107,10 +112,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.1.5			Added the $bOverride parameter.
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
-	* @param			string			$sMsg					the text message to be displayed.
-	* @param			string			$sType				( optional ) the type of the message, either "error" or "updated"  is used.
-	* @param			string			$sID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
-	* @param			integer		$bOverride				( optional ) false: do not override when there is a message of the same id. true: override the previous one.
+	* @param			string			the text message to be displayed.
+	* @param			string			( optional ) the type of the message, either "error" or "updated"  is used.
+	* @param			string			( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	* @param			integer			( optional ) false: do not override when there is a message of the same id. true: override the previous one.
 	* @return			void
 	*/		
 	public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {
@@ -146,51 +151,50 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	}
 
 	/**
-	* Adds the given form section items into the property. 
-	* 
-	* The passed section array must consist of the following keys.
-	* 
-	* <strong>Section Array</strong>
-	* <ul>
-	* <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
-	* <li><strong>page_slug</strong> - (  string ) the page slug that the section belongs to.</li>
-	* <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
-	* <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
-	* <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
-	* <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
-	* <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
-	* <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-	* <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
-	* </ul>
-	* 
-	* <h4>Example</h4>
-	* <code>$this->addSettingSections(
-	*		array(
-	*			'section_id'		=> 'text_fields',
-	*			'page_slug'		=> 'first_page',
-	*			'tab_slug'		=> 'textfields',
-	*			'title'			=> 'Text Fields',
-	*			'description'	=> 'These are text type fields.',
-	*			'order'			=> 10,
-	*		),	
-	*		array(
-	*			'section_id'		=> 'selectors',
-	*			'page_slug'		=> 'first_page',
-	*			'tab_slug'		=> 'selectors',
-	*			'title'			=> 'Selectors and Checkboxes',
-	*			'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
-	*		)</code>
-	*
-	* @since			2.0.0
-	* @since			3.0.0			Changed the scope to public from protected.
-	* @access 			public
-	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-	* @param			array|string		$asSection1				the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
-	* @param			array		$aSection2				( optional ) another section array.
-	* @param			array		$_and_more					( optional ) add more section array to the next parameters as many as necessary.
-	* @return			void
-	*/		
+	 * Adds the given form section items into the property. 
+	 * 
+	 * The passed section array must consist of the following keys.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->addSettingSections(
+	 *		array(
+	 *			'section_id'	=> 'text_fields',
+	 *			'page_slug'		=> 'first_page',
+	 *			'tab_slug'		=> 'textfields',
+	 *			'title'			=> 'Text Fields',
+	 *			'description'	=> 'These are text type fields.',
+	 *			'order'			=> 10,
+	 *		),	
+	 *		array(
+	 *			'section_id'	=> 'selectors',
+	 *			'page_slug'		=> 'first_page',
+	 *			'tab_slug'		=> 'selectors',
+	 *			'title'			=> 'Selectors and Checkboxes',
+	 *			'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
+	 *		)</code>
+	 *
+	 * @since			2.0.0
+	 * @since			3.0.0			Changed the scope to public from protected.
+	 * @access 			public
+	 * @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
+	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
+	 * @param			array|string			the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
+	 * <strong>Section Array</strong>
+	 * <ul>
+	 * <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	 * <li><strong>page_slug</strong> - (  string ) the page slug that the section belongs to.</li>
+	 * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
+	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+	 * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	 * <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
+	 * <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	 * <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
+	 * <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	 * </ul>
+	 * @param			array					( optional ) another section array.
+	 * @param			array					( optional ) add more section array to the next parameters as many as necessary.
+	 * @return			void
+	 */		
 	public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
 		foreach( func_get_args() as $asSection ) $this->addSettingSection( $asSection );
 	}
@@ -203,8 +207,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @access			public
-	 * @param			array|string		$asSection				the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
 	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
+	 * @param			array|string			the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
+	 * @return			void
 	 */
 	public function addSettingSection( $asSection ) {
 				
@@ -237,16 +242,17 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* This accesses the property storing the added section arrays and removes the specified ones.
 	* 
 	* <h4>Example</h4>
-	* <code>$this->removeSettingSections( 'text_fields', 'selectors', 'another_section', 'yet_another_section' );</code>
+	* <code>$this->removeSettingSections( 'text_fields', 'selectors', 'another_section', 'yet_another_section' );
+	* </code>
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-	* @param			string			$sSectionID1			the section ID to remove.
-	* @param			string			$sSectionID2			( optional ) another section ID to remove.
-	* @param			string			$_and_more				( optional ) add more section IDs to the next parameters as many as necessary.
+	* @param			string			the section ID to remove.
+	* @param			string			( optional ) another section ID to remove.
+	* @param			string			( optional ) add more section IDs to the next parameters as many as necessary.
 	* @return			void
 	*/	
 	public function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {	
@@ -261,116 +267,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* Adds the given field array items into the field array property.
 	* 
 	* The passed field array must consist of the following keys. 
-	* 
-	* <h4>Field Array</h4>
-	* <ul>
-	* 	<li><strong>field_id</strong> - ( string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
-	* 	<li><strong>section_id</strong> - ( string ) the section ID that the field belongs to.</li>
-	* 	<li><strong>type</strong> - ( string ) the type of the field. The supported types are listed below.</li>
-	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
-	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
-	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
-	* 	<li><strong>capability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
-	* 	<li><strong>name</strong> - ( optional, string ) the name attribute value of the input tag instead of automatically generated one.</li>
-	* 	<li><strong>error_message</strong> - ( optional, string ) the error message to display above the input field.</li>
-	* 	<li><strong>before_field</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
-	* 	<li><strong>after_field</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
-	* 	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
-	* 	<li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
-	* 	<li><strong>label</strong> - ( optional|mandatory, string|array ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key while some require it.</li>
-	* 	<li><strong>default</strong> - ( optional, string|array ) the default value(s) assigned to the input tag's value attribute.</li>
-	* 	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>value</em> attribute to override the default or stored value.</li>
-	* 	<li><strong>delimiter</strong> - ( optional, string|array ) the HTML string that delimits multiple elements. This is available if the <var>label</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
-	* 	<li><strong>before_input</strong> - ( optional, string|array ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
-	* 	<li><strong>after_input</strong> - ( optional, string|array ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
-	* 	<li><strong>class_attribute</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>class</em>.</li>
-	* 	<li><strong>label_min_width</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
-	* 	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
-	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
-	*	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether the fields should be repeatable. If it yields true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. Optionally an setting array can be passed.
-	*		<h4>Repeatable Fields Setting Array</h4>
-	*		<ul>
-	*			<li><code>max</code> - the allowed maximum number of fields to be repeated.</li>
-	*			<li><code>min</code> - the allowed minimum number of fields to be repeated.</li>
-	*		</ul>
-	*	</li>
-	*	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value pairs representing the attribute and its property. Note that some field types have specific keys in the first dimensions. e.g.<code>array( 'class' => 'my_custom_class_selector', 'style' => 'background-color:#777', 'size' => 20, )</code></li>
-	* </ul>
-	* <h4>Field Types</h4>
-	* <p>Each field type uses specific array keys.</p>
-	* <ul>
-	* 	<li><strong>text</strong> - a text input field which allows the user to type text.</li>
-	* 	<li><strong>password</strong> - a password input field which allows the user to type text.</li>
-	* 	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do not support these.</li>
-	* 	<li><strong>textarea</strong> - a textarea input field. The following array keys are supported.
-	* 		<ul>
-	* 			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
-	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
-	* 			</li>
-	*		</ul>
-	* 	</li>
-	* 	<li><strong>radio</strong> - a radio button input field.</li>
-	* 	<li><strong>checkbox</strong> - a check box input field.</li>
-	* 	<li><strong>select</strong> - a dropdown input field.</li>
-	* 		<ul>
-	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-	* 		</ul>
-	* 	<li><strong>size</strong> - a size input field. This is a combination of number and select fields.</li>
-	* 		<ul>
-	* 			<li>
-	* 				<strong>units</strong> - ( optional, array ) defines the units to show. e.g. <code>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</code> 
-	* 				Default: <code>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</code>
-	* 			</li>
-	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-	* 			<li><strong>attributes</strong> - ( optional, array ) The attributes array of this field type has four initial keys: size, unit, optgroup, and option and they have a regular attribute array in each.</li>
-	* 	</ul>
-	* 	<li><strong>hidden</strong> - a hidden input field.</li>
-	* 	<li><strong>file</strong> - a file upload input field.</li>
-	* 	<li><strong>submit</strong> - a submit button input field.</li>
-	* 		<ul>
-	* 			<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit button.</li>
-	* 			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected to after submitting the input form.</li>
-	* 			<li><strong>is_reset</strong> - [2.1.2+] ( optional, boolean ) the option key to delete. Set 1 for the entire option.</li>
-	* 		</ul>
-	* 	<li><strong>import</strong> - an inport input field. This is a custom file and submit field.</li>
-	* 		<ul>
-	* 			<li><strong>option_key</strong> - ( optional, string ) the option table key to save the importing data.</li>
-	* 			<li><strong>format</strong> - ( optional, string ) the import format. json, or array is supported. Default: array</li>
-	* 			<li><strong>is_merge</strong> - ( optional, boolean ) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
-	* 		</ul>
-	* 	<li><strong>export</strong> - an export input field. This is a custom submit field.</li>
-	* 		<ul>
-	* 			<li><strong>file_name</strong> - ( optional, string ) the file name to download.</li>
-	* 			<li><strong>format</strong> - ( optional, string ) the format type. array, json, or text is supported. Default: array.</li>
-	* 			<li><strong>data</strong> - ( optional, string|array|object ) the data to export.</li>
-	* 		</ul>
-	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.</li>
-	* 		<ul>
-	* 			<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to false, the image preview will be disabled.</li>
-	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_store' => array( 'id', 'caption', 'description' )</code></li>
-	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
-	* 			<li><strong>attributes</strong> - ( optional, array ) The attributes array of this field type has three keys: input, button, and preview and they have a regular attribute array in each.</li>
-	* 		</ul>
-	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.</li>
-	* 		<ul>
-	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <code>'attributes_to_store' => array( 'id', 'caption', 'description' )</code></li>
-	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
-	* 		</ul>
-	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
-	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.</li>
-	* 		<ul>
-	*			<li><strong>taxonomy_slugs</strong> - ( optional, array ) the taxonomy slug to list.</li>
-	*			<li><strong>max_width</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
-	*			<li><strong>height</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
-	* 		</ul>
-	* 	<li><strong>posttype</strong> - a posttype check list. This is a set of check boxes listing post type slugs.</li>
-	* 		<ul>
-	* 			<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item' )</code></li>
-	* 		</ul>
-
-	* </ul>	
-	* 
+	*  
 	* <h4>Example</h4>
 	* <code>$this->addSettingFields(
 	*		array(
@@ -417,9 +314,124 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access 			public
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-	* @param			array			$aField1			the field array.
-	* @param			array			$aField2			( optional ) another field array.
-	* @param			array			$_and_more			( optional ) add more field arrays to the next parameters as many as necessary.
+	* @param			array			the field array.
+	* <h4>Field Array</h4>
+	* <ul>
+	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	* 	<li><strong>section_id</strong> - ( required, string ) the section ID that the field belongs to.</li>
+	* 	<li><strong>type</strong> - ( required, string ) the type of the field. The supported types are listed below.</li>
+	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
+	* 	<li><strong>capability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* 	<li><strong>error_message</strong> - ( optional, string ) the error message to display above the input field.</li>
+	* 	<li><strong>before_field</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
+	* 	<li><strong>after_field</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
+	* 	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
+	* 	<li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	* 	<li><strong>label</strong> - ( optional, string ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key.</li>
+	* 	<li><strong>default</strong> - ( optional, string|array ) the default value(s) assigned to the input tag's value attribute.</li>
+	* 	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>value</em> attribute to override the default and the stored value.</li>
+	* 	<li><strong>delimiter</strong> - ( optional, string ) the HTML string that delimits multiple elements. This is available if the <var>label</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>before_input</strong> - ( optional, string ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>after_input</strong> - ( optional, string ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>label_min_width</strong> - ( optional, string|array ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
+	* 	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to true, the <em>disabled</em> attribute will be inserted into the field input tag.</li>
+	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
+	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	*	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether the fields should be repeatable. If it yields true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. Optionally an setting array can be passed.
+	*		<h5>Repeatable Fields Setting Array</h5>
+	*		<ul>
+	*			<li><strong>max</strong> - the allowed maximum number of fields to be repeated.</li>
+	*			<li><strong>min</string> - the allowed minimum number of fields to be repeated.</li>
+	*		</ul>
+	*	</li>
+	*	<li><strong>sortable</strong> - [3.0.0+] ( optional, array|boolean ) whether the fields should be sortable. If it yields true, the fields will be enclosed in a draggable box.
+	*	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value pairs representing the attribute and its property. Note that some field types have specific keys in the first dimensions. e.g.<em>array( 'class' => 'my_custom_class_selector', 'style' => 'background-color:#777', 'size' => 20, )</em></li>
+	* </ul>
+	* <h4>Field Type Specific Keys</h4>
+	* <p>Each field type uses specific array keys.</p>
+	* <ul>
+	* 	<li><strong>text</strong> - a text input field which allows the user to type text.</li>
+	* 	<li><strong>password</strong> - a password input field which allows the user to type text.</li>
+	* 	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do not support these.</li>
+	* 	<li><strong>textarea</strong> - a textarea input field. The following array keys are supported.
+	* 		<ul>
+	* 			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
+	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
+	* 			</li>
+	*		</ul>
+	* 	</li>
+	* 	<li><strong>radio</strong> - a radio button input field.</li>
+	* 	<li><strong>checkbox</strong> - a check box input field.</li>
+	* 	<li><strong>select</strong> - a drop-down input field.
+	* 		<ul>
+	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>size</strong> - a size input field. This is a combination of number and select fields.
+	* 		<ul>
+	* 			<li>
+	* 				<strong>units</strong> - ( optional, array ) defines the units to show. e.g. <em>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</em> 
+	* 				Default: <em>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</em>
+	* 			</li>
+	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
+	* 			<li><strong>attributes</strong> - ( optional, array ) The attributes array of this field type has four initial keys: size, unit, optgroup, and option and they have a regular attribute array in each.</li>
+	* 		</ul>
+	*	</li>
+	* 	<li><strong>hidden</strong> - a hidden input field.</li>
+	* 	<li><strong>file</strong> - a file upload input field.</li>
+	* 	<li><strong>submit</strong> - a submit button input field.
+	* 		<ul>
+	* 			<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit button.</li>
+	* 			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected to after submitting the input form.</li>
+	* 			<li><strong>is_reset</strong> - [2.1.2+] ( optional, boolean ) the option key to delete. Set 1 for the entire option.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>import</strong> - an import input field. This is a custom file and submit field.
+	* 		<ul>
+	* 			<li><strong>option_key</strong> - ( optional, string ) the option table key to save the importing data.</li>
+	* 			<li><strong>format</strong> - ( optional, string ) the import format. json, or array is supported. Default: array</li>
+	* 			<li><strong>is_merge</strong> - ( optional, boolean ) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>export</strong> - an export input field. This is a custom submit field.
+	* 		<ul>
+	* 			<li><strong>file_name</strong> - ( optional, string ) the file name to download.</li>
+	* 			<li><strong>format</strong> - ( optional, string ) the format type. array, json, or text is supported. Default: array.</li>
+	* 			<li><strong>data</strong> - ( optional, string|array|object ) the data to export.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.
+	* 		<ul>
+	* 			<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to false, the image preview will be disabled.</li>
+	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store' => array( 'id', 'caption', 'description' )</em></li>
+	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 			<li><strong>attributes</strong> - ( optional, array ) The attributes array of this field type has three keys: input, button, and preview and they have a regular attribute array in each.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.
+	* 		<ul>
+	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store' => array( 'id', 'caption', 'description' )</em></li>
+	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
+	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.
+	* 		<ul>
+	*			<li><strong>taxonomy_slugs</strong> - ( optional, array ) the taxonomy slug to list.</li>
+	*			<li><strong>max_width</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
+	*			<li><strong>height</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>posttype</strong> - a post-type check list. This is a set of check boxes listing post type slugs.
+	* 		<ul>
+	* 			<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<em>array( 'revision', 'attachment', 'nav_menu_item' )</em></li>
+	* 		</ul>
+	* 	</li>
+	* </ul>	
+	* @param			array			( optional ) another field array.
+	* @param			array			( optional ) add more field arrays to the next parameters as many as necessary.
 	* @return			void
 	*/		
 	public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {	
@@ -428,12 +440,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	/**
 	* Adds the given field array items into the field array property.
 	* 
-	* Itentical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
 	* 
 	* @since			2.1.2
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access			public
-	* @param			array|string	$asField			the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
+	* @param			array|string	the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
 	* @return			void
 	*/	
 	public function addSettingField( $asField ) {
@@ -463,16 +475,17 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* This accesses the property storing the added field arrays and removes the specified ones.
 	* 
 	* <h4>Example</h4>
-	* <code>$this->removeSettingFields( 'fieldID_A', 'fieldID_B', 'fieldID_C', 'fieldID_D' );</code>
+	* <code>$this->removeSettingFields( 'fieldID_A', 'fieldID_B', 'fieldID_C', 'fieldID_D' );
+	* </code>
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-	* @param			string			$sFieldID1				the field ID to remove.
-	* @param			string			$sFieldID2				( optional ) another field ID to remove.
-	* @param			string			$_and_more					( optional ) add more field IDs to the next parameters as many as necessary.
+	* @param			string			the field ID to remove.
+	* @param			string			( optional ) another field ID to remove.
+	* @param			string			( optional ) add more field IDs to the next parameters as many as necessary.
 	* @return			void
 	*/	
 	public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
@@ -490,32 +503,42 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * This method saves the given array in a temporary area( transient ) of the options database table.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>public function validation_first_page_verification( $aInput, $aOldPageOptions ) {	// valication_ + page slug + _ + tab slug			
+	 * <code>
+	 *	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {
+	 *
+	 *		// 1. Set a flag.
 	 *		$bVerified = true;
+	 *		
+	 *		// 2. Prepare an error array. 
 	 *		$aErrors = array();
-	 *		// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.
-	 *		if ( isset( $aInput['first_page']['verification']['verify_text_field'] ) && ! is_numeric( $aInput['first_page']['verification']['verify_text_field'] ) ) {
-	 *			// Start with the section key in $aErrors, not the key of page slug.
-	 *			$aErrors['verification']['verify_text_field'] = 'The value must be numeric: ' . $aInput['first_page']['verification']['verify_text_field'];	
+	 *
+	 *		// 3. Check if the submitted value meets your criteria.
+	 *		if ( ! is_numeric( $aNewInput['verify_text_field'] ) ) {
+	 *			$aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) 
+	 *				. $aNewInput['verify_text_field'];
 	 *			$bVerified = false;
 	 *		}
-	 *		// An invalid value is found.
+	 *	
+	 *		// 4. An invalid value is found.
 	 *		if ( ! $bVerified ) {
-	 *			// Set the error array for the input fields.
+	 *			// 4-1. Set the error array for the input fields.
 	 *			$this->setFieldErrors( $aErrors );		
 	 *			$this->setSettingNotice( 'There was an error in your input.' );
-	 *			return $aOldPageOptions;
+	 *			return $aOldOptions;
 	 *		}
-	 *		return $aInput;
-	 *	}</code>
+	 *					
+	 *		return $aNewInput;		
+	 *
+	 *	}
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @remark			the user may use this method.
 	 * @remark			the transient name is a MD5 hash of the extended class name + _ + page slug ( the passed ID )
-	 * @param			array			$aErrors			the field error array. The structure should follow the one contained in the submitted $_POST array.
-	 * @param			string			$sID				this should be the page slug of the page that has the dealing form field.
-	 * @param			integer			$nSavingDuration	the transient's lifetime. 300 seconds means 5 minutes.
+	 * @param			array			the field error array. The structure should follow the one contained in the submitted $_POST array.
+	 * @param			string			this should be the page slug of the page that has the dealing form field.
+	 * @param			integer			the transient's lifetime. 300 seconds means 5 minutes.
 	 */ 
 	public function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {
 		
@@ -526,12 +549,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 	/**
 	 * Retrieves the specified field value stored in the options.
-	 * 
-	 * Useful when you don't know the section name but it's a bit slower than accessing the property value by specifying the section name.
-	 * 
+	 *  
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
 	 * @access			public
+	 * @param			string			The field ID.
+	 * @return			string|null		If the field ID is not set in the saved option array, it will return null. Otherwise, the set value. 
+	 * If the user has not submitted the form, the framework will try to return the default value set in the field definition array.
 	 */
 	public function getFieldValue( $sFieldID ) {
 		

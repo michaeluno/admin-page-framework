@@ -49,6 +49,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		'parent_tab_slug' => null,	// this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
 	);
 		
+	/**
+	 * Registers necessary hooks and sets up properties.
+	 * 
+	 * @internal
+	 */
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {	
 	
 		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
@@ -61,15 +66,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * Adds in-page tabs.
 	 *
 	 * The parameters accept in-page tab arrays and they must have the following array keys.
-	 * <h4>In-Page Tab Array</h4>
-	 * <ul>
-	 * 	<li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs to.</li>
-	 * 	<li><strong>tab_slug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-	 * 	<li><strong>title</strong> - ( string ) the title of the tab.</li>
-	 * 	<li><strong>order</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
-	 * 	<li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
-	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
-	 * </ul>
 	 * 
 	 * <h4>Example</h4>
 	 * <code>$this->addInPageTabs(
@@ -84,8 +80,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 *			'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
 	 *		)
 	 *	);</code>
+	 *
 	 * <code>$this->addInPageTabs(
-	 * 		'myfirstpage', // sets the target page slug so that it will be applied to the next tab array which does not have the page slug element.
+	 *		'myfirstpage', // sets the target page slug
 	 *		array(
 	 *			'tab_slug' => 'firsttab',
 	 *			'title' => __( 'Text Fields', 'my-text-domain' ),
@@ -98,6 +95,15 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public. Added page slug target support. 
 	 * @param			array			$aTab1			The in-page tab array.
+	 * <h4>In-Page Tab Array</h4>
+	 * <ul>
+	 * 	<li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs to.</li>
+	 * 	<li><strong>tab_slug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+	 * 	<li><strong>title</strong> - ( string ) the title of the tab.</li>
+	 * 	<li><strong>order</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
+	 * 	<li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
+	 * 	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+	 * </ul>
 	 * @param			array			$aTab2			Another in-page tab array.
 	 * @param			array			$_and_more			Add in-page tab arrays as many as necessary to the next parameters.
 	 * @param			string			(optional) $sPageSlug			If the passed parameter item is a string, it will be stored as the target page slug so that it will be applied to the next passed tab arrays as the page_slug element.
@@ -111,6 +117,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	
 	/**
 	 * Adds an in-page tab.
+	 * 
+	 * The singular form of the addInPageTabs() method, which takes only one parameter.
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public.
@@ -146,7 +154,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * Sets whether the page title is displayed or not.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setPageTitleVisibility( false );    // disables the page title.</code>
+	 * <code>$this->setPageTitleVisibility( false );    // disables the page title.
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public.
@@ -170,7 +179,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * Sets whether page-heading tabs are displayed or not.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setPageHeadingTabsVisibility( false );    // disables the page heading tabs by passing false.</code>
+	 * <code>$this->setPageHeadingTabsVisibility( false );    // disables the page heading tabs by passing false.
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public.
@@ -220,7 +230,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * Sets in-page tab's HTML tag.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setInPageTabTag( 'h2' );</code>
+	 * <code>$this->setInPageTabTag( 'h2' );
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public.
@@ -245,7 +256,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * Sets page-heading tab's HTML tag.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setPageHeadingTabTag( 'h2' );</code>
+	 * <code>$this->setPageHeadingTabTag( 'h2' );
+	 * </code>
 	 * 
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public.
@@ -573,7 +585,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
 					? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
 					: "";
-// var_dump( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] );
+
 			// Get the actual string buffer.
 			foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 						

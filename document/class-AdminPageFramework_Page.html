@@ -159,44 +159,13 @@ AdminPageFramework_Page_MetaBox
 				3.0.0 No longer extends AdminPageFramework_HelpPane_Page.<br>
 				<b>Extends:</b>
 				AdminPageFramework_Page_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Page.html#3-670" title="Go to source code">page/AdminPageFramework_Page.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Page.html#3-682" title="Go to source code">page/AdminPageFramework_Page.php</a><br>
 	</div>
 
 
 
 		<h2>Methods summary</h2>
 		<table class="summary table table-bordered table-striped" id="methods">
-		<tr data-order="__construct" id="___construct">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#52-58" title="Go to source code">__construct</a>( <span>mixed <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sCapability</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-
-
-
-
-
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Page_MetaBox::__construct</code></div>
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="addInPageTabs" id="_addInPageTabs">
 
 			<td class="attributes"><code>
@@ -208,7 +177,7 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addInPageTabs">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#60-110" title="Go to source code">addInPageTabs</a>( <span>array <var>$aTab1</var></span>, <span>array <var>$aTab2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#65-116" title="Go to source code">addInPageTabs</a>( <span>array <var>$aTab1</var></span>, <span>array <var>$aTab2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -219,30 +188,9 @@ AdminPageFramework_Page_MetaBox
 			<div class="description detailed hidden">
 				
 <p>Adds in-page tabs.</p>
-The parameters accept in-page tab arrays and they must have the following array
-keys.
-<h4>In-Page Tab Array</h4>
 
-<ul>
-	<li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs
-	to.</li>
-
-	<li><strong>tab_slug</strong> - ( string ) the tab slug. Non-alphabetical
-	characters should not be used including dots(.) and hyphens(-).</li>
-
-	<li><strong>title</strong> - ( string ) the title of the tab.</li>
-
-	<li><strong>order</strong> - ( optional, integer ) the order number of the tab.
-	The lager the number is, the lower the position it is placed in the menu.</li>
-
-	<li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If
-	this is set to false, the tab title will not be displayed in the tab navigation
-	menu; however, it is still accessible from the direct URL.</li>
-
-	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set
-	if the above show_in_page_tab is true so that the parent tab will be emphasized
-	as active when the hidden page is accessed.</li>
-</ul>
+<p>The parameters accept in-page tab arrays and they must have the following
+array keys.</p>
 
 <h4>Example</h4>
 
@@ -276,9 +224,9 @@ class="php-quote">'my-text-domain'</span> ),
 );</pre>
 
 <pre><span class="php-var">$this</span>-&gt;addInPageTabs(
-                <span
+        <span
 class="php-quote">'myfirstpage'</span>, <span
-class="php-comment">// sets the target page slug so that it will be applied to the next tab array which does not have the page slug element.</span>
+class="php-comment">// sets the target page slug</span>
         <span
 class="php-keyword1">array</span>(
                 <span
@@ -306,7 +254,30 @@ class="php-quote">'my-text-domain'</span> ),
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aTab1</var></dt>
-						<dd><code>array</code><br>$aTab1 The in-page tab array.</dd>
+						<dd><code>array</code><br>$aTab1 The in-page tab array.
+<h4>In-Page Tab Array</h4>
+
+<ul>
+	<li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs
+	to.</li>
+
+	<li><strong>tab_slug</strong> - ( string ) the tab slug. Non-alphabetical
+	characters should not be used including dots(.) and hyphens(-).</li>
+
+	<li><strong>title</strong> - ( string ) the title of the tab.</li>
+
+	<li><strong>order</strong> - ( optional, integer ) the order number of the tab.
+	The lager the number is, the lower the position it is placed in the menu.</li>
+
+	<li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If
+	this is set to false, the tab title will not be displayed in the tab navigation
+	menu; however, it is still accessible from the direct URL.</li>
+
+	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set
+	if the above show_in_page_tab is true so that the parent tab will be emphasized
+	as active when the hidden page is accessed.</li>
+</ul>
+</dd>
 						<dt><var>$aTab2</var></dt>
 						<dd><code>array</code><br>$aTab2 Another in-page tab array.</dd>
 						<dt><var>$_and_more</var></dt>
@@ -345,7 +316,7 @@ with page titles.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addInPageTab">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#112-143" title="Go to source code">addInPageTab</a>( <span>array|string <var>$asInPageTab</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#118-151" title="Go to source code">addInPageTab</a>( <span>array|string <var>$asInPageTab</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -356,6 +327,9 @@ with page titles.<br>
 			<div class="description detailed hidden">
 				
 <p>Adds an in-page tab.</p>
+
+<p>The singular form of the addInPageTabs() method, which takes only one
+parameter.</p>
 
 
 
@@ -398,7 +372,7 @@ with page titles.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setPageTitleVisibility">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#145-167" title="Go to source code">setPageTitleVisibility</a>( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#153-176" title="Go to source code">setPageTitleVisibility</a>( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -411,10 +385,12 @@ with page titles.<br>
 <p>Sets whether the page title is displayed or not.</p>
 
 <h4>Example</h4>
- <code>&lt;span
-class="php-var"&gt;$this&lt;/span&gt;-&gt;setPageTitleVisibility( &lt;span
-class="php-keyword1"&gt;false&lt;/span&gt; ); &lt;span class="php-comment"&gt;//
-disables the page title.&lt;/span&gt;</code>
+
+<pre><span class="php-var">$this</span>-&gt;setPageTitleVisibility( <span
+class="php-keyword1">false</span> );    <span
+class="php-comment">// disables the page title.</span>
+</pre>
+
 
 
 					<h4>Parameters</h4>
@@ -450,7 +426,7 @@ disables the page title.&lt;/span&gt;</code>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setPageHeadingTabsVisibility">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#169-193" title="Go to source code">setPageHeadingTabsVisibility</a>( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#178-203" title="Go to source code">setPageHeadingTabsVisibility</a>( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -463,10 +439,12 @@ disables the page title.&lt;/span&gt;</code>
 <p>Sets whether page-heading tabs are displayed or not.</p>
 
 <h4>Example</h4>
- <code>&lt;span
-class="php-var"&gt;$this&lt;/span&gt;-&gt;setPageHeadingTabsVisibility( &lt;span
-class="php-keyword1"&gt;false&lt;/span&gt; ); &lt;span class="php-comment"&gt;//
-disables the page heading tabs by passing false.&lt;/span&gt;</code>
+
+<pre><span class="php-var">$this</span>-&gt;setPageHeadingTabsVisibility( <span
+class="php-keyword1">false</span> );    <span
+class="php-comment">// disables the page heading tabs by passing false.</span>
+</pre>
+
 
 
 					<h4>Parameters</h4>
@@ -509,7 +487,7 @@ titles and the latter displays tab titles.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setInPageTabsVisibility">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#195-217" title="Go to source code">setInPageTabsVisibility</a>( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#205-227" title="Go to source code">setInPageTabsVisibility</a>( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -565,7 +543,7 @@ setInPageTabsVisibility().<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setInPageTabTag">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#219-242" title="Go to source code">setInPageTabTag</a>( <span>string <var>$sTag</var> = <span class="php-quote">'h3'</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#229-253" title="Go to source code">setInPageTabTag</a>( <span>string <var>$sTag</var> = <span class="php-quote">'h3'</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -578,8 +556,11 @@ setInPageTabsVisibility().<br>
 <p>Sets in-page tab's HTML tag.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setInPageTabTag(
-&lt;span class="php-quote"&gt;'h2'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;setInPageTabTag( <span
+class="php-quote">'h2'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
@@ -619,7 +600,7 @@ setInPageTabsVisibility().<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setPageHeadingTabTag">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#244-267" title="Go to source code">setPageHeadingTabTag</a>( <span>string <var>$sTag</var> = <span class="php-quote">'h2'</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#255-279" title="Go to source code">setPageHeadingTabTag</a>( <span>string <var>$sTag</var> = <span class="php-quote">'h2'</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -632,8 +613,11 @@ setInPageTabsVisibility().<br>
 <p>Sets page-heading tab's HTML tag.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setPageHeadingTabTag(
-&lt;span class="php-quote"&gt;'h2'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;setPageHeadingTabTag( <span
+class="php-quote">'h2'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
@@ -673,7 +657,7 @@ setInPageTabsVisibility().<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#__replyToFinalizeInPageTabs">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#626-668" title="Go to source code">_replyToFinalizeInPageTabs</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#638-680" title="Go to source code">_replyToFinalizeInPageTabs</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -712,6 +696,7 @@ determined in the process.</p>
 
 		<h3>Methods inherited from AdminPageFramework_Page_MetaBox</h3>
 		<p class="elementList">
+			<code>__construct()</code>, 
 			<code>_getNumberOfColumns()</code>, 
 			<code>_printMetaBox()</code>, 
 			<code>_replyToAddMetaboxScript()</code>, 

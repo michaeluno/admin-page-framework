@@ -164,7 +164,7 @@ AdminPageFramework_Page_MetaBox
 				AdminPageFramework_Menu<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1376" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1400" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
@@ -182,7 +182,7 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setSettingNotice">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#93-146" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#98-151" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -218,16 +218,15 @@ class="php-var">$aOldPageOptions</span>;
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sMsg</var></dt>
-						<dd><code>string</code><br>$sMsg the text message to be displayed.</dd>
+						<dd><code>string</code><br>the text message to be displayed.</dd>
 						<dt><var>$sType</var></dt>
-						<dd><code>string</code><br>$sType ( optional ) the type of the message, either "error" or "updated" is
-used.</dd>
+						<dd><code>string</code><br>( optional ) the type of the message, either "error" or "updated" is used.</dd>
 						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>$sID ( optional ) the ID of the message. This is used in the ID attribute of the
+						<dd><code>string</code><br>( optional ) the ID of the message. This is used in the ID attribute of the
 message HTML element.</dd>
 						<dt><var>$bOverride</var></dt>
-						<dd><code>integer</code><br>$bOverride ( optional ) false: do not override when there is a message of the
-same id. true: override the previous one.</dd>
+						<dd><code>integer</code><br>( optional ) false: do not override when there is a message of the same id.
+true: override the previous one.</dd>
 					</dl></div>
 
 
@@ -255,7 +254,7 @@ same id. true: override the previous one.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#148-196" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#153-200" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -268,7 +267,57 @@ same id. true: override the previous one.</dd>
 <p>Adds the given form section items into the property.</p>
 
 <p>The passed section array must consist of the following keys.</p>
-<strong>Section Array</strong>
+
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;addSettingSections(
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'text_fields'</span>,
+                <span
+class="php-quote">'page_slug'</span>             =&gt; <span
+class="php-quote">'first_page'</span>,
+                <span
+class="php-quote">'tab_slug'</span>              =&gt; <span
+class="php-quote">'textfields'</span>,
+                <span
+class="php-quote">'title'</span>                 =&gt; <span
+class="php-quote">'Text Fields'</span>,
+                <span
+class="php-quote">'description'</span>   =&gt; <span
+class="php-quote">'These are text type fields.'</span>,
+                <span
+class="php-quote">'order'</span>                 =&gt; <span
+class="php-num">10</span>,
+        ),
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'selectors'</span>,
+                <span
+class="php-quote">'page_slug'</span>             =&gt; <span
+class="php-quote">'first_page'</span>,
+                <span
+class="php-quote">'tab_slug'</span>              =&gt; <span
+class="php-quote">'selectors'</span>,
+                <span
+class="php-quote">'title'</span>                 =&gt; <span
+class="php-quote">'Selectors and Checkboxes'</span>,
+                <span
+class="php-quote">'description'</span>   =&gt; <span
+class="php-quote">'These are selector type options such as dropdown lists, radio buttons, and checkboxes'</span>,
+        )</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aSection1</var></dt>
+						<dd><code>array|string</code><br>the section array or the target page slug. If the target page slug is set, the
+next section array can omit the page slug key. <strong>Section Array</strong>
 <ul>
 	<li><strong>section_id</strong> - ( string ) the section ID. Avoid using
 	non-alphabetic characters exept underscore and numbers.</li>
@@ -298,62 +347,11 @@ same id. true: override the previous one.</dd>
 	<li><strong>help_aside</strong> - ( optional, string ) the additional help
 	description for the side bar of the contextual help tab.</li>
 </ul>
-
-<h4>Example</h4>
-
-<pre><span class="php-var">$this</span>-&gt;addSettingSections(
-        <span
-class="php-keyword1">array</span>(
-                <span
-class="php-quote">'section_id'</span>            =&gt; <span
-class="php-quote">'text_fields'</span>,
-                <span
-class="php-quote">'page_slug'</span>             =&gt; <span
-class="php-quote">'first_page'</span>,
-                <span
-class="php-quote">'tab_slug'</span>              =&gt; <span
-class="php-quote">'textfields'</span>,
-                <span
-class="php-quote">'title'</span>                 =&gt; <span
-class="php-quote">'Text Fields'</span>,
-                <span
-class="php-quote">'description'</span>   =&gt; <span
-class="php-quote">'These are text type fields.'</span>,
-                <span
-class="php-quote">'order'</span>                 =&gt; <span
-class="php-num">10</span>,
-        ),
-        <span
-class="php-keyword1">array</span>(
-                <span
-class="php-quote">'section_id'</span>            =&gt; <span
-class="php-quote">'selectors'</span>,
-                <span
-class="php-quote">'page_slug'</span>             =&gt; <span
-class="php-quote">'first_page'</span>,
-                <span
-class="php-quote">'tab_slug'</span>              =&gt; <span
-class="php-quote">'selectors'</span>,
-                <span
-class="php-quote">'title'</span>                 =&gt; <span
-class="php-quote">'Selectors and Checkboxes'</span>,
-                <span
-class="php-quote">'description'</span>   =&gt; <span
-class="php-quote">'These are selector type options such as dropdown lists, radio buttons, and checkboxes'</span>,
-        )</pre>
-
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$aSection1</var></dt>
-						<dd><code>array|string</code><br>$asSection1 the section array or the target page slug. If the target page slug
-is set, the next section array can omit the page slug key.</dd>
+</dd>
 						<dt><var>$aSection2</var></dt>
-						<dd><code>array</code><br>$aSection2 ( optional ) another section array.</dd>
+						<dd><code>array</code><br>( optional ) another section array.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>array</code><br>$_and_more ( optional ) add more section array to the next parameters as many as
-necessary.</dd>
+						<dd><code>array</code><br>( optional ) add more section array to the next parameters as many as necessary.</dd>
 					</dl></div>
 
 
@@ -386,7 +384,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSection">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#198-232" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#202-237" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -407,9 +405,9 @@ parameter.</p>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$asSection</var></dt>
-						<dd><code>array|string</code><br>$asSection the section array. If a string is passed, it is considered as a
-target page slug that will be used as a page slug element from the next call so
-that the element can be ommited.</dd>
+						<dd><code>array|string</code><br>the section array. If a string is passed, it is considered as a target page slug
+that will be used as a page slug element from the next call so that the element
+can be ommited.</dd>
 					</dl></div>
 
 
@@ -440,7 +438,7 @@ that the element can be ommited.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#234-258" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#239-264" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -456,22 +454,24 @@ that the element can be ommited.</dd>
 specified ones.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;removeSettingSections(
-&lt;span class="php-quote"&gt;'text_fields'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'selectors'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'another_section'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'yet_another_section'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;removeSettingSections( <span
+class="php-quote">'text_fields'</span>, <span
+class="php-quote">'selectors'</span>, <span
+class="php-quote">'another_section'</span>, <span
+class="php-quote">'yet_another_section'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sSectionID1</var></dt>
-						<dd><code>string</code><br>$sSectionID1 the section ID to remove.</dd>
+						<dd><code>string</code><br>the section ID to remove.</dd>
 						<dt><var>$sSectionID2</var></dt>
-						<dd><code>string</code><br>$sSectionID2 ( optional ) another section ID to remove.</dd>
+						<dd><code>string</code><br>( optional ) another section ID to remove.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>$_and_more ( optional ) add more section IDs to the next parameters as many as
-necessary.</dd>
+						<dd><code>string</code><br>( optional ) add more section IDs to the next parameters as many as necessary.</dd>
 					</dl></div>
 
 
@@ -504,7 +504,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#260-427" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#266-439" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -517,303 +517,6 @@ to three.<br>
 <p>Adds the given field array items into the field array property.</p>
 
 <p>The passed field array must consist of the following keys.</p>
-
-<h4>Field Array</h4>
-
-<ul>
-	<li><strong>field_id</strong> - ( string ) the field ID. Avoid using
-	non-alphabetic characters exept underscore and numbers.</li>
-
-	<li><strong>section_id</strong> - ( string ) the section ID that the field
-	belongs to.</li>
-
-	<li><strong>type</strong> - ( string ) the type of the field. The supported
-	types are listed below.</li>
-
-	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
-
-	<li><strong>description</strong> - ( optional, string ) the description of the
-	field which is inserted into the after the input field tag.</li>
-
-	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is
-	displayed when the mouse is hovered over the field title.</li>
-
-	<li><strong>capability</strong> - ( optional, string ) the <a
-	href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a>"&gt;access
-	level of the section. If the page visitor does not have sufficient capability,
-	the section will be invisible to them.</li>
-
-	<li><strong>name</strong> - ( optional, string ) the name attribute value of the
-	input tag instead of automatically generated one.</li>
-
-	<li><strong>error_message</strong> - ( optional, string ) the error message to
-	display above the input field.</li>
-
-	<li><strong>before_field</strong> - ( optional, string ) the HTML string to
-	insert before the input field output.</li>
-
-	<li><strong>after_field</strong> - ( optional, string ) the HTML string to
-	insert after the input field output.</li>
-
-	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false,
-	the section will not be registered.</li>
-
-	<li><strong>order</strong> - ( optional, integer ) the order number of the
-	section. The higher the number is, the lower the position it gets.</li>
-
-	<li><strong>label</strong> - ( optional|mandatory, string|array ) the text
-	label(s) associated with and displayed along with the input field. Some input
-	types can ignore this key while some require it.</li>
-
-	<li><strong>default</strong> - ( optional, string|array ) the default value(s)
-	assigned to the input tag's value attribute.</li>
-
-	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to
-	the input tag's <em>value</em> attribute to override the default or stored
-	value.</li>
-
-	<li><strong>delimiter</strong> - ( optional, string|array ) the HTML string that
-	delimits multiple elements. This is available if the <var>label</var> key is
-	passed as array. It will be enclosed in inline-block elements so the passed HTML
-	string should not contain block elements.</li>
-
-	<li><strong>before_input</strong> - ( optional, string|array ) the HTML string
-	inserted right before the input tag. It will be enclosed in the
-	<code>label</code> tag so the passed HTML string should not contain block
-	elements.</li>
-
-	<li><strong>after_input</strong> - ( optional, string|array ) the HTML string
-	inserted right after the input tag. It will be enclosed in the
-	<code>label</code> tag so the passed HTML string should not contain block
-	elements.</li>
-
-	<li><strong>class_attribute</strong> - ( optional, string|array ) the value(s)
-	assigned to the input tag's <em>class</em>.</li>
-
-	<li><strong>label_min_width</strong> - ( optional, string|array ) the inline
-	style property of the <em>min-width</em> of the label tag for the field in pixel
-	without the unit. Default: <code>&lt;span
-	class="php-num"&gt;120&lt;/span&gt;</code>.</li>
-
-	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to
-	true, the <em>disabled</em> attribute will be inserted into the field input
-	tag.</li>
-
-	<li><strong>help</strong> - ( optional, string ) the help description added to
-	the contextual help tab.</li>
-
-	<li><strong>help_aside</strong> - ( optional, string ) the additional help
-	description for the side bar of the contextual help tab.</li>
-
-	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether
-	the fields should be repeatable. If it yields true, the plus and the minus
-	buttons appear next to each field that lets the user add/remove the fields.
-	Optionally an setting array can be passed.
-		<h4>Repeatable Fields Setting Array</h4>
-
-		<ul>
-			<li><code>&lt;span class="php-keyword2"&gt;max&lt;/span&gt;</code> - the allowed
-			maximum number of fields to be repeated.</li>
-
-			<li><code>&lt;span class="php-keyword2"&gt;min&lt;/span&gt;</code> - the allowed
-			minimum number of fields to be repeated.</li>
-		</ul>
-	</li>
-
-	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value
-	pairs representing the attribute and its property. Note that some field types
-	have specific keys in the first dimensions. e.g.<code>&lt;span
-	class="php-keyword1"&gt;array&lt;/span&gt;( &lt;span
-	class="php-quote"&gt;'class'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'my_custom_class_selector'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'style'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'background-color:#777'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'size'&lt;/span&gt; =&gt; &lt;span
-	class="php-num"&gt;20&lt;/span&gt;, )</code></li>
-</ul>
-
-<h4>Field Types</h4>
-
-<p>Each field type uses specific array keys.</p>
-
-<ul>
-	<li><strong>text</strong> - a text input field which allows the user to type
-	text.</li>
-
-	<li><strong>password</strong> - a password input field which allows the user to
-	type text.</li>
-
-	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do
-	not support these.</li>
-
-	<li><strong>textarea</strong> - a textarea input field. The following array keys
-	are supported.
-		<ul>
-			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text
-			editor pass a non-empty value. It accept a setting array of the
-			<code>_WP_Editors</code> class defined in the core. For more information, see
-			the argument section of <a
-			href="http://codex.wordpress.org/Function_Reference/wp_editor"
-			target="_blank">this page</a>.</li>
-		</ul>
-	</li>
-
-	<li><strong>radio</strong> - a radio button input field.</li>
-
-	<li><strong>checkbox</strong> - a check box input field.</li>
-
-	<li><strong>select</strong> - a dropdown input field.</li>
-
-	<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true,
-	the <em>multiple</em> attribute will be inserted into the field input tag, which
-	enables the multiple selections for the user.</li>
-
-	<li><strong>size</strong> - a size input field. This is a combination of number
-	and select fields.</li>
-
-	<li><strong>units</strong> - ( optional, array ) defines the units to show. e.g.
-	<code>&lt;span class="php-keyword1"&gt;array&lt;/span&gt;( &lt;span
-	class="php-quote"&gt;'px'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'px'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'%'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'%'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'em'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'em'&lt;/span&gt; )</code> Default: <code>&lt;span
-	class="php-keyword1"&gt;array&lt;/span&gt;( &lt;span
-	class="php-quote"&gt;'px'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'px'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'%'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'%'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'em'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'em'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'ex'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'ex'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'in'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'in'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'cm'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'cm'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'mm'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'mm'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'pt'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'pt'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'pc'&lt;/span&gt; =&gt; &lt;span
-	class="php-quote"&gt;'pc'&lt;/span&gt; )</code></li>
-
-	<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true,
-	the <em>multiple</em> attribute will be inserted into the field input tag, which
-	enables the multiple selections for the user.</li>
-
-	<li><strong>attributes</strong> - ( optional, array ) The attributes array of
-	this field type has four initial keys: size, unit, optgroup, and option and they
-	have a regular attribute array in each.</li>
-
-	<li><strong>hidden</strong> - a hidden input field.</li>
-
-	<li><strong>file</strong> - a file upload input field.</li>
-
-	<li><strong>submit</strong> - a submit button input field.</li>
-
-	<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit
-	button.</li>
-
-	<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected
-	to after submitting the input form.</li>
-
-	<li><strong>is_reset</strong> - [2.1.2+] ( optional, boolean ) the option key to
-	delete. Set 1 for the entire option.</li>
-
-	<li><strong>import</strong> - an inport input field. This is a custom file and
-	submit field.</li>
-
-	<li><strong>option_key</strong> - ( optional, string ) the option table key to
-	save the importing data.</li>
-
-	<li><strong>format</strong> - ( optional, string ) the import format. json, or
-	array is supported. Default: array</li>
-
-	<li><strong>is_merge</strong> - ( optional, boolean ) [2.0.5+] determines
-	whether the imported data should be merged with the existing options.</li>
-
-	<li><strong>export</strong> - an export input field. This is a custom submit
-	field.</li>
-
-	<li><strong>file_name</strong> - ( optional, string ) the file name to
-	download.</li>
-
-	<li><strong>format</strong> - ( optional, string ) the format type. array, json,
-	or text is supported. Default: array.</li>
-
-	<li><strong>data</strong> - ( optional, string|array|object ) the data to
-	export.</li>
-
-	<li><strong>image</strong> - an image input field. This is a custom text field
-	with an attached JavaScript script.</li>
-
-	<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to
-	false, the image preview will be disabled.</li>
-
-	<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the
-	array of the attribute names of the image to save. If this is set, the field
-	will be an array with the specified attributes. The supported attributes are,
-	'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note
-	that for external URLs, ID will not be captured. e.g. <code>&lt;span
-	class="php-quote"&gt;'attributes_to_store'&lt;/span&gt; =&gt; &lt;span
-	class="php-keyword1"&gt;array&lt;/span&gt;( &lt;span
-	class="php-quote"&gt;'id'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'caption'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'description'&lt;/span&gt; )</code></li>
-
-	<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
-	whether external URL can be set via the uploader.</li>
-
-	<li><strong>attributes</strong> - ( optional, array ) The attributes array of
-	this field type has three keys: input, button, and preview and they have a
-	regular attribute array in each.</li>
-
-	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text
-	field with an attached JavaScript script.</li>
-
-	<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the
-	array of the attribute names of the image to save. If this is set, the field
-	will be an array with the specified attributes. The supported attributes are,
-	'id', 'caption', and 'description'. Note that for external URLs, ID will not be
-	captured. e.g. <code>&lt;span
-	class="php-quote"&gt;'attributes_to_store'&lt;/span&gt; =&gt; &lt;span
-	class="php-keyword1"&gt;array&lt;/span&gt;( &lt;span
-	class="php-quote"&gt;'id'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'caption'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'description'&lt;/span&gt; )</code></li>
-
-	<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
-	whether external URL can be set via the uploader.</li>
-
-	<li><strong>color</strong> - a color picker input field. This is a custom text
-	field with a JavaScript script.</li>
-
-	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check
-	boxes listing a specified taxonomy. This does not accept to create multiple
-	fields by passing an array of labels.</li>
-
-	<li><strong>taxonomy_slugs</strong> - ( optional, array ) the taxonomy slug to
-	list.</li>
-
-	<li><strong>max_width</strong> - ( optional, string ) the inline style property
-	value of <em>max-width</em> of this element. Include the unit such as px, %.
-	Default: 100%</li>
-
-	<li><strong>height</strong> - ( optional, string ) the inline style property
-	value of <em>height</em> of this element. Include the unit such as px, %.
-	Default: 250px</li>
-
-	<li><strong>posttype</strong> - a posttype check list. This is a set of check
-	boxes listing post type slugs.</li>
-
-	<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs
-	not to be listed. e.g.<code>&lt;span class="php-keyword1"&gt;array&lt;/span&gt;(
-	&lt;span class="php-quote"&gt;'revision'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'attachment'&lt;/span&gt;, &lt;span
-	class="php-quote"&gt;'nav_menu_item'&lt;/span&gt; )</code></li>
-</ul>
 
 <h4>Example</h4>
 
@@ -920,12 +623,286 @@ class="php-num">90</span>,
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aField1</var></dt>
-						<dd><code>array</code><br>$aField1 the field array.</dd>
+						<dd><code>array</code><br>the field array.
+<h4>Field Array</h4>
+
+<ul>
+	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using
+	non-alphabetic characters exept underscore and numbers.</li>
+
+	<li><strong>section_id</strong> - ( required, string ) the section ID that the
+	field belongs to.</li>
+
+	<li><strong>type</strong> - ( required, string ) the type of the field. The
+	supported types are listed below.</li>
+
+	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+
+	<li><strong>description</strong> - ( optional, string ) the description of the
+	field which is inserted into the after the input field tag.</li>
+
+	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is
+	displayed when the mouse is hovered over the field title.</li>
+
+	<li><strong>capability</strong> - ( optional, string ) the <a
+	href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a>"&gt;access
+	level of the section. If the page visitor does not have sufficient capability,
+	the section will be invisible to them.</li>
+
+	<li><strong>error_message</strong> - ( optional, string ) the error message to
+	display above the input field.</li>
+
+	<li><strong>before_field</strong> - ( optional, string ) the HTML string to
+	insert before the input field output.</li>
+
+	<li><strong>after_field</strong> - ( optional, string ) the HTML string to
+	insert after the input field output.</li>
+
+	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false,
+	the section will not be registered.</li>
+
+	<li><strong>order</strong> - ( optional, integer ) the order number of the
+	section. The higher the number is, the lower the position it gets.</li>
+
+	<li><strong>label</strong> - ( optional, string ) the text label(s) associated
+	with and displayed along with the input field. Some input types can ignore this
+	key.</li>
+
+	<li><strong>default</strong> - ( optional, string|array ) the default value(s)
+	assigned to the input tag's value attribute.</li>
+
+	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to
+	the input tag's <em>value</em> attribute to override the default and the stored
+	value.</li>
+
+	<li><strong>delimiter</strong> - ( optional, string ) the HTML string that
+	delimits multiple elements. This is available if the <var>label</var> key is
+	passed as array. It will be enclosed in inline-block elements so the passed HTML
+	string should not contain block elements.</li>
+
+	<li><strong>before_input</strong> - ( optional, string ) the HTML string
+	inserted right before the input tag. It will be enclosed in the
+	<code>label</code> tag so the passed HTML string should not contain block
+	elements.</li>
+
+	<li><strong>after_input</strong> - ( optional, string ) the HTML string inserted
+	right after the input tag. It will be enclosed in the <code>label</code> tag so
+	the passed HTML string should not contain block elements.</li>
+
+	<li><strong>label_min_width</strong> - ( optional, string|array ) the inline
+	style property of the <em>min-width</em> of the label tag for the field in pixel
+	without the unit. Default: <code>&lt;span
+	class="php-num"&gt;120&lt;/span&gt;</code>.</li>
+
+	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to
+	true, the <em>disabled</em> attribute will be inserted into the field input
+	tag.</li>
+
+	<li><strong>help</strong> - ( optional, string ) the help description added to
+	the contextual help tab.</li>
+
+	<li><strong>help_aside</strong> - ( optional, string ) the additional help
+	description for the side bar of the contextual help tab.</li>
+
+	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether
+	the fields should be repeatable. If it yields true, the plus and the minus
+	buttons appear next to each field that lets the user add/remove the fields.
+	Optionally an setting array can be passed.
+		<h5>Repeatable Fields Setting Array</h5>
+
+		<ul>
+			<li><strong>max</strong> - the allowed maximum number of fields to be
+			repeated.</li>
+
+			<li><strong>min&lt;/string&gt; - the allowed minimum number of fields to be
+			repeated.</strong></li>
+		</ul>
+	</li>
+
+	<li><strong>sortable</strong> - [3.0.0+] ( optional, array|boolean ) whether the
+	fields should be sortable. If it yields true, the fields will be enclosed in a
+	draggable box.</li>
+
+	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value
+	pairs representing the attribute and its property. Note that some field types
+	have specific keys in the first dimensions. e.g.<em>array( 'class' =&gt;
+	'my_custom_class_selector', 'style' =&gt; 'background-color:#777', 'size' =&gt;
+	20, )</em></li>
+</ul>
+
+<h4>Field Type Specific Keys</h4>
+
+<p>Each field type uses specific array keys.</p>
+
+<ul>
+	<li><strong>text</strong> - a text input field which allows the user to type
+	text.</li>
+
+	<li><strong>password</strong> - a password input field which allows the user to
+	type text.</li>
+
+	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do
+	not support these.</li>
+
+	<li><strong>textarea</strong> - a textarea input field. The following array keys
+	are supported.
+		<ul>
+			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text
+			editor pass a non-empty value. It accept a setting array of the
+			<code>_WP_Editors</code> class defined in the core. For more information, see
+			the argument section of <a
+			href="http://codex.wordpress.org/Function_Reference/wp_editor"
+			target="_blank">this page</a>.</li>
+		</ul>
+	</li>
+
+	<li><strong>radio</strong> - a radio button input field.</li>
+
+	<li><strong>checkbox</strong> - a check box input field.</li>
+
+	<li><strong>select</strong> - a drop-down input field.
+		<ul>
+			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true,
+			the <em>multiple</em> attribute will be inserted into the field input tag, which
+			enables the multiple selections for the user.</li>
+		</ul>
+	</li>
+
+	<li><strong>size</strong> - a size input field. This is a combination of number
+	and select fields.
+		<ul>
+			<li><strong>units</strong> - ( optional, array ) defines the units to show. e.g.
+			<em>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em' )</em> Default:
+			<em>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em', 'ex' =&gt; 'ex',
+			'in' =&gt; 'in', 'cm' =&gt; 'cm', 'mm' =&gt; 'mm', 'pt' =&gt; 'pt', 'pc' =&gt;
+			'pc' )</em></li>
+
+			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true,
+			the <em>multiple</em> attribute will be inserted into the field input tag, which
+			enables the multiple selections for the user.</li>
+
+			<li><strong>attributes</strong> - ( optional, array ) The attributes array of
+			this field type has four initial keys: size, unit, optgroup, and option and they
+			have a regular attribute array in each.</li>
+		</ul>
+	</li>
+
+	<li><strong>hidden</strong> - a hidden input field.</li>
+
+	<li><strong>file</strong> - a file upload input field.</li>
+
+	<li><strong>submit</strong> - a submit button input field.
+		<ul>
+			<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit
+			button.</li>
+
+			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected
+			to after submitting the input form.</li>
+
+			<li><strong>is_reset</strong> - [2.1.2+] ( optional, boolean ) the option key to
+			delete. Set 1 for the entire option.</li>
+		</ul>
+	</li>
+
+	<li><strong>import</strong> - an import input field. This is a custom file and
+	submit field.
+		<ul>
+			<li><strong>option_key</strong> - ( optional, string ) the option table key to
+			save the importing data.</li>
+
+			<li><strong>format</strong> - ( optional, string ) the import format. json, or
+			array is supported. Default: array</li>
+
+			<li><strong>is_merge</strong> - ( optional, boolean ) [2.0.5+] determines
+			whether the imported data should be merged with the existing options.</li>
+		</ul>
+	</li>
+
+	<li><strong>export</strong> - an export input field. This is a custom submit
+	field.
+		<ul>
+			<li><strong>file_name</strong> - ( optional, string ) the file name to
+			download.</li>
+
+			<li><strong>format</strong> - ( optional, string ) the format type. array, json,
+			or text is supported. Default: array.</li>
+
+			<li><strong>data</strong> - ( optional, string|array|object ) the data to
+			export.</li>
+		</ul>
+	</li>
+
+	<li><strong>image</strong> - an image input field. This is a custom text field
+	with an attached JavaScript script.
+		<ul>
+			<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to
+			false, the image preview will be disabled.</li>
+
+			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the
+			array of the attribute names of the image to save. If this is set, the field
+			will be an array with the specified attributes. The supported attributes are,
+			'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note
+			that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store'
+			=&gt; array( 'id', 'caption', 'description' )</em></li>
+
+			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
+			whether external URL can be set via the uploader.</li>
+
+			<li><strong>attributes</strong> - ( optional, array ) The attributes array of
+			this field type has three keys: input, button, and preview and they have a
+			regular attribute array in each.</li>
+		</ul>
+	</li>
+
+	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text
+	field with an attached JavaScript script.
+		<ul>
+			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the
+			array of the attribute names of the image to save. If this is set, the field
+			will be an array with the specified attributes. The supported attributes are,
+			'id', 'caption', and 'description'. Note that for external URLs, ID will not be
+			captured. e.g. <em>'attributes_to_store' =&gt; array( 'id', 'caption',
+			'description' )</em></li>
+
+			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
+			whether external URL can be set via the uploader.</li>
+		</ul>
+	</li>
+
+	<li><strong>color</strong> - a color picker input field. This is a custom text
+	field with a JavaScript script.</li>
+
+	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check
+	boxes listing a specified taxonomy. This does not accept to create multiple
+	fields by passing an array of labels.
+		<ul>
+			<li><strong>taxonomy_slugs</strong> - ( optional, array ) the taxonomy slug to
+			list.</li>
+
+			<li><strong>max_width</strong> - ( optional, string ) the inline style property
+			value of <em>max-width</em> of this element. Include the unit such as px, %.
+			Default: 100%</li>
+
+			<li><strong>height</strong> - ( optional, string ) the inline style property
+			value of <em>height</em> of this element. Include the unit such as px, %.
+			Default: 250px</li>
+		</ul>
+	</li>
+
+	<li><strong>posttype</strong> - a post-type check list. This is a set of check
+	boxes listing post type slugs.
+		<ul>
+			<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs
+			not to be listed. e.g.<em>array( 'revision', 'attachment', 'nav_menu_item'
+			)</em></li>
+		</ul>
+	</li>
+</ul>
+</dd>
 						<dt><var>$aField2</var></dt>
-						<dd><code>array</code><br>$aField2 ( optional ) another field array.</dd>
+						<dd><code>array</code><br>( optional ) another field array.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>array</code><br>$_and_more ( optional ) add more field arrays to the next parameters as many as
-necessary.</dd>
+						<dd><code>array</code><br>( optional ) add more field arrays to the next parameters as many as necessary.</dd>
 					</dl></div>
 
 
@@ -958,7 +935,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#428-458" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#440-470" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -970,7 +947,7 @@ to three.<br>
 				
 <p>Adds the given field array items into the field array property.</p>
 
-<p>Itentical to the addSettingFields() method except that this method does not
+<p>Identical to the addSettingFields() method except that this method does not
 accept enumerated parameters.</p>
 
 
@@ -978,8 +955,8 @@ accept enumerated parameters.</p>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$asField</var></dt>
-						<dd><code>array|string</code><br>$asField the field array or the target section ID. If the target section ID is
-set, the section_id key can be omitted from the next passing field array.</dd>
+						<dd><code>array|string</code><br>the field array or the target section ID. If the target section ID is set, the
+section_id key can be omitted from the next passing field array.</dd>
 					</dl></div>
 
 
@@ -1005,7 +982,7 @@ set, the section_id key can be omitted from the next passing field array.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#460-484" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#472-497" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1021,22 +998,24 @@ set, the section_id key can be omitted from the next passing field array.</dd>
 specified ones.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;removeSettingFields(
-&lt;span class="php-quote"&gt;'fieldID_A'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'fieldID_B'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'fieldID_C'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'fieldID_D'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;removeSettingFields( <span
+class="php-quote">'fieldID_A'</span>, <span
+class="php-quote">'fieldID_B'</span>, <span
+class="php-quote">'fieldID_C'</span>, <span
+class="php-quote">'fieldID_D'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sFieldID1</var></dt>
-						<dd><code>string</code><br>$sFieldID1 the field ID to remove.</dd>
+						<dd><code>string</code><br>the field ID to remove.</dd>
 						<dt><var>$sFieldID2</var></dt>
-						<dd><code>string</code><br>$sFieldID2 ( optional ) another field ID to remove.</dd>
+						<dd><code>string</code><br>( optional ) another field ID to remove.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>$_and_more ( optional ) add more field IDs to the next parameters as many as
-necessary.</dd>
+						<dd><code>string</code><br>( optional ) add more field IDs to the next parameters as many as necessary.</dd>
 					</dl></div>
 
 
@@ -1069,7 +1048,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFieldErrors">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#486-525" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#499-548" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1087,52 +1066,51 @@ temporary area( transient ) of the options database table.</p>
 
 <h4>Example</h4>
 
-<pre><span class="php-keyword1">public</span> <span
-class="php-keyword1">function</span> validation_first_page_verification( <span
-class="php-var">$aInput</span>, <span
-class="php-var">$aOldPageOptions</span> ) { <span
-class="php-comment">// valication_ + page slug + _ + tab slug</span>
+<pre>
+<span class="php-keyword1">public</span> <span
+class="php-keyword1">function</span> validation_APF_Demo_verify_text_field_submit( <span
+class="php-var">$aNewInput</span>, <span
+class="php-var">$aOldOptions</span> ) {
+
+        <span
+class="php-comment">// 1. Set a flag.</span>
         <span
 class="php-var">$bVerified</span> = <span
 class="php-keyword1">true</span>;
+
+        <span
+class="php-comment">// 2. Prepare an error array.</span>
         <span
 class="php-var">$aErrors</span> = <span
 class="php-keyword1">array</span>();
+
         <span
-class="php-comment">// Check if the submitted value meets your criteria. As an example, here a numeric value is expected.</span>
+class="php-comment">// 3. Check if the submitted value meets your criteria.</span>
         <span
-class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span
-class="php-var">$aInput</span>[<span
-class="php-quote">'first_page'</span>][<span
-class="php-quote">'verification'</span>][<span
-class="php-quote">'verify_text_field'</span>] ) &amp;&amp; ! <span
+class="php-keyword1">if</span> ( ! <span
 class="php-keyword2">is_numeric</span>( <span
-class="php-var">$aInput</span>[<span
-class="php-quote">'first_page'</span>][<span
-class="php-quote">'verification'</span>][<span
+class="php-var">$aNewInput</span>[<span
 class="php-quote">'verify_text_field'</span>] ) ) {
                 <span
-class="php-comment">// Start with the section key in $aErrors, not the key of page slug.</span>
-                <span
 class="php-var">$aErrors</span>[<span
-class="php-quote">'verification'</span>][<span
-class="php-quote">'verify_text_field'</span>] = <span
-class="php-quote">'The value must be numeric: '</span> . <span
-class="php-var">$aInput</span>[<span
-class="php-quote">'first_page'</span>][<span
-class="php-quote">'verification'</span>][<span
+class="php-quote">'verify_text_field'</span>] = __( <span
+class="php-quote">'The value must be numeric:'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> )
+                        . <span
+class="php-var">$aNewInput</span>[<span
 class="php-quote">'verify_text_field'</span>];
                 <span
 class="php-var">$bVerified</span> = <span
 class="php-keyword1">false</span>;
         }
+
         <span
-class="php-comment">// An invalid value is found.</span>
+class="php-comment">// 4. An invalid value is found.</span>
         <span
 class="php-keyword1">if</span> ( ! <span
 class="php-var">$bVerified</span> ) {
                 <span
-class="php-comment">// Set the error array for the input fields.</span>
+class="php-comment">// 4-1. Set the error array for the input fields.</span>
                 <span
 class="php-var">$this</span>-&gt;setFieldErrors( <span
 class="php-var">$aErrors</span> );
@@ -1141,23 +1119,27 @@ class="php-var">$this</span>-&gt;setSettingNotice( <span
 class="php-quote">'There was an error in your input.'</span> );
                 <span
 class="php-keyword1">return</span> <span
-class="php-var">$aOldPageOptions</span>;
+class="php-var">$aOldOptions</span>;
         }
+
         <span
-class="php-keyword1">return</span> <span class="php-var">$aInput</span>;
-}</pre>
+class="php-keyword1">return</span> <span
+class="php-var">$aNewInput</span>;
+
+}
+</pre>
 
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aErrors</var></dt>
-						<dd><code>array</code><br>$aErrors the field error array. The structure should follow the one contained in
-the submitted $_POST array.</dd>
+						<dd><code>array</code><br>the field error array. The structure should follow the one contained in the
+submitted $_POST array.</dd>
 						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>$sID this should be the page slug of the page that has the dealing form field.</dd>
+						<dd><code>string</code><br>this should be the page slug of the page that has the dealing form field.</dd>
 						<dt><var>$nSavingDuration</var></dt>
-						<dd><code>integer</code><br>$nSavingDuration the transient's lifetime. 300 seconds means 5 minutes.</dd>
+						<dd><code>integer</code><br>the transient's lifetime. 300 seconds means 5 minutes.</dd>
 					</dl></div>
 
 
@@ -1182,14 +1164,14 @@ the passed ID )<br>
 
 			<td class="attributes"><code>
 				 public 
-				
+				string|null
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#527-549" title="Go to source code">getFieldValue</a>( <span>mixed <var>$sFieldID</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#550-573" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1201,12 +1183,20 @@ the passed ID )<br>
 				
 <p>Retrieves the specified field value stored in the options.</p>
 
-<p>Useful when you don't know the section name but it's a bit slower than
-accessing the property value by specifying the section name.</p>
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sFieldID</var></dt>
+						<dd><code>string</code><br>The field ID.</dd>
+					</dl></div>
 
-
+					<h4>Returns</h4>
+					<div class="list">
+						<code>string|null</code><br>If the field ID is not set in the saved option array, it will return null.
+Otherwise, the set value. If the user has not submitted the form, the framework
+will try to return the default value set in the field definition array.<br>
+					</div>
 
 
 					<h4>Since</h4>
@@ -1231,7 +1221,6 @@ return a default value even if it's not saved in the database.<br>
 		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Page.html#methods">AdminPageFramework_Page</a></h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Page.html#___construct">__construct()</a></code>, 
 			<code><a href="class-AdminPageFramework_Page.html#__replyToFinalizeInPageTabs">_replyToFinalizeInPageTabs()</a></code>, 
 			<code><a href="class-AdminPageFramework_Page.html#_addInPageTab">addInPageTab()</a></code>, 
 			<code><a href="class-AdminPageFramework_Page.html#_addInPageTabs">addInPageTabs()</a></code>, 
@@ -1243,6 +1232,7 @@ return a default value even if it's not saved in the database.<br>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Page_MetaBox</h3>
 		<p class="elementList">
+			<code>__construct()</code>, 
 			<code>_getNumberOfColumns()</code>, 
 			<code>_printMetaBox()</code>, 
 			<code>_replyToAddMetaboxScript()</code>, 
