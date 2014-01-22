@@ -33,6 +33,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	
 	/**
 	 * Defines the default key-values of all field types.
+	 * 
+	 * @internal
 	 */
 	protected static $_aDefaultKeys = array(
 		'value'	=>	null,	// ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
