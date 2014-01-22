@@ -391,7 +391,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
 	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head></code> or before<code></body></code> Default: <em>false</em>.</li>
 	 * </ul>
