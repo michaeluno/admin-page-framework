@@ -215,7 +215,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	/**
 	 * The method for all the necessary set-ups. 
 	 * 
-	 * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the <code>start_{extended class name}</code> hook that is triggered at the end of the class constructor.
+	 * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the <strong>start_{extended class name}</strong> hook that is triggered at the end of the class constructor.
 	 * 
 	 * <h4>Example</h4>
 	 * <code>public function setUp() {
@@ -307,7 +307,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * );</code>
 	 * 
 	 * @since			3.0.0
-	 * @param			array			The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: <code>array( '/css/mystyle.css', '/css/mystyle2.css' )</code>
+	 * @param			array			The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: <em>array( '/css/mystyle.css', '/css/mystyle2.css' )</em>
 	 * @param			string			(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			(optional) The argument array for more advanced parameters.
@@ -393,7 +393,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head></code> or before<code></body></code> Default: <code>false</code>.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head></code> or before<code></body></code> Default: <em>false</em>.</li>
 	 * </ul>
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
@@ -412,7 +412,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @param			string			the tagged HTML link text.
 	* @param			string			( optional ) another tagged HTML link text.
@@ -449,7 +448,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the overall capability.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setCpability( 'read' );		// let subscribers access the pages.</code>
+	 * <code>$this->setCpability( 'read' );		// let subscribers access the pages.
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
@@ -466,7 +466,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the given HTML text into the footer on the left hand side.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );</code>
+	 * <code>$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
@@ -485,12 +486,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the given HTML text into the footer on the right hand side.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setFooterInfoRight( '<br />Custom Text on the right hand side.' );</code>
+	 * <code>$this->setFooterInfoRight( '<br />Custom Text on the right hand side.' );
+	 * </code>
 	 * 
 	 * @access			public
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
-	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sRight']</code> instead.
 	 * @param			string			The HTML code to insert.
 	 * @param			boolean			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
@@ -505,7 +506,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets an admin notice.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setAdminNotice( sprintf( 'Please click <a href="%1$s">here</a> to upgrade the options.', admin_url( 'admin.php?page="my_page"' ) ), 'updated' );</code>
+	 * <code>$this->setAdminNotice( sprintf( 'Please click <a href="%1$s">here</a> to upgrade the options.', admin_url( 'admin.php?page="my_page"' ) ), 'updated' );
+	 * </code>
 	 * 
 	 * @access			public
 	 * @remark			It should be used before the 'admin_notices' hook is triggered.
@@ -544,7 +546,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the disallowed query keys in the links that the framework generates.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setDisallowedQueryKeys( 'my-custom-admin-notice' );</code>
+	 * <code>$this->setDisallowedQueryKeys( 'my-custom-admin-notice' );
+	 * </code>
 	 * 
 	 * @since			2.1.2
 	 * @since			3.0.0			It also accepts a string. Changed the scope to public.
@@ -576,6 +579,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @param			array		the argument array. The first element holds the parameters passed to the called method.
 	 * @return			mixed		depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
 	 * @since			2.0.0
+	 * @internal
 	 */
 	public function __call( $sMethodName, $aArgs=null ) {		
 				 
