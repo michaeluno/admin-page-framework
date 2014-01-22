@@ -243,6 +243,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the `sortable_columns_{post type slug}` filter for the post type class.
 * Deprecated: ( ***Breaking Change*** ) the `setColumnHeader()` method in the post type class.
 * Deprecated: ( ***Breaking Change*** ) the `setSortableColumns()` method in the post type class.
+* Deprecated: ( ***Breaking Change*** ) the `addSubMenuLink()` method in the main class.
+* Deprecated: ( ***Breaking Change*** ) the `addSubMenuPages()` and the addSubMenuPage() method in the main class.
 * Added: the minified version of the library.
 * Added: the ability to add fields in the taxonomy definition page.
 * Added: the ability to add meta boxes in pages added by the framework.
