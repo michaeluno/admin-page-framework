@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class AdminPageFramework_PostType | Admin Page Framework Documentation</title>
+
+	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
+	<script type="text/javascript" src="elementlist.js?3308423397"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?297378730">
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+							<a href="package-AdminPageFramework.PostType.html" title="Summary of AdminPageFramework\PostType"><span>Package</span></a>
+						</li>
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="">
+			<input type="hidden" name="ie" value="UTF-8">
+			<input type="text" name="q" class="search-query" placeholder="Search">
+		</form>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.Debug.html">Debug</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="active main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Property.html">Property</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Utility.html">Utility</a>
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-AdminPageFramework_PostType.html">AdminPageFramework_PostType</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_PostType</h1>
+
+
+	<div class="description">
+	
+<p>Provides methods for registering custom post types.</p>
+
+<h2>Hooks</h2>
+
+<p>The class automatically creates WordPress action and filter hooks associated
+with the class methods. The class methods corresponding to the name of the below
+actions and filters can be extended to modify the page output. Those methods are
+the callbacks of the filters and actions.</p>
+
+<h3>Methods and Action Hooks</h3>
+
+<ul>
+	<li><code>start_ + extended &lt;span class="php-keyword1"&gt;class&lt;/span&gt;
+	name</code> – triggered at the end of the class constructor.</li>
+</ul>
+
+<h3>Methods and Filter Hooks</h3>
+
+<ul>
+	<li><code>cell_ + post type + _ + column &lt;span
+	class="php-keyword2"&gt;key&lt;/span&gt;</code> – receives the output string
+	for the listing table of the custom post type's post. The first parameter:
+	output string. The second parameter: the post ID.</li>
+</ul>
+
+<h3>Remarks</h3>
+
+<p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the
+callback method name.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		<b>Abstract</b><br>
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.PostType.html">PostType</a><br>
+
+				<b>Since:</b>
+				2.0.0<br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_PostType.html#3-585" title="Go to source code">post_type/AdminPageFramework_PostType.php</a><br>
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="__construct" id="___construct">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___construct">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#39-135" title="Go to source code">__construct</a>( <span>string <var>$sPostType</var></span>, <span>array <var>$aArgs</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Constructs the class object, AdminPageFramework_PostType.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Constructs the class object, AdminPageFramework_PostType.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-keyword1">new</span> APF_PostType(
+        <span
+class="php-quote">'apf_posts'</span>,    <span
+class="php-comment">// post type slug</span>
+        <span
+class="php-keyword1">array</span>(                  <span
+class="php-comment">// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments</span>
+                <span
+class="php-quote">'labels'</span> =&gt; <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'name'</span> =&gt; <span
+class="php-quote">'Admin Page Framework'</span>,
+                        <span
+class="php-quote">'singular_name'</span> =&gt; <span
+class="php-quote">'Admin Page Framework'</span>,
+                        <span
+class="php-quote">'add_new'</span> =&gt; <span
+class="php-quote">'Add New'</span>,
+                        <span
+class="php-quote">'add_new_item'</span> =&gt; <span
+class="php-quote">'Add New APF Post'</span>,
+                        <span
+class="php-quote">'edit'</span> =&gt; <span
+class="php-quote">'Edit'</span>,
+                        <span
+class="php-quote">'edit_item'</span> =&gt; <span
+class="php-quote">'Edit APF Post'</span>,
+                        <span
+class="php-quote">'new_item'</span> =&gt; <span
+class="php-quote">'New APF Post'</span>,
+                        <span
+class="php-quote">'view'</span> =&gt; <span
+class="php-quote">'View'</span>,
+                        <span
+class="php-quote">'view_item'</span> =&gt; <span
+class="php-quote">'View APF Post'</span>,
+                        <span
+class="php-quote">'search_items'</span> =&gt; <span
+class="php-quote">'Search APF Post'</span>,
+                        <span
+class="php-quote">'not_found'</span> =&gt; <span
+class="php-quote">'No APF Post found'</span>,
+                        <span
+class="php-quote">'not_found_in_trash'</span> =&gt; <span
+class="php-quote">'No APF Post found in Trash'</span>,
+                        <span
+class="php-quote">'parent'</span> =&gt; <span
+class="php-quote">'Parent APF Post'</span>
+                ),
+                <span
+class="php-quote">'public'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'menu_position'</span> =&gt; <span
+class="php-num">110</span>,
+                <span
+class="php-quote">'supports'</span> =&gt; <span
+class="php-keyword1">array</span>( <span
+class="php-quote">'title'</span> ),
+                <span
+class="php-quote">'taxonomies'</span> =&gt; <span
+class="php-keyword1">array</span>( <span
+class="php-quote">''</span> ),
+                <span
+class="php-quote">'menu_icon'</span> =&gt; <span
+class="php-keyword1">null</span>,
+                <span
+class="php-quote">'has_archive'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_admin_column'</span> =&gt; <span
+class="php-keyword1">true</span>,    <span
+class="php-comment">// for custom taxonomies</span>
+        )
+);</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sPostType</var></dt>
+						<dd><code>string</code><br>$sPostType The post type slug.</dd>
+						<dt><var>$aArgs</var></dt>
+						<dd><code>array</code><br>$aArgs The <a
+href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">argument
+array</a> passed to register_post_type().</dd>
+						<dt><var>$sCallerPath</var></dt>
+						<dd><code>string</code><br>$sCallerPath The path of the caller script. This is used to retrieve the script
+information to insert it into the footer. If not set, the framework tries to
+detect it.</dd>
+						<dt><var>$sTextDomain</var></dt>
+						<dd><code>string</code><br>$sTextDomain The text domain of the caller script.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							2.1.6 Added the $sTextDomain parameter.<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">http://codex.wordpress.org/Function_Reference/register_post_type#Arguments</a><br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setUp" id="_setUp">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setUp">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#141-172" title="Go to source code">setUp</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>The method for all necessary set-ups.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The method for all necessary set-ups.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-keyword1">public</span> <span
+class="php-keyword1">function</span> setUp() {
+                <span
+class="php-var">$this</span>-&gt;setAutoSave( <span
+class="php-keyword1">false</span> );
+                <span
+class="php-var">$this</span>-&gt;setAuthorTableFilter( <span
+class="php-keyword1">true</span> );
+                <span
+class="php-var">$this</span>-&gt;addTaxonomy(
+                        <span
+class="php-quote">'sample_taxonomy'</span>, <span
+class="php-comment">// taxonomy slug</span>
+                        <span
+class="php-keyword1">array</span>(                  <span
+class="php-comment">// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments</span>
+                                <span
+class="php-quote">'labels'</span> =&gt; <span
+class="php-keyword1">array</span>(
+                                        <span
+class="php-quote">'name'</span> =&gt; <span
+class="php-quote">'Genre'</span>,
+                                        <span
+class="php-quote">'add_new_item'</span> =&gt; <span
+class="php-quote">'Add New Genre'</span>,
+                                        <span
+class="php-quote">'new_item_name'</span> =&gt; <span
+class="php-quote">&quot;New Genre&quot;</span>
+                                ),
+                                <span
+class="php-quote">'show_ui'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                                <span
+class="php-quote">'show_tagcloud'</span> =&gt; <span
+class="php-keyword1">false</span>,
+                                <span
+class="php-quote">'hierarchical'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                                <span
+class="php-quote">'show_admin_column'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                                <span
+class="php-quote">'show_in_nav_menus'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                                <span
+class="php-quote">'show_table_filter'</span> =&gt; <span
+class="php-keyword1">true</span>,    <span
+class="php-comment">// framework specific key</span>
+                                <span
+class="php-quote">'show_in_sidebar_menus'</span> =&gt; <span
+class="php-keyword1">false</span>,       <span
+class="php-comment">// framework specific key</span>
+                        )
+                );
+        }</pre>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may override this method in their class definition.<br>
+							A callback for the <em>wp_loaded</em> hook.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueStyles" id="_enqueueStyles">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueStyles">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#177-185" title="Go to source code">enqueueStyles</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues styles by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues styles by page slug and tab slug.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueStyle" id="_enqueueStyle">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueStyle">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#186-206" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues a style by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues a style by page slug and tab slug.</p>
+
+<h4>Custom Argument Array for the Fourth Parameter</h4>
+
+<ul>
+	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	stylesheet.</li>
+
+	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
+	For more information, see <a
+	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+
+	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	number.</li>
+
+	<li><strong>media</strong> - ( optional, string ) the description of the field
+	which is inserted into after the input field tag.</li>
+</ul>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sSRC</var></dt>
+						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
+relative path to the root directory of WordPress. Example: '/css/mystyle.css'.</dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>string</code><br>The script handle ID. If the passed url is not a valid url string, an empty
+string will be returned.<br>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://codex.wordpress.org/Function_Reference/wp_enqueue_style</a><br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueScripts" id="_enqueueScripts">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueScripts">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#207-214" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues scripts by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues scripts by page slug and tab slug.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueScript" id="_enqueueScript">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueScript">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#215-248" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues a script by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues a script by page slug and tab slug.</p>
+
+<h4>Custom Argument Array for the Fourth Parameter</h4>
+
+<ul>
+	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	script.</li>
+
+	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
+	For more information, see <a
+	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+
+	<li><strong>version/strong&gt; - ( optional, string ) The stylesheet version
+	number.</strong></li>
+
+	<li><strong>translation</strong> - ( optional, array ) The translation array.
+	The handle ID will be used for the object name.</li>
+
+	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the
+	script before &lt; / head &gt; or before &lt; / body &gt; Default:
+	<code>&lt;span class="php-keyword1"&gt;false&lt;/span&gt;</code>.</li>
+</ul>
+
+<h4>Example</h4>
+
+<pre><span
+class="php-var">$this</span>-&gt;enqueueScript(
+        plugins_url( <span
+class="php-quote">'asset/js/test.js'</span> , __FILE__ ),   <span
+class="php-comment">// source url or path</span>
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'handle_id'</span> =&gt; <span
+class="php-quote">'my_script'</span>,     <span
+class="php-comment">// this handle ID also is used as the object name for the translation array below.</span>
+                <span
+class="php-quote">'translation'</span> =&gt; <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'a'</span> =&gt; <span
+class="php-quote">'hello world!'</span>,
+                        <span
+class="php-quote">'style_handle_id'</span> =&gt; <span
+class="php-var">$sStyleHandle</span>,     <span
+class="php-comment">// check the enqueued style handle ID here.</span>
+                ),
+        )
+);</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sSRC</var></dt>
+						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
+relative path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>string</code><br>The script handle ID. If the passed url is not a valid url string, an empty
+string will be returned.<br>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://codex.wordpress.org/Function_Reference/wp_enqueue_script</a><br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setColumnHeader" id="_setColumnHeader">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setColumnHeader">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#251-261" title="Go to source code">setColumnHeader</a>( <span>mixed <var>$aColumnHeaders</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Defines the column header items in the custom post listing table.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Defines the column header items in the custom post listing table.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							A callback for the <em>manage_{post type}_post)_columns</em> hook.<br>
+							The user may override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setSortableColumns" id="_setSortableColumns">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setSortableColumns">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#263-272" title="Go to source code">setSortableColumns</a>( <span>mixed <var>$aColumns</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Defines the sortable column items in the custom post listing table.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Defines the sortable column items in the custom post listing table.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							A callback for the <em>manage_edit-{post type}_sortable_columns</em> hook.<br>
+							The user may override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setAutoSave" id="_setAutoSave">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setAutoSave">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#277-289" title="Go to source code">setAutoSave</a>( <span>boolean <var>$bEnableAutoSave</var> = <span class="php-keyword1">True</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enables or disables the auto-save feature in the custom post type's post
+submission page.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enables or disables the auto-save feature in the custom post type's post
+submission page.</p>
+
+<h4>Example</h4>
+ <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setAutoSave( &lt;span
+class="php-keyword1"&gt;false&lt;/span&gt; );</code>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$bEnableAutoSave</var></dt>
+						<dd><code>boolean</code><br>$bEnableAutoSave If true, it enables the auto-save; othwerwise, it disables it.
+return void</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addTaxonomy" id="_addTaxonomy">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addTaxonomy">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#291-332" title="Go to source code">addTaxonomy</a>( <span>string <var>$sTaxonomySlug</var></span>, <span>array <var>$aArgs</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				Adds a custom taxonomy to the class post type.
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;addTaxonomy(
+        <span
+class="php-quote">'sample_taxonomy'</span>, <span
+class="php-comment">// taxonomy slug</span>
+        <span
+class="php-keyword1">array</span>(                  <span
+class="php-comment">// argument</span>
+                <span
+class="php-quote">'labels'</span> =&gt; <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'name'</span> =&gt; <span
+class="php-quote">'Genre'</span>,
+                        <span
+class="php-quote">'add_new_item'</span> =&gt; <span
+class="php-quote">'Add New Genre'</span>,
+                        <span
+class="php-quote">'new_item_name'</span> =&gt; <span
+class="php-quote">&quot;New Genre&quot;</span>
+                ),
+                <span
+class="php-quote">'show_ui'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_tagcloud'</span> =&gt; <span
+class="php-keyword1">false</span>,
+                <span
+class="php-quote">'hierarchical'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_admin_column'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_in_nav_menus'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_table_filter'</span> =&gt; <span
+class="php-keyword1">true</span>,    <span
+class="php-comment">// framework specific key</span>
+                <span
+class="php-quote">'show_in_sidebar_menus'</span> =&gt; <span
+class="php-keyword1">false</span>,       <span
+class="php-comment">// framework specific key</span>
+        )
+);</pre>
+
+			</div>
+
+			<div class="description detailed hidden">
+				Adds a custom taxonomy to the class post type.
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;addTaxonomy(
+        <span
+class="php-quote">'sample_taxonomy'</span>, <span
+class="php-comment">// taxonomy slug</span>
+        <span
+class="php-keyword1">array</span>(                  <span
+class="php-comment">// argument</span>
+                <span
+class="php-quote">'labels'</span> =&gt; <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'name'</span> =&gt; <span
+class="php-quote">'Genre'</span>,
+                        <span
+class="php-quote">'add_new_item'</span> =&gt; <span
+class="php-quote">'Add New Genre'</span>,
+                        <span
+class="php-quote">'new_item_name'</span> =&gt; <span
+class="php-quote">&quot;New Genre&quot;</span>
+                ),
+                <span
+class="php-quote">'show_ui'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_tagcloud'</span> =&gt; <span
+class="php-keyword1">false</span>,
+                <span
+class="php-quote">'hierarchical'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_admin_column'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_in_nav_menus'</span> =&gt; <span
+class="php-keyword1">true</span>,
+                <span
+class="php-quote">'show_table_filter'</span> =&gt; <span
+class="php-keyword1">true</span>,    <span
+class="php-comment">// framework specific key</span>
+                <span
+class="php-quote">'show_in_sidebar_menus'</span> =&gt; <span
+class="php-keyword1">false</span>,       <span
+class="php-comment">// framework specific key</span>
+        )
+);</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sTaxonomySlug</var></dt>
+						<dd><code>string</code><br>$sTaxonomySlug The taxonomy slug.</dd>
+						<dt><var>$aArgs</var></dt>
+						<dd><code>array</code><br>$aArgs The taxonomy argument array passed to the second parameter of the <a
+href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a>
+function.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments</a><br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setAuthorTableFilter" id="_setAuthorTableFilter">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setAuthorTableFilter">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#334-346" title="Go to source code">setAuthorTableFilter</a>( <span>boolean <var>$bEnableAuthorTableFileter</var> = <span class="php-keyword1">false</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Sets whether the author dropdown filter is enabled/disabled in the post type
+post list table.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets whether the author dropdown filter is enabled/disabled in the post type
+post list table.</p>
+
+<h4>Example</h4>
+ <code>this-&gt;setAuthorTableFilter( &lt;span
+class="php-keyword1"&gt;true&lt;/span&gt; );</code>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$bEnableAuthorTableFileter</var></dt>
+						<dd><code>boolean</code><br>$bEnableAuthorTableFileter If true, it enables the author filter; otherwise, it
+disables it.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setPostTypeArgs" id="_setPostTypeArgs">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setPostTypeArgs">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#348-360" title="Go to source code">setPostTypeArgs</a>( <span>array <var>$aArgs</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Sets the post type arguments.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets the post type arguments.</p>
+
+<p>This is only necessary if it is not set to the constructor.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aArgs</var></dt>
+						<dd><code>array</code><br>$aArgs The <a
+href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">array
+of arguments</a> to be passed to the second parameter of the
+<em>register_post_type()</em> function.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">http://codex.wordpress.org/Function_Reference/register_post_type#Arguments</a><br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setFooterInfoLeft" id="_setFooterInfoLeft">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setFooterInfoLeft">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#362-378" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Sets the given HTML text into the footer on the left hand side.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets the given HTML text into the footer on the left hand side.</p>
+
+<h4>Example</h4>
+ <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setFooterInfoLeft(
+&lt;span class="php-quote"&gt;'&amp;lt;br /&amp;gt;Custom Text on the left hand
+side.'&lt;/span&gt; );</code>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sHTML</var></dt>
+						<dd><code>string</code><br>$sHTML The HTML code to insert.</dd>
+						<dt><var>$bAppend</var></dt>
+						<dd><code>boolean</code><br>$bAppend If true, the text will be appended; otherwise, it will replace the
+default text.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setFooterInfoRight" id="_setFooterInfoRight">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setFooterInfoRight">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#380-396" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Sets the given HTML text into the footer on the right hand side.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets the given HTML text into the footer on the right hand side.</p>
+
+<h4>Example</h4>
+ <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setFooterInfoRight(
+&lt;span class="php-quote"&gt;'&amp;lt;br /&amp;gt;Custom Text on the right hand
+side.'&lt;/span&gt; );</code>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sHTML</var></dt>
+						<dd><code>string</code><br>$sHTML The HTML code to insert.</dd>
+						<dt><var>$bAppend</var></dt>
+						<dd><code>boolean</code><br>$bAppend If true, the text will be appended; otherwise, it will replace the
+default text.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addStyle" id="_addStyle">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addStyle">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#427-444" title="Go to source code">addStyle</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="registerPostType" id="_registerPostType">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_registerPostType">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#446-456" title="Go to source code">registerPostType</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="registerTaxonomies" id="_registerTaxonomies">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_registerTaxonomies">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#458-467" title="Go to source code">registerTaxonomies</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="removeTexonomySubmenuPages" id="_removeTexonomySubmenuPages">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_removeTexonomySubmenuPages">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#469-474" title="Go to source code">removeTexonomySubmenuPages</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="disableAutoSave" id="_disableAutoSave">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_disableAutoSave">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#476-482" title="Go to source code">disableAutoSave</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addAuthorTableFilter" id="_addAuthorTableFilter">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addAuthorTableFilter">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#484-503" title="Go to source code">addAuthorTableFilter</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Adds a dorpdown list to filter posts by author, placed above the post type
+listing table.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Adds a dorpdown list to filter posts by author, placed above the post type
+listing table.</p>
+
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addTaxonomyTableFilter" id="_addTaxonomyTableFilter">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addTaxonomyTableFilter">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#505-541" title="Go to source code">addTaxonomyTableFilter</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Adds drop-down lists to filter posts by added taxonomies, placed above the
+post type listing table.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Adds drop-down lists to filter posts by added taxonomies, placed above the
+post type listing table.</p>
+
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setTableFilterQuery" id="_setTableFilterQuery">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setTableFilterQuery">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#542-562" title="Go to source code">setTableFilterQuery</a>( <span>mixed <var>$oQuery</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setColumnCell" id="_setColumnCell">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setColumnCell">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#564-572" title="Go to source code">setColumnCell</a>( <span>mixed <var>$sColumnTitle</var></span>, <span>mixed <var>$iPostID</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="__call" id="___call">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___call">#</a>
+			<code><a href="source-class-AdminPageFramework_PostType.html#577-583" title="Go to source code">__call</a>( <span>mixed <var>$sMethodName</var></span>, <span>mixed <var>$aArgs</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

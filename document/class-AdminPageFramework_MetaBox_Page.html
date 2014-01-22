@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class AdminPageFramework_MetaBox_Page | Admin Page Framework Documentation</title>
+
+	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
+	<script type="text/javascript" src="elementlist.js?3308423397"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?297378730">
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+							<a href="package-AdminPageFramework.MetaBox.html" title="Summary of AdminPageFramework\MetaBox"><span>Package</span></a>
+						</li>
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="">
+			<input type="hidden" name="ie" value="UTF-8">
+			<input type="text" name="q" class="search-query" placeholder="Search">
+		</form>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.Debug.html">Debug</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
+						</li>
+				<li class="active main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Property.html">Property</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Utility.html">Utility</a>
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-AdminPageFramework_MetaBox.html">AdminPageFramework_MetaBox</a></li>
+				<li class="active"><a href="class-AdminPageFramework_MetaBox_Page.html">AdminPageFramework_MetaBox_Page</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_MetaBox_Page</h1>
+
+
+	<div class="description">
+	
+<p>Provides methods for creating meta boxes in pages added by the framework.</p>
+
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+AdminPageFramework_MetaBox_Base
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>AdminPageFramework_MetaBox_Page</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		<b>Abstract</b><br>
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.MetaBox.html">MetaBox</a><br>
+
+				<b>Since:</b>
+				3.0.0<br>
+				<b>Use:</b>
+				AdminPageFramework_Utility<br>
+				<b>Use:</b>
+				AdminPageFramework_Message<br>
+				<b>Use:</b>
+				AdminPageFramework_Debug<br>
+				<b>Use:</b>
+				AdminPageFramework_Property_Page<br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_MetaBox_Page.html#3-239" title="Go to source code">meta_box/AdminPageFramework_MetaBox_Page.php</a><br>
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="__construct" id="___construct">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___construct">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#17-53" title="Go to source code">__construct</a>( <span>string <var>$sMetaBoxID</var></span>, <span>string <var>$sTitle</var></span>, <span>string|array <var>$asPageSlugs</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$sContext</var> = <span class="php-quote">'normal'</span></span>, <span>string <var>$sPriority</var> = <span class="php-quote">'default'</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sMetaBoxID</var></dt>
+						<dd><code>string</code><br>$sMetaBoxID The meta box ID.</dd>
+						<dt><var>$sTitle</var></dt>
+						<dd><code>string</code><br>$sTitle The meta box title.</dd>
+						<dt><var>$asPageSlugs</var></dt>
+						<dd><code>string|array</code><br>$asPostTypeOrScreenID ( optional ) The post type(s) or screen ID that the meta
+box is associated with.</dd>
+						<dt><var>$sContext</var></dt>
+						<dd><code>string</code><br>$sContext ( optional ) The part of the page where the edit screen section should
+be shown ('normal', 'advanced', or 'side') Default: normal.</dd>
+						<dt><var>$sPriority</var></dt>
+						<dd><code>string</code><br>$sPriority ( optional ) The priority within the context where the boxes should
+show ('high', 'core', 'default' or 'low') Default: default.</dd>
+						<dt><var>$sCapability</var></dt>
+						<dd><code>string</code><br>$sCapability ( optional ) The <a
+href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the
+meta box. Default: edit_posts.</dd>
+						<dt><var>$sTextDomain</var></dt>
+						<dd><code>string</code><br>$sTextDomain ( optional ) The text domain applied to the displayed text
+messages. Default: admin-page-framework.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::__construct</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueStyles" id="_enqueueStyles">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueStyles">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#58-66" title="Go to source code">enqueueStyles</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues styles by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues styles by page slug and tab slug.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::enqueueStyles</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueStyle" id="_enqueueStyle">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueStyle">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#67-81" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues a style by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues a style by page slug and tab slug.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sSRC</var></dt>
+						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
+relative path to the root directory of WordPress. Example: '/css/mystyle.css'.</dd>
+						<dt><var>$sPageSlug</var></dt>
+						<dd><code>string</code><br>$sPageSlug (optional) The page slug that the stylesheet should be added to. If
+not set, it applies to all the pages created by the framework.</dd>
+						<dt><var>$sTabSlug</var></dt>
+						<dd><code>string</code><br>$sTabSlug (optional) The tab slug that the stylesheet should be added to. If not
+set, it applies to all the in-page tabs in the page.</dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>string</code><br>The script handle ID. If the passed url is not a valid url string, an empty
+string will be returned.<br>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://codex.wordpress.org/Function_Reference/wp_enqueue_style</a><br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::enqueueStyle</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueScripts" id="_enqueueScripts">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueScripts">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#82-89" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues scripts by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues scripts by page slug and tab slug.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.1.5<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::enqueueScripts</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enqueueScript" id="_enqueueScript">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enqueueScript">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#90-104" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Enqueues a script by page slug and tab slug.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Enqueues a script by page slug and tab slug.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sSRC</var></dt>
+						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
+relative path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
+						<dt><var>$sPageSlug</var></dt>
+						<dd><code>string</code><br>$sPageSlug (optional) The page slug that the script should be added to. If not
+set, it applies to all the pages created by the framework.</dd>
+						<dt><var>$sTabSlug</var></dt>
+						<dd><code>string</code><br>$sTabSlug (optional) The tab slug that the script should be added to. If not
+set, it applies to all the in-page tabs in the page.</dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>string</code><br>The script handle ID. If the passed url is not a valid url string, an empty
+string will be returned.<br>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://codex.wordpress.org/Function_Reference/wp_enqueue_script</a><br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::enqueueScript</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addSettingField" id="_addSettingField">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addSettingField">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#106-138" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Adds the given field array items into the field array property.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Adds the given field array items into the field array property.</p>
+
+<p>Identical to the addSettingFields() method except that this method does not
+accept enumerated parameters.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user may use this method in their extended class definition.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::addSettingField</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getFieldOutput" id="_getFieldOutput">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getFieldOutput">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#153-166" title="Go to source code">getFieldOutput</a>( <span>mixed <var>$aField</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Returns the field output.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Returns the field output.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_MetaBox_Base::getFieldOutput</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="_replyToValidateOptions" id="__replyToValidateOptions">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#__replyToValidateOptions">#</a>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#230-238" title="Go to source code">_replyToValidateOptions</a>( <span>mixed <var>$aNewOptions</var></span>, <span>mixed <var>$aOldOptions</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Validates the submitted option values.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Validates the submitted option values.</p>
+
+
+
+
+
+
+					<h4>Sicne</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
+		<p class="elementList">
+			<code>__call()</code>, 
+			<code>_replyToAddMetaBox()</code>, 
+			<code>_replyToLoadDefaultFieldTypeDefinitions()</code>, 
+			<code>_replyToPrintMetaBoxContents()</code>, 
+			<code>_replyToSaveMetaBoxFields()</code>, 
+			<code>addHelpText()</code>, 
+			<code>addSettingFields()</code>, 
+			<code>setOptionArray()</code>, 
+			<code>setUp()</code>
+		</p>
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+		<h2>Properties summary</h2>
+
+		<h3>Properties inherited from AdminPageFramework_MetaBox_Base</h3>
+		<p class="elementList">
+			<code><var>$oDebug</var></code>, 
+			<code><var>$oHeadTag</var></code>, 
+			<code><var>$oMsg</var></code>, 
+			<code><var>$oUtil</var></code>
+		</p>
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

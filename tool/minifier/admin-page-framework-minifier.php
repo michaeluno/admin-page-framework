@@ -7,12 +7,12 @@ require( dirname( __FILE__ ) . '/class/AdminPageFramework_Minifiler_ProgressBuff
 require( dirname( __FILE__ ) . '/class/AdminPageFramework_Minifier.php' );
 
 /* Set necessary paths */
-	
+$sPluginBaseDir = dirname( dirname( dirname( __FILE__ ) ) );
 	/* Set the source path */
-	$sSourceFilePath = dirname( dirname( __FILE__ ) ) . '/development/admin-page-framework.php';
+	$sSourceFilePath = $sPluginBaseDir . '/development/admin-page-framework.php';
 	
 	/* Set the location for the script output */
-	$sResultFilePath = dirname( dirname( __FILE__ ) ) . '/library/admin-page-framework.min.php';
+	$sResultFilePath = $sPluginBaseDir . '/library/admin-page-framework.min.php';
 	
 	/* Check the file existence. */
 	if ( ! file_exists( $sSourceFilePath ) ) die( '<p>The main library file does not exist.</p>' );
@@ -27,20 +27,9 @@ require( dirname( __FILE__ ) . '/class/AdminPageFramework_Minifier.php' );
 /* Echo progress report. */	
 $oProgressBuffer = new AdminPageFramework_Minifiler_ProgressBuffer( 'Admin Page Framework Minifier Script' );	
 $oProgressBuffer->showText( 'Starting...' );
-	
-/* Store all the script data in to an array */
-$oProgressBuffer->showText( 'Reading files...' );
 
-
-/* Write to a file */
+/* Create a minified version of the framework. */
 $oMinify = new AdminPageFramework_Minifier( $sSourceFilePath, $sResultFilePath );
-$oProgressBuffer->showText( 'Writing to a file.' );
-$oMinify->write();
-
-	/* Extract the doc block of the bootstrap class and write it to the beginning of the file. */
-	
-	/* Do the rest. */
-	
 	
 /* Update the progress output. */		
 $oProgressBuffer->showText( 'Done!' );

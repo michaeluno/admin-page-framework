@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class AdminPageFramework_FieldType | Admin Page Framework Documentation</title>
+
+	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
+	<script type="text/javascript" src="elementlist.js?3308423397"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?297378730">
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+							<a href="package-AdminPageFramework.FieldType.html" title="Summary of AdminPageFramework\FieldType"><span>Package</span></a>
+						</li>
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="">
+			<input type="hidden" name="ie" value="UTF-8">
+			<input type="text" name="q" class="search-query" placeholder="Search">
+		</form>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.Debug.html">Debug</a>
+						</li>
+				<li class="active main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Property.html">Property</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Utility.html">Utility</a>
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-AdminPageFramework_FieldType.html">AdminPageFramework_FieldType</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_FieldType</h1>
+
+
+	<div class="description">
+	
+<p>The base class for the users to create their custom field types.</p>
+
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+			<a href="class-AdminPageFramework_Utility.html"><span>AdminPageFramework_Utility</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-AdminPageFramework_WPUtility.html"><span>AdminPageFramework_WPUtility</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_FieldType_Base
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>AdminPageFramework_FieldType</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		<b>Abstract</b><br>
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.FieldType.html">FieldType</a><br>
+
+				<b>Since:</b>
+				2.1.5<br>
+				<b>Since:</b>
+				3.0.0 Changed the name from AdminPageFramework_CustomFieldType to
+AdminPageFramework_FieldType.<br>
+				<b>Remark:</b>
+				The user will extend this class to define their custom field types.<br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_FieldType.html#3-69" title="Go to source code">field_type/AdminPageFramework_FieldType.php</a><br>
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="_replyToGetEnqueuingScripts" id="__replyToGetEnqueuingScripts">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#__replyToGetEnqueuingScripts">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#25" title="Go to source code">_replyToGetEnqueuingScripts</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>return array e.g. each element can hold a sting of the source url: array(
+'http://..../my_script.js', 'http://..../my_script2.js' ) Optionally, an option
+array can be passed to specify dependencies etc. array( array( 'src' =&gt;
+'http://...my_script1.js', 'dependencies' =&gt; array( 'jquery' ) ),
+'http://.../my_script2.js' )</p>
+
+
+
+
+
+
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_FieldType_Base::_replyToGetEnqueuingScripts</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="_replyToGetEnqueuingStyles" id="__replyToGetEnqueuingStyles">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#__replyToGetEnqueuingStyles">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#26" title="Go to source code">_replyToGetEnqueuingStyles</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>return array e.g. each element can hold a sting of the source url: array(
+'http://..../my_style.css', 'http://..../my_style2.css' ) Optionally, an option
+array can be passed to specify dependencies etc. array( array( 'src' =&gt;
+'http://...my_style1.css', 'dependencies' =&gt; array( 'jquery' ) ),
+'http://.../my_style2.css' )</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>return array e.g. each element can hold a sting of the source url: array(
+'http://..../my_style.css', 'http://..../my_style2.css' ) Optionally, an option
+array can be passed to specify dependencies etc. array( array( 'src' =&gt;
+'http://...my_style1.css', 'dependencies' =&gt; array( 'jquery' ) ),
+'http://.../my_style2.css' )</p>
+
+
+
+
+
+
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_FieldType_Base::_replyToGetEnqueuingStyles</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setUp" id="_setUp">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setUp">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#56-60" title="Go to source code">setUp</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getScripts" id="_getScripts">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getScripts">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#61" title="Go to source code">getScripts</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getIEStyles" id="_getIEStyles">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getIEStyles">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#62" title="Go to source code">getIEStyles</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getStyles" id="_getStyles">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getStyles">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#63" title="Go to source code">getStyles</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getField" id="_getField">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getField">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#64" title="Go to source code">getField</a>( <span>mixed <var>$aField</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getEnqueuingScripts" id="_getEnqueuingScripts">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getEnqueuingScripts">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#65" title="Go to source code">getEnqueuingScripts</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getEnqueuingStyles" id="_getEnqueuingStyles">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getEnqueuingStyles">#</a>
+			<code><a href="source-class-AdminPageFramework_FieldType.html#66" title="Go to source code">getEnqueuingStyles</a>( )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+		<h3>Methods inherited from AdminPageFramework_FieldType_Base</h3>
+		<p class="elementList">
+			<code>__construct()</code>, 
+			<code>_getScript_CustomMediaUploaderObject()</code>, 
+			<code>_replyToFieldLoader()</code>, 
+			<code>_replyToFieldTypeSetter()</code>, 
+			<code>_replyToGetField()</code>, 
+			<code>_replyToGetInputIEStyles()</code>, 
+			<code>_replyToGetScripts()</code>, 
+			<code>_replyToGetStyles()</code>, 
+			<code>_replyToRemovingMediaLibraryTab()</code>, 
+			<code>_replyToReplaceThickBoxText()</code>, 
+			<code>enqueueMediaUploader()</code>, 
+			<code>getDefinitionArray()</code>, 
+			<code>getFieldElementByKey()</code>, 
+			<code>replyToRegisterInputFieldType()</code>
+		</p>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_WPUtility.html#methods">AdminPageFramework_WPUtility</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_WPUtility.html#_addAndApplyFilter">addAndApplyFilter()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_addAndApplyFilters">addAndApplyFilters()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_addAndDoAction">addAndDoAction()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_addAndDoActions">addAndDoActions()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_doActions">doActions()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_generateAttributes">generateAttributes()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_getCurrentAdminURL">getCurrentAdminURL()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_getFilterArrayByPrefix">getFilterArrayByPrefix()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_getQueryAdminURL">getQueryAdminURL()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_getQueryURL">getQueryURL()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_getSRCFromPath">getSRCFromPath()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_getScriptData">getScriptData()</a></code>, 
+			<code><a href="class-AdminPageFramework_WPUtility.html#_resolveSRC">resolveSRC()</a></code>
+		</p>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Utility.html#methods">AdminPageFramework_Utility</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_Utility.html#_fixNumber">fixNumber()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_getArrayDimension">getArrayDimension()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_getCallerScriptPath">getCallerScriptPath()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_getCorrespondingArrayValue">getCorrespondingArrayValue()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_getQueryValueInURLByKey">getQueryValueInURLByKey()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_getRelativePath">getRelativePath()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_isLastElement">isLastElement()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_sanitizeSlug">sanitizeSlug()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_sanitizeString">sanitizeString()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_uniteArrays">uniteArrays()</a></code>, 
+			<code><a href="class-AdminPageFramework_Utility.html#_uniteArraysRecursive">uniteArraysRecursive()</a></code>
+		</p>
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+		<h2>Properties summary</h2>
+		<table class="summary table table-bordered table-striped" id="properties">
+		<tr data-order="aFieldTypeSlugs" id="$aFieldTypeSlugs">
+			<td class="attributes"><code>
+				public  
+				array
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-AdminPageFramework_FieldType.html#32-37" title="Go to source code"><var>$aFieldTypeSlugs</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$aFieldTypeSlugs" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Defines the field type slugs used for this field type.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Defines the field type slugs used for this field type.</p>
+
+<p>e.g. $aFieldTypeSlugs = array( 'my_field_type' )</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="aDefaultKeys" id="$aDefaultKeys">
+			<td class="attributes"><code>
+				protected  
+				array
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-AdminPageFramework_FieldType.html#39-51" title="Go to source code"><var>$aDefaultKeys</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$aDefaultKeys" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Defines the default key-values of this field type.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Defines the default key-values of this field type.</p>
+
+<p>e.g. $aDefaultKeys = array( 'attributes' =&gt; array( 'size' =&gt; 30,
+'maxlength' =&gt; 400, ), )</p>
+
+
+						<h4>Remark</h4>
+						<div class="list">
+								$_aDefaultKeys holds shared default key-values defined in the base class.<br>
+						</div>
+				</div>
+			</div></td>
+		</tr>
+		</table>
+
+		<h3>Properties inherited from AdminPageFramework_FieldType_Base</h3>
+		<p class="elementList">
+			<code><var>$_aDefaultKeys</var></code>, 
+			<code><var>$_sFieldSetType</var></code>, 
+			<code><var>$oMsg</var></code>
+		</p>
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

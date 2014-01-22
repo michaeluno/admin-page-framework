@@ -1,0 +1,3 @@
+
+var ApiGen = ApiGen || {};
+ApiGen.elements = [["c","AdminPageFramework"],["c","AdminPageFramework_Debug"],["c","AdminPageFramework_FieldType"],["c","AdminPageFramework_Menu"],["c","AdminPageFramework_Message"],["c","AdminPageFramework_MetaBox"],["c","AdminPageFramework_MetaBox_Page"],["c","AdminPageFramework_Page"],["c","AdminPageFramework_PostType"],["c","AdminPageFramework_Property_MetaBox"],["c","AdminPageFramework_Property_MetaBox_Page"],["c","AdminPageFramework_Property_Page"],["c","AdminPageFramework_Property_PostType"],["c","AdminPageFramework_Property_TaxonomyField"],["c","AdminPageFramework_Setting"],["c","AdminPageFramework_TaxonomyField"],["c","AdminPageFramework_Utility"],["c","AdminPageFramework_WPUtility"]];

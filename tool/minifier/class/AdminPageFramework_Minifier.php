@@ -9,8 +9,14 @@ class AdminPageFramework_Minifier {
 		$this->sOutputFileNameWOExt = pathinfo( $sOutputFilePath, PATHINFO_FILENAME );
 		$this->aAllowedExtensions = $aAllowedExtensions;
 		
+		/* Store the file contents into an array. */
 		$this->store( $this->sSourceFilePath, $this->aAllowedExtensions );		
+		
+		/* Sort the classes */
 		$this->sort();
+		
+		/* Write to a file */
+		$this->write();
 		
 	}
 		
