@@ -22,9 +22,15 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
 	public function _replyToGetInputIEStyles() { return $this->getIEStyles(); }	// should return the style for IE
 	public function _replyToGetStyles() { return $this->getStyles(); }	// should return the style
 	public function _replyToGetField( $aField ) {  return $this->getField( $aField ); }	// should return the field output
-	protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }	// should return an array holding the urls of enqueuing items
-	protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); }	// should return an array holding the urls of enqueuing items
 	/**#@-*/
+    /**
+     * @internal
+     */	
+	protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }	// should return an array holding the urls of enqueuing items
+    /**
+     * @internal
+     */	
+	protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); }	// should return an array holding the urls of enqueuing items
 	
 	/*
 	 * Required Properties
