@@ -159,17 +159,17 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * <code>$this->addSettingSections(
 	 *		array(
 	 *			'section_id'	=> 'text_fields',
-	 *			'page_slug'		=> 'first_page',
-	 *			'tab_slug'		=> 'textfields',
-	 *			'title'			=> 'Text Fields',
+	 *			'page_slug'	=> 'first_page',
+	 *			'tab_slug'	=> 'textfields',
+	 *			'title'	=> 'Text Fields',
 	 *			'description'	=> 'These are text type fields.',
-	 *			'order'			=> 10,
+	 *			'order'	=> 10,
 	 *		),	
 	 *		array(
 	 *			'section_id'	=> 'selectors',
-	 *			'page_slug'		=> 'first_page',
-	 *			'tab_slug'		=> 'selectors',
-	 *			'title'			=> 'Selectors and Checkboxes',
+	 *			'page_slug'	=> 'first_page',
+	 *			'tab_slug'	=> 'selectors',
+	 *			'title'	=> 'Selectors and Checkboxes',
 	 *			'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
 	 *		)</code>
 	 *
@@ -271,37 +271,37 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* <h4>Example</h4>
 	* <code>$this->addSettingFields(
 	*		array(
-	*			'field_id' => 'text',
-	*			'section_id' => 'text_fields',
-	*			'title' => __( 'Text', 'admin-page-framework-demo' ),
-	*			'description' => __( 'Type something here.', 'admin-page-framework-demo' ),
-	*			'type' => 'text',
-	*			'order' => 1,
-	*			'default' => 123456,
-	*			'size' => 40,
+	*			'field_id'	=>	'text',
+	*			'section_id'	=>	'text_fields',
+	*			'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+	*			'description'	=>	__( 'Type something here.', 'admin-page-framework-demo' ),
+	*			'type'	=>	'text',
+	*			'order'	=>	1,
+	*			'default'	=>	123456,
+	*			'size'	=>	40,
 	*		),	
 	*		array(
-	*			'field_id' => 'text_multiple',
-	*			'section_id' => 'text_fields',
-	*			'title' => 'Multiple Text Fields',
-	*			'description' => 'These are multiple text fields.',
-	*			'type' => 'text',
-	*			'order' => 2,
-	*			'default' => 'Hello World',
+	*			'field_id'	=>	'text_multiple',
+	*			'section_id'	=>	'text_fields',
+	*			'title'	=>	'Multiple Text Fields',
+	*			'description'	=>	'These are multiple text fields.',
+	*			'type'	=>	'text',
+	*			'order'	=>	2,
+	*			'default'	=>	'Hello World',
 	*			'label'	=>	'First Item',
-	*			'attributes'	=> array(
-	*				'size'	=> 30
+	*			'attributes'	=>	array(
+	*				'size'	=>	30
 	*			),
 	*			array(
-	*				'label'		=>	'Second Item',
-	*				'default'	=> 'Foo bar',
+	*				'label'	=>	'Second Item',
+	*				'default'	=>	'Foo bar',
 	*				'attributes'	=>	array(
 	*					'size'	=>	60,
 	*				),
 	*			),
 	*			array(
-	*				'label'		=>	'Third Item',
-	*				'default'	=> 'Yes, we can.',
+	*				'label'	=>	'Third Item',
+	*				'default'	=>	'Yes, we can.',
 	*				'attributes'	=>	array(
 	*					'size'	=>	90,
 	*				),

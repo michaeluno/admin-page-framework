@@ -187,7 +187,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * <h4>Example</h4>
 	 * <code>if ( is_admin() )
-	 * 		new MyAdminPageClass( 'my_custom_option_key', __FILE__ );</code>
+	 * 	new MyAdminPageClass( 'my_custom_option_key', __FILE__ );</code>
 	 * 
 	 * @access			public
 	 * @since			2.0.0
@@ -345,13 +345,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Enqueues scripts by page slug and tab slug.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->enqueueScripts(  
-	 * 		array( 
+	 * <code>
+	 * $this->enqueueScripts(  
+	 * 	array( 
 	 *			plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
 	 *			plugins_url( 'asset/js/test2.js' , __FILE__ ),	
-	 * 		)
-	 *		'apf_read_me', 	// page slug
-	 *	);</code>
+	 * 	)
+	 * 	'apf_read_me', 	// page slug
+	 * );
+	 * </code>
 	 *
 	 * @since			2.1.5
 	 * @param			array			The sources of the stylesheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
