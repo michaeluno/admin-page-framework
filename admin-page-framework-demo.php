@@ -5,26 +5,25 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.0b4
+	Version: 3.0.0b5
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/* Define constants for the demo plugin */
+/* Define constants for the demo plugin -  these are not necessary in your project */
+define( 'APFDEMO_DEVMODE', true );
 define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
 /* Include the library */
 if ( ! class_exists( 'AdminPageFramework' ) )
 	include_once( 
-		file_exists( APFDEMO_DIRNAME . '/library/admin-page-framework.min.php' ) 
-			? APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
-			: APFDEMO_DIRNAME . '/development/admin-page-framework.php'
+		defined( 'APFDEMO_DEVMODE' ) && APFDEMO_DEVMODE
+			? APFDEMO_DIRNAME . '/development/admin-page-framework.php'
+			: APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
 	);
-	/* For development */
-	// include_once( APFDEMO_DIRNAME . '/development/admin-page-framework.php' );
 
 if ( is_admin() ) :
 	
@@ -37,7 +36,7 @@ if ( is_admin() ) :
 	new APF_Demo;
 
 	/* Create a meta box with form fields */
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	// Include the demo class that creates a meta box.
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	
 	new APF_MetaBox_BuiltinFieldTypes(
 		'sample_custom_meta_box',	// meta box ID
 		__( 'Demo Meta Box with Built-in Field Types', 'admin-page-framework-demo' ),	// title
@@ -46,7 +45,7 @@ if ( is_admin() ) :
 		'default'	// priority
 	);
 
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );	// Include the demo class that creates a meta box.
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );
 	new APF_MetaBox_CustomFieldTypes(
 		'sample_custom_meta_box_with_custom_field_types',	// meta box ID
 		__( 'Demo Meta Box with Custom Field Types', 'admin-page-framework-demo' ),		// title
@@ -56,7 +55,7 @@ if ( is_admin() ) :
 	);
 	
 	/* Create meta boxes in the pages added with the framework */
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );	// Include the demo class that creates a meta box.
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );
 	new APF_MetaBox_For_Pages_Normal(
 		'apf_metabox_for_pages_normal',		// meta box id
 		__( 'Sample Meta Box For Admin Pages Inserted in Normal Area' ),	// title
@@ -64,7 +63,7 @@ if ( is_admin() ) :
 		'normal',	// context
 		'default'	// priority
 	);
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );	// Include the demo class that creates a meta box.
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
 	new APF_MetaBox_For_Pages_Advanced(
 		'apf_metabox_for_pages_advanced',	// meta box id
 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
@@ -72,7 +71,7 @@ if ( is_admin() ) :
 		'advanced',		// context
 		'default'	// priority
 	);	
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );	// Include the demo class that creates a meta box.
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );
 	new APF_MetaBox_For_Pages_Side(
 		'apf_metabox_for_pages_side',	// meta box id
 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
@@ -89,8 +88,8 @@ endif;
 
 /* Creates a custom post type */
 include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
-new APF_PostType( 	// this class deals with front-end components so is_admin() is not necessary.
-	'apf_posts', 	// post type slug
+new APF_PostType( 	// this class deals with front-end components so checking with is_admin() is not necessary.
+	'apf_posts', 	// post type slug - you can pass multiple slugs with an array e.g. array( 'apf_posts', 'post', 'page' )
 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 		'labels' => array(
 			'name' => 'Admin Page Framework',
