@@ -515,3 +515,13 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
 .description pre {
 	background-color: #fff;		/* Make the background of example code blocks white */
 }
+.description blockquote {
+	margin-top: 8px;
+	margin-bottom: 4px;
+	background-color: #fff;
+	color: ##696969;
+	padding: 8px 0 8px 16px;
+}
+.summary .description.detailed h4 {
+	margin-top: 8px;
+}
