@@ -67,7 +67,14 @@ Copyright (c) Trent Richardson; Licensed MIT and GPL
 HTML5 Sortable jQuery Plugin
 Copyright 2012, Ali Farhadi; Licensed MIT
 http://farhadi.ir/projects/html5sortable
- 
+
+ApiGen
+Copyright © 2010-2011 David Grudl
+Copyright © 2011-2012 Jaroslav Hanslík
+Copyright © 2011-2012 Ondřej Nešpor
+All rights reserved. 
+<http://apigen.org/>
+
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
                     GNU GENERAL PUBLIC LICENSE
