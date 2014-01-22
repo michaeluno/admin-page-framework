@@ -58,6 +58,7 @@ You can include your own custom field types when they are necessary. This enable
 * `date`, `time`, `date_time` - date and time fields with the date picker.
 * `dial` - a dial input field.
 * `font` - a font uploader and its preview.
+* `revealer` - a selector field that displays a hidden HTML element.
 
 = Necessary Files =
 * **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
@@ -97,7 +98,7 @@ You need to include the library file in your PHP script. The file is located in 
 <h5><strong>Step 3</strong> - Define the <em>setUp()</em> Method</h5>
 
 `function setUp() {
-	$this->setRootMenuPage( 'Settings' );               // specifies to which parent menu to belong.
+	$this->setRootMenuPage( 'Settings' );	// specifies to which parent menu to belong.
 	$this->addSubMenuItem(
 		array(
 			'title' => 'My First Page',
@@ -108,7 +109,7 @@ You need to include the library file in your PHP script. The file is located in 
 
 <h5><strong>Step 4</strong> - Define the Methods for Hooks</h5>
 
-`function do_myfirstpage() {  // do_ + pageslug	
+`function do_myfirstpage() {  // do_{page slug}	
 	?>
 	<h3>Say Something</h3>
 	<p>This is my first admin page!</p>
@@ -228,7 +229,7 @@ The default messages defined by the framework can be changed. For example when y
 If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array which holds all the messages that the library uses.
 
 = Roadmap =
-Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
+Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
  
