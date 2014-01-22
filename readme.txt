@@ -233,6 +233,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the documentation pages in the distribution package.
 * Added: an example to add a thumbnail to the taxonomy term listing table in the demo plugin.
 * Added: the `cell_{taxonomy slug}` and the `cell_{extended class name}` filters for the taxonomy field class.
 * Added: the `sortable_columns_{taxonomy slug}` and the `sortable_columns_{extended class name}` filters for the taxonomy field class.
