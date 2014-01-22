@@ -3,6 +3,28 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page' ) ) :
 /**
  * Provides methods for creating meta boxes in pages added by the framework.
  *
+ * <h2>Hooks</h2>
+ * <p>The class automatically creates WordPress action and filter hooks associated with the class methods.
+ * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
+ * <h3>Methods and Action Hooks</h3>
+ * <ul>
+ * 	<li><strong>start_{extended class name}</strong> – triggered at the end of the class constructor.</li>
+ * 	<li><strong>do_{extended class name}</strong> – triggered when the meta box gets rendered.</li>
+ * </ul>
+ * <h3>Methods and Filter Hooks</h3>
+ * <ul>
+ * 	<li><strong>field_types_{extended class name}</strong> – receives the field type definition array. The first parameter: the field type definition array.</li>
+ * 	<li><strong>field_{extended class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
+ * 	<li><strong>content_{extended class name}</strong> – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
+ * 	<li><strong>style_common_{extended class name}</strong> –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_ie_common_{extended class name}</strong> –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_{extended class name}</strong> –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_ie_{extended class name}</strong> –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>script_common_{extended class name}</strong> – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>script_{extended class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>validation_{extended class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * </ul>
+ * 
  * @abstract
  * @since			3.0.0
  * @use				AdminPageFramework_Utility
@@ -15,7 +37,34 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page' ) ) :
 abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBox_Base {
 	
 	/**
+	 * Registers necessary hooks and internal properties.
 	 * 
+	 * <h4>Examples</h4>
+	 * <code>
+	 * 	new APF_MetaBox_For_Pages_Normal(
+	 * 		'apf_metabox_for_pages_normal',		// meta box id
+	 * 		__( 'Sample Meta Box For Admin Pages Inserted in Normal Area' ),	// title
+	 * 		'apf_first_page',	// page slugs
+	 * 		'normal',	// context
+	 * 		'default'	// priority
+	 * 	);
+	 * 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
+	 * 	new APF_MetaBox_For_Pages_Advanced(
+	 * 		'apf_metabox_for_pages_advanced',	// meta box id
+	 * 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
+	 * 		'apf_first_page',	// page slugs
+	 * 		'advanced',		// context
+	 * 		'default'	// priority
+	 * 	);	
+	 * 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );
+	 * 	new APF_MetaBox_For_Pages_Side(
+	 * 		'apf_metabox_for_pages_side',	// meta box id
+	 * 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
+	 * 		array( 'apf_first_page', 'apf_second_page' ),	// page slugs - setting multiple slugs is possible
+	 * 		'side',		// context
+	 * 		'default'	// priority
+	 * 	);		
+	 * </code>
 	 * @since			3.0.0
 	 */
 	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {		
@@ -68,10 +117,10 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * @since			3.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @param			string			The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
@@ -90,10 +139,10 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * @since			3.0.0			
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @param			string			The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	
@@ -104,6 +153,18 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* Adds the given field array items into the field array property.
 	* 
 	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* 
+	* <h4>Examples</h4>
+	* <code>
+	* 		$this->addSettingField(
+	* 			array (
+	* 				'field_id'		=> 'image_field',
+	* 				'type'			=> 'image',
+	* 				'title'			=> __( 'Image', 'admin-page-framework-demo' ),
+	* 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
+	* 			)		
+	* 		);
+	* </code>
 	* 
 	* @since			3.0.0			
 	* @return			void
@@ -148,7 +209,9 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	
 	/**
 	 * Returns the field output.
+	 * 
 	 * @since			3.0.0
+	 * @internal
 	 */
 	protected function getFieldOutput( $aField ) {
 		
@@ -164,6 +227,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	/**
 	 * Returns the currently loading page's option key if the page has the admin page object.
 	 * @since			3.0.0
+	 * @internal
 	 */
 	private function _getOptionkey() {
 		return isset( $_GET['page'] ) 
@@ -225,6 +289,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		
 	/**
 	 * Validates the submitted option values.
+	 * 
+	 * @internal
 	 * @sicne			3.0.0
 	 */
 	public function _replyToValidateOptions( $aNewOptions, $aOldOptions ) {
