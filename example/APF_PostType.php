@@ -1,7 +1,7 @@
 <?php
 class APF_PostType extends AdminPageFramework_PostType {
 	
-	public function start_APF_PostType() {	// start_ + extended class name
+	public function start_APF_PostType() {	// start_{extended class name}
 	
 		// the setUp() method is too late to add taxonomies. So we use start_{class name} action hook.
 	
@@ -50,29 +50,9 @@ class APF_PostType extends AdminPageFramework_PostType {
 	}
 	
 	/*
-	 * Extensible methods
-	 */
-	public function setColumnHeader( $aColumnHeader ) {
-		$aColumnHeaders = array(
-			'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
-			'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-			'author'		=> __( 'Author', 'admin-page-framework' ),		// Post author.
-			// 'categories'	=> __( 'Categories', 'admin-page-framework' ),	// Categories the post belongs to. 
-			// 'tags'		=> __( 'Tags', 'admin-page-framework' ),	// Tags for the post. 
-			'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-			'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
-			'samplecolumn'			=> __( 'Sample Column' ),
-		);		
-		return array_merge( $aColumnHeader, $aColumnHeaders );
-	}
-	// public function setSortableColumns( $aColumns ) {
-		// return array_merge( $aColumns, $this->oProp->aColumnSortable );		
-	// }	
-	
-	/*
 	 * Callback methods
 	 */
-	public function columns_apf_posts( $aHeaderColumns ) {
+	public function columns_apf_posts( $aHeaderColumns ) {	// columns_{post type slug}
 		
 		return array_merge( 
 			$aHeaderColumns,
@@ -89,12 +69,12 @@ class APF_PostType extends AdminPageFramework_PostType {
 		);
 		
 	}
-	public function sortable_columns_apf_posts( $aSortableHeaderColumns ) {
+	public function sortable_columns_apf_posts( $aSortableHeaderColumns ) {	// sortable_columns_{post type slug}
 		
 		return $aSortableHeaderColumns;
 		
 	}	
-	public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {	// cell_ + post type + column key
+	public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {	// cell_{post type}_{column key}
 		
 		return "the post id is : {$iPostID}";
 		
