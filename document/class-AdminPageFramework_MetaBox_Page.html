@@ -95,6 +95,66 @@
 	
 <p>Provides methods for creating meta boxes in pages added by the framework.</p>
 
+<h2>Hooks</h2>
+
+<p>The class automatically creates WordPress action and filter hooks associated
+with the class methods. The class methods corresponding to the name of the below
+actions and filters can be extended to modify the page output. Those methods are
+the callbacks of the filters and actions.</p>
+
+<h3>Methods and Action Hooks</h3>
+
+<ul>
+	<li><strong>start_{extended class name}</strong> – triggered at the end of the
+	class constructor.</li>
+
+	<li><strong>do_{extended class name}</strong> – triggered when the meta box
+	gets rendered.</li>
+</ul>
+
+<h3>Methods and Filter Hooks</h3>
+
+<ul>
+	<li><strong>field_types_{extended class name}</strong> – receives the field
+	type definition array. The first parameter: the field type definition
+	array.</li>
+
+	<li><strong>field_{extended class name}_{field ID}</strong> – receives the
+	form input field output of the given input field ID. The first parameter: output
+	string. The second parameter: the array of option.</li>
+
+	<li><strong>content_{extended class name}</strong> – receives the entire
+	output of the meta box. The first parameter: the output HTML string.</li>
+
+	<li><strong>style_common_{extended class name}</strong> – receives the output
+	of the base CSS rules applied to the pages of the associated post types with the
+	meta box.</li>
+
+	<li><strong>style_ie_common_{extended class name}</strong> – receives the
+	output of the base CSS rules for Internet Explorer applied to the pages of the
+	associated post types with the meta box.</li>
+
+	<li><strong>style_{extended class name}</strong> – receives the output of the
+	CSS rules applied to the pages of the associated post types with the meta
+	box.</li>
+
+	<li><strong>style_ie_{extended class name}</strong> – receives the output of
+	the CSS rules for Internet Explorer applied to the pages of the associated post
+	types with the meta box.</li>
+
+	<li><strong>script_common_{extended class name}</strong> – receives the output
+	of the base JavaScript scripts applied to the pages of the associated post types
+	with the meta box.</li>
+
+	<li><strong>script_{extended class name}</strong> – receives the output of the
+	JavaScript scripts applied to the pages of the associated post types with the
+	meta box.</li>
+
+	<li><strong>validation_{extended class name}</strong> – receives the form
+	submission values as array. The first parameter: submitted input array. The
+	second parameter: the original array stored in the database.</li>
+</ul>
+
 	</div>
 
 	<dl class="tree well">
@@ -134,7 +194,7 @@ AdminPageFramework_MetaBox_Base
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_Page<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_MetaBox_Page.html#3-235" title="Go to source code">meta_box/AdminPageFramework_MetaBox_Page.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_MetaBox_Page.html#3-301" title="Go to source code">meta_box/AdminPageFramework_MetaBox_Page.php</a><br>
 	</div>
 
 
@@ -152,14 +212,85 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#17-53" title="Go to source code">__construct</a>( <span>string <var>$sMetaBoxID</var></span>, <span>string <var>$sTitle</var></span>, <span>string|array <var>$asPageSlugs</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$sContext</var> = <span class="php-quote">'normal'</span></span>, <span>string <var>$sPriority</var> = <span class="php-quote">'default'</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#39-102" title="Go to source code">__construct</a>( <span>string <var>$sMetaBoxID</var></span>, <span>string <var>$sTitle</var></span>, <span>string|array <var>$asPageSlugs</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$sContext</var> = <span class="php-quote">'normal'</span></span>, <span>string <var>$sPriority</var> = <span class="php-quote">'default'</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
+<p>Registers necessary hooks and internal properties.</p>
+
 			</div>
 
 			<div class="description detailed hidden">
 				
+<p>Registers necessary hooks and internal properties.</p>
+
+<h4>Examples</h4>
+
+<pre>
+<span
+class="php-keyword1">new</span> APF_MetaBox_For_Pages_Normal(
+        <span
+class="php-quote">'apf_metabox_for_pages_normal'</span>,         <span
+class="php-comment">// meta box id</span>
+        __( <span
+class="php-quote">'Sample Meta Box For Admin Pages Inserted in Normal Area'</span> ),        <span
+class="php-comment">// title</span>
+        <span
+class="php-quote">'apf_first_page'</span>,       <span
+class="php-comment">// page slugs</span>
+        <span
+class="php-quote">'normal'</span>,       <span
+class="php-comment">// context</span>
+        <span
+class="php-quote">'default'</span>       <span
+class="php-comment">// priority</span>
+);
+<span
+class="php-keyword1">include_once</span>( APFDEMO_DIRNAME . <span
+class="php-quote">'/example/APF_MetaBox_For_Pages_Advanced.php'</span> );
+<span
+class="php-keyword1">new</span> APF_MetaBox_For_Pages_Advanced(
+        <span
+class="php-quote">'apf_metabox_for_pages_advanced'</span>,       <span
+class="php-comment">// meta box id</span>
+        __( <span
+class="php-quote">'Sample Meta Box For Admin Pages Inserted in Advanced Area'</span> ),      <span
+class="php-comment">// title</span>
+        <span
+class="php-quote">'apf_first_page'</span>,       <span
+class="php-comment">// page slugs</span>
+        <span
+class="php-quote">'advanced'</span>,             <span
+class="php-comment">// context</span>
+        <span
+class="php-quote">'default'</span>       <span
+class="php-comment">// priority</span>
+);
+<span
+class="php-keyword1">include_once</span>( APFDEMO_DIRNAME . <span
+class="php-quote">'/example/APF_MetaBox_For_Pages_Side.php'</span> );
+<span
+class="php-keyword1">new</span> APF_MetaBox_For_Pages_Side(
+        <span
+class="php-quote">'apf_metabox_for_pages_side'</span>,   <span
+class="php-comment">// meta box id</span>
+        __( <span
+class="php-quote">'Sample Meta Box For Admin Pages Inserted in Advanced Area'</span> ),      <span
+class="php-comment">// title</span>
+        <span
+class="php-keyword1">array</span>( <span
+class="php-quote">'apf_first_page'</span>, <span
+class="php-quote">'apf_second_page'</span> ),   <span
+class="php-comment">// page slugs - setting multiple slugs is possible</span>
+        <span
+class="php-quote">'side'</span>,         <span
+class="php-comment">// context</span>
+        <span
+class="php-quote">'default'</span>       <span
+class="php-comment">// priority</span>
+);
+</pre>
+
 
 
 					<h4>Parameters</h4>
@@ -210,7 +341,7 @@ messages. Default: admin-page-framework.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyles">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#58-65" title="Go to source code">enqueueStyles</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#107-114" title="Go to source code">enqueueStyles</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -249,7 +380,7 @@ messages. Default: admin-page-framework.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyle">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#66-79" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#115-128" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -266,16 +397,16 @@ messages. Default: admin-page-framework.</dd>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sSRC</var></dt>
-						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
-relative path to the root directory of WordPress. Example: '/css/mystyle.css'.</dd>
+						<dd><code>string</code><br>The URL of the stylesheet to enqueue, the absolute file path, or the relative
+path to the root directory of WordPress. Example: '/css/mystyle.css'.</dd>
 						<dt><var>$sPageSlug</var></dt>
-						<dd><code>string</code><br>$sPageSlug (optional) The page slug that the stylesheet should be added to. If
-not set, it applies to all the pages created by the framework.</dd>
+						<dd><code>string</code><br>(optional) The page slug that the stylesheet should be added to. If not set, it
+applies to all the pages created by the framework.</dd>
 						<dt><var>$sTabSlug</var></dt>
-						<dd><code>string</code><br>$sTabSlug (optional) The tab slug that the stylesheet should be added to. If not
-set, it applies to all the in-page tabs in the page.</dd>
+						<dd><code>string</code><br>(optional) The tab slug that the stylesheet should be added to. If not set, it
+applies to all the in-page tabs in the page.</dd>
 						<dt><var>$aCustomArgs</var></dt>
-						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.</dd>
+						<dd><code>array</code><br>(optional) The argument array for more advanced parameters.</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -312,7 +443,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScripts">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#80-87" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#129-136" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -351,7 +482,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScript">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#88-101" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#137-150" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -368,16 +499,16 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sSRC</var></dt>
-						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
-relative path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
+						<dd><code>string</code><br>The URL of the stylesheet to enqueue, the absolute file path, or the relative
+path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
 						<dt><var>$sPageSlug</var></dt>
-						<dd><code>string</code><br>$sPageSlug (optional) The page slug that the script should be added to. If not
-set, it applies to all the pages created by the framework.</dd>
+						<dd><code>string</code><br>(optional) The page slug that the script should be added to. If not set, it
+applies to all the pages created by the framework.</dd>
 						<dt><var>$sTabSlug</var></dt>
-						<dd><code>string</code><br>$sTabSlug (optional) The tab slug that the script should be added to. If not
-set, it applies to all the in-page tabs in the page.</dd>
+						<dd><code>string</code><br>(optional) The tab slug that the script should be added to. If not set, it
+applies to all the in-page tabs in the page.</dd>
 						<dt><var>$aCustomArgs</var></dt>
-						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.</dd>
+						<dd><code>array</code><br>(optional) The argument array for more advanced parameters.</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -414,7 +545,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#103-134" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#152-195" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -428,6 +559,30 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 <p>Identical to the addSettingFields() method except that this method does not
 accept enumerated parameters.</p>
+
+<h4>Examples</h4>
+
+<pre>
+<span class="php-var">$this</span>-&gt;addSettingField(
+        <span
+class="php-keyword1">array</span> (
+                <span
+class="php-quote">'field_id'</span>              =&gt; <span
+class="php-quote">'image_field'</span>,
+                <span
+class="php-quote">'type'</span>                  =&gt; <span
+class="php-quote">'image'</span>,
+                <span
+class="php-quote">'title'</span>                 =&gt; __( <span
+class="php-quote">'Image'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'description'</span>   =&gt; __( <span
+class="php-quote">'The description for the field.'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+        )
+);
+</pre>
 
 
 
@@ -445,82 +600,6 @@ accept enumerated parameters.</p>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="getFieldOutput" id="_getFieldOutput">
-
-			<td class="attributes"><code>
-				 protected 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getFieldOutput">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#149-162" title="Go to source code">getFieldOutput</a>( <span>mixed <var>$aField</var></span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Returns the field output.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Returns the field output.</p>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0<br>
-					</div>
-
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_MetaBox_Base::getFieldOutput</code></div>
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="_replyToValidateOptions" id="__replyToValidateOptions">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#__replyToValidateOptions">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#226-234" title="Go to source code">_replyToValidateOptions</a>( <span>mixed <var>$aNewOptions</var></span>, <span>mixed <var>$aOldOptions</var></span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Validates the submitted option values.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Validates the submitted option values.</p>
-
-
-
-
-
-
-					<h4>Sicne</h4>
-					<div class="list">
-							3.0.0<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
 		</table>
 
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
@@ -532,6 +611,7 @@ accept enumerated parameters.</p>
 			<code>_replyToSaveMetaBoxFields()</code>, 
 			<code>addHelpText()</code>, 
 			<code>addSettingFields()</code>, 
+			<code>getFieldOutput()</code>, 
 			<code>setOptionArray()</code>, 
 			<code>setUp()</code>
 		</p>

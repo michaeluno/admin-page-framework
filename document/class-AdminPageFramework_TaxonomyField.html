@@ -136,7 +136,7 @@ AdminPageFramework_MetaBox_Base
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#3-252" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#3-278" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
 	</div>
 
 
@@ -154,7 +154,7 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#38-83" title="Go to source code">__construct</a>( <span>string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string|array <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#38-91" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -166,20 +166,28 @@ AdminPageFramework_MetaBox_Base
 				
 <p>Constructs the class object instance of AdminPageFramework_TaxonomyField.</p>
 
+<h4>Examples</h4>
+
+<pre>
+<span class="php-keyword1">new</span> APF_TaxonomyField( <span
+class="php-quote">'apf_sample_taxonomy'</span> );         <span
+class="php-comment">// taxonomy slug</span>
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$asTaxonomySlug</var></dt>
-						<dd><code>string</code><br>$sMetaBoxID The meta box ID.</dd>
+						<dd><code>array|string</code><br>The taxonomy slug(s). If multiple slugs need to be passed, enclose them in an
+array and pass the array.</dd>
 						<dt><var>$sOptionKey</var></dt>
-						<dd><code>string</code><br>$sTitle The meta box title.</dd>
+						<dd><code>string</code><br>The option key used for the options table to save the data. By default, the
+extended class name will be applied.</dd>
 						<dt><var>$sCapability</var></dt>
-						<dd><code>string|array</code><br>$asPostTypeOrScreenID ( optional ) The post type(s) or screen ID that the meta
-box is associated with.</dd>
+						<dd><code>string</code><br>The access rights. Default: <em>manage_options</em>.</dd>
 						<dt><var>$sTextDomain</var></dt>
-						<dd><code>string</code><br>$sContext ( optional ) The part of the page where the edit screen section should
-be shown ('normal', 'advanced', or 'side') Default: normal.</dd>
+						<dd><code>string</code><br>The text domain. Default: <em>admin-page-framework</em>.</dd>
 					</dl></div>
 
 
@@ -206,7 +214,7 @@ be shown ('normal', 'advanced', or 'side') Default: normal.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#85-91" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#93-99" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -249,7 +257,7 @@ be shown ('normal', 'advanced', or 'side') Default: normal.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#93-121" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#101-146" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -263,6 +271,45 @@ be shown ('normal', 'advanced', or 'side') Default: normal.</dd>
 
 <p>Identical to the addSettingFields() method except that this method does not
 accept enumerated parameters.</p>
+
+<h4>Examples</h4>
+
+<pre>
+<span class="php-var">$this</span>-&gt;addSettingField(
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'field_id'</span>              =&gt; <span
+class="php-quote">'textarea_field'</span>,
+                <span
+class="php-quote">'type'</span>                  =&gt; <span
+class="php-quote">'textarea'</span>,
+                <span
+class="php-quote">'title'</span>                 =&gt; __( <span
+class="php-quote">'Text Area'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'description'</span>   =&gt; __( <span
+class="php-quote">'The description for the field.'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'help'</span>                  =&gt; __( <span
+class="php-quote">'This a &lt;em&gt;text area&lt;/em&gt; input field, which is larger than the &lt;em&gt;text&lt;/em&gt; input field.'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'default'</span>               =&gt; __( <span
+class="php-quote">'This is a default text.'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'attributes'</span>    =&gt;      <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'cols'</span>  =&gt;      <span
+class="php-num">40</span>,
+                ),
+        )
+);
+</pre>
 
 
 
@@ -297,17 +344,19 @@ $_POST array.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setOptionArray">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#123-136" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#148-162" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
-<p>Sets the aOptions property array in the property object.</p>
+<p>Sets the <var>$aOptions<var> property array in the property
+object.</var></var></p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>Sets the aOptions property array in the property object.</p>
+<p>Sets the <var>$aOptions<var> property array in the property
+object.</var></var></p>
 
 <p>This array will be referred later in the getFieldOutput() method.</p>
 
@@ -320,7 +369,7 @@ $_POST array.<br>
 					<div class="list">
 							unknown<br>
 							3.0.0 the scope is changed to protected as the taxonomy field class redefines
-it.<br>
+it. #internal<br>
 					</div>
 
 					<h4>Overrides</h4>
