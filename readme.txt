@@ -87,7 +87,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 You need to include the library file in your PHP script. The file is located in the `class` folder of the uncompressed plugin file.
 
 `if ( ! class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );`
+    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );`
 	
 <h5><strong>Step 2</strong> - Extend the Library Class</h5>
 
@@ -98,9 +98,11 @@ You need to include the library file in your PHP script. The file is located in 
 
 `function setUp() {
 	$this->setRootMenuPage( 'Settings' );               // specifies to which parent menu to belong.
-	$this->addSubMenuPage(
-		'My First Page',    // page and menu title
-		'myfirstpage' 	// page slug
+	$this->addSubMenuItem(
+		array(
+			'title' => 'My First Page',
+			'page_slug' => 'myfirstpage'
+		)
 	); 
 }`
 
