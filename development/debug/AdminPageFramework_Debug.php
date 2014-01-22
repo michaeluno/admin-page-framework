@@ -6,6 +6,7 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
  * @since			2.0.0
  * @package			AdminPageFramework
  * @subpackage		Debug
+ * @internal
  */
 class AdminPageFramework_Debug {
 		
