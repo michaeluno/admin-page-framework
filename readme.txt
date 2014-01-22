@@ -38,7 +38,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * `textarea` - a text input field with multiple lines.
 * `radio` - a set of radio buttons.
 * `checkbox` - a check box.
-* `select` - a dropdown list.
+* `select` - a drop-down list.
 * `submit` - a submit field that the user send the form data. 
 * `hidden` - a hidden field that is useful to embed hidden values. 
 * `file` - a file field that lets the user upload files.
@@ -202,7 +202,7 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
 = How can I contribute to improving the documentation? =
-You are welcome to submit documentation. Please follow the [Documentation Guidline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
+You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
