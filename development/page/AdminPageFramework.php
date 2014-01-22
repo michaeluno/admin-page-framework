@@ -41,6 +41,8 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>field_{extended class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
  * 	<li><strong>sections_{extended class name}</strong> – receives the registered section arrays. The first parameter: sections container array.</li> 
  * 	<li><strong>fields_{extended class name}</strong> – receives the registered field arrays. The first parameter: fields container array.</li> 
+ * 	<li><strong>pages_{extended class name}</strong> – receives the registered page arrays. The first parameter: pages container array.</li> 
+ * 	<li><strong>tabs_{extended class name}_{page slug}</strong> – receives the registered in-page tab arrays. The first parameter: tabs container array.</li>  
  * 	<li><strong>validation_{extended class name}_{input id}</strong> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
  * 	<li><strong>validation_{extended class name}_{field id}</strong> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
  * 	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
@@ -93,7 +95,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 
  *  sections_{extended class name}
  *  fields_{extended class name}
- *  
+ *  pages_{extended class name}
+ *  tabs_{extended class name}_{page slug}
+ * 
  *  ------ Start Rendering HTML ------
  *  
  *  <head>
@@ -269,7 +273,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @since			2.1.0
 	 * @remark			Called when registering setting sections and fields.
-	 * @remark			The user may use this method.
 	 * @param			array			The help tab array.
 	 * <h4>Contextual Help Tab Array Structure</h4>
 	 * <ul>
@@ -305,6 +308,10 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @since			3.0.0
 	 * @param			array			The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: <code>array( '/css/mystyle.css', '/css/mystyle2.css' )</code>
+	 * @param			string			(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
+	 * @return			array			The array holing the queued items.
 	 */
 	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
@@ -316,14 +323,13 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <code>$this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );
 	 * $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );</code>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
 	 * @param			string			(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			(optional) The argument array for more advanced parameters.
-	 * <h4>Argument Array(4th parameter)</h4>
+	 * <h4>Argument Array</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
@@ -338,7 +344,21 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	/**
 	 * Enqueues scripts by page slug and tab slug.
 	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueScripts(  
+	 * 		array( 
+	 *			plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
+	 *			plugins_url( 'asset/js/test2.js' , __FILE__ ),	
+	 * 		)
+	 *		'apf_read_me', 	// page slug
+	 *	);</code>
+	 *
 	 * @since			2.1.5
+	 * @param			array			The sources of the stylesheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
+	 * @return			array			The array holding the queued items.
 	 */
 	public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
@@ -360,21 +380,20 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 *		)
 	 *	);</code>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * <h4>Argument Array(4th Parameter)</h4>
+	 * @param			string			The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param			string			(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
+	 * <h4>Argument Array</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head></code> or before<code></body></code> Default: <code>false</code>.</li>
 	 * </ul>
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
@@ -387,17 +406,17 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* 
 	* <h4>Example</h4>
 	* <code>$this->addLinkToPluginDescription( 
-	*		"&lt;a href='http://www.google.com'&gt;Google&lt;/a&gt;",
-	*		"&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;"
+	*		"<a href='http://www.google.com'>Google</a>",
+	*		"<a href='http://www.yahoo.com'>Yahoo!</a>"
 	*	);</code>
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @param			string			$sTaggedLinkHTML1			the tagged HTML link text.
-	* @param			string			$sTaggedLinkHTML2			( optional ) another tagged HTML link text.
-	* @param			string			$_and_more					( optional ) add more as many as want by adding items to the next parameters.
+	* @param			string			the tagged HTML link text.
+	* @param			string			( optional ) another tagged HTML link text.
+	* @param			string			( optional ) add more as many as want by adding items to the next parameters.
 	* @access 			public
 	* @return			void
 	*/		
@@ -410,16 +429,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* 
 	* <h4>Example</h4>
 	* <code>$this->addLinkToPluginTitle( 
-	*		"&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a&gt;"
+	*		"<a href='http://www.wordpress.org'>WordPress</a>"
 	*	);</code>
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @param			string			$sTaggedLinkHTML1			the tagged HTML link text.
-	* @param			string			$sTaggedLinkHTML2			( optional ) another tagged HTML link text.
-	* @param			string			$_and_more					( optional ) add more as many as want by adding items to the next parameters.
+	* @param			string			the tagged HTML link text.
+	* @param			string			( optional ) another tagged HTML link text.
+	* @param			string			( optional ) add more as many as want by adding items to the next parameters.
 	* @access 			public
 	* @return			void
 	*/	
@@ -436,8 +454,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @see				http://codex.wordpress.org/Roles_and_Capabilities
-	 * @remark			The user may directly edit <code>$this->oProp->sCapability</code> instead.
-	 * @param			string			$sCapability			The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for the created pages.
+	 * @param			string			The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for the created pages.
 	 * @return			void
 	 * @access			public
 	 */ 
@@ -449,13 +466,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the given HTML text into the footer on the left hand side.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setFooterInfoLeft( '&lt;br /&gt;Custom Text on the left hand side.' );</code>
+	 * <code>$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );</code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
-	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sLeft']</code> instead.
-	 * @param			string			$sHTML			The HTML code to insert.
-	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
+	 * @param			string			The HTML code to insert.
+	 * @param			boolean			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @access			public
 	 * @return			void
 	 */	
@@ -469,14 +485,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * Sets the given HTML text into the footer on the right hand side.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setFooterInfoRight( '&lt;br /&gt;Custom Text on the right hand side.' );</code>
+	 * <code>$this->setFooterInfoRight( '<br />Custom Text on the right hand side.' );</code>
 	 * 
 	 * @access			public
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @remark			The user may directly edit <code>$this->oProp->aFooterInfo['sRight']</code> instead.
-	 * @param			string			$sHTML			The HTML code to insert.
-	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
+	 * @param			string			The HTML code to insert.
+	 * @param			boolean			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
 	public function setFooterInfoRight( $sHTML, $bAppend=true ) {
@@ -495,9 +511,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @remark			It should be used before the 'admin_notices' hook is triggered.
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public from protected.
-	 * @param			string			$sMessage				The message to display
-	 * @param			string			$sClassSelector		( optional ) The class selector used in the message HTML element. 'error' and 'updated' are prepared by WordPress but it's not limited to them and can pass a custom name. Default: 'error'
-	 * @param			string			$sID					( optional ) The ID of the message. If not set, the hash of the message will be used.
+	 * @param			string			The message to display
+	 * @param			string			( optional ) The class selector used in the message HTML element. 'error' and 'updated' are prepared by WordPress but it's not limited to them and can pass a custom name. Default: 'error'
+	 * @param			string			( optional ) The ID of the message. If not set, the hash of the message will be used.
 	 */
 	public function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {
 			
@@ -530,10 +546,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * <h4>Example</h4>
 	 * <code>$this->setDisallowedQueryKeys( 'my-custom-admin-notice' );</code>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @since			3.0.0			It also accepts a string. Changed the scope to public.
 	 * @access			public
+	 * @param			array|string	The query key(s) to disallow.
+	 * @param			boolean			If true, the passed key(s) will be appended to the property; otherwise, it will override the property.
+	 * @return			void
 	 */
 	public function setDisallowedQueryKeys( $asQueryKeys, $bAppend=true ) {
 		
@@ -554,8 +572,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * @access			public
 	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
-	 * @param			string		$sMethodName		the called method name. 
-	 * @param			array		$aArgs			the argument array. The first element holds the parameters passed to the called method.
+	 * @param			string		the called method name. 
+	 * @param			array		the argument array. The first element holds the parameters passed to the called method.
 	 * @return			mixed		depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
 	 * @since			2.0.0
 	 */
@@ -587,6 +605,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		 * @remark			the users do not need to call or extend this method unless they know what they are doing.
 		 * @param			string			$sMethodName			the called method name
 		 * @return			boolean			If it is a framework's callback method, returns true; otherwise, false.
+		 * @internal
 		 */
 		private function _isFrameworkCallbackMethod( $sMethodName ) {
 				
@@ -606,6 +625,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		 * @internal
 		 * @remark			This method will be triggered before the header gets sent.
 		 * @return			void
+		 * @internal
 		 */ 
 		protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $aArg ) {
 
