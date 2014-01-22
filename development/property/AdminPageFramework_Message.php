@@ -8,6 +8,7 @@ if ( ! class_exists( 'AdminPageFramework_Message' ) ) :
  * @extends			n/a
  * @package			AdminPageFramework
  * @subpackage		Property
+ * @internal
  */
 class AdminPageFramework_Message {
 

@@ -9,6 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_Property_PostType' ) ) :
  * @package			AdminPageFramework
  * @subpackage		Property
  * @extends			AdminPageFramework_Property_Base
+ * @internal
  */
 class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_Base {
 	
@@ -85,15 +86,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
 	 * @access			public
 	 */ 		
 	public $sCallerPath = '';
-	
-	// Prefixes
-	/**
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved to AdminPageFramework_Property_PostType.
-	 * @internal
-	 */ 	
-	public $sPrefix_Cell = 'cell_';
-	
+		
 	// Containers
 	/**
 	 * Stores custom taxonomy slugs.

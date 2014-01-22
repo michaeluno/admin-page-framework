@@ -7,6 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility' ) ) :
  * @extends			AdminPageFramework_Utility
  * @package			AdminPageFramework
  * @subpackage		Utility
+ * @internal
  */
 class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 

@@ -7,6 +7,7 @@ if ( ! class_exists( 'AdminPageFramework_Property_TaxonomyField' ) ) :
  * @package			AdminPageFramework
  * @subpackage		Property
  * @extends			AdminPageFramework_Property_MetaBox
+ * @internal
  */
 class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Property_MetaBox {
 

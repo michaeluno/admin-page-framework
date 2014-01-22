@@ -6,6 +6,7 @@ if ( ! class_exists( 'AdminPageFramework_Utility' ) ) :
  * @since			2.0.0
  * @package			AdminPageFramework
  * @subpackage		Utility
+ * @internal
  */
 abstract class AdminPageFramework_Utility {
 	

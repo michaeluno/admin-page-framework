@@ -9,6 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_Property_Page' ) ) :
  * @package			AdminPageFramework
  * @subpackage		Property
  * @extends			AdminPageFramework_Property_Base
+ * @internal
  */
 class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
 	

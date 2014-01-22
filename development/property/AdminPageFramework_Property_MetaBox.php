@@ -9,6 +9,7 @@ if ( ! class_exists( 'AdminPageFramework_Property_MetaBox' ) ) :
  * @package			AdminPageFramework
  * @subpackage		Property
  * @extends			AdminPageFramework_Property_Base
+ * @internal
  */
 class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Base {
 	
