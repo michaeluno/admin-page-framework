@@ -38,13 +38,21 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	/**
 	 * Constructs the class object instance of AdminPageFramework_TaxonomyField.
 	 * 
+	 * <h4>Examples</h4>
+	 * <code>
+	 * new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
+	 * </code>
+	 * 
 	 * @since			3.0.0
+	 * @param			array|string			The taxonomy slug(s). If multiple slugs need to be passed, enclose them in an array and pass the array.
+	 * @param			string					The option key used for the options table to save the data. By default, the extended class name will be applied.
+	 * @param			string					The access rights. Default: <em>manage_options</em>.
+	 * @param			string					The text domain. Default: <em>admin-page-framework</em>.
 	 * @return			void
 	 */ 
 	function __construct( $asTaxonomySlug, $sOptionKey='', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 		
 		if ( empty( $asTaxonomySlug ) ) return;
-		
 		
 		/* Objects */
 		$this->oProp = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability );
@@ -95,6 +103,23 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	* 
 	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
 	* 
+	* <h4>Examples</h4>
+	* <code>
+	* 		$this->addSettingField(		
+	* 			array(
+	* 				'field_id'		=> 'textarea_field',
+	* 				'type'			=> 'textarea',
+	* 				'title'			=> __( 'Text Area', 'admin-page-framework-demo' ),
+	* 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
+	* 				'help'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
+	* 				'default'		=> __( 'This is a default text.', 'admin-page-framework-demo' ),
+	* 				'attributes'	=>	array(
+	* 					'cols'	=>	40,				
+	* 				),
+	* 			)
+	* 		);		
+	* </code>
+	* 
 	* @since			3.0.0			The scope changed to public to indicate the users will use.
 	* @return			void
 	* @remark			Do not check the 'if' key to skip the field registration because the added field IDs need to be retrieved later on when determining submitted values in the $_POST array.
@@ -121,12 +146,13 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	}
 	
 	/**
-	 * Sets the aOptions property array in the property object. 
+	 * Sets the <var>$aOptions<var> property array in the property object. 
 	 * 
 	 * This array will be referred later in the getFieldOutput() method.
 	 * 
 	 * @since			unknown
 	 * @since			3.0.0			the scope is changed to protected as the taxonomy field class redefines it.
+	 * #internal
 	 */
 	protected function setOptionArray( $iTermID=null, $sOptionKey ) {
 				
