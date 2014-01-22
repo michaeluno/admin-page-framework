@@ -189,9 +189,9 @@ abstract class AdminPageFramework_Base {
 	public function setRootMenuPageBySlug( $sRootMenuSlug ) {}
 	public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {}
 	public function addSubMenuItem( array $aSubMenuItem ) {}
-	public function addSubMenuLink( array $aSubMenuLink ) {}	
-	public function addSubMenuPages() {}	// no parameter
-	public function addSubMenuPage( array $aSubMenuPage ) {}
+	protected function addSubMenuLink( array $aSubMenuLink ) {}	
+	protected function addSubMenuPages() {}	// no parameter
+	protected function addSubMenuPage( array $aSubMenuPage ) {}
 	
 	/* Defined in AdminPageFramework_Setting */
 	public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {}
