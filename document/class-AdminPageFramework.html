@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
 	<script type="text/javascript" src="elementlist.js?3308423397"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?297378730">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3226063479">
 
 </head>
 
@@ -213,6 +213,12 @@ the callbacks of the filters and the actions.</p>
 	<li><strong>fields_{extended class name}</strong> – receives the registered
 	field arrays. The first parameter: fields container array.</li>
 
+	<li><strong>pages_{extended class name}</strong> – receives the registered
+	page arrays. The first parameter: pages container array.</li>
+
+	<li><strong>tabs_{extended class name}_{page slug}</strong> – receives the
+	registered in-page tab arrays. The first parameter: tabs container array.</li>
+
 	<li><strong>validation_{extended class name}_{input id}</strong> – [2.1.5+]
 	receives the form submission values as array. The first parameter: submitted
 	input array. The second parameter: the original array stored in the database.
@@ -348,6 +354,10 @@ class="php-keyword1">class</span> name}
 class="php-keyword1">class</span> name}
  fields_{extended <span
 class="php-keyword1">class</span> name}
+ pages_{extended <span
+class="php-keyword1">class</span> name}
+ tabs_{extended <span
+class="php-keyword1">class</span> name}_{page slug}
 
  ------ Start Rendering HTML ------
 
@@ -517,7 +527,7 @@ AdminPageFramework_Page_MetaBox
 				AdminPageFramework_Link_Page<br>
 				<b>Use:</b>
 				AdminPageFramework_Utility<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework.html#3-617" title="Go to source code">page/AdminPageFramework.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework.html#3-641" title="Go to source code">page/AdminPageFramework.php</a><br>
 	</div>
 
 
@@ -535,17 +545,19 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework.html#181-209" title="Go to source code">__construct</a>( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#185-213" title="Go to source code">__construct</a>( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
-<p>The constructor of the main class.</p>
+<p>Registers necessary callbacks ans sets up internal components including
+properties.</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>The constructor of the main class.</p>
+<p>Registers necessary callbacks ans sets up internal components including
+properties.</p>
 
 <h4>Example</h4>
 
@@ -595,8 +607,6 @@ href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.
 href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains</a><br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_Setting.html#___construct">AdminPageFramework_Setting::__construct</a></code></div>
 
 			</div>
 			</div></td>
@@ -612,7 +622,7 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework.html#211-249" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework.html#215-253" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -625,9 +635,9 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 <p>The method for all the necessary set-ups.</p>
 
 <p>The users should override this method to set-up necessary settings. To
-perform certain tasks prior to this method, use the <code>start_{extended
-&lt;span class="php-keyword1"&gt;class&lt;/span&gt; name}</code> hook that is
-triggered at the end of the class constructor.</p>
+perform certain tasks prior to this method, use the <strong>start_{extended
+class name}</strong> hook that is triggered at the end of the class
+constructor.</p>
 
 <h4>Example</h4>
 
@@ -717,7 +727,7 @@ is triggered with the <em>wp_loaded</em> hook.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addHelpTab">#</a>
-			<code><a href="source-class-AdminPageFramework.html#255-287" title="Go to source code">addHelpTab</a>( <span>array <var>$aHelpTab</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#259-290" title="Go to source code">addHelpTab</a>( <span>array <var>$aHelpTab</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -797,7 +807,6 @@ class="php-quote">'admin-page-framework'</span> ),
 					<h4>Remark</h4>
 					<div class="list">
 							Called when registering setting sections and fields.<br>
-							The user may use this method.<br>
 					</div>
 
 
@@ -808,14 +817,14 @@ class="php-quote">'admin-page-framework'</span> ),
 
 			<td class="attributes"><code>
 				 public 
-				
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyles">#</a>
-			<code><a href="source-class-AdminPageFramework.html#292-311" title="Go to source code">enqueueStyles</a>( <span>array <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#295-318" title="Go to source code">enqueueStyles</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -851,18 +860,22 @@ class="php-quote">'apf_manage_options'</span>
 					<div class="list"><dl>
 						<dt><var>$aSRCs</var></dt>
 						<dd><code>array</code><br>The sources of the stylesheet to enqueue: the url, the absolute file path, or
-the relative path to the root directory of WordPress. Example: <code>&lt;span
-class="php-keyword1"&gt;array&lt;/span&gt;( &lt;span
-class="php-quote"&gt;'/css/mystyle.css'&lt;/span&gt;, &lt;span
-class="php-quote"&gt;'/css/mystyle2.css'&lt;/span&gt; )</code></dd>
+the relative path to the root directory of WordPress. Example: <em>array(
+'/css/mystyle.css', '/css/mystyle2.css' )</em></dd>
 						<dt><var>$sPageSlug</var></dt>
-						<dd></dd>
+						<dd><code>string</code><br>(optional) The page slug that the stylesheet should be added to. If not set, it
+applies to all the pages created by the framework.</dd>
 						<dt><var>$sTabSlug</var></dt>
-						<dd></dd>
+						<dd><code>string</code><br>(optional) The tab slug that the stylesheet should be added to. If not set, it
+applies to all the in-page tabs in the page.</dd>
 						<dt><var>$aCustomArgs</var></dt>
-						<dd></dd>
+						<dd><code>array</code><br>(optional) The argument array for more advanced parameters.</dd>
 					</dl></div>
 
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>The array holing the queued items.<br>
+					</div>
 
 
 					<h4>Since</h4>
@@ -885,7 +898,7 @@ class="php-quote"&gt;'/css/mystyle2.css'&lt;/span&gt; )</code></dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyle">#</a>
-			<code><a href="source-class-AdminPageFramework.html#312-337" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#319-343" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -923,7 +936,7 @@ applies to all the pages created by the framework.</dd>
 applies to all the in-page tabs in the page.</dd>
 						<dt><var>$aCustomArgs</var></dt>
 						<dd><code>array</code><br>(optional) The argument array for more advanced parameters.
-<h4>Argument Array(4th parameter)</h4>
+<h4>Argument Array</h4>
 
 <ul>
 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
@@ -958,10 +971,6 @@ string will be returned.<br>
 							<a
 href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://codex.wordpress.org/Function_Reference/wp_enqueue_style</a><br>
 					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user may use this method.<br>
-					</div>
 
 
 			</div>
@@ -971,14 +980,14 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="attributes"><code>
 				 public 
-				
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScripts">#</a>
-			<code><a href="source-class-AdminPageFramework.html#338-345" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#344-365" title="Go to source code">enqueueScripts</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -990,9 +999,45 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 				
 <p>Enqueues scripts by page slug and tab slug.</p>
 
+<h4>Example</h4>
+
+<pre><span
+class="php-var">$this</span>-&gt;enqueueScripts(
+                <span
+class="php-keyword1">array</span>(
+                plugins_url( <span
+class="php-quote">'asset/js/test.js'</span> , __FILE__ ),   <span
+class="php-comment">// source url or path</span>
+                plugins_url( <span
+class="php-quote">'asset/js/test2.js'</span> , __FILE__ ),
+                )
+        <span
+class="php-quote">'apf_read_me'</span>,  <span
+class="php-comment">// page slug</span>
+);</pre>
 
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aSRCs</var></dt>
+						<dd><code>array</code><br>The sources of the stylesheets to enqueue: the URL, the absolute file path, or
+the relative path to the root directory of WordPress. Example:
+'/js/myscript.js'.</dd>
+						<dt><var>$sPageSlug</var></dt>
+						<dd><code>string</code><br>(optional) The page slug that the script should be added to. If not set, it
+applies to all the pages created by the framework.</dd>
+						<dt><var>$sTabSlug</var></dt>
+						<dd><code>string</code><br>(optional) The tab slug that the script should be added to. If not set, it
+applies to all the in-page tabs in the page.</dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd><code>array</code><br>(optional) The argument array for more advanced parameters.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>The array holding the queued items.<br>
+					</div>
 
 
 					<h4>Since</h4>
@@ -1015,7 +1060,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScript">#</a>
-			<code><a href="source-class-AdminPageFramework.html#346-383" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#366-402" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1065,17 +1110,17 @@ class="php-comment">// check the enqueued style handle ID here.</span>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sSRC</var></dt>
-						<dd><code>string</code><br>$sSRC The URL of the stylesheet to enqueue, the absolute file path, or the
-relative path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
+						<dd><code>string</code><br>The URL of the stylesheet to enqueue, the absolute file path, or the relative
+path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
 						<dt><var>$sPageSlug</var></dt>
-						<dd><code>string</code><br>$sPageSlug (optional) The page slug that the script should be added to. If not
-set, it applies to all the pages created by the framework.</dd>
+						<dd><code>string</code><br>(optional) The page slug that the script should be added to. If not set, it
+applies to all the pages created by the framework.</dd>
 						<dt><var>$sTabSlug</var></dt>
-						<dd><code>string</code><br>$sTabSlug (optional) The tab slug that the script should be added to. If not
-set, it applies to all the in-page tabs in the page.</dd>
+						<dd><code>string</code><br>(optional) The tab slug that the script should be added to. If not set, it
+applies to all the in-page tabs in the page.</dd>
 						<dt><var>$aCustomArgs</var></dt>
-						<dd><code>array</code><br>$aCustomArgs (optional) The argument array for more advanced parameters.
-<h4>Argument Array(4th Parameter)</h4>
+						<dd><code>array</code><br>(optional) The argument array for more advanced parameters.
+<h4>Argument Array</h4>
 
 <ul>
 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
@@ -1085,15 +1130,15 @@ set, it applies to all the in-page tabs in the page.</dd>
 	For more information, see <a
 	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 
-	<li><strong>version/strong&gt; - ( optional, string ) The stylesheet version
-	number.</strong></li>
+	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	number.</li>
 
 	<li><strong>translation</strong> - ( optional, array ) The translation array.
 	The handle ID will be used for the object name.</li>
 
 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the
-	script before &lt; / head &gt; or before &lt; / body &gt; Default:
-	<code>&lt;span class="php-keyword1"&gt;false&lt;/span&gt;</code>.</li>
+	script before <code>&lt;/head&gt;</code> or before<code>&lt;/body&gt;</code>
+	Default: <em>false</em>.</li>
 </ul>
 </dd>
 					</dl></div>
@@ -1115,10 +1160,6 @@ string will be returned.<br>
 							<a
 href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://codex.wordpress.org/Function_Reference/wp_enqueue_script</a><br>
 					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user may use this method.<br>
-					</div>
 
 
 			</div>
@@ -1135,7 +1176,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addLinkToPluginDescription">#</a>
-			<code><a href="source-class-AdminPageFramework.html#385-406" title="Go to source code">addLinkToPluginDescription</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#404-424" title="Go to source code">addLinkToPluginDescription</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1154,9 +1195,9 @@ table.</p>
 <pre><span
 class="php-var">$this</span>-&gt;addLinkToPluginDescription(
         <span
-class="php-quote">&quot;&amp;lt;a href='http://www.google.com'&amp;gt;Google&amp;lt;/a&amp;gt;&quot;</span>,
+class="php-quote">&quot;&lt;a href='http://www.google.com'&gt;Google&lt;/a&gt;&quot;</span>,
         <span
-class="php-quote">&quot;&amp;lt;a href='http://www.yahoo.com'&amp;gt;Yahoo!&amp;lt;/a&amp;gt;&quot;</span>
+class="php-quote">&quot;&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;&quot;</span>
 );</pre>
 
 
@@ -1164,12 +1205,11 @@ class="php-quote">&quot;&amp;lt;a href='http://www.yahoo.com'&amp;gt;Yahoo!&amp;
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sTaggedLinkHTML1</var></dt>
-						<dd><code>string</code><br>$sTaggedLinkHTML1 the tagged HTML link text.</dd>
+						<dd><code>string</code><br>the tagged HTML link text.</dd>
 						<dt><var>$sTaggedLinkHTML2</var></dt>
-						<dd><code>string</code><br>$sTaggedLinkHTML2 ( optional ) another tagged HTML link text.</dd>
+						<dd><code>string</code><br>( optional ) another tagged HTML link text.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>$_and_more ( optional ) add more as many as want by adding items to the next
-parameters.</dd>
+						<dd><code>string</code><br>( optional ) add more as many as want by adding items to the next parameters.</dd>
 					</dl></div>
 
 
@@ -1181,7 +1221,6 @@ parameters.</dd>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
-							The user may use this method in their extended class definition.<br>
 							Accepts variadic parameters; the number of accepted parameters are not limited
 to three.<br>
 					</div>
@@ -1201,7 +1240,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addLinkToPluginTitle">#</a>
-			<code><a href="source-class-AdminPageFramework.html#408-428" title="Go to source code">addLinkToPluginTitle</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#426-445" title="Go to source code">addLinkToPluginTitle</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1217,7 +1256,7 @@ to three.<br>
 
 <pre><span class="php-var">$this</span>-&gt;addLinkToPluginTitle(
         <span
-class="php-quote">&quot;&amp;lt;a href='http://www.wordpress.org'&amp;gt;WordPress&amp;lt;/a&amp;gt;&quot;</span>
+class="php-quote">&quot;&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a&gt;&quot;</span>
 );</pre>
 
 
@@ -1225,12 +1264,11 @@ class="php-quote">&quot;&amp;lt;a href='http://www.wordpress.org'&amp;gt;WordPre
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sTaggedLinkHTML1</var></dt>
-						<dd><code>string</code><br>$sTaggedLinkHTML1 the tagged HTML link text.</dd>
+						<dd><code>string</code><br>the tagged HTML link text.</dd>
 						<dt><var>$sTaggedLinkHTML2</var></dt>
-						<dd><code>string</code><br>$sTaggedLinkHTML2 ( optional ) another tagged HTML link text.</dd>
+						<dd><code>string</code><br>( optional ) another tagged HTML link text.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>$_and_more ( optional ) add more as many as want by adding items to the next
-parameters.</dd>
+						<dd><code>string</code><br>( optional ) add more as many as want by adding items to the next parameters.</dd>
 					</dl></div>
 
 
@@ -1242,7 +1280,6 @@ parameters.</dd>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
-							The user may use this method in their extended class definition.<br>
 							Accepts variadic parameters; the number of accepted parameters are not limited
 to three.<br>
 					</div>
@@ -1262,7 +1299,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCapability">#</a>
-			<code><a href="source-class-AdminPageFramework.html#430-446" title="Go to source code">setCapability</a>( <span>string <var>$sCapability</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#447-463" title="Go to source code">setCapability</a>( <span>string <var>$sCapability</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1275,17 +1312,19 @@ to three.<br>
 <p>Sets the overall capability.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setCpability( &lt;span
-class="php-quote"&gt;'read'&lt;/span&gt; ); &lt;span class="php-comment"&gt;//
-let subscribers access the pages.&lt;/span&gt;</code>
+
+<pre><span class="php-var">$this</span>-&gt;setCpability( <span
+class="php-quote">'read'</span> );            <span
+class="php-comment">// let subscribers access the pages.</span>
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sCapability</var></dt>
-						<dd><code>string</code><br>$sCapability The <a
-href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for
-the created pages.</dd>
+						<dd><code>string</code><br>The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a>
+for the created pages.</dd>
 					</dl></div>
 
 
@@ -1299,11 +1338,6 @@ the created pages.</dd>
 					<div class="list">
 							<a
 href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a><br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user may directly edit <code>&lt;span
-class="php-var"&gt;$this&lt;/span&gt;-&gt;oProp-&gt;sCapability</code> instead.<br>
 					</div>
 
 
@@ -1321,7 +1355,7 @@ class="php-var"&gt;$this&lt;/span&gt;-&gt;oProp-&gt;sCapability</code> instead.<
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoLeft">#</a>
-			<code><a href="source-class-AdminPageFramework.html#448-466" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#465-483" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1334,18 +1368,19 @@ class="php-var"&gt;$this&lt;/span&gt;-&gt;oProp-&gt;sCapability</code> instead.<
 <p>Sets the given HTML text into the footer on the left hand side.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setFooterInfoLeft(
-&lt;span class="php-quote"&gt;'&amp;lt;br /&amp;gt;Custom Text on the left hand
-side.'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;setFooterInfoLeft( <span
+class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sHTML</var></dt>
-						<dd><code>string</code><br>$sHTML The HTML code to insert.</dd>
+						<dd><code>string</code><br>The HTML code to insert.</dd>
 						<dt><var>$bAppend</var></dt>
-						<dd><code>boolean</code><br>$bAppend If true, the text will be appended; otherwise, it will replace the
-default text.</dd>
+						<dd><code>boolean</code><br>If true, the text will be appended; otherwise, it will replace the default text.</dd>
 					</dl></div>
 
 
@@ -1354,12 +1389,6 @@ default text.</dd>
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public from protected.<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user may directly edit <code>&lt;span
-class="php-var"&gt;$this&lt;/span&gt;-&gt;oProp-&gt;aFooterInfo[&lt;span
-class="php-quote"&gt;'sLeft'&lt;/span&gt;]</code> instead.<br>
 					</div>
 
 
@@ -1377,7 +1406,7 @@ class="php-quote"&gt;'sLeft'&lt;/span&gt;]</code> instead.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoRight">#</a>
-			<code><a href="source-class-AdminPageFramework.html#468-486" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#485-503" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1390,18 +1419,19 @@ class="php-quote"&gt;'sLeft'&lt;/span&gt;]</code> instead.<br>
 <p>Sets the given HTML text into the footer on the right hand side.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setFooterInfoRight(
-&lt;span class="php-quote"&gt;'&amp;lt;br /&amp;gt;Custom Text on the right hand
-side.'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;setFooterInfoRight( <span
+class="php-quote">'&lt;br /&gt;Custom Text on the right hand side.'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sHTML</var></dt>
-						<dd><code>string</code><br>$sHTML The HTML code to insert.</dd>
+						<dd><code>string</code><br>The HTML code to insert.</dd>
 						<dt><var>$bAppend</var></dt>
-						<dd><code>boolean</code><br>$bAppend If true, the text will be appended; otherwise, it will replace the
-default text.</dd>
+						<dd><code>boolean</code><br>If true, the text will be appended; otherwise, it will replace the default text.</dd>
 					</dl></div>
 
 
@@ -1410,12 +1440,6 @@ default text.</dd>
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public from protected.<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user may directly edit <code>&lt;span
-class="php-var"&gt;$this&lt;/span&gt;-&gt;oProp-&gt;aFooterInfo[&lt;span
-class="php-quote"&gt;'sRight'&lt;/span&gt;]</code> instead.<br>
 					</div>
 
 
@@ -1433,7 +1457,7 @@ class="php-quote"&gt;'sRight'&lt;/span&gt;]</code> instead.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setAdminNotice">#</a>
-			<code><a href="source-class-AdminPageFramework.html#488-512" title="Go to source code">setAdminNotice</a>( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#505-530" title="Go to source code">setAdminNotice</a>( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1446,25 +1470,27 @@ class="php-quote"&gt;'sRight'&lt;/span&gt;]</code> instead.<br>
 <p>Sets an admin notice.</p>
 
 <h4>Example</h4>
- <code>&lt;span class="php-var"&gt;$this&lt;/span&gt;-&gt;setAdminNotice(
-&lt;span class="php-keyword2"&gt;sprintf&lt;/span&gt;( &lt;span
-class="php-quote"&gt;'Please click &lt;a href="%1$s"&gt;here&lt;/a&gt; to
-upgrade the options.'&lt;/span&gt;, admin_url( &lt;span
-class="php-quote"&gt;'admin.php?page="my_page"'&lt;/span&gt; ) ), &lt;span
-class="php-quote"&gt;'updated'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;setAdminNotice( <span
+class="php-keyword2">sprintf</span>( <span
+class="php-quote">'Please click &lt;a href=&quot;%1$s&quot;&gt;here&lt;/a&gt; to upgrade the options.'</span>, admin_url( <span
+class="php-quote">'admin.php?page=&quot;my_page&quot;'</span> ) ), <span
+class="php-quote">'updated'</span> );
+</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sMessage</var></dt>
-						<dd><code>string</code><br>$sMessage The message to display</dd>
+						<dd><code>string</code><br>The message to display</dd>
 						<dt><var>$sClassSelector</var></dt>
-						<dd><code>string</code><br>$sClassSelector ( optional ) The class selector used in the message HTML
-element. 'error' and 'updated' are prepared by WordPress but it's not limited to
-them and can pass a custom name. Default: 'error'</dd>
+						<dd><code>string</code><br>( optional ) The class selector used in the message HTML element. 'error' and
+'updated' are prepared by WordPress but it's not limited to them and can pass a
+custom name. Default: 'error'</dd>
 						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>$sID ( optional ) The ID of the message. If not set, the hash of the message
-will be used.</dd>
+						<dd><code>string</code><br>( optional ) The ID of the message. If not set, the hash of the message will be
+used.</dd>
 					</dl></div>
 
 
@@ -1494,7 +1520,7 @@ will be used.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setDisallowedQueryKeys">#</a>
-			<code><a href="source-class-AdminPageFramework.html#527-550" title="Go to source code">setDisallowedQueryKeys</a>( <span>mixed <var>$asQueryKeys</var></span>, <span>mixed <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#545-571" title="Go to source code">setDisallowedQueryKeys</a>( <span>array|string <var>$asQueryKeys</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1507,11 +1533,21 @@ will be used.</dd>
 <p>Sets the disallowed query keys in the links that the framework generates.</p>
 
 <h4>Example</h4>
- <code>&lt;span
-class="php-var"&gt;$this&lt;/span&gt;-&gt;setDisallowedQueryKeys( &lt;span
-class="php-quote"&gt;'my-custom-admin-notice'&lt;/span&gt; );</code>
+
+<pre><span class="php-var">$this</span>-&gt;setDisallowedQueryKeys( <span
+class="php-quote">'my-custom-admin-notice'</span> );
+</pre>
 
 
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$asQueryKeys</var></dt>
+						<dd><code>array|string</code><br>The query key(s) to disallow.</dd>
+						<dt><var>$bAppend</var></dt>
+						<dd><code>boolean</code><br>If true, the passed key(s) will be appended to the property; otherwise, it will
+override the property.</dd>
+					</dl></div>
 
 
 
@@ -1519,67 +1555,6 @@ class="php-quote"&gt;'my-custom-admin-notice'&lt;/span&gt; );</code>
 					<div class="list">
 							2.1.2<br>
 							3.0.0 It also accepts a string. Changed the scope to public.<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user may use this method.<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="__call" id="___call">
-
-			<td class="attributes"><code>
-				 public 
-				mixed
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#___call">#</a>
-			<code><a href="source-class-AdminPageFramework.html#552-582" title="Go to source code">__call</a>( <span>string <var>$sMethodName</var></span>, <span>array <var>$aArgs</var> = <span class="php-keyword1">null</span> </span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>The magic method which redirects callback-function calls with the pre-defined
-prefixes for hooks to the appropriate methods.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>The magic method which redirects callback-function calls with the pre-defined
-prefixes for hooks to the appropriate methods.</p>
-
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$sMethodName</var></dt>
-						<dd><code>string</code><br>$sMethodName the called method name.</dd>
-						<dt><var>$aArgs</var></dt>
-						<dd><code>array</code><br>$aArgs the argument array. The first element holds the parameters passed to the
-called method.</dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code>mixed</code><br>depends on the called method. If the method name matches one of the hook
-prefixes, the redirected methods return value will be returned. Otherwise, none.<br>
-					</div>
-
-
-					<h4>Since</h4>
-					<div class="list">
-							2.0.0<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							the users do not need to call or extend this method unless they know what they
-are doing.<br>
 					</div>
 
 
@@ -1602,12 +1577,8 @@ are doing.<br>
 		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Menu.html#methods">AdminPageFramework_Menu</a></h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Menu.html#__replyToBuildMenu">_replyToBuildMenu()</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu.html#__replyToFixPageTitleForHiddenPages">_replyToFixPageTitleForHiddenPages()</a></code>, 
 			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuItem">addSubMenuItem()</a></code>, 
 			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuItems">addSubMenuItems()</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuLink">addSubMenuLink()</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuPage">addSubMenuPage()</a></code>, 
 			<code><a href="class-AdminPageFramework_Menu.html#_setRootMenuPage">setRootMenuPage()</a></code>, 
 			<code><a href="class-AdminPageFramework_Menu.html#_setRootMenuPageBySlug">setRootMenuPageBySlug()</a></code>
 		</p>
@@ -1634,6 +1605,8 @@ are doing.<br>
 		<h3>Methods inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">
 			<code>_sortByOrder()</code>, 
+			<code>addSubMenuLink()</code>, 
+			<code>addSubMenuPage()</code>, 
 			<code>addSubMenuPages()</code>
 		</p>
 
@@ -1649,10 +1622,6 @@ are doing.<br>
 
 		<h2>Properties summary</h2>
 
-		<h3>Properties inherited from <a href="class-AdminPageFramework_Menu.html#properties">AdminPageFramework_Menu</a></h3>
-		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Menu.html#$_aStructure_SubMenuLinkForUser"><var>$_aStructure_SubMenuLinkForUser</var></a></code>
-		</p>
 		<h3>Properties inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">
 			<code><var>$_aHookPrefixes</var></code>, 

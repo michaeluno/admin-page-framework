@@ -97,7 +97,6 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	* 
 	* @since			3.0.0			The scope changed to public to indicate the users will use.
 	* @return			void
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Do not check the 'if' key to skip the field registration because the added field IDs need to be retrieved later on when determining submitted values in the $_POST array.
 	*/		
 	public function addSettingField( array $aField ) {

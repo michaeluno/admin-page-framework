@@ -44,6 +44,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @since			2.1.4			Changed to be static since it is used from multiple classes.
 	 * @since			3.0.0			Moved from the link class.
 	 * @remark			The scope is public because this is accessed from an extended class.
+	 * @internal
 	 */ 
 	protected static $_aStructure_SubMenuLinkForUser = array(		
 		'type' => 'link',	
@@ -54,22 +55,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		'show_page_heading_tab' => true,
 		'show_in_menu' => true,
 	);
-	
-	/**
-	 * Represents the structure of the sub-menu link array for the system.
-	 * 
-	 * @since			3.0.0
-	 */
-	// protected static $_aStructure_SubMenuLinkForSystem = array(
-		// 'sTitle' => null,
-		// 'sHref' => null,
-		// 'capability' => null,
-		// 'nOrder' => null,
-		// 'sType' => 'link',
-		// 'fShowPageHeadingTab' => true,
-		// 'fShowInMenu' => true,	
-	// );
-	
+		
 	/**
 	 * Represents the structure of sub-menu page array for the users.
 	 * 
@@ -97,30 +83,12 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		'in_page_tab_tag'			=> null,
 		'page_heading_tab_tag'		=> null,
 	);
-	
-	/**
-	 * Represents the structure of the sub-menu page array for the system.
-	 * 
-	 * @since			3.0.0
-	 */	
-	// protected static $_aStructure_SubMenuPageForSystem = array(
-		// 'sTitle' => null,
-		// 'sPageSlug' => null,
-		// 'sType' => 'page',
-// 'sIcon32x32' => null,
-// 'sScreenIconID' => null,
-// 'capability' => null, 		
-// 'nOrder' => null,
-// 'fShowPageHeadingTab' => true,
-// 'fShowInMenu' => true,		
-// 'show_page_title'			=> null,			// boolean
-// 'fShowPageHeadingTabs'		=> null,		// boolean
-// 'fShowInPageTabs'			=> null,			// boolean
-// 'sInPageTabTag'				=> null,			// string
-// 'sPageHeadingTabTag'		=> null,		// string			
-	// );
-	 
-
+		 
+	 /**
+	  * Registers necessary callbacks and sets up properties.
+	  * 
+	  * @internal
+	  */
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 		
 		add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );		
@@ -133,7 +101,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * Sets to which top level page is going to be adding sub-pages.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setRootMenuPage( 'Settings' );</code>
+	 * <code>$this->setRootMenuPage( 'Settings' );
+	 * </code>
 	 * <code>$this->setRootMenuPage( 
 	 * 	'APF Form',
 	 * 	plugins_url( 'image/screen_icon32x32.jpg', __FILE__ )
@@ -144,15 +113,17 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * @since			2.1.6			The $sIcon16x16 parameter accepts a file path.
 	 * @since			3.0.0			The scope was changed to public from protected.
 	 * @remark			Only one root page can be set per one class instance.
-	 * @param			string			$sRootMenuLabel			If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
+	 * @param			string			If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
 	 * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
-	 * @param			string			$sIcon16x16			( optional ) either of the following items.
-	 * 	- the URL of the menu icon with the size of 16 by 16 in pixel.
-	 *  - the file path of the menu icon with the size of 16 by 16 in pixel.
-	 *  - the name of a Dashicons helper class to use a font icon, e.g. <code>dashicons-editor-customchar</code>.
-	 *  - the string, 'none', to leave div.wp-menu-image empty so an icon can be added via CSS.
-	 *  - a base64-encoded SVG using a data URI, which will be colored to match the color scheme. This should begin with 'data:image/svg+xml;base64,'.
-	 * @param			string			$iMenuPosition		( optional ) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
+	 * @param			string			( optional ) the source of menu icon with either of the following forms:
+	 * <ul>
+	 *  <li>the URL of the menu icon with the size of 16 by 16 in pixel.</li>
+	 *  <li>the file path of the menu icon with the size of 16 by 16 in pixel.</li>
+	 *  <li>the name of a Dashicons helper class to use a font icon, e.g. <code>dashicons-editor-customchar</code>.</li>
+	 *  <li>the string, 'none', to leave div.wp-menu-image empty so an icon can be added via CSS.</li>
+	 *  <li>a base64-encoded SVG using a data URI, which will be colored to match the color scheme. This should begin with 'data:image/svg+xml;base64,'.</li>
+	 * </ul>
+	 * @param			string			( optional ) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
 	 * @return			void
 	 */
 	public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
@@ -189,13 +160,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * The page should be already created or scheduled to be created separately.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );</code>
+	 * <code>$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
+	 * </code>
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			The scope was changed to public from protected.
 	 * @access			public
-	 * @remark			The user may use this method in their extended class definition.
-	 * @param			string			$sRootMenuSlug			The page slug of the top-level root page.
+	 * @param			string			The page slug of the top-level root page.
 	 * @return			void
 	 */ 
 	public function setRootMenuPageBySlug( $sRootMenuSlug ) {
@@ -206,30 +177,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	}
 	
 	/**
-	* Adds sub-menu items on the left sidebar of the administration panel. 
+	* Adds sub-menu items on the left sidebar menu of the administration panel. 
 	* 
 	* It supports pages and links. Each of them has the specific array structure.
-	* 
-	* <h4>Sub-menu Page Array</h4>
-	* <ul>
-	* <li><strong>title</strong> - ( string ) the page title of the page.</li>
-	* <li><strong>page_slug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-	* <li><strong>screen_icon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel.
-	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
-	*	<p><strong>Notes</strong>: the <em>generic</em> icon is available WordPress version 3.5 or above.</p>
-	* </li>
-	* <li><strong>sCapability</strong> - ( optional, string ) the access level to the created admin pages defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-	* </ul>
-	* <h4>Sub-menu Link Array</h4>
-	* <ul>
-	* <li><strong>title</strong> - ( string ) the link title.</li>
-	* <li><strong>href</strong> - ( string ) the URL of the target link.</li>
-	* <li><strong>sCapability</strong> - ( optional, string ) the access level to show the item, defined [here](http://codex.wordpress.org/Roles_and_Capabilities). If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-	* <li><strong>fShowPageHeadingTab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-	* </ul>
 	* 
 	* <h4>Example</h4>
 	* <code>$this->addSubMenuItems(
@@ -253,11 +203,30 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public.
 	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @param			array		$aSubMenuItem1		a first sub-menu array.
-	* @param			array		$aSubMenuItem2		( optional ) a second sub-menu array.
-	* @param			array		$_and_more				( optional ) third and add items as many as necessary with next parameters.
+	* @param			array			a first sub-menu array. A sub-menu array can be a link or a page. The array structures are as follows:
+	* <h4>Sub-menu Page Array</h4>
+	* <ul>
+	* <li><strong>title</strong> - ( string ) the page title of the page.</li>
+	* <li><strong>page_slug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+	* <li><strong>screen_icon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
+	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
+	*	<p>( Notes: the <em>generic</em> icon is available WordPress version 3.5 or above.)</p> 
+	* </li>
+	* <li><strong>capability</strong> - ( optional, string ) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	* </ul>
+	* <h4>Sub-menu Link Array</h4>
+	* <ul>
+	* <li><strong>title</strong> - ( string ) the link title.</li>
+	* <li><strong>href</strong> - ( string ) the URL of the target link.</li>
+	* <li><strong>capability</strong> - ( optional, string ) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	* </ul>
+	* @param			array		( optional ) a second sub-menu array.
+	* @param			array		( optional ) a third and add items as many as necessary with next parameters.
 	* @access 			public
 	* @return			void
 	*/		
@@ -267,17 +236,34 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	}
 	
 	/**
-	* Adds the given sub-menu item on the left sidebar of the administration panel.
+	* Adds the given sub-menu item on the left sidebar menu of the administration panel.
 	* 
-	* This only adds one single item, called by the above <em>addSubMenuItem()</em> method.
-	* 
-	* The array structure of the parameter is documented in the <em>addSubMenuItem()</em> method section.
+	* It supports pages and links. Each of them has the specific array structure.
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public.
 	* @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	* @remark			The user may use this method.
-	* @param			array		$aSubMenuItem			a first sub-menu array.
+	* @param			array			a sub-menu array. It can be a page or a link. The array structures are as follows:
+	* <h4>Sub-menu Page Array</h4>
+	* <ul>
+	* <li><strong>title</strong> - ( string ) the page title of the page.</li>
+	* <li><strong>page_slug</strong> - ( string ) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+	* <li><strong>screen_icon</strong> - ( optional, string ) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
+	*	<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
+	*	<p>( Notes: the <em>generic</em> icon is available WordPress version 3.5 or above.)</p> 
+	* </li>
+	* <li><strong>capability</strong> - ( optional, string ) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	* </ul>
+	* <h4>Sub-menu Link Array</h4>
+	* <ul>
+	* <li><strong>title</strong> - ( string ) the link title.</li>
+	* <li><strong>href</strong> - ( string ) the URL of the target link.</li>
+	* <li><strong>capability</strong> - ( optional, string ) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
+	* <li><strong>order</strong> - ( optional, integer ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	* <li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	* </ul>
 	* @access 			public
 	* @return			void
 	*/	
@@ -293,17 +279,16 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
-	* @remark			The user may use this method in their extended class definition.
-	* @param			string		$sMenuTitle			the menu title.
-	* @param			string		$sURL					the URL linked to the menu.
-	* @param			string		$sCapability			( optional ) the access level. ( http://codex.wordpress.org/Roles_and_Capabilities)
-	* @param			string		$nOrder				( optional ) the order number. The larger it is, the lower the position it gets.
-	* @param			string		$bShowPageHeadingTab		( optional ) if set to false, the menu title will not be listed in the tab navigation menu at the top of the page.
-	* @access 			public
+	* @param			string			the menu title.
+	* @param			string			the URL linked to the menu.
+	* @param			string			( optional ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank">access level</a>.
+	* @param			string			( optional ) the order number. The larger it is, the lower the position it gets.
+	* @param			string			( optional ) if set to false, the menu title will not be listed in the tab navigation menu at the top of the page.
+	* @access 			protected
 	* @return			void
+	* @internal
 	*/	
-	public function addSubMenuLink( array $aSubMenuLink ) {
-	// public function addSubMenuLink( $sMenuTitle, $sURL, $sCapability=null, $nOrder=null, $bShowPageHeadingTab=true, $bShowInMenu=true ) {
+	protected function addSubMenuLink( array $aSubMenuLink ) {
 		
 		// If required keys are not set, return.
 		if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) return;
@@ -318,16 +303,15 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	/**
 	 * Adds sub-menu pages.
 	 * 
-	 * Use addSubMenuItems() instead, which supports external links.
+	 * It is recommended to use addSubMenuItems() instead, which supports external links.
 	 * 
 	 * @since			2.0.0
 	 * @since			3.0.0			The scope was changed to public from protected.
 	 * @internal
 	 * @return			void
 	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-	 * @remark			The user may use this method.
 	 */ 
-	public function addSubMenuPages() {
+	protected function addSubMenuPages() {
 		foreach ( func_get_args() as $aSubMenuPage ) 
 			$this->addSubMenuPage( $aSubMenuPage );
 	}
@@ -335,19 +319,6 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	/**
 	 * Adds a single sub-menu page.
 	 * 
-	 * <h4>Sub Menu Page Array</h4>
-	 * <ul>
-	 * 	<li>title - ( required ) the title of the page.</li>
-	 * 	<li>page_slug - ( required ) the slug of the page. Do not use hyphens as it serves as the callback method name.</li>
-	 * 	<li>screen icon - ( optional ) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.</li>
-	 * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
-	 * <strong>Note:</strong> the <em>generic</em> ID is available since WordPress 3.5.
-	 * 	<li>capability - ( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.</li>
-	 * 	<li>order - ( optional ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-	 * 	<li>show_page_heading_tab - ( optional ) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-	 * 	<li>show_in_menu - ( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
-	 * 	
-	 * </ul>
 	 * <h4>Example</h4>
 	 * <code>
 		$this->addSubMenuPage(
@@ -364,13 +335,27 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * 
 	 * @access			public
 	 * @since			2.0.0
-	 * @since			2.1.2			The key name page_heading_tab_visibility was changed to fShowPageHeadingTab
+	 * @since			2.1.2			A key name was changed.
 	 * @since			2.1.6			$sScreenIcon accepts a file path.
-	 * @since			3.0.0			The scope was changed to public from protected. Deprecated all the parameters made it to accept them as an array.
+	 * @since			3.0.0			The scope was changed to public from protected. Deprecated all the parameters made it to accept them as an array. A key name was changed.
 	 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
+	 * @param			array			The sub menu page array.
+	 * <h4>Sub Menu Page Array</h4>
+	 * <ul>
+	 * 	<li>title - ( required ) the title of the page.</li>
+	 * 	<li>page_slug - ( required ) the slug of the page. Do not use hyphens as it serves as the callback method name.</li>
+	 * 	<li>screen icon - ( optional ) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.</li>
+	 * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
+	 * ( Note: the <em>generic</em> ID is available since WordPress 3.5. )
+	 * 	<li>capability - ( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.</li>
+	 * 	<li>order - ( optional ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+	 * 	<li>show_page_heading_tab - ( optional ) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+	 * 	<li>show_in_menu - ( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
+	 * </ul>
 	 * @return			void
+	 * @internal
 	 */ 
-	public function addSubMenuPage( array $aSubMenuPage ) {
+	protected function addSubMenuPage( array $aSubMenuPage ) {
 
 		if ( ! isset( $aSubMenuPage['page_slug'] ) ) return;
 			
@@ -383,6 +368,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	 * Builds the sidebar menu of the added pages.
 	 * 
 	 * @since			2.0.0
+	 * @internal
 	 */
 	public function _replyToBuildMenu() {
 		
@@ -425,6 +411,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		 * Registers the root menu page.
 		 * 
 		 * @since			2.0.0
+		 * @internal
 		 */ 
 		private function _registerRootMenuPage() {
 			$this->oProp->aRootMenu['_page_hook'] = add_menu_page(  
@@ -441,6 +428,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		/**
 		 * Formats the sub-menu item arrays.
 		 * @since			3.0.0
+		 * @internal
 		 */
 		private function _formatSubMenuItemArray( $aSubMenuItem ) {
 			
@@ -457,6 +445,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		/**
 		 * Formats the given sub-menu link array.
 		 * @since			3.0.0
+		 * @internal
 		 */
 		private function _formatSubmenuLinkArray( $aSubMenuLink ) {
 			
@@ -475,6 +464,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		/**
 		 * Formats the given sub-menu page array.
 		 * @since			3.0.0
+		 * @internal
 		 */
 		private function _formatSubMenuPageArray( $aSubMenuPage ) {
 			
@@ -508,6 +498,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		 * @remark			Used in the buildMenu() method. 
 		 * @remark			Within the <em>admin_menu</em> hook callback process.
 		 * @remark			The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
+		 * @internal
 		 */ 
 		private function _registerSubMenuItem( $aArgs ) {
 				
@@ -583,6 +574,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 		/**
 		 * A callback function for the admin_title filter to fix the page title for hidden pages.
 		 * @since			2.1.4
+		 * @internal
 		 */
 		public function _replyToFixPageTitleForHiddenPages( $sAdminTitle, $sPageTitle ) {
 

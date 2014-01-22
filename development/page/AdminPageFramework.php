@@ -183,7 +183,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
 abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		
 	/**
-	 * The constructor of the main class.
+	 * Registers necessary callbacks ans sets up internal components including properties.
 	 * 
 	 * <h4>Example</h4>
 	 * <code>if ( is_admin() )

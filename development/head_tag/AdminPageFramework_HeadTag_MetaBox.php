@@ -171,7 +171,6 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
 	 * </ul>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.5			
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.

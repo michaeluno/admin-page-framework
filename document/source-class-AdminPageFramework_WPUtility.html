@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
 	<script type="text/javascript" src="elementlist.js?3308423397"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?297378730">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3226063479">
 
 </head>
 
@@ -329,109 +329,108 @@
 </span></span><span id="232" class="l"><a class="l" href="#232">232 </a><span class="php-comment">     * 
 </span></span><span id="233" class="l"><a class="l" href="#233">233 </a><span class="php-comment">     * Identical to the getQueryURL() method except that if the third parameter is omitted, it will use the currently browsed admin url.
 </span></span><span id="234" class="l"><a class="l" href="#234">234 </a><span class="php-comment">     * 
-</span></span><span id="235" class="l"><a class="l" href="#235">235 </a><span class="php-comment">     * @remark          The user may use this method.
-</span></span><span id="236" class="l"><a class="l" href="#236">236 </a><span class="php-comment">     * @since           2.1.2
-</span></span><span id="237" class="l"><a class="l" href="#237">237 </a><span class="php-comment">     * @param           array           $aAddingQueries         The appending query key value pairs e.g. array( 'page' =&gt; 'my_page_slug', 'tab' =&gt; 'my_tab_slug' )
-</span></span><span id="238" class="l"><a class="l" href="#238">238 </a><span class="php-comment">     * @param           array           $aRemovingQueryKeys     ( optional ) The removing query keys. e.g. array( 'settings-updated', 'my-custom-admin-notice' )
-</span></span><span id="239" class="l"><a class="l" href="#239">239 </a><span class="php-comment">     * @param           string          $sSubjectURL                ( optional ) The subject url to modify
-</span></span><span id="240" class="l"><a class="l" href="#240">240 </a><span class="php-comment">     * @return          string          The modified url.
-</span></span><span id="241" class="l"><a class="l" href="#241">241 </a><span class="php-comment">     */</span>
-</span><span id="242" class="l"><a class="l" href="#242">242 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getQueryAdminURL" href="#_getQueryAdminURL">getQueryAdminURL</a>( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$aRemovingQueryKeys</span>=<span class="php-keyword1">array</span>(), <span class="php-var">$sSubjectURL</span>=<span class="php-quote">''</span> ) {
-</span><span id="243" class="l"><a class="l" href="#243">243 </a>        
-</span><span id="244" class="l"><a class="l" href="#244">244 </a>        <span class="php-var">$sSubjectURL</span> = <span class="php-var">$sSubjectURL</span> ? <span class="php-var">$sSubjectURL</span> : add_query_arg( <span class="php-var">$_GET</span>, admin_url( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>] ) );
-</span><span id="245" class="l"><a class="l" href="#245">245 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;getQueryURL( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$aRemovingQueryKeys</span>, <span class="php-var">$sSubjectURL</span> );
-</span><span id="246" class="l"><a class="l" href="#246">246 </a>        
-</span><span id="247" class="l"><a class="l" href="#247">247 </a>    }
-</span><span id="248" class="l"><a class="l" href="#248">248 </a>    <span class="php-comment">/**
-</span></span><span id="249" class="l"><a class="l" href="#249">249 </a><span class="php-comment">     * Returns a url with modified query stings.
-</span></span><span id="250" class="l"><a class="l" href="#250">250 </a><span class="php-comment">     * 
-</span></span><span id="251" class="l"><a class="l" href="#251">251 </a><span class="php-comment">     * @since           2.1.2
-</span></span><span id="252" class="l"><a class="l" href="#252">252 </a><span class="php-comment">     * @param           array           $aAddingQueries         The appending query key value pairs
-</span></span><span id="253" class="l"><a class="l" href="#253">253 </a><span class="php-comment">     * @param           array           $aRemovingQueryKeys         The removing query key value pairs
-</span></span><span id="254" class="l"><a class="l" href="#254">254 </a><span class="php-comment">     * @param           string          $sSubjectURL                The subject url to modify
-</span></span><span id="255" class="l"><a class="l" href="#255">255 </a><span class="php-comment">     * @return          string          The modified url.
-</span></span><span id="256" class="l"><a class="l" href="#256">256 </a><span class="php-comment">     */</span>
-</span><span id="257" class="l"><a class="l" href="#257">257 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getQueryURL" href="#_getQueryURL">getQueryURL</a>( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$aRemovingQueryKeys</span>, <span class="php-var">$sSubjectURL</span> ) {
-</span><span id="258" class="l"><a class="l" href="#258">258 </a>        
-</span><span id="259" class="l"><a class="l" href="#259">259 </a>        <span class="php-comment">// Remove Queries</span>
-</span><span id="260" class="l"><a class="l" href="#260">260 </a>        <span class="php-var">$sSubjectURL</span> = <span class="php-keyword1">empty</span>( <span class="php-var">$aRemovingQueryKeys</span> ) 
-</span><span id="261" class="l"><a class="l" href="#261">261 </a>            ? <span class="php-var">$sSubjectURL</span> 
-</span><span id="262" class="l"><a class="l" href="#262">262 </a>            : remove_query_arg( ( <span class="php-keyword1">array</span> ) <span class="php-var">$aRemovingQueryKeys</span>, <span class="php-var">$sSubjectURL</span> );
-</span><span id="263" class="l"><a class="l" href="#263">263 </a>            
-</span><span id="264" class="l"><a class="l" href="#264">264 </a>        <span class="php-comment">// Add Queries</span>
-</span><span id="265" class="l"><a class="l" href="#265">265 </a>        <span class="php-var">$sSubjectURL</span> = add_query_arg( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$sSubjectURL</span> );
-</span><span id="266" class="l"><a class="l" href="#266">266 </a>        
-</span><span id="267" class="l"><a class="l" href="#267">267 </a>        <span class="php-keyword1">return</span> <span class="php-var">$sSubjectURL</span>;
-</span><span id="268" class="l"><a class="l" href="#268">268 </a>        
-</span><span id="269" class="l"><a class="l" href="#269">269 </a>    }   
-</span><span id="270" class="l"><a class="l" href="#270">270 </a>
-</span><span id="271" class="l"><a class="l" href="#271">271 </a>    <span class="php-comment">/**
-</span></span><span id="272" class="l"><a class="l" href="#272">272 </a><span class="php-comment">     * Calculates the URL from the given path.
-</span></span><span id="273" class="l"><a class="l" href="#273">273 </a><span class="php-comment">     * 
-</span></span><span id="274" class="l"><a class="l" href="#274">274 </a><span class="php-comment">     * @since           2.1.5
-</span></span><span id="275" class="l"><a class="l" href="#275">275 </a><span class="php-comment">     * @static
-</span></span><span id="276" class="l"><a class="l" href="#276">276 </a><span class="php-comment">     * @access          public
-</span></span><span id="277" class="l"><a class="l" href="#277">277 </a><span class="php-comment">     * @return          string          The source url
-</span></span><span id="278" class="l"><a class="l" href="#278">278 </a><span class="php-comment">     */</span>
-</span><span id="279" class="l"><a class="l" href="#279">279 </a>    <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getSRCFromPath" href="#_getSRCFromPath">getSRCFromPath</a>( <span class="php-var">$sFilePath</span> ) {
-</span><span id="280" class="l"><a class="l" href="#280">280 </a>                        
-</span><span id="281" class="l"><a class="l" href="#281">281 </a>        <span class="php-var">$oWPStyles</span> = <span class="php-keyword1">new</span> WP_Styles();   <span class="php-comment">// It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.</span>
-</span><span id="282" class="l"><a class="l" href="#282">282 </a>        <span class="php-var">$sRelativePath</span> = AdminPageFramework_Utility::getRelativePath( ABSPATH, <span class="php-var">$sFilePath</span> );        
-</span><span id="283" class="l"><a class="l" href="#283">283 </a>        <span class="php-var">$sRelativePath</span> = <span class="php-keyword2">preg_replace</span>( <span class="php-quote">&quot;/^\.[\/\\\]/&quot;</span>, <span class="php-quote">''</span>, <span class="php-var">$sRelativePath</span>, <span class="php-num">1</span> ); <span class="php-comment">// removes the heading ./ or .\ </span>
-</span><span id="284" class="l"><a class="l" href="#284">284 </a>        <span class="php-var">$sHref</span> = trailingslashit( <span class="php-var">$oWPStyles</span>-&gt;base_url ) . <span class="php-var">$sRelativePath</span>;
-</span><span id="285" class="l"><a class="l" href="#285">285 </a>        <span class="php-keyword1">unset</span>( <span class="php-var">$oWPStyles</span> );    <span class="php-comment">// for PHP 5.2.x or below</span>
-</span><span id="286" class="l"><a class="l" href="#286">286 </a>        <span class="php-keyword1">return</span> esc_url( <span class="php-var">$sHref</span> );       
-</span><span id="287" class="l"><a class="l" href="#287">287 </a>        
-</span><span id="288" class="l"><a class="l" href="#288">288 </a>    }   
-</span><span id="289" class="l"><a class="l" href="#289">289 </a>
-</span><span id="290" class="l"><a class="l" href="#290">290 </a>    <span class="php-comment">/**
-</span></span><span id="291" class="l"><a class="l" href="#291">291 </a><span class="php-comment">     * Resolves the given src.
-</span></span><span id="292" class="l"><a class="l" href="#292">292 </a><span class="php-comment">     * 
-</span></span><span id="293" class="l"><a class="l" href="#293">293 </a><span class="php-comment">     * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
-</span></span><span id="294" class="l"><a class="l" href="#294">294 </a><span class="php-comment">     * 
-</span></span><span id="295" class="l"><a class="l" href="#295">295 </a><span class="php-comment">     * @since           2.1.5
-</span></span><span id="296" class="l"><a class="l" href="#296">296 </a><span class="php-comment">     * @since           2.1.6           Moved from the AdminPageFramework_HeadTag_Base class. Added the $bReturnNullIfNotExist parameter.
-</span></span><span id="297" class="l"><a class="l" href="#297">297 </a><span class="php-comment">     */</span>
-</span><span id="298" class="l"><a class="l" href="#298">298 </a>    <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_resolveSRC" href="#_resolveSRC">resolveSRC</a>( <span class="php-var">$sSRC</span>, <span class="php-var">$bReturnNullIfNotExist</span>=<span class="php-keyword1">false</span> ) {  
-</span><span id="299" class="l"><a class="l" href="#299">299 </a>
-</span><span id="300" class="l"><a class="l" href="#300">300 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$sSRC</span> )  
-</span><span id="301" class="l"><a class="l" href="#301">301 </a>            <span class="php-keyword1">return</span> <span class="php-var">$bReturnNullIfNotExist</span> ? <span class="php-keyword1">null</span> : <span class="php-var">$sSRC</span>;
-</span><span id="302" class="l"><a class="l" href="#302">302 </a>            
-</span><span id="303" class="l"><a class="l" href="#303">303 </a>        <span class="php-comment">// It is a url</span>
-</span><span id="304" class="l"><a class="l" href="#304">304 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">filter_var</span>( <span class="php-var">$sSRC</span>, FILTER_VALIDATE_URL ) )
-</span><span id="305" class="l"><a class="l" href="#305">305 </a>            <span class="php-keyword1">return</span> <span class="php-var">$sSRC</span>;
-</span><span id="306" class="l"><a class="l" href="#306">306 </a>
-</span><span id="307" class="l"><a class="l" href="#307">307 </a>        <span class="php-comment">// If the file exists, it means it is an absolute path. If so, calculate the URL from the path.</span>
-</span><span id="308" class="l"><a class="l" href="#308">308 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">file_exists</span>( <span class="php-keyword2">realpath</span>( <span class="php-var">$sSRC</span> ) ) )
-</span><span id="309" class="l"><a class="l" href="#309">309 </a>            <span class="php-keyword1">return</span> self::getSRCFromPath( <span class="php-var">$sSRC</span> );
-</span><span id="310" class="l"><a class="l" href="#310">310 </a>        
-</span><span id="311" class="l"><a class="l" href="#311">311 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$bReturnNullIfNotExist</span> )
-</span><span id="312" class="l"><a class="l" href="#312">312 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">null</span>;
-</span><span id="313" class="l"><a class="l" href="#313">313 </a>        
-</span><span id="314" class="l"><a class="l" href="#314">314 </a>        <span class="php-comment">// Otherwise, let's assume the string is a relative path 'to the WordPress installed absolute path'.</span>
-</span><span id="315" class="l"><a class="l" href="#315">315 </a>        <span class="php-keyword1">return</span> <span class="php-var">$sSRC</span>;
-</span><span id="316" class="l"><a class="l" href="#316">316 </a>        
-</span><span id="317" class="l"><a class="l" href="#317">317 </a>    }   
-</span><span id="318" class="l"><a class="l" href="#318">318 </a>    
-</span><span id="319" class="l"><a class="l" href="#319">319 </a>    <span class="php-comment">/**
-</span></span><span id="320" class="l"><a class="l" href="#320">320 </a><span class="php-comment">     * Enhances the parent method generateAttributes() by escaping the attribute values.
-</span></span><span id="321" class="l"><a class="l" href="#321">321 </a><span class="php-comment">     * 
-</span></span><span id="322" class="l"><a class="l" href="#322">322 </a><span class="php-comment">     * @since           3.0.0
-</span></span><span id="323" class="l"><a class="l" href="#323">323 </a><span class="php-comment">     */</span>
-</span><span id="324" class="l"><a class="l" href="#324">324 </a>    <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_generateAttributes" href="#_generateAttributes">generateAttributes</a>( <span class="php-keyword1">array</span> <span class="php-var">$aAttributes</span> ) {
-</span><span id="325" class="l"><a class="l" href="#325">325 </a>        
-</span><span id="326" class="l"><a class="l" href="#326">326 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$aAttributes</span> <span class="php-keyword1">as</span> <span class="php-var">$sAttribute</span> =&gt; &amp;<span class="php-var">$asProperty</span> ) {
-</span><span id="327" class="l"><a class="l" href="#327">327 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_array</span>( <span class="php-var">$asProperty</span> ) || <span class="php-keyword2">is_object</span>( <span class="php-var">$asProperty</span> ) )
-</span><span id="328" class="l"><a class="l" href="#328">328 </a>                <span class="php-keyword1">unset</span>( <span class="php-var">$aAttributes</span>[ <span class="php-var">$sAttribute</span> ] );
-</span><span id="329" class="l"><a class="l" href="#329">329 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_string</span>( <span class="php-var">$asProperty</span> ) )
-</span><span id="330" class="l"><a class="l" href="#330">330 </a>                <span class="php-var">$asProperty</span> = esc_attr( <span class="php-var">$asProperty</span> );   <span class="php-comment">// $aAttributes = array_map( 'esc_attr', $aAttributes );   // this also converts arrays into string value, Array.</span>
-</span><span id="331" class="l"><a class="l" href="#331">331 </a>        }       
-</span><span id="332" class="l"><a class="l" href="#332">332 </a>        <span class="php-keyword1">return</span> parent::generateAttributes( <span class="php-var">$aAttributes</span> );
-</span><span id="333" class="l"><a class="l" href="#333">333 </a>        
-</span><span id="334" class="l"><a class="l" href="#334">334 </a>    }   
-</span><span id="335" class="l"><a class="l" href="#335">335 </a>    
-</span><span id="336" class="l"><a class="l" href="#336">336 </a>}
-</span><span id="337" class="l"><a class="l" href="#337">337 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span></span><span id="235" class="l"><a class="l" href="#235">235 </a><span class="php-comment">     * @since           2.1.2
+</span></span><span id="236" class="l"><a class="l" href="#236">236 </a><span class="php-comment">     * @param           array           $aAddingQueries         The appending query key value pairs e.g. array( 'page' =&gt; 'my_page_slug', 'tab' =&gt; 'my_tab_slug' )
+</span></span><span id="237" class="l"><a class="l" href="#237">237 </a><span class="php-comment">     * @param           array           $aRemovingQueryKeys     ( optional ) The removing query keys. e.g. array( 'settings-updated', 'my-custom-admin-notice' )
+</span></span><span id="238" class="l"><a class="l" href="#238">238 </a><span class="php-comment">     * @param           string          $sSubjectURL                ( optional ) The subject url to modify
+</span></span><span id="239" class="l"><a class="l" href="#239">239 </a><span class="php-comment">     * @return          string          The modified url.
+</span></span><span id="240" class="l"><a class="l" href="#240">240 </a><span class="php-comment">     */</span>
+</span><span id="241" class="l"><a class="l" href="#241">241 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getQueryAdminURL" href="#_getQueryAdminURL">getQueryAdminURL</a>( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$aRemovingQueryKeys</span>=<span class="php-keyword1">array</span>(), <span class="php-var">$sSubjectURL</span>=<span class="php-quote">''</span> ) {
+</span><span id="242" class="l"><a class="l" href="#242">242 </a>        
+</span><span id="243" class="l"><a class="l" href="#243">243 </a>        <span class="php-var">$sSubjectURL</span> = <span class="php-var">$sSubjectURL</span> ? <span class="php-var">$sSubjectURL</span> : add_query_arg( <span class="php-var">$_GET</span>, admin_url( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>] ) );
+</span><span id="244" class="l"><a class="l" href="#244">244 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;getQueryURL( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$aRemovingQueryKeys</span>, <span class="php-var">$sSubjectURL</span> );
+</span><span id="245" class="l"><a class="l" href="#245">245 </a>        
+</span><span id="246" class="l"><a class="l" href="#246">246 </a>    }
+</span><span id="247" class="l"><a class="l" href="#247">247 </a>    <span class="php-comment">/**
+</span></span><span id="248" class="l"><a class="l" href="#248">248 </a><span class="php-comment">     * Returns a url with modified query stings.
+</span></span><span id="249" class="l"><a class="l" href="#249">249 </a><span class="php-comment">     * 
+</span></span><span id="250" class="l"><a class="l" href="#250">250 </a><span class="php-comment">     * @since           2.1.2
+</span></span><span id="251" class="l"><a class="l" href="#251">251 </a><span class="php-comment">     * @param           array           $aAddingQueries         The appending query key value pairs
+</span></span><span id="252" class="l"><a class="l" href="#252">252 </a><span class="php-comment">     * @param           array           $aRemovingQueryKeys         The removing query key value pairs
+</span></span><span id="253" class="l"><a class="l" href="#253">253 </a><span class="php-comment">     * @param           string          $sSubjectURL                The subject url to modify
+</span></span><span id="254" class="l"><a class="l" href="#254">254 </a><span class="php-comment">     * @return          string          The modified url.
+</span></span><span id="255" class="l"><a class="l" href="#255">255 </a><span class="php-comment">     */</span>
+</span><span id="256" class="l"><a class="l" href="#256">256 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getQueryURL" href="#_getQueryURL">getQueryURL</a>( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$aRemovingQueryKeys</span>, <span class="php-var">$sSubjectURL</span> ) {
+</span><span id="257" class="l"><a class="l" href="#257">257 </a>        
+</span><span id="258" class="l"><a class="l" href="#258">258 </a>        <span class="php-comment">// Remove Queries</span>
+</span><span id="259" class="l"><a class="l" href="#259">259 </a>        <span class="php-var">$sSubjectURL</span> = <span class="php-keyword1">empty</span>( <span class="php-var">$aRemovingQueryKeys</span> ) 
+</span><span id="260" class="l"><a class="l" href="#260">260 </a>            ? <span class="php-var">$sSubjectURL</span> 
+</span><span id="261" class="l"><a class="l" href="#261">261 </a>            : remove_query_arg( ( <span class="php-keyword1">array</span> ) <span class="php-var">$aRemovingQueryKeys</span>, <span class="php-var">$sSubjectURL</span> );
+</span><span id="262" class="l"><a class="l" href="#262">262 </a>            
+</span><span id="263" class="l"><a class="l" href="#263">263 </a>        <span class="php-comment">// Add Queries</span>
+</span><span id="264" class="l"><a class="l" href="#264">264 </a>        <span class="php-var">$sSubjectURL</span> = add_query_arg( <span class="php-var">$aAddingQueries</span>, <span class="php-var">$sSubjectURL</span> );
+</span><span id="265" class="l"><a class="l" href="#265">265 </a>        
+</span><span id="266" class="l"><a class="l" href="#266">266 </a>        <span class="php-keyword1">return</span> <span class="php-var">$sSubjectURL</span>;
+</span><span id="267" class="l"><a class="l" href="#267">267 </a>        
+</span><span id="268" class="l"><a class="l" href="#268">268 </a>    }   
+</span><span id="269" class="l"><a class="l" href="#269">269 </a>
+</span><span id="270" class="l"><a class="l" href="#270">270 </a>    <span class="php-comment">/**
+</span></span><span id="271" class="l"><a class="l" href="#271">271 </a><span class="php-comment">     * Calculates the URL from the given path.
+</span></span><span id="272" class="l"><a class="l" href="#272">272 </a><span class="php-comment">     * 
+</span></span><span id="273" class="l"><a class="l" href="#273">273 </a><span class="php-comment">     * @since           2.1.5
+</span></span><span id="274" class="l"><a class="l" href="#274">274 </a><span class="php-comment">     * @static
+</span></span><span id="275" class="l"><a class="l" href="#275">275 </a><span class="php-comment">     * @access          public
+</span></span><span id="276" class="l"><a class="l" href="#276">276 </a><span class="php-comment">     * @return          string          The source url
+</span></span><span id="277" class="l"><a class="l" href="#277">277 </a><span class="php-comment">     */</span>
+</span><span id="278" class="l"><a class="l" href="#278">278 </a>    <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getSRCFromPath" href="#_getSRCFromPath">getSRCFromPath</a>( <span class="php-var">$sFilePath</span> ) {
+</span><span id="279" class="l"><a class="l" href="#279">279 </a>                        
+</span><span id="280" class="l"><a class="l" href="#280">280 </a>        <span class="php-var">$oWPStyles</span> = <span class="php-keyword1">new</span> WP_Styles();   <span class="php-comment">// It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.</span>
+</span><span id="281" class="l"><a class="l" href="#281">281 </a>        <span class="php-var">$sRelativePath</span> = AdminPageFramework_Utility::getRelativePath( ABSPATH, <span class="php-var">$sFilePath</span> );        
+</span><span id="282" class="l"><a class="l" href="#282">282 </a>        <span class="php-var">$sRelativePath</span> = <span class="php-keyword2">preg_replace</span>( <span class="php-quote">&quot;/^\.[\/\\\]/&quot;</span>, <span class="php-quote">''</span>, <span class="php-var">$sRelativePath</span>, <span class="php-num">1</span> ); <span class="php-comment">// removes the heading ./ or .\ </span>
+</span><span id="283" class="l"><a class="l" href="#283">283 </a>        <span class="php-var">$sHref</span> = trailingslashit( <span class="php-var">$oWPStyles</span>-&gt;base_url ) . <span class="php-var">$sRelativePath</span>;
+</span><span id="284" class="l"><a class="l" href="#284">284 </a>        <span class="php-keyword1">unset</span>( <span class="php-var">$oWPStyles</span> );    <span class="php-comment">// for PHP 5.2.x or below</span>
+</span><span id="285" class="l"><a class="l" href="#285">285 </a>        <span class="php-keyword1">return</span> esc_url( <span class="php-var">$sHref</span> );       
+</span><span id="286" class="l"><a class="l" href="#286">286 </a>        
+</span><span id="287" class="l"><a class="l" href="#287">287 </a>    }   
+</span><span id="288" class="l"><a class="l" href="#288">288 </a>
+</span><span id="289" class="l"><a class="l" href="#289">289 </a>    <span class="php-comment">/**
+</span></span><span id="290" class="l"><a class="l" href="#290">290 </a><span class="php-comment">     * Resolves the given src.
+</span></span><span id="291" class="l"><a class="l" href="#291">291 </a><span class="php-comment">     * 
+</span></span><span id="292" class="l"><a class="l" href="#292">292 </a><span class="php-comment">     * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
+</span></span><span id="293" class="l"><a class="l" href="#293">293 </a><span class="php-comment">     * 
+</span></span><span id="294" class="l"><a class="l" href="#294">294 </a><span class="php-comment">     * @since           2.1.5
+</span></span><span id="295" class="l"><a class="l" href="#295">295 </a><span class="php-comment">     * @since           2.1.6           Moved from the AdminPageFramework_HeadTag_Base class. Added the $bReturnNullIfNotExist parameter.
+</span></span><span id="296" class="l"><a class="l" href="#296">296 </a><span class="php-comment">     */</span>
+</span><span id="297" class="l"><a class="l" href="#297">297 </a>    <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_resolveSRC" href="#_resolveSRC">resolveSRC</a>( <span class="php-var">$sSRC</span>, <span class="php-var">$bReturnNullIfNotExist</span>=<span class="php-keyword1">false</span> ) {  
+</span><span id="298" class="l"><a class="l" href="#298">298 </a>
+</span><span id="299" class="l"><a class="l" href="#299">299 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$sSRC</span> )  
+</span><span id="300" class="l"><a class="l" href="#300">300 </a>            <span class="php-keyword1">return</span> <span class="php-var">$bReturnNullIfNotExist</span> ? <span class="php-keyword1">null</span> : <span class="php-var">$sSRC</span>;
+</span><span id="301" class="l"><a class="l" href="#301">301 </a>            
+</span><span id="302" class="l"><a class="l" href="#302">302 </a>        <span class="php-comment">// It is a url</span>
+</span><span id="303" class="l"><a class="l" href="#303">303 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">filter_var</span>( <span class="php-var">$sSRC</span>, FILTER_VALIDATE_URL ) )
+</span><span id="304" class="l"><a class="l" href="#304">304 </a>            <span class="php-keyword1">return</span> <span class="php-var">$sSRC</span>;
+</span><span id="305" class="l"><a class="l" href="#305">305 </a>
+</span><span id="306" class="l"><a class="l" href="#306">306 </a>        <span class="php-comment">// If the file exists, it means it is an absolute path. If so, calculate the URL from the path.</span>
+</span><span id="307" class="l"><a class="l" href="#307">307 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">file_exists</span>( <span class="php-keyword2">realpath</span>( <span class="php-var">$sSRC</span> ) ) )
+</span><span id="308" class="l"><a class="l" href="#308">308 </a>            <span class="php-keyword1">return</span> self::getSRCFromPath( <span class="php-var">$sSRC</span> );
+</span><span id="309" class="l"><a class="l" href="#309">309 </a>        
+</span><span id="310" class="l"><a class="l" href="#310">310 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$bReturnNullIfNotExist</span> )
+</span><span id="311" class="l"><a class="l" href="#311">311 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">null</span>;
+</span><span id="312" class="l"><a class="l" href="#312">312 </a>        
+</span><span id="313" class="l"><a class="l" href="#313">313 </a>        <span class="php-comment">// Otherwise, let's assume the string is a relative path 'to the WordPress installed absolute path'.</span>
+</span><span id="314" class="l"><a class="l" href="#314">314 </a>        <span class="php-keyword1">return</span> <span class="php-var">$sSRC</span>;
+</span><span id="315" class="l"><a class="l" href="#315">315 </a>        
+</span><span id="316" class="l"><a class="l" href="#316">316 </a>    }   
+</span><span id="317" class="l"><a class="l" href="#317">317 </a>    
+</span><span id="318" class="l"><a class="l" href="#318">318 </a>    <span class="php-comment">/**
+</span></span><span id="319" class="l"><a class="l" href="#319">319 </a><span class="php-comment">     * Enhances the parent method generateAttributes() by escaping the attribute values.
+</span></span><span id="320" class="l"><a class="l" href="#320">320 </a><span class="php-comment">     * 
+</span></span><span id="321" class="l"><a class="l" href="#321">321 </a><span class="php-comment">     * @since           3.0.0
+</span></span><span id="322" class="l"><a class="l" href="#322">322 </a><span class="php-comment">     */</span>
+</span><span id="323" class="l"><a class="l" href="#323">323 </a>    <span class="php-keyword1">static</span> <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_generateAttributes" href="#_generateAttributes">generateAttributes</a>( <span class="php-keyword1">array</span> <span class="php-var">$aAttributes</span> ) {
+</span><span id="324" class="l"><a class="l" href="#324">324 </a>        
+</span><span id="325" class="l"><a class="l" href="#325">325 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$aAttributes</span> <span class="php-keyword1">as</span> <span class="php-var">$sAttribute</span> =&gt; &amp;<span class="php-var">$asProperty</span> ) {
+</span><span id="326" class="l"><a class="l" href="#326">326 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_array</span>( <span class="php-var">$asProperty</span> ) || <span class="php-keyword2">is_object</span>( <span class="php-var">$asProperty</span> ) )
+</span><span id="327" class="l"><a class="l" href="#327">327 </a>                <span class="php-keyword1">unset</span>( <span class="php-var">$aAttributes</span>[ <span class="php-var">$sAttribute</span> ] );
+</span><span id="328" class="l"><a class="l" href="#328">328 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_string</span>( <span class="php-var">$asProperty</span> ) )
+</span><span id="329" class="l"><a class="l" href="#329">329 </a>                <span class="php-var">$asProperty</span> = esc_attr( <span class="php-var">$asProperty</span> );   <span class="php-comment">// $aAttributes = array_map( 'esc_attr', $aAttributes );   // this also converts arrays into string value, Array.</span>
+</span><span id="330" class="l"><a class="l" href="#330">330 </a>        }       
+</span><span id="331" class="l"><a class="l" href="#331">331 </a>        <span class="php-keyword1">return</span> parent::generateAttributes( <span class="php-var">$aAttributes</span> );
+</span><span id="332" class="l"><a class="l" href="#332">332 </a>        
+</span><span id="333" class="l"><a class="l" href="#333">333 </a>    }   
+</span><span id="334" class="l"><a class="l" href="#334">334 </a>    
+</span><span id="335" class="l"><a class="l" href="#335">335 </a>}
+</span><span id="336" class="l"><a class="l" href="#336">336 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">

@@ -68,12 +68,12 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 * </ul>
 	 * 
 	 * @since			3.0.0
-	 * @remark			The user may use this method.
 	 * @remark			the $_deprecated parameter is just to avoid the PHP strict standards warning.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
 	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 * @internal
 	 */	
 	public function _enqueueStyle( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
 		
@@ -124,7 +124,6 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 * </ul>	 
 	 * 
 	 * @since			3.0.0
-	 * @remark			The user may use this method.
 	 * @remark			the $_deprecated parameter is just to avoid the PHP strict standards warning.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.

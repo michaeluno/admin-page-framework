@@ -105,7 +105,6 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * 
 	 * @since			2.1.0
 	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
-	 * @remark			The user may use this method to add contextual help text.
 	 */ 
 	public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
 		$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );

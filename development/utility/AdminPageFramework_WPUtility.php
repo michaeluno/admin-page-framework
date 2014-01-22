@@ -232,7 +232,6 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 	 * 
 	 * Identical to the getQueryURL() method except that if the third parameter is omitted, it will use the currently browsed admin url.
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @param			array			$aAddingQueries			The appending query key value pairs e.g. array( 'page' => 'my_page_slug', 'tab' => 'my_tab_slug' )
 	 * @param			array			$aRemovingQueryKeys		( optional ) The removing query keys. e.g. array( 'settings-updated', 'my-custom-admin-notice' )

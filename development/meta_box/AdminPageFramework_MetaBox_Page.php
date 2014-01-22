@@ -59,7 +59,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * Enqueues styles by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
-	 * @remark			The user may use this method.
 	 */
 	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
@@ -67,7 +66,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	/**
 	 * Enqueues a style by page slug and tab slug.
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
@@ -90,7 +88,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	/**
 	 * Enqueues a script by page slug and tab slug.
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0			
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
@@ -110,7 +107,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* 
 	* @since			3.0.0			
 	* @return			void
-	* @remark			The user may use this method in their extended class definition.
 	*/		
 	public function addSettingField( array $aField ) {
 

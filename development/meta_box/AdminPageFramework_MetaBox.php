@@ -86,7 +86,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	* 
 	* @abstract
 	* @since			2.0.0
-	* @remark			The user may override this method.
+	* @remark			The user should override this method.
 	* @return			void
 	*/	 
 	public function setUp() {}	
@@ -95,7 +95,6 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 * Enqueues styles by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
-	 * @remark			The user may use this method.
 	 */
 	public function enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyles( $aSRCs, $aPostTypes, $aCustomArgs );
@@ -111,7 +110,6 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
 	 * </ul>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
@@ -155,7 +153,6 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 *		)
 	 *	);</code>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
@@ -176,7 +173,6 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	* @since			2.1.2
 	* @since			3.0.0			The scope changed to public to indicate the users will use.
 	* @return			void
-	* @remark			The user may use this method in their extended class definition.
 	*/		
 	public function addSettingField( array $aField ) {
 		

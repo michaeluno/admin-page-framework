@@ -107,7 +107,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.1.5			Added the $bOverride parameter.
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
-	* @remark			The user may use this method in their extended class definition.
 	* @param			string			$sMsg					the text message to be displayed.
 	* @param			string			$sType				( optional ) the type of the message, either "error" or "updated"  is used.
 	* @param			string			$sID					( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
@@ -185,7 +184,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			array|string		$asSection1				the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
@@ -206,7 +204,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @access			public
 	 * @param			array|string		$asSection				the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
-	 * @remark			The user may use this method in their extended class definition.
 	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	 */
 	public function addSettingSection( $asSection ) {
@@ -245,7 +242,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			string			$sSectionID1			the section ID to remove.
@@ -419,7 +415,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			array			$aField1			the field array.
@@ -440,7 +435,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access			public
 	* @param			array|string	$asField			the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
 	* @return			void
-	* @remark			The user may use this method in their extended class definition.
 	*/	
 	public function addSettingField( $asField ) {
 		
@@ -474,7 +468,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @since			2.0.0
 	* @since			3.0.0			Changed the scope to public from protected.
 	* @access 			public
-	* @remark			The user may use this method in their extended class definition.
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			string			$sFieldID1				the field ID to remove.

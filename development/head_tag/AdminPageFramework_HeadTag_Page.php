@@ -91,7 +91,6 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	 * </ul>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @since			2.1.5			Moved from the main class.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
@@ -100,6 +99,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	 * @param			string			$sTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 * @internal
 	 */	
 	public function _enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		
@@ -150,7 +150,6 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
 	 * </ul>	 
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			2.1.2
 	 * @since			2.1.5			Moved from the main class.
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script

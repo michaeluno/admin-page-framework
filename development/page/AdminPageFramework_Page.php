@@ -151,7 +151,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @since			2.0.0
 	 * @since			3.0.0			Changed the scope to public.
 	 * @param			boolean			$bShow			If false, the page title will not be displayed.
-	 * @remark			The user may use this method.
 	 * @return			void
 	 */ 
 	public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
@@ -178,7 +177,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @param			boolean			$bShow					If false, page-heading tabs will be disabled; otherwise, enabled.
 	 * @param			string			$sPageSlug			The page to apply the visibility setting. If not set, it applies to all the pages.
 	 * @remark			Page-heading tabs and in-page tabs are different. The former displays page titles and the latter displays tab titles.
-	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 
 	public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
@@ -203,7 +201,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @since			3.0.0			Changed the scope to public. Changed the name from showInPageTabs() to setInPageTabsVisibility().
 	 * @param			boolean			$bShow				If false, in-page tabs will be disabled.
 	 * @param			string			$sPageSlug		The page to apply the visibility setting. If not set, it applies to all the pages.
-	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */
 	public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {
@@ -229,7 +226,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @since			3.0.0			Changed the scope to public.
 	 * @param			string			$sTag					The HTML tag that encloses each in-page tab title. Default: h3.
 	 * @param			string			$sPageSlug			The page slug that applies the setting.	
-	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */ 	
 	public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
@@ -255,7 +251,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @since			3.0.0			Changed the scope to public.
 	 * @param			string			$sTag					The HTML tag that encloses the page-heading tab title. Default: h2.
 	 * @param			string			$sPageSlug			The page slug that applies the setting.	
-	 * @remark			The user may use this method.
 	 * @remark			If the second parameter is omitted, it sets the default value.
 	 */
 	public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {

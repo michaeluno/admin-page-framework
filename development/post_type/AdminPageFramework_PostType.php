@@ -166,7 +166,7 @@ abstract class AdminPageFramework_PostType {
 	* 
 	* @abstract
 	* @since			2.0.0
-	* @remark			The user may override this method in their class definition.
+	* @remark			The user should override this method in their class definition.
 	* @remark			A callback for the <em>wp_loaded</em> hook.
 	*/
 	public function setUp() {}	
@@ -178,7 +178,6 @@ abstract class AdminPageFramework_PostType {
 	 * Enqueues styles by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
-	 * @remark			The user may use this method.
 	 */
 	public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
@@ -194,7 +193,6 @@ abstract class AdminPageFramework_PostType {
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
 	 * </ul>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
@@ -236,7 +234,6 @@ abstract class AdminPageFramework_PostType {
 	 *		)
 	 *	);</code>
 	 * 
-	 * @remark			The user may use this method.
 	 * @since			3.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
 	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
@@ -253,7 +250,6 @@ abstract class AdminPageFramework_PostType {
 	 * 
 	 * @since			2.0.0
 	 * @remark			A callback for the <em>manage_{post type}_post)_columns</em> hook.
-	 * @remark			The user may override this method in their class definition.
 	 * @return			void
 	 */ 
 	public function setColumnHeader( $aColumnHeaders ) {
@@ -265,7 +261,6 @@ abstract class AdminPageFramework_PostType {
 	 * 
 	 * @since			2.0.0
 	 * @remark			A callback for the <em>manage_edit-{post type}_sortable_columns</em> hook.
-	 * @remark			The user may override this method in their class definition.
 	 */ 
 	public function setSortableColumns( $aColumns ) {
 		return $this->oProp->aColumnSortable;
