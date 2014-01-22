@@ -8,11 +8,13 @@ if ( ! class_exists( 'AdminPageFramework_PostType' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><code>start_ + extended class name</code> – triggered at the end of the class constructor.</li>
+ * 	<li><strong>start_ + extended class name</strong> – triggered at the end of the class constructor.</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- * 	<li><code>cell_ + post type + _ + column key</code> – receives the output string for the listing table of the custom post type's post. The first parameter: output string. The second parameter: the post ID.</li>
+ * 	<li><strong>cell_{post type slug}_{column key}</strong> – receives the output string for the listing table of the custom post type's post. The first parameter: output string. The second parameter: the post ID.</li>
+ * 	<li><strong>columns_{post type slug}</strong> – receives the array containing the header columns for the listing table of the custom post type's post. The first parameter: the header columns container array.</li>
+ * 	<li><strong>sortable_columns_{post type slug}</strong> – receives the array containing the sortable header column array for the listing table of the custom post type's post. The first parameter: the sortable header columns container array.</li>
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p> 
@@ -37,12 +39,14 @@ abstract class AdminPageFramework_PostType {
 	protected $oLink;
 		
 	/**
-	* Constructs the class object, AdminPageFramework_PostType.
+	* The constructor of the class object.
+	* 
+	* Registers necessary hooks and sets up internal properties.
 	* 
 	* <h4>Example</h4>
 	* <code>new APF_PostType( 
 	* 	'apf_posts', 	// post type slug
-	* 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+	* 	array(	// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 	* 		'labels' => array(
 	* 			'name' => 'Admin Page Framework',
 	* 			'singular_name' => 'Admin Page Framework',
@@ -70,10 +74,10 @@ abstract class AdminPageFramework_PostType {
 	* @since			2.0.0
 	* @since			2.1.6			Added the $sTextDomain parameter.
 	* @see				http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-	* @param			string			$sPostType			The post type slug.
-	* @param			array			$aArgs				The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">argument array</a> passed to register_post_type().
-	* @param			string			$sCallerPath			The path of the caller script. This is used to retrieve the script information to insert it into the footer. If not set, the framework tries to detect it.
-	* @param			string			$sTextDomain			The text domain of the caller script.
+	* @param			string			The post type slug.
+	* @param			array			The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">argument array</a> passed to register_post_type().
+	* @param			string			The path of the caller script. This is used to retrieve the script information to insert it into the footer. If not set, the framework tries to detect it.
+	* @param			string			The text domain of the caller script.
 	* @return			void
 	*/
 	public function __construct( $sPostType, $aArgs=array(), $sCallerPath=null, $sTextDomain='admin-page-framework' ) {
@@ -93,8 +97,6 @@ abstract class AdminPageFramework_PostType {
 		// Properties
 		$this->oProp->sPostType = $this->oUtil->sanitizeSlug( $sPostType );
 		$this->oProp->aPostTypeArgs = $aArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		// $this->oProp->sClassName = get_class( $this );
-		// $this->oProp->sClassHash = md5( $this->oProp->sClassName );
 		$this->oProp->aColumnHeaders = array(
 			'cb'			=> '<input type="checkbox" />',		// Checkbox for bulk actions. 
 			'title'			=> $this->oMsg->__( 'title' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
@@ -105,24 +107,24 @@ abstract class AdminPageFramework_PostType {
 			'date'			=> $this->oMsg->__( 'date' ), 		// The date and publish status of the post. 
 		);			
 		
-		add_action( 'init', array( $this, 'registerPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
+		add_action( 'init', array( $this, '_replyToRegisterPostType' ), 999 );	// this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
 		
-		if ( $this->oProp->sPostType != '' && is_admin() ) {			
+		if ( $this->oProp->sPostType != '' && $this->oProp->bIsAdmin ) {			
 		
-			add_action( 'admin_enqueue_scripts', array( $this, 'disableAutoSave' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );
 			
 			// For table columns
-			add_filter( "manage_{$this->oProp->sPostType}_posts_columns", array( $this, 'setColumnHeader' ) );
-			add_filter( "manage_edit-{$this->oProp->sPostType}_sortable_columns", array( $this, 'setSortableColumns' ) );
-			add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, 'setColumnCell' ), 10, 2 );
+			add_filter( "manage_{$this->oProp->sPostType}_posts_columns", array( $this, '_replyToSetColumnHeader' ) );
+			add_filter( "manage_edit-{$this->oProp->sPostType}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
+			add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, '_replyToSetColumnCell' ), 10, 2 );
 			
 			// For filters
-			add_action( 'restrict_manage_posts', array( $this, 'addAuthorTableFilter' ) );
-			add_action( 'restrict_manage_posts', array( $this, 'addTaxonomyTableFilter' ) );
-			add_filter( 'parse_query', array( $this, 'setTableFilterQuery' ) );
+			add_action( 'restrict_manage_posts', array( $this, '_replyToAddAuthorTableFilter' ) );
+			add_action( 'restrict_manage_posts', array( $this, '_replyToAddTaxonomyTableFilter' ) );
+			add_filter( 'parse_query', array( $this, '_replyToSetTableFilterQuery' ) );
 			
 			// Style
-			add_action( 'admin_head', array( $this, 'addStyle' ) );
+			add_action( 'admin_head', array( $this, '_replyToAddStyle' ) );
 			
 			// Links
 			$this->oLink = new AdminPageFramework_Link_PostType( $this->oProp, $this->oMsg );
@@ -147,7 +149,7 @@ abstract class AdminPageFramework_PostType {
 	* 		$this->setAuthorTableFilter( true );
 	* 		$this->addTaxonomy( 
 	* 			'sample_taxonomy', // taxonomy slug
-	* 			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
+	* 			array(	// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 	* 				'labels' => array(
 	* 					'name' => 'Genre',
 	* 					'add_new_item' => 'Add New Genre',
@@ -178,25 +180,25 @@ abstract class AdminPageFramework_PostType {
 	 * Enqueues styles by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
+	 * @return			array			An array holding the handle IDs of queued items.
 	 */
 	public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
 	}
 	/**
 	 * Enqueues a style by page slug and tab slug.
-	 * 	
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * 
+	 * @since			3.0.0
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
+	 * <h4>Custom Argument Array</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
 	 * </ul>
-	 * 
-	 * @since			3.0.0
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
@@ -206,22 +208,14 @@ abstract class AdminPageFramework_PostType {
 	 * Enqueues scripts by page slug and tab slug.
 	 * 
 	 * @since			3.0.0
+	 * @return			array			An array holding the handle IDs of queued items.
 	 */
 	public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
 	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
-	 * </ul>	 
-	 * 
+	 *  
 	 * <h4>Example</h4>
 	 * <code>$this->enqueueScript(  
 	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
@@ -236,35 +230,21 @@ abstract class AdminPageFramework_PostType {
 	 * 
 	 * @since			3.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * @param			string			The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
+	 * <h4>Custom Argument Array</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head ></code> or before <code></body></code> Default: <em>false</em>.</li>
+	 * </ul>
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $aCustomArgs=array() ) {	
 		return $this->oHeadTag->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
 	}		
-	
-	
-	/**
-	 * Defines the column header items in the custom post listing table.
-	 * 
-	 * @since			2.0.0
-	 * @remark			A callback for the <em>manage_{post type}_post)_columns</em> hook.
-	 * @return			void
-	 */ 
-	public function setColumnHeader( $aColumnHeaders ) {
-		return $this->oProp->aColumnHeaders;
-	}	
-	
-	/**
-	 * Defines the sortable column items in the custom post listing table.
-	 * 
-	 * @since			2.0.0
-	 * @remark			A callback for the <em>manage_edit-{post type}_sortable_columns</em> hook.
-	 */ 
-	public function setSortableColumns( $aColumns ) {
-		return $this->oProp->aColumnSortable;
-	}
 	
 	/*
 	 * Front-end methods
@@ -273,10 +253,11 @@ abstract class AdminPageFramework_PostType {
 	* Enables or disables the auto-save feature in the custom post type's post submission page.
 	* 
 	* <h4>Example</h4>
-	* <code>$this->setAutoSave( false );</code>
+	* <code>$this->setAutoSave( false );
+	* </code>
 	* 
 	* @since			2.0.0
-	* @param			boolean			$bEnableAutoSave			If true, it enables the auto-save; othwerwise, it disables it.
+	* @param			boolean			If true, it enables the auto-save; otherwise, it disables it.
 	* return			void
 	*/ 
 	protected function setAutoSave( $bEnableAutoSave=True ) {
@@ -306,8 +287,8 @@ abstract class AdminPageFramework_PostType {
 	* 
 	* @see				http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 	* @since			2.0.0
-	* @param			string			$sTaxonomySlug			The taxonomy slug.
-	* @param			array			$aArgs					The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
+	* @param			string			The taxonomy slug.
+	* @param			array			The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
 	* @return			void
 	*/ 
 	protected function addTaxonomy( $sTaxonomySlug, $aArgs ) {
@@ -320,20 +301,21 @@ abstract class AdminPageFramework_PostType {
 			$this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
 				
 		if ( count( $this->oProp->aTaxonomyTableFilters ) == 1 )
-			add_action( 'init', array( $this, 'registerTaxonomies' ) );	// the hook should not be admin_init because taxonomies need to be accessed in regular pages.
+			add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) );	// the hook should not be admin_init because taxonomies need to be accessed in regular pages.
 		if ( count( $this->oProp->aTaxonomyRemoveSubmenuPages ) == 1 )
-			add_action( 'admin_menu', array( $this, 'removeTexonomySubmenuPages' ), 999 );		
+			add_action( 'admin_menu', array( $this, '_replyToRemoveTexonomySubmenuPages' ), 999 );		
 			
 	}	
 
 	/**
-	* Sets whether the author dropdown filter is enabled/disabled in the post type post list table.
+	* Sets whether the author drop-down filter is enabled/disabled in the post type post list table.
 	* 
 	* <h4>Example</h4>
-	* <code>this->setAuthorTableFilter( true );</code>
+	* <code>$this->setAuthorTableFilter( true );
+	* </code>
 	* 
 	* @since			2.0.0
-	* @param			boolean			$bEnableAuthorTableFileter			If true, it enables the author filter; otherwise, it disables it.
+	* @param			boolean			If true, it enables the author filter; otherwise, it disables it.
 	* @return			void
 	*/ 
 	protected function setAuthorTableFilter( $bEnableAuthorTableFileter=false ) {
@@ -343,11 +325,11 @@ abstract class AdminPageFramework_PostType {
 	/**
 	 * Sets the post type arguments.
 	 * 
-	 * This is only necessary if it is not set to the constructor.
+	 * This is only necessary if it is not set in the constructor.
 	 * 
 	 * @since			2.0.0
 	 * @see				http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-	 * @param			array			$aArgs			The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">array of arguments</a> to be passed to the second parameter of the <em>register_post_type()</em> function.
+	 * @param			array			The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">array of arguments</a> to be passed to the second parameter of the <em>register_post_type()</em> function.
 	 * @return			void
 	 */ 
 	protected function setPostTypeArgs( $aArgs ) {
@@ -358,11 +340,12 @@ abstract class AdminPageFramework_PostType {
 	 * Sets the given HTML text into the footer on the left hand side.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setFooterInfoLeft( '&lt;br /&gt;Custom Text on the left hand side.' );</code>
+	 * <code>$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
+	 * </code>
 	 * 
 	 * @since			2.0.0
-	 * @param			string			$sHTML			The HTML code to insert.
-	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
+	 * @param			string			The HTML code to insert.
+	 * @param			boolean			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */	
 	protected function setFooterInfoLeft( $sHTML, $bAppend=true ) {
@@ -376,11 +359,12 @@ abstract class AdminPageFramework_PostType {
 	 * Sets the given HTML text into the footer on the right hand side.
 	 * 
 	 * <h4>Example</h4>
-	 * <code>$this->setFooterInfoRight( '&lt;br /&gt;Custom Text on the right hand side.' );</code>
+	 * <code>$this->setFooterInfoRight( '<br />Custom Text on the right hand side.' );
+	 * </code>
 	 * 
 	 * @since			2.0.0
-	 * @param			string			$sHTML			The HTML code to insert.
-	 * @param			boolean			$bAppend			If true, the text will be appended; otherwise, it will replace the default text.
+	 * @param			string			The HTML code to insert.
+	 * @param			boolean			If true, the text will be appended; otherwise, it will replace the default text.
 	 * @return			void
 	 */		
 	protected function setFooterInfoRight( $sHTML, $bAppend=true ) {
@@ -419,7 +403,39 @@ abstract class AdminPageFramework_PostType {
 	/*
 	 * Callback functions
 	 */
-	public function addStyle() {
+	
+	/**
+	 * Defines the column header items in the custom post listing table.
+	 * 
+	 * This method should be overridden by the user in their extended class.
+	 * 
+	 * @since			2.0.0
+	 * @remark			A callback for the <em>manage_{post type}_post)_columns</em> hook.
+	 * @return			void
+	 * @internal
+	 */ 
+	public function _replyToSetColumnHeader( $aHeaderColumns ) {
+		return $this->oUtil->addAndApplyFilter( $this, "columns_{$this->oProp->sPostType}", $aHeaderColumns );
+	}	
+	
+	/**
+	 * Defines the sortable column items in the custom post listing table.
+	 * 
+	 * This method should be overridden by the user in their extended class.
+	 * 
+	 * @since			2.0.0
+	 * @remark			A callback for the <em>manage_edit-{post type}_sortable_columns</em> hook.
+	 * @internal
+	 */ 
+	public function _replyToSetSortableColumns( $aColumns ) {
+		return $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$this->oProp->sPostType}", $aColumns );
+	}
+	
+	/**
+	 * Adds the script.
+	 * @internal
+	 */
+	public function _replyToAddStyle() {
 
 		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->oProp->sPostType )
 			return;
@@ -438,7 +454,12 @@ abstract class AdminPageFramework_PostType {
 		
 	}
 	
-	public function registerPostType() {
+	/**
+	 * Registers the post type passed to the constructor.
+	 * 
+	 * @internal
+	 */
+	public function _replyToRegisterPostType() {
 
 		register_post_type( $this->oProp->sPostType, $this->oProp->aPostTypeArgs );
 		
@@ -450,7 +471,12 @@ abstract class AdminPageFramework_PostType {
 
 	}	
 
-	public function registerTaxonomies() {
+	/**
+	 * Registerd the set custom taxonomies.
+	 * 
+	 * @internal
+	 */
+	public function _replyToRegisterTaxonomies() {
 		
 		foreach( $this->oProp->aTaxonomies as $sTaxonomySlug => $aArgs ) 
 			register_taxonomy(
@@ -461,14 +487,24 @@ abstract class AdminPageFramework_PostType {
 			
 	}
 	
-	public function removeTexonomySubmenuPages() {
+	/**
+	 * Removes taxonomy menu items from the sidebar menu.
+	 * 
+	 * @internal
+	 */
+	public function _replyToRemoveTexonomySubmenuPages() {
 		
 		foreach( $this->oProp->aTaxonomyRemoveSubmenuPages as $sSubmenuPageSlug => $sTopLevelPageSlug )
 			remove_submenu_page( $sTopLevelPageSlug, $sSubmenuPageSlug );
 		
 	}
 	
-	public function disableAutoSave() {
+	/**
+	 * Disables the WordPress's built-in auto-save functionality.
+	 * 
+	 * @internal
+	 */
+	public function _replyToDisableAutoSave() {
 		
 		if ( $this->oProp->bEnableAutoSave ) return;
 		if ( $this->oProp->sPostType != get_post_type() ) return;
@@ -477,9 +513,11 @@ abstract class AdminPageFramework_PostType {
 	}
 	
 	/**
-	 * Adds a dorpdown list to filter posts by author, placed above the post type listing table.
+	 * Adds a drop-down list to filter posts by author, placed above the post type listing table.
+	 * 
+	 * @internal
 	 */ 
-	public function addAuthorTableFilter() {
+	public function _replyToAddAuthorTableFilter() {
 		
 		if ( ! $this->oProp->bEnableAuthorTableFileter ) return;
 		
@@ -499,8 +537,10 @@ abstract class AdminPageFramework_PostType {
 	
 	/**
 	 * Adds drop-down lists to filter posts by added taxonomies, placed above the post type listing table.
+	 * 
+	 * @internal
 	 */ 
-	public function addTaxonomyTableFilter() {
+	public function _replyToAddTaxonomyTableFilter() {
 		
 		if ( $GLOBALS['typenow'] != $this->oProp->sPostType ) return;
 		
@@ -534,7 +574,13 @@ abstract class AdminPageFramework_PostType {
 			
 		}
 	}
-	public function setTableFilterQuery( $oQuery=null ) {
+	
+	/**
+	 * 
+	 * 
+	 * @internal
+	 */
+	public function _replyToSetTableFilterQuery( $oQuery=null ) {
 		
 		if ( 'edit.php' != $GLOBALS['pagenow'] ) return $oQuery;
 		
@@ -556,21 +602,26 @@ abstract class AdminPageFramework_PostType {
 		
 	}
 	
-	public function setColumnCell( $sColumnTitle, $iPostID ) { 
-	
-		// foreach ( $this->oProp->aColumnHeaders as $sColumnHeader => $sColumnHeaderTranslated ) 
-			// if ( $sColumnHeader == $sColumnTitle ) 
-			
+	/**
+	 * 
+	 * @internal
+	 */
+	public function _replyToSetColumnCell( $sColumnTitle, $iPostID ) { 
+				
 		// cell_{post type}_{custom column key}
-		echo $this->oUtil->addAndApplyFilter( $this, "{$this->oProp->sPrefix_Cell}{$this->oProp->sPostType}_{$sColumnTitle}", $sCell='', $iPostID );
+		echo $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sPostType}_{$sColumnTitle}", $sCell='', $iPostID );
 				  
 	}
 	
-	/*
-	 * Magic method - this prevents PHP's not-a-valid-callback errors.
-	*/
+	/**
+	 * Redirects undefined callback methods or to the appropriate methods.
+	 * 
+	 * @internal
+	 */
 	public function __call( $sMethodName, $aArgs=null ) {	
-		if ( substr( $sMethodName, 0, strlen( $this->oProp->sPrefix_Cell ) ) == $this->oProp->sPrefix_Cell ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( "cell_" ) ) == "cell_" ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( "sortable_columns_" ) ) == "sortable_columns_" ) return $aArgs[0];
+		if ( substr( $sMethodName, 0, strlen( "columns_" ) ) == "columns_" ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "style_ie_common_" ) )== "style_ie_common_" ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "style_common_" ) )== "style_common_" ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "style_ie_" ) )== "style_ie_" ) return $aArgs[0];

@@ -233,6 +233,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the `columns_{post type slug}` filter for the post type class and deprecated `setColumnHeader()` method.
+* Added: the `sortable_columns_{post type slug}` filter for the post type class and deprecated `ettSortableColumns()` method.
 * Added: the minified version of the library.
 * Added: the ability to add fields in the taxonomy definition page.
 * Added: the ability to add meta boxes in pages added by the framework.
