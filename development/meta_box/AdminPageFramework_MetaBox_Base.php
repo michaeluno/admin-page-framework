@@ -76,10 +76,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			
 			add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
 			add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
-							
-			// if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
-				// add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );		
-	
+								
 		}
 		
 	}

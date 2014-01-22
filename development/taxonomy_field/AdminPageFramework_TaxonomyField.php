@@ -3,6 +3,31 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
 /**
  * Provides methods for creating fields in the taxonomy page (edit-tags.php).
  *
+ * <h2>Hooks</h2>
+ * <p>The class automatically creates WordPress action and filter hooks associated with the class methods.
+ * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
+ * <h3>Methods and Action Hooks</h3>
+ * <ul>
+ * 	<li><strong>start_{extended class name}</strong> – triggered at the end of the class constructor.</li>
+ * 	<li><strong>do_{extended class name}</strong> – triggered when the meta box gets rendered.</li>
+ * </ul>
+ * <h3>Methods and Filter Hooks</h3>
+ * <ul>
+ * 	<li><strong>field_types_{extended class name}</strong> – receives the field type definition array. The first parameter: the field type definition array.</li>
+ * 	<li><strong>field_{extended class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
+ * 	<li><strong>content_{extended class name}</strong> – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
+ * 	<li><strong>style_common_{extended class name}</strong> –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_ie_common_{extended class name}</strong> –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_{extended class name}</strong> –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_ie_{extended class name}</strong> –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>script_common_{extended class name}</strong> – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>script_{extended class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>validation_{extended class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>columns_{taxonomy slug}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>columns_{extended class name}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>cell_{taxonomy slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: term ID.</li>
+ * 	<li><strong>cell_{extended class name}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: term ID.</li>
+ * </ul> 
  * @abstract
  * @since			3.0.0
  * @use				AdminPageFramework_Utility
@@ -82,6 +107,10 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 				add_action( "{$sTaxonomySlug}_add_form_fields", array( $this, '_replyToAddFieldsWOTableRows' ) );
 				add_action( "{$sTaxonomySlug}_edit_form_fields", array( $this, '_replyToAddFieldsWithTableRows' ) );
 				
+				add_filter( "manage_edit-{$sTaxonomySlug}_columns", array( $this, '_replyToManageColumns' ), 10, 1 );
+				add_filter( "manage_edit-{$sTaxonomySlug}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
+				add_action( "manage_{$sTaxonomySlug}_custom_column", array( $this, '_replyToSetColumnCell' ), 10, 3 );
+				
 			}
 			
 		}
@@ -89,6 +118,8 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );		
 		
 	}
+	
+
 	
 	/**
 	 * The set up method.
@@ -183,6 +214,58 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	}
 	
 	/**
+	 * Modifies the columns of the term listing table in the edit-tags.php page.
+	 * 
+	 * @internal
+	 * @since			3.0.0
+	 */
+	public function _replyToManageColumns( $aColumns ) {
+
+		/* By default something like this is passed.
+			Array (
+				[cb] => <input type="checkbox" />
+				[name] => Name
+				[description] => Description
+				[slug] => Slug
+				[posts] => Admin Page Framework
+			) 
+		 */
+		if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
+			$aColumns = $this->oUtil->addAndApplyFilter( $this, "columns_{$_GET['taxonomy']}", $aColumns );
+		$aColumns = $this->oUtil->addAndApplyFilter( $this, "columns_{$this->oProp->sClassName}", $aColumns );	
+		return $aColumns;
+		
+	}
+	
+	/**
+	 * 
+	 * @internal
+	 * @since			3.0.0
+	 */
+	public function _replyToSetSortableColumns( $aSortableColumns ) {
+
+		if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
+			$aSortableColumns = $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$_GET['taxonomy']}", $aSortableColumns );
+		$aSortableColumns = $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$this->oProp->sClassName}", $aSortableColumns );
+		return $aSortableColumns;
+		
+	}
+	/**
+	 * 
+	 * @internal
+	 * @since			3.0.0
+	 */
+	public function _replyToSetColumnCell( $vValue, $sColumnSlug, $sTermID ) {
+		
+		if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
+			$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$_GET['taxonomy']}", $vValue, $sColumnSlug, $sTermID );
+		$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}", $sCellHTML, $sColumnSlug, $sTermID );
+		echo $sCellHTML;
+				
+	}
+	
+	
+	/**
 	 * Retrieves the fields output.
 	 * 
 	 * @since			3.0.0
@@ -275,5 +358,26 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 	}
 
+	/**
+	 * Redirects undefined callback methods.
+	 * @internal
+	 * @since			3.0.0
+	 */
+	
+	function __call( $sMethodName, $aArgs=null ) {		
+	
+		if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) :
+			if ( substr( $sMethodName, 0, strlen( 'columns_' . $_GET['taxonomy'] ) ) == 'columns_' . $_GET['taxonomy'] ) return $aArgs[ 0 ];
+			if ( substr( $sMethodName, 0, strlen( 'sortable_columns_' . $_GET['taxonomy'] ) ) == 'sortable_columns_' . $_GET['taxonomy'] ) return $aArgs[ 0 ];
+			if ( substr( $sMethodName, 0, strlen( 'cell_' . $_GET['taxonomy'] ) ) == 'cell_' . $_GET['taxonomy'] ) return $aArgs[ 0 ];
+		endif;
+	
+		if ( substr( $sMethodName, 0, strlen( 'columns_' . $this->oProp->sClassName ) ) == 'columns_' . $this->oProp->sClassName ) return $aArgs[ 0 ];
+		if ( substr( $sMethodName, 0, strlen( 'sortable_columns_' . $this->oProp->sClassName ) ) == 'sortable_columns_' . $this->oProp->sClassName ) return $aArgs[ 0 ];
+		if ( substr( $sMethodName, 0, strlen( 'cell_' . $this->oProp->sClassName ) ) == 'cell_' . $this->oProp->sClassName ) return $aArgs[ 0 ];
+
+		return parent::__call( $sMethodName, $aArgs );
+		
+	}
 }
 endif;

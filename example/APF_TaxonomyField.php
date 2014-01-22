@@ -45,6 +45,29 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
 	}
 	
 	/*
+	 * ( optional ) modify the columns of the term listing table
+	 */
+	public function columns_APF_TaxonomyField( $aColumn ) {	// column_{extended class name}
+		
+		return array( 'cb' => $aColumn['cb'], 'thumbnail' => __( 'Thumbnail', 'admin-page-framework-demo' ) ) + $aColumn;
+		
+	}
+
+	/*
+	 * ( optional ) output the stored option to the custom column
+	 */	
+	public function cell_APF_TaxonomyField( $sCellHTML, $sColumnSlug, $iTermID ) {	// cell_{extended class name}
+		
+		if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) return $sCellHTML;
+		
+		$aOptions = get_option( 'APF_TaxonomyField' );	// by default the class name is the option key.
+		return isset( $aOptions[ $iTermID ][ 'image_upload' ] ) && $aOptions[ $iTermID ][ 'image_upload' ]
+			? "<img src='{$aOptions[ $iTermID ][ 'image_upload' ]}' style='max-height: 72px; max-width: 120px;'/>"
+			: $sCellHTML;
+		
+	}
+	
+	/*
 	 * ( optional ) Use this method to insert your custom text.
 	 */
 	public function do_APF_TaxonomyField() {	// do_{extended class name}

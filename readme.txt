@@ -233,6 +233,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: an example to add a thumbnail to the taxonomy term listing table in the demo plugin.
+* Added: the `cell_{taxonomy slug}` and the `cell_{extended class name}` filters for the taxonomy field class.
+* Added: the `sortable_columns_{taxonomy slug}` and the `sortable_columns_{extended class name}` filters for the taxonomy field class.
+* Added: the `columns_{taxonomy slug}` and the `columns_{extended class name}` filters for the taxonomy field class.
 * Added: the `columns_{post type slug}` filter for the post type class.
 * Added: the `sortable_columns_{post type slug}` filter for the post type class.
 * Deprecated: ( ***Breaking Change*** ) the `setColumnHeader()` method in the post type class.
