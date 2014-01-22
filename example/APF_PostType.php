@@ -72,6 +72,28 @@ class APF_PostType extends AdminPageFramework_PostType {
 	/*
 	 * Callback methods
 	 */
+	public function columns_apf_posts( $aHeaderColumns ) {
+		
+		return array_merge( 
+			$aHeaderColumns,
+			array(
+				'cb'			=> '<input type="checkbox" />',	// Checkbox for bulk actions. 
+				'title'			=> __( 'Title', 'admin-page-framework' ),		// Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+				'author'		=> __( 'Author', 'admin-page-framework' ),		// Post author.
+				// 'categories'	=> __( 'Categories', 'admin-page-framework' ),	// Categories the post belongs to. 
+				// 'tags'		=> __( 'Tags', 'admin-page-framework' ),	// Tags for the post. 
+				'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
+				'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
+				'samplecolumn'			=> __( 'Sample Column' ),
+			)			
+		);
+		
+	}
+	public function sortable_columns_apf_posts( $aSortableHeaderColumns ) {
+		
+		return $aSortableHeaderColumns;
+		
+	}	
 	public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {	// cell_ + post type + column key
 		
 		return "the post id is : {$iPostID}";
