@@ -4,8 +4,8 @@ if ( ! class_exists( 'AdminPageFramework_Property_TaxonomyField' ) ) :
  * Provides the space to store the shared properties for taxonomy fields.
  *  
  * @since			3.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Property
+ * @package			AdminPageFramework
+ * @subpackage		Property
  * @extends			AdminPageFramework_Property_MetaBox
  */
 class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Property_MetaBox {
@@ -14,6 +14,7 @@ class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Prope
 	 * Defines the property type.
 	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
 	 * @since			3.0.0
+	 * @internal
 	 */
 	public $_sPropertyType = 'taxonomy_field';
 	

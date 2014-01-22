@@ -5,8 +5,9 @@ if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
  *
  * @abstract
  * @since			3.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Page
+ * @package			AdminPageFramework
+ * @subpackage		Page
+ * @internal
  */
 abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 

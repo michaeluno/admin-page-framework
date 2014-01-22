@@ -3,9 +3,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) :
 /**
  * Defines the number, and range field type.
  * 
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @package			AdminPageFramework
+ * @subpackage		FieldType
  * @since			2.1.5
+ * @internal
  */
 class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text {
 

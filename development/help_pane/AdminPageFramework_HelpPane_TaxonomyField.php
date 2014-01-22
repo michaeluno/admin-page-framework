@@ -3,10 +3,11 @@ if ( ! class_exists( 'AdminPageFramework_HelpPane_TaxonomyField' ) ) :
 /**
  * Provides methods to manipulate the contextual help tab for the taxonomy field class.
  *
- * @package				Admin Page Framework
- * @subpackage			Admin Page Framework - Help Pane
- * @since			3.0.0			
- * @extends			AdminPageFramework_HelpPane_MetaBox
+ * @package				AdminPageFramework
+ * @subpackage			HelpPane
+ * @since				3.0.0			
+ * @extends				AdminPageFramework_HelpPane_MetaBox
+ * @internal
  */
 class AdminPageFramework_HelpPane_TaxonomyField extends AdminPageFramework_HelpPane_MetaBox {
 	

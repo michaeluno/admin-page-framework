@@ -6,9 +6,10 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  * @since			2.0.0
  * @since			2.0.1			Added the <em>size</em> type.
  * @since			2.1.5			Separated the methods that defines field types to different classes.
- * @extends			AdminPageFramework_Utility
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @extends			AdminPageFramework_WPUtility
+ * @package			AdminPageFramework
+ * @subpackage		Field
+ * @internal
  */
 class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		

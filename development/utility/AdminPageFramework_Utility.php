@@ -4,8 +4,8 @@ if ( ! class_exists( 'AdminPageFramework_Utility' ) ) :
  * Provides utility methods which do not use WordPress functions.
  *
  * @since			2.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Utility
+ * @package			AdminPageFramework
+ * @subpackage		Utility
  */
 abstract class AdminPageFramework_Utility {
 	
@@ -109,8 +109,8 @@ abstract class AdminPageFramework_Utility {
 	 * @since			2.1.5				Changed the scope to static. 
 	 * @access			public
 	 * @remark			null values will be overwritten. 	
-	 * @param			array			$aPrecedence			the array that overrides the same keys.
-	 * @param			array			$aDefault				the array that is going to be overridden.
+	 * @param			array			the array that overrides the same keys.
+	 * @param			array			the array that is going to be overridden.
 	 * @return			array			the united array.
 	 */ 
 	public static function uniteArraysRecursive( $aPrecedence, $aDefault ) {

@@ -3,10 +3,11 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_size' ) ) :
 /**
  * Defines the size field type.
  * 
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @package			AdminPageFramework
+ * @subpackage		FieldType
  * @extends			AdminPageFramework_FieldType_select
  * @since			2.1.5
+ * @internal
  */
 class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
 	

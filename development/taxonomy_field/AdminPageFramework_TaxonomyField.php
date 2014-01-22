@@ -9,8 +9,8 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * @use				AdminPageFramework_Message
  * @use				AdminPageFramework_Debug
  * @use				AdminPageFramework_Property_MetaBox
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Taxonomy Field
+ * @package			AdminPageFramework
+ * @subpackage		TaxonomyField
  * @extends			AdminPageFramework_MetaBox_Base
  */
 abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaBox_Base {
@@ -24,12 +24,14 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	/**
 	 * Stores the head tag object.
 	 * @since			3.0.0
+	 * @internal
 	 */
 	protected $oHeadTag;
 	
 	/**
 	 * Stores the contextual help pane object.
 	 * @since			3.0.0
+	 * @internal
 	 */
 	protected $oHelpPane;
 	
@@ -136,6 +138,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	
 	/**
 	 * Adds input fields
+	 * 
 	 * @internal
 	 * @since			3.0.0
 	 */	
@@ -158,6 +161,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 * Retrieves the fields output.
 	 * 
 	 * @since			3.0.0
+	 * @internal
 	 */
 	private function _getFieldsOutput( $iTermID, $bRenderTableRow ) {
 	
@@ -224,8 +228,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	
 	/**
 	 * Validates the given option array.
-	 * @internal
+	 * 
 	 * @since			3.0.0
+	 * @internal
 	 */
 	public function _replyToValidateOptions( $iTermID ) {
 		

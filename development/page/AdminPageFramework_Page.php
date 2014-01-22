@@ -8,8 +8,8 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * @since			2.0.0
  * @since			2.1.0		Extends AdminPageFramework_HelpPane_Page.
  * @since			3.0.0		No longer extends AdminPageFramework_HelpPane_Page.
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Page
+ * @package			AdminPageFramework
+ * @subpackage		Page
  * @staticvar		array		$_aScreenIconIDs					stores the ID selector names for screen icons.
  * @staticvar		array		$_aHookPrefixes							stores the prefix strings for filter and action hooks.
  * @staticvar		array		$_aStructure_InPageTabElements		represents the array structure of an in-page tab array.

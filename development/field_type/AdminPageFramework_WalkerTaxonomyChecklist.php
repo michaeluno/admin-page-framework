@@ -10,8 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_WalkerTaxonomyChecklist' ) ) :
  * @since			2.0.0
  * @since			2.1.5			Added the tag_id key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
  * @extends			Walker_Category
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @package			AdminPageFramework
+ * @subpackage		FieldType
+ * @internal
  */
 class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		

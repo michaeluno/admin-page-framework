@@ -5,8 +5,9 @@ if ( ! class_exists( 'AdminPageFramework_ImportOptions' ) ) :
  *
  * @since			2.0.0
  * @extends			AdminPageFramework_CustomSubmitFields
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Setting
+ * @package			AdminPageFramework
+ * @subpackage		Setting
+ * @internal
  */
 class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
 	

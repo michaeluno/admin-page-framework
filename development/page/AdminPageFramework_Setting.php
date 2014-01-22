@@ -6,8 +6,8 @@ if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
  * @abstract
  * @since		2.0.0
  * @extends		AdminPageFramework_Menu
- * @package		Admin Page Framework
- * @subpackage	Admin Page Framework - Page
+ * @package		AdminPageFramework
+ * @subpackage	Page
  * @staticvar	array		$_aStructure_Section				represents the structure of the form section array.
  * @staticvar	array		$_aStructure_Field					represents the structure of the form field array.
  * @var			array		$aFieldErrors						stores the settings field errors.

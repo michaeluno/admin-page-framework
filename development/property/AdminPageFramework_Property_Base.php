@@ -6,8 +6,9 @@ if ( ! class_exists( 'AdminPageFramework_Property_Base' ) ) :
  * 
  * Provides the common methods  and properties for the property classes that are used by the main class, the meta box class, and the post type class.
  * @since			2.1.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Property
+ * @package			AdminPageFramework
+ * @subpackage		Property
+ * @internal
  */ 
 abstract class AdminPageFramework_Property_Base {
 

@@ -3,11 +3,12 @@ if ( ! class_exists( 'AdminPageFramework_HelpPane_MetaBox' ) ) :
 /**
  * Provides methods to manipulate the contextual help tab .
  *
- * @package				Admin Page Framework
- * @subpackage			Admin Page Framework - Help Pane
+ * @package				AdminPageFramework
+ * @subpackage			HelpPane
  * @since			2.1.0
  * @since			3.0.0			Become not abstract.
  * @extends			AdminPageFramework_HelpPane_Base
+ * @internal
  */
 class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Base {
 	

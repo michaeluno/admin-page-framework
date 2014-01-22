@@ -5,8 +5,9 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_PostType' ) ) :
  *
  * @since			2.1.7
  * @extends			AdminPageFramework_PageLoadInfo_Base
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Debug
+ * @package			AdminPageFramework
+ * @subpackage		Debug
+ * @internal
  */
 class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLoadInfo_Base {
 	

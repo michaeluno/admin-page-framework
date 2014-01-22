@@ -10,11 +10,11 @@
  * @see					http://wordpress.org/plugins/admin-page-framework/
  * @see					https://github.com/michaeluno/admin-page-framework
  * @link				http://en.michaeluno.jp/admin-page-framework
- * @package				Admin Page Framework
+ * @package				AdminPageFramework
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				3.0.0b3
+ * @version				3.0.0b5
  */
 
 if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
@@ -26,7 +26,7 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.0.0b3
+ * Version: 3.0.0b5
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright		2013-2014 Michael Uno
@@ -37,8 +37,9 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
  * @since			3.0.0
  * @remark			The minifier script will refer this comment section to create the comment header. So don't remove the @info section.
  * @remark			This class will not be included in the minifiled version.
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Utility
+ * @package			AdminPageFramework
+ * @subpackage		Utility
+ * @internal
  */
 class AdminPageFramework_Bootstrap {
 	

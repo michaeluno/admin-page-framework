@@ -6,8 +6,8 @@ if ( ! class_exists( 'AdminPageFramework_Property_Page' ) ) :
  * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
  * 
  * @since			2.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Property
+ * @package			AdminPageFramework
+ * @subpackage		Property
  * @extends			AdminPageFramework_Property_Base
  */
 class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
@@ -16,6 +16,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * Defines the property type.
 	 * @remark			Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
 	 * @since			3.0.0
+	 * @internal
 	 */
 	public $_sPropertyType = 'page';
 	

@@ -4,8 +4,9 @@ if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_Base' ) ) :
  * Collects data of page loads in admin pages.
  *
  * @since			2.1.7
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Debug
+ * @package			AdminPageFramework
+ * @subpackage		Debug
+ * @internal
  */
 abstract class AdminPageFramework_PageLoadInfo_Base {
 	

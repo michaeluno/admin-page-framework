@@ -9,8 +9,8 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page' ) ) :
  * @use				AdminPageFramework_Message
  * @use				AdminPageFramework_Debug
  * @use				AdminPageFramework_Property_Page
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Meta Box
+ * @package			AdminPageFramework
+ * @subpackage		MetaBox
  */
 abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBox_Base {
 	

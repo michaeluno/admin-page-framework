@@ -6,8 +6,8 @@ if ( ! class_exists( 'AdminPageFramework_Message' ) ) :
  * @since			2.0.0
  * @since			2.1.6			Multiple instances of this class are disallowed.
  * @extends			n/a
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Property
+ * @package			AdminPageFramework
+ * @subpackage		Property
  */
 class AdminPageFramework_Message {
 

@@ -1,63 +1,67 @@
 <?php
 if ( ! class_exists( 'AdminPageFramework' ) ) :
 /**
- * The main class of the framework. 
+ * The main class of the framework to create admin pages and forms.
  * 
- * The user should extend this class and define the set-ups in the setUp() method. Most of the public methods are for hook callbacks and the private methods are internal helper functions. So the protected methods are for the users.
+ * This class should be extended and the setUp() method should be overridden to define how pages are composed.
+ * Most of the internal methods are prefixed with the underscore like <code>_getSomething()</code> and callback methods are prefixed with <code>_reply</code>.
+ * The methods for the users are public and do not have those prefixes.
  * 
  * <h2>Hooks</h2>
  * <p>The class automatically creates WordPress action and filter hooks associated with the class methods.
- * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
+ * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and the actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><code>start_ + extended class name</code> – triggered at the end of the class constructor. This will be triggered in any admin page.</li>
- * 	<li><code>load_ + extended class name</code>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><code>load_ + page slug</code>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><code>load_ + page slug + _ + tab slug</code>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><code>do_before_ + extended class name</code> – triggered before rendering the page. It applies to all pages created by the instantiated class object.</li>
- * 	<li><code>do_before_ + page slug</code> – triggered before rendering the page.</li>
- * 	<li><code>do_before_ + page slug + _ + tab slug</code> – triggered before rendering the page.</li>
- * 	<li><code>do_ + extended class name</code> – triggered in the middle of rendering the page. It applies to all pages created by the instantiated class object.</li>
- * 	<li><code>do_ + page slug</code> – triggered in the middle of rendering the page.</li>
- * 	<li><code>do_ + page slug + _ + tab slug</code> – triggered in the middle of rendering the page.</li>
- * 	<li><code>do_after_ + extended class name</code> – triggered after rendering the page. It applies to all pages created by the instantiated class object.</li>
- * 	<li><code>do_after_ + page slug</code> – triggered after rendering the page.</li>
- * 	<li><code>do_after_ + page slug + _ + tab slug</code> – triggered after rendering the page.</li>
+ * 	<li><strong>start_{extended class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page.</li>
+ * 	<li><strong>load_{extended class name}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>load_{page slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>load_{page slug}_{tab slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>do_before_{extended class name}</strong> – triggered before rendering the page. It applies to all the pages created by the instantiated class object.</li>
+ * 	<li><strong>do_before_{page slug}</strong> – triggered before rendering the page.</li>
+ * 	<li><strong>do_before_{page slug}_{tab slug}</strong> – triggered before rendering the page.</li>
+ * 	<li><strong>do_{extended class name}</strong> – triggered in the middle of rendering the page. It applies to all the pages created by the instantiated class object.</li>
+ * 	<li><strong>do_{page slug}</strong> – triggered in the middle of rendering the page.</li>
+ * 	<li><strong>do_{page slug}_{tab slug}</strong> – triggered in the middle of rendering the page.</li>
+ * 	<li><strong>do_after_{extended class name}</strong> – triggered after rendering the page. It applies to all the pages created by the instantiated class object.</li>
+ * 	<li><strong>do_after_{page slug}</strong> – triggered after rendering the page.</li>
+ * 	<li><strong>do_after_{page slug}_{tab slug}</strong> – triggered after rendering the page.</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- * 	<li><code>head_ + page slug</code> – receives the output of the top part of the page.</li>
- * 	<li><code>head_ + page slug + _ + tab slug</code> – receives the output of the top part of the page.</li>
- * 	<li><code>head_ + extended class name</code> – receives the output of the top part of the page, applied to all pages created by the instantiated class object.</li>
- * 	<li><code>content_ + page slug</code> – receives the output of the middle part of the page including form input fields.</li>
- * 	<li><code>content_ + page slug + _ + tab slug</code> – receives the output of the middle part of the page including form input fields.</li>
- * 	<li><code>content_ + extended class name</code> – receives the output of the middle part of the page, applied to all pages created by the instantiated class object.</li>
- * 	<li><code>foot_ + page slug</code> – receives the output of the bottom part of the page.</li>
- * 	<li><code>foot_ + page slug + _ + tab slug</code> – receives the output of the bottom part of the page.</li>
- * 	<li><code>foot_ + extended class name</code> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object.</li>
- * 	<li><code>section_ + extended class name + _ + section ID</code> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li> 
- * 	<li><code>field_ + extended class name + _ + field ID</code> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- * 	<li><code>validation_ + page slug + _ + tab slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><code>validation_ + page slug</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><code>validation_ + extended class name + _ + input id</code> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
- * 	<li><code>validation_ + extended class name + _ + field id</code> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
- * 	<li><code>validation_ + extended class name</code> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><code>style_ + page slug + _ + tab slug</code> – receives the output of the CSS rules applied to the tab page of the slug.</li>
- * 	<li><code>style_ + page slug</code> – receives the output of the CSS rules applied to the page of the slug.</li>
- * 	<li><code>style_ + extended class name</code> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
- * 	<li><code>script_ + page slug + _ + tab slug</code> – receives the output of the JavaScript script applied to the tab page of the slug.</li>
- * 	<li><code>script_ + page slug</code> – receives the output of the JavaScript script applied to the page of the slug.</li>
- * 	<li><code>script_ + extended class name</code> – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
- * 	<li><code>export_ + page slug + _ + tab slug</code> – receives the exporting array sent from the tab page.</li>
- * 	<li><code>export_ + page slug</code> – receives the exporting array submitted from the page.</li>
- * 	<li><code>export_ + extended class name + _ + input id</code> – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
- * 	<li><code>export_ + extended class name + _ + field id</code> – [2.1.5+] receives the exporting array submitted from the specific field.</li>
- * 	<li><code>export_ + extended class name</code> – receives the exporting array submitted from the plugin.</li>
- * 	<li><code>import_ + page slug + _ + tab slug</code> – receives the importing array submitted from the tab page.</li>
- * 	<li><code>import_ + page slug</code> – receives the importing array submitted from the page.</li>
- * 	<li><code>import_ + extended class name + _ + input id</code> – [2.1.5+] receives the importing array submitted from the specific import button.</li>
- * 	<li><code>import_ + extended class name + _ + field id</code> – [2.1.5+] receives the importing array submitted from the specific import field.</li>
- * 	<li><code>import_ + extended class name</code> – receives the importing array submitted from the plugin.</li>
+ * 	<li><strong>content_top_{page slug}_{tab slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
+ * 	<li><strong>content_top_{page slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
+ * 	<li><strong>content_top_{extended class name}</strong> – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
+ * 	<li><strong>content_{page slug}_{tab slug}</strong> – receives the output of the middle part of the page including form input fields.</li>
+ * 	<li><strong>content_{page slug}</strong> – receives the output of the middle part of the page including form input fields.</li>
+ * 	<li><strong>content_{extended class name}</strong> – receives the output of the middle part of the page, applied to all pages created by the instantiated class object.</li>
+ * 	<li><strong>content_bottom_{page slug}_{tab slug}</strong> – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
+ * 	<li><strong>content_bottom_{page slug}</strong> – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
+ * 	<li><strong>content_bottom_{extended class name}</strong> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from foot_{...}.</li>
+ * 	<li><strong>section_{extended class name}_{section ID}</strong> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li> 
+ * 	<li><strong>field_{extended class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
+ * 	<li><strong>sections_{extended class name}</strong> – receives the registered section arrays. The first parameter: sections container array.</li> 
+ * 	<li><strong>fields_{extended class name}</strong> – receives the registered field arrays. The first parameter: fields container array.</li> 
+ * 	<li><strong>validation_{extended class name}_{input id}</strong> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
+ * 	<li><strong>validation_{extended class name}_{field id}</strong> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
+ * 	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>validation_{page slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>validation_{extended class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>style_{page slug}_{tab slug}</strong> – receives the output of the CSS rules applied to the tab page of the slug.</li>
+ * 	<li><strong>style_{page slug}</strong> – receives the output of the CSS rules applied to the page of the slug.</li>
+ * 	<li><strong>style_{extended class name}</strong> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
+ * 	<li><strong>script_{page slug}_{tab slug}</strong> – receives the output of the JavaScript script applied to the tab page of the slug.</li>
+ * 	<li><strong>script_{page slug}</strong> – receives the output of the JavaScript script applied to the page of the slug.</li>
+ * 	<li><strong>script_{extended class name}</strong> – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
+ * 	<li><strong>export_{page slug}_{tab slug}</strong> – receives the exporting array sent from the tab page.</li>
+ * 	<li><strong>export_{page slug}</strong> – receives the exporting array submitted from the page.</li>
+ * 	<li><strong>export_{extended class name}_{input id}</strong> – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
+ * 	<li><strong>export_{extended class name}_{field id}</strong> – [2.1.5+] receives the exporting array submitted from the specific field.</li>
+ * 	<li><strong>export_{extended class name}</strong> – receives the exporting array submitted from the plugin.</li>
+ * 	<li><strong>import_{page slug}_{tab slug}</strong> – receives the importing array submitted from the tab page.</li>
+ * 	<li><strong>import_{page slug}</strong> – receives the importing array submitted from the page.</li>
+ * 	<li><strong>import_{extended class name}_{input id}</strong> – [2.1.5+] receives the importing array submitted from the specific import button.</li>
+ * 	<li><strong>import_{extended class name}_{field id}</strong> – [2.1.5+] receives the importing array submitted from the specific import field.</li>
+ * 	<li><strong>import_{extended class name}</strong> – receives the importing array submitted from the plugin.</li>
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p>
@@ -65,8 +69,8 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * <p>If the extended class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.</p>
  * <code>class Sample_Admin_Pages extends AdminPageFramework {
  * ...
- *     function head_Sample_Admin_Pages( $sContent ) {
- *         return '&lt;div style="float:right;"&gt;&lt;img src="' . plugins_url( 'img/banner468x60.gif', __FILE__ ) . '" /&gt;&lt;/div&gt;' 
+ *     function content_top_Sample_Admin_Pages( $sContent ) {
+ *         return '<div style="float:right;"><img src="' . plugins_url( 'img/banner468x60.gif', __FILE__ ) . '" /></div>' 
  *             . $sContent;
  *     }
  * ...
@@ -75,87 +79,90 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * <code>class Sample_Admin_Pages extends AdminPageFramework {
  * ...
  *     function content_my_first_setting_page( $sContent ) {
- *         return $sContent . '&lt;p&gt;Hello world!&lt;/p&gt;';
+ *         return $sContent . '<p>Hello world!</p>';
  *     }
  * ...
  * }</code>
  * <h3>Timing of Hooks</h3>
- * <blockquote>------ When the class is instantiated ------
+ * <code>------ When the class is instantiated ------
  *  
- *  start_ + extended class name
- *  load_ + extended class name
- *  load_ + page slug
- *  load_ + page slug + _ + tab slug
+ *  start_{extended class name}
+ *  load_{extended class name}
+ *  load_{page slug}
+ *  load_{page slug}_{tab slug}
+ * 
+ *  sections_{extended class name}
+ *  fields_{extended class name}
  *  
  *  ------ Start Rendering HTML ------
  *  
- *  &lt;head&gt;
- *      &lt;style type="text/css" name="admin-page-framework"&gt;
- *          style_ + page slug + _ + tab slug
- *          style_ + page slug
- *          style_ + extended class name
- *          script_ + page slug + _ + tab slug
- *          script_ + page slug
- *          script_ + extended class name       
- *      &lt;/style&gt;
+ *  <head>
+ *      <style type="text/css" name="admin-page-framework">
+ *          style_{page slug}_{tab slug}
+ *          style_{page slug}
+ *          style_{extended class name}
+ *          script_{page slug}_{tab slug}
+ *          script_{page slug}
+ *          script_{extended class name}
+ *      </style>
  *  
- *  &lt;/head&gt;
+ *  <head/>
  *  
- *  do_before_ + extended class name
- *  do_before_ + page slug
- *  do_before_ + page slug + _ + tab slug
+ *  do_before_{extended class name}
+ *  do_before_{page slug}
+ *  do_before_{page slug}_{tab slug}
  *  
- *  &lt;div class="wrap"&gt;
+ *  <div class="wrap">
  *  
- *      head_ + page slug + _ + tab slug
- *      head_ + page slug
- *      head_ + extended class name                 
+ *      content_top_{page slug}_{tab slug}
+ *      content_top_{page slug}
+ *      content_top_{extended class name}
  *  
- *      &lt;div class="acmin-page-framework-container"&gt;
- *          &lt;form action="options.php" method="post"&gt;
+ *      <div class="acmin-page-framework-container">
+ *          <form action="options.php" method="post">
  *  
- *              do_form_ + page slug + _ + tab slug
- *              do_form_ + page slug
- *              do_form_ + extended class name
+ *              do_form_{page slug}_{tab slug}
+ *              do_form_{page slug}
+ *              do_form_{extended class name}
  *  
- *              extended class name + _ + section_ + section ID
- *              extended class name + _ + field_ + field ID
+ *              section_{extended class name}_{section ID}
+ *              field_{extended class name}_{field ID}
  *  
- *              content_ + page slug + _ + tab slug
- *              content_ + page slug
- *              content_ + extended class name
+ *              content_{page slug}_{tab slug}
+ *              content_{page slug}
+ *              content_{extended class name}
  *  
- *              do_ + extended class name                   
- *              do_ + page slug
- *              do_ + page slug + _ + tab slug
+ *              do_{extended class name}
+ *              do_{page slug}
+ *              do_{page slug}_{tab slug}
  *  
- *          &lt;/form&gt;                 
- *      &lt;/div&gt;
+ *          </form>
+ *      </div>
  *  
- *          foot_ + page slug + _ + tab slug
- *          foot_ + page slug
- *          foot_ + extended class name         
+ *          content_bottom_{page slug}_{tab slug}
+ *          content_bottom_{page slug}
+ *          content_bottom_{extended class name}
  *  
- *  &lt;/div&gt;
+ *  </div>
  *  
- *  do_after_ + extended class name
- *  do_after_ + page slug
- *  do_after_ + page slug + _ + tab slug
- *  
+ *  do_after_{extended class name}
+ *  do_after_{page slug}
+ *  do_after_{page slug}_{tab slug}
  *  
  *  ----- After Submitting the Form ------
  *  
- *  validation_ + page slug + _ + tab slug 
- *  validation_ + page slug 
- *  validation_ + extended class name + _ + submit button input id
- *  validation_ + extended class name + _ + submit button field id
- *  validation_ + extended class name 
- *  export_ + page slug + _ + tab slug 
- *  export_ + page slug 
- *  export_ + extended class name
- *  import_ + page slug + _ + tab slug
- *  import_ + page slug
- *  import_ + extended class name</blockquote>
+ *  validation_{extended class name}_{submit button input id}
+ *  validation_{extended class name}_{submit button field id}
+ *  validation_{page slug}_{tab slug }
+ *  validation_{page slug }
+ *  validation_{extended class name }
+ *  export_{page slug}_{tab slug}
+ *  export_{page slug}
+ *  export_{extended class name}
+ *  import_{page slug}_{tab slug}
+ *  import_{page slug}
+ *  import_{extended class name}
+ * </code>
  * @abstract
  * @since			2.0.0
  * @use				AdminPageFramework_Property_Page
@@ -166,8 +173,8 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * @use				AdminPageFramework_Utility
  * @remark			This class stems from several abstract classes.
  * @extends			AdminPageFramework_Setting
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Page
+ * @package			AdminPageFramework
+ * @subpackage		Page
  */
 abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		
@@ -176,94 +183,82 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * 
 	 * <h4>Example</h4>
 	 * <code>if ( is_admin() )
-	 * 		new MyAdminPageClass( 'my_custom_option_key', __FILE__ );
-	 * </code>
+	 * 		new MyAdminPageClass( 'my_custom_option_key', __FILE__ );</code>
 	 * 
 	 * @access			public
 	 * @since			2.0.0
-	 * @param			string			$sOptionKey			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
-	 * @param			string			$sCallerPath		( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-	 * @param			string			$sCapability		( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed here( http://codex.wordpress.org/Roles_and_Capabilities ). If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
-	 * @param			string			$sTextDomain		( optional ) the text domain( http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains ) used for the framework's system messages. Default: admin-page-framework.
+	 * @see				http://codex.wordpress.org/Roles_and_Capabilities
+	 * @see				http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
+	 * @param			string			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
+	 * @param			string			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+	 * @param			string			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
+	 * @param			string			( optional ) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
 	 * @return			void			returns nothing.
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ){
-				 										
-		if ( is_admin() ) 
-			add_action( 'wp_loaded', array( $this, 'setUp' ) );
-	
+			
 		parent::__construct( 
 			$sOptionKey, 
 			$sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.
 			$sCapability, 
 			$sTextDomain 
 		);
-		// For earlier loading than $this->setUp
-		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );
+					
+		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );	// fire the start_{extended class name} action.
 
 	}	
 
 	/**
-	* The method for all the necessary set-ups.
-	* 
-	* The users should override this method to set-up necessary settings. 
-	* To perform certain tasks prior to this method, use the <em>start_ + extended class name</em> hook that is triggered at the end of the class constructor.
-	* 
-	* <h4>Example</h4>
-	* <code>public function setUp() {
-	* 	$this->setRootMenuPage( 'APF Form' ); 
-	* 	$this->addSubMenuItems(
-	* 		array(
-	* 			'title' => 'Form Fields',
-	* 			'page_slug' => 'apf_form_fields',
-	* 		)
-	* 	);		
-	* 	$this->addSettingSections(
-	* 		array(
-	* 			'section_id'		=> 'text_fields',
-	* 			'page_slug'		=> 'apf_form_fields',
-	* 			'title'			=> 'Text Fields',
-	* 			'description'	=> 'These are text type fields.',
-	* 		)
-	* 	);
-	* 	$this->addSettingFields(
-	* 		array(	
-	* 			'field_id' => 'text',
-	* 			'section_id' => 'text_fields',
-	* 			'title' => 'Text',
-	* 			'type' => 'text',
-	* 		)	
-	* 	);			
-	* }</code>
-	* @abstract
-	* @since			2.0.0
-	* @remark			This is a callback for the <em>wp_loaded</em> hook. Thus, its public.
-	* @remark			In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this is triggered with the <em>wp_loaded</em> hook.
-	* @access 			public
-	* @return			void
-	*/	
+	 * The method for all the necessary set-ups. 
+	 * 
+	 * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the <code>start_{extended class name}</code> hook that is triggered at the end of the class constructor.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>public function setUp() {
+	 * 	$this->setRootMenuPage( 'APF Form' ); 
+	 * 	$this->addSubMenuItems(
+	 * 		array(
+	 * 			'title' => 'Form Fields',
+	 * 			'page_slug' => 'apf_form_fields',
+	 * 		)
+	 * 	);		
+	 * 	$this->addSettingSections(
+	 * 		array(
+	 * 			'section_id'		=> 'text_fields',
+	 * 			'page_slug'		=> 'apf_form_fields',
+	 * 			'title'			=> 'Text Fields',
+	 * 			'description'	=> 'These are text type fields.',
+	 * 		)
+	 * 	);
+	 * 	$this->addSettingFields(
+	 * 		array(	
+	 * 			'field_id' => 'text',
+	 * 			'section_id' => 'text_fields',
+	 * 			'title' => 'Text',
+	 * 			'type' => 'text',
+	 * 		)	
+	 * 	);			
+	 * }</code>
+	 * @abstract
+	 * @since			2.0.0
+	 * @remark			This is a callback for the <em>wp_loaded</em> hook.
+	 * @remark			In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this is triggered with the <em>wp_loaded</em> hook.
+	 * @access 			public
+	 * @return			void
+	 */	
 	public function setUp() {}
 		
 	/*
 	 * Help Pane Methods
 	 */
+	
 	/**
 	 * Adds the given contextual help tab contents into the property.
-	 * 
-	 * <h4>Contextual Help Tab Array Structure</h4>
-	 * <ul>
-	 * 	<li><strong>page_slug</strong> - ( required ) the page slug of the page that the contextual help tab and its contents are displayed.</li>
-	 * 	<li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
-	 * 	<li><strong>help_tab_title</strong> - ( required ) the title of the contextual help tab.</li>
-	 * 	<li><strong>help_tab_id</strong> - ( required ) the id of the contextual help tab.</li>
-	 * 	<li><strong>help_tab_content</strong> - ( optional ) the HTML string content of the the contextual help tab.</li>
-	 * 	<li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
-	 * </ul>
 	 * 
 	 * <h4>Example</h4>
 	 * <code>	$this->addHelpTab( 
 	 *		array(
-	 *			'page_slug'				=> 'first_page',	// ( mandatory )
+	 *			'page_slug'					=> 'first_page',	// ( mandatory )
 	 *			// 'page_tab_slug'			=> null,	// ( optional )
 	 *			'help_tab_title'			=> 'Admin Page Framework',
 	 *			'help_tab_id'				=> 'admin_page_framework',	// ( mandatory )
@@ -275,7 +270,16 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @since			2.1.0
 	 * @remark			Called when registering setting sections and fields.
 	 * @remark			The user may use this method.
-	 * @param			array			$aHelpTab				The help tab array. The key structure is detailed in the description part.
+	 * @param			array			The help tab array.
+	 * <h4>Contextual Help Tab Array Structure</h4>
+	 * <ul>
+	 * 	<li><strong>page_slug</strong> - ( required ) the page slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
+	 * 	<li><strong>help_tab_title</strong> - ( required ) the title of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_id</strong> - ( required ) the id of the contextual help tab.</li>
+	 * 	<li><strong>help_tab_content</strong> - ( optional ) the HTML string content of the the contextual help tab.</li>
+	 * 	<li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
+	 * </ul>
 	 * @return			void
 	 */ 
 	public function addHelpTab( $aHelpTab ) {
@@ -288,8 +292,19 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	/**
 	 * Enqueues styles by page slug and tab slug.
 	 * 
+	 * Use this method to pass multiple files to the same page.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueStyle(  
+	 * 		array( 
+	 * 			dirname( APFDEMO_FILE ) . '/asset/css/code.css',
+	 * 			dirname( APFDEMO_FILE ) . '/asset/css/code2.css',
+	 * 		),
+	 * 		'apf_manage_options' 
+	 * );</code>
+	 * 
 	 * @since			3.0.0
-	 * @remark			The user may use this method.
+	 * @param			array			The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: <code>array( '/css/mystyle.css', '/css/mystyle2.css' )</code>
 	 */
 	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
@@ -297,22 +312,25 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	/**
 	 * Enqueues a style by page slug and tab slug.
 	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
+	 * <h4>Example</h4>
+	 * <code>$this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );
+	 * $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );</code>
+	 * 
+	 * @remark			The user may use this method.
+	 * @since			2.1.2
+	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+	 * @param			string			The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+	 * @param			string			(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+	 * @param			string			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+	 * @param 			array			(optional) The argument array for more advanced parameters.
+	 * <h4>Argument Array(4th parameter)</h4>
 	 * <ul>
 	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
 	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
 	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	 * </ul>
-	 * 
-	 * @remark			The user may use this method.
-	 * @since			2.1.2
-	 * @see				http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-	 * @param			string			$sSRC				The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-	 * @param			string			$sPageSlug		(optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-	 * @param			string			$sTabSlug			(optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
-	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+	 * @return			string			The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
@@ -327,16 +345,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
-	 * 
-	 * <h4>Custom Argument Array for the Fourth Parameter</h4>
-	 * <ul>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
-	 * </ul>	 
-	 * 
+	 *  
 	 * <h4>Example</h4>
 	 * <code>$this->enqueueScript(  
 	 *		plugins_url( 'asset/js/test.js' , __FILE__ ),	// source url or path
@@ -359,6 +368,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @param			string			$sPageSlug		(optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
 	 * @param			string			$sTabSlug			(optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
 	 * @param 			array			$aCustomArgs		(optional) The argument array for more advanced parameters.
+	 * <h4>Argument Array(4th Parameter)</h4>
+	 * <ul>
+	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
+	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+	 * 	<li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
+	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+	 * </ul>
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	

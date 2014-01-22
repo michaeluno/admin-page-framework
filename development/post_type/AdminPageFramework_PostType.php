@@ -19,8 +19,8 @@ if ( ! class_exists( 'AdminPageFramework_PostType' ) ) :
  * 
  * @abstract
  * @since			2.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Post Type
+ * @package			AdminPageFramework
+ * @subpackage		PostType
  */
 abstract class AdminPageFramework_PostType {	
 

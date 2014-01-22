@@ -6,8 +6,8 @@ if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
  * @abstract
  * @since			2.0.0
  * @extends			AdminPageFramework_Page
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Page
+ * @package			AdminPageFramework
+ * @subpackage		Page
  * @staticvar		array	$_aBuiltInRootMenuSlugs	stores the WordPress built-in menu slugs.
  * @staticvar		array	$_aStructure_SubMenuPageForUser	represents the structure of the sub-menu page array.
  */

@@ -26,8 +26,8 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * @use				AdminPageFramework_Message
  * @use				AdminPageFramework_Debug
  * @use				AdminPageFramework_Property_MetaBox
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Meta Box
+ * @package			AdminPageFramework
+ * @subpackage		MetaBox
  */
 abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Base {
 		

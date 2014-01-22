@@ -3,9 +3,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
 /**
  * The base class of field type classes that define input field types.
  * 
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @package			AdminPageFramework
+ * @subpackage		FieldType
  * @since			2.1.5
+ * @internal
  */
 abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
 	

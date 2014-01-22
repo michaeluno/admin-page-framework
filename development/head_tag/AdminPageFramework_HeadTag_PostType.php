@@ -5,8 +5,9 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_PostType' ) ) :
  * 
  * @since			2.1.5
  * @since			2.1.7			Added the replyToAddStyle() method.
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Head Tag
+ * @package			AdminPageFramework
+ * @subpackage		HeadTag
+ * @internal
  */
 class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_MetaBox {
 	

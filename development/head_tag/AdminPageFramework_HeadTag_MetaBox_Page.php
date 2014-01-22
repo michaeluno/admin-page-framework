@@ -5,8 +5,9 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox_Page' ) ) :
  * 
  * @since			3.0.0
  * @use				AdminPageFramework_Utility
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Head Tag
+ * @package			AdminPageFramework
+ * @subpackage		HeadTag
+ * @internal
  */
 class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {
 		

@@ -8,8 +8,9 @@ if ( ! class_exists( 'AdminPageFramework_Link_Page' ) ) :
  * @since			2.0.0
  * @since			3.0.0			Changed the name to AdminPageFramework_Link_Page_Page from AdminPageFramework_Link_Page.
  * @extends			AdminPageFramework_Link_Base
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Link
+ * @package			AdminPageFramework
+ * @subpackage		Link
+ * @internal
  */
 class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	

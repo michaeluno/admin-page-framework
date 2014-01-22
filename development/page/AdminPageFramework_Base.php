@@ -5,8 +5,9 @@ if ( ! class_exists( 'AdminPageFramework_Base' ) ) :
  *
  * @abstract
  * @since			3.0.0		
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Page
+ * @package			AdminPageFramework
+ * @subpackage		Page
+ * @internal
  */
 abstract class AdminPageFramework_Base {
 	
@@ -147,12 +148,19 @@ abstract class AdminPageFramework_Base {
 		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
 		$this->oUtil = new AdminPageFramework_WPUtility;
 		$this->oDebug = new AdminPageFramework_Debug;		
+
+		if ( $this->oProp->bIsAdmin )
+			add_action( 'wp_loaded', array( $this, 'setUp' ) );		
 		
 	}
+
+	/**#@+
+	 *@internal
+	 */	 
 	
 	/* Methods that should be defined in the user's class. */
 	public function setUp() {}
-	
+
 	/* Defined in AdminPageFramework */
 	public function addHelpTab( $aHelpTab ) {}
 	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
@@ -195,7 +203,7 @@ abstract class AdminPageFramework_Base {
 	public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {}
 	public function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {}
 	public function getFieldValue( $sFieldID ) {}
-	
+	/**#@-*/    
 	
 	/* Shared methods */
 	/**

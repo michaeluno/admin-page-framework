@@ -3,9 +3,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_file' ) ) :
 /**
  * Defines the file field type.
  * 
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @package			AdminPageFramework
+ * @subpackage		FieldType
  * @since			2.1.5
+ * @internal
  */
 class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text {
 	

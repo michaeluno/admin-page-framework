@@ -6,10 +6,11 @@ if ( ! class_exists( 'AdminPageFramework_HelpPane_Page' ) ) :
  * @remark				Shared with the both AdminPageFramework and AdminPageFramework_PostType.
  * @since				2.1.0
  * @since				3.0.0			Become not abstract.
- * @package				Admin Page Framework
- * @subpackage			Admin Page Framework - Help Pane
+ * @package				AdminPageFramework
+ * @subpackage			HelpPane
  * @extends				AdminPageFramework_HelpPane_Base
  * @staticvar			array			$_aStructure_HelpTabUserArray			stores the array structure of the help tab array.
+ * @internal
  */
 class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
 		

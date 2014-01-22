@@ -3,8 +3,9 @@
  * Registers classes in the given directory to be auto-loaded.
  *
  * @since			3.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Utility
+ * @package			AdminPageFramework
+ * @subpackage		Utility
+ * @internal
  */
 class AdminPageFramework_RegisterClasses {
 	

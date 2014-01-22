@@ -3,9 +3,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_radio' ) ) :
 /**
  * Defines the radio field type.
  * 
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Field
+ * @package			AdminPageFramework
+ * @subpackage		FieldType
  * @since			2.1.5
+ * @internal
  */
 class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Base {
 	

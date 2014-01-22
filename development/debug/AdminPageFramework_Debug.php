@@ -4,8 +4,8 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
  * Provides debugging methods.
  *
  * @since			2.0.0
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Debug
+ * @package			AdminPageFramework
+ * @subpackage		Debug
  */
 class AdminPageFramework_Debug {
 		
@@ -30,12 +30,10 @@ class AdminPageFramework_Debug {
 	 */
 	static public function getArray( $arr, $sFilePath=null, $bEscape=true ) {
 			
-		if ( $sFilePath ) 
-			self::logArray( $arr, $sFilePath );			
-			
-		// esc_html() has a bug that breaks with complex HTML code.
+		if ( $sFilePath ) self::logArray( $arr, $sFilePath );			
+		
 		return $bEscape
-			? "<pre class='dump-array'>" . htmlspecialchars( print_r( $arr, true ) ) . "</pre>"
+			? "<pre class='dump-array'>" . htmlspecialchars( print_r( $arr, true ) ) . "</pre>"	// esc_html() has a bug that breaks with complex HTML code.
 			: print_r( $arr, true );	// non-escape is used for exporting data into file.
 		
 	}	

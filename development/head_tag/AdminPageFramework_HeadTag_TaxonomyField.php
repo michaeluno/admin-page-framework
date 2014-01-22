@@ -3,10 +3,11 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_TaxonomyField' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag in the taxonomy page.
  * 
- * @since	3.0.0
- * @package	Admin Page Framework
- * @subpackage	Admin Page Framework - Head Tag
- * @extends	AdminPageFramework_HeadTag_MetaBox
+ * @since			3.0.0
+ * @package			Admin Page Framework
+ * @subpackage		HeadTag
+ * @extends			AdminPageFramework_HeadTag_MetaBox
+ * @internal
  */
 class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTag_MetaBox {
 

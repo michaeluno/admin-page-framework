@@ -6,8 +6,9 @@ if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
  * @abstract
  * @since			2.0.0
  * @remark			The classes that extend this include ExportOptions, ImportOptions, and Redirect.
- * @package			Admin Page Framework
- * @subpackage		Admin Page Framework - Setting
+ * @package			AdminPageFramework
+ * @subpackage		Setting
+ * @internal
  */
 abstract class AdminPageFramework_CustomSubmitFields {
 	 
