@@ -51,10 +51,11 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 	 * Returns the field type specific JavaScript script.
 	 */ 
 	public function _replyToGetScripts() {
+
+		/*	The below JavaScript function will be triggered when a new repeatable field is added. Since the APF repeater script does not
+			renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */	
 		$aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "			
-			/*	The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
-				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {				
 					added_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
@@ -91,6 +92,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 		
 		$aOutput = array();
 		$sValue = $aField['attributes']['value'];
+		
 		foreach( $aField['label'] as $sKey =>$sLabel ) {
 
 			/* Prepare attributes */
@@ -107,7 +109,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 				'for'	=>	$aInputAttributes['id'],
 				'class'	=>	$aInputAttributes['disabled'] ? 'disabled' : '',
 			);
-			
+
 			/* Insert the output */
 			$aOutput[] = 
 				$this->getFieldElementByKey( $aField['before_label'], $sKey )

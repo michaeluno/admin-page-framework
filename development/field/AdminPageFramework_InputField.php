@@ -129,6 +129,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
 		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
+		// It's important to return null if not set as it the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
 		switch( $aField['_field_type'] ) {
 			default:
 			case 'page':
@@ -136,13 +137,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			case 'taxonomy':
 				return isset( $aOptions[ $aField['field_id'] ] )
 					? $aOptions[ $aField['field_id'] ]
-					: '';	
+					: null;		
 			case 'post_meta_box':
 				return ( isset( $_GET['action'], $_GET['post'] ) ) 
 					? get_post_meta( $_GET['post'], $aField['field_id'], true )
-					: '';
+					: null;
 		}
-		return '';
+		return null;	
 						
 	}	
 		
