@@ -25,6 +25,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 		'format'		=>	'json',
 		'is_merge'		=>	false,
 		'attributes'	=> array(
+			'class'	=>	'button button-primary',
 			'file'	=>	array(
 				'accept'	=>	'audio/*|video/*|image/*|MIME_type',
 				'class'		=>	'import',
@@ -57,6 +58,10 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 		return "/* Import Field */
 		.admin-page-framework-field-import input {
 			margin-right: 0.5em;
+		}
+		.admin-page-framework-field-import label,
+		.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label {	/* for Wordpress 3.8 or above */
+			display: inline;	/* to display the submit button in the same line to the file input tag */
 		}" . PHP_EOL;
 	}
 	
@@ -69,8 +74,24 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 		/* Set some required values */
 		$aField['attributes']['name'] = "__import[submit][{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' );		
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'import' );
-		
 		return parent::_replyToGetField( $aField );		
+	}	
+	
+	/**
+	 * Returns extra output for the field.
+	 * 
+	 * This is for the import field type that extends this class. The import field type cannot place the file input tag inside the label tag that causes a problem in FireFox.
+	 * 
+	 * @since			3.0.0
+	 */	
+	protected function _getExtraFieldsBeforeLabel( &$aField ) {
+		return "<input " . $this->generateAttributes( 
+				array(
+					'id'	=>	"{$aField['input_id']}_file",
+					'type'	=>	'file',
+					'name'	=>	"__import[{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' ),
+				) + $aField['attributes']['file']			
+			) . " />";
 	}	
 	
 	/**
@@ -110,15 +131,8 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 					'name'	=>	"__import[{$aField['field_id']}][format]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
 					'value'	=>	$aField['format'],
 				) + $aHiddenAttributes
-			) . "/>"	
-			. "<input " . $this->generateAttributes( 
-				array(
-					'id'	=>	"{$aField['input_id']}_file",
-					'type'	=>	'file',
-					'name'	=>	"__import[{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' ),
-				) + $aField['attributes']['file']			
-			) . " />";
-
+			) . "/>"
+			;
 	}
 		
 }

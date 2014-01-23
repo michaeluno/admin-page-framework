@@ -68,6 +68,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		+ array(
 			'title'	=>	$sValue,
 		);
+
 		$aLabelAttributes = array(
 			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
 			'for'	=>	$aInputAttributes['id'],
@@ -81,6 +82,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		return 
 			$aField['before_label']
 			. "<div " . $this->generateAttributes( $aLabelContainerAttributes ) . ">"
+				. $this->_getExtraFieldsBeforeLabel( $aField )	// this is for the import field type that cannot place file input tag inside the label tag.
 				. "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
 					. $aField['before_input']
 					. $this->_getExtraInputFields( $aField )
@@ -90,6 +92,17 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 			. "</div>"
 			. $aField['after_label'];
 		
+	}
+	
+	/**
+	 * Returns extra output for the field.
+	 * 
+	 * This is for the import field type that extends this class. The import field type cannot place the file input tag inside the label tag that causes a problem in FireFox.
+	 * 
+	 * @since			3.0.0
+	 */
+	protected function _getExtraFieldsBeforeLabel( &$aField ) {
+		return '';		
 	}
 	
 	/**
@@ -198,7 +211,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	 */ 
 	protected function _getInputFieldValueFromLabel( $aField ) {	
 		
-		if ( isset( $aField['value'] ) ) return $aField['value'];	// If the value key is explicitly set, use it.
+		if ( isset( $aField['value'] ) && $aField['value'] != '' ) return $aField['value'];	// If the value key is explicitly set, use it. But the empty string will be ignored.
 		
 		if ( isset( $aField['label'] ) ) return $aField['label'];	
 		
