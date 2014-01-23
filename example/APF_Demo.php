@@ -1815,8 +1815,7 @@ class APF_Demo extends AdminPageFramework {
 		$this->addLinkToPluginTitle(
 			"<a href='http://www.wordpress.org'>WordPress</a>"
 		);
-// var_dump( __METHOD__ );		
-// var_dump( $this->oProp->aSections );		
+
     }
 		
 	/*
@@ -1884,8 +1883,30 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Import and Export Callbacks
 	 * */
+	public function export_name_APF_Demo_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export button field id}
+			
+		// Change the exporting file name based on the selected format type in the other field.
+		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['export_format_type'] )
+			? $_POST[ $this->oProp->sOptionKey ]['export_format_type'] 
+			: null;	
+		$aFileNameParts = pathinfo( $sFileName );
+		$sFileNameWOExt = $aFileNameParts['filename'];			
+		switch( $sSelectedFormatType ) {			
+			default:
+			case 'json':
+				$sReturnName = $sFileNameWOExt . '.json';
+				break;
+			case 'text':
+			case 'array':
+				$sReturnName = $sFileNameWOExt . '.txt';
+				break;				
+		}
+		return $sReturnName;
+		
+	}
 	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export button field id}
 		
+		// Set the internal formatting type based on the selected format type in the other field.
 		return isset( $_POST[ $this->oProp->sOptionKey ]['export_format_type'] ) 
 			? $_POST[ $this->oProp->sOptionKey ]['export_format_type']
 			: $sFormatType;
