@@ -29,10 +29,12 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 		$oCaller = $this->oProp->_getCallerObject();
 		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyle );
+		$sStyle = $this->oUtil->minifyCSS( $sStyle );
 		if ( $sStyle )
 			echo "<style type='text/css' id='admin-page-framework-style_{$this->oProp->sClassName}'>{$sStyle}</style>";
 		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyleIE )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyleIE );			
+		$sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
 		if ( $sStyleIE )
 			echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE_{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";						
 			

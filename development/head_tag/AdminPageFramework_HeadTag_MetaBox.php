@@ -85,10 +85,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 
 			// Print out the filtered styles.
 			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
+			$sStyle = $this->oUtil->minifyCSS( $sStyle );
 			if ( $sStyle )
 				echo "<style type='text/css' id='{$sIDPrefix}-{$this->oProp->sClassName}'>{$sStyle}</style>";
 				
 			$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
+			$sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
 			if ( $sStyleIE )
 				echo  "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie-{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";
 		
@@ -108,10 +110,12 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 			
 			$oCaller = $this->oProp->_getCallerObject();				
 			$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyle );
+			$sStyle = $this->oUtil->minifyCSS( $sStyle );
 			if ( $sStyle )
 				echo "<style type='text/css' id='{$sIDPrefix}'>{$sStyle}</style>";
 
 			$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyleIE );
+			$sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
 			if ( $sStyleIE )
 				echo "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie'>{$sStyleIE}</style><![endif]-->";
 				

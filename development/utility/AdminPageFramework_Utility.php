@@ -265,5 +265,20 @@ abstract class AdminPageFramework_Utility {
 		
 	}	
 	
+	/**
+	 * Comresses CSS rules.
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function minifyCSS( $sCSSRules ) {
+		
+		return str_replace( 
+			array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '), 	// remove line breaks, tab, and white sspaces.
+			'', 
+			preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $sCSSRules )	// remove comments
+		);
+		
+	}	
+	
 }
 endif;
