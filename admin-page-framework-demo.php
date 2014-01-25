@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.0b7
+	Version: 3.0.0b8
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -13,7 +13,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /* Define constants for the demo plugin -  these are not necessary in your project */
-define( 'APFDEMO_DEVMODE', false );
+define( 'APFDEMO_DEVMODE', true );
 define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 

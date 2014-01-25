@@ -41,7 +41,10 @@ class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLo
 		if ( isset( $_GET['page'] ) && $_GET['page'] ) return;
 	
 		// For post type pages
-		if ( isset( $_GET['post_type'], $this->oProp->sPostType ) && $_GET['post_type'] == $this->oProp->sPostType )
+		if ( 
+			isset( $_GET['post_type'], $this->oProp->sPostType ) && $_GET['post_type'] == $this->oProp->sPostType 
+			|| $this->oProp->isPostDefinitionPage( $this->oProp->sPostType )
+		)
 			add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
 		
 	}	
