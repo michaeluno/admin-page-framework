@@ -93,6 +93,8 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	}
 	
 	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
+ 		
+		if ( count( $this->oProp->aPages ) < 1 ) return $aLinks;	// if the sub-pages are not added, do nothing.
 		
 		// For a custom root slug,
 		$sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu['sPageSlug'] ) 
