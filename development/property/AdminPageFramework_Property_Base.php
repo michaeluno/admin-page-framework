@@ -161,6 +161,7 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-content {
 			margin-bottom: 1.48em;		
 			display: inline-table;	/* Fixes the bottom margin gets placed at the top. */
+			width: 100%;	/* This allows float:right elements to go to the very right end of the page. */
 		}
 		
 		/* Heading - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */
