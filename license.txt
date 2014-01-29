@@ -72,8 +72,14 @@ ApiGen
 Copyright © 2010-2011 David Grudl
 Copyright © 2011-2012 Jaroslav Hanslík
 Copyright © 2011-2012 Ondřej Nešpor
-All rights reserved. 
+All rights reserved.
+Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
 <http://apigen.org/>
+
+Gridster
+Copyright (c) 2012 Ducksboard
+Licensed MIT
+<https://github.com/ducksboard/gridster.js>
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
