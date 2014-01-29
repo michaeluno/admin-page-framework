@@ -15,6 +15,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
 			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
@@ -28,6 +29,7 @@ class APF_Demo extends AdminPageFramework {
 		new FontCustomFieldType( $sClassName );
 		new SampleCustomFieldType( $sClassName );
 		new RevealerCustomFieldType( $sClassName );
+		new GridCustomFieldType( $sClassName );
 
 	}
 
@@ -169,7 +171,11 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'tab_slug'	=>	'revealer',
 				'title'		=>	__( 'Revealer', 'admin-page-framework-demo' ),	
-			)
+			),
+			array(
+				'tab_slug'	=>	'grid',
+				'title'		=>	__( 'Grid', 'admin-page-framework-demo' ),	
+			)			
 		);
 		$this->addInPageTabs(	// ( optional )
 			/*
@@ -394,7 +400,13 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'		=>	'revealer',
 				'title'			=>	__( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),				
-			),						
+			),	
+			array(
+				'section_id'	=>	'grid',
+				'tab_slug'		=>	'grid',
+				'title'			=>	__( 'Grid Custom Field Type', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'This field will save the grid positions of the widgets.', 'admin-page-framework-demo' ),				
+			),			
 			array()
 		);
 		$this->addSettingSections(	
@@ -1701,6 +1713,81 @@ class APF_Demo extends AdminPageFramework {
 					jQuery( '#fieldset-revealer_field_option_b' ).closest( 'tr' ).hide();
 				</script>", // this script will hide the table row containing the field right away,
 			),
+			array(
+				'field_id'	=>	'grid_field',				
+				'section_id'	=>	'grid',
+				'type'	=>	'grid',		
+				'description'	=>	__( 'Move the widgets.', 'admin-page-framework-demo' ),	
+				'grid_options' => array(
+					'resize' => array(
+						'enabled'	=>	false,
+					),
+				),
+				'default'	=>	array(	// '[{"id":"","col":1,"row":1,"size_y":1,"size_x":1},{"id":"","col":1,"row":2,"size_y":1,"size_x":1}]',
+					array( 
+						'col'	=>	1,
+						'row'	=>	1,
+						'size_y'	=>	1,
+						'size_x'	=>	1,
+					),
+					array(
+						'col'	=>	2,
+						'row'	=>	2,
+						'size_y'	=>	1,
+						'size_x'	=>	1,					
+					),
+				),
+			),
+			array(
+				'field_id'	=>	'grid_field2',				
+				'description'	=>	__( 'Widgets can be expanded.', 'admin-page-framework-demo' ),	
+				'type'	=>	'grid',		
+				'grid_options' => array(
+					'resize' => array(
+						'enabled'	=>	true,
+					),
+				),
+				'default'	=>	array(	
+					array( 
+						'col'	=>	1,
+						'row'	=>	1,
+						'size_y'	=>	2,
+						'size_x'	=>	1,
+					),
+					array(
+						'col'	=>	2,
+						'row'	=>	1,
+						'size_y'	=>	1,
+						'size_x'	=>	2,					
+					),
+					array(
+						'col'	=>	4,
+						'row'	=>	1,
+						'size_y'	=>	1,
+						'size_x'	=>	2,					
+					),					
+				),
+			),	
+			array(
+				'field_id'	=>	'grid_field3',
+				'type'	=>	'grid',		
+				'description'	=>	__( 'The base size can be different.', 'admin-page-framework-demo' ),	
+				'grid_options' => array(
+					'resize' => array(
+						'enabled'	=>	true,
+					),
+					'widget_margins' => array( 10, 10 ),
+					'widget_base_dimensions' => array( 100, 100 ),					
+				),
+				'default'	=>	array(	
+					array( 
+						'col'	=>	1,
+						'row'	=>	1,
+						'size_y'	=>	1,
+						'size_x'	=>	1,
+					),			
+				),
+			),				
 			array()
 		);
 		/*

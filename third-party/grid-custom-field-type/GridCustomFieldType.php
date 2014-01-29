@@ -12,7 +12,10 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
-		
+		'grid_options'	=> array(
+			'widget_margins' => array( 5, 5 ),
+			'widget_base_dimensions' => array( 50, 50 ),
+		),
 		'attributes'	=>	array(
 			'size'	=>	10,
 			'maxlength'	=>	400,
@@ -29,8 +32,9 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected function getEnqueuingScripts() { 
 		return array(
-			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery.gridster.min.js', 'dependencies'	=> array( 'jquery' ) ),
-			// array( 'src'	=> dirname( __FILE__ ) . '/js/gridster.resize-patch.js', 'dependencies'	=> array( 'jquery' ) ),
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery.gridster.js', 'dependencies'	=> array( 'jquery' ) ),
+			array( 'src'	=> dirname( __FILE__ ) . '/js/gridster.custom.js', 'dependencies'	=> array( 'jquery' ) ),
+			
 		);
 	}
 	
@@ -39,8 +43,7 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected function getEnqueuingStyles() { 
 		return array(
-			dirname( __FILE__ ) . '/css/jquery.gridster.demo.css',
-			dirname( __FILE__ ) . '/css/jquery.gridster.min.css',
+			dirname( __FILE__ ) . '/css/jquery.gridster.css',
 			dirname( __FILE__ ) . '/css/gridster.demo.mod.css',
 		);
 	}			
@@ -62,14 +65,14 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
 						/* If the input tag is not found, do nothing  */
-						var nodeNewDialInput = node.find( 'input.knob' );
-						if ( nodeNewDialInput.length <= 0 ) return;
+						var nodeGridInput = node.find( 'input.grid' );
+						if ( nodeGridInput.length <= 0 ) return;
 						
 						/* Remove unnecessary elements */
-						nodeNewDialInput.closest( '.admin-page-framework-field' ).find( 'canvas' ).remove();
+						// nodeGridInput.closest( '.admin-page-framework-field' ).find( 'canvas' ).remove();
 						
 						/* Bind the knob script */
-						nodeNewDialInput.knob();
+						// nodeGridInput.knob();
 						
 					},
 					
@@ -90,18 +93,16 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	protected function getStyles() {
 		return "
-			.admin-page-framework-field-dial .admin-page-framework-input-label-container {
-				padding-right: 1em;
-				padding-bottom: 2em;
-			}
-			.sortable .admin-page-framework-field-dial .admin-page-framework-input-label-container {
-				padding-right: 0;
-				padding-bottom: 0;				
-			}
-			.admin-page-framework-field-dial .admin-page-framework-input-label-string {
-				vertical-align: top;
-			}
-			
+		.admin-page-framework-field-grid {
+			width: 100%;
+		}
+		.admin-page-framework-field-grid .admin-page-framework-input-label-container {
+			width: 100%;
+		}
+		.remove_gridster_widget {
+			float: right;
+			padding: 0.1em 0.4em;
+		}
 		";
 	}
 
@@ -116,9 +117,12 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 	protected function getField( $aField ) { 
 			
 		$aInputAttributes = array(
-			'type'	=>	'text',
+			'type'	=>	'hidden',
+			'value'	=>	is_array( $aField['attributes']['value'] ) 
+				? json_encode( $aField['attributes']['value'] )	// convert to json string.
+				: $aField['attributes']['value'],	
 		) + $aField['attributes'];
-		$aInputAttributes['class']	.= ' knob';
+		$aInputAttributes['class']	.= ' grid';
 
 		return 
 			$aField['before_label']
@@ -132,19 +136,110 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
 				. "</label>"
+				. $this->getGridContainer( $aField['input_id'] )
 			. "</div>"
-			. $this->getDialEnablerScript( $aField['input_id'] )
-			. $aField['after_label'];
+			. $this->getGridEnablerScript( $aField['input_id'], $aField['grid_options'] )
+			. $aField['after_label']
+			. $this->getAddWidgetButton( $aField['input_id'] )
+			;
 		
 	}	
-		
-		private function getDialEnablerScript( $sInputID ) {
-				return 
-					"<script type='text/javascript' class='dial-enabler-script'>
-						jQuery( document ).ready( function() {
-							jQuery( '#{$sInputID}' ).knob();
+		private function getAddWidgetButton( $sInputID ) {
+			return "<a id='add_widget-{$sInputID}' class='add_gridster_widget button secondary small' href='#'>" . __( 'Add Widget', 'admin-page-framework-demo' ) . "</a>";
+		}
+		private function getGridContainer( $sInputID ) {
+			return				
+				"<div class='gridster'>"
+					. "<ul id='grid_container-{$sInputID}'>"
+					. "</ul>"
+				. "</div>";
+			
+		}
+		private function getGridEnablerScript( $sInputID, $aSettings=array() ) {
+			$aJSArray = json_encode( $aSettings );
+			return 
+				"<script type='text/javascript' class='gridster-enabler-script'>
+					jQuery( document ).ready( function() {
+						var aOptions = {$aJSArray};
+						jQuery.extend( true, aOptions, {	// recursive merge
+							namespace: '#grid_container-{$sInputID}',	// Set the container element selector. This is important as the gridster script will generate styles with it.
+							resize: {
+								stop: function( event, ui ){ 							
+									setTimeout( function() {	// give a delay for Firefox
+										var oGridster = jQuery( '#grid_container-{$sInputID}' ).gridster().data('gridster');
+										oGridster.saveGrid( {$sInputID} );
+									}, 500 );	
+								},
+							},
+							draggable: {
+								stop: function( event, ui ){ 
+									setTimeout( function() {	// give a delay for Firefox
+										var oGridster = jQuery( '#grid_container-{$sInputID}' ).gridster().data('gridster');
+										oGridster.saveGrid( {$sInputID} );
+									}, 500 );	
+								},
+							},
+							serialize_params: function( w, wgd ) { 
+								return ( wgd )
+									? { 
+										id: wgd.el[0].id, 
+										col: wgd.col, 
+										row: wgd.row,
+										size_y: wgd.size_y,
+										size_x: wgd.size_x,
+									} 
+									: {};
+							},
 						});
-					</script>";		
+
+						// Set container width - must be done before creating the grid; otherwise, it gets locked. 
+						var nDimension = 50;
+						var iMargin = 5;
+						var iLargestColumnNumber = 3;
+						// jQuery( '#grid_container-{$sInputID}' ).width( ( iLargestColumnNumber - 1 ) * ( iMargin * 2 + nDimension ) );
+						// jQuery( '#grid_container-{$sInputID}' ).parent().width( ( iLargestColumnNumber ) * ( iMargin * 2 + nDimension ) );
+						
+						jQuery( '#grid_container-{$sInputID}' ).parent().css( 'width', '100%' );
+						jQuery( '#grid_container-{$sInputID}' ).css( 'width', '100%' );
+						
+						// Create a gridster grid
+						jQuery( '#grid_container-{$sInputID}' ).gridster( aOptions );
+						var oGridster = jQuery( '#grid_container-{$sInputID}' ).gridster().data( 'gridster' );
+						
+						// Import the saved data
+						var json = jQuery.parseJSON( jQuery( '#{$sInputID}' ).val() );	  
+						for(i=0; i<json.length; i++) {
+							var joWidget = oGridster.add_widget(
+								'<li class=\"gridster_widget\"><div class=\"remove_gridster_widget\"><a>x</a></div></li>', 	// '<div id=\"' + json[i]['id'] + '\"></div>', 
+								json[i]['size_x'], 
+								json[i]['size_y'], 
+								json[i]['col'], 
+								json[i]['row'] 
+							);
+							oGridster.setRemoveButton( joWidget.find( '.remove_gridster_widget' ), {$sInputID} );
+						}						
+
+								
+					// Add widget
+					jQuery( '#add_widget-{$sInputID}' ).click( function() { 
+	
+						var oGridster = jQuery( '#grid_container-{$sInputID}' ).gridster().data( 'gridster' );
+						var aLargestPosition = oGridster.getLargestColumnPosition();
+						var joWidget = oGridster.add_widget(
+							'<li class=\"gridster_widget\"><div class=\"remove_gridster_widget\"><a>x</a></div></li>',	// html
+							1,	// x-colspan
+							1,	// y-colspan
+							aLargestPosition['x'],	// col index
+							aLargestPosition['y'] === 1 ? aLargestPosition['y'] : aLargestPosition['y'] + 1,	// row index
+							null	// max colspan
+						);
+						oGridster.setRemoveButton( joWidget.find( '.remove_gridster_widget' ), {$sInputID} );
+						oGridster.saveGrid( {$sInputID} );
+						return false;
+						
+					});	
+				});				
+				</script>";		
 			
 		}
 	

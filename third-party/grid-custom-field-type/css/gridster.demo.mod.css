@@ -3,8 +3,9 @@
   padding:0;
 }
 
-ul {
+.gridster ul {
   list-style-type: none;
+  width: 100%;
 }
 
 
@@ -13,12 +14,12 @@ ul {
 /*/
 
 
-body {
+/* body {
     font-size: 16px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #444;
     margin: 30px 40px;
-}
+} */
 
 .controls {
     margin-bottom: 20px;
@@ -29,7 +30,7 @@ body {
 /*/
 
 .gridster ul {
-    background-color: #EFEFEF;
+    background-color: #C2C2C2;
 }
 
 .gridster li {
@@ -66,4 +67,3 @@ body {
     border: none!important;
     background: red!important;
 }
-

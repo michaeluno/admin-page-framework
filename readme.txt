@@ -59,6 +59,7 @@ You can include your own custom field types when they are necessary. This enable
 * `dial` - a dial input field.
 * `font` - a font uploader and its preview.
 * `revealer` - a selector field that displays a hidden HTML element.
+* `grid` - a drag and drop grid composer.
 
 = Necessary Files =
 * **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
@@ -234,6 +235,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the `grid` custom field type.
 * Added: the documentation pages in the distribution package.
 * Added: an example to add a thumbnail to the taxonomy term listing table in the demo plugin.
 * Added: the `cell_{taxonomy slug}` and the `cell_{extended class name}` filters for the taxonomy field class.
