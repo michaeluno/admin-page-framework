@@ -12,63 +12,72 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and the actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><strong>start_{extended class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page.</li>
- * 	<li><strong>load_{extended class name}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page.</li>
+ * 	<li><strong>load_{instantiated class name}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
  * 	<li><strong>load_{page slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
  * 	<li><strong>load_{page slug}_{tab slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><strong>do_before_{extended class name}</strong> – triggered before rendering the page. It applies to all the pages created by the instantiated class object.</li>
+ * 	<li><strong>do_before_{instantiated class name}</strong> – triggered before rendering the page. It applies to all the pages created by the instantiated class object.</li>
  * 	<li><strong>do_before_{page slug}</strong> – triggered before rendering the page.</li>
  * 	<li><strong>do_before_{page slug}_{tab slug}</strong> – triggered before rendering the page.</li>
- * 	<li><strong>do_{extended class name}</strong> – triggered in the middle of rendering the page. It applies to all the pages created by the instantiated class object.</li>
+ * 	<li><strong>do_{instantiated class name}</strong> – triggered in the middle of rendering the page. It applies to all the pages created by the instantiated class object.</li>
  * 	<li><strong>do_{page slug}</strong> – triggered in the middle of rendering the page.</li>
  * 	<li><strong>do_{page slug}_{tab slug}</strong> – triggered in the middle of rendering the page.</li>
- * 	<li><strong>do_after_{extended class name}</strong> – triggered after rendering the page. It applies to all the pages created by the instantiated class object.</li>
+ * 	<li><strong>do_after_{instantiated class name}</strong> – triggered after rendering the page. It applies to all the pages created by the instantiated class object.</li>
  * 	<li><strong>do_after_{page slug}</strong> – triggered after rendering the page.</li>
  * 	<li><strong>do_after_{page slug}_{tab slug}</strong> – triggered after rendering the page.</li>
+ * 	<li><strong>submit_{instantiated class name}_{submit input id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified input id.</li>
+ * 	<li><strong>submit_{instantiated class name}_{submit field id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified field that does not hava section is submitted.</li>
+ * 	<li><strong>submit_{instantiated class name}_{submit section id}_{submit field id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified section and field is submitted.</li>
+ * 	<li><strong>submit_{instantiated class name}_{submit section id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified section.</li>
+ * 	<li><strong>submit_{instantiated class name}</strong> – [3.0.0+] triggered after the form is submitted.</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
  * 	<li><strong>content_top_{page slug}_{tab slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
  * 	<li><strong>content_top_{page slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
- * 	<li><strong>content_top_{extended class name}</strong> – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
+ * 	<li><strong>content_top_{instantiated class name}</strong> – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
  * 	<li><strong>content_{page slug}_{tab slug}</strong> – receives the output of the middle part of the page including form input fields.</li>
  * 	<li><strong>content_{page slug}</strong> – receives the output of the middle part of the page including form input fields.</li>
- * 	<li><strong>content_{extended class name}</strong> – receives the output of the middle part of the page, applied to all pages created by the instantiated class object.</li>
+ * 	<li><strong>content_{instantiated class name}</strong> – receives the output of the middle part of the page, applied to all pages created by the instantiated class object.</li>
  * 	<li><strong>content_bottom_{page slug}_{tab slug}</strong> – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
  * 	<li><strong>content_bottom_{page slug}</strong> – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
- * 	<li><strong>content_bottom_{extended class name}</strong> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from foot_{...}.</li>
- * 	<li><strong>section_{extended class name}_{section ID}</strong> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li> 
- * 	<li><strong>field_{extended class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- * 	<li><strong>sections_{extended class name}</strong> – receives the registered section arrays. The first parameter: sections container array.</li> 
- * 	<li><strong>fields_{extended class name}</strong> – receives the registered field arrays. The first parameter: fields container array.</li> 
- * 	<li><strong>pages_{extended class name}</strong> – receives the registered page arrays. The first parameter: pages container array.</li> 
- * 	<li><strong>tabs_{extended class name}_{page slug}</strong> – receives the registered in-page tab arrays. The first parameter: tabs container array.</li>  
- * 	<li><strong>validation_{extended class name}_{input id}</strong> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The input ID is the one used to the name attribute of the submit input tag. For a submit button that is inserted without using the framework's method, it will not take effect.</li>
- * 	<li><strong>validation_{extended class name}_{field id}</strong> – [2.1.5+] receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The field ID is the one that is passed to the field array to create the submit input field.</li>
+ * 	<li><strong>content_bottom_{instantiated class name}</strong> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from foot_{...}.</li>
+ * 	<li><strong>section_{instantiated class name}_{section ID}</strong> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li> 
+ * 	<li><strong>field_{instantiated class name}_{field ID}</strong> – receives the form input field output of the given input field ID that does not have a section. The first parameter: output string. The second parameter: the array of option.</li>
+ * 	<li><strong>field_{instantiated class name}_{section id}_{field ID}</strong> – [3.0.0+] receives the form input field output of the given input field ID that has a section. The first parameter: output string. The second parameter: the array of option.</li>
+ * 	<li><strong>sections_{instantiated class name}</strong> – receives the registered section arrays. The first parameter: sections container array.</li> 
+ * 	<li><strong>fields_{instantiated class name}</strong> – receives the registered field arrays. The first parameter: fields container array.</li> 
+ * 	<li><strong>pages_{instantiated class name}</strong> – receives the registered page arrays. The first parameter: pages container array.</li> 
+ * 	<li><strong>tabs_{instantiated class name}_{page slug}</strong> – receives the registered in-page tab arrays. The first parameter: tabs container array.</li> 
+ * 	<li><strong>validation_{instantiated class name}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that does not have a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database.</li>
+ * 	<li><strong>validation_{instantiated class name}_{section_id}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that has a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database.</li>
+ * 	<li><strong>validation_{instantiated class name}_{section id}</strong> – [3.0.0+] receives the form submission values that belongs to the section.. The first parameter: ( array ) the array of submitted input values that belong to the section. The second parameter: ( array ) the array of the old values stored in the database.</li>
  * 	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><strong>validation_{page slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><strong>validation_{extended class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><strong>style_{page slug}_{tab slug}</strong> – receives the output of the CSS rules applied to the tab page of the slug.</li>
  * 	<li><strong>style_{page slug}</strong> – receives the output of the CSS rules applied to the page of the slug.</li>
- * 	<li><strong>style_{extended class name}</strong> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
+ * 	<li><strong>style_{instantiated class name}</strong> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
  * 	<li><strong>script_{page slug}_{tab slug}</strong> – receives the output of the JavaScript script applied to the tab page of the slug.</li>
  * 	<li><strong>script_{page slug}</strong> – receives the output of the JavaScript script applied to the page of the slug.</li>
- * 	<li><strong>script_{extended class name}</strong> – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
+ * 	<li><strong>script_{instantiated class name}</strong> – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
  * 	<li><strong>export_{page slug}_{tab slug}</strong> – receives the exporting array sent from the tab page.</li>
  * 	<li><strong>export_{page slug}</strong> – receives the exporting array submitted from the page.</li>
- * 	<li><strong>export_{extended class name}_{input id}</strong> – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
- * 	<li><strong>export_{extended class name}_{field id}</strong> – [2.1.5+] receives the exporting array submitted from the specific field.</li>
- * 	<li><strong>export_{extended class name}</strong> – receives the exporting array submitted from the plugin.</li>
+ * 	<li><strong>export_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
+ * 	<li><strong>export_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the exporting array submitted from the specific field that does not have a section.</li>
+ * 	<li><strong>export_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the exporting array submitted from the specific field that has a section.</li>
+ * 	<li><strong>export_{instantiated class name}</strong> – receives the exporting array submitted from the plugin.</li>
  * 	<li><strong>import_{page slug}_{tab slug}</strong> – receives the importing array submitted from the tab page.</li>
  * 	<li><strong>import_{page slug}</strong> – receives the importing array submitted from the page.</li>
- * 	<li><strong>import_{extended class name}_{input id}</strong> – [2.1.5+] receives the importing array submitted from the specific import button.</li>
- * 	<li><strong>import_{extended class name}_{field id}</strong> – [2.1.5+] receives the importing array submitted from the specific import field.</li>
- * 	<li><strong>import_{extended class name}</strong> – receives the importing array submitted from the plugin.</li>
+ * 	<li><strong>import_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the importing array submitted from the specific import button.</li>
+ * 	<li><strong>import_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the importing array submitted from the specific import field that does not have a section.</li>
+ * 	<li><strong>import_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the importing array submitted from the specific import field that has a section.</li>
+ * 	<li><strong>import_{instantiated class name}</strong> – receives the importing array submitted from the plugin.</li>
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p>
  * <h3>Examples</h3>
- * <p>If the extended class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.</p>
+ * <p>If the instantiated class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.</p>
  * <code>class Sample_Admin_Pages extends AdminPageFramework {
  * ...
  *     function content_top_Sample_Admin_Pages( $sContent ) {
@@ -88,15 +97,15 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * <h3>Timing of Hooks</h3>
  * <code>------ When the class is instantiated ------
  *  
- *  start_{extended class name}
- *  load_{extended class name}
+ *  start_{instantiated class name}
+ *  load_{instantiated class name}
  *  load_{page slug}
  *  load_{page slug}_{tab slug}
  * 
- *  sections_{extended class name}
- *  fields_{extended class name}
- *  pages_{extended class name}
- *  tabs_{extended class name}_{page slug}
+ *  sections_{instantiated class name}
+ *  fields_{instantiated class name}
+ *  pages_{instantiated class name}
+ *  tabs_{instantiated class name}_{page slug}
  * 
  *  ------ Start Rendering HTML ------
  *  
@@ -104,15 +113,15 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *      <style type="text/css" name="admin-page-framework">
  *          style_{page slug}_{tab slug}
  *          style_{page slug}
- *          style_{extended class name}
+ *          style_{instantiated class name}
  *          script_{page slug}_{tab slug}
  *          script_{page slug}
- *          script_{extended class name}
+ *          script_{instantiated class name}
  *      </style>
  *  
  *  <head/>
  *  
- *  do_before_{extended class name}
+ *  do_before_{instantiated class name}
  *  do_before_{page slug}
  *  do_before_{page slug}_{tab slug}
  *  
@@ -120,23 +129,23 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  
  *      content_top_{page slug}_{tab slug}
  *      content_top_{page slug}
- *      content_top_{extended class name}
+ *      content_top_{instantiated class name}
  *  
  *      <div class="acmin-page-framework-container">
  *          <form action="options.php" method="post">
  *  
  *              do_form_{page slug}_{tab slug}
  *              do_form_{page slug}
- *              do_form_{extended class name}
+ *              do_form_{instantiated class name}
  *  
- *              section_{extended class name}_{section ID}
- *              field_{extended class name}_{field ID}
+ *              section_{instantiated class name}_{section ID}
+ *              field_{instantiated class name}_{field ID}
  *  
  *              content_{page slug}_{tab slug}
  *              content_{page slug}
- *              content_{extended class name}
+ *              content_{instantiated class name}
  *  
- *              do_{extended class name}
+ *              do_{instantiated class name}
  *              do_{page slug}
  *              do_{page slug}_{tab slug}
  *  
@@ -145,27 +154,27 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  
  *          content_bottom_{page slug}_{tab slug}
  *          content_bottom_{page slug}
- *          content_bottom_{extended class name}
+ *          content_bottom_{instantiated class name}
  *  
  *  </div>
  *  
- *  do_after_{extended class name}
+ *  do_after_{instantiated class name}
  *  do_after_{page slug}
  *  do_after_{page slug}_{tab slug}
  *  
  *  ----- After Submitting the Form ------
  *  
- *  validation_{extended class name}_{submit button input id}
- *  validation_{extended class name}_{submit button field id}
+ *  validation_{instantiated class name}_{submit button input id}
+ *  validation_{instantiated class name}_{submit button field id}
  *  validation_{page slug}_{tab slug }
  *  validation_{page slug }
- *  validation_{extended class name }
+ *  validation_{instantiated class name }
  *  export_{page slug}_{tab slug}
  *  export_{page slug}
- *  export_{extended class name}
+ *  export_{instantiated class name}
  *  import_{page slug}_{tab slug}
  *  import_{page slug}
- *  import_{extended class name}
+ *  import_{instantiated class name}
  * </code>
  * @abstract
  * @since			2.0.0
@@ -193,7 +202,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @since			2.0.0
 	 * @see				http://codex.wordpress.org/Roles_and_Capabilities
 	 * @see				http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-	 * @param			string			( optional ) specifies the option key name to store in the options table. If this is not set, the extended class name will be used.
+	 * @param			string			( optional ) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
 	 * @param			string			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
 	 * @param			string			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
 	 * @param			string			( optional ) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
@@ -208,14 +217,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			$sTextDomain 
 		);
 					
-		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );	// fire the start_{extended class name} action.
+		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );	// fire the start_{instantiated class name} action.
 
 	}	
 
 	/**
 	 * The method for all the necessary set-ups. 
 	 * 
-	 * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the <strong>start_{extended class name}</strong> hook that is triggered at the end of the class constructor.
+	 * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the <strong>start_{instantiated class name}</strong> hook that is triggered at the end of the class constructor.
 	 * 
 	 * <h4>Example</h4>
 	 * <code>public function setUp() {
