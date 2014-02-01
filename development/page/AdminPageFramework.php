@@ -61,18 +61,48 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>script_{page slug}_{tab slug}</strong> – receives the output of the JavaScript script applied to the tab page of the slug.</li>
  * 	<li><strong>script_{page slug}</strong> – receives the output of the JavaScript script applied to the page of the slug.</li>
  * 	<li><strong>script_{instantiated class name}</strong> – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
- * 	<li><strong>export_{page slug}_{tab slug}</strong> – receives the exporting array sent from the tab page.</li>
- * 	<li><strong>export_{page slug}</strong> – receives the exporting array submitted from the page.</li>
  * 	<li><strong>export_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
  * 	<li><strong>export_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the exporting array submitted from the specific field that does not have a section.</li>
  * 	<li><strong>export_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the exporting array submitted from the specific field that has a section.</li>
+ * 	<li><strong>export_{page slug}_{tab slug}</strong> – receives the exporting array sent from the tab page.</li>
+ * 	<li><strong>export_{page slug}</strong> – receives the exporting array submitted from the page.</li>
  * 	<li><strong>export_{instantiated class name}</strong> – receives the exporting array submitted from the plugin.</li>
- * 	<li><strong>import_{page slug}_{tab slug}</strong> – receives the importing array submitted from the tab page.</li>
- * 	<li><strong>import_{page slug}</strong> – receives the importing array submitted from the page.</li>
+ * 	<li><strong>export_name_{instantiated class name}_{input id}</strong> – receives the exporting file name submitted the specified input id.</li>
+ * 	<li><strong>export_name_{instantiated class name}_{field id}</strong> – receives the exporting file name submitted from the specific field that does not have a section.</li>
+ * 	<li><strong>export_name_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the exporting file name submitted from the specific field that has a section.</li>
+ * 	<li><strong>export_name_{page slug}_{tab slug}</strong> – receives the exporting file name submitted from the tab page.</li>
+ * 	<li><strong>export_name_{page slug}</strong> – receives the exporting file name submitted from the page.</li>
+ * 	<li><strong>export_name_{instantiated class name}</strong> – receives the exporting file name submitted from the script.</li>
+ * 	<li><strong>export_format_{instantiated class name}_{input id}</strong> – receives the exporting file format submitted from the specific export button.</li>
+ * 	<li><strong>export_format_{instantiated class name}_{field id}</strong> – receives the exporting file format submitted from the specific field that does not have a section.</li>
+ * 	<li><strong>export_format_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the exporting file format submitted from the specific field that has a section.</li>
+ * 	<li><strong>export_format_{page slug}_{tab slug}</strong> – receives the exporting file format sent from the tab page.</li>
+ * 	<li><strong>export_format_{page slug}</strong> – receives the exporting file format submitted from the page.</li>
+ * 	<li><strong>export_format_{instantiated class name}</strong> – receives the exporting file format submitted from the plugin.</li> 
  * 	<li><strong>import_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the importing array submitted from the specific import button.</li>
  * 	<li><strong>import_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the importing array submitted from the specific import field that does not have a section.</li>
  * 	<li><strong>import_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the importing array submitted from the specific import field that has a section.</li>
+ * 	<li><strong>import_{page slug}_{tab slug}</strong> – receives the importing array submitted from the tab page.</li>
+ * 	<li><strong>import_{page slug}</strong> – receives the importing array submitted from the page.</li>
  * 	<li><strong>import_{instantiated class name}</strong> – receives the importing array submitted from the plugin.</li>
+ * 	<li><strong>import_mime_types_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the mime types of the import data submitted from the specific import button.</li>
+ * 	<li><strong>import_mime_types_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the mime types of the import data submitted from the specific import field that does not have a section.</li>
+ * 	<li><strong>import_mime_types_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the mime types of the import data submitted from the specific import field that has a section.</li>
+ * 	<li><strong>import_mime_types_{page slug}_{tab slug}</strong> – receives the mime types of the import data submitted from the tab page.</li>
+ * 	<li><strong>import_mime_types_{page slug}</strong> – receives the mime types of the import data submitted from the page.</li>
+ * 	<li><strong>import_mime_types_{instantiated class name}</strong> – receives the mime types of the import data submitted from the plugin.</li>
+ * 	<li><strong>import_format_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the import data format submitted from the specific import button.</li>
+ * 	<li><strong>import_format_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the import data format submitted from the specific import field that does not have a section.</li>
+ * 	<li><strong>import_format_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the import data format submitted from the specific import field that has a section.</li>
+ * 	<li><strong>import_format_{page slug}_{tab slug}</strong> – receives the import data format submitted from the tab page.</li>
+ * 	<li><strong>import_format_{page slug}</strong> – receives the import data format submitted from the page.</li>
+ * 	<li><strong>import_format_{instantiated class name}</strong> – receives the import data format submitted from the plugin.</li>
+ * 	<li><strong>import_option_key_{instantiated class name}_{input id}</strong> – [2.1.5+] receives the option array key of the importing array submitted from the specific import button.</li>
+ * 	<li><strong>import_option_key_{instantiated class name}_{field id}</strong> – [2.1.5+] receives the option array key of the importing array submitted from the specific import field that does not have a section.</li>
+ * 	<li><strong>import_option_key_{instantiated class name}_{section id}_{field id}</strong> – [3.0.0+] receives the option array key of the importing array submitted from the specific import field that has a section.</li>
+ * 	<li><strong>import_option_key_{page slug}_{tab slug}</strong> – receives the option array key of the importing array submitted from the tab page.</li>
+ * 	<li><strong>import_option_key_{page slug}</strong> – receives the option array key of the importing array submitted from the page.</li>
+ * 	<li><strong>import_option_key_{instantiated class name}</strong> – receives the option array key of the importing array submitted from the plugin.</li> 
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p>
