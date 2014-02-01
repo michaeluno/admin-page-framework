@@ -6,10 +6,10 @@
 
 	<title>Class AdminPageFramework_Setting | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
+	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
 	<script type="text/javascript" src="elementlist.js?2938817861"></script>
-	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3226063479">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
 </head>
 
@@ -158,7 +158,7 @@ AdminPageFramework_Page_MetaBox
 				AdminPageFramework_Menu<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1400" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1565" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
@@ -793,7 +793,7 @@ class="php-num">90</span>,
 			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected
 			to after submitting the input form.</li>
 
-			<li><strong>is_reset</strong> - [2.1.2+] ( optional, boolean ) the option key to
+			<li><strong>reset</strong> - [2.1.2+] ( optional, boolean ) the option key to
 			delete. Set 1 for the entire option.</li>
 		</ul>
 	</li>
@@ -1165,17 +1165,17 @@ the passed ID )<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#550-573" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#550-582" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
-<p>Retrieves the specified field value stored in the options.</p>
+<p>Retrieves the specified field value stored in the options by field ID.</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>Retrieves the specified field value stored in the options.</p>
+<p>Retrieves the specified field value stored in the options by field ID.</p>
 
 
 
@@ -1183,6 +1183,8 @@ the passed ID )<br>
 					<div class="list"><dl>
 						<dt><var>$sFieldID</var></dt>
 						<dd><code>string</code><br>The field ID.</dd>
+						<dt><var>$sSectionID</var></dt>
+						<dd></dd>
 					</dl></div>
 
 					<h4>Returns</h4>

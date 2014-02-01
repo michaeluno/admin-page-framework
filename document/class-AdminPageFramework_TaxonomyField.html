@@ -6,10 +6,10 @@
 
 	<title>Class AdminPageFramework_TaxonomyField | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
+	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
 	<script type="text/javascript" src="elementlist.js?2938817861"></script>
-	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3226063479">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
 </head>
 
@@ -95,6 +95,80 @@
 <p>Provides methods for creating fields in the taxonomy page
 (edit-tags.php).</p>
 
+<h2>Hooks</h2>
+
+<p>The class automatically creates WordPress action and filter hooks associated
+with the class methods. The class methods corresponding to the name of the below
+actions and filters can be extended to modify the page output. Those methods are
+the callbacks of the filters and actions.</p>
+
+<h3>Methods and Action Hooks</h3>
+
+<ul>
+	<li><strong>start_{extended class name}</strong> – triggered at the end of the
+	class constructor.</li>
+
+	<li><strong>do_{extended class name}</strong> – triggered when the meta box
+	gets rendered.</li>
+</ul>
+
+<h3>Methods and Filter Hooks</h3>
+
+<ul>
+	<li><strong>field_types_{extended class name}</strong> – receives the field
+	type definition array. The first parameter: the field type definition
+	array.</li>
+
+	<li><strong>field_{extended class name}_{field ID}</strong> – receives the
+	form input field output of the given input field ID. The first parameter: output
+	string. The second parameter: the array of option.</li>
+
+	<li><strong>content_{extended class name}</strong> – receives the entire
+	output of the meta box. The first parameter: the output HTML string.</li>
+
+	<li><strong>style_common_{extended class name}</strong> – receives the output
+	of the base CSS rules applied to the pages of the associated post types with the
+	meta box.</li>
+
+	<li><strong>style_ie_common_{extended class name}</strong> – receives the
+	output of the base CSS rules for Internet Explorer applied to the pages of the
+	associated post types with the meta box.</li>
+
+	<li><strong>style_{extended class name}</strong> – receives the output of the
+	CSS rules applied to the pages of the associated post types with the meta
+	box.</li>
+
+	<li><strong>style_ie_{extended class name}</strong> – receives the output of
+	the CSS rules for Internet Explorer applied to the pages of the associated post
+	types with the meta box.</li>
+
+	<li><strong>script_common_{extended class name}</strong> – receives the output
+	of the base JavaScript scripts applied to the pages of the associated post types
+	with the meta box.</li>
+
+	<li><strong>script_{extended class name}</strong> – receives the output of the
+	JavaScript scripts applied to the pages of the associated post types with the
+	meta box.</li>
+
+	<li><strong>validation_{extended class name}</strong> – receives the form
+	submission values as array. The first parameter: submitted input array. The
+	second parameter: the original array stored in the database.</li>
+
+	<li><strong>columns_{taxonomy slug}</strong> – receives the header columns
+	array. The first parameter: the header columns array.</li>
+
+	<li><strong>columns_{extended class name}</strong> – receives the header
+	columns array. The first parameter: the header columns array.</li>
+
+	<li><strong>cell_{taxonomy slug}</strong> – receives the cell output of the
+	term listing table. The first parameter: the output string. The second
+	parameter: the column slug. The third parameter: term ID.</li>
+
+	<li><strong>cell_{extended class name}</strong> – receives the cell output of
+	the term listing table. The first parameter: the output string. The second
+	parameter: the column slug. The third parameter: term ID.</li>
+</ul>
+
 	</div>
 
 	<dl class="tree well">
@@ -136,7 +210,7 @@ AdminPageFramework_MetaBox_Base
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#3-278" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#3-382" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
 	</div>
 
 
@@ -154,7 +228,7 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#38-91" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#63-120" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -214,7 +288,7 @@ extended class name will be applied.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#93-99" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#124-130" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -257,7 +331,7 @@ extended class name will be applied.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#101-146" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#132-177" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -344,7 +418,7 @@ $_POST array.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setOptionArray">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#148-162" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#179-193" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -415,7 +489,7 @@ it. #internal<br>
 			</code></td>
 
 			<td class="name">
-					<a href="source-class-AdminPageFramework_TaxonomyField.html#18-22" title="Go to source code"><var>$oProp</var></a>
+					<a href="source-class-AdminPageFramework_TaxonomyField.html#43-47" title="Go to source code"><var>$oProp</var></a>
 			</td>
 			<td class="description"><div>
 				<a href="#$oProp" class="anchor">#</a>

@@ -7,10 +7,10 @@
 
 	<title>File meta_box/AdminPageFramework_MetaBox.php | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?2558629090"></script>
+	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
 	<script type="text/javascript" src="elementlist.js?2938817861"></script>
-	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3226063479">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
 </head>
 
@@ -308,70 +308,43 @@
 </span><span id="217" class="l"><a class="l" href="#217">217 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$aField</span>[<span class="php-quote">'if'</span>] ) <span class="php-keyword1">return</span>;
 </span><span id="218" class="l"><a class="l" href="#218">218 </a>                            
 </span><span id="219" class="l"><a class="l" href="#219">219 </a>        <span class="php-comment">// Load head tag elements for fields.</span>
-</span><span id="220" class="l"><a class="l" href="#220">220 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$this</span>-&gt;_isPostDefinitionPage() ) 
+</span><span id="220" class="l"><a class="l" href="#220">220 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$this</span>-&gt;oProp-&gt;isPostDefinitionPage( <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) ) 
 </span><span id="221" class="l"><a class="l" href="#221">221 </a>            AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( <span class="php-var">$aField</span>, <span class="php-var">$this</span>-&gt;oProp, <span class="php-var">$this</span>-&gt;oHeadTag );   <span class="php-comment">// Set relevant scripts and styles for the input field.</span>
 </span><span id="222" class="l"><a class="l" href="#222">222 </a>        
 </span><span id="223" class="l"><a class="l" href="#223">223 </a>        <span class="php-comment">// For the contextual help pane,</span>
-</span><span id="224" class="l"><a class="l" href="#224">224 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$this</span>-&gt;_isPostDefinitionPage() &amp;&amp; <span class="php-var">$aField</span>[<span class="php-quote">'help'</span>] )
+</span><span id="224" class="l"><a class="l" href="#224">224 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$this</span>-&gt;oProp-&gt;isPostDefinitionPage( <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) &amp;&amp; <span class="php-var">$aField</span>[<span class="php-quote">'help'</span>] )
 </span><span id="225" class="l"><a class="l" href="#225">225 </a>            <span class="php-var">$this</span>-&gt;oHelpPane-&gt;_addHelpTextForFormFields( <span class="php-var">$aField</span>[<span class="php-quote">'title'</span>], <span class="php-var">$aField</span>[<span class="php-quote">'help'</span>], <span class="php-var">$aField</span>[<span class="php-quote">'help_aside'</span>] );
 </span><span id="226" class="l"><a class="l" href="#226">226 </a>                
 </span><span id="227" class="l"><a class="l" href="#227">227 </a>        <span class="php-var">$this</span>-&gt;oProp-&gt;aFields[ <span class="php-var">$aField</span>[<span class="php-quote">'field_id'</span>] ] = <span class="php-var">$aField</span>;
 </span><span id="228" class="l"><a class="l" href="#228">228 </a>    
 </span><span id="229" class="l"><a class="l" href="#229">229 </a>    }
 </span><span id="230" class="l"><a class="l" href="#230">230 </a>    
-</span><span id="231" class="l"><a class="l" href="#231">231 </a>        <span class="php-comment">/**
-</span></span><span id="232" class="l"><a class="l" href="#232">232 </a><span class="php-comment">         * Checks if the current page is post editing page or not.
-</span></span><span id="233" class="l"><a class="l" href="#233">233 </a><span class="php-comment">         * 
-</span></span><span id="234" class="l"><a class="l" href="#234">234 </a><span class="php-comment">         * @internal
-</span></span><span id="235" class="l"><a class="l" href="#235">235 </a><span class="php-comment">         * @since           3.0.0
-</span></span><span id="236" class="l"><a class="l" href="#236">236 </a><span class="php-comment">         */</span>
-</span><span id="237" class="l"><a class="l" href="#237">237 </a>        <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> <a id="__isPostDefinitionPage" href="#__isPostDefinitionPage">_isPostDefinitionPage</a>() {
-</span><span id="238" class="l"><a class="l" href="#238">238 </a>            
-</span><span id="239" class="l"><a class="l" href="#239">239 </a>            <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">in_array</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>], <span class="php-keyword1">array</span>( <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span>, ) ) ) <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="240" class="l"><a class="l" href="#240">240 </a>            
-</span><span id="241" class="l"><a class="l" href="#241">241 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'post_type'</span>] ) &amp;&amp; <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'post_type'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) )
-</span><span id="242" class="l"><a class="l" href="#242">242 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="243" class="l"><a class="l" href="#243">243 </a>            
-</span><span id="244" class="l"><a class="l" href="#244">244 </a>            <span class="php-var">$this</span>-&gt;_sCurrentPostType = <span class="php-keyword1">isset</span>( <span class="php-var">$this</span>-&gt;_sCurrentPostType )
-</span><span id="245" class="l"><a class="l" href="#245">245 </a>                ? <span class="php-var">$this</span>-&gt;_sCurrentPostType
-</span><span id="246" class="l"><a class="l" href="#246">246 </a>                : ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'post'</span>] )
-</span><span id="247" class="l"><a class="l" href="#247">247 </a>                    ? get_post_type( <span class="php-var">$_GET</span>[<span class="php-quote">'post'</span>] )
-</span><span id="248" class="l"><a class="l" href="#248">248 </a>                    : <span class="php-quote">''</span>
-</span><span id="249" class="l"><a class="l" href="#249">249 </a>                );
-</span><span id="250" class="l"><a class="l" href="#250">250 </a>            
-</span><span id="251" class="l"><a class="l" href="#251">251 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'post'</span>], <span class="php-var">$_GET</span>[<span class="php-quote">'action'</span>] ) &amp;&amp; <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;_sCurrentPostType, <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) )        <span class="php-comment">// edit post page</span>
-</span><span id="252" class="l"><a class="l" href="#252">252 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;                        
-</span><span id="253" class="l"><a class="l" href="#253">253 </a>            
-</span><span id="254" class="l"><a class="l" href="#254">254 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="255" class="l"><a class="l" href="#255">255 </a>            
-</span><span id="256" class="l"><a class="l" href="#256">256 </a>        }   
-</span><span id="257" class="l"><a class="l" href="#257">257 </a>
-</span><span id="258" class="l"><a class="l" href="#258">258 </a>    <span class="php-comment">/**
-</span></span><span id="259" class="l"><a class="l" href="#259">259 </a><span class="php-comment">     * Adds the defined meta box.
-</span></span><span id="260" class="l"><a class="l" href="#260">260 </a><span class="php-comment">     * 
-</span></span><span id="261" class="l"><a class="l" href="#261">261 </a><span class="php-comment">     * @since           2.0.0
-</span></span><span id="262" class="l"><a class="l" href="#262">262 </a><span class="php-comment">     * @internal
-</span></span><span id="263" class="l"><a class="l" href="#263">263 </a><span class="php-comment">     * @remark          uses &lt;em&gt;add_meta_box()&lt;/em&gt;.
-</span></span><span id="264" class="l"><a class="l" href="#264">264 </a><span class="php-comment">     * @remark          A callback for the &lt;em&gt;add_meta_boxes&lt;/em&gt; hook.
-</span></span><span id="265" class="l"><a class="l" href="#265">265 </a><span class="php-comment">     * @return          void
-</span></span><span id="266" class="l"><a class="l" href="#266">266 </a><span class="php-comment">     */</span> 
-</span><span id="267" class="l"><a class="l" href="#267">267 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__replyToAddMetaBox" href="#__replyToAddMetaBox">_replyToAddMetaBox</a>() {
-</span><span id="268" class="l"><a class="l" href="#268">268 </a>        
-</span><span id="269" class="l"><a class="l" href="#269">269 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes <span class="php-keyword1">as</span> <span class="php-var">$sPostType</span> ) 
-</span><span id="270" class="l"><a class="l" href="#270">270 </a>            add_meta_box( 
-</span><span id="271" class="l"><a class="l" href="#271">271 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sMetaBoxID,       <span class="php-comment">// id</span>
-</span><span id="272" class="l"><a class="l" href="#272">272 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sTitle,   <span class="php-comment">// title</span>
-</span><span id="273" class="l"><a class="l" href="#273">273 </a>                <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToPrintMetaBoxContents'</span> ),     <span class="php-comment">// callback</span>
-</span><span id="274" class="l"><a class="l" href="#274">274 </a>                <span class="php-var">$sPostType</span>,     <span class="php-comment">// post type</span>
-</span><span id="275" class="l"><a class="l" href="#275">275 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sContext,     <span class="php-comment">// context</span>
-</span><span id="276" class="l"><a class="l" href="#276">276 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sPriority,    <span class="php-comment">// priority</span>
-</span><span id="277" class="l"><a class="l" href="#277">277 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;aFields   <span class="php-comment">// argument</span>
-</span><span id="278" class="l"><a class="l" href="#278">278 </a>            );
-</span><span id="279" class="l"><a class="l" href="#279">279 </a>            
-</span><span id="280" class="l"><a class="l" href="#280">280 </a>    }       
-</span><span id="281" class="l"><a class="l" href="#281">281 </a>    
-</span><span id="282" class="l"><a class="l" href="#282">282 </a>}
-</span><span id="283" class="l"><a class="l" href="#283">283 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="231" class="l"><a class="l" href="#231">231 </a>    <span class="php-comment">/**
+</span></span><span id="232" class="l"><a class="l" href="#232">232 </a><span class="php-comment">     * Adds the defined meta box.
+</span></span><span id="233" class="l"><a class="l" href="#233">233 </a><span class="php-comment">     * 
+</span></span><span id="234" class="l"><a class="l" href="#234">234 </a><span class="php-comment">     * @since           2.0.0
+</span></span><span id="235" class="l"><a class="l" href="#235">235 </a><span class="php-comment">     * @internal
+</span></span><span id="236" class="l"><a class="l" href="#236">236 </a><span class="php-comment">     * @remark          uses &lt;em&gt;add_meta_box()&lt;/em&gt;.
+</span></span><span id="237" class="l"><a class="l" href="#237">237 </a><span class="php-comment">     * @remark          A callback for the &lt;em&gt;add_meta_boxes&lt;/em&gt; hook.
+</span></span><span id="238" class="l"><a class="l" href="#238">238 </a><span class="php-comment">     * @return          void
+</span></span><span id="239" class="l"><a class="l" href="#239">239 </a><span class="php-comment">     */</span> 
+</span><span id="240" class="l"><a class="l" href="#240">240 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__replyToAddMetaBox" href="#__replyToAddMetaBox">_replyToAddMetaBox</a>() {
+</span><span id="241" class="l"><a class="l" href="#241">241 </a>        
+</span><span id="242" class="l"><a class="l" href="#242">242 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes <span class="php-keyword1">as</span> <span class="php-var">$sPostType</span> ) 
+</span><span id="243" class="l"><a class="l" href="#243">243 </a>            add_meta_box( 
+</span><span id="244" class="l"><a class="l" href="#244">244 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sMetaBoxID,       <span class="php-comment">// id</span>
+</span><span id="245" class="l"><a class="l" href="#245">245 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sTitle,   <span class="php-comment">// title</span>
+</span><span id="246" class="l"><a class="l" href="#246">246 </a>                <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToPrintMetaBoxContents'</span> ),     <span class="php-comment">// callback</span>
+</span><span id="247" class="l"><a class="l" href="#247">247 </a>                <span class="php-var">$sPostType</span>,     <span class="php-comment">// post type</span>
+</span><span id="248" class="l"><a class="l" href="#248">248 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sContext,     <span class="php-comment">// context</span>
+</span><span id="249" class="l"><a class="l" href="#249">249 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;sPriority,    <span class="php-comment">// priority</span>
+</span><span id="250" class="l"><a class="l" href="#250">250 </a>                <span class="php-var">$this</span>-&gt;oProp-&gt;aFields   <span class="php-comment">// argument</span>
+</span><span id="251" class="l"><a class="l" href="#251">251 </a>            );
+</span><span id="252" class="l"><a class="l" href="#252">252 </a>            
+</span><span id="253" class="l"><a class="l" href="#253">253 </a>    }       
+</span><span id="254" class="l"><a class="l" href="#254">254 </a>    
+</span><span id="255" class="l"><a class="l" href="#255">255 </a>}
+</span><span id="256" class="l"><a class="l" href="#256">256 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">
