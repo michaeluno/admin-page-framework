@@ -502,7 +502,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						array(
 							'id'	=>	"{$aField['input_id']}_{$sAttribute}",
 							'type'	=>	'hidden',
-							'name'	=>	"{$aField['field_name']}[{$sAttribute}]",
+							'name'	=>	"{$aField['_input_name']}[{$sAttribute}]",
 							'disabled'	=>	isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '',
 							'value'	=>	isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
 						)

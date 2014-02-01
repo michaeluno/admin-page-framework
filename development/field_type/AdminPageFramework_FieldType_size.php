@@ -122,7 +122,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		$aSizeAttributes = array(
 			'type'	=>	'number',
 			'id' =>	$aField['input_id'] . '_' . 'size',
-			'name'	=>	$aField['field_name'] . '[size]',
+			'name'	=>	$aField['_input_name'] . '[size]',
 			'value'	=>	isset( $aField['value']['size'] ) ? $aField['value']['size'] : '',
 		) 
 		+ $this->getFieldElementByKey( $aField['attributes'], 'size', $this->aDefaultKeys['attributes']['size'] )
@@ -143,7 +143,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		)
 		+ $this->getFieldElementByKey( $aField['attributes'], 'unit', $this->aDefaultKeys['attributes']['unit'] )
 		+ $aBaseAttributes;
-		$aUnitAttributes['name'] = empty( $aUnitAttributes['multiple'] ) ? "{$aField['field_name']}[unit]" : "{$aField['field_name']}[unit][]";
+		$aUnitAttributes['name'] = empty( $aUnitAttributes['multiple'] ) ? "{$aField['_input_name']}[unit]" : "{$aField['_input_name']}[unit][]";
 		
 		/* 2-5. Unit label attributes */		
 		$aUnitLabelAttributes = array(

@@ -1328,7 +1328,7 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	'Reset Button',
 				'type'	=>	'submit',
 				'label'	=>	__( 'Reset', 'admin-page-framework-demo' ),
-				'is_reset'	=>	true,
+				'reset'	=>	true,
 				'attributes'	=>	array(
 					'class'	=>	'button button-secondary',
 				),
@@ -1647,9 +1647,9 @@ class APF_Demo extends AdminPageFramework {
 				'value'	=>	'undefined',	// always set the Select a Field label.
 				'label'	=>	array(	// the keys represent their field container IDs: field-{field id}_{index}
 					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
-					'field-revealer_subfield_1'	=> __( 'Field A', 'admin-page-framework-demo' ),		
-					'field-revealer_subfield_2'	=> __( 'Field B', 'admin-page-framework-demo' ),
-					'field-revealer_subfield_3'	=> __( 'Field C', 'admin-page-framework-demo' ),
+					'field-revealer_revealer_subfield_1'	=> __( 'Field A', 'admin-page-framework-demo' ), // field-{section id}_{field id}
+					'field-revealer_revealer_subfield_2'	=> __( 'Field B', 'admin-page-framework-demo' ),	
+					'field-revealer_revealer_subfield_3'	=> __( 'Field C', 'admin-page-framework-demo' ),
 				),
 				array(	// Hidden Field A
 					'type'	=>	'text',			
@@ -1690,8 +1690,8 @@ class APF_Demo extends AdminPageFramework {
 				'value'	=>	'undefined',	// always set the Select a Field label.
 				'label'	=>	array(	// the keys represent their tag id to reveal: fieldrow-{field id} ( note that this ids only will be applied when JavaScript is enabled )
 					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
-					'fieldrow-revealer_field_option_a'	=> __( 'Option A', 'admin-page-framework-demo' ),		
-					'fieldrow-revealer_field_option_b'	=> __( 'Option B', 'admin-page-framework-demo' ),
+					'fieldrow-revealer_revealer_field_option_a'	=> __( 'Option A', 'admin-page-framework-demo' ),		
+					'fieldrow-revealer_revealer_field_option_b'	=> __( 'Option B', 'admin-page-framework-demo' ),
 				),
 				'description'	=>	__( 'On contrary to the above example, that reveals the sub-fields, this one specifies one of external fields defined separately.', 'admin-page-framework-demo' ),
 			),
@@ -1701,8 +1701,8 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'textarea',		
 				'default'	=>	__( 'Hi there!', 'admin-page-framework-demo' ),
 				'after_fields'	=>	"<script type='text/javascript'>
-					jQuery( '#fieldset-revealer_field_option_a' ).closest( 'tr' ).hide();	
-				</script>",	// this script will hide the table row containing the field right away,
+					jQuery( '#fieldset-revealer_revealer_field_option_a' ).closest( 'tr' ).hide();	// fieldset-{section id}_{field_id}
+				</script>",	// this script will hide the table row containing the field right away, 
 			),
 			array(
 				'field_id'	=>	'revealer_field_option_b',				
@@ -1710,7 +1710,7 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'password',		
 				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
 				'after_fields'	=>	"<script type='text/javascript'>
-					jQuery( '#fieldset-revealer_field_option_b' ).closest( 'tr' ).hide();
+					jQuery( '#fieldset-revealer_revealer_field_option_b' ).closest( 'tr' ).hide();
 				</script>", // this script will hide the table row containing the field right away,
 			),
 			array(
@@ -1797,20 +1797,24 @@ class APF_Demo extends AdminPageFramework {
 			array( // Delete Option Button
 				'field_id'	=>	'submit_manage',
 				'section_id'	=>	'submit_buttons_manage',
-				'title'	=>	'Delete Options',
+				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
 				'type'	=>	'submit',
-				'class_attribute'	=>	'button-secondary',
-				'label'	=>	'Delete Options',
-				'href'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' )
+				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
+				'href'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' ),
+				'attributes' => array(
+					'class'	=> 'button-secondary',
+				),			
 			),			
 			array( // Delete Option Confirmation Button
 				'field_id'	=>	'submit_delete_options_confirmation',
 				'section_id'	=>	'submit_buttons_confirm',
-				'title'	=>	'Delete Options',
-				'type'	=>	'submit',
-				'class_attribute'	=>	'button-secondary',
-				'label'	=>	'Delete Options',
-				'redirect_url'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' )
+				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
+				'type'	=>	'submit',				
+				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
+				'redirect_url'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' ),
+				'attributes' => array(
+					'class'	=> 'button-secondary',
+				),
 			),			
 			array(
 				'field_id'	=>	'export_format_type',			
@@ -1970,11 +1974,11 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_name_APF_Demo_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export button field id}
+	public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export section id}_{export field id}
 			
 		// Change the exporting file name based on the selected format type in the other field.
-		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['export_format_type'] )
-			? $_POST[ $this->oProp->sOptionKey ]['export_format_type'] 
+		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
+			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] 
 			: null;	
 		$aFileNameParts = pathinfo( $sFileName );
 		$sFileNameWOExt = $aFileNameParts['filename'];			
@@ -1991,22 +1995,22 @@ class APF_Demo extends AdminPageFramework {
 		return $sReturnName;
 		
 	}
-	public function export_format_APF_Demo_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export button field id}
+	public function export_format_APF_Demo_exports_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export section id}_{export field id}
 		
 		// Set the internal formatting type based on the selected format type in the other field.
-		return isset( $_POST[ $this->oProp->sOptionKey ]['export_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['export_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type']
 			: $sFormatType;
 		
 	}	
 	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_{page slug}_{tab slug}
 		
-		return isset( $_POST[ $this->oProp->sOptionKey ]['import_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['import_format_type']
+		return isset( $_POST[ $this->oProp->sOptionKey ]['imports']['import_format_type'] ) 
+			? $_POST[ $this->oProp->sOptionKey ]['imports']['import_format_type']
 			: $sFormatType;
 		
 	}
-	public function import_APF_Demo_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{import button field id}
+	public function import_APF_Demo_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{import section id}_{import field id}
 
 		if ( $sImportFormat == 'text' ) {
 			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
@@ -2021,8 +2025,8 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {	// validation_{extended class name}_{submit field ID}
-		
+	public function validation_APF_Demo_verification_verify_text_field( $sNewInput, $sOldInput ) {	// validation_{extended class name}_{section id}_{field id}
+	
 		/* 1. Set a flag. */
 		$bVerified = true;
 		
@@ -2036,9 +2040,10 @@ class APF_Demo extends AdminPageFramework {
 		$aErrors = array();
 
 		/* 3. Check if the submitted value meets your criteria. As an example, here a numeric value is expected. */
-		if ( ! is_numeric( $aNewInput['verify_text_field'] ) ) {
+		if ( ! is_numeric( $sNewInput ) ) {
 			
-			$aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . $aNewInput['verify_text_field'];
+			// $variable[ 'sectioni_id' ]['field_id']
+			$aErrors['verification']['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . ' ' . $sNewInput;
 			$bVerified = false;
 			
 		}
@@ -2048,23 +2053,23 @@ class APF_Demo extends AdminPageFramework {
 		
 			/* 4-1. Set the error array for the input fields. */
 			$this->setFieldErrors( $aErrors );		
-			$this->setSettingNotice( 'There was an error in your input.' );
-			return $aOldOptions;
+			$this->setSettingNotice( __( 'There was an error in your input.', 'admin-page-framework-demo' ) );
+			return $sOldInput;
 			
 		}
 				
-		return $aNewInput;		
+		return $sNewInput;		
 		
 	}
 	public function validation_apf_builtin_field_types_files( $aInput, $aOldPageOptions ) {	// validation_{page slug}_{tab slug}
 
 		/* Display the uploaded file information. */
 		$aFileErrors = array();
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_single'];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_multiple'][0];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_multiple'][1];
-		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_multiple'][2];
-		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['file_repeatable'] as $aFile )
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_uploads']['file_single'];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_uploads']['file_multiple'][0];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_uploads']['file_multiple'][1];
+		$aFileErrors[] = $_FILES[ $this->oProp->sOptionKey ]['error']['file_uploads']['file_multiple'][2];
+		foreach( $_FILES[ $this->oProp->sOptionKey ]['error']['file_uploads']['file_repeatable'] as $aFile )
 			$aFileErrors[] = $aFile;
 			
 		if ( in_array( 0, $aFileErrors ) ) 
@@ -2077,7 +2082,7 @@ class APF_Demo extends AdminPageFramework {
 	public function validation_APF_Demo( $aInput, $aOldOptions ) {	// validation_{extended class name}
 		
 		/* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
-		if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_delete_options_confirmation'] ) ) return array();
+		if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) return array();
 		return $aInput;
 		
 	}

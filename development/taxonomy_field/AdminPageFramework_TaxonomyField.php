@@ -187,7 +187,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 */
 	protected function setOptionArray( $iTermID=null, $sOptionKey ) {
 				
-		$aOptions = get_option( $sOptionKey );
+		$aOptions = get_option( $sOptionKey, array() );
 		$this->oProp->aOptions = isset( $iTermID, $aOptions[ $iTermID ] ) ? $aOptions[ $iTermID ] : array();
 
 	}	
@@ -344,7 +344,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 		if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) return;
 		
-		$aTaxonomyFieldOptions = get_option( $this->oProp->sOptionKey );
+		$aTaxonomyFieldOptions = get_option( $this->oProp->sOptionKey, array() );
 		$aOldOptions = isset( $aTaxonomyFieldOptions[ $iTermID ] ) ? $aTaxonomyFieldOptions[ $iTermID ] : array();
 		$aSubmittedOptions = array();
 		foreach( array_keys( $this->oProp->aFields ) as $sFieldID ) 

@@ -474,7 +474,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						array(
 							'id'	=>	"{$aField['input_id']}_{$sAttribute}",
 							'type'	=>	'hidden',
-							'name'	=>	"{$aField['field_name']}[{$sAttribute}]",
+							'name'	=>	"{$aField['_input_name']}[{$sAttribute}]",
 							'disabled'	=>	isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '',
 							'value'	=>	isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
 						)

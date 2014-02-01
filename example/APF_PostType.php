@@ -92,7 +92,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 			$aPostData[ $sKey ] = get_post_meta( $iPostID, $sKey, true );
 		
 		// 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
-		// The key name is the class name by default. This can be changed by passing an arbitrary string 
+		// The key name is the class name by default. The key can be changed by passing an arbitrary string 
 		// to the first parameter of the constructor of the AdminPageFramework class.		
 		$aSavedOptions = get_option( 'APF_Demo' );
 			

@@ -19,7 +19,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	private $_bIsMetaBox = false;
 			
-	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
+	public function __construct( &$aField, &$aOptions, &$aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 
 		/* 1. Set up the properties that will be accessed later in the methods. */
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
@@ -76,17 +76,20 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			
 		}
 	/**
-	 * Returns the field name for the input tag name attribute.
+	 * Returns the input tag name for the name attribute.
 	 * 
 	 * @since			2.0.0
-	 * @since			3.0.0			Dropped the section key. Deprecated the 'name' field key to override the name attribute since the new 'attribute' key supports the functionality.
+	 * @since			3.0.0			Dropped the page slug dimension. Deprecated the 'name' field key to override the name attribute since the new 'attribute' key supports the functionality.
 	 */
-	private function _getInputFieldName( $aField=null, $sKey='' ) {
+	private function _getInputName( $aField=null, $sKey='' ) {
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$aField = isset( $aField ) ? $aField : $this->aField;
+		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] 
+			? "[{$aField['section_id']}]"
+			: '';
 		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
-				? "{$aField['option_key']}[{$aField['field_id']}]"
+				? "{$aField['option_key']}{$sSectionDimension}[{$aField['field_id']}]"
 				: $aField['field_id']
 			) 
 			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
@@ -99,18 +102,21 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * Retrieves the field name attribute whose dimensional elements are delimited by the pile character.
 	 * 
 	 * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
-	 * This is used to create a reference the submit field name to determine which button is pressed.
+	 * This is used to create a reference to the submit field name to determine which button is pressed.
 	 * 
 	 * @remark			Used by the import and submit field types.
 	 * @since			2.0.0
 	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_InputField.
-	 * @since			3.0.0			Moved from the submit field type class.
+	 * @since			3.0.0			Moved from the submit field type class. Dropped the page slug dimension.
 	 */ 
-	protected function _getFlatInputFieldName( &$aField, $sKey='' ) {	
+	protected function _getFlatInputName( &$aField, $sKey='' ) {	
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
+		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] 
+			? "|{$aField['section_id']}"
+			: '';		
 		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
-				? "{$aField['option_key']}|{$aField['field_id']}"
+				? "{$aField['option_key']}{$sSectionDimension}|{$aField['field_id']}"
 				: $aField['field_id'] 
 			)
 			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
@@ -129,33 +135,64 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	private function _getInputFieldValue( &$aField, $aOptions ) {	
 
 		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
-		// It's important to return null if not set as it the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
+		// It's important to return null if not set as the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
 		switch( $aField['_field_type'] ) {
 			default:
 			case 'page':
 			case 'page_meta_box':
 			case 'taxonomy':
+				
+				// If a section is set,
+				if ( isset( $aField['section_id'] ) && $aField['section_id'] )
+					return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
+						? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
+						: null;
+				
+				// Otherwise, check the first dimension.
 				return isset( $aOptions[ $aField['field_id'] ] )
 					? $aOptions[ $aField['field_id'] ]
 					: null;		
+					
 			case 'post_meta_box':
-				return ( isset( $_GET['action'], $_GET['post'] ) ) 
-					? get_post_meta( $_GET['post'], $aField['field_id'], true )
+	
+				if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null;
+			
+				if ( ! isset( $aField['section_id'] ) || ! $aField['section_id'] )
+					return get_post_meta( $_GET['post'], $aField['field_id'], true );
+					
+				// At this point, the section dimension is set.
+				$aSectionValues = get_post_meta( $_GET['post'], $aField['section_id'], true );
+				return isset( $aSectionValues[ $aField['field_id'] ] )
+					? $aSectionValues[ $aField['field_id'] ]
 					: null;
+					
 		}
 		return null;	
 						
 	}	
+	
+	/**
+	 * Returns the input ID
+	 * 
+	 * "{$aField['field_id']}_{$sKey}";
+	 */
+	private function _getInputID( $aField, $sIndex ) {
 		
+		return isset( $aField['section_id'] )
+			? $aField['section_id'] . '_' . $aField['field_id'] . '_' . $sIndex
+			: $aField['field_id'] . '_' . $sIndex ;
+		
+	}
+	
+	/**
+	 * Returns the tag ID.
+	 */
 	private function _getInputTagID( $aField )  {
 				
-		// For meta box form fields,
-		if ( isset( $aField['field_id'] ) ) return $aField['field_id'];
-		if ( isset( $aField['name'] ) ) return $aField['name'];	// the name key is for the input name attribute but it's better than nothing.
-		
-		// Not Found - it's not a big deal to have an empty value for this. It's just for the anchor link.
-		return '';
-			
+		return isset( $aField['section_id'] )
+			? $aField['section_id'] . '_' . $aField['field_id']
+			: $aField['field_id'];
+					
 	}		
 	
 	/** 
@@ -167,11 +204,16 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		$aFieldsOutput = array(); 
 		$aExtraOutput = array();
-		
+
 		/* 1. Prepend the field error message. */
-		$aFieldsOutput[] = isset( $this->aErrors[ $this->aField['field_id'] ] )
-			? "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $this->aErrors[ $this->aField['field_id'] ] . "</span><br />"
-			: '';		
+		if ( isset( $this->aField['section_id'], $this->aErrors[ $this->aField['section_id'] ], $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] ) )	// if this field has a section and the error element is set
+			$aFieldsOutput[] = "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
+				. $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] 
+			. "</span><br />";
+		else if ( isset( $this->aErrors[ $this->aField['field_id'] ] ) )	// if this field does not have a section and the error element is set,
+			$aFieldsOutput[] = "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
+				. $this->aErrors[ $this->aField['field_id'] ] 
+			. "</span><br />";
 					
 		/* 2. Set new elements */
 		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
@@ -189,9 +231,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				
 			/* 4-2. Set some new elements */ 
 			$aField['_index'] = $sKey;
-			$aField['input_id'] = "{$aField['field_id']}_{$sKey}";
-			$aField['field_name']	= $this->_getInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	
-			$aField['_field_name_flat']	= $this->_getFlatInputFieldName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	// used for submit, export, import field types			
+			$aField['input_id'] = $this->_getInputID( $aField, $sKey );	//  ({section id}_){field_id}_{index}
+			$aField['_input_name']	= $this->_getInputName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	
+			$aField['_input_name_flat']	= $this->_getFlatInputName( $this->aField, $aField['_is_multiple_fields'] ? $sKey : '' );	// used for submit, export, import field types			
 			$aField['_field_container_id'] = "field-{$aField['input_id']}";	// used in the attribute below plus it is also used in the sample custom field type.
 			$aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}";
 			$aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}";
@@ -200,7 +242,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				( array ) $aField['attributes'],	// user set values
 				array(	// the automatically generated values
 					'id' => $aField['input_id'],
-					'name' => $aField['field_name'],
+					'name' => $aField['_input_name'],
 					'value' => $aField['value'],
 					'type' => $aField['type'],	// text, password, etc.
 					'disabled'	=> null,

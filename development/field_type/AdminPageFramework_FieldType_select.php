@@ -74,7 +74,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 			'id'	=>	$aField['input_id'],
 			'multiple'	=>	$aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
 		) + $aField['attributes']['select'];
-		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['field_name'] : "{$aField['field_name']}[]";
+		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
 
 		return
 			$aField['before_label']

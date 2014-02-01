@@ -385,7 +385,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 		<ul>
 	* 			<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit button.</li>
 	* 			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected to after submitting the input form.</li>
-	* 			<li><strong>is_reset</strong> - [2.1.2+] ( optional, boolean ) the option key to delete. Set 1 for the entire option.</li>
+	* 			<li><strong>reset</strong> - [2.1.2+] ( optional, boolean ) the option key to delete. Set 1 for the entire option.</li>
 	* 		</ul>
 	* 	</li>
 	* 	<li><strong>import</strong> - an import input field. This is a custom file and submit field.
@@ -548,7 +548,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	}
 
 	/**
-	 * Retrieves the specified field value stored in the options.
+	 * Retrieves the specified field value stored in the options by field ID.
 	 *  
 	 * @since			2.1.2
 	 * @since			3.0.0			Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
@@ -557,17 +557,26 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @return			string|null		If the field ID is not set in the saved option array, it will return null. Otherwise, the set value. 
 	 * If the user has not submitted the form, the framework will try to return the default value set in the field definition array.
 	 */
-	public function getFieldValue( $sFieldID ) {
+	public function getFieldValue( $sFieldID, $sSectionID='' ) {
+		
+		$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions() );
 		
 		/* If it's saved, return it */
-		if ( array_key_exists( $sFieldID, $this->oProp->aOptions ) )
-			return $this->oProp->aOptions[ $sFieldID ];
+		if ( ! $sSectionID ) {
+			if ( array_key_exists( $sFieldID, $_aOptions ) )
+				return $_aOptions[ $sFieldID ];
+				
+			// loop through section elements
+			foreach( $_aOptions as $aOptions ) {
+				if ( array_key_exists( $sFieldID, $aOptions ) )
+					return $aOptions[ $sFieldID ];
+			}
+				
+		}
+		if ( $sSectionID )
+			if ( array_key_exists( $sSectionID, $_aOptions ) && array_key_exists( $sFieldID, $_aOptions[ $sSectionID ] ) )
+				return $_aOptions[ $sSectionID ][ $sFieldID ];
 	
-		/* Otherwise, search the default value */
-		$_aDefaultOptions = $this->oProp->getDefaultOptions();
-		if ( array_key_exists( $sFieldID, $_aDefaultOptions ) )
-			return $_aDefaultOptions[ $sFieldID ];
-			
 		return null;
 					
 	}
@@ -588,27 +597,47 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
 		
-		/* 1-2. Retrieve the submit field ID(the container that holds submit input tags) and the input ID(this determines exactly which submit button is pressed). */
-		$sPressedFieldID = isset( $_POST['__submit'] ) ? $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'field_id' ) : '';
-		$sPressedInputID = isset( $_POST['__submit'] ) ? $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__submit'], 'input_id' ) : '';
+		/* 1-2. Retrieve the pressed submit field data */
+		$sPressedFieldID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'field_id' ) : '';
+		$sPressedInputID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'input_id' ) : '';
+		$sPressedInputName = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'name' ) : '';
+		$bIsReset = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'is_reset' ) : '';		// if the 'reset' key in the field definition array is set, this value will be set.
+		$sKeyToReset = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'reset_key' ) : '';	// this will be set if the user confirms the reset action.
+		$sSubmitSectionID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'section_id' ) : '';
+		
+		/* 1-3. Execute the submit_{...} actions. */
+		$this->oUtil->addAndDoActions(
+			$this,
+			array( 
+				"submit_{$this->oProp->sClassName}_{$sPressedInputID}", 
+				$sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$sSubmitSectionID}_{$sPressedFieldID}" : "submit_{$this->oProp->sClassName}_{$sPressedFieldID}",
+				$sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$sSubmitSectionID}" : null,	// if null given, the method will ignore it
+				isset( $_POST['tab_slug'] ) ? "submit_{$this->oProp->sClassName}_{$sPageSlug}_{$sTabSlug}" : null,	// if null given, the method will ignore it
+				"submit_{$this->oProp->sClassName}_{sPageSlug}",
+				"submit_{$this->oProp->sClassName}",
+			)
+		);                
+		
+// AdminPageFramework_Debug::logArray( array( 'pressed field id' => $sPressedFieldID, 'pressed input id' => $sPressedInputID ) );
+AdminPageFramework_Debug::logArray( $_POST );
 		
 		/* 2. Check if custom submit keys are set [part 1] */
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
 			return $this->_importOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug );
 		if ( isset( $_POST['__export']['submit'] ) ) 
 			die( $this->_exportOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug ) );		
-		if ( isset( $_POST['__reset_confirm'] ) && $sPressedFieldName = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__reset_confirm'], 'key' ) )
-			return $this->_askResetOptions( $sPressedFieldName, $sPageSlug );			
-		if ( isset( $_POST['__link'] ) && $sLinkURL = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__link'], 'url' ) )
+		if ( $bIsReset )
+			return $this->_askResetOptions( $sPressedInputName, $sPageSlug, $sSubmitSectionID );
+		if ( isset( $_POST['__submit'] ) && $sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) )
 			die( wp_redirect( $sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
-		if ( isset( $_POST['__redirect'] ) && $sRedirectURL = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__redirect'], 'url' ) )
+		if ( isset( $_POST['__submit'] ) && $sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) )
 			$this->_setRedirectTransients( $sRedirectURL );
 				
 		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
-		$aInput = $this->_getFilteredOptions( $aInput, $sPageSlug, $sTabSlug, $sPressedFieldID, $sPressedInputID );
+		$aInput = $this->_getFilteredOptions( $aInput, $sPageSlug, $sTabSlug );
 		
 		/* 4. Check if custom submit keys are set [part 2] - these should be done after applying the filters. */
-		if ( isset( $_POST['__reset'] ) && $sKeyToReset = $this->_getPressedCustomSubmitButtonSiblingValue( $_POST['__reset'], 'key' ) )
+		if ( $sKeyToReset )
 			$aInput = $this->_resetOptions( $sKeyToReset, $aInput );
 		
 		/* 5. Set the update notice */
@@ -629,23 +658,32 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * 
 		 * @since			2.1.2
 		 */
-		private function _askResetOptions( $sPressedFieldName, $sPageSlug ) {
+		private function _askResetOptions( $sPressedInputName, $sPageSlug, $sSectionID ) {
 			
 			// Retrieve the pressed button's associated submit field ID.
-			$aNameKeys = explode( '|', $sPressedFieldName );	// e.g. OptionKey|field_id
-			$sFieldID = $aNameKeys[ 1 ];	
+			$aNameKeys = explode( '|', $sPressedInputName );	
+			$sFieldID = $sSectionID 
+				? $aNameKeys[ 2 ]	// Optionkey|section_id|field_id
+				: $aNameKeys[ 1 ];	// OptionKey|field_id
 			
 			// Set up the field error array.
 			$aErrors = array();
-			$aErrors[ $sFieldID ] = $this->oMsg->__( 'reset_options' );
+			if ( $sSectionID )
+				$aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->__( 'reset_options' );
+			else
+				$aErrors[ $sFieldID ] = $this->oMsg->__( 'reset_options' );
 			$this->setFieldErrors( $aErrors );
-			
+
+				
 			// Set a flag that the confirmation is displayed
-			set_transient( md5( "reset_confirm_" . $sPressedFieldName ), $sPressedFieldName, 60*2 );
+			set_transient( md5( "reset_confirm_" . $sPressedInputName ), $sPressedInputName, 60*2 );
 			
 			$this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
 			
-			return $this->_getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
+			$_aOptions = $this->_getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
+// AdminPageFramework_Debug::logArray( $this->oProp->aOptions );
+// AdminPageFramework_Debug::logArray( $_aOptions );
+return $_aOptions;
 			
 		}
 		
@@ -685,16 +723,30 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * This method checks if the associated submit button is pressed with the input fields.
 		 * 
 		 * @since			2.0.0
-		 * @return			mixed			Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
+		 * @return			null|string			Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
 		 */ 
-		private function _getPressedCustomSubmitButtonSiblingValue( $aPostElements, $sTargetKey='url' ) {	
-		
-			foreach( $aPostElements as $field_name => $aSubElements ) {
+		private function _getPressedSubmitButtonData( $aPostElements, $sTargetKey='field_id' ) {	
+
+			/* The structure of the $aPostElements array looks like this:
+				[submit_buttons_submit_button_field_0] => Array
+					(
+						[input_id] => submit_buttons_submit_button_field_0
+						[field_id] => submit_button_field
+						[name] => APF_Demo|submit_buttons|submit_button_field
+						[section_id] => submit_buttons
+					)
+
+				[submit_buttons_submit_button_link_0] => Array
+					(
+						[input_id] => submit_buttons_submit_button_link_0
+						[field_id] => submit_button_link
+						[name] => APF_Demo|submit_buttons|submit_button_link|0
+						[section_id] => submit_buttons
+					)
+			 * The keys are the input id.
+			 */
+			foreach( $aPostElements as $sInputID => $aSubElements ) {
 				
-				/*
-				 * $aSubElements['name']	- the input field name property of the submit button, delimited by pipe (|) e.g. APF_GettingStarted|first_page|submit_buttons|submit_button_link
-				 * $aSubElements['url']	- the URL to redirect to. e.g. http://www.somedomain.com
-				 * */
 				$aNameKeys = explode( '|', $aSubElements[ 'name' ] );		// the 'name' key must be set.
 				
 				// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
@@ -863,19 +915,26 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * 
 		 * @since			2.0.0
 		 * @since			2.1.5			Added the $sPressedFieldID and $sPressedInputID parameters.
+		 * @since			3.0.0			Removed the $sPressedFieldID and $sPressedInputID parameters.
 		 * @return			array			The filtered input array.
 		 */
-		private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug, $sPressedFieldID, $sPressedInputID ) {
+		private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug ) {
 
-			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions() );
-
-			// for the input ID
-			if ( $sPressedInputID )
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedInputID}", $aInput, $_aOptions );
+			$_aDefaultOptions = $this->oProp->getDefaultOptions();
+			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
+			$_aInput = $aInput;	// copy it for parsing
+			$aInput = $this->oUtil->uniteArrays( $aInput, $_aDefaultOptions );
 			
-			// for the field ID
-			if ( $sPressedFieldID )
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sPressedFieldID}", $aInput, $_aOptions );
+			// For each submitted element
+			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
+				
+				if ( $this->_isSection( $sID ) ) 				
+					foreach( $aSectionOrFields as $sFieldID => $aFields )
+						$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", $aInput[ $sID ][ $sFieldID ], isset( $_aOptions[ $sID ][ $sFieldID ] ) ? $_aOptions[ $sID ][ $sFieldID ] : null );
+						
+				$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}", $aInput[ $sID ], isset( $_aOptions[ $sID ] ) ? $_aOptions[ $sID ] : null );
+				
+			}
 							
 			// for tabs
 			if ( $sTabSlug && $sPageSlug )	{	
@@ -895,6 +954,29 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			return $aInput;
 		
 		}	
+			/**
+			 * Determines whether the given ID is of a registered form section.
+			 * 
+			 * @since			3.0.0
+			 */
+			private function _isSection( $sID ) {
+				
+				// If the section ID is not registered, return false.
+				if ( ! array_key_exists( $sID, $this->oProp->aSections ) ) return false;
+				
+				// If the given ID does not match the field ID, 
+				if ( ! array_key_exists( $sID, $this->oProp->aFields ) ) return true;
+					
+				// If the field ID has a section.
+				if ( isset( $this->oProp->aFields[ $sID ]['section_id'] ) && $this->oProp->aFields[ $sID ]['section_id'] ) 
+					return $this->oProp->aFields[ $sID ]['section_id'] == $sID 
+						? true
+						: false;
+				
+				// Otherwise, false.
+				return false;
+				
+			}
 			
 			/**
 			 * Retrieves the stored options of the given tab slug.
@@ -905,10 +987,22 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$_aStoredOptionsOfTheTab = array();
 				if ( ! $sTabSlug ) return $_aStoredOptionsOfTheTab;
 				foreach( $this->oProp->aFields as $_aField ) {
-					if ( isset( $_aField['page_slug'], $_aField['tab_slug'] ) && $_aField['page_slug'] == $sPageSlug && $_aField['tab_slug'] == $sTabSlug ) {
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					
+					if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
+					if ( $_aField['page_slug'] != $sPageSlug ) continue;
+					if ( $_aField['tab_slug'] != $sTabSlug ) continue;
+					
+					// if a section is set,
+					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+							$_aStoredOptionsOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+						continue;
 					}
+					
+					// It does not have a section so set the field id as its key.
+					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+						$_aStoredOptionsOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+				
 				}		
 				return $_aStoredOptionsOfTheTab;
 				
@@ -927,10 +1021,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						
 				$_aStoredOptionsOfThePage = array();
 				foreach( $this->oProp->aFields as $_aField ) {
-					if ( isset( $_aField['page_slug'] ) && $_aField['page_slug'] == $sPageSlug ) {
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					
+					if ( ! isset( $_aField['page_slug'] ) || $_aField['page_slug'] != $sPageSlug ) continue;
+					
+					// If a section is set,
+					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+							$_aStoredOptionsOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+						continue;
 					}
+					
+					// It does not have a section so set the field id as its key.
+					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+						$_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+				
 				}
 				return $_aStoredOptionsOfThePage;
 				
@@ -951,10 +1055,21 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 				$_aStoredOptionsNotOfTheTab = array();
 				foreach( $this->oProp->aFields as $_aField ) {
-					if ( isset( $_aField['page_slug'], $_aField['tab_slug'] ) && $_aField['page_slug'] == $sPageSlug && $_aField['tab_slug'] != $sTabSlug ) {
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					
+					if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
+					if ( $_aField['page_slug'] != $sPageSlug ) continue;
+					if ( $_aField['tab_slug'] == $sTabSlug ) continue;
+					
+					// If a section is set,
+					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+							$_aStoredOptionsNotOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+						continue;
 					}
+					// It does not have a section
+					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+						$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					
 				}					
 				return $_aStoredOptionsNotOfTheTab;
 				
@@ -972,10 +1087,21 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 				$_aStoredOptionsNotOfThePage = array();
 				foreach( $this->oProp->aFields as $_aField ) {
-					if ( isset( $_aField['page_slug'] ) && $_aField['page_slug'] != $sPageSlug ) {
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+					
+					if ( ! isset( $_aField['page_slug'] ) ) continue;
+					if ( $_aField['page_slug'] == $sPageSlug ) continue;
+					
+					// If a section is set,
+					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+							$_aStoredOptionsNotOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+						continue;
 					}
+					// It does not have a section
+					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+						$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+
+				
 				}			
 				return $_aStoredOptionsNotOfThePage;
 				
@@ -1114,7 +1240,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	public function _replyToRegisterSettings() {
 		
 		/* 1. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. 
-		 * Note that we use local variables for the applying items. This allows the framework to refer the added sections and fields for later use. 
+		 * Note that we use local variables for the applying items. This allows the framework to refer to the added sections and fields for later use. 
 		 * */
 		$this->_formatSectionArrays( $this->oProp->aSections );	// passed by reference.
 		$this->_formatFieldArrays( $this->oProp->aFields, $this->oProp->aSections );	
@@ -1165,8 +1291,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 			/* 5-1. Add the given field. */
 			add_settings_field(
-				$aField['field_id'],
-				"<a id='{$aField['field_id']}'></a><span title='{$aField['tip']}'>{$aField['title']}</span>",
+				$aField['section_id'] . '_' . $aField['field_id'],
+				"<a id='{$aField['section_id']}_{$aField['field_id']}'></a><span title='{$aField['tip']}'>{$aField['title']}</span>",
 				array( $this, 'field_pre_' . $aField['field_id'] ),	// callback function - will trigger the __call() magic method.
 				$this->_getPageSlugBySectionID( $aField['section_id'] ), // page slug
 				$aField['section_id'],	// section

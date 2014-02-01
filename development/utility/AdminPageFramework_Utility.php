@@ -266,7 +266,7 @@ abstract class AdminPageFramework_Utility {
 	}	
 	
 	/**
-	 * Comresses CSS rules.
+	 * Compresses CSS rules.
 	 * 
 	 * @since			3.0.0
 	 */
@@ -279,6 +279,20 @@ abstract class AdminPageFramework_Utility {
 		);
 		
 	}	
+	
+	/**
+	 * Removes non-numeric keys from the array 
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function getNumericElements( $aParse ) {
+		
+		foreach ( $aParse as $isKey => $v ) {
+			if ( ! is_int( $isKey ) ) 
+				unset( $aParse[ $isKey ] );
+		}
+		return $aParse;
+	} 
 	
 }
 endif;

@@ -86,7 +86,11 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 			. "<input type='hidden' "
 				. "name='__export[{$aField['field_id']}][field_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
 				. "value='{$aField['field_id']}' "
-			. "/>"					
+			. "/>"
+			. "<input type='hidden' "
+				. "name='__export[{$aField['field_id']}][section_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
+				. "value='" . ( isset( $aField['section_id'] ) ? $aField['section_id'] : '' ). "' "
+			. "/>"								
 			. "<input type='hidden' "
 				. "name='__export[{$aField['field_id']}][file_name]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
 				. "value='{$aField['file_name']}' " 

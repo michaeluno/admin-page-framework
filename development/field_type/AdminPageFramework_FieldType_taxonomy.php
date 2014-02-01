@@ -237,7 +237,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 					. "<ul class='list:category taxonomychecklist form-no-clear'>"
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
-							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['field_name']}[{$sTaxonomySlug}]" : $aField['field_name'],   // name of the input
+							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
 							'selected' => $this->_getSelectedKeyArray( $aField['value'], $sKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
 							'title_li'	=> '',	// disable the Categories heading string 
 							'hide_empty' => 0,	

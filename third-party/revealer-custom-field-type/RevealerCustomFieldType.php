@@ -89,7 +89,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 			'id'	=>	$aField['input_id'],
 			'multiple'	=>	$aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
 		) + $aField['attributes']['select'];
-		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['field_name'] : "{$aField['field_name']}[]";
+		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
 
 		return
 			$aField['before_label']

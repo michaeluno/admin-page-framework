@@ -60,7 +60,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
 		
 		if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) return $sCellHTML;
 		
-		$aOptions = get_option( 'APF_TaxonomyField' );	// by default the class name is the option key.
+		$aOptions = get_option( 'APF_TaxonomyField', array() );	// by default the class name is the option key.
 		return isset( $aOptions[ $iTermID ][ 'image_upload' ] ) && $aOptions[ $iTermID ][ 'image_upload' ]
 			? "<img src='{$aOptions[ $iTermID ][ 'image_upload' ]}' style='max-height: 72px; max-width: 120px;'/>"
 			: $sCellHTML;

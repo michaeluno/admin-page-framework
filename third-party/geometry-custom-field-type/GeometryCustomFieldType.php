@@ -107,7 +107,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 				'type'	=>	'text',
 				'id'	=>	"{$aField['input_id']}_latitude",
 				'value'	=>	isset( $aField['attributes']['value']['latitude'] ) ? $aField['attributes']['value']['latitude'] : 20,
-				'name'	=>	"{$aField['field_name']}[latitude]",						
+				'name'	=>	"{$aField['_input_name']}[latitude]",						
 			) + $aField['attributes']['latitude'] + $aBaseAttributes;
 			$aLattitudeAttributes['class'] .= ' gllpLatitude';
 			
@@ -115,7 +115,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 				'type'	=>	'text',
 				'id'	=>	"{$aField['input_id']}_longitude",
 				'value'	=>	isset( $aField['attributes']['value']['longitude'] ) ? $aField['attributes']['value']['longitude'] : 20,
-				'name'	=>	"{$aField['field_name']}[longitude]",
+				'name'	=>	"{$aField['_input_name']}[longitude]",
 			) + $aField['attributes']['longitude'] + $aBaseAttributes;			
 			$aLongitudeAttributes['class'] .= ' gllpLongitude';
 
@@ -123,7 +123,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 				'type'	=>	'text',
 				'id'	=>	"{$aField['input_id']}_elevation",
 				'value'	=>	isset( $aField['attributes']['value']['elevation'] ) ? $aField['attributes']['value']['elevation'] : '',
-				'name'	=>	"{$aField['field_name']}[elevation]",
+				'name'	=>	"{$aField['_input_name']}[elevation]",
 			) + $aField['attributes']['elevation'] + $aBaseAttributes;			
 			$aElevationAttributes['class'] .= ' gllpElevation';		
 			
@@ -131,7 +131,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 				'type'	=>	'text',
 				'id'	=>	"{$aField['input_id']}_name",
 				'value'	=>	isset( $aField['attributes']['value']['localtion_name'] ) ? $aField['attributes']['value']['localtion_name'] : '',
-				'name'	=>	"{$aField['field_name']}[localtion_name]",
+				'name'	=>	"{$aField['_input_name']}[localtion_name]",
 			) + $aField['attributes']['location_name'] + $aBaseAttributes;			
 			$aLocationNameAttributes['class'] .= ' gllpLocationName';
 			

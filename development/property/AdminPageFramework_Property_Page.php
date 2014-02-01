@@ -254,7 +254,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		// Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
 		// Without the the ampersand in the method name, it causes a PHP warning.
 		if ( $sName == 'aOptions' ) {
-			$this->aOptions = $this->getOptions();
+			$this->aOptions = get_option( $this->sOptionKey, array() );
 			return $this->aOptions;	
 		}
 		
@@ -298,20 +298,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 			: '';
 
 	}	
-	
-	/**
-	 * Retrieves the framework's saved options from the options table of the database.
-	 * @since			2.0.0
-	 */
-	public function getOptions() {
 		
-		$vOptions = get_option( $this->sOptionKey );
-		if ( empty( $vOptions ) ) return array();		// casting array causes a 0 key element when the value is empty. So this way it can be avoided
-		if ( is_array( $vOptions ) ) return $vOptions;	// if it's array, no problem.		
-		return ( array ) $vOptions;	// finally cast array.
-		
-	}
-	
 	/**
 	 * Returns the default values of all the added fields.
 	 * 
@@ -320,17 +307,56 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public function getDefaultOptions() {
 		
 		$_aDefaultOptions = array();
-		foreach( $this->aFields as $sFieldID => $_aField ) 					
-			$_aDefaultOptions[ $sFieldID ] = isset( $_aField['value'] )
-				? $_aField['value']
-				: ( isset( $_aField['default'] )
-					? $_aField['default']
-					: null
-				);
+		foreach( $this->aFields as $_sFieldID => $_aFields ) 	{
+			
+			$_vDefault = $this->_getDefautValue( $_aFields );
+			
+			if ( isset( $_aField['section_id'] ) && $_aField['section_id'] )
+				$_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
+			else
+				$_aDefaultOptions[ $_sFieldID ] = $_vDefault;
+				
+		}				
+		
 		return $_aDefaultOptions;		
 		
 	}
-	
+		/**
+		 * Returns the default value from the given field definition array.
+		 * 
+		 * This is a helper function for the above getDefaultOptions() method.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getDefautValue( $aFields ) {
+			
+			// Check if sub-fields exist whose keys are numeric
+			$_aSubFields = AdminPageFramework_Utility::getNumericElements( $aFields );
+			
+			// If there are no sub-fields				
+			if ( count( $_aSubFields ) == 0 ) {
+				$_aField = $aFields;
+				return isset( $_aField['value'] )
+					? $_aField['value']
+					: ( isset( $_aField['default'] )
+						? $_aField['default']
+						: null
+					);
+			}
+			
+			// Otherwise, there are sub-fields
+			$_aDefault = array();
+			array_unshift( $_aSubFields, $aFields );	// insert the main field into the very first index.
+			foreach( $_aSubFields as $_iIndex => $_aField ) 
+				$_aDefault[ $_iIndex ] = isset( $_aField['value'] )
+					? $_aField['value']
+					: ( isset( $_aField['default'] )
+						? $_aField['default']
+						: null
+					);
+			return $_aDefault;
+			
+		}
 	
 	/*
 	 * callback methods

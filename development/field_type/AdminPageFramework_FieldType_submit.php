@@ -23,7 +23,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	protected $aDefaultKeys = array(
 		'redirect_url'	=>	null,
 		'href'	=>	null,
-		'is_reset'	=>	null,		
+		'reset'	=>	null,		
 		'attributes'	=> array(
 			'class'	=>	'button button-primary',
 		),	
@@ -122,53 +122,41 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 			. "/>"		
 			. "<input type='hidden' "
 				. "name='__submit[{$aField['input_id']}][name]' "
-				. "value='{$aField['_field_name_flat']}'"
+				. "value='{$aField['_input_name_flat']}'"
 			. "/>" 						
+			. "<input type='hidden' "
+				. "name='__submit[{$aField['input_id']}][section_id]' "
+				. "value='" . ( isset( $aField['section_id'] ) && $aField['section_id'] ? $aField['section_id'] : '' ) . "'"
+			. "/>"			
 			/* for the redirect_url key */
 			. ( $aField['redirect_url']
 				? "<input type='hidden' "
-					. "name='__redirect[{$aField['input_id']}][url]' "
+					. "name='__submit[{$aField['input_id']}][redirect_url]' "
 					. "value='{$aField['redirect_url']}'"
-				. "/>" 
-				. "<input type='hidden' "
-					. "name='__redirect[{$aField['input_id']}][name]' "
-					. "value='{$aField['_field_name_flat']}'"
 				. "/>" 
 				: "" 
 			)
 			/* for the href key */
 			. ( $aField['href']
 				? "<input type='hidden' "
-					. "name='__link[{$aField['input_id']}][url]' "
+					. "name='__submit[{$aField['input_id']}][link_url]' "
 					. "value='{$aField['href']}'"
 				. "/>"
-				. "<input type='hidden' "
-					. "name='__link[{$aField['input_id']}][name]' "
-					. "value='{$aField['_field_name_flat']}'"
-				. "/>" 
 				: "" 
 			)
-			/* for the is_reset key */
-			. ( $aField['is_reset'] && ( ! ( $bResetConfirmed = $this->_checkConfirmationDisplayed( $aField['is_reset'], $aField['_field_name_flat'] ) ) )
+			/* for the 'reset' key */
+			. ( $aField['reset'] && ( ! ( $bResetConfirmed = $this->_checkConfirmationDisplayed( $aField['reset'], $aField['_input_name_flat'] ) ) )
 				? "<input type='hidden' "
-					. "name='__reset_confirm[{$aField['input_id']}][key]' "
-					. "value='{$aField['_field_name_flat']}'"
+					. "name='__submit[{$aField['input_id']}][is_reset]' "
+					. "value='1'"
 				. "/>"
-				. "<input type='hidden' "
-					. "name='__reset_confirm[{$aField['input_id']}][name]' "
-					. "value='{$aField['_field_name_flat']}'"
-				. "/>" 
 				: ""
 			)
-			. ( $aField['is_reset'] && $bResetConfirmed
+			. ( $aField['reset'] && $bResetConfirmed
 				? "<input type='hidden' "
-					. "name='__reset[{$aField['input_id']}][key]' "
-					. "value='{$aField['is_reset']}'"
+					. "name='__submit[{$aField['input_id']}][reset_key]' "	
+					. "value='{$aField['reset']}'"	// set the option array key to delete.
 				. "/>"
-				. "<input type='hidden' "
-					. "name='__reset[{$aField['input_id']}][name]' "
-					. "value='{$aField['_field_name_flat']}'"
-				. "/>" 
 				: ""
 			);
 		
@@ -176,7 +164,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		
 	
 		/**
-		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the is_reset key is set.
+		 * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the 'reset' key is set.
 		 * 
 		 */
 		private function _checkConfirmationDisplayed( $sResetKey, $sFlatFieldName ) {

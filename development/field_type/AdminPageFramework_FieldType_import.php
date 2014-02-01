@@ -116,6 +116,12 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 			) . "/>"
 			. "<input " . $this->generateAttributes( 
 				array(
+					'name'	=>	"__import[{$aField['field_id']}][section_id]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'value'	=>	isset( $aField['section_id'] ) ? $aField['section_id'] : '',
+				) + $aHiddenAttributes
+			) . "/>"			
+			. "<input " . $this->generateAttributes( 
+				array(
 					'name'	=>	"__import[{$aField['field_id']}][is_merge]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
 					'value'	=>	$aField['is_merge'],
 				) + $aHiddenAttributes
