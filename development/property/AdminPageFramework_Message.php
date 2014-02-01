@@ -59,7 +59,7 @@ class AdminPageFramework_Message {
 			'import_options'		=> __( 'Import Options', 'admin-page-framework' ),
 			'submit'				=> __( 'Submit', 'admin-page-framework' ),
 			'import_error'			=> __( 'An error occurred while uploading the import file.', 'admin-page-framework' ),
-			'uploaded_file_type_not_supported'	=> __( 'The uploaded file type is not supported.', 'admin-page-framework' ),
+			'uploaded_file_type_not_supported'	=> __( 'The uploaded file type is not supported: %1$s', 'admin-page-framework' ),
 			'could_not_load_importing_data' => __( 'Could not load the importing data.', 'admin-page-framework' ),
 			'imported_data'			=> __( 'The uploaded file has been imported.', 'admin-page-framework' ),
 			'not_imported_data' 	=> __( 'No data could be imported.', 'admin-page-framework' ),
