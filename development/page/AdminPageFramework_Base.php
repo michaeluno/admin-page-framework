@@ -31,6 +31,7 @@ abstract class AdminPageFramework_Base {
 		'do_after_'			=> 'do_after_',
 		'do_form_'			=> 'do_form_',
 		'do_'				=> 'do_',
+		'submit_'			=> 'submit_',			// since 3.0.0
 		'content_top_'		=> 'content_top_',
 		'content_'			=> 'content_',
 		'content_bottom_'	=> 'content_bottom_',
