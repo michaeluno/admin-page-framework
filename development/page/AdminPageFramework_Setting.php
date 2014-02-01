@@ -942,9 +942,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			// For each submitted element
 			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
 				
-				if ( $this->_isSection( $sID ) ) 				
+				if ( $this->_isSection( $sID ) ) {
+					
+					// For fields
 					foreach( $aSectionOrFields as $sFieldID => $aFields )
 						$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", $aInput[ $sID ][ $sFieldID ], isset( $_aOptions[ $sID ][ $sFieldID ] ) ? $_aOptions[ $sID ][ $sFieldID ] : null );
+										
+				}			
 						
 				$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}", $aInput[ $sID ], isset( $_aOptions[ $sID ] ) ? $_aOptions[ $sID ] : null );
 				
@@ -1150,7 +1154,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		echo $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				'field_' . $this->oProp->sClassName . '_' . $sFieldID	// field_ + {extended class name} + _ {field id}
+				isset( $aField['section_id'] ) 
+					? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $sFieldID
+					: 'field_' . $this->oProp->sClassName . '_' . $sFieldID,
 			),
 			$sFieldOutput,
 			$aField // the field array
