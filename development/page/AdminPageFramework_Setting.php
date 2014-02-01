@@ -69,7 +69,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'repeatable'		=> null,		// since 2.1.3
 		'sortable'			=> null,		// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
-		'_field_type'		=> null,		// since 3.0.0 - an internal key that determines the field type such as page, meta box for pages, meta box for posts, or taxonomy.
+		'_field_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
 	);	
 	
 	/**
@@ -618,9 +618,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			)
 		);                
 		
-// AdminPageFramework_Debug::logArray( array( 'pressed field id' => $sPressedFieldID, 'pressed input id' => $sPressedInputID ) );
-// AdminPageFramework_Debug::logArray( $_POST );
-		
 		/* 2. Check if custom submit keys are set [part 1] */
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
 			return $this->_importOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug );
@@ -770,10 +767,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		private function _importOptions( $aStoredOptions, $sPageSlug, $sTabSlug ) {
 			
 			$oImport = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );	
+			$sSectionID = $oImport->getSiblingValue( 'section_id' );
 			$sPressedFieldID = $oImport->getSiblingValue( 'field_id' );
 			$sPressedInputID = $oImport->getSiblingValue( 'input_id' );
 			$bMerge = $oImport->getSiblingValue( 'is_merge' );
-			
+		
 			// Check if there is an upload error.
 			if ( $oImport->getError() > 0 ) {
 				$this->setSettingNotice( $this->oMsg->__( 'import_error' ) );	
@@ -783,24 +781,25 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			// Apply filters to the uploaded file's MIME type.
 			$aMIMEType = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "import_mime_types_{$sPageSlug}_{$sTabSlug}", "import_mime_types_{$sPageSlug}", "import_mime_types_{$this->oProp->sClassName}_{$sPressedInputID}", "import_mime_types_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_mime_types_{$this->oProp->sClassName}" ),
+				array( 
+					"import_mime_types_{$this->oProp->sClassName}_{$sPressedInputID}", 
+					$sSectionID ? "import_mime_types_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "import_mime_types_{$this->oProp->sClassName}_{$sPressedFieldID}", 
+					$sSectionID ? "import_mime_types_{$this->oProp->sClassName}_{$sSectionID}" : null, 
+					$sTabSlug ? "import_mime_types_{$sPageSlug}_{$sTabSlug}" : null, 
+					"import_mime_types_{$sPageSlug}", 
+					"import_mime_types_{$this->oProp->sClassName}" ),
 				array( 'text/plain', 'application/octet-stream' ),        // .json file is dealt as a binary file.
 				$sPressedFieldID,
 				$sPressedInputID
 			);                
 
 			// Check the uploaded file MIME type.
+			$_sType = $oImport->getType();
 			if ( ! in_array( $oImport->getType(), $aMIMEType ) ) {        
-				$this->setSettingNotice( $this->oMsg->___( 'uploaded_file_type_not_supported' ) );
+				$this->setSettingNotice( sprintf( $this->oMsg->__( 'uploaded_file_type_not_supported' ), $_sType ) );
 				return $aStoredOptions;        // do not change the framework's options.
 			}
-			
-			// Check the uploaded file type.
-			if ( ! in_array( $oImport->getType(), array( 'text/plain', 'application/octet-stream' ) ) ) {	// .json file is dealt as binary file.
-				$this->setSettingNotice( $this->oMsg->__( 'uploaded_file_type_not_supported' ) );		
-				return $aStoredOptions;	// do not change the framework's options.
-			}
-			
+
 			// Retrieve the importing data.
 			$vData = $oImport->getImportData();
 			if ( $vData === false ) {
@@ -811,29 +810,49 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			// Apply filters to the data format type.
 			$sFormatType = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "import_format_{$sPageSlug}_{$sTabSlug}", "import_format_{$sPageSlug}", "import_format_{$this->oProp->sClassName}_{$sPressedInputID}", "import_format_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_format_{$this->oProp->sClassName}" ),
+				array( 
+					"import_format_{$this->oProp->sClassName}_{$sPressedInputID}",
+					$sSectionID ? "import_format_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "import_format_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sSectionID ? "import_format_{$this->oProp->sClassName}_{$sSectionID}" : null,
+					$sTabSlug ? "import_format_{$sPageSlug}_{$sTabSlug}" : null,
+					"import_format_{$sPageSlug}",
+					"import_format_{$this->oProp->sClassName}"
+				),
 				$oImport->getFormatType(),	// the set format type, array, json, or text.
 				$sPressedFieldID,
 				$sPressedInputID
-			);	// import_format_{$sPageSlug}_{$sTabSlug}, import_format_{$sPageSlug}, import_format_{$sClassName}_{pressed input id}, import_format_{$sClassName}_{pressed field id}, import_format_{$sClassName}		
+			);	
 
 			// Format it.
 			$oImport->formatImportData( $vData, $sFormatType );	// it is passed as reference.	
 			
-			// If a custom option key is set,
 			// Apply filters to the importing option key.
 			$sImportOptionKey = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "import_option_key_{$sPageSlug}_{$sTabSlug}", "import_option_key_{$sPageSlug}", "import_option_key_{$this->oProp->sClassName}_{$sPressedInputID}", "import_option_key_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_option_key_{$this->oProp->sClassName}" ),
+				array(
+					"import_option_key_{$this->oProp->sClassName}_{$sPressedInputID}",
+					$sSectionID ? "import_option_key_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "import_option_key_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sSectionID ? "import_option_key_{$this->oProp->sClassName}_{$sSectionID}" : null,
+					$sTabSlug ? "import_option_key_{$sPageSlug}_{$sTabSlug}" : null,
+					"import_option_key_{$sPageSlug}",
+					"import_option_key_{$this->oProp->sClassName}"
+				),
 				$oImport->getSiblingValue( 'option_key' ),	
 				$sPressedFieldID,
 				$sPressedInputID
-			);	// import_option_key_{$sPageSlug}_{$sTabSlug}, import_option_key_{$sPageSlug}, import_option_key_{$sClassName}_{pressed input id}, import_option_key_{$sClassName}_{pressed field id}, import_option_key_{$sClassName}			
+			);
 			
 			// Apply filters to the importing data.
 			$vData = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "import_{$sPageSlug}_{$sTabSlug}", "import_{$sPageSlug}", "import_{$this->oProp->sClassName}_{$sPressedInputID}", "import_{$this->oProp->sClassName}_{$sPressedFieldID}", "import_{$this->oProp->sClassName}" ),
+				array(
+					"import_{$this->oProp->sClassName}_{$sPressedInputID}",
+					$sSectionID ? "import_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "import_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sSectionID ? "import_{$this->oProp->sClassName}_{$sSectionID}" : null,
+					$sTabSlug ? "import_{$sPageSlug}_{$sTabSlug}" : null,
+					"import_{$sPageSlug}",
+					"import_{$this->oProp->sClassName}"
+				),
 				$vData,
 				$aStoredOptions,
 				$sPressedFieldID,

@@ -36,7 +36,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 	public function __construct( $aFilesImport, $aPostImport ) {
 
 		// Call the parent constructor. This must be done before the getFieldID() method that uses the $aPostElement property.
-		parent::__construct( $aPost );
+		parent::__construct( $aPostImport );
 	
 		$this->aFilesImport = $aFilesImport;
 		
@@ -46,8 +46,8 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 
 		$sElementKey = strtolower( $sElementKey );
 		
-		return isset( $aFielsImport[ $sInputID ][ $sElementKey ] )
-			? $aFielsImport[ $sInputID ][ $sElementKey ]
+		return isset( $aFilesImport[ $sElementKey ][ $sInputID ] )
+			? $aFilesImport[ $sElementKey ][ $sInputID ]
 			: null;
 		
 	}	
@@ -58,7 +58,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 		
 	}
 	public function getType() {
-		
+
 		return $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'type' );
 		
 	}
@@ -99,16 +99,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 		
 	}
 	
-	/**
-	 * Returns the specified sibling value.
-	 * 
-	 * @since			2.1.5
-	 */
-	public function getSiblingValue( $sKey ) {
-		
-		return $this->getElement( $this->aPost, $this->sInputID, $sKey );
-		
-	}
+
 	
 }
 endif;
