@@ -18,8 +18,12 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * @since			2.1.2
 	 */
 	private $_bIsMetaBox = false;
-			
-	public function __construct( &$aField, &$aOptions, &$aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
+	
+	/**
+	 * 
+	 * @remark			The third parameter should not be by reference as an expression will be passed.
+	 */
+	public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
 
 		/* 1. Set up the properties that will be accessed later in the methods. */
 		$aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
