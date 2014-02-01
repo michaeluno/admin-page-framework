@@ -74,6 +74,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 		$oCallerObject = $aArgs[ 0 ];
 		$aActionHooks = $aArgs[ 1 ];
 		foreach( ( array ) $aActionHooks as $sActionHook ) {
+			if ( ! $sActionHook ) continue;
 			$aArgs[ 1 ] = $sActionHook;
 			call_user_func_array( array( $this, 'addAndDoAction' ) , $aArgs );			
 		}
@@ -94,6 +95,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 		$aArgs = func_get_args();
 		$oCallerObject = $aArgs[ 0 ];
 		$sActionHook = $aArgs[ 1 ];
+		if ( ! $sActionHook ) return;
 		add_action( $sActionHook, array( $oCallerObject, $sActionHook ), 10, $iArgs - 2 );
 		unset( $aArgs[ 0 ] );	// remove the first element, the caller object
 		call_user_func_array( 'do_action' , $aArgs );
@@ -107,6 +109,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 		$vInput = $aArgs[ 2 ];
 
 		foreach( ( array ) $aFilters as $sFilter ) {
+			if ( ! $sFilter ) continue;
 			$aArgs[ 1 ] = $sFilter;
 			$aArgs[ 2 ] = $vInput;
 			$vInput = call_user_func_array( array( $this, 'addAndApplyFilter' ) , $aArgs );						
@@ -120,6 +123,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 		$aArgs = func_get_args();
 		$oCallerObject = $aArgs[ 0 ];
 		$sFilter = $aArgs[ 1 ];
+		if ( ! $sFilter ) return $aArgs[ 2 ];
 		add_filter( $sFilter, array( $oCallerObject, $sFilter ), 10, $iArgs - 2 );	// this enables to trigger the method named $sFilter and the magic method __call() will be called
 		unset( $aArgs[ 0 ] );	// remove the first element, the caller object	// array_shift( $aArgs );							
 		return call_user_func_array( 'apply_filters', $aArgs );	// $aArgs: $vInput, $vArgs...
