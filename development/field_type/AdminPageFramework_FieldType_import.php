@@ -72,7 +72,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	public function _replyToGetField( $aField ) {
 		
 		/* Set some required values */
-		$aField['attributes']['name'] = "__import[submit][{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' );		
+		$aField['attributes']['name'] = "__import[submit][{$aField['input_id']}]";
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'import' );
 		return parent::_replyToGetField( $aField );		
 	}	
@@ -89,7 +89,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 				array(
 					'id'	=>	"{$aField['input_id']}_file",
 					'type'	=>	'file',
-					'name'	=>	"__import[{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}]",
 				) + $aField['attributes']['file']			
 			) . " />";
 	}	
@@ -104,37 +104,37 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 		return	
 			"<input " . $this->generateAttributes( 
 				array(
-					'name'	=>	"__import[{$aField['field_id']}][input_id]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}][input_id]",
 					'value'	=>	$aField['input_id'],
 				) + $aHiddenAttributes
 			) . "/>"
 			. "<input " . $this->generateAttributes( 
 				array(
-					'name'	=>	"__import[{$aField['field_id']}][field_id]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}][field_id]",
 					'value'	=>	$aField['field_id'],
 				) + $aHiddenAttributes
 			) . "/>"
 			. "<input " . $this->generateAttributes( 
 				array(
-					'name'	=>	"__import[{$aField['field_id']}][section_id]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}][section_id]",
 					'value'	=>	isset( $aField['section_id'] ) ? $aField['section_id'] : '',
 				) + $aHiddenAttributes
 			) . "/>"			
 			. "<input " . $this->generateAttributes( 
 				array(
-					'name'	=>	"__import[{$aField['field_id']}][is_merge]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}][is_merge]",
 					'value'	=>	$aField['is_merge'],
 				) + $aHiddenAttributes
 			) . "/>"	
 			. "<input " . $this->generateAttributes( 
 				array(
-					'name'	=>	"__import[{$aField['field_id']}][option_key]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}][option_key]",
 					'value'	=>	$aField['option_key'],
 				) + $aHiddenAttributes
 			) . "/>"
 			. "<input " . $this->generateAttributes( 
 				array(
-					'name'	=>	"__import[{$aField['field_id']}][format]" . ( $aField['_is_multiple_fields']  ? "[{$aField['_index']}]" : '' ),
+					'name'	=>	"__import[{$aField['input_id']}][format]",
 					'value'	=>	$aField['format'],
 				) + $aHiddenAttributes
 			) . "/>"

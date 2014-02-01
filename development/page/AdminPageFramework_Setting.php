@@ -619,7 +619,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		);                
 		
 // AdminPageFramework_Debug::logArray( array( 'pressed field id' => $sPressedFieldID, 'pressed input id' => $sPressedInputID ) );
-AdminPageFramework_Debug::logArray( $_POST );
+// AdminPageFramework_Debug::logArray( $_POST );
 		
 		/* 2. Check if custom submit keys are set [part 1] */
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
@@ -680,10 +680,7 @@ AdminPageFramework_Debug::logArray( $_POST );
 			
 			$this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
 			
-			$_aOptions = $this->_getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
-// AdminPageFramework_Debug::logArray( $this->oProp->aOptions );
-// AdminPageFramework_Debug::logArray( $_aOptions );
-return $_aOptions;
+			return $this->_getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
 			
 		}
 		
@@ -870,20 +867,24 @@ return $_aOptions;
 		private function _exportOptions( $vData, $sPageSlug, $sTabSlug ) {
 
 			$oExport = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProp->sClassName );
+			$sSectionID = $oExport->getSiblingValue( 'section_id' );
 			$sPressedFieldID = $oExport->getSiblingValue( 'field_id' );
 			$sPressedInputID = $oExport->getSiblingValue( 'input_id' );
 			
 			// If the data is set in transient,
 			$vData = $oExport->getTransientIfSet( $vData );
-		
-			// Get the field ID.
-			$sFieldID = $oExport->getFieldID();
-		
+
 			// Add and apply filters. - adding filters must be done in this class because the callback method belongs to this class 
 			// and the magic method should be triggered.			
 			$vData = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "export_{$sPageSlug}_{$sTabSlug}", "export_{$sPageSlug}", "export_{$this->oProp->sClassName}_{$sPressedInputID}", "export_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_{$this->oProp->sClassName}" ),
+				array( 
+					"export_{$this->oProp->sClassName}_{$sPressedInputID}", 
+					$sSectionID ? "export_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "export_{$this->oProp->sClassName}_{$sPressedFieldID}", 	
+					$sTabSlug ? "export_{$sPageSlug}_{$sTabSlug}" : null, 	// null will be skipped in the method
+					"export_{$sPageSlug}", 
+					"export_{$this->oProp->sClassName}" 
+				),
 				$vData,
 				$sPressedFieldID,
 				$sPressedInputID
@@ -891,20 +892,33 @@ return $_aOptions;
 			
 			$sFileName = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "export_name_{$sPageSlug}_{$sTabSlug}", "export_name_{$sPageSlug}", "export_name_{$this->oProp->sClassName}_{$sPressedInputID}", "export_name_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_name_{$this->oProp->sClassName}" ),
+				array( 
+					"export_name_{$this->oProp->sClassName}_{$sPressedInputID}",
+					"export_name_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sSectionID ? "export_name_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "export_name_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sTabSlug ? "export_name_{$sPageSlug}_{$sTabSlug}" : null,
+					"export_name_{$sPageSlug}",
+					"export_name_{$this->oProp->sClassName}" 
+				),
 				$oExport->getFileName(),
 				$sPressedFieldID,
 				$sPressedInputID
 			);	// export_name_{$sPageSlug}_{$sTabSlug}, export_name_{$sPageSlug}, export_name_{$sClassName}_{pressed input id}, export_name_{$sClassName}_{pressed field id}, export_name_{$sClassName}	
-	
+			
 			$sFormatType = $this->oUtil->addAndApplyFilters(
 				$this,
-				array( "export_format_{$sPageSlug}_{$sTabSlug}", "export_format_{$sPageSlug}", "export_format_{$this->oProp->sClassName}_{$sPressedInputID}", "export_format_{$this->oProp->sClassName}_{$sPressedFieldID}", "export_format_{$this->oProp->sClassName}" ),
+				array( 
+					"export_format_{$this->oProp->sClassName}_{$sPressedInputID}",
+					"export_format_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sSectionID ? "export_format_{$this->oProp->sClassName}_{$sSectionID}_{$sPressedFieldID}" : "export_format_{$this->oProp->sClassName}_{$sPressedFieldID}",
+					$sTabSlug ? "export_format_{$sPageSlug}_{$sTabSlug}" : null,
+					"export_format_{$sPageSlug}",
+					"export_format_{$this->oProp->sClassName}" 
+				),
 				$oExport->getFormat(),
 				$sPressedFieldID,
 				$sPressedInputID
 			);	// export_format_{$sPageSlug}_{$sTabSlug}, export_format_{$sPageSlug}, export_format_{$sClassName}_{pressed input id}, export_format_{$sClassName}_{pressed field id}, export_format_{$sClassName}	
-								
 			$oExport->doExport( $vData, $sFileName, $sFormatType );
 			exit;
 			

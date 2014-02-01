@@ -13,9 +13,10 @@ if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
 abstract class AdminPageFramework_CustomSubmitFields {
 	 
 	public function __construct( $aPostElement ) {
-		
-		$this->aPostElement = $aPostElement;	// e.g. $_POST['__import'] or $_POST['__export'] or $_POST['__redirect']
-		
+			
+		$this->aPost = $aPostElement;
+		$this->sInputID = $this->getInputID( $aPostElement['submit'] );	// the submit element must be set by the field type.
+	
 	}
 	
 	/**
@@ -25,71 +26,43 @@ abstract class AdminPageFramework_CustomSubmitFields {
 	 * 
 	 * @since			2.0.0
 	 */ 
-	protected function getElement( $aElement, $aElementKey, $sElementKey='format' ) {
+	protected function getElement( $aElement, $sInputID, $sElementKey='format' ) {
 			
-		$sFirstDimensionKey = $aElementKey[ 0 ];
-		if ( ! isset( $aElement[ $sFirstDimensionKey ] ) || ! is_array( $aElement[ $sFirstDimensionKey ] ) ) return 'ERROR_A';
-
-		/* For single element, e.g.
-		 * <input type="hidden" name="__import[import_single][option_key]" value="APF_GettingStarted">
-		 * <input type="hidden" name="__import[import_single][format]" value="array">
-		 * */	
-		if ( isset( $aElement[ $sFirstDimensionKey ][ $sElementKey ] ) && ! is_array( $aElement[ $sFirstDimensionKey ][ $sElementKey ] ) )
-			return $aElement[ $sFirstDimensionKey ][ $sElementKey ];
-
-		/* For multiple elements, e.g.
-		 * <input type="hidden" name="__import[import_multiple][option_key][2]" value="APF_GettingStarted.txt">
-		 * <input type="hidden" name="__import[import_multiple][format][2]" value="array">
-		 * */
-		if ( ! isset( $aElementKey[ 1 ] ) ) return 'ERROR_B';
-		$sKey = $aElementKey[ 1 ];
-		if ( isset( $aElement[ $sFirstDimensionKey ][ $sElementKey ][ $sKey ] ) )
-			return $aElement[ $sFirstDimensionKey ][ $sElementKey ][ $sKey ];
-			
-		return 'ERROR_C';	// Something wrong happened.
+		return ( isset( $aElement[ $sInputID ][ $sElementKey ] ) )
+			? $aElement[ $sInputID ][ $sElementKey ]
+			: null;
 		
-	}	
+	}			
 	
 	/**
-	 * Retrieves an array consisting of two values.
+	 * Returns the specified sibling value.
 	 * 
-	 * The first element is the fist dimension's key and the second element is the second dimension's key.
-	 * @since			2.0.0
+	 * @since			2.1.5
 	 */
-	protected function getElementKey( $aElement, $sFirstDimensionKey ) {
-		
-		if ( ! isset( $aElement[ $sFirstDimensionKey ] ) ) return;
-		
-		// Set the first element the field ID.
-		$aEkementKey = array( 0 => $sFirstDimensionKey );
-
-		// For single export buttons, e.g. name="__import[submit][import_single]" 		
-		if ( ! is_array( $aElement[ $sFirstDimensionKey ] ) ) return $aEkementKey;
-		
-		// For multiple ones, e.g. name="__import[submit][import_multiple][1]" 		
-		foreach( $aElement[ $sFirstDimensionKey ] as $k => $v ) {
-			
-			// Only the pressed export button's element is submitted. In other words, it is necessary to check only one item.
-			$aEkementKey[] = $k;
-			return $aEkementKey;			
-				
-		}		
+	public function getSiblingValue( $sKey ) {	
+		return $this->getElement( $this->aPost, $this->sInputID, $sKey );
 	}
-		
-	public function getFieldID() {
-		
-		// e.g.
-		// single:		name="__import[submit][import_single]"
-		// multiple:	name="__import[submit][import_multiple][1]"
-		
-		if ( isset( $this->sFieldID ) && $this->sFieldID  ) return $this->sFieldID;
-		
+	
+	/**
+	 * Retrieves the submitted export/import button’s input id.
+	 * 
+	 * The input id should be consist of ({section id}_){field id}_{index}.
+	 * 
+	 * The getFieldID() is deprecated as multiple same field IDs will be possible in near updates.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getInputID( $aSubmitElement ) {
+			
 		// Only the pressed element will be stored in the array.
-		foreach( $this->aPostElement['submit'] as $sKey => $v ) {	// $this->aPostElement should have been set in the constructor.
-			$this->sFieldID = $sKey;
-			return $this->sFieldID;
-		}
-	}	
+		// The input tag:	name="__import[submit][my_section_my_import_field_the_index]" value="Import Button"
+		// The array structure:  array( 'my_section_my_import_field_the_index' => 'Import Button' )
+		foreach( $aSubmitElement as $sInputID => $v ) {	// $aSubmitElement should have been set in the constructor.
+			$this->sInputID = $sInputID;
+			return $this->sInputID;
+		}		
+		
+	}
 		
 }
 endif;

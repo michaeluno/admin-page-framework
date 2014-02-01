@@ -15,19 +15,19 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 		Array (
 			[__import] => Array (
 				[name] => Array (
-				   [import_single] => APF_GettingStarted_20130709 (1).json
+				   [my_section_my_field_the_index] => APF_GettingStarted_20130709 (1).json
 				)
 				[type] => Array (
-					[import_single] => application/octet-stream
+					[my_section_my_field_the_index] => application/octet-stream
 				)
 				[tmp_name] => Array (
-					[import_single] => Y:\wamp\tmp\php7994.tmp
+					[my_section_my_field_the_index] => Y:\wamp\tmp\php7994.tmp
 				)
 				[error] => Array (
-					[import_single] => 0
+					[my_section_my_field_the_index] => 0
 				)
 				[size] => Array (
-					[import_single] => 715
+					[my_section_my_field_the_index] => 715
 				)
 			)
 		)
@@ -36,52 +36,36 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 	public function __construct( $aFilesImport, $aPostImport ) {
 
 		// Call the parent constructor. This must be done before the getFieldID() method that uses the $aPostElement property.
-		parent::__construct( $aPostImport );
+		parent::__construct( $aPost );
 	
 		$this->aFilesImport = $aFilesImport;
-		$this->aPostImport = $aPostImport;
 		
-		// Find the field ID and the element key ( for multiple export buttons )of the pressed submit ( export ) button.
-		$this->sFieldID = $this->getFieldID();
-		$this->aElementKey = $this->getElementKey( $aPostImport['submit'], $this->sFieldID );
-			
 	}
 	
-	private function getElementInFilesArray( $aFilesImport, $aElementKey, $sElementKey='error' ) {
+	private function getElementInFilesArray( $aFilesImport, $sInputID, $sElementKey='error' ) {
 
 		$sElementKey = strtolower( $sElementKey );
-		$sFieldID = $aElementKey[ 0 ];	// or simply assigning $this->sFieldID would work as well.
-		if ( ! isset( $aFilesImport[ $sElementKey ][ $sFieldID ] ) ) return 'ERROR_A: The given key does not exist.';
-	
-		// For single export buttons, e.g. $_FILES[__import][ $sElementKey ][import_single] 
-		if ( isset( $aFilesImport[ $sElementKey ][ $sFieldID ] ) && ! is_array( $aFilesImport[ $sElementKey ][ $sFieldID ] ) )
-			return $aFilesImport[ $sElementKey ][ $sFieldID ];
-			
-		// For multiple import buttons, e.g. $_FILES[__import][ $sElementKey ][import_multiple][2]
-		if ( ! isset( $aElementKey[ 1 ] ) ) return 'ERROR_B: the sub element is not set.';
-		$sKey = $aElementKey[ 1 ];		
-		if ( isset( $aPostImport[ $sElementKey ][ $sFieldID ][ $sKey ] ) )
-			return $aPostImport[ $sElementKey ][ $sFieldID ][ $sKey ];
-
-		// Something wrong happened.
-		return 'ERROR_C: unexpected problem occurred.';
+		
+		return isset( $aFielsImport[ $sInputID ][ $sElementKey ] )
+			? $aFielsImport[ $sInputID ][ $sElementKey ]
+			: null;
 		
 	}	
 		
 	public function getError() {
 		
-		return $this->getElementInFilesArray( $this->aFilesImport, $this->aElementKey, 'error' );
+		return $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'error' );
 		
 	}
 	public function getType() {
 		
-		return $this->getElementInFilesArray( $this->aFilesImport, $this->aElementKey, 'type' );
+		return $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'type' );
 		
 	}
 	public function getImportData() {
 		
 		// Retrieve the uploaded file path.
-		$sFilePath = $this->getElementInFilesArray( $this->aFilesImport, $this->aElementKey, 'tmp_name' );
+		$sFilePath = $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'tmp_name' );
 		
 		// Read the file contents.
 		$vData = file_exists( $sFilePath ) ? file_get_contents( $sFilePath, true ) : false;
@@ -109,7 +93,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 					
 		$this->sFormatType = isset( $this->sFormatType ) && $this->sFormatType 
 			? $this->sFormatType
-			: $this->getElement( $this->aPostImport, $this->aElementKey, 'format' );
+			: $this->getElement( $this->aPost, $this->sInputID, 'format' );
 
 		return $this->sFormatType;
 		
@@ -122,7 +106,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 	 */
 	public function getSiblingValue( $sKey ) {
 		
-		return $this->getElement( $this->aPostImport, $this->aElementKey, $sKey );
+		return $this->getElement( $this->aPost, $this->sInputID, $sKey );
 		
 	}
 	

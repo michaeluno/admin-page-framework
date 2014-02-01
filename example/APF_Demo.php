@@ -1866,7 +1866,8 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'exports',		
 				'title'	=>	__( 'Custom Exporting Data', 'admin-page-framework-demo' ),
 				'type'	=>	'export',
-				'data'	=>	__( 'Hello World!', 'admin-page-framework-demo' ),
+				'data'	=>	__( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
+				'file_name' => 'hello_world.txt',
 				'label'	=>	__( 'Export Custom Data', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> key in the field definition array.', 'admin-page-framework-demo' ),	
 			),
@@ -1975,7 +1976,7 @@ class APF_Demo extends AdminPageFramework {
 	 * Import and Export Callbacks
 	 * */
 	public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export section id}_{export field id}
-			
+AdminPageFramework_Debug::logArray( func_get_args() );	
 		// Change the exporting file name based on the selected format type in the other field.
 		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
 			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] 
@@ -1996,7 +1997,7 @@ class APF_Demo extends AdminPageFramework {
 		
 	}
 	public function export_format_APF_Demo_exports_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export section id}_{export field id}
-		
+
 		// Set the internal formatting type based on the selected format type in the other field.
 		return isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] ) 
 			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type']

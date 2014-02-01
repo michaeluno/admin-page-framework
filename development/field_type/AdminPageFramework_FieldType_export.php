@@ -56,15 +56,11 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	public function _replyToGetField( $aField ) {
 			
 		/* Set the transient data to export - If the value is not an array and the export data is set. */
-		if ( isset( $aField['data'] ) ) {
-			$sTransient = $aField['_is_multiple_fields']
-				? md5( "{$aField['class_name']}_{$aField['field_id']}_{$aField['_index']}" )
-				: md5( "{$aField['class_name']}_{$aField['field_id']}" );
-			set_transient( $sTransient, $aField['data'], 60*2 );	// 2 minutes.
-		}
+		if ( isset( $aField['data'] ) ) 
+			set_transient( md5( "{$aField['class_name']}_{$aField['input_id']}" ), $aField['data'], 60*2 );	// 2 minutes.
 		
 		/* Set some required values */
-		$aField['attributes']['name'] = "__export[submit][{$aField['field_id']}]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]" : '' );
+		$aField['attributes']['name'] = "__export[submit][{$aField['input_id']}]";
 		$aField['file_name'] = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
 		$aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'export' );
 		
@@ -78,32 +74,45 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	 */
 	protected function _getExtraInputFields( &$aField ) {
 
+		$_aAttributes = array( 'type' => 'hidden' );
 		return
-			"<input type='hidden' "
-				. "name='__export[{$aField['field_id']}][input_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
-				. "value='{$aField['input_id']}' "
-			. "/>"
-			. "<input type='hidden' "
-				. "name='__export[{$aField['field_id']}][field_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
-				. "value='{$aField['field_id']}' "
-			. "/>"
-			. "<input type='hidden' "
-				. "name='__export[{$aField['field_id']}][section_id]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
-				. "value='" . ( isset( $aField['section_id'] ) ? $aField['section_id'] : '' ). "' "
-			. "/>"								
-			. "<input type='hidden' "
-				. "name='__export[{$aField['field_id']}][file_name]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
-				. "value='{$aField['file_name']}' " 
-			. "/>"
-			. "<input type='hidden' "
-				. "name='__export[{$aField['field_id']}][format]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
-				. "value='{$aField['format']}' "
-			. "/>"				
-			. "<input type='hidden' "
-				. "name='__export[{$aField['field_id']}][transient]" . ( $aField['_is_multiple_fields'] ? "[{$aField['_index']}]' " : "' " )
-				. "value='" . ( isset( $aField['data'] ) ) . "'"
-			. "/>";
-					
+			"<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__export[{$aField['input_id']}][input_id]",
+					'value'	=>	$aField['input_id'],
+				) + $_aAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__export[{$aField['input_id']}][field_id]",
+					'value'	=>	$aField['field_id'],
+				) + $_aAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__export[{$aField['input_id']}][section_id]",
+					'value'	=>	isset( $aField['section_id'] ) ? $aField['section_id'] : '',
+				) + $_aAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__export[{$aField['input_id']}][file_name]",
+					'value'	=>	$aField['file_name'],
+				) + $_aAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__export[{$aField['input_id']}][format]",
+					'value'	=>	$aField['format'],
+				) + $_aAttributes
+			) . "/>"
+			. "<input " . $this->generateAttributes( 
+				array(
+					'name'	=>	"__export[{$aField['input_id']}][transient]",
+					'value'	=>	isset( $aField['data'] ),
+				) + $_aAttributes
+			) . "/>"
+			;
 	}
 			
 		/**
