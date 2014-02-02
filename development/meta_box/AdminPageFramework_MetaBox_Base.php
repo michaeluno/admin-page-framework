@@ -185,18 +185,33 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$sOut = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Begin the field table and loop
-		$sOut .= '<table class="form-table">';
+// $sOut .= '<table class="form-table">';
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
 		$this->setOptionArray( $iPostID, $vArgs['args'] );
 
-		foreach ( ( array ) $vArgs['args'] as $aField ) {
+		// Format the fields array.
+		$aFields = ( array ) $vArgs['args'];
+		foreach ( $aFields as $sFieldID => &$aField ) {
+			
+			$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
+			
+			// Check capability. If the access level is not sufficient, skip.
+			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
+			if ( ! current_user_can( $aField['capability'] ) ) 
+				unset( $aFields[ $sFieldID ] );
+				
+		}
+		$oFieldsTable = new AdminPageFramework_FieldsTable;
+		$sOut .= $oFieldsTable->getFieldsTable( $aFields, array( $this, 'replytToGetFieldOutput' ) );
+		
+/* 		foreach ( ( array ) $vArgs['args'] as $aField ) {
 			
 			// Avoid undefined index warnings
 			$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 			
 			// Check capability. If the access level is not sufficient, skip.
 			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
-			if ( ! current_user_can( $aField['capability'] ) ) continue; 			
+			if ( ! current_user_can( $aField['capability'] ) ) continue;
 		
 			// Begin a table row. 
 			$sOut .= "<tr>";
@@ -216,7 +231,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			$sOut .= "</tr>";
 			
 		} // end foreach
-		$sOut .= '</table>'; // end table
+		$sOut .= '</table>'; // end table */
 		
 		/* Filter the output */
 		$sOut = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, $sOut );
@@ -256,7 +271,11 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 		// For page meta boxes, do nothing as the class will retrieve the option array by itself.
 		
-	}	
+	}
+
+	public function replytToGetFieldOutput( $aField ) {
+		return $this->getFieldOutput( $aField );
+	}
 	protected function getFieldOutput( $aField ) {
 
 		// Set the input field name which becomes the option key of the custom meta field of the post.

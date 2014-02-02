@@ -280,55 +280,34 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 		/* Set the option property array */
 		$this->setOptionArray( $iTermID, $this->oProp->sOptionKey );
-
-		foreach ( $this->oProp->aFields as $aField ) {
+		
+		/* Format the fields arrays */
+		$aFields = ( array ) $this->oProp->aFields;
+		foreach ( $aFields as $sFieldID => &$aField ) {
 			
 			// Avoid undefined index warnings
-			$aField = array( '_field_type' => 'taxonomy' ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
+			$aField = array( '_field_type' => 'taxonomy' ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;			
 			
 			// Check capability. If the access level is not sufficient, skip.
 			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
-			if ( ! current_user_can( $aField['capability'] ) ) continue; 			
-
-			// If a custom condition is set and it's not true, skip.
-			if ( ! $aField['if'] ) continue;
-		
-			if ( $bRenderTableRow ) :
-				$aOutput[] = "<tr>";	// Begin a table row. 
-					if ( $aField['show_title_column'] )
-						$aOutput[] = 
-							"<th>"
-								."<label for='{$aField['field_id']}'>"
-									. "<a id='{$aField['field_id']}'></a>"
-										. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
-											. $aField['title'] 
-										. "</span>"
-								. "</label>"
-							. "</th>";		
-					$aOutput[] = "<td>";
-						$aOutput[] = $this->getFieldOutput( $aField );
-					$aOutput[] = "</td>";
-				$aOutput[] = "</tr>";
-			else :				
-				if ( $aField['show_title_column'] )
-					$aOutput[] = 
-						"<label for='{$aField['field_id']}'>"
-							. "<a id='{$aField['field_id']}'></a>"
-								. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
-									. $aField['title'] 
-								. "</span>"
-						. "</label>";					
-				$aOutput[] = $this->getFieldOutput( $aField );
-			endif;
-
+			if ( ! current_user_can( $aField['capability'] ) ) unset( $aFields[ $sFieldID ] );
 			
-		} // end foreach
+			// Check a custom condition.
+			if ( ! $aField['if'] )  unset( $aFields[ $sFieldID ] );
+			
+		}
 		
+		/* Get the field outputs */
+		$oFieldsTable = new AdminPageFramework_FieldsTable;
+		$aOutput[] = $bRenderTableRow 
+			? $oFieldsTable->getFieldRows( $aFields, array( $this, 'replytToGetFieldOutput' ) )
+			: $oFieldsTable->getFields( $aFields, array( $this, 'replytToGetFieldOutput' ) );
+				
 		/* Filter the output */
 		$sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
 		
 		/* Do action */
-		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
+		// $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
 			
 		return $sOutput;	
 	
