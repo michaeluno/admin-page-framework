@@ -90,8 +90,11 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 			vertical-align: 0px;			
 		}
 		.admin-page-framework-field-size label {
-			width: auto;
+			width: auto;			
 		} 
+		.form-table td fieldset .admin-page-framework-field-size label {
+			display: inline;
+		}
 		" . PHP_EOL;
 	}
 	
