@@ -1169,51 +1169,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				
 			}
 	
-	/**
-	 * Renders the registered setting fields.
-	 * 
-	 * @internal
-	 * @since			2.0.0
-	 * @remark			the protected scope is used because it's called from an extended class.
-	 * @deprecated		It's not assumed that a multiple same field IDs will be used.
-	 * @return			void
-	 */ 
-	protected function _renderSettingField( $sFieldID, $sPageSlug ) {
-			
-		// If the specified field does not exist, do nothing.
-		$aField = array();
-		foreach( $this->oProp->aFields as $sSectionID => $_aFields  ) {
-			if ( array_key_exists( $sFieldID, $_aFields ) ) {
-				$aField = $_aFIelds[ $sFieldID ];
-				break;
-			}
-		}
-		if ( empty( $aField ) ) return;	// the field not found.
-		
-		// Retrieve the field error array.
-		$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
-
-		// Render the form field. 		
-		$sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
-			? $aField['type']
-			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
-
-		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
-		$sFieldOutput = $oField->_getInputFieldOutput();	// field output
-		unset( $oField );	// release the object for PHP 5.2.x or below.
-
-		echo $this->oUtil->addAndApplyFilters(
-			$this,
-			array( 
-				isset( $aField['section_id'] ) 
-					? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $sFieldID
-					: 'field_' . $this->oProp->sClassName . '_' . $sFieldID,
-			),
-			$sFieldOutput,
-			$aField // the field array
-		);
-	
-	}
 	
 	/**
 	 * Retrieves the settings error array set by the user in the validation callback.
@@ -1236,32 +1191,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		return $aFieldErrors;
 
 	}
-	
-	/**
-	 * Renders the filtered section description.
-	 * 
-	 * @internal
-	 * @since			2.0.0
-	 * @remark			the protected scope is used because it's called from an extended class.
-	 * @remark			This is the redirected callback for the section description method from __call().
-	 * @return			void
-	 * @deprecated
-	 */ 	
-	protected function _renderSectionDescription( $sMethodName ) {		
-
-		$sSectionID = substr( $sMethodName, strlen( 'section_pre_' ) );	// X will be the section ID in section_pre_X
 		
-		if ( ! isset( $this->oProp->aSections[ $sSectionID ] ) ) return;	// if it is not added
-		
-		echo $this->oUtil->addAndApplyFilters(
-			$this,
-			array( 'section_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_ + {extended class name} + _ {section id}
-			'<p>' . $this->oProp->aSections[ $sSectionID ]['description'] . '</p>',	 // the p-tagged description string
-			$this->oProp->aSections[ $sSectionID ]['description']	// the original description
-		);		
-			
-	}
-	
 	/**
 	 * Check if a redirect transient is set and if so it redirects to the set page.
 	 * 
