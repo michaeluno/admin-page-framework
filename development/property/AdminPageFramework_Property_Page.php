@@ -314,14 +314,18 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public function getDefaultOptions() {
 		
 		$_aDefaultOptions = array();
-		foreach( $this->aFields as $_sFieldID => $_aFields ) 	{
+		foreach( $this->aFields as $_sSectionID => $_aFields  ) {
 			
-			$_vDefault = $this->_getDefautValue( $_aFields );
-			
-			if ( isset( $_aField['section_id'] ) && $_aField['section_id'] )
-				$_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
-			else
-				$_aDefaultOptions[ $_sFieldID ] = $_vDefault;
+			foreach( $_aFields as $_sFieldID => $_aField ) {
+				
+				$_vDefault = $this->_getDefautValue( $_aField );
+				
+				if ( isset( $_aField['section_id'] ) && $_aField['section_id'] )
+					$_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
+				else
+					$_aDefaultOptions[ $_sFieldID ] = $_vDefault;
+					
+			}
 				
 		}				
 		
@@ -335,14 +339,14 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		 * 
 		 * @since			3.0.0
 		 */
-		private function _getDefautValue( $aFields ) {
+		private function _getDefautValue( $aField ) {
 			
 			// Check if sub-fields exist whose keys are numeric
-			$_aSubFields = AdminPageFramework_Utility::getNumericElements( $aFields );
+			$_aSubFields = AdminPageFramework_Utility::getNumericElements( $aField );
 			
 			// If there are no sub-fields				
 			if ( count( $_aSubFields ) == 0 ) {
-				$_aField = $aFields;
+				$_aField = $aField;
 				return isset( $_aField['value'] )
 					? $_aField['value']
 					: ( isset( $_aField['default'] )
@@ -353,7 +357,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 			
 			// Otherwise, there are sub-fields
 			$_aDefault = array();
-			array_unshift( $_aSubFields, $aFields );	// insert the main field into the very first index.
+			array_unshift( $_aSubFields, $aField );	// insert the main field into the very first index.
 			foreach( $_aSubFields as $_iIndex => $_aField ) 
 				$_aDefault[ $_iIndex ] = isset( $_aField['value'] )
 					? $_aField['value']
