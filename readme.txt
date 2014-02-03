@@ -3,8 +3,8 @@ Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, options framework, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.3
-Tested up to: 3.8
-Stable tag: 2.1.6
+Tested up to: 3.8.1
+Stable tag: 2.1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ It provides plugin and theme developers with easier means of creating option pag
 = Features =
 * **Root Page, Sub Pages, and Tabs** - it allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
 * **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
-* **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
+* **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Color Picker** - it lets the user easily pick colors.
 * **Rich Text Editor** - supports the rich text editor form input.
@@ -29,6 +29,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 * **Custom Post Types** - the framework provides methods to create custom post types.
 * **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
+* **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
 * **Contextual Help Tabs** - the contextual help pane can be easily added. 
 * **Custom Field Types** - your own field type can be registered. 
 
@@ -65,7 +66,7 @@ You can include your own custom field types when they are necessary. This enable
 * **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
-Visit [Admin Page Framework Documentation](http://admin-page-framework.michaeluno.jp/en/v2/).
+The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
 
 = Tutorials = 
 * [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials/)
@@ -118,6 +119,10 @@ You need to include the library file in your PHP script. The file is located in 
 }`
 
 <h5><strong>Step 5</strong> - Instantiate the Class</h5>
+
+`new APF;`
+
+<h5><strong>Example Code</strong> - Getting Started</h5>
 
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
@@ -235,6 +240,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the `fields_{instantiated class name}_{section id}` filter that receives registered field definition arrays which belong to the given section.
 * Added: the `grid` custom field type.
 * Added: the documentation pages in the distribution package.
 * Added: an example to add a thumbnail to the taxonomy term listing table in the demo plugin.
@@ -263,9 +269,11 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the ability to set tag attributes on field tags on an individual basis in the `select`, `radio`, and `checkbox` field types.
 * Added: the ability to set tag attributes with the `attributes` key by passing an array with the key of the attribute name and the value of the property value for input fields.
 * Added: the ability to mix field types in sub-fields.
+* Added: the `hidden` key to the field definition array of pages that hides the field output.
+* Added: the `show_title_column` key to the field definition array of pages.
 * Added: the `after_fields` and the `before_fields` keys to the field definition array.
-* Changed: ( ***Breaking Change*** ) the structure of field definition arrays which define how the field should be rendered.
-* Changed: ( ***Breaking Change*** ) dropped the page slug and the section dimensions from the saved option array structure.
+* Changed: ( ***Breaking Change*** ) the structure of field definition arrays.
+* Changed: ( ***Breaking Change*** ) dropped the page slug dimensions from the saved option array structure.
 * Fixed: a bug that page load info in the footer area was not embedded when multiple root pages are created.
 * Moved: the method to retrieve library data into the property base class and they will be stored as static properties.
 * Changed: ( ***Breaking Change*** ) the name of the `showInPageTabs()` method to `setInPageTabsVisibility()`.

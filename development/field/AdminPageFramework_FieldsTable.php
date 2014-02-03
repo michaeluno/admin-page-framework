@@ -65,7 +65,14 @@ class AdminPageFramework_FieldsTable {
 		protected function getFieldRow( &$aField, $hfCallback ) {
 			
 			$aOutput = array();
-			$aOutput[] = "<tr valign='top'>";
+			$_sAttributes = $this->getAttributes( 
+				$aField,
+				array( 
+					'id' => 'fieldrow-' . AdminPageFramework_InputField::_getInputTagID( $aField ),
+					'valign' => 'top',
+				)
+			);
+			$aOutput[] = "<tr {$_sAttributes}>";
 				if ( $aField['show_title_column'] )
 					$aOutput[] = "<th>" . $this->getFieldTitle( $aField ) . "</th>";
 				$aOutput[] = "<td>" . call_user_func_array( $hfCallback, array( $aField ) ) . "</td>";
@@ -97,13 +104,30 @@ class AdminPageFramework_FieldsTable {
 		protected function getField( &$aField, $hfCallback )  {
 			
 			$aOutput = array();
+			$aOutput[] = "<div " . $this->getAttributes( $aField ) . ">";
 			if ( $aField['show_title_column'] )
 				$aOutput[] = $this->getFieldTitle( $aField );
 			$aOutput[] = call_user_func_array( $hfCallback, array( $aField ) );
+			$aOutput[] = "</div>";
 			return implode( PHP_EOL, $aOutput );		
 			
 		}
 	
+		/**
+		 * Generates attributes of the field container tag.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getAttributes( &$aField, $aAttributes=array() ) {
+			
+			$_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() );
+			
+			if ( $aField['hidden'] )	// Prepend the visibility CSS property.
+				$_aAttributes['style'] = 'display:none;' . ( isset( $_aAttributes['style'] ) ? $_aAttributes['style'] : '' );
+			
+			return AdminPageFramework_WPUtility::generateAttributes( $_aAttributes );
+			
+		}
 		
 		/**
 		 * Returns the title part of the field output.

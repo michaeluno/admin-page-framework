@@ -71,6 +71,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
 		'_field_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
 		'show_title_column' => true,		// since 3.0.0
+		'hidden'			=> null,		// since 3.0.0
 	);	
 	
 	/**
@@ -315,8 +316,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* @access 			public
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-	* @param			array			the field array.
-	* <h4>Field Array</h4>
+	* @param			array			the field definition array.
+	* <h4>Field Definition Array</h4>
 	* <ul>
 	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
 	* 	<li><strong>section_id</strong> - ( required, string ) the section ID that the field belongs to.</li>
@@ -377,7 +378,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 				Default: <em>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</em>
 	* 			</li>
 	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-	* 			<li><strong>attributes</strong> - ( optional, array ) The attributes array of this field type has four initial keys: size, unit, optgroup, and option and they have a regular attribute array in each.</li>
+	* 			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes array of this field type has four initial keys: size, unit, optgroup, and option and they have a regular attribute array in each.</li>
 	* 		</ul>
 	*	</li>
 	* 	<li><strong>hidden</strong> - a hidden input field.</li>
@@ -408,7 +409,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	* 			<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to false, the image preview will be disabled.</li>
 	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store' => array( 'id', 'caption', 'description' )</em></li>
 	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
-	* 			<li><strong>attributes</strong> - ( optional, array ) The attributes array of this field type has three keys: input, button, and preview and they have a regular attribute array in each.</li>
+	* 			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes array of this field type has three keys: input, button, and preview and they have a regular attribute array in each.</li>
 	* 		</ul>
 	* 	</li>
 	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.

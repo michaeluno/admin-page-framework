@@ -1700,18 +1700,14 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'revealer',
 				'type'	=>	'textarea',		
 				'default'	=>	__( 'Hi there!', 'admin-page-framework-demo' ),
-				'after_fields'	=>	"<script type='text/javascript'>
-					jQuery( '#fieldset-revealer_revealer_field_option_a' ).closest( 'tr' ).hide();	// fieldset-{section id}_{field_id}
-				</script>",	// this script will hide the table row containing the field right away, 
+				'hidden'	=> true,
 			),
 			array(
 				'field_id'	=>	'revealer_field_option_b',				
 				'section_id'	=>	'revealer',
 				'type'	=>	'password',		
 				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
-				'after_fields'	=>	"<script type='text/javascript'>
-					jQuery( '#fieldset-revealer_revealer_field_option_b' ).closest( 'tr' ).hide();
-				</script>", // this script will hide the table row containing the field right away,
+				'hidden'	=> true,
 			),
 			array(
 				'field_id'	=>	'grid_field',				

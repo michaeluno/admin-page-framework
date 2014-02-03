@@ -174,6 +174,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 
 		'repeatable'		=> null,	// since 2.1.3		
 		'sortable'			=> null,	// since 3.0.0
+		'hidden'			=> null,	// since 3.0.0 - if true, it hides the field row.
 	);
 	
 	function __construct( $oCaller, $sClassName, $sCapability ) {

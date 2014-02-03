@@ -30,9 +30,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		/* 
 		 * 1-1. Set up the 'attributes' array - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
-		 * There are required keys in the attributes array: 'fieldset', 'fields', and 'field'; these should not be removed here.
+		 * There are required keys in the attributes array: 'fieldrow', 'fieldset', 'fields', and 'field'; these should not be removed here.
 		 */
 		$aFieldTypeDefinition['aDefaultKeys']['attributes'] = array(	
+			'fieldrow'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'],
 			'fieldset'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'],
 			'fields'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'],
 			'field'	=>	$aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],
@@ -190,8 +191,10 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	
 	/**
 	 * Returns the tag ID.
+	 * 
+	 * @remark			This is called from the fields table class to insert the row id.
 	 */
-	private function _getInputTagID( $aField )  {
+	static public function _getInputTagID( &$aField )  {
 				
 		return isset( $aField['section_id'] )
 			? $aField['section_id'] . '_' . $aField['field_id']
@@ -313,7 +316,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		) + $this->aField['attributes']['fields'];
 		return 
 			"<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
-				. $this->_getTableRowIDSetterScript( $this->aField['tag_id'] )	// this needs to be done before each field output gets rendered.
 				. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
 					. $this->aField['before_fields'] 
 					. implode( PHP_EOL, $aFieldsOutput )
@@ -955,16 +957,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				});
 			</script>";
 	}
-	
-	/**
-	 * Sets ids to the table rows containing form fields.
-	 * @since			3.0.0
-	 */
-	private function _getTableRowIDSetterScript( $sTagID ) {
-		return "<script type='text/javascript' class='admin-page-framework-table-row-id-setter-script'>
-			jQuery( '#fieldset-{$sTagID}' ).closest( 'tr' ).attr( 'id', 'fieldrow-{$sTagID}' );
-		</script>";
-	}
-	
+		
 }
 endif;

@@ -66,6 +66,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 			'class'				=> '',
 			
 			/* Component Attributes */
+			'fieldrow'	=> array(),	// attributes applied to the field group container row tag that holds all the field components including descriptions and scripts and the title.
 			'fieldset'	=> array(),	// attributes applied to the field group container tag that holds all the field components including descriptions and scripts.
 			'fields'	=>	array(),	// attributes applied to the fields container tag that holds all sub-fields.
 			'field'	=>	array(),	// attributes applied to each field container tag.

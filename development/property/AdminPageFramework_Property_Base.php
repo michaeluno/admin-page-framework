@@ -311,8 +311,7 @@ display: block;
 		/* To give the footer area more space */
 		#wpbody-content {
 			padding-bottom: 140px;
-		}
-		";	
+		}";	
 		
 	/**
 	 * The default CSS rules for IE loaded in the head tag of the created admin pages.
