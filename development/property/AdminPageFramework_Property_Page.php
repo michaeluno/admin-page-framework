@@ -218,6 +218,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public $aDisallowedQueryKeys	= array( 'settings-updated' );
 	
 	/**
+	 * Stores form elements such as sections and fields
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aForm = array();
+	
+	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 
 	 * @remark			Used by the setInPageTabsVisibility() method.

@@ -172,7 +172,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		if ( $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 				
-		$this->oProp->aFields[ $aField['field_id'] ] = $aField;
+		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
 	
 	}
 	
@@ -281,19 +281,30 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		/* Set the option property array */
 		$this->setOptionArray( $iTermID, $this->oProp->sOptionKey );
 		
-		/* Format the fields arrays */
-		$aFields = ( array ) $this->oProp->aFields;
-		foreach ( $aFields as $sFieldID => &$aField ) {
+		/* Format the fields arrays - taxonomy fields do not support sections */
+		$aFields = array();
+		foreach ( ( array ) $this->oProp->aFields as $_sSectionID => $_aFields ) {
 			
-			// Avoid undefined index warnings
-			$aField = array( '_field_type' => 'taxonomy' ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;			
+			// Drop the section dimension
+			foreach( $_aFields as $_sFieldID => $aField ) {
+				
+				// Avoid undefined index warnings
+				$aField = $this->oUtil->uniteArrays(
+					array( '_field_type' => 'taxonomy' ),
+					$aField,
+					array( 'capability' => $this->oProp->sCapability ),
+					AdminPageFramework_Property_MetaBox::$_aStructure_Field
+				);		// avoid undefined index warnings.
+					
+				// Check capability. If the access level is not sufficient, skip.
+				if ( ! current_user_can( $aField['capability'] ) ) continue;
+				
+				// Check a custom condition.
+				if ( ! $aField['if'] )  continue;
+				
+				$aFields[ $aField['field_id'] ] = $aField;	// no need to set the section dimension.
+			}
 			
-			// Check capability. If the access level is not sufficient, skip.
-			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
-			if ( ! current_user_can( $aField['capability'] ) ) unset( $aFields[ $sFieldID ] );
-			
-			// Check a custom condition.
-			if ( ! $aField['if'] )  unset( $aFields[ $sFieldID ] );
 			
 		}
 		
@@ -326,9 +337,11 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$aTaxonomyFieldOptions = get_option( $this->oProp->sOptionKey, array() );
 		$aOldOptions = isset( $aTaxonomyFieldOptions[ $iTermID ] ) ? $aTaxonomyFieldOptions[ $iTermID ] : array();
 		$aSubmittedOptions = array();
-		foreach( array_keys( $this->oProp->aFields ) as $sFieldID ) 
-			if ( isset( $_POST[ $sFieldID ] ) ) $aSubmittedOptions[ $sFieldID ] = $_POST[ $sFieldID ];
-
+		foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) 
+			foreach( $_aFields as $_sFieldID => $_aField ) 
+				if ( isset( $_POST[ $_sFieldID ] ) ) 
+					$aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];
+			
 		/* Apply validation filters to the submitted option array. */
 		$aSubmittedOptions = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions );
 		

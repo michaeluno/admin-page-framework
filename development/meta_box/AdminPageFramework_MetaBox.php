@@ -224,7 +224,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) && $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 				
-		$this->oProp->aFields[ $aField['field_id'] ] = $aField;
+		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
 	
 	}
 	

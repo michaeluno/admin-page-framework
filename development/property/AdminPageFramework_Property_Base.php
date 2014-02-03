@@ -161,6 +161,7 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-content {
 			margin-bottom: 1.48em;		
 			display: inline-table;	/* Fixes the bottom margin gets placed at the top. */
+display: block;
 			width: 100%;	/* This allows float:right elements to go to the very right end of the page. */
 		}
 		

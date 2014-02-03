@@ -16,10 +16,12 @@ abstract class AdminPageFramework_Utility {
 	 * @access			public
 	 * @since			2.0.0
 	 * @remark			it must be public 
-	 * @return			string			The sanitized string.
+	 * @return			string|null			The sanitized string.
 	 */ 
 	public static function sanitizeSlug( $sSlug ) {
-		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff]/', '_', trim( $sSlug ) );
+		return is_null( $sSlug )
+			? null
+			: preg_replace( '/[^a-zA-Z0-9_\x7f-\xff]/', '_', trim( $sSlug ) );
 	}	
 	
 	/**
@@ -31,7 +33,9 @@ abstract class AdminPageFramework_Utility {
 	 * @return			string			The sanitized string.
 	 */ 
 	public static function sanitizeString( $sString ) {
-		return preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $sString );
+		return is_null( $sString )
+			? null
+			: preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $sString );
 	}	
 	
 	/**

@@ -70,6 +70,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'sortable'			=> null,		// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
 		'_field_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
+		'show_title_column' => true,		// since 3.0.0
 	);	
 	
 	/**
@@ -233,7 +234,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
 		
 		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
-
+		
 	}
 	
 	/**
@@ -459,13 +460,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
 		$aField = $this->oUtil->uniteArrays( $asField, self::$_aStructure_Field, array( 'section_id' => $__sTargetSectionID ) );
-		if ( ! isset( $aField['field_id'], $aField['section_id'], $aField['type'] ) ) return;	// Check the required keys as these keys are necessary.
+		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// Check the required keys as these keys are necessary.
 			
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
 		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
-										
-		$this->oProp->aFields[ $aField['field_id'] ] = $aField;		
+						
+		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;		
 		
 	}	
 	
@@ -490,9 +491,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	*/	
 	public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
 				
-		foreach( func_get_args() as $sFieldID ) 
-			if ( isset( $this->oProp->aFields[ $sFieldID ] ) )
-				unset( $this->oProp->aFields[ $sFieldID ] );
+		foreach( func_get_args() as $_sFieldID ) 
+			foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) 
+				if ( array_key_exists( $_sFieldID, $_aFields ) )
+					unset( $this->oProp->aFields[ $_sSectionID ][ $_sFieldID ] );
 
 	}	
 			
@@ -743,14 +745,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				
 				$aNameKeys = explode( '|', $aSubElements[ 'name' ] );		// the 'name' key must be set.
 				
-				// Count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
+				// The count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
 				// The isset() checks if the associated button is actually pressed or not.
 				if ( count( $aNameKeys ) == 2 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ] ) )
-					return $aSubElements[ $sTargetKey ];
+					return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
 				if ( count( $aNameKeys ) == 3 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ] ) )
-					return $aSubElements[ $sTargetKey ];
+					return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
 				if ( count( $aNameKeys ) == 4 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ] ) )
-					return $aSubElements[ $sTargetKey ];
+					return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
 					
 			}
 			
@@ -907,7 +909,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$vData,
 				$sPressedFieldID,
 				$sPressedInputID
-			);	// export_{$sPageSlug}_{$sTabSlug}, export_{$sPageSlug}, export_{$sClassName}_{pressed input id}, export_{$sClassName}_{pressed field id}, export_{$sClassName}	
+			);	
 			
 			$sFileName = $this->oUtil->addAndApplyFilters(
 				$this,
@@ -922,7 +924,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$oExport->getFileName(),
 				$sPressedFieldID,
 				$sPressedInputID
-			);	// export_name_{$sPageSlug}_{$sTabSlug}, export_name_{$sPageSlug}, export_name_{$sClassName}_{pressed input id}, export_name_{$sClassName}_{pressed field id}, export_name_{$sClassName}	
+			);	
 			
 			$sFormatType = $this->oUtil->addAndApplyFilters(
 				$this,
@@ -937,14 +939,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$oExport->getFormat(),
 				$sPressedFieldID,
 				$sPressedInputID
-			);	// export_format_{$sPageSlug}_{$sTabSlug}, export_format_{$sPageSlug}, export_format_{$sClassName}_{pressed input id}, export_format_{$sClassName}_{pressed field id}, export_format_{$sClassName}	
+			);	
 			$oExport->doExport( $vData, $sFileName, $sFormatType );
 			exit;
 			
 		}
 	
 		/**
-		 * Apples validation filters to the submitted input data.
+		 * Applies validation filters to the submitted input data.
 		 * 
 		 * @since			2.0.0
 		 * @since			2.1.5			Added the $sPressedFieldID and $sPressedInputID parameters.
@@ -1001,14 +1003,21 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				// If the section ID is not registered, return false.
 				if ( ! array_key_exists( $sID, $this->oProp->aSections ) ) return false;
 				
-				// If the given ID does not match the field ID, 
 				if ( ! array_key_exists( $sID, $this->oProp->aFields ) ) return true;
+				
+				foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) {
+						
+					foreach( $_aFields as $aField ) {
+						
+						// If the given ID matches a field ID, return false,
+						if ( $aField['field_id'] == $sID ) return false;
+						
+						// If the field has a section
+						if ( isset( $aField['section_id'] ) && $aField['section_id'] == $sID ) return true;
+						
+					}
 					
-				// If the field ID has a section.
-				if ( isset( $this->oProp->aFields[ $sID ]['section_id'] ) && $this->oProp->aFields[ $sID ]['section_id'] ) 
-					return $this->oProp->aFields[ $sID ]['section_id'] == $sID 
-						? true
-						: false;
+				}
 				
 				// Otherwise, false.
 				return false;
@@ -1023,22 +1032,26 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				
 				$_aStoredOptionsOfTheTab = array();
 				if ( ! $sTabSlug ) return $_aStoredOptionsOfTheTab;
-				foreach( $this->oProp->aFields as $_aField ) {
+				foreach( $this->oProp->aFields as $_sSectionID => $_aFields  ) {
 					
-					if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-					if ( $_aField['page_slug'] != $sPageSlug ) continue;
-					if ( $_aField['tab_slug'] != $sTabSlug ) continue;
-					
-					// if a section is set,
-					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
-						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-							$_aStoredOptionsOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-						continue;
+					foreach( $_aFields as $_aField ) {
+						
+						if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
+						if ( $_aField['page_slug'] != $sPageSlug ) continue;
+						if ( $_aField['tab_slug'] != $sTabSlug ) continue;
+						
+						// if a section is set,
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+								$_aStoredOptionsOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+							continue;
+						}
+						
+						// It does not have a section so set the field id as its key.
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+							
 					}
-					
-					// It does not have a section so set the field id as its key.
-					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-						$_aStoredOptionsOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
 				
 				}		
 				return $_aStoredOptionsOfTheTab;
@@ -1057,20 +1070,24 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			private function _getPageOptions( $aOptions, $sPageSlug ) {
 						
 				$_aStoredOptionsOfThePage = array();
-				foreach( $this->oProp->aFields as $_aField ) {
+				foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) {
 					
-					if ( ! isset( $_aField['page_slug'] ) || $_aField['page_slug'] != $sPageSlug ) continue;
+					foreach( $_aFields as $_aField ) {
 					
-					// If a section is set,
-					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
-						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-							$_aStoredOptionsOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-						continue;
+						if ( ! isset( $_aField['page_slug'] ) || $_aField['page_slug'] != $sPageSlug ) continue;
+						
+						// If a section is set,
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+								$_aStoredOptionsOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+							continue;
+						}
+						
+						// It does not have a section so set the field id as its key.
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+							
 					}
-					
-					// It does not have a section so set the field id as its key.
-					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-						$_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
 				
 				}
 				return $_aStoredOptionsOfThePage;
@@ -1091,21 +1108,25 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			private function _getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
 
 				$_aStoredOptionsNotOfTheTab = array();
-				foreach( $this->oProp->aFields as $_aField ) {
+				foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) {
 					
-					if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-					if ( $_aField['page_slug'] != $sPageSlug ) continue;
-					if ( $_aField['tab_slug'] == $sTabSlug ) continue;
-					
-					// If a section is set,
-					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
-						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-							$_aStoredOptionsNotOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-						continue;
+					foreach( $_aFields as $_aField ) {
+						
+						if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
+						if ( $_aField['page_slug'] != $sPageSlug ) continue;
+						if ( $_aField['tab_slug'] == $sTabSlug ) continue;
+						
+						// If a section is set,
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+								$_aStoredOptionsNotOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+							continue;
+						}
+						// It does not have a section
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+							
 					}
-					// It does not have a section
-					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-						$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
 					
 				}					
 				return $_aStoredOptionsNotOfTheTab;
@@ -1123,20 +1144,24 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			private function _getOtherPageOptions( $aOptions, $sPageSlug ) {
 
 				$_aStoredOptionsNotOfThePage = array();
-				foreach( $this->oProp->aFields as $_aField ) {
+				foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) {
 					
-					if ( ! isset( $_aField['page_slug'] ) ) continue;
-					if ( $_aField['page_slug'] == $sPageSlug ) continue;
-					
-					// If a section is set,
-					if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
-						if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-							$_aStoredOptionsNotOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-						continue;
+					foreach( $_aFields as $_aField ) {
+						
+						if ( ! isset( $_aField['page_slug'] ) ) continue;
+						if ( $_aField['page_slug'] == $sPageSlug ) continue;
+						
+						// If a section is set,
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+								$_aStoredOptionsNotOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+							continue;
+						}
+						// It does not have a section
+						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
+							$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
+							
 					}
-					// It does not have a section
-					if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-						$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
 
 				
 				}			
@@ -1150,13 +1175,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 * @since			2.0.0
 	 * @remark			the protected scope is used because it's called from an extended class.
+	 * @deprecated		It's not assumed that a multiple same field IDs will be used.
 	 * @return			void
 	 */ 
 	protected function _renderSettingField( $sFieldID, $sPageSlug ) {
 			
 		// If the specified field does not exist, do nothing.
-		if ( ! isset( $this->oProp->aFields[ $sFieldID ] ) ) return;	// if it is not added, return
-		$aField = $this->oProp->aFields[ $sFieldID ];
+		$aField = array();
+		foreach( $this->oProp->aFields as $sSectionID => $_aFields  ) {
+			if ( array_key_exists( $sFieldID, $_aFields ) ) {
+				$aField = $_aFIelds[ $sFieldID ];
+				break;
+			}
+		}
+		if ( empty( $aField ) ) return;	// the field not found.
 		
 		// Retrieve the field error array.
 		$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
@@ -1213,6 +1245,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @remark			the protected scope is used because it's called from an extended class.
 	 * @remark			This is the redirected callback for the section description method from __call().
 	 * @return			void
+	 * @deprecated
 	 */ 	
 	protected function _renderSectionDescription( $sMethodName ) {		
 
@@ -1283,9 +1316,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * */
 		$this->_formatSectionArrays( $this->oProp->aSections );	// passed by reference.
 		$this->_formatFieldArrays( $this->oProp->aFields, $this->oProp->aSections );	
+		
 		$_aSections = $this->_applyConditionsForSections( $this->oProp->aSections );
 		$_aFields = $this->_applyConditionsForFields( $this->oProp->aFields, $_aSections );
-
+		
+		$this->_composeFormArray( $_aSections, $_aFields );
+		
 		/* 2. If there is no section or field to add, do nothing. */
 		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $_aSections ) == 0 || count( $_aFields ) == 0 ) ) return;
 
@@ -1308,7 +1344,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				array( $this, 'section_pre_' . $aSection['section_id'] ), 		// callback function -  this will trigger the __call() magic method.
 				$aSection['page_slug']	// page
 			);
-			
+						
 			/* 4-2. For the contextual help pane */
 			if ( ! empty( $aSection['help'] ) )
 				$this->addHelpTab( 
@@ -1325,36 +1361,42 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		}
 		
 		/* 5. Register settings fields	*/
-		uasort( $_aFields, array( $this, '_sortByOrder' ) ); 
-		foreach( $_aFields as $aField ) {
-
-			/* 5-1. Add the given field. */
-			add_settings_field(
-				$aField['section_id'] . '_' . $aField['field_id'],
-				"<a id='{$aField['section_id']}_{$aField['field_id']}'></a><span title='{$aField['tip']}'>{$aField['title']}</span>",
-				array( $this, 'field_pre_' . $aField['field_id'] ),	// callback function - will trigger the __call() magic method.
-				$this->_getPageSlugBySectionID( $aField['section_id'] ), // page slug
-				$aField['section_id'],	// section
-				$aField['field_id']		// arguments - pass the field ID to the callback function
-			);	
-
-			/* 5-2. Set relevant scripts and styles for the input field. */
-			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+		foreach( $_aFields as $_sSectionID => $__aFields ) {
 			
-			/* 5-3. For the contextual help pane, */
-			if ( ! empty( $aField['help'] ) )
-				$this->addHelpTab( 
-					array(
-						'page_slug'					=> $aField['page_slug'],
-						'page_tab_slug'				=> $aField['tab_slug'],
-						'help_tab_title'			=> $aField['section_title'],
-						'help_tab_id'				=> $aField['section_id'],
-						'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
-														. $aField['help'],
-						'help_tab_sidebar_content'	=> $aField['help_aside'] ? $aField['help_aside'] : "",
-					)
-				);
-
+			uasort(  $__aFields, array( $this, '_sortByOrder' ) ); 
+			foreach( $__aFields as $aField ) {
+						
+				/* 5-1. Add the given field. */
+				$_sSectionID = $aField['section_id'] ? $aField['section_id'] : '_default';
+				add_settings_field(
+					$aField['section_id'] . '_' . $aField['field_id'],	// id
+					"<a id='{$aField['section_id']}_{$aField['field_id']}'></a><span title='{$aField['tip']}'>{$aField['title']}</span>",
+					array( $this, 'field_pre_' . $aField['field_id'] ),	// callback function - will trigger the __call() magic method.
+					$this->_getPageSlugBySectionID( $_sSectionID ), // page slug
+					$_sSectionID,	// section
+					$aField['field_id']		// arguments - pass the field ID to the callback function
+				);	
+				
+				/* 5-2. Set relevant scripts and styles for the input field. */
+				AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+				
+				/* 5-3. For the contextual help pane, */
+				if ( ! empty( $aField['help'] ) ) {
+					$this->addHelpTab( 
+						array(
+							'page_slug'					=> $aField['page_slug'],
+							'page_tab_slug'				=> $aField['tab_slug'],
+							'help_tab_title'			=> $aField['section_title'],
+							'help_tab_id'				=> $aField['section_id'],
+							'help_tab_content'			=> "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
+															. $aField['help'],
+							'help_tab_sidebar_content'	=> $aField['help_aside'] ? $aField['help_aside'] : "",
+						)
+					);
+				}
+				
+			}
+			
 		}
 		
 		/* 6. Register the settings. */
@@ -1366,6 +1408,24 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		); 
 		
 	}
+		/**
+		 * Sets up the oForm property array.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _composeFormArray( &$aSections, &$aFields ) {
+
+			foreach( $aSections as $aSection ) 
+				$this->oProp->aForm[ $aSection['page_slug'] ][ $aSection['section_id'] ] = array();
+			
+			foreach( $aFields as $_sSectionID => $_aFields ) {
+				foreach( $_aFields as $aField ) {					
+					$_sSectionID = isset( $aField['section_id'] ) ? $aField['section_id'] : '_default';
+					$this->oProp->aForm[ $this->_getPageSlugBySectionID( $_sSectionID ) ][ $_sSectionID ][ $aField['field_id'] ] = $aField;
+				}
+			}
+
+		}
 		/**
 		 * Retrieves the page slug that the settings section belongs to.		
 		 * 
@@ -1400,15 +1460,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 				if ( ! is_array( $aSection ) ) continue;
 			
-				$aSection = $aSection + self::$_aStructure_Section;	// avoid undefined index warnings.
+				$aSection = $this->oUtil->uniteArrays(
+					$aSection,
+					array( 'capability' => $this->oProp->sCapability ),
+					self::$_aStructure_Section	
+				);	// avoid undefined index warnings.
+				
+				// Check the mandatory keys' values.
+				$aSection['page_slug'] = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
+				if ( ! isset( $aSection['page_slug'] ) ) continue;	// these keys are necessary.
 				
 				// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 				$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
 				$aSection['page_slug'] = $this->oUtil->sanitizeSlug( $aSection['page_slug'] );
 				$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
-				
-				// Check the mandatory keys' values.
-				if ( ! isset( $aSection['section_id'], $aSection['page_slug'] ) ) continue;	// these keys are necessary.
 			
 				// Set the order.
 				$aSection['order']	= is_numeric( $aSection['order'] ) ? $aSection['order'] : count( $_aNewSectionArray ) + 10;
@@ -1440,11 +1505,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				if ( ! $this->_isSettingSectionOfCurrentTab( $_aSection ) )  continue;
 				
 				// If the access level is set and it is not sufficient, skip.
-				$_aSection['capability'] = isset( $_aSection['capability'] ) ? $_aSection['capability'] : $this->oProp->sCapability;
 				if ( ! current_user_can( $_aSection['capability'] ) ) continue;	// since 1.0.2.1
 			
 				// If a custom condition is set and it's not true, skip,
-				if ( $_aSection['if'] !== true ) continue;		
+				if ( ! $_aSection['if'] ) continue;		
 				
 				$_aNewSectionArray[ $_aSection['section_id'] ] = $_aSection;
 				
@@ -1494,41 +1558,59 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		private function _formatFieldArrays( &$aFields, &$aSections ) {
 			
 			// Apply filters to let other scripts to add fields.
+			foreach( $aFields as $_sSectionID => &$_aFields ) {
+				$_aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
+					$this,
+					"fields_{$this->oProp->sClassName}_{$_sSectionID}",
+					$_aFields
+				); 
+				unset( $_aFields );	// to be safe in PHP especially the same variable name is used in the scope.
+			}
 			$aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
 				$this,
 				"fields_{$this->oProp->sClassName}",
 				$aFields
 			); 
-			
+
 			// Apply the conditions to remove unnecessary elements and put new orders.
 			$_aNewFieldArrays = array();
-			foreach( $aFields as $_aField ) {
-			
-				if ( ! is_array( $_aField ) ) continue;		// the element must be an array.
-				
-				$_aField = array( '_field_type' => 'page' ) + $_aField + self::$_aStructure_Field;	// avoid undefined index warnings.
-				
-				// Sanitize the IDs since they are used as a callback method name.
-				$_aField['field_id'] = $this->oUtil->sanitizeSlug( $_aField['field_id'] );
-				$_aField['section_id'] = $this->oUtil->sanitizeSlug( $_aField['section_id'] );
-						
-				// Check the mandatory keys' values.
-				if ( ! isset( $_aField['field_id'], $_aField['section_id'], $_aField['type'] ) ) continue;	// these keys are necessary.
-				
-				// Set the order.
-				$_aField['order']	= is_numeric( $_aField['order'] ) ? $_aField['order'] : count( $_aNewFieldArrays ) + 10;
-				
-				// Set the tip, option key, instantiated class name, and page slug elements.
-				$_aField['tip'] = strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] );
-				$_aField['option_key'] = $this->oProp->sOptionKey;
-				$_aField['class_name'] = $this->oProp->sClassName;
-				$_aField['page_slug'] = isset( $aSections[ $_aField['section_id'] ]['page_slug'] ) ? $aSections[ $_aField['section_id'] ]['page_slug'] : null;
-				$_aField['tab_slug'] = isset( $aSections[ $_aField['section_id'] ]['tab_slug'] ) ? $aSections[ $_aField['section_id'] ]['tab_slug'] : null;
-				$_aField['section_title'] = isset( $aSections[ $_aField['section_id'] ]['title'] ) ? $aSections[ $_aField['section_id'] ]['title'] : null;	// used for the contextual help pane.
-				
-				// Add the element to the new returning array.
-				$_aNewFieldArrays[ $_aField['field_id'] ] = $_aField;
+			foreach( $aFields as $_sSectionID => $_aFields ) {
 					
+				$_aNewFieldArrays[ $_sSectionID ] = isset( $_aNewFieldArrays[ $_sSectionID ] ) ? $_aNewFieldArrays[ $_sSectionID ] : array();
+				foreach( $_aFields as $_aField ) {
+				
+					if ( ! is_array( $_aField ) ) continue;		// the element must be an array.
+					
+					$_aField = $this->oUtil->uniteArrays(
+						array( '_field_type' => 'page' ),
+						$_aField,
+						array( 'capability' => $this->oProp->sCapability ),
+						self::$_aStructure_Field	// avoid undefined index warnings.
+					);
+
+					// Sanitize the IDs since they are used as a callback method name.
+					$_aField['field_id'] = $this->oUtil->sanitizeSlug( $_aField['field_id'] );
+					$_aField['section_id'] = $this->oUtil->sanitizeSlug( $_aField['section_id'] );
+							
+					// Check the mandatory keys' values.
+					if ( ! isset( $_aField['field_id'], $_aField['type'] ) ) continue;	// these keys are necessary.
+					
+					// Set the order.
+					$_aField['order']	= is_numeric( $_aField['order'] ) ? $_aField['order'] : count( $_aNewFieldArrays[ $_sSectionID ] ) + 10;
+					
+					// Set the tip, option key, instantiated class name, and page slug elements.
+					$_aField['tip'] = strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] );
+					$_aField['option_key'] = $this->oProp->sOptionKey;
+					$_aField['class_name'] = $this->oProp->sClassName;
+					$_aField['page_slug'] = isset( $aSections[ $_aField['section_id'] ]['page_slug'] ) ? $aSections[ $_aField['section_id'] ]['page_slug'] : null;
+					$_aField['tab_slug'] = isset( $aSections[ $_aField['section_id'] ]['tab_slug'] ) ? $aSections[ $_aField['section_id'] ]['tab_slug'] : null;
+					$_aField['section_title'] = isset( $aSections[ $_aField['section_id'] ]['title'] ) ? $aSections[ $_aField['section_id'] ]['title'] : null;	// used for the contextual help pane.
+					
+					// Add the element to the new returning array.
+					$_aNewFieldArrays[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
+				
+				}
+				
 			}
 			$aFields = $_aNewFieldArrays;
 			
@@ -1536,31 +1618,97 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		/**
 		 * Applies conditions to the given fields.
 		 * 
-		 * @remark			This must be done after performing the _formatFieldArrays() method.
+		 * @remark			This must be done after performing the _formatFieldArrays() method and the _applyConditionsForSections() method.
 		 * @since	
+		 * @param			array				The formatted field definition arrays. 
+		 * @param			array				The formatted section definition arrays. The arrays should be already filtered with conditions. In other words, the sections the sections will be displayed in the loading page.
 		 */
-		private function _applyConditionsForFields( $aFields, $aSections ) {
-			
+		private function _applyConditionsForFields( &$aFields, $aSections ) {
+
 			$_aNewFieldArrays = array();
-			foreach( $aFields as $_aField ) {
-							
-				// If the section that this field belongs to is not set, no need to register this field.
-				// The $aSection property must be formatted prior to perform this method.
-				if ( ! isset( $aSections[ $_aField['section_id'] ] ) ) continue;		
-		
-				// If the access level is not sufficient, skip.
-				$_aField['capability'] = isset( $_aField['capability'] ) ? $_aField['capability'] : $this->oProp->sCapability;
-				if ( ! current_user_can( $_aField['capability'] ) ) continue; 
-							
-				// If the condition is not met, skip.
-				if ( $_aField['if'] !== true ) continue;		
-			
-				// Add the element to the new returning array.
-				$_aNewFieldArrays[ $_aField['field_id'] ] = $_aField;
+			foreach( $aFields as $_sSectionID => $_aFields ) {
+				
+				// Check if the parsing section id exists in the given section array.
+				if ( ! array_key_exists( $_sSectionID, $aSections ) ) continue;
+				
+				foreach( $_aFields as $_aField ) {					
+									
+					// If the access level is not sufficient, skip.
+					if ( ! current_user_can( $_aField['capability'] ) ) continue; 
+								
+					// If the condition is not met, skip.
+					if ( ! $_aField['if'] ) continue;		
+									
+					// Add the element to the new returning array.
+					$_aNewFieldArrays[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
+					
+				}
 					
 			}
 			return $_aNewFieldArrays;
 			
 		}
+	
+	/**
+	 * Renders the filtered section description.
+	 * 
+	 * @remark			An alternative to _renderSectionDescription().
+	 * @since			3.0.0
+	 */
+	public function _replyToGetSectionOutput( $sSectionID ) {
+
+		$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
+		if ( ! isset( $this->oProp->aSections[ $sSectionID ] ) ) return '';	// if it is not added
+		if ( ! isset( $this->oProp->aForm[ $_sCurrentPageSlug ][ $sSectionID ] ) ) return '';
+		
+		$aOutput = array();
+		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['title'] ? "<h3>" . $this->oProp->aSections[ $sSectionID ]['title'] . "</h3>" : '';
+		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['description'] ? '<p>' . $this->oProp->aSections[ $sSectionID ]['description'] . '</p>' : '';
+			
+		return $this->oUtil->addAndApplyFilters(
+			$this,
+			array( 'section_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_ + {extended class name} + _ {section id}
+			implode( PHP_EOL, $aOutput )
+		);				
+		
+	}
+	/**
+	 * 
+	 * @since			3.0.0
+	 */	 
+	public function _replyToGetFieldOutput( $aField ) {
+		
+		$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
+		$_sSectionID = isset( $aField['section_id'] ) ? $aField['section_id'] : '_default';
+		$_sFieldID = $aField['field_id'];
+
+		// If the specified field does not exist, do nothing.
+		if ( ! isset( $this->oProp->aForm[ $_sCurrentPageSlug ][ $_sSectionID ][ $_sFieldID ] ) ) return;	// if it is not added, return
+		$aField = $this->oProp->aForm[ $_sCurrentPageSlug ][ $_sSectionID ][ $_sFieldID ];
+
+		// Retrieve the field error array.
+		$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $_sCurrentPageSlug ); 
+
+		// Render the form field. 		
+		$sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
+			? $aField['type']
+			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
+
+		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
+		$sFieldOutput = $oField->_getInputFieldOutput();	// field output
+		unset( $oField );	// release the object for PHP 5.2.x or below.
+
+		return $this->oUtil->addAndApplyFilters(
+			$this,
+			array( 
+				isset( $aField['section_id'] ) 
+					? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $_sFieldID
+					: 'field_' . $this->oProp->sClassName . '_' . $_sFieldID,
+			),
+			$sFieldOutput,
+			$aField // the field array
+		);		
+		
+	}
 }
 endif;

@@ -185,53 +185,32 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$sOut = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Begin the field table and loop
-// $sOut .= '<table class="form-table">';
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
 		$this->setOptionArray( $iPostID, $vArgs['args'] );
 
 		// Format the fields array.
 		$aFields = ( array ) $vArgs['args'];
-		foreach ( $aFields as $sFieldID => &$aField ) {
+		foreach ( $aFields as $_sSectionID => &$_aFields ) {
 			
-			$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
-			
-			// Check capability. If the access level is not sufficient, skip.
-			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
-			if ( ! current_user_can( $aField['capability'] ) ) 
-				unset( $aFields[ $sFieldID ] );
+			foreach( $_aFields as $sFieldID => &$aField ) {
+										
+				$aField = $this->oUtil->uniteArrays(
+					array( '_field_type' => 'post_meta_box' ),
+					$aField,
+					array( 'capability' => $this->oProp->sCapability ),
+					AdminPageFramework_Property_MetaBox::$_aStructure_Field
+				);	// avoid undefined index warnings.
+				
+				// Check capability. If the access level is not sufficient, skip.
+				if ( ! current_user_can( $aField['capability'] ) ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
+				if ( ! $aField['if'] ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
+				
+			}
+			unset( $aField );	// to be safe in PHP.
 				
 		}
 		$oFieldsTable = new AdminPageFramework_FieldsTable;
-		$sOut .= $oFieldsTable->getFieldsTable( $aFields, array( $this, 'replytToGetFieldOutput' ) );
-		
-/* 		foreach ( ( array ) $vArgs['args'] as $aField ) {
-			
-			// Avoid undefined index warnings
-			$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
-			
-			// Check capability. If the access level is not sufficient, skip.
-			$aField['capability'] = isset( $aField['capability'] ) ? $aField['capability'] : $this->oProp->sCapability;
-			if ( ! current_user_can( $aField['capability'] ) ) continue;
-		
-			// Begin a table row. 
-			$sOut .= "<tr>";
-				if ( $aField['show_title_column'] )
-					$sOut .= 
-						"<th>"
-							."<label for='{$aField['field_id']}'>"
-								. "<a id='{$aField['field_id']}'></a>"
-									. "<span title='" . strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) . "'>"
-										. $aField['title'] 
-									. "</span>"
-							. "</label>"
-						. "</th>";		
-				$sOut .= "<td>";
-					$sOut .= $this->getFieldOutput( $aField );
-				$sOut .= "</td>";
-			$sOut .= "</tr>";
-			
-		} // end foreach
-		$sOut .= '</table>'; // end table */
+		$sOut .= $oFieldsTable->getFieldsTables( $aFields, null, array( $this, 'replytToGetFieldOutput' ) );
 		
 		/* Filter the output */
 		$sOut = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, $sOut );
@@ -322,8 +301,10 @@ abstract class AdminPageFramework_MetaBox_Base {
 
 		// Compose an array consisting of the submitted registered field values.
 		$aInput = array();
-		foreach( $this->oProp->aFields as $aField ) 
-			$aInput[ $aField['field_id'] ] = isset( $_POST[ $aField['field_id'] ] ) ? $_POST[ $aField['field_id'] ] : null;
+		foreach( $this->oProp->aFields as $sSectionID => $aFields ) {
+			foreach( $aFields as $aField ) 
+				$aInput[ $aField['field_id'] ] = isset( $_POST[ $aField['field_id'] ] ) ? $_POST[ $aField['field_id'] ] : null;
+		}
 			
 		// Prepare the old value array.
 		$aOriginal = array();

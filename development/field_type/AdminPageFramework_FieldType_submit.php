@@ -78,7 +78,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
 			'class'	=>	'admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container',
 		);
-		
+
 		return 
 			$aField['before_label']
 			. "<div " . $this->generateAttributes( $aLabelContainerAttributes ) . ">"

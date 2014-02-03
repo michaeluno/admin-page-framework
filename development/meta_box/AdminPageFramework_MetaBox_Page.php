@@ -190,7 +190,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 
-		$this->oProp->aFields[ $aField['field_id'] ] = $aField;
+		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
 	
 	}
 		/**
