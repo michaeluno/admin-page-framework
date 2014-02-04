@@ -1972,7 +1972,7 @@ class APF_Demo extends AdminPageFramework {
 	 * Import and Export Callbacks
 	 * */
 	public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export section id}_{export field id}
-AdminPageFramework_Debug::logArray( func_get_args() );	
+
 		// Change the exporting file name based on the selected format type in the other field.
 		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
 			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] 
