@@ -158,7 +158,7 @@ AdminPageFramework_Page_MetaBox
 				AdminPageFramework_Menu<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1565" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1670" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
@@ -176,7 +176,7 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setSettingNotice">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#98-151" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#109-162" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -248,7 +248,7 @@ true: override the previous one.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#153-200" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#164-211" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -378,7 +378,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSection">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#202-237" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#213-248" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -432,7 +432,7 @@ can be ommited.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#239-264" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#250-275" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -498,7 +498,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#266-439" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#277-452" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -617,8 +617,8 @@ class="php-num">90</span>,
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aField1</var></dt>
-						<dd><code>array</code><br>the field array.
-<h4>Field Array</h4>
+						<dd><code>array</code><br>the field definition array.
+<h4>Field Definition Array</h4>
 
 <ul>
 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using
@@ -683,14 +683,10 @@ class="php-num">90</span>,
 	right after the input tag. It will be enclosed in the <code>label</code> tag so
 	the passed HTML string should not contain block elements.</li>
 
-	<li><strong>label_min_width</strong> - ( optional, string|array ) the inline
-	style property of the <em>min-width</em> of the label tag for the field in pixel
+	<li><strong>label_min_width</strong> - ( optional, string ) the inline style
+	property of the <em>min-width</em> of the label tag for the field in pixel
 	without the unit. Default: <code>&lt;span
 	class="php-num"&gt;120&lt;/span&gt;</code>.</li>
-
-	<li><strong>disable</strong> - ( optional, boolean|array ) if this is set to
-	true, the <em>disabled</em> attribute will be inserted into the field input
-	tag.</li>
 
 	<li><strong>help</strong> - ( optional, string ) the help description added to
 	the contextual help tab.</li>
@@ -713,7 +709,7 @@ class="php-num">90</span>,
 		</ul>
 	</li>
 
-	<li><strong>sortable</strong> - [3.0.0+] ( optional, array|boolean ) whether the
+	<li><strong>sortable</strong> - [3.0.0+] ( optional, boolean ) whether the
 	fields should be sortable. If it yields true, the fields will be enclosed in a
 	draggable box.</li>
 
@@ -722,6 +718,13 @@ class="php-num">90</span>,
 	have specific keys in the first dimensions. e.g.<em>array( 'class' =&gt;
 	'my_custom_class_selector', 'style' =&gt; 'background-color:#777', 'size' =&gt;
 	20, )</em></li>
+
+	<li><strong>show_title_column</strong> - [3.0.0+] ( optional, boolean ) If true,
+	the field title column will be omitted from the output.</li>
+
+	<li><strong>hidden</strong> - [3.0.0+] ( optional, boolean ) If true, the entire
+	field row output will be invisible with the inline style attribute of
+	<em>style="display:none"</em>.</li>
 </ul>
 
 <h4>Field Type Specific Keys</h4>
@@ -775,9 +778,9 @@ class="php-num">90</span>,
 			the <em>multiple</em> attribute will be inserted into the field input tag, which
 			enables the multiple selections for the user.</li>
 
-			<li><strong>attributes</strong> - ( optional, array ) The attributes array of
-			this field type has four initial keys: size, unit, optgroup, and option and they
-			have a regular attribute array in each.</li>
+			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes
+			array of this field type has four initial keys: size, unit, optgroup, and option
+			and they have a regular attribute array in each.</li>
 		</ul>
 	</li>
 
@@ -842,9 +845,9 @@ class="php-num">90</span>,
 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
 			whether external URL can be set via the uploader.</li>
 
-			<li><strong>attributes</strong> - ( optional, array ) The attributes array of
-			this field type has three keys: input, button, and preview and they have a
-			regular attribute array in each.</li>
+			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes
+			array of this field type has three keys: input, button, and preview and they
+			have a regular attribute array in each.</li>
 		</ul>
 	</li>
 
@@ -929,7 +932,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#440-470" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#453-483" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -976,7 +979,7 @@ section_id key can be omitted from the next passing field array.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#472-497" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#485-511" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1042,7 +1045,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFieldErrors">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#499-548" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#513-562" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1165,7 +1168,7 @@ the passed ID )<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#550-582" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#564-596" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1200,6 +1203,80 @@ will try to return the default value set in the field definition array.<br>
 							2.1.2<br>
 							3.0.0 Changed the scope to public from protected. Dropped the sections. Made it
 return a default value even if it's not saved in the database.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="_replyToGetSectionOutput" id="__replyToGetSectionOutput">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#__replyToGetSectionOutput">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#1609-1631" title="Go to source code">_replyToGetSectionOutput</a>( <span>mixed <var>$sSectionID</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Renders the filtered section description.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Renders the filtered section description.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							An alternative to _renderSectionDescription().<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="_replyToGetFieldOutput" id="__replyToGetFieldOutput">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#__replyToGetFieldOutput">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#1632-1669" title="Go to source code">_replyToGetFieldOutput</a>( <span>mixed <var>$aField</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.0<br>
 					</div>
 
 
