@@ -35,6 +35,13 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page' ) ) :
  * @subpackage		MetaBox
  */
 abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBox_Base {
+
+	/**
+	 * Defines the fields type.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	static protected $_sFieldsType = 'page_meta_box';
 	
 	/**
 	 * Registers necessary hooks and internal properties.
@@ -92,13 +99,14 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 		
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
-
+		$this->oProp->sFieldsType = self::$_sFieldsType;
+		
 		/* Validation hook */
 		foreach( $this->oProp->aPageSlugs as $sPageSlug )
 			add_filter( "validation_{$sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
 		
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
-		
+	
 	}
 
 	/*
@@ -171,7 +179,12 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	*/		
 	public function addSettingField( array $aField ) {
 
-		$aField = array( '_field_type' => 'page_meta_box' ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
+		$aField = $this->oUtil->uniteArrays(
+			array( '_fields_type' => self::$_sFieldsType ),
+			$aField,
+			array( 'capability' => $this->oProp->sCapability ),
+			AdminPageFramework_Property_MetaBox::$_aStructure_Field
+		);	// Avoid undefined index warnings
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
@@ -191,7 +204,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 
 		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
-	
+
 	}
 		/**
 		 * Checks if the currently loading page is in the pages specified for this meta box.

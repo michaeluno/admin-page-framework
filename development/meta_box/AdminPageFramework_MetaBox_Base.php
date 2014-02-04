@@ -36,6 +36,13 @@ abstract class AdminPageFramework_MetaBox_Base {
 	protected $oHeadTag;
 	
 	/**
+	 * Defines the fields type.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	static protected $_sFieldsType = 'post_meta_box';
+	
+	/**
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
 	 * 
 	 * @see				http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
@@ -66,8 +73,8 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
 		$this->oProp->sTitle = $sTitle;
 		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
-		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'
-		
+		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'	
+		$this->oProp->sFieldsType = self::$_sFieldsType;
 		
 		if ( $this->oProp->bIsAdmin ) {
 			
@@ -182,7 +189,8 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {	
 		
 		// Use nonce for verification
-		$sOut = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
+		$aOutput = array();
+		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Begin the field table and loop
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
@@ -195,7 +203,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			foreach( $_aFields as $sFieldID => &$aField ) {
 										
 				$aField = $this->oUtil->uniteArrays(
-					array( '_field_type' => 'post_meta_box' ),
+					array( '_fields_type' => $this->oProp->sFieldsType ),
 					$aField,
 					array( 'capability' => $this->oProp->sCapability ),
 					AdminPageFramework_Property_MetaBox::$_aStructure_Field
@@ -210,16 +218,14 @@ abstract class AdminPageFramework_MetaBox_Base {
 				
 		}
 		$oFieldsTable = new AdminPageFramework_FieldsTable;
-		$sOut .= $oFieldsTable->getFieldsTables( $aFields, null, array( $this, 'replytToGetFieldOutput' ) );
-		
-		/* Filter the output */
-		$sOut = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, $sOut );
-		
+		$aOutput[] = $oFieldsTable->getFieldsTables( $aFields, null, array( $this, '_replytToGetFieldOutput' ) );
+
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
-			
-		echo $sOut;
 		
+		/* Filter the output */
+		echo $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
+
 	}
 	
 	/**
@@ -240,7 +246,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			foreach( $aFields as $iIndex => $aField ) {
 				
 				// Avoid undefined index warnings
-				$aField = $aField + array( '_field_type' => 'post_meta_box' ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
+				$aField = $aField + array( '_fields_type' => $this->oProp->sFieldsType ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
 
 				$this->oProp->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 				
@@ -252,10 +258,10 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 	}
 
-	public function replytToGetFieldOutput( $aField ) {
+	public function _replytToGetFieldOutput( &$aField ) {
 		return $this->getFieldOutput( $aField );
 	}
-	protected function getFieldOutput( $aField ) {
+	protected function getFieldOutput( &$aField ) {
 
 		// Set the input field name which becomes the option key of the custom meta field of the post.
 		// $aField['name'] = isset( $aField['name'] ) ? $aField['name'] : $aField['field_id'];	// deprecated as the attributes key can support custom name 
@@ -265,8 +271,10 @@ abstract class AdminPageFramework_MetaBox_Base {
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
+// AdminPageFramework_Debug::logArray( $this->oProp->aOptions );
+
 		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, array(), $this->oProp->aFieldTypeDefinitions, $this->oMsg );	// currently the error array is not supported for meta-boxes
-		$oField->isMetaBox( true );
+		// $oField->isMetaBox( true );
 		$sFieldOutput = $oField->_getInputFieldOutput();	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 		

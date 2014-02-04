@@ -74,6 +74,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		
 		/* Do this after the parent constructor as it creates the oProp object. */
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
+		$this->oProp->sFieldsType = self::$_sFieldsType;
 	
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
@@ -205,7 +206,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	*/		
 	public function addSettingField( array $aField ) {
 		
-		$aField = array( '_field_type' => 'post_meta_box' ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
+		$aField = array( '_fields_type' => $this->oProp->sFieldsType ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );

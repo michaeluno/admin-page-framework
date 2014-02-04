@@ -59,6 +59,13 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 * @internal
 	 */
 	protected $oHelpPane;
+
+	/**
+	 * Defines the fields type.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	static protected $_sFieldsType = 'taxonomy';
 	
 	/**
 	 * Constructs the class object instance of AdminPageFramework_TaxonomyField.
@@ -91,6 +98,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		/* Properties */
 		$this->oProp->aTaxonomySlugs = ( array ) $asTaxonomySlug;
 		$this->oProp->sOptionKey = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
+		$this->oProp->sFieldsType = self::$_sFieldsType;
 		
 		if ( $this->oProp->bIsAdmin ) {
 			
@@ -290,7 +298,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 				
 				// Avoid undefined index warnings
 				$aField = $this->oUtil->uniteArrays(
-					array( '_field_type' => 'taxonomy' ),
+					array( '_fields_type' => $this->oProp->sFieldsType ),
 					$aField,
 					array( 'capability' => $this->oProp->sCapability ),
 					AdminPageFramework_Property_MetaBox::$_aStructure_Field
@@ -311,8 +319,8 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		/* Get the field outputs */
 		$oFieldsTable = new AdminPageFramework_FieldsTable;
 		$aOutput[] = $bRenderTableRow 
-			? $oFieldsTable->getFieldRows( $aFields, array( $this, 'replytToGetFieldOutput' ) )
-			: $oFieldsTable->getFields( $aFields, array( $this, 'replytToGetFieldOutput' ) );
+			? $oFieldsTable->getFieldRows( $aFields, array( $this, '_replytToGetFieldOutput' ) )
+			: $oFieldsTable->getFields( $aFields, array( $this, '_replytToGetFieldOutput' ) );
 				
 		/* Filter the output */
 		$sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
