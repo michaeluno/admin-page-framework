@@ -4,7 +4,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldTypeRegistration' ) ) :
  * Provides means to define custom input fields not only by the framework but also by the user.
  * 
  * @package			AdminPageFramework
- * @subpackage		Field
+ * @subpackage		Form
  * @since			2.1.5
  * @since			2.1.6			Changed the name from AdminPageFramework_FieldTypeDefinitions
  * @internal

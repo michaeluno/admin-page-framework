@@ -8,7 +8,7 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  * @since			2.1.5			Separated the methods that defines field types to different classes.
  * @extends			AdminPageFramework_WPUtility
  * @package			AdminPageFramework
- * @subpackage		Field
+ * @subpackage		Form
  * @internal
  */
 class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {

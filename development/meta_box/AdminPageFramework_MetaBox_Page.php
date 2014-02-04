@@ -183,7 +183,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 			array( '_fields_type' => self::$_sFieldsType ),
 			$aField,
 			array( 'capability' => $this->oProp->sCapability ),
-			AdminPageFramework_Property_MetaBox::$_aStructure_Field
+			AdminPageFramework_Form::$_aStructure_Field
 		);	// Avoid undefined index warnings
 		
 		// Sanitize the IDs since they are used as a callback method name.

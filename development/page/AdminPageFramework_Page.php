@@ -359,9 +359,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			if ( $this->oProp->bEnableForm ) {
 				settings_fields( $this->oProp->sOptionKey );	// this value also determines the $option_page global variable value.
 				// do_settings_sections( $sPageSlug ); 
-				$oFieldsTable = new AdminPageFramework_FieldsTable;
+				$oFieldsTable = new AdminPageFramework_FormTable;
 				if ( isset( $this->oProp->aForm[ $sPageSlug ] ) )
-					echo $oFieldsTable->getFieldsTables( $this->oProp->aForm[ $sPageSlug ], array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+					echo $oFieldsTable->getFormTables( $this->oProp->aForm[ $sPageSlug ], array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 				
 			}				
 			 

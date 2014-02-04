@@ -206,7 +206,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	*/		
 	public function addSettingField( array $aField ) {
 		
-		$aField = array( '_fields_type' => $this->oProp->sFieldsType ) + $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
+		$aField = array( '_fields_type' => $this->oProp->sFieldsType ) + $aField + AdminPageFramework_Form::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );

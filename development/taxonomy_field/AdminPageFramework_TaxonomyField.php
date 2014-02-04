@@ -165,7 +165,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	*/		
 	public function addSettingField( array $aField ) {
 		
-		$aField = $aField + AdminPageFramework_Property_MetaBox::$_aStructure_Field;	// avoid undefined index warnings.
+		$aField = $aField + AdminPageFramework_Form::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
@@ -301,7 +301,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 					array( '_fields_type' => $this->oProp->sFieldsType ),
 					$aField,
 					array( 'capability' => $this->oProp->sCapability ),
-					AdminPageFramework_Property_MetaBox::$_aStructure_Field
+					AdminPageFramework_Form::$_aStructure_Field
 				);		// avoid undefined index warnings.
 					
 				// Check capability. If the access level is not sufficient, skip.
@@ -317,7 +317,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		}
 		
 		/* Get the field outputs */
-		$oFieldsTable = new AdminPageFramework_FieldsTable;
+		$oFieldsTable = new AdminPageFramework_FormTable;
 		$aOutput[] = $bRenderTableRow 
 			? $oFieldsTable->getFieldRows( $aFields, array( $this, '_replytToGetFieldOutput' ) )
 			: $oFieldsTable->getFields( $aFields, array( $this, '_replytToGetFieldOutput' ) );

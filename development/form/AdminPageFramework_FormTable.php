@@ -1,27 +1,27 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_FieldsTable' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) :
 /**
  * Provides methods to render setting fields.
  * 
  * @package			AdminPageFramework
- * @subpackage		Field
+ * @subpackage		Form
  * @since			3.0.0
  * @internal
  */
-class AdminPageFramework_FieldsTable {
+class AdminPageFramework_FormTable {
 	
 	/**
 	 * Returns a set of HTML table outputs consisting of form sections and fields.
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFieldsTables( &$aSections, $hfSectionCallback, $hfFieldCallback ) {
+	public function getFormTables( &$aSections, $hfSectionCallback, $hfFieldCallback ) {
 		
 		$aOutput = array();
 		foreach( $aSections as $_sSectionID => $aFields ) {
 			if ( is_callable( $hfSectionCallback ) ) 
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
-			$aOutput[] = $this->getFieldsTable( $aFields, $hfSectionCallback, $hfFieldCallback );
+			$aOutput[] = $this->getFormTable( $aFields, $hfSectionCallback, $hfFieldCallback );
 		}
 		return implode( PHP_EOL, $aOutput );
 		
@@ -32,7 +32,7 @@ class AdminPageFramework_FieldsTable {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFieldsTable( &$aFields, $hfSectionCallback, $hfFieldCallback ) {
+	public function getFormTable( &$aFields, $hfSectionCallback, $hfFieldCallback ) {
 
 		$aOutput = array();
 		$aOutput[] = '<table class="form-table">';

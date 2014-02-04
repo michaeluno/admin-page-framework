@@ -8,72 +8,10 @@ if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
  * @extends		AdminPageFramework_Menu
  * @package		AdminPageFramework
  * @subpackage	Page
- * @staticvar	array		$_aStructure_Section				represents the structure of the form section array.
- * @staticvar	array		$_aStructure_Field					represents the structure of the form field array.
  * @var			array		$aFieldErrors						stores the settings field errors.
  */
 abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
-	
-	/**
-	 * Represents the structure of the form section array.
-	 * 
-	 * @since			2.0.0
-	 * @remark			Not for the user.
-	 * @var				array			Holds array structure of form section.
-	 * @static
-	 * @internal
-	 */ 	
-	protected static $_aStructure_Section = array(	
-		'section_id' => null,
-		'page_slug' => null,
-		'tab_slug' => null,
-		'title' => null,
-		'description' => null,
-		'capability' => null,
-		'if' => true,	
-		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
-		'help' => null,
-		'help_aside' => null,
-	);	
-	
-	/**
-	 * Represents the structure of the form field array.
-	 * 
-	 * @since			2.0.0
-	 * @remark			Not for the user.
-	 * @var				array			Holds array structure of form field.
-	 * @static
-	 * @internal
-	 */ 
-	protected static $_aStructure_Field = array(
-		'field_id'			=> null, 		// ( required )
-		'section_id'		=> null,		// ( required )
-		'type'				=> null,		// ( required )
-		'section_title'		=> null,		// This will be assigned automatically in the formatting method.
-		'page_slug'			=> null,		// This will be assigned automatically in the formatting method.
-		'tab_slug'			=> null,		// This will be assigned automatically in the formatting method.
-		'option_key'		=> null,		// This will be assigned automatically in the formatting method.
-		'class_name'		=> null,		// This will be assigned automatically in the formatting method.
-		'capability'		=> null,		
-		'title'				=> null,
-		'tip'				=> null,
-		'description'		=> null,
-		'name'				=> null,		// the name attribute of the input field.
-		'error_message'		=> null,		// error message for the field
-		'before_label'		=> null,
-		'after_label'		=> null,
-		'if' 				=> true,
-		'order'				=> null,		// do not set the default number here for this key.		
-		'help'				=> null,		// since 2.1.0
-		'help_aside'		=> null,		// since 2.1.0
-		'repeatable'		=> null,		// since 2.1.3
-		'sortable'			=> null,		// since 2.1.3
-		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
-		'_fields_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
-		'show_title_column' => true,		// since 3.0.0
-		'hidden'			=> null,		// since 3.0.0
-	);	
-	
+		
 	/**
 	 * Stores the settings field errors. 
 	 * 
@@ -235,7 +173,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$aSection = $asSection;
 		$__sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $__sTargetPageSlug;
 		$__sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $__sTargetTabSlug;		
-		$aSection = $this->oUtil->uniteArrays( $aSection, self::$_aStructure_Section, array( 'page_slug' => $__sTargetPageSlug, 'tab_slug' => $__sTargetTabSlug ) );	// avoid undefined index warnings.
+		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_Form::$_aStructure_Section, array( 'page_slug' => $__sTargetPageSlug, 'tab_slug' => $__sTargetTabSlug ) );	// avoid undefined index warnings.
 		if ( ! isset( $aSection['section_id'], $aSection['page_slug'] ) ) return;	// these keys are necessary.
 
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
@@ -471,7 +409,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		}
 		
 		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
-		$aField = $this->oUtil->uniteArrays( $asField, self::$_aStructure_Field, array( 'section_id' => $__sTargetSectionID ) );
+		$aField = $this->oUtil->uniteArrays( $asField, AdminPageFramework_Form::$_aStructure_Field, array( 'section_id' => $__sTargetSectionID ) );
 		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// Check the required keys as these keys are necessary.
 			
 		// Sanitize the IDs since they are used as a callback method name.
@@ -1419,7 +1357,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$aSection = $this->oUtil->uniteArrays(
 					$aSection,
 					array( 'capability' => $this->oProp->sCapability ),
-					self::$_aStructure_Section	
+					AdminPageFramework_Form::$_aStructure_Section	
 				);	// avoid undefined index warnings.
 				
 				// Check the mandatory keys' values.
@@ -1541,7 +1479,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						array( '_fields_type' => $this->oProp->sFieldsType ),
 						$_aField,
 						array( 'capability' => $this->oProp->sCapability ),
-						self::$_aStructure_Field	// avoid undefined index warnings.
+						AdminPageFramework_Form::$_aStructure_Field	// avoid undefined index warnings.
 					);
 
 					// Sanitize the IDs since they are used as a callback method name.

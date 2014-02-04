@@ -141,42 +141,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 	 * @since			2.1.0
 	 */ 
 	public $aHelpTabTextSide = array();
-	
-	// Default values
-	/**
-	 * Represents the structure of field array for meta box form fields.
-	 * @since			2.0.0
-	 * @since			2.1.0			Moved from the meta box class.
-	 * @internal
-	 */ 
-	public static $_aStructure_Field = array(
-		'field_id'		=> null,	// ( mandatory ) the field ID
-		'type'			=> null,	// ( mandatory ) the field type.
-		'title' 			=> null,	// the field title
-		'description'	=> null,	// an additional note 
-		'capability'		=> null,	// an additional note 
-		'tip'			=> null,	// pop up text
-		// 'options'			=> null,	// ? don't remember what this was for
-		'value'			=> null,	// allows to override the stored value
-		'default'			=> null,	// allows to set default values.
-		'label'			=> '',		// sets the label for the field. Setting a non-null value will let it parsed with the loop ( foreach ) of the input element rendering method.
-		'if'				=> true,
-		'help'			=> null,	// since 2.1.0
-		'help_aside'		=> null,	// since 2.1.0
-		'show_title_column'	=> true,	// since 2.1.2, since 3.0.0 the default of true is set 
 		
-		// The followings may need to be uncommented.
-		// 'class_name' => null,		// This will be assigned automatically in the formatting method.
-		// 'error_message' => null,			// error message for the field
-		// 'before_label' => null,
-		// 'after_label' => null,
-		// 'order' => null,			// do not set the default number here for this key.		
-
-		'repeatable'		=> null,	// since 2.1.3		
-		'sortable'			=> null,	// since 3.0.0
-		'hidden'			=> null,	// since 3.0.0 - if true, it hides the field row.
-	);
-	
 	function __construct( $oCaller, $sClassName, $sCapability ) {
 		
 		parent::__construct( $oCaller, null, $sClassName );		// meta boxes don't need the caller script path.

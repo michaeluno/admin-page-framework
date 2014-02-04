@@ -122,6 +122,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function enqueueScripts( $aSRCs, $_vArg2=null, $_vArg3=null ) {}
 	public function enqueueScript( $sSRC, $_vArg2=null, $_vArg3=null ) {}
 	public function addSettingField( array $aField ) {}
+
 			
 	/*
 	 * Internal methods that should be extended.
@@ -145,6 +146,74 @@ abstract class AdminPageFramework_MetaBox_Base {
 		);				
 		
 	}
+
+	/**
+	 * Adds the given form section items into the property. 
+	 * 
+	 * The passed section array must consist of the following keys.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>$this->addSettingSections(
+	 *		array(
+	 *			'section_id'	=> 'text_fields',
+	 *			'page_slug'	=> 'first_page',
+	 *			'tab_slug'	=> 'textfields',
+	 *			'title'	=> 'Text Fields',
+	 *			'description'	=> 'These are text type fields.',
+	 *			'order'	=> 10,
+	 *		),	
+	 *		array(
+	 *			'section_id'	=> 'selectors',
+	 *			'page_slug'	=> 'first_page',
+	 *			'tab_slug'	=> 'selectors',
+	 *			'title'	=> 'Selectors and Checkboxes',
+	 *			'description'	=> 'These are selector type options such as dropdown lists, radio buttons, and checkboxes',
+	 *		)</code>
+	 *
+	 * @since			3.0.0			
+	 * @access 			public
+	 * @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
+	 * @param			array|string			the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
+	 * <strong>Section Array</strong>
+	 * <ul>
+	 * <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+	 * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	 * <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
+	 * <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	 * <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
+	 * <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	 * </ul>
+	 * @param			array					( optional ) another section array.
+	 * @param			array					( optional ) add more section array to the next parameters as many as necessary.
+	 * @return			void
+	 */	
+	public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
+		foreach( func_get_args() as $asSection ) $this->addSettingSection( $asSection );
+	}
+	
+	/**
+	 * A singular form of the adSettingSections() method which takes only a single parameter.
+	 * 
+	 * This is useful when adding section arrays in loops.
+	 * 
+	 * @since			3.0.0			Changed the scope to public from protected.
+	 * @access			public
+	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
+	 * @param			array|string			the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
+	 * @return			void
+	 */
+	public function addSettingSection( $aSection ) {
+				
+		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_Form::$_aStructure_Section );	// avoid undefined index warnings.
+		if ( ! isset( $aSection['section_id'] ) ) return;	// these keys are necessary.
+
+		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
+		$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
+
+		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
+		
+	}		
 		
 	/**
 	* Adds the given field array items into the field array property. 
@@ -206,7 +275,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 					array( '_fields_type' => $this->oProp->sFieldsType ),
 					$aField,
 					array( 'capability' => $this->oProp->sCapability ),
-					AdminPageFramework_Property_MetaBox::$_aStructure_Field
+					AdminPageFramework_Form::$_aStructure_Field
 				);	// avoid undefined index warnings.
 				
 				// Check capability. If the access level is not sufficient, skip.
@@ -217,8 +286,8 @@ abstract class AdminPageFramework_MetaBox_Base {
 			unset( $aField );	// to be safe in PHP.
 				
 		}
-		$oFieldsTable = new AdminPageFramework_FieldsTable;
-		$aOutput[] = $oFieldsTable->getFieldsTables( $aFields, null, array( $this, '_replytToGetFieldOutput' ) );
+		$oFieldsTable = new AdminPageFramework_FormTable;
+		$aOutput[] = $oFieldsTable->getFormTables( $aFields, null, array( $this, '_replytToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
@@ -246,7 +315,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			foreach( $aFields as $iIndex => $aField ) {
 				
 				// Avoid undefined index warnings
-				$aField = $aField + array( '_fields_type' => $this->oProp->sFieldsType ) + AdminPageFramework_Property_MetaBox::$_aStructure_Field;
+				$aField = $aField + array( '_fields_type' => $this->oProp->sFieldsType ) + AdminPageFramework_Form::$_aStructure_Field;
 
 				$this->oProp->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 				
