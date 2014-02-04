@@ -968,19 +968,21 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$_aDefaultOptions = $this->oProp->getDefaultOptions();
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
 			$_aInput = $aInput;	// copy it for parsing
-			$aInput = $this->oUtil->uniteArrays( $aInput, $_aDefaultOptions );
+			$_aSubmittedDefaultOptions = $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions );
+			$aInput = $this->oUtil->uniteArrays( $aInput, $_aSubmittedDefaultOptions );
 			
 			// For each submitted element
 			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
 				
-				if ( $this->_isSection( $sID ) ) {
-					
-					// For fields
-					foreach( $aSectionOrFields as $sFieldID => $aFields )
-						$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", $aInput[ $sID ][ $sFieldID ], isset( $_aOptions[ $sID ][ $sFieldID ] ) ? $_aOptions[ $sID ][ $sFieldID ] : null );
+				if ( $this->_isSection( $sID ) ) 
+					foreach( $aSectionOrFields as $sFieldID => $aFields )	// For fields
+						$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( 
+							$this, 
+							"validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", 
+							$aInput[ $sID ][ $sFieldID ], 
+							isset( $_aOptions[ $sID ][ $sFieldID ] ) ? $_aOptions[ $sID ][ $sFieldID ] : null 
+						);
 										
-				}			
-						
 				$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}", $aInput[ $sID ], isset( $_aOptions[ $sID ] ) ? $_aOptions[ $sID ] : null );
 				
 			}
@@ -993,7 +995,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			// for pages	
 			if ( $sPageSlug )	{
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values			
 				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
 			}
 		
@@ -1051,7 +1053,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						if ( $_aField['tab_slug'] != $sTabSlug ) continue;
 						
 						// if a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
 							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
 								$_aStoredOptionsOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
 							continue;
@@ -1087,7 +1089,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						if ( ! isset( $_aField['page_slug'] ) || $_aField['page_slug'] != $sPageSlug ) continue;
 						
 						// If a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
 							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
 								$_aStoredOptionsOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
 							continue;
@@ -1127,7 +1129,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						if ( $_aField['tab_slug'] == $sTabSlug ) continue;
 						
 						// If a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
 							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
 								$_aStoredOptionsNotOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
 							continue;
@@ -1162,7 +1164,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 						if ( $_aField['page_slug'] == $sPageSlug ) continue;
 						
 						// If a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] ) {
+						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
 							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
 								$_aStoredOptionsNotOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
 							continue;
@@ -1172,9 +1174,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 							$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
 							
 					}
-
 				
-				}			
+				}						
 				return $_aStoredOptionsNotOfThePage;
 				
 			}
@@ -1652,7 +1653,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		return $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 
-				isset( $aField['section_id'] ) 
+				isset( $aField['section_id'] ) && $aField['section_id'] != '_default' 
 					? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $_sFieldID
 					: 'field_' . $this->oProp->sClassName . '_' . $_sFieldID,
 			),

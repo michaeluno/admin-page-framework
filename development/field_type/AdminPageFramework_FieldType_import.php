@@ -117,7 +117,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 			. "<input " . $this->generateAttributes( 
 				array(
 					'name'	=>	"__import[{$aField['input_id']}][section_id]",
-					'value'	=>	isset( $aField['section_id'] ) ? $aField['section_id'] : '',
+					'value'	=>	isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',
 				) + $aHiddenAttributes
 			) . "/>"			
 			. "<input " . $this->generateAttributes( 

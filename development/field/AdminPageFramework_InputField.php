@@ -91,7 +91,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$aField = isset( $aField ) ? $aField : $this->aField;
-		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] 
+		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
 			? "[{$aField['section_id']}]"
 			: '';
 		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
@@ -118,7 +118,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	protected function _getFlatInputName( &$aField, $sKey='' ) {	
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
-		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] 
+		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
 			? "|{$aField['section_id']}"
 			: '';		
 		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
@@ -140,7 +140,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	private function _getInputFieldValue( $aField, $aOptions ) {	
 
-AdminPageFramework_Debug::logArray( $aField['_fields_type'] );
 		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
 		// It's important to return null if not set as the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
 		switch( $aField['_fields_type'] ) {
@@ -149,7 +148,7 @@ AdminPageFramework_Debug::logArray( $aField['_fields_type'] );
 			case 'page_meta_box':
 			case 'taxonomy':
 				// If a section is set,
-				if ( isset( $aField['section_id'] ) && $aField['section_id'] )
+				if ( isset( $aField['section_id'] ) && $aField['section_id']  && $aField['section_id'] != '_default' )
 					return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
 						? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
 						: null;
@@ -162,7 +161,7 @@ AdminPageFramework_Debug::logArray( $aField['_fields_type'] );
 	
 				if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null;
 			
-				if ( ! isset( $aField['section_id'] ) || ! $aField['section_id'] )
+				if ( ! isset( $aField['section_id'] ) || ! $aField['section_id'] || $aField['section_id'] == '_default' )
 					return get_post_meta( $_GET['post'], $aField['field_id'], true );
 					
 				// At this point, the section dimension is set.
@@ -183,7 +182,7 @@ AdminPageFramework_Debug::logArray( $aField['_fields_type'] );
 	 */
 	private function _getInputID( $aField, $sIndex ) {
 		
-		return isset( $aField['section_id'] )
+		return isset( $aField['section_id'] ) && $aField['section_id'] != '_default'
 			? $aField['section_id'] . '_' . $aField['field_id'] . '_' . $sIndex
 			: $aField['field_id'] . '_' . $sIndex ;
 		
@@ -196,7 +195,7 @@ AdminPageFramework_Debug::logArray( $aField['_fields_type'] );
 	 */
 	static public function _getInputTagID( &$aField )  {
 				
-		return isset( $aField['section_id'] )
+		return isset( $aField['section_id'] ) && $aField['section_id'] != '_default'
 			? $aField['section_id'] . '_' . $aField['field_id']
 			: $aField['field_id'];
 					

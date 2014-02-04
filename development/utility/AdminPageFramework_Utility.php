@@ -81,6 +81,23 @@ abstract class AdminPageFramework_Utility {
 		return ( is_array( reset( $array ) ) ) ? self::getArrayDimension( reset( $array ) ) + 1 : 1;
 	}
 	
+	/**
+	 * Casts array contents into another while keeping the same structure.
+	 * 
+	 * @since			3.0.0
+	 * @param			array				the array that holds the necessary keys.
+	 * @param			array				the array to be modified.
+	 * @return			array				the modified array.
+	 */
+	public static function castArrayContents( $aModel, $aSubject ) {
+		
+		$aMod = array();
+		foreach( $aModel as $sKey => $v ) 
+			$aMod[ $sKey ] = isset( $aSubject[ $sKey ] ) ? $aSubject[ $sKey ] : null;
+
+		return $aMod;
+		
+	}
 	
 	/**
 	 * Merges multiple multi-dimensional array recursively.

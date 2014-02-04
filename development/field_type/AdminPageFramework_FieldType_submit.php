@@ -126,7 +126,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 			. "/>" 						
 			. "<input type='hidden' "
 				. "name='__submit[{$aField['input_id']}][section_id]' "
-				. "value='" . ( isset( $aField['section_id'] ) && $aField['section_id'] ? $aField['section_id'] : '' ) . "'"
+				. "value='" . ( isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '' ) . "'"
 			. "/>"			
 			/* for the redirect_url key */
 			. ( $aField['redirect_url']

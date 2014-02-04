@@ -91,7 +91,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 			. "<input " . $this->generateAttributes( 
 				array(
 					'name'	=>	"__export[{$aField['input_id']}][section_id]",
-					'value'	=>	isset( $aField['section_id'] ) ? $aField['section_id'] : '',
+					'value'	=>	isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',
 				) + $_aAttributes
 			) . "/>"
 			. "<input " . $this->generateAttributes( 
