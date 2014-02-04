@@ -69,7 +69,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		'repeatable'		=> null,		// since 2.1.3
 		'sortable'			=> null,		// since 2.1.3
 		'attributes'		=> null,		// since 3.0.0 - the array represents the attributes of input tag
-		'_field_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
+		'_fields_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
 		'show_title_column' => true,		// since 3.0.0
 		'hidden'			=> null,		// since 3.0.0
 	);	
@@ -84,6 +84,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	protected $aFieldErrors;		// Do not set a value here since it is checked to see it's null.
 	
 	/**
+	 * Defines the fields type.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	static protected $_sFieldsType = 'page';
+	
+	/**
 	 * Registers necessary hooks and sets up properties.
 	 * 
 	 * @internal
@@ -94,6 +101,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
+		
+		$this->oProp->sFieldsType = self::$_sFieldsType;
 		
 	}
 							
@@ -1513,7 +1522,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 					if ( ! is_array( $_aField ) ) continue;		// the element must be an array.
 					
 					$_aField = $this->oUtil->uniteArrays(
-						array( '_field_type' => 'page' ),
+						array( '_fields_type' => $this->oProp->sFieldsType ),
 						$_aField,
 						array( 'capability' => $this->oProp->sCapability ),
 						self::$_aStructure_Field	// avoid undefined index warnings.

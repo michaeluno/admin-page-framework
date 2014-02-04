@@ -16,6 +16,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	/**
 	 * Indicates whether the creating fields are for meta box or not.
 	 * @since			2.1.2
+	 * @deprecated
 	 */
 	private $_bIsMetaBox = false;
 	
@@ -135,24 +136,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * Returns the stored field value.
 	 * 
 	 * @since			2.0.0
-	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys. Made it use the '_field_type' internal key.
+	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys. Made it use the '_fields_type' internal key.
 	 */
-	private function _getInputFieldValue( &$aField, $aOptions ) {	
+	private function _getInputFieldValue( $aField, $aOptions ) {	
 
+AdminPageFramework_Debug::logArray( $aField['_fields_type'] );
 		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
 		// It's important to return null if not set as the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
-		switch( $aField['_field_type'] ) {
+		switch( $aField['_fields_type'] ) {
 			default:
 			case 'page':
 			case 'page_meta_box':
 			case 'taxonomy':
-				
 				// If a section is set,
 				if ( isset( $aField['section_id'] ) && $aField['section_id'] )
 					return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
 						? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
 						: null;
-				
 				// Otherwise, check the first dimension.
 				return isset( $aOptions[ $aField['field_id'] ] )
 					? $aOptions[ $aField['field_id'] ]
@@ -331,7 +331,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function _composeFieldsArray( $aField, $aOptions ) {
+		protected function _composeFieldsArray( &$aField, &$aOptions ) {
 
 			/* Get the set value(s) */
 			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
@@ -411,6 +411,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * If the parameter is not set, it will return the stored value. Otherwise, it will set the value.
 	 * 
 	 * @since			2.1.2
+	 * @deprecated
 	 */
 	public function isMetaBox( $bTrueOrFalse=null ) {
 		
