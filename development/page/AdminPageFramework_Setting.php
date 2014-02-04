@@ -968,8 +968,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$_aDefaultOptions = $this->oProp->getDefaultOptions();
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
 			$_aInput = $aInput;	// copy it for parsing
-			$_aSubmittedDefaultOptions = $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions );
-			$aInput = $this->oUtil->uniteArrays( $aInput, $_aSubmittedDefaultOptions );
+			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
 			
 			// For each submitted element
 			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
