@@ -130,8 +130,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @param			array|string			the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
 	 * <strong>Section Array</strong>
 	 * <ul>
-	 * <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
-	 * <li><strong>page_slug</strong> - (  string ) the page slug that the section belongs to.</li>
+	 * <li><strong>page_slug</strong> - (  required, string ) the page slug that the section belongs to.</li>
+	 * <li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers. If not set the internal section ID <em>_default</em> will be assigned.</li>
 	 * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
 	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	 * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
@@ -174,13 +174,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$__sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $__sTargetPageSlug;
 		$__sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $__sTargetTabSlug;		
 		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_Form::$_aStructure_Section, array( 'page_slug' => $__sTargetPageSlug, 'tab_slug' => $__sTargetTabSlug ) );	// avoid undefined index warnings.
-		if ( ! isset( $aSection['section_id'], $aSection['page_slug'] ) ) return;	// these keys are necessary.
+		
 
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-		$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
-		$aSection['page_slug'] = $this->oUtil->sanitizeSlug( $aSection['page_slug'] );
+		$aSection['section_id'] = $aSection['section_id'] ? $this->oUtil->sanitizeSlug( $aSection['section_id'] ) : '_default';
+		$aSection['page_slug'] = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : $this->oProp->sDefaultPageSlug;
 		$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
 		
+		if ( ! $aSection['page_slug'] ) return;	// The page slug is necessary.
 		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
 		
 	}
