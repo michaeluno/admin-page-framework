@@ -173,14 +173,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
 				'page_slug' => 'my_first_form'
 			)
 		);
-			
-		$this->addSettingSections(	
-			array(
-				'section_id'	=>	'my_first_text_section',	
-				'page_slug'		=>	'my_first_form',	
-			)
-		);
-		
+					
 		$this->addSettingFields(
 			array(	
 				'field_id'	=>	'text',
@@ -240,7 +233,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
-* Added: the ability to set a default form section if the `addSettingSections()` method is not called prior to the `addSettingFields()` method.
+* Added: the ability to omit the `addSettingSections()` method not to set a section.
 * Added: the `fields_{instantiated class name}_{section id}` filter that receives registered field definition arrays which belong to the given section.
 * Added: the `grid` custom field type.
 * Added: the documentation pages in the distribution package.
