@@ -994,8 +994,12 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			// for pages	
 			if ( $sPageSlug )	{
+				
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values			
-				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
+				
+				// Respect page meta box field values.
+				$aInput = $this->oUtil->uniteArrays( $aInput, $_aOptions );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
+				
 			}
 		
 			// for the class
