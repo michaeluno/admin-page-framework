@@ -21,7 +21,7 @@ class AdminPageFramework_FormTable {
 		foreach( $aSections as $_sSectionID => $aFields ) {
 			if ( is_callable( $hfSectionCallback ) ) 
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
-			$aOutput[] = $this->getFormTable( $aFields, $hfSectionCallback, $hfFieldCallback );
+			$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
 		}
 		return implode( PHP_EOL, $aOutput );
 		
@@ -32,8 +32,10 @@ class AdminPageFramework_FormTable {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFormTable( &$aFields, $hfSectionCallback, $hfFieldCallback ) {
+	public function getFormTable( $aFields, $hfFieldCallback ) {
 
+		if ( count( $aFields ) <= 0 ) return '';
+	
 		$aOutput = array();
 		$aOutput[] = '<table class="form-table">';
 			$aOutput[] = $this->getFieldRows( $aFields, $hfFieldCallback );
@@ -47,7 +49,7 @@ class AdminPageFramework_FormTable {
 	 * 
 	 * @since			3.0.0	
 	 */
-	public function getFieldRows( &$aFields, $hfCallback ) {
+	public function getFieldRows( $aFields, $hfCallback ) {
 		
 		if ( ! is_callable( $hfCallback ) ) return '';
 		$aOutput = array();
@@ -62,7 +64,7 @@ class AdminPageFramework_FormTable {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function getFieldRow( &$aField, $hfCallback ) {
+		protected function getFieldRow( $aField, $hfCallback ) {
 			
 			$aOutput = array();
 			$_sAttributes = $this->getAttributes( 
@@ -87,7 +89,7 @@ class AdminPageFramework_FormTable {
 	 * @remark			This is similar to getFieldRows() but without the enclosing table row tag. Used for taxonomy fields.
 	 * @since			3.0.0
 	 */
-	public function getFields( &$aFields, $hfCallback ) {
+	public function getFields( $aFields, $hfCallback ) {
 		
 		if ( ! is_callable( $hfCallback ) ) return '';
 		$aOutput = array();
@@ -101,7 +103,7 @@ class AdminPageFramework_FormTable {
 		 * Returns the given field output without a table row tag.
 		 * @since			3.0.0
 		 */
-		protected function getField( &$aField, $hfCallback )  {
+		protected function getField( $aField, $hfCallback )  {
 			
 			$aOutput = array();
 			$aOutput[] = "<div " . $this->getAttributes( $aField ) . ">";
@@ -118,7 +120,7 @@ class AdminPageFramework_FormTable {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function getAttributes( &$aField, $aAttributes=array() ) {
+		protected function getAttributes( $aField, $aAttributes=array() ) {
 			
 			$_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() );
 			
@@ -134,7 +136,7 @@ class AdminPageFramework_FormTable {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function getFieldTitle( &$aField ) {
+		protected function getFieldTitle( $aField ) {
 			
 			return "<label for='{$aField['field_id']}'>"
 				. "<a id='{$aField['field_id']}'></a>"

@@ -98,7 +98,15 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 	public $sCapability = 'edit_posts';
 		
 	/**
-	 * Stores the field arrays for meta box form elements.
+	 * Stores section definition arrays for meta boxes.
+	 * 
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public $aSections = array();	
+		
+	/**
+	 * Stores field definition arrays for meta box form elements.
 	 * 
 	 * @since			2.0.0
 	 * @since			2.1.0			Moved from the meta box class.
