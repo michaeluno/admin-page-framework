@@ -461,7 +461,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	*/	
 	public function addSettingField( $asField ) {
 		
-		static $__sTargetSectionID;	// stores the target page slug which will be applied when no page slug is specified.
+		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
 		
 		if ( ! is_array( $asField ) ) {
 			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
@@ -476,8 +476,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
 		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
 						
-		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;		
-		
+		$this->oProp->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;		
+
 	}	
 	
 	/**
@@ -1250,20 +1250,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	public function _replyToRegisterSettings() {
-		
+
 		/* 1. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. 
 		 * Note that we use local variables for the applying items. This allows the framework to refer to the added sections and fields for later use. 
 		 * */
 		$this->_formatSectionArrays( $this->oProp->aSections );	// passed by reference.
 		$this->_formatFieldArrays( $this->oProp->aFields, $this->oProp->aSections );	
-		
+
 		$_aSections = $this->_applyConditionsForSections( $this->oProp->aSections );
 		$_aFields = $this->_applyConditionsForFields( $this->oProp->aFields, $_aSections );
 		
 		$this->_composeFormArray( $_aSections, $_aFields );
-		
+
 		/* 2. If there is no section or field to add, do nothing. */
-		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $_aSections ) == 0 || count( $_aFields ) == 0 ) ) return;
+		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $_aFields ) == 0 ) ) return;
 
 		/* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
 		new AdminPageFramework_FieldTypeRegistration( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
@@ -1386,6 +1386,16 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 */ 
 		private function _formatSectionArrays( &$aSections ) {
 
+			// Set the default section.
+			$aSections = $this->oUtil->uniteArrays( $aSections, 
+				array( 
+					'_default'	=>	array(
+						'page_slug'	=>  $this->oProp->sDefaultPageSlug,					
+						'section_id'	=>	'_default',
+					)
+				)
+			);
+		
 			// Apply filters to let other scripts to add sections.
 			$aSections = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 				$this,
@@ -1495,7 +1505,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * 
 		 * @since			2.0.0
 		 */ 
-		private function _formatFieldArrays( &$aFields, &$aSections ) {
+		private function _formatFieldArrays( &$aFields, $aSections ) {
 			
 			// Apply filters to let other scripts to add fields.
 			foreach( $aFields as $_sSectionID => &$_aFields ) {
@@ -1552,8 +1562,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				}
 				
 			}
-			$aFields = $_aNewFieldArrays;
 			
+			$aFields = $_aNewFieldArrays;
+
 		}
 		/**
 		 * Applies conditions to the given fields.
@@ -1563,7 +1574,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * @param			array				The formatted field definition arrays. 
 		 * @param			array				The formatted section definition arrays. The arrays should be already filtered with conditions. In other words, the sections the sections will be displayed in the loading page.
 		 */
-		private function _applyConditionsForFields( &$aFields, $aSections ) {
+		private function _applyConditionsForFields( $aFields, $aSections ) {
 
 			$_aNewFieldArrays = array();
 			foreach( $aFields as $_sSectionID => $_aFields ) {

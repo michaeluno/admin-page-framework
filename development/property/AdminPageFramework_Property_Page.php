@@ -141,7 +141,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * Stores form sections.
 	 * @since			2.0.0
 	 */ 					
-	public $aSections = array();
+	public $aSections = array(
+		'_default'	=>	array()
+	);
 	
 	/**
 	 * Stores form fields
