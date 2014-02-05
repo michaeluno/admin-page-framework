@@ -163,7 +163,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	* @return			void
 	* @remark			Do not check the 'if' key to skip the field registration because the added field IDs need to be retrieved later on when determining submitted values in the $_POST array.
 	*/		
-	public function addSettingField( array $aField ) {
+	public function addSettingField( $aField ) {
 		
 		$aField = $aField + AdminPageFramework_Form::$_aStructure_Field;	// avoid undefined index warnings.
 		
@@ -319,8 +319,8 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		/* Get the field outputs */
 		$oFieldsTable = new AdminPageFramework_FormTable;
 		$aOutput[] = $bRenderTableRow 
-			? $oFieldsTable->getFieldRows( $aFields, array( $this, '_replytToGetFieldOutput' ) )
-			: $oFieldsTable->getFields( $aFields, array( $this, '_replytToGetFieldOutput' ) );
+			? $oFieldsTable->getFieldRows( $aFields, array( $this, '_replyToGetFieldOutput' ) )
+			: $oFieldsTable->getFields( $aFields, array( $this, '_replyToGetFieldOutput' ) );
 				
 		/* Filter the output */
 		$sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );

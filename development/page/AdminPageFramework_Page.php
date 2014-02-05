@@ -357,11 +357,17 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 										
 			// Render the form elements by Settings API
 			if ( $this->oProp->bEnableForm ) {
-				settings_fields( $this->oProp->sOptionKey );	// this value also determines the $option_page global variable value.
-				// do_settings_sections( $sPageSlug ); 
-				$oFieldsTable = new AdminPageFramework_FormTable;
-				if ( isset( $this->oProp->aForm[ $sPageSlug ] ) )
+
+				// this value also determines the $option_page global variable value. This is important to get redirected back from option.php page.
+				// This also is needed for page meta box fields.
+				settings_fields( $this->oProp->sOptionKey );	
+				
+				// do_settings_sections( $sPageSlug ); // deprecated
+								
+				if ( isset( $this->oProp->aForm[ $sPageSlug ] ) ) {
+					$oFieldsTable = new AdminPageFramework_FormTable;
 					echo $oFieldsTable->getFormTables( $this->oProp->aForm[ $sPageSlug ], array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+				}
 				
 			}				
 			 

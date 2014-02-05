@@ -121,7 +121,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function enqueueStyle( $sSRC, $_vArg2=null, $_vArg3=null ) {}
 	public function enqueueScripts( $aSRCs, $_vArg2=null, $_vArg3=null ) {}
 	public function enqueueScript( $sSRC, $_vArg2=null, $_vArg3=null ) {}
-	public function addSettingField( array $aField ) {}
+	public function addSettingField( $asField ) {}
 
 			
 	/*
@@ -206,10 +206,9 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function addSettingSection( $aSection ) {
 				
 		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_Form::$_aStructure_Section );	// avoid undefined index warnings.
-		if ( ! isset( $aSection['section_id'] ) ) return;	// these keys are necessary.
-
+		
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-		$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
+		$aSection['section_id'] = $aSection['section_id'] ? $this->oUtil->sanitizeSlug( $aSection['section_id'] ) : '_default';
 
 		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
 		
@@ -261,38 +260,22 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$aOutput = array();
 		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
-		// Begin the field table and loop
+		// Set the option array - the framework will refer to this data when displaying the fields.
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
 		$this->setOptionArray( $iPostID, $vArgs['args'] );
-
+	
 		// Format the fields array.
-		$aFields = ( array ) $vArgs['args'];
-		foreach ( $aFields as $_sSectionID => &$_aFields ) {
-			
-			foreach( $_aFields as $sFieldID => &$aField ) {
-										
-				$aField = $this->oUtil->uniteArrays(
-					array( '_fields_type' => $this->oProp->sFieldsType ),
-					$aField,
-					array( 'capability' => $this->oProp->sCapability ),
-					AdminPageFramework_Form::$_aStructure_Field
-				);	// avoid undefined index warnings.
-				
-				// Check capability. If the access level is not sufficient, skip.
-				if ( ! current_user_can( $aField['capability'] ) ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
-				if ( ! $aField['if'] ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
-				
-			}
-			unset( $aField );	// to be safe in PHP.
-				
-		}
+		$oForm = new AdminPageFramework_Form;
+		$aFields = $oForm->formatFieldsArray( ( array ) $vArgs['args'], $this->oProp->sFieldsType, $this->oProp->sCapability );
+						
+		// Get the fields output.
 		$oFieldsTable = new AdminPageFramework_FormTable;
-		$aOutput[] = $oFieldsTable->getFormTables( $aFields, null, array( $this, '_replytToGetFieldOutput' ) );
+		$aOutput[] = $oFieldsTable->getFormTables( $aFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
 		
-		/* Filter the output */
+		/* Render the filtered output */
 		echo $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
 
 	}
@@ -327,13 +310,33 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 	}
 
-	public function _replytToGetFieldOutput( &$aField ) {
-		return $this->getFieldOutput( $aField );
-	}
-	protected function getFieldOutput( &$aField ) {
+	/**
+	 * Returns the filtered section description output.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function _replyToGetSectionOutput( $sSectionID ) {
 
-		// Set the input field name which becomes the option key of the custom meta field of the post.
-		// $aField['name'] = isset( $aField['name'] ) ? $aField['name'] : $aField['field_id'];	// deprecated as the attributes key can support custom name 
+		if ( ! isset( $this->oProp->aSections[ $sSectionID ] ) ) return 'No Section: ' . $sSectionID;	// if it is not added
+		
+		$aOutput = array();
+		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['title'] ? "<h3 class='admin-page-framework-section-title'>" . $this->oProp->aSections[ $sSectionID ]['title'] . "</h3>" : '';
+		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['description'] ? "<p class='admin-page-framework-section-description'>" . $this->oProp->aSections[ $sSectionID ]['description'] . "</p>" : '';
+			
+		return $this->oUtil->addAndApplyFilters(
+			$this,
+			array( 'section_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_ + {extended class name} + _ {section id}
+			implode( PHP_EOL, $aOutput )
+		);				
+		
+	}
+	
+	/**
+	 * Returns the field output from the given field definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function _replyToGetFieldOutput( $aField ) {
 
 		// Render the form field. 		
 		$sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
@@ -341,7 +344,6 @@ abstract class AdminPageFramework_MetaBox_Base {
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
 		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, array(), $this->oProp->aFieldTypeDefinitions, $this->oMsg );	// currently the error array is not supported for meta-boxes
-		// $oField->isMetaBox( true );
 		$sFieldOutput = $oField->_getInputFieldOutput();	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 		
@@ -370,40 +372,80 @@ abstract class AdminPageFramework_MetaBox_Base {
 		if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) return;
 			
 		// Check permissions
-		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes )   
-			&& ( ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) || ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) )
-		) return;
+		if ( ! $iPostID ) return;
+		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) return;
 
-		// Compose an array consisting of the submitted registered field values.
-		$aInput = array();
-		foreach( $this->oProp->aFields as $sSectionID => $aFields ) {
-			foreach( $aFields as $aField ) 
-				$aInput[ $aField['field_id'] ] = isset( $_POST[ $aField['field_id'] ] ) ? $_POST[ $aField['field_id'] ] : null;
-		}
-			
-		// Prepare the old value array.
-		$aOriginal = array();
-		foreach ( $aInput as $sFieldID => $v )
-			$aOriginal[ $sFieldID ] = get_post_meta( $iPostID, $sFieldID, true );
+		// Retrieve the submitted data.
+		$aInput = $this->getInputArray( $this->oProp->aFields );
+	
+		// Prepare the saved data.
+		$aSavedMeta = $this->getSavedMetaArray( $iPostID, $aInput );
 					
 		// Apply filters to the array of the submitted values.
-		$aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aInput, $aOriginal );
+		$aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aInput, $aSavedMeta );
 
-		// Loop through fields and save the data.
-		foreach ( $aInput as $sFieldID => $vValue ) {
+		// Loop through sections/fields and save the data.
+		foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
 			
-			// $sOldValue = get_post_meta( $iPostID, $sFieldID, true );			
-			$sOldValue = isset( $aOriginal[ $sFieldID ] ) ? $aOriginal[ $sFieldID ] : null;
-			if ( ! is_null( $vValue ) && $vValue != $sOldValue ) {
-				update_post_meta( $iPostID, $sFieldID, $vValue );
-				continue;
-			} 
-			// if ( '' == $sNewValue && $sOldValue ) 
-				// delete_post_meta( $iPostID, $aField['field_id'], $sOldValue );
+			if ( is_null( $_vValue ) ) continue;
+			
+			$vSavedValue = isset( $aSavedMeta[ $_sSectionOrFieldID ] ) ? $aSavedMeta[ $_sSectionOrFieldID ] : null;
+			
+			// PHP can compare even array contents with the == operator. See http://www.php.net/manual/en/language.operators.array.php
+			if ( $_vValue == $vSavedValue ) continue;	// if the input value and the saved meta value are the same, no need to update it.
+		
+			update_post_meta( $iPostID, $_sSectionOrFieldID, $_vValue );
 			
 		} // end foreach
 		
 	}	
+		/**
+		 * Retrieves the user submitted values.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getInputArray( array $aFieldDefinitionArrays ) {
+			
+			// Compose an array consisting of the submitted registered field values.
+			$aInput = array();
+			foreach( $aFieldDefinitionArrays as $_sSectionID => $_aFields ) {
+				
+				// If a section is not set,
+				if ( $_sSectionID == '_default' ) {
+					foreach( $_aFields as $_aField ) {
+						$aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 
+							? $_POST[ $_aField['field_id'] ] 
+							: null;
+					}
+					continue;
+				}			
+					
+				// If a section is set,
+				$aInput[ $_sSectionID ] = isset( $aInput[ $_sSectionID ] ) ? $aInput[ $_sSectionID ] : array();
+				foreach( $_aFields as $_aField ) {
+					$aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
+						? $_POST[ $_sSectionID ][ $_aField['field_id'] ]
+						: null;
+				}				
+			}
+			
+			return $aInput;
+			
+		}
+		
+		/**
+		 * Retrieves the saved meta data as an array.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getSavedMetaArray( $iPostID, $aInputStructure ) {
+			
+			$aSavedMeta = array();
+			foreach ( $aInputStructure as $_sSectionORFieldID => $_v )
+				$aSavedMeta[ $_sSectionORFieldID] = get_post_meta( $iPostID, $_sSectionORFieldID, true );
+			return $aSavedMeta;
+			
+		}
 	
 	/*
 	 * Magic method
@@ -413,22 +455,25 @@ abstract class AdminPageFramework_MetaBox_Base {
 		// the start_ action hook.
 		if ( $sMethodName == 'start_' . $this->oProp->sClassName ) return;
 
+		// the section_{class name}_{...} filter. [3.0.0+]
+		if ( substr( $sMethodName, 0, strlen( 'section_' . $this->oProp->sClassName . '_' ) ) == 'section_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
+		
 		// the field_{class name}_{...} filter.
 		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
 		
 		// the field_types_ + class name filter. [2.1.5+]
 		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];		
 
-		// the script_common + class name filter.	[3.0.0+]
+		// the script_common + class name filter. [3.0.0+]
 		if ( substr( $sMethodName, 0, strlen( "script_common_{$this->oProp->sClassName}" ) ) == "script_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 
 		// the script_ + class name filter.
 		if ( substr( $sMethodName, 0, strlen( "script_{$this->oProp->sClassName}" ) ) == "script_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 
-		// the style_ie_common_ + class name filter.	[3.0.0+]
+		// the style_ie_common_ + class name filter. [3.0.0+]
 		if ( substr( $sMethodName, 0, strlen( "style_ie_common_{$this->oProp->sClassName}" ) ) == "style_ie_common_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 			
-		// the style_common + class name filter.	[3.0.0+]
+		// the style_common + class name filter. [3.0.0+]
 		if ( substr( $sMethodName, 0, strlen( "style_common_{$this->oProp->sClassName}" ) ) == "style_common_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 
 		// the style_ie + class name filter.

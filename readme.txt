@@ -233,7 +233,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
-* Added: the ability to omit the `addSettingSections()` method not to set a section.
+* Added: the ability to set form sections in meta boxes.
+* Added: the ability to omit the `addSettingSections()` method not to set a section. In other words, setting a section became optional.
 * Added: the `fields_{instantiated class name}_{section id}` filter that receives registered field definition arrays which belong to the given section.
 * Added: the `grid` custom field type.
 * Added: the documentation pages in the distribution package.

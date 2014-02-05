@@ -15,6 +15,22 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 		);
 		
 		/*
+		 * ( optional ) Set form sections - if not set, the system default section will be applied so you don't worry about it.
+		 */
+		$this->addSettingSections(
+			array(
+				'section_id'	=> 'selectors',
+				'title'	=> __( 'Selectors', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are grouped in the <code>selectors</code> section.', 'admin-page-framework-demo' ),
+			),
+			array(
+				'section_id'	=> 'misc',
+				'title'	=> __( 'MISC', 'admin-page-framework-demo' ),
+				'description'	=> __( 'These are grouped in the <code>misc</code> section.', 'admin-page-framework-demo' ),
+			)	
+		);
+		
+		/*
 		 * ( optional ) Adds setting fields into the meta box.
 		 */
 		$this->addSettingFields(
@@ -50,6 +66,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'rich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
 			),				
 			array(
+				'section_id'	=> 'selectors',
 				'field_id'		=> 'checkbox_field',
 				'type'			=> 'checkbox',
 				'title'			=> __( 'Checkbox Input', 'admin-page-framework-demo' ),
@@ -97,6 +114,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				),
 			),			
 			array (
+				'section_id'	=> 'misc',
 				'field_id'		=> 'image_field',
 				'type'			=> 'image',
 				'title'			=> __( 'Image', 'admin-page-framework-demo' ),

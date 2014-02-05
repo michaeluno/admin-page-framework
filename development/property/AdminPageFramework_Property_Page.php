@@ -322,7 +322,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 				
 				$_vDefault = $this->_getDefautValue( $_aField );
 				
-				if ( isset( $_aField['section_id'] ) && $_aField['section_id'] )
+				if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' )
 					$_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
 				else
 					$_aDefaultOptions[ $_sFieldID ] = $_vDefault;

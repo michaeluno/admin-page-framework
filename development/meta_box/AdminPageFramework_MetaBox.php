@@ -204,19 +204,27 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	* @since			3.0.0			The scope changed to public to indicate the users will use.
 	* @return			void
 	*/		
-	public function addSettingField( array $aField ) {
+	public function addSettingField( $asField ) {
 		
-		$aField = array( '_fields_type' => $this->oProp->sFieldsType ) + $aField + AdminPageFramework_Form::$_aStructure_Field;	// avoid undefined index warnings.
+		// Set the target section ID.
+		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
+		if ( ! is_array( $asField ) ) {
+			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
+			return;
+		}
+		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
+		
+		$aField = array( 
+				'_fields_type'	=>	$this->oProp->sFieldsType,
+				'section_id'	=>	$__sTargetSectionID,
+			) + $asField 
+			+ AdminPageFramework_Form::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
-		
-		// Check the mandatory keys are set.
+		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
 		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
-						
-		// If a custom condition is set and it's not true, skip.
-		if ( ! $aField['if'] ) return;
-							
+		
 		// Load head tag elements for fields.
 		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) ) 
 			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
@@ -225,7 +233,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) && $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 				
-		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
+		$this->oProp->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
 	
 	}
 	

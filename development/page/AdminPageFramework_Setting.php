@@ -175,7 +175,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$__sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $__sTargetTabSlug;		
 		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_Form::$_aStructure_Section, array( 'page_slug' => $__sTargetPageSlug, 'tab_slug' => $__sTargetTabSlug ) );	// avoid undefined index warnings.
 		
-
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 		$aSection['section_id'] = $aSection['section_id'] ? $this->oUtil->sanitizeSlug( $aSection['section_id'] ) : '_default';
 		$aSection['page_slug'] = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : $this->oProp->sDefaultPageSlug;
@@ -583,9 +582,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( isset( $_POST['__submit'] ) && $sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) )
 			$this->_setRedirectTransients( $sRedirectURL );
 				
+// AdminPageFramework_Debug::logArray( $_POST );	
+// AdminPageFramework_Debug::logArray( $aInput );	
 		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
 		$aInput = $this->_getFilteredOptions( $aInput, $sPageSlug, $sTabSlug );
-		
 		/* 4. Check if custom submit keys are set [part 2] - these should be done after applying the filters. */
 		if ( $sKeyToReset )
 			$aInput = $this->_resetOptions( $sKeyToReset, $aInput );
@@ -908,7 +908,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 
 			$_aDefaultOptions = $this->oProp->getDefaultOptions();
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
-			$_aInput = $aInput;	// copy it for parsing
+			$_aInput = $aInput;	// copy one for parsing
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
 			
 			// For each submitted element
@@ -1558,8 +1558,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		if ( ! isset( $this->oProp->aForm[ $_sCurrentPageSlug ][ $sSectionID ] ) ) return '';
 		
 		$aOutput = array();
-		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['title'] ? "<h3>" . $this->oProp->aSections[ $sSectionID ]['title'] . "</h3>" : '';
-		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['description'] ? '<p>' . $this->oProp->aSections[ $sSectionID ]['description'] . '</p>' : '';
+		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['title'] ? "<h3 class='admin-page-framework-section-title'>" . $this->oProp->aSections[ $sSectionID ]['title'] . "</h3>" : '';
+		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['description'] ? "<p class='admin-page-framework-section-description'>" . $this->oProp->aSections[ $sSectionID ]['description'] . "</p>" : '';
 			
 		return $this->oUtil->addAndApplyFilters(
 			$this,

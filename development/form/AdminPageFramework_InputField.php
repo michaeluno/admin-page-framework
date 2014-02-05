@@ -91,17 +91,23 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$aField = isset( $aField ) ? $aField : $this->aField;
-		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
-			? "[{$aField['section_id']}]"
-			: '';
-		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
-				? "{$aField['option_key']}{$sSectionDimension}[{$aField['field_id']}]"
-				: $aField['field_id']
-			) 
-			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
-				? ''
-				: "[{$sKey}]"
-			);
+		$_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "[{$sKey}]";
+		switch( $aField['_fields_type'] ) {
+			default:
+			case 'page':
+				$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
+					? "[{$aField['section_id']}]"
+					: '';
+				return "{$aField['option_key']}{$sSectionDimension}[{$aField['field_id']}]{$_sKey}";
+			case 'page_meta_box':
+			case 'post_meta_box':
+				return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
+					? "{$aField['section_id']}[{$aField['field_id']}]{$_sKey}"
+					: "{$aField['field_id']}{$_sKey}";
+			case 'taxonomy':	// taxonomy fields type do not support sections.
+				return "{$aField['field_id']}{$_sKey}";
+					
+		}			
 	}
 	
 	/**
@@ -115,22 +121,27 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_InputField.
 	 * @since			3.0.0			Moved from the submit field type class. Dropped the page slug dimension.
 	 */ 
-	protected function _getFlatInputName( &$aField, $sKey='' ) {	
+	protected function _getFlatInputName( $aField, $sKey='' ) {	
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
-		$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
-			? "|{$aField['section_id']}"
-			: '';		
-		return ( isset( $aField['option_key'] ) // the meta box class does not use the option key
-				? "{$aField['option_key']}{$sSectionDimension}|{$aField['field_id']}"
-				: $aField['field_id'] 
-			)
-			. ( $sKey !== '0' && empty( $sKey )	// $sKey can be 0 (zero) which yields false
-				? ""
-				: "|{$sKey}"
-			);
+		$_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "|{$sKey}";
+		switch( $aField['_fields_type'] ) {
+			default:
+			case 'page':
+				$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
+					? "|{$aField['section_id']}"
+					: '';
+				return "{$aField['option_key']}{$sSectionDimension}|{$aField['field_id']}{$_sKey}";
+			case 'page_meta_box':
+			case 'post_meta_box':
+				return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
+					? "{$aField['section_id']}|{$aField['field_id']}{$_sKey}"
+					: "{$aField['field_id']}{$_sKey}";
+			case 'taxonomy':	// taxonomy fields type do not support sections.
+				return "{$aField['field_id']}{$_sKey}";
+					
+		}	
 	}
-	
 	
 	/**
 	 * Returns the stored field value.
@@ -161,13 +172,13 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	
 				if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null;
 			
-				if ( ! isset( $aField['section_id'] ) || ! $aField['section_id'] || $aField['section_id'] == '_default' )
+				if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
 					return get_post_meta( $_GET['post'], $aField['field_id'], true );
 					
 				// At this point, the section dimension is set.
-				$aSectionValues = get_post_meta( $_GET['post'], $aField['section_id'], true );
-				return isset( $aSectionValues[ $aField['field_id'] ] )
-					? $aSectionValues[ $aField['field_id'] ]
+				$aSectionArray = get_post_meta( $_GET['post'], $aField['section_id'], true );
+				return isset( $aSectionArray[ $aField['field_id'] ] )
+					? $aSectionArray[ $aField['field_id'] ]
 					: null;
 					
 		}

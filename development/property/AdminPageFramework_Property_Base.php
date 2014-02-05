@@ -175,6 +175,23 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Form Elements */
+		/* Metabox Section Heading Info */
+		#poststuff .metabox-holder h3.admin-page-framework-section-title {
+			border: none;
+			font-weight: bold;
+			font-size: 1.3em;
+			margin: 1em 0;
+			padding: 0;
+			font-family: 'Open Sans', sans-serif;		
+			cursor: inherit;			
+			-webkit-user-select: inherit;
+			-moz-user-select: inherit;
+			user-select: inherit;			
+		}
+		.admin-page-framework-section-description {
+			
+		}
+		
 		/* Fields Container */
 		.admin-page-framework-fields {
 			display: table;	/* the block property does not give the element the solid height */

@@ -19,7 +19,7 @@ class AdminPageFramework_FormTable {
 		
 		$aOutput = array();
 		foreach( $aSections as $_sSectionID => $aFields ) {
-			if ( is_callable( $hfSectionCallback ) ) 
+			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
 			$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
 		}

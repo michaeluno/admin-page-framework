@@ -177,24 +177,33 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* @since			3.0.0			
 	* @return			void
 	*/		
-	public function addSettingField( array $aField ) {
+	public function addSettingField( $asField ) {
 
+		// Set the target section ID.
+		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
+		if ( ! is_array( $asField ) ) {
+			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
+			return;
+		}
+		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
+		
 		$aField = $this->oUtil->uniteArrays(
-			array( '_fields_type' => self::$_sFieldsType ),
-			$aField,
+			array( 
+				'_fields_type' => $this->oProp->sFieldsType,
+				'section_id'	=>	$__sTargetSectionID,
+			),
+			$asField,
 			array( 'capability' => $this->oProp->sCapability ),
 			AdminPageFramework_Form::$_aStructure_Field
 		);	// Avoid undefined index warnings
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
+		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
 		
 		// Check the mandatory keys are set.
 		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
-						
-		// If a custom condition is set and it's not true, skip.
-		if ( ! $aField['if'] ) return;
-							
+		
 		// Load head tag elements for fields.
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) ) 
 			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
@@ -203,7 +212,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 
-		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
+		$this->oProp->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
 
 	}
 		/**
@@ -231,7 +240,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		/* Since meta box fields don't have the option_key key which is required to compose the name attribute in the regular pages. */
 		$sOptionKey = $this->_getOptionKey();
 		$aField['option_key'] = $sOptionKey ? $sOptionKey : null;
-		$aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : '';	// set an empty string to make it yield true for isset() so that saved options will be cheched.
+		$aField['page_slug'] = isset( $_GET['page'] ) ? $_GET['page'] : '';	// set an empty string to make it yield true for isset() so that saved options will be checked.
 
 		return parent::getFieldOutput( $aField );
 		
@@ -305,11 +314,31 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * @internal
 	 * @sicne			3.0.0
+	 * @param			array			The array holing the field values of the page sent from the framework page class (the main class).
+	 * @param			array			The array holing the saved options of the page.
 	 */
-	public function _replyToValidateOptions( $aNewOptions, $aOldOptions ) {
+	public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
 		
-		return $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aNewOptions, $aOldOptions );
+		// The field values of this class will not be included in the parameter array. So get them.
+		$_aFieldsModel = AdminPageFramework_Form::getFieldsModel( $this->oProp->aFields );
+		$_aNewInput = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
+		$_aOldInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
+// AdminPageFramework_Debug::logArray( $this->oProp->aFields );	
+// AdminPageFramework_Debug::logArray( $_aFieldsModel );	
+// AdminPageFramework_Debug::logArray( $_POST );	
+// AdminPageFramework_Debug::logArray( $_aNewInput );	
+		// Apply filters - third party scripts will have access to the input.
+		$_aNewInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aNewInput, $_aOldInput );
 		
+		// Now merge the input values with the passed page options.
+		return $this->oUtil->uniteArrays( $_aNewInput, $aNewPageOptions );
+				
 	}
+	
+		/**
+		 * Creates a field model array that 
+		 * 
+		 * @since			3.0.0
+		 */
 }
 endif;

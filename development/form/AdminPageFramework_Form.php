@@ -1,7 +1,7 @@
 <?php
 if ( ! class_exists( 'AdminPageFramework_Form' ) ) :
 /**
- * Provides properties for form elements
+ * Provides methods to compose form elements
  * 
  * @package			AdminPageFramework
  * @subpackage		Form
@@ -71,5 +71,80 @@ class AdminPageFramework_Form  {
 		'_fields_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
 	);	
 			
+	/**
+	 * Formats the fields array.
+	 * 
+	 * @since			3.0.0
+	 * @return			array			The formatted fields array.
+	 */
+	public function formatFieldsArray( array $aFields, $sFieldsType, $sCapability ) {
+
+		foreach ( $aFields as $_sSectionID => &$_aFields ) {
+			
+			foreach( $_aFields as $sFieldID => &$_aField ) {
+										
+				$_aField = AdminPageFramework_Utility::uniteArrays(
+					array( '_fields_type' => $sFieldsType ),
+					$_aField,
+					array( 'capability' => $sCapability ),
+					self::$_aStructure_Field
+				);	// avoid undefined index warnings.
+				
+				// Check capability. If the access level is not sufficient, skip.
+				if ( ! current_user_can( $_aField['capability'] ) ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
+				if ( ! $_aField['if'] ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
+				
+			}
+			unset( $_aField );	// to be safe in PHP.
+				
+		}
+		
+		return $aFields;
+		
+		
+	}
+	
+	/**
+	 * Returns a fields model array that represents the structure of the array of saving data from the given fields definition array.
+	 * 
+	 * The passed fields array should be structured like the following.
+	 * 
+	 * 	array(  
+	 * 		'_default'	=> array(		// _default is reserved for the system.
+	 * 			'my_field_id' => array( .... ),
+	 * 			'my_field_id2' => array( .... ),
+	 * 		),
+	 * 		'my_secion_id' => array(
+	 * 			'my_field_id' => array( ... ),
+	 * 			'my_field_id2' => array( ... ),
+	 * 			'my_field_id3' => array( ... ),
+	 * 	
+	 * 		),
+	 * 		'my_section_id2' => array(
+	 * 			'my_field_id' => array( ... ),
+	 * 		),
+	 * 		...
+	 * )
+	 * 
+	 * @since			3.0.0
+	 */
+	public static function getFieldsModel( array $aFields )  {
+		
+		$_aFieldsModel = array();
+		foreach ( $aFields as $_sSectionID => $_aFields ) {
+
+			if ( $_sSectionID != '_default' ) {
+				$_aFieldsModel[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;	
+				continue;
+			}
+			
+			// Fore default field items.
+			foreach( $_aFields as $_sFieldID => $_aField ) 
+				$_aFieldsModel[ $_aField['field_id'] ] = $_aField;
+
+		}
+		return $_aFieldsModel;
+	}
+	
 }
 endif;
