@@ -18,15 +18,57 @@ class AdminPageFramework_FormTable {
 	public function getFormTables( &$aSections, $hfSectionCallback, $hfFieldCallback ) {
 		
 		$aOutput = array();
-		foreach( $aSections as $_sSectionID => $aFields ) {
+		foreach( $aSections as $_sSectionID => $aSubSectionsOrFields ) {
+			
+			// For repeatable sections,
+			if ( $this->hasSubSections( $aSubSectionsOrFields ) ) {
+				
+				$aSubSections = $this->getSubSections( $aSubSectionsOrFields );		// will include the main section as well.
+				
+				// Get the heading title and description
+				if ( is_callable( $hfSectionCallback ) ) 
+					$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description							
+					
+				// Get the section tables.
+				foreach( $aSubSections as $aSubSection )
+					$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
+					
+				continue;
+				
+			}
+			
+			// Otherwise, it's an fields-array.
+			$aFields = $aSubSectionsOrFields;
+			
 			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
 			$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
+			
 		}
 		return implode( PHP_EOL, $aOutput );
 		
 	}
+		/**
+		 * Determines whether the given sections array holds sub-sections.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function hasSubSections( $aSectionElements ) {
+			
+return false;
+			
+		}
 	
+		/**
+		 * Re-composes section definition arrays with sub-sections.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function getSubSections( $aSectionElements ) {
+			
+return $aSectionElements;			
+			
+		}
 	/**
 	 * Returns a single HTML table output of a set of fields generated from the given field definition arrays.
 	 * 

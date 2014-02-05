@@ -30,6 +30,7 @@ class AdminPageFramework_Form  {
 		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
 		'help' => null,
 		'help_aside' => null,
+		'repeatable'	=> null,		// 3.0.0+
 	);	
 	
 	/**
@@ -43,8 +44,8 @@ class AdminPageFramework_Form  {
 	 */ 
 	public static $_aStructure_Field = array(
 		'field_id'			=> null, 		// ( required )
-		'section_id'		=> null,		// ( required )
 		'type'				=> null,		// ( required )
+		'section_id'		=> null,		// ( optional )
 		'section_title'		=> null,		// This will be assigned automatically in the formatting method.
 		'page_slug'			=> null,		// This will be assigned automatically in the formatting method.
 		'tab_slug'			=> null,		// This will be assigned automatically in the formatting method.
@@ -70,9 +71,33 @@ class AdminPageFramework_Form  {
 		'hidden'			=> null,		// since 3.0.0
 		'_fields_type'		=> null,		// since 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
 	);	
+	
+	/**
+	 * Formats the sections definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function formatSectionsArray( array $aSections, $sCapability ) {
+		
+		$aNewSectionArray = array();
+		foreach( $aSections as $_sSectionID => $_aSection ) {
+			
+			$_aSection = $_aSection + array( 'capability' => $sCapability ) + self::$_aStructure_Section;
+						
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $_aSection['capability'] ) ) continue;
+			if ( ! $_aSection['if'] ) continue;
+			
+			$aNewSectionArray[ $_sSectionID ] = $_aSection;
+			
+			
+		}
+		
+	}
+	
 			
 	/**
-	 * Formats the fields array.
+	 * Formats the fields definition array.
 	 * 
 	 * @since			3.0.0
 	 * @return			array			The formatted fields array.
