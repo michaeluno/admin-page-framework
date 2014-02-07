@@ -72,9 +72,10 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 		
-		/* Do this after the parent constructor as it creates the oProp object. */
+		/* Do this after the parent constructor as the constructor creates the oProp object. */
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
-		$this->oProp->sFieldsType = self::$_sFieldsType;
+	
+		$this->oForm = new AdminPageFramework_FormElement( self::$_sFieldsType, $sCapability );
 	
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
@@ -206,24 +207,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	*/		
 	public function addSettingField( $asField ) {
 		
-		// Set the target section ID.
-		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
-		if ( ! is_array( $asField ) ) {
-			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
-			return;
-		}
-		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
-		
-		$aField = array( 
-				'_fields_type'	=>	$this->oProp->sFieldsType,
-				'section_id'	=>	$__sTargetSectionID,
-			) + $asField 
-			+ AdminPageFramework_FormElement::$_aStructure_Field;	// avoid undefined index warnings.
-		
-		// Sanitize the IDs since they are used as a callback method name.
-		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
-		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
-		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
+		$aField = $this->oForm->addField( $asField );
+		if ( ! is_array( $aField ) ) return;	// if not added or the target section, do not continue;
 		
 		// Load head tag elements for fields.
 		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) ) 
@@ -233,8 +218,6 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) && $aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
 				
-		$this->oProp->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
-	
 	}
 	
 	/**
@@ -256,7 +239,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 				$sPostType,		// post type
 				$this->oProp->sContext, 	// context
 				$this->oProp->sPriority,	// priority
-				$this->oProp->aFields	// argument
+				null	// deprecated $this->oForm->aFields	// argument
 			);
 			
 	}		

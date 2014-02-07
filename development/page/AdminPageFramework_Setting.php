@@ -29,6 +29,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	static protected $_sFieldsType = 'page';
 	
 	/**
+	 * Stores the target page slug which will be applied when no page slug is specified for the addSettingSection() method.
+	 * 
+	 * @since			3.0.0
+	 */
+	protected $_sTargetPageSlug = null;
+	
+	/**
+	 * Stores the target tab slug which will be applied when no tab slug is specified for the addSettingSection() method.
+	 * 
+	 * @since			3.0.0
+	 */	
+	protected $_sTargetTabSlug = null;
+	
+	/**
 	 * Registers necessary hooks and sets up properties.
 	 * 
 	 * @internal
@@ -39,9 +53,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-		
+
+// Todo: deprecate 	the $this->oProp->sFieldsType property as it is now stored in the form element class. The format method will be implemented in that class and it will
+// takes care of the fields type set in each field definition array.
 		$this->oProp->sFieldsType = self::$_sFieldsType;
-		$this->oForm = new AdminPageFramework_FormElement;
+		$this->oForm = new AdminPageFramework_FormElement_Page( self::$_sFieldsType, $sCapability );
 		
 	}
 							
@@ -163,17 +179,15 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */
 	public function addSettingSection( $asSection ) {
 				
-		static $__sTargetPageSlug = null;	// stores the target page slug which will be applied when no page slug is specified.
-		static $__sTargetTabSlug = null;	// stores the target tab slug which will be applied when no tab slug is specified.
 		if ( ! is_array( $asSection ) ) {
-			$__sTargetPageSlug = is_string( $asSection ) ? $asSection : $__sTargetPageSlug;
+			$this->_sTargetPageSlug = is_string( $asSection ) ? $asSection : $this->_sTargetPageSlug;
 			return;
 		} 
 		
 		$aSection = $asSection;
-		$__sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $__sTargetPageSlug;
-		$__sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $__sTargetTabSlug;		
-		$aSection = $this->oUtil->uniteArrays( $aSection, array( 'page_slug' => $__sTargetPageSlug, 'tab_slug' => $__sTargetTabSlug ) );	// avoid undefined index warnings.
+		$this->_sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $this->_sTargetPageSlug;
+		$this->_sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $this->_sTargetTabSlug;		
+		$aSection = $this->oUtil->uniteArrays( $aSection, array( 'page_slug' => $this->_sTargetPageSlug, 'tab_slug' => $this->_sTargetTabSlug ) );	// avoid undefined index warnings.
 		
 		$aSection['page_slug'] = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : ( $this->oProp->sDefaultPageSlug ? $this->oProp->sDefaultPageSlug : null );
 		$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
@@ -1286,6 +1300,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				"sections_{$this->oProp->sClassName}",
 				$aSections
 			);
+
+// TODO: 			
+// $this->oForm->formatSections( $this->oProp->sCapability, $sDefalultPageSlug );
 			
 			// Since the section array may have been modified by filters, sanitize the elements and 
 			// apply the conditions to remove unnecessary elements and put new orders.

@@ -65,17 +65,15 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oDebug = new AdminPageFramework_Debug;
 		
+		// Properties
 		$this->oProp = isset( $this->oProp )
 			? $this->oProp
 			: new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
-			
-		// Properties
 		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
 		$this->oProp->sTitle = $sTitle;
 		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
 		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'	
-		$this->oProp->sFieldsType = self::$_sFieldsType;
-		
+
 		if ( $this->oProp->bIsAdmin ) {
 			
 			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method.
@@ -204,13 +202,16 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @return			void
 	 */
 	public function addSettingSection( $aSection ) {
-				
-		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_FormElement::$_aStructure_Section );	// avoid undefined index warnings.
+		
+		if ( is_array( $aSection ) )
+			$this->oForm->addSection( $aSection );
+	
+/* 		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_FormElement::$_aStructure_Section );	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 		$aSection['section_id'] = $aSection['section_id'] ? $this->oUtil->sanitizeSlug( $aSection['section_id'] ) : '_default';
 
-		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	
+		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	 */
 		
 	}		
 		
@@ -259,18 +260,22 @@ abstract class AdminPageFramework_MetaBox_Base {
 		// Use nonce for verification
 		$aOutput = array();
 		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
+
+		// Format the fields array.
+		$this->oForm->format();
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
-		$this->setOptionArray( $iPostID, $vArgs['args'] );
+		$this->setOptionArray( $iPostID, $this->oForm->aFields );
 	
-		// Format the fields array.
-		$oForm = new AdminPageFramework_FormElement;
-		$aFields = $oForm->formatFieldsArray( ( array ) $vArgs['args'], $this->oProp->sFieldsType, $this->oProp->sCapability );
+
+// deprecated
+// $oForm = new AdminPageFramework_FormElement;
+// $aFields = $oForm->formatFieldsArray( ( array ) $vArgs['args'], $this->oProp->sFieldsType, $this->oProp->sCapability );
 						
 		// Get the fields output.
 		$oFieldsTable = new AdminPageFramework_FormTable;
-		$aOutput[] = $oFieldsTable->getFormTables( $aFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
@@ -292,18 +297,23 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 		if ( ! is_array( $aFields ) ) return;
 		
-		if ( is_numeric( $isPostIDOrPageSlug ) ) :
+		// For post meta box, the $isPostIDOrPageSlug will be an integer representing the post ID.
+		if ( is_numeric( $isPostIDOrPageSlug ) && is_int( $isPostIDOrPageSlug + 0 ) ) :
 			
-			$iPostID = $isPostIDOrPageSlug;
-			foreach( $aFields as $iIndex => $aField ) {
+			$_iPostID = $isPostIDOrPageSlug;
+			foreach( $aFields as $_sSectionID => $_aFields ) {
 				
-				// Avoid undefined index warnings
-				$aField = $aField + array( '_fields_type' => $this->oProp->sFieldsType ) + AdminPageFramework_FormElement::$_aStructure_Field;
-
-				$this->oProp->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
+				if ( $_sSectionID == '_default' ) {
+					
+					foreach( $_aFields as $_aField ) 
+						$this->oProp->aOptions[ $_aField['field_id'] ] = get_post_meta( $_iPostID, $_aField['field_id'], true );	
+					
+				}
+				
+				$this->oProp->aOptions[ $_sSectionID ] = get_post_meta( $_iPostID, $_sSectionID, true );
 				
 			}
-			
+							
 		endif;
 		
 		// For page meta boxes, do nothing as the class will retrieve the option array by itself.
@@ -316,17 +326,11 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @since			3.0.0
 	 */
 	public function _replyToGetSectionOutput( $sSectionID ) {
-
-		if ( ! isset( $this->oProp->aSections[ $sSectionID ] ) ) return 'No Section: ' . $sSectionID;	// if it is not added
-		
-		$aOutput = array();
-		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['title'] ? "<h3 class='admin-page-framework-section-title'>" . $this->oProp->aSections[ $sSectionID ]['title'] . "</h3>" : '';
-		$aOutput[] = $this->oProp->aSections[ $sSectionID ]['description'] ? "<p class='admin-page-framework-section-description'>" . $this->oProp->aSections[ $sSectionID ]['description'] . "</p>" : '';
 			
 		return $this->oUtil->addAndApplyFilters(
 			$this,
-			array( 'section_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_ + {extended class name} + _ {section id}
-			implode( PHP_EOL, $aOutput )
+			array( 'section_head_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_ + {extended class name} + _ {section id}
+			$this->oForm->getSectionHeader( $sSectionID )
 		);				
 		
 	}
@@ -376,7 +380,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) return;
 
 		// Retrieve the submitted data.
-		$aInput = $this->getInputArray( $this->oProp->aFields );
+		$aInput = $this->getInputArray( $this->oForm->aFields );
 	
 		// Prepare the saved data.
 		$aSavedMeta = $this->getSavedMetaArray( $iPostID, $aInput );
@@ -396,7 +400,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 			update_post_meta( $iPostID, $_sSectionOrFieldID, $_vValue );
 			
-		} // end foreach
+		}
 		
 	}	
 		/**
@@ -456,7 +460,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		if ( $sMethodName == 'start_' . $this->oProp->sClassName ) return;
 
 		// the section_{class name}_{...} filter. [3.0.0+]
-		if ( substr( $sMethodName, 0, strlen( 'section_' . $this->oProp->sClassName . '_' ) ) == 'section_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
+		if ( substr( $sMethodName, 0, strlen( 'section_head_' . $this->oProp->sClassName . '_' ) ) == 'section_head_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
 		
 		// the field_{class name}_{...} filter.
 		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];

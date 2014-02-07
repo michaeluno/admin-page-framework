@@ -87,6 +87,32 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	public $aSections = array();
 	
 	/**
+	 * Stores the fields type. 
+	 * 
+	 * @since			3.0.0
+	 */
+	protected $sFieldsType = '';
+	
+	/**
+	 * Stores the target page slug which will be applied when no page slug is specified.
+	 * 
+	 * @since			3.0.0
+	 */
+	protected $_sTargetSectionID = '_default';	
+	
+	/**
+	 * Stores the default capability.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function __construct( $sFieldsType, $sCapability ) {
+		
+		$this->sFieldsType = $sFieldsType;
+		$this->sCapability = $sCapability;
+		
+	}
+	
+	/**
 	 * Adds the given section definition array to the form property.
 	 * 
 	 * @since			3.0.0
@@ -119,24 +145,30 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	 * Adds the given field definition array to the form property.
 	 * 
 	 * @since			3.0.0
+	 * @return			array|string|null			If the passed field is set, it returns the set field array. If the target section id is set, the set section id is returned. Otherwise null.
 	 */	
 	public function addField( $asField ) {
 		
-		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
 		if ( ! is_array( $asField ) ) {
-			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
-			return;
+			$this->_sTargetSectionID = is_string( $asField ) ? $asField : $this->_sTargetSectionID;
+			return $this->_sTargetSectionID;	// result
 		}
-		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
+		$this->_sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $this->_sTargetSectionID;
 		
-		$aField = $this->uniteArrays( $asField, self::$_aStructure_Field, array( 'section_id' => $__sTargetSectionID ) );
-		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// Check the required keys as these keys are necessary.
+		$aField = $this->uniteArrays( 
+			array( '_fields_type' => $this->sFieldsType ),
+			$asField, 
+			array( 'section_id' => $this->_sTargetSectionID ),
+			self::$_aStructure_Field
+		);
+		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return null;	// Check the required keys as these keys are necessary.
 			
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->sanitizeSlug( $aField['field_id'] );
 		$aField['section_id'] = $this->sanitizeSlug( $aField['section_id'] );		
 		
 		$this->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
+		return $aField;	// result
 		
 	}	
 		
@@ -192,16 +224,35 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	}
 	
 	/**
-	 * Formats the sections definition array.
+	 * Formats the section and field definition arrays.
 	 * 
 	 * @since			3.0.0
 	 */
-	public function formatSectionsArray( array $aSections, $sCapability ) {
+	public function format() {
+		
+		$this->formatSections( $this->sFieldsType, $this->sCapability );
+		$this->formatFields( $this->sFieldsType, $this->sCapability );
+		
+	}
+	
+	/**
+	 * Formats the stored sections definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function formatSections( $sFieldsType, $sCapability ) {
 		
 		$aNewSectionArray = array();
-		foreach( $aSections as $_sSectionID => $_aSection ) {
+		foreach( $this->aSections as $_sSectionID => $_aSection ) {
 			
-			$_aSection = $_aSection + array( 'capability' => $sCapability ) + self::$_aStructure_Section;
+			$_aSection = $this->uniteArrays(
+				$_aSection,
+				array( 
+					'_fields_type' => $sFieldsType,
+					'capability' => $sCapability,
+				),
+				self::$_aStructure_Section
+			);
 						
 			// Check capability. If the access level is not sufficient, skip.
 			if ( ! current_user_can( $_aSection['capability'] ) ) continue;
@@ -211,43 +262,84 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 			
 			
 		}
+		uasort( $aNewSectionArray, array( $this, '_sortByOrder' ) ); 
+		$this->aSections = $aNewSectionArray;
 		
 	}
 	
 			
 	/**
-	 * Formats the fields definition array.
+	 * Formats the stored fields definition array.
 	 * 
 	 * @since			3.0.0
-	 * @return			array			The formatted fields array.
 	 */
-	public function formatFieldsArray( array $aFields, $sFieldsType, $sCapability ) {
+	public function formatFields( $sFieldsType, $sCapability ) {
 
-		foreach ( $aFields as $_sSectionID => &$_aFields ) {
-			
-			foreach( $_aFields as $sFieldID => &$_aField ) {
-										
-				$_aField = AdminPageFramework_Utility::uniteArrays(
-					array( '_fields_type' => $sFieldsType ),
-					$_aField,
-					array( 'capability' => $sCapability ),
-					self::$_aStructure_Field
-				);	// avoid undefined index warnings.
+		$_aNewFields = array();
+		foreach ( $this->aFields as $_sSectionID => $_aSubSectionORFields ) {
+						
+			foreach( $_aSubSectionORFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
 				
-				// Check capability. If the access level is not sufficient, skip.
-				if ( ! current_user_can( $_aField['capability'] ) ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
-				if ( ! $_aField['if'] ) unset( $aFields[ $_sSectionID ][ $sFieldID ] );
+				// If it is a sub-section array.
+				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
+					
+					$_sSubSectionIndex = $_sIndexOrFieldID;
+					$_aFields = $_aSubSectionOrField;
+					foreach( $_aFields as $_aField ) {
+						
+						$_aField = $this->getFormatedField( $_aField, $sFieldsType, $sCapability );
+						if ( $_aField )
+							$_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;						
+						
+					}
+					uasort( $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ], array( $this, '_sortByOrder' ) ); 
+					continue;
+					
+				}
+				
+				// Otherwise, insert the formatted field definiton array.
+				$_aField = $_aSubSectionOrField;
+				$_aField = $this->getFormatedField( $_aField, $sFieldsType, $sCapability );
+				if ( $_aField )
+					$_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
 				
 			}
-			unset( $_aField );	// to be safe in PHP.
+			uasort( $_aNewFields[ $_sSectionID ], array( $this, '_sortByOrder' ) ); 
 				
 		}
 		
-		return $aFields;
+		// Sort by the order of the sections.
+		if ( ! empty( $this->aSections ) ) :	// as taxonomy fields don't have sections
+			$_aSortedFields = array();
+			foreach( $this->aSections as $sSectionID => $aSeciton ) 	// will be parsed in the order of the $aSections array. Therefore, the sections must be formatted before this method.
+				$_aSortedFields[ $sSectionID ] = $_aNewFields[ $sSectionID ];
+			$_aNewFields = $_aSortedFields;
+		endif;
 		
+		$this->aFields = $_aNewFields;
 		
 	}
-	
+		/**
+		 * Returns the formatted field array.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getFormatedField( $aField, $sFieldsType, $sCapability ) {
+			
+			$_aField = $this->uniteArrays(
+				array( '_fields_type' => $sFieldsType ),
+				$aField,
+				array( 'capability' => $sCapability ),
+				self::$_aStructure_Field
+			);
+			
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $_aField['capability'] ) ) return null;
+			if ( ! $_aField['if'] ) return null;
+			
+			return $_aField;
+			
+		}
 	/**
 	 * Determines whether the given ID is of a registered form section.
 	 * 
@@ -282,73 +374,13 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	}	
 	
 	/**
-	 * Checks if the given page slug is added to a section.
-	 * 
-	 * @since			3.0.0
-	 */
-	public function isPageAdded( $sPageSlug ) {
-		
-		foreach( $this->aSections as $_aSection ) 
-			if ( $_aSection['page_slug'] == $sPageSlug ) return true;
-			
-		return false;
-		
-	}
-	
-	/**
-	 * Returns the registered field that belongs to the given page by slug.
-	 * 
-	 * @since			3.0.0
-	 */
-	public function getFieldsByPageSlug( $sPageSlug, $sTabSlug='' ) {
-		
-		return $this->castArrayContents( $this->getSectionsByPageSlug( $sPageSlug, $sTabSlug ), $this->aFields );
-		
-	}
-	
-	/**
-	 * Returns the registered sections that belong to the given page by slug.
-	 * @since			3.0.0.
-	 */
-	public function getSectionsByPageSlug( $sPageSlug, $sTabSlug='' ) {
-		
-		$_aSections = array();
-		foreach( $this->aSections as $_sSecitonID => $_aSection ) {
-			
-			if ( $sTabSlug && $_aSection['tab_slug'] != $sTabSlug ) continue;
-			
-			if ( $_aSection['page_slug'] != $sPageSlug ) continue;
-			
-			$_aSections[ $_sSecitonID ] = $_aSection;
-				
-		}
-		
-		uasort( $_aSections, array( $this, '_sortByOrder' ) ); 
-		return $_aSections;
-	}
-	
-	
-	/**
-	 * Retrieves the page slug that the settings section belongs to.		
-	 * 
-	 * Used by fields type that require the page_slug key.
-	 * 
-	 * @since			2.0.0
-	 * @return			string|null
-	 * @internal
-	 */ 
-	public function getPageSlugBySectionID( $sSectionID ) {
-		return isset( $this->aSections[ $sSectionID ]['page_slug'] )
-			? $this->aSections[ $sSectionID ]['page_slug']
-			: null;			
-	}	
-
-	/**
 	 * Returns the output of the title and description part of the given section by section ID.
 	 * 
 	 * @since			3.0.0
 	 */ 
 	public function getSectionHeader( $sSectionID ) {
+		
+		if ( ! isset( $this->aSections[ $sSectionID ] ) ) return '';
 		
 		$aOutput = array();
 		$aOutput[] = $this->aSections[ $sSectionID ]['title'] ? "<h3 class='admin-page-framework-section-title'>" . $this->aSections[ $sSectionID ]['title'] . "</h3>" : '';

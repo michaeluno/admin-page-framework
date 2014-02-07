@@ -414,23 +414,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			return $aFields;
 			
 		}
-
-	/**
-	 * Sets or return the flag that indicates whether the creating fields are for meta boxes or not.
-	 * 
-	 * If the parameter is not set, it will return the stored value. Otherwise, it will set the value.
-	 * 
-	 * @since			2.1.2
-	 * @deprecated
-	 */
-	public function isMetaBox( $bTrueOrFalse=null ) {
-		
-		if ( isset( $bTrueOrFalse ) ) 
-			$this->_bIsMetaBox = $bTrueOrFalse;
-			
-		return $this->_bIsMetaBox;
-		
-	}
 	
 	/**
 	 * Indicates whether the repeatable fields script is called or not.

@@ -178,7 +178,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* @return			void
 	*/		
 	public function addSettingField( $asField ) {
-
+// TODO: refactor with the oForm property object.
 		// Set the target section ID.
 		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
 		if ( ! is_array( $asField ) ) {
