@@ -99,6 +99,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$this->oProp->aTaxonomySlugs = ( array ) $asTaxonomySlug;
 		$this->oProp->sOptionKey = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
 		$this->oProp->sFieldsType = self::$_sFieldsType;
+		$this->oForm = new AdminPageFramework_FormElement( self::$_sFieldsType, $sCapability );
 		
 		if ( $this->oProp->bIsAdmin ) {
 			
@@ -163,24 +164,19 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	* @return			void
 	* @remark			Do not check the 'if' key to skip the field registration because the added field IDs need to be retrieved later on when determining submitted values in the $_POST array.
 	*/		
-	public function addSettingField( $aField ) {
+	public function addSettingField( $asField ) {
 		
-		$aField = $aField + AdminPageFramework_FormElement::$_aStructure_Field;	// avoid undefined index warnings.
-		
-		// Sanitize the IDs since they are used as a callback method name.
-		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
-		
-		// Check the mandatory keys are set.
-		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
-													
+		$_aField = $this->oForm->addField( $asField );
+		if ( ! is_array( $_aField ) ) return;
+											
 		// Load head tag elements for fields.
-		AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+		AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
 
 		// For the contextual help pane,
-		if ( $aField['help'] )
-			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
+		if ( $_aField['help'] )
+			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
 				
-		$this->oProp->aFields[ isset( $aField['section_id'] ) ? $aField['section_id'] : '_default' ][ $aField['field_id'] ] = $aField;
+		
 	
 	}
 	
@@ -290,43 +286,19 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$this->setOptionArray( $iTermID, $this->oProp->sOptionKey );
 		
 		/* Format the fields arrays - taxonomy fields do not support sections */
-		$aFields = array();
-		foreach ( ( array ) $this->oProp->aFields as $_sSectionID => $_aFields ) {
-			
-			// Drop the section dimension
-			foreach( $_aFields as $_sFieldID => $aField ) {
-				
-				// Avoid undefined index warnings
-				$aField = $this->oUtil->uniteArrays(
-					array( '_fields_type' => $this->oProp->sFieldsType ),
-					$aField,
-					array( 'capability' => $this->oProp->sCapability ),
-					AdminPageFramework_FormElement::$_aStructure_Field
-				);		// avoid undefined index warnings.
-					
-				// Check capability. If the access level is not sufficient, skip.
-				if ( ! current_user_can( $aField['capability'] ) ) continue;
-				
-				// Check a custom condition.
-				if ( ! $aField['if'] )  continue;
-				
-				$aFields[ $aField['field_id'] ] = $aField;	// no need to set the section dimension.
-			}
-			
-			
-		}
+		$this->oForm->format();
 		
 		/* Get the field outputs */
 		$oFieldsTable = new AdminPageFramework_FormTable;
 		$aOutput[] = $bRenderTableRow 
-			? $oFieldsTable->getFieldRows( $aFields, array( $this, '_replyToGetFieldOutput' ) )
-			: $oFieldsTable->getFields( $aFields, array( $this, '_replyToGetFieldOutput' ) );
+			? $oFieldsTable->getFieldRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
+			: $oFieldsTable->getFields( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
 				
 		/* Filter the output */
 		$sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
 		
 		/* Do action */
-		// $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
+		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
 			
 		return $sOutput;	
 	
@@ -345,7 +317,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$aTaxonomyFieldOptions = get_option( $this->oProp->sOptionKey, array() );
 		$aOldOptions = isset( $aTaxonomyFieldOptions[ $iTermID ] ) ? $aTaxonomyFieldOptions[ $iTermID ] : array();
 		$aSubmittedOptions = array();
-		foreach( $this->oProp->aFields as $_sSectionID => $_aFields ) 
+		foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) 
 			foreach( $_aFields as $_sFieldID => $_aField ) 
 				if ( isset( $_POST[ $_sFieldID ] ) ) 
 					$aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];

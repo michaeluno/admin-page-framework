@@ -16,10 +16,10 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	 * @since			3.0.0
 	 */
 	public function isPageAdded( $sPageSlug ) {
-		
+
 		foreach( $this->aSections as $_sSectionID => $_aSection ) {
-			if ( $_sSectionID = '_default' ) continue;
-			if ( $_aSection['page_slug'] == $sPageSlug ) return true;
+			if ( $_sSectionID == '_default' ) continue;
+			if ( $_aSection['page_slug'] == $sPageSlug ) return true;			
 		}
 			
 		return false;
