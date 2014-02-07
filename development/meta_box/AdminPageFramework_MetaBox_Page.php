@@ -101,6 +101,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
 		$this->oProp->sFieldsType = self::$_sFieldsType;
 		
+		$this->oForm = new AdminPageFramework_FormElement( self::$_sFieldsType, $sCapability );
+		
 		/* Validation hook */
 		foreach( $this->oProp->aPageSlugs as $sPageSlug )
 			add_filter( "validation_{$sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
@@ -178,41 +180,17 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	* @return			void
 	*/		
 	public function addSettingField( $asField ) {
-// TODO: refactor with the oForm property object.
-		// Set the target section ID.
-		static $__sTargetSectionID = '_default';	// stores the target page slug which will be applied when no page slug is specified.
-		if ( ! is_array( $asField ) ) {
-			$__sTargetSectionID = is_string( $asField ) ? $asField : $__sTargetSectionID;
-			return;
-		}
-		$__sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $__sTargetSectionID;
 		
-		$aField = $this->oUtil->uniteArrays(
-			array( 
-				'_fields_type' => $this->oProp->sFieldsType,
-				'section_id'	=>	$__sTargetSectionID,
-			),
-			$asField,
-			array( 'capability' => $this->oProp->sCapability ),
-			AdminPageFramework_FormElement::$_aStructure_Field
-		);	// Avoid undefined index warnings
-		
-		// Sanitize the IDs since they are used as a callback method name.
-		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );
-		$aField['section_id'] = $this->oUtil->sanitizeSlug( $aField['section_id'] );
-		
-		// Check the mandatory keys are set.
-		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;	// these keys are necessary.
+		$_aField = $this->oForm->addField( $asField );	
+		if ( ! is_array( $_aField ) ) return;
 		
 		// Load head tag elements for fields.
 		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) ) 
-			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
 		
 		// For the contextual help pane,
-		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $aField['help'] )
-			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
-
-		$this->oProp->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
+		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $_aField['help'] )
+			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
 
 	}
 		/**
@@ -304,7 +282,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 				$this->oProp->_getScreenIDOfPage( $sPageSlug ),		// screen ID
 				$this->oProp->sContext, 	// context
 				$this->oProp->sPriority,	// priority
-				$this->oProp->aFields	// argument
+				null	// argument	// deprecated
 			);		
 			
 		}
@@ -320,13 +298,10 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
 		
 		// The field values of this class will not be included in the parameter array. So get them.
-		$_aFieldsModel = AdminPageFramework_FormElement::getFieldsModel( $this->oProp->aFields );
+		$_aFieldsModel = $this->oForm->getFieldsModel();
 		$_aNewInput = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
 		$_aOldInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
-// AdminPageFramework_Debug::logArray( $this->oProp->aFields );	
-// AdminPageFramework_Debug::logArray( $_aFieldsModel );	
-// AdminPageFramework_Debug::logArray( $_POST );	
-// AdminPageFramework_Debug::logArray( $_aNewInput );	
+
 		// Apply filters - third party scripts will have access to the input.
 		$_aNewInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aNewInput, $_aOldInput );
 		
@@ -335,10 +310,5 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 				
 	}
 	
-		/**
-		 * Creates a field model array that 
-		 * 
-		 * @since			3.0.0
-		 */
 }
 endif;

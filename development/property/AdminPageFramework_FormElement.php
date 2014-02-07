@@ -430,9 +430,10 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	 * @remark			Just the _default section elements get extracted to the upper dimension.
 	 * @since			3.0.0
 	 */
-	public static function getFieldsModel( array $aFields )  {
+	public function getFieldsModel( array $aFields=array() )  {
 		
 		$_aFieldsModel = array();
+		$aFields = empty( $aFields ) ? $this->aFields : $aFields;
 		foreach ( $aFields as $_sSectionID => $_aFields ) {
 
 			if ( $_sSectionID != '_default' ) {

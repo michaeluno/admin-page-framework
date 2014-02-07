@@ -207,16 +207,16 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	*/		
 	public function addSettingField( $asField ) {
 		
-		$aField = $this->oForm->addField( $asField );
-		if ( ! is_array( $aField ) ) return;	// if not added or the target section, do not continue;
+		$_aField = $this->oForm->addField( $asField );
+		if ( ! is_array( $_aField ) ) return;	// if not added or the target section, do not continue;
 		
 		// Load head tag elements for fields.
 		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) ) 
-			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
 		
 		// For the contextual help pane,
-		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) && $aField['help'] )
-			$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
+		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) && $_aField['help'] )
+			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
 				
 	}
 	

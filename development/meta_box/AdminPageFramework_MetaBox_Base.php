@@ -78,12 +78,10 @@ abstract class AdminPageFramework_MetaBox_Base {
 			
 			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method.
 			add_action( 'wp_loaded', array( $this, 'setUp' ), 11 );
-			
 			add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
 			add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 								
-		}
-		
+		}		
 	}
 
 	/*
