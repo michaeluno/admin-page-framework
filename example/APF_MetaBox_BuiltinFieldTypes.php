@@ -160,17 +160,15 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 		);		
 	}
 	
-	public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) {
+	public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) {	// content_{instantiated class name}
 		
-		$sTemplateSlug = isset( $_GET['post'] ) && $_GET['post']  
-			? get_page_template_slug( $_GET['post'] )
-			: 'not found';
-		return '<pre>Template Slug: ' . $sTemplateSlug . '</pre>'
-			. $sContent;
+		// Modify the output $sContent . '<pre>Insert</pre>'
+		$sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+		return $sInsert . $sContent;
 		
 	}
 	
-	public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput ) {	// validation_{extended class name}
+	public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput ) {	// validation_{instantiated class name}
 	
 		// You can check the passed values and correct the data by modifying them.
 		// $this->oDebug->logArray( $aInput );
