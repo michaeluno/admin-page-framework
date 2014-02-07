@@ -171,11 +171,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 	}
 	
 	public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput ) {	// validation_{extended class name}
-AdminPageFramework_Debug::logArray( $GLOBALS['pagenow'] );		
-AdminPageFramework_Debug::logArray( '$_GET' );		
-AdminPageFramework_Debug::logArray( $_GET );		
-AdminPageFramework_Debug::logArray( '$_POST' );		
-AdminPageFramework_Debug::logArray( $_POST );		
+	
 		// You can check the passed values and correct the data by modifying them.
 		// $this->oDebug->logArray( $aInput );
 		return $aInput;
