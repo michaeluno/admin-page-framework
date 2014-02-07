@@ -218,7 +218,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 				'_fields_type'	=>	$this->oProp->sFieldsType,
 				'section_id'	=>	$__sTargetSectionID,
 			) + $asField 
-			+ AdminPageFramework_Form::$_aStructure_Field;	// avoid undefined index warnings.
+			+ AdminPageFramework_FormElement::$_aStructure_Field;	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name.
 		$aField['field_id'] = $this->oUtil->sanitizeSlug( $aField['field_id'] );

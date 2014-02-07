@@ -205,7 +205,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 */
 	public function addSettingSection( $aSection ) {
 				
-		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_Form::$_aStructure_Section );	// avoid undefined index warnings.
+		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_FormElement::$_aStructure_Section );	// avoid undefined index warnings.
 		
 		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
 		$aSection['section_id'] = $aSection['section_id'] ? $this->oUtil->sanitizeSlug( $aSection['section_id'] ) : '_default';
@@ -265,7 +265,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->setOptionArray( $iPostID, $vArgs['args'] );
 	
 		// Format the fields array.
-		$oForm = new AdminPageFramework_Form;
+		$oForm = new AdminPageFramework_FormElement;
 		$aFields = $oForm->formatFieldsArray( ( array ) $vArgs['args'], $this->oProp->sFieldsType, $this->oProp->sCapability );
 						
 		// Get the fields output.
@@ -298,7 +298,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			foreach( $aFields as $iIndex => $aField ) {
 				
 				// Avoid undefined index warnings
-				$aField = $aField + array( '_fields_type' => $this->oProp->sFieldsType ) + AdminPageFramework_Form::$_aStructure_Field;
+				$aField = $aField + array( '_fields_type' => $this->oProp->sFieldsType ) + AdminPageFramework_FormElement::$_aStructure_Field;
 
 				$this->oProp->aOptions[ $iIndex ] = get_post_meta( $iPostID, $aField['field_id'], true );
 				

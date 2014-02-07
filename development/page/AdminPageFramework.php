@@ -42,7 +42,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>content_bottom_{page slug}_{tab slug}</strong> – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
  * 	<li><strong>content_bottom_{page slug}</strong> – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
  * 	<li><strong>content_bottom_{instantiated class name}</strong> – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from foot_{...}.</li>
- * 	<li><strong>section_{instantiated class name}_{section ID}</strong> – receives the description output of the given form section ID. The first parameter: output string. The second parameter: the array of option.</li> 
+ * 	<li><strong>section_head_{instantiated class name}_{section ID}</strong> – receives the title and the description output of the given form section ID. The first parameter: the output string.</li> 
  * 	<li><strong>field_{instantiated class name}_{field ID}</strong> – receives the form input field output of the given input field ID that does not have a section. The first parameter: output string. The second parameter: the array of option.</li>
  * 	<li><strong>field_{instantiated class name}_{section id}_{field ID}</strong> – [3.0.0+] receives the form input field output of the given input field ID that has a section. The first parameter: output string. The second parameter: the array of option.</li>
  * 	<li><strong>sections_{instantiated class name}</strong> – receives the registered section arrays. The first parameter: sections container array.</li> 
@@ -169,7 +169,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *              do_form_{page slug}
  *              do_form_{instantiated class name}
  *  
- *              section_{instantiated class name}_{section ID}
+ *              section_head_{instantiated class name}_{section ID}
  *              field_{instantiated class name}_{field ID}
  *  
  *              content_{page slug}_{tab slug}

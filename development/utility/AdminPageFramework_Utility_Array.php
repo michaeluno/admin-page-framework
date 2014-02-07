@@ -65,9 +65,32 @@ abstract class AdminPageFramework_Utility_Array {
 	public static function castArrayContents( $aModel, $aSubject ) {
 		
 		$aMod = array();
-		foreach( $aModel as $sKey => $v ) 
+		foreach( $aModel as $sKey => $_v ) 
 			$aMod[ $sKey ] = isset( $aSubject[ $sKey ] ) ? $aSubject[ $sKey ] : null;
 
+		return $aMod;
+		
+	}
+	
+	/**
+	 * Returns the array consisting of keys which don't exist in another.
+	 * 
+	 * @since			3.0.0
+	 * @remark			It won't check key structure deeper than or equal to the second dimension.
+	 * @param			array				the array that holds the necessary keys.
+	 * @param			array				the array to be modified.
+	 * @return			array				the modified array.
+	 */
+	public static function invertCastArrayContents( $sModel, $aSubject ) {
+		
+		$aMod = array();
+		foreach( $aSubject as $sKey => $_v ) {
+			
+			if ( array_key_exists( $sKey, $sModel ) ) continue;
+			
+			$aMod[ $sKey ] = $_v;
+			
+		}
 		return $aMod;
 		
 	}
@@ -145,11 +168,20 @@ abstract class AdminPageFramework_Utility_Array {
 	 * 
 	 * @since			3.0.0
 	 */
-	static public function getNumericElements( $aParse ) {
+	static public function getIntegerElements( $aParse ) {
 		
 		foreach ( $aParse as $isKey => $v ) {
+			
+			if ( ! is_numeric( $isKey ) ) {
+				unset( $aParse[ $isKey ] );
+				continue;
+			}
+			
+			$isKey = $isKey + 0;	// this will convert string numeric value to integer or flaot.
+			
 			if ( ! is_int( $isKey ) ) 
 				unset( $aParse[ $isKey ] );
+				
 		}
 		return $aParse;
 	} 

@@ -194,7 +194,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 			),
 			$asField,
 			array( 'capability' => $this->oProp->sCapability ),
-			AdminPageFramework_Form::$_aStructure_Field
+			AdminPageFramework_FormElement::$_aStructure_Field
 		);	// Avoid undefined index warnings
 		
 		// Sanitize the IDs since they are used as a callback method name.
@@ -320,7 +320,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
 		
 		// The field values of this class will not be included in the parameter array. So get them.
-		$_aFieldsModel = AdminPageFramework_Form::getFieldsModel( $this->oProp->aFields );
+		$_aFieldsModel = AdminPageFramework_FormElement::getFieldsModel( $this->oProp->aFields );
 		$_aNewInput = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
 		$_aOldInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
 // AdminPageFramework_Debug::logArray( $this->oProp->aFields );	

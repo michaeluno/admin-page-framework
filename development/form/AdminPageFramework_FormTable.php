@@ -55,7 +55,18 @@ class AdminPageFramework_FormTable {
 		 */
 		private function hasSubSections( $aSectionElements ) {
 			
-return false;
+			$aKeys = array_keys( $aSectionElements );
+			foreach( $aKeys as $isKey ) {
+				
+				if ( ! is_numeric( $isKey ) ) continue;
+				
+				$ifKey = $isKey + 0;	// could be a float.
+				
+				if ( is_int( $ifKey ) ) return true;
+				
+			}
+			
+			return false;
 			
 		}
 	
@@ -66,7 +77,49 @@ return false;
 		 */
 		private function getSubSections( $aSectionElements ) {
 			
-return $aSectionElements;			
+			/* The passed array structure looks like this
+			 array( 
+				0 => array(
+					'field_id_1' => array( ... ),
+					'field_id_2' => array( ... ),
+					'field_id_3' => array( ... ),
+				), 
+				1 => array(
+					'field_id_1' => array( ... ),
+					'field_id_2' => array( ... ),
+					'field_id_3' => array( ... ),				
+				),
+				'field_id_1' => array( ... ),
+				'field_id_2' => array( ... ),
+				'field_id_3' => array( ... ),				
+			 )
+			 
+			 It will be converted to to
+			 array(
+				0 => array(
+					'field_id_1' => array( ... ),
+					'field_id_2' => array( ... ),
+					'field_id_3' => array( ... ),
+				), 
+				1 => array(
+					'field_id_1' => array( ... ),
+					'field_id_2' => array( ... ),
+					'field_id_3' => array( ... ),				
+				),				
+				2 => array(
+					'field_id_1' => array( ... ),
+					'field_id_2' => array( ... ),
+					'field_id_3' => array( ... ),				
+				),
+			 )
+			 */
+			$aSubSections = AdminPageFramework_Utility::getIntegerElements( $aSectionElements );
+			$aMainSection = AdminPageFramework_Utility::invertCastArrayContents( $aSectionElements, $aSubSections );
+			foreach( $aSubSections as &$_aSubSection ) 
+				$_aSubSection = AdminPageFramework_Utility::uniteArrays( $_aSubSection, $aMainSection );
+				
+			array_unshift( $aSubSections, $aMainSection );	// insert the main section to the beginning of the array.
+			return $aSectionElements;			
 			
 		}
 	/**

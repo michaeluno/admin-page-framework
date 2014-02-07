@@ -138,20 +138,6 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public $sOptionKey = '';		
 
 	/**
-	 * Stores form sections.
-	 * @since			2.0.0
-	 */ 					
-	public $aSections = array(
-		'_default'	=>	array()
-	);
-	
-	/**
-	 * Stores form fields
-	 * @since			2.0.0
-	 */ 					
-	public $aFields = array();
-
-	/**
 	 * Stores contextual help tabs.
 	 * @since			2.1.0
 	 */ 	
@@ -218,14 +204,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * @since			2.1.2
 	 */
 	public $aDisallowedQueryKeys	= array( 'settings-updated' );
-	
-	/**
-	 * Stores form elements such as sections and fields
-	 * 
-	 * @since			3.0.0
-	 */
-	public $aForm = array();
-	
+		
 	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 
@@ -313,10 +292,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getDefaultOptions() {
+	public function getDefaultOptions( $aFields ) {
 		
 		$_aDefaultOptions = array();
-		foreach( $this->aFields as $_sSectionID => $_aFields  ) {
+		foreach( $aFields as $_sSectionID => $_aFields  ) {
 			
 			foreach( $_aFields as $_sFieldID => $_aField ) {
 				
@@ -344,7 +323,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		private function _getDefautValue( $aField ) {
 			
 			// Check if sub-fields exist whose keys are numeric
-			$_aSubFields = AdminPageFramework_Utility::getNumericElements( $aField );
+			$_aSubFields = AdminPageFramework_Utility::getIntegerElements( $aField );
 			
 			// If there are no sub-fields				
 			if ( count( $_aSubFields ) == 0 ) {

@@ -31,10 +31,10 @@ abstract class AdminPageFramework_Base {
 		'do_after_'			=> 'do_after_',
 		'do_form_'			=> 'do_form_',
 		'do_'				=> 'do_',
-		'submit_'			=> 'submit_',			// since 3.0.0
+		'submit_'			=> 'submit_',			// 3.0.0+
 		'content_top_'		=> 'content_top_',
-		'content_'			=> 'content_',
 		'content_bottom_'	=> 'content_bottom_',
+		'content_'			=> 'content_',
 		'validation_'		=> 'validation_',
 		'export_name'		=> 'export_name',
 		'export_format' 	=> 'export_format',
@@ -49,7 +49,7 @@ abstract class AdminPageFramework_Base {
 		'script_'			=> 'script_',
 		
 		'field_'			=> 'field_',
-		'section_'			=> 'section_',
+		'section_head_'		=> 'section_head_',		// 3.0.0+ Changed from 'section_'
 		'fields_'			=> 'fields_',
 		'sections_'			=> 'sections_',
 		'pages_'			=> 'pages_',
@@ -218,8 +218,10 @@ abstract class AdminPageFramework_Base {
 	 * @return			integer
 	 * @internal
 	 */ 
-	public function _sortByOrder( $a, $b ) {	
-		return $a['order'] - $b['order'];
+	public function _sortByOrder( $a, $b ) {
+		return isset( $a['order'], $b['order'] )
+			? $a['order'] - $b['order']
+			: 1;
 	}	
 
 }
