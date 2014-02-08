@@ -270,6 +270,23 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	}
 	
 	/**
+	 * Retrieves the currently loading tab slug.
+	 * 
+	 * The tricky part is that even no tab is set in the $_GET array, it's possible that it could be in the page of the default tab.
+	 * This method will check that.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getCurrentTab() {
+		
+		if ( isset( $_GET['tab'] ) && $_GET['tab'] ) return $_GET['tab'];
+		
+		return isset( $_GET['page'] ) && $_GET['page']
+			? $this->getDefaultInPageTab( $_GET['page'] )
+			: null;
+			
+	}
+	/**
 	 * Retrieves the default in-page tab from the given tab slug.
 	 * 
 	 * @since			2.0.0

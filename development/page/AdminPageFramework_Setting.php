@@ -1160,14 +1160,24 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	public function _replyToRegisterSettings() {
+		
+		/* 1. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. */
+		// $this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $aSections );
+							
+		// $this->oForm->formatSections( 
+			// self::$sFieldsType, 
+			// $this->oProp->sCapability, 
+			// $this->oProp->sDefaultPageSlug,
+			// isset( $_GET['page'] ) ? $_GET['page'] : null,
+			// $this->oProp->getCurrentTab()
+		// );
 
-		/* 1. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. 
-		 * Note that we use local variables for the applying(registering) items. This allows the framework to refer to the added sections and fields for later use by keeping them intact.
-		 * */
-		$this->_formatSectionArrays( $this->oForm->aSections );	// passed by reference.
-		$this->_formatFieldArrays( $this->oForm->aFields, $this->oForm->aSections );
-		$_aSections = $this->_applyConditionsForSections( $this->oForm->aSections );
-		$_aFields = $this->_applyConditionsForFields( $this->oForm->aFields, $_aSections );
+		// $this->oForm->formatFields();
+		
+$this->_formatSectionArrays( $this->oForm->aSections );	// passed by reference.
+$this->_formatFieldArrays( $this->oForm->aFields, $this->oForm->aSections );
+$_aSections = $this->_applyConditionsForSections( $this->oForm->aSections );
+$_aFields = $this->_applyConditionsForFields( $this->oForm->aFields, $_aSections );
 		
 // $this->_composeFormArray( $_aSections, $_aFields );	// deprecated
 
@@ -1182,48 +1192,46 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$this->oProp->aFieldTypeDefinitions
 		);		
 
-		/* 4. Register settings sections */
-		uasort( $_aSections, array( $this, '_sortByOrder' ) ); 
-		foreach( $_aSections as $aSection ) {
+		/* 4. Register settings sections */ 
+		foreach( $this->oForm->aSections as $_aSection ) {
 			
 			/* 4-1. Add the given section */
 			add_settings_section(
-				$aSection['section_id'],	//  section ID
-				"<a id='{$aSection['section_id']}'></a>" . $aSection['title'],	// title - place the anchor in front of the title.
-				array( $this, 'section_pre_' . $aSection['section_id'] ), 		// callback function -  this will trigger the __call() magic method.
-				$aSection['page_slug']	// page
+				$_aSection['section_id'],	//  section ID
+				"<a id='{$_aSection['section_id']}'></a>" . $_aSection['title'],	// title - place the anchor in front of the title.
+				array( $this, 'section_pre_' . $_aSection['section_id'] ), 		// callback function -  this will trigger the __call() magic method.
+				$_aSection['page_slug']	// page
 			);
 						
 			/* 4-2. For the contextual help pane */
-			if ( ! empty( $aSection['help'] ) )
+			if ( ! empty( $_aSection['help'] ) )
 				$this->addHelpTab( 
 					array(
-						'page_slug'					=> $aSection['page_slug'],
-						'page_tab_slug'				=> $aSection['tab_slug'],
-						'help_tab_title'			=> $aSection['title'],
-						'help_tab_id'				=> $aSection['section_id'],
-						'help_tab_content'			=> $aSection['help'],
-						'help_tab_sidebar_content'	=> $aSection['help_aside'] ? $aSection['help_aside'] : "",
+						'page_slug'					=> $_aSection['page_slug'],
+						'page_tab_slug'				=> $_aSection['tab_slug'],
+						'help_tab_title'			=> $_aSection['title'],
+						'help_tab_id'				=> $_aSection['section_id'],
+						'help_tab_content'			=> $_aSection['help'],
+						'help_tab_sidebar_content'	=> $_aSection['help_aside'] ? $_aSection['help_aside'] : "",
 					)
 				);
 				
 		}
 		
 		/* 5. Register settings fields	*/
-		foreach( $_aFields as $_sSectionID => $__aFields ) {
+		foreach( $this->oForm->aFields as $_sSectionID => $__aFields ) {
 			
-			uasort(  $__aFields, array( $this, '_sortByOrder' ) ); // Todo: check if it affects the sub-section keys
 			foreach( $__aFields as $_sFieldID => $_aSubSectionOrField ) {
 				
 				// If the iterating item is a sub-section array.
 				if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) {
 					
-					$_iIndex = $_sFieldID;
+					$_iSubSectionIndex = $_sFieldID;
 					$_aSubSection = $_aSubSectionOrField;
 					foreach( $_aSubSection as $__sFieldID => $__aField ) {					
 						add_settings_field(
-							$__aField['section_id'] . '_' . $_iIndex . '_' . $__aField['field_id'],	// id
-							"<a id='{$__aField['section_id']}_{$_iIndex}_{$__aField['field_id']}'></a><span title='{$__aField['tip']}'>{$__aField['title']}</span>",
+							$__aField['section_id'] . '_' . $_iSubSectionIndex . '_' . $__aField['field_id'],	// id
+							"<a id='{$__aField['section_id']}_{$_iSubSectionIndex}_{$__aField['field_id']}'></a><span title='{$__aField['tip']}'>{$__aField['title']}</span>",
 							null,	// callback function - no longer used by the framework
 							$this->oForm->getPageSlugBySectionID( $__aField['section_id'] ), // page slug
 							$__aField['section_id']	// section
@@ -1238,7 +1246,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				add_settings_field(
 					$aField['section_id'] . '_' . $aField['field_id'],	// id
 					"<a id='{$aField['section_id']}_{$aField['field_id']}'></a><span title='{$aField['tip']}'>{$aField['title']}</span>",
-					null,	// callback function - no longer used by the framewok
+					null,	// callback function - no longer used by the framework
 					$this->oForm->getPageSlugBySectionID( $aField['section_id'] ), // page slug
 					$aField['section_id']	// section
 				);	
@@ -1279,6 +1287,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		 * Formats the given section arrays.
 		 * 
 		 * @since			2.0.0
+		 * @deprecated
 		 */ 
 		private function _formatSectionArrays( &$aSections ) {
 
@@ -1372,6 +1381,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			 * 
 			 * @since			2.0.0
 			 * @return			boolean			Returns true if the section belongs to the current tab page. Otherwise, false.
+			 * @deprecated
 			 */ 	
 			private function _isSectionOfCurrentTab( $aSection ) {
 
