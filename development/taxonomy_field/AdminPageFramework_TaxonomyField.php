@@ -99,12 +99,13 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$this->oProp->aTaxonomySlugs = ( array ) $asTaxonomySlug;
 		$this->oProp->sOptionKey = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
 		$this->oProp->sFieldsType = self::$_sFieldsType;
-		$this->oForm = new AdminPageFramework_FormElement( self::$_sFieldsType, $sCapability );
+		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
 		
 		if ( $this->oProp->bIsAdmin ) {
 			
 			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method. The method is defined in the meta box base class.
 			add_action( 'wp_loaded', array( $this, 'setUp' ), 11 );
+			add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
 			
 			foreach( $this->oProp->aTaxonomySlugs as $sTaxonomySlug ) {				
 				
@@ -166,17 +167,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	*/		
 	public function addSettingField( $asField ) {
 		
-		$_aField = $this->oForm->addField( $asField );
-		if ( ! is_array( $_aField ) ) return;
-											
-		// Load head tag elements for fields.
-		AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-
-		// For the contextual help pane,
-		if ( $_aField['help'] )
-			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
-				
-		
+		$this->oForm->addField( $asField );
 	
 	}
 	
@@ -330,6 +321,25 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 	}
 
+	/**
+	 * Registers form fields and sections.
+	 * 
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public function _replyToRegisterFormElements() {
+	
+		// Schedule to add head tag elements and help pane contents.
+		if ( $GLOBALS['pagenow'] != 'edit-tags.php' ) return;
+		
+		// Format the fields array.
+		$this->oForm->format();
+// TODO: create the applyCondition method and use the returned field arrays to parse.
+		$_aFields = $this->oForm->aFields;
+		$this->_registerFields( $_aFields );
+		
+	}	
+	
 	/**
 	 * Redirects undefined callback methods.
 	 * @internal

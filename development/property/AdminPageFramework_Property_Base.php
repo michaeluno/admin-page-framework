@@ -501,6 +501,7 @@ abstract class AdminPageFramework_Property_Base {
 	 * @param			array|string			The post type slug(s) to check. If this is empty, the method just checks the current page is a post definition page.
 	 * Otherwise, it will check if the page belongs to the given post type(s).
 	 * @return			boolean
+	 * @deprecated
 	 */
 	public function isPostDefinitionPage( $asPostTypes=array() ) {
 		

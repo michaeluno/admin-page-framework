@@ -40,7 +40,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @since			3.0.0
 	 * @internal
 	 */
-	static protected $_sFieldsType = 'post_meta_box';
+	static protected $_sFieldsType;
 	
 	/**
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
@@ -73,11 +73,12 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->oProp->sTitle = $sTitle;
 		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
 		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'	
-
+		
 		if ( $this->oProp->bIsAdmin ) {
 			
 			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method.
 			add_action( 'wp_loaded', array( $this, 'setUp' ), 11 );
+			add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
 			add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
 			add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 								
@@ -124,6 +125,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * Internal methods that should be extended.
 	 */
 	public function _replyToAddMetaBox() {}
+	public function _replyToRegisterFormElements() {}
 	
 	/**
 	 * Loads the default field type definition.
@@ -258,9 +260,6 @@ abstract class AdminPageFramework_MetaBox_Base {
 		// Use nonce for verification
 		$aOutput = array();
 		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
-
-		// Format the fields array.
-		$this->oForm->format();
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
@@ -318,6 +317,35 @@ abstract class AdminPageFramework_MetaBox_Base {
 		
 	}
 
+	/**
+	 * Registers the given fields.
+	 * 
+	 * @remark			$oHelpPane and $oHeadTab need to be set in the extended class.
+	 * @since			3.0.0
+	 */
+	protected function _registerFields( array $aFields ) {
+
+		foreach( $aFields as $_sSecitonID => $_aFields ) {
+			
+			foreach( $_aFields as $_iSubSectionIndexOrFieldID => $_aSubSectionOrField )  {
+				
+				if ( is_numeric( $_iSubSectionIndexOrFieldID ) && is_int( $_iSubSectionIndexOrFieldID + 0 ) ) // if it's a sub-section, skip
+					continue;
+					
+				$_aField = $_aSubSectionOrField;
+				
+				// Load head tag elements for fields.
+				AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+
+				// For the contextual help pane,
+				if ( $_aField['help'] )
+					$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
+			
+			}
+		}
+		
+	}
+	
 	/**
 	 * Returns the filtered section description output.
 	 * 
@@ -448,7 +476,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 			return $aSavedMeta;
 			
 		}
-	
+		
 	/*
 	 * Magic method
 	*/

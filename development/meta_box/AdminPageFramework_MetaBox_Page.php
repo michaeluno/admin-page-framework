@@ -100,8 +100,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
 		$this->oProp->sFieldsType = self::$_sFieldsType;
-		
-		$this->oForm = new AdminPageFramework_FormElement( self::$_sFieldsType, $sCapability );
+		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
 		
 		/* Validation hook */
 		foreach( $this->oProp->aPageSlugs as $sPageSlug )
@@ -181,31 +180,9 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	*/		
 	public function addSettingField( $asField ) {
 		
-		$_aField = $this->oForm->addField( $asField );	
-		if ( ! is_array( $_aField ) ) return;
-		
-		// Load head tag elements for fields.
-		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) ) 
-			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-		
-		// For the contextual help pane,
-		if ( $this->_isMetaBoxPage( isset( $_GET['page'] ) ? $_GET['page'] : null ) && $_aField['help'] )
-			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
+		$this->oForm->addField( $asField );	
 
 	}
-		/**
-		 * Checks if the currently loading page is in the pages specified for this meta box.
-		 * @since			3.0.0
-		 */
-		private function _isMetaBoxPage( $sPageSlug ) {
-			
-			if ( ! isset( $sPageSlug ) ) return false;
-			
-			if ( in_array( $sPageSlug, $this->oProp->aPageSlugs ) )
-				return true;
-			
-			return false;
-		}
 	
 	/**
 	 * Returns the field output.
@@ -310,5 +287,37 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 				
 	}
 	
+	/**
+	 * Registers form fields and sections.
+	 * 
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public function _replyToRegisterFormElements() {
+				
+		// Schedule to add head tag elements and help pane contents.
+		if ( ! isset( $_GET['page'] ) ) return;
+		if ( ! $this->_isMetaBoxPage( $_GET['page'] ) ) return;
+		
+		// Format the fields array.
+		$this->oForm->format();
+// TODO: create the applyCondition method and use the returned field arrays to parse.
+		$_aField = $this->oForm->aFields;
+		$this->_registerFields( $_aField );
+
+	}		
+		/**
+		 * Checks if the currently loading page is in the pages specified for this meta box.
+		 * @since			3.0.0
+		 */
+		private function _isMetaBoxPage( $sPageSlug ) {
+			
+			if ( ! $sPageSlug ) return false;
+			
+			if ( in_array( $sPageSlug, $this->oProp->aPageSlugs ) )
+				return true;
+			
+			return false;
+		}	
 }
 endif;

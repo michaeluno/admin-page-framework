@@ -37,6 +37,13 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * @subpackage		MetaBox
  */
 abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Base {
+
+	/**
+	 * Defines the fields type.
+	 * @since			3.0.0
+	 * @internal
+	 */
+	static protected $_sFieldsType = 'post_meta_box';
 		
 	/**
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
@@ -68,15 +75,17 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
 		
 		parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
-		
+				
 		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 		
 		/* Do this after the parent constructor as the constructor creates the oProp object. */
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
-	
-		$this->oForm = new AdminPageFramework_FormElement( self::$_sFieldsType, $sCapability );
-	
+		
+		// Create a form object - this needs to be done after the fields type property is set. This is the reason that it's not doen in the base class.
+		$this->oProp->sFieldsType = self::$_sFieldsType;
+		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+		
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
 	}
@@ -206,18 +215,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	* @return			void
 	*/		
 	public function addSettingField( $asField ) {
-		
-		$_aField = $this->oForm->addField( $asField );
-		if ( ! is_array( $_aField ) ) return;	// if not added or the target section, do not continue;
-		
-		// Load head tag elements for fields.
-		// if ( $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) 
-			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-		
-		// For the contextual help pane,
-		if ( $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) && $_aField['help'] )
-			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
-				
+		$this->oForm->addField( $asField );		
 	}
 	
 	/**
@@ -243,6 +241,25 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 			);
 			
 	}		
+	
+	/**
+	 * Registers form fields and sections.
+	 * 
+	 * @since			3.0.0
+	 * @internal
+	 */
+	public function _replyToRegisterFormElements() {
+				
+		// Schedule to add head tag elements and help pane contents. 
+		if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;
+	
+		// Format the fields array.
+		$this->oForm->format();
+
+		$_aFields = $this->oForm->aFields;
+		$this->_registerFields( $_aFields );
+		
+	}	
 	
 }
 endif;
