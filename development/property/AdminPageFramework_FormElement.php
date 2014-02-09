@@ -50,7 +50,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 		'page_slug'			=> null,		// This will be assigned automatically in the formatting method.
 		'tab_slug'			=> null,		// This will be assigned automatically in the formatting method.
 		'option_key'		=> null,		// This will be assigned automatically in the formatting method.
-		'class_name'		=> null,		// This will be assigned automatically in the formatting method.
+		'class_name'		=> null,		// used by the export field type
 		'capability'		=> null,		
 		'title'				=> null,
 		'tip'				=> null,
@@ -244,25 +244,43 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	 */
 	public function formatSections( $sFieldsType, $sCapability ) {
 		
-		$aNewSectionArray = array();
+		$_aNewSectionArray = array();
 		foreach( $this->aSections as $_sSectionID => $_aSection ) {
 			
-			$_aSection = $this->uniteArrays(
-				$_aSection,
+			if ( ! is_array( $_aSection ) ) continue;
+			
+			$_aSection = $this->formatSection( $_aSection, $sFieldsType, $sCapability, count( $_aNewSectionArray ) );
+			if ( ! $_aSection ) continue;
+			
+			$_aNewSectionArray[ $_sSectionID ] = $_aSection;
+			
+		}
+		uasort( $_aNewSectionArray, array( $this, '_sortByOrder' ) ); 
+		$this->aSections = $_aNewSectionArray;
+		
+	}
+	
+		/**
+		 * Returns the formatted section array.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
+			
+			$aSection = $this->uniteArrays(
+				$aSection,
 				array( 
 					'_fields_type' => $sFieldsType,
 					'capability' => $sCapability,
 				),
 				self::$_aStructure_Section
 			);
-									
-			$aNewSectionArray[ $_sSectionID ] = $_aSection;
+				
+			$aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
+			return $aSection;
 			
 		}
-		uasort( $aNewSectionArray, array( $this, '_sortByOrder' ) ); 
-		$this->aSections = $aNewSectionArray;
 		
-	}
 		
 	/**
 	 * Formats the stored fields definition array.
@@ -273,7 +291,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 
 		$_aNewFields = array();
 		foreach ( $this->aFields as $_sSectionID => $_aSubSectionOrFields ) {
-						
+			
+			$_aNewFields[ $_sSectionID ] = isset( $_aNewFields[ $_sSectionID ] ) ? $_aNewFields[ $_sSectionID ] : array();
 			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
 				
 				// If it is a sub-section array.
@@ -283,7 +302,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 					$_aFields = $_aSubSectionOrField;
 					foreach( $_aFields as $_aField ) {
 						
-						$_aField = $this->getFormatedField( $_aField, $sFieldsType, $sCapability );
+						$_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ] ) : 0 ;
+						$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement );
 						if ( $_aField )
 							$_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;						
 						
@@ -295,7 +315,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 				
 				// Otherwise, insert the formatted field definiton array.
 				$_aField = $_aSubSectionOrField;
-				$_aField = $this->getFormatedField( $_aField, $sFieldsType, $sCapability );
+				$_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0;
+				$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement );
 				if ( $_aField )
 					$_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
 				
@@ -305,7 +326,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 		}
 		
 		// Sort by the order of the sections.
-		if ( ! empty( $this->aSections ) ) :	// as taxonomy fields don't have sections
+		if ( ! empty( $this->aSections ) && ! empty( $_aNewFields ) ) :	// as taxonomy fields don't have sections
 			$_aSortedFields = array();
 			foreach( $this->aSections as $sSectionID => $aSeciton ) 	// will be parsed in the order of the $aSections array. Therefore, the sections must be formatted before this method.
 				$_aSortedFields[ $sSectionID ] = $_aNewFields[ $sSectionID ];
@@ -320,14 +341,24 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function getFormatedField( $aField, $sFieldsType, $sCapability ) {
+		protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements ) {
 			
-			return $this->uniteArrays(
+			if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;
+			
+			$_aField = $this->uniteArrays(
 				array( '_fields_type' => $sFieldsType ),
 				$aField,
-				array( 'capability' => $sCapability ),
+				array( 
+					'capability' => $sCapability,
+					'section_id' => '_default',
+				),
 				self::$_aStructure_Field
 			);
+			$_aField['field_id'] = $this->sanitizeSlug( $_aField['field_id'] );
+			$_aField['section_id'] = $this->sanitizeSlug( $_aField['section_id'] );			
+			$_aField['tip'] = esc_attr( strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] ) );
+			$_aField['order'] = is_numeric( $_aField['order'] ) ? $_aField['order'] : $iCountOfElements + 10;
+			return $_aField;
 			
 		}
 		
@@ -336,7 +367,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function applyConditions( $aFields=array(), $aSections=array() ) {
+	public function applyConditions( $aFields=null, $aSections=null ) {
 		
 		return $this->getConditionedFields( $aFields, $this->getConditionedSections( $aSections ) );
 		
@@ -347,37 +378,55 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getConditionedSections( $aSections=array() ) {
+	public function getConditionedSections( $aSections=null ) {
 		
-		$aSections = empty( $aSections ) ? $this->aSections : $aSections;
+		$aSections = is_null( $aSections ) ? $this->aSections : $aSections;
 		$aNewSections = array();
 		foreach( $aSections as $_sSectionID => $_aSection ) {
 			
-			// Check capability. If the access level is not sufficient, skip.
-			if ( ! current_user_can( $_aSection['capability'] ) ) continue;
-			if ( ! $_aSection['if'] ) continue;			
+			$_aSection = $this->getConditionedSection( $_aSection );
+			if ( $_aSection )
+				$aNewSections[ $_sSectionID ] = $_aSection;
 			
-			$aNewSections[ $_sSectionID ] = $_aSection;
 		}
 		return $aNewSections;
 		
 	}
+		/**
+		 * Returns the conditioned section definition array.
+		 * 
+		 * This method is meant to be overridden in the extended class to have more customized conditions.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getConditionedSection( array $aSection ) {
+			
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $aSection['capability'] ) ) return;
+			if ( ! $aSection['if'] ) return;	
+			
+			return $aSection;
+			
+		}
 	
 	/**
 	 * Returns a fields-array by applying the conditions.
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getConditionedFields( $aFields=array(), $aSections=array() ) {
+	public function getConditionedFields( $aFields=null, $aSections=null ) {
 		
-		$aFields = empty( $aFields ) ? $this->aFields : $aFields;
-		$aSections = empty( $aSections ) ? $this->aSections : $aSections;
+		$aFields = is_null( $aFields ) ? $this->aFields : $aFields;
+		$aSections = is_null( $aSections ) ? $this->aSections : $aSections;
 
 		// Drop keys of fields-array which do not exist in the sections-array. For this reasons, the sections-array should be conditioned first before applying this method.
-		$aFields = $this->castArrayContents( $aSections, $aFields );
+		$aFields = ( array ) $this->castArrayContents( $aSections, $aFields );
 
 		$_aNewFields = array();
 		foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
+			
+			if ( ! is_array( $_aSubSectionOrFields ) ) continue;
+			if ( ! array_key_exists( $_sSectionID, $aSections ) ) continue;
 			
 			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
 				

@@ -55,7 +55,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 
 		$this->oProp->sFieldsType = self::$_sFieldsType;
-		$this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $sCapability );
+		$this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $this->oProp->sCapability );
 		
 	}
 							
@@ -146,7 +146,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * <strong>Section Array</strong>
 	 * <ul>
 	 * <li><strong>page_slug</strong> - (  required, string ) the page slug that the section belongs to.</li>
-	 * <li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers. If not set the internal section ID <em>_default</em> will be assigned.</li>
+	 * <li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers. If not set, the internal section ID <em>_default</em> will be assigned.</li>
 	 * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
 	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	 * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
@@ -1159,26 +1159,38 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	public function _replyToRegisterSettings() {
 		
-		/* 1. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. */
-		// $this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $aSections );
-							
-		// $this->oForm->formatSections( 
-			// self::$sFieldsType, 
-			// $this->oProp->sCapability, 
-			// $this->oProp->sDefaultPageSlug,
-			// isset( $_GET['page'] ) ? $_GET['page'] : null,
-			// $this->oProp->getCurrentTab()
-		// );
-
-		// $this->oForm->formatFields();
+		/* 1. Apply filters to added sections and fields */
+		$this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $this->oForm->aSections );
+		foreach( $this->oForm->aFields as $_sSectionID => &$_aFields ) {
+			$_aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
+				$this,
+				"fields_{$this->oProp->sClassName}_{$_sSectionID}",
+				$_aFields
+			); 
+			unset( $_aFields );	// to be safe in PHP especially the same variable name is used in the scope.
+		}
+		$this->oForm->aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
+			$this,
+			"fields_{$this->oProp->sClassName}",
+			$this->oForm->aFields
+		); 		
 		
-$this->_formatSectionArrays( $this->oForm->aSections );	// passed by reference.
-$this->_formatFieldArrays( $this->oForm->aFields, $this->oForm->aSections );
-$_aSections = $this->_applyConditionsForSections( $this->oForm->aSections );
-$_aFields = $this->_applyConditionsForFields( $this->oForm->aFields, $_aSections );
+		/* 2. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. */
+		// 2-1. Set required properties for formatting.
+		$this->oForm->setDefaultPageSlug( $this->oProp->sDefaultPageSlug );	
+		$this->oForm->setOptionKey( $this->oProp->sOptionKey );
+		$this->oForm->setCallerClassName( $this->oProp->sClassName );
 		
-// $this->_composeFormArray( $_aSections, $_aFields );	// deprecated
+		// 2-2. Do format internally stored sections and fields definition arrays.
+		$this->oForm->format();
 
+		// 2-3. Now set required properties for conditioning.
+		$this->oForm->setCurrentPageSlug( isset( $_GET['page'] ) && $_GET['page'] ? $_GET['page'] : '' );
+		$this->oForm->setCurrentTabSlug( $this->oProp->getCurrentTab() );
+		
+		// 2-4. Do conditioning.
+		$_aFields = $this->oForm->applyConditions();
+		
 		/* 2. If there is no section or field to add, do nothing. */
 		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $_aFields ) == 0 ) ) return;
 
@@ -1280,237 +1292,7 @@ $_aFields = $this->_applyConditionsForFields( $this->oForm->aFields, $_aSections
 		); 
 		
 	}
-	
-		/**
-		 * Formats the given section arrays.
-		 * 
-		 * @since			2.0.0
-		 * @deprecated
-		 */ 
-		private function _formatSectionArrays( &$aSections ) {
-
-			// Set the default section.
-			$aSections = $this->oUtil->uniteArrays( 
-				$aSections, 
-				array( 
-					'_default' =>	array( 				
-						'page_slug'	=>  $this->oProp->sDefaultPageSlug,		
-						'capability' => $this->oProp->sCapability,
-						'section_id'	=>	'_default',
-					),
-				)
-			);
 		
-			// Apply filters to let other scripts to add sections.
-			$aSections = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-				$this,
-				"sections_{$this->oProp->sClassName}",
-				$aSections
-			);
-
-// TODO: 			
-// $this->oForm->formatSections( $this->oProp->sCapability, $sDefalultPageSlug );
-			
-			// Since the section array may have been modified by filters, sanitize the elements and 
-			// apply the conditions to remove unnecessary elements and put new orders.
-			$_aNewSectionArray = array();
-			foreach( $aSections as $aSection ) {
-			
-				if ( ! is_array( $aSection ) ) continue;
-			
-				$aSection = $this->oUtil->uniteArrays(
-					$aSection,
-					array( 'capability' => $this->oProp->sCapability ),
-					AdminPageFramework_FormElement::$_aStructure_Section	
-				);	// avoid undefined index warnings.
-				
-				// Check the mandatory keys' values.
-				$aSection['page_slug'] = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
-				if ( ! isset( $aSection['page_slug'] ) ) continue;	// these keys are necessary.
-				
-				// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-				$aSection['section_id'] = $this->oUtil->sanitizeSlug( $aSection['section_id'] );
-				$aSection['page_slug'] = $this->oUtil->sanitizeSlug( $aSection['page_slug'] );
-				$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
-			
-				// Set the order.
-				$aSection['order']	= is_numeric( $aSection['order'] ) ? $aSection['order'] : count( $_aNewSectionArray ) + 10;
-			
-				// Add the section array to the returning array.
-				$_aNewSectionArray[ $aSection['section_id'] ] = $aSection;
-				
-			}
-			$aSections = $_aNewSectionArray;
-			
-		}
-		
-		/**
-		 * Applies conditions to the given sections.
-		 * 
-		 * @remark			This must be done after performing the _formatSectionArrays() method.
-		 * @since			3.0.0
-		 */
-		private function _applyConditionsForSections( $aSections ) {
-
-			$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-			$_aNewSectionArray = array();
-			foreach( $aSections as $_aSection ) {
-
-				// If the page slug does not match the current loading page, there is no need to register form sections and fields.
-				if ( $GLOBALS['pagenow'] != 'options.php' && ! $_sCurrentPageSlug || $_sCurrentPageSlug !=  $_aSection['page_slug'] ) continue;
-
-				// If this section does not belong to the currently loading page tab, skip.
-				if ( ! $this->_isSectionOfCurrentTab( $_aSection ) )  continue;
-				
-				// If the access level is set and it is not sufficient, skip.
-				if ( ! current_user_can( $_aSection['capability'] ) ) continue;	// since 1.0.2.1
-			
-				// If a custom condition is set and it's not true, skip,
-				if ( ! $_aSection['if'] ) continue;		
-				
-				$_aNewSectionArray[ $_aSection['section_id'] ] = $_aSection;
-				
-			}
-			return $_aNewSectionArray;
-			
-		}
-			/**
-			 * Checks if the given section belongs to the currently loading tab.
-			 * 
-			 * @since			2.0.0
-			 * @return			boolean			Returns true if the section belongs to the current tab page. Otherwise, false.
-			 * @deprecated
-			 */ 	
-			private function _isSectionOfCurrentTab( $aSection ) {
-
-				// Determine: 
-				// 1. if the current tab matches the given tab slug. Yes -> the section should be registered.
-				// 2. if the current page is the default tab. Yes -> the section should be registered.
-
-				// If the tab slug is not specified, it means that the user wants the section to be visible in the page regardless of tabs.
-				if ( ! isset( $aSection['tab_slug'] ) ) return true;
-				
-				// 1. If the checking tab slug and the current loading tab slug is the same, it should be registered.
-				$sCurrentTab =  isset( $_GET['tab'] ) ? $_GET['tab'] : null;
-				if ( $aSection['tab_slug'] == $sCurrentTab )  return true;
-
-				// 2. If $_GET['tab'] is not set and the page slug is stored in the tab array, 
-				// consider the default tab which should be loaded without the tab query value in the url
-				$sPageSlug = $aSection['page_slug'];
-				if ( ! isset( $_GET['tab'] ) && isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) {
-				
-					$sDefaultTabSlug = isset( $this->oProp->aDefaultInPageTabs[ $sPageSlug ] ) ? $this->oProp->aDefaultInPageTabs[ $sPageSlug ] : '';
-					if ( $sDefaultTabSlug  == $aSection['tab_slug'] ) return true;		// should be registered.			
-						
-				}
-						
-				// Otherwise, false.
-				return false;
-				
-			}	
-			
-		/**
-		 * Formats the given field arrays.
-		 * 
-		 * @since			2.0.0
-		 */ 
-		private function _formatFieldArrays( &$aFields, $aSections ) {
-			
-			// Apply filters to let other scripts to add fields.
-			foreach( $aFields as $_sSectionID => &$_aFields ) {
-				$_aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
-					$this,
-					"fields_{$this->oProp->sClassName}_{$_sSectionID}",
-					$_aFields
-				); 
-				unset( $_aFields );	// to be safe in PHP especially the same variable name is used in the scope.
-			}
-			$aFields = $this->oUtil->addAndApplyFilter(	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
-				$this,
-				"fields_{$this->oProp->sClassName}",
-				$aFields
-			); 
-// TODO:
-// - retrieve the saved option array and inject sub-sections into the formatting section array.
-
-			// Apply the conditions to remove unnecessary elements and put new orders.
-			$_aNewFieldArrays = array();
-			foreach( $aFields as $_sSectionID => $_aFields ) {
-					
-				$_aNewFieldArrays[ $_sSectionID ] = isset( $_aNewFieldArrays[ $_sSectionID ] ) ? $_aNewFieldArrays[ $_sSectionID ] : array();
-				foreach( $_aFields as $_aField ) {
-				
-					if ( ! is_array( $_aField ) ) continue;		// the element must be an array.
-					
-					$_aField = $this->oUtil->uniteArrays(
-						array( '_fields_type' => $this->oProp->sFieldsType ),
-						$_aField,
-						array( 'capability' => $this->oProp->sCapability ),
-						AdminPageFramework_FormElement::$_aStructure_Field	// avoid undefined index warnings.
-					);
-
-					// Sanitize the IDs since they are used as a callback method name.
-					$_aField['field_id'] = $this->oUtil->sanitizeSlug( $_aField['field_id'] );
-					$_aField['section_id'] = $this->oUtil->sanitizeSlug( $_aField['section_id'] );
-							
-					// Check the mandatory keys' values.
-					if ( ! isset( $_aField['field_id'], $_aField['type'] ) ) continue;	// these keys are necessary.
-					
-					// Set the order.
-					$_aField['order']	= is_numeric( $_aField['order'] ) ? $_aField['order'] : count( $_aNewFieldArrays[ $_sSectionID ] ) + 10;
-					
-					// Set the tip, option key, instantiated class name, and page slug elements.
-					$_aField['tip'] = strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] );
-					$_aField['option_key'] = $this->oProp->sOptionKey;
-					$_aField['class_name'] = $this->oProp->sClassName;
-					$_aField['page_slug'] = isset( $aSections[ $_aField['section_id'] ]['page_slug'] ) ? $aSections[ $_aField['section_id'] ]['page_slug'] : null;
-					$_aField['tab_slug'] = isset( $aSections[ $_aField['section_id'] ]['tab_slug'] ) ? $aSections[ $_aField['section_id'] ]['tab_slug'] : null;
-					$_aField['section_title'] = isset( $aSections[ $_aField['section_id'] ]['title'] ) ? $aSections[ $_aField['section_id'] ]['title'] : null;	// used for the contextual help pane.
-					
-					// Add the element to the new returning array.
-					$_aNewFieldArrays[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
-				
-				}
-				
-			}
-			
-			$aFields = $_aNewFieldArrays;
-
-		}
-		/**
-		 * Applies conditions to the given fields.
-		 * 
-		 * @remark			This must be done after performing the _formatFieldArrays() method and the _applyConditionsForSections() method.
-		 * @since	
-		 * @param			array				The formatted field definition arrays. 
-		 * @param			array				The formatted section definition arrays. The arrays should be already filtered with conditions. In other words, the sections the sections will be displayed in the loading page.
-		 */
-		private function _applyConditionsForFields( $aFields, $aSections ) {
-
-			$_aNewFieldArrays = array();
-			foreach( $aFields as $_sSectionID => $_aFields ) {
-				
-				// Check if the parsing section id exists in the given section array.
-				if ( ! array_key_exists( $_sSectionID, $aSections ) ) continue;
-				
-				foreach( $_aFields as $_aField ) {					
-									
-					// If the access level is not sufficient, skip.
-					if ( ! current_user_can( $_aField['capability'] ) ) continue; 
-								
-					// If the condition is not met, skip.
-					if ( ! $_aField['if'] ) continue;		
-									
-					// Add the element to the new returning array.
-					$_aNewFieldArrays[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
-					
-				}
-					
-			}
-			return $_aNewFieldArrays;
-			
-		}
-	
 	/**
 	 * Returns the output of the filtered section description.
 	 * 
