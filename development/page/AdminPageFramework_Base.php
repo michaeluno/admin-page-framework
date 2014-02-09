@@ -32,7 +32,7 @@ abstract class AdminPageFramework_Base {
 		'do_form_'			=> 'do_form_',
 		'do_'				=> 'do_',
 		'submit_'			=> 'submit_',			// 3.0.0+
-		'content_top_'		=> 'content_top_',
+		'content_foot_'		=> 'content_foot_',
 		'content_bottom_'	=> 'content_bottom_',
 		'content_'			=> 'content_',
 		'validation_'		=> 'validation_',
