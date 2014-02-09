@@ -210,7 +210,7 @@ AdminPageFramework_MetaBox_Base
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#3-382" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#3-331" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
 	</div>
 
 
@@ -228,7 +228,7 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#70-128" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#70-130" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -288,7 +288,7 @@ extended class name will be applied.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#132-138" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#134-140" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -320,93 +320,6 @@ extended class name will be applied.</dd>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="addSettingField" id="_addSettingField">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#140-185" title="Go to source code">addSettingField</a>( <span>array <var>$aField</var></span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Adds the given field array items into the field array property.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Adds the given field array items into the field array property.</p>
-
-<p>Identical to the addSettingFields() method except that this method does not
-accept enumerated parameters.</p>
-
-<h4>Examples</h4>
-
-<pre>
-<span class="php-var">$this</span>-&gt;addSettingField(
-        <span
-class="php-keyword1">array</span>(
-                <span
-class="php-quote">'field_id'</span>              =&gt; <span
-class="php-quote">'textarea_field'</span>,
-                <span
-class="php-quote">'type'</span>                  =&gt; <span
-class="php-quote">'textarea'</span>,
-                <span
-class="php-quote">'title'</span>                 =&gt; __( <span
-class="php-quote">'Text Area'</span>, <span
-class="php-quote">'admin-page-framework-demo'</span> ),
-                <span
-class="php-quote">'description'</span>   =&gt; __( <span
-class="php-quote">'The description for the field.'</span>, <span
-class="php-quote">'admin-page-framework-demo'</span> ),
-                <span
-class="php-quote">'help'</span>                  =&gt; __( <span
-class="php-quote">'This a &lt;em&gt;text area&lt;/em&gt; input field, which is larger than the &lt;em&gt;text&lt;/em&gt; input field.'</span>, <span
-class="php-quote">'admin-page-framework-demo'</span> ),
-                <span
-class="php-quote">'default'</span>               =&gt; __( <span
-class="php-quote">'This is a default text.'</span>, <span
-class="php-quote">'admin-page-framework-demo'</span> ),
-                <span
-class="php-quote">'attributes'</span>    =&gt;      <span
-class="php-keyword1">array</span>(
-                        <span
-class="php-quote">'cols'</span>  =&gt;      <span
-class="php-num">40</span>,
-                ),
-        )
-);
-</pre>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0 The scope changed to public to indicate the users will use.<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							Do not check the 'if' key to skip the field registration because the added field
-IDs need to be retrieved later on when determining submitted values in the
-$_POST array.<br>
-					</div>
-
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_MetaBox_Base::addSettingField</code></div>
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="setOptionArray" id="_setOptionArray">
 
 			<td class="attributes"><code>
@@ -418,7 +331,7 @@ $_POST array.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setOptionArray">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#187-201" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#142-156" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -457,18 +370,25 @@ it. #internal<br>
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
 		<p class="elementList">
 			<code>__call()</code>, 
+			<code>_registerFields()</code>, 
 			<code>_replyToAddMetaBox()</code>, 
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToGetSectionOutput()</code>, 
 			<code>_replyToLoadDefaultFieldTypeDefinitions()</code>, 
 			<code>_replyToPrintMetaBoxContents()</code>, 
+			<code>_replyToRegisterFormElements()</code>, 
 			<code>_replyToSaveMetaBoxFields()</code>, 
-			<code>_replytToGetFieldOutput()</code>, 
 			<code>addHelpText()</code>, 
+			<code>addSettingField()</code>, 
 			<code>addSettingFields()</code>, 
+			<code>addSettingSection()</code>, 
+			<code>addSettingSections()</code>, 
 			<code>enqueueScript()</code>, 
 			<code>enqueueScripts()</code>, 
 			<code>enqueueStyle()</code>, 
 			<code>enqueueStyles()</code>, 
-			<code>getFieldOutput()</code>
+			<code>getInputArray()</code>, 
+			<code>getSavedMetaArray()</code>
 		</p>
 
 

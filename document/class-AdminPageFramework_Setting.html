@@ -158,7 +158,7 @@ AdminPageFramework_Page_MetaBox
 				AdminPageFramework_Menu<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1670" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1358" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
@@ -176,7 +176,7 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setSettingNotice">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#109-162" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#62-115" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -248,7 +248,7 @@ true: override the previous one.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#164-211" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#117-164" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -313,11 +313,12 @@ class="php-quote">'These are selector type options such as dropdown lists, radio
 						<dd><code>array|string</code><br>the section array or the target page slug. If the target page slug is set, the
 next section array can omit the page slug key. <strong>Section Array</strong>
 <ul>
-	<li><strong>section_id</strong> - ( string ) the section ID. Avoid using
-	non-alphabetic characters exept underscore and numbers.</li>
+	<li><strong>page_slug</strong> - ( required, string ) the page slug that the
+	section belongs to.</li>
 
-	<li><strong>page_slug</strong> - ( string ) the page slug that the section
-	belongs to.</li>
+	<li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid
+	using non-alphabetic characters except underscore and numbers. If not set, the
+	internal section ID <em>_default</em> will be assigned.</li>
 
 	<li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the
 	section belongs to.</li>
@@ -378,7 +379,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSection">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#213-248" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#166-196" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -432,7 +433,7 @@ can be ommited.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#250-275" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#198-222" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -498,7 +499,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#277-452" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#224-399" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -932,7 +933,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#453-483" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#400-413" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -979,7 +980,7 @@ section_id key can be omitted from the next passing field array.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#485-511" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#415-438" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1045,7 +1046,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFieldErrors">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#513-562" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#440-489" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1161,14 +1162,14 @@ the passed ID )<br>
 
 			<td class="attributes"><code>
 				 public 
-				string|null
+				array|string|null
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#564-596" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#491-523" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1192,7 +1193,7 @@ the passed ID )<br>
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code>string|null</code><br>If the field ID is not set in the saved option array, it will return null.
+						<code>array|string|null</code><br>If the field ID is not set in the saved option array, it will return null.
 Otherwise, the set value. If the user has not submitted the form, the framework
 will try to return the default value set in the field definition array.<br>
 					</div>
@@ -1203,80 +1204,6 @@ will try to return the default value set in the field definition array.<br>
 							2.1.2<br>
 							3.0.0 Changed the scope to public from protected. Dropped the sections. Made it
 return a default value even if it's not saved in the database.<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="_replyToGetSectionOutput" id="__replyToGetSectionOutput">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#__replyToGetSectionOutput">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#1609-1631" title="Go to source code">_replyToGetSectionOutput</a>( <span>mixed <var>$sSectionID</var></span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Renders the filtered section description.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Renders the filtered section description.</p>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							An alternative to _renderSectionDescription().<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="_replyToGetFieldOutput" id="__replyToGetFieldOutput">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#__replyToGetFieldOutput">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#1632-1669" title="Go to source code">_replyToGetFieldOutput</a>( <span>mixed <var>$aField</var></span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0<br>
 					</div>
 
 
@@ -1345,6 +1272,72 @@ return a default value even if it's not saved in the database.<br>
 
 
 		<h2>Properties summary</h2>
+		<table class="summary table table-bordered table-striped" id="properties">
+		<tr data-order="_sTargetPageSlug" id="$_sTargetPageSlug">
+			<td class="attributes"><code>
+				protected  
+				mixed
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-AdminPageFramework_Setting.html#31-36" title="Go to source code"><var>$_sTargetPageSlug</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$_sTargetPageSlug" class="anchor">#</a>
+
+				<div class="description short" style="display:none;">
+					
+<p>Stores the target page slug which will be applied when no page slug is
+specified for the addSettingSection() method.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Stores the target page slug which will be applied when no page slug is
+specified for the addSettingSection() method.</p>
+
+
+						<h4>Since</h4>
+						<div class="list">
+								3.0.0<br>
+						</div>
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="_sTargetTabSlug" id="$_sTargetTabSlug">
+			<td class="attributes"><code>
+				protected  
+				mixed
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-AdminPageFramework_Setting.html#38-43" title="Go to source code"><var>$_sTargetTabSlug</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$_sTargetTabSlug" class="anchor">#</a>
+
+				<div class="description short" style="display:none;">
+					
+<p>Stores the target tab slug which will be applied when no tab slug is
+specified for the addSettingSection() method.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Stores the target tab slug which will be applied when no tab slug is
+specified for the addSettingSection() method.</p>
+
+
+						<h4>Since</h4>
+						<div class="list">
+								3.0.0<br>
+						</div>
+				</div>
+			</div></td>
+		</tr>
+		</table>
 
 		<h3>Properties inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">

@@ -98,23 +98,29 @@
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-AdminPageFramework_Utility
+AdminPageFramework_Utility_Array
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility
+AdminPageFramework_Utility
 			
 			
 		</dd>
 		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_FieldType_Base
+AdminPageFramework_WPUtility
 			
 			
 		</dd>
 		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_FieldType_Base
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_FieldType</span></b>			
 			
@@ -438,27 +444,33 @@ AdminPageFramework_FieldType.<br>
 			<code>doActions()</code>, 
 			<code>generateAttributes()</code>, 
 			<code>getCurrentAdminURL()</code>, 
+			<code>getCurrentPostType()</code>, 
 			<code>getFilterArrayByPrefix()</code>, 
 			<code>getQueryAdminURL()</code>, 
 			<code>getQueryURL()</code>, 
 			<code>getSRCFromPath()</code>, 
 			<code>getScriptData()</code>, 
+			<code>isPostDefinitionPage()</code>, 
 			<code>resolveSRC()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Utility</h3>
 		<p class="elementList">
-			<code>castArrayContents()</code>, 
 			<code>fixNumber()</code>, 
-			<code>getArrayDimension()</code>, 
 			<code>getCallerScriptPath()</code>, 
-			<code>getCorrespondingArrayValue()</code>, 
-			<code>getNumericElements()</code>, 
 			<code>getQueryValueInURLByKey()</code>, 
 			<code>getRelativePath()</code>, 
-			<code>isLastElement()</code>, 
 			<code>minifyCSS()</code>, 
 			<code>sanitizeSlug()</code>, 
-			<code>sanitizeString()</code>, 
+			<code>sanitizeString()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Utility_Array</h3>
+		<p class="elementList">
+			<code>castArrayContents()</code>, 
+			<code>getArrayDimension()</code>, 
+			<code>getCorrespondingArrayValue()</code>, 
+			<code>getIntegerElements()</code>, 
+			<code>invertCastArrayContents()</code>, 
+			<code>isLastElement()</code>, 
 			<code>uniteArrays()</code>, 
 			<code>uniteArraysRecursive()</code>
 		</p>
