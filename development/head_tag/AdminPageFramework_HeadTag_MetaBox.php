@@ -16,33 +16,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 * @internal
 	 */
 	private $_sPostTypeSlugOfCurrentPost = null;
-	
-	/**
-	 * Checks whether the currently loading page is appropriate for the meta box to be displayed.
-	 * @since			3.0.0
-	 * @internal
-	 */
-	private function _isMetaBoxPage() {
-			
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return false;
 		
-		if ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $this->oProp->aPostTypes ) )
-			return true;
-				
-		$this->_sPostTypeSlugOfCurrentPost = isset( $this->_sPostTypeSlugOfCurrentPost ) 
-			? $this->_sPostTypeSlugOfCurrentPost 
-			: ( isset( $_GET['post'], $_GET['action'] )
-				? get_post_type( $_GET['post'] )
-				: ''
-			);
-		
-		if ( in_array( $this->_sPostTypeSlugOfCurrentPost, $this->oProp->aPostTypes ) )
-			return true;	// edit post page
-				
-		return false;
-		
-	}
-	
 	/**
 	 * Appends the CSS rules of the framework in the head tag. 
 	 * @since			2.0.0
@@ -52,7 +26,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 */ 	
 	public function _replyToAddStyle() {
 	
-		if ( ! $this->_isMetaBoxPage() ) return;	// if it's not post (post edit) page nor the post type page,
+		if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;	// if it's not post (post edit) page nor the post type page,
 	
 		$this->_printCommonStyles( 'admin-page-framework-style-meta-box-common', get_class() );
 		$this->_printClassSpecificStyles( 'admin-page-framework-style-meta-box' );
@@ -68,9 +42,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
 	 */ 
 	public function _replyToAddScript() {
 
-		if ( ! $this->_isMetaBoxPage() ) return;	// if it's not post (post edit) page nor the post type page,
+		if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;	// if it's not post (post edit) page nor the post type page,
 	
-		$this->_printCommonScripts( 'admin-page-framework-style-meta-box-common', get_class() );
+		$this->_printCommonScripts( 'admin-page-framework-script-meta-box-common', get_class() );
 		$this->_printClassSpecificScripts( 'admin-page-framework-script-meta-box' );
 		$this->oProp->_bAddedScript = true;
 		

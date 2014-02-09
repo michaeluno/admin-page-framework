@@ -211,11 +211,11 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		if ( ! is_array( $_aField ) ) return;	// if not added or the target section, do not continue;
 		
 		// Load head tag elements for fields.
-		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) ) 
+		// if ( $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) 
 			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
 		
 		// For the contextual help pane,
-		if ( $this->oProp->isPostDefinitionPage( $this->oProp->aPostTypes ) && $_aField['help'] )
+		if ( $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) && $_aField['help'] )
 			$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );
 				
 	}
