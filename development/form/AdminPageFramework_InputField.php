@@ -485,7 +485,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				var sFieldsContainerID = nodeThis.find( '.repeatable-field-add' ).first().data( 'id' );
 				
 				/* Store the fields specific options in an array  */
-				if( ! $.fn.aAPFRepeatableFieldsOptions ) $.fn.aAPFRepeatableFieldsOptions = [];
+				if ( ! $.fn.aAPFRepeatableFieldsOptions ) $.fn.aAPFRepeatableFieldsOptions = [];
 				if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {		
 					$.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ] = $.extend({	
 						max: 0,	// These are the defaults.
@@ -507,18 +507,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 					return false;	// will not click after that
 				});		
 				
-				/* If the number of fields is less than the set minimum value, add fields and vice versa. */
+				/* If the number of fields is less than the set minimum value, add fields. */
 				var sFieldID = nodeThis.find( '.repeatable-field-add' ).first().closest( '.admin-page-framework-field' ).attr( 'id' );
 				var nCurrentFieldCount = jQuery( '#' + sFieldsContainerID ).find( '.admin-page-framework-field' ).length;
 				if ( aOptions['min'] > 0 && nCurrentFieldCount > 0 ) {
-					if ( ( aOptions['min'] - nCurrentFieldCount ) > 0 ) 
+					if ( ( aOptions['min'] - nCurrentFieldCount ) > 0 ) {					
 						$( '#' + sFieldID ).addAPFRepeatableField( sFieldID );				 
+					}
 				}
-				// if ( aOptions['max'] > 0 && nCurrentFieldCount > 0 ) {
-					// if ( nCurrentFieldCount - aOptions['max'] < 0 ) {
-						// $( '#' + sFieldID ).removeAPFRepeatableField( sFieldID );
-					// }
-				// }
 				
 			};
 			
@@ -554,9 +550,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				
 				/* Add the cloned new field element */
 				nodeNewField.insertAfter( nodeFieldContainer );	
-
-				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
-				nodeNewField.updateAPFRepeatableFields();				
 				
 				/* Increment the names and ids of the next following siblings. */
 				nodeFieldContainer.nextAll().each( function() {
@@ -565,6 +558,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 					$( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
 					$( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
 				});
+
+				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. 
+				 * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'
+				 * */
+				nodeNewField.updateAPFRepeatableFields();
 				
 				/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
 				nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
