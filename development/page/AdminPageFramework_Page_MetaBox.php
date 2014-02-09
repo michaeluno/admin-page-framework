@@ -156,12 +156,6 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		$oScreen = get_current_screen();
 		$sScreenID = $oScreen->id;
 
-// echo '<pre>hook_suffix: ' . $GLOBALS['hook_suffix'] . '</pre>';
-// echo '<pre>page_hook: ' . $GLOBALS['page_hook'] . '</pre>';
-// $this->oScreen = get_current_screen();	// store it for later use	
-// echo '<pre>screen id: ' . $this->oScreen->id . '</pre>';
-// echo '<pre>columns: ' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '</pre>';
-
 		/* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
 		do_action( "add_meta_boxes_{$sScreenID}", null );
 		do_action( 'add_meta_boxes', $sScreenID, null );
