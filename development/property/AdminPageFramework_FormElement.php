@@ -84,7 +84,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	 * 
 	 * @since			3.0.0
 	 */
-	public $aSections = array();
+	public $aSections = array(
+		'_default' => array(),
+	);
 	
 	/**
 	 * Stores the fields type. 
@@ -253,21 +255,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 				),
 				self::$_aStructure_Section
 			);
-						
-			// Check capability. If the access level is not sufficient, skip.
-			if ( ! current_user_can( $_aSection['capability'] ) ) continue;
-			if ( ! $_aSection['if'] ) continue;
-			
+									
 			$aNewSectionArray[ $_sSectionID ] = $_aSection;
-			
 			
 		}
 		uasort( $aNewSectionArray, array( $this, '_sortByOrder' ) ); 
 		$this->aSections = $aNewSectionArray;
 		
 	}
-	
-			
+		
 	/**
 	 * Formats the stored fields definition array.
 	 * 
@@ -276,9 +272,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	public function formatFields( $sFieldsType, $sCapability ) {
 
 		$_aNewFields = array();
-		foreach ( $this->aFields as $_sSectionID => $_aSubSectionORFields ) {
+		foreach ( $this->aFields as $_sSectionID => $_aSubSectionOrFields ) {
 						
-			foreach( $_aSubSectionORFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
+			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
 				
 				// If it is a sub-section array.
 				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
@@ -326,20 +322,110 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 		 */
 		protected function getFormatedField( $aField, $sFieldsType, $sCapability ) {
 			
-			$_aField = $this->uniteArrays(
+			return $this->uniteArrays(
 				array( '_fields_type' => $sFieldsType ),
 				$aField,
 				array( 'capability' => $sCapability ),
 				self::$_aStructure_Field
 			);
 			
-			// Check capability. If the access level is not sufficient, skip.
-			if ( ! current_user_can( $_aField['capability'] ) ) return null;
-			if ( ! $_aField['if'] ) return null;
+		}
+		
+	/**
+	 * Returns the fields-definition array that the conditions have been applied.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function applyConditions( $aFields=array(), $aSections=array() ) {
+		
+		return $this->getConditionedFields( $aFields, $this->getConditionedSections( $aSections ) );
+		
+	}
+	
+	/**
+	 * Returns a sections-array by applying the conditions.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getConditionedSections( $aSections=array() ) {
+		
+		$aSections = empty( $aSections ) ? $this->aSections : $aSections;
+		$aNewSections = array();
+		foreach( $aSections as $_sSectionID => $_aSection ) {
 			
-			return $_aField;
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $_aSection['capability'] ) ) continue;
+			if ( ! $_aSection['if'] ) continue;			
+			
+			$aNewSections[ $_sSectionID ] = $_aSection;
+		}
+		return $aNewSections;
+		
+	}
+	
+	/**
+	 * Returns a fields-array by applying the conditions.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getConditionedFields( $aFields=array(), $aSections=array() ) {
+		
+		$aFields = empty( $aFields ) ? $this->aFields : $aFields;
+		$aSections = empty( $aSections ) ? $this->aSections : $aSections;
+
+		// Drop keys of fields-array which do not exist in the sections-array. For this reasons, the sections-array should be conditioned first before applying this method.
+		$aFields = $this->castArrayContents( $aSections, $aFields );
+
+		$_aNewFields = array();
+		foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
+			
+			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
+				
+				// If it is a sub-section array.
+				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
+					
+					$_sSubSectionIndex = $_sIndexOrFieldID;
+					$_aFields = $_aSubSectionOrField;
+					foreach( $_aFields as $_aField ) {
+						
+						$_aField = $this->getConditionedField( $_aField );
+						if ( $_aField )
+							$_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;						
+						
+					}
+					continue;
+					
+				}
+				
+				// Otherwise, insert the formatted field definiton array.
+				$_aField = $_aSubSectionOrField;
+				$_aField = $this->getConditionedField( $_aField );
+				if ( $_aField )
+					$_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
+				
+			}
 			
 		}
+				
+		return $_aNewFields;
+		
+	}		
+		/**
+		 * Returns the field definition array by applying conditions. 
+		 * 
+		 * This method is intended to be extended to let the extended class customize the conditions.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getConditionedField( $aField ) {
+			
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $aField['capability'] ) ) return null;
+			if ( ! $aField['if'] ) return null;		
+			return $aField;
+			
+		}
+		
 	/**
 	 * Determines whether the given ID is of a registered form section.
 	 * 

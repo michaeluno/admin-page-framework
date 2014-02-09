@@ -190,34 +190,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {	
 		return $this->oHeadTag->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
 	}	
-	
-	/**
-	* Adds the given field array items into the field array property.
-	* 
-	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
-	* 
-	* <h4>Examples</h4>
-	* <code>
-	* 		$this->addSettingField(
-	* 			array(
-	* 				'field_id'		=> 'metabox_text_field',
-	* 				'type'			=> 'text',
-	* 				'title'			=> __( 'Text Input', 'admin-page-framework-demo' ),
-	* 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
-	* 				'help'			=> 'This is help text.',
-	* 				'help_aside'	=> 'This is additional help text which goes to the side bar of the help pane.',
-	* 			)
-	* 		);	
-	* </code>
-	* 
-	* @since			2.1.2
-	* @since			3.0.0			The scope changed to public to indicate the users will use.
-	* @return			void
-	*/		
-	public function addSettingField( $asField ) {
-		$this->oForm->addField( $asField );		
-	}
-	
+		
 	/**
 	 * Adds the defined meta box.
 	 * 
@@ -255,10 +228,9 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	
 		// Format the fields array.
 		$this->oForm->format();
-
-		$_aFields = $this->oForm->aFields;
+		$_aFields = $this->oForm->applyConditions();
 		$this->_registerFields( $_aFields );
-		
+				
 	}	
 	
 }

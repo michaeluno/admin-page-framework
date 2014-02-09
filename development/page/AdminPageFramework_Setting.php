@@ -54,8 +54,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 
-// Todo: deprecate 	the $this->oProp->sFieldsType property as it is now stored in the form element class. The format method will be implemented in that class and it will
-// takes care of the fields type set in each field definition array.
 		$this->oProp->sFieldsType = self::$_sFieldsType;
 		$this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $sCapability );
 		

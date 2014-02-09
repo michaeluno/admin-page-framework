@@ -138,39 +138,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 * @since			3.0.0
 	 */
 	public function setUp() {}
-	
-	/**
-	* Adds the given field array items into the field array property.
-	* 
-	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
-	* 
-	* <h4>Examples</h4>
-	* <code>
-	* 		$this->addSettingField(		
-	* 			array(
-	* 				'field_id'		=> 'textarea_field',
-	* 				'type'			=> 'textarea',
-	* 				'title'			=> __( 'Text Area', 'admin-page-framework-demo' ),
-	* 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
-	* 				'help'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-	* 				'default'		=> __( 'This is a default text.', 'admin-page-framework-demo' ),
-	* 				'attributes'	=>	array(
-	* 					'cols'	=>	40,				
-	* 				),
-	* 			)
-	* 		);		
-	* </code>
-	* 
-	* @since			3.0.0			The scope changed to public to indicate the users will use.
-	* @return			void
-	* @remark			Do not check the 'if' key to skip the field registration because the added field IDs need to be retrieved later on when determining submitted values in the $_POST array.
-	*/		
-	public function addSettingField( $asField ) {
 		
-		$this->oForm->addField( $asField );
-	
-	}
-	
 	/**
 	 * Sets the <var>$aOptions<var> property array in the property object. 
 	 * 
@@ -334,8 +302,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 		// Format the fields array.
 		$this->oForm->format();
-// TODO: create the applyCondition method and use the returned field arrays to parse.
-		$_aFields = $this->oForm->aFields;
+		$_aFields = $this->oForm->applyConditions();
 		$this->_registerFields( $_aFields );
 		
 	}	

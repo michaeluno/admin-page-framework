@@ -118,9 +118,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	public function enqueueStyle( $sSRC, $_vArg2=null, $_vArg3=null ) {}
 	public function enqueueScripts( $aSRCs, $_vArg2=null, $_vArg3=null ) {}
 	public function enqueueScript( $sSRC, $_vArg2=null, $_vArg3=null ) {}
-	public function addSettingField( $asField ) {}
-
-			
+				
 	/*
 	 * Internal methods that should be extended.
 	 */
@@ -199,20 +197,14 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @access			public
 	 * @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	 * @param			array|string			the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
+	 * @remark			The $oForm property should be created in each extended class.
 	 * @return			void
 	 */
 	public function addSettingSection( $aSection ) {
 		
 		if ( is_array( $aSection ) )
 			$this->oForm->addSection( $aSection );
-	
-/* 		$aSection = $this->oUtil->uniteArrays( $aSection, AdminPageFramework_FormElement::$_aStructure_Section );	// avoid undefined index warnings.
-		
-		// Sanitize the IDs since they are used as a callback method name, the slugs as well.
-		$aSection['section_id'] = $aSection['section_id'] ? $this->oUtil->sanitizeSlug( $aSection['section_id'] ) : '_default';
-
-		$this->oProp->aSections[ $aSection['section_id'] ] = $aSection;	 */
-		
+			
 	}		
 		
 	/**
@@ -246,6 +238,34 @@ abstract class AdminPageFramework_MetaBox_Base {
 		foreach( func_get_args() as $aField ) $this->addSettingField( $aField );
 	}	
 		
+	/**
+	* Adds the given field array items into the field array property.
+	* 
+	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+	* 
+	* <h4>Examples</h4>
+	* <code>
+	* 		$this->addSettingField(
+	* 			array(
+	* 				'field_id'		=> 'metabox_text_field',
+	* 				'type'			=> 'text',
+	* 				'title'			=> __( 'Text Input', 'admin-page-framework-demo' ),
+	* 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
+	* 				'help'			=> 'This is help text.',
+	* 				'help_aside'	=> 'This is additional help text which goes to the side bar of the help pane.',
+	* 			)
+	* 		);	
+	* </code>
+	* 
+	* @since			2.1.2
+	* @since			3.0.0			The scope changed to public to indicate the users will use.
+	* @return			void
+	* @remark			The $oForm property should be created in each extended class.
+	*/		
+	public function addSettingField( $asField ) {
+		$this->oForm->addField( $asField );		
+	}
+	
 	/**
 	 * Echoes the meta box contents.
 	 * 

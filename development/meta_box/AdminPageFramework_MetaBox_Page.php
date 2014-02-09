@@ -159,32 +159,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	}
 	
 	/**
-	* Adds the given field array items into the field array property.
-	* 
-	* Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
-	* 
-	* <h4>Examples</h4>
-	* <code>
-	* 		$this->addSettingField(
-	* 			array (
-	* 				'field_id'		=> 'image_field',
-	* 				'type'			=> 'image',
-	* 				'title'			=> __( 'Image', 'admin-page-framework-demo' ),
-	* 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
-	* 			)		
-	* 		);
-	* </code>
-	* 
-	* @since			3.0.0			
-	* @return			void
-	*/		
-	public function addSettingField( $asField ) {
-		
-		$this->oForm->addField( $asField );	
-
-	}
-	
-	/**
 	 * Returns the field output.
 	 * 
 	 * @since			3.0.0
@@ -301,9 +275,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		
 		// Format the fields array.
 		$this->oForm->format();
-// TODO: create the applyCondition method and use the returned field arrays to parse.
-		$_aField = $this->oForm->aFields;
-		$this->_registerFields( $_aField );
+		$_aFields = $this->oForm->applyConditions();
+		$this->_registerFields( $_aFields );
 
 	}		
 		/**
