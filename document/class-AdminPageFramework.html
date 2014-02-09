@@ -181,13 +181,13 @@ the callbacks of the filters and the actions.</p>
 <h3>Methods and Filter Hooks</h3>
 
 <ul>
-	<li><strong>content_top_{page slug}_{tab slug}</strong> – receives the output
+	<li><strong>content_foot_{page slug}_{tab slug}</strong> – receives the output
 	of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
 
-	<li><strong>content_top_{page slug}</strong> – receives the output of the top
+	<li><strong>content_foot_{page slug}</strong> – receives the output of the top
 	part of the page. [3.0.0+] Changed the name from head_{...}.</li>
 
-	<li><strong>content_top_{instantiated class name}</strong> – receives the
+	<li><strong>content_foot_{instantiated class name}</strong> – receives the
 	output of the top part of the page, applied to all pages created by the
 	instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
 
@@ -448,7 +448,7 @@ class method will embed a banner image in all pages created by the class.</p>
 class="php-keyword1">extends</span> AdminPageFramework {
 ...
     <span
-class="php-keyword1">function</span> content_top_Sample_Admin_Pages( <span
+class="php-keyword1">function</span> content_foot_Sample_Admin_Pages( <span
 class="php-var">$sContent</span> ) {
         <span
 class="php-keyword1">return</span> <span
@@ -526,9 +526,9 @@ class="php-keyword1">class</span> name}
 class="php-keyword1">class</span>=<span
 class="php-quote">&quot;wrap&quot;</span>&gt;
 
-     content_top_{page slug}_{tab slug}
-     content_top_{page slug}
-     content_top_{instantiated <span
+     content_foot_{page slug}_{tab slug}
+     content_foot_{page slug}
+     content_foot_{instantiated <span
 class="php-keyword1">class</span> name}
 
      &lt;div <span

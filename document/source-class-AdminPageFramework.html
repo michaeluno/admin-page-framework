@@ -126,9 +126,9 @@
 </span></span><span id="33" class="l"><a class="l" href="#33"> 33 </a><span class="php-comment"> * &lt;/ul&gt;
 </span></span><span id="34" class="l"><a class="l" href="#34"> 34 </a><span class="php-comment"> * &lt;h3&gt;Methods and Filter Hooks&lt;/h3&gt;
 </span></span><span id="35" class="l"><a class="l" href="#35"> 35 </a><span class="php-comment"> * &lt;ul&gt;
-</span></span><span id="36" class="l"><a class="l" href="#36"> 36 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_top_{page slug}_{tab slug}&lt;/strong&gt; – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.&lt;/li&gt;
-</span></span><span id="37" class="l"><a class="l" href="#37"> 37 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_top_{page slug}&lt;/strong&gt; – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.&lt;/li&gt;
-</span></span><span id="38" class="l"><a class="l" href="#38"> 38 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_top_{instantiated class name}&lt;/strong&gt; – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.&lt;/li&gt;
+</span></span><span id="36" class="l"><a class="l" href="#36"> 36 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_foot_{page slug}_{tab slug}&lt;/strong&gt; – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.&lt;/li&gt;
+</span></span><span id="37" class="l"><a class="l" href="#37"> 37 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_foot_{page slug}&lt;/strong&gt; – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.&lt;/li&gt;
+</span></span><span id="38" class="l"><a class="l" href="#38"> 38 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_foot_{instantiated class name}&lt;/strong&gt; – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.&lt;/li&gt;
 </span></span><span id="39" class="l"><a class="l" href="#39"> 39 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_{page slug}_{tab slug}&lt;/strong&gt; – receives the output of the middle part of the page including form input fields.&lt;/li&gt;
 </span></span><span id="40" class="l"><a class="l" href="#40"> 40 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_{page slug}&lt;/strong&gt; – receives the output of the middle part of the page including form input fields.&lt;/li&gt;
 </span></span><span id="41" class="l"><a class="l" href="#41"> 41 </a><span class="php-comment"> *  &lt;li&gt;&lt;strong&gt;content_{instantiated class name}&lt;/strong&gt; – receives the output of the middle part of the page, applied to all pages created by the instantiated class object.&lt;/li&gt;
@@ -204,7 +204,7 @@
 </span></span><span id="111" class="l"><a class="l" href="#111">111 </a><span class="php-comment"> * &lt;p&gt;If the instantiated class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.&lt;/p&gt;
 </span></span><span id="112" class="l"><a class="l" href="#112">112 </a><span class="php-comment"> * &lt;code&gt;class Sample_Admin_Pages extends AdminPageFramework {
 </span></span><span id="113" class="l"><a class="l" href="#113">113 </a><span class="php-comment"> * ...
-</span></span><span id="114" class="l"><a class="l" href="#114">114 </a><span class="php-comment"> *     function content_top_Sample_Admin_Pages( $sContent ) {
+</span></span><span id="114" class="l"><a class="l" href="#114">114 </a><span class="php-comment"> *     function content_foot_Sample_Admin_Pages( $sContent ) {
 </span></span><span id="115" class="l"><a class="l" href="#115">115 </a><span class="php-comment"> *         return '&lt;div style=&quot;float:right;&quot;&gt;&lt;img src=&quot;' . plugins_url( 'img/banner468x60.gif', __FILE__ ) . '&quot; /&gt;&lt;/div&gt;' 
 </span></span><span id="116" class="l"><a class="l" href="#116">116 </a><span class="php-comment"> *             . $sContent;
 </span></span><span id="117" class="l"><a class="l" href="#117">117 </a><span class="php-comment"> *     }
@@ -251,9 +251,9 @@
 </span></span><span id="158" class="l"><a class="l" href="#158">158 </a><span class="php-comment"> *  
 </span></span><span id="159" class="l"><a class="l" href="#159">159 </a><span class="php-comment"> *  &lt;div class=&quot;wrap&quot;&gt;
 </span></span><span id="160" class="l"><a class="l" href="#160">160 </a><span class="php-comment"> *  
-</span></span><span id="161" class="l"><a class="l" href="#161">161 </a><span class="php-comment"> *      content_top_{page slug}_{tab slug}
-</span></span><span id="162" class="l"><a class="l" href="#162">162 </a><span class="php-comment"> *      content_top_{page slug}
-</span></span><span id="163" class="l"><a class="l" href="#163">163 </a><span class="php-comment"> *      content_top_{instantiated class name}
+</span></span><span id="161" class="l"><a class="l" href="#161">161 </a><span class="php-comment"> *      content_foot_{page slug}_{tab slug}
+</span></span><span id="162" class="l"><a class="l" href="#162">162 </a><span class="php-comment"> *      content_foot_{page slug}
+</span></span><span id="163" class="l"><a class="l" href="#163">163 </a><span class="php-comment"> *      content_foot_{instantiated class name}
 </span></span><span id="164" class="l"><a class="l" href="#164">164 </a><span class="php-comment"> *  
 </span></span><span id="165" class="l"><a class="l" href="#165">165 </a><span class="php-comment"> *      &lt;div class=&quot;acmin-page-framework-container&quot;&gt;
 </span></span><span id="166" class="l"><a class="l" href="#166">166 </a><span class="php-comment"> *          &lt;form action=&quot;options.php&quot; method=&quot;post&quot;&gt;
