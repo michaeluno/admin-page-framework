@@ -98,7 +98,7 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'title'	=>	__( 'Documentation', 'admin-page-framework-demo' ),
 				'href'	=>	plugins_url( 'document/class-AdminPageFramework.html', APFDEMO_FILE ),
-				'page_heading_tab_visibility'	=>	false,
+				'show_page_heading_tab'	=>	false,
 			)
 		);
 		
