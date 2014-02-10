@@ -141,7 +141,10 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'	=>	'mixed_types',
 				'title'		=>	__( 'Mixed', 'admin-page-framework-demo' ),	
 			),
-			array()
+			array(
+				'tab_slug'	=>	'sections',
+				'title'		=>	__( 'Sections', 'admin-page-framework-demo' ),	
+			)
 		);
 		$this->addInPageTabs(	// ( optional )
 			/*
@@ -175,7 +178,7 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'tab_slug'	=>	'grid',
 				'title'		=>	__( 'Grid', 'admin-page-framework-demo' ),	
-			)			
+			)	
 		);
 		$this->addInPageTabs(	// ( optional )
 			/*
@@ -361,7 +364,14 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'		=>	'mixed_types',
 				'title'			=>	__( 'Mixed Field Types', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'As of v3, it is possible to mix field types in one field on a per-ID basis.', 'admin-page-framework-demo' ),
-			),				
+			),
+			array(
+				'section_id'	=>	'repeatable_sections',
+				'tab_slug'		=>	'sections',
+				'title'			=>	__( 'Repeatable Sections', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'As of v3, it is possible to repeat sections.', 'admin-page-framework-demo' ),
+				'repeatable'	=>	true,	// this makes the section repeatable
+			),
 			array()
 		);
 		$this->addSettingSections(	
@@ -1370,6 +1380,33 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array()
 		);	
+		$this->addSettingFields(			
+			array(
+				'section_id'	=>	'repeatable_sections',
+				'field_id'	=>	'text_field_in_repeatable_sections',
+				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	'xyz',
+			),
+			array(
+				'section_id'	=>	'repeatable_sections',
+				'field_id'	=>	'color_in_repeatable_sections',
+				'title'	=>	__( 'Color', 'admin-page-framework-demo' ),
+				'type'	=>	'color',
+			),
+			array(
+				'section_id'	=>	'repeatable_sections',
+				'field_id'	=>	'radio_in_repeatable_sections',
+				'title'	=>	__( 'Radio', 'admin-page-framework-demo' ),
+				'type'	=>	'radio',
+				'label'	=>	array(
+					'a'	=> 'A',
+					'b'	=> 'B',
+					'c'	=> 'c',				
+				),
+			),			
+			array()
+		);			
 		
 		/*
 		 * Custom Field Types - in order to use these types, those custom field types must be registered. 
@@ -1613,7 +1650,7 @@ class APF_Demo extends AdminPageFramework {
 					'blue'	=> __( 'Blue', 'admin-page-framework-demo' ),
 					'green'	=> __( 'Green', 'admin-page-framework-demo' ),
 				),
-				'hidden'	=> array(	// the field type specific key. This is defined in the
+				'reveal'	=> array(	// the field type specific key. This is defined in the
 					'red' => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
 					'blue' => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
 					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
@@ -1629,7 +1666,7 @@ class APF_Demo extends AdminPageFramework {
 					'blue'	=> __( 'Blue', 'admin-page-framework-demo' ),
 					'green'	=> __( 'Green', 'admin-page-framework-demo' ),
 				),
-				'hidden'	=> array(	// the field type specific key. This is defined in the
+				'reveal'	=> array(	// the field type specific key. This is defined in the
 					'red' => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
 					'blue' => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
 					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
