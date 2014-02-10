@@ -89,6 +89,20 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	);
 	
 	/**
+	 * Stores the conditioned fields definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aConditionedFields = array();
+	
+	/**
+	 * Stores the conditioned sections definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aConditionedSections = array();
+	
+	/**
 	 * Stores the fields type. 
 	 * 
 	 * @since			3.0.0
@@ -376,6 +390,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	/**
 	 * Returns a sections-array by applying the conditions.
 	 * 
+	 * It will internally sets the $aConditionedSections array property.
+	 * 
 	 * @since			3.0.0
 	 */
 	public function getConditionedSections( $aSections=null ) {
@@ -389,6 +405,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 				$aNewSections[ $_sSectionID ] = $_aSection;
 			
 		}
+		$this->aConditionedSections = $aNewSections;
 		return $aNewSections;
 		
 	}
@@ -411,6 +428,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	
 	/**
 	 * Returns a fields-array by applying the conditions.
+	 * 
+	 * This will internally stores the aConditionedFields array into the property.
 	 * 
 	 * @since			3.0.0
 	 */
@@ -456,6 +475,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 			
 		}
 				
+		$this->aConditionedFields = $_aNewFields;
 		return $_aNewFields;
 		
 	}		

@@ -365,12 +365,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				// do_settings_sections( $sPageSlug ); // deprecated
 								
 				if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
-// var_dump( $this->oForm->aSections );
+
 					$oFieldsTable = new AdminPageFramework_FormTable;
 					$this->oForm->setCurrentPageSlug( $sPageSlug );
 					$this->oForm->setCurrentTabSlug( $sTabSlug );
-// $this->oDebug->dumpArray( $this->oForm->applyConditions() )	;
-					echo $oFieldsTable->getFormTables( $this->oForm->applyConditions(), array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+					$this->oForm->applyConditions();
+					echo $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 					// echo $oFieldsTable->getFormTables( $this->oForm->getFieldsByPageSlug( $sPageSlug, $sTabSlug ), array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 				} 
 				

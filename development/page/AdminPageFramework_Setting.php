@@ -1189,10 +1189,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$this->oForm->setCurrentTabSlug( $this->oProp->getCurrentTab() );
 		
 		// 2-4. Do conditioning.
-		$_aFields = $this->oForm->applyConditions();
+		$this->oForm->applyConditions();
 		
-		/* 2. If there is no section or field to add, do nothing. */
-		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $_aFields ) == 0 ) ) return;
+		/* 2-5. If there is no section or field to add, do nothing. */
+		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
 
 		/* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
 		new AdminPageFramework_FieldTypeRegistration( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
@@ -1203,7 +1203,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		);		
 
 		/* 4. Register settings sections */ 
-		foreach( $this->oForm->aSections as $_aSection ) {
+		foreach( $this->oForm->aConditionedSections as $_aSection ) {
 			
 			/* 4-1. Add the given section */
 			add_settings_section(
@@ -1229,7 +1229,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		}
 		
 		/* 5. Register settings fields	*/
-		foreach( $this->oForm->aFields as $_sSectionID => $__aFields ) {
+		foreach( $this->oForm->aConditionedFields as $_sSectionID => $__aFields ) {
 			
 			foreach( $__aFields as $_sFieldID => $_aSubSectionOrField ) {
 				

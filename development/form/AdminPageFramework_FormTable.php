@@ -15,10 +15,10 @@ class AdminPageFramework_FormTable {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFormTables( &$aSections, $hfSectionCallback, $hfFieldCallback ) {
+	public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 		
 		$aOutput = array();
-		foreach( $aSections as $_sSectionID => $aSubSectionsOrFields ) {
+		foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
 			
 			// For repeatable sections,
 			if ( $this->hasSubSections( $aSubSectionsOrFields ) ) {
@@ -40,8 +40,12 @@ class AdminPageFramework_FormTable {
 			// Otherwise, it's an fields-array.
 			$aFields = $aSubSectionsOrFields;
 			
-			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
+			// The head part of the section
+			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) {
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
+				
+			}
+			// The section table (main content)
 			$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
 			
 		}

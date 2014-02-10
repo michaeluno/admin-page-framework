@@ -275,8 +275,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		
 		// Format the fields array.
 		$this->oForm->format();
-		$_aFields = $this->oForm->applyConditions();
-		$this->_registerFields( $_aFields );
+		$this->oForm->applyConditions();	// will create the conditioned elements.
+		$this->_registerFields( $this->oForm->aConditionedFields );
 
 	}		
 		/**

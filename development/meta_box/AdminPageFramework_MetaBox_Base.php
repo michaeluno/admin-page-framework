@@ -281,15 +281,16 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$aOutput = array();
 		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
-		$_aFields = $this->oForm->applyConditions();
+		// Condition the sections and fields definition arrays.
+		$this->oForm->applyConditions();
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
 		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
-		$this->setOptionArray( $iPostID, $_aFields );
+		$this->setOptionArray( $iPostID, $this->oForm->aConditionedFields );
 							
 		// Get the fields output.
 		$oFieldsTable = new AdminPageFramework_FormTable;
-		$aOutput[] = $oFieldsTable->getFormTables( $_aFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
