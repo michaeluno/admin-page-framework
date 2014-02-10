@@ -1714,6 +1714,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'grid',
 				'type'	=>	'grid',		
 				'description'	=>	__( 'Move the widgets.', 'admin-page-framework-demo' ),	
+				'show_title_column'	=> false,	// this removes the title column of the field output
 				'grid_options' => array(
 					'resize' => array(
 						'enabled'	=>	false,
@@ -1743,6 +1744,7 @@ class APF_Demo extends AdminPageFramework {
 						'enabled'	=>	true,
 					),
 				),
+				'show_title_column'	=> false,	
 				'default'	=>	array(	
 					array( 
 						'col'	=>	1,
@@ -1775,6 +1777,7 @@ class APF_Demo extends AdminPageFramework {
 					'widget_margins' => array( 10, 10 ),
 					'widget_base_dimensions' => array( 100, 100 ),					
 				),
+				'show_title_column'	=> false,	
 				'default'	=>	array(	
 					array( 
 						'col'	=>	1,
