@@ -20,6 +20,8 @@ class AdminPageFramework_FormTable {
 		$aOutput = array();
 		foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
 			
+			if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
+			
 			// For repeatable sections,
 			if ( $this->hasSubSections( $aSubSectionsOrFields ) ) {
 				
@@ -30,8 +32,8 @@ class AdminPageFramework_FormTable {
 					$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description							
 					
 				// Get the section tables.
-				foreach( $aSubSections as $aSubSection )
-					$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
+				foreach( $aSubSections as $_iIndex => $aSubSection )
+					$aOutput[] = $this->getFormTable( $_sSectionID . '_' . $_iIndex, $aFields, $hfFieldCallback );
 					
 				continue;
 				
@@ -43,15 +45,27 @@ class AdminPageFramework_FormTable {
 			// The head part of the section
 			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) {
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
-				
+				$aOutput[] = $this->getRepeatableSectionsEnablerScript( $aSections[ $_sSectionID ] );
 			}
 			// The section table (main content)
-			$aOutput[] = $this->getFormTable( $aFields, $hfFieldCallback );
+			$aOutput[] = $this->getFormTable( $_sSectionID . '_' . '0',  $aFields, $hfFieldCallback );
 			
 		}
 		return implode( PHP_EOL, $aOutput );
 		
 	}
+		/**
+		 * Returns the enabler script for repeatable sections.
+		 * @since			3.0.0
+		 */
+		private function getRepeatableSectionsEnablerScript( $aSection ) {
+			
+			if ( ! $aSection['repeatable'] ) return '';
+			
+			return '<pre>The repeatable section script will be inserted here.</pre>';
+			
+			
+		}
 		/**
 		 * Determines whether the given sections array holds sub-sections.
 		 * 
@@ -131,14 +145,20 @@ class AdminPageFramework_FormTable {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFormTable( $aFields, $hfFieldCallback ) {
+	public function getFormTable( $sID, $aFields, $hfFieldCallback ) {
 
 		if ( count( $aFields ) <= 0 ) return '';
 	
+		$_sAttributes = AdminPageFramework_WPUtility::generateAttributes(  
+			array( 
+				'id' => 'fields_table-' . $sID,
+				'class' => 'form-table admin-page-framework-fields-table',
+			)
+		);
 		$aOutput = array();
-		$aOutput[] = '<table class="form-table">';
+		$aOutput[] = "<table {$_sAttributes}>";
 			$aOutput[] = $this->getFieldRows( $aFields, $hfFieldCallback );
-		$aOutput[] = '</table>';
+		$aOutput[] = "</table>";
 		return implode( PHP_EOL, $aOutput );
 		
 	}
