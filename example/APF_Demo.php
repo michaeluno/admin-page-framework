@@ -141,10 +141,11 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'	=>	'mixed_types',
 				'title'		=>	__( 'Mixed', 'admin-page-framework-demo' ),	
 			),
-			array(
-				'tab_slug'	=>	'sections',
-				'title'		=>	__( 'Sections', 'admin-page-framework-demo' ),	
-			)
+			// array(
+				// 'tab_slug'	=>	'sections',
+				// 'title'		=>	__( 'Sections', 'admin-page-framework-demo' ),	
+			// ),
+			array()
 		);
 		$this->addInPageTabs(	// ( optional )
 			/*
