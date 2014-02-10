@@ -18,7 +18,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 			'maxlength'	=>	400,
 		),	
 		'label'		=>	array(),	// determines the elements of radio button.
-		'hidden'	=>	array(),	// the keys should correspond the label key element.
+		'reveal'	=>	array(),	// the keys should correspond the label key element.
 		
 	);
 
@@ -134,7 +134,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the output of the field type.
 	 */
 	protected function getField( $aField ) { 
-				
+
 		$aOutput = array();
 		$sValue = $aField['attributes']['value'];
 		foreach( $aField['label'] as $sKey =>$sLabel ) {
@@ -175,7 +175,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 		}
 		/* Insert the hidden elements. This will be revealed when a radio is selected. */
 		$aOutput[] = "<div class='sample_hidden_elements_container'>";
-		foreach( $aField['hidden'] as $sKey => $sHiddenOutput ) {
+		foreach( $aField['reveal'] as $sKey => $sHiddenOutput ) {
 
 			if ( ! isset( $aField['label'][ $sKey ] ) ) continue;	// the hidden array key should correspond to the label array.
 						
