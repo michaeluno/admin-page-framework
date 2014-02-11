@@ -186,5 +186,52 @@ abstract class AdminPageFramework_Utility_Array {
 		return $aParse;
 	} 
 	
+	/**
+	 * Re-composes the given array by numerizing the keys. 
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function numerizeElements( $aSubject ) {
+		
+		/* The passed array structure looks like this
+		 array( 
+			0 => array(
+				'field_id_1' => array( ... ),
+				'field_id_2' => array( ... ),
+			), 
+			1 => array(
+				'field_id_1' => array( ... ),
+				'field_id_2' => array( ... ),
+			),
+			'field_id_1' => array( ... ),
+			'field_id_2' => array( ... ),
+		 )
+		 
+		 It will be converted to to
+		 array(
+			0 => array(
+				'field_id_1' => array( ... ),
+				'field_id_2' => array( ... ),
+			), 
+			1 => array(
+				'field_id_1' => array( ... ),
+				'field_id_2' => array( ... ),
+			),				
+			2 => array(
+				'field_id_1' => array( ... ),
+				'field_id_2' => array( ... ),
+			),
+		 )
+		 */
+		$_aNumeric = self::getIntegerElements( $aSubject );
+		$_aAssociative = self::invertCastArrayContents( $aSubject, $_aNumeric );
+		foreach( $_aNumeric as &$_aElem ) 
+			$_aElem = self::uniteArrays( $_aElem, $_aAssociative );
+		array_unshift( $_aNumeric, $_aAssociative );	// insert the main section to the beginning of the array.
+		return $_aNumeric;
+		
+	}
+	
+	
 }
 endif;
