@@ -289,7 +289,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->setOptionArray( $iPostID, $this->oForm->aConditionedFields );
 							
 		// Get the fields output.
-		$oFieldsTable = new AdminPageFramework_FormTable;
+		$oFieldsTable = new AdminPageFramework_FormTable( $this->oMsg );
 		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
