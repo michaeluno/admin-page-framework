@@ -338,6 +338,20 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 	}	
 	
 	/**
+	 * Generates a string of data attributes from the given associative array.
+	 * @since			3.0.0
+	 */
+	static public function generateDataAttributes( array $aArray ) {
+		
+		$aNewArray = array();
+		foreach( $aArray as $sKey => $v ) 
+			$aNewArray[ "data-{$sKey}" ] = $v;
+			
+		return self::generateAttributes( $aNewArray );
+		
+	}
+	
+	/**
 	 * Attempts to retrieve the current admin post type
 	 * 
 	 * @since			3.0.0
