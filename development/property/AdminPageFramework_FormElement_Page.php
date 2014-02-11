@@ -167,9 +167,9 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	 * 
 	 * @since			3.0.0
 	 */
-	protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements ) {
+	protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable ) {
 		
-		$_aField = parent::formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements );
+		$_aField = parent::formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable );
 		
 		if ( ! $_aField ) return;
 		$_aField['option_key'] = $this->sOptionKey;

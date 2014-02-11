@@ -92,17 +92,18 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$aField = isset( $aField ) ? $aField : $this->aField;
 		$_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "[{$sKey}]";
+		$sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "[{$aField['_section_index']}]" : "";
 		switch( $aField['_fields_type'] ) {
 			default:
 			case 'page':
 				$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
 					? "[{$aField['section_id']}]"
 					: '';
-				return "{$aField['option_key']}{$sSectionDimension}[{$aField['field_id']}]{$_sKey}";
+				return "{$aField['option_key']}{$sSectionDimension}{$sSectionIndex}[{$aField['field_id']}]{$_sKey}";
 			case 'page_meta_box':
 			case 'post_meta_box':
 				return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
-					? "{$aField['section_id']}[{$aField['field_id']}]{$_sKey}"
+					? "{$aField['section_id']}{$sSectionIndex}[{$aField['field_id']}]{$_sKey}"
 					: "{$aField['field_id']}{$_sKey}";
 			case 'taxonomy':	// taxonomy fields type do not support sections.
 				return "{$aField['field_id']}{$_sKey}";
@@ -125,17 +126,18 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		
 		$sKey = ( string ) $sKey;	// this is important as 0 value may have been interpreted as false.
 		$_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "|{$sKey}";
+		$sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "|{$aField['_section_index']}" : "";
 		switch( $aField['_fields_type'] ) {
 			default:
 			case 'page':
 				$sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
 					? "|{$aField['section_id']}"
 					: '';
-				return "{$aField['option_key']}{$sSectionDimension}|{$aField['field_id']}{$_sKey}";
+				return "{$aField['option_key']}{$sSectionDimension}{$sSectionIndex}|{$aField['field_id']}{$_sKey}";
 			case 'page_meta_box':
 			case 'post_meta_box':
 				return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default'
-					? "{$aField['section_id']}|{$aField['field_id']}{$_sKey}"
+					? "{$aField['section_id']}{$sSectionIndex}|{$aField['field_id']}{$_sKey}"
 					: "{$aField['field_id']}{$_sKey}";
 			case 'taxonomy':	// taxonomy fields type do not support sections.
 				return "{$aField['field_id']}{$_sKey}";
@@ -193,8 +195,9 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	private function _getInputID( $aField, $sIndex ) {
 		
+		$sSectionIndex = isset( $aField['_section_index'] ) ? '_' . $aField['_section_index'] : '';
 		return isset( $aField['section_id'] ) && $aField['section_id'] != '_default'
-			? $aField['section_id'] . '_' . $aField['field_id'] . '_' . $sIndex
+			? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] . '_' . $sIndex
 			: $aField['field_id'] . '_' . $sIndex ;
 		
 	}
@@ -204,10 +207,11 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * 
 	 * @remark			This is called from the fields table class to insert the row id.
 	 */
-	static public function _getInputTagID( &$aField )  {
-				
+	static public function _getInputTagID( $aField )  {
+		
+		$sSectionIndex = isset( $aField['_section_index'] ) ? '_' . $aField['_section_index'] : '';		
 		return isset( $aField['section_id'] ) && $aField['section_id'] != '_default'
-			? $aField['section_id'] . '_' . $aField['field_id']
+			? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id']
 			: $aField['field_id'];
 					
 	}		
@@ -432,7 +436,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		$_sAdd = $this->oMsg->__( 'add' );
 		$_sRemove = $this->oMsg->__( 'remove' );
 		$_sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : "";
-		$_sSettingsAttributes = $this->_generateDataAttributes( ( array ) $aSettings );
+		$_sSettingsAttributes = $this->generateDataAttributes( ( array ) $aSettings );
 		$_sButtons = 
 			"<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
 				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>+</a>"
@@ -453,19 +457,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			</script>";
 		
 	}
-		/**
-		 * Generates a string of data attributes from the given associative array.
-		 * @since			3.0.0
-		 */
-		private function _generateDataAttributes( array $aArray ) {
-			
-			$aNewArray = array();
-			foreach( $aArray as $sKey => $v ) 
-				$aNewArray[ "data-{$sKey}" ] = $v;
-				
-			return $this->generateAttributes( $aNewArray );
-			
-		}
 	
 	/**
 	 * Returns the framework's repeatable field jQuery plugin.
@@ -636,79 +627,83 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		$sScript = "
 		/**
 		 * Attribute increment/decrement jQuery Plugin
-		 */		
+		 */
 		(function ( $ ) {
 		
 			/**
-			 * Increments a first found digit with the prefix of underscore in a specified attribute value.
+			 * Increments a first/last found digit with the prefix of underscore in a specified attribute value.
+			 * if the bFirstOccurence is false, the last found one will be replaced.
 			 */
-			$.fn.incrementIDAttribute = function( sAttribute ) {				
+			$.fn.incrementIDAttribute = function( sAttribute, bFirstOccurence ) {				
 				return this.attr( sAttribute, function( iIndex, sValue ) {	
-					return updateID( iIndex, sValue, 1 );
+					return updateID( iIndex, sValue, 1, bFirstOccurence );
 				}); 
 			};
 			/**
-			 * Increments a first found digit enclosed in [] in a specified attribute value.
+			 * Increments a first/last found digit enclosed in [] in a specified attribute value.
 			 */
-			$.fn.incrementNameAttribute = function( sAttribute ) {				
+			$.fn.incrementNameAttribute = function( sAttribute, bFirstOccurence ) {				
 				return this.attr( sAttribute, function( iIndex, sValue ) {	
-					return updateName( iIndex, sValue, 1 );
+					return updateName( iIndex, sValue, 1, bFirstOccurence );
 				}); 
 			};
 	
 			/**
-			 * Decrements a first found digit with the prefix of underscore in a specified attribute value.
+			 * Decrements a first/last found digit with the prefix of underscore in a specified attribute value.
 			 */
-			$.fn.decrementIDAttribute = function( sAttribute ) {
+			$.fn.decrementIDAttribute = function( sAttribute, bFirstOccurence ) {
 				return this.attr( sAttribute, function( iIndex, sValue ) {
-					return updateID( iIndex, sValue, -1 );
+					return updateID( iIndex, sValue, -1, bFirstOccurence );
 				}); 
 			};			
 			/**
-			 * Decrements a first found digit enclosed in [] in a specified attribute value.
+			 * Decrements a first/last found digit enclosed in [] in a specified attribute value.
 			 */
-			$.fn.decrementNameAttribute = function( sAttribute ) {
+			$.fn.decrementNameAttribute = function( sAttribute, bFirstOccurence ) {
 				return this.attr( sAttribute, function( iIndex, sValue ) {
-					return updateName( iIndex, sValue, -1 );
+					return updateName( iIndex, sValue, -1, bFirstOccurence );
 				}); 
 			};				
 			
 			/* Sets the current index to the ID attribute */
-			$.fn.setIndexIDAttribute = function( sAttribute, iIndex ){
+			$.fn.setIndexIDAttribute = function( sAttribute, iIndex, bFirstOccurence ){
 				return this.attr( sAttribute, function( i, sValue ) {
-					return updateID( iIndex, sValue, 0 );
+					return updateID( iIndex, sValue, 0, bFirstOccurence );
 				});
 			};
 			/* Sets the current index to the name attribute */
-			$.fn.setIndexNameAttribute = function( sAttribute, iIndex ){
+			$.fn.setIndexNameAttribute = function( sAttribute, iIndex, bFirstOccurence ){
 				return this.attr( sAttribute, function( i, sValue ) {
-					return updateName( iIndex, sValue, 0 );
+					return updateName( iIndex, sValue, 0, bFirstOccurence );
 				});
 			};		
 			
-			/* Local Function Literals */
-			var updateID = function( iIndex, sID, bIncrement ) {
+			/* Local Function Literals */	
+			var updateID = function( iIndex, sID, bIncrement, bFirstOccurence ) {
 				if ( typeof sID === 'undefined' ) return sID;
-				return sID.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {
+				var sNeedlePrefix = ( typeof bFirstOccurence === 'undefined' ) || ! bFirstOccurence ? '(.+)': '(.+?)';
+				var sNeedle = new RegExp( sNeedlePrefix + '_(\\\d+)(?=(_|$))' );	// triple escape - not sure why but on a separate test script, double escape was working
+				return sID.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
 					if ( bIncrement === 1 )
-						return '_' + ( Number(n) + 1 );
+						return m0 + '_' + ( Number( m1 ) + 1 );
 					else if ( bIncrement === -1 )
-						return '_' + ( Number(n) - 1 );
+						return m0 + '_' + ( Number( m1 ) - 1 );
 					else 
-						return '_' + ( iIndex );
-					// return '_' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
+						return m0 + '_' + ( iIndex );
 				});
 			}
-			var updateName = function( iIndex, sName, bIncrement ) {
+			var updateName = function( iIndex, sName, bIncrement, bFirstOccurence ) {
 				if ( typeof sName === 'undefined' ) return sName;
-				return sName.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {	
+				var sNeedlePrefix = ( typeof bFirstOccurence === 'undefined' ) || ! bFirstOccurence ? '(.+)': '(.+?)';
+				var sNeedle = new RegExp( sNeedlePrefix + '\\\[(\\\d+)(?=\\\])' );	// triple escape - not sure why but on a separate test script, double escape was working
+				return sName.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
+								
 					if ( bIncrement === 1 )
-						return '[' + ( Number(n) + 1 );
+						return m0 + '[' + ( Number( m1 ) + 1 );
 					else if ( bIncrement === -1 )
-						return '[' + ( Number(n) - 1 );
+						return m0 + '[' + ( Number( m1 ) - 1 );
 					else 
-						return '[' + ( iIndex );
-					// return '[' + ( Number(n) + ( bIncrement === 1 ? 1 : -1 ) );
+						return m0 + '[' + ( iIndex );
 				});
 			}
 				

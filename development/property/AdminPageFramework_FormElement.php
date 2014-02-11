@@ -304,33 +304,40 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 	public function formatFields( $sFieldsType, $sCapability ) {
 
 		$_aNewFields = array();
-		foreach ( $this->aFields as $_sSectionID => $_aSubSectionOrFields ) {
+		foreach ( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
 			
+			if ( ! isset( $this->aSections[ $_sSectionID ] ) ) continue;
+
 			$_aNewFields[ $_sSectionID ] = isset( $_aNewFields[ $_sSectionID ] ) ? $_aNewFields[ $_sSectionID ] : array();
-			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
+			
+			// If there are sub-section items.
+			$_abSectionRepeatable = $this->aSections[ $_sSectionID ]['repeatable'];	// a setting array or boolean or true/false
+			if ( count( $this->getIntegerElements( $_aSubSectionsOrFields ) ) || $_abSectionRepeatable ) {	// if sub-section exists or repeatable
 				
-				// If it is a sub-section array.
-				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
-					
-					$_sSubSectionIndex = $_sIndexOrFieldID;
-					$_aFields = $_aSubSectionOrField;
+				foreach( $this->numerizeElements( $_aSubSectionsOrFields ) as $_iSectionIndex => $_aFields ) {
+											
 					foreach( $_aFields as $_aField ) {
 						
-						$_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ] ) : 0 ;
-						$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement );
+						$_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) : 0 ;
+						$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable );
 						if ( $_aField )
-							$_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;						
+							$_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;						
 						
 					}
-					uasort( $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ], array( $this, '_sortByOrder' ) ); 
-					continue;
+					uasort( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ], array( $this, '_sortByOrder' ) ); 				
 					
 				}
+				continue;
 				
-				// Otherwise, insert the formatted field definiton array.
-				$_aField = $_aSubSectionOrField;
-				$_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0;
-				$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement );
+			}
+			
+			// Otherwise, these are normal sectioned fields.
+			$_aSectionedFields = $_aSubSectionsOrFields;
+			foreach( $_aSectionedFields as $_sFieldID => $_aField ) {
+				
+				// Insert the formatted field definition array.
+				$_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0;	// the count is needed to set each order value.
+				$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable );
 				if ( $_aField )
 					$_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
 				
@@ -355,7 +362,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements ) {
+		protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable ) {
 			
 			if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;
 			
@@ -365,6 +372,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 				array( 
 					'capability' => $sCapability,
 					'section_id' => '_default',
+					'_section_index' => $iSectionIndex,
+					'_section_repeatable' => $bIsSectionRepeatable,
 				),
 				self::$_aStructure_Field
 			);
@@ -372,6 +381,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 			$_aField['section_id'] = $this->sanitizeSlug( $_aField['section_id'] );			
 			$_aField['tip'] = esc_attr( strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] ) );
 			$_aField['order'] = is_numeric( $_aField['order'] ) ? $_aField['order'] : $iCountOfElements + 10;
+						
 			return $_aField;
 			
 		}
