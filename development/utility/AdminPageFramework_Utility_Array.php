@@ -227,7 +227,8 @@ abstract class AdminPageFramework_Utility_Array {
 		$_aAssociative = self::invertCastArrayContents( $aSubject, $_aNumeric );
 		foreach( $_aNumeric as &$_aElem ) 
 			$_aElem = self::uniteArrays( $_aElem, $_aAssociative );
-		array_unshift( $_aNumeric, $_aAssociative );	// insert the main section to the beginning of the array.
+		if ( ! empty( $_aAssociative ) )
+			array_unshift( $_aNumeric, $_aAssociative );	// insert the main section to the beginning of the array.
 		return $_aNumeric;
 		
 	}
