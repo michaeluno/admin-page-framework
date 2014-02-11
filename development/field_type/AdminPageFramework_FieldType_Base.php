@@ -199,7 +199,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		wp_enqueue_style( 'thickbox' );
 	
 		if ( function_exists( 'wp_enqueue_media' ) ) 	// means the WordPress version is 3.5 or above
-			wp_enqueue_media();	
+			add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 );	
 		else		
 			wp_enqueue_script( 'media-upload' );	
 
@@ -207,6 +207,14 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 			add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );				
 		
 	}
+		/**
+		 * Calls the wp_enqueue_media() function to avoid breaking featured image functionality.
+		 * 
+		 * @since			3.0.0
+		 */
+		public function _replyToEnqueueMedia() {
+			wp_enqueue_media();
+		}
 		/**
 		 * Replaces the label text of a button used in the media uploader.
 		 * @since			2.0.0
@@ -252,7 +260,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 * @since			2.1.5			Moved from AdminPageFramework_Property_Base.
 	 */
 	protected function _getScript_CustomMediaUploaderObject() {
-		
+
 		if ( ! function_exists( 'wp_enqueue_media' ) ) return "";	// means the WordPress version is 3.4.x or below
 		
 		// Check if it's loaded in this field set type to prevent multiple insertions.
@@ -312,8 +320,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 							new wp.media.controller.Embed(),
 						]);
 
-
-						if ( wp.media.view.settings.post.featuredImageId ) {
+						if ( wp.media.view.settings.post.featuredImageId ) {							
 							this.states.add( new wp.media.controller.FeaturedImage() );
 						}
 					},
@@ -325,7 +332,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 						this.on( 'content:create:browse', this.browseContent, this );
 						this.on( 'content:render:upload', this.uploadContent, this );
 						this.on( 'toolbar:create:select', this.createSelectToolbar, this );
-						//
+						
 
 						this.on( 'menu:create:gallery', this.createMenu, this );
 						this.on( 'toolbar:create:main-insert', this.createToolbar, this );
@@ -446,11 +453,11 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 
 					featuredImageToolbar: function( toolbar ) {
 						this.createSelectToolbar( toolbar, {
-							text:  'Set Featured Image',
+							text:  l10n.setFeaturedImage,
 							state: this.options.state || 'upload'
 						});
 					},
-
+						
 					mainEmbedToolbar: function( toolbar ) {
 						toolbar.view = new wp.media.view.Toolbar.Embed({
 							controller: this,
