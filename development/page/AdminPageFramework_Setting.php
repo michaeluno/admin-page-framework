@@ -1246,6 +1246,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 							$this->oForm->getPageSlugBySectionID( $__aField['section_id'] ), // page slug
 							$__aField['section_id']	// section
 						);							
+						AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $__aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+
 					}
 					continue;
 					
@@ -1321,7 +1323,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @internal
 	 */	 
 	public function _replyToGetFieldOutput( $aField ) {
-		
+
 		$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
 		$_sSectionID = isset( $aField['section_id'] ) ? $aField['section_id'] : '_default';
 		$_sFieldID = $aField['field_id'];
