@@ -39,8 +39,10 @@ class AdminPageFramework_Message {
 	 */
 	public static function instantiate( $sTextDomain='admin-page-framework' ) {
 		
+		static $_sTextDomain;
+		$_sTextDomain = $sTextDomain ? $sTextDomain : ( $_sTextDomain ? $_sTextDomain : 'admin-page-framework' ) ;
 		if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_Message ) ) 
-			self::$_oInstance = new AdminPageFramework_Message( $sTextDomain );
+			self::$_oInstance = new AdminPageFramework_Message( $_sTextDomain );
 		return self::$_oInstance;
 		
 	}	
@@ -63,8 +65,6 @@ class AdminPageFramework_Message {
 			'could_not_load_importing_data' => __( 'Could not load the importing data.', 'admin-page-framework' ),
 			'imported_data'			=> __( 'The uploaded file has been imported.', 'admin-page-framework' ),
 			'not_imported_data' 	=> __( 'No data could be imported.', 'admin-page-framework' ),
-			'add'					=> __( 'Add', 'admin-page-framework' ),
-			'remove'				=> __( 'Remove', 'admin-page-framework' ),
 			'upload_image'			=> __( 'Upload Image', 'admin-page-framework' ),
 			'use_this_image'		=> __( 'Use This Image', 'admin-page-framework' ),
 			'reset_options'			=> __( 'Are you sure you want to reset the options?', 'admin-page-framework' ),
@@ -80,9 +80,7 @@ class AdminPageFramework_Message {
 			'comments' 		=> __( 'Comments', 'admin-page-framework' ),
 			'date'			=> __( 'Date', 'admin-page-framework' ), 
 			'show_all'		=> __( 'Show All', 'admin-page-framework' ),
-			
-			// For the meta box class
-			
+
 			// AdminPageFramework_Link_Base
 			'powered_by'	=> __( 'Powered by', 'admin-page-framework' ),
 			
@@ -107,7 +105,15 @@ class AdminPageFramework_Message {
 			// AdminPageFramework_InputField
 			'allowed_maximum_number_of_fields'	=>	__( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' ),
 			'allowed_minimum_number_of_fields'	=>	__( 'The allowed minimum number of fields is {0}.', 'admin-page-framework' ),
-
+			'add'					=> __( 'Add', 'admin-page-framework' ),
+			'remove'				=> __( 'Remove', 'admin-page-framework' ),
+			
+			// AdminPageFramework_FormTable
+			'allowed_maximum_number_of_sections'	=>	__( 'The allowed maximum number of sections is (0)', 'admin-page-framework' ),
+			'allowed_minimum_number_of_sections'	=>	__( 'The allowed minimum number of sections is (0)', 'admin-page-framework' ),
+			'add_section'	=>	__( 'Add Section' ),
+			'remove_section'	=>	__( 'Remove Section' ),
+			
 		);		
 		
 	}
