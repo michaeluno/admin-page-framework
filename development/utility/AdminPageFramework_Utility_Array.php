@@ -84,9 +84,9 @@ abstract class AdminPageFramework_Utility_Array {
 	public static function invertCastArrayContents( $sModel, $aSubject ) {
 		
 		$aMod = array();
-		foreach( $aSubject as $sKey => $_v ) {
+		foreach( $sModel as $sKey => $_v ) {
 			
-			if ( array_key_exists( $sKey, $sModel ) ) continue;
+			if ( array_key_exists( $sKey, $aSubject ) ) continue;
 			
 			$aMod[ $sKey ] = $_v;
 			
