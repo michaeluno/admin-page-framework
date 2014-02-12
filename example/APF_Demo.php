@@ -1391,6 +1391,13 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'section_id'	=>	'repeatable_sections',
+				'field_id'	=>	'repeatable_field_in_repeatable_sections',
+				'title'	=>	__( 'Repeatable Field', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'repeatable'	=> true,
+			),			
+			array(
+				'section_id'	=>	'repeatable_sections',
 				'field_id'	=>	'color_in_repeatable_sections',
 				'title'	=>	__( 'Color', 'admin-page-framework-demo' ),
 				'type'	=>	'color',
