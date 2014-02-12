@@ -154,6 +154,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
 	 * <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
 	 * <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	 * <li><strong>repeatable</strong> - ( optional, boolean|array ) [3.0.0+] Indicates whether or not the section is repeatable. To set a minimum/maximum number of sections, pass an array with the key, <em>min</em>, and <em>max</em>. e.g. <em>array( 'min' => 3, 'max' => 10 )</em></li>
 	 * </ul>
 	 * @param			array					( optional ) another section array.
 	 * @param			array					( optional ) add more section array to the next parameters as many as necessary.
