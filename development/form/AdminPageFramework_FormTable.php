@@ -342,17 +342,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				nodeNewSection.updateAPFRepeatableSections();	
 				
 				/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
-				/* nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	 */
+				nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
 	
 				/* Iterate each field one by one */
 				nodeNewSection.find( '.admin-page-framework-field' ).each( function() {	
 
 					/* Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
 					$( this ).updateAPFRepeatableFields();
-				
-					/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
-					$( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );					
-								
+												
 					/* Call the registered callback functions */
 					$( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
 					
