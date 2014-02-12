@@ -212,7 +212,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 */
 	static public function _getInputTagID( $aField )  {
 		
-		$sSectionIndex = isset( $aField['_section_index'] ) ? '_' . $aField['_section_index'] : '';		
+		$sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : '';
 		return isset( $aField['section_id'] ) && $aField['section_id'] != '_default'
 			? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id']
 			: $aField['field_id'];
@@ -322,7 +322,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 		$_aFieldsSetAttributes = array(
 			'id'	=> 'fieldset-' . $this->aField['tag_id'],
 			'class'	=> 'admin-page-framework-fieldset',
-			'data-field_id'	=>	$this->aField['tag_id'],
+			'data-field_id'	=>	$this->aField['tag_id'],	// <-- don't remember what this was for...
 		) + $this->aField['attributes']['fieldset'];
 		$_aFieldsContainerAttributes = array(
 			'id'	=> 'fields-' . $this->aField['tag_id'],
@@ -477,7 +477,6 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				
 				var nodeThis = this;	// it can be from a fields container or a cloned field container.
 				var sFieldsContainerID = nodeThis.find( '.repeatable-field-add' ).first().data( 'id' );
-				
 				/* Store the fields specific options in an array  */
 				if ( ! $.fn.aAPFRepeatableFieldsOptions ) $.fn.aAPFRepeatableFieldsOptions = [];
 				if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {		
@@ -524,7 +523,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 				var nodeNewField = nodeFieldContainer.clone();	// clone without bind events.
 				var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
 				var sFieldsContainerID = nodeFieldsContainer.attr( 'id' );
-				
+
 				/* If the set maximum number of fields already exists, do not add */
 				var sMaxNumberOfFields = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ]['max'];
 				if ( sMaxNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length >= sMaxNumberOfFields ) {

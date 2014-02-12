@@ -49,14 +49,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				foreach( $a = $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields )		// will include the main section as well.
 				{
 // var_dump( $_iIndex );
-					$aOutput[] = $this->getFormTable( $_sSectionID . '_' . $_iIndex, $_aFields, $hfFieldCallback );
+					$aOutput[] = $this->getFormTable( $_sSectionID . '__' . $_iIndex, $_aFields, $hfFieldCallback );
 				}
 // var_dump( $a );
 				
 			} else {
 			// The normal section
 				$_aFields = $aSubSectionsOrFields;
-				$aOutput[] = $this->getFormTable( $_sSectionID . '_' . '0', $_aFields, $hfFieldCallback );
+				$aOutput[] = $this->getFormTable( $_sSectionID . '__' . '0', $_aFields, $hfFieldCallback );
 			}
 
 			$aOutput[] = "</div>"; // admin-page-framework-section-tables
@@ -150,6 +150,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				array( 
 					'id' => 'fieldrow-' . AdminPageFramework_InputField::_getInputTagID( $aField ),
 					'valign' => 'top',
+					'class' => 'admin-page-framework-fieldrow',
 				)
 			);
 			$aOutput[] = "<tr {$_sAttributes}>";
@@ -302,7 +303,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
 				
 				/* If the set maximum number of sections already exists, do not add */
-console.log( 'sSectionsContainerID: ' + sSectionsContainerID );				
 				var sMaxNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['max'];
 				if ( sMaxNumberOfSections != 0 && nodeSectionsContainer.find( '.admin-page-framework-section' ).length >= sMaxNumberOfSections ) {
 					var nodeLastRepeaterButtons = nodeSectionContainer.find( '.admin-page-framework-repeatable-section-buttons' ).last();
@@ -324,22 +324,39 @@ console.log( 'sSectionsContainerID: ' + sSectionsContainerID );
 				
 				/* Increment the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
-					$( this ).incrementIDAttribute( 'id' );
-					// $( this ).find( 'label' ).incrementIDAttribute( 'for' );
-					// $( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
-					// $( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
+					$( this ).incrementIDAttribute( 'id', true );
+					$( this ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', true );
+					$( this ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', true );
+					$( this ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', true );	// don't remember what this data attribute was for
+					$( this ).find( '.admin-page-framework-fields' ).incrementIDAttribute( 'id', true );
+					$( this ).find( '.admin-page-framework-field' ).incrementIDAttribute( 'id', true );
+					$( this ).find( '.repeatable-field-add' ).incrementIDAttribute( 'data-id', true );	// holds the fields container ID referred by the repeater field script.
+					$( this ).find( 'label' ).incrementIDAttribute( 'for', true );	// passing true changes the first occurrence
+					$( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id', true );
+					$( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name', true );
 				});
-
-				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method need to count sections. 
+			
+				/* Rebind the click event to the repeatable sections buttons - important to update AFTER inserting the clone to the document node since the update method need to count sections. 
 				 * Also do this after updating the attributes since the script needs to check the last added id for repeatable section options such as 'min'
 				 * */
-				nodeNewSection.updateAPFRepeatableSections();
+				nodeNewSection.updateAPFRepeatableSections();	
 				
 				/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
-				nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
+				/* nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	 */
+	
+				/* Iterate each field one by one */
+				nodeNewSection.find( '.admin-page-framework-field' ).each( function() {	
+
+					/* Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
+					$( this ).updateAPFRepeatableFields();
 				
-				/* Call the registered callback functions */
-// nodeNewSection.callBackAddRepeatableSection( nodeNewSection.data( 'type' ), nodeNewSection.attr( 'id' ) );					
+					/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
+					$( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );					
+								
+					/* Call the registered callback functions */
+					$( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
+					
+				});
 				
 				/* If more than one sections are created, show the Remove button */
 				var nodeRemoveButtons =  nodeSectionsContainer.find( '.repeatable-section-remove' );
@@ -373,14 +390,22 @@ console.log( 'sSectionsContainerID: ' + sSectionsContainerID );
 				
 				/* Decrement the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
-					$( this ).decrementIDAttribute( 'id' );
-					// $( this ).find( 'label' ).decrementIDAttribute( 'for' );
-					// $( this ).find( 'input,textarea,select' ).decrementIDAttribute( 'id' );
-					// $( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name' );																	
+					$( this ).decrementIDAttribute( 'id' );					
+					$( this ).find( 'tr.admin-page-framework-fieldrow' ).decrementIDAttribute( 'id', true );
+					$( this ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'id', true );
+					$( this ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'data-field_id', true );	// don't remember what this data attribute was for
+					$( this ).find( '.admin-page-framework-fields' ).decrementIDAttribute( 'id', true );
+					$( this ).find( '.admin-page-framework-field' ).decrementIDAttribute( 'id', true );
+					$( this ).find( '.repeatable-field-add' ).decrementIDAttribute( 'data-id', true );	// holds the fields container ID referred by the repeater field script.
+					$( this ).find( 'label' ).decrementIDAttribute( 'for', true );
+					$( this ).find( 'input,textarea,select' ).decrementIDAttribute( 'id', true );
+					$( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name', true );			
 				});
 
 				/* Call the registered callback functions */
-// nodeSectionContainer.callBackRemoveRepeatableSection( nodeSectionContainer.data( 'type' ), nodeSectionContainer.attr( 'id' ) );	
+				nodeSectionContainer.find( '.admin-page-framework-field' ).each( function() {	
+					$( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
+				});
 			
 				/* Remove the field */
 				nodeSectionContainer.remove();
