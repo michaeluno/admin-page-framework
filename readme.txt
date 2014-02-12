@@ -22,7 +22,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Color Picker** - it lets the user easily pick colors.
 * **Rich Text Editor** - supports the rich text editor form input.
-* **Repeatable Fields** - supports repeatable fields.
+* **Repeatable Sections and Fields** - supports repeatable form sections and fields.
 * **Sortable Fields** - supports sortable fields.
 * **Reset Button** - create a reset button that lets your users to initialize the saved options.
 * **Settings API Implemented** - it uses the [WordPress Settings API](http://codex.wordpress.org/Settings_API) for creating the form so the standard option design will be employed.
@@ -233,6 +233,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the ability to repeat form section.
 * Added: the ability to set form sections in meta boxes.
 * Added: the ability to omit the `addSettingSections()` method not to set a section. In other words, setting a section became optional.
 * Added: the `fields_{instantiated class name}_{section id}` filter that receives registered field definition arrays which belong to the given section.
