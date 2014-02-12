@@ -319,13 +319,24 @@
 </span><span id="228" class="l"><a class="l" href="#228">228 </a>    
 </span><span id="229" class="l"><a class="l" href="#229">229 </a>        <span class="php-comment">// Format the fields array.</span>
 </span><span id="230" class="l"><a class="l" href="#230">230 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;format();
-</span><span id="231" class="l"><a class="l" href="#231">231 </a>        <span class="php-var">$_aFields</span> = <span class="php-var">$this</span>-&gt;oForm-&gt;applyConditions();
-</span><span id="232" class="l"><a class="l" href="#232">232 </a>        <span class="php-var">$this</span>-&gt;_registerFields( <span class="php-var">$_aFields</span> );
-</span><span id="233" class="l"><a class="l" href="#233">233 </a>                
-</span><span id="234" class="l"><a class="l" href="#234">234 </a>    }   
-</span><span id="235" class="l"><a class="l" href="#235">235 </a>    
-</span><span id="236" class="l"><a class="l" href="#236">236 </a>}
-</span><span id="237" class="l"><a class="l" href="#237">237 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="231" class="l"><a class="l" href="#231">231 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;applyConditions();    <span class="php-comment">// will set $this-&gt;oForm-&gt;aConditionedFields</span>
+</span><span id="232" class="l"><a class="l" href="#232">232 </a>        
+</span><span id="233" class="l"><a class="l" href="#233">233 </a>        <span class="php-comment">// Set the option array - the framework will refer to this data when displaying the fields.</span>
+</span><span id="234" class="l"><a class="l" href="#234">234 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions ) )
+</span><span id="235" class="l"><a class="l" href="#235">235 </a>            <span class="php-var">$this</span>-&gt;setOptionArray( 
+</span><span id="236" class="l"><a class="l" href="#236">236 </a>                <span class="php-keyword1">isset</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'post'</span>]-&gt;ID ) ? <span class="php-var">$GLOBALS</span>[<span class="php-quote">'post'</span>]-&gt;ID : ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ? <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] : <span class="php-keyword1">null</span> ),
+</span><span id="237" class="l"><a class="l" href="#237">237 </a>                <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields 
+</span><span id="238" class="l"><a class="l" href="#238">238 </a>            );  <span class="php-comment">// will set $this-&gt;oProp-&gt;aOptions</span>
+</span><span id="239" class="l"><a class="l" href="#239">239 </a>        
+</span><span id="240" class="l"><a class="l" href="#240">240 </a>        <span class="php-comment">// Add the repeatable section elements to the fields definition array.</span>
+</span><span id="241" class="l"><a class="l" href="#241">241 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;setDynamicElements( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions );     <span class="php-comment">// will update $this-&gt;oForm-&gt;aConditionedFields</span>
+</span><span id="242" class="l"><a class="l" href="#242">242 </a>        
+</span><span id="243" class="l"><a class="l" href="#243">243 </a>        <span class="php-var">$this</span>-&gt;_registerFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields );
+</span><span id="244" class="l"><a class="l" href="#244">244 </a>                
+</span><span id="245" class="l"><a class="l" href="#245">245 </a>    }   
+</span><span id="246" class="l"><a class="l" href="#246">246 </a>    
+</span><span id="247" class="l"><a class="l" href="#247">247 </a>}
+</span><span id="248" class="l"><a class="l" href="#248">248 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">
