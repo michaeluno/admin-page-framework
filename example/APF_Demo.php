@@ -1400,6 +1400,7 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'radio_in_repeatable_sections',
 				'title'	=>	__( 'Radio', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
+				'default'	=>	'b',
 				'label'	=>	array(
 					'a'	=> 'A',
 					'b'	=> 'B',
