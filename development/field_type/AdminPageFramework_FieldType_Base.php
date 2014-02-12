@@ -199,7 +199,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		wp_enqueue_style( 'thickbox' );
 	
 		if ( function_exists( 'wp_enqueue_media' ) ) 	// means the WordPress version is 3.5 or above
-			add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 );	
+			add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 );	// 
 		else		
 			wp_enqueue_script( 'media-upload' );	
 
@@ -208,7 +208,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		
 	}
 		/**
-		 * Calls the wp_enqueue_media() function to avoid breaking featured image functionality.
+		 * Calls the wp_enqueue_media() function.
+		 * 
+		 * This should be called with the admin_footer hook to avoid breaking featured image functionality.
 		 * 
 		 * @since			3.0.0
 		 */

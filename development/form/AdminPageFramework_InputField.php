@@ -191,14 +191,17 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	/**
 	 * Returns the input ID
 	 * 
-	 * "{$aField['field_id']}_{$sKey}";
+	 * e.g. "{$aField['field_id']}_{$sKey}";
+	 * 
+	 * @remark			The keys are prefixed with double-underscores.
 	 */
 	private function _getInputID( $aField, $sIndex ) {
 		
-		$sSectionIndex = isset( $aField['_section_index'] ) ? '_' . $aField['_section_index'] : '';
+		$sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : '';	// double underscore
+		$sFieldIndex = '__' . $sIndex; // double underscore
 		return isset( $aField['section_id'] ) && $aField['section_id'] != '_default'
-			? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] . '_' . $sIndex
-			: $aField['field_id'] . '_' . $sIndex ;
+			? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] . $sFieldIndex
+			: $aField['field_id'] . $sFieldIndex;
 		
 	}
 	
@@ -682,14 +685,14 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			var updateID = function( iIndex, sID, bIncrement, bFirstOccurence ) {
 				if ( typeof sID === 'undefined' ) return sID;
 				var sNeedlePrefix = ( typeof bFirstOccurence === 'undefined' ) || ! bFirstOccurence ? '(.+)': '(.+?)';
-				var sNeedle = new RegExp( sNeedlePrefix + '_(\\\d+)(?=(_|$))' );	// triple escape - not sure why but on a separate test script, double escape was working
+				var sNeedle = new RegExp( sNeedlePrefix + '__(\\\d+)(?=(_|$))' );	// triple escape - not sure why but on a separate test script, double escape was working
 				return sID.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
 					if ( bIncrement === 1 )
-						return m0 + '_' + ( Number( m1 ) + 1 );
+						return m0 + '__' + ( Number( m1 ) + 1 );
 					else if ( bIncrement === -1 )
-						return m0 + '_' + ( Number( m1 ) - 1 );
+						return m0 + '__' + ( Number( m1 ) - 1 );
 					else 
-						return m0 + '_' + ( iIndex );
+						return m0 + '__' + ( iIndex );
 				});
 			}
 			var updateName = function( iIndex, sName, bIncrement, bFirstOccurence ) {
