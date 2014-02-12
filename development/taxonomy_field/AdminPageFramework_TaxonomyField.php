@@ -303,6 +303,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		// Format the fields array.
 		$this->oForm->format();
 		$this->oForm->applyConditions();
+		
+		// not sure if setDynamicElements() should be performed or not...
+		
 		$this->_registerFields( $this->oForm->aConditionedFields );
 		
 	}	

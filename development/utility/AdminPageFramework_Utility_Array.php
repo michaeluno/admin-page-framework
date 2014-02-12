@@ -187,6 +187,21 @@ abstract class AdminPageFramework_Utility_Array {
 	} 
 	
 	/**
+	 * Removes integer keys from the array.
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function getNonIntegerElements( $aParse ) {
+		
+		foreach ( $aParse as $isKey => $v ) 
+			if ( is_numeric( $isKey ) && is_int( $isKey+ 0 ) ) 
+				unset( $aParse[ $isKey ] );				
+		
+		return $aParse;
+		
+	}
+	
+	/**
 	 * Re-composes the given array by numerizing the keys. 
 	 * 
 	 * @since			3.0.0

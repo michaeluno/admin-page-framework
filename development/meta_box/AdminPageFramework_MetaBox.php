@@ -228,7 +228,18 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	
 		// Format the fields array.
 		$this->oForm->format();
-		$this->oForm->applyConditions();
+		$this->oForm->applyConditions();	// will set $this->oForm->aConditionedFields
+		
+		// Set the option array - the framework will refer to this data when displaying the fields.
+		if ( isset( $this->oProp->aOptions ) )
+			$this->setOptionArray( 
+				isset( $GLOBALS['post']->ID ) ? $GLOBALS['post']->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null ),
+				$this->oForm->aConditionedFields 
+			);	// will set $this->oProp->aOptions
+		
+		// Add the repeatable section elements to the fields definition array.
+		$this->oForm->setDynamicElements( $this->oProp->aOptions );		// will update $this->oForm->aConditionedFields
+		
 		$this->_registerFields( $this->oForm->aConditionedFields );
 				
 	}	

@@ -8,7 +8,7 @@ if ( ! class_exists( 'AdminPageFramework_FormElement' ) ) :
  * @since			3.0.0
  * @internal
  */
-class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Utility {
 	
 	/**
 	 * Represents the structure of the form section array.
@@ -504,131 +504,60 @@ class AdminPageFramework_FormElement extends AdminPageFramework_WPUtility {
 			return $aField;
 			
 		}
-		
-	/**
-	 * Determines whether the given ID is of a registered form section.
-	 * 
-	 * @since			3.0.0
-	 */
-	public function isSection( $sID ) {
-		
-		/* 
-		 * Consider the possibility that the given ID may be used both for a section and a field.
-		 * 1. Check if the given ID is not a section.
-		 * 2. Parse stored fields and check their ID. If one matches, return false.
-		 */
-		
-		if ( is_numeric( $sID ) && is_int( $sID + 0 ) ) return false;		// integer IDs are not accepted.
-		
-		// If the section ID is not registered, return false.
-		if ( ! array_key_exists( $sID, $this->aSections ) ) return false;
-		
-		if ( ! array_key_exists( $sID, $this->aFields ) ) return false;
-		
-		$_bIsSeciton = false;
-		foreach( $this->aFields as $_sSectionID => $_aFields ) {	// since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
-			
-			if ( $_sSectionID == $sID ) $_bIsSeciton = true;
-			
-			if ( array_key_exists( $sID, $_aFields ) ) return false;	// a field using the ID is found, and it precedes a section match.
-			
-		}
-		
-		return $_bIsSeciton;
-		
-	}	
+	
 	
 	/**
-	 * Returns the output of the title and description part of the given section by section ID.
+	 * Adds dynamic elements such as repeatable sections from the given options array.
 	 * 
-	 * @since			3.0.0
-	 */ 
-	public function getSectionHeader( $sSectionID ) {
-		
-		if ( ! isset( $this->aSections[ $sSectionID ] ) ) return '';
-		
-		$aOutput = array();
-		$aOutput[] = $this->aSections[ $sSectionID ]['title'] ? "<h3 class='admin-page-framework-section-title'>" . $this->aSections[ $sSectionID ]['title'] . "</h3>" : '';
-		$aOutput[] = $this->aSections[ $sSectionID ]['description'] ? "<p class='admin-page-framework-section-description'>" . $this->aSections[ $sSectionID ]['description'] . "</p>" : '';
-		return implode( PHP_EOL, $aOutput );
-		
-	}
-	
-	/**
-	 * Returns a fields model array that represents the structure of the array of saving data from the given fields definition array.
+	 * This method checks the structure of the given array and adds section elements to the $aConditionedFields property arrays.
 	 * 
-	 * The passed fields array should be structured like the following.
-	 * 
-	 * 	array(  
-	 * 		'_default'	=> array(		// _default is reserved for the system.
-	 * 			'my_field_id' => array( .... ),
-	 * 			'my_field_id2' => array( .... ),
-	 * 		),
-	 * 		'my_secion_id' => array(
-	 * 			'my_field_id' => array( ... ),
-	 * 			'my_field_id2' => array( ... ),
-	 * 			'my_field_id3' => array( ... ),
-	 * 	
-	 * 		),
-	 * 		'my_section_id2' => array(
-	 * 			'my_field_id' => array( ... ),
-	 * 		),
-	 * 		...
-	 * )
-	 * 
-	 * It will be converted to 
-	 * 	array(  
-	 * 		'my_field_id' => array( .... ),
-	 * 		'my_field_id2' => array( .... ),
-	 * 		'my_secion_id' => array(
-	 * 			'my_field_id' => array( ... ),
-	 * 			'my_field_id2' => array( ... ),
-	 * 			'my_field_id3' => array( ... ),
-	 * 	
-	 * 		),
-	 * 		'my_section_id2' => array(
-	 * 			'my_field_id' => array( ... ),
-	 * 		),
-	 * 		...
-	 * )
-	 * 
-	 * @remark			Just the _default section elements get extracted to the upper dimension.
+	 * @remark			This should be called after conditioning the form definition arrays.
 	 * @since			3.0.0
 	 */
-	public function getFieldsModel( array $aFields=array() )  {
+	public function setDynamicElements( $aOptions ) {
 		
-		$_aFieldsModel = array();
-		$aFields = empty( $aFields ) ? $this->aFields : $aFields;
-		foreach ( $aFields as $_sSectionID => $_aFields ) {
-
-			if ( $_sSectionID != '_default' ) {
-				$_aFieldsModel[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;	
-				continue;
+		$aOptions = $this->castArrayContents( $this->aConditionedSections, $aOptions );
+		
+		foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
+			
+			if ( ! is_array( $_aSubSectionOrFields ) ) continue;
+			
+			$_aSubSection = array();
+			foreach( $_aSubSectionOrFields as $_isIndexOrFieldID => $_aSubSectionOrFieldOptions ) {
+			
+				// If it is not a sub-section array, skip
+				if ( ! ( is_numeric( $_isIndexOrFieldID ) && is_int( $_isIndexOrFieldID + 0 ) ) ) continue;
+				
+				// Rename variables
+				$_iIndex = $_isIndexOrFieldID;
+				
+				// Insert the fields definition array into a temporary sub section array.
+				$_aSubSection[ $_iIndex ] = isset( $this->aConditionedFields[ $_sSectionID ][ $_iIndex ] )	// already numerized ?
+					? $this->aConditionedFields[ $_sSectionID ][ $_iIndex ]
+					: $this->getNonIntegerElements( $this->aConditionedFields[ $_sSectionID ] );
+				$_aSubSection[ $_iIndex ] = ! empty( $_aSubSection[ $_iIndex ] ) 	// if empty, merge with the previous element.
+					? $_aSubSection[ $_iIndex ]
+					: ( isset( $_aSubSection[ $_iPrevIndex ] )
+						 ? $_aSubSection[ $_iPrevIndex ]
+						 : array()
+					);
+				
+				// Update the internal section index key
+				foreach( $_aSubSection[ $_iIndex ] as &$_aField ) 
+					$_aField['_section_index'] = $_iIndex;
+				unset( $_aField ); // to be safe in PHP
+				
+					
+				$_iPrevIndex = $_iIndex;
+				
 			}
+// var_dump( $_aSubSection );
+			if ( ! empty( $_aSubSection ) )
+				$this->aConditionedFields[ $_sSectionID ] = $_aSubSection;	// at this point, the associative keys will be gone but the element only consists of numeric keys.
 			
-			// For default field items.
-			foreach( $_aFields as $_sFieldID => $_aField ) 
-				$_aFieldsModel[ $_aField['field_id'] ] = $_aField;
-
 		}
-		return $_aFieldsModel;
+// var_dump( $this->aConditionedFields );
 	}
-	
-	
-		/**
-		 * Calculates the subtraction of two values with the array key of <em>order</em>
-		 * 
-		 * This is used to sort arrays.
-		 * 
-		 * @since			3.0.0			
-		 * @remark			a callback method for uasort().
-		 * @return			integer
-		 * @internal
-		 */ 
-		public function _sortByOrder( $a, $b ) {
-			return isset( $a['order'], $b['order'] )
-				? $a['order'] - $b['order']
-				: 1;
-		}		
+		
 }
 endif;

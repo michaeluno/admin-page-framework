@@ -29,29 +29,24 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 			if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
 			
 			$aOutput[] = "<div class='admin-page-framework-sections' id='sections-{$_sSectionID}'>";
-			
-			
+					
 			// The head part of the sections (including sub-sections)
 			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
 				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
 								
 			// For repeatable sections
 			$_aSubSections = $aSubSectionsOrFields;
-			$_iCountSubSections = count( $this->getIntegerElements( $_aSubSections ) );	// Check sub-sections.
+			$_aSubSections = $this->getIntegerElements( $_aSubSections );
+			$_iCountSubSections = count( $_aSubSections );	// Check sub-sections.
 			if ( $_iCountSubSections ) {
-// var_dump( $this->getIntegerElements( $_aSubSections ) );
-// var_dump( $_aSubSections );
+
 				// Add the repeatable sections enabler script.
 				if ( $aSections[ $_sSectionID ]['repeatable'] )
 					$aOutput[] = $this->getRepeatableSectionsEnablerScript( 'sections-' . $_sSectionID, $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );	
 				
 				// Get the section tables.
 				foreach( $a = $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields )		// will include the main section as well.
-				{
-// var_dump( $_iIndex );
 					$aOutput[] = $this->getFormTable( $_sSectionID . '__' . $_iIndex, $_aFields, $hfFieldCallback );
-				}
-// var_dump( $a );
 				
 			} else {
 			// The normal section
@@ -239,7 +234,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 	 */
 	public function _replyToAddRepeatableSectionjQueryPlugin() {
 		
-		static $bIsCalled = false;
+		static $bIsCalled = false;	// the static variable value will take effect even in other instances of the same class.
 		
 		if ( $bIsCalled ) return;
 		$bIsCalled = true;

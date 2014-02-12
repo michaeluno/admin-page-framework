@@ -276,6 +276,10 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		// Format the fields array.
 		$this->oForm->format();
 		$this->oForm->applyConditions();	// will create the conditioned elements.
+		
+		// Add the repeatable section elements to the fields definition array.
+		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
+						
 		$this->_registerFields( $this->oForm->aConditionedFields );
 
 	}		

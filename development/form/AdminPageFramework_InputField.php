@@ -160,25 +160,44 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 			case 'page':
 			case 'page_meta_box':
 			case 'taxonomy':
-				// If a section is set,
-				if ( isset( $aField['section_id'] ) && $aField['section_id']  && $aField['section_id'] != '_default' )
-					return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
-						? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
-						: null;
-				// Otherwise, check the first dimension.
-				return isset( $aOptions[ $aField['field_id'] ] )
-					? $aOptions[ $aField['field_id'] ]
-					: null;		
+			
+				// If a section is not set, check the first dimension element.
+				if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
+					return isset( $aOptions[ $aField['field_id'] ] )
+						? $aOptions[ $aField['field_id'] ]
+						: null;		
+					
+				// At this point, the section dimension is set.
+				
+				// If it belongs to a sub section,
+				if ( isset( $aField['_section_index'] ) )
+					return isset( $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] )
+						? $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ]
+						: null;				
+				
+				// Otherwise, return the second dimension element.
+				return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
+					? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
+					: null;
 					
 			case 'post_meta_box':
 	
 				if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null;
 			
+				// If a section is not set,
 				if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
 					return get_post_meta( $_GET['post'], $aField['field_id'], true );
 					
 				// At this point, the section dimension is set.
 				$aSectionArray = get_post_meta( $_GET['post'], $aField['section_id'], true );
+				
+				// If it belongs to a sub section,
+				if ( isset( $aField['_section_index'] ) )
+					return isset( $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] )
+						? $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ]
+						: null;								
+						
+				// Otherwise, return the second dimension element.
 				return isset( $aSectionArray[ $aField['field_id'] ] )
 					? $aSectionArray[ $aField['field_id'] ]
 					: null;

@@ -896,6 +896,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$aInput = is_array( $aInput ) ? $aInput : array();
 			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
+			$_aOptionsForMerge = $this->oForm->dropRepeatableSections( $_aOptions );	// the array elements of repeatable sections need to be dropped; otherwise, the removed elements will be merged and remain.
 			$_aInput = $aInput;	// copy one for parsing
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
 			
@@ -918,7 +919,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			// for tabs
 			if ( $sTabSlug && $sPageSlug )	{	
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $this->_getTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );	// $aInput: new values, $aStoredPageOptions: old values
-				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );
+				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherTabOptions( $_aOptionsForMerge, $sPageSlug, $sTabSlug ) );
 			}
 			
 			// for pages	
@@ -927,7 +928,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values			
 				
 				// Respect page meta box field values.
-				$aInput = $this->oUtil->uniteArrays( $aInput, $_aOptions );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
+				$aInput = $this->oUtil->uniteArrays( $aInput, $_aOptionsForMerge );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
 				
 			}
 		
@@ -937,7 +938,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			return $aInput;
 		
 		}	
-
 			
 			/**
 			 * Retrieves the stored options of the given tab slug.
@@ -1190,6 +1190,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		// 2-4. Do conditioning.
 		$this->oForm->applyConditions();
+		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 		
 		/* 2-5. If there is no section or field to add, do nothing. */
 		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
@@ -1229,16 +1230,16 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		}
 		
 		/* 5. Register settings fields	*/
-		foreach( $this->oForm->aConditionedFields as $_sSectionID => $__aFields ) {
+		foreach( $this->oForm->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
 			
-			foreach( $__aFields as $_sFieldID => $_aSubSectionOrField ) {
+			foreach( $_aSubSectionOrFields as $_sSubSectionIndexOrFieldID => $_aSubSectionOrField ) {
 				
 				// If the iterating item is a sub-section array.
-				if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) {
+				if ( is_numeric( $_sSubSectionIndexOrFieldID ) && is_int( $_sSubSectionIndexOrFieldID + 0 ) ) {
 					
-					$_iSubSectionIndex = $_sFieldID;
+					$_iSubSectionIndex = $_sSubSectionIndexOrFieldID;
 					$_aSubSection = $_aSubSectionOrField;
-					foreach( $_aSubSection as $__sFieldID => $__aField ) {					
+					foreach( $_aSubSection as $__sFieldID => $__aField ) {												
 						add_settings_field(
 							$__aField['section_id'] . '_' . $_iSubSectionIndex . '_' . $__aField['field_id'],	// id
 							"<a id='{$__aField['section_id']}_{$_iSubSectionIndex}_{$__aField['field_id']}'></a><span title='{$__aField['tip']}'>{$__aField['title']}</span>",
@@ -1247,7 +1248,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 							$__aField['section_id']	// section
 						);							
 						AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $__aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-
 					}
 					continue;
 					

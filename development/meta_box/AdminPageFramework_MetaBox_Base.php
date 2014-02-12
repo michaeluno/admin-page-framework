@@ -282,11 +282,17 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Condition the sections and fields definition arrays.
-		$this->oForm->applyConditions();
+		$this->oForm->applyConditions();	// will set $this->oForm->aConditionedFields internally
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
-		$iPostID = isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null );
-		$this->setOptionArray( $iPostID, $this->oForm->aConditionedFields );
+		if ( isset( $this->oProp->aOptions ) )
+			$this->setOptionArray( 
+				isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null ), 
+				$this->oForm->aConditionedFields 
+			);	// will set $this->oProp->aOptions
+		
+		// Add the repeatable section elements to the fields definition array.
+		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 							
 		// Get the fields output.
 		$oFieldsTable = new AdminPageFramework_FormTable( $this->oMsg );
@@ -432,6 +438,9 @@ abstract class AdminPageFramework_MetaBox_Base {
 		// Apply filters to the array of the submitted values.
 		$aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aInput, $aSavedMeta );
 
+		// Drop repeatable section elements from the saved meta array.
+		$aSavedMeta = $this->oForm->dropRepeatableSections( $aSavedMeta );
+		
 		// Loop through sections/fields and save the data.
 		foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
 			
