@@ -535,7 +535,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 */ 
 	protected function _doValidationCall( $sMethodName, $aInput ) {
 
-		/* 1-1. Set up variables */
+		/* 1-1. Set up local variables */
 		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
 		
@@ -574,6 +574,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				
 		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
 		$aInput = $this->_getFilteredOptions( $aInput, $sPageSlug, $sTabSlug );
+		
 		/* 4. Check if custom submit keys are set [part 2] - these should be done after applying the filters. */
 		if ( $sKeyToReset )
 			$aInput = $this->_resetOptions( $sKeyToReset, $aInput );
@@ -897,10 +898,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			$aInput = is_array( $aInput ) ? $aInput : array();
 			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
-			$_aOptionsForMerge = $this->oForm->dropRepeatableSections( $_aOptions );	// the array elements of repeatable sections need to be dropped; otherwise, the removed elements will be merged and remain.
 			$_aInput = $aInput;	// copy one for parsing
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
-			
+// AdminPageFramework_Debug::logArray( '--options--' );
+// AdminPageFramework_Debug::logArray( $this->oProp->aOptions );
+// AdminPageFramework_Debug::logArray( $_aOptions );
 			// For each submitted element
 			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
 				
@@ -920,7 +922,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			// for tabs
 			if ( $sTabSlug && $sPageSlug )	{	
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $this->_getTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );	// $aInput: new values, $aStoredPageOptions: old values
-				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherTabOptions( $_aOptionsForMerge, $sPageSlug, $sTabSlug ) );
+				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );
 			}
 			
 			// for pages	
@@ -929,7 +931,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values			
 				
 				// Respect page meta box field values.
-				$aInput = $this->oUtil->uniteArrays( $aInput, $_aOptionsForMerge );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
+				$aInput = $this->oUtil->uniteArrays( $aInput, $this->oForm->dropRepeatableElements( $_aOptions ) );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
+				// $aInput = $this->oUtil->uniteArrays( $aInput, $_aOptions );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
 				
 			}
 		
@@ -1020,20 +1023,44 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			 * 
 			 * @since			2.0.0
 			 * @since			3.0.0			The second parameter was changed to a tab slug.
+
+			 * @param			array			the options array. Note that the options array structure are very similar to the aFields array. However, it does not have the '_default' section key.
+			 * @param			string			the page slug to check
+			 * @param			string			the tab slug to check
 			 * @return			array			the stored options excluding the currently specified tab's sections and their fields.
 			 * 	 If not found, an empty array will be returned.
 			 */ 
 			private function _getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
 
 				$_aStoredOptionsNotOfTheTab = array();
-				foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
+				foreach( $this->oForm->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
 					
-					foreach( $_aFields as $_sFieldID => $_aField ) {
+					// Check the section
+					if ( 	// if the section is of the given page and the given tab, skip
+						isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug 
+						&& isset( $this->oForm->aSections[ $_sSectionID ]['tab_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['tab_slug'] == $sTabSlug
+					) continue;
+					
+					// At this point, the passed element belongs to the other tabs since the section belong to the given tab is skipped.
+					foreach ( $_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField  ) {
 						
-						if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-						if ( $_aField['page_slug'] != $sPageSlug ) continue;
-						if ( $_aField['tab_slug'] == $sTabSlug ) continue;
-						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) continue;	// it's a sub-section array.
+						// If it's a sub section
+						if ( is_numeric( $_isSubSectionIndexOrFieldID ) && is_int( $_isSubSectionIndexOrFieldID + 0 ) ) {	// means it's a sub-section
+							
+							// Store the entire section 
+							if ( array_key_exists( $_sSectionID, $aOptions ) )
+								$_aStoredOptionsNotOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
+							continue;
+							
+						}
+						
+						// Otherwise,
+						$_aField = $_aSubSectionOrField;	
+						// $_sFieldID = $_isSubSectionIndexOrFieldID;
+						// if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
+						// if ( $_aField['page_slug'] != $sPageSlug ) continue;
+						// if ( $_aField['tab_slug'] == $sTabSlug ) continue;
+						
 						
 						// If a section is set,
 						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
@@ -1041,13 +1068,15 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 								$_aStoredOptionsNotOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
 							continue;
 						}
-						// It does not have a section
+						// So it's a field
 						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
 							$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
-							
+		
 					}
-					
-				}					
+				}
+				
+// AdminPageFramework_Debug::logArray( '--result--' );				
+// AdminPageFramework_Debug::logArray( $_aStoredOptionsNotOfTheTab );				
 				return $_aStoredOptionsNotOfTheTab;
 				
 			}

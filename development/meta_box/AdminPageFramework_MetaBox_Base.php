@@ -439,7 +439,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $aInput, $aSavedMeta );
 
 		// Drop repeatable section elements from the saved meta array.
-		$aSavedMeta = $this->oForm->dropRepeatableSections( $aSavedMeta );
+		$aSavedMeta = $this->oForm->dropRepeatableElements( $aSavedMeta );
 		
 		// Loop through sections/fields and save the data.
 		foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {

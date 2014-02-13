@@ -11,6 +11,18 @@ if ( ! class_exists( 'AdminPageFramework_FormElement_Utility' ) ) :
 class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtility {
 			
 	/**
+	 * Drops repeatable section and field elements from the given array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function dropRepeatableElements( $aOptions ) {
+		
+		
+		return $this->dropRepeatableSections( $aOptions );
+		
+	}
+			
+	/**
 	 * Drops repeatable section elements from the given array.
 	 * 
 	 * This is used in the filtering method that merges user input data with the saved options. If the user input data includes repeatable sections

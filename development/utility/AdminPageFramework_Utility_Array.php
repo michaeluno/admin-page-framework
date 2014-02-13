@@ -248,6 +248,13 @@ abstract class AdminPageFramework_Utility_Array {
 		
 	}
 	
-	
+	/**
+	 * Check if the given array is an associative array.
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function isAssociativeArray( array $aArray ) {
+		return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
+	}	
 }
 endif;
