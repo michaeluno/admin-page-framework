@@ -27,6 +27,16 @@ HTML5 Sortable jQuery Plugin
 Copyright 2012, Ali Farhadi; Licensed MIT
 http://farhadi.ir/projects/html5sortable
 
+The documentation component of the library incorporates work covered by the following copyright:
+
+ApiGen
+Copyright © 2010-2011 David Grudl
+Copyright © 2011-2012 Jaroslav Hanslík
+Copyright © 2011-2012 Ondřej Nešpor
+All rights reserved.
+Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
+<http://apigen.org/>
+
 The demo plugin incorporates work covered by the following copyright:
 
 PHP Markdown Lib 
@@ -69,14 +79,6 @@ Copyright (c) 2013 Trent Richardson; Licensed MIT
 jQuery UI Slider Access
 Copyright (c) Trent Richardson; Licensed MIT and GPL
 <http://trentrichardson.com>
-
-ApiGen
-Copyright © 2010-2011 David Grudl
-Copyright © 2011-2012 Jaroslav Hanslík
-Copyright © 2011-2012 Ondřej Nešpor
-All rights reserved.
-Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
-<http://apigen.org/>
 
 Gridster
 Copyright (c) 2012 Ducksboard
