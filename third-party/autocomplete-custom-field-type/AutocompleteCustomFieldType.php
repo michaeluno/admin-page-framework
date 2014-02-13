@@ -56,7 +56,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		/*
 		 * If the request key is set in the url and it yeilds 'autocomplete', return a JSON output and exit.
 		 */
-		if ( isset( $_GET['request'] ) && $_GET['request'] == 'autocomplete' ) {
+		if ( isset( $_GET['request'] ) && $_GET['request'] == 'autocomplete' && is_user_logged_in() ) {
 			
 			$_aGet = $_GET;
 			unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
