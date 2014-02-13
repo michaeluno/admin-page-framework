@@ -81,6 +81,11 @@ Copyright (c) 2012 Ducksboard
 Licensed MIT
 <https://github.com/ducksboard/gridster.js>
 
+Tokenizing Autocomplete Text Entry
+Copyright (c) 2009 James Smith (http://loopj.com)
+Licensed MIT 
+<https://github.com/loopj>
+
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
                     GNU GENERAL PUBLIC LICENSE
