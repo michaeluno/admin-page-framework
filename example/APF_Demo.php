@@ -1706,9 +1706,9 @@ class APF_Demo extends AdminPageFramework {
 				'value'	=>	'undefined',	// always set the Select a Field label.
 				'label'	=>	array(	// the keys represent their field container IDs: field-{field id}_{index}
 					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
-					'field-revealer_revealer_subfield_1'	=> __( 'Field A', 'admin-page-framework-demo' ), // field-{section id}_{field id}
-					'field-revealer_revealer_subfield_2'	=> __( 'Field B', 'admin-page-framework-demo' ),	
-					'field-revealer_revealer_subfield_3'	=> __( 'Field C', 'admin-page-framework-demo' ),
+					'field-revealer_revealer_subfield__1'	=> __( 'Field A', 'admin-page-framework-demo' ), // field-{section id}_{field id}__{index}
+					'field-revealer_revealer_subfield__2'	=> __( 'Field B', 'admin-page-framework-demo' ),	
+					'field-revealer_revealer_subfield__3'	=> __( 'Field C', 'admin-page-framework-demo' ),
 				),
 				array(	// Hidden Field A
 					'type'	=>	'text',			
