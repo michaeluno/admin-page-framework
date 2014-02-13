@@ -945,6 +945,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			/**
 			 * Retrieves the stored options of the given tab slug.
+			 * 
 			 * @since			3.0.0
 			 */
 			private function _getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {
@@ -952,13 +953,24 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$_aStoredOptionsOfTheTab = array();
 				if ( ! $sTabSlug ) return $_aStoredOptionsOfTheTab;
 				foreach( $this->oForm->aFields as $_sSectionID => $_aFields  ) {
+				
+					// Check the section
+					if ( isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) continue;				
+					if ( isset( $this->oForm->aSections[ $_sSectionID ]['tab_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['tab_slug'] != $sTabSlug ) continue;
 					
+					// At this point, the element is of the given page and the tab.
 					foreach( $_aFields as $_sFieldID => $_aField ) {
 						
 						if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
 						if ( $_aField['page_slug'] != $sPageSlug ) continue;
 						if ( $_aField['tab_slug'] != $sTabSlug ) continue;
-						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) continue;	// it's a sub-section array.
+						
+						// if it's a sub-section array.
+						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) { 
+							if ( array_key_exists( $_sSectionID, $aOptions ) )
+								$_aStoredOptionsOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
+							continue;
+						}	
 						
 						// if a section is set,
 						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
@@ -992,10 +1004,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 				$_aStoredOptionsOfThePage = array();
 				foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
 					
+					// Check the section
+					if ( isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) continue;
+
+					// At this point, the element belongs the given page slug as the section is of the given page slug's.
 					foreach( $_aFields as $_sFieldID => $_aField ) {
 					
 						if ( ! isset( $_aField['page_slug'] ) || $_aField['page_slug'] != $sPageSlug ) continue;
-						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) continue;	// it's a sub-section array.
+						
+						// If it's a sub-section array,
+						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) {
+							if ( array_key_exists( $_sSectionID, $aOptions ) )
+								$_aStoredOptionsOfThePage[ $_sSectionID ] = $aOptions[ $_sSectionID ];
+							continue;
+						}	
 						
 						// If a section is set,
 						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
@@ -1074,9 +1096,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 					}
 				}
-				
-// AdminPageFramework_Debug::logArray( '--result--' );				
-// AdminPageFramework_Debug::logArray( $_aStoredOptionsNotOfTheTab );				
+						
 				return $_aStoredOptionsNotOfTheTab;
 				
 			}
@@ -1088,12 +1108,17 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			 * 
 			 * @since			2.0.0
 			 * @return			array			the array storing the options excluding the key of the given page slug. 
+			 * @deprecated
 			 */ 
 			private function _getOtherPageOptions( $aOptions, $sPageSlug ) {
 
 				$_aStoredOptionsNotOfThePage = array();
 				foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
 					
+					// Check the section
+					if ( isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug ) continue;
+				
+					// At this point, the parsing element does not belong to the given page slug as the section does not ( as it is checked above ).
 					foreach( $_aFields as $_sFieldID => $_aField ) {
 						
 						if ( ! isset( $_aField['page_slug'] ) ) continue;
