@@ -44,6 +44,35 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		$this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_GET, admin_url( $GLOBALS['pagenow'] ) );
 		parent::__construct( $asClassName, $asFieldTypeSlug, $oMsg, $bAutoRegister );
 		
+		/*
+		 * If the request key is set in the url and it yields 'autocomplete', return a JSON output and exit.
+		 */
+		if ( isset( $_GET['request'] ) && $_GET['request'] == 'autocomplete' ) {
+			
+			if ( ! function_exists( 'is_user_logged_in' ) ) 
+				include( ABSPATH . "wp-includes/pluggable.php" ); 			
+			if ( is_user_logged_in() ) :
+			
+				$_aGet = $_GET;
+				unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
+				
+				// Compose the argument.
+				$aArgs = $_aGet + array(
+					'post_type' => 'post',
+				);
+				$oResults = new WP_Query( $aArgs );
+				$aData = array();
+				foreach( $oResults->posts as $iIndex => $oPost ) {
+					$aData[ $iIndex ] = array(
+						'id'	=>	$oPost->ID,
+						'name'	=>	$oPost->post_title,
+					);
+				}
+				die( json_encode( $aData ) );
+			endif;
+			
+		}		
+		
 	}
 	
 	/**
@@ -51,33 +80,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	 * 
 	 * This method is triggered when a field definition array that calls this field type is parsed. 
 	 */ 
-	public function setUp() {
-		
-		/*
-		 * If the request key is set in the url and it yeilds 'autocomplete', return a JSON output and exit.
-		 */
-		if ( isset( $_GET['request'] ) && $_GET['request'] == 'autocomplete' && is_user_logged_in() ) {
-			
-			$_aGet = $_GET;
-			unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
-			
-			// Compose the argument.
-			$aArgs = $_aGet + array(
-				'post_type' => 'post',
-			);
-			$oResults = new WP_Query( $aArgs );
-			$aData = array();
-			foreach( $oResults->posts as $iIndex => $oPost ) {
-				$aData[ $iIndex ] = array(
-					'id'	=>	$oPost->ID,
-					'name'	=>	$oPost->post_title,
-				);
-			}
-			die( json_encode( $aData ) );
-
-		}
-		
-	}	
+	public function setUp() {}	
 
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
