@@ -16,6 +16,7 @@ class APF_Demo extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',
 		);
 		foreach( $aFiles as $sFilePath )
 			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
@@ -30,6 +31,7 @@ class APF_Demo extends AdminPageFramework {
 		new SampleCustomFieldType( $sClassName );
 		new RevealerCustomFieldType( $sClassName );
 		new GridCustomFieldType( $sClassName );
+		new AutocompleteCustomFieldType( $sClassName );
 
 	}
 
@@ -179,7 +181,12 @@ class APF_Demo extends AdminPageFramework {
 			array(
 				'tab_slug'	=>	'grid',
 				'title'		=>	__( 'Grid', 'admin-page-framework-demo' ),	
-			)	
+			),
+			array(
+				'tab_slug'	=>	'autocomplete',
+				'title'		=>	__( 'Autocomplete', 'admin-page-framework-demo' ),	
+			),
+			array()			
 		);
 		$this->addInPageTabs(	// ( optional )
 			/*
@@ -417,7 +424,13 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'		=>	'grid',
 				'title'			=>	__( 'Grid Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This field will save the grid positions of the widgets.', 'admin-page-framework-demo' ),				
-			),			
+			),
+			array(
+				'section_id'	=>	'autocomplete',
+				'tab_slug'		=>	'autocomplete',
+				'title'			=>	__( 'Autocomplete Custom Field Type', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'This field will show predefined list when the user type something on the input field.', 'admin-page-framework-demo' ),				
+			),				
 			array()
 		);
 		$this->addSettingSections(	
@@ -1524,7 +1537,7 @@ class APF_Demo extends AdminPageFramework {
 				'sortable'	=> true,
 				array(),	// the second item
 				array(),	// the third item
-			),		
+			),
 			array()
 		);
 		$this->addSettingFields(			
@@ -1754,7 +1767,9 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'password',		
 				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
 				'hidden'	=> true,
-			),
+			)
+		);
+		$this->addSettingFields(
 			array(
 				'field_id'	=>	'grid_field',				
 				'section_id'	=>	'grid',
@@ -1833,6 +1848,63 @@ class APF_Demo extends AdminPageFramework {
 					),			
 				),
 			),				
+			array()
+		);
+		$this->addSettingFields(
+			// The settings are the same as the tokeninput jQuery plugin.
+			// see: http://loopj.com/jquery-tokeninput/
+			// For the first parameter, use the 'settings' key and the second parameter, use the 'settings2'.
+			array(
+				'section_id'	=>	'autocomplete',
+				'type'	=>	'autocomplete',		
+				'field_id'	=>	'autocomplete_field',
+				'title'		=>	__( 'Dafault', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'By default, all the post titles will be fetched in the background and will pop up.', 'admin-page-framework-demo' ),	
+			),
+			array(
+				'section_id'	=>	'autocomplete',
+				'type'	=>	'autocomplete',		
+				'field_id'	=>	'autocomplete_local_data',
+				'title'		=>	__( 'Local Data', 'admin-page-framework-demo' ),
+				'settings'	=>	array(
+					array( 'id' => 7, 'name' => 'Ruby' ),
+					array( 'id' => 11, 'name' => 'Python' ),
+					array( 'id' => 13, 'name' => 'JavaScript' ),
+					array( 'id' => 17, 'name' => 'ActionScript' ),
+					array( 'id' => 19, 'name' => 'Scheme' ),
+					array( 'id' => 23, 'name' => 'Lisp' ),
+					array( 'id' => 29, 'name' => 'C#' ),
+					array( 'id' => 31, 'name' => 'Fortran' ),
+					array( 'id' => 37, 'name' => 'Visual Basic' ),
+					array( 'id' => 41, 'name' => 'C' ),
+					array( 'id' => 43, 'name' => 'C++' ),
+					array( 'id' => 47, 'name' => 'Java' ),
+				),
+				'settings2'	=> array(
+					'theme'	=>	'mac',
+				),
+				'description'	=>	__( 'Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, C#, Fortran, Vidual Basic, C, C++, Java.', 'admin-page-framework-demo' ),	
+			),
+			array(
+				'section_id'	=>	'autocomplete',
+				'type'	=>	'autocomplete',		
+				'field_id'	=>	'autocomplete_custom_post_type',
+				'title'		=>	__( 'Custom Post Type', 'admin-page-framework-demo' ),
+				'settings'	=> add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( $GLOBALS['pagenow'] ) ),
+				'settings2'	=>	array(	// equivalent to the second parameter of the tokenInput() method
+					'tokenLimit' =>	5,
+					'preventDuplicates'	=>	true,
+					'theme'	=> 'facebook',
+				),
+				'description'	=>	__( 'To set a custom post type, you need to compose the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ),	//' syntax fixer
+			),
+			array(
+				'section_id'	=>	'autocomplete',
+				'type'	=>	'autocomplete',		
+				'field_id'	=>	'autocomplete_repeatable_field',
+				'title'		=>	__( 'Repeatable', 'admin-page-framework-demo' ),
+				'repeatable'	=> true,
+			),			
 			array()
 		);
 		/*
