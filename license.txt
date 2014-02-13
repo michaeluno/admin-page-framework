@@ -21,7 +21,13 @@ This program is contributed by the following users:
 
 for more information: https://github.com/michaeluno/admin-page-framework/graphs/contributors
 
-This program incorporates work covered by the following copyright:
+The library (Admin Page Framework) incorporates work covered by the following copyright:
+
+HTML5 Sortable jQuery Plugin
+Copyright 2012, Ali Farhadi; Licensed MIT
+http://farhadi.ir/projects/html5sortable
+
+The demo plugin incorporates work covered by the following copyright:
 
 PHP Markdown Lib 
 Copyright (c) 2004-2013 Michel Fortin
@@ -63,10 +69,6 @@ Copyright (c) 2013 Trent Richardson; Licensed MIT
 jQuery UI Slider Access
 Copyright (c) Trent Richardson; Licensed MIT and GPL
 <http://trentrichardson.com>
-
-HTML5 Sortable jQuery Plugin
-Copyright 2012, Ali Farhadi; Licensed MIT
-http://farhadi.ir/projects/html5sortable
 
 ApiGen
 Copyright © 2010-2011 David Grudl
