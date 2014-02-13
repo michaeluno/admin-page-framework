@@ -170,6 +170,7 @@ abstract class AdminPageFramework_Utility_Array {
 	 */
 	static public function getIntegerElements( $aParse ) {
 		
+		if ( ! is_array( $aParse ) ) return array();
 		foreach ( $aParse as $isKey => $v ) {
 			
 			if ( ! is_numeric( $isKey ) ) {
@@ -252,6 +253,7 @@ abstract class AdminPageFramework_Utility_Array {
 	 * Check if the given array is an associative array.
 	 * 
 	 * @since			3.0.0
+	 * @remark			Not yet used.
 	 */
 	static public function isAssociativeArray( array $aArray ) {
 		return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );

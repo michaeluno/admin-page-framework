@@ -1043,6 +1043,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			 * This is used to merge the submitted form data with the previously stored option data of the form elements 
 			 * that belong to the in-page tab of the given page.
 			 * 
+			 * @remark			Note that this method will return the other pages' option elements as well.
+			 * 
 			 * @since			2.0.0
 			 * @since			3.0.0			The second parameter was changed to a tab slug.
 

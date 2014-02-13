@@ -13,45 +13,72 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	/**
 	 * Drops repeatable section and field elements from the given array.
 	 * 
-	 * @since			3.0.0
-	 */
-	public function dropRepeatableElements( $aOptions ) {
-		
-		
-		return $this->dropRepeatableSections( $aOptions );
-		
-	}
-			
-	/**
-	 * Drops repeatable section elements from the given array.
-	 * 
 	 * This is used in the filtering method that merges user input data with the saved options. If the user input data includes repeatable sections
 	 * and the user removed some elements, then the corresponding elements also need to be removed from the options array. Otherwise, the user's removing element
 	 * remains in the saved option array as the framework performs recursive array merge.
-	 * 
+	 *  
+	 * @remark			The options array structure is slightly different from the fields array. An options array does not have '_default' section keys.
 	 * @since			3.0.0
 	 */
-	public function dropRepeatableSections( $aOptions ) {
+	public function dropRepeatableElements( array $aOptions ) {
 
-		foreach( $aOptions as $_sFieldOrSectionID => $_aSubSectionsOrFieldValue ) {
+		foreach( $aOptions as $_sFieldOrSectionID => $_aSectionOrFieldValue ) {
 			
-			if ( $this->isSection( $_sFieldOrSectionID ) ) continue;
-			if ( ! is_array( $_aSubSectionsOrFieldValue ) ) continue;
-			
-			$_sSectionID = $_sFieldOrSectionID;
+			// If it's a section
+			if ( $this->isSection( $_sFieldOrSectionID ) ) {
+				
+				$_aFields = $_aSectionOrFieldValue;
+				$_sSectionID = $_sFieldOrSectionID;		
+				if ( $this->isRepeatableSection( $_sSectionID ) ) {
+					unset( $aOptions[ $_sSectionID ] );				
+					continue;
+				}
+				
+				// At this point, it is ensured that it's not a repeatable section. 
+				foreach( $_aFields as $_sFieldID => $_aField ) {
+					
+					if ( $this->isRepeatableField( $_sFieldID, $_sSectionID ) ) {
+						
+						unset( $aOptions[ $_sSectionID ][ $_sFieldID ] );
+						continue;
+					}
 
-			$_aSubSections = $this->getIntegerElements( $_aSubSectionsOrFieldValue );
-			if ( empty( $_aSubSections ) ) continue;		// means it's not a subsection
+				}
+				
+			}
 			
-			// Now it's repeatable sections. So drop it.
-			unset( $aOptions[ $_sSectionID ] );
+			// It's a field saved in the root dimension, which corresponds to the '_default' section of the stored registered fields array.
+			$_sFieldID = $_sFieldOrSectionID;			
+			if ( $this->isRepeatableField( $_sFieldID, '_default' ) )
+				unset( $aOptions[ $_sFieldID ] );
+		
+		}
+	
+		return $aOptions;
+		
+	}	
+		/**
+		 * Checks whether a section is repeatable from the given section ID.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function isRepeatableSection( $sSectionID ) {
+			
+			return isset( $this->aSections[ $sSectionID ]['repeatable'] ) && $this->aSections[ $sSectionID ]['repeatable'];
 			
 		}
 		
-		return $aOptions;
-		
-	}			
+		/**
+		 * Checks whether a field is repeatable from the given field ID.
+		 * 
+		 * @since			3.0.0
+		 */		
+		private function isRepeatableField( $sFieldID, $sSectionID ) {
 			
+			return isset( $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] ) && $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'];
+			
+		}
+		
 	/**
 	 * Determines whether the given ID is of a registered form section.
 	 * 
@@ -69,8 +96,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 		
 		// If the section ID is not registered, return false.
 		if ( ! array_key_exists( $sID, $this->aSections ) ) return false;
-		
-		if ( array_key_exists( $sID, $this->aFields ) ) return false;
+		if ( ! array_key_exists( $sID, $this->aFields ) ) return false;	// the fields array's first dimension is also filled with the keys of section ids.
 		
 		$_bIsSeciton = false;
 		foreach( $this->aFields as $_sSectionID => $_aFields ) {	// since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
