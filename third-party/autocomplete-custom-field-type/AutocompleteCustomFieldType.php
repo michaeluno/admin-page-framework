@@ -32,7 +32,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected $aDefaultKeys = array(
 		'settings'	=>	null,	// will be set in the constructor.
-		'settings2'	=>	null,
+		'settings2'	=>	null,	// will be set in the constructor.
 		'attributes'	=>	array(
 			'size'	=>	10,
 			'maxlength'	=>	400,
@@ -42,6 +42,9 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	public function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
 		
 		$this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_GET, admin_url( $GLOBALS['pagenow'] ) );
+		$this->aDefaultKeys['settings2'] = array(
+			'hintText'	=>	__( 'Type the title of posts.', 'admin-page-framework-demo' ),
+		);
 		parent::__construct( $asClassName, $asFieldTypeSlug, $oMsg, $bAutoRegister );
 		
 		/*

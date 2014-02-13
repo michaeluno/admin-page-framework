@@ -1882,6 +1882,7 @@ class APF_Demo extends AdminPageFramework {
 				),
 				'settings2'	=> array(
 					'theme'	=>	'mac',
+					'hintText'	=>	__( 'Type a programming language.', 'admin-page-framework-demo' ),
 				),
 				'description'	=>	__( 'Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, C#, Fortran, Vidual Basic, C, C++, Java.', 'admin-page-framework-demo' ),	
 			),
