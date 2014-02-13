@@ -102,11 +102,13 @@ li.token-input-input-token-mac {
     float: left;
     padding: 0;
     margin: 0;
+	min-width: 100px;
 }
 
 li.token-input-input-token-mac input {
   border: 0;
   width: 100px;
+  width: 100%;
   padding: 3px;
   background-color: transparent;
   margin: 0;

@@ -193,7 +193,14 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the field type specific CSS rules.
 	 */ 
 	protected function getStyles() {
-		return "";
+		return "
+		.admin-page-framework-field-autocomplete {
+			width: 100%;
+		}
+		.admin-page-framework-input-label-container {
+			min-width: 200px;
+		}
+		";
 	}
 
 	
