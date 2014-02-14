@@ -350,7 +350,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 		if ( ! empty( $this->aSections ) && ! empty( $_aNewFields ) ) :	// as taxonomy fields don't have sections
 			$_aSortedFields = array();
 			foreach( $this->aSections as $sSectionID => $aSeciton ) 	// will be parsed in the order of the $aSections array. Therefore, the sections must be formatted before this method.
-				$_aSortedFields[ $sSectionID ] = $_aNewFields[ $sSectionID ];
+				if ( isset( $_aNewFields[ $sSectionID ] ) )
+					$_aSortedFields[ $sSectionID ] = $_aNewFields[ $sSectionID ];
 			$_aNewFields = $_aSortedFields;
 		endif;
 		
