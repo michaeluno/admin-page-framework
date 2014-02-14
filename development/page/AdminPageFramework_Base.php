@@ -36,6 +36,7 @@ abstract class AdminPageFramework_Base {
 		'content_bottom_'	=> 'content_bottom_',
 		'content_'			=> 'content_',
 		'validation_'		=> 'validation_',
+		'validation_saved_options_'	=> 'validation_saved_options_',	// [3.0.0+]
 		'export_name'		=> 'export_name',
 		'export_format' 	=> 'export_format',
 		'export_'			=> 'export_',

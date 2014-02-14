@@ -34,6 +34,8 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 					continue;
 				}
 				
+				if ( ! is_array( $_aFields ) ) continue;	// an error may occur with an empty _default element.
+				
 				// At this point, it is ensured that it's not a repeatable section. 
 				foreach( $_aFields as $_sFieldID => $_aField ) {
 					
@@ -45,15 +47,17 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 
 				}
 				
+				continue;
 			}
 			
+
 			// It's a field saved in the root dimension, which corresponds to the '_default' section of the stored registered fields array.
 			$_sFieldID = $_sFieldOrSectionID;			
-			if ( $this->isRepeatableField( $_sFieldID, '_default' ) )
+			if ( $this->isRepeatableField( $_sFieldID, '_default' ) ) 
 				unset( $aOptions[ $_sFieldID ] );
+
 		
 		}
-	
 		return $aOptions;
 		
 	}	
@@ -75,7 +79,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 		 */		
 		private function isRepeatableField( $sFieldID, $sSectionID ) {
 			
-			return isset( $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] ) && $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'];
+			return ( isset( $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] ) && $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] );
 			
 		}
 		

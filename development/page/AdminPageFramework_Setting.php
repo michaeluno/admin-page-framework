@@ -619,7 +619,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			
 			$this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
 			
-			return $this->_getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
+			return $this->oForm->getPageOptions( $this->oProp->aOptions, $sPageSlug ); 			
 			
 		}
 		
@@ -896,13 +896,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug ) {
 
 			$aInput = is_array( $aInput ) ? $aInput : array();
-			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );
+			
+			// Prepare the saved options 
+			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );		
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
+
 			$_aInput = $aInput;	// copy one for parsing
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
-// AdminPageFramework_Debug::logArray( '--options--' );
-// AdminPageFramework_Debug::logArray( $this->oProp->aOptions );
-// AdminPageFramework_Debug::logArray( $_aOptions );
+
 			// For each submitted element
 			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
 				
@@ -915,235 +916,55 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 							isset( $_aOptions[ $sID ][ $sFieldID ] ) ? $_aOptions[ $sID ][ $sFieldID ] : null 
 						);
 										
-				$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}_{$sID}", $aInput[ $sID ], isset( $_aOptions[ $sID ] ) ? $_aOptions[ $sID ] : null );
+				$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
+					$this, 
+					"validation_{$this->oProp->sClassName}_{$sID}", 
+					$aInput[ $sID ], 
+					isset( $_aOptions[ $sID ] ) ? $_aOptions[ $sID ] : null 
+				);
 				
 			}
-							
-			// for tabs
+						
+			// Prepare the saved page option array.
+			$_aPageOptions = $this->oForm->getPageOptions( $_aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )
+			$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
+			$_aTabOnlyOptions = array();
+			$_aTabOptions = array();
+						
+			// For tabs
 			if ( $sTabSlug && $sPageSlug )	{	
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $this->_getTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );	// $aInput: new values, $aStoredPageOptions: old values
-				$aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );
+				$_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $_aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
+				$_aTabOptions = $this->oForm->getTabOptions( $_aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
+				$_aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $_aTabOptions );
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $_aTabOptions );
+				$aInput = $this->oUtil->uniteArrays( 
+					$aInput, 
+					$this->oUtil->invertCastArrayContents( $_aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
+					$this->oForm->getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug )
+				);
 			}
 			
-			// for pages	
+			// For pages	
 			if ( $sPageSlug )	{
 				
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $this->_getPageOptions( $_aOptions, $sPageSlug ) ); // $aInput: new values, $aStoredPageOptions: old values			
-				
-				// Respect page meta box field values.
-				$aInput = $this->oUtil->uniteArrays( $aInput, $this->oForm->dropRepeatableElements( $_aOptions ) );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
-				// $aInput = $this->oUtil->uniteArrays( $aInput, $_aOptions );	// $aInput = $this->oUtil->uniteArrays( $aInput, $this->_getOtherPageOptions( $_aOptions, $sPageSlug ) );
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions ); // $aInput: new values, $aStoredPageOptions: old values	
+
+				// If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
+				$_aPageOptions = $sTabSlug && ! empty( $_aTabOptions )? $this->oUtil->invertCastArrayContents( $_aPageOptions, $_aTabOptions ) : $_aPageOptions;
+				$aInput = $this->oUtil->uniteArrays( 
+					$aInput, 
+					$_aPageOptions,	// repeatable elements have been dropped
+					$this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $_aOptions, $sPageSlug ), $_aPageOptions )
+				);	
 				
 			}
-		
-			// for the class
-			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
 
+			// For the class
+			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
 			return $aInput;
 		
 		}	
 			
-			/**
-			 * Retrieves the stored options of the given tab slug.
-			 * 
-			 * @since			3.0.0
-			 */
-			private function _getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {
-				
-				$_aStoredOptionsOfTheTab = array();
-				if ( ! $sTabSlug ) return $_aStoredOptionsOfTheTab;
-				foreach( $this->oForm->aFields as $_sSectionID => $_aFields  ) {
-				
-					// Check the section
-					if ( isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) continue;				
-					if ( isset( $this->oForm->aSections[ $_sSectionID ]['tab_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['tab_slug'] != $sTabSlug ) continue;
-					
-					// At this point, the element is of the given page and the tab.
-					foreach( $_aFields as $_sFieldID => $_aField ) {
-						
-						if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-						if ( $_aField['page_slug'] != $sPageSlug ) continue;
-						if ( $_aField['tab_slug'] != $sTabSlug ) continue;
-						
-						// if it's a sub-section array.
-						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) { 
-							if ( array_key_exists( $_sSectionID, $aOptions ) )
-								$_aStoredOptionsOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
-							continue;
-						}	
-						
-						// if a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-								$_aStoredOptionsOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-							continue;
-						}
-						
-						// It does not have a section so set the field id as its key.
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
-							
-					}
-				
-				}		
-				return $_aStoredOptionsOfTheTab;
-				
-			}
-	
-			/**
-			 * Retrieves the stored options of the given page slug.
-			 * 
-			 * The other pages' option data will not be contained in the returning array.
-			 * This is used to pass the old option array to the validation callback method.
-			 * 
-			 * @since			2.0.0
-			 * @return			array			the stored options of the given page slug. If not found, an empty array will be returned.
-			 */ 
-			private function _getPageOptions( $aOptions, $sPageSlug ) {
-						
-				$_aStoredOptionsOfThePage = array();
-				foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
-					
-					// Check the section
-					if ( isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) continue;
-
-					// At this point, the element belongs the given page slug as the section is of the given page slug's.
-					foreach( $_aFields as $_sFieldID => $_aField ) {
-					
-						if ( ! isset( $_aField['page_slug'] ) || $_aField['page_slug'] != $sPageSlug ) continue;
-						
-						// If it's a sub-section array,
-						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) {
-							if ( array_key_exists( $_sSectionID, $aOptions ) )
-								$_aStoredOptionsOfThePage[ $_sSectionID ] = $aOptions[ $_sSectionID ];
-							continue;
-						}	
-						
-						// If a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-								$_aStoredOptionsOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-							continue;
-						}
-						
-						// It does not have a section so set the field id as its key.
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
-							
-					}
-				
-				}
-				return $_aStoredOptionsOfThePage;
-				
-			}
-				
-			/**
-			 * Retrieves the stored options excluding the currently specified tab's sections and their fields.
-			 * 
-			 * This is used to merge the submitted form data with the previously stored option data of the form elements 
-			 * that belong to the in-page tab of the given page.
-			 * 
-			 * @remark			Note that this method will return the other pages' option elements as well.
-			 * 
-			 * @since			2.0.0
-			 * @since			3.0.0			The second parameter was changed to a tab slug.
-
-			 * @param			array			the options array. Note that the options array structure are very similar to the aFields array. However, it does not have the '_default' section key.
-			 * @param			string			the page slug to check
-			 * @param			string			the tab slug to check
-			 * @return			array			the stored options excluding the currently specified tab's sections and their fields.
-			 * 	 If not found, an empty array will be returned.
-			 */ 
-			private function _getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
-
-				$_aStoredOptionsNotOfTheTab = array();
-				foreach( $this->oForm->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
-					
-					// Check the section
-					if ( 	// if the section is of the given page and the given tab, skip
-						isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug 
-						&& isset( $this->oForm->aSections[ $_sSectionID ]['tab_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['tab_slug'] == $sTabSlug
-					) continue;
-					
-					// At this point, the passed element belongs to the other tabs since the section belong to the given tab is skipped.
-					foreach ( $_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField  ) {
-						
-						// If it's a sub section
-						if ( is_numeric( $_isSubSectionIndexOrFieldID ) && is_int( $_isSubSectionIndexOrFieldID + 0 ) ) {	// means it's a sub-section
-							
-							// Store the entire section 
-							if ( array_key_exists( $_sSectionID, $aOptions ) )
-								$_aStoredOptionsNotOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
-							continue;
-							
-						}
-						
-						// Otherwise,
-						$_aField = $_aSubSectionOrField;	
-						// $_sFieldID = $_isSubSectionIndexOrFieldID;
-						// if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-						// if ( $_aField['page_slug'] != $sPageSlug ) continue;
-						// if ( $_aField['tab_slug'] == $sTabSlug ) continue;
-						
-						
-						// If a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-								$_aStoredOptionsNotOfTheTab[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-							continue;
-						}
-						// So it's a field
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
-		
-					}
-				}
-						
-				return $_aStoredOptionsNotOfTheTab;
-				
-			}
-				
-			/**
-			 * Retrieves the stored options excluding the key of the given page slug.
-			 * 
-			 * This is used to merge the submitted form input data with the previously stored option data except the given page.
-			 * 
-			 * @since			2.0.0
-			 * @return			array			the array storing the options excluding the key of the given page slug. 
-			 * @deprecated
-			 */ 
-			private function _getOtherPageOptions( $aOptions, $sPageSlug ) {
-
-				$_aStoredOptionsNotOfThePage = array();
-				foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
-					
-					// Check the section
-					if ( isset( $this->oForm->aSections[ $_sSectionID ]['page_slug'] ) && $this->oForm->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug ) continue;
-				
-					// At this point, the parsing element does not belong to the given page slug as the section does not ( as it is checked above ).
-					foreach( $_aFields as $_sFieldID => $_aField ) {
-						
-						if ( ! isset( $_aField['page_slug'] ) ) continue;
-						if ( $_aField['page_slug'] == $sPageSlug ) continue;
-						if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) continue;	// it's a sub-section array.
-						
-						// If a section is set,
-						if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-							if ( array_key_exists( $_aField['section_id'], $aOptions ) )
-								$_aStoredOptionsNotOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
-							continue;
-						}
-						// It does not have a section
-						if ( array_key_exists( $_aField['field_id'], $aOptions ) )
-							$_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
-							
-					}
-				
-				}						
-				return $_aStoredOptionsNotOfThePage;
-				
-			}
-	
 	
 	/**
 	 * Retrieves the settings error array set by the user in the validation callback.

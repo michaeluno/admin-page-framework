@@ -103,8 +103,23 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
 		
 		/* Validation hook */
-		foreach( $this->oProp->aPageSlugs as $sPageSlug )
-			add_filter( "validation_{$sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
+		foreach( $this->oProp->aPageSlugs as $sIndexOrPageSlug => $asTabArrayOrPageSlug ) {
+			
+			if ( is_string( $asTabArrayOrPageSlug ) ) {				
+				$_sPageSlug = $asTabArrayOrPageSlug;
+				add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
+				add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
+				continue;
+			}
+			
+			// At this point, the array key is the page slug.
+			$_sPageSlug = $sIndexOrPageSlug;
+			$_aTabs = $asTabArrayOrPageSlug;
+			add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
+			foreach( $_aTabs as $sTabSlug )
+				add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
+			
+		}
 		
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 	
@@ -237,27 +252,41 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 			);		
 			
 		}
+	
+	/**
+	 * Filters the page option array.
+	 * 
+	 * This is triggered from the system validation method of the main class with the validation_saved_options_{page slug} filter hook.
+	 * 
+	 * @since			3.0.0
+	 * @param			array
+	 */
+	public function _replyToFilterPageOptions( $aPageOptions ) {
 		
+		return $this->oForm->dropRepeatableElements( $aPageOptions );
+		
+	}
+	
 	/**
 	 * Validates the submitted option values.
 	 * 
 	 * @internal
 	 * @sicne			3.0.0
 	 * @param			array			The array holing the field values of the page sent from the framework page class (the main class).
-	 * @param			array			The array holing the saved options of the page.
+	 * @param			array			The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
 	 */
 	public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
 		
 		// The field values of this class will not be included in the parameter array. So get them.
 		$_aFieldsModel = $this->oForm->getFieldsModel();
-		$_aNewInput = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
-		$_aOldInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
+		$_aNewMetaBoxInput = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
+		$_aOldMetaBoxInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
 
 		// Apply filters - third party scripts will have access to the input.
-		$_aNewInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aNewInput, $_aOldInput );
-		
+		$_aNewMetaBoxInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aNewMetaBoxInput, $_aOldMetaBoxInput );
+	
 		// Now merge the input values with the passed page options.
-		return $this->oUtil->uniteArrays( $_aNewInput, $aNewPageOptions );
+		return $this->oUtil->uniteArrays( $_aNewMetaBoxInput, $aNewPageOptions );
 				
 	}
 	
