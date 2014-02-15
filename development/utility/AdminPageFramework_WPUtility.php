@@ -422,5 +422,23 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_Utility {
 		return false;
 		
 	}		
+	
+	/**
+	 * Checks if the current page is in the post listing page of the given page slug(s).
+	 * 
+	 * @since			3.0.0
+	 */
+	static public function isPostListingPage( $asPostTypes=array() ) {
+				
+		if ( $GLOBALS['pagenow'] != 'edit.php' ) return false;
+		
+		$_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : array( $asPostTypes );
+		
+		if ( ! isset( $_GET['post_type'] )  ) return in_array( 'post', $_aPostTypes );
+
+		return in_array( $_GET['post_type'], $_aPostTypes );
+		
+	}
+	
 }
 endif;

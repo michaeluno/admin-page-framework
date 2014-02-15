@@ -83,8 +83,9 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	 * @internal
 	 */ 
 	public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
-				
-		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) )	// checks if it's in the post definition page
+		
+		// Check if it's in the post definition page and the post listing page
+		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) )	
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 			
 		if ( empty( $this->oProp->aScriptInfo['sName'] ) ) return $sLinkHTML;
@@ -100,7 +101,8 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	 */ 	
 	public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
 
-		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) )	// checks if it's in the post definition page
+		// Check if it's in the post definition page and the post listing page
+		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) )	
 			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 			
 		return $this->aFooterInfo['sRight'];		
