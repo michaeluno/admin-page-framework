@@ -23,6 +23,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 		'section_id' => '_default',		// 3.0.0+
 		'page_slug' => null,
 		'tab_slug' => null,
+		'section_tab_slug'	=>	null,	// 3.0.0+
 		'title' => null,
 		'description' => null,
 		'capability' => null,
