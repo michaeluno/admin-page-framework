@@ -31,6 +31,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 		'help' => null,
 		'help_aside' => null,
 		'repeatable'	=> null,		// 3.0.0+
+		'section_tab_slug'	=> null,	// 3,0,0+
 	);	
 	
 	/**

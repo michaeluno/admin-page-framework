@@ -23,43 +23,169 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 	 */
 	public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 		
-		$aOutput = array();
-		foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
+		$_aOutput = array();
+		$a = $this->_getSectionsBySectionTabs( $aSections );
+		foreach( $a as $_sSectionTabSlug => $_aSections ) {
+			$_sSectionSet = $this->_getFormTables( $_aSections, $aFieldsInSections, $hfFieldCallback );
+			if ( $_sSectionSet )
+				$_aOutput[] = "<div " . $this->generateAttributes(
+						array(
+							'class'	=>	'admin-page-framework-sectionset' 
+								. ( $_sSectionTabSlug == '_default' ? '' : ' admin-page-framework-section-tab' ),
+							'id'	=>	"section_tabs-{$_sSectionTabSlug}",
+						)
+					) . ">" 
+						. $_sSectionSet
+					. "</div>";
+		}
+var_dump( $a );
+		return implode( PHP_EOL, $_aOutput ) 
+			. $this->_getSectionTabsEnablerScript();
 			
-			if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
-			
-			$aOutput[] = "<div class='admin-page-framework-sections' id='sections-{$_sSectionID}'>";
-					
-			// The head part of the sections (including sub-sections)
-			if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
-				$aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
-								
-			// For repeatable sections
-			$_aSubSections = $aSubSectionsOrFields;
-			$_aSubSections = $this->getIntegerElements( $_aSubSections );
-			$_iCountSubSections = count( $_aSubSections );	// Check sub-sections.
-			if ( $_iCountSubSections ) {
-
-				// Add the repeatable sections enabler script.
-				if ( $aSections[ $_sSectionID ]['repeatable'] )
-					$aOutput[] = $this->getRepeatableSectionsEnablerScript( 'sections-' . $_sSectionID, $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );	
-				
-				// Get the section tables.
-				foreach( $a = $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields )		// will include the main section as well.
-					$aOutput[] = $this->getFormTable( $_sSectionID . '__' . $_iIndex, $_aFields, $hfFieldCallback );
-				
-			} else {
-			// The normal section
-				$_aFields = $aSubSectionsOrFields;
-				$aOutput[] = $this->getFormTable( $_sSectionID . '__' . '0', $_aFields, $hfFieldCallback );
-			}
-
-			$aOutput[] = "</div>"; // admin-page-framework-section-tables
+	}
+		
+		/**
+		 * Returns the JavaScript script that enables the 
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getSectionTabsEnablerScript() {
+	
+			static $bIsCalled = false;
+			if ( $bIsCalled ) return '';
+			$bIsCalled = true;
+			wp_enqueue_script( 'jquery-ui-tabs' );
+			return "<script type='text/javascript'>
+				jQuery( document ).ready( function() {
+					jQuery( '.admin-page-framework-section-tab' ).tabs();
+				});
+			</script>";					
 			
 		}
-		return implode( PHP_EOL, $aOutput );
 		
-	}
+		/**
+		 * Returns an output string of form tables.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getFormTables( $aSections, $aFieldsInSections, $hfFieldCallback ) {
+
+			/* <ul>
+				<li><a href="#tabs-1">Nunc tincidunt</a></li>
+				<li><a href="#tabs-2">Proin dolor</a></li>
+				<li><a href="#tabs-3">Aenean lacinia</a></li>
+			</ul>		 */			
+			$_aSectionTabList = array();
+
+			$aOutput = array();
+			foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
+				
+				if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
+				
+				$_sSectionDescription = $aSections[ $_sSectionID ]['description'];
+				$_sSectionTitile = $aSections[ $_sSectionID ]['title'];
+				$_sSectionTabSlug = $aSections[ $_sSectionID ]['section_tab_slug'];	// will be referred outside the loop.
+								
+				$aOutput[] = "<div class='admin-page-framework-sections' id='sections-{$_sSectionID}'>";
+						
+				// The head part of the sections (including sub-sections)
+				// if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
+					// $aOutput[] = $this->_getSectionHeader( $aSections[ $_sSectionID ] );
+					// $aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
+									
+				// For repeatable sections
+				$_aSubSections = $aSubSectionsOrFields;
+				$_aSubSections = $this->getIntegerElements( $_aSubSections );
+				$_iCountSubSections = count( $_aSubSections );	// Check sub-sections.
+				if ( $_iCountSubSections ) {
+
+					// Add the repeatable sections enabler script.
+					if ( $aSections[ $_sSectionID ]['repeatable'] )
+						$aOutput[] = $this->getRepeatableSectionsEnablerScript( 'sections-' . $_sSectionID, $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );	
+					
+					// Get the section tables.
+					foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) {		// will include the main section as well.
+					
+						$_sSectionTagID = 'section-' . $_sSectionID . '__' . $_iIndex;
+						
+						// For tabbed sections,
+						if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
+							$_aSectionTabList[] = "<li><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
+					
+						$aOutput[] = $this->getFormTable( $_sSectionTagID, $_sSectionDescription, $_aFields, $hfFieldCallback );
+						
+					}
+					
+				} else {
+				// The normal section
+					$_sSectionTagID = 'section-' . $_sSectionID . '__' . '0';
+					
+					// For tabbed sections,
+					if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
+						$_aSectionTabList[] = "<li><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
+					
+					$_aFields = $aSubSectionsOrFields;
+					$aOutput[] = $this->getFormTable( $_sSectionTagID, $_sSectionDescription, $_aFields, $hfFieldCallback );
+				}
+
+				$aOutput[] = "</div>"; // admin-page-framework-sections
+					
+			}
+			
+			// Return
+			if ( empty( $aOutput ) ) return '';	// if empty, return a blank string.
+			return ( $_sSectionTabSlug ? "<ul>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>" : '' )	// if the section tab slug yields true, insert the section tab list
+				. implode( PHP_EOL, $aOutput );	
+			
+		}
+		/**
+		 * Returns an array holding section definition array by section tab.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getSectionsBySectionTabs( array $aSections ) {
+			
+			$_aSectionsBySectionTab = array( '_default' => array() );
+			foreach( $aSections as $_aSection ) {
+				
+				if ( ! $_aSection['section_tab_slug'] ) {
+					$_aSectionsBySectionTab[ '_default' ][ $_aSection['section_id'] ] = $_aSection;
+					continue;
+				}
+					
+				$_sSectionTaqbSlug = $_aSection['section_tab_slug'];
+				$_aSection[ $_sSectionTaqbSlug ] = isset( $_aSection[ $_sSectionTaqbSlug ] ) && is_array( $_aSection[ $_sSectionTaqbSlug ] )
+					? $_aSection[ $_sSectionTaqbSlug ]
+					: array();
+				
+				$_aSection[ $_sSectionTaqbSlug ][ $_aSection['section_id'] ] = $_aSection;
+				
+			}
+			return $_aSectionsBySectionTab;
+			
+		}
+		/**
+		 * Returns the output of the head part of the section (title and the description)
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getSectionHeader( $aSection ) {
+						
+			$aOutput = array();
+			
+			// If a section tab is specified
+			if ( $aSection['section_tab'] ) :
+			
+			
+				return implode( PHP_EOL, $aOutput );
+			endif;
+			
+			// Otherwise,
+			$aOutput[] = $aSections['title'] ? "<h3 class='admin-page-framework-section-title'>" . $aSections['title'] . "</h3>" : '';
+			$aOutput[] = $aSections['description'] ? "<p class='admin-page-framework-section-description'>" . $aSections['description'] . "</p>" : '';
+			return implode( PHP_EOL, $aOutput );
+			
+		}
 		/**
 		 * Returns the enabler script for repeatable sections.
 		 * @since			3.0.0
@@ -99,18 +225,21 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFormTable( $sID, $aFields, $hfFieldCallback ) {
+	public function getFormTable( $sSectionTagID, $sSectionDescription, $aFields, $hfFieldCallback ) {
 
 		if ( count( $aFields ) <= 0 ) return '';
 	
 		$_sAttributes = $this->generateAttributes(  
 			array( 
-				'id' => 'section-' . $sID,
+				'id' => $sSectionTagID,	// section-{section id}__{index}
 				'class' => 'form-table admin-page-framework-section',
 			)
 		);
 		$aOutput = array();
 		$aOutput[] = "<table {$_sAttributes}>";
+			$aOutput[] = $sSectionDescription
+				? "<caption class='admin-page-framework-section-description'>" . $sSectionDescription . "</caption>"
+				: '';
 			$aOutput[] = $this->getFieldRows( $aFields, $hfFieldCallback );
 		$aOutput[] = "</table>";
 		return implode( PHP_EOL, $aOutput );

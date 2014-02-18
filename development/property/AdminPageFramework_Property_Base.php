@@ -175,6 +175,11 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Form Elements */
+		/* Section description */
+		.admin-page-framework-section-description {
+			text-align: left;
+			margin: 1em 0;
+		}
 		/* Metabox Section Heading Info */
 		#poststuff .metabox-holder h3.admin-page-framework-section-title {
 			border: none;

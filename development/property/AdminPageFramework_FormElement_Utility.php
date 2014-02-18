@@ -119,6 +119,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	 * Returns the output of the title and description part of the given section by section ID.
 	 * 
 	 * @since			3.0.0
+	 * @deprecated
 	 */ 
 	public function getSectionHeader( $sSectionID ) {
 		
