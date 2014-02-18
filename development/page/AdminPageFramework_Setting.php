@@ -41,6 +41,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @since			3.0.0
 	 */	
 	protected $_sTargetTabSlug = null;
+
+	/**
+	 * Stores the target section tab slug which will be applied when no section tab slug is specified for the addSettingSection() method.
+	 * 
+	 * @since			3.0.0
+	 */	
+	protected $_sTargetSectionTabSlug = null;
 	
 	/**
 	 * Registers necessary hooks and sets up properties.
@@ -147,7 +154,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * <ul>
 	 * <li><strong>page_slug</strong> - (  required, string ) the page slug that the section belongs to.</li>
 	 * <li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers. If not set, the internal section ID <em>_default</em> will be assigned.</li>
-	 * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to.</li>
+	 * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to. The tab here refers to in-page tabs.</li>
+	 * <li><strong>section_tab_slug</strong> - ( optional, string ) [3.0.0+] the section tab slug that the section are grouped into. The tab here refers to section tabs.</li>
 	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	 * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
 	 * <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
@@ -185,11 +193,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		
 		$aSection = $asSection;
 		$this->_sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $this->_sTargetPageSlug;
-		$this->_sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $this->_sTargetTabSlug;		
-		$aSection = $this->oUtil->uniteArrays( $aSection, array( 'page_slug' => $this->_sTargetPageSlug, 'tab_slug' => $this->_sTargetTabSlug ) );	// avoid undefined index warnings.
+		$this->_sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $this->_sTargetTabSlug;
+		$this->_sTargetSectionTabSlug = isset( $aSection['section_tab_slug'] ) ? $aSection['section_tab_slug'] : $this->_sTargetSectionTabSlug;
+		$aSection = $this->oUtil->uniteArrays( 
+			$aSection, 
+			array( 
+				'page_slug' => $this->_sTargetPageSlug,
+				'tab_slug' => $this->_sTargetTabSlug,
+				'section_tab_slug' => $this->_sTargetSectionTabSlug
+			)
+		);	// avoid undefined index warnings.
 		
 		$aSection['page_slug'] = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : ( $this->oProp->sDefaultPageSlug ? $this->oProp->sDefaultPageSlug : null );
 		$aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
+		$aSection['section_tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] );
 		
 		if ( ! $aSection['page_slug'] ) return;	// The page slug is necessary.
 		$this->oForm->addSection( $aSection );
