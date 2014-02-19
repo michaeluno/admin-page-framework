@@ -25,34 +25,35 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 		
 		$_aOutput = array();
 		foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) {
-			$_sSectionSet = $this->_getFormTablesBySectionTab( $_aSections, $aFieldsInSections, $hfFieldCallback );
+			$_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfFieldCallback );
 			if ( $_sSectionSet )
 				$_aOutput[] = "<div " . $this->generateAttributes(
 						array(
-							'class'	=>	'admin-page-framework-sectionset' 
-								. ( $_sSectionTabSlug == '_default' ? '' : ' admin-page-framework-section-tabs-contents' ),
-							'id'	=>	"section_tabs-{$_sSectionTabSlug}",
+							'class'	=>	'admin-page-framework-sectionset',
+							'id'	=>	"sectionset-{$_sSectionTabSlug}_" . md5( serialize( $_aSections ) ),
 						)
 					) . ">" 
 						. $_sSectionSet
 					. "</div>";
 		}
-// var_dump( $a );
 		return implode( PHP_EOL, $_aOutput ) 
 			. $this->_getSectionTabsEnablerScript();
 			
 	}
 		
 		/**
-		 * Returns the JavaScript script that enables the 
+		 * Returns the JavaScript script that enables section tabs.
 		 * 
 		 * @since			3.0.0
 		 */
 		private function _getSectionTabsEnablerScript() {
-	
-			static $bIsCalled = false;
+			
+			// Stores the flag indicating whether the method is called. PHP static variables are stored among different class instances. 
+			// So this will make sure that it is done only once per a page load.
+			static $bIsCalled = false;	
 			if ( $bIsCalled ) return '';
 			$bIsCalled = true;
+			
 			wp_enqueue_script( 'jquery-ui-tabs' );
 			return "<script type='text/javascript'>
 				jQuery( document ).ready( function() {
@@ -67,8 +68,10 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 		 * 
 		 * @since			3.0.0
 		 */
-		private function _getFormTablesBySectionTab( $aSections, $aFieldsInSections, $hfFieldCallback ) {
+		private function _getFormTablesBySectionTab( $sSectionTabSlug, $aSections, $aFieldsInSections, $hfFieldCallback ) {
 
+			if ( empty( $aSections ) ) return '';	// if empty, return a blank string.
+		
 			/* <ul>
 				<li><a href="#tabs-1">Nunc tincidunt</a></li>
 				<li><a href="#tabs-2">Proin dolor</a></li>
@@ -81,18 +84,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				
 				if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
 				
-				$_sSectionDescription = $aSections[ $_sSectionID ]['description'];
 				$_sSectionTitile = "<h4>" . $aSections[ $_sSectionID ]['title'] . "</h4>";
 				$_sSectionTabSlug = $aSections[ $_sSectionID ]['section_tab_slug'];	// will be referred outside the loop.
-				
-				$_sClassAttr_TabContent = $_sSectionTabSlug ? 'admin-page-framework-tab-content' : '';
-				$aOutput[] = "<div class='admin-page-framework-sections {$_sClassAttr_TabContent}' id='sections-{$_sSectionID}'>";
-						
-				// The head part of the sections (including sub-sections)
-				// if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
-					// $aOutput[] = $this->_getSectionHeader( $aSections[ $_sSectionID ] );
-					// $aOutput[] = call_user_func_array( $hfSectionCallback, array( $_sSectionID ) );	// the section title and the description			
-									
+													
 				// For repeatable sections
 				$_aSubSections = $aSubSectionsOrFields;
 				$_aSubSections = $this->getIntegerElements( $_aSubSections );
@@ -101,7 +95,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 
 					// Add the repeatable sections enabler script.
 					if ( $aSections[ $_sSectionID ]['repeatable'] )
-						$aOutput[] = $this->getRepeatableSectionsEnablerScript( 'sections-' . $_sSectionID, $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );	
+						$aOutput[] = $this->getRepeatableSectionsEnablerScript( 'sections-' .  md5( serialize( $aSections ) ), $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );	
 					
 					// Get the section tables.
 					foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) {		// will include the main section as well.
@@ -110,9 +104,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 						
 						// For tabbed sections,
 						if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
-							$_aSectionTabList[] = "<li><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
+							$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
 					
-						$aOutput[] = $this->getFormTable( $_sSectionTagID, $_sSectionDescription, $_aFields, $hfFieldCallback );
+						$aOutput[] = $this->getFormTable( $_sSectionTagID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
 						
 					}
 					
@@ -122,23 +116,31 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 					
 					// For tabbed sections,
 					if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
-						$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab'><a href='#sections-{$_sSectionID}'>{$_sSectionTitile}</a></li>";
+						$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
 					
 					$_aFields = $aSubSectionsOrFields;
-					$aOutput[] = $this->getFormTable( $_sSectionTagID, $_sSectionDescription, $_aFields, $hfFieldCallback );
+					$aOutput[] = $this->getFormTable( $_sSectionTagID, 0, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
 				}
-
-				$aOutput[] = "</div>"; // admin-page-framework-sections
 					
 			}
-			
+
 			// Return
 			if ( empty( $aOutput ) ) return '';	// if empty, return a blank string.
 			return 
-				// "<div class='admin-page-framework-sections {$_sClassAttr_TabContent}' id='sections-{$_sSectionID}'>"
-					( $_sSectionTabSlug ? "<ul class='admin-page-framework-section-tabs nav-tab-wrapper'>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>" : '' )	// if the section tab slug yields true, insert the section tab list
-					. implode( PHP_EOL, $aOutput );
-				// "</div>";
+				// "<div class='admin-page-framework-sections' id='sections-" . md5( serialize( $aSections ) ) . "' >"
+				"<div " . $this->generateAttributes(
+						array(
+							'class'	=>	'admin-page-framework-sections'
+								. ( ! $_sSectionTabSlug || $_sSectionTabSlug == '_default' ? '' : ' admin-page-framework-section-tabs-contents' ),
+							'id'	=>	"sections-" . md5( serialize( $aSections ) ),
+						)
+					) . ">" 				
+					. ( $_sSectionTabSlug	// if the section tab slug yields true, insert the section tab list
+						? "<ul class='admin-page-framework-section-tabs nav-tab-wrapper'>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>"
+						: ''
+					)	
+					. implode( PHP_EOL, $aOutput )
+				. "</div>";
 			
 		}
 		/**
@@ -147,7 +149,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 		 * @since			3.0.0
 		 */
 		private function _getSectionsBySectionTabs( array $aSections ) {
-// var_dump( $aSections );
+
 			$_aSectionsBySectionTab = array( '_default' => array() );
 			foreach( $aSections as $_aSection ) {
 				
@@ -171,13 +173,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 		 * Returns the output of the head part of the section (title and the description)
 		 * 
 		 * @since			3.0.0
+		 * @deprecated
 		 */
 		private function _getSectionHeader( $aSection ) {
 						
 			$aOutput = array();
 			
 			// If a section tab is specified
-			if ( $aSection['section_tab'] ) :
+			if ( $aSection['section_tab_slug'] ) :
 			
 			
 				return implode( PHP_EOL, $aOutput );
@@ -193,7 +196,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 		 * Returns the enabler script for repeatable sections.
 		 * @since			3.0.0
 		 */
-		private function getRepeatableSectionsEnablerScript( $sTableID, $iSectionCount, $aSettings ) {
+		private function getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
 			
 			add_action( 'admin_footer', array( $this, '_replyToAddRepeatableSectionjQueryPlugin' ) );
 			
@@ -207,16 +210,15 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 			$_sSettingsAttributes = $this->generateDataAttributes( $aSettings );
 			$_sButtons = 
 				"<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-					. "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sTableID}'>+</a>"
-					. "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sTableID}'>-</a>"
+					. "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
+					. "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
 				. "</div>";
 			$aJSArray = json_encode( $aSettings );
 			return
 				"<script type='text/javascript'>
 					jQuery( document ).ready( function() {
-
-						jQuery( '#{$sTableID} .admin-page-framework-section' ).prepend( \"{$_sButtons}\" );	// Adds the buttons
-						jQuery( '#{$sTableID}' ).updateAPFRepeatableSections( {$aJSArray} );	// Update the fields			
+						jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).show().prepend( \"{$_sButtons}\" );	// Adds the buttons
+						jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( {$aJSArray} );	// Update the fields			
 					});
 				</script>";			
 			
@@ -228,24 +230,48 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFormTable( $sSectionTagID, $sSectionDescription, $aFields, $hfFieldCallback ) {
+	public function getFormTable( $sSectionTagID, $iSectionIndex, $aSection, $aFields, $hfFieldCallback ) {
 
 		if ( count( $aFields ) <= 0 ) return '';
-	
-		$_sAttributes = $this->generateAttributes(  
-			array( 
-				'id' => $sSectionTagID,	// section-{section id}__{index}
-				'class' => 'form-table admin-page-framework-section',
-			)
-		);
+		
+		$_bIsFirstItemOfRepeatableSection = ( $aSection['repeatable'] && $iSectionIndex == 0 );
+		$_bIsFirstItemOfRepeatableSectionOfNonSectionTab = ( $_bIsFirstItemOfRepeatableSection && ! $aSection['section_tab_slug'] );
+		
 		$aOutput = array();
-		$aOutput[] = "<table {$_sAttributes}>";
-			$aOutput[] = $sSectionDescription
-				? "<caption class='admin-page-framework-section-description'>" . $sSectionDescription . "</caption>"
-				: '';
-			$aOutput[] = $this->getFieldRows( $aFields, $hfFieldCallback );
-		$aOutput[] = "</table>";
-		return implode( PHP_EOL, $aOutput );
+		$aOutput[] = "<table "
+			. $this->generateAttributes(  
+					array( 
+						'id' => 'section_table-' . $sSectionTagID,
+						'class' => 'form-table',	// temporarily deprecated: admin-page-framework-section-table
+					)
+				)
+			. ">"
+				. ( $aSection['description'] && $aSection['title'] && ( $aSection['section_tab_slug'] || $_bIsFirstItemOfRepeatableSectionOfNonSectionTab )
+					? "<caption class='admin-page-framework-section-caption'>"
+							. ( $aSection['title'] && ! $aSection['section_tab_slug']
+								? "<h3 class='admin-page-framework-section-title'>" . $aSection['title'] . "</h3>"
+								: ""
+							)					
+							. ( $aSection['description']	// admin-page-framework-section-description is referred by the repeatable section buttons
+								? "<p class='admin-page-framework-section-description'>" . $aSection['description'] . "</p>"
+								: ""
+							)
+						. "</caption>"
+					: "<caption class='admin-page-framework-section-caption style='display:none;'></caption>"
+				)
+				. $this->getFieldRows( $aFields, $hfFieldCallback )
+			. "</table>";
+		return "<div "
+			. $this->generateAttributes(
+					array( 
+						'id' => $sSectionTagID,	// section-{section id}__{index}
+						'class' => 'admin-page-framework-section'
+							. ( $aSection['section_tab_slug'] ? ' admin-page-framework-tab-content' : '' ),
+					)				
+				)
+			. ">"
+				. implode( PHP_EOL, $aOutput )
+			. "</div>";
 		
 	}
 
@@ -380,7 +406,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 			$.fn.updateAPFRepeatableSections = function( aSettings ) {
 				
 				var nodeThis = this;	// it can be from a sections container or a cloned section container.
-				var sSectionsContainerID = nodeThis.find( '.repeatable-section-add' ).first().closest( '.admin-page-framework-sections' ).attr( 'id' );
+				var sSectionsContainerID = nodeThis.find( '.repeatable-section-add' ).first().closest( '.admin-page-framework-sectionset' ).attr( 'id' );
 
 				/* Store the sections specific options in an array  */
 				if ( ! $.fn.aAPFRepeatableSectionsOptions ) $.fn.aAPFRepeatableSectionsOptions = [];
@@ -391,7 +417,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 						}, aSettings );
 				}
 				var aOptions = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ];
-				
+
 				/* The Add button behavior - if the tag id is given, multiple buttons will be selected. 
 				 * Otherwise, a section node is given and single button will be selected. */
 				$( nodeThis ).find( '.repeatable-section-add' ).click( function() {
@@ -426,8 +452,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 
 				var nodeSectionContainer = $( '#' + sSectionContainerID );
 				var nodeNewSection = nodeSectionContainer.clone();	// clone without bind events.
-				var nodeSectionsContainer = nodeSectionContainer.closest( '.admin-page-framework-sections' );
+				var nodeSectionsContainer = nodeSectionContainer.closest( '.admin-page-framework-sectionset' );
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
+				var nodeTabs = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sectionset' ).find( '.admin-page-framework-section-tabs' );
 				
 				/* If the set maximum number of sections already exists, do not add */
 				var sMaxNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['max'];
@@ -445,13 +472,13 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				
 				nodeNewSection.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value		
 				nodeNewSection.find( '.repeatable-section-error' ).remove();	// remove error messages.
-				
+								
 				/* Add the cloned new field element */
 				nodeNewSection.insertAfter( nodeSectionContainer );	
 				
 				/* Increment the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
-					$( this ).incrementIDAttribute( 'id', true );
+					$( this ).incrementIDAttribute( 'id', true );	// passing true in the second parameter means to apply the change to the first occurrence.
 					$( this ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', true );
 					$( this ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', true );
 					$( this ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', true );	// don't remember what this data attribute was for
@@ -482,6 +509,16 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 					
 				});
 				
+				/* For tabbed sections - add the title tab list */
+				if ( nodeTabs.length > 0 ) {
+					var nodeNewTab = nodeTabs.find( '.admin-page-framework-section-tab' ).last().clone();
+					nodeNewTab.removeClass( 'ui-state-active' );
+					nodeNewTab.incrementIDAttribute( 'id' );
+					nodeNewTab.find( 'a.ui-tabs-anchor' ).incrementIDAttribute( 'href' );
+					nodeTabs.append( nodeNewTab );
+					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).tabs( 'refresh' );
+				}				
+				
 				/* If more than one sections are created, show the Remove button */
 				var nodeRemoveButtons =  nodeSectionsContainer.find( '.repeatable-section-remove' );
 				if ( nodeRemoveButtons.length > 1 ) nodeRemoveButtons.show();				
@@ -495,8 +532,10 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 				
 				/* Need to remove the element: the secitons container */
 				var nodeSectionContainer = $( this ).closest( '.admin-page-framework-section' );
-				var nodeSectionsContainer = $( this ).closest( '.admin-page-framework-sections' );
+				var sSectionConteinrID = nodeSectionContainer.attr( 'id' );
+				var nodeSectionsContainer = $( this ).closest( '.admin-page-framework-sectionset' );
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
+				var nodeTabs = nodeSectionsContainer.find( '.admin-page-framework-section-tabs' );
 				
 				/* If the set minimum number of sections already exists, do not remove */
 				var sMinNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['min'];
@@ -533,6 +572,16 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 			
 				/* Remove the field */
 				nodeSectionContainer.remove();
+				
+				/* For tabbed sections - remove the title tab list */
+				if ( nodeTabs.length > 0 ) {
+					nodeSelectionTab = nodeTabs.find( '#section_tab-' + sSectionConteinrID );
+					nodeSelectionTab.nextAll().each( function() {
+						$( this ).find( 'a.ui-tabs-anchor' ).decrementIDAttribute( 'href' );
+					});					
+					nodeSelectionTab.remove();
+					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).tabs( 'refresh' );
+				}						
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
 				var nodeRemoveButtons = nodeSectionsContainer.find( '.repeatable-section-remove' );

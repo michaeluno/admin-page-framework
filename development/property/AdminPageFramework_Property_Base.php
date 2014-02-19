@@ -175,6 +175,10 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Form Elements */
+		/* Section Table */
+		.admin-page-framework-section .form-table {
+			margin-top: 0;
+		}
 		/* Section Tabs */
 		.admin-page-framework-section-tabs-contents {
 			margin-top: 1em;
@@ -203,6 +207,7 @@ abstract class AdminPageFramework_Property_Base {
 			/* margin: 0.3em 0; */
 			margin: 0;
 			padding: 8px 14px 10px;
+			font-size: 1.2em;
 		}
 		.admin-page-framework-section-tab.nav-tab {
 			padding: 0;
@@ -214,10 +219,20 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-section-tab.nav-tab.ui-state-active a {
 			color: #000;
 		}
-		/* Section description */
-		.admin-page-framework-section-description {
+		/* Repeatable Sections */
+		.admin-page-framework-repeatable-section-buttons {
+			float: right;
+		}
+		/* Section Caption */
+		.admin-page-framework-section-caption {
 			text-align: left;
 			margin: 1em 0;
+		}
+		/* Section Title */
+		.admin-page-framework-section .admin-page-framework-section-title {
+			background: none;
+			-webkit-box-shadow: none;
+			box-shadow: none;
 		}
 		/* Metabox Section Heading Info */
 		#poststuff .metabox-holder h3.admin-page-framework-section-title {
@@ -231,9 +246,6 @@ abstract class AdminPageFramework_Property_Base {
 			-webkit-user-select: inherit;
 			-moz-user-select: inherit;
 			user-select: inherit;			
-		}
-		.admin-page-framework-section-description {
-			
 		}
 		
 		/* Fields Container */
