@@ -233,6 +233,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the ability to display form sections in tabs by specifying the `section_tab_slug`.
 * Added: the `autocomplete` custom field type.
 * Added: the ability to repeat form section.
 * Added: the ability to set form sections in meta boxes.
