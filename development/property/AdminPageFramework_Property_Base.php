@@ -175,6 +175,45 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Form Elements */
+		/* Section Tabs */
+		.admin-page-framework-section-tabs-contents {
+			margin-top: 1em;
+		}
+		.admin-page-framework-section-tabs {	/* The section tabs' container */
+			/* padding-top: 0;
+			padding-bottom: 0; */
+			margin: 0;
+		}
+		.admin-page-framework-tab-content {		/* each section including sub-sections of repeatable fields */
+			padding: 0.5em 2em 1.5em 2em;
+			margin: 0;
+			border-style: solid;
+			border-width: 1px;
+			border-color: #dfdfdf;
+			background-color: #fdfdfd;				
+			
+		}
+		.admin-page-framework-section-tab {
+			background-color: transparent;
+		}
+		.admin-page-framework-section-tab.ui-state-active {
+			background-color: #fdfdfd;			
+		}
+		.admin-page-framework-section-tab h4 {
+			/* margin: 0.3em 0; */
+			margin: 0;
+			padding: 8px 14px 10px;
+		}
+		.admin-page-framework-section-tab.nav-tab {
+			padding: 0;
+		}
+		.admin-page-framework-section-tab.nav-tab a {
+			text-decoration: none;
+			color: #464646;
+		}
+		.admin-page-framework-section-tab.nav-tab.ui-state-active a {
+			color: #000;
+		}
 		/* Section description */
 		.admin-page-framework-section-description {
 			text-align: left;

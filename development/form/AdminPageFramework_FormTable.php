@@ -24,21 +24,20 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 	public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 		
 		$_aOutput = array();
-		$a = $this->_getSectionsBySectionTabs( $aSections );
-		foreach( $a as $_sSectionTabSlug => $_aSections ) {
-			$_sSectionSet = $this->_getFormTables( $_aSections, $aFieldsInSections, $hfFieldCallback );
+		foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) {
+			$_sSectionSet = $this->_getFormTablesBySectionTab( $_aSections, $aFieldsInSections, $hfFieldCallback );
 			if ( $_sSectionSet )
 				$_aOutput[] = "<div " . $this->generateAttributes(
 						array(
 							'class'	=>	'admin-page-framework-sectionset' 
-								. ( $_sSectionTabSlug == '_default' ? '' : ' admin-page-framework-section-tab' ),
+								. ( $_sSectionTabSlug == '_default' ? '' : ' admin-page-framework-section-tabs-contents' ),
 							'id'	=>	"section_tabs-{$_sSectionTabSlug}",
 						)
 					) . ">" 
 						. $_sSectionSet
 					. "</div>";
 		}
-var_dump( $a );
+// var_dump( $a );
 		return implode( PHP_EOL, $_aOutput ) 
 			. $this->_getSectionTabsEnablerScript();
 			
@@ -57,7 +56,7 @@ var_dump( $a );
 			wp_enqueue_script( 'jquery-ui-tabs' );
 			return "<script type='text/javascript'>
 				jQuery( document ).ready( function() {
-					jQuery( '.admin-page-framework-section-tab' ).tabs();
+					jQuery( '.admin-page-framework-section-tabs-contents' ).tabs();
 				});
 			</script>";					
 			
@@ -68,7 +67,7 @@ var_dump( $a );
 		 * 
 		 * @since			3.0.0
 		 */
-		private function _getFormTables( $aSections, $aFieldsInSections, $hfFieldCallback ) {
+		private function _getFormTablesBySectionTab( $aSections, $aFieldsInSections, $hfFieldCallback ) {
 
 			/* <ul>
 				<li><a href="#tabs-1">Nunc tincidunt</a></li>
@@ -83,10 +82,11 @@ var_dump( $a );
 				if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
 				
 				$_sSectionDescription = $aSections[ $_sSectionID ]['description'];
-				$_sSectionTitile = $aSections[ $_sSectionID ]['title'];
+				$_sSectionTitile = "<h4>" . $aSections[ $_sSectionID ]['title'] . "</h4>";
 				$_sSectionTabSlug = $aSections[ $_sSectionID ]['section_tab_slug'];	// will be referred outside the loop.
-								
-				$aOutput[] = "<div class='admin-page-framework-sections' id='sections-{$_sSectionID}'>";
+				
+				$_sClassAttr_TabContent = $_sSectionTabSlug ? 'admin-page-framework-tab-content' : '';
+				$aOutput[] = "<div class='admin-page-framework-sections {$_sClassAttr_TabContent}' id='sections-{$_sSectionID}'>";
 						
 				// The head part of the sections (including sub-sections)
 				// if ( $_sSectionID != '_default' && is_callable( $hfSectionCallback ) ) 
@@ -122,7 +122,7 @@ var_dump( $a );
 					
 					// For tabbed sections,
 					if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
-						$_aSectionTabList[] = "<li><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
+						$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab'><a href='#sections-{$_sSectionID}'>{$_sSectionTitile}</a></li>";
 					
 					$_aFields = $aSubSectionsOrFields;
 					$aOutput[] = $this->getFormTable( $_sSectionTagID, $_sSectionDescription, $_aFields, $hfFieldCallback );
@@ -134,8 +134,11 @@ var_dump( $a );
 			
 			// Return
 			if ( empty( $aOutput ) ) return '';	// if empty, return a blank string.
-			return ( $_sSectionTabSlug ? "<ul>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>" : '' )	// if the section tab slug yields true, insert the section tab list
-				. implode( PHP_EOL, $aOutput );	
+			return 
+				// "<div class='admin-page-framework-sections {$_sClassAttr_TabContent}' id='sections-{$_sSectionID}'>"
+					( $_sSectionTabSlug ? "<ul class='admin-page-framework-section-tabs nav-tab-wrapper'>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>" : '' )	// if the section tab slug yields true, insert the section tab list
+					. implode( PHP_EOL, $aOutput );
+				// "</div>";
 			
 		}
 		/**
@@ -144,7 +147,7 @@ var_dump( $a );
 		 * @since			3.0.0
 		 */
 		private function _getSectionsBySectionTabs( array $aSections ) {
-			
+// var_dump( $aSections );
 			$_aSectionsBySectionTab = array( '_default' => array() );
 			foreach( $aSections as $_aSection ) {
 				
@@ -154,11 +157,11 @@ var_dump( $a );
 				}
 					
 				$_sSectionTaqbSlug = $_aSection['section_tab_slug'];
-				$_aSection[ $_sSectionTaqbSlug ] = isset( $_aSection[ $_sSectionTaqbSlug ] ) && is_array( $_aSection[ $_sSectionTaqbSlug ] )
-					? $_aSection[ $_sSectionTaqbSlug ]
+				$_aSectionsBySectionTab[ $_sSectionTaqbSlug ] = isset( $_aSectionsBySectionTab[ $_sSectionTaqbSlug ] ) && is_array( $_aSectionsBySectionTab[ $_sSectionTaqbSlug ] )
+					? $_aSectionsBySectionTab[ $_sSectionTaqbSlug ]
 					: array();
 				
-				$_aSection[ $_sSectionTaqbSlug ][ $_aSection['section_id'] ] = $_aSection;
+				$_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_aSection['section_id'] ] = $_aSection;
 				
 			}
 			return $_aSectionsBySectionTab;

@@ -382,14 +382,13 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'section_id'	=>	'tabbed_sections_a',
-				// 'tab_slug'		=>	'sections',
-				'title'			=>	__( 'Tabbed A', 'admin-page-framework-demo' ),
+				'section_tab_slug'	=>	'tabbed_sections',
+				'title'			=>	__( 'Section Tab A', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is the first item of the tabbed section.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'tabbed_sections_b',
-				// 'tab_slug'		=>	'sections',
-				'title'			=>	__( 'Tabbed B', 'admin-page-framework-demo' ),
+				'title'			=>	__( 'Section Tab B', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is the second item of the tabbed section.', 'admin-page-framework-demo' ),
 			),					
 			array()
