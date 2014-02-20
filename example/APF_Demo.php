@@ -153,7 +153,7 @@ class APF_Demo extends AdminPageFramework {
 			/*
 			 * Page-heading tabs for custom field types
 			 */
-			'apf_custom_field_types',
+			'apf_custom_field_types',	// target page slug
 			array(
 				'tab_slug'	=>	'geometry',
 				'title'		=>	__( 'Geometry', 'admin-page-framework-demo' ),	
@@ -192,7 +192,7 @@ class APF_Demo extends AdminPageFramework {
 			/*
 			 * Manage Options
 			 * */
-			'apf_manage_options',
+			'apf_manage_options',	// target page slug
 			array(
 				'tab_slug'	=>	'saved_data',
 				'title'		=>	'Saved Data',
@@ -399,7 +399,9 @@ class APF_Demo extends AdminPageFramework {
 				'description'	=>	__( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
 				'repeatable'	=>	true,	// this makes the section repeatable
 			),			
-			array()
+			array(
+				'section_tab_slug'	=>	'',	// reset the target section tab slug for the next call.
+			)
 		);
 		$this->addSettingSections(	
 			array(

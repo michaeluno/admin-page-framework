@@ -198,9 +198,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 		$aSection = $this->oUtil->uniteArrays( 
 			$aSection, 
 			array( 
-				'page_slug' => $this->_sTargetPageSlug,
-				'tab_slug' => $this->_sTargetTabSlug,
-				'section_tab_slug' => $this->_sTargetSectionTabSlug
+				'page_slug' => $this->_sTargetPageSlug ? $this->_sTargetPageSlug : null,		// checking the value allows the user to reset the internal target manually
+				'tab_slug' => $this->_sTargetTabSlug ? $this->_sTargetTabSlug : null,
+				'section_tab_slug' => $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null,
 			)
 		);	// avoid undefined index warnings.
 		
