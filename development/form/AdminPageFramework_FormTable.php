@@ -205,9 +205,10 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 
 		if ( count( $aFields ) <= 0 ) return '';
 		
-		// For regular repeatable fields, the title and the description should be omitted.
-		if ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) 
-			$aSection['description'] = $aSection['title'] ='';
+		// For regular repeatable fields, the title should be omitted exept the first item.
+		$_sDisplayNone = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] )
+			? " style='display:none;'"
+			: '';
 				
 		$aOutput = array();
 		$aOutput[] = "<table "
@@ -219,9 +220,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 				)
 			. ">"
 				. ( $aSection['description'] && $aSection['title'] 
-					? "<caption class='admin-page-framework-section-caption'>"
+					? "<caption class='admin-page-framework-section-caption' data-section_tab='{$aSection['section_tab_slug']}'>"	// data-section_tab is referred by the repeater script to hide/show the title and the description
 							. ( $aSection['title'] && ! $aSection['section_tab_slug']
-								? "<h3 class='admin-page-framework-section-title'>" . $aSection['title'] . "</h3>"
+								? "<h3 class='admin-page-framework-section-title' {$_sDisplayNone}>" . $aSection['title'] . "</h3>"
 								: ""
 							)					
 							. ( $aSection['description']	// admin-page-framework-section-description is referred by the repeatable section buttons
