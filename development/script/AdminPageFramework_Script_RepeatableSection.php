@@ -83,6 +83,12 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 				nodeNewSection.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value		
 				nodeNewSection.find( '.repeatable-section-error' ).remove();	// remove error messages.
+				
+				/* If this is not for tabbed sections, do not show the title */
+				var sSectionTabSlug = nodeNewSection.find( '.admin-page-framework-section-caption' ).first().attr( 'data-section_tab' );
+				if ( ! sSectionTabSlug || sSectionTabSlug === '_default' ) {
+					nodeNewSection.find( '.admin-page-framework-section-title' ).hide();
+				}
 								
 				/* Add the cloned new field element */
 				nodeNewSection.insertAfter( nodeSectionContainer );	
@@ -196,7 +202,16 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
 				var nodeRemoveButtons = nodeSectionsContainer.find( '.repeatable-section-remove' );
-				if ( nodeRemoveButtons.length == 1 ) nodeRemoveButtons.css( 'display', 'none' );
+				if ( nodeRemoveButtons.length == 1 ) {
+					
+					nodeRemoveButtons.css( 'display', 'none' );
+					
+					/* Also if this is not for tabbed sections, do show the title */
+					var sSectionTabSlug = nodeSectionsContainer.find( '.admin-page-framework-section-caption' ).first().attr( 'data-section_tab' );
+					if ( ! sSectionTabSlug || sSectionTabSlug === '_default' ) 
+						nodeSectionsContainer.find( '.admin-page-framework-section-title' ).first().show();
+					
+				}
 					
 			};
 				
