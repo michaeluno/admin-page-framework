@@ -1,7 +1,7 @@
 <?php
 if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
 /**
- * Provides methods to add form elements with WordPress Settings API. 
+ * Provides public methods to add form elements with WordPress Settings API. 
  *
  * @abstract
  * @since		2.0.0

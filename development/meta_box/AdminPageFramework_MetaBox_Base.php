@@ -43,6 +43,12 @@ abstract class AdminPageFramework_MetaBox_Base {
 	static protected $_sFieldsType;
 	
 	/**
+	 * Stores the target section tab slug for the addSettingSection() method.
+	 * @internal
+	 */
+	protected $_sTargetSectionTabSlug;	
+	
+	/**
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
 	 * 
 	 * @see				http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
@@ -202,8 +208,12 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 */
 	public function addSettingSection( $aSection ) {
 		
-		if ( is_array( $aSection ) )
-			$this->oForm->addSection( $aSection );
+		if ( ! is_array( $aSection ) ) return;
+		
+		$this->_sTargetSectionTabSlug = isset( $aSection['section_tab_slug'] ) ? $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] ) : $this->_sTargetSectionTabSlug;	
+		$aSection['section_tab_slug'] = $this->_sTargetSectionTabSlug ?  $this->_sTargetSectionTabSlug : null;
+				
+		$this->oForm->addSection( $aSection );
 			
 	}		
 		
@@ -430,7 +440,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) return;
 
 		// Retrieve the submitted data.
-		$aInput = $this->getInputArray( $this->oForm->aFields );
+		$aInput = $this->getInputArray( $this->oForm->aFields, $this->oForm->aSections );	// Todo: make sure if the aFields is formatted and conditioned or not.
 	
 		// Prepare the saved data.
 		$aSavedMeta = $this->getSavedMetaArray( $iPostID, $aInput );
@@ -461,14 +471,15 @@ abstract class AdminPageFramework_MetaBox_Base {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function getInputArray( array $aFieldDefinitionArrays ) {
+		protected function getInputArray( array $aFieldDefinitionArrays, array $aSectionDefinitionArrays ) {
 			
 			// Compose an array consisting of the submitted registered field values.
 			$aInput = array();
-			foreach( $aFieldDefinitionArrays as $_sSectionID => $_aFields ) {
+			foreach( $aFieldDefinitionArrays as $_sSectionID => $_aSubSectionsOrFields ) {
 				
 				// If a section is not set,
 				if ( $_sSectionID == '_default' ) {
+					$_aFields = $_aSubSectionsOrFields;
 					foreach( $_aFields as $_aField ) {
 						$aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 
 							? $_POST[ $_aField['field_id'] ] 
@@ -476,14 +487,32 @@ abstract class AdminPageFramework_MetaBox_Base {
 					}
 					continue;
 				}			
-					
-				// If a section is set,
+	
+				// At this point, the section is set
 				$aInput[ $_sSectionID ] = isset( $aInput[ $_sSectionID ] ) ? $aInput[ $_sSectionID ] : array();
-				foreach( $_aFields as $_aField ) {
-					$aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
-						? $_POST[ $_sSectionID ][ $_aField['field_id'] ]
+				
+				// If the section does not contain sub sections,
+				if ( ! count( $this->oUtil->getIntegerElements( $_aSubSectionsOrFields ) ) ) {
+					
+					$_aFields = $_aSubSectionsOrFields;
+					foreach( $_aFields as $_aField ) {
+						$aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
+							? $_POST[ $_sSectionID ][ $_aField['field_id'] ]
+							: null;
+					}											
+					continue;
+
+				}
+					
+				// Otherwise, it's sub-sections. 
+				// Since the registered fields don't have information how many items the user added, parse the submitted data.
+				foreach( $_POST[ $_sSectionID ] as $_iIndex => $_aFields ) {		// will include the main section as well.
+					$aInput[ $_sSectionID ][ $_iIndex ] = isset( $_POST[ $_sSectionID ][ $_iIndex ] ) 
+						? $_POST[ $_sSectionID ][ $_iIndex ]
 						: null;
-				}				
+					
+				}
+								
 			}
 			
 			return $aInput;
