@@ -219,7 +219,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 					)
 				)
 			. ">"
-				. ( $aSection['description'] && $aSection['title'] 
+				. ( $aSection['description'] || $aSection['title'] 
 					? "<caption class='admin-page-framework-section-caption' data-section_tab='{$aSection['section_tab_slug']}'>"	// data-section_tab is referred by the repeater script to hide/show the title and the description
 							. ( $aSection['title'] && ! $aSection['section_tab_slug']
 								? "<h3 class='admin-page-framework-section-title' {$_sDisplayNone}>" . $aSection['title'] . "</h3>"
