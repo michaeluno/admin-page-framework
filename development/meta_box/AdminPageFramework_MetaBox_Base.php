@@ -296,7 +296,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 							
 		// Get the fields output.
 		$oFieldsTable = new AdminPageFramework_FormTable( $this->oMsg );
-		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
@@ -375,7 +375,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function _replyToGetSectionOutput( $sSectionID ) {
+	public function _replyToGetSectionHeaderOutput( $sSectionID ) {
 			
 		return $this->oUtil->addAndApplyFilters(
 			$this,

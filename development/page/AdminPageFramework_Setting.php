@@ -1197,7 +1197,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 	 * @since			3.0.0
 	 * @internal
 	 */
-	public function _replyToGetSectionOutput( $sSectionID ) {
+	public function _replyToGetSectionHeaderOutput( $sSectionID ) {
 
 		$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
 		if ( ! isset( $this->oForm->aSections[ $sSectionID ] ) ) return '';	// if it is not added
