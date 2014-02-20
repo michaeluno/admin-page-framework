@@ -220,7 +220,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * @package			AdminPageFramework
  * @subpackage		Page
  */
-abstract class AdminPageFramework extends AdminPageFramework_Setting {
+abstract class AdminPageFramework extends AdminPageFramework_Setting_Validation {
 		
 	/**
 	 * Registers necessary callbacks ans sets up internal components including properties.
