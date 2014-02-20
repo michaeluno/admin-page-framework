@@ -102,7 +102,7 @@ class AdminPageFramework_Message {
 			'peak_memory_usage'		=> __( 'Peak memory usage %s MB.', 'admin-page-framework' ),
 			'initial_memory_usage'	=> __( 'Initial memory usage  %s MB.', 'admin-page-framework' ),
 						
-			// AdminPageFramework_InputField
+			// AdminPageFramework_FormField
 			'allowed_maximum_number_of_fields'	=>	__( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' ),
 			'allowed_minimum_number_of_fields'	=>	__( 'The allowed minimum number of fields is {0}.', 'admin-page-framework' ),
 			'add'					=> __( 'Add', 'admin-page-framework' ),

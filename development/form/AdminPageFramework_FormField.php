@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
+if ( ! class_exists( 'AdminPageFramework_FormField' ) ) :
 /**
  * Provides methods for rendering form input fields.
  *
@@ -11,7 +11,7 @@ if ( ! class_exists( 'AdminPageFramework_InputField' ) ) :
  * @subpackage		Form
  * @internal
  */
-class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormField extends AdminPageFramework_WPUtility {
 		
 	/**
 	 * Indicates whether the creating fields are for meta box or not.
@@ -119,7 +119,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * 
 	 * @remark			Used by the import and submit field types.
 	 * @since			2.0.0
-	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_InputField.
+	 * @since			2.1.5			Made the parameter mandatory. Changed the scope to protected from private. Moved from AdminPageFramework_FormField.
 	 * @since			3.0.0			Moved from the submit field type class. Dropped the page slug dimension.
 	 */ 
 	protected function _getFlatInputName( $aField, $sKey='' ) {	

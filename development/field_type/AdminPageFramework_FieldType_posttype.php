@@ -66,7 +66,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
 	 * 
 	 * @remark			the posttype checklist field does not support multiple elements by passing an array of labels.
 	 * @since			2.0.0
-	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 * @since			2.1.5			Moved from AdminPageFramework_FormField.
 	 * @since			3.0.0			Reconstructed entirely.
 	 */
 	public function _replyToGetField( $aField ) {

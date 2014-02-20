@@ -67,7 +67,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 	
 	/**
 	 * Returns the output of the field type.
-	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
+	 * @since			2.1.5				Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
 	 */
 	public function _replyToGetField( $aField ) {
 		

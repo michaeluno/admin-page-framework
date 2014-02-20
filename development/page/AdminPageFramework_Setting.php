@@ -1234,8 +1234,7 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Menu {
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-// TODO: Change the class name to AdminPageFramework_FieldOutput as the class mainly deals with the field outputs.
-		$oField = new AdminPageFramework_InputField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
+		$oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
 		$sFieldOutput = $oField->_getFieldOutput();	// field output
 		unset( $oField );	// release the object for PHP 5.2.x or below.
 

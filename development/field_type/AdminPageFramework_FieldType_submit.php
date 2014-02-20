@@ -55,7 +55,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 	
 	/**
 	 * Returns the output of the field type.
-	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 * @since			2.1.5			Moved from AdminPageFramework_FormField.
 	 */
 	public function _replyToGetField( $aField ) {
 		

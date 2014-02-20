@@ -47,7 +47,7 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType_B
 	 * If it's not set ( null value ), the below foreach will not iterate an element so no input field will be embedded.
 	 * 
 	 * @since			2.0.0
-	 * @since			2.1.5				Moved from the AdminPageFramework_InputField class. The name was changed from getHiddenField().
+	 * @since			2.1.5				Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
 	 * @since			3.0.0				Removed unnecessary elements including the parameters.
 	 */
 	public function _replyToGetField( $aField ) {

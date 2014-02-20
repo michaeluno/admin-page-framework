@@ -105,7 +105,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 	 * Useful for theme developers.
 	 * 
 	 * @since			2.0.1
-	 * @since			2.1.5			Moved from AdminPageFramework_InputField. Changed the name from getSizeField().
+	 * @since			2.1.5			Moved from AdminPageFramework_FormField. Changed the name from getSizeField().
 	 * @since			3.0.0			Reconstructed entirely which involves dropping unnecessary parameters and renaming keys in the field definition array.
 	 */
 	public function _replyToGetField( $aField ) {

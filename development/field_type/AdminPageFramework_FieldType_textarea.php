@@ -112,7 +112,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 		 * This adds a script that forces the rich editor element to be inside the field table cell.
 		 * 
 		 * @since			2.1.2
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+		 * @since			2.1.5			Moved from AdminPageFramework_FormField.
 		 */	
 		private function _getScriptForRichEditor( $sIDSelector ) {
 

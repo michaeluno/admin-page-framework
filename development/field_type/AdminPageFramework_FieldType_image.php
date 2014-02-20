@@ -512,7 +512,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		 * A helper function for the above getImageInputTags() method to add a image button script.
 		 * 
 		 * @since			2.1.3
-		 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+		 * @since			2.1.5			Moved from AdminPageFramework_FormField.
 		 */
 		protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
 			

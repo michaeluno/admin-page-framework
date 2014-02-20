@@ -211,7 +211,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 	 * @remark			Repeater fields are not supported.
 	 * @since			2.0.0
 	 * @since			2.1.1			The checklist boxes are rendered in a tabbed single box.
-	 * @since			2.1.5			Moved from AdminPageFramework_InputField.
+	 * @since			2.1.5			Moved from AdminPageFramework_FormField.
 	 */
 	public function _replyToGetField( $aField ) {
 
