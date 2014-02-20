@@ -256,7 +256,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 								: ""
 							)
 						. "</caption>"
-					: "<caption class='admin-page-framework-section-caption style='display:none;'></caption>"
+					: "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>"
 				)
 				. $this->getFieldRows( $aFields, $hfFieldCallback )
 			. "</table>";
