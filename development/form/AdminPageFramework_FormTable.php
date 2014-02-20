@@ -162,29 +162,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 			return $_aSectionsBySectionTab;
 			
 		}
-		/**
-		 * Returns the output of the head part of the section (title and the description)
-		 * 
-		 * @since			3.0.0
-		 * @deprecated
-		 */
-		private function _getSectionHeader( $aSection ) {
-						
-			$aOutput = array();
-			
-			// If a section tab is specified
-			if ( $aSection['section_tab_slug'] ) :
-			
-			
-				return implode( PHP_EOL, $aOutput );
-			endif;
-			
-			// Otherwise,
-			$aOutput[] = $aSections['title'] ? "<h3 class='admin-page-framework-section-title'>" . $aSections['title'] . "</h3>" : '';
-			$aOutput[] = $aSections['description'] ? "<p class='admin-page-framework-section-description'>" . $aSections['description'] . "</p>" : '';
-			return implode( PHP_EOL, $aOutput );
-			
-		}
+
 		/**
 		 * Returns the enabler script for repeatable sections.
 		 * @since			3.0.0
