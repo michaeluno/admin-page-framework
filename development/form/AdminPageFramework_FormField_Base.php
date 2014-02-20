@@ -50,13 +50,13 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 		 */
 		private function _loadScripts() {
 			
-			// In PHP, static variables are in effect in newly instantiated objects. So they can serve as a global flag.
+			// In PHP, static variables are alive in newly instantiated objects. So they can serve as a global flag.
 			static $_bIsLoadedUtility, $_bIsLoadedRepeatable, $_bIsLoadedSortable, $_bIsLoadedRegisterCallback;
 			
 			// Global variable
-			$GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
-				? $GLOBALS['aAdminPageFramework']['aFieldFlags']
-				: array();
+			// $GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
+				// ? $GLOBALS['aAdminPageFramework']['aFieldFlags']
+				// : array();
 			
 			if ( ! $_bIsLoadedUtility ) {
 				add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );

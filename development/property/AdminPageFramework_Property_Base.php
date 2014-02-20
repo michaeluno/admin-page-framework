@@ -204,7 +204,6 @@ abstract class AdminPageFramework_Property_Base {
 			background-color: #fdfdfd;			
 		}
 		.admin-page-framework-section-tab h4 {
-			/* margin: 0.3em 0; */
 			margin: 0;
 			padding: 8px 14px 10px;
 			font-size: 1.2em;
@@ -446,7 +445,7 @@ abstract class AdminPageFramework_Property_Base {
 		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
-			: array();
+			: array( 'aFieldFlags' => array() );
 		$this->bIsAdmin = is_admin();
 		$this->bIsMinifiedVersion = ! class_exists( 'AdminPageFramework_Bootstrap' );
 		if ( ! isset( self::$_aLibraryData ) ) {			
