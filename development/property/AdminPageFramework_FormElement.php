@@ -554,12 +554,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 				$_iPrevIndex = $_iIndex;
 				
 			}
-// var_dump( $_aSubSection );
+
 			if ( ! empty( $_aSubSection ) )
 				$this->aConditionedFields[ $_sSectionID ] = $_aSubSection;	// at this point, the associative keys will be gone but the element only consists of numeric keys.
 			
 		}
-// var_dump( $this->aConditionedFields );
+
 	}
 		
 }
