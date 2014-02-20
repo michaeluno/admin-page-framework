@@ -19,7 +19,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		
 		$_aOutput = array();
 		foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) {
-			$_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfFieldCallback );
+			$_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback );
 			if ( $_sSectionSet )
 				$_aOutput[] = "<div " . $this->generateAttributes(
 						array(
@@ -62,7 +62,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		 * 
 		 * @since			3.0.0
 		 */
-		private function _getFormTablesBySectionTab( $sSectionTabSlug, $aSections, $aFieldsInSections, $hfFieldCallback ) {
+		private function _getFormTablesBySectionTab( $sSectionTabSlug, $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 
 			if ( empty( $aSections ) ) return '';	// if empty, return a blank string.
 		
@@ -100,7 +100,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 						if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
 							$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
 					
-						$aOutput[] = $this->getFormTable( $_sSectionTagID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
+						$aOutput[] = $this->getFormTable( $_sSectionTagID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
 						
 					}
 					
@@ -113,7 +113,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 						$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
 					
 					$_aFields = $aSubSectionsOrFields;
-					$aOutput[] = $this->getFormTable( $_sSectionTagID, 0, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
+					$aOutput[] = $this->getFormTable( $_sSectionTagID, 0, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
 				}
 					
 			}
@@ -201,7 +201,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function getFormTable( $sSectionTagID, $iSectionIndex, $aSection, $aFields, $hfFieldCallback ) {
+	public function getFormTable( $sSectionTagID, $iSectionIndex, $aSection, $aFields, $hfSectionCallback, $hfFieldCallback ) {
 
 		if ( count( $aFields ) <= 0 ) return '';
 		
@@ -226,7 +226,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 								: ""
 							)					
 							. ( $aSection['description']	// admin-page-framework-section-description is referred by the repeatable section buttons
-								? "<p class='admin-page-framework-section-description'>" . $aSection['description'] . "</p>"
+								? "<div class='admin-page-framework-section-description'>" . call_user_func_array( $hfSectionCallback, array( '<p>' . $aSection['description'] . '</p>', $aSection ) ) . "</div>"								
 								: ""
 							)
 						. "</caption>"

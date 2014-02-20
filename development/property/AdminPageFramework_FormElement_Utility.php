@@ -114,24 +114,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 		return $_bIsSeciton;
 		
 	}	
-	
-	/**
-	 * Returns the output of the title and description part of the given section by section ID.
-	 * 
-	 * @since			3.0.0
-	 * @deprecated
-	 */ 
-	public function getSectionHeader( $sSectionID ) {
 		
-		if ( ! isset( $this->aSections[ $sSectionID ] ) ) return '';
-		
-		$aOutput = array();
-		$aOutput[] = $this->aSections[ $sSectionID ]['title'] ? "<h3 class='admin-page-framework-section-title'>" . $this->aSections[ $sSectionID ]['title'] . "</h3>" : '';
-		$aOutput[] = $this->aSections[ $sSectionID ]['description'] ? "<p class='admin-page-framework-section-description'>" . $this->aSections[ $sSectionID ]['description'] . "</p>" : '';
-		return implode( PHP_EOL, $aOutput );
-		
-	}
-	
 	/**
 	 * Returns a fields model array that represents the structure of the array of saving data from the given fields definition array.
 	 * 

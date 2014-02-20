@@ -283,16 +283,17 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @since			3.0.0
 	 * @internal
 	 */
-	public function _replyToGetSectionHeaderOutput( $sSectionID ) {
+	public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
 
-		$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
-		if ( ! isset( $this->oForm->aSections[ $sSectionID ] ) ) return '';	// if it is not added
-		if ( ! $this->oForm->isPageAdded( $_sCurrentPageSlug ) ) return '';
+		// $_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
+		// $_sSectionID = $aSection['section_id'];
+		// if ( ! isset( $this->oForm->aSections[ $_sSectionID ] ) ) return '';	// if it is not added
+		// if ( ! $this->oForm->isPageAdded( $_sCurrentPageSlug ) ) return '';
 		
 		return $this->oUtil->addAndApplyFilters(
 			$this,
-			array( 'section_head_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_{instantiated class name}_{section id}
-			$this->oForm->getSectionHeader( $sSectionID )
+			array( 'section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id'] ),	// section_{instantiated class name}_{section id}
+			$sSectionDescription
 		);				
 		
 	}

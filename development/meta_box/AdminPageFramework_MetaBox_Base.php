@@ -385,12 +385,12 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * 
 	 * @since			3.0.0
 	 */
-	public function _replyToGetSectionHeaderOutput( $sSectionID ) {
+	public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
 			
 		return $this->oUtil->addAndApplyFilters(
 			$this,
-			array( 'section_head_' . $this->oProp->sClassName . '_' . $sSectionID ),	// section_ + {extended class name} + _ {section id}
-			$this->oForm->getSectionHeader( $sSectionID )
+			array( 'section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id'] ),	// section_ + {extended class name} + _ {section id}
+			$sSectionDescription
 		);				
 		
 	}
