@@ -127,7 +127,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_WPUtility {
 			// Return
 			if ( empty( $aOutput ) ) return '';	// if empty, return a blank string.
 			return 
-				// "<div class='admin-page-framework-sections' id='sections-" . md5( serialize( $aSections ) ) . "' >"
 				"<div " . $this->generateAttributes(
 						array(
 							'class'	=>	'admin-page-framework-sections'
