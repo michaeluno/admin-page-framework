@@ -243,7 +243,7 @@ class AdminPageFramework_InputField extends AdminPageFramework_WPUtility {
 	 * @since			2.0.0
 	 * @since			2.1.6			Moved the repeater script outside the fieldset tag.
 	 */ 
-	public function _getInputFieldOutput() {
+	public function _getFieldOutput() {
 		
 		$aFieldsOutput = array(); 
 		$aExtraOutput = array();
