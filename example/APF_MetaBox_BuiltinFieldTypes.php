@@ -29,7 +29,30 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'description'	=> __( 'These are grouped in the <code>misc</code> section.', 'admin-page-framework-demo' ),
 			)	
 		);
-		
+		// $this->addSettingSections(
+			// array(
+				// 'section_id'	=>	'tabbed_sections_a',
+				// 'section_tab_slug'	=>	'tabbed_sections',
+				// 'title'			=>	__( 'Section Tab A', 'admin-page-framework-demo' ),
+				// 'description'	=>	__( 'This is the first item of the tabbed section.', 'admin-page-framework-demo' ),
+			// ),
+			// array(
+				// 'section_id'	=>	'tabbed_sections_b',
+				// 'title'			=>	__( 'Section Tab B', 'admin-page-framework-demo' ),
+				// 'description'	=>	__( 'This is the second item of the tabbed section.', 'admin-page-framework-demo' ),
+			// ),		
+			// array(
+				// 'section_id'	=>	'repeatable_tabbed_sections',
+				// 'tab_slug'		=>	'sections',
+				// 'section_tab_slug'	=>	'repeatable_tabbes_sections',
+				// 'title'			=>	__( 'Repeatable', 'admin-page-framework-demo' ),
+				// 'description'	=>	__( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
+				// 'repeatable'	=>	true,	// this makes the section repeatable
+			// ),
+			// array( 
+				// 'section_tab_slug' => '',	// reset the target tab slug  for the next use.
+			// )
+		// );
 		/*
 		 * ( optional ) Adds setting fields into the meta box.
 		 */
@@ -158,6 +181,77 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 			),				
 			array()
 		);		
+		
+		$this->addSettingFields(			
+			array(
+				'section_id'	=>	'tabbed_sections_a',
+				'field_id'	=>	'text_field_in_tabbed_section',
+				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	'xyz',
+			),
+			array(
+				'field_id'	=>	'repeatable_field_in_tabbed_sections',
+				'title'	=>	__( 'Repeatable Field', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'repeatable'	=> true,
+			),			
+			array(
+				'section_id'	=>	'tabbed_sections_b',
+				'field_id'	=>	'size_in_tabbed_sections',
+				'title'	=>	__( 'Size', 'admin-page-framework-demo' ),
+				'type'	=>	'size',
+			),
+			array(
+				'field_id'	=>	'select_in_tabbed_sections',
+				'title'	=>	__( 'Select', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'default'	=>	'b',
+				'label'	=>	array(
+					'a'	=> 'A',
+					'b'	=> 'B',
+					'c'	=> 'c',				
+				),
+			),			
+			array()
+		);		
+		$this->addSettingFields(			
+			array(
+				'section_id'	=>	'repeatable_tabbed_sections',
+				'field_id'	=>	'text_field_in_tabbed_section_in_repeatable_sections',
+				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'default'	=>	'xyz',
+			),
+			array(
+				'field_id'	=>	'repeatable_field_in_tabbed_sections_in_repetable_sections',
+				'title'	=>	__( 'Repeatable Field', 'admin-page-framework-demo' ),
+				'type'	=>	'text',
+				'repeatable'	=> true,
+			),			
+			array(
+				'field_id'	=>	'size_in_tabbed_sections_in_repeatable_sections',
+				'title'	=>	__( 'Size', 'admin-page-framework-demo' ),
+				'type'	=>	'size',
+			),
+			array(
+				'field_id'	=>	'select_in_tabbed_sections_in_repeatable_sections',
+				'title'	=>	__( 'Select', 'admin-page-framework-demo' ),
+				'type'	=>	'select',
+				'default'	=>	'b',
+				'label'	=>	array(
+					'a'	=> 'A',
+					'b'	=> 'B',
+					'c'	=> 'c',				
+				),
+			),		
+			array(
+				'field_id'	=>	'color_in_tabbed_sections_in_repeatable_sections',
+				'title'	=>	__( 'Color', 'admin-page-framework-demo' ),
+				'type'	=>	'color',
+			),			
+			array()
+		);			
 	}
 	
 	public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) {	// content_{instantiated class name}
