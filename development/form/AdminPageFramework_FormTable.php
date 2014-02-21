@@ -228,8 +228,10 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 								? "<h3 class='admin-page-framework-section-title' {$_sDisplayNone}>" . $aSection['title'] . "</h3>"
 								: ""
 							)					
-							. ( $aSection['description']	// admin-page-framework-section-description is referred by the repeatable section buttons
-								? "<div class='admin-page-framework-section-description'>" . call_user_func_array( $hfSectionCallback, array( '<p>' . $aSection['description'] . '</p>', $aSection ) ) . "</div>"								
+							. ( $aSection['description'] && is_callable( $hfSectionCallback )
+								? "<div class='admin-page-framework-section-description'>" 	// admin-page-framework-section-description is referred by the repeatable section buttons
+										. call_user_func_array( $hfSectionCallback, array( '<p>' . $aSection['description'] . '</p>', $aSection ) )
+									. "</div>"
 								: ""
 							)
 						. "</caption>"
@@ -274,18 +276,19 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		protected function getFieldRow( $aField, $hfCallback ) {
 			
 			$aOutput = array();
-			$_sAttributes = $this->getAttributes( 
-				$aField,
+			$_aField = $this->_mergeDefault( $aField );
+			$_sAttributes = $this->_getAttributes( 
+				$_aField,
 				array( 
-					'id' => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagID( $aField ),
+					'id' => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagID( $_aField ),
 					'valign' => 'top',
 					'class' => 'admin-page-framework-fieldrow',
 				)
 			);
 			$aOutput[] = "<tr {$_sAttributes}>";
-				if ( $aField['show_title_column'] )
-					$aOutput[] = "<th>" . $this->getFieldTitle( $aField ) . "</th>";
-				$aOutput[] = "<td>" . call_user_func_array( $hfCallback, array( $aField ) ) . "</td>";
+				if ( $_aField['show_title_column'] )
+					$aOutput[] = "<th>" . $this->_getFieldTitle( $_aField ) . "</th>";
+				$aOutput[] = "<td>" . call_user_func_array( $hfCallback, array( $aField ) ) . "</td>";	// $aField is passed, not $_aField as $_aField do not respect subfields.
 			$aOutput[] = "</tr>";
 			return implode( PHP_EOL, $aOutput );
 				
@@ -302,57 +305,27 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		if ( ! is_callable( $hfCallback ) ) return '';
 		$aOutput = array();
 		foreach( $aFields as $aField ) 
-			$aOutput[] = $this->getField( $aField, $hfCallback );
+			$aOutput[] = $this->_getField( $aField, $hfCallback );
 		return implode( PHP_EOL, $aOutput );
 		
 	}
 	
 		/**
 		 * Returns the given field output without a table row tag.
+		 * 
+		 * @internal
 		 * @since			3.0.0
 		 */
-		protected function getField( $aField, $hfCallback )  {
+		protected function _getField( $aField, $hfCallback )  {
 			
 			$aOutput = array();
-			$aOutput[] = "<div " . $this->getAttributes( $aField ) . ">";
-			if ( $aField['show_title_column'] )
-				$aOutput[] = $this->getFieldTitle( $aField );
-			$aOutput[] = call_user_func_array( $hfCallback, array( $aField ) );
+			$_aField = $this->_mergeDefault( $aField );
+			$aOutput[] = "<div " . $this->_getAttributes( $_aField ) . ">";
+			if ( $_aField['show_title_column'] )
+				$aOutput[] = $this->_getFieldTitle( $_aField );
+			$aOutput[] = call_user_func_array( $hfCallback, array( $aField ) );	// $aField is passed, not $_aField as $_aField do not respect subfields.
 			$aOutput[] = "</div>";
 			return implode( PHP_EOL, $aOutput );		
-			
-		}
-	
-		/**
-		 * Generates attributes of the field container tag.
-		 * 
-		 * @since			3.0.0
-		 */
-		protected function getAttributes( $aField, $aAttributes=array() ) {
-			
-			$_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() );
-			
-			if ( $aField['hidden'] )	// Prepend the visibility CSS property.
-				$_aAttributes['style'] = 'display:none;' . ( isset( $_aAttributes['style'] ) ? $_aAttributes['style'] : '' );
-			
-			return $this->generateAttributes( $_aAttributes );
-			
-		}
-		
-		/**
-		 * Returns the title part of the field output.
-		 * 
-		 * @since			3.0.0
-		 */
-		protected function getFieldTitle( $aField ) {
-			
-			return "<label for='{$aField['field_id']}'>"
-				. "<a id='{$aField['field_id']}'></a>"
-					. "<span title='" . ( strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) ) . "'>"
-						. $aField['title'] 
-					. "</span>"
-				. "</label>";
-		
 			
 		}
 			

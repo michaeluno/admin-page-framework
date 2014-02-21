@@ -366,7 +366,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 								
 				if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
 
-					$oFieldsTable = new AdminPageFramework_FormTable( $this->oMsg );
+					$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
 					$this->oForm->setCurrentPageSlug( $sPageSlug );
 					$this->oForm->setCurrentTabSlug( $sTabSlug );
 					$this->oForm->applyConditions();

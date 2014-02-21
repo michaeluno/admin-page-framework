@@ -305,7 +305,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 							
 		// Get the fields output.
-		$oFieldsTable = new AdminPageFramework_FormTable( $this->oMsg );
+		$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
 		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
