@@ -387,12 +387,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 				}
 				
 				// Otherwise,
-				$_aField = $_aSubSectionOrField;	
-				// $_sFieldID = $_isSubSectionIndexOrFieldID;
-				// if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-				// if ( $_aField['page_slug'] != $sPageSlug ) continue;
-				// if ( $_aField['tab_slug'] == $sTabSlug ) continue;
-				
+				$_aField = $_aSubSectionOrField;
 				
 				// If a section is set,
 				if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
@@ -435,19 +430,15 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 		
 		$_aStoredOptionsOfTheTab = array();
 		if ( ! $sTabSlug ) return $_aStoredOptionsOfTheTab;
-		foreach( $this->aFields as $_sSectionID => $_aFields  ) {
+		foreach( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
 		
 			// Check the section
 			if ( isset( $this->aSections[ $_sSectionID ]['page_slug'] ) && $this->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) continue;				
 			if ( isset( $this->aSections[ $_sSectionID ]['tab_slug'] ) && $this->aSections[ $_sSectionID ]['tab_slug'] != $sTabSlug ) continue;
 			
-			// At this point, the element is of the given page and the tab.
-			foreach( $_aFields as $_sFieldID => $_aField ) {
-				
-				if ( ! isset( $_aField['page_slug'], $_aField['tab_slug'] ) ) continue;
-				if ( $_aField['page_slug'] != $sPageSlug ) continue;
-				if ( $_aField['tab_slug'] != $sTabSlug ) continue;
-				
+			// At this point, the element is of the given page and the tab.		
+			foreach( $_aSubSectionsOrFields as $_sFieldID => $_aField ) {
+								
 				// if it's a sub-section array.
 				if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) { 
 					if ( array_key_exists( $_sSectionID, $aOptions ) )
