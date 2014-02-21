@@ -143,11 +143,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		 */
 		private function _getSectionsBySectionTabs( array $aSections ) {
 
-			$_aSectionsBySectionTab = array( '_default' => array() );
+			$_aSectionsBySectionTab = array();
+			$iIndex = 0;
+			// $_aSectionsBySectionTab = array( '_default' => array() );
 			foreach( $aSections as $_aSection ) {
 				
 				if ( ! $_aSection['section_tab_slug'] ) {
-					$_aSectionsBySectionTab[ '_default' ][ $_aSection['section_id'] ] = $_aSection;
+					$_aSectionsBySectionTab[ '_default_' . $iIndex ][ $_aSection['section_id'] ] = $_aSection;
+					$iIndex++;
 					continue;
 				}
 					
