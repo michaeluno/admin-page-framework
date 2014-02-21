@@ -35,6 +35,7 @@ class AdminPageFramework_FieldTypeRegistration  {
 		'taxonomy',
 		'posttype',
 		'size',
+		'section_title',	//	3.0.0+
 	);	
 	
 	function __construct( &$aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
