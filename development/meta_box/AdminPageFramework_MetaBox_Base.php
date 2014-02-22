@@ -508,10 +508,27 @@ abstract class AdminPageFramework_MetaBox_Base {
 
 		foreach( $aFields as $_sSecitonID => $_aFields ) {
 			
+			$_bIsSubSectionLoaded = false;
 			foreach( $_aFields as $_iSubSectionIndexOrFieldID => $_aSubSectionOrField )  {
 				
-				if ( is_numeric( $_iSubSectionIndexOrFieldID ) && is_int( $_iSubSectionIndexOrFieldID + 0 ) ) // if it's a sub-section, skip
+				// if it's a sub-section
+				if ( is_numeric( $_iSubSectionIndexOrFieldID ) && is_int( $_iSubSectionIndexOrFieldID + 0 ) ) {	
+
+					if ( $_bIsSubSectionLoaded ) continue;		// no need to repeat the same set of fields
+					$_bIsSubSectionLoaded = true;
+					foreach( $_aSubSectionOrField as $_aField ) {
+						
+						// Load head tag elements for fields.
+						AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $_aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
+
+						// For the contextual help pane,
+						if ( $_aField['help'] )
+							$this->oHelpPane->_addHelpTextForFormFields( $_aField['title'], $_aField['help'], $_aField['help_aside'] );						
+						
+					}
+					
 					continue;
+				}
 					
 				$_aField = $_aSubSectionOrField;
 				
