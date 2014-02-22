@@ -131,7 +131,7 @@ class AdminPageFramework_Script_RepeatableSection {
 					var nodeTab = nodeTabs.find( '#section_tab-' + sSectionContainerID );
 					var nodeNewTab = nodeTab.clone();
 					
-					nodeNewTab.removeClass( 'ui-state-active' );
+					nodeNewTab.removeClass( 'active' );
 					nodeNewTab.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value
 				
 					/* Add the cloned new field tab */
@@ -140,10 +140,10 @@ class AdminPageFramework_Script_RepeatableSection {
 					/* Increment the names and ids of the next following siblings. */
 					nodeTab.nextAll().each( function() {
 						incrementAttributes( this );
-						$( this ).find( 'a.ui-tabs-anchor' ).incrementIDAttribute( 'href' );
+						$( this ).find( 'a.anchor' ).incrementIDAttribute( 'href' );
 					});					
 					
-					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).tabs( 'refresh' );
+					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
 				}				
 				
 				/* If more than one sections are created, show the Remove button */
@@ -212,11 +212,12 @@ class AdminPageFramework_Script_RepeatableSection {
 				if ( nodeTabs.length > 0 ) {
 					nodeSelectionTab = nodeTabs.find( '#section_tab-' + sSectionConteinrID );
 					nodeSelectionTab.nextAll().each( function() {
-						$( this ).find( 'a.ui-tabs-anchor' ).decrementIDAttribute( 'href' );
+						$( this ).find( 'a.anchor' ).decrementIDAttribute( 'href' );
 						decrementAttributes( this );
 					});					
+					nodeSelectionTab.next().addClass( 'active' );
 					nodeSelectionTab.remove();
-					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).tabs( 'refresh' );
+					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
 				}						
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */

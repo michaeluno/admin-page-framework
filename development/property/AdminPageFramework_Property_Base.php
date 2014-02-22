@@ -207,7 +207,7 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-section-tab {
 			background-color: transparent;
 		}
-		.admin-page-framework-section-tab.ui-state-active {
+		.admin-page-framework-section-tab.active {
 			background-color: #fdfdfd;			
 		}
 		.admin-page-framework-section-tab h4 {
@@ -222,7 +222,7 @@ abstract class AdminPageFramework_Property_Base {
 			text-decoration: none;
 			color: #464646;
 		}
-		.admin-page-framework-section-tab.nav-tab.ui-state-active a {
+		.admin-page-framework-section-tab.nav-tab.active a {
 			color: #000;
 		}
 		/* Repeatable Sections */

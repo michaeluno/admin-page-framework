@@ -24,8 +24,24 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' );
 		
+		$this->_loadScripts();
+		
 	}
+		
+		/**
+		 * Inserts necessary JavaScript scripts for fields.
+		 * 
+		 * @since			3.0.0
+		 */ 
+		private function _loadScripts() {
 			
+			static $_bIsLoadedTabPlugin;
+			
+			if ( ! $_bIsLoadedTabPlugin ) 
+				$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) );
+			
+		}
+		
 	/**
 	 * Generates attributes of the field container tag.
 	 * 
@@ -100,6 +116,19 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 			. "</script>";
 	
 	}		
+
+	/**
+	 * Returns the tab JavaScript script.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function _replyToAddTabPlugin() {
+		
+		echo "<script type='text/javascript' class='admin-page-framework-tab-plugin'>"
+				. AdminPageFramework_Script_Tab::getjQueryPlugin()
+			. "</script>";
+			
+	}
 	
 }
 endif;

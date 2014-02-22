@@ -55,10 +55,11 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 			if ( $bIsCalled ) return '';
 			$bIsCalled = true;
 			
-			wp_enqueue_script( 'jquery-ui-tabs' );
+			// wp_enqueue_script( 'jquery-ui-tabs' );
 			return "<script type='text/javascript'>
 				jQuery( document ).ready( function() {
-					jQuery( '.admin-page-framework-section-tabs-contents' ).tabs();
+					jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs();	// the parent element of the ul tag; The ul element holds li tags of titles.
+					// jQuery( '.admin-page-framework-section-tabs-contents' ).tabs();	// the parent element of the ul tag; The ul element holds li tags of titles.
 				});
 			</script>";					
 			
