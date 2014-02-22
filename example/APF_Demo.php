@@ -1512,7 +1512,6 @@ class APF_Demo extends AdminPageFramework {
 				),
 			),
 			array(
-				'section_id'	=>	'repeatable_tabbed_sections',
 				'field_id'	=>	'text_field_in_tabbed_section_in_repeatable_sections',
 				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
