@@ -186,10 +186,10 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	}
 	
 	/**
-	* Adds the given field array items into the field array property.
+	* Adds the given field array items into the field array property by the given field definition array(s).
 	* 
-	* The passed field array must consist of the following keys. 
-	*  
+	* The field definition array requires specific keys. Refer to the parameter section of this method.
+	* 	
 	* <h4>Example</h4>
 	* <code>$this->addSettingFields(
 	*		array(
@@ -237,6 +237,27 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
 	* @remark			The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
 	* @param			array			the field definition array.
+	* <h4>Built-in Field Types</h4>
+	* <ul>
+	* 	<li><strong>text</strong> - a normal field to enter text input.</li>
+	* 	<li><strong>text</strong> - a masked text input field.</li>
+	* 	<li><strong>textarea</strong> - a text input field with multiple lines. It supports rich text editor.</li>
+	* 	<li><strong>radio</strong> - a set of radio buttons that lets the user pick an option.</li>
+	* 	<li><strong>checkbox</strong> - a check box that lets the user enable/disable an item.</li>
+	* 	<li><strong>select</strong> - a drop-down list that lest the user pick one or more item(s) from a list.</li>
+	* 	<li><strong>hidden</strong> - a hidden field that will be useful to insert invisible values.</li>
+	* 	<li><strong>file</strong> - a file uploader that lets the user upload files.</li>
+	* 	<li><strong>image</strong> - a custom text field with the image uploader script that lets the user set the image URL.</li>
+	* 	<li><strong>media</strong> - a custom text field with the media uploader script that lets the user set the file URL.</li>
+	* 	<li><strong>color</strong> - a custom text field with the color picker script.</li>
+	* 	<li><strong>submit</strong> - a submit button that lets the user send the form.</li>
+	* 	<li><strong>export</strong> - a custom submit field that lets the user export the stored data.</li>
+	* 	<li><strong>import</strong> - a custom combination field of the file and the submit fields that let the user import data.</li>
+	* 	<li><strong>posttype</strong> - a check-list of post types enabled on the site.</li>
+	* 	<li><strong>taxonomy</strong> - a set of check-lists of taxonomies enabled on the site in a tabbed box.</li>
+	* 	<li><strong>size</strong> - a combination field of the text and the select fields that let the user set sizes with a selectable unit.</li>
+	* 	<li><strong>section_title</strong> - [3.0.0+] a text field type that will be placed in the section title so that it lets the user set the section title. Note that only one field with this field type is allowed per a section.</li>
+	* </ul> 
 	* <h4>Field Definition Array</h4>
 	* <ul>
 	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>

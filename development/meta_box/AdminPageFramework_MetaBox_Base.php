@@ -218,7 +218,9 @@ abstract class AdminPageFramework_MetaBox_Base {
 	}		
 		
 	/**
-	* Adds the given field array items into the field array property. 
+	* Adds the given field array items into the field array property by the given field definition array(s).
+	* 
+	* The field definition array requires specific keys. Refer to the parameter section of this method.
 	* 
 	* <h4>Example</h4>
 	* <code>    $this->addSettingFields(
@@ -239,9 +241,147 @@ abstract class AdminPageFramework_MetaBox_Base {
 	* 
 	* @since			2.0.0
 	* @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
-	* @param			array			$aField1			The field array.
-	* @param			array			$aField2			Another field array.
-	* @param			array			$_and_more			Add more fields arrays as many as necessary to the next parameters.
+	* @param			array			the field definition array.
+	* <h4>Built-in Field Types</h4>
+	* <ul>
+	* 	<li><strong>text</strong> - a normal field to enter text input.</li>
+	* 	<li><strong>text</strong> - a masked text input field.</li>
+	* 	<li><strong>textarea</strong> - a text input field with multiple lines. It supports rich text editor.</li>
+	* 	<li><strong>radio</strong> - a set of radio buttons that lets the user pick an option.</li>
+	* 	<li><strong>checkbox</strong> - a check box that lets the user enable/disable an item.</li>
+	* 	<li><strong>select</strong> - a drop-down list that lest the user pick one or more item(s) from a list.</li>
+	* 	<li><strong>hidden</strong> - a hidden field that will be useful to insert invisible values.</li>
+	* 	<li><strong>file</strong> - a file uploader that lets the user upload files.</li>
+	* 	<li><strong>image</strong> - a custom text field with the image uploader script that lets the user set the image URL.</li>
+	* 	<li><strong>media</strong> - a custom text field with the media uploader script that lets the user set the file URL.</li>
+	* 	<li><strong>color</strong> - a custom text field with the color picker script.</li>
+	* 	<li><strong>submit</strong> - a submit button that lets the user send the form.</li>
+	* 	<li><strong>export</strong> - a custom submit field that lets the user export the stored data.</li>
+	* 	<li><strong>import</strong> - a custom combination field of the file and the submit fields that let the user import data.</li>
+	* 	<li><strong>posttype</strong> - a check-list of post types enabled on the site.</li>
+	* 	<li><strong>taxonomy</strong> - a set of check-lists of taxonomies enabled on the site in a tabbed box.</li>
+	* 	<li><strong>size</strong> - a combination field of the text and the select fields that let the user set sizes with a selectable unit.</li>
+	* 	<li><strong>section_title</strong> - [3.0.0+] a text field type that will be placed in the section title so that it lets the user set the section title. Note that only one field with this field type is allowed per a section.</li>
+	* </ul>
+	* <h4>Field Definition Array</h4>
+	* <ul>
+	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	* 	<li><strong>section_id</strong> - ( required, string ) the section ID that the field belongs to.</li>
+	* 	<li><strong>type</strong> - ( required, string ) the type of the field. The supported types are listed below.</li>
+	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
+	* 	<li><strong>capability</strong> - ( optional, string ) the http://codex.wordpress.org/Roles_and_Capabilities">access level of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+	* 	<li><strong>error_message</strong> - ( optional, string ) the error message to display above the input field.</li>
+	* 	<li><strong>before_field</strong> - ( optional, string ) the HTML string to insert before the input field output.</li>
+	* 	<li><strong>after_field</strong> - ( optional, string ) the HTML string to insert after the input field output.</li>
+	* 	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
+	* 	<li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
+	* 	<li><strong>label</strong> - ( optional, string ) the text label(s) associated with and displayed along with the input field. Some input types can ignore this key.</li>
+	* 	<li><strong>default</strong> - ( optional, string|array ) the default value(s) assigned to the input tag's value attribute.</li>
+	* 	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to the input tag's <em>value</em> attribute to override the default and the stored value.</li>
+	* 	<li><strong>delimiter</strong> - ( optional, string ) the HTML string that delimits multiple elements. This is available if the <var>label</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>before_input</strong> - ( optional, string ) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>after_input</strong> - ( optional, string ) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
+	* 	<li><strong>label_min_width</strong> - ( optional, string ) the inline style property of the <em>min-width</em> of the label tag for the field in pixel without the unit. Default: <code>120</code>.</li>
+	*	<li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
+	*	<li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
+	*	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether the fields should be repeatable. If it yields true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. Optionally an setting array can be passed.
+	*		<h5>Repeatable Fields Setting Array</h5>
+	*		<ul>
+	*			<li><strong>max</strong> - the allowed maximum number of fields to be repeated.</li>
+	*			<li><strong>min</string> - the allowed minimum number of fields to be repeated.</li>
+	*		</ul>
+	*	</li>
+	*	<li><strong>sortable</strong> - [3.0.0+] ( optional, boolean ) whether the fields should be sortable. If it yields true, the fields will be enclosed in a draggable box.
+	*	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value pairs representing the attribute and its property. Note that some field types have specific keys in the first dimensions. e.g.<em>array( 'class' => 'my_custom_class_selector', 'style' => 'background-color:#777', 'size' => 20, )</em></li>
+	*	<li><strong>show_title_column</strong> - [3.0.0+] ( optional, boolean ) If true, the field title column will be omitted from the output.</li>
+	*	<li><strong>hidden</strong> - [3.0.0+] ( optional, boolean ) If true, the entire field row output will be invisible with the inline style attribute of <em>style="display:none"</em>.</li>
+	* </ul>
+	* 
+	* <h4>Field Type Specific Keys</h4>
+	* <p>Each field type uses specific array keys.</p>
+	* <ul>
+	* 	<li><strong>text</strong> - a text input field which allows the user to type text.</li>
+	* 	<li><strong>password</strong> - a password input field which allows the user to type text.</li>
+	* 	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do not support these.</li>
+	* 	<li><strong>textarea</strong> - a textarea input field. The following array keys are supported.
+	* 		<ul>
+	* 			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
+	* For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
+	* 			</li>
+	*		</ul>
+	* 	</li>
+	* 	<li><strong>radio</strong> - a radio button input field.</li>
+	* 	<li><strong>checkbox</strong> - a check box input field.</li>
+	* 	<li><strong>select</strong> - a drop-down input field.
+	* 		<ul>
+	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>size</strong> - a size input field. This is a combination of number and select fields.
+	* 		<ul>
+	* 			<li>
+	* 				<strong>units</strong> - ( optional, array ) defines the units to show. e.g. <em>array( 'px' => 'px', '%' => '%', 'em' => 'em'  )</em> 
+	* 				Default: <em>array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )</em>
+	* 			</li>
+	* 			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true, the <em>multiple</em> attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
+	* 			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes array of this field type has four initial keys: size, unit, optgroup, and option and they have a regular attribute array in each.</li>
+	* 		</ul>
+	*	</li>
+	* 	<li><strong>hidden</strong> - a hidden input field.</li>
+	* 	<li><strong>file</strong> - a file upload input field.</li>
+	* 	<li><strong>submit</strong> - a submit button input field.
+	* 		<ul>
+	* 			<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit button.</li>
+	* 			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected to after submitting the input form.</li>
+	* 			<li><strong>reset</strong> - [2.1.2+] ( optional, boolean ) the option key to delete. Set 1 for the entire option.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>import</strong> - an import input field. This is a custom file and submit field.
+	* 		<ul>
+	* 			<li><strong>option_key</strong> - ( optional, string ) the option table key to save the importing data.</li>
+	* 			<li><strong>format</strong> - ( optional, string ) the import format. json, or array is supported. Default: array</li>
+	* 			<li><strong>is_merge</strong> - ( optional, boolean ) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>export</strong> - an export input field. This is a custom submit field.
+	* 		<ul>
+	* 			<li><strong>file_name</strong> - ( optional, string ) the file name to download.</li>
+	* 			<li><strong>format</strong> - ( optional, string ) the format type. array, json, or text is supported. Default: array.</li>
+	* 			<li><strong>data</strong> - ( optional, string|array|object ) the data to export.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>image</strong> - an image input field. This is a custom text field with an attached JavaScript script.
+	* 		<ul>
+	* 			<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to false, the image preview will be disabled.</li>
+	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store' => array( 'id', 'caption', 'description' )</em></li>
+	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes array of this field type has three keys: input, button, and preview and they have a regular attribute array in each.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.
+	* 		<ul>
+	* 			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store' => array( 'id', 'caption', 'description' )</em></li>
+	* 			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean ) whether external URL can be set via the uploader.</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>color</strong> - a color picker input field. This is a custom text field with a JavaScript script.</li>
+	* 	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.
+	* 		<ul>
+	*			<li><strong>taxonomy_slugs</strong> - ( optional, array ) the taxonomy slug to list.</li>
+	*			<li><strong>max_width</strong> - ( optional, string ) the inline style property value of <em>max-width</em> of this element. Include the unit such as px, %. Default: 100%</li>
+	*			<li><strong>height</strong> - ( optional, string ) the inline style property value of <em>height</em> of this element. Include the unit such as px, %. Default: 250px</li>
+	* 		</ul>
+	* 	</li>
+	* 	<li><strong>posttype</strong> - a post-type check list. This is a set of check boxes listing post type slugs.
+	* 		<ul>
+	* 			<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs not to be listed. e.g.<em>array( 'revision', 'attachment', 'nav_menu_item' )</em></li>
+	* 		</ul>
+	* 	</li>
+	* </ul>	
+	* @param			array			( optional ) another field array.
+	* @param			array			( optional ) add more field arrays to the next parameters as many as necessary.
 	* @return			void
 	*/ 
 	public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {
