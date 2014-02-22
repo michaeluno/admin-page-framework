@@ -41,7 +41,9 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 
 	public function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
 		
-		$this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_GET, admin_url( $GLOBALS['pagenow'] ) );
+		$_aGet = $_GET;
+		unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
+		$this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_aGet, admin_url( $GLOBALS['pagenow'] ) );
 		$this->aDefaultKeys['settings2'] = array(
 			'hintText'	=>	__( 'Type the title of posts.', 'admin-page-framework-demo' ),
 		);
@@ -63,6 +65,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 				$aArgs = $_aGet + array(
 					'post_type' => 'post',
 				);
+AdminPageFramework_Debug::logArray( $aArgs );
 				$oResults = new WP_Query( $aArgs );
 				$aData = array();
 				foreach( $oResults->posts as $iIndex => $oPost ) {
