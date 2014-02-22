@@ -249,24 +249,13 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				$_aTabOptions = $this->oForm->getTabOptions( $_aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
 				$_aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $_aTabOptions );
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $_aTabOptions );
-AdminPageFramework_Debug::logArray( 'tab only options' );						
-AdminPageFramework_Debug::logArray( $_aTabOnlyOptions );				
-AdminPageFramework_Debug::logArray( 'options respecting page meta box' );						
-AdminPageFramework_Debug::logArray( $_aTabOptions );								
-// AdminPageFramework_Debug::logArray( 'page meta options' );						
-// AdminPageFramework_Debug::logArray( $this->oUtil->invertCastArrayContents( $_aTabOptions, $_aTabOnlyOptions ) );
-// AdminPageFramework_Debug::logArray( 'other tab options' );						
-// AdminPageFramework_Debug::logArray( $this->oForm->getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );
-// AdminPageFramework_Debug::logArray( 'input array' );
-// AdminPageFramework_Debug::logArray( $aInput );	
 				$aInput = $this->oUtil->uniteArrays( 
 					$aInput, 
 					$this->oUtil->invertCastArrayContents( $_aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
 					$this->oForm->getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug )
 				);
 			}
-// AdminPageFramework_Debug::logArray( 'input array is merged with tab options' );
-// AdminPageFramework_Debug::logArray( $aInput );
+
 			// For pages	
 			if ( $sPageSlug )	{
 				
