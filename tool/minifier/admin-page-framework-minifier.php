@@ -8,14 +8,17 @@ require( dirname( __FILE__ ) . '/class/AdminPageFramework_Minifier.php' );
 
 /* Set necessary paths */
 $sPluginBaseDir = dirname( dirname( dirname( __FILE__ ) ) );
-	/* Set the source path */
+	/* Set the source paths */
 	$sSourceFilePath = $sPluginBaseDir . '/development/admin-page-framework.php';
+	$sLicenseFileName = 'MIT-LICENSE.txt';
+	$sLicenseFilePath = dirname( $sSourceFilePath ) . '/' . $sLicenseFileName;
 	
 	/* Set the location for the script output */
 	$sResultFilePath = $sPluginBaseDir . '/library/admin-page-framework.min.php';
 	
 	/* Check the file existence. */
 	if ( ! file_exists( $sSourceFilePath ) ) die( '<p>The main library file does not exist.</p>' );
+	if ( ! file_exists( $sLicenseFilePath ) ) die( '<p>The license file does not exist.</p>' );
 	
 	/* Check the permission to write. */
 	if ( 
@@ -30,7 +33,9 @@ $oProgressBuffer->showText( 'Starting...' );
 
 /* Create a minified version of the framework. */
 $oMinify = new AdminPageFramework_Minifier( $sSourceFilePath, $sResultFilePath );
-	
+
+copy( $sLicenseFilePath, dirname( $sResultFilePath ) . '/' . $sLicenseFileName );
+
 /* Update the progress output. */		
 $oProgressBuffer->showText( 'Done!' );
 
