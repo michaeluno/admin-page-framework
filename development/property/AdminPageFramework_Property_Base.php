@@ -234,7 +234,7 @@ abstract class AdminPageFramework_Property_Base {
 			box-shadow: none;
 		}
 		/* Metabox Section Heading Info */
-		#poststuff .metabox-holder h3.admin-page-framework-section-title {
+		#poststuff .metabox-holder .admin-page-framework-section-title h3{
 			border: none;
 			font-weight: bold;
 			font-size: 1.3em;

@@ -235,27 +235,38 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
 			$_aTabOnlyOptions = array();
 			$_aTabOptions = array();
-						
+				
 			// For tabs
 			if ( $sTabSlug && $sPageSlug )	{	
 				$_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $_aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
 				$_aTabOptions = $this->oForm->getTabOptions( $_aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
 				$_aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $_aTabOptions );
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $_aTabOptions );
+AdminPageFramework_Debug::logArray( 'tab only options' );						
+AdminPageFramework_Debug::logArray( $_aTabOnlyOptions );				
+AdminPageFramework_Debug::logArray( 'options respecting page meta box' );						
+AdminPageFramework_Debug::logArray( $_aTabOptions );								
+// AdminPageFramework_Debug::logArray( 'page meta options' );						
+// AdminPageFramework_Debug::logArray( $this->oUtil->invertCastArrayContents( $_aTabOptions, $_aTabOnlyOptions ) );
+// AdminPageFramework_Debug::logArray( 'other tab options' );						
+// AdminPageFramework_Debug::logArray( $this->oForm->getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug ) );
+// AdminPageFramework_Debug::logArray( 'input array' );
+// AdminPageFramework_Debug::logArray( $aInput );	
 				$aInput = $this->oUtil->uniteArrays( 
 					$aInput, 
 					$this->oUtil->invertCastArrayContents( $_aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
 					$this->oForm->getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug )
 				);
 			}
-			
+// AdminPageFramework_Debug::logArray( 'input array is merged with tab options' );
+// AdminPageFramework_Debug::logArray( $aInput );
 			// For pages	
 			if ( $sPageSlug )	{
 				
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions ); // $aInput: new values, $aStoredPageOptions: old values	
 
 				// If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
-				$_aPageOptions = $sTabSlug && ! empty( $_aTabOptions )? $this->oUtil->invertCastArrayContents( $_aPageOptions, $_aTabOptions ) : $_aPageOptions;
+				$_aPageOptions = $sTabSlug && ! empty( $_aTabOptions ) ? $this->oUtil->invertCastArrayContents( $_aPageOptions, $_aTabOptions ) : $_aPageOptions;
 				$aInput = $this->oUtil->uniteArrays( 
 					$aInput, 
 					$_aPageOptions,	// repeatable elements have been dropped

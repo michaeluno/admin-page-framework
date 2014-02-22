@@ -58,7 +58,7 @@ class AdminPageFramework_FieldTypeRegistration  {
 	 * @since			3.0.0			Moved to the field type registration class and made it static to be used by different classes.
 	 */
 	static public function _setFieldHeadTagElements( array $aField, $oProp, $oHeadTag ) {
-		
+
 		$sFieldType = $aField['type'];
 	
 		// Set the global flag to indicate whether the elements are already added and enqueued. Note that it must be checked per a type (here property type is used).
@@ -85,7 +85,7 @@ class AdminPageFramework_FieldTypeRegistration  {
 			
 		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
 			$oProp->sStyleIE .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
-				
+	
 		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
 			if ( is_string( $asSource ) )
 				$oHeadTag->_forceToEnqueueStyle( $asSource );

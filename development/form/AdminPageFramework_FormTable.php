@@ -78,7 +78,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 				
 				if ( ! isset( $aSections[ $_sSectionID ] ) ) continue;
 				
-				$_sSectionTitile = "<h4>" . $aSections[ $_sSectionID ]['title'] . "</h4>";
 				$_sSectionTabSlug = $aSections[ $_sSectionID ]['section_tab_slug'];	// will be referred outside the loop.
 													
 				// For repeatable sections
@@ -98,7 +97,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 						
 						// For tabbed sections,
 						if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
-							$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
+							$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>"
+									. $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )
+								."</a></li>";
 					
 						$aOutput[] = $this->getFormTable( $_sSectionTagID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
 						
@@ -107,12 +108,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 				} else {
 				// The normal section
 					$_sSectionTagID = 'section-' . $_sSectionID . '__' . '0';
+					$_aFields = $aSubSectionsOrFields;
 					
 					// For tabbed sections,
 					if ( $aSections[ $_sSectionID ]['section_tab_slug'] )
-						$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>{$_sSectionTitile}</a></li>";
+						$_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>"
+								. $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )	
+							. "</a></li>";
 					
-					$_aFields = $aSubSectionsOrFields;
 					$aOutput[] = $this->getFormTable( $_sSectionTagID, 0, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
 				}
 					
@@ -136,6 +139,34 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 				. "</div>";
 			
 		}
+		
+		/**
+		 * Returns the section title output.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback ) {
+			
+			$aSectionTitleField = $this->_getSectionTitleField( $aFields );
+			return $aSectionTitleField
+				? call_user_func_array( $hfFieldCallback, array( $aSectionTitleField ) )
+				: "<{$sTag}>" . $sTitle . "</{$sTag}>";
+			
+		}
+		
+		/**
+		 * Returns the first found section_title field.
+		 * 
+		 * @since			3.0.0
+		 */
+		private function _getSectionTitleField( $aFields ) {
+			
+			foreach( $aFields as $aField )
+				if ( $aField['type'] == 'section_title' )
+					return $aField;	// will return the first found one.
+			
+		}
+		
 		/**
 		 * Returns an array holding section definition array by section tab.
 		 * 
@@ -225,7 +256,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 				. ( $aSection['description'] || $aSection['title'] 
 					? "<caption class='admin-page-framework-section-caption' data-section_tab='{$aSection['section_tab_slug']}'>"	// data-section_tab is referred by the repeater script to hide/show the title and the description
 							. ( $aSection['title'] && ! $aSection['section_tab_slug']
-								? "<h3 class='admin-page-framework-section-title' {$_sDisplayNone}>" . $aSection['title'] . "</h3>"
+								? "<div class='admin-page-framework-section-title' {$_sDisplayNone}>" 
+										.  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback )	
+									. "</div>"
 								: ""
 							)					
 							. ( $aSection['description'] && is_callable( $hfSectionCallback )
@@ -263,7 +296,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		if ( ! is_callable( $hfCallback ) ) return '';
 		$aOutput = array();
 		foreach( $aFields as $aField ) 
-			$aOutput[] = $this->getFieldRow( $aField, $hfCallback );
+			$aOutput[] = $this->_getFieldRow( $aField, $hfCallback );
 		return implode( PHP_EOL, $aOutput );
 		
 	}
@@ -273,7 +306,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function getFieldRow( $aField, $hfCallback ) {
+		protected function _getFieldRow( $aField, $hfCallback ) {
+			
+			if ( $aField['type'] == 'section_title' ) return '';
 			
 			$aOutput = array();
 			$_aField = $this->_mergeDefault( $aField );
@@ -318,6 +353,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 		 */
 		protected function _getField( $aField, $hfCallback )  {
 			
+			if ( $aField['type'] == 'section_title' ) return '';
 			$aOutput = array();
 			$_aField = $this->_mergeDefault( $aField );
 			$aOutput[] = "<div " . $this->_getAttributes( $_aField ) . ">";

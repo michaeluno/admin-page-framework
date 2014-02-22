@@ -95,16 +95,7 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 				/* Increment the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
-					$( this ).incrementIDAttribute( 'id', true );	// passing true in the second parameter means to apply the change to the first occurrence.
-					$( this ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', true );
-					$( this ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', true );
-					$( this ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', true );	// don't remember what this data attribute was for
-					$( this ).find( '.admin-page-framework-fields' ).incrementIDAttribute( 'id', true );
-					$( this ).find( '.admin-page-framework-field' ).incrementIDAttribute( 'id', true );
-					$( this ).find( '.repeatable-field-add' ).incrementIDAttribute( 'data-id', true );	// holds the fields container ID referred by the repeater field script.
-					$( this ).find( 'label' ).incrementIDAttribute( 'for', true );	// passing true changes the first occurrence
-					$( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id', true );
-					$( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name', true );
+					incrementAttributes( this );
 				});
 			
 				/* Rebind the click event to the repeatable sections buttons - important to update AFTER inserting the clone to the document node since the update method need to count sections. 
@@ -128,11 +119,23 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 				/* For tabbed sections - add the title tab list */
 				if ( nodeTabs.length > 0 ) {
-					var nodeNewTab = nodeTabs.find( '.admin-page-framework-section-tab' ).last().clone();
+					
+					/* The clicked(copy source) section tab */
+					var nodeTab = nodeTabs.find( '#section_tab-' + sSectionContainerID );
+					var nodeNewTab = nodeTab.clone();
+					
 					nodeNewTab.removeClass( 'ui-state-active' );
-					nodeNewTab.incrementIDAttribute( 'id' );
-					nodeNewTab.find( 'a.ui-tabs-anchor' ).incrementIDAttribute( 'href' );
-					nodeTabs.append( nodeNewTab );
+					nodeNewTab.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );	// empty the value
+				
+					/* Add the cloned new field tab */
+					nodeNewTab.insertAfter( nodeTab );	
+					
+					/* Increment the names and ids of the next following siblings. */
+					nodeTab.nextAll().each( function() {
+						incrementAttributes( this );
+						$( this ).find( 'a.ui-tabs-anchor' ).incrementIDAttribute( 'href' );
+					});					
+					
 					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).tabs( 'refresh' );
 				}				
 				
@@ -143,7 +146,24 @@ class AdminPageFramework_Script_RepeatableSection {
 				/* Return the newly created element */
 				return nodeNewSection;	
 				
-			};
+			};	
+			// Local function literal
+			var incrementAttributes = function( oElement, bFirstFound ) {
+				
+				bFirstFound = typeof bFirstFound !== 'undefined' ? bFirstFound : true;
+				$( oElement ).incrementIDAttribute( 'id', bFirstFound );	// passing true in the second parameter means to apply the change to the first occurrence.
+				$( oElement ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', bFirstFound );	// I don't remember what this data attribute was for...
+				$( oElement ).find( '.admin-page-framework-fields' ).incrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.admin-page-framework-field' ).incrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( 'table.form-table' ).incrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.repeatable-field-add' ).incrementIDAttribute( 'data-id', bFirstFound );	// holds the fields container ID referred by the repeater field script.
+				$( oElement ).find( 'label' ).incrementIDAttribute( 'for', bFirstFound );	
+				$( oElement ).find( 'input,textarea,select' ).incrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( 'input,textarea,select' ).incrementNameAttribute( 'name', bFirstFound );				
+				
+			}			
 				
 			$.fn.removeAPFRepeatableSection = function() {
 				
@@ -170,16 +190,7 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 				/* Decrement the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
-					$( this ).decrementIDAttribute( 'id' );					
-					$( this ).find( 'tr.admin-page-framework-fieldrow' ).decrementIDAttribute( 'id', true );
-					$( this ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'id', true );
-					$( this ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'data-field_id', true );	// don't remember what this data attribute was for
-					$( this ).find( '.admin-page-framework-fields' ).decrementIDAttribute( 'id', true );
-					$( this ).find( '.admin-page-framework-field' ).decrementIDAttribute( 'id', true );
-					$( this ).find( '.repeatable-field-add' ).decrementIDAttribute( 'data-id', true );	// holds the fields container ID referred by the repeater field script.
-					$( this ).find( 'label' ).decrementIDAttribute( 'for', true );
-					$( this ).find( 'input,textarea,select' ).decrementIDAttribute( 'id', true );
-					$( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name', true );			
+					decrementAttributes( this );
 				});
 
 				/* Call the registered callback functions */
@@ -195,6 +206,7 @@ class AdminPageFramework_Script_RepeatableSection {
 					nodeSelectionTab = nodeTabs.find( '#section_tab-' + sSectionConteinrID );
 					nodeSelectionTab.nextAll().each( function() {
 						$( this ).find( 'a.ui-tabs-anchor' ).decrementIDAttribute( 'href' );
+						decrementAttributes( this );
 					});					
 					nodeSelectionTab.remove();
 					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).tabs( 'refresh' );
@@ -214,7 +226,24 @@ class AdminPageFramework_Script_RepeatableSection {
 				}
 					
 			};
+			// Local function literal
+			var decrementAttributes = function( oElement, bFirstFound ) {
 				
+				bFirstFound = typeof bFirstFound !== 'undefined' ? bFirstFound : true;
+				$( oElement ).decrementIDAttribute( 'id' );					
+				$( oElement ).find( 'tr.admin-page-framework-fieldrow' ).decrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'data-field_id', bFirstFound );	// I don't remember what this data attribute was for...
+				$( oElement ).find( '.admin-page-framework-fields' ).decrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.admin-page-framework-field' ).decrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( 'table.form-table' ).decrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( '.repeatable-field-add' ).decrementIDAttribute( 'data-id', bFirstFound );	// holds the fields container ID referred by the repeater field script.
+				$( oElement ).find( 'label' ).decrementIDAttribute( 'for', bFirstFound );
+				$( oElement ).find( 'input,textarea,select' ).decrementIDAttribute( 'id', bFirstFound );
+				$( oElement ).find( 'input,textarea,select' ).decrementNameAttribute( 'name', bFirstFound );				
+				
+			}	
+			
 		}( jQuery ));";
 		
 	}

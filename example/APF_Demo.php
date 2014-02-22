@@ -374,6 +374,12 @@ class APF_Demo extends AdminPageFramework {
 				'description'	=>	__( 'As of v3, it is possible to mix field types in one field on a per-ID basis.', 'admin-page-framework-demo' ),
 			),
 			array(
+				'section_id'	=>	'section_title_field_type',
+				'tab_slug'		=>	'sections',
+				'title'			=>	__( 'Section Title', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'The <code>section_title</code> field type will be placed in the position of the section title if set. If not set, the set section title will be placed. Only one <code>section_title</code> field is allowed per section.', 'admin-page-framework-demo' ),
+			),			
+			array(
 				'section_id'	=>	'repeatable_sections',
 				'tab_slug'		=>	'sections',
 				'title'			=>	__( 'Repeatable Sections', 'admin-page-framework-demo' ),
@@ -1415,6 +1421,17 @@ class APF_Demo extends AdminPageFramework {
 			),		
 			array()
 		);	
+		$this->addSettingFields(
+			array(
+				'section_id'	=>	'section_title_field_type',
+				'field_id'	=>	'section_title_field',
+				'type'	=>	'section_title',
+				'label'	=>	'<h3>' . __( 'Section Name', 'admin-page-framework-demo' ) . '</h3>',
+				'attributes'	=>	array(
+					'size'	=>	30,
+				),
+			)
+		);
 		$this->addSettingFields(			
 			array(
 				'section_id'	=>	'repeatable_sections',
@@ -1483,7 +1500,17 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array()
 		);		
-		$this->addSettingFields(			
+		$this->addSettingFields(
+			array(
+				'section_id'	=>	'repeatable_tabbed_sections',
+				'field_id'	=>	'tab_title',
+				'type'	=>	'section_title',
+				'label'	=>	__( 'Name', 'admin-page-framework-demo' ),
+				'attributes'	=>	array(
+					'size'	=>	10,
+					// 'type'	=> 'number',	// change the input type 
+				),
+			),
 			array(
 				'section_id'	=>	'repeatable_tabbed_sections',
 				'field_id'	=>	'text_field_in_tabbed_section_in_repeatable_sections',

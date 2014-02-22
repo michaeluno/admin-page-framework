@@ -246,7 +246,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 				
 				/* 5-2. Set relevant scripts and styles for the input field. */
 				AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-				
+			
 				/* 5-3. For the contextual help pane, */
 				if ( ! empty( $aField['help'] ) ) {
 					$this->addHelpTab( 
