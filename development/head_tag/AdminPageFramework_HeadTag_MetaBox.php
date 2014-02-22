@@ -1,4 +1,11 @@
 <?php
+/**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * 
+ */
 if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.

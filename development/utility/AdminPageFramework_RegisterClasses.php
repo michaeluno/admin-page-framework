@@ -1,5 +1,13 @@
 <?php
 /**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * 
+ */
+if ( ! class_exists( 'AdminPageFramework_RegisterClasses' ) ) :
+/**
  * Registers classes in the given directory to be auto-loaded.
  *
  * @since			3.0.0
@@ -96,3 +104,4 @@ class AdminPageFramework_RegisterClasses {
 		}
 	
 }
+endif;

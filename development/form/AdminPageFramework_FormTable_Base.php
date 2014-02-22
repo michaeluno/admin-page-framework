@@ -1,4 +1,11 @@
 <?php
+/**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * 
+ */
 if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) :
 /**
  * The base class of the form table class that provides methods to render setting sections and fields.

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * 
+ */
 if ( ! class_exists( 'AdminPageFramework_WPUtility_File' ) ) :
 /**
  * Provides utility methods regarding reading file which use WordPress built-in functions and classes.

@@ -3,10 +3,10 @@
  * Admin Page Framework
  * 
  * Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes. 
- * The framework uses the built-in WordPress Settings API so it respects the WordPress standard form layout design.
+ * 
  * @author				Michael Uno <michael@michaeluno.jp>
- * @copyright			Michael Uno
- * @license				GPLv2 or later
+ * @copyright			2013-2014 (c) Michael Uno
+ * @license				MIT	<http://opensource.org/licenses/MIT>
  * @see					http://wordpress.org/plugins/admin-page-framework/
  * @see					https://github.com/michaeluno/admin-page-framework
  * @link				http://en.michaeluno.jp/admin-page-framework
@@ -29,8 +29,8 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
  * Version: 3.0.0b33
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
- * @copyright		2013-2014 Michael Uno
- * @license			GPL v2 or later.
+ * @copyright		2013-2014 (c) Michael Uno
+ * @license			MIT <http://opensource.org/licenses/MIT>
  * @see				http://wordpress.org/plugins/admin-page-framework/
  * @see				https://github.com/michaeluno/admin-page-framework
  * @link			http://en.michaeluno.jp/admin-page-framework

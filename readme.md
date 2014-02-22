@@ -200,7 +200,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 ### Admin Page Framework - Demo ###
-Released under the [GPL v2](license.txt) or later.
+Released under the [GPL v2](LICENSE.txt) or later.
 Copyright © 2014 Michael Uno
 
 This program is free software; you can redistribute it and/or modify

@@ -1,8 +1,14 @@
 <?php
+/**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * 
+ */
 if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_PostType' ) ) :
 /**
- * Collects data of page loads of the added post type pages.
- *
+ * Collects data of page loads of the added post type pages. 
  * @since			2.1.7
  * @extends			AdminPageFramework_PageLoadInfo_Base
  * @package			AdminPageFramework
