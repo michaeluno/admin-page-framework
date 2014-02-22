@@ -15,17 +15,12 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-The documentation component of the library incorporates work covered by the following copyright:
-
-ApiGen
-Copyright © 2010-2011 David Grudl
-Copyright © 2011-2012 Jaroslav Hanslík
-Copyright © 2011-2012 Ondřej Nešpor
-All rights reserved.
-Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
-<http://apigen.org/>
-
 The demo plugin incorporates work covered by the following copyright:
+
+Admin Page Framework
+Copyright (c) 2004-2013 Michael Uno
+Licensed MIT
+<http://en.michaeluno.jp/admin-page-framework>
 
 PHP Markdown Lib 
 Copyright (c) 2004-2013 Michel Fortin
@@ -77,6 +72,16 @@ Tokenizing Autocomplete Text Entry
 Copyright (c) 2009 James Smith (http://loopj.com)
 Licensed MIT 
 <https://github.com/loopj>
+
+The documentation component of the demo plugin incorporates work covered by the following copyright:
+
+ApiGen
+Copyright © 2010-2011 David Grudl
+Copyright © 2011-2012 Jaroslav Hanslík
+Copyright © 2011-2012 Ondřej Nešpor
+All rights reserved.
+Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
+<http://apigen.org/>
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
