@@ -53,6 +53,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 	}	
 		/**
 		 * Inserts necessary JavaScript scripts for fields.
+		 * 
 		 * @since			3.0.0
 		 */
 		private function _loadScripts() {
@@ -60,28 +61,19 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 			// In PHP, static variables are alive in newly instantiated objects. So they can serve as a global flag.
 			static $_bIsLoadedUtility, $_bIsLoadedRepeatable, $_bIsLoadedSortable, $_bIsLoadedRegisterCallback;
 			
-			// Global variable
-			// $GLOBALS['aAdminPageFramework']['aFieldFlags'] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'] )
-				// ? $GLOBALS['aAdminPageFramework']['aFieldFlags']
-				// : array();
-			
 			if ( ! $_bIsLoadedUtility ) {
 				add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
-				add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
-				$_bIsLoadedUtility = true;
+				$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
 			}
-			if ( ! $_bIsLoadedRepeatable ) {
-				add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
-				$_bIsLoadedRepeatable = true;
-			}
-			if ( ! $_bIsLoadedSortable ) {
-				add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
-				$_bIsLoadedSortable = true;
-			}
-			if ( ! $_bIsLoadedRegisterCallback ) {
-				add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
-				$_bIsLoadedRegisterCallback = true;
-			}
+			if ( ! $_bIsLoadedRepeatable ) 
+				$_bIsLoadedRepeatable = add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
+			
+			if ( ! $_bIsLoadedSortable ) 
+				$_bIsLoadedSortable = add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
+			
+			if ( ! $_bIsLoadedRegisterCallback ) 
+				$_bIsLoadedRegisterCallback = add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
+
 			
 		}
 	
@@ -230,6 +222,6 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 			. "</script>";
 			
 	}
-	
+		
 }
 endif;
