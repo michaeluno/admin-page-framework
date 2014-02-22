@@ -251,7 +251,13 @@ abstract class AdminPageFramework_Property_Base {
 			cursor: inherit;			
 			-webkit-user-select: inherit;
 			-moz-user-select: inherit;
-			user-select: inherit;			
+			user-select: inherit;	
+
+			/* v3.5 or below */
+			text-shadow: none;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			background: none;
 		}
 		
 		/* Fields Container */
