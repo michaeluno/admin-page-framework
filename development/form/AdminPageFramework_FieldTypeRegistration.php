@@ -67,13 +67,14 @@ class AdminPageFramework_FieldTypeRegistration  {
 	static public function _setFieldHeadTagElements( array $aField, $oProp, $oHeadTag ) {
 
 		$sFieldType = $aField['type'];
-	
+			
 		// Set the global flag to indicate whether the elements are already added and enqueued. Note that it must be checked per a type (here property type is used).
-		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ] = isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ] ) && is_array( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ] )
-			? $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ]
+		static $aLoadFlags = array();	// indicates whether the field type is already processed or not.
+		$aLoadFlags[ $oProp->_sPropertyType ] = isset( $aLoadFlags[ $oProp->_sPropertyType ] ) && is_array( $aLoadFlags[ $oProp->_sPropertyType ] )
+			? $aLoadFlags[ $oProp->_sPropertyType ]
 			: array();
-		if ( isset( $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ][ $sFieldType ] ) && $GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ][ $sFieldType ] ) return;
-		$GLOBALS['aAdminPageFramework']['aFieldFlags'][ $oProp->_sPropertyType ][ $sFieldType ] = true;
+		if ( isset( $aLoadFlags[ $oProp->_sPropertyType ][ $sFieldType ] ) && $aLoadFlags[ $oProp->_sPropertyType ][ $sFieldType ] ) return;
+		$aLoadFlags[ $oProp->_sPropertyType ][ $sFieldType ] = true;
 				
 		// If the field type is not defined, return.
 		if ( ! isset( $oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
