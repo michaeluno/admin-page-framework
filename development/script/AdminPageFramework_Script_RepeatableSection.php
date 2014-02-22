@@ -72,7 +72,7 @@ class AdminPageFramework_Script_RepeatableSection {
 				var nodeNewSection = nodeSectionContainer.clone();	// clone without bind events.
 				var nodeSectionsContainer = nodeSectionContainer.closest( '.admin-page-framework-sectionset' );
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
-				var nodeTabs = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sectionset' ).find( '.admin-page-framework-section-tabs' );
+				var nodeTabsContainer = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sectionset' ).find( '.admin-page-framework-section-tabs' );
 				
 				/* If the set maximum number of sections already exists, do not add */
 				var sMaxNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['max'];
@@ -125,10 +125,10 @@ class AdminPageFramework_Script_RepeatableSection {
 				});
 				
 				/* For tabbed sections - add the title tab list */
-				if ( nodeTabs.length > 0 ) {
+				if ( nodeTabsContainer.length > 0 ) {
 					
 					/* The clicked(copy source) section tab */
-					var nodeTab = nodeTabs.find( '#section_tab-' + sSectionContainerID );
+					var nodeTab = nodeTabsContainer.find( '#section_tab-' + sSectionContainerID );
 					var nodeNewTab = nodeTab.clone();
 					
 					nodeNewTab.removeClass( 'active' );
@@ -143,7 +143,7 @@ class AdminPageFramework_Script_RepeatableSection {
 						$( this ).find( 'a.anchor' ).incrementIDAttribute( 'href' );
 					});					
 					
-					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
+					nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
 				}				
 				
 				/* If more than one sections are created, show the Remove button */
@@ -179,7 +179,8 @@ class AdminPageFramework_Script_RepeatableSection {
 				var sSectionConteinrID = nodeSectionContainer.attr( 'id' );
 				var nodeSectionsContainer = $( this ).closest( '.admin-page-framework-sectionset' );
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
-				var nodeTabs = nodeSectionsContainer.find( '.admin-page-framework-section-tabs' );
+				var nodeTabsContainer = nodeSectionsContainer.find( '.admin-page-framework-section-tabs' );
+				var nodeTabs = nodeTabsContainer.find( '.admin-page-framework-section-tab' );
 				
 				/* If the set minimum number of sections already exists, do not remove */
 				var sMinNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['min'];
@@ -209,15 +210,20 @@ class AdminPageFramework_Script_RepeatableSection {
 				nodeSectionContainer.remove();
 				
 				/* For tabbed sections - remove the title tab list */
-				if ( nodeTabs.length > 0 ) {
-					nodeSelectionTab = nodeTabs.find( '#section_tab-' + sSectionConteinrID );
+				if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 ) {
+					nodeSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
 					nodeSelectionTab.nextAll().each( function() {
 						$( this ).find( 'a.anchor' ).decrementIDAttribute( 'href' );
 						decrementAttributes( this );
-					});					
-					nodeSelectionTab.next().addClass( 'active' );
+					});	
+					
+					if (  nodeSelectionTab.prev().length )
+						nodeSelectionTab.prev().addClass( 'active' );
+					else
+						nodeSelectionTab.next().addClass( 'active' );
+						
 					nodeSelectionTab.remove();
-					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
+					nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
 				}						
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
@@ -252,9 +258,7 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 			}	
 			
-		}( jQuery ));";
-		
+		}( jQuery ));";		
 	}
-
 }
 endif;
