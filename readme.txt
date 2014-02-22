@@ -206,6 +206,9 @@ You are welcome to submit documentation. Please follow the [Documentation Guidel
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
+= Does my commercial product which incorporates your framework library have to be released under GPL? =
+No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
+
 == Other Notes ==
 
 = Tips =
