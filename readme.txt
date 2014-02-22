@@ -34,23 +34,23 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Custom Field Types** - your own field type can be registered. 
 
 = Built-in Field Types =
-* `text` - a normal input field.
-* `password` - a masked input field.
-* `textarea` - a text input field with multiple lines.
-* `radio` - a set of radio buttons.
-* `checkbox` - a check box.
-* `select` - a drop-down list.
-* `submit` - a submit field that the user send the form data. 
-* `hidden` - a hidden field that is useful to embed hidden values. 
-* `file` - a file field that lets the user upload files.
-* `media` - a custom text field with the media uploader that sets the file URL.
-* `image` - a custom text field with the image uploader that sets the image URL.
-* `color` - a custom text field with the color picker.
-* `export` - a custom submit field that lets the user export the settings. 
-* `import` - a combination field of the file and the submit fields that lets the user import the settings.
-* `posttype` - a check-list of post types enabled on the site.
+* `text` - a normal field to enter text input.
+* `password` - a masked text input field.
+* `textarea` - a text input field with multiple lines. It supports rich text editor.
+* `radio` - a set of radio buttons that lets the user pick an option.
+* `checkbox` - a check box that lets the user enable/disable an item.
+* `select` - a drop-down list that lest the user pick one or more item(s) from a list.
+* `hidden` - a hidden field that will be useful to insert invisible values.
+* `file` - a file uploader that lets the user upload files.
+* `image` - a custom text field with the image uploader script that lets the user set the image URL.
+* `media` - a custom text field with the media uploader script that lets the user set the file URL.
+* `color` - a custom text field with the color picker script.
+* `submit` - a submit button that lets the user send the form.
+* `export` - a custom submit field that lets the user export the stored data.
+* `import` - a custom combination field of the file and the submit fields that let the user import data.
+* `posttype` - a set of check-lists of taxonomies enabled on the site in a tabbed box.
 * `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
-* `size` - a combination field of the text and the select fields that let the user set sizes with a unit.
+* `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
 * `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 
 = Custom Field Types = 
