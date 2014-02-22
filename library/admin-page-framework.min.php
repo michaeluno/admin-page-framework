@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.0.0b35
+ * Version: 3.0.0b36
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright		2013-2014 (c) Michael Uno
@@ -629,7 +629,7 @@
 				var nodeNewSection = nodeSectionContainer.clone();	// clone without bind events.
 				var nodeSectionsContainer = nodeSectionContainer.closest( '.admin-page-framework-sectionset' );
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
-				var nodeTabs = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sectionset' ).find( '.admin-page-framework-section-tabs' );
+				var nodeTabsContainer = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sectionset' ).find( '.admin-page-framework-section-tabs' );
 				
 				/* If the set maximum number of sections already exists, do not add */
 				var sMaxNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['max'];
@@ -682,10 +682,10 @@
 				});
 				
 				/* For tabbed sections - add the title tab list */
-				if ( nodeTabs.length > 0 ) {
+				if ( nodeTabsContainer.length > 0 ) {
 					
 					/* The clicked(copy source) section tab */
-					var nodeTab = nodeTabs.find( '#section_tab-' + sSectionContainerID );
+					var nodeTab = nodeTabsContainer.find( '#section_tab-' + sSectionContainerID );
 					var nodeNewTab = nodeTab.clone();
 					
 					nodeNewTab.removeClass( 'active' );
@@ -700,7 +700,7 @@
 						$( this ).find( 'a.anchor' ).incrementIDAttribute( 'href' );
 					});					
 					
-					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
+					nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
 				}				
 				
 				/* If more than one sections are created, show the Remove button */
@@ -736,7 +736,8 @@
 				var sSectionConteinrID = nodeSectionContainer.attr( 'id' );
 				var nodeSectionsContainer = $( this ).closest( '.admin-page-framework-sectionset' );
 				var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
-				var nodeTabs = nodeSectionsContainer.find( '.admin-page-framework-section-tabs' );
+				var nodeTabsContainer = nodeSectionsContainer.find( '.admin-page-framework-section-tabs' );
+				var nodeTabs = nodeTabsContainer.find( '.admin-page-framework-section-tab' );
 				
 				/* If the set minimum number of sections already exists, do not remove */
 				var sMinNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['min'];
@@ -766,15 +767,20 @@
 				nodeSectionContainer.remove();
 				
 				/* For tabbed sections - remove the title tab list */
-				if ( nodeTabs.length > 0 ) {
-					nodeSelectionTab = nodeTabs.find( '#section_tab-' + sSectionConteinrID );
+				if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 ) {
+					nodeSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
 					nodeSelectionTab.nextAll().each( function() {
 						$( this ).find( 'a.anchor' ).decrementIDAttribute( 'href' );
 						decrementAttributes( this );
-					});					
-					nodeSelectionTab.next().addClass( 'active' );
+					});	
+					
+					if (  nodeSelectionTab.prev().length )
+						nodeSelectionTab.prev().addClass( 'active' );
+					else
+						nodeSelectionTab.next().addClass( 'active' );
+						
 					nodeSelectionTab.remove();
-					nodeTabs.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
+					nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
 				}						
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
