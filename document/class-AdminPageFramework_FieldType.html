@@ -165,23 +165,65 @@ AdminPageFramework_Utility_Array
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Utility
+AdminPageFramework_Utility_String
 			
 			
 		</dd>
 		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility
+AdminPageFramework_Utility_Path
 			
 			
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_FieldType_Base
+AdminPageFramework_Utility
 			
 			
 		</dd>
 		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility_URL
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility_HTML
+			
+			
+		</dd>
+		<dd style="padding-left:180px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility_Page
+			
+			
+		</dd>
+		<dd style="padding-left:210px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility_Hook
+			
+			
+		</dd>
+		<dd style="padding-left:240px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility_File
+			
+			
+		</dd>
+		<dd style="padding-left:270px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility
+			
+			
+		</dd>
+		<dd style="padding-left:300px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_FieldType_Base
+			
+			
+		</dd>
+		<dd style="padding-left:330px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_FieldType</span></b>			
 			
@@ -618,31 +660,50 @@ class="php-quote">'my_style2'</span>,
 			<code>getFieldElementByKey()</code>, 
 			<code>replyToRegisterInputFieldType()</code>
 		</p>
-		<h3>Methods inherited from AdminPageFramework_WPUtility</h3>
+		<h3>Methods inherited from AdminPageFramework_WPUtility_File</h3>
+		<p class="elementList">
+			<code>getScriptData()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_WPUtility_Hook</h3>
 		<p class="elementList">
 			<code>addAndApplyFilter()</code>, 
 			<code>addAndApplyFilters()</code>, 
 			<code>addAndDoAction()</code>, 
 			<code>addAndDoActions()</code>, 
 			<code>doActions()</code>, 
-			<code>generateAttributes()</code>, 
-			<code>generateDataAttributes()</code>, 
-			<code>getCurrentAdminURL()</code>, 
+			<code>getFilterArrayByPrefix()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_WPUtility_Page</h3>
+		<p class="elementList">
 			<code>getCurrentPostType()</code>, 
-			<code>getFilterArrayByPrefix()</code>, 
+			<code>isPostDefinitionPage()</code>, 
+			<code>isPostListingPage()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_WPUtility_HTML</h3>
+		<p class="elementList">
+			<code>generateAttributes()</code>, 
+			<code>generateDataAttributes()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_WPUtility_URL</h3>
+		<p class="elementList">
+			<code>getCurrentAdminURL()</code>, 
 			<code>getQueryAdminURL()</code>, 
 			<code>getQueryURL()</code>, 
 			<code>getSRCFromPath()</code>, 
-			<code>getScriptData()</code>, 
-			<code>isPostDefinitionPage()</code>, 
 			<code>resolveSRC()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Utility</h3>
 		<p class="elementList">
-			<code>fixNumber()</code>, 
+			<code>getQueryValueInURLByKey()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Utility_Path</h3>
+		<p class="elementList">
 			<code>getCallerScriptPath()</code>, 
-			<code>getQueryValueInURLByKey()</code>, 
-			<code>getRelativePath()</code>, 
+			<code>getRelativePath()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Utility_String</h3>
+		<p class="elementList">
+			<code>fixNumber()</code>, 
 			<code>minifyCSS()</code>, 
 			<code>sanitizeSlug()</code>, 
 			<code>sanitizeString()</code>
@@ -655,6 +716,7 @@ class="php-quote">'my_style2'</span>,
 			<code>getIntegerElements()</code>, 
 			<code>getNonIntegerElements()</code>, 
 			<code>invertCastArrayContents()</code>, 
+			<code>isAssociativeArray()</code>, 
 			<code>isLastElement()</code>, 
 			<code>numerizeElements()</code>, 
 			<code>uniteArrays()</code>, 

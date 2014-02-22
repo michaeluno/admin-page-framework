@@ -95,7 +95,7 @@
 
 	<div class="description">
 	
-<p>Provides methods to add form elements with WordPress Settings API.</p>
+<p>Provides public methods to add form elements with WordPress Settings API.</p>
 
 	</div>
 
@@ -127,6 +127,12 @@ AdminPageFramework_Page_MetaBox
 		</dd>
 		<dd style="padding-left:120px">
 			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Base
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_Setting</span></b>			
 			
 			
@@ -134,13 +140,13 @@ AdminPageFramework_Page_MetaBox
 	</dl>
 
 
+
 	<div>
-		<h3>Direct known subclasses</h3>
+		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>
 		</p>
 	</div>
-
 
 
 
@@ -155,10 +161,10 @@ AdminPageFramework_Page_MetaBox
 				<b>Since:</b>
 				2.0.0<br>
 				<b>Extends:</b>
-				AdminPageFramework_Menu<br>
+				AdminPageFramework_Setting_Base<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-1361" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#3-510" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
@@ -176,7 +182,7 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setSettingNotice">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#62-115" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#15-68" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -233,6 +239,8 @@ true: override the previous one.</dd>
 							3.0.0 Changed the scope to public from protected.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setSettingNotice</code></div>
 
 			</div>
 			</div></td>
@@ -248,7 +256,7 @@ true: override the previous one.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#117-165" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#70-119" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -321,7 +329,11 @@ next section array can omit the page slug key. <strong>Section Array</strong>
 	internal section ID <em>_default</em> will be assigned.</li>
 
 	<li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the
-	section belongs to.</li>
+	section belongs to. The tab here refers to in-page tabs.</li>
+
+	<li><strong>section_tab_slug</strong> - ( optional, string ) [3.0.0+] the
+	section tab slug that the section are grouped into. The tab here refers to
+	section tabs.</li>
 
 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 
@@ -369,6 +381,8 @@ to three.<br>
 <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingSections</code></div>
 
 			</div>
 			</div></td>
@@ -384,7 +398,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSection">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#167-197" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#121-160" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -423,6 +437,8 @@ can be ommited.</dd>
 <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingSection</code></div>
 
 			</div>
 			</div></td>
@@ -438,7 +454,7 @@ can be ommited.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#199-223" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#162-186" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -489,6 +505,8 @@ to three.<br>
 <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::removeSettingSections</code></div>
 
 			</div>
 			</div></td>
@@ -504,19 +522,22 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#225-400" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#188-384" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
-<p>Adds the given field array items into the field array property.</p>
+<p>Adds the given field array items into the field array property by the given
+field definition array(s).</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>Adds the given field array items into the field array property.</p>
+<p>Adds the given field array items into the field array property by the given
+field definition array(s).</p>
 
-<p>The passed field array must consist of the following keys.</p>
+<p>The field definition array requires specific keys. Refer to the parameter
+section of this method.</p>
 
 <h4>Example</h4>
 
@@ -624,6 +645,63 @@ class="php-num">90</span>,
 					<div class="list"><dl>
 						<dt><var>$aField1</var></dt>
 						<dd><code>array</code><br>the field definition array.
+<h4>Built-in Field Types</h4>
+
+<ul>
+	<li><strong>text</strong> - a normal field to enter text input.</li>
+
+	<li><strong>text</strong> - a masked text input field.</li>
+
+	<li><strong>textarea</strong> - a text input field with multiple lines. It
+	supports rich text editor.</li>
+
+	<li><strong>radio</strong> - a set of radio buttons that lets the user pick an
+	option.</li>
+
+	<li><strong>checkbox</strong> - a check box that lets the user enable/disable an
+	item.</li>
+
+	<li><strong>select</strong> - a drop-down list that lest the user pick one or
+	more item(s) from a list.</li>
+
+	<li><strong>hidden</strong> - a hidden field that will be useful to insert
+	invisible values.</li>
+
+	<li><strong>file</strong> - a file uploader that lets the user upload
+	files.</li>
+
+	<li><strong>image</strong> - a custom text field with the image uploader script
+	that lets the user set the image URL.</li>
+
+	<li><strong>media</strong> - a custom text field with the media uploader script
+	that lets the user set the file URL.</li>
+
+	<li><strong>color</strong> - a custom text field with the color picker
+	script.</li>
+
+	<li><strong>submit</strong> - a submit button that lets the user send the
+	form.</li>
+
+	<li><strong>export</strong> - a custom submit field that lets the user export
+	the stored data.</li>
+
+	<li><strong>import</strong> - a custom combination field of the file and the
+	submit fields that let the user import data.</li>
+
+	<li><strong>posttype</strong> - a check-list of post types enabled on the
+	site.</li>
+
+	<li><strong>taxonomy</strong> - a set of check-lists of taxonomies enabled on
+	the site in a tabbed box.</li>
+
+	<li><strong>size</strong> - a combination field of the text and the select
+	fields that let the user set sizes with a selectable unit.</li>
+
+	<li><strong>section_title</strong> - [3.0.0+] a text field type that will be
+	placed in the section title so that it lets the user set the section title. Note
+	that only one field with this field type is allowed per a section.</li>
+</ul>
+
 <h4>Field Definition Array</h4>
 
 <ul>
@@ -923,6 +1001,8 @@ to three.<br>
 <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingFields</code></div>
 
 			</div>
 			</div></td>
@@ -938,7 +1018,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#401-414" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#385-398" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -970,6 +1050,8 @@ section_id key can be omitted from the next passing field array.</dd>
 							3.0.0 Changed the scope to public from protected.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingField</code></div>
 
 			</div>
 			</div></td>
@@ -985,7 +1067,7 @@ section_id key can be omitted from the next passing field array.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#416-439" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#400-423" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1036,6 +1118,8 @@ to three.<br>
 <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::removeSettingFields</code></div>
 
 			</div>
 			</div></td>
@@ -1051,7 +1135,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFieldErrors">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#441-490" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#425-474" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1159,6 +1243,8 @@ submitted $_POST array.</dd>
 the passed ID )<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setFieldErrors</code></div>
 
 			</div>
 			</div></td>
@@ -1174,7 +1260,7 @@ the passed ID )<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#492-524" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#476-508" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1211,12 +1297,22 @@ will try to return the default value set in the field definition array.<br>
 return a default value even if it's not saved in the database.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::getFieldValue</code></div>
 
 			</div>
 			</div></td>
 		</tr>
 		</table>
 
+		<h3>Methods inherited from AdminPageFramework_Setting_Base</h3>
+		<p class="elementList">
+			<code>__construct()</code>, 
+			<code>_replyToCheckRedirects()</code>, 
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToGetSectionHeaderOutput()</code>, 
+			<code>_replyToRegisterSettings()</code>
+		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Menu.html#methods">AdminPageFramework_Menu</a></h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuItem">addSubMenuItem()</a></code>, 
@@ -1237,7 +1333,6 @@ return a default value even if it's not saved in the database.<br>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Page_MetaBox</h3>
 		<p class="elementList">
-			<code>__construct()</code>, 
 			<code>_getNumberOfColumns()</code>, 
 			<code>_printMetaBox()</code>, 
 			<code>_replyToAddMetaboxScript()</code>, 
@@ -1277,73 +1372,15 @@ return a default value even if it's not saved in the database.<br>
 
 
 		<h2>Properties summary</h2>
-		<table class="summary table table-bordered table-striped" id="properties">
-		<tr data-order="_sTargetPageSlug" id="$_sTargetPageSlug">
-			<td class="attributes"><code>
-				protected  
-				mixed
-			</code></td>
 
-			<td class="name">
-					<a href="source-class-AdminPageFramework_Setting.html#31-36" title="Go to source code"><var>$_sTargetPageSlug</var></a>
-			</td>
-			<td class="description"><div>
-				<a href="#$_sTargetPageSlug" class="anchor">#</a>
-
-				<div class="description short" style="display:none;">
-					
-<p>Stores the target page slug which will be applied when no page slug is
-specified for the addSettingSection() method.</p>
-
-				</div>
-
-				<div class="description detailed hidden">
-					
-<p>Stores the target page slug which will be applied when no page slug is
-specified for the addSettingSection() method.</p>
-
-
-						<h4>Since</h4>
-						<div class="list">
-								3.0.0<br>
-						</div>
-				</div>
-			</div></td>
-		</tr>
-		<tr data-order="_sTargetTabSlug" id="$_sTargetTabSlug">
-			<td class="attributes"><code>
-				protected  
-				mixed
-			</code></td>
-
-			<td class="name">
-					<a href="source-class-AdminPageFramework_Setting.html#38-43" title="Go to source code"><var>$_sTargetTabSlug</var></a>
-			</td>
-			<td class="description"><div>
-				<a href="#$_sTargetTabSlug" class="anchor">#</a>
-
-				<div class="description short" style="display:none;">
-					
-<p>Stores the target tab slug which will be applied when no tab slug is
-specified for the addSettingSection() method.</p>
-
-				</div>
-
-				<div class="description detailed hidden">
-					
-<p>Stores the target tab slug which will be applied when no tab slug is
-specified for the addSettingSection() method.</p>
-
-
-						<h4>Since</h4>
-						<div class="list">
-								3.0.0<br>
-						</div>
-				</div>
-			</div></td>
-		</tr>
-		</table>
-
+		<h3>Properties inherited from AdminPageFramework_Setting_Base</h3>
+		<p class="elementList">
+			<code><var>$_sFieldsType</var></code>, 
+			<code><var>$_sTargetPageSlug</var></code>, 
+			<code><var>$_sTargetSectionTabSlug</var></code>, 
+			<code><var>$_sTargetTabSlug</var></code>, 
+			<code><var>$aFieldErrors</var></code>
+		</p>
 		<h3>Properties inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">
 			<code><var>$_aHookPrefixes</var></code>, 

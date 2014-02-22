@@ -623,12 +623,30 @@ AdminPageFramework_Page_MetaBox
 		</dd>
 		<dd style="padding-left:120px">
 			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Base
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Setting.html"><span>AdminPageFramework_Setting</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:150px">
+		<dd style="padding-left:180px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Port
+			
+			
+		</dd>
+		<dd style="padding-left:210px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Validation
+			
+			
+		</dd>
+		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework</span></b>			
 			
@@ -747,6 +765,8 @@ href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.
 href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains</a><br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Setting_Base::__construct</code></div>
 
 			</div>
 			</div></td>
@@ -852,6 +872,8 @@ class="php-quote">'text'</span>,
 is triggered with the <em>wp_loaded</em> hook.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setUp</code></div>
 
 			</div>
 			</div></td>
@@ -949,6 +971,8 @@ class="php-quote">'admin-page-framework'</span> ),
 							Called when registering setting sections and fields.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addHelpTab</code></div>
 
 			</div>
 			</div></td>
@@ -1023,6 +1047,8 @@ applies to all the in-page tabs in the page.</dd>
 							3.0.0<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::enqueueStyles</code></div>
 
 			</div>
 			</div></td>
@@ -1112,6 +1138,8 @@ string will be returned.<br>
 href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://codex.wordpress.org/Function_Reference/wp_enqueue_style</a><br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::enqueueStyle</code></div>
 
 			</div>
 			</div></td>
@@ -1186,6 +1214,8 @@ applies to all the in-page tabs in the page.</dd>
 							2.1.5<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::enqueueScripts</code></div>
 
 			</div>
 			</div></td>
@@ -1302,6 +1332,8 @@ string will be returned.<br>
 href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://codex.wordpress.org/Function_Reference/wp_enqueue_script</a><br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::enqueueScript</code></div>
 
 			</div>
 			</div></td>
@@ -1366,6 +1398,8 @@ class="php-quote">&quot;&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;&qu
 to three.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addLinkToPluginDescription</code></div>
 
 			</div>
 			</div></td>
@@ -1425,6 +1459,8 @@ class="php-quote">&quot;&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a
 to three.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addLinkToPluginTitle</code></div>
 
 			</div>
 			</div></td>
@@ -1481,6 +1517,8 @@ for the created pages.</dd>
 href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a><br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setCapability</code></div>
 
 			</div>
 			</div></td>
@@ -1532,6 +1570,8 @@ class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
 							3.0.0 Changed the scope to public from protected.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setFooterInfoLeft</code></div>
 
 			</div>
 			</div></td>
@@ -1583,6 +1623,8 @@ class="php-quote">'&lt;br /&gt;Custom Text on the right hand side.'</span> );
 							3.0.0 Changed the scope to public from protected.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setFooterInfoRight</code></div>
 
 			</div>
 			</div></td>
@@ -1646,6 +1688,8 @@ used.</dd>
 							It should be used before the 'admin_notices' hook is triggered.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setAdminNotice</code></div>
 
 			</div>
 			</div></td>
@@ -1698,12 +1742,23 @@ override the property.</dd>
 							3.0.0 It also accepts a string. Changed the scope to public.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setDisallowedQueryKeys</code></div>
 
 			</div>
 			</div></td>
 		</tr>
 		</table>
 
+		<h3>Methods inherited from AdminPageFramework_Setting_Validation</h3>
+		<p class="elementList">
+			<code>_doValidationCall()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Setting_Port</h3>
+		<p class="elementList">
+			<code>_exportOptions()</code>, 
+			<code>_importOptions()</code>
+		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Setting.html#methods">AdminPageFramework_Setting</a></h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework_Setting.html#_addSettingField">addSettingField()</a></code>, 
@@ -1715,6 +1770,13 @@ override the property.</dd>
 			<code><a href="class-AdminPageFramework_Setting.html#_removeSettingSections">removeSettingSections()</a></code>, 
 			<code><a href="class-AdminPageFramework_Setting.html#_setFieldErrors">setFieldErrors()</a></code>, 
 			<code><a href="class-AdminPageFramework_Setting.html#_setSettingNotice">setSettingNotice()</a></code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Setting_Base</h3>
+		<p class="elementList">
+			<code>_replyToCheckRedirects()</code>, 
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToGetSectionHeaderOutput()</code>, 
+			<code>_replyToRegisterSettings()</code>
 		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Menu.html#methods">AdminPageFramework_Menu</a></h3>
 		<p class="elementList">
@@ -1763,10 +1825,13 @@ override the property.</dd>
 
 		<h2>Properties summary</h2>
 
-		<h3>Properties inherited from <a href="class-AdminPageFramework_Setting.html#properties">AdminPageFramework_Setting</a></h3>
+		<h3>Properties inherited from AdminPageFramework_Setting_Base</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Setting.html#$_sTargetPageSlug"><var>$_sTargetPageSlug</var></a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#$_sTargetTabSlug"><var>$_sTargetTabSlug</var></a></code>
+			<code><var>$_sFieldsType</var></code>, 
+			<code><var>$_sTargetPageSlug</var></code>, 
+			<code><var>$_sTargetSectionTabSlug</var></code>, 
+			<code><var>$_sTargetTabSlug</var></code>, 
+			<code><var>$aFieldErrors</var></code>
 		</p>
 		<h3>Properties inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">
