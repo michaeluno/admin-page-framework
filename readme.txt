@@ -51,6 +51,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * `posttype` - a check-list of post types enabled on the site.
 * `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
 * `size` - a combination field of the text and the select fields that let the user set sizes with a unit.
+* `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 
 = Custom Field Types = 
 You can include your own custom field types when they are necessary. This enables to keep the main library file to be minimum as possible. The sample custom field types are included in the demo plugin.
@@ -233,6 +234,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0b =
+* Added: the `section_title` field type that lets the user to enter a section title.
 * Added: the ability to display form sections in tabs by specifying the `section_tab_slug`.
 * Added: the `autocomplete` custom field type.
 * Added: the ability to repeat form section.
