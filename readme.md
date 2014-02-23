@@ -49,9 +49,13 @@ Admin Page Framework is an open source library for WordPress consisting of a set
 		<img src="https://lh4.googleusercontent.com/-AdR4hIv2Qz8/UtyrdfT-VYI/AAAAAAAABhE/3_rz0dVy7hw/s144/meta_boxes_in_pages.png" alt="Admin Page Framework - Meta Boxes in Pages Added by the Framework" />
 	</a>	
 	&nbsp;
-	<a href="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s0/form_fields_in_taxonomy_page.png" title="Admin Page Framework - Form fields in Taxonomy Page">
-		<img src="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s144/form_fields_in_taxonomy_page.png" alt="Admin Page Framework - Form fields in Taxonomy Page" />
+	<a href="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s0/form_fields_in_taxonomy_page.png" title="Admin Page Framework - Form Fields in Taxonomy Page">
+		<img src="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s144/form_fields_in_taxonomy_page.png" alt="Admin Page Framework - Form Fields in Taxonomy Page" />
 	</a>	
+	&nbsp;
+	<a href="https://lh4.googleusercontent.com/-cBhVw-zHoAQ/UwnaN0k3YZI/AAAAAAAABiM/XVU3Svs9T7k/s0/admin_page_framework_v3_sections.png" title="Admin Page Framework - Form Sections in Tabbed Boxes and Repeatable Option">
+		<img src="https://lh4.googleusercontent.com/-cBhVw-zHoAQ/UwnaN0k3YZI/AAAAAAAABiM/XVU3Svs9T7k/s144/admin_page_framework_v3_sections.png" alt="Admin Page Framework - Form Sections in Tabbed Boxes and Repeatable Option" />
+	</a>
 </div>
 
 ## Installation ##
