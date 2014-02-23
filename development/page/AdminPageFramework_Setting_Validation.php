@@ -216,7 +216,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			$_aInput = $aInput;	// copy one for parsing
 			
 			// Merge the user input with the user-set default values.
-			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not merge the default values of the submitted page's elements as they merge recursively
+			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not include the default values of the submitted page's elements as they merge recursively
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
 
 			// For each submitted element
