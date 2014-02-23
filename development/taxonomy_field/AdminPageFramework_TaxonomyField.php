@@ -255,7 +255,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$this->oForm->format();
 		
 		/* Get the field outputs */
-		$oFieldsTable = new AdminPageFramework_FormTable( $this->oMsg );
+		$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
 		$aOutput[] = $bRenderTableRow 
 			? $oFieldsTable->getFieldRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
 			: $oFieldsTable->getFields( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );

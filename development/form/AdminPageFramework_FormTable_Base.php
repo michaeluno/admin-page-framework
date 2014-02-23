@@ -19,9 +19,9 @@ if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) :
  */
 class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 	
-	public function __construct( $aFieldTypeDefinitions, $oMsg ) {
+	public function __construct( $aFieldTypeDefinitions, $oMsg=null ) {
 		
-		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
+		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;	// used to merge the field definition array with the default field type definition. This is for the 'section_title' field type.
 		$this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' );
 		
 		$this->_loadScripts();
