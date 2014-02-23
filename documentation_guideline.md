@@ -7,28 +7,28 @@ Therefore, in order to write documentation, write it right before the definition
 
 The syntax of [DocBlock](http://en.wikipedia.org/wiki/PHPDoc) is employed.
 
-The allowed HTML tags: b, i, a, ul, ol, li, p, br, var, samp, kbd, tt, code, blockquote, pre, h4, h3, h2, h1, strong, em, span.
+The allowed HTML tags: `b`, `i`, `a`, `ul`, `ol`, `li`, `p`, `br`, `var`, `samp`, `kbd`, `tt`, `code`, `blockquote`, `pre`, `h4`, `h3`, `h2`, `h1`, `strong`, `em`, `span`.
 
 ### Example ###
 	/**
-	* Sets the given message to be displayed in the next page load. 
-	* 
-	* This is used to inform users about the submitted input data, such as "Updated sucessfully." or "Problem occured." etc. and normally used in validation callback methods.
-	* 
-	* <strong>Example</strong>
-	* <code>if ( ! $bVerified ) {
-	*		$this->setFieldErrors( $aErrors );		
-	*		$this->setSettingNotice( 'There was an error in your input.' );
-	*		return $aOldPageOptions;
-	*	}</code>
-	* @since			2.0.0
-	* @access 			protected
-	* @remark			The user may use this method in their extended class definition.
-	* @param			string		the text message to be displayed.
-	* @param			string		( optional ) the type of the message, either "error" or "updated"  is used.
-	* @param			string		( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
-	* @return			void
-	*/		
+	 * Sets the given message to be displayed in the next page load. 
+	 * 
+	 * This is used to inform users about the submitted input data, such as "Updated sucessfully." or "Problem occured." etc. and normally used in validation callback methods.
+	 * 
+	 * <strong>Example</strong>
+	 * <code>if ( ! $bVerified ) {
+	 *		$this->setFieldErrors( $aErrors );		
+	 *		$this->setSettingNotice( 'There was an error in your input.' );
+	 *		return $aOldPageOptions;
+	 *	}</code>
+	 * @since			2.0.0
+	 * @access 			protected
+	 * @remark			The user may use this method in their extended class definition.
+	 * @param			string			the text message to be displayed.
+	 * @param			string			( optional ) the type of the message, either "error" or "updated"  is used.
+	 * @param			string			( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
+	 * @return			void
+	 */		
 	protected function setSettingNotice( $sMsg, $sType='error', $sID=null ) {
 		
 		add_settings_error( 
