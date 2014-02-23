@@ -65,7 +65,6 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 				$aArgs = $_aGet + array(
 					'post_type' => 'post',
 				);
-AdminPageFramework_Debug::logArray( $aArgs );
 				$oResults = new WP_Query( $aArgs );
 				$aData = array();
 				foreach( $oResults->posts as $iIndex => $oPost ) {
