@@ -214,6 +214,9 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
 
 			$_aInput = $aInput;	// copy one for parsing
+			
+			// Merge the user input with the user-set default values.
+			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not merge the default values of the submitted page's elements as they merge recursively
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
 
 			// For each submitted element
@@ -276,6 +279,28 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			return $aInput;
 		
 		}	
+			
+			/**
+			 * Removes option array elements that belongs to the given page/tab by their slug.
+			 * 
+			 * This is used when merging options and avoiding merging options that have an array structure as the framework uses the recursive merge
+			 * and if an option is not a string but an array, the default array of such a structure will merge with the user input of the corresponding structure. 
+			 * This problem will occur with the select field type with multiple attribute enabled. 
+			 * 
+			 * @since			3.0.0
+			 */
+			private function _removePageElements( $aOptions, $sPageSlug, $sTabSlug ) {
+				
+				if ( ! $sPageSlug && ! $sTabSlug ) return $aOptions;
+				
+				// If the tab is given
+				if ( $sTabSlug && $sPageSlug )	
+					return $this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
+				
+				// If only the page is given 
+				return $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug );
+				
+			}
 			
 }
 endif;
