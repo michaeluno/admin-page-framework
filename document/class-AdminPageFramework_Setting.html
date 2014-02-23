@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class AdminPageFramework_Setting | Admin Page Framework Documentation</title>
+
+	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
+	<script type="text/javascript" src="elementlist.js?2938817861"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+							<a href="package-AdminPageFramework.Page.html" title="Summary of AdminPageFramework\Page"><span>Package</span></a>
+						</li>
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="">
+			<input type="hidden" name="ie" value="UTF-8">
+			<input type="text" name="q" class="search-query" placeholder="Search">
+		</form>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
+						</li>
+				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-AdminPageFramework.html">AdminPageFramework</a></li>
+				<li><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></li>
+				<li><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></li>
+				<li class="active"><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_Setting</h1>
+
+
+	<div class="description">
+	
+<p>Provides public methods to add form elements with WordPress Settings API.</p>
+
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+AdminPageFramework_Base
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Page_MetaBox
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-AdminPageFramework_Page.html"><span>AdminPageFramework_Page</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-AdminPageFramework_Menu.html"><span>AdminPageFramework_Menu</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Base
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>AdminPageFramework_Setting</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+	<div>
+		<h3>Indirect known subclasses</h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>
+		</p>
+	</div>
+
+
+
+
+
+	<div class="alert alert-info">
+		<b>Abstract</b><br>
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Page.html">Page</a><br>
+
+				<b>Since:</b>
+				2.0.0<br>
+				<b>Extends:</b>
+				AdminPageFramework_Setting_Base<br>
+				<b>Var:</b>
+				array $aFieldErrors stores the settings field errors.<br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#10-517" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="setSettingNotice" id="_setSettingNotice">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setSettingNotice">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#22-75" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Sets the given message to be displayed in the next page load.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets the given message to be displayed in the next page load.</p>
+
+<p>This is used to inform users about the submitted input data, such as "Updated
+successfully." or "Problem occurred." etc. and normally used in validation
+callback methods.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-keyword1">if</span> ( ! <span
+class="php-var">$bVerified</span> ) {
+        <span
+class="php-var">$this</span>-&gt;setFieldErrors( <span
+class="php-var">$aErrors</span> );
+        <span
+class="php-var">$this</span>-&gt;setSettingNotice( <span
+class="php-quote">'There was an error in your input.'</span> );
+        <span
+class="php-keyword1">return</span> <span
+class="php-var">$aOldPageOptions</span>;
+}</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sMsg</var></dt>
+						<dd><code>string</code><br>the text message to be displayed.</dd>
+						<dt><var>$sType</var></dt>
+						<dd><code>string</code><br>( optional ) the type of the message, either "error" or "updated" is used.</dd>
+						<dt><var>$sID</var></dt>
+						<dd><code>string</code><br>( optional ) the ID of the message. This is used in the ID attribute of the
+message HTML element.</dd>
+						<dt><var>$bOverride</var></dt>
+						<dd><code>integer</code><br>( optional ) false: do not override when there is a message of the same id.
+true: override the previous one.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							2.1.2 Added a check to prevent duplicate items.<br>
+							2.1.5 Added the $bOverride parameter.<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setSettingNotice</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addSettingSections" id="_addSettingSections">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addSettingSections">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#77-126" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Adds the given form section items into the property.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Adds the given form section items into the property.</p>
+
+<p>The passed section array must consist of the following keys.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;addSettingSections(
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'text_fields'</span>,
+                <span
+class="php-quote">'page_slug'</span>     =&gt; <span
+class="php-quote">'first_page'</span>,
+                <span
+class="php-quote">'tab_slug'</span>      =&gt; <span
+class="php-quote">'textfields'</span>,
+                <span
+class="php-quote">'title'</span> =&gt; <span
+class="php-quote">'Text Fields'</span>,
+                <span
+class="php-quote">'description'</span>   =&gt; <span
+class="php-quote">'These are text type fields.'</span>,
+                <span
+class="php-quote">'order'</span> =&gt; <span
+class="php-num">10</span>,
+        ),
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'selectors'</span>,
+                <span
+class="php-quote">'page_slug'</span>     =&gt; <span
+class="php-quote">'first_page'</span>,
+                <span
+class="php-quote">'tab_slug'</span>      =&gt; <span
+class="php-quote">'selectors'</span>,
+                <span
+class="php-quote">'title'</span> =&gt; <span
+class="php-quote">'Selectors and Checkboxes'</span>,
+                <span
+class="php-quote">'description'</span>   =&gt; <span
+class="php-quote">'These are selector type options such as dropdown lists, radio buttons, and checkboxes'</span>,
+        )</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aSection1</var></dt>
+						<dd><code>array|string</code><br>the section array or the target page slug. If the target page slug is set, the
+next section array can omit the page slug key. <strong>Section Array</strong>
+<ul>
+	<li><strong>page_slug</strong> - ( required, string ) the page slug that the
+	section belongs to.</li>
+
+	<li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid
+	using non-alphabetic characters except underscore and numbers. If not set, the
+	internal section ID <em>_default</em> will be assigned.</li>
+
+	<li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the
+	section belongs to. The tab here refers to in-page tabs.</li>
+
+	<li><strong>section_tab_slug</strong> - ( optional, string ) [3.0.0+] the
+	section tab slug that the section are grouped into. The tab here refers to
+	section tabs.</li>
+
+	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+
+	<li><strong>capability</strong> - ( optional, string ) the <a
+	href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the
+	section. If the page visitor does not have sufficient capability, the section
+	will be invisible to them.</li>
+
+	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false,
+	the section will not be registered.</li>
+
+	<li><strong>order</strong> - ( optional, integer ) the order number of the
+	section. The higher the number is, the lower the position it gets.</li>
+
+	<li><strong>help</strong> - ( optional, string ) the help description added to
+	the contextual help tab.</li>
+
+	<li><strong>help_aside</strong> - ( optional, string ) the additional help
+	description for the side bar of the contextual help tab.</li>
+
+	<li><strong>repeatable</strong> - ( optional, boolean|array ) [3.0.0+] Indicates
+	whether or not the section is repeatable. To set a minimum/maximum number of
+	sections, pass an array with the key, <em>min</em>, and <em>max</em>. e.g.
+	<em>array( 'min' =&gt; 3, 'max' =&gt; 10 )</em></li>
+</ul>
+</dd>
+						<dt><var>$aSection2</var></dt>
+						<dd><code>array</code><br>( optional ) another section array.</dd>
+						<dt><var>$_and_more</var></dt>
+						<dd><code>array</code><br>( optional ) add more section array to the next parameters as many as necessary.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							Accepts variadic parameters; the number of accepted parameters are not limited
+to three.<br>
+							The actual registration will be performed in the
+<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingSections</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addSettingSection" id="_addSettingSection">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addSettingSection">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#128-167" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>A singular form of the adSettingSections() method which takes only a single
+parameter.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>A singular form of the adSettingSections() method which takes only a single
+parameter.</p>
+
+<p>This is useful when adding section arrays in loops.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$asSection</var></dt>
+						<dd><code>array|string</code><br>the section array. If a string is passed, it is considered as a target page slug
+that will be used as a page slug element from the next call so that the element
+can be ommited.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.1.2<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The actual registration will be performed in the
+<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingSection</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="removeSettingSections" id="_removeSettingSections">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_removeSettingSections">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#169-193" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Removes the given section(s) by section ID.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Removes the given section(s) by section ID.</p>
+
+<p>This accesses the property storing the added section arrays and removes the
+specified ones.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;removeSettingSections( <span
+class="php-quote">'text_fields'</span>, <span
+class="php-quote">'selectors'</span>, <span
+class="php-quote">'another_section'</span>, <span
+class="php-quote">'yet_another_section'</span> );
+</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sSectionID1</var></dt>
+						<dd><code>string</code><br>the section ID to remove.</dd>
+						<dt><var>$sSectionID2</var></dt>
+						<dd><code>string</code><br>( optional ) another section ID to remove.</dd>
+						<dt><var>$_and_more</var></dt>
+						<dd><code>string</code><br>( optional ) add more section IDs to the next parameters as many as necessary.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							Accepts variadic parameters; the number of accepted parameters are not limited
+to three.<br>
+							The actual registration will be performed in the
+<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::removeSettingSections</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addSettingFields" id="_addSettingFields">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addSettingFields">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#195-391" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Adds the given field array items into the field array property by the given
+field definition array(s).</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Adds the given field array items into the field array property by the given
+field definition array(s).</p>
+
+<p>The field definition array requires specific keys. Refer to the parameter
+section of this method.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;addSettingFields(
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'field_id'</span>      =&gt;      <span
+class="php-quote">'text'</span>,
+                <span
+class="php-quote">'section_id'</span>    =&gt;      <span
+class="php-quote">'text_fields'</span>,
+                <span
+class="php-quote">'title'</span> =&gt;      __( <span
+class="php-quote">'Text'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'description'</span>   =&gt;      __( <span
+class="php-quote">'Type something here.'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+                <span
+class="php-quote">'type'</span>  =&gt;      <span
+class="php-quote">'text'</span>,
+                <span
+class="php-quote">'order'</span> =&gt;      <span
+class="php-num">1</span>,
+                <span
+class="php-quote">'default'</span>       =&gt;      <span
+class="php-num">123456</span>,
+                <span
+class="php-quote">'size'</span>  =&gt;      <span
+class="php-num">40</span>,
+        ),
+        <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'field_id'</span>      =&gt;      <span
+class="php-quote">'text_multiple'</span>,
+                <span
+class="php-quote">'section_id'</span>    =&gt;      <span
+class="php-quote">'text_fields'</span>,
+                <span
+class="php-quote">'title'</span> =&gt;      <span
+class="php-quote">'Multiple Text Fields'</span>,
+                <span
+class="php-quote">'description'</span>   =&gt;      <span
+class="php-quote">'These are multiple text fields.'</span>,
+                <span
+class="php-quote">'type'</span>  =&gt;      <span
+class="php-quote">'text'</span>,
+                <span
+class="php-quote">'order'</span> =&gt;      <span
+class="php-num">2</span>,
+                <span
+class="php-quote">'default'</span>       =&gt;      <span
+class="php-quote">'Hello World'</span>,
+                <span
+class="php-quote">'label'</span> =&gt;      <span
+class="php-quote">'First Item'</span>,
+                <span
+class="php-quote">'attributes'</span>    =&gt;      <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'size'</span>  =&gt;      <span
+class="php-num">30</span>
+                ),
+                <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'label'</span> =&gt;      <span
+class="php-quote">'Second Item'</span>,
+                        <span
+class="php-quote">'default'</span>       =&gt;      <span
+class="php-quote">'Foo bar'</span>,
+                        <span
+class="php-quote">'attributes'</span>    =&gt;      <span
+class="php-keyword1">array</span>(
+                                <span
+class="php-quote">'size'</span>  =&gt;      <span
+class="php-num">60</span>,
+                        ),
+                ),
+                <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'label'</span> =&gt;      <span
+class="php-quote">'Third Item'</span>,
+                        <span
+class="php-quote">'default'</span>       =&gt;      <span
+class="php-quote">'Yes, we can.'</span>,
+                        <span
+class="php-quote">'attributes'</span>    =&gt;      <span
+class="php-keyword1">array</span>(
+                                <span
+class="php-quote">'size'</span>  =&gt;      <span
+class="php-num">90</span>,
+                        ),
+                ),
+        )
+);</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aField1</var></dt>
+						<dd><code>array</code><br>the field definition array.
+<h4>Built-in Field Types</h4>
+
+<ul>
+	<li><strong>text</strong> - a normal field to enter text input.</li>
+
+	<li><strong>text</strong> - a masked text input field.</li>
+
+	<li><strong>textarea</strong> - a text input field with multiple lines. It
+	supports rich text editor.</li>
+
+	<li><strong>radio</strong> - a set of radio buttons that lets the user pick an
+	option.</li>
+
+	<li><strong>checkbox</strong> - a check box that lets the user enable/disable an
+	item.</li>
+
+	<li><strong>select</strong> - a drop-down list that lest the user pick one or
+	more item(s) from a list.</li>
+
+	<li><strong>hidden</strong> - a hidden field that will be useful to insert
+	invisible values.</li>
+
+	<li><strong>file</strong> - a file uploader that lets the user upload
+	files.</li>
+
+	<li><strong>image</strong> - a custom text field with the image uploader script
+	that lets the user set the image URL.</li>
+
+	<li><strong>media</strong> - a custom text field with the media uploader script
+	that lets the user set the file URL.</li>
+
+	<li><strong>color</strong> - a custom text field with the color picker
+	script.</li>
+
+	<li><strong>submit</strong> - a submit button that lets the user send the
+	form.</li>
+
+	<li><strong>export</strong> - a custom submit field that lets the user export
+	the stored data.</li>
+
+	<li><strong>import</strong> - a custom combination field of the file and the
+	submit fields that let the user import data.</li>
+
+	<li><strong>posttype</strong> - a check-list of post types enabled on the
+	site.</li>
+
+	<li><strong>taxonomy</strong> - a set of check-lists of taxonomies enabled on
+	the site in a tabbed box.</li>
+
+	<li><strong>size</strong> - a combination field of the text and the select
+	fields that let the user set sizes with a selectable unit.</li>
+
+	<li><strong>section_title</strong> - [3.0.0+] a text field type that will be
+	placed in the section title so that it lets the user set the section title. Note
+	that only one field with this field type is allowed per a section.</li>
+</ul>
+
+<h4>Field Definition Array</h4>
+
+<ul>
+	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using
+	non-alphabetic characters exept underscore and numbers.</li>
+
+	<li><strong>section_id</strong> - ( required, string ) the section ID that the
+	field belongs to.</li>
+
+	<li><strong>type</strong> - ( required, string ) the type of the field. The
+	supported types are listed below.</li>
+
+	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+
+	<li><strong>description</strong> - ( optional, string ) the description of the
+	field which is inserted into the after the input field tag.</li>
+
+	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is
+	displayed when the mouse is hovered over the field title.</li>
+
+	<li><strong>capability</strong> - ( optional, string ) the <a
+	href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a>"&gt;access
+	level of the section. If the page visitor does not have sufficient capability,
+	the section will be invisible to them.</li>
+
+	<li><strong>error_message</strong> - ( optional, string ) the error message to
+	display above the input field.</li>
+
+	<li><strong>before_field</strong> - ( optional, string ) the HTML string to
+	insert before the input field output.</li>
+
+	<li><strong>after_field</strong> - ( optional, string ) the HTML string to
+	insert after the input field output.</li>
+
+	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false,
+	the section will not be registered.</li>
+
+	<li><strong>order</strong> - ( optional, integer ) the order number of the
+	section. The higher the number is, the lower the position it gets.</li>
+
+	<li><strong>label</strong> - ( optional, string ) the text label(s) associated
+	with and displayed along with the input field. Some input types can ignore this
+	key.</li>
+
+	<li><strong>default</strong> - ( optional, string|array ) the default value(s)
+	assigned to the input tag's value attribute.</li>
+
+	<li><strong>value</strong> - ( optional, string|array ) the value(s) assigned to
+	the input tag's <em>value</em> attribute to override the default and the stored
+	value.</li>
+
+	<li><strong>delimiter</strong> - ( optional, string ) the HTML string that
+	delimits multiple elements. This is available if the <var>label</var> key is
+	passed as array. It will be enclosed in inline-block elements so the passed HTML
+	string should not contain block elements.</li>
+
+	<li><strong>before_input</strong> - ( optional, string ) the HTML string
+	inserted right before the input tag. It will be enclosed in the
+	<code>label</code> tag so the passed HTML string should not contain block
+	elements.</li>
+
+	<li><strong>after_input</strong> - ( optional, string ) the HTML string inserted
+	right after the input tag. It will be enclosed in the <code>label</code> tag so
+	the passed HTML string should not contain block elements.</li>
+
+	<li><strong>label_min_width</strong> - ( optional, string ) the inline style
+	property of the <em>min-width</em> of the label tag for the field in pixel
+	without the unit. Default: <code>&lt;span
+	class="php-num"&gt;120&lt;/span&gt;</code>.</li>
+
+	<li><strong>help</strong> - ( optional, string ) the help description added to
+	the contextual help tab.</li>
+
+	<li><strong>help_aside</strong> - ( optional, string ) the additional help
+	description for the side bar of the contextual help tab.</li>
+
+	<li><strong>repeatable</strong> - [3.0.0+] ( optional, array|boolean ) whether
+	the fields should be repeatable. If it yields true, the plus and the minus
+	buttons appear next to each field that lets the user add/remove the fields.
+	Optionally an setting array can be passed.
+		<h5>Repeatable Fields Setting Array</h5>
+
+		<ul>
+			<li><strong>max</strong> - the allowed maximum number of fields to be
+			repeated.</li>
+
+			<li><strong>min&lt;/string&gt; - the allowed minimum number of fields to be
+			repeated.</strong></li>
+		</ul>
+	</li>
+
+	<li><strong>sortable</strong> - [3.0.0+] ( optional, boolean ) whether the
+	fields should be sortable. If it yields true, the fields will be enclosed in a
+	draggable box.</li>
+
+	<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) holds key-value
+	pairs representing the attribute and its property. Note that some field types
+	have specific keys in the first dimensions. e.g.<em>array( 'class' =&gt;
+	'my_custom_class_selector', 'style' =&gt; 'background-color:#777', 'size' =&gt;
+	20, )</em></li>
+
+	<li><strong>show_title_column</strong> - [3.0.0+] ( optional, boolean ) If true,
+	the field title column will be omitted from the output.</li>
+
+	<li><strong>hidden</strong> - [3.0.0+] ( optional, boolean ) If true, the entire
+	field row output will be invisible with the inline style attribute of
+	<em>style="display:none"</em>.</li>
+</ul>
+
+<h4>Field Type Specific Keys</h4>
+
+<p>Each field type uses specific array keys.</p>
+
+<ul>
+	<li><strong>text</strong> - a text input field which allows the user to type
+	text.</li>
+
+	<li><strong>password</strong> - a password input field which allows the user to
+	type text.</li>
+
+	<li><strong>number, range</strong> - HTML5 input field types. Some browsers do
+	not support these.</li>
+
+	<li><strong>textarea</strong> - a textarea input field. The following array keys
+	are supported.
+		<ul>
+			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text
+			editor pass a non-empty value. It accept a setting array of the
+			<code>_WP_Editors</code> class defined in the core. For more information, see
+			the argument section of <a
+			href="http://codex.wordpress.org/Function_Reference/wp_editor"
+			target="_blank">this page</a>.</li>
+		</ul>
+	</li>
+
+	<li><strong>radio</strong> - a radio button input field.</li>
+
+	<li><strong>checkbox</strong> - a check box input field.</li>
+
+	<li><strong>select</strong> - a drop-down input field.
+		<ul>
+			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true,
+			the <em>multiple</em> attribute will be inserted into the field input tag, which
+			enables the multiple selections for the user.</li>
+		</ul>
+	</li>
+
+	<li><strong>size</strong> - a size input field. This is a combination of number
+	and select fields.
+		<ul>
+			<li><strong>units</strong> - ( optional, array ) defines the units to show. e.g.
+			<em>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em' )</em> Default:
+			<em>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em', 'ex' =&gt; 'ex',
+			'in' =&gt; 'in', 'cm' =&gt; 'cm', 'mm' =&gt; 'mm', 'pt' =&gt; 'pt', 'pc' =&gt;
+			'pc' )</em></li>
+
+			<li><strong>is_multiple</strong> - ( optional, boolean ) if this is set to true,
+			the <em>multiple</em> attribute will be inserted into the field input tag, which
+			enables the multiple selections for the user.</li>
+
+			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes
+			array of this field type has four initial keys: size, unit, optgroup, and option
+			and they have a regular attribute array in each.</li>
+		</ul>
+	</li>
+
+	<li><strong>hidden</strong> - a hidden input field.</li>
+
+	<li><strong>file</strong> - a file upload input field.</li>
+
+	<li><strong>submit</strong> - a submit button input field.
+		<ul>
+			<li><strong>href</strong> - ( optional, string ) the url(s) linked to the submit
+			button.</li>
+
+			<li><strong>redirect_url</strong> - ( optional, string ) the url(s) redirected
+			to after submitting the input form.</li>
+
+			<li><strong>reset</strong> - [2.1.2+] ( optional, boolean ) the option key to
+			delete. Set 1 for the entire option.</li>
+		</ul>
+	</li>
+
+	<li><strong>import</strong> - an import input field. This is a custom file and
+	submit field.
+		<ul>
+			<li><strong>option_key</strong> - ( optional, string ) the option table key to
+			save the importing data.</li>
+
+			<li><strong>format</strong> - ( optional, string ) the import format. json, or
+			array is supported. Default: array</li>
+
+			<li><strong>is_merge</strong> - ( optional, boolean ) [2.0.5+] determines
+			whether the imported data should be merged with the existing options.</li>
+		</ul>
+	</li>
+
+	<li><strong>export</strong> - an export input field. This is a custom submit
+	field.
+		<ul>
+			<li><strong>file_name</strong> - ( optional, string ) the file name to
+			download.</li>
+
+			<li><strong>format</strong> - ( optional, string ) the format type. array, json,
+			or text is supported. Default: array.</li>
+
+			<li><strong>data</strong> - ( optional, string|array|object ) the data to
+			export.</li>
+		</ul>
+	</li>
+
+	<li><strong>image</strong> - an image input field. This is a custom text field
+	with an attached JavaScript script.
+		<ul>
+			<li><strong>show_preview</strong> - ( optional, boolean ) if this is set to
+			false, the image preview will be disabled.</li>
+
+			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the
+			array of the attribute names of the image to save. If this is set, the field
+			will be an array with the specified attributes. The supported attributes are,
+			'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note
+			that for external URLs, ID will not be captured. e.g. <em>'attributes_to_store'
+			=&gt; array( 'id', 'caption', 'description' )</em></li>
+
+			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
+			whether external URL can be set via the uploader.</li>
+
+			<li><strong>attributes</strong> - [3.0.0+] ( optional, array ) The attributes
+			array of this field type has three keys: input, button, and preview and they
+			have a regular attribute array in each.</li>
+		</ul>
+	</li>
+
+	<li><strong>media</strong> - [2.1.3+] a media input field. This is a custom text
+	field with an attached JavaScript script.
+		<ul>
+			<li><strong>attributes_to_store</strong> - [2.1.3+] ( optional, array ) the
+			array of the attribute names of the image to save. If this is set, the field
+			will be an array with the specified attributes. The supported attributes are,
+			'id', 'caption', and 'description'. Note that for external URLs, ID will not be
+			captured. e.g. <em>'attributes_to_store' =&gt; array( 'id', 'caption',
+			'description' )</em></li>
+
+			<li><strong>allow_external_source</strong> - [2.1.3+] ( optional, boolean )
+			whether external URL can be set via the uploader.</li>
+		</ul>
+	</li>
+
+	<li><strong>color</strong> - a color picker input field. This is a custom text
+	field with a JavaScript script.</li>
+
+	<li><strong>taxonomy</strong> - a taxonomy check list. This is a set of check
+	boxes listing a specified taxonomy. This does not accept to create multiple
+	fields by passing an array of labels.
+		<ul>
+			<li><strong>taxonomy_slugs</strong> - ( optional, array ) the taxonomy slug to
+			list.</li>
+
+			<li><strong>max_width</strong> - ( optional, string ) the inline style property
+			value of <em>max-width</em> of this element. Include the unit such as px, %.
+			Default: 100%</li>
+
+			<li><strong>height</strong> - ( optional, string ) the inline style property
+			value of <em>height</em> of this element. Include the unit such as px, %.
+			Default: 250px</li>
+		</ul>
+	</li>
+
+	<li><strong>posttype</strong> - a post-type check list. This is a set of check
+	boxes listing post type slugs.
+		<ul>
+			<li><strong>slugs_to_remove</strong> - ( optional, array ) the post type slugs
+			not to be listed. e.g.<em>array( 'revision', 'attachment', 'nav_menu_item'
+			)</em></li>
+		</ul>
+	</li>
+</ul>
+</dd>
+						<dt><var>$aField2</var></dt>
+						<dd><code>array</code><br>( optional ) another field array.</dd>
+						<dt><var>$_and_more</var></dt>
+						<dd><code>array</code><br>( optional ) add more field arrays to the next parameters as many as necessary.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							Accepts variadic parameters; the number of accepted parameters are not limited
+to three.<br>
+							The actual registration will be performed in the
+<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingFields</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addSettingField" id="_addSettingField">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addSettingField">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#392-405" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Adds the given field array items into the field array property.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Adds the given field array items into the field array property.</p>
+
+<p>Identical to the addSettingFields() method except that this method does not
+accept enumerated parameters.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$asField</var></dt>
+						<dd><code>array|string</code><br>the field array or the target section ID. If the target section ID is set, the
+section_id key can be omitted from the next passing field array.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.1.2<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::addSettingField</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="removeSettingFields" id="_removeSettingFields">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_removeSettingFields">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#407-430" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Removes the given field(s) by field ID.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Removes the given field(s) by field ID.</p>
+
+<p>This accesses the property storing the added field arrays and removes the
+specified ones.</p>
+
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;removeSettingFields( <span
+class="php-quote">'fieldID_A'</span>, <span
+class="php-quote">'fieldID_B'</span>, <span
+class="php-quote">'fieldID_C'</span>, <span
+class="php-quote">'fieldID_D'</span> );
+</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sFieldID1</var></dt>
+						<dd><code>string</code><br>the field ID to remove.</dd>
+						<dt><var>$sFieldID2</var></dt>
+						<dd><code>string</code><br>( optional ) another field ID to remove.</dd>
+						<dt><var>$_and_more</var></dt>
+						<dd><code>string</code><br>( optional ) add more field IDs to the next parameters as many as necessary.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							Accepts variadic parameters; the number of accepted parameters are not limited
+to three.<br>
+							The actual registration will be performed in the
+<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::removeSettingFields</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setFieldErrors" id="_setFieldErrors">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setFieldErrors">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#432-481" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Sets the field error array.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Sets the field error array.</p>
+
+<p>This is normally used in validation callback methods when the submitted
+user's input data have an issue. This method saves the given array in a
+temporary area( transient ) of the options database table.</p>
+
+<h4>Example</h4>
+
+<pre>
+<span class="php-keyword1">public</span> <span
+class="php-keyword1">function</span> validation_APF_Demo_verify_text_field_submit( <span
+class="php-var">$aNewInput</span>, <span
+class="php-var">$aOldOptions</span> ) {
+
+        <span
+class="php-comment">// 1. Set a flag.</span>
+        <span
+class="php-var">$bVerified</span> = <span
+class="php-keyword1">true</span>;
+
+        <span
+class="php-comment">// 2. Prepare an error array.</span>
+        <span
+class="php-var">$aErrors</span> = <span
+class="php-keyword1">array</span>();
+
+        <span
+class="php-comment">// 3. Check if the submitted value meets your criteria.</span>
+        <span
+class="php-keyword1">if</span> ( ! <span
+class="php-keyword2">is_numeric</span>( <span
+class="php-var">$aNewInput</span>[<span
+class="php-quote">'verify_text_field'</span>] ) ) {
+                <span
+class="php-var">$aErrors</span>[<span
+class="php-quote">'verify_text_field'</span>] = __( <span
+class="php-quote">'The value must be numeric:'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> )
+                        . <span
+class="php-var">$aNewInput</span>[<span
+class="php-quote">'verify_text_field'</span>];
+                <span
+class="php-var">$bVerified</span> = <span
+class="php-keyword1">false</span>;
+        }
+
+        <span
+class="php-comment">// 4. An invalid value is found.</span>
+        <span
+class="php-keyword1">if</span> ( ! <span
+class="php-var">$bVerified</span> ) {
+                <span
+class="php-comment">// 4-1. Set the error array for the input fields.</span>
+                <span
+class="php-var">$this</span>-&gt;setFieldErrors( <span
+class="php-var">$aErrors</span> );
+                <span
+class="php-var">$this</span>-&gt;setSettingNotice( <span
+class="php-quote">'There was an error in your input.'</span> );
+                <span
+class="php-keyword1">return</span> <span
+class="php-var">$aOldOptions</span>;
+        }
+
+        <span
+class="php-keyword1">return</span> <span
+class="php-var">$aNewInput</span>;
+
+}
+</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aErrors</var></dt>
+						<dd><code>array</code><br>the field error array. The structure should follow the one contained in the
+submitted $_POST array.</dd>
+						<dt><var>$sID</var></dt>
+						<dd><code>string</code><br>this should be the page slug of the page that has the dealing form field.</dd>
+						<dt><var>$nSavingDuration</var></dt>
+						<dd><code>integer</code><br>the transient's lifetime. 300 seconds means 5 minutes.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.0.0<br>
+							3.0.0 Changed the scope to public from protected.<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							the user may use this method.<br>
+							the transient name is a MD5 hash of the extended class name + _ + page slug (
+the passed ID )<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::setFieldErrors</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getFieldValue" id="_getFieldValue">
+
+			<td class="attributes"><code>
+				 public 
+				array|string|null
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getFieldValue">#</a>
+			<code><a href="source-class-AdminPageFramework_Setting.html#483-515" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Retrieves the specified field value stored in the options by field ID.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Retrieves the specified field value stored in the options by field ID.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sFieldID</var></dt>
+						<dd><code>string</code><br>The field ID.</dd>
+						<dt><var>$sSectionID</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array|string|null</code><br>If the field ID is not set in the saved option array, it will return null.
+Otherwise, the set value. If the user has not submitted the form, the framework
+will try to return the default value set in the field definition array.<br>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.1.2<br>
+							3.0.0 Changed the scope to public from protected. Dropped the sections. Made it
+return a default value even if it's not saved in the database.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_Base::getFieldValue</code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+		<h3>Methods inherited from AdminPageFramework_Setting_Base</h3>
+		<p class="elementList">
+			<code>__construct()</code>, 
+			<code>_replyToCheckRedirects()</code>, 
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToGetSectionHeaderOutput()</code>, 
+			<code>_replyToRegisterSettings()</code>
+		</p>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Menu.html#methods">AdminPageFramework_Menu</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuItem">addSubMenuItem()</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu.html#_addSubMenuItems">addSubMenuItems()</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu.html#_setRootMenuPage">setRootMenuPage()</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu.html#_setRootMenuPageBySlug">setRootMenuPageBySlug()</a></code>
+		</p>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Page.html#methods">AdminPageFramework_Page</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_Page.html#__replyToFinalizeInPageTabs">_replyToFinalizeInPageTabs()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_addInPageTab">addInPageTab()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_addInPageTabs">addInPageTabs()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_setInPageTabTag">setInPageTabTag()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_setInPageTabsVisibility">setInPageTabsVisibility()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_setPageHeadingTabTag">setPageHeadingTabTag()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_setPageHeadingTabsVisibility">setPageHeadingTabsVisibility()</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html#_setPageTitleVisibility">setPageTitleVisibility()</a></code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Page_MetaBox</h3>
+		<p class="elementList">
+			<code>_getNumberOfColumns()</code>, 
+			<code>_printMetaBox()</code>, 
+			<code>_replyToAddMetaboxScript()</code>, 
+			<code>_replyToEnableMetaBox()</code>, 
+			<code>_replyToReturnDefaultNumberOfScreenColumns()</code>, 
+			<code>_replyToSetNumberOfScreenLayoutColumns()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Base</h3>
+		<p class="elementList">
+			<code>_sortByOrder()</code>, 
+			<code>addHelpTab()</code>, 
+			<code>addLinkToPluginDescription()</code>, 
+			<code>addLinkToPluginTitle()</code>, 
+			<code>addSubMenuLink()</code>, 
+			<code>addSubMenuPage()</code>, 
+			<code>addSubMenuPages()</code>, 
+			<code>enqueueScript()</code>, 
+			<code>enqueueScripts()</code>, 
+			<code>enqueueStyle()</code>, 
+			<code>enqueueStyles()</code>, 
+			<code>setAdminNotice()</code>, 
+			<code>setCapability()</code>, 
+			<code>setDisallowedQueryKeys()</code>, 
+			<code>setFooterInfoLeft()</code>, 
+			<code>setFooterInfoRight()</code>, 
+			<code>setUp()</code>
+		</p>
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+		<h2>Properties summary</h2>
+
+		<h3>Properties inherited from AdminPageFramework_Setting_Base</h3>
+		<p class="elementList">
+			<code><var>$_sFieldsType</var></code>, 
+			<code><var>$_sTargetPageSlug</var></code>, 
+			<code><var>$_sTargetSectionTabSlug</var></code>, 
+			<code><var>$_sTargetTabSlug</var></code>, 
+			<code><var>$aFieldErrors</var></code>
+		</p>
+		<h3>Properties inherited from AdminPageFramework_Base</h3>
+		<p class="elementList">
+			<code><var>$_aHookPrefixes</var></code>, 
+			<code><var>$oDebug</var></code>, 
+			<code><var>$oHeadTag</var></code>, 
+			<code><var>$oHelpPane</var></code>, 
+			<code><var>$oLink</var></code>, 
+			<code><var>$oMsg</var></code>, 
+			<code><var>$oPageLoadInfo</var></code>, 
+			<code><var>$oProp</var></code>, 
+			<code><var>$oUtil</var></code>
+		</p>
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

@@ -1,21 +1,36 @@
 <?php
-class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
+class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
+	 */		
+	public $aFieldTypeSlugs = array( 'geometry' );	
+		
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			// 'vSize'					=> 1,
-		);	
-	}
+	protected $aDefaultKeys = array(
+		'attributes'	=> array(
+			'value'	=>	array(
+				'latitude'	=> 20,
+				'longitude'	=> 20,
+				'elevation'	=>	null,
+				'location_name'	=> '',
+			),
+			'latitude'	=> array(),
+			'longitude'	=> array(),
+			'elevation'	=> array(),
+			'location_name'	=> array(),
+			'button'	=> array(),
+		),	
+	);
 
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
-		
-	}	
+	protected function setUp() {}
 	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
@@ -39,121 +54,117 @@ class GeometryCustomFieldType extends AdminPageFramework_CustomFieldType {
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
-		return "";		
-	}	
+	protected function getScripts() { return ''; } 
+
+	/**
+	 * Returns IE specific CSS rules.
+	 */
+	protected function getIEStyles() { return ''; }
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
-		return "
-			.admin-page-framework-input-label-container.geometry, 
-			.geometry .admin-page-framework-input-container
-			{
-				width: 100%;
-			}
-			.geometry .inline-label-text {
-				min-width:120px; 
-				display: inline-block;
-			}
-			.geometry label {
-				display: inline-block;
-				margin-bottom: 0.5em;
-			}
-			.geometry label.update-button {
-				display: inline;
-			}
-			.geometry .map {
-				margin-bottom: 1em;
-			}
-			.geometry .update-button {
-				float: right;
-			}
-		";		
-	}
-
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	public function replyToGetInputIEStyles() {
-		return "";		
+	protected function getStyles() {
+		return "/* Geometry Custom Field Type */
+			.admin-page-framework-field .gllpMap {width: 100%}
+		";
 	}
 	
 	/**
-	 * Returns the output of the geometry custom field type.
-	 * 
+	 * Returns the output of this field type.
 	 */
-	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
-
-		$arrOutput = array();
-		$strFieldName = $arrField['strFieldName'];
-		$strTagID = $arrField['strTagID'];
-		$strFieldClassSelector = $arrField['strFieldClassSelector'];
-		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
-					
-		if ( isset( $vValue['latitude'], $vValue['longitude'] ) )
-			$vValue = array( $vValue );
-
-		foreach( ( array ) $vValue as $strKey => $arrValue ) {
-			$strClassAttribute = $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] );
-			$strName = is_array( $arrField['vLabel'] ) ? "{$strFieldName}[{$strKey}]" : "{$strFieldName}";
-			$numLatitude = isset( $arrValue['latitude'] ) ? $arrValue['latitude'] : 20;
-			$numLongitude = isset( $arrValue['longitude'] ) ? $arrValue['longitude'] : 20; 
-			$numElevation = isset( $arrValue['elevation'] ) ? $arrValue['elevation'] : null; 
-			$strPlaceName = isset( $arrValue['place_name'] ) ? $arrValue['place_name'] : ''; 
-			$strDisabled = ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' );
-			$arrOutput[] = 
-				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container geometry'>"
-						. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
-						. ( ( $strLabel = $this->getCorrespondingArrayValue( $arrField['vLabel'], $strKey, $arrDefaultKeys['vLabel'] ) ) 
-							? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>{$strLabel}</span>" 
-							: "" 
-						)
-						. "<div class='admin-page-framework-input-container'>"
-							. "<div class='gllpLatlonPicker'>"
-								. "<div class='gllpMap map'>Google Maps</div>"
-								. "<label for='{$strTagID}_{$strKey}_button' class='update-button'>"
-									. "<input type='button' class='gllpUpdateButton button button-small' id='{$strTagID}_{$strKey}_button' value='" . __( 'Update Map', 'admin-page-framework-demo' ) . "' {$strDisabled} />"
-								. "</label>"								
-								. "<label for='{$strTagID}_{$strKey}_latitude'>"
-									. "<span class='inline-label-text'>" . __( 'Latitude', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpLatitude {$strClassAttribute}' id='{$strTagID}_{$strKey}_latitude' name='{$strName}[latitude]' value='{$numLatitude}' {$strDisabled}/>"
-								. "</label><br />"
-								. "<label for='{$strTagID}_{$strKey}_longitude'>"
-									. "<span class='inline-label-text'>" . __( 'Longitude', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpLongitude {$strClassAttribute}' id='{$strTagID}_{$strKey}_longitude' name='{$strName}[longitude]' value='{$numLongitude}' {$strDisabled}/>"
-								. "</label><br />"
-								. "<label for='{$strTagID}_{$strKey}_longitude'>"
-									. "<span class='inline-label-text'>" . __( 'Elevation', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpElevation {$strClassAttribute}' id='{$strTagID}_{$strKey}_elevation' name='{$strName}[elevation]' value='{$numElevation}' {$strDisabled}/> " . __( "metres", "admin-page-framework-demo" )
-								. "</label><br />"								
-								. "<label for='{$strTagID}_{$strKey}_name'>"
-									. "<span class='inline-label-text'>" . __( 'Place Name', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpLocationName {$strClassAttribute}' id='{$strTagID}_{$strKey}_place_name' name='{$strName}[place_name]' value='{$strPlaceName}' {$strDisabled}/> "
-								. "</label><br />"
-								. "<label for='{$strTagID}_{$strKey}_zoom'>"
-									. "<span class='inline-label-text'>" . __( 'zoom', 'admin-page-framework-demo' ) . "</span>"
-									. "<input type='text' class='gllpZoom' id='{$strTagID}_{$strKey}_zoom' value='3'/>"
-								. "</label><br />"
-							. "</div>"							
-						. "</div>"
-						. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
-						. "</label>"
-					. "</div>"
-				
-				. "</div>"
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-		}
-					
-		return "<div class='admin-page-framework-field-geometry' id='{$strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
+	protected function getField( $aField ) { 
+			
+		return 
+			$aField['before_label']
+			. "<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input']
+					. ( $aField['label'] && ! $aField['repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. $this->getInputs( $aField )
+					. $aField['after_input']
+				. "</label>"
+			. "</div>"
+			. $aField['after_label'];
 		
-	}	
+	}
+		protected function getInputs( &$aField ) {
+			
+			/* Set up attributes */
+			$aBaseAttributes = $aField['attributes'];
+			unset( $aBaseAttributes['latitude'], $aBaseAttributes['longitude'], $aBaseAttributes['elevation'], $aBaseAttributes['location_name'], $aBaseAttributes['button'] );
+
+			$aButtonAttributes = array(
+				'type'	=>	'button',
+				'id'	=>	"{$aField['input_id']}_button",
+			) + $aField['attributes']['button'] + $aBaseAttributes;
+			$aButtonAttributes['class']	.= ' gllpUpdateButton button button-small';
+			
+			$aLattitudeAttributes = array(
+				'type'	=>	'text',
+				'id'	=>	"{$aField['input_id']}_latitude",
+				'value'	=>	isset( $aField['attributes']['value']['latitude'] ) ? $aField['attributes']['value']['latitude'] : 20,
+				'name'	=>	"{$aField['_input_name']}[latitude]",						
+			) + $aField['attributes']['latitude'] + $aBaseAttributes;
+			$aLattitudeAttributes['class'] .= ' gllpLatitude';
+			
+			$aLongitudeAttributes = array(
+				'type'	=>	'text',
+				'id'	=>	"{$aField['input_id']}_longitude",
+				'value'	=>	isset( $aField['attributes']['value']['longitude'] ) ? $aField['attributes']['value']['longitude'] : 20,
+				'name'	=>	"{$aField['_input_name']}[longitude]",
+			) + $aField['attributes']['longitude'] + $aBaseAttributes;			
+			$aLongitudeAttributes['class'] .= ' gllpLongitude';
+
+			$aElevationAttributes = array(
+				'type'	=>	'text',
+				'id'	=>	"{$aField['input_id']}_elevation",
+				'value'	=>	isset( $aField['attributes']['value']['elevation'] ) ? $aField['attributes']['value']['elevation'] : '',
+				'name'	=>	"{$aField['_input_name']}[elevation]",
+			) + $aField['attributes']['elevation'] + $aBaseAttributes;			
+			$aElevationAttributes['class'] .= ' gllpElevation';		
+			
+			$aLocationNameAttributes = array(
+				'type'	=>	'text',
+				'id'	=>	"{$aField['input_id']}_name",
+				'value'	=>	isset( $aField['attributes']['value']['localtion_name'] ) ? $aField['attributes']['value']['localtion_name'] : '',
+				'name'	=>	"{$aField['_input_name']}[localtion_name]",
+			) + $aField['attributes']['location_name'] + $aBaseAttributes;			
+			$aLocationNameAttributes['class'] .= ' gllpLocationName';
+			
+			/* Return the output */
+			return
+				"<div class='gllpLatlonPicker'>"
+					. "<div class='gllpMap map'>" . __( 'Google Maps', 'admin-page-framework-demo' ) . "</div>"
+					. "<label for='{$aField['input_id']}_button' class='update-button'>"
+						. "<a " . $this->generateAttributes( $aButtonAttributes ) . ">" . __( 'Update Map', 'admin-page-framework-demo' ) . "</a>"
+					. "</label>"					
+					. "<label for='{$aField['input_id']}_latitude'>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Latitude', 'admin-page-framework-demo' ) . "</span>"
+						. "<input " . $this->generateAttributes( $aLattitudeAttributes ) . " />"				
+					. "</label><br />"
+					. "<label for='{$aField['input_id']}_longitude'>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Longitude', 'admin-page-framework-demo' ) . "</span>"
+						. "<input " . $this->generateAttributes( $aLongitudeAttributes ) . " />"	
+					. "</label><br />"
+					. "<label for='{$aField['input_id']}_elevation'>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Elevation', 'admin-page-framework-demo' ) . "</span>"					
+						. "<input " . $this->generateAttributes( $aElevationAttributes ) . " />"
+						. ' ' . __( "metres", "admin-page-framework-demo" )
+					. "</label><br />"								
+					. "<label for='{$aField['input_id']}_name'>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Location Name', 'admin-page-framework-demo' ) . "</span>"
+						. "<input " . $this->generateAttributes( $aLocationNameAttributes ) . " />"
+					. "</label><br />"
+					. "<label for='{$aField['input_id']}_zoom'>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'zoom', 'admin-page-framework-demo' ) . "</span>"	
+						. "<input type='number' class='gllpZoom' id='{$aField['input_id']}_zoom' min='1' value='3'/>"
+					. "</label><br />"
+				. "</div>";	
+			
+		}
 	
 }

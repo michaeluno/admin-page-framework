@@ -1,0 +1,573 @@
+<?php
+/**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * 
+ */
+if ( ! class_exists( 'AdminPageFramework_FormElement' ) ) :
+/**
+ * Provides methods to compose form elements
+ * 
+ * @package			AdminPageFramework
+ * @subpackage		Property
+ * @since			3.0.0
+ * @internal
+ */
+class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Utility {
+	
+	/**
+	 * Represents the structure of the form section array.
+	 * 
+	 * @since			2.0.0
+	 * @remark			Not for the user.
+	 * @var				array			Holds array structure of form section.
+	 * @static
+	 * @internal
+	 */ 	
+	public static $_aStructure_Section = array(	
+		'section_id' => '_default',		// 3.0.0+
+		'page_slug' => null,
+		'tab_slug' => null,
+		'section_tab_slug'	=>	null,	// 3.0.0+
+		'title' => null,
+		'description' => null,
+		'capability' => null,
+		'if' => true,	
+		'order' => null,	// do not set the default number here because incremented numbers will be added when registering the sections.
+		'help' => null,
+		'help_aside' => null,
+		'repeatable'	=> null,		// 3.0.0+
+		'section_tab_slug'	=> null,	// 3,0,0+
+	);	
+	
+	/**
+	 * Represents the structure of the form field array.
+	 * 
+	 * @since			2.0.0
+	 * @remark			Not for the user.
+	 * @var				array			Holds array structure of form field.
+	 * @static
+	 * @internal
+	 */ 
+	public static $_aStructure_Field = array(
+		'field_id'			=> null, 		// ( required )
+		'type'				=> null,		// ( required )
+		'section_id'		=> null,		// ( optional )
+		'section_title'		=> null,		// This will be assigned automatically in the formatting method.
+		'page_slug'			=> null,		// This will be assigned automatically in the formatting method.
+		'tab_slug'			=> null,		// This will be assigned automatically in the formatting method.
+		'option_key'		=> null,		// This will be assigned automatically in the formatting method.
+		'class_name'		=> null,		// used by the export field type
+		'capability'		=> null,		
+		'title'				=> null,
+		'tip'				=> null,
+		'description'		=> null,
+		'error_message'		=> null,		// error message for the field
+		'before_label'		=> null,
+		'after_label'		=> null,
+		'if' 				=> true,
+		'order'				=> null,		// do not set the default number here for this key.		
+		'default'			=> null,
+		'value'				=> null,
+		'help'				=> null,		// [2.1.0+]
+		'help_aside'		=> null,		// [2.1.0+]
+		'repeatable'		=> null,		// [2.1.3+]
+		'sortable'			=> null,		// [2.1.3+]
+		'attributes'		=> null,		// [3.0.0+] - the array represents the attributes of input tag
+		'show_title_column' => true,		// [3.0.0+]
+		'hidden'			=> null,		// [3.0.0+]
+		'_fields_type'		=> null,		// [3.0.0+] - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
+		'_section_index'	=> null,		// [3.0.0+] - internally set to indicate the section index for repeatable sections.
+	);	
+	
+	/**
+	 * Stores field definition arrays.
+	 * @since			3.0.0
+	 */
+	public $aFields = array();
+	
+	/**
+	 * Stores section definition arrays.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aSections = array(
+		'_default' => array(),
+	);
+	
+	/**
+	 * Stores the conditioned fields definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aConditionedFields = array();
+	
+	/**
+	 * Stores the conditioned sections definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public $aConditionedSections = array();
+	
+	/**
+	 * Stores the fields type. 
+	 * 
+	 * @since			3.0.0
+	 */
+	protected $sFieldsType = '';
+	
+	/**
+	 * Stores the target page slug which will be applied when no page slug is specified.
+	 * 
+	 * @since			3.0.0
+	 */
+	protected $_sTargetSectionID = '_default';	
+	
+	/**
+	 * Stores the default capability.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function __construct( $sFieldsType, $sCapability ) {
+		
+		$this->sFieldsType = $sFieldsType;
+		$this->sCapability = $sCapability;
+		
+	}
+	
+	/**
+	 * Adds the given section definition array to the form property.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function addSection( array $aSection ) {
+		
+		$aSection = $aSection + self::$_aStructure_Section;
+		$aSection['section_id'] = $this->sanitizeSlug( $aSection['section_id'] );
+		
+		$this->aSections[ $aSection['section_id'] ] = $aSection;	
+		$this->aFields[ $aSection['section_id'] ] = isset( $this->aFields[ $aSection['section_id'] ] ) ? $this->aFields[ $aSection['section_id'] ] : array();
+
+	}
+	
+	/**
+	 * Removes a section definition array from the property by the given section ID.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function removeSection( $sSectionID ) {
+		
+		if ( $sSectionID == '_default' ) return;
+		
+		unset( $this->aSections[ $sSectionID ] );
+		unset( $this->aFields[ $sSectionID ] );
+		
+	}
+	
+	/*
+	 * Adds the given field definition array to the form property.
+	 * 
+	 * @since			3.0.0
+	 * @return			array|string|null			If the passed field is set, it returns the set field array. If the target section id is set, the set section id is returned. Otherwise null.
+	 */	
+	public function addField( $asField ) {
+		
+		if ( ! is_array( $asField ) ) {
+			$this->_sTargetSectionID = is_string( $asField ) ? $asField : $this->_sTargetSectionID;
+			return $this->_sTargetSectionID;	// result
+		}
+		$this->_sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $this->_sTargetSectionID;
+		
+		$aField = $this->uniteArrays( 
+			array( '_fields_type' => $this->sFieldsType ),
+			$asField, 
+			array( 'section_id' => $this->_sTargetSectionID ),
+			self::$_aStructure_Field
+		);
+		if ( ! isset( $aField['field_id'], $aField['type'] ) ) return null;	// Check the required keys as these keys are necessary.
+			
+		// Sanitize the IDs since they are used as a callback method name.
+		$aField['field_id'] = $this->sanitizeSlug( $aField['field_id'] );
+		$aField['section_id'] = $this->sanitizeSlug( $aField['section_id'] );		
+		
+		$this->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
+		return $aField;	// result
+		
+	}	
+		
+	/**
+	 * Removes a field definition array from the property array by the given field ID.
+	 * 
+	 * @since			3.0.0
+	 */		
+	public function removeField( $sFieldID ) {
+		
+		/* The structure of the aFields property array looks like this:
+			array( 
+				'my_sec_a' => array(
+					'my_field_a' => array( ... ),
+					'my_field_b' => array( ... ),
+					'my_field_c' => array( ... ),
+				),
+				'my_sec_b' => array(
+					'my_field_a' => array( ... ),
+					'my_field_b' => array( ... ),
+					1	=> array(
+						'my_field_a' => array( ... ),
+						'my_field_b' => array( ... ),
+					)
+					2	=> array(
+						'my_field_a' => array( ... ),
+						'my_field_b' => array( ... ),
+					)					
+				)
+
+			)
+		 */
+		foreach( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
+
+			if ( array_key_exists( $sFieldID, $_aSubSectionsOrFields ) ) 
+				unset( $this->aFields[ $_sSectionID ][ $sFieldID ] );
+			
+			// Check sub-sections.
+			foreach ( $_aSubSectionsOrFields as $_sIndexOrFieldID => $_aSubSectionOrFields ) {
+				
+				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {	// means it's a sub-section
+					
+					if ( array_key_exists( $sFieldID, $_aSubSectionOrFields ) )
+						unset( $this->aFields[ $_sSectionID ][ $_sIndexOrFieldID ] );
+					
+					continue;
+					
+				}
+				
+			}
+		}
+		
+	}
+	
+	/**
+	 * Formats the section and field definition arrays.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function format() {
+		
+		$this->formatSections( $this->sFieldsType, $this->sCapability );
+		$this->formatFields( $this->sFieldsType, $this->sCapability );
+		
+	}
+	
+	/**
+	 * Formats the stored sections definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function formatSections( $sFieldsType, $sCapability ) {
+		
+		$_aNewSectionArray = array();
+		foreach( $this->aSections as $_sSectionID => $_aSection ) {
+			
+			if ( ! is_array( $_aSection ) ) continue;
+			
+			$_aSection = $this->formatSection( $_aSection, $sFieldsType, $sCapability, count( $_aNewSectionArray ) );
+			if ( ! $_aSection ) continue;
+			
+			$_aNewSectionArray[ $_sSectionID ] = $_aSection;
+			
+		}
+		uasort( $_aNewSectionArray, array( $this, '_sortByOrder' ) ); 
+		$this->aSections = $_aNewSectionArray;
+		
+	}
+	
+		/**
+		 * Returns the formatted section array.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
+			
+			$aSection = $this->uniteArrays(
+				$aSection,
+				array( 
+					'_fields_type' => $sFieldsType,
+					'capability' => $sCapability,
+				),
+				self::$_aStructure_Section
+			);
+				
+			$aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
+			return $aSection;
+			
+		}
+		
+		
+	/**
+	 * Formats the stored fields definition array.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function formatFields( $sFieldsType, $sCapability ) {
+
+		$_aNewFields = array();
+		foreach ( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
+			
+			if ( ! isset( $this->aSections[ $_sSectionID ] ) ) continue;
+
+			$_aNewFields[ $_sSectionID ] = isset( $_aNewFields[ $_sSectionID ] ) ? $_aNewFields[ $_sSectionID ] : array();
+			
+			// If there are sub-section items.
+			$_abSectionRepeatable = $this->aSections[ $_sSectionID ]['repeatable'];	// a setting array or boolean or true/false
+			if ( count( $this->getIntegerElements( $_aSubSectionsOrFields ) ) || $_abSectionRepeatable ) {	// if sub-section exists or repeatable
+				
+				foreach( $this->numerizeElements( $_aSubSectionsOrFields ) as $_iSectionIndex => $_aFields ) {
+											
+					foreach( $_aFields as $_aField ) {
+						
+						$_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) : 0 ;
+						$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable );
+						if ( $_aField )
+							$_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;						
+						
+					}
+					uasort( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ], array( $this, '_sortByOrder' ) ); 				
+					
+				}
+				continue;
+				
+			}
+			
+			// Otherwise, these are normal sectioned fields.
+			$_aSectionedFields = $_aSubSectionsOrFields;
+			foreach( $_aSectionedFields as $_sFieldID => $_aField ) {
+				
+				// Insert the formatted field definition array.
+				$_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0;	// the count is needed to set each order value.
+				$_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable );
+				if ( $_aField )
+					$_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
+				
+			}
+			uasort( $_aNewFields[ $_sSectionID ], array( $this, '_sortByOrder' ) ); 
+				
+		}
+		
+		// Sort by the order of the sections.
+		if ( ! empty( $this->aSections ) && ! empty( $_aNewFields ) ) :	// as taxonomy fields don't have sections
+			$_aSortedFields = array();
+			foreach( $this->aSections as $sSectionID => $aSeciton ) 	// will be parsed in the order of the $aSections array. Therefore, the sections must be formatted before this method.
+				if ( isset( $_aNewFields[ $sSectionID ] ) )
+					$_aSortedFields[ $sSectionID ] = $_aNewFields[ $sSectionID ];
+			$_aNewFields = $_aSortedFields;
+		endif;
+		
+		$this->aFields = $_aNewFields;
+		
+	}
+		/**
+		 * Returns the formatted field array.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable ) {
+			
+			if ( ! isset( $aField['field_id'], $aField['type'] ) ) return;
+			
+			$_aField = $this->uniteArrays(
+				array( '_fields_type' => $sFieldsType ),
+				$aField,
+				array( 
+					'capability' => $sCapability,
+					'section_id' => '_default',
+					'_section_index' => $iSectionIndex,
+					'_section_repeatable' => $bIsSectionRepeatable,
+				),
+				self::$_aStructure_Field
+			);
+			$_aField['field_id'] = $this->sanitizeSlug( $_aField['field_id'] );
+			$_aField['section_id'] = $this->sanitizeSlug( $_aField['section_id'] );			
+			$_aField['tip'] = esc_attr( strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] ) );
+			$_aField['order'] = is_numeric( $_aField['order'] ) ? $_aField['order'] : $iCountOfElements + 10;
+						
+			return $_aField;
+			
+		}
+		
+	/**
+	 * Returns the fields-definition array that the conditions have been applied.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function applyConditions( $aFields=null, $aSections=null ) {
+		
+		return $this->getConditionedFields( $aFields, $this->getConditionedSections( $aSections ) );
+		
+	}
+	
+	/**
+	 * Returns a sections-array by applying the conditions.
+	 * 
+	 * It will internally sets the $aConditionedSections array property.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getConditionedSections( $aSections=null ) {
+		
+		$aSections = is_null( $aSections ) ? $this->aSections : $aSections;
+		$aNewSections = array();
+		foreach( $aSections as $_sSectionID => $_aSection ) {
+			
+			$_aSection = $this->getConditionedSection( $_aSection );
+			if ( $_aSection )
+				$aNewSections[ $_sSectionID ] = $_aSection;
+			
+		}
+		$this->aConditionedSections = $aNewSections;
+		return $aNewSections;
+		
+	}
+		/**
+		 * Returns the conditioned section definition array.
+		 * 
+		 * This method is meant to be overridden in the extended class to have more customized conditions.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getConditionedSection( array $aSection ) {
+			
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $aSection['capability'] ) ) return;
+			if ( ! $aSection['if'] ) return;	
+			
+			return $aSection;
+			
+		}
+	
+	/**
+	 * Returns a fields-array by applying the conditions.
+	 * 
+	 * This will internally stores the aConditionedFields array into the property.
+	 * 
+	 * @since			3.0.0
+	 */
+	public function getConditionedFields( $aFields=null, $aSections=null ) {
+		
+		$aFields = is_null( $aFields ) ? $this->aFields : $aFields;
+		$aSections = is_null( $aSections ) ? $this->aSections : $aSections;
+
+		// Drop keys of fields-array which do not exist in the sections-array. For this reasons, the sections-array should be conditioned first before applying this method.
+		$aFields = ( array ) $this->castArrayContents( $aSections, $aFields );
+
+		$_aNewFields = array();
+		foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
+			
+			if ( ! is_array( $_aSubSectionOrFields ) ) continue;
+			if ( ! array_key_exists( $_sSectionID, $aSections ) ) continue;
+			
+			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
+				
+				// If it is a sub-section array.
+				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
+					
+					$_sSubSectionIndex = $_sIndexOrFieldID;
+					$_aFields = $_aSubSectionOrField;
+					foreach( $_aFields as $_aField ) {
+						
+						$_aField = $this->getConditionedField( $_aField );
+						if ( $_aField )
+							$_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;						
+						
+					}
+					continue;
+					
+				}
+				
+				// Otherwise, insert the formatted field definiton array.
+				$_aField = $_aSubSectionOrField;
+				$_aField = $this->getConditionedField( $_aField );
+				if ( $_aField )
+					$_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
+				
+			}
+			
+		}
+				
+		$this->aConditionedFields = $_aNewFields;
+		return $_aNewFields;
+		
+	}		
+		/**
+		 * Returns the field definition array by applying conditions. 
+		 * 
+		 * This method is intended to be extended to let the extended class customize the conditions.
+		 * 
+		 * @since			3.0.0
+		 */
+		protected function getConditionedField( $aField ) {
+			
+			// Check capability. If the access level is not sufficient, skip.
+			if ( ! current_user_can( $aField['capability'] ) ) return null;
+			if ( ! $aField['if'] ) return null;		
+			return $aField;
+			
+		}
+	
+	
+	/**
+	 * Adds dynamic elements such as repeatable sections from the given options array.
+	 * 
+	 * This method checks the structure of the given array and adds section elements to the $aConditionedFields property arrays.
+	 * 
+	 * @remark			This should be called after conditioning the form definition arrays.
+	 * @since			3.0.0
+	 */
+	public function setDynamicElements( $aOptions ) {
+		
+		$aOptions = $this->castArrayContents( $this->aConditionedSections, $aOptions );
+		
+		foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
+			
+			if ( ! is_array( $_aSubSectionOrFields ) ) continue;
+			
+			$_aSubSection = array();
+			foreach( $_aSubSectionOrFields as $_isIndexOrFieldID => $_aSubSectionOrFieldOptions ) {
+			
+				// If it is not a sub-section array, skip
+				if ( ! ( is_numeric( $_isIndexOrFieldID ) && is_int( $_isIndexOrFieldID + 0 ) ) ) continue;
+				
+				// Rename variables
+				$_iIndex = $_isIndexOrFieldID;
+				
+				// Insert the fields definition array into a temporary sub section array.
+				$_aSubSection[ $_iIndex ] = isset( $this->aConditionedFields[ $_sSectionID ][ $_iIndex ] )	// already numerized ?
+					? $this->aConditionedFields[ $_sSectionID ][ $_iIndex ]
+					: $this->getNonIntegerElements( $this->aConditionedFields[ $_sSectionID ] );
+				$_aSubSection[ $_iIndex ] = ! empty( $_aSubSection[ $_iIndex ] ) 	// if empty, merge with the previous element.
+					? $_aSubSection[ $_iIndex ]
+					: ( isset( $_aSubSection[ $_iPrevIndex ] )
+						 ? $_aSubSection[ $_iPrevIndex ]
+						 : array()
+					);
+				
+				// Update the internal section index key
+				foreach( $_aSubSection[ $_iIndex ] as &$_aField ) 
+					$_aField['_section_index'] = $_iIndex;
+				unset( $_aField ); // to be safe in PHP
+				
+					
+				$_iPrevIndex = $_iIndex;
+				
+			}
+
+			if ( ! empty( $_aSubSection ) )
+				$this->aConditionedFields[ $_sSectionID ] = $_aSubSection;	// at this point, the associative keys will be gone but the element only consists of numeric keys.
+			
+		}
+
+	}
+		
+}
+endif;

@@ -1,160 +1,146 @@
 <?php
-class DialCustomFieldType extends AdminPageFramework_CustomFieldType {
+class DialCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'vSize'					=> 10,
-			'vMaxLength'			=> 400,
-			'vDataAttribute'		=> array(),		// the array holds the data for the data-{...} attribute of the input tag.
-		);	
-	}
+	public $aFieldTypeSlugs = array( 'dial', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		
+		'attributes'	=>	array(
+			'size'	=>	10,
+			'maxlength'	=>	400,
+		),	
+	);
 
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
-		
-	}	
-	
+	public function setUp() {}	
+
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
 	protected function getEnqueuingScripts() { 
 		return array(
-			dirname( __FILE__ ) . '/js/jquery.knob.js',
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery.knob.js', 'dependencies'	=> array( 'jquery' ) ),
 		);
-	}	
-
+	}
+	
 	/**
 	 * Returns an array holding the urls of enqueuing styles.
 	 */
 	protected function getEnqueuingStyles() { 
-		return array(
-		); 
-	}	
-	
+		return array();
+	}			
+
+
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
-		return "";
-	}	
+	protected function getScripts() { 
+
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
+		/*	The below function will be triggered when a new repeatable field is added. */
+		return "
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not this field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+
+						/* If the input tag is not found, do nothing  */
+						var nodeNewDialInput = node.find( 'input.knob' );
+						if ( nodeNewDialInput.length <= 0 ) return;
+						
+						/* Remove unnecessary elements */
+						nodeNewDialInput.closest( '.admin-page-framework-field' ).find( 'canvas' ).remove();
+						
+						/* Bind the knob script */
+						nodeNewDialInput.knob();
+						
+					},
+					
+				});
+			});		
+		
+		" . PHP_EOL;
+		
+	}
+
+	/**
+	 * Returns IE specific CSS rules.
+	 */
+	protected function getIEStyles() { return ''; }
 
 	/**
 	 * Returns the field type specific CSS rules.
 	 */ 
-	public function replyToGetInputStyles() {
+	protected function getStyles() {
 		return "
 			.admin-page-framework-field-dial .admin-page-framework-input-label-container {
 				padding-right: 1em;
 				padding-bottom: 2em;
 			}
+			.sortable .admin-page-framework-field-dial .admin-page-framework-input-label-container {
+				padding-right: 0;
+				padding-bottom: 0;				
+			}
 			.admin-page-framework-field-dial .admin-page-framework-input-label-string {
 				vertical-align: top;
 			}
-		
-		";		
+			
+		";
 	}
 
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	public function replyToGetInputIEStyles() {
-		return "";		
-	}
 	
 	/**
 	 * Returns the output of the geometry custom field type.
 	 * 
 	 */
-	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
-
-		$arrOutput = array();
-		$strFieldName = $arrField['strFieldName'];
-		$strTagID = $arrField['strTagID'];
-		$strFieldClassSelector = $arrField['strFieldClassSelector'];
-		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
-		
-		$arrFields = $arrField['fRepeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $arrField['vLabel'];		
-		
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
-							. ( $strLabel && ! $arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: "" 
-							)
-							. "<input id='{$strTagID}_{$strKey}' "
-								. "class='knob " . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
-								. "type='text' "
-								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-								. $this->getDataAttributes( $arrField, $strKey, $arrDefaultKeys )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
-						. "</label>"
-					. "</div>"	// end of label container
-					. $this->getDialEnablerScript( "{$strTagID}_{$strKey}" )					
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-
-		return "<div class='admin-page-framework-field-dial' id='{$strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
+	/**
+	 * Returns the output of the field type.
+	 */
+	protected function getField( $aField ) { 
 			
+		$aInputAttributes = array(
+			'type'	=>	'text',
+		) + $aField['attributes'];
+		$aInputAttributes['class']	.= ' knob';
+
+		return 
+			$aField['before_label']
+			. "<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input']
+					. ( $aField['label'] && ! $aField['repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
+					)
+					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
+					. $aField['after_input']
+				. "</label>"
+			. "</div>"
+			. $this->getDialEnablerScript( $aField['input_id'] )
+			. $aField['after_label'];
+		
 	}	
-	
-	/**
-	 * A helper function for the above method.
-	 */
-	private function getDataAttributes( $arrField, $strKey, $arrDefaultKeys ) {
 		
-		$arrDataAttribute = isset( $arrField['vDataAttribute'][ $strKey ] )
-			? $this->uniteArrays( ( array ) $arrField['vDataAttribute'][ $strKey ], $arrDefaultKeys['vDataAttribute'] )
-			: $arrField['vDataAttribute'];
+		private function getDialEnablerScript( $sInputID ) {
+				return 
+					"<script type='text/javascript' class='dial-enabler-script'>
+						jQuery( document ).ready( function() {
+							jQuery( '#{$sInputID}' ).knob();
+						});
+					</script>";		
 			
-		return $this->convertArrayToDataAttributes( $arrDataAttribute );
-		
-	}
-	
-	/**
-	 * Generates the data-{...} attributes from the given array.
-	 * 
-	 */
-	private function convertArrayToDataAttributes( $arrAssociativeArray ) {
-				
-		$arrDataAttributes = array();
-		foreach( $arrAssociativeArray as $strKey => $strValue ) 
-			if ( isset( $strValue ) )
-				$arrDataAttributes[] = "data-{$strKey}='{$strValue}'";
-			
-		return implode( ' ', $arrDataAttributes );
-		
-	}
-	
-	private function getDialEnablerScript( $strInputID ) {
-			return 
-				"<script type='text/javascript' class='dial-enabler-script'>
-					jQuery( document ).ready( function() {
-						jQuery( '#{$strInputID}' ).knob();
-					});
-				</script>";		
-		
-	}
+		}
 	
 }

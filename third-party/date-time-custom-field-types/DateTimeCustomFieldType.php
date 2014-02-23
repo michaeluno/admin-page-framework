@@ -1,46 +1,42 @@
 <?php
-class DateTimeCustomFieldType extends AdminPageFramework_CustomFieldType {
-		
+class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
+	
 	/**
-	 * Returns the array of the field type specific default keys.
+	 * Defines the field type slugs used for this field type.
 	 */
-	protected function getDefaultKeys() { 
-		return array(
-			'vSize'					=> 20,
-			'vDateFormat'	 		=> 'yy/mm/dd',
-			'vTimeFormat'	 		=> 'H:mm',
-			'vMaxLength'			=> 400,
-		);	
-	}
-
+	public $aFieldTypeSlugs = array( 'date_time', );
+	
+	/**
+	 * Defines the default key-values of this field type. 
+	 * 
+	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
+	 */
+	protected $aDefaultKeys = array(
+		'date_format'	=>	'yy/mm/dd',
+		'time_format'	=> 'H:mm',
+		'attributes'	=>	array(
+			'size'	=>	10,
+			'maxlength'	=>	400,
+		),	
+	);
+	
 	/**
 	 * Loads the field type necessary components.
 	 */ 
-	public function replyToFieldLoader() {
-
+	public function setUp() {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-	
-		wp_enqueue_script(
-			'jquery-ui-timepicker',
-			$this->resolveSRC( dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js' ),
-			array( 'jquery-ui-datepicker' )	// dependency
-		);
-		wp_enqueue_script(
-			'jquery-ui-sliderAccess',
-			$this->resolveSRC( dirname( __FILE__ ) . '/js/jquery-ui-sliderAccess.js' ),
-			array( 'jquery-ui-timepicker' ) // dependency
-		);		
-		
 	}	
-	
+
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
 	protected function getEnqueuingScripts() { 
 		return array(
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-sliderAccess.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
 		);
 	}	
-
+	
 	/**
 	 * Returns an array holding the urls of enqueuing styles.
 	 */
@@ -50,97 +46,111 @@ class DateTimeCustomFieldType extends AdminPageFramework_CustomFieldType {
 			dirname( __FILE__ ) . '/css/jquery-ui-timepicker-addon.min.css',
 		); 
 	}	
-	
+		
 	/**
 	 * Returns the field type specific JavaScript script.
 	 */ 
-	public function replyToGetInputScripts() {
-		return "";		
-	}	
+	protected function getScripts() { 
 
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	public function replyToGetInputStyles() {
-		return "";		
-	}
+		$aJSArray = json_encode( $this->aFieldTypeSlugs );
+		/*	The below function will be triggered when a new repeatable field is added. */
+		return "
+			jQuery( document ).ready( function(){
+				jQuery().registerAPFCallback( {				
+					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not this field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	public function replyToGetInputIEStyles() {
-		return "";		
-	}
+						/* If the input tag is not found, do nothing  */
+						var nodeNewDateTimePickerInput = node.find( 'input.datetime_picker' );
+						if ( nodeNewDateTimePickerInput.length <= 0 ) return;
+
+						/* Bind the date picker script */
+						nodeNewDateTimePickerInput.removeClass( 'hasDatepicker' );
+						nodeNewDateTimePickerInput.datetimepicker({
+							timeFormat : nodeNewDateTimePickerInput.data( 'time_format' ),
+							dateFormat : nodeNewDateTimePickerInput.data( 'date_format' ),
+							showButtonPanel : false,
+						});						
+						
+					},
+					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+
+						/* Return if it is not the type. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */						
+						
+						/* Bind the date picker script */
+						node.children( '.admin-page-framework-field' ).each( function() {
+							nodeInput = jQuery( this ).find( 'input.datetime_picker' );
+							nodeInput.removeClass( 'hasDatepicker' );
+							nodeInput.datetimepicker({
+							timeFormat : nodeInput.data( 'time_format' ),
+							dateFormat : nodeInput.data( 'date_format' ),
+							});													
+						});
+					},					
+				});
+			});		
+		
+		" . PHP_EOL;
+		
+	} 
 	
 	/**
-	 * Returns the output of the field type.
-	 * 
+	 * Returns IE specific CSS rules.
 	 */
-	public function replyToGetInputField( $vValue, $arrField, $arrOptions, $arrErrors, $arrFieldDefinition ) {
+	protected function getIEStyles() { return ''; }
 
-		$arrOutput = array();
-		$strFieldName = $arrField['strFieldName'];
-		$strTagID = $arrField['strTagID'];
-		$strFieldClassSelector = $arrField['strFieldClassSelector'];
-		$arrDefaultKeys = $arrFieldDefinition['arrDefaultKeys'];	
+	/**
+	 * Returns the field type specific CSS rules.
+	 */ 
+	protected function getStyles() { return ""; }	
 		
-		$arrFields = $arrField['fRepeatable'] ? 
-			( empty( $vValue ) ? array( '' ) : ( array ) $vValue )
-			: $arrField['vLabel'];		
-		
-		foreach( ( array ) $arrFields as $strKey => $strLabel ) 
-			$arrOutput[] = 
-				"<div class='{$strFieldClassSelector}' id='field-{$strTagID}_{$strKey}'>"
-					. "<div class='admin-page-framework-input-label-container'>"
-						. "<label for='{$strTagID}_{$strKey}'>"
-							. $this->getCorrespondingArrayValue( $arrField['vBeforeInputTag'], $strKey, $arrDefaultKeys['vBeforeInputTag'] ) 
-							. ( $strLabel && ! $arrField['fRepeatable']
-								? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getCorrespondingArrayValue( $arrField['vLabelMinWidth'], $strKey, $arrDefaultKeys['vLabelMinWidth'] ) . "px;'>" . $strLabel . "</span>"
-								: "" 
-							)
-							. "<input id='{$strTagID}_{$strKey}' "
-								. "class='" . $this->getCorrespondingArrayValue( $arrField['vClassAttribute'], $strKey, $arrDefaultKeys['vClassAttribute'] ) . "' "
-								. "size='" . $this->getCorrespondingArrayValue( $arrField['vSize'], $strKey, $arrDefaultKeys['vSize'] ) . "' "
-								. "maxlength='" . $this->getCorrespondingArrayValue( $arrField['vMaxLength'], $strKey, $arrDefaultKeys['vMaxLength'] ) . "' "
-								. "type='text' "	// text, password, etc.
-								. "name=" . ( is_array( $arrFields ) ? "'{$strFieldName}[{$strKey}]' " : "'{$strFieldName}' " )
-								. "value='" . $this->getCorrespondingArrayValue( $vValue, $strKey, null ) . "' "
-								. ( $this->getCorrespondingArrayValue( $arrField['vDisable'], $strKey ) ? "disabled='Disabled' " : '' )
-								. ( $this->getCorrespondingArrayValue( $arrField['vReadOnly'], $strKey ) ? "readonly='readonly' " : '' )
-							. "/>"
-							. $this->getCorrespondingArrayValue( $arrField['vAfterInputTag'], $strKey, $arrDefaultKeys['vAfterInputTag'] )
-						. "</label>"
-					. "</div>"	// end of label container
-					. $this->getDateTimePickerEnablerScript( 
-						"{$strTagID}_{$strKey}", 
-						$this->getCorrespondingArrayValue( $arrField['vDateFormat'], $strKey, $arrDefaultKeys['vDateFormat'] ),
-						$this->getCorrespondingArrayValue( $arrField['vTimeFormat'], $strKey, $arrDefaultKeys['vTimeFormat'] ) 
+	/**
+	 * Returns the output of this field type.
+	 */
+	protected function getField( $aField ) { 
+			
+		$aInputAttributes = array(
+			'type'	=>	'text',
+			'data-date_format'	=> $aField['date_format'],
+			'data-time_format'	=> $aField['time_format'],
+		) + $aField['attributes'];
+		$aInputAttributes['class']	.= ' datetime_picker';
+		return 
+			$aField['before_label']
+			. "<div class='admin-page-framework-input-label-container'>"
+				. "<label for='{$aField['input_id']}'>"
+					. $aField['before_input']
+					. ( $aField['label'] && ! $aField['repeatable']
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						: "" 
 					)
-				. "</div>"	// end of admin-page-framework-field
-				. ( ( $strDelimiter = $this->getCorrespondingArrayValue( $arrField['vDelimiter'], $strKey, $arrDefaultKeys['vDelimiter'], true ) )
-					? "<div class='delimiter' id='delimiter-{$strTagID}_{$strKey}'>" . $strDelimiter . "</div>"
-					: ""
-				);
-				
-		return "<div class='admin-page-framework-field-date' id='{$strTagID}'>" 
-				. implode( '', $arrOutput ) 
-			. "</div>";
+					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
+					. $aField['after_input']
+					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
+				. "</label>"
+			. "</div>"
+			. $this->getDateTimePickerEnablerScript( $aField['input_id'], $aField['date_format'], $aField['time_format'] )
+			. $aField['after_label'];
 		
-	}
+	}	
+
 		/**
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function getDateTimePickerEnablerScript( $strID, $strDateFormat, $strTimeFormat ) {
+		private function getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat ) {
 			return 
-				"<script type='text/javascript' class='date-time-picker-enabler-script' data-id='{$strID}' data-time_format='{$strTimeFormat}'>
+				// "<script type='text/javascript' class='date-time-picker-enabler-script' data-id='{$sID}' data-time_format='{$sTimeFormat}'>
+				"<script type='text/javascript' class='date-time-picker-enabler-script'>
 					jQuery( document ).ready( function() {
-						jQuery( '#{$strID}' ).datetimepicker({
-							timeFormat : '{$strTimeFormat}',
-							dateFormat : '{$strDateFormat}',
+						jQuery( '#{$sInputID}' ).datetimepicker({
+							timeFormat : '{$sTimeFormat}',
+							dateFormat : '{$sDateFormat}',
 							showButtonPanel : false,
 						});
-
 					});
 				</script>";
 		}

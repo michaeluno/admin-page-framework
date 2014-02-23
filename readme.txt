@@ -3,8 +3,8 @@ Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, options framework, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
 Requires at least: 3.3
-Tested up to: 3.8
-Stable tag: 2.1.7.1
+Tested up to: 3.8.1
+Stable tag: 2.1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,36 +18,40 @@ It provides plugin and theme developers with easier means of creating option pag
 = Features =
 * **Root Page, Sub Pages, and Tabs** - it allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
 * **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
-* **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading the text file.
+* **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Color Picker** - it lets the user easily pick colors.
 * **Rich Text Editor** - supports the rich text editor form input.
+* **Repeatable Sections and Fields** - supports repeatable form sections and fields.
+* **Sortable Fields** - supports sortable fields.
 * **Reset Button** - create a reset button that lets your users to initialize the saved options.
 * **Settings API Implemented** - it uses the [WordPress Settings API](http://codex.wordpress.org/Settings_API) for creating the form so the standard option design will be employed.
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 * **Custom Post Types** - the framework provides methods to create custom post types.
 * **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
+* **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
 * **Contextual Help Tabs** - the contextual help pane can be easily added. 
 * **Custom Field Types** - your own field type can be registered. 
 
 = Built-in Field Types =
-* `text` - a normal input field.
-* `password` - a masked input field.
-* `textarea` - a text input field with multiple lines.
-* `radio` - a set of radio buttons.
-* `checkbox` - a check box.
-* `select` - a dropdown list.
-* `submit` - a submit field that the user can send the form inputs.
-* `hidden` - a hidden field that is useful to embed hidden values. 
-* `file` - a file field that lets the user upload files.
-* `media` - a custom text field with the media uploader that sets the file URL.
-* `image` - a custom text field with the image uploader that sets the image URL.
-* `color` - a custom text field with the color picker.
-* `export` - a custom submit field that lets the user export the settings. 
-* `import` - a combination field of the file and the submit fields that lets the user import the settings.
-* `posttype` - a check-list of post types enabled on the site.
+* `text` - a normal field to enter text input.
+* `password` - a masked text input field.
+* `textarea` - a text input field with multiple lines. It supports rich text editor.
+* `radio` - a set of radio buttons that lets the user pick an option.
+* `checkbox` - a check box that lets the user enable/disable an item.
+* `select` - a drop-down list that lest the user pick one or more item(s) from a list.
+* `hidden` - a hidden field that will be useful to insert invisible values.
+* `file` - a file uploader that lets the user upload files.
+* `image` - a custom text field with the image uploader script that lets the user set the image URL.
+* `media` - a custom text field with the media uploader script that lets the user set the file URL.
+* `color` - a custom text field with the color picker script.
+* `submit` - a submit button that lets the user send the form.
+* `export` - a custom submit field that lets the user export the stored data.
+* `import` - a custom combination field of the file and the submit fields that let the user import data.
+* `posttype` - a set of check-lists of taxonomies enabled on the site in a tabbed box.
 * `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
-* `size` - a combination field of the text and the select fields that let the user set sizes with a unit.
+* `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
+* `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 
 = Custom Field Types = 
 You can include your own custom field types when they are necessary. This enables to keep the main library file to be minimum as possible. The sample custom field types are included in the demo plugin.
@@ -56,12 +60,14 @@ You can include your own custom field types when they are necessary. This enable
 * `date`, `time`, `date_time` - date and time fields with the date picker.
 * `dial` - a dial input field.
 * `font` - a font uploader and its preview.
+* `revealer` - a selector field that displays a hidden HTML element.
+* `grid` - a drag and drop grid composer.
 
 = Necessary Files =
-* **`admin-page-framework.php`** is in the *class* folder.
+* **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
-Visit [Admin Page Framework Documentation](http://admin-page-framework.michaeluno.jp/en/v2/).
+The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
 
 = Tutorials = 
 * [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials/)
@@ -85,7 +91,7 @@ Visit [Admin Page Framework Documentation](http://admin-page-framework.michaelun
 You need to include the library file in your PHP script. The file is located in the `class` folder of the uncompressed plugin file.
 
 `if ( ! class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );`
+    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );`
 	
 <h5><strong>Step 2</strong> - Extend the Library Class</h5>
 
@@ -95,16 +101,18 @@ You need to include the library file in your PHP script. The file is located in 
 <h5><strong>Step 3</strong> - Define the <em>setUp()</em> Method</h5>
 
 `function setUp() {
-	$this->setRootMenuPage( 'Settings' );               // specifies to which parent menu to belong.
-	$this->addSubMenuPage(
-		'My First Page',    // page and menu title
-		'myfirstpage' 	// page slug
+	$this->setRootMenuPage( 'Settings' );	// specifies to which parent menu to belong.
+	$this->addSubMenuItem(
+		array(
+			'title' => 'My First Page',
+			'page_slug' => 'myfirstpage'
+		)
 	); 
 }`
 
 <h5><strong>Step 4</strong> - Define the Methods for Hooks</h5>
 
-`function do_myfirstpage() {  // do_ + pageslug	
+`function do_myfirstpage() {  // do_{page slug}	
 	?>
 	<h3>Say Something</h3>
 	<p>This is my first admin page!</p>
@@ -113,29 +121,31 @@ You need to include the library file in your PHP script. The file is located in 
 
 <h5><strong>Step 5</strong> - Instantiate the Class</h5>
 
-`new APF_GettingStarted;`
+`new APF;`
 
-= Example Code = 
+<h5><strong>Example Code</strong> - Getting Started</h5>
 
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) )
-    include_once( dirname( __FILE__ ) . '/class/admin-page-framework.php' );
+    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
     
 class APF extends AdminPageFramework {
 
     function setUp() {
 		
-    	$this->setRootMenuPage( 'Settings' );	
-		$this->addSubMenuPage(
-			'My First Page',	// page and menu title
-			'myfirstpage'		// page slug
+    	$this->setRootMenuPage( 'Settings' );	// where to belong
+		$this->addSubMenuItem(
+			array(
+				'title' => 'My First Page',
+				'page_slug' => 'myfirstpage'
+			)
 		);
-	
+			
     }
 
-    function do_myfirstpage() {  // do_ + pageslug
+    function do_myfirstpage() {  // do_{page slug}
         ?>
         <h3>Say Something</h3>
         <p>This is my first admin page!</p>
@@ -143,8 +153,46 @@ class APF extends AdminPageFramework {
     }
     
 }
-new APF;
-// That's it!`
+new APF;`
+
+<strong>Create a Form</strong>
+
+`<?php
+/* Plugin Name: Admin Page Framework - My First Form */ 
+
+if ( ! class_exists( 'AdminPageFramework' ) )
+    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    
+class APF_MyFirstFrom extends AdminPageFramework {
+
+    function setUp() {
+		
+    	$this->setRootMenuPage( 'My Settings' );	// create a root page 
+		$this->addSubMenuItem(
+			array(
+				'title' => 'My First Form',
+				'page_slug' => 'my_first_form'
+			)
+		);
+					
+		$this->addSettingFields(
+			array(	
+				'field_id'	=>	'text',
+				'section_id'	=>	'my_first_text_section',
+				'title'	=>	'Text',
+				'type'	=>	'text',
+				'default'	=>	123456,
+			),
+			array(	
+				'field_id'	=>	'submit',
+				'type'	=>	'submit',
+			)
+		);
+		
+    }
+    
+}
+new APF_MyFirstFrom;`
 
 == Frequently asked questions ==
 = What is this for? =
@@ -154,9 +202,12 @@ This is	a PHP class library that enables to create option pages and form fields 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
 = How can I contribute to improving the documentation? =
-You are welcome to submit documentation. Please follow the [Documentation Guidline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
+You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
+
+= Does my commercial product which incorporates your framework library have to be released under GPL? =
+No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
 
 == Other Notes ==
 
@@ -178,19 +229,79 @@ Most text editors supports the *Replace All* command so just use that. By the ti
 <h5><strong>Change Framework's System Messages</strong></h5>
 The default messages defined by the framework can be changed. For example when you import a setting with the framework, the setting notice will be displayed. 
 
-If you want to change it to something else, modify the `oMsg` object. It has the `arrMessages` public property array which holds all the messages that the library uses.
+If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array which holds all the messages that the library uses.
 
 = Roadmap =
-Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labelled *enhancement*.
+Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
-
-= 2.1.7.2 - 01/18/2014 =
-* Fixed: a bug that the `for` attribute of the `label` tag was not updated in repeatable fields.
-* Fixed: the warning: `Strict standards: Declaration of ... should be compatible with ...`.
+ 
+= 3.0.0b =
+* Added: the `section_title` field type that lets the user to enter a section title.
+* Added: the ability to display form sections in tabs by specifying the `section_tab_slug`.
+* Added: the `autocomplete` custom field type.
+* Added: the ability to repeat form section.
+* Added: the ability to set form sections in meta boxes.
+* Added: the ability to omit the `addSettingSections()` method not to set a section. In other words, setting a section became optional.
+* Added: the `fields_{instantiated class name}_{section id}` filter that receives registered field definition arrays which belong to the given section.
+* Added: the `grid` custom field type.
+* Added: the documentation pages in the distribution package.
+* Added: an example to add a thumbnail to the taxonomy term listing table in the demo plugin.
+* Added: the `cell_{taxonomy slug}` and the `cell_{extended class name}` filters for the taxonomy field class.
+* Added: the `sortable_columns_{taxonomy slug}` and the `sortable_columns_{extended class name}` filters for the taxonomy field class.
+* Added: the `columns_{taxonomy slug}` and the `columns_{extended class name}` filters for the taxonomy field class.
+* Added: the `columns_{post type slug}` filter for the post type class.
+* Added: the `sortable_columns_{post type slug}` filter for the post type class.
+* Deprecated: ( ***Breaking Change*** ) the `setColumnHeader()` method in the post type class.
+* Deprecated: ( ***Breaking Change*** ) the `setSortableColumns()` method in the post type class.
+* Deprecated: ( ***Breaking Change*** ) the `addSubMenuLink()` method in the main class.
+* Deprecated: ( ***Breaking Change*** ) the `addSubMenuPages()` and the addSubMenuPage() method in the main class.
+* Added: the minified version of the library.
+* Added: the ability to add fields in the taxonomy definition page.
+* Added: the ability to add meta boxes in pages added by the framework.
+* Added: the ability to set the target section ID in the `addSettingFields()` method so that the `section_id` key can be omitted for the next passing field arrays.
+* Added: the ability to set the target page and tab slugs in the `addSettingSection()` and the `addSettingSections()` methods so that the page and tab slug keys can be omitted for the next passing section arrays.
+* Added: the ability to set the target page slug in the `addInPageTabs()` method so that the page slug key can be omitted for the next passing tab arrays.
+* Added: the ability to set options for repeatable fields including the maximum number of fields and the minimum number of fields.
+* Changed: the all the registered field default values to be saved regardless of the page where the user submits the form.
+* Changed: it to store all added sections and fields into the property object regardless of they belong to currently loading page and with some other conditions.
+* Added: the ability to sort fields by drag and drop.
+* Fixed: a bug that meta box specific styles were not loaded per class basis when multiple meta box class instances were created and they were displayed in the same page; only the first instantiated meta box class's styles were loaded.
+* Added: the filters, `style_common_{extended meta box class name}`, `style_ie_common_{extended meta box class name}`, `style_ie_{extended meta box class name}`.
+* Added: the ability to set option group in the `select` field type.
+* Added: the ability to set tag attributes on field tags on an individual basis in the `select`, `radio`, and `checkbox` field types.
+* Added: the ability to set tag attributes with the `attributes` key by passing an array with the key of the attribute name and the value of the property value for input fields.
+* Added: the ability to mix field types in sub-fields.
+* Added: the `hidden` key to the field definition array of pages that hides the field output.
+* Added: the `show_title_column` key to the field definition array of pages.
+* Added: the `after_fields` and the `before_fields` keys to the field definition array.
+* Changed: ( ***Breaking Change*** ) the structure of field definition arrays.
+* Changed: ( ***Breaking Change*** ) dropped the page slug dimensions from the saved option array structure.
+* Fixed: a bug that page load info in the footer area was not embedded when multiple root pages are created.
+* Moved: the method to retrieve library data into the property base class and they will be stored as static properties.
+* Changed: ( ***Breaking Change*** ) the name of the `showInPageTabs()` method to `setInPageTabsVisibility()`.
+* Changed: ( ***Breaking Change*** ) the name of the `showPageHeadingTabs()` method to `setPageHeadingTabsVisibility()`.
+* Changed: ( ***Breaking Change*** ) the name of the `showPageTitle()` method to `setPageTitleVisibility()`.
+* Changed: ( ***Breaking Change*** ) the `foot_{...}` filters to be renamed to `content_bottom_{...}`.
+* Changed: ( ***Breaking Change*** ) the `head_{...}` filters to be renamed to `content_top_{...}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_{page slug}_tabs` filter to be renamed to `tabs_{extended class name}_{page slug}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_pages` filter to be renamed to `pages_{extended class name}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_fields` filter to be renamed to `fields_{extended class name}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_sections` filter to be renamed to `sections_{extended class name}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_field_{field id}` filter to be renamed to `field_{extended class name}_{field id}`.
+* Changed: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter to be renamed to `section_{extended class name}_{section id}`.
+* Changed: the scope of all the methods intended to be used by the user to `public` from `protected`.
+* Changed: all the callback methods to have the prefix of `replyTo`.
+* Changed: all the internal methods to have the prefix of an underscore.
+* Changed: all the variable names used in the code to apply the Alternative PHP Hungarian Notation.
+* Changed: ( ***Breaking Change*** ) the name of the property `oProps` to `oProp`.
+* Changed: ( ***Breaking Change*** ) the name of the class `AdminPageFramework_CustomFieldType` to `AdminPageFramework_FieldType`.
+* Changed: some of the class names used internally.
+* Changed: ( ***Breaking Change*** ) apart from the conversion to the lower case, renamed some of the keys of the field definition array and the section field definition array.
+* Changed: ( ***Breaking Change*** ) all the names of array keys with which the user may interact to consist of lower case characters and underscores.
 
 = 2.1.7.1 - 12/25/2013 =
-* Added: an example of basic usage of creating a page group as well as specifying a dashicon. 
+* Added: an example of basic usage of creating a page group as well as specifying a dashicon.
 * Added: the ability for the `setRootMenuPage()` method to accept `dashicons`, the `none` value, and SVG base64 encoded icon for the second parameter.
 * Fixed: a bug that the `color` field type was replaced with the `taxonomy` field type and the `taxonomy` field type was not available.
 
@@ -212,7 +323,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: a sample custom field type, `dial`, in the demo plugin.
 * Added: sample custom field types, `date`, `time`, and `date_time` in the demo plugin.
 * Added: additional input fields to the custom `geometry` field type to retrieve the location name and the elevation.
-* Removed:  ( ***Breaking Change*** ) the `date` field type.
+* Removed: ( ***Breaking Change*** ) the `date` field type.
 * Added: the ability to set an icon with a file path for the `setRootMenuPage()`, `addSubMenuPage()`, and `getStylesForPostTypeScreenIcon()` methods.
 
 = 2.1.5 - 12/08/2013 =
