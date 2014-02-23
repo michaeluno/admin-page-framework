@@ -159,6 +159,13 @@ class APF_MyFirstFrom extends AdminPageFramework {
 }
 new APF_MyFirstFrom;
 ```
+## Documentation ##
+[Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
+
+The documentation is included in the demo plugin and it is likely up-to-date than the online version. Navigate from `Dashboard` -> `Admin Page Framework` -> `Documentation`.
+
+### Tutorials ###
+[Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
