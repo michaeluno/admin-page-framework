@@ -250,7 +250,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 					$this->oForm->getPageSlugBySectionID( $aField['section_id'] ), // page slug
 					$aField['section_id']	// section
 				);	
-				
+
 				/* 5-2. Set relevant scripts and styles for the input field. */
 				AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
 			

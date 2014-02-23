@@ -369,8 +369,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				// This also is needed for page meta box fields.
 				settings_fields( $this->oProp->sOptionKey );	
 				
-				// do_settings_sections( $sPageSlug ); // deprecated
-								
+				// do_settings_sections( $sPageSlug ); // deprecated						
 				if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
 
 					$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
