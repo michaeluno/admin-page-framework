@@ -178,11 +178,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 			$this->_sTargetSectionID = is_string( $asField ) ? $asField : $this->_sTargetSectionID;
 			return $this->_sTargetSectionID;	// result
 		}
-		$this->_sTargetSectionID = isset( $asField['section_id'] ) ? $asField['section_id'] : $this->_sTargetSectionID;
+		$aField = $asField;
+		$this->_sTargetSectionID = isset( $aField['section_id'] ) ? $aField['section_id'] : $this->_sTargetSectionID;
 		
 		$aField = $this->uniteArrays( 
 			array( '_fields_type' => $this->sFieldsType ),
-			$asField, 
+			$aField, 
 			array( 'section_id' => $this->_sTargetSectionID ),
 			self::$_aStructure_Field
 		);
