@@ -69,6 +69,7 @@ You can include your own custom field types when they are necessary. This enable
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
+* [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
 
 = Tutorials = 
 * [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
@@ -240,7 +241,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
  
-= 3.0.0 =
+= 3.0.0 - 02/24/2014 =
 * Added: the `section_title` field type that lets the user to enter a section title.
 * Added: the ability to display form sections in tabs by specifying the `section_tab_slug`.
 * Added: the `autocomplete` custom field type.
