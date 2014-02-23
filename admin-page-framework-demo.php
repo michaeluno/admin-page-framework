@@ -12,7 +12,7 @@
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/* Define constants for the demo plugin -  these are not necessary in your project */
+/* Define constants for the demo plugin - these are not necessary in your project */
 define( 'APFDEMO_DEVMODE', true );
 define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
