@@ -62,6 +62,7 @@ You can include your own custom field types when they are necessary. This enable
 * `font` - a font uploader and its preview.
 * `revealer` - a selector field that displays a hidden HTML element.
 * `grid` - a drag and drop grid composer.
+* `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
 
 = Necessary Files =
 * **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
@@ -299,6 +300,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: some of the class names used internally.
 * Changed: ( ***Breaking Change*** ) apart from the conversion to the lower case, renamed some of the keys of the field definition array and the section field definition array.
 * Changed: ( ***Breaking Change*** ) all the names of array keys with which the user may interact to consist of lower case characters and underscores.
+
+= 2.1.7.2 - 01/18/2014 =
+* Fixed: a bug that the `for` attribute of the `label` tag was not updated in repeatable fields.
+* Fixed: the warning: `Strict standards: Declaration of ... should be compatible with ...`.
 
 = 2.1.7.1 - 12/25/2013 =
 * Added: an example of basic usage of creating a page group as well as specifying a dashicon.
