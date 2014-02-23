@@ -185,7 +185,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @param			array|string			the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
 	 * <strong>Section Array</strong>
 	 * <ul>
-	 * <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	 * <li><strong>section_id</strong> - ( string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
 	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	 * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
 	 * <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
@@ -272,7 +272,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	* </ul>
 	* <h4>Field Definition Array</h4>
 	* <ul>
-	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
+	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
 	* 	<li><strong>type</strong> - ( required, string ) the type of the field. The supported types are listed below.</li>
 	* 	<li><strong>section_id</strong> - ( optional, string ) the section ID that the field belongs to. If not set, the internal <em>_default</em> section ID will be assigned.</li>
 	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
