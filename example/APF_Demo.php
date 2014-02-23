@@ -777,7 +777,7 @@ class APF_Demo extends AdminPageFramework {
 				),
 				array(
 					'label'	=>	array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
-					'default'	=>	array( 3, 4 ),
+					'default'	=>	array( 3, 4 ),		// 'default'	=> '', will select none
 					'attributes'	=>	array(
 						'select'	=>	array(
 							'size'	=>	5,
