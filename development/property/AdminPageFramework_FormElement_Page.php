@@ -32,7 +32,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	public function isPageAdded( $sPageSlug ) {
 
 		foreach( $this->aSections as $_sSectionID => $_aSection ) {
-			if ( $_sSectionID == '_default' ) continue;
+			// if ( $_sSectionID == '_default' ) continue;	// <-- not sure why it was skipping the default section
 			if ( $_aSection['page_slug'] == $sPageSlug ) return true;			
 		}
 			
