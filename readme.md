@@ -162,7 +162,7 @@ new APF_MyFirstFrom;
 ## Documentation ##
 [Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
 
-The documentation is included in the demo plugin and it is likely up-to-date than the online version. Navigate from `Dashboard` -> `Admin Page Framework` -> `Documentation`.
+The documentation is already included in the demo plugin and it is likely up-to-date than the online version. Navigate from the sidebar menu of the admin panel, `Dashboard` > `Admin Page Framework` > `Documentation`.
 
 ### Tutorials ###
 [Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
