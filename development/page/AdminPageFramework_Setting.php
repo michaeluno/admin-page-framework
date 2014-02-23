@@ -268,8 +268,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	* <h4>Field Definition Array</h4>
 	* <ul>
 	* 	<li><strong>field_id</strong> - ( required, string ) the field ID. Avoid using non-alphabetic characters exept underscore and numbers.</li>
-	* 	<li><strong>section_id</strong> - ( required, string ) the section ID that the field belongs to.</li>
 	* 	<li><strong>type</strong> - ( required, string ) the type of the field. The supported types are listed below.</li>
+	* 	<li><strong>section_id</strong> - ( optional, string ) the section ID that the field belongs to. If not set, the internal <em>_default</em> section ID will be assigned.</li>
 	* 	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
 	* 	<li><strong>description</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
 	* 	<li><strong>tip</strong> - ( optional, string ) the tip for the field which is displayed when the mouse is hovered over the field title.</li>
