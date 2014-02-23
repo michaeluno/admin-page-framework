@@ -353,7 +353,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	}
 	
 	/**
-	 * Retrieves the stored options excluding the currently specified tab's sections and their fields.
+	 * Returns the options excluding the currently specified tab's sections and their fields.
 	 * 
 	 * This is used to merge the submitted form data with the previously stored option data of the form elements 
 	 * that belong to the in-page tab of the given page.
@@ -380,7 +380,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 				&& isset( $this->aSections[ $_sSectionID ]['tab_slug'] ) && $this->aSections[ $_sSectionID ]['tab_slug'] == $sTabSlug
 			) continue;
 			
-			// At this point, the passed element belongs to the other tabs since the section belong to the given tab is skipped.
+			// At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
 			foreach ( $_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField  ) {
 				
 				// If it's a sub section
