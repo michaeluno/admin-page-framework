@@ -20,7 +20,7 @@ class AdminPageFramework_Script_RepeatableSection {
 	static public function getjQueryPlugin( $sCannotAddMore, $sCannotRemoveMore ) {
 
 		return "( function( $ ) {
-		
+
 			$.fn.updateAPFRepeatableSections = function( aSettings ) {
 				
 				var nodeThis = this;	// it can be from a sections container or a cloned section container.
