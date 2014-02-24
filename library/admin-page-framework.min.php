@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.0.0
+ * Version: 3.0.0.1
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright		2013-2014 (c) Michael Uno
@@ -116,6 +116,7 @@
 		}
 		.admin-page-framework-section-tab {
 			background-color: transparent;
+			vertical-align: middle;	/* for Firefox */
 		}
 		.admin-page-framework-section-tab.active {
 			background-color: #fdfdfd;			
@@ -1663,12 +1664,12 @@
  			.admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string {			
 				vertical-align: text-top; 
 			} 
-			.admin-page-framework-section-tab .admin-page-framework-fields {
+ 			.admin-page-framework-section-tab .admin-page-framework-fields {
 				display: inline-block;
-			}
+			} 
 			.admin-page-framework-field.admin-page-framework-field-section_title {
 				float: none;
-			}
+			} 
 			.admin-page-framework-field.admin-page-framework-field-section_title input {
 				background-color: #fff;
 				color: #333;
