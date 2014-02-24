@@ -105,8 +105,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	 * @param			array|string			the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
 	 * <strong>Section Array</strong>
 	 * <ul>
-	 * <li><strong>page_slug</strong> - (  required, string ) the page slug that the section belongs to.</li>
-	 * <li><strong>section_id</strong> - ( optional, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers. If not set, the internal section ID <em>_default</em> will be assigned.</li>
+	 * <li><strong>section_id</strong> - ( required, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
+	 * <li><strong>page_slug</strong> - ( optional, string ) the page slug that the section belongs to. If the target page slug is set, it can be omitted.</li>
 	 * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to. The tab here refers to in-page tabs.</li>
 	 * <li><strong>section_tab_slug</strong> - ( optional, string ) [3.0.0+] the section tab slug that the section are grouped into. The tab here refers to section tabs.</li>
 	 * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
