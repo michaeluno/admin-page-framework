@@ -48,12 +48,12 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
  			.admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string {			
 				vertical-align: text-top; 
 			} 
-			.admin-page-framework-section-tab .admin-page-framework-fields {
+ 			.admin-page-framework-section-tab .admin-page-framework-fields {
 				display: inline-block;
-			}
+			} 
 			.admin-page-framework-field.admin-page-framework-field-section_title {
 				float: none;
-			}
+			} 
 			.admin-page-framework-field.admin-page-framework-field-section_title input {
 				background-color: #fff;
 				color: #333;

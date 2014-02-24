@@ -206,6 +206,7 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.admin-page-framework-section-tab {
 			background-color: transparent;
+			vertical-align: middle;	/* for Firefox */
 		}
 		.admin-page-framework-section-tab.active {
 			background-color: #fdfdfd;			
