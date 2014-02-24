@@ -240,6 +240,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
  
+= 3.0.0.2 =
+* Tweaked the styling of section tabs to prevent small dots from appearing when activating a tab. 
+ 
 = 3.0.0.1 - 02/24/2014 =
 * Tweaked the styling of section tabs with `section_title` type fields.
  
