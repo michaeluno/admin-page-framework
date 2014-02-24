@@ -206,7 +206,7 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		.admin-page-framework-section-tab {
 			background-color: transparent;
-			vertical-align: middle;	/* for Firefox */
+			vertical-align: bottom;	/* for Firefox */
 		}
 		.admin-page-framework-section-tab.active {
 			background-color: #fdfdfd;			
@@ -222,6 +222,7 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-section-tab.nav-tab a {
 			text-decoration: none;
 			color: #464646;
+			vertical-align: inherit; /* for Firefox - without this tiny dots appear */
 		}
 		.admin-page-framework-section-tab.nav-tab.active a {
 			color: #000;
