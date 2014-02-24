@@ -68,6 +68,7 @@ You can include your own custom field types when they are necessary. This enable
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
+
 * [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
 
 = Tutorials = 
