@@ -101,7 +101,9 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 					if ( nodePositionIndicators.length > 0 ) {	/* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
 						nodePositionIndicators.replaceWith( \"{$_sButtons}\" );						
 					} else {	/* Otherwise, insert the button element at the beginning of the field tag */
-						jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( \"{$_sButtons}\" );	// Adds the buttons
+						if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) {	// check the button container already exists for WordPress 3.5.1 or below
+							jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( \"{$_sButtons}\" );	// Adds the buttons
+						}
 					}					
 					jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$aJSArray} );	// Update the fields			
 				});
