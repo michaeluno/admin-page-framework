@@ -215,6 +215,11 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 = Does my commercial product which incorporates your framework library have to be released under GPL? =
 No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
 
+= How do I retrieve the stored options? =
+The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the extended class name as the key or if you specify a custom key in the constructor, use it. 
+
+For instance, if your extended class name is `APF` then the code would be `get_option( 'APF' );` 
+
 == Other Notes ==
 
 = Tips =
