@@ -22,6 +22,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
 * **Color Picker** - it lets the user easily pick colors.
 * **Rich Text Editor** - supports the rich text editor form input.
+* **Section Tabs** - Form sections can be displayed in a tabbed box.
 * **Repeatable Sections and Fields** - supports repeatable form sections and fields.
 * **Sortable Fields** - supports sortable fields.
 * **Reset Button** - create a reset button that lets your users to initialize the saved options.
@@ -29,7 +30,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Custom Post Types** - the framework provides methods to create custom post types.
 * **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
 * **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
-* **Contextual Help Tabs** - the contextual help pane can be easily added. 
+* **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
 * **Custom Field Types** - your own field type can be registered. 
 
 = Built-in Field Types =
