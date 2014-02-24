@@ -585,7 +585,7 @@
 				
 		}( jQuery ));	
 		"; } } endif;if ( ! class_exists( 'AdminPageFramework_Script_RepeatableSection' ) ) : class AdminPageFramework_Script_RepeatableSection { static public function getjQueryPlugin( $sCannotAddMore, $sCannotRemoveMore ) { return "( function( $ ) {
-		
+
 			$.fn.updateAPFRepeatableSections = function( aSettings ) {
 				
 				var nodeThis = this;	// it can be from a sections container or a cloned section container.
@@ -1153,7 +1153,9 @@
 					if ( nodePositionIndicators.length > 0 ) {	/* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
 						nodePositionIndicators.replaceWith( \"{$_sButtons}\" );						
 					} else {	/* Otherwise, insert the button element at the beginning of the field tag */
-						jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( \"{$_sButtons}\" );	// Adds the buttons
+						if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) {	// check the button container already exists for WordPress 3.5.1 or below
+							jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( \"{$_sButtons}\" );	// Adds the buttons
+						}
 					}					
 					jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$aJSArray} );	// Update the fields			
 				});
