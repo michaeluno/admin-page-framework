@@ -241,6 +241,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.0.0.2 =
+* Fixed a bug that the plus(+) field repeater button got inserted when a section is repeated in WordPress 3.5.x or below.
 * Tweaked the styling of section tabs to prevent small dots from appearing when activating a tab. 
  
 = 3.0.0.1 - 02/24/2014 =
