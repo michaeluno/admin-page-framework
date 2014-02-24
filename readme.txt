@@ -25,7 +25,6 @@ It provides plugin and theme developers with easier means of creating option pag
 * **Repeatable Sections and Fields** - supports repeatable form sections and fields.
 * **Sortable Fields** - supports sortable fields.
 * **Reset Button** - create a reset button that lets your users to initialize the saved options.
-* **Settings API Implemented** - it uses the [WordPress Settings API](http://codex.wordpress.org/Settings_API) for creating the form so the standard option design will be employed.
 * **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
 * **Custom Post Types** - the framework provides methods to create custom post types.
 * **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
