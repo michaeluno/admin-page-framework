@@ -218,7 +218,7 @@ No. The demo plugin is released under GPLv2 or later but the library itself is r
 = How do I retrieve the stored options? =
 The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the extended class name as the key or if you specify a custom key in the constructor, use it. 
 
-For instance, if your extended class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the `[AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption)` static method.
+For instance, if your extended class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
 
 == Other Notes ==
 
@@ -246,6 +246,9 @@ If you want to change it to something else, modify the `oMsg` object. It has the
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.0.1.1 =
+* Tweaked the styling of horizonatal alignment of th and td form elements.
  
 = 3.0.1 - 02/26/2014 =
 * Added the `AdminPageFramework::getOption()` method that can be used from the front-end to retrieve saved option values. 
