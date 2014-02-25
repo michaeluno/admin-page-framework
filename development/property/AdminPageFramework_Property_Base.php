@@ -186,13 +186,14 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-section .form-table {
 			margin-top: 0;
 		}
+		.admin-page-framework-section .form-table td label {
+		   	display: inline;  /* adjusts the horizontal alignment with the th element */
+		}
 		/* Section Tabs */
 		.admin-page-framework-section-tabs-contents {
 			margin-top: 1em;
 		}
 		.admin-page-framework-section-tabs {	/* The section tabs' container */
-			/* padding-top: 0;
-			padding-bottom: 0; */
 			margin: 0;
 		}
 		.admin-page-framework-tab-content {		/* each section including sub-sections of repeatable fields */
