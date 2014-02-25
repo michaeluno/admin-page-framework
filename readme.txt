@@ -247,7 +247,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
  
-= 3.0.0.2 =
+= 3.0.1 - 02/26/2014 =
+* Added the `AdminPageFramework::getOption()` method that can be used from the front-end to retrieve saved option values. 
 * Fixed a bug that the plus(+) field repeater button got inserted when a section is repeated in WordPress 3.5.x or below.
 * Tweaked the styling of section tabs to prevent small dots from appearing when activating a tab. 
  
