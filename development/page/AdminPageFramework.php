@@ -620,7 +620,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting_Validation 
 	}
 	
 	/**
-	 * Retrieves the saved option value from the given option key, field ID, and section ID.
+	 * Retrieves the saved option value from the given option key and the dimensional array key representation.
 	 * 
 	 * <h4>Example</h4>
 	 * <code>
@@ -632,8 +632,20 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting_Validation 
 	 * 
 	 * @since			3.0.1
 	 * @param			string			$sOptionKey			the option key of the options table.
-	 * @param			string			$sFieldID			the field ID of the option.
-	 * @param			string			$sSectionID			the section ID of the option.
+	 * @param			string			$asKey				the representation of dimensional array keys. If the returning option structure is like the following,
+	 * <code>
+	 * array(
+	 * 	'a'	=>	array(
+	 * 		'b'	=>	array(
+	 * 			'c'	=> 'ccc',
+	 * 		),
+	 * 	),
+	 * )
+	 * </code>
+	 * then the value 'ccc' can be retrieved with the key representation array of 
+	 * <code>
+	 * array( 'a', 'b', 'c' )
+	 * </code>
 	 * @param			mixed			$vDefault			the default value that will be returned if nothing is stored.
 	 * @return			mixed			If the field ID is not specified
 	 */
