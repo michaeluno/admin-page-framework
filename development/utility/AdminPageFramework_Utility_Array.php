@@ -103,7 +103,7 @@ abstract class AdminPageFramework_Utility_Array {
 	}
 	
 	/**
-	 * Merges multiple multi-dimensional array recursively.
+	 * Merges multiple multi-dimensional arrays recursively.
 	 * 
 	 * The advantage of using this method over the array unite operator or array_merge() is that it merges recursively and the null values of the preceding array will be overridden.
 	 * 
@@ -286,7 +286,7 @@ abstract class AdminPageFramework_Utility_Array {
 	/**
 	 * Retrieves an array element by given array representing the dimensional key structure.
 	 * 
-	 * e.g. The following code will yields eee.
+	 * e.g. The following code will yield eee.
 	 * <code>
 	 * $a = array(
 		'a'	=>	array(
