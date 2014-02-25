@@ -685,7 +685,7 @@ AdminPageFramework_Setting_Validation
 				AdminPageFramework_Link_Page<br>
 				<b>Use:</b>
 				AdminPageFramework_Utility<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework.html#10-690" title="Go to source code">page/AdminPageFramework.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework.html#10-656" title="Go to source code">page/AdminPageFramework.php</a><br>
 	</div>
 
 
@@ -1748,6 +1748,83 @@ override the property.</dd>
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="getOption" id="_getOption">
+
+			<td class="attributes"><code>
+				 public static
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getOption">#</a>
+			<code><a href="source-class-AdminPageFramework.html#622-654" title="Go to source code">getOption</a>( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>Retrieves the saved option value from the given option key and the
+dimensional array key representation.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Retrieves the saved option value from the given option key and the
+dimensional array key representation.</p>
+
+<h4>Example</h4>
+
+<pre>
+<span class="php-var">$aData</span> = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span> );
+<span
+class="php-var">$aSection</span> = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span>, <span
+class="php-quote">'my_section'</span> );
+<span
+class="php-var">$sText</span> = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span>, <span class="php-keyword1">array</span>( <span
+class="php-quote">'my_section'</span>, <span
+class="php-quote">'my_text_field'</span> ), <span
+class="php-quote">'foo'</span> );
+<span
+class="php-var">$sColor</span> = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span>, <span
+class="php-quote">'my_color_field'</span>, <span
+class="php-quote">'#FFF'</span> );
+</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sOptionKey</var></dt>
+						<dd><code>string</code><br>$sOptionKey the option key of the options table.</dd>
+						<dt><var>$asKey</var></dt>
+						<dd><code>string</code><br>$asKey the representation of dimensional array keys. If the returning option
+structure is like the following, <code> array( 'a' =&gt; array( 'b' =&gt; array(
+'c' =&gt; 'ccc', ), ), ) </code> then the value 'ccc' can be retrieved with the
+key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
+						<dt><var>$vDefault</var></dt>
+						<dd><code>mixed</code><br>$vDefault the default value that will be returned if nothing is stored.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>mixed</code><br>If the field ID is not specified<br>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.0.1<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		</table>
 
 		<h3>Methods inherited from AdminPageFramework_Setting_Validation</h3>
@@ -1807,6 +1884,8 @@ override the property.</dd>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">
+			<code>__call()</code>, 
+			<code>_doPageLoadCall()</code>, 
 			<code>_sortByOrder()</code>, 
 			<code>addSubMenuLink()</code>, 
 			<code>addSubMenuPage()</code>, 
