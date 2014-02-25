@@ -16,7 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_Utility' ) ) :
  * @subpackage		Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Path {
+abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL {
 			
 	/**
 	 * Retrieves the query value from the given URL with a key.

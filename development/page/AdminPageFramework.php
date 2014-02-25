@@ -620,72 +620,26 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting_Validation 
 	}
 	
 	/**
-	 * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
+	 * Retrieves the saved option value from the given option key, field ID, and section ID.
 	 * 
-	 * @access			public
-	 * @remark			the users do not need to call or extend this method unless they know what they are doing.
-	 * @param			string		the called method name. 
-	 * @param			array		the argument array. The first element holds the parameters passed to the called method.
-	 * @return			mixed		depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
-	 * @since			2.0.0
-	 * @internal
+	 * <h4>Example</h4>
+	 * <code>
+	 * $aData = AdminPageFramework::getOption( 'APF' );
+	 * $aSection = AdminPageFramework::getOption( 'APF', 'my_section' );
+	 * $sText = AdminPageFramework::getOption( 'APF', array( 'my_section', 'my_text_field' ), 'foo' );
+	 * $sColor = AdminPageFramework::getOption( 'APF', 'my_color_field', '#FFF' );
+	 * </code>
+	 * 
+	 * @since			3.0.1
+	 * @param			string			$sOptionKey			the option key of the options table.
+	 * @param			string			$sFieldID			the field ID of the option.
+	 * @param			string			$sSectionID			the section ID of the option.
+	 * @param			mixed			$vDefault			the default value that will be returned if nothing is stored.
+	 * @return			mixed			If the field ID is not specified
 	 */
-	public function __call( $sMethodName, $aArgs=null ) {		
-				 
-		// The currently loading in-page tab slug. Be careful that not all cases $sMethodName have the page slug.
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
-
-		// If it is a pre callback method, call the redirecting method.		
-		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' )	return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback	- defined in AdminPageFramework_Setting
-		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )		== 'field_pre_' )	return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
-		if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' )	return $this->_doValidationCall( $sMethodName, $aArgs[ 0 ] ); // register_setting() callback - defined in AdminPageFramework_Setting
-		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )		== 'load_pre_' )	return $this->_doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
-
-		// The callback of the call_page_{page slug} action hook
-		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug )
-			return $this->_renderPage( $sPageSlug, $sTabSlug );		// the method is defined in the AdminPageFramework_Page class.
-		
-		// If it's one of the framework's callback methods, do nothing.	
-		if ( $this->_isFrameworkCallbackMethod( $sMethodName ) )
-			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter, otherwise, it's an action.		
-		
-	}	
-		/**
-		 * Determines whether the method name matches the pre-defined hook prefixes.
-		 * @access			private
-		 * @since			2.0.0
-		 * @remark			the users do not need to call or extend this method unless they know what they are doing.
-		 * @param			string			$sMethodName			the called method name
-		 * @return			boolean			If it is a framework's callback method, returns true; otherwise, false.
-		 * @internal
-		 */
-		private function _isFrameworkCallbackMethod( $sMethodName ) {
-				
-			foreach( self::$_aHookPrefixes as $sPrefix ) 
-				if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
-					return true;
-			
-			return false;
-			
-		}
-
-		/**
-		 * Redirects the callback of the load-{page} action hook to the framework's callback.
-		 * 
-		 * @since			2.1.0
-		 * @access			protected
-		 * @internal
-		 * @remark			This method will be triggered before the header gets sent.
-		 * @return			void
-		 * @internal
-		 */ 
-		protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $aArg ) {
-
-			// Do actions, class name -> page -> in-page tab.
-			$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
-			
-		}
+	static public function getOption( $sOptionKey, $asKey=null , $vDefault=null ) {
+		return AdminPageFramework_WPUtility::getOption( $sOptionKey,$asKey, $vDefault );
+	}
 	
 }
 endif;

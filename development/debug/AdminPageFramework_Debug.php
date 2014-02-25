@@ -58,7 +58,7 @@ class AdminPageFramework_Debug {
 		$sCallerClasss = $oCallerInfo[ 1 ]['class'];
 		file_put_contents( 
 			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
-			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' . "{$sCallerClasss}::{$sCallerFunction}" . PHP_EOL
+			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' . "{$sCallerClasss}::{$sCallerFunction} " . AdminPageFramework_Utility::getCurrentURL() . PHP_EOL
 			. print_r( $arr, true ) . PHP_EOL . PHP_EOL
 			, FILE_APPEND 
 		);					

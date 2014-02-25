@@ -265,5 +265,79 @@ abstract class AdminPageFramework_Utility_Array {
 	static public function isAssociativeArray( array $aArray ) {
 		return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
 	}	
+	
+	/**
+	 * Shift array elements until it gets an element that yields true and re-index with numeric keys.
+	 * 
+	 * @since			3.0.1
+	 */
+	static public function shiftTillTrue( array $aArray ) {
+		
+		foreach( $aArray as &$vElem ) {
+			
+			if ( $vElem ) break;
+			unset( $vElem );
+			
+		}
+		return array_values( $aArray );
+		
+	}
+	
+	/**
+	 * Retrieves an array element by given array representing the dimensional key structure.
+	 * 
+	 * e.g. The following code will yields eee.
+	 * <code>
+	 * $a = array(
+		'a'	=>	array(
+			'b'	=>	array(
+				'c'	=>	array(
+					'd'	=>	array(
+						'e'	=> 'eee',
+					),
+				),
+			),
+		),
+		);
+		$aKeys = array( 'a', 'b', 'c', 'd', 'e' );
+		$v = getArrayValueByArrayKeys( $a, $aKeys, 'default value' );
+		var_dump( $v );
+	 * </code>
+	 * 
+	 * 
+	 * @since			3.0.1
+	 */
+	static public function getArrayValueByArrayKeys( $aArray, $aKeys, $vDefault=null ) {
+		
+		$sKey = array_shift( $aKeys );
+		if ( isset( $aArray[ $sKey ] ) ) {
+			
+			if ( empty( $aKeys ) )	{	// no more keys 
+				return $aArray[ $sKey ];
+			}
+			
+			if ( is_array( $aArray[ $sKey ] ) ) {
+				return self::getArrayValueByArrayKeys( $aArray[ $sKey ], $aKeys, $vDefault );
+			}
+			
+		}
+		return $vDefault;
+		
+	}	
+	
+	/**
+	 * Casts array but does not create an empty element with the zero key when null is given.
+	 * 
+	 * @since			3.0.1
+	 */
+	static public function getAsArray( $asValue ) {
+		
+		if ( is_array( $asValue ) ) return $asValue;
+		
+		if ( ! isset( $asValue ) ) return array();
+		
+		return ( array ) $asValue;	// finally
+		
+	}
 }
 endif;
