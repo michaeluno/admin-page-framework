@@ -183,6 +183,12 @@ There are various ways you can contribute:
 3. Provide feedback and suggestions on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 4. Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
 
+## Supporting Future Development ##
+
+If you like the library, please rate and review it in the [WordPress Plugin Directory](http://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5). Also donation would be greatly appreciated. Thank you!
+
+[![Donate with PayPal](https://www.paypal.com/en_US/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J4UJHETVAZX34) 
+
 ## Copyright and License ##
 
 ### Admin Page Framework ###
