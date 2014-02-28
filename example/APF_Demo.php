@@ -2176,9 +2176,8 @@ class APF_Demo extends AdminPageFramework {
 			echo __( 'Alternatively, there is the <code>AdminPageFramework::getOption()</code> static method. This allows you to retrieve the array element by specifying the option key and the array key (field id or section id).', 'admin-page-framework-demo' );
 			echo ' ' . __( 'Pass the option key to the first parameter and an array representing the dimensional keys to the second parameter', 'admin-page-framework-demo' );
 			echo ' ' . __( '<code>$aData = AdminPageFramework::getOption( \'APF_Demo\', array( \'text_fields\', \'text\' ), \'default value\' );</code> will retrieve the option array value of <code>$aArray[\'text_field\'][\'text\']</code>.', 'admin-page-framework-demo' );
-			echo ' ' . __( 'This method is merely to avoid multiple uses of <code>isset()</code> to avoid PHP warnings.', 'admin-page-framework-demo' );
+			echo ' ' . __( 'This method is merely to avoid multiple uses of <code>isset()</code> to prevent PHP warnings.', 'admin-page-framework-demo' );
 			echo ' ' . __( 'So if you already know how to retrieve a value of an array element, you don\'t have to use it.', 'admin-page-framework-demo' );
-			
 		?>
 		</p>
 		<?php
