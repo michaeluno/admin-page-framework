@@ -1,7 +1,7 @@
 === Admin Page Framework ===
 Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
-Tags: admin, administration, administration panel, admin panel, admin page, admin pages, admin page framework, option page, option pages, option, options, options framework, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities
+Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields
 Requires at least: 3.3
 Tested up to: 3.8.1
 Stable tag: 3.0.1
@@ -54,7 +54,7 @@ It provides plugin and theme developers with easier means of creating option pag
 * `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 
 = Custom Field Types = 
-You can include your own custom field types when they are necessary. This enables to keep the main library file to be minimum as possible. The sample custom field types are included in the demo plugin.
+You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The example custom field types are included in the demo plugin.
 
 * `geometry` - a location selector with the Google map.
 * `date`, `time`, `date_time` - date and time fields with the date picker.
@@ -65,7 +65,7 @@ You can include your own custom field types when they are necessary. This enable
 * `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
 
 = Necessary Files =
-* **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php` ** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
+* **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
@@ -247,7 +247,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.0.1.1 =
+= 3.0.1.1 - 03/01/2014 =
+* Tweaked the styling of the `taxonomy` field type fields.
 * Tweaked the styling of horizonatal alignment of th and td form elements.
  
 = 3.0.1 - 02/26/2014 =
