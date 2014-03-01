@@ -86,10 +86,12 @@ class AdminPageFramework_Script_AttributeUpdator {
 						return m0 + '__' + ( iIndex );
 				});
 			}
-			var updateName = function( iIndex, sName, bIncrement, bFirstOccurence ) {
+			var updateName = function( iIndex, sName, bIncrement, biFirstOccurence ) {
 				if ( typeof sName === 'undefined' ) return sName;
-				var sNeedlePrefix = ( typeof bFirstOccurence === 'undefined' ) || ! bFirstOccurence ? '(.+)': '(.+?)';
-				var sNeedle = new RegExp( sNeedlePrefix + '\\\[(\\\d+)(?=\\\])' );	// triple escape - not sure why but on a separate test script, double escape was working
+				var sNeedlePrefix = ( typeof biFirstOccurence === 'undefined' ) || ! biFirstOccurence ? '(.+)': '(.+?)';
+				var sNeedle = biFirstOccurence === -1	
+					? new RegExp( '(.+)' + '\\\[(\\\d+)(?=\\\].+\\\[\\\d+(?=\\\]))' )	// -1 is for the second occurrence from the last; for taxonomy field type
+					: new RegExp( sNeedlePrefix + '\\\[(\\\d+)(?=\\\])' );	// triple escape - not sure why but on a separate test script, double escape was working
 				return sName.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
 								
 					if ( bIncrement === 1 )

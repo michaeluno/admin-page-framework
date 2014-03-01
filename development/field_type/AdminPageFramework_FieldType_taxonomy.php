@@ -88,34 +88,33 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+
+						node.nextAll().andSelf().each( function() {							
+							jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
+							jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
+							jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
+							jQuery( this ).find( 'input' ).decrementNameAttribute( 'name' );	// the framework increments the last found digit by default so revert it
+							jQuery( this ).find( 'input' ).incrementNameAttribute( 'name', -1 );	// now increment the second found digit from the end 
+							enableAPFTabbedBox( jQuery( this ).find( '.tab-box-container' ) );
+						});						
 						
-						var fIncrementOrDecrement = 1;
-						var updateID = function( index, name ) {
-							
-							if ( typeof name === 'undefined' ) {
-								return name;
-							}
-							return name.replace( /_((\d+))(?=(_|$))/, function ( fullMatch, n ) {						
-								return '_' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
-							});
-							
-						}
-						var updateName = function( index, name ) {
-							
-							if ( typeof name === 'undefined' ) {
-								return name;
-							}
-							return name.replace( /\[((\d+))(?=\])/, function ( fullMatch, n ) {				
-								return '[' + ( Number(n) + ( fIncrementOrDecrement == 1 ? 1 : -1 ) );
-							});
-							
-						}
-						node.find( 'div' ).attr( 'id', function( index, name ){ return updateID( index, name ) } );
-						node.find( 'li.tab-box-tab a' ).attr( 'href', function( index, name ){ return updateID( index, name ) } );
+					},
+					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+			
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+	
+						node.nextAll().each( function() {
+							jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );
+							jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
+							jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
+							jQuery( this ).find( 'input' ).incrementNameAttribute( 'name' );	// the framework decrements the last found digit by default so revert it
+							jQuery( this ).find( 'input' ).decrementNameAttribute( 'name', -1 );	// now decrement the second found digit from the end 
+						});	
 						
-						enableAPFTabbedBox( node.find( '.tab-box-container' ) );
+						// enableAPFTabbedBox( node.find( '.tab-box-container' ) );
 						
-					}
+					},					
 				});
 			});			
 		";
