@@ -254,7 +254,7 @@ vertical-align: top;
 						. wp_list_categories( array(
 							'walker' => new AdminPageFramework_WalkerTaxonomyChecklist,	// the walker class instance
 							'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
-							'selected' => $this->_getSelectedKeyArray( $aField['value'], $sKey ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
+							'selected' => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ), 		// checked items ( term IDs )	e.g.  array( 6, 10, 7, 15 ), 
 							'title_li'	=> '',	// disable the Categories heading string 
 							'hide_empty' => 0,	
 							'echo'	=> false,	// returns the output
@@ -295,19 +295,16 @@ vertical-align: top;
 		 * @since			2.0.0
 		 * @param			array			$vValue			This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
 		 * @param			string			$sKey			
-		 * @return			array			Returns an array consisting of keys whose value is true.
+		 * @return			array			Returns an numerically indexed array holding the keys that yield true as the value.
 		 */ 
-		private function _getSelectedKeyArray( $vValue, $sKey ) {
-					
-			$vValue = ( array ) $vValue;	// cast array because the initial value (null) may not be an array.
-			$iArrayDimension = $this->getArrayDimension( $vValue );
-					
-			if ( $iArrayDimension == 1 )
-				$aKeys = $vValue;
-			else if ( $iArrayDimension == 2 )
-				$aKeys = ( array ) $this->getCorrespondingArrayValue( $vValue, $sKey, false );
+		private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
 
-			return array_keys( $aKeys, true );
+			$vValue = ( array ) $vValue;	// cast array because the initial value (null) may not be an array.
+			
+			if ( ! isset( $vValue[ $sTaxonomySlug ] ) ) return array();
+			if ( ! is_array( $vValue[ $sTaxonomySlug ] ) ) return array();
+			
+			return array_keys( $vValue[ $sTaxonomySlug ], true );
 		
 		}
 	

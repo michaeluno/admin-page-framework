@@ -62,13 +62,13 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 		);
 		
 		$iID = $oCategory->term_id;
-		$sTaxonomy = empty( $aArgs['taxonomy'] ) ? 'category' : $aArgs['taxonomy'];
-		$sID = "{$aArgs['input_id']}_{$sTaxonomy}_{$iID}";
+		$sTaxonomySlug = empty( $aArgs['taxonomy'] ) ? 'category' : $aArgs['taxonomy'];
+		$sID = "{$aArgs['input_id']}_{$sTaxonomySlug}_{$iID}";
 		
 		$aInputAttributes = isset( $aInputAttributes[ $iID ] ) 
 			? $aInputAttributes[ $iID ] + $aArgs['attributes']
 			: $aArgs['attributes'];
-		
+
 		$aInputAttributes = array(
 			'id'	=>	$sID,
 			'value'	=>	1,	// must be 1
