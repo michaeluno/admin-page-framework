@@ -216,7 +216,7 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
 
 = How do I retrieve the stored options? =
-The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the extended class name as the key or if you specify a custom key in the constructor, use it. 
+The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the extended class name as the key or the custom key if you specify one in the constructor. 
 
 For instance, if your extended class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
 
@@ -241,6 +241,18 @@ Most text editors supports the *Replace All* command so just use that. By the ti
 The default messages defined by the framework can be changed. For example when you import a setting with the framework, the setting notice will be displayed. 
 
 If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array which holds all the messages that the library uses.
+
+<h5><strong>Change Preview Image Size of the `image` Field Type</strong></h5>
+To specify a custom size to the preview element of the `image` field type, set an attribute array like the below, where 300px is the max width.
+
+`array(
+	'field_id'	=>	'my_image_field_id',
+	'title'	=>	__( 'Image', 'admin-page-framework-demo' ),
+	'type'	=>	'image',
+	'attributes'	=>	array(
+		'style'	=>	'max-width:300px;',
+	),
+),`
 
 = Roadmap =
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
