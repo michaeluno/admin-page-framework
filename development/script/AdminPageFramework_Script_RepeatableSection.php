@@ -120,7 +120,7 @@ class AdminPageFramework_Script_RepeatableSection {
 					$( this ).updateAPFRepeatableFields();
 												
 					/* Call the registered callback functions */
-					$( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
+					$( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
 					
 				});
 				
@@ -203,7 +203,7 @@ class AdminPageFramework_Script_RepeatableSection {
 
 				/* Call the registered callback functions */
 				nodeSectionContainer.find( '.admin-page-framework-field' ).each( function() {	
-					$( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
+					$( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
 				});
 			
 				/* Remove the field */

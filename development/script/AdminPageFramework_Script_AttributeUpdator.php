@@ -59,13 +59,13 @@ class AdminPageFramework_Script_AttributeUpdator {
 				}); 
 			};				
 			
-			/* Sets the current index to the ID attribute */
+			/* Sets the current index to the ID attribute. Used for sortable fields. */
 			$.fn.setIndexIDAttribute = function( sAttribute, iIndex, bFirstOccurence ){
 				return this.attr( sAttribute, function( i, sValue ) {
 					return updateID( iIndex, sValue, 0, bFirstOccurence );
 				});
 			};
-			/* Sets the current index to the name attribute */
+			/* Sets the current index to the name attribute. Used for sortable fields. */
 			$.fn.setIndexNameAttribute = function( sAttribute, iIndex, bFirstOccurence ){
 				return this.attr( sAttribute, function( i, sValue ) {
 					return updateName( iIndex, sValue, 0, bFirstOccurence );

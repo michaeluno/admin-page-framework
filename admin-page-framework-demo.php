@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.1.1
+	Version: 3.0.1.2b
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -58,7 +58,7 @@ if ( is_admin() ) :
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );
 	new APF_MetaBox_For_Pages_Normal(
 		'apf_metabox_for_pages_normal',		// meta box id
-		__( 'Sample Meta Box For Admin Pages Inserted in Normal Area' ),	// title
+		__( 'Sample Meta Box For Admin Pages Inserted in Normal Area', 'admin-page-framework-demo' ),	// title
 		'apf_first_page',	// page slugs
 		'normal',	// context
 		'default'	// priority
@@ -66,7 +66,7 @@ if ( is_admin() ) :
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
 	new APF_MetaBox_For_Pages_Advanced(
 		'apf_metabox_for_pages_advanced',	// meta box id
-		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
+		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ),	// title
 		'apf_first_page',	// page slugs
 		'advanced',		// context
 		'default'	// priority
@@ -74,7 +74,7 @@ if ( is_admin() ) :
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );
 	new APF_MetaBox_For_Pages_Side(
 		'apf_metabox_for_pages_side',	// meta box id
-		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
+		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ),	// title
 		array( 'apf_first_page', 'apf_second_page' ),	// page slugs - setting multiple slugs is possible
 		'side',		// context
 		'default'	// priority

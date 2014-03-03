@@ -19,32 +19,38 @@ class AdminPageFramework_Script_RegisterCallback {
 
 	static public function getjQueryPlugin() {
 		
+		/**
+		 * 
+		 * @param			string			sFieldType			the field type
+		 * @param			sID				the field container tag ID
+		 * @param			iCallType		the function call type that indicates whether it's from repeatable sections or not.
+		 */
 		return "(function ( $ ) {
 						
 			// The method that gets triggered when a repeatable field add button is pressed.
-			$.fn.callBackAddRepeatableField = function( sFieldType, sID ) {
+			$.fn.callBackAddRepeatableField = function( sFieldType, sID, iCallType ) {
 				var nodeThis = this;
 				if ( ! $.fn.aAPFAddRepeatableFieldCallbacks ) $.fn.aAPFAddRepeatableFieldCallbacks = [];
 				$.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-					if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID );
+					if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID, iCallType );
 				});
 			};
 			
 			// The method that gets triggered when a repeatable field remove button is pressed.
-			$.fn.callBackRemoveRepeatableField = function( sFieldType, sID ) {
+			$.fn.callBackRemoveRepeatableField = function( sFieldType, sID, iCallType ) {
 				var nodeThis = this;
 				if ( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ) $.fn.aAPFRemoveRepeatableFieldCallbacks = [];
 				$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-					if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID );
+					if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID, iCallType );
 				});
 			};
 
 			// The method that gets triggered when a sortable field is dropped and the sort event occurred
-			$.fn.callBackSortedFields = function( sFieldType, sID ) {
+			$.fn.callBackSortedFields = function( sFieldType, sID, iCallType ) {
 				var nodeThis = this;
 				if ( ! $.fn.aAPFSortedFieldsCallbacks ) $.fn.aAPFSortedFieldsCallbacks = [];
 				$.fn.aAPFSortedFieldsCallbacks.forEach( function( hfCallback ) {
-					if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID );
+					if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID, iCallType );
 				});
 			};
 			
