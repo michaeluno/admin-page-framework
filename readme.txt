@@ -1,10 +1,10 @@
 === Admin Page Framework ===
 Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
-Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, development tool, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields
+Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 3.0.1
+Stable tag: 3.0.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,7 +250,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.0.1.1 - 03/01/2014 =
 * Fixed a bug that `taxonomy` field type fields could not be properly repeated.
 * Tweaked the styling of the `taxonomy` field type fields.
-* Tweaked the styling of horizonatal alignment of th and td form elements.
+* Tweaked the styling of horizontal alignment of `th` and `td` form elements.
  
 = 3.0.1 - 02/26/2014 =
 * Added the `AdminPageFramework::getOption()` method that can be used from the front-end to retrieve saved option values. 
