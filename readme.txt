@@ -259,6 +259,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.0.1.2 - 03/04/2014 = 
+* Fixed a bug that `image` field type fields could not be repeated properly in repeatable sections.
+
 = 3.0.1.1 - 03/01/2014 =
 * Fixed a bug that `taxonomy` field type fields could not be properly repeated.
 * Tweaked the styling of the `taxonomy` field type fields.
