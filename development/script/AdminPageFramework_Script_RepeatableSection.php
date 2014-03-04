@@ -99,10 +99,26 @@ class AdminPageFramework_Script_RepeatableSection {
 								
 				/* Add the cloned new field element */
 				nodeNewSection.insertAfter( nodeSectionContainer );	
+
+				/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
+				nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
 				
-				/* Increment the names and ids of the next following siblings. */
+				/* Iterate each section and increment the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
+					
 					incrementAttributes( this );
+					
+					/* Iterate each field one by one */
+					$( this ).find( '.admin-page-framework-field' ).each( function() {	
+
+						/* Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
+						$( this ).updateAPFRepeatableFields();
+													
+						/* Call the registered callback functions */
+						$( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
+						
+					});					
+					
 				});
 			
 				/* Rebind the click event to the repeatable sections buttons - important to update AFTER inserting the clone to the document node since the update method need to count sections. 
@@ -110,19 +126,14 @@ class AdminPageFramework_Script_RepeatableSection {
 				 * */
 				nodeNewSection.updateAPFRepeatableSections();	
 				
-				/* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
-				nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
-	
-				/* Iterate each field one by one */
-				nodeNewSection.find( '.admin-page-framework-field' ).each( function() {	
 
-					/* Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
-					$( this ).updateAPFRepeatableFields();
-												
-					/* Call the registered callback functions */
-					$( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
-					
-				});
+	
+				/* Iterate sortable fields container */
+				// nodeNewSection.find( '.admin-page-framework-fields.sortable' ).each( function() {
+					// $( this ).enableAPFSortable();
+				// });
+				
+
 				
 				/* For tabbed sections - add the title tab list */
 				if ( nodeTabsContainer.length > 0 ) {
@@ -198,12 +209,16 @@ class AdminPageFramework_Script_RepeatableSection {
 				
 				/* Decrement the names and ids of the next following siblings. */
 				nodeSectionContainer.nextAll().each( function() {
+					
 					decrementAttributes( this );
-				});
-
-				/* Call the registered callback functions */
-				nodeSectionContainer.find( '.admin-page-framework-field' ).each( function() {	
-					$( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
+					
+					/* Call the registered callback functions */
+					$( this ).find( '.admin-page-framework-field' ).each( function() {	
+					
+						$( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
+						
+					});					
+					
 				});
 			
 				/* Remove the field */

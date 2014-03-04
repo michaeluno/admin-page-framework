@@ -37,12 +37,14 @@ class AdminPageFramework_Script_RepeatableField {
 				
 				/* The Add button behaviour - if the tag id is given, multiple buttons will be selected. 
 				 * Otherwise, a field node is given and single button will be selected. */
+				$( nodeThis ).find( '.repeatable-field-add' ).unbind( 'click' );
 				$( nodeThis ).find( '.repeatable-field-add' ).click( function() {
 					$( this ).addAPFRepeatableField();
 					return false;	// will not click after that
 				});
 				
 				/* The Remove button behaviour */
+				$( nodeThis ).find( '.repeatable-field-remove' ).unbind( 'click' );
 				$( nodeThis ).find( '.repeatable-field-remove' ).click( function() {
 					$( this ).removeAPFRepeatableField();
 					return false;	// will not click after that
