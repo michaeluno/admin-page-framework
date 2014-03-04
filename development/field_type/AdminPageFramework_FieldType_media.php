@@ -78,7 +78,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 						
 				jQuery().registerAPFCallback( {	
 				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* 1. Return if it is not the type. */						
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the media field type, do nothing. */
@@ -86,11 +86,16 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 						
 						/* 2. Increment the ids of the next all (including this one) uploader buttons  */
 						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-						nodeFieldContainer.nextAll().andSelf().each( function() {
+						var iOccurence = iCallType === 1 ? 1 : 0;
+						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
 							/* 2-1. Increment the button ID */
 							nodeButton = jQuery( this ).find( '.select_media' );
-							nodeButton.incrementIDAttribute( 'id' );
+							
+							// If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
+							if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {
+								nodeButton.incrementIDAttribute( 'id', iOccurence );
+							}
 							
 							/* 2-2. Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
 							 * otherwise, the script sets the preview image in the wrong place. */						
@@ -100,7 +105,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							
 						});						
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					removed_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* 1. Return if it is not the type. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */
@@ -108,17 +113,22 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 						
 						/* 2. Decrement the ids of the next all (including this one) uploader buttons. ( the input values are already dealt by the framework repeater script ) */
 						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-						nodeFieldContainer.nextAll().andSelf().each( function() {
+						var iOccurence = iCallType === 1 ? 1 : 0;	// the occurrence value indicates which part of digit to change 
+						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 							
 							/* 2-1. Decrement the button ID */
-							nodeButton = jQuery( this ).find( '.select_media' );						
-							nodeButton.decrementIDAttribute( 'id' );
+							nodeButton = jQuery( this ).find( '.select_media' );		
+
+							// If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
+							if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {										
+								nodeButton.decrementIDAttribute( 'id', iOccurence );
+							}
 														
 							/* 2-2. Rebind the uploader script to each button. */
 							var nodeMediaInput = jQuery( this ).find( '.media-field input' );
 							if ( nodeMediaInput.length <= 0 ) return true;
 							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );	
-							
+console.log( 'updated media input: ' + nodeMediaInput.attr( 'id' ) );
 						});
 					},
 					
@@ -213,10 +223,10 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 
 					jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_media_' + sInputID ).click( function( e ) {
-					
+console.log( 'pressed id: ' + jQuery( this ).attr( 'id' ) );					
 						// Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
 						var sInputID = jQuery( this ).attr( 'id' ).substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
-						
+console.log( 'rebinding id: ' + sInputID );
 						window.wpActiveEditor = null;						
 						e.preventDefault();
 						

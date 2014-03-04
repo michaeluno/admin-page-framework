@@ -262,7 +262,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.0.1.2 - 03/04/2014 = 
 * Fixed a bug that repeatable field buttons did not add/remove when a section is repeated with a new ID due to non-assigned options.
 * Fixed a bug that sortable fields of a repeated section could not be sorted.
-* Fixed a bug that `image` field type fields could not be repeated properly in repeatable sections.
+* Fixed a bug that `image` and `media` field type fields could not be repeated properly in repeatable sections.
 
 = 3.0.1.1 - 03/01/2014 =
 * Fixed a bug that `taxonomy` field type fields could not be properly repeated.
