@@ -213,6 +213,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 
 					jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_media_' + sInputID ).click( function( e ) {
+					
+						// Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
+						var sInputID = jQuery( this ).attr( 'id' ).substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
 						
 						window.wpActiveEditor = null;						
 						e.preventDefault();

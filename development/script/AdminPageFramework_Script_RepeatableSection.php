@@ -126,14 +126,10 @@ class AdminPageFramework_Script_RepeatableSection {
 				 * */
 				nodeNewSection.updateAPFRepeatableSections();	
 				
-
-	
-				/* Iterate sortable fields container */
-				// nodeNewSection.find( '.admin-page-framework-fields.sortable' ).each( function() {
-					// $( this ).enableAPFSortable();
-				// });
-				
-
+				/* Rebind sortable fields - iterate sortable fields containers */
+				nodeNewSection.find( '.admin-page-framework-fields.sortable' ).each( function() {
+					$( this ).enableAPFSortable();
+				});
 				
 				/* For tabbed sections - add the title tab list */
 				if ( nodeTabsContainer.length > 0 ) {
