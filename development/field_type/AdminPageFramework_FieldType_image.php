@@ -99,12 +99,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 							node.find( '.image_preview img' ).attr( 'src', '' );	// for the image field type, empty the src property for the image uploader field
 						}
 						
-// console.log( 'image field repeater event occurred.' );
 						/* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
 						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						var iOccurence = iCallType === 1 ? 1 : 0;
 						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
-// console.log( 'index: ' + iIndex );
+
 							var nodeButton = jQuery( this ).find( '.select_image' );							
 							
 							// If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
@@ -115,7 +114,6 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 								jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurence );
 								
 							}
-// console.log( 'iteration: ' + jQuery( this ).attr( 'id' ) );
 							
 							/* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
 							 * otherwise, the script sets the preview image in the wrong place. */						
@@ -124,7 +122,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 							
 							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
 							setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );	
-console.log( 'updated binding: ' + nodeImageInput.attr( 'id' ) );	
+
 						});
 					},
 					removed_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
@@ -156,7 +154,7 @@ console.log( 'updated binding: ' + nodeImageInput.attr( 'id' ) );
 							
 							var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
 							setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );	
-console.log( 'updated binding: ' + nodeImageInput.attr( 'id' ) );							
+						
 						});
 						
 					},
