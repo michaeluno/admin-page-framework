@@ -35,6 +35,10 @@ class AdminPageFramework_Script_RepeatableField {
 				}
 				var aOptions = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ];
 				
+				/* Set the option values in the data attributes so that when a section is repeated and creates a brand new field container, it can refer the options */
+				$( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-max', aOptions['max'] );
+				$( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-min', aOptions['min'] );
+				
 				/* The Add button behaviour - if the tag id is given, multiple buttons will be selected. 
 				 * Otherwise, a field node is given and single button will be selected. */
 				$( nodeThis ).find( '.repeatable-field-add' ).unbind( 'click' );
@@ -75,6 +79,13 @@ class AdminPageFramework_Script_RepeatableField {
 				var sFieldsContainerID = nodeFieldsContainer.attr( 'id' );
 
 				/* If the set maximum number of fields already exists, do not add */
+ 				if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {		
+					var nodeButtonContainer = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' );
+					$.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ] = {	
+						max: nodeButtonContainer.attr( 'data-max' ),	// These are the defaults.
+						min: nodeButtonContainer.attr( 'data-min' ),
+					};
+				}		 
 				var sMaxNumberOfFields = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ]['max'];
 				if ( sMaxNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length >= sMaxNumberOfFields ) {
 					var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
