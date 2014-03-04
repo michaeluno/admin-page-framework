@@ -99,6 +99,50 @@ class AdminPageFramework_Script_Sortable {
 					});
 				});
 			};
+			
+			$.fn.enableAPFSortable = function( sFieldsContainerID ) {
+				
+				var oTarget = typeof sFieldsContainerID === 'string' 
+					? $( '#' + sFieldsContainerID + '.sortable' )
+					: this;
+				
+				oTarget.unbind( 'sortupdate' );
+				oTarget.sortable(
+					{	items: '> div:not( .disabled )', }	// the options for the sortable plugin
+				).bind( 'sortupdate', function() {
+					
+					/* Rename the ids and names */
+					var nodeFields = $( this ).children( 'div' );
+					var iCount = 1;
+					var iMaxCount = nodeFields.length;
+
+					$( $( this ).children( 'div' ).reverse() ).each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
+
+						var iIndex = ( iMaxCount - iCount );
+						$( this ).setIndexIDAttribute( 'id', iIndex );
+						$( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
+						$( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
+						$( this ).find( 'input,textarea,select' ).setIndexNameAttribute( 'name', iIndex );
+
+						/* Radio buttons loose their selections when IDs and names are updated, so reassign them */
+						$( this ).find( 'input[type=radio]' ).each( function() {	
+							var sAttr = $( this ).prop( 'checked' );
+							if ( typeof sAttr !== 'undefined' && sAttr !== false) 
+								$( this ).attr( 'checked', 'Checked' );
+						});
+							
+						iCount++;
+					});
+					
+					/* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
+					$( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
+					
+					/* Callback the registered functions */
+					$( this ).callBackSortedFields( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
+					
+				}); 				
+			
+			};
 		}( jQuery ));";
 		
 	}

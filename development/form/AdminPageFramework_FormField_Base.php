@@ -93,7 +93,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 				. "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>+</a>"
 				. "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>-</a>"
 			. "</div>";
-		$aJSArray = json_encode( $aSettings );
+		$_aJSArray = json_encode( $aSettings );
 		return
 			"<script type='text/javascript'>
 				jQuery( document ).ready( function() {
@@ -105,7 +105,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 							jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( \"{$_sButtons}\" );	// Adds the buttons
 						}
 					}					
-					jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$aJSArray} );	// Update the fields			
+					jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$_aJSArray} );	// Update the fields			
 				});
 			</script>";
 		
@@ -116,47 +116,12 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 	 * 
 	 * @since			3.0.0
 	 */	
-	protected function _getSortableFieldEnablerScript( $strFieldsContainerID ) {
+	protected function _getSortableFieldEnablerScript( $sFieldsContainerID ) {
 		
 		return 
 			"<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>
 				jQuery( document ).ready( function() {
-
-					jQuery( '#{$strFieldsContainerID}.sortable' ).sortable(
-						{	items: '> div:not( .disabled )', }	// the options for the sortable plugin
-					).bind( 'sortupdate', function() {
-						
-						/* Rename the ids and names */
-						var nodeFields = jQuery( this ).children( 'div' );
-						var iCount = 1;
-						var iMaxCount = nodeFields.length;
-
-						jQuery( jQuery( this ).children( 'div' ).reverse() ).each( function() {	// reverse is needed for radio buttons since they loose the selections when updating the IDs
-
-							var iIndex = ( iMaxCount - iCount );
-							jQuery( this ).setIndexIDAttribute( 'id', iIndex );
-							jQuery( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
-							jQuery( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
-							jQuery( this ).find( 'input,textarea,select' ).setIndexNameAttribute( 'name', iIndex );
-
-							/* Radio buttons loose their selections when IDs and names are updated, so reassign them */
-							jQuery( this ).find( 'input[type=radio]' ).each( function() {	
-								var sAttr = jQuery( this ).prop( 'checked' );
-								if ( typeof sAttr !== 'undefined' && sAttr !== false) 
-									jQuery( this ).attr( 'checked', 'Checked' );
-							});
-								
-							iCount++;
-						});
-						
-						/* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
-						jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );	
-						
-						/* Callback the registered functions */
-						jQuery( this ).callBackSortedFields( jQuery( this ).data( 'type' ), jQuery( this ).attr( 'id' ) );
-						
-					}); 		
-					
+					jQuery( this ).enableAPFSortable( '{$sFieldsContainerID}' );
 				});
 			</script>";
 	}
