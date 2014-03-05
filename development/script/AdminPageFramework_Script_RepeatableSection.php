@@ -110,7 +110,7 @@ class AdminPageFramework_Script_RepeatableSection {
 					
 					/* Iterate each field one by one */
 					$( this ).find( '.admin-page-framework-field' ).each( function() {	
-
+					
 						/* Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
 						$( this ).updateAPFRepeatableFields();
 													
@@ -210,9 +210,7 @@ class AdminPageFramework_Script_RepeatableSection {
 					
 					/* Call the registered callback functions */
 					$( this ).find( '.admin-page-framework-field' ).each( function() {	
-					
 						$( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
-						
 					});					
 					
 				});

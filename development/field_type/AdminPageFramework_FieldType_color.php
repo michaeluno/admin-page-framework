@@ -105,23 +105,29 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 	public function _replyToGetScripts() {
 		$aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "
-			registerAPFColorPickerField = function( sInputID ) {
+			registerAPFColorPickerField = function( osTragetInput ) {
+				
+				var osTargetInput = typeof osTragetInput === 'string' ? '#' + osTragetInput : osTragetInput;
+				var sInputID = typeof osTragetInput === 'string' ? osTragetInput : osTragetInput.attr( 'id' );
+				
 				'use strict';
 				/* This if statement checks if the color picker element exists within jQuery UI
 				 If it does exist then we initialize the WordPress color picker on our text input field */
 				if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
-					var myColorPickerOptions = {
+					var aColorPickerOptions = {
 						defaultColor: false,	// you can declare a default color here, or in the data-default-color attribute on the input				
 						change: function(event, ui){},	// a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/			
 						clear: function() {},	// a callback to fire when the input is emptied or an invalid color
 						hide: true,	// hide the color picker controls on load
 						palettes: true	// show a group of common colors beneath the square or, supply an array of colors to customize further
 					};			
-					jQuery( '#' + sInputID ).wpColorPicker( myColorPickerOptions );
+
+					jQuery( osTargetInput ).wpColorPicker( aColorPickerOptions );
+			
 				}
 				else {
 					/* We use farbtastic if the WordPress color picker widget doesn't exist */
-					jQuery( '#color_' + sInputID ).farbtastic( '#' + sInputID );
+					jQuery( '#color_' + sInputID ).farbtastic( osTargetInput );
 				}
 			}
 			
@@ -129,7 +135,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 				renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					added_repeatable_field: function( node, sFieldType, sFieldTagID, sCallType ) {
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
@@ -138,25 +144,28 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
 						var nodeNewColorInput = node.find( 'input.input_color' );
 						if ( nodeNewColorInput.length <= 0 ) return;
 						
+						var nodeIris = node.find( '.wp-picker-container' ).first();
+						if ( nodeIris.length > 0 ) {	// WP 3.5+
+							var nodeNewColorInput = nodeNewColorInput.clone();	// unbind the existing color picker script in case there is.
+						}
 						var sInputID = nodeNewColorInput.attr( 'id' );
-		
+
 						/* Reset the value of the color picker */
 						var sInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent';	// For WP 3.4.x or below
 						var sInputStyle = sInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
 						nodeNewColorInput.val( sInputValue );	// set the default value	
 						nodeNewColorInput.attr( 'style', sInputStyle );	// remove the background color set to the input field ( for WP 3.4.x or below )						 
-						
+
 						/* Replace the old color picker elements with the new one */
-						nodeIris = node.find( '#' + sInputID ).closest( '.wp-picker-container' );	
 						if ( nodeIris.length > 0 ) {	// WP 3.5+
 							jQuery( nodeIris ).replaceWith( nodeNewColorInput );
 						} 
 						else {	// WP 3.4.x -				
 							node.find( '.colorpicker' ).replaceWith( '<div class=\'colorpicker\' id=\'color_' + sInputID + '\'></div>' );	
 						}
-					
+			
 						/* Bind the color picker script */					
-						registerAPFColorPickerField( sInputID );						
+						registerAPFColorPickerField( nodeNewColorInput );											
 						
 					}
 				});
