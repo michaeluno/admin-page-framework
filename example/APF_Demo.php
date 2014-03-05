@@ -45,7 +45,7 @@ class APF_Demo extends AdminPageFramework {
 		
 		/* ( required ) Add sub-menu items (pages or links) */
 		$this->addSubMenuItems(	
-			/* 	
+			/* 	Example
 			  for sub-menu pages, e.g.
 			  	'title'	=>	'Your Page Title',
 				'page_slug'	=>	'your_page_slug',		// avoid hyphen(dash), dots, and white spaces
@@ -257,14 +257,14 @@ class APF_Demo extends AdminPageFramework {
 		
 		/* 
 		 * ( optional ) Enqueue styles  
-		 * $this->enqueueStyle(  'stylesheet url / path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
 		 * */
 		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
 		$sStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well
 		
 		/*
 		 * ( optional )Enqueue scripts
-		 * $this->enqueueScript(  'script url / relative path to the WordPress directory here' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 * $this->enqueueScript(  'script url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
 		 */
 		$this->enqueueScript(  
 			plugins_url( 'asset/js/test.js' , APFDEMO_FILE ),	// source url or path
@@ -1134,6 +1134,18 @@ class APF_Demo extends AdminPageFramework {
 				array(),	// the third item
 				'description'	=> __( 'Image fields can be sortable. This may be useful when you need to let the user set an order of images.', 'admin-page-framework-demo' ),
 			),			
+			array(	// Repeatable & Sortable Image Fields
+				'field_id'	=>	'image_select_field_repeatable_and_sortable',
+				'title'	=>	__( 'Repeatable & Sortable Images', 'admin-page-framework-demo' ),
+				'type'	=>	'image',
+				'repeatable'	=>	true,
+				'sortable'	=>	true,
+				'attributes'	=> array(
+					'preview'	=> array(
+						'style'	=> 'max-width: 200px;'
+					),
+				),	
+			),					
 			array( // Media File
 				'field_id'	=>	'media_field',
 				'section_id'	=>	'media_upload',
@@ -1501,7 +1513,8 @@ class APF_Demo extends AdminPageFramework {
 			array()
 		);		
 		$this->addSettingFields(
-			array(
+			'repeatable_tabbed_sections',
+ 			array(
 				'section_id'	=>	'repeatable_tabbed_sections',
 				'field_id'	=>	'tab_title',
 				'type'	=>	'section_title',
@@ -1543,6 +1556,25 @@ class APF_Demo extends AdminPageFramework {
 				'field_id'	=>	'color_in_tabbed_sections_in_repeatable_sections',
 				'title'	=>	__( 'Color', 'admin-page-framework-demo' ),
 				'type'	=>	'color',
+				'repeatable'	=>	true,
+				'sortable'	=>	true,
+			), 
+			array(
+				'field_id'	=>	'image_in_tabbed_sections_in_repeatable_sections',
+				'title'	=>	__( 'Image', 'admin-page-framework-demo' ),
+				'type'	=>	'image',
+				'repeatable'	=>	true,
+				'sortable'	=>	true,
+				'attributes'	=>	array(
+					'style'	=>	'max-width:300px;',
+				),
+			),
+			array(
+				'field_id'	=>	'media_in_tabbed_sections_in_repeatable_sections',
+				'title'	=>	__( 'Media', 'admin-page-framework-demo' ),
+				'type'	=>	'media',
+				'repeatable'	=>	true,
+				'sortable'	=>	true,
 			),			
 			array()
 		);				
