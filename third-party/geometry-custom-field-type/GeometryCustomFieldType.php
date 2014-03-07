@@ -68,6 +68,9 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 	protected function getStyles() {
 		return "/* Geometry Custom Field Type */
 			.admin-page-framework-field .gllpMap {width: 100%}
+			.admin-page-framework-section .form-table td .gllpLatlonPicker label {
+				display: inline-block;
+			}
 		";
 	}
 	
@@ -79,20 +82,18 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 		return 
 			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container'>"
-				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
 					. ( $aField['label'] && ! $aField['repeatable']
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. $this->getInputs( $aField )
+					. $this->_getInputs( $aField )
 					. $aField['after_input']
-				. "</label>"
 			. "</div>"
 			. $aField['after_label'];
 		
 	}
-		protected function getInputs( &$aField ) {
+		protected function _getInputs( &$aField ) {
 			
 			/* Set up attributes */
 			$aBaseAttributes = $aField['attributes'];
