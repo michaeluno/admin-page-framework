@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'TimeCustomFieldType' ) ) :
 class TimeCustomFieldType extends AdminPageFramework_FieldType {
 
 	/**
@@ -150,3 +151,4 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;

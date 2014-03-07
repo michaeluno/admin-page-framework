@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'RevealerCustomFieldType' ) ) :
 class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -181,20 +182,14 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 		}
 
 	/**
-	 * Adds revealer jQuery plugin.
+	 * Adds the revealer jQuery plugin.
 	 * @since			3.0.0
 	 */
 	public function _replyToAddRevealerjQueryPlugin() {
 		
 		$sScript = "
-		/**
-		 * Attribute increment/decrement jQuery Plugin
-		 */		
 		(function ( $ ) {
 		
-			/**
-			 * Increments a first found digit with the prefix of underscore in a specified attribute value.
-			 */
 			$.fn.reveal = function() {
 				
 				var aSettings = [];
@@ -219,3 +214,4 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	}		
 	
 }
+endif;

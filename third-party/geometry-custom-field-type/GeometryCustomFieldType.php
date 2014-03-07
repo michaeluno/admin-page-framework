@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'GeometryCustomFieldType' ) ) :
 class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -168,3 +169,4 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;

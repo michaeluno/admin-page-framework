@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'GridCustomFieldType' ) ) :
 class GridCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -244,3 +245,4 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;

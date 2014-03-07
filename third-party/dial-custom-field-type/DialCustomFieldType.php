@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'DialCustomFieldType' ) ) :
 class DialCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -144,3 +145,4 @@ class DialCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;

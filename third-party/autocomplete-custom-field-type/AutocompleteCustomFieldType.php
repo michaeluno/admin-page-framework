@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'AutoCompleteCustomFieldType' ) ) :
 class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -266,3 +267,4 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;

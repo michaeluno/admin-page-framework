@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'DateCustomFieldType' ) ) :
 class DateCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -153,3 +154,4 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 		}
 
 }
+endif;

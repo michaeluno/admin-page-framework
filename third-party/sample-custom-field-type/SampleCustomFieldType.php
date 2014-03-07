@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'SampleCustomFieldType' ) ) :
 class SampleCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -215,3 +216,4 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;

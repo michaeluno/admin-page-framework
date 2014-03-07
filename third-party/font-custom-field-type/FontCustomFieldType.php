@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'FontCustomFieldType' ) ) :
 class FontCustomFieldType extends AdminPageFramework_FieldType {
 
 	/**
@@ -644,4 +645,6 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						return $sExtension;	// woff, svg,
 				}
 			}
+			
 }
+endif;

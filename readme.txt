@@ -266,6 +266,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.0.1.3 =
+* Added `class_exists()` checks for sample custom field type classes for the demo plugin.
+
 = 3.0.1.2 - 03/04/2014 = 
 * Fixed a bug that repeatable field buttons did not add/remove when a section is repeated with a new ID due to non-assigned options.
 * Fixed a bug that sortable fields of a repeated section could not be sorted.

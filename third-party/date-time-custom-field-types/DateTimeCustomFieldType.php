@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'DateTimeCustomFieldType' ) ) :
 class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 	
 	/**
@@ -143,7 +144,6 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		 */
 		private function getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat ) {
 			return 
-				// "<script type='text/javascript' class='date-time-picker-enabler-script' data-id='{$sID}' data-time_format='{$sTimeFormat}'>
 				"<script type='text/javascript' class='date-time-picker-enabler-script'>
 					jQuery( document ).ready( function() {
 						jQuery( '#{$sInputID}' ).datetimepicker({
@@ -156,3 +156,4 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		}
 	
 }
+endif;
