@@ -267,6 +267,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.1.3 =
+* Fixed a bug that custom columns could not be updated properly in the taxonomy definition page (edit-tags.php).
 * Added `class_exists()` checks for sample custom field type classes for the demo plugin.
 
 = 3.0.1.2 - 03/04/2014 = 
