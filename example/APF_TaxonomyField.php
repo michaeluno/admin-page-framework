@@ -47,12 +47,18 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
 	/*
 	 * ( optional ) modify the columns of the term listing table
 	 */
+	public function sortable_columns_APF_TaxonomyField( $aColumn ) {	// sortable_column_{extended class name}
+		
+		return array( 'thumbnail' => __( 'Thumbnail', 'admin-page-framework-demo' ) ) + $aColumn;
+		
+	}
+
 	public function columns_APF_TaxonomyField( $aColumn ) {	// column_{extended class name}
 		
 		return array( 'cb' => $aColumn['cb'], 'thumbnail' => __( 'Thumbnail', 'admin-page-framework-demo' ) ) + $aColumn;
 		
 	}
-
+	
 	/*
 	 * ( optional ) output the stored option to the custom column
 	 */	
