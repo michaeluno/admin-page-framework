@@ -31,7 +31,9 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * 	<li><strong>script_{extended class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
  * 	<li><strong>validation_{extended class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><strong>columns_{taxonomy slug}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
- * 	<li><strong>columns_{extended class name}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>columns_{extended class name}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>sortable_columns_{taxonomy slug}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>sortable_columns_{extended class name}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
  * 	<li><strong>cell_{taxonomy slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: term ID.</li>
  * 	<li><strong>cell_{extended class name}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: term ID.</li>
  * </ul> 
@@ -120,7 +122,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 				add_action( "created_{$sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
 				add_action( "edited_{$sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
 
-				if ( $GLOBALS['pagenow'] != 'edit-tags.php' ) continue;
+				if ( $GLOBALS['pagenow'] != 'admin-ajax.php' && $GLOBALS['pagenow'] != 'edit-tags.php' ) continue;
 				add_action( "{$sTaxonomySlug}_add_form_fields", array( $this, '_replyToAddFieldsWOTableRows' ) );
 				add_action( "{$sTaxonomySlug}_edit_form_fields", array( $this, '_replyToAddFieldsWithTableRows' ) );
 				
@@ -227,13 +229,13 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 */
 	public function _replyToSetColumnCell( $vValue, $sColumnSlug, $sTermID ) {
 		
+		$sCellHTML = '';
 		if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
 			$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$_GET['taxonomy']}", $vValue, $sColumnSlug, $sTermID );
 		$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}", $sCellHTML, $sColumnSlug, $sTermID );
 		echo $sCellHTML;
 				
 	}
-	
 	
 	/**
 	 * Retrieves the fields output.
