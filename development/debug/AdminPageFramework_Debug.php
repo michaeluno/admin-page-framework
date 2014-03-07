@@ -57,8 +57,8 @@ class AdminPageFramework_Debug {
 		$_iPageLoadID = $_iPageLoadID ? $_iPageLoadID : uniqid();		
 		
 		$oCallerInfo = debug_backtrace();
-		$sCallerFunction = $oCallerInfo[ 1 ]['function'];
-		$sCallerClasss = $oCallerInfo[ 1 ]['class'];
+		$sCallerFunction = isset( $oCallerInfo[ 1 ]['function'] ) ? $oCallerInfo[ 1 ]['function'] : '';
+		$sCallerClasss = isset( $oCallerInfo[ 1 ]['class'] ) ? $oCallerInfo[ 1 ]['class'] : '';
 		file_put_contents( 
 			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
 			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' . "{$_iPageLoadID} {$sCallerClasss}::{$sCallerFunction} " . AdminPageFramework_Utility::getCurrentURL() . PHP_EOL	
