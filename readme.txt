@@ -267,6 +267,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.1.4 =
+* Fixed an issue that the target tab slug and the target section tab slug do not reset after the `setSettingFields()` method returns.
 * Tweaked the layout of the geometry custom field type.
 
 = 3.0.1.3 - 03/07/2014 =
