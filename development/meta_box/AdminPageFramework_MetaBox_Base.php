@@ -182,6 +182,7 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @since			3.0.0			
 	 * @access 			public
 	 * @remark			Accepts variadic parameters; the number of accepted parameters are not limited to three.
+	 * @remark			The target section tab slug will be reset once the method returns.
 	 * @param			array|string			the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
 	 * <strong>Section Array</strong>
 	 * <ul>
@@ -198,7 +199,11 @@ abstract class AdminPageFramework_MetaBox_Base {
 	 * @return			void
 	 */	
 	public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
+		
 		foreach( func_get_args() as $asSection ) $this->addSettingSection( $asSection );
+		
+		// reset the stored target tab slug and the target section tab slug
+		$this->_sTargetSectionTabSlug = null;		
 	}
 	
 	/**

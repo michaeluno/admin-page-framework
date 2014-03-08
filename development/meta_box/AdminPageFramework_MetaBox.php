@@ -208,7 +208,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 * @return			void
 	 */ 
 	public function _replyToAddMetaBox() {
-		
+
 		foreach( $this->oProp->aPostTypes as $sPostType ) 
 			add_meta_box( 
 				$this->oProp->sMetaBoxID, 		// id
