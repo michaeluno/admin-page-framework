@@ -40,6 +40,9 @@ class APF_Demo extends AdminPageFramework {
 	 */
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
+		/* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
+		$this->setCapability( 'read' );
+		
 		/* ( required ) Set the root page */
 		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	
 		

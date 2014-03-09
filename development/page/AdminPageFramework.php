@@ -508,7 +508,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting_Validation 
 	 * @access			public
 	 */ 
 	public function setCapability( $sCapability ) {
-		$this->oProp->sCapability = $sCapability;	
+		$this->oProp->sCapability = $sCapability;
+		$this->oForm->sCapability = $sCapability;
 	}
 
 	/**

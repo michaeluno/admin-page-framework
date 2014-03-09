@@ -514,12 +514,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			$sTitle = $sType == 'page' ? $aArgs['title'] : $aArgs['title'];
 			$sCapability = isset( $aArgs['capability'] ) ? $aArgs['capability'] : $this->oProp->sCapability;
 			$_sPageHook = '';
-			
+
 			// Check the capability
 			if ( ! current_user_can( $sCapability ) ) return;		
 			
-			// Add the sub-page to the sub-menu
-			
+			// Add the sub-page to the sub-menu			
 			$sRootPageSlug = $this->oProp->aRootMenu['sPageSlug'];
 			$sMenuLabel = plugin_basename( $sRootPageSlug );	// Make it compatible with the add_submenu_page() function.
 			

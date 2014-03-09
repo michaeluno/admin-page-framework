@@ -266,7 +266,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.0.1.4 =
+= 3.0.1.4 - 03/09/2014 =
+* Fixed a bug that `setCapability()` did not take effect for form elements.
 * Fixed an issue that the target tab slug and the target section tab slug do not reset after the `setSettingFields()` method returns.
 * Tweaked the layout of the geometry custom field type.
 

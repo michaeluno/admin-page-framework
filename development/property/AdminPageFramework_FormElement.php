@@ -126,6 +126,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 	protected $_sTargetSectionID = '_default';	
 	
 	/**
+	 * Stores the default access level of the fields.
+	 * 
+	 * @remark			The scope is public to allow change the value externally.
+	 * @since			3.0.0
+	 */
+	public $sCapability = 'manage_option';
+	
+	/**
 	 * Stores the default capability.
 	 * 
 	 * @since			3.0.0

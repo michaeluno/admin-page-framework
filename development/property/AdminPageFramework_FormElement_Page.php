@@ -161,7 +161,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 			),
 			self::$_aStructure_Section
 		);
-			
+
 		$aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
 		return $aSection;
 		
