@@ -26,6 +26,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	 * Defines the default key-values of this field type. 
 	 */
 	protected $aDefaultKeys = array(
+		'label'	=>	array(),
 		'is_multiple'	=> '',
 		'attributes'	=> array(
 			'select'	=> array(
