@@ -223,9 +223,9 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
 
 = How do I retrieve the stored options? =
-The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the extended class name as the key or the custom key if you specify one in the constructor. 
+The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 
 
-For instance, if your extended class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
+For instance, if your instantiated class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
 
 == Other Notes ==
 
@@ -266,6 +266,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.0.2 =
+* Added the `field_definition_{...}` filter.
+
 = 3.0.1.4 - 03/09/2014 =
 * Fixed a bug that `setCapability()` did not take effect for form elements.
 * Fixed an issue that the target tab slug and the target section tab slug do not reset after the `setSettingFields()` method returns.
@@ -304,9 +307,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the `grid` custom field type.
 * Added: the documentation pages in the distribution package.
 * Added: an example to add a thumbnail to the taxonomy term listing table in the demo plugin.
-* Added: the `cell_{taxonomy slug}` and the `cell_{extended class name}` filters for the taxonomy field class.
-* Added: the `sortable_columns_{taxonomy slug}` and the `sortable_columns_{extended class name}` filters for the taxonomy field class.
-* Added: the `columns_{taxonomy slug}` and the `columns_{extended class name}` filters for the taxonomy field class.
+* Added: the `cell_{taxonomy slug}` and the `cell_{instantiated class name}` filters for the taxonomy field class.
+* Added: the `sortable_columns_{taxonomy slug}` and the `sortable_columns_{instantiated class name}` filters for the taxonomy field class.
+* Added: the `columns_{taxonomy slug}` and the `columns_{instantiated class name}` filters for the taxonomy field class.
 * Added: the `columns_{post type slug}` filter for the post type class.
 * Added: the `sortable_columns_{post type slug}` filter for the post type class.
 * Deprecated: ( ***Breaking Change*** ) the `setColumnHeader()` method in the post type class.
@@ -341,12 +344,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Changed: ( ***Breaking Change*** ) the name of the `showPageTitle()` method to `setPageTitleVisibility()`.
 * Changed: ( ***Breaking Change*** ) the `foot_{...}` filters to be renamed to `content_bottom_{...}`.
 * Changed: ( ***Breaking Change*** ) the `head_{...}` filters to be renamed to `content_top_{...}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_{page slug}_tabs` filter to be renamed to `tabs_{extended class name}_{page slug}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_pages` filter to be renamed to `pages_{extended class name}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_fields` filter to be renamed to `fields_{extended class name}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_setting_sections` filter to be renamed to `sections_{extended class name}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_field_{field id}` filter to be renamed to `field_{extended class name}_{field id}`.
-* Changed: ( ***Breaking Change*** ) the `{extended class name}_section_{section id}` filter to be renamed to `section_head_{extended class name}_{section id}`.
+* Changed: ( ***Breaking Change*** ) the `{instantiated class name}_{page slug}_tabs` filter to be renamed to `tabs_{instantiated class name}_{page slug}`.
+* Changed: ( ***Breaking Change*** ) the `{instantiated class name}_pages` filter to be renamed to `pages_{instantiated class name}`.
+* Changed: ( ***Breaking Change*** ) the `{instantiated class name}_setting_fields` filter to be renamed to `fields_{instantiated class name}`.
+* Changed: ( ***Breaking Change*** ) the `{instantiated class name}_setting_sections` filter to be renamed to `sections_{instantiated class name}`.
+* Changed: ( ***Breaking Change*** ) the `{instantiated class name}_field_{field id}` filter to be renamed to `field_{instantiated class name}_{field id}`.
+* Changed: ( ***Breaking Change*** ) the `{instantiated class name}_section_{section id}` filter to be renamed to `section_head_{instantiated class name}_{section id}`.
 * Changed: the scope of all the methods intended to be used by the user to `public` from `protected`.
 * Changed: all the callback methods to have the prefix of `replyTo`.
 * Changed: all the internal methods to have the prefix of an underscore.
@@ -390,20 +393,20 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 2.1.5 - 12/08/2013 =
 * Changed: ( *Minor Breaking Change* ) the format of the `id` and `for` attributes of the input and label tags of the `taxonomy` field type.
 * Fixed: a bug that caused name collisions with the `for` attribute of label tags in the `taxonomy` field type.
-* Added: the `field_{extended class name}_{field id}` and `section_{extended class name}_{section id}` filters. 
-* Added: the `export_{extended class name}_{field id}`, `export_{extended class name}_{input id}` filters.
-* Added: the `import_{extended class name}_{field id}`, `import_{extended class name}_{input id}` filters.
+* Added: the `field_{instantiated class name}_{field id}` and `section_{instantiated class name}_{section id}` filters. 
+* Added: the `export_{instantiated class name}_{field id}`, `export_{instantiated class name}_{input id}` filters.
+* Added: the `import_{instantiated class name}_{field id}`, `import_{instantiated class name}_{input id}` filters.
 * Added: an example to retrieve the saved options from the front end in the demo plugin.
 * Added: the ability for the `enqueueScript()` and `enqueueStyle()` methods to accept absolute file paths.
 * Introduced: a new class `AdminPageFramework_CustomFieldType`.
 * Added: a sample custom field type, `geometry`, in the demo plugin.
 * Fixed: a bug that the `enqueueScripts()` method caused infinite loops.
-* Added: the `field_types_{extended class name}` filter that receives the field type defining array so that the user can return custom field types by adding a definition array to it.
+* Added: the `field_types_{instantiated class name}` filter that receives the field type defining array so that the user can return custom field types by adding a definition array to it.
 * Added: the `vClassAttributeUpload` key for the `import` field type that defines the class attribute of the custom file input tag in the field output.
 * Added: the `vUnitSize` key for the `size` field type that indicates the `size` attribute of the select(unit) input field.</li>
 * Added: the `vMerge` key for the `import` field type that determines whether the imported data should be merged with the existing options.
 * Changed: admin settings notifications with `setSettingNotice()` not to have multiple messages with the same id.
-* Added: the `validation_{extended class name}_{field id}` and the `validation_{extended class name}_{input id}` filters. 
+* Added: the `validation_{instantiated class name}_{field id}` and the `validation_{instantiated class name}_{input id}` filters. 
 * Fixed: a bug in the demo plugin that the `size` fields were not displayed properly.
 * Fixed: a bug that menu positions could not be set with the `setRootMenuPage()` method.
 
@@ -470,7 +473,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Added: the *getCurrentAdminURL()* method.
 
 = 2.1.0 - 10/05/2013 =
-* Added: the *load_{extended class name}*, *load_{page slug}* and *load_{page slug}_{tab slug}* filters.
+* Added: the *load_{instantiated class name}*, *load_{page slug}* and *load_{page slug}_{tab slug}* filters.
 * Fixed: a bug that saving options with a custom capability caused the Cheatin' Uh message.
 * Deprecated: ( ***Breaking Change*** ) the *setPageCapability()* method since it did not do anything.
 * Changed: ( ***Breaking Change*** ) the *AdminPageFramework_PostType* class properties and *AdminPageFramework_MetaBox* to be encapsulated into a class object each.
@@ -501,7 +504,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 * Removed: the *arrField* parameter of the constructor of the *AdminPageFramework_MetaBox* class.
 * Removed: the *setFieldArray()* method of the *AdminPageFramework_MetaBox* class.
 * Fixed: a bug that meta box color piker, image selector, data picker scripts did not load in the page after the Publish button was pressed.
-* Changed: the *validation_ extended class name* filter for meta boxes to accept the second parameter to receive the stored data.
+* Changed: the *validation_ instantiated class name* filter for meta boxes to accept the second parameter to receive the stored data.
 
 = 2.0.0.b2 - 08/26/2013 =
 * Changed: *addLinkToPluginDescription()* and *addLinkToPluginTitle()* to accept variadic parameters. 
