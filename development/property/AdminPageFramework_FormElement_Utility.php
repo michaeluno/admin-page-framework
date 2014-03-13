@@ -198,5 +198,49 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				? $a['order'] - $b['order']
 				: 1;
 		}		
+	
+	
+	/**
+	 * Applies filters to each conditioned field definition array.
+	 * 
+	 * @since			3.0.2
+	 */
+	public function applyFiltersToFields( $oCaller, $sClassName ) {
+		
+		foreach( $this->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
+						
+			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
+				
+				// If it is a sub-section array.
+				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
+					$_sSubSectionIndex = $_sIndexOrFieldID;
+					$_aFields = $_aSubSectionOrField;
+					$_sSectionSubString = $_sSectionID == '_default' ? '' : "_{$_sSectionID}";
+					foreach( $_aFields as $_aField ) {
+						$this->aConditionedFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
+							$oCaller,
+							"field_definition_{$sClassName}{$_sSectionSubString}_{$_aField['field_id']}",
+							$_aField,
+							$_sSubSectionIndex
+						);	
+					}
+					continue;
+					
+				}
+				
+				// Otherwise, insert the formatted field definiton array.
+				$_aField = $_aSubSectionOrField;
+				$_sSectionSubString = $_sSectionID == '_default' ? '' : "_{$_sSectionID}";
+				$this->aConditionedFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
+					$oCaller,
+					"field_definition_{$sClassName}{$_sSectionSubString}_{$_aField['field_id']}",
+					$_aField		
+				);
+				
+			}
+			
+		}		
+		
+	}
 }
 endif;
