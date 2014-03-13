@@ -236,6 +236,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		// Format the fields array.
 		$this->oForm->format();
 		$this->oForm->applyConditions();	// will set $this->oForm->aConditionedFields
+		$this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
 		if ( isset( $this->oProp->aOptions ) )

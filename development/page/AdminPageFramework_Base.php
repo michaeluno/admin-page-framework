@@ -64,6 +64,7 @@ abstract class AdminPageFramework_Base {
 		'tabs_'				=> 'tabs_',
 		
 		'field_types_'		=> 'field_types_',
+		'field_definition_'	=> 'field_definition_',	// 3.0.2+
 	);
 	
 	/**

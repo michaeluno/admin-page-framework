@@ -55,6 +55,8 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>sections_{instantiated class name}</strong> – receives the registered section arrays. The first parameter: sections container array.</li> 
  * 	<li><strong>fields_{instantiated class name}</strong> – receives the registered field arrays. The first parameter: fields container array.</li> 
  * 	<li><strong>fields_{instantiated class name}_{section id}</strong> – [3.0.0+] receives the registered field arrays which belong to the specified section. The first parameter: fields container array.</li> 
+ * 	<li><strong>field_definition_{instantiated class name}_{field ID}</strong> – [3.0.2+] receives the form field definition array of the given input field ID that does not have a section. The first parameter: the field definition array.</li>
+ * 	<li><strong>field_definition_{instantiated class name}_{section id}_{field ID}</strong> – [3.0.2+] receives the form field definition array of the given input field ID that has a section. The first parameter: the field definition array. The second parameter: the integer representing sub-section index if the field belongs to a sub-section.</li>
  * 	<li><strong>pages_{instantiated class name}</strong> – receives the registered page arrays. The first parameter: pages container array.</li> 
  * 	<li><strong>tabs_{instantiated class name}_{page slug}</strong> – receives the registered in-page tab arrays. The first parameter: tabs container array.</li> 
  * 	<li><strong>validation_{instantiated class name}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that does not have a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database.</li>

@@ -376,6 +376,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 					$this->oForm->setCurrentPageSlug( $sPageSlug );
 					$this->oForm->setCurrentTabSlug( $sTabSlug );
 					$this->oForm->applyConditions();
+					$this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );	// applies filters to the conditioned field definition arrays.
 					$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 					
 					echo $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
