@@ -150,6 +150,10 @@ class APF_Demo extends AdminPageFramework {
 				'tab_slug'	=>	'sections',
 				'title'		=>	__( 'Sections', 'admin-page-framework-demo' ),	
 			),
+			array(
+				'tab_slug'	=>	'callbacks',
+				'title'		=>	__( 'Callbacks', 'admin-page-framework-demo' ),	
+			),			
 			array()
 		);
 		$this->addInPageTabs(	// ( optional )
@@ -303,7 +307,7 @@ class APF_Demo extends AdminPageFramework {
 		 */
 		/* Add setting sections */
 		$this->addSettingSections(	
-			'apf_builtin_field_types',
+			'apf_builtin_field_types',	// the target page slug
 			array(
 				'section_id'		=>	'text_fields',	// avoid hyphen(dash), dots, and white spaces
 				// 'page_slug'		=>	'apf_builtin_field_types',	// <-- the method remembers the last used page slug and the tab slug so they can be omitted from the second parameter.
@@ -410,7 +414,17 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array(
 				'section_tab_slug'	=>	'',	// reset the target section tab slug for the next call.
-			)
+				
+			),
+			array(
+				'section_id'	=>	'callbacks',
+				'tab_slug'		=>	'callbacks',
+				'title'			=>	__( 'Using Callbacks', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'These fields are (re)defined with callbacks.', 'admin-page-framework-demo' )
+					. ' ' . __( 'This is useful when you need to pass dynamic data to a field definition array that should only be performed in the page that displays the field.', 'admin-page-framework-demo' )
+					. ' ' . __( 'By default, the <code>setUp()</code> method is triggered in all admin pages. So if you do a heavy task during the method, it affects the page load of other pages. This solves such problems.', 'admin-page-framework-demo' ),
+			),	
+			array()
 		);
 		$this->addSettingSections(	
 			array(
@@ -1580,7 +1594,25 @@ class APF_Demo extends AdminPageFramework {
 				'sortable'	=>	true,
 			),			
 			array()
-		);				
+		);		
+	
+		/**
+		 * Fields to be defined with callback methods - pass only the required keys: 'field_id', 'section_id', and the 'type'.
+		 */
+		$this->addSettingFields(
+			array(
+				'field_id'	=>	'callback_example',
+				'section_id'	=>	'callbacks',
+				'type'	=>	'select',
+			),
+			array(
+				'field_id'	=>	'apf_post_titles',
+				'section_id'	=>	'callbacks',
+				'type'	=>	'select',
+			),				
+			array()
+		);
+		
 		/*
 		 * Custom Field Types - in order to use these types, those custom field types must be registered. 
 		 * The way to register a field type is demonstrated in the start_{extended class name} callback function.
@@ -2187,11 +2219,43 @@ class APF_Demo extends AdminPageFramework {
 	}
 	
 	/*
-	 * Custon Field Types Page
+	 * Custom Field Types Page
 	 * */
 	public function do_apf_custom_field_types() {	// do_{page slug}
 		submit_button();
 	}
+	
+	/*
+	 * Field callback methods - for field definitions that require heavy tasks should be defined with the callback methods.
+	 */
+	public function field_definition_APF_DEMO_callbacks_callback_example( $aField ) {	// field_definition_{instantiated class name}_{section id}_{field_id}
+		
+		$aField['title'] = __( 'Post Titles', 'admin-page-framework-demo' );
+		$aField['description'] = __( "This description is inserted with the callback method: <code>" . __METHOD__ . "</code>", 'admin-page-framework-demo' );
+		$aField['label'] = $this->_getPostTitles();
+		return $aField;
+		
+	}
+	public function field_definition_APF_DEMO_callbacks_apf_post_titles( $aField ) {	// field_definition_{instantiated class name}_{section id}_{field_id}
+		
+		$aField['title'] = __( 'APF Custom Post Titles', 'admin-page-framework-demo' );
+		$aField['label'] = $this->_getPostTitles( 'apf_posts' );
+		return $aField;
+		
+	}	
+		private function _getPostTitles( $sPostTypeSlug='post' ) {
+			
+			$_aArgs = array(
+				'post_type' => $sPostTypeSlug,
+			);
+			$_oResults = new WP_Query( $_aArgs );
+			$_aPostTitles = array();
+			foreach( $_oResults->posts as $_iIndex => $_oPost ) {
+				$_aPostTitles[ $_oPost->ID ] = $_oPost->post_title;
+			}
+			return $_aPostTitles;
+			
+		}
 	
 	/*
 	 * Manage Options Page
