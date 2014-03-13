@@ -228,7 +228,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 					
 				}
 				
-				// Otherwise, insert the formatted field definiton array.
+				// Otherwise, insert the formatted field definition array.
 				$_aField = $_aSubSectionOrField;
 				$_sSectionSubString = $_sSectionID == '_default' ? '' : "_{$_sSectionID}";
 				$this->aConditionedFields[ $_sSectionID ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
