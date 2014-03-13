@@ -403,28 +403,29 @@
 </span><span id="312" class="l"><a class="l" href="#312">312 </a>        <span class="php-comment">// Format the fields array.</span>
 </span><span id="313" class="l"><a class="l" href="#313">313 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;format();
 </span><span id="314" class="l"><a class="l" href="#314">314 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;applyConditions();    <span class="php-comment">// will create the conditioned elements.</span>
-</span><span id="315" class="l"><a class="l" href="#315">315 </a>        
-</span><span id="316" class="l"><a class="l" href="#316">316 </a>        <span class="php-comment">// Add the repeatable section elements to the fields definition array.</span>
-</span><span id="317" class="l"><a class="l" href="#317">317 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;setDynamicElements( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions ); <span class="php-comment">// will update $this-&gt;oForm-&gt;aConditionedFields</span>
-</span><span id="318" class="l"><a class="l" href="#318">318 </a>                        
-</span><span id="319" class="l"><a class="l" href="#319">319 </a>        <span class="php-var">$this</span>-&gt;_registerFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields );
-</span><span id="320" class="l"><a class="l" href="#320">320 </a>
-</span><span id="321" class="l"><a class="l" href="#321">321 </a>    }       
-</span><span id="322" class="l"><a class="l" href="#322">322 </a>        <span class="php-comment">/**
-</span></span><span id="323" class="l"><a class="l" href="#323">323 </a><span class="php-comment">         * Checks if the currently loading page is in the pages specified for this meta box.
-</span></span><span id="324" class="l"><a class="l" href="#324">324 </a><span class="php-comment">         * @since           3.0.0
-</span></span><span id="325" class="l"><a class="l" href="#325">325 </a><span class="php-comment">         */</span>
-</span><span id="326" class="l"><a class="l" href="#326">326 </a>        <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="__isMetaBoxPage" href="#__isMetaBoxPage">_isMetaBoxPage</a>( <span class="php-var">$sPageSlug</span> ) {
-</span><span id="327" class="l"><a class="l" href="#327">327 </a>            
-</span><span id="328" class="l"><a class="l" href="#328">328 </a>            <span class="php-keyword1">if</span> ( ! <span class="php-var">$sPageSlug</span> ) <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="329" class="l"><a class="l" href="#329">329 </a>            
-</span><span id="330" class="l"><a class="l" href="#330">330 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$sPageSlug</span>, <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs ) )
-</span><span id="331" class="l"><a class="l" href="#331">331 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="332" class="l"><a class="l" href="#332">332 </a>            
-</span><span id="333" class="l"><a class="l" href="#333">333 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="334" class="l"><a class="l" href="#334">334 </a>        }   
-</span><span id="335" class="l"><a class="l" href="#335">335 </a>}
-</span><span id="336" class="l"><a class="l" href="#336">336 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="315" class="l"><a class="l" href="#315">315 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;applyFiltersToFields( <span class="php-var">$this</span>, <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName );
+</span><span id="316" class="l"><a class="l" href="#316">316 </a>        
+</span><span id="317" class="l"><a class="l" href="#317">317 </a>        <span class="php-comment">// Add the repeatable section elements to the fields definition array.</span>
+</span><span id="318" class="l"><a class="l" href="#318">318 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;setDynamicElements( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions ); <span class="php-comment">// will update $this-&gt;oForm-&gt;aConditionedFields</span>
+</span><span id="319" class="l"><a class="l" href="#319">319 </a>                        
+</span><span id="320" class="l"><a class="l" href="#320">320 </a>        <span class="php-var">$this</span>-&gt;_registerFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields );
+</span><span id="321" class="l"><a class="l" href="#321">321 </a>
+</span><span id="322" class="l"><a class="l" href="#322">322 </a>    }       
+</span><span id="323" class="l"><a class="l" href="#323">323 </a>        <span class="php-comment">/**
+</span></span><span id="324" class="l"><a class="l" href="#324">324 </a><span class="php-comment">         * Checks if the currently loading page is in the pages specified for this meta box.
+</span></span><span id="325" class="l"><a class="l" href="#325">325 </a><span class="php-comment">         * @since           3.0.0
+</span></span><span id="326" class="l"><a class="l" href="#326">326 </a><span class="php-comment">         */</span>
+</span><span id="327" class="l"><a class="l" href="#327">327 </a>        <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="__isMetaBoxPage" href="#__isMetaBoxPage">_isMetaBoxPage</a>( <span class="php-var">$sPageSlug</span> ) {
+</span><span id="328" class="l"><a class="l" href="#328">328 </a>            
+</span><span id="329" class="l"><a class="l" href="#329">329 </a>            <span class="php-keyword1">if</span> ( ! <span class="php-var">$sPageSlug</span> ) <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="330" class="l"><a class="l" href="#330">330 </a>            
+</span><span id="331" class="l"><a class="l" href="#331">331 </a>            <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$sPageSlug</span>, <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs ) )
+</span><span id="332" class="l"><a class="l" href="#332">332 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="333" class="l"><a class="l" href="#333">333 </a>            
+</span><span id="334" class="l"><a class="l" href="#334">334 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="335" class="l"><a class="l" href="#335">335 </a>        }   
+</span><span id="336" class="l"><a class="l" href="#336">336 </a>}
+</span><span id="337" class="l"><a class="l" href="#337">337 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">

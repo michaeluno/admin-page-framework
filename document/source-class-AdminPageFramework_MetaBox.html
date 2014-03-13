@@ -327,23 +327,24 @@
 </span><span id="236" class="l"><a class="l" href="#236">236 </a>        <span class="php-comment">// Format the fields array.</span>
 </span><span id="237" class="l"><a class="l" href="#237">237 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;format();
 </span><span id="238" class="l"><a class="l" href="#238">238 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;applyConditions();    <span class="php-comment">// will set $this-&gt;oForm-&gt;aConditionedFields</span>
-</span><span id="239" class="l"><a class="l" href="#239">239 </a>        
-</span><span id="240" class="l"><a class="l" href="#240">240 </a>        <span class="php-comment">// Set the option array - the framework will refer to this data when displaying the fields.</span>
-</span><span id="241" class="l"><a class="l" href="#241">241 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions ) )
-</span><span id="242" class="l"><a class="l" href="#242">242 </a>            <span class="php-var">$this</span>-&gt;setOptionArray( 
-</span><span id="243" class="l"><a class="l" href="#243">243 </a>                <span class="php-keyword1">isset</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'post'</span>]-&gt;ID ) ? <span class="php-var">$GLOBALS</span>[<span class="php-quote">'post'</span>]-&gt;ID : ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ? <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] : <span class="php-keyword1">null</span> ),
-</span><span id="244" class="l"><a class="l" href="#244">244 </a>                <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields 
-</span><span id="245" class="l"><a class="l" href="#245">245 </a>            );  <span class="php-comment">// will set $this-&gt;oProp-&gt;aOptions</span>
-</span><span id="246" class="l"><a class="l" href="#246">246 </a>        
-</span><span id="247" class="l"><a class="l" href="#247">247 </a>        <span class="php-comment">// Add the repeatable section elements to the fields definition array.</span>
-</span><span id="248" class="l"><a class="l" href="#248">248 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;setDynamicElements( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions );     <span class="php-comment">// will update $this-&gt;oForm-&gt;aConditionedFields</span>
-</span><span id="249" class="l"><a class="l" href="#249">249 </a>        
-</span><span id="250" class="l"><a class="l" href="#250">250 </a>        <span class="php-var">$this</span>-&gt;_registerFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields );
-</span><span id="251" class="l"><a class="l" href="#251">251 </a>                
-</span><span id="252" class="l"><a class="l" href="#252">252 </a>    }   
-</span><span id="253" class="l"><a class="l" href="#253">253 </a>    
-</span><span id="254" class="l"><a class="l" href="#254">254 </a>}
-</span><span id="255" class="l"><a class="l" href="#255">255 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="239" class="l"><a class="l" href="#239">239 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;applyFiltersToFields( <span class="php-var">$this</span>, <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName );
+</span><span id="240" class="l"><a class="l" href="#240">240 </a>        
+</span><span id="241" class="l"><a class="l" href="#241">241 </a>        <span class="php-comment">// Set the option array - the framework will refer to this data when displaying the fields.</span>
+</span><span id="242" class="l"><a class="l" href="#242">242 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions ) )
+</span><span id="243" class="l"><a class="l" href="#243">243 </a>            <span class="php-var">$this</span>-&gt;setOptionArray( 
+</span><span id="244" class="l"><a class="l" href="#244">244 </a>                <span class="php-keyword1">isset</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'post'</span>]-&gt;ID ) ? <span class="php-var">$GLOBALS</span>[<span class="php-quote">'post'</span>]-&gt;ID : ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ? <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] : <span class="php-keyword1">null</span> ),
+</span><span id="245" class="l"><a class="l" href="#245">245 </a>                <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields 
+</span><span id="246" class="l"><a class="l" href="#246">246 </a>            );  <span class="php-comment">// will set $this-&gt;oProp-&gt;aOptions</span>
+</span><span id="247" class="l"><a class="l" href="#247">247 </a>        
+</span><span id="248" class="l"><a class="l" href="#248">248 </a>        <span class="php-comment">// Add the repeatable section elements to the fields definition array.</span>
+</span><span id="249" class="l"><a class="l" href="#249">249 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;setDynamicElements( <span class="php-var">$this</span>-&gt;oProp-&gt;aOptions );     <span class="php-comment">// will update $this-&gt;oForm-&gt;aConditionedFields</span>
+</span><span id="250" class="l"><a class="l" href="#250">250 </a>        
+</span><span id="251" class="l"><a class="l" href="#251">251 </a>        <span class="php-var">$this</span>-&gt;_registerFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aConditionedFields );
+</span><span id="252" class="l"><a class="l" href="#252">252 </a>                
+</span><span id="253" class="l"><a class="l" href="#253">253 </a>    }   
+</span><span id="254" class="l"><a class="l" href="#254">254 </a>    
+</span><span id="255" class="l"><a class="l" href="#255">255 </a>}
+</span><span id="256" class="l"><a class="l" href="#256">256 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">
