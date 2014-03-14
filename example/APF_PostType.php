@@ -46,11 +46,13 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->setFooterInfoRight( '<br />Custom text on the right hand side' );
 			
 		add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );	
+		
+		add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
 	
 	}
 	
 	/*
-	 * Callback methods
+	 * Built-in callback methods
 	 */
 	public function columns_apf_posts( $aHeaderColumns ) {	// columns_{post type slug}
 		
@@ -70,16 +72,43 @@ class APF_PostType extends AdminPageFramework_PostType {
 		
 	}
 	public function sortable_columns_apf_posts( $aSortableHeaderColumns ) {	// sortable_columns_{post type slug}
-		
-		return $aSortableHeaderColumns;
-		
+		return $aSortableHeaderColumns + array(
+			'samplecolumn' => 'samplecolumn',
+		);
 	}	
 	public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {	// cell_{post type}_{column key}
 		
-		return "the post id is : {$iPostID}";
+		return sprintf( __( 'Post ID: %1$s', 'admin-page-framework-demo' ), $iPostID ) . "<br />"
+			. __( 'Text', 'admin-page-framework-demo' ) . ': ' . get_post_meta( $iPostID, 'metabox_text_field', true );
 		
 	}
 	
+	/**
+	 * Custom callback methods
+	 */
+	
+	/**
+	 * Modifies the way how the sample column is sorted. This makes it sorted by post ID.
+	 * 
+	 * @see			http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters
+	 */
+	public function replyToSortCustomColumn( $aVars ){
+
+		if ( isset( $aVars['orderby'] ) && 'samplecolumn' == $aVars['orderby'] ){
+			$aVars = array_merge( 
+				$aVars, 
+				array(
+					'meta_key'	=>	'metabox_text_field',
+					'orderby'  => 'meta_value',
+				)
+			);
+		}
+		return $aVars;
+	}	
+	
+	/**
+	 * Modifies the output of the post content.
+	 */
 	public function replyToPrintOptionValues( $sContent ) {
 		
 		if ( ! isset( $GLOBALS['post']->ID ) || get_post_type() != 'apf_posts' ) return $sContent;
