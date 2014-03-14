@@ -15,27 +15,28 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><strong>start_{extended class name}</strong> – triggered at the end of the class constructor.</li>
- * 	<li><strong>do_{extended class name}</strong> – triggered when the meta box gets rendered.</li>
+ * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor.</li>
+ * 	<li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered.</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- * 	<li><strong>field_types_{extended class name}</strong> – receives the field type definition array. The first parameter: the field type definition array.</li>
- * 	<li><strong>field_{extended class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- * 	<li><strong>content_{extended class name}</strong> – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
- * 	<li><strong>style_common_{extended class name}</strong> –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
- * 	<li><strong>style_ie_common_{extended class name}</strong> –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
- * 	<li><strong>style_{extended class name}</strong> –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
- * 	<li><strong>style_ie_{extended class name}</strong> –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
- * 	<li><strong>script_common_{extended class name}</strong> – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
- * 	<li><strong>script_{extended class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
- * 	<li><strong>validation_{extended class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>field_types_{instantiated class name}</strong> – receives the field type definition array. The first parameter: the field type definition array.</li>
+ * 	<li><strong>field_{instantiated class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
+ * 	<li><strong>content_{instantiated class name}</strong> – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
+ * 	<li><strong>style_common_{instantiated class name}</strong> –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_ie_common_{instantiated class name}</strong> –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_{instantiated class name}</strong> –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>style_ie_{instantiated class name}</strong> –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>script_common_{instantiated class name}</strong> – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>script_{instantiated class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ * 	<li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * 	<li><strong>columns_{taxonomy slug}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
- * 	<li><strong>columns_{extended class name}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>columns_{instantiated class name}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
  * 	<li><strong>sortable_columns_{taxonomy slug}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
- * 	<li><strong>sortable_columns_{extended class name}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
- * 	<li><strong>cell_{taxonomy slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: term ID.</li>
- * 	<li><strong>cell_{extended class name}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: term ID.</li>
+ * 	<li><strong>sortable_columns_{instantiated class name}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
+ * 	<li><strong>cell_{taxonomy slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
+ * 	<li><strong>cell_{instantiated class name}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
+ * 	<li><strong>cell_{instantiated class name}_{column slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the term ID.</li>
  * </ul> 
  * @abstract
  * @since			3.0.0
@@ -79,6 +80,8 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	/**
 	 * Constructs the class object instance of AdminPageFramework_TaxonomyField.
 	 * 
+	 * Handles setting up properties and hooks.
+	 * 
 	 * <h4>Examples</h4>
 	 * <code>
 	 * new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
@@ -86,7 +89,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 * 
 	 * @since			3.0.0
 	 * @param			array|string			The taxonomy slug(s). If multiple slugs need to be passed, enclose them in an array and pass the array.
-	 * @param			string					The option key used for the options table to save the data. By default, the extended class name will be applied.
+	 * @param			string					The option key used for the options table to save the data. By default, the instantiated class name will be applied.
 	 * @param			string					The access rights. Default: <em>manage_options</em>.
 	 * @param			string					The text domain. Default: <em>admin-page-framework</em>.
 	 * @return			void
@@ -118,7 +121,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 			
 			foreach( $this->oProp->aTaxonomySlugs as $sTaxonomySlug ) {				
 				
-				/* Validation callbacks need to be set regardless of the current page is edit-tags.php or not */
+				/* Validation callbacks need to be set regardless of whether the current page is edit-tags.php or not */
 				add_action( "created_{$sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
 				add_action( "edited_{$sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
 
@@ -233,6 +236,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
 			$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$_GET['taxonomy']}", $vValue, $sColumnSlug, $sTermID );
 		$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}", $sCellHTML, $sColumnSlug, $sTermID );
+		$sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}_{$sColumnSlug}", $sCellHTML, $sTermID );	// 3.0.2+
 		echo $sCellHTML;
 				
 	}
