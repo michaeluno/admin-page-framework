@@ -267,6 +267,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.2 =
+* Added examples of implementing a custom sort algorithm for columns of the taxonomy term listing table and the custom post type post listing table in the demo plugin.
+* Added the the `cell_{instantiated class name}_{column slug}` filter for the taxonomy field class.
 * Added the `field_definition_{...}` filter.
 
 = 3.0.1.4 - 03/09/2014 =
