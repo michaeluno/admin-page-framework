@@ -279,8 +279,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 
 	 * @internal
 	 * @sicne			3.0.0
-	 * @param			array			The array holing the field values of the page sent from the framework page class (the main class).
-	 * @param			array			The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
+	 * @param			array			$aNewPageOptions			The array holing the field values of the page sent from the framework page class (the main class).
+	 * @param			array			$aOldPageOptions			The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
 	 */
 	public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
 		
@@ -290,6 +290,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$_aOldMetaBoxInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
 
 		// Apply filters - third party scripts will have access to the input.
+		$_aNewMetaBoxInput = stripslashes_deep( $_aNewMetaBoxInput );	// fixes magic quotes
 		$_aNewMetaBoxInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aNewMetaBoxInput, $_aOldMetaBoxInput );
 	
 		// Now merge the input values with the passed page options.
