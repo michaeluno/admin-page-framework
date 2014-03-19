@@ -420,6 +420,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			return $this->oProp->bEnableForm 
 				? "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
 					. "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL			
+					. "<input type='hidden' name='_is_admin_page_framework' value='1' />" . PHP_EOL			
 					. "</form><!-- End Form -->"
 				: '';
 		}	

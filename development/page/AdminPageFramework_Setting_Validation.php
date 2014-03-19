@@ -31,7 +31,10 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 	 * @internal
 	 */ 
 	protected function _doValidationCall( $sMethodName, $aInput ) {
-
+		
+		/* Check if this is called from the framework's page */
+		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) return $aInput;
+		
 		/* 1-1. Set up local variables */
 		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
