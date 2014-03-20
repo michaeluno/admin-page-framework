@@ -267,6 +267,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.2 =
+* Fixed a bug that repeatable sections could not be removed when they are placed in generic pages but without in-page tabs.
 * Fixed an issue of magic quotes with meta box fields for the framework pages.
 * Added examples of implementing a custom sort algorithm for columns of the taxonomy term listing table and the custom post type post listing table in the demo plugin.
 * Added the the `cell_{instantiated class name}_{column slug}` filter for the taxonomy field class.
