@@ -211,77 +211,121 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug ) {
 
 			$aInput = is_array( $aInput ) ? $aInput : array();
+			$_aInputToParse = $aInput;	// copy one for parsing
 			
 			// Prepare the saved options 
 			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );		
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
-
-			$_aInput = $aInput;	// copy one for parsing
+			$_aTabOptions = array();	// stores options of the belongning in-page tab.
 			
 			// Merge the user input with the user-set default values.
 			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not include the default values of the submitted page's elements as they merge recursively
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
-
+			unset( $_aDefaultOptions ); // to be clear that we don't use this any more
+			
 			// For each submitted element
-			foreach( $_aInput as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
+			$aInput = $this->_validateEachField( $aInput, $_aOptions, $_aInputToParse );
+			unset( $_aInputToParse ); // to be clear that we don't use this any more
+											
+			// For tabs			
+			$aInput = $this->_validateTabFields( $aInput, $_aOptions, $_aTabOptions, $sPageSlug, $sTabSlug );
+			
+			// For pages
+			$aInput = $this->_validatePageFields( $aInput, $_aOptions, $_aTabOptions, $sPageSlug, $sTabSlug );
+			
+			// For the class
+			return $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
+		
+		}	
+			
+			/**
+			 * Validates each field or section.
+			 * 
+			 * @since			3.0.2
+			 */
+			private function _validateEachField( $aInput, $aOptions, $aInputToParse ) {
 				
-				if ( $this->oForm->isSection( $sID ) ) 
-					foreach( $aSectionOrFields as $sFieldID => $aFields )	// For fields
-						$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( 
-							$this, 
-							"validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", 
-							$aInput[ $sID ][ $sFieldID ], 
-							isset( $_aOptions[ $sID ][ $sFieldID ] ) ? $_aOptions[ $sID ][ $sFieldID ] : null 
-						);
-										
-				$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
-					$this, 
-					"validation_{$this->oProp->sClassName}_{$sID}", 
-					$aInput[ $sID ], 
-					isset( $_aOptions[ $sID ] ) ? $_aOptions[ $sID ] : null 
-				);
+				foreach( $aInputToParse as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
+					
+					if ( $this->oForm->isSection( $sID ) ) {
+						foreach( $aSectionOrFields as $sFieldID => $aFields )	// For fields
+							$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( 
+								$this, 
+								"validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", 
+								$aInput[ $sID ][ $sFieldID ], 
+								isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null 
+							);
+					}
+											
+					$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
+						$this, 
+						"validation_{$this->oProp->sClassName}_{$sID}", 
+						$aInput[ $sID ], 
+						isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null 
+					);
+					
+				}
 				
-			}
-						
-			// Prepare the saved page option array.
-			$_aPageOptions = $this->oForm->getPageOptions( $_aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )
-			$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
-			$_aTabOnlyOptions = array();
-			$_aTabOptions = array();
+				return $aInput;
 				
-			// For tabs
-			if ( $sTabSlug && $sPageSlug )	{	
-				$_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $_aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
-				$_aTabOptions = $this->oForm->getTabOptions( $_aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
-				$_aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $_aTabOptions );
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $_aTabOptions );
-				$aInput = $this->oUtil->uniteArrays( 
-					$aInput, 
-					$this->oUtil->invertCastArrayContents( $_aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
-					$this->oForm->getOtherTabOptions( $_aOptions, $sPageSlug, $sTabSlug )
-				);
-			}
+			}	
+			
+			/**
+			 * Validates field options which belong to the given in-page tab.
+			 * 
+			 * @since			3.0.2
+			 */
+			private function _validateTabFields( $aInput, $aOptions, & $aTabOptions, $sPageSlug, $sTabSlug ) {
+				
+				if ( ! ( $sTabSlug && $sPageSlug ) ) {
+					return $aInput;
+				}
+								
+				$_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
+				$aTabOptions = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
+				$aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions );
 
-			// For pages	
-			if ( $sPageSlug )	{
+				return $this->oUtil->uniteArrays( 
+					$this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aTabOptions ), 
+					$this->oUtil->invertCastArrayContents( $aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
+					$this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug )
+				);
+				
+			}			
+			
+			/**
+			 * Validates field options which belong to the given page.
+			 * 
+			 * @since			3.0.2
+			 */
+			private function _validatePageFields( $aInput, $aOptions, $aTabOptions, $sPageSlug, $sTabSlug ) {
+				
+				if ( ! $sPageSlug ) {
+					return $aInput;
+				}
+
+				// Prepare the saved page option array.
+				$_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )
+				$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
+				
 				
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions ); // $aInput: new values, $aStoredPageOptions: old values	
 
 				// If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
-				$_aPageOptions = $sTabSlug && ! empty( $_aTabOptions ) ? $this->oUtil->invertCastArrayContents( $_aPageOptions, $_aTabOptions ) : $_aPageOptions;
-				$aInput = $this->oUtil->uniteArrays( 
+				$_aPageOptions = $sTabSlug && ! empty( $aTabOptions ) 
+					? $this->oUtil->invertCastArrayContents( $_aPageOptions, $aTabOptions ) 
+					: ( ! $sTabSlug		// if the tab is not specified, do not merge the input array with the page options as the input array already includes the page options. This is for dynamic elements(repeatable sections).
+						? array()
+						: $_aPageOptions
+					);
+					
+				return $this->oUtil->uniteArrays( 
 					$aInput, 
 					$_aPageOptions,	// repeatable elements have been dropped
-					$this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $_aOptions, $sPageSlug ), $_aPageOptions )
+					$this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug ), $_aPageOptions )
 				);	
-				
-			}
-
-			// For the class
-			$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
-			return $aInput;
-		
-		}	
+								
+			}			
 			
 			/**
 			 * Removes option array elements that belongs to the given page/tab by their slug.
@@ -297,8 +341,9 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				if ( ! $sPageSlug && ! $sTabSlug ) return $aOptions;
 				
 				// If the tab is given
-				if ( $sTabSlug && $sPageSlug )	
+				if ( $sTabSlug && $sPageSlug ) {
 					return $this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
+				}
 				
 				// If only the page is given 
 				return $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug );
