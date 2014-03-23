@@ -46,14 +46,18 @@ class AdminPageFramework_FieldTypeRegistration  {
 	);	
 	
 	function __construct( &$aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
+		
+		$_aFieldTypeDefinitions = array();
 		foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug ) {
-			$sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
-			if ( class_exists( $sInstantiatingClassName ) ) {
-				$oFieldType = new $sInstantiatingClassName( $sExtendedClassName, null, $oMsg, false );	// passing false for the forth parameter disables auto-registering.
-				foreach( $oFieldType->aFieldTypeSlugs as $sSlug )
-					$aFieldTypeDefinitions[ $sSlug ] = $oFieldType->getDefinitionArray();
+			$_sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
+			if ( ! class_exists( $_sInstantiatingClassName ) ) continue;
+			$_oFieldType = new $_sInstantiatingClassName( $sExtendedClassName, null, $oMsg, false );	// passing false for the forth parameter disables auto-registering.		
+			foreach( $_oFieldType->aFieldTypeSlugs as $__sSlug ) {			
+				$_aFieldTypeDefinitions[ $__sSlug ] = $_oFieldType->getDefinitionArray();
 			}
+			
 		}
+		$aFieldTypeDefinitions = $_aFieldTypeDefinitions;
 	}
 	
 	/**
