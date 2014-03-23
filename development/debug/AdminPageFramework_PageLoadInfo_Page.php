@@ -45,8 +45,8 @@ class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadIn
 	public function _replyToSetPageLoadInfoInFooter() {
 		
 		// For added pages
-		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		if ( $this->oProp->isPageAdded( $sCurrentPageSlug ) ) 
+		$_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		if ( $this->oProp->isPageAdded( $_sCurrentPageSlug ) ) 
 			add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
 	
 	}		
