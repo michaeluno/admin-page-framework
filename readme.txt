@@ -267,6 +267,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.3 =
+- Tweaked the field type registration process to be faster.
+- Fixed an undefined index warning in the `AdminPageFramework_Property_MetaBox_Page` class.
+- Fixed a bug in the development version that the fatal error occurred when trying to include a taxonomy field class individually.
 - Changed the default log location and file name.
 
 = 3.0.2 - 03/22/2014 =
