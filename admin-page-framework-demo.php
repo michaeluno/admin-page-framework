@@ -27,15 +27,15 @@ if ( ! class_exists( 'AdminPageFramework' ) )
 
 if ( is_admin() ) :
 	
-	/*  Create an example page group */
+ 	// Create an example page group - 0.1 seconds
 	include_once( APFDEMO_DIRNAME . '/example/APF_BasicUsage.php' );	// Include the basic usage example that creates a root page and its sub-pages.
 	new APF_BasicUsage;
 
-	/* Adds pages and forms in the custom post type root page */
+	// Adds pages and forms in the custom post type root page 
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
-	new APF_Demo;
+	new APF_Demo; 
 
-	/* Create a meta box with form fields */
+	// Create a meta box with form fields 
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	
 	new APF_MetaBox_BuiltinFieldTypes(
 		'sample_custom_meta_box',	// meta box ID
@@ -54,7 +54,7 @@ if ( is_admin() ) :
 		'default'	// priority
 	);
 	
-	/* Create meta boxes in the pages added with the framework */
+	// Create meta boxes in the pages added with the framework 
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );
 	new APF_MetaBox_For_Pages_Normal(
 		'apf_metabox_for_pages_normal',		// meta box id
@@ -71,23 +71,23 @@ if ( is_admin() ) :
 		'advanced',		// context
 		'default'	// priority
 	);	
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );	// 0.1 seconds
 	new APF_MetaBox_For_Pages_Side(
 		'apf_metabox_for_pages_side',	// meta box id
 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ),	// title
 		array( 'apf_first_page', 'apf_second_page' ),	// page slugs - setting multiple slugs is possible
 		'side',		// context
 		'default'	// priority
-	);		
+	);		 
 
-	/* Add fields in the taxonomy page */
+	// Add fields in the taxonomy page - 0.00x - to 0.01 seconds 
 	include_once( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
 	new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
 	
 endif;
 
-/* Creates a custom post type */
-include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
+// Creates a custom post type - 0.07 to 0.08 seconds
+ include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
 new APF_PostType( 	// this class deals with front-end components so checking with is_admin() is not necessary.
 	'apf_posts', 	// post type slug - you can pass multiple slugs with an array e.g. array( 'apf_posts', 'post', 'page' )
 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
