@@ -50,22 +50,26 @@ class AdminPageFramework_Debug {
 	 * Logs the given array output into the given file.
 	 * 
 	 * @since			2.1.1
+	 * @since			3.0.3			Changed the default log location and file name.
 	 */
 	static public function logArray( $asArray, $sFilePath=null ) {
 		
 		static $_iPageLoadID;
 		$_iPageLoadID = $_iPageLoadID ? $_iPageLoadID : uniqid();		
 		
-		$oCallerInfo = debug_backtrace();
-		$sCallerFunction = isset( $oCallerInfo[ 1 ]['function'] ) ? $oCallerInfo[ 1 ]['function'] : '';
-		$sCallerClasss = isset( $oCallerInfo[ 1 ]['class'] ) ? $oCallerInfo[ 1 ]['class'] : '';
+		$_oCallerInfo = debug_backtrace();
+		$_sCallerFunction = isset( $_oCallerInfo[ 1 ]['function'] ) ? $_oCallerInfo[ 1 ]['function'] : '';
+		$_sCallerClasss = isset( $_oCallerInfo[ 1 ]['class'] ) ? $_oCallerInfo[ 1 ]['class'] : '';
+		$sFilePath = $sFilePath
+			? $sFilePath
+			: WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . date( "Ymd" ) . '.log';		
 		file_put_contents( 
-			$sFilePath ? $sFilePath : dirname( __FILE__ ) . '/array_log.txt', 
-			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' . "{$_iPageLoadID} {$sCallerClasss}::{$sCallerFunction} " . AdminPageFramework_Utility::getCurrentURL() . PHP_EOL	
+			$sFilePath,
+			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' . "{$_iPageLoadID} {$_sCallerClasss}::{$_sCallerFunction} " . AdminPageFramework_Utility::getCurrentURL() . PHP_EOL	
 			. print_r( $asArray, true ) . PHP_EOL . PHP_EOL,
 			FILE_APPEND 
 		);			
-							
+			
 	}	
 }
 endif;
