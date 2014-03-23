@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
+if ( ! class_exists( 'AdminPageFramework_MetaBox_Base' ) ) :
 /**
  * @abstract
  * @since			2.0.0
