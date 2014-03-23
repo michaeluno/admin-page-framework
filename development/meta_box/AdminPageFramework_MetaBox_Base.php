@@ -82,11 +82,12 @@ abstract class AdminPageFramework_MetaBox_Base {
 		$this->oProp = isset( $this->oProp )
 			? $this->oProp
 			: new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
+			
 		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
 		$this->oProp->sTitle = $sTitle;
 		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
 		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'	
-		
+
 		if ( $this->oProp->bIsAdmin ) {
 			
 			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method.

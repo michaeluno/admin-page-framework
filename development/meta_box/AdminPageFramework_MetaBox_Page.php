@@ -108,7 +108,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
 		$this->oProp->sFieldsType = self::$_sFieldsType;
 		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
-		
+
 		/* Validation hook */
 		foreach( $this->oProp->aPageSlugs as $sIndexOrPageSlug => $asTabArrayOrPageSlug ) {
 			
