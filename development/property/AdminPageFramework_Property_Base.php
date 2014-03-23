@@ -466,7 +466,6 @@ abstract class AdminPageFramework_Property_Base {
 		$this->bIsMinifiedVersion = ! class_exists( 'AdminPageFramework_Bootstrap' );
 		if ( ! isset( self::$_aLibraryData ) ) {			
 			$_sLibraryMainClassName = ( $this->bIsMinifiedVersion )
-			
 				? 'AdminPageFramework'	
 				: 'AdminPageFramework_Bootstrap';	// the minified version does not have the bootstrap class.
 			$oRC = new ReflectionClass( $_sLibraryMainClassName );
