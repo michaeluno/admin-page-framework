@@ -116,8 +116,15 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 * @remark			The scope is public since AdminPageFramework_FieldType class allows the user to use this method.
 	 * @since			2.1.5
 	 * @since			3.0.0			Added the $sFieldTypeSlug parameter.
+	 * @since			3.0.3			Tweaked it to have better execution speed.
 	 */
 	public function getDefinitionArray( $sFieldTypeSlug='' ) {
+		
+		// The uniteArrays() method resulted in somewhat being slow due to overhead on checking array keys for recursive array merges.
+		$_aDefaultKeys = $this->aDefaultKeys + self::$_aDefaultKeys;
+		$_aDefaultKeys['attributes'] = isset( $this->aDefaultKeys['attributes'] ) && is_array( $this->aDefaultKeys['attributes'] )
+			? $this->aDefaultKeys['attributes'] + self::$_aDefaultKeys['attributes'] 
+			: self::$_aDefaultKeys['attributes'];
 		
 		return array(
 			'sFieldTypeSlug'	=> $sFieldTypeSlug,
@@ -130,7 +137,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 			'hfFieldSetTypeSetter' => array( $this, "_replyToFieldTypeSetter" ),
 			'aEnqueueScripts' => $this->_replyToGetEnqueuingScripts(),	// urls of the scripts
 			'aEnqueueStyles' => $this->_replyToGetEnqueuingStyles(),	// urls of the styles
-			'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
+			'aDefaultKeys' => $_aDefaultKeys, 		// 'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
 		);
 		
 	}
