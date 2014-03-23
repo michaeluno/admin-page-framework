@@ -161,6 +161,9 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	 */
 	private function _getOwnerClass( $sPageSlug ) {
 		
+		if ( ! isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) ) return null;
+		if ( ! is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) ) return null;
+		 		
 		foreach( $GLOBALS['aAdminPageFramework']['aPageClasses'] as $oClass )
 			if ( $oClass->oProp->isPageAdded( $sPageSlug ) )
 				return $oClass;
