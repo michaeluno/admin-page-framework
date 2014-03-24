@@ -215,6 +215,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 			),			
 			array()
 		);		
+
 		$this->addSettingFields(	
 			array(
 				'section_id'	=>	'repeatable_tabbed_sections',
