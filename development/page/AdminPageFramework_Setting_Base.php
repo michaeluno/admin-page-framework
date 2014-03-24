@@ -105,7 +105,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @internal
 	 */
 	public function _replyToCheckRedirects() {
-
+	
 		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
 		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProp->isPageAdded( $_GET['page'] ) ) return; 
 		
@@ -146,6 +146,8 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @internal
 	 */ 
 	public function _replyToRegisterSettings() {
+		
+		if ( ! $this->_isInThePage() ) return;
 		
 		/* 1. Apply filters to added sections and fields */
 		$this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $this->oForm->aSections );

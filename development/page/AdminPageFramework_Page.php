@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 				
 	}
-
+	
 	/**
 	 * Adds in-page tabs.
 	 *
@@ -673,6 +673,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 */ 		
 	public function _replyToFinalizeInPageTabs() {
 	
+		if ( ! $this->oProp->isPageAdded() ) return;
+		
 		foreach( $this->oProp->aPages as $sPageSlug => $aPage ) {
 			
 			if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) continue;

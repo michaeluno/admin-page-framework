@@ -303,5 +303,26 @@ abstract class AdminPageFramework_Base {
 			: 1;
 	}	
 
+	/**
+	 * Checks whether the currently loading page is of the given pages. 
+	 * 
+	 * @since			3.0.2
+	 * @internal
+	 */
+	protected function _isInThePage( $aPageSlugs=array() ) {
+		
+		if ( in_array( $GLOBALS['pagenow'], array( 'options.php' ) ) ) {			
+			return true;
+		}
+
+		if ( ! isset( $_GET['page'] ) ) return false;
+		
+		if ( empty( $aPageSlugs ) ) {
+			return $this->oProp->isPageAdded();
+		}
+				
+		return ( in_array( $_GET['page'], $aPageSlugs ) );
+		
+	}
 }
 endif;

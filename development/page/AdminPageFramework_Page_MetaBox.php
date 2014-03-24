@@ -21,7 +21,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 			
 		add_action( 'admin_head', array( $this, '_replyToEnableMetaBox' ) );	// since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
-		add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
+		// add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) ); // <--- should be removed
 		add_filter( 'screen_layout_columns', array( $this, '_replyToSetNumberOfScreenLayoutColumns'), 10, 2 );	// sets the column layout option for meta boxes.
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
@@ -76,6 +76,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		
 		if ( ! isset( $GLOBALS['page_hook'] ) ) return;
 		if ( ! $this->_isMetaBoxAdded() ) return;
+		if ( ! $this->oProp->isPageAdded() ) return;
 		
 		add_filter( 'get_user_option_' . 'screen_layout_' . $GLOBALS['page_hook'], array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 );	// this will give the screen object the default value
 		if ( $sScreenID == $GLOBALS['page_hook'] ) 
