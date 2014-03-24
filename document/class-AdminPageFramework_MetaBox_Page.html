@@ -194,7 +194,7 @@ AdminPageFramework_MetaBox_Base
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_Page<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_MetaBox_Page.html#10-336" title="Go to source code">meta_box/AdminPageFramework_MetaBox_Page.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_MetaBox_Page.html#10-356" title="Go to source code">meta_box/AdminPageFramework_MetaBox_Page.php</a><br>
 	</div>
 
 
@@ -212,7 +212,7 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#53-133" title="Go to source code">__construct</a>( <span>string <var>$sMetaBoxID</var></span>, <span>string <var>$sTitle</var></span>, <span>string|array <var>$asPageSlugs</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$sContext</var> = <span class="php-quote">'normal'</span></span>, <span>string <var>$sPriority</var> = <span class="php-quote">'default'</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#53-145" title="Go to source code">__construct</a>( <span>string <var>$sMetaBoxID</var></span>, <span>string <var>$sTitle</var></span>, <span>array|string <var>$asPageSlugs</var> = <span class="php-keyword1">array</span>()</span>, <span>string <var>$sContext</var> = <span class="php-quote">'normal'</span></span>, <span>string <var>$sPriority</var> = <span class="php-quote">'default'</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -296,22 +296,28 @@ class="php-comment">// priority</span>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sMetaBoxID</var></dt>
-						<dd><code>string</code><br>$sMetaBoxID The meta box ID.</dd>
+						<dd><code>string</code><br>$sMetaBoxID The meta box ID to be created.</dd>
 						<dt><var>$sTitle</var></dt>
 						<dd><code>string</code><br>$sTitle The meta box title.</dd>
 						<dt><var>$asPageSlugs</var></dt>
-						<dd><code>string|array</code><br>$asPostTypeOrScreenID ( optional ) The post type(s) or screen ID that the meta
-box is associated with.</dd>
+						<dd><code>array|string</code><br>$asPageSlugs the page slug(s) that the meta box belongs to. If the element is an
+array, it will be considered as a tab array. <code> $asPageSlugs = array(
+'settings' =&gt; array( // if the key is not numeric and the value is an array,
+it will be considered as a tab array. 'help', // enabled in the tab whose slug
+is 'help' which belongs to the page whose slug is 'settings' 'about', // enabled
+in the tab whose slug is 'about' which belongs to the page whose slug is
+'settings' 'general', // enabled in the tab whose slug is 'general' which
+belongs to the page whose slug is 'settings' ), 'manage', // if the numeric key
+with a string value is given, the condition applies to the page slug of this
+string value. ); </code></dd>
 						<dt><var>$sContext</var></dt>
-						<dd><code>string</code><br>$sContext ( optional ) The part of the page where the edit screen section should
-be shown ('normal', 'advanced', or 'side') Default: normal.</dd>
+						<dd><code>string</code><br>$sContext The context, either 'normal', 'advanced', or 'side'.</dd>
 						<dt><var>$sPriority</var></dt>
-						<dd><code>string</code><br>$sPriority ( optional ) The priority within the context where the boxes should
-show ('high', 'core', 'default' or 'low') Default: default.</dd>
+						<dd><code>string</code><br>$sPriority The priority, either 'high', 'core', 'default' or 'low'.</dd>
 						<dt><var>$sCapability</var></dt>
-						<dd><code>string</code><br>$sCapability ( optional ) The <a
-href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the
-meta box. Default: edit_posts.</dd>
+						<dd><code>string</code><br>$sCapability The capability. See <a
+href="https://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles
+and Capabilities</a>.</dd>
 						<dt><var>$sTextDomain</var></dt>
 						<dd><code>string</code><br>$sTextDomain ( optional ) The text domain applied to the displayed text
 messages. Default: admin-page-framework.</dd>
@@ -341,7 +347,7 @@ messages. Default: admin-page-framework.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyles">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#138-145" title="Go to source code">enqueueStyles</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#170-177" title="Go to source code">enqueueStyles</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -380,7 +386,7 @@ messages. Default: admin-page-framework.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyle">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#146-159" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#178-191" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -443,7 +449,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScripts">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#160-167" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#192-199" title="Go to source code">enqueueScripts</a>( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -482,7 +488,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScript">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#168-181" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#200-213" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -545,7 +551,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 			<td class="name"><div>
 			<a class="anchor" href="#__replyToFilterPageOptions">#</a>
-			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#263-275" title="Go to source code">_replyToFilterPageOptions</a>( <span>array <var>$aPageOptions</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_MetaBox_Page.html#295-307" title="Go to source code">_replyToFilterPageOptions</a>( <span>array <var>$aPageOptions</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -584,11 +590,13 @@ the validation_saved_options_{page slug} filter hook.</p>
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
 		<p class="elementList">
 			<code>__call()</code>, 
+			<code>_isInThePage()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
 			<code>_registerFields()</code>, 
 			<code>_replyToAddMetaBox()</code>, 
+			<code>_replyToDetermineToLoad()</code>, 
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToGetSectionHeaderOutput()</code>, 
-			<code>_replyToLoadDefaultFieldTypeDefinitions()</code>, 
 			<code>_replyToPrintMetaBoxContents()</code>, 
 			<code>_replyToRegisterFormElements()</code>, 
 			<code>_replyToSaveMetaBoxFields()</code>, 
