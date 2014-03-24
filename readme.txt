@@ -267,6 +267,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.3 =
+- Added the ability to reveal more than one elements to the `revealer` custom field type with a small braking change. 
 - Tweaked certain routines not to be triggered in irrelevant pages.
 - Tweaked the field type registration process to be faster.
 - Fixed an undefined index warning in the `AdminPageFramework_Property_MetaBox_Page` class.

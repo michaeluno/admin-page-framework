@@ -1881,61 +1881,17 @@ class APF_Demo extends AdminPageFramework {
 		);
 		$this->addSettingFields(
 			array(
-				'field_id'	=>	'revealer_subfield',
-				'section_id'	=>	'revealer',
-				'type'	=>	'revealer',
-				'title'	=>	__( 'Reveal Sub Fields', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'When you select an item, it reveals one of the hidden sub-fields.', 'admin-page-framework-demo' ),
-				'value'	=>	'undefined',	// always set the Select a Field label.
-				'label'	=>	array(	// the keys represent their field container IDs: field-{field id}_{index}
-					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
-					'field-revealer_revealer_subfield__1'	=> __( 'Field A', 'admin-page-framework-demo' ), // field-{section id}_{field id}__{index}
-					'field-revealer_revealer_subfield__2'	=> __( 'Field B', 'admin-page-framework-demo' ),	
-					'field-revealer_revealer_subfield__3'	=> __( 'Field C', 'admin-page-framework-demo' ),
-				),
-				array(	// Hidden Field A
-					'type'	=>	'text',			
-					'label'	=>	'',
-					'attributes'	=>	array(
-						'field'	=>	array(
-							'style'	=>	'display:none;',	// this hides the field 
-						),
-					),		
-				),
-				array(	// Hidden Field B
-					'type'	=>	'radio',
-					'label'	=>	array(
-						1	=>	__( 'Yes', 'admin-page-framework-demo' ),
-						0	=>	__( 'No', 'admin-page-framework-demo' ),
-					),
-					'attributes'	=>	array(
-						'field'	=>	array(
-							'style'	=>	'display:none;',
-						),
-					),					
-				),
-				array(	// Hidden Field C
-					'type'	=>	'checkbox',
-					'label'	=>	__( 'Check me.', 'admin-page-framework-demo' ),
-					'attributes'	=>	array(
-						'field'	=>	array(
-							'style'	=>	'display:none;',
-						),
-					),			
-				),				
-			),
-			array(
 				'field_id'	=>	'revealer_field_by_id',
 				'section_id'	=>	'revealer',
 				'type'	=>	'revealer',			
-				'title'	=>	__( 'Reveal Field By ID' ),
-				'value'	=>	'undefined',	// always set the Select a Field label.
-				'label'	=>	array(	// the keys represent their tag id to reveal: fieldrow-{field id} ( note that this ids only will be applied when JavaScript is enabled )
+				'title'	=>	__( 'Reveal Hidden Fields' ),
+				'value'	=>	'undefined',	// always set the 'Select a Field' label.
+				'label'	=>	array(	// the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
 					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
-					'fieldrow-revealer_revealer_field_option_a'	=> __( 'Option A', 'admin-page-framework-demo' ),		
-					'fieldrow-revealer_revealer_field_option_b'	=> __( 'Option B', 'admin-page-framework-demo' ),
+					'#fieldrow-revealer_revealer_field_option_a'	=> __( 'Option A', 'admin-page-framework-demo' ),		
+					'#fieldrow-revealer_revealer_field_option_b, #fieldrow-revealer_revealer_field_option_c'	=> __( 'Option B and C', 'admin-page-framework-demo' ),
 				),
-				'description'	=>	__( 'On contrary to the above example, that reveals the sub-fields, this one specifies one of external fields defined separately.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Specify the selectors to reveal in the label keys in the field definition array.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'field_id'	=>	'revealer_field_option_a',
@@ -1949,6 +1905,13 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'revealer',
 				'type'	=>	'password',		
 				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
+				'hidden'	=> true,
+			),
+			array(
+				'field_id'	=>	'revealer_field_option_c',
+				'section_id'	=>	'revealer',
+				'type'	=>	'text',		
+				'description'	=>	__( 'Type text.', 'admin-page-framework-demo' ),			
 				'hidden'	=> true,
 			)
 		);

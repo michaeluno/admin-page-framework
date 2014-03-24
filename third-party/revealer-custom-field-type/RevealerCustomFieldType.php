@@ -33,9 +33,11 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	public function setUp() {
 		
-		if ( ! isset( $GLOBALS['aAdminPageFramework']['bEnqueuedRevealerjQueryPlugin'] ) ) {
+		static $_bIsLoaded; 
+		
+		if ( ! $_bIsLoaded ) {
 			add_action( 'admin_footer', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
-			$GLOBALS['aAdminPageFramework']['bEnqueuedRevealerjQueryPlugin'] = true;
+			$_bIsLoaded = true;
 		}
 		
 	}	
@@ -169,12 +171,13 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 		private function getConcealerScript( $aLabels ) {
 			
 			unset( $aLabels['undefined'] );	// this is an internal reserved key	
+			
 			$aLabels = json_encode( array_keys( $aLabels ) );	// encode it to be usable in JavaScript
 			return 
 				"<script type='text/javascript' class='admin-page-framework-revealer-field-type-concealer-script'>
 					jQuery( document ).ready( function(){
 						jQuery.each( {$aLabels}, function( sKey, sValue ) {
-							jQuery( '#' + sValue ).hide();
+							jQuery( sValue ).hide();
 						});
 					});				
 				</script>";
@@ -195,13 +198,13 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 				var aSettings = [];
 				this.change( function() {
 					
-					var sTargetID = jQuery( this ).val();
-					var nodeElementToReveal = jQuery( '#' + sTargetID );
-					if ( sTargetID == 'undefined' ) return;
+					var _sTargetSelector = jQuery( this ).val();
+					var nodeElementToReveal = jQuery( _sTargetSelector );
+					if ( _sTargetSelector == 'undefined' ) return;
 					
-					var sLastRevealedID = aSettings.hasOwnProperty( 'last_revealed_id' ) ? aSettings['last_revealed_id'] : undefined;
-					aSettings['last_revealed_id'] = sTargetID;
-					$( '#' + sLastRevealedID ).hide();	// hide the previously hidden element.
+					var sLastRevealedSelector = aSettings.hasOwnProperty( 'last_revealed_id' ) ? aSettings['last_revealed_id'] : undefined;
+					aSettings['last_revealed_id'] = _sTargetSelector;
+					$( sLastRevealedSelector ).hide();	// hide the previously hidden element.
 					nodeElementToReveal.show();
 				});
 				
