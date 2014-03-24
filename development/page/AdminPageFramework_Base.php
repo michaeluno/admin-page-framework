@@ -159,10 +159,12 @@ abstract class AdminPageFramework_Base {
 		$this->oUtil = new AdminPageFramework_WPUtility;
 		$this->oDebug = new AdminPageFramework_Debug;		
 
-		if ( $this->oProp->bIsAdmin )
+		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );		
+		}
 		
 	}
+
 
 	/**#@+
 	 *@internal

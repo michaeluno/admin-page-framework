@@ -115,25 +115,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 		if ( $this->oProp->bIsAdmin ) {
 			
-			add_action( 'wp_loaded', array( $this, '_replyToLoadDefaultFieldTypeDefinitions' ), 10 );	// should be loaded before the setUp() method. The method is defined in the meta box base class.
-			add_action( 'wp_loaded', array( $this, 'setUp' ), 11 );
-			add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
-			
-			foreach( $this->oProp->aTaxonomySlugs as $sTaxonomySlug ) {				
-				
-				/* Validation callbacks need to be set regardless of whether the current page is edit-tags.php or not */
-				add_action( "created_{$sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
-				add_action( "edited_{$sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
-
-				if ( $GLOBALS['pagenow'] != 'admin-ajax.php' && $GLOBALS['pagenow'] != 'edit-tags.php' ) continue;
-				add_action( "{$sTaxonomySlug}_add_form_fields", array( $this, '_replyToAddFieldsWOTableRows' ) );
-				add_action( "{$sTaxonomySlug}_edit_form_fields", array( $this, '_replyToAddFieldsWithTableRows' ) );
-				
-				add_filter( "manage_edit-{$sTaxonomySlug}_columns", array( $this, '_replyToManageColumns' ), 10, 1 );
-				add_filter( "manage_edit-{$sTaxonomySlug}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
-				add_action( "manage_{$sTaxonomySlug}_custom_column", array( $this, '_replyToSetColumnCell' ), 10, 3 );
-				
-			}
+			add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );
 			
 		}
 		
@@ -141,7 +123,49 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 	}
 	
+	/**
+	 * Determines whether the meta box belongs to the loading page.
+	 * 
+	 * @since			3.0.3
+	 * @internal
+	 */
+	protected function _isInThePage() {
+		
+		return ( in_array( $GLOBALS['pagenow'], array( 'edit-tags.php', 'admin-ajax.php' ) ) );
+		
+	}	
+	
+	/**
+	 * Determines whether the meta box should be loaded in the currently loading page.
+	 * 
+	 * @since			3.0.3
+	 * @internal
+	 */
+	public function _replyToDetermineToLoad() {
+		
+		if ( ! $this->_isInThePage() ) return;
+		
+		$this->_loadDefaultFieldTypeDefinitions();
+		$this->setUp();
+		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
+	
+		foreach( $this->oProp->aTaxonomySlugs as $__sTaxonomySlug ) {				
+			
+			/* Validation callbacks need to be set regardless of whether the current page is edit-tags.php or not */
+			add_action( "created_{$__sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
+			add_action( "edited_{$__sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
 
+			// if ( $GLOBALS['pagenow'] != 'admin-ajax.php' && $GLOBALS['pagenow'] != 'edit-tags.php' ) continue;
+			add_action( "{$__sTaxonomySlug}_add_form_fields", array( $this, '_replyToAddFieldsWOTableRows' ) );
+			add_action( "{$__sTaxonomySlug}_edit_form_fields", array( $this, '_replyToAddFieldsWithTableRows' ) );
+			
+			add_filter( "manage_edit-{$__sTaxonomySlug}_columns", array( $this, '_replyToManageColumns' ), 10, 1 );
+			add_filter( "manage_edit-{$__sTaxonomySlug}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
+			add_action( "manage_{$__sTaxonomySlug}_custom_column", array( $this, '_replyToSetColumnCell' ), 10, 3 );
+			
+		}		
+		
+	}	
 	
 	/**
 	 * The set up method.

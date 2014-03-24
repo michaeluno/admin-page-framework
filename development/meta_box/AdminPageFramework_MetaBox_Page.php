@@ -80,12 +80,11 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 	);		
 	 * </code>
 	 * @since			3.0.0
-	 */
-	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {		
-		
-		if ( empty( $asPageSlugs ) ) return;
-		
-		/* 		
+	 * 
+	 * @param			string			$sMetaBoxID			The meta box ID to be created.
+	 * @param			string			$sTitle				The meta box title.
+	 * @param			array|string	$asPageSlugs		the page slug(s) that the meta box belongs to. If the element is an array, it will be considered as a tab array.
+	 *	<code>
 		$asPageSlugs = array(			
 			'settings' => array( 	// if the key is not numeric and the value is an array, it will be considered as a tab array.
 				'help', 		// enabled in the tab whose slug is 'help' which belongs to the page whose slug is 'settings'
@@ -93,45 +92,78 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 				'general',		// enabled in the tab whose slug is 'general' which belongs to the page whose slug is 'settings'
 			),
 			'manage',	// if the numeric key with a string value is given, the condition applies to the page slug of this string value.
-		); 
-		*/
+		);
+	 *	</code>
+	 * @param			string			$sContext			The context, either 'normal', 'advanced', or 'side'.
+	 * @param			string			$sPriority			The priority, either 'high', 'core', 'default' or 'low'.
+	 * @param			string			$sCapability		The capability. See <a href="https://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles and Capabilities</a>.
+	 */
+	function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {		
+		
+		if ( empty( $asPageSlugs ) ) return;
 		
 		/* The property object needs to be done first */
 		$this->oProp = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability );		
 		
 		parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
 		
-		/* These class uses methods that determines the current tab and page slugs based from the added pages. */
-		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox_Page( $this->oProp );
-		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
+		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;	// must be set before the isInThePage() method is used.
+		$this->oProp->sFieldsType = self::$_sFieldsType;		
 		
-		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;
-		$this->oProp->sFieldsType = self::$_sFieldsType;
-		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+		if ( $this->_isInThePage() ) :
+		
+			/* These classes use methods that determine the current tab and page slugs based from the added pages. */
+			$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox_Page( $this->oProp );
+			$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
+			
 
-		/* Validation hook */
-		foreach( $this->oProp->aPageSlugs as $sIndexOrPageSlug => $asTabArrayOrPageSlug ) {
-			
-			if ( is_string( $asTabArrayOrPageSlug ) ) {				
-				$_sPageSlug = $asTabArrayOrPageSlug;
-				add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
+			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+
+			/* Validation hook */
+			foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {
+				
+				if ( is_string( $_asTabArrayOrPageSlug ) ) {				
+					$_sPageSlug = $_asTabArrayOrPageSlug;
+					add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
+					add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
+					continue;
+				}
+				
+				// At this point, the array key is the page slug.
+				$_sPageSlug = $_sIndexOrPageSlug;
+				$_aTabs = $_asTabArrayOrPageSlug;
 				add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
-				continue;
+				foreach( $_aTabs as $_sTabSlug )
+					add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
+				
 			}
-			
-			// At this point, the array key is the page slug.
-			$_sPageSlug = $sIndexOrPageSlug;
-			$_aTabs = $asTabArrayOrPageSlug;
-			add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
-			foreach( $_aTabs as $sTabSlug )
-				add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
-			
-		}
+		
+		endif;
 		
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 	
 	}
 
+		/**
+		 * Determines whether the meta box belongs to the loading page.
+		 * 
+		 * @since			3.0.3
+		 * @internal
+		 */
+		protected function _isInThePage() {
+				
+			if ( in_array( $GLOBALS['pagenow'], array( 'options.php' ) ) ) {
+				return true;
+			}
+				
+			if ( ! isset( $_GET['page'] ) )	{
+				return false;
+			}
+				
+			return in_array( $_GET['page'], $this->oProp->aPageSlugs );
+			
+		}	
+	
 	/*
 	 * Head Tag Methods
 	 */
@@ -306,9 +338,8 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 */
 	public function _replyToRegisterFormElements() {
 				
-		// Schedule to add head tag elements and help pane contents.
-		if ( ! isset( $_GET['page'] ) ) return;
-		if ( ! $this->_isMetaBoxPage( $_GET['page'] ) ) return;
+		// Schedule to add head tag elements and help pane contents.		
+		if ( ! $this->_isInThePage() ) return;
 		
 		// Format the fields array.
 		$this->oForm->format();
@@ -321,18 +352,6 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		$this->_registerFields( $this->oForm->aConditionedFields );
 
 	}		
-		/**
-		 * Checks if the currently loading page is in the pages specified for this meta box.
-		 * @since			3.0.0
-		 */
-		private function _isMetaBoxPage( $sPageSlug ) {
-			
-			if ( ! $sPageSlug ) return false;
-			
-			if ( in_array( $sPageSlug, $this->oProp->aPageSlugs ) )
-				return true;
-			
-			return false;
-		}	
+				
 }
 endif;

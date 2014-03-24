@@ -55,6 +55,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	/**
 	 * Constructs the class object instance of AdminPageFramework_MetaBox.
 	 * 
+	 * Sets up properties and hooks.
+	 * 
 	 * <h4>Example</h4>
 	 * <code>
 	 * 	new APF_MetaBox_BuiltinFieldTypes(
@@ -82,21 +84,45 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
 		
 		parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
-				
-		$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
-		$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
-		
-		/* Do this after the parent constructor as the constructor creates the oProp object. */
+			
+		/* Do this after the parent constructor as the constructor creates the oProp object and before the isInThePage() method. */
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
 		
-		// Create a form object - this needs to be done after the fields type property is set. This is the reason that it's not doen in the base class.
-		$this->oProp->sFieldsType = self::$_sFieldsType;
-		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+		if ( $this->_isInThePage() ) :
+
+			$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
+			$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
+			
+			// Create a form object - this needs to be done after the fields type property is set. This is the reason that it's not doen in the base class.
+			$this->oProp->sFieldsType = self::$_sFieldsType;
+			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+		
+		endif;
 		
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
+		
 	}
-
+		/**
+		 * Determines whether the meta box belongs to the loading page.
+		 * 
+		 * @since			3.0.3
+		 * @internal
+		 */
+		protected function _isInThePage() {
+			
+			if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) {
+				return false;
+			}
+			
+			if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
+				return false;				
+			}
+			
+			return true;
+			
+		}
+		
 	/**
 	* The method for all necessary set-ups.
 	* 

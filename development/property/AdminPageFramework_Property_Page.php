@@ -227,6 +227,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 		$this->sCapability = empty( $sCapability ) ? $this->sCapability : $sCapability;
 		
+		// Override the bIsAdmin property - do this after the parent constructor is called as it also assigns a value to this property.
+		$this->bIsAdmin = $this->_isAdminPage();
+		
 		/* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
 		$GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
 			? $GLOBALS['aAdminPageFramework']['aPageClasses']
@@ -239,6 +242,26 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		add_filter( "option_page_capability_{$this->sOptionKey}", array( $this, '_replyToGetCapability' ) );
 		
 	}
+	
+		/**
+		 * Checks whether the currently loading page is in one of the pages to which the framework can add pages.
+		 * 
+		 * @since			3.0.3
+		 * @internal
+		 */
+		protected function _isAdminPage() {
+			
+			if ( ! is_admin() ) {
+				return false;
+			}
+			
+			if ( in_array( $GLOBALS['pagenow'], array( 'options.php' ) ) ) {
+				return true;
+			}
+			
+			return isset( $_GET['page'] );
+			
+		}	
 	
 	/*
 	 * Magic methods
