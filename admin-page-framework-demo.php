@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.3b01
+	Version: 3.0.3b02
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -18,24 +18,25 @@ define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
 /* Include the library */
-if ( ! class_exists( 'AdminPageFramework' ) )
+if ( ! class_exists( 'AdminPageFramework' ) ) {
 	include_once( 
 		defined( 'APFDEMO_DEVMODE' ) && APFDEMO_DEVMODE
 			? APFDEMO_DIRNAME . '/development/admin-page-framework.php'
 			: APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'
 	);
+}
 
 if ( is_admin() ) :
 	
- 	// Create an example page group - 0.1 seconds
+ 	// Create an example page group
 	include_once( APFDEMO_DIRNAME . '/example/APF_BasicUsage.php' );	// Include the basic usage example that creates a root page and its sub-pages.
 	new APF_BasicUsage;
 
-	// Adds pages and forms in the custom post type root page 
+	// Adds pages and forms in the custom post type root page  - 2.2 seconds
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
 	new APF_Demo; 
 
-	// Create a meta box with form fields 
+	// Create a meta box with form fields
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	
 	new APF_MetaBox_BuiltinFieldTypes(
 		'sample_custom_meta_box',	// meta box ID
@@ -45,7 +46,7 @@ if ( is_admin() ) :
 		'default'	// priority
 	);
 
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );	
 	new APF_MetaBox_CustomFieldTypes(
 		'sample_custom_meta_box_with_custom_field_types',	// meta box ID
 		__( 'Demo Meta Box with Custom Field Types', 'admin-page-framework-demo' ),		// title
@@ -64,15 +65,15 @@ if ( is_admin() ) :
 		'default'	// priority
 	);
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
-	new APF_MetaBox_For_Pages_Advanced(
+	new APF_MetaBox_For_Pages_Advanced(	
 		'apf_metabox_for_pages_advanced',	// meta box id
 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ),	// title
 		'apf_first_page',	// page slugs
 		'advanced',		// context
 		'default'	// priority
 	);	
-	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );	// 0.1 seconds
-	new APF_MetaBox_For_Pages_Side(
+	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );	
+	new APF_MetaBox_For_Pages_Side(	
 		'apf_metabox_for_pages_side',	// meta box id
 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ),	// title
 		array( 'apf_first_page', 'apf_second_page' ),	// page slugs - setting multiple slugs is possible
@@ -80,14 +81,14 @@ if ( is_admin() ) :
 		'default'	// priority
 	);		 
 
-	// Add fields in the taxonomy page - 0.00x - to 0.01 seconds 
+	// Add fields in the taxonomy page
 	include_once( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
 	new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
 	
 endif;
 
-// Creates a custom post type - 0.07 to 0.08 seconds
- include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
+// Creates a custom post type
+include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
 new APF_PostType( 	// this class deals with front-end components so checking with is_admin() is not necessary.
 	'apf_posts', 	// post type slug - you can pass multiple slugs with an array e.g. array( 'apf_posts', 'post', 'page' )
 	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
@@ -117,7 +118,7 @@ new APF_PostType( 	// this class deals with front-end components so checking wit
 		// ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
 		'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
 	)
-);	
+);
 	
 /*
  * If you find this framework useful, include it in your project!
