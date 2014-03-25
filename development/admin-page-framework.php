@@ -46,9 +46,9 @@ class AdminPageFramework_Bootstrap {
 	function __construct( $sLibraryPath ) {
 		
 		if ( ! defined( 'ABSPATH' ) ) return; // the minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
-		$sDirPath = dirname( $sLibraryPath );
-		include_once( $sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
-		new AdminPageFramework_RegisterClasses( $sDirPath );
+		$_sDirPath = dirname( $sLibraryPath );
+		include_once( $_sDirPath . '/utility/AdminPageFramework_RegisterClasses.php' );
+		new AdminPageFramework_RegisterClasses( $_sDirPath );
 		
 	}
 	
