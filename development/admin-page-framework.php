@@ -31,13 +31,13 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
  * @license		  	MIT <http://opensource.org/licenses/MIT>
- * @see			    	http://wordpress.org/plugins/admin-page-framework/
- * @see			    	https://github.com/michaeluno/admin-page-framework
- * @link		    	http://en.michaeluno.jp/admin-page-framework
- * @since		  	  3.0.0
- * @remark			  The minifier script will refer this comment section to create the comment header. So don't remove the @info section.
- * @remark			  This class will not be included in the minifiled version.
- * @package			  AdminPageFramework
+ * @see			    http://wordpress.org/plugins/admin-page-framework/
+ * @see			    https://github.com/michaeluno/admin-page-framework
+ * @link		    http://en.michaeluno.jp/admin-page-framework
+ * @since		  	3.0.0
+ * @remark			The minifier script will refer this comment section to create the comment header. So don't remove the @info section.
+ * @remark			This class will not be included in the minifiled version.
+ * @package			AdminPageFramework
  * @subpackage		Utility
  * @internal
  */
