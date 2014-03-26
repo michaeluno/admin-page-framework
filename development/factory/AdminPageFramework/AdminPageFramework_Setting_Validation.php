@@ -36,25 +36,25 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) return $aInput;
 		
 		/* 1-1. Set up local variables */
-		$sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
-		$sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
+		$_sTabSlug =	isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
+		$_sPageSlug =	isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
 		
 		/* 1-2. Retrieve the pressed submit field data */
-		$sPressedFieldID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'field_id' ) : '';
-		$sPressedInputID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'input_id' ) : '';
-		$sPressedInputName = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'name' ) : '';
-		$bIsReset = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'is_reset' ) : '';		// if the 'reset' key in the field definition array is set, this value will be set.
-		$sKeyToReset = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'reset_key' ) : '';	// this will be set if the user confirms the reset action.
-		$sSubmitSectionID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'section_id' ) : '';
+		$_sPressedFieldID =		isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'field_id' ) : '';
+		$_sPressedInputID =		isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'input_id' ) : '';
+		$_sPressedInputName =	isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'name' ) : '';
+		$_bIsReset =			isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'is_reset' ) : '';	// if the 'reset' key in the field definition array is set, this value will be set.
+		$_sKeyToReset =			isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'reset_key' ) : '';	// this will be set if the user confirms the reset action.
+		$_sSubmitSectionID =	isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'section_id' ) : '';
 		
 		/* 1-3. Execute the submit_{...} actions. */
 		$this->oUtil->addAndDoActions(
 			$this,
 			array( 
-				"submit_{$this->oProp->sClassName}_{$sPressedInputID}", 
-				$sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$sSubmitSectionID}_{$sPressedFieldID}" : "submit_{$this->oProp->sClassName}_{$sPressedFieldID}",
-				$sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$sSubmitSectionID}" : null,	// if null given, the method will ignore it
-				isset( $_POST['tab_slug'] ) ? "submit_{$this->oProp->sClassName}_{$sPageSlug}_{$sTabSlug}" : null,	// if null given, the method will ignore it
+				"submit_{$this->oProp->sClassName}_{$_sPressedInputID}", 
+				$_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_{$this->oProp->sClassName}_{$_sPressedFieldID}",
+				$_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null,	// if null given, the method will ignore it
+				isset( $_POST['tab_slug'] ) ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null,	// if null given, the method will ignore it
 				"submit_{$this->oProp->sClassName}_{sPageSlug}",
 				"submit_{$this->oProp->sClassName}",
 			)
@@ -62,28 +62,29 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		
 		/* 2. Check if custom submit keys are set [part 1] */
 		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
-			return $this->_importOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug );
+			return $this->_importOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug );
 		if ( isset( $_POST['__export']['submit'] ) ) 
-			die( $this->_exportOptions( $this->oProp->aOptions, $sPageSlug, $sTabSlug ) );		
-		if ( $bIsReset )
-			return $this->_askResetOptions( $sPressedInputName, $sPageSlug, $sSubmitSectionID );
-		if ( isset( $_POST['__submit'] ) && $sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) )
-			die( wp_redirect( $sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
-		if ( isset( $_POST['__submit'] ) && $sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) )
-			$this->_setRedirectTransients( $sRedirectURL );
+			die( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );		
+		if ( $_bIsReset )
+			return $this->_askResetOptions( $_sPressedInputName, $_sPageSlug, $_sSubmitSectionID );
+		if ( isset( $_POST['__submit'] ) && $_sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) )
+			die( wp_redirect( $_sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
+		if ( isset( $_POST['__submit'] ) && $_sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) )
+			$this->_setRedirectTransients( $_sRedirectURL );
 				
 		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
-		$aInput = $this->_getFilteredOptions( $aInput, $sPageSlug, $sTabSlug );
+		$aInput = $this->_getFilteredOptions( $aInput, $_sPageSlug, $_sTabSlug );
 		
 		/* 4. Check if custom submit keys are set [part 2] - these should be done after applying the filters. */
-		if ( $sKeyToReset )
-			$aInput = $this->_resetOptions( $sKeyToReset, $aInput );
+		if ( $_sKeyToReset ) {
+			$aInput = $this->_resetOptions( $_sKeyToReset, $aInput );
+		}
 		
 		/* 5. Set the update notice */
-		$bEmpty = empty( $aInput );
+		$_bEmpty = empty( $aInput );
 		$this->setSettingNotice( 
-			$bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
-			$bEmpty ? 'error' : 'updated', 
+			$_bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
+			$_bEmpty ? 'error' : 'updated', 
 			$this->oProp->sOptionKey,	// the id
 			false	// do not override
 		);

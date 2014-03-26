@@ -235,7 +235,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 */ 
 	public function _replyToAddMetaBox() {
 
-		foreach( $this->oProp->aPostTypes as $sPostType ) 
+		foreach( $this->oProp->aPostTypes as $sPostType ) {
 			add_meta_box( 
 				$this->oProp->sMetaBoxID, 		// id
 				$this->oProp->sTitle, 	// title
@@ -245,6 +245,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 				$this->oProp->sPriority,	// priority
 				null	// deprecated $this->oForm->aFields	// argument
 			);
+		}
 			
 	}		
 	
@@ -265,11 +266,12 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		// $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
-		if ( isset( $this->oProp->aOptions ) )
-			$this->setOptionArray( 
+		if ( isset( $this->oProp->aOptions ) ) {
+			$this->_setOptionArray( 
 				isset( $GLOBALS['post']->ID ) ? $GLOBALS['post']->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null ),
 				$this->oForm->aConditionedFields 
 			);	// will set $this->oProp->aOptions
+		}
 		
 		// Add the repeatable section elements to the fields definition array.
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );		// will update $this->oForm->aConditionedFields

@@ -81,8 +81,9 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * 
 	 * @since				2.0.0
 	 * @since				2.1.2			Added the second parameter. 
-	 * @since				3.0.0			Changed the scope to private from protected sicne it is only used in this class.
-	 * @access				private.
+	 * @since				3.0.0			Changed the scope to private from protected since it is only used in this class.
+	 * @access				private
+	 * @internal
 	 */
 	private function _getFieldErrors( $sPageSlug, $bDelete=true ) {
 		
@@ -90,11 +91,12 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		if ( ! isset( $_GET['settings-updated'] ) ) return null;
 		
 		// Find the transient.
-		$sTransient = md5( $this->oProp->sClassName . '_' . $sPageSlug );
-		$aFieldErrors = get_transient( $sTransient );
-		if ( $bDelete )
-			delete_transient( $sTransient );	
-		return $aFieldErrors;
+		$_sTransient = md5( $this->oProp->sClassName . '_' . $sPageSlug );
+		$_aFieldErrors = get_transient( $_sTransient );
+		if ( $bDelete ) {
+			delete_transient( $_sTransient );	
+		}
+		return $_aFieldErrors;
 
 	}
 		

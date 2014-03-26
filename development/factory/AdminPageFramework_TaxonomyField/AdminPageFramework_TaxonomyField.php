@@ -52,12 +52,15 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	
 	/**
 	 * Stores the property object.
+	 * 
 	 * @since			3.0.0
+	 * @acess			public			Inherited from the ancestor class.
 	 */
-	protected $oProp;
+	public $oProp;
 	
 	/**
 	 * Stores the head tag object.
+	 * 
 	 * @since			3.0.0
 	 * @internal
 	 */
@@ -184,7 +187,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 	 * @since			3.0.0			the scope is changed to protected as the taxonomy field class redefines it.
 	 * #internal
 	 */
-	protected function setOptionArray( $iTermID=null, $sOptionKey ) {
+	protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
 				
 		$aOptions = get_option( $sOptionKey, array() );
 		$this->oProp->aOptions = isset( $iTermID, $aOptions[ $iTermID ] ) ? $aOptions[ $iTermID ] : array();
@@ -279,7 +282,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		$aOutput[] = wp_nonce_field( $this->oProp->sClassHash, $this->oProp->sClassHash, true, false );
 		
 		/* Set the option property array */
-		$this->setOptionArray( $iTermID, $this->oProp->sOptionKey );
+		$this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
 		
 		/* Format the fields arrays - taxonomy fields do not support sections */
 		$this->oForm->format();
