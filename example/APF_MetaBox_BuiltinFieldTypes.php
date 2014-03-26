@@ -275,7 +275,10 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 	public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput ) {	// validation_{instantiated class name}
 	
 		// You can check the passed values and correct the data by modifying them.
-		// $this->oDebug->logArray( $aInput );
+		// $this->oDebug->logArray( $aInput );		
+		// $this->setFieldErrors( array( 'error' ) );
+		// $this->setSettingNotice( 'There was an error in your input.' );		
+			
 		return $aInput;
 		
 	}
