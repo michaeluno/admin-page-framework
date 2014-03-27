@@ -24,6 +24,34 @@ abstract class AdminPageFramework_Factory_Base {
 	 * @acess			public			The AdminPageFramework_Page_MetaBox class accesses it.
 	 */ 	
 	public $oProp;	
+	/**
+	* @internal
+	* @since			2.0.0
+	*/ 	
+	protected $oDebug;
+	/**
+	* @internal
+	* @since			2.0.0
+	*/ 		
+	protected $oUtil;
+	/**
+	* @since			2.0.0
+	* @internal
+	*/ 		
+	protected $oMsg;	
+	
+	/**
+	 * Sets up built-in objects.
+	 */
+	function __construct( $sTextDomain, $oProp ) {
+		
+		// Objects
+		$this->oProp = $oProp;
+		$this->oUtil = new AdminPageFramework_WPUtility;
+		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
+		$this->oDebug = new AdminPageFramework_Debug;
+		
+	}	
 	
 	/*
 	 * Should be extended

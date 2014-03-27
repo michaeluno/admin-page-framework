@@ -47,6 +47,7 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * @package			AdminPageFramework
  * @subpackage		TaxonomyField
  * @extends			AdminPageFramework_MetaBox_Base
+ * @todo			Extend the factory class instead of the meta box base class.
  */
 abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaBox_Base {
 	

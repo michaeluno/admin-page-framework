@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Factory' ) ) :
  * @since			3.0.4
  * @subpackage		Factory
  * @internal
+ * @todo			List up common methods and properties shared among other abstract classes and define them in this class.
  */
 abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Base {
 
@@ -27,6 +28,17 @@ abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Bas
 	* @since			3.0.0
 	*/ 	
 	protected $oHelpPane;	
+		
+	
+	function __construct( $sTextDomain, $oProp ) {
+		
+		parent::__construct( $sTextDomain, $oProp );
+		
+// TODO: check the field errors and delete the transient
+$this->_deleteFieldErrors();
+		
+	}
+		
 	
 	/*
 	 * Help Pane
@@ -368,7 +380,6 @@ abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Bas
 	public function setFieldErrors( $aErrors, $sID=null, $iSavingDurationSeconds=300 ) {
 		
 		$sID = isset( $sID ) ? $sID : $this->oProp->sClassName;	
-//TODO: since this is the abstract class, do not use the meta box specific property value above.		
 		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $iSavingDurationSeconds );	// store it for 5 minutes ( 60 seconds * 5 )
 	
 	}	
@@ -388,7 +399,7 @@ abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Bas
 		
 		// Find the transient.
 		$_sTransient = md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName );
-//TODO: since this is the abstract class, do not use the meta box specific property value above.		
+
 		$_aFieldErrors = get_transient( $_sTransient );
 		if ( $bDelete ) {
 			delete_transient( $_sTransient );	
@@ -422,7 +433,7 @@ abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Bas
 		// Check if the same message has been added already.
 		$aWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
 		$sID = isset( $sID ) ? $sID : $this->oProp->sClassName; 	// the id attribute for the message div element.
-//TODO: since this is the abstract class, do not use the meta box specific property value above.
+
 		foreach( $aWPSettingsErrors as $iIndex => $aSettingsError ) {
 			
 			if ( $aSettingsError['setting'] != $this->oProp->sClassName ) continue;
@@ -458,7 +469,7 @@ abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Bas
 	protected function _isValidationErrors() {
 
 		return get_transient( md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName ) );
-//TODO: since this is the abstract class, do not use the meta box specific property value above.
+
 	}
 	
 	/**

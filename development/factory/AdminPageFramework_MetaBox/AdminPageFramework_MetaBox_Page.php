@@ -103,21 +103,19 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 		if ( empty( $asPageSlugs ) ) return;
 		
 		/* The property object needs to be done first */
-		$this->oProp = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability );		
+		$this->oProp = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability,  self::$_sFieldsType );		
 		
 		parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
 		
 		$this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs;	// must be set before the isInThePage() method is used.
-		$this->oProp->sFieldsType = self::$_sFieldsType;		
-		
+				
 		if ( $this->_isInThePage() ) :
 		
 			/* These classes use methods that determine the current tab and page slugs based from the added pages. */
 			$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox_Page( $this->oProp );
 			$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 			
-
-			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $this->oProp->sCapability );
 
 			/* Validation hook */
 			foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {

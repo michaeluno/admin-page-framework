@@ -452,12 +452,28 @@ abstract class AdminPageFramework_Property_Base {
 	 */
 	public $bIsMinifiedVersion;
 		
-	function __construct( $oCaller, $sCallerPath, $sClassName ) {
+	/**
+	 * Stores the capability for displayable elements.
+	 * 
+	 * @since			2.0.0
+	 */ 	
+	public $sCapability;
+	
+	/**
+	 * Defines the fields type.
+	 * @since			3.0.4
+	 * @internal
+	 */
+	public $sFieldsType;		
+		
+	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sFieldsType ) {
 		
 		$this->oCaller = $oCaller;
 		$this->sCallerPath = $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
 		$this->sClassName = $sClassName;		
 		$this->sClassHash = md5( $sClassName );	
+		$this->sCapability = $sCapability;
+		$this->sFieldsType = $sFieldsType;
 		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']

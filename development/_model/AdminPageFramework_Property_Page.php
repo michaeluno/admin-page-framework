@@ -222,11 +222,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 */ 
 	public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options' ) {
 		
-		parent::__construct( $oCaller, $sCallerPath, $sClassName );
+		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, 'page' );
 		
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
-		$this->sCapability = empty( $sCapability ) ? $this->sCapability : $sCapability;
-				
+					
 		/* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
 		$GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
 			? $GLOBALS['aAdminPageFramework']['aPageClasses']

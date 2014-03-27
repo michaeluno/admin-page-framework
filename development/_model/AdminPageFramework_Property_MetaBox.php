@@ -140,12 +140,17 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
 	 */ 
 	public $aHelpTabTextSide = array();
 		
-	function __construct( $oCaller, $sClassName, $sCapability ) {
+	/**
+	 * Defines the fields type.
+	 * @since			3.0.4
+	 * @internal
+	 */
+	public  $sFieldsType = 'post_meta_box';
+	
+	function __construct( $oCaller, $sClassName, $sCapability='edit_posts', $sFieldsType='post_meta_box' ) {
 		
-		parent::__construct( $oCaller, null, $sClassName );		// meta boxes don't need the caller script path.
-		
-		$this->sCapability = $sCapability;
-		
+		parent::__construct( $oCaller, null, $sClassName, $sCapability, $sFieldsType );		// meta boxes don't need the caller script path.
+			
 	}
 	
 }

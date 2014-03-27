@@ -81,7 +81,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
 		/* The property object needs to be done first */
-		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
+		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, self:$_sFieldsType );
 		
 		parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
 			
@@ -94,8 +94,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 			$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
 			
 			// Create a form object - this needs to be done after the fields type property is set. This is the reason that it's not doen in the base class.
-			$this->oProp->sFieldsType = self::$_sFieldsType;
-			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $this->oProp->sCapability );
 		
 		endif;
 		

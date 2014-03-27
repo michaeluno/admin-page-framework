@@ -71,7 +71,6 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 
-		$this->oProp->sFieldsType = self::$_sFieldsType;
 		$this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $this->oProp->sCapability );
 		
 	}

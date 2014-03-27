@@ -23,22 +23,6 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Base' ) ) :
 abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factory {
 	
 	// Objects
-
-	/**
-	* @internal
-	* @since			2.0.0
-	*/ 	
-	protected $oDebug;
-	/**
-	* @internal
-	* @since			2.0.0
-	*/ 		
-	protected $oUtil;
-	/**
-	* @since			2.0.0
-	* @internal
-	*/ 		
-	protected $oMsg;
 	/**
 	 * @since			2.1.5
 	 * @internal
@@ -77,17 +61,13 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
 		if ( empty( $asPostTypeOrScreenID ) ) return;
-		
-		// Objects
-		$this->oUtil = new AdminPageFramework_WPUtility;
-		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
-		$this->oDebug = new AdminPageFramework_Debug;
-		
+				
 		// Properties
-		$this->oProp = isset( $this->oProp )
-			? $this->oProp
-			: new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability );
-			
+		parent::__construct( 
+			$sTextDomain
+			isset( $this->oProp )? $this->oProp : new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability ), 
+		);
+		
 		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
 		$this->oProp->sTitle = $sTitle;
 		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
@@ -99,8 +79,6 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 								
 		}	
 
-// TODO: check the field errors and delete the transient
-$this->_deleteFieldErrors();
 
 	}
 
