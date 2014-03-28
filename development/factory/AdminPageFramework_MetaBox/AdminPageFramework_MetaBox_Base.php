@@ -64,8 +64,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 				
 		// Properties
 		parent::__construct( 
-			$sTextDomain
-			isset( $this->oProp )? $this->oProp : new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability ), 
+			isset( $this->oProp )? $this->oProp : new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability )
 		);
 		
 		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
@@ -106,30 +105,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		
 	}	
 		
-	/**
-	 * Loads the default field type definition.
-	 * 
-	 * @since			2.1.5
-	 * @internal
-	 */
-	public function _loadDefaultFieldTypeDefinitions() {
-		
-		static $_aFieldTypeDefinitions = array();	// Stores the default field definitions. Once they are set, it no longer needs to be done.
-		
-		if ( empty( $_aFieldTypeDefinitions ) ) {
-			
-			// This class adds filters for the field type definitions so that framework's default field types will be added.
-			new AdminPageFramework_FieldTypeRegistration( $_aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );					
-			
-		} 
-				
-		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-			$this,
-			'field_types_' . $this->oProp->sClassName,	// 'field_types_' . {extended class name}
-			$_aFieldTypeDefinitions
-		);				
-		
-	}
+
 	
 	/**
 	 * Echoes the meta box contents.
@@ -207,56 +183,6 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		
 	}
 
-	/**
-	 * Registers the given fields.
-	 * 
-	 * @remark			$oHelpPane and $oHeadTab need to be set in the extended class.
-	 * @since			3.0.0
-	 * @internal
-	 */
-	protected function _registerFields( array $aFields ) {
-
-		foreach( $aFields as $_sSecitonID => $_aFields ) {
-			
-			$_bIsSubSectionLoaded = false;
-			foreach( $_aFields as $_iSubSectionIndexOrFieldID => $_aSubSectionOrField )  {
-				
-				// if it's a sub-section
-				if ( is_numeric( $_iSubSectionIndexOrFieldID ) && is_int( $_iSubSectionIndexOrFieldID + 0 ) ) {	
-
-					if ( $_bIsSubSectionLoaded ) continue;		// no need to repeat the same set of fields
-					$_bIsSubSectionLoaded = true;
-					foreach( $_aSubSectionOrField as $_aField ) {
-						$this->_registerField( $_aField );						
-					}
-					continue;
-				}
-					
-				$_aField = $_aSubSectionOrField;
-				$this->_registerField( $_aField );
-			
-			}
-		}
-		
-	}
-		/**
-		 * Registers a field.
-		 * 
-		 * @since			3.0.4
-		 * @internal
-		 */
-		private function _registerField( array $aField ) {
-			
-			// Load head tag elements for fields.
-			AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag );	// Set relevant scripts and styles for the input field.
-
-			// For the contextual help pane,
-			if ( $aField['help'] ) {
-				$this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );									
-			}
-			
-			
-		}
 	
 	/**
 	 * Returns the filtered section description output.
@@ -273,30 +199,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		
 	}
 	
-	/**
-	 * Returns the field output from the given field definition array.
-	 * 
-	 * @since			3.0.0
-	 */
-	public function _replyToGetFieldOutput( $aField ) {
 
-		// Render the form field. 		
-		$sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
-			? $aField['type']
-			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
-
-		$oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, array(), $this->oProp->aFieldTypeDefinitions, $this->oMsg );	// currently the error array is not supported for meta-boxes
-		$sFieldOutput = $oField->_getFieldOutput();	// field output
-		unset( $oField );	// release the object for PHP 5.2.x or below.
-		
-		return $this->oUtil->addAndApplyFilters(
-			$this,
-			array( 	'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ),	// field_ + {extended class name} + _ {field id}
-			$sFieldOutput,
-			$aField // the field array
-		);		
-						
-	}
 		
 	/**
 	 * Saves the meta box field data to the associated post. 

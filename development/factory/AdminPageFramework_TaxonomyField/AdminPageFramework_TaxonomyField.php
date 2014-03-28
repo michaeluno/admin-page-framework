@@ -46,10 +46,11 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * @use				AdminPageFramework_Property_MetaBox
  * @package			AdminPageFramework
  * @subpackage		TaxonomyField
- * @extends			AdminPageFramework_MetaBox_Base
- * @todo			Extend the factory class instead of the meta box base class.
+ * @extends			AdminPageFramework_Factory
+ 
+ * @todo			Fix issues caused by extending the factory class and provide missing elements which were present in the meta box base class.
  */
-abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaBox_Base {
+abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Factory {
 	
 	/**
 	 * Stores the property object.
@@ -102,20 +103,12 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_MetaB
 		
 		if ( empty( $asTaxonomySlug ) ) return;
 		
-		/* Objects */
-		$this->oProp = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability );
-		$this->oUtil = new AdminPageFramework_WPUtility;
-		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
-		$this->oDebug = new AdminPageFramework_Debug;
-
-		$this->oHeadTag = new AdminPageFramework_HeadTag_TaxonomyField( $this->oProp );
-		$this->oHelpPane = new AdminPageFramework_HelpPane_TaxonomyField( $this->oProp );		
-				
 		/* Properties */
+		$this->oProp = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );				
 		$this->oProp->aTaxonomySlugs = ( array ) $asTaxonomySlug;
 		$this->oProp->sOptionKey = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
-		$this->oProp->sFieldsType = self::$_sFieldsType;
-		$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $sCapability );
+		
+		parent::__construct( $this->oProp );
 		
 		if ( $this->oProp->bIsAdmin ) {
 			

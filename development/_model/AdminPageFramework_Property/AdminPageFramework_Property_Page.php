@@ -220,9 +220,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * @since			2.1.5			The $oCaller parameter was added.
 	 * @return			void
 	 */ 
-	public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options' ) {
+	public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sFieldsType='page' ) {
 		
-		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, 'page' );
+		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType );
 		
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 					

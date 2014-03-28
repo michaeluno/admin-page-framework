@@ -150,7 +150,7 @@ abstract class AdminPageFramework_Base {
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
 				
 		// Objects
-		$this->oProp = new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability );
+		$this->oProp = new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
 		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
 		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
 		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
@@ -247,6 +247,8 @@ abstract class AdminPageFramework_Base {
 		// If it's one of the framework's callback methods, do nothing.	
 		if ( $this->_isFrameworkCallbackMethod( $sMethodName ) )
 			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter, otherwise, it's an action.		
+		
+		trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_ERROR );
 		
 	}	
 		/**

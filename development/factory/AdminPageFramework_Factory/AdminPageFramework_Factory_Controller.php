@@ -6,39 +6,29 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Factory' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Factory_Controller' ) ) :
 /**
- * The factory class for creating Admin Page Framework objects.
+ * Provides methods for models.
  * 
  * @abstract
  * @since			3.0.4
  * @subpackage		Factory
  * @internal
- * @todo			List up common methods and properties shared among other abstract classes and define them in this class.
  */
-abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Base {
-
-	/**
-	* @internal
-	* @since			3.0.0
-	*/ 	
-	protected $oForm;	
-	/**
-	* @internal
-	* @since			3.0.0
-	*/ 	
-	protected $oHelpPane;	
-		
-	
-	function __construct( $sTextDomain, $oProp ) {
-		
-		parent::__construct( $sTextDomain, $oProp );
-		
-// TODO: check the field errors and delete the transient
-$this->_deleteFieldErrors();
-		
-	}
-		
+abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
+			
+	/*
+	 * Should be extended
+	 */
+	public function setUp() {}
+			
+	/*
+	 * Head Tag Methods - should be extended.
+	 */
+	public function enqueueStyles( $aSRCs, $_vArg2=null ) {}	// the number of arguments depend on the extended class
+	public function enqueueStyle( $sSRC, $_vArg2=null ) {}
+	public function enqueueScripts( $aSRCs, $_vArg2=null ) {}
+	public function enqueueScript( $sSRC, $_vArg2=null ) {}	
 	
 	/*
 	 * Help Pane
@@ -384,29 +374,6 @@ $this->_deleteFieldErrors();
 	
 	}	
 	
-	/**
-	 * Retrieves the settings error array set by the user in the validation callback.
-	 * 
-	 * @since				3.0.4			
-	 * @access				private
-	 * @internal
-	 */
-	private function _getFieldErrors( $sPageSlug, $bDelete=true ) {
-		
-		// If a form submit button is not pressed, there is no need to set the setting errors.
-		// if ( ! isset( $_GET['settings-updated'] ) ) return null;
-//TODO: check whether the page is right after the user's submitting the form, and is not, return null.
-		
-		// Find the transient.
-		$_sTransient = md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName );
-
-		$_aFieldErrors = get_transient( $_sTransient );
-		if ( $bDelete ) {
-			delete_transient( $_sTransient );	
-		}
-		return $_aFieldErrors;
-
-	}	
 	
 	/**
 	* Sets the given message to be displayed in the next page load. 
@@ -460,26 +427,8 @@ $this->_deleteFieldErrors();
 					
 	}	
 	
-	/**
-	 * Checks whether a validation error is set.
-	 * 
-	 * @since			3.0.3
-	 * @return			mixed			If the error is not set, returns false; otherwise, the stored error array.
-	 */
-	protected function _isValidationErrors() {
 
-		return get_transient( md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName ) );
+	
 
-	}
-	
-	/**
-	 * Deletes the field errors.
-	 * 
-	 * @since			3.0.4
-	 */
-	protected function _deleteFieldErrors() {
-		delete_transient( md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName ) );
-	}
-	
 }
 endif;

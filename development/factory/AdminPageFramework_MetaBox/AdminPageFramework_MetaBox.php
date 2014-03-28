@@ -81,23 +81,11 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
 		/* The property object needs to be done first */
-		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, self:$_sFieldsType );
-		
-		parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
-			
-		/* Do this after the parent constructor as the constructor creates the oProp object and before the isInThePage() method. */
+		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
 		
-		if ( $this->_isInThePage() ) :
-
-			$this->oHeadTag = new AdminPageFramework_HeadTag_MetaBox( $this->oProp );
-			$this->oHelpPane = new AdminPageFramework_HelpPane_MetaBox( $this->oProp );		
-			
-			// Create a form object - this needs to be done after the fields type property is set. This is the reason that it's not doen in the base class.
-			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $this->oProp->sCapability );
-		
-		endif;
-		
+		parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
+						
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
 		
 		

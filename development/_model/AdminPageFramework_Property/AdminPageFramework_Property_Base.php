@@ -466,13 +466,22 @@ abstract class AdminPageFramework_Property_Base {
 	 */
 	public $sFieldsType;		
 		
-	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sFieldsType ) {
+	/**
+	 * Stores the text domain.
+	 * 
+	 * @since			3.0.4
+	 * @internal
+	 */ 
+	public $sTextDomain;
+	
+	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
 		
 		$this->oCaller = $oCaller;
 		$this->sCallerPath = $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
 		$this->sClassName = $sClassName;		
 		$this->sClassHash = md5( $sClassName );	
 		$this->sCapability = $sCapability;
+		$this->sTextDomain = $sTextDomain;
 		$this->sFieldsType = $sFieldsType;
 		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
