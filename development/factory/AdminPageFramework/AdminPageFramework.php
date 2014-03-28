@@ -242,13 +242,13 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting_Validation 
 	 * @since			2.0.0
 	 * @see				http://codex.wordpress.org/Roles_and_Capabilities
 	 * @see				http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-	 * @param			string			( optional ) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
-	 * @param			string			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-	 * @param			string			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, <strong>manage_options</strong> will be assigned by default. The capability can be set per page, tab, setting section, setting field.
-	 * @param			string			( optional ) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
+	 * @param			string			$sOptionKey				( optional ) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
+	 * @param			string			$sCallerPath			( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+	 * @param			string			$sCapability			( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: <em>manage_options</em>
+	 * @param			string			$sTextDomain			( optional ) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
 	 * @return			void			returns nothing.
 	 */
-	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ){
+	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
 			
 		parent::__construct( 
 			$sOptionKey, 

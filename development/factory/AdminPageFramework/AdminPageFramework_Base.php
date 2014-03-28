@@ -147,7 +147,7 @@ abstract class AdminPageFramework_Base {
 	protected $oHelpPane;
 	
 
-	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 				
 		// Objects
 		$this->oProp = new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
@@ -162,7 +162,7 @@ abstract class AdminPageFramework_Base {
 		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );		
 		}
-		
+AdminPageFramework_Debug::logArray(  $this->oProp->sCapability );		
 	}
 
 

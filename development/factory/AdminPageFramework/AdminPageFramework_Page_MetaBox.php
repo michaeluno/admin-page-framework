@@ -18,7 +18,7 @@ if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
  */
 abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 
-	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 			
 		add_action( 'admin_head', array( $this, '_replyToEnableMetaBox' ) );	// since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
 		// add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) ); // <--- should be removed

@@ -61,7 +61,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * 
 	 * @internal
 	 */
-	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {	
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {	
 	
 		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
 				

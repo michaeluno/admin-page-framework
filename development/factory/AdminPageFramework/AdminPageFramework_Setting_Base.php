@@ -64,7 +64,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * 
 	 * @internal
 	 */
-	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 		
 		add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
 		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects

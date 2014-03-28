@@ -96,7 +96,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	  * 
 	  * @internal
 	  */
-	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability=null, $sTextDomain='admin-page-framework' ) {
+	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 		
 		add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );		
 		
