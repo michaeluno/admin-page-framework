@@ -266,7 +266,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.0.3 =
+= 3.0.4 =
+- Fixed a bug that the `script_common_{...}` filter was not functioning in meta box classes.
+- Added the ability to throw a warning when undefined method is called.
+- Changed the file structure of the `development` directory.
+
+= 3.0.3 - 03/24/2014 =
 - Added the ability to reveal more than one elements to the `revealer` custom field type with a small braking change. 
 - Tweaked certain routines not to be triggered in irrelevant pages.
 - Tweaked the field type registration process to be faster.
