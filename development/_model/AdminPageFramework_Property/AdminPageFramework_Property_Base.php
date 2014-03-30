@@ -480,8 +480,8 @@ abstract class AdminPageFramework_Property_Base {
 		$this->sCallerPath = $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
 		$this->sClassName = $sClassName;		
 		$this->sClassHash = md5( $sClassName );	
-		$this->sCapability = $sCapability;
-		$this->sTextDomain = $sTextDomain;
+		$this->sCapability = empty( $sCapability ) ? 'manage_options' : $sCapability ;
+		$this->sTextDomain = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
 		$this->sFieldsType = $sFieldsType;
 		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 

@@ -361,16 +361,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	 * </code>
 	 * 
 	 * @since			3.0.4			
-	 * @remark			the user may use this method.
-	 * @remark			the transient name is a MD5 hash of the extended class name + _ + page slug ( the passed ID )
-	 * @param			array			the field error array. The structure should follow the one contained in the submitted $_POST array.
-	 * @param			string			this should be the page slug of the page that has the dealing form field.
-	 * @param			integer			the transient's lifetime. 300 seconds means 5 minutes.
+	 * @param			array			$aErrors			the field error array. The structure should follow the one contained in the submitted $_POST array.
+	 * @param			string			$sID				deprecated
+	 * @param			integer			$iLifeSpan			the transient's lifetime. 300 seconds means 5 minutes.
 	 */ 
-	public function setFieldErrors( $aErrors, $sID=null, $iSavingDurationSeconds=300 ) {
+	public function setFieldErrors( $aErrors, $sID='', $iLifeSpan=300 ) {
 		
-		$sID = isset( $sID ) ? $sID : $this->oProp->sClassName;	
-		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $iSavingDurationSeconds );	// store it for 5 minutes ( 60 seconds * 5 )
+		set_transient( md5( $this->oProp->sClassName ), $aErrors, $iLifeSpan );	// store it for 5 minutes ( 60 seconds * 5 )
 	
 	}	
 	
@@ -389,45 +386,41 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	*
 	* @since			3.0.4			
 	* @access 			public
-	* @param			string			the text message to be displayed.
-	* @param			string			( optional ) the type of the message, either "error" or "updated"  is used.
-	* @param			string			( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
-	* @param			integer			( optional ) false: do not override when there is a message of the same id. true: override the previous one.
+	* @param			string			$sMessage			the text message to be displayed.
+	* @param			string			$sType				( optional ) the type of the message, either "error" or "updated"  is used.
+	* @param			array			$asAttributes		( optional ) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
+	* @param			boolean			$bOverride			( optional ) false: do not override when there is a message of the same id. true: override the previous one.
 	* @return			void
 	*/		
-	public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {
+	public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
 		
-		// Check if the same message has been added already.
-		$aWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
-		$sID = isset( $sID ) ? $sID : $this->oProp->sClassName; 	// the id attribute for the message div element.
-
-		foreach( $aWPSettingsErrors as $iIndex => $aSettingsError ) {
-			
-			if ( $aSettingsError['setting'] != $this->oProp->sClassName ) continue;
-						
-			// If the same message is added, no need to add another.
-			if ( $aSettingsError['message'] == $sMsg ) return;
-				
-			// Prevent duplicated ids.
-			if ( $aSettingsError['code'] === $sID ) {
-				if ( ! $bOverride ) 
-					return;
-				else	// remove the item with the same id  
-					unset( $aWPSettingsErrors[ $iIndex ] );
-			}
-							
+		// The framework user set notification messages will be stored in this global array element.
+		$GLOBALS['aAdminPageFramework']['aNotices'] = ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();
+		
+		// If the array is empty, save the array at shutdown.
+		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) {
+			add_action( 'shutdown', array( $this, '_replyToSaveNotices' ) );	// the method is defined in the controller class.
 		}
-
-		add_settings_error( 
-			$this->oProp->sClassName, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
-			$sID, 
-			$sMsg,	// error or updated
-			$sType
-		);
+		
+		// Set up local variables
+		$_sID = md5( trim( $sMessage ) );
+			
+		// If the override options is true, or if the message is set,
+		if ( $bOverride || ! isset( $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] )  ) {
+			
+			$GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] = array(
+				'sMessage' => $sMessage,
+				'aAttributes' => ( is_array( $asAttributes ) ? $asAttributes : array( 'id' => $asAttributes )  )
+					+ array(
+						'class'	=>	$sType,
+						'id'	=>	$this->oProp->sClassName . '_' . $_sID,
+					),
 					
-	}	
-	
-
+			
+			);
+		}
+							
+	}
 	
 
 }

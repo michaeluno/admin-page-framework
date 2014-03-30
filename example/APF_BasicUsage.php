@@ -19,6 +19,7 @@ class APF_BasicUsage extends AdminPageFramework {
 		);
 		
 		$this->setPageHeadingTabsVisibility( true );		// disables the page heading tabs by passing false.
+
 	}	
 	
 	public function do_apf_first_page() {	// do_ + {page slug}
@@ -34,7 +35,7 @@ class APF_BasicUsage extends AdminPageFramework {
 		return $sContent 
 			. "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-demo' ) . "</h3>"
 			. "<p>" 
-				. __( 'This message is inserted by the <code>content_{page slug}</code> filter.', 'admin-page-framework-demo' ) 
+				. __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-demo' ) 
 			. "</p>"
 			. "<h3>" . __( 'Saved Options', 'admin-page-framework-demo' ) . "</h3>"
 			. $this->oDebug->getArray( $this->oProp->aOptions ); 

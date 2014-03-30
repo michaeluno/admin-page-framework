@@ -17,6 +17,48 @@ if ( ! class_exists( 'AdminPageFramework_Factory_View' ) ) :
  */
 abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {
 	
+	function __construct( $oProp ) {
+		
+		parent::__construct( $oProp );
+
+// if ( 'post_meta_box' == $oProp->sFieldsType ) {
+	// AdminPageFramework_Debug::logArray( 'constructor is triggered: ' . $oProp->sFieldsType . ' : ' . $this->_isInThePage() );		
+// }
+
+		if ( $this->_isInThePage() && 'admin-ajax.php' != $GLOBALS['pagenow'] ) {
+				
+			add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
+			
+		}
+		
+	}		
+	
+	/**
+	 * Displays stored setting notification messages.
+	 * 
+	 * @since			3.0.4
+	 */
+	public function _replyToPrintSettingNotice() {
+		
+		// Only do this per a page load. PHP static variables will remain in different instantiated objects.
+		static $_fIsLoaded;
+		
+		if ( $_fIsLoaded ) return;
+		$_fIsLoaded = true;
+		
+		$_aNotices = get_transient( 'admin_page_framework_notices' );
+		if ( false === $_aNotices )	return;
+					
+		foreach ( ( array ) $_aNotices as $__aNotice ) {
+			if ( ! isset( $__aNotice['aAttributes'], $__aNotice['sMessage'] ) ) continue;
+			echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). "><p>" . $__aNotice['sMessage'] . "</p></div>";
+		}
+		
+		delete_transient( 'admin_page_framework_notices' );
+		
+	}
+	
+	
 	/**
 	 * Returns the field output from the given field definition array.
 	 * 
@@ -24,7 +66,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 	 */
 	public function _replyToGetFieldOutput( $aField ) {
 
-		$_oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, array(), $this->oProp->aFieldTypeDefinitions, $this->oMsg );	// currently the error array is not supported for meta-boxes		
+		$_oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, $this->_getFieldErrors(), $this->oProp->aFieldTypeDefinitions, $this->oMsg );	// currently the error array is not supported for meta-boxes		
 		return $this->oUtil->addAndApplyFilters(
 			$this,
 			array( 	'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ),	// field_ + {extended class name} + _ {field id}
@@ -33,7 +75,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		);		
 						
 	}	
-	
+		
 	
 }
 endif;

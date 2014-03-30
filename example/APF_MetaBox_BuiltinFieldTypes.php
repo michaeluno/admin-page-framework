@@ -61,9 +61,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'field_id'		=> 'metabox_text_field',
 				'type'			=> 'text',
 				'title'			=> __( 'Text Input', 'admin-page-framework-demo' ),
-				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
-				'help'			=> 'This is help text.',
-				'help_aside'	=> 'This is additional help text which goes to the side bar of the help pane.',
+				'description'	=> __( 'Type more than two characters.', 'admin-page-framework-demo' ),
+				'help'			=> __( 'This is help text.', 'admin-page-framework-demo' ),
+				'help_aside'	=> __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'field_id'		=> 'metabox_text_field_repeatable',
@@ -274,11 +274,28 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 	
 	public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput ) {	// validation_{instantiated class name}
 	
+		$_fIsValid = true;
+		$_aErrors = array();
+		
 		// You can check the passed values and correct the data by modifying them.
 		// $this->oDebug->logArray( $aInput );		
-		// $this->setFieldErrors( array( 'error' ) );
-		// $this->setSettingNotice( 'There was an error in your input.' );		
+		
+		// Validate the submitted data.
+		if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {
 			
+			$_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-demo' ) . ': ' . $aInput['metabox_text_field'];
+			$_fIsValid = false;			
+			
+		}
+		
+		if ( ! $_fIsValid ) {
+			
+			$this->setFieldErrors( $_aErrors );
+			$this->setSettingNotice( 'There was an error in your input.' );	
+			return $aOldInput;
+			
+		}
+
 		return $aInput;
 		
 	}

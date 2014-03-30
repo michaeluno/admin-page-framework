@@ -16,7 +16,6 @@ if ( ! class_exists( 'AdminPageFramework_Factory' ) ) :
  * @since			3.0.4
  * @subpackage		Factory
  * @internal
- * @todo			List up common methods and properties shared among other abstract classes and define them in this class.
  */
 abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Controller {}
 endif;

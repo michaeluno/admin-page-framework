@@ -108,19 +108,23 @@ $this->_deleteFieldErrors();
 	 * @since				3.0.4			
 	 * @access				private
 	 * @internal
+	 * 
+	 * @param				string			$sID			deprecated
+	 * @param				boolean			$bDelete		whether or not the transient should be deleted after retrieving it. 
 	 */
-	private function _getFieldErrors( $sPageSlug, $bDelete=true ) {
+	protected function _getFieldErrors( $sID='', $bDelete=true ) {
 		
 		// If a form submit button is not pressed, there is no need to set the setting errors.
 		// if ( ! isset( $_GET['settings-updated'] ) ) return null;
-//TODO: check whether the page is right after the user's submitting the form, and is not, return null.
-		
-		// Find the transient.
-		$_sTransient = md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName );
+//TODO: check whether the page is locded right after the user's submitting the form, and is not, return null. <-- might not be necessary as it's done in the constructor.
 
-		$_aFieldErrors = get_transient( $_sTransient );
+//TODO: currently field error transients are set per each class. This increases the number of DB queries as the instances of class increases. To avoid that, implement a metric that deals with those at once, maybe at shutdown.
+		// Find the transient.
+		$_sTransientKey = md5( $this->oProp->sClassName );
+
+		$_aFieldErrors = get_transient( $_sTransientKey );
 		if ( $bDelete ) {
-			delete_transient( $_sTransient );	
+			delete_transient( $_sTransientKey );	
 		}
 		return $_aFieldErrors;
 
@@ -134,7 +138,7 @@ $this->_deleteFieldErrors();
 	 */
 	protected function _isValidationErrors() {
 
-		return get_transient( md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName ) );
+		return get_transient( md5( $this->oProp->sClassName ) );
 
 	}
 	
@@ -147,6 +151,21 @@ $this->_deleteFieldErrors();
 		delete_transient( md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName ) );
 	}
 		
+		
+	/**
+	 * Saves the notification array set via the setSettingNotice() method.
+	 * 
+	 * @remark			This method will be triggered with the 'shutdown' hook.
+	 * @since			3.0.4 
+	 */
+	public function _replyToSaveNotices() {
+		
+		if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
+		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
+			
+		set_transient( 'admin_page_framework_notices', $GLOBALS['aAdminPageFramework']['aNotices'] );
+		
+	}
 	
 }
 endif;

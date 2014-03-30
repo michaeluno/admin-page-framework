@@ -162,7 +162,7 @@ abstract class AdminPageFramework_Base {
 		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'wp_loaded', array( $this, 'setUp' ) );		
 		}
-AdminPageFramework_Debug::logArray(  $this->oProp->sCapability );		
+		
 	}
 
 
@@ -213,7 +213,7 @@ AdminPageFramework_Debug::logArray(  $this->oProp->sCapability );
 	public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {}
 	public function addSettingField( $asField ) {}
 	public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {}
-	public function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {}
+	public function setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {}
 	public function getFieldValue( $sFieldID ) {}
 	/**#@-*/    
 	

@@ -182,7 +182,6 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		// For page meta boxes, do nothing as the class will retrieve the option array by itself.
 		
 	}
-
 	
 	/**
 	 * Returns the filtered section description output.
@@ -198,9 +197,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		);				
 		
 	}
-	
 
-		
 	/**
 	 * Saves the meta box field data to the associated post. 
 	 * 
@@ -237,8 +234,9 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 			remove_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 
 			// update the post to change post status
-// TODO: if editing, retrieve the previous post status and re-save with the old meta data. If new post, save it as draft.
-			wp_update_post( array( 'ID' => $iPostID, 'post_status' => 'draft' ) );
+// TODO: retrieve the previous post status and set it so.
+$_sPreviousPostStatus = 'draft';
+			wp_update_post( array( 'ID' => $iPostID, 'post_status' => $_sPreviousPostStatus ) );
 
 			// re-hook this function again
 			add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );

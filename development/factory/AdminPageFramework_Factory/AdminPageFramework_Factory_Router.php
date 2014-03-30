@@ -8,7 +8,7 @@
  */
 if ( ! class_exists( 'AdminPageFramework_Factory_Router' ) ) :
 /**
- * The router class of the factory class for creating Admin Page Framework objects.
+ * Provides the routing functionality to the Admin Page Framework factory object based on the fields type.
  * 
  * This class mainly deals with routing function calls and instantiation of objects based on the type.
  * 
@@ -203,7 +203,6 @@ abstract class AdminPageFramework_Factory_Router {
 	/**
 	 * Redirects dynamic function calls to the pre-defined internal method.
 	 * 
-	 * @remark			The $oProp property object should be created in the extended class.
 	 */
 	function __call( $sMethodName, $aArgs=null ) {	
 

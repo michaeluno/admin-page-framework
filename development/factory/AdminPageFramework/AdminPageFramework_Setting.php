@@ -476,14 +476,14 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	 * @since			3.0.0			Changed the scope to public from protected.
 	 * @remark			the user may use this method.
 	 * @remark			the transient name is a MD5 hash of the extended class name + _ + page slug ( the passed ID )
-	 * @param			array			the field error array. The structure should follow the one contained in the submitted $_POST array.
-	 * @param			string			this should be the page slug of the page that has the dealing form field.
-	 * @param			integer			the transient's lifetime. 300 seconds means 5 minutes.
+	 * @param			array			$aErrros			the field error array. The structure should follow the one contained in the submitted $_POST array.
+	 * @param			string			$sID				this should be the page slug of the page that has the dealing form field.
+	 * @param			integer			$iLifeSpan			the transient's lifetime. 300 seconds means 5 minutes.
 	 */ 
-	public function setFieldErrors( $aErrors, $sID=null, $nSavingDuration=300 ) {
+	public function setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {
 		
 		$sID = isset( $sID ) ? $sID : ( isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProp->sClassName ) );	
-		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $nSavingDuration );	// store it for 5 minutes ( 60 seconds * 5 )
+		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $iLifeSpan );	// store it for 5 minutes ( 60 seconds * 5 )
 	
 	}
 
