@@ -5,10 +5,10 @@
 	<meta name="generator" content="ApiGen 2.8.0">
 	<meta name="robots" content="noindex">
 
-	<title>File page/AdminPageFramework_Setting.php | Admin Page Framework Documentation</title>
+	<title>File factory/AdminPageFramework/AdminPageFramework_Setting.php | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?2938817861"></script>
+	<script type="text/javascript" src="elementlist.js?1580164335"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -60,6 +60,8 @@
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
 				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
@@ -569,14 +571,14 @@
 </span></span><span id="476" class="l"><a class="l" href="#476">476 </a><span class="php-comment">     * @since           3.0.0           Changed the scope to public from protected.
 </span></span><span id="477" class="l"><a class="l" href="#477">477 </a><span class="php-comment">     * @remark          the user may use this method.
 </span></span><span id="478" class="l"><a class="l" href="#478">478 </a><span class="php-comment">     * @remark          the transient name is a MD5 hash of the extended class name + _ + page slug ( the passed ID )
-</span></span><span id="479" class="l"><a class="l" href="#479">479 </a><span class="php-comment">     * @param           array           the field error array. The structure should follow the one contained in the submitted $_POST array.
-</span></span><span id="480" class="l"><a class="l" href="#480">480 </a><span class="php-comment">     * @param           string          this should be the page slug of the page that has the dealing form field.
-</span></span><span id="481" class="l"><a class="l" href="#481">481 </a><span class="php-comment">     * @param           integer         the transient's lifetime. 300 seconds means 5 minutes.
+</span></span><span id="479" class="l"><a class="l" href="#479">479 </a><span class="php-comment">     * @param           array           $aErrros            the field error array. The structure should follow the one contained in the submitted $_POST array.
+</span></span><span id="480" class="l"><a class="l" href="#480">480 </a><span class="php-comment">     * @param           string          $sID                this should be the page slug of the page that has the dealing form field.
+</span></span><span id="481" class="l"><a class="l" href="#481">481 </a><span class="php-comment">     * @param           integer         $iLifeSpan          the transient's lifetime. 300 seconds means 5 minutes.
 </span></span><span id="482" class="l"><a class="l" href="#482">482 </a><span class="php-comment">     */</span> 
-</span><span id="483" class="l"><a class="l" href="#483">483 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_setFieldErrors" href="#_setFieldErrors">setFieldErrors</a>( <span class="php-var">$aErrors</span>, <span class="php-var">$sID</span>=<span class="php-keyword1">null</span>, <span class="php-var">$nSavingDuration</span>=<span class="php-num">300</span> ) {
+</span><span id="483" class="l"><a class="l" href="#483">483 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_setFieldErrors" href="#_setFieldErrors">setFieldErrors</a>( <span class="php-var">$aErrors</span>, <span class="php-var">$sID</span>=<span class="php-keyword1">null</span>, <span class="php-var">$iLifeSpan</span>=<span class="php-num">300</span> ) {
 </span><span id="484" class="l"><a class="l" href="#484">484 </a>        
 </span><span id="485" class="l"><a class="l" href="#485">485 </a>        <span class="php-var">$sID</span> = <span class="php-keyword1">isset</span>( <span class="php-var">$sID</span> ) ? <span class="php-var">$sID</span> : ( <span class="php-keyword1">isset</span>( <span class="php-var">$_POST</span>[<span class="php-quote">'page_slug'</span>] ) ? <span class="php-var">$_POST</span>[<span class="php-quote">'page_slug'</span>] : ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ? <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] : <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName ) );   
-</span><span id="486" class="l"><a class="l" href="#486">486 </a>        set_transient( <span class="php-keyword2">md5</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName . <span class="php-quote">'_'</span> . <span class="php-var">$sID</span> ), <span class="php-var">$aErrors</span>, <span class="php-var">$nSavingDuration</span> );  <span class="php-comment">// store it for 5 minutes ( 60 seconds * 5 )</span>
+</span><span id="486" class="l"><a class="l" href="#486">486 </a>        set_transient( <span class="php-keyword2">md5</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName . <span class="php-quote">'_'</span> . <span class="php-var">$sID</span> ), <span class="php-var">$aErrors</span>, <span class="php-var">$iLifeSpan</span> );    <span class="php-comment">// store it for 5 minutes ( 60 seconds * 5 )</span>
 </span><span id="487" class="l"><a class="l" href="#487">487 </a>    
 </span><span id="488" class="l"><a class="l" href="#488">488 </a>    }
 </span><span id="489" class="l"><a class="l" href="#489">489 </a>

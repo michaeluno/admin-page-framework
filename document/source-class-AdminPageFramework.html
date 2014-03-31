@@ -5,10 +5,10 @@
 	<meta name="generator" content="ApiGen 2.8.0">
 	<meta name="robots" content="noindex">
 
-	<title>File page/AdminPageFramework.php | Admin Page Framework Documentation</title>
+	<title>File factory/AdminPageFramework/AdminPageFramework.php | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?2938817861"></script>
+	<script type="text/javascript" src="elementlist.js?1580164335"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -60,6 +60,8 @@
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
 				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
@@ -335,13 +337,13 @@
 </span></span><span id="242" class="l"><a class="l" href="#242">242 </a><span class="php-comment">     * @since           2.0.0
 </span></span><span id="243" class="l"><a class="l" href="#243">243 </a><span class="php-comment">     * @see             http://codex.wordpress.org/Roles_and_Capabilities
 </span></span><span id="244" class="l"><a class="l" href="#244">244 </a><span class="php-comment">     * @see             http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-</span></span><span id="245" class="l"><a class="l" href="#245">245 </a><span class="php-comment">     * @param           string          ( optional ) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
-</span></span><span id="246" class="l"><a class="l" href="#246">246 </a><span class="php-comment">     * @param           string          ( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-</span></span><span id="247" class="l"><a class="l" href="#247">247 </a><span class="php-comment">     * @param           string          ( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed &lt;a href=&quot;http://codex.wordpress.org/Roles_and_Capabilities&quot;&gt;here&lt;/a&gt;. If not set, &lt;strong&gt;manage_options&lt;/strong&gt; will be assigned by default. The capability can be set per page, tab, setting section, setting field.
-</span></span><span id="248" class="l"><a class="l" href="#248">248 </a><span class="php-comment">     * @param           string          ( optional ) the &lt;a href=&quot;http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains&quot; target=&quot;_blank&quot;&gt;text domain&lt;/a&gt; used for the framework's system messages. Default: admin-page-framework.
+</span></span><span id="245" class="l"><a class="l" href="#245">245 </a><span class="php-comment">     * @param           string          $sOptionKey             ( optional ) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
+</span></span><span id="246" class="l"><a class="l" href="#246">246 </a><span class="php-comment">     * @param           string          $sCallerPath            ( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+</span></span><span id="247" class="l"><a class="l" href="#247">247 </a><span class="php-comment">     * @param           string          $sCapability            ( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed &lt;a href=&quot;http://codex.wordpress.org/Roles_and_Capabilities&quot;&gt;here&lt;/a&gt;. The capability can be set per page, tab, setting section, setting field. Default: &lt;em&gt;manage_options&lt;/em&gt;
+</span></span><span id="248" class="l"><a class="l" href="#248">248 </a><span class="php-comment">     * @param           string          $sTextDomain            ( optional ) the &lt;a href=&quot;http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains&quot; target=&quot;_blank&quot;&gt;text domain&lt;/a&gt; used for the framework's system messages. Default: admin-page-framework.
 </span></span><span id="249" class="l"><a class="l" href="#249">249 </a><span class="php-comment">     * @return          void            returns nothing.
 </span></span><span id="250" class="l"><a class="l" href="#250">250 </a><span class="php-comment">     */</span>
-</span><span id="251" class="l"><a class="l" href="#251">251 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>( <span class="php-var">$sOptionKey</span>=<span class="php-keyword1">null</span>, <span class="php-var">$sCallerPath</span>=<span class="php-keyword1">null</span>, <span class="php-var">$sCapability</span>=<span class="php-keyword1">null</span>, <span class="php-var">$sTextDomain</span>=<span class="php-quote">'admin-page-framework'</span> ){
+</span><span id="251" class="l"><a class="l" href="#251">251 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>( <span class="php-var">$sOptionKey</span>=<span class="php-keyword1">null</span>, <span class="php-var">$sCallerPath</span>=<span class="php-keyword1">null</span>, <span class="php-var">$sCapability</span>=<span class="php-quote">'manage_options'</span>, <span class="php-var">$sTextDomain</span>=<span class="php-quote">'admin-page-framework'</span> ){
 </span><span id="252" class="l"><a class="l" href="#252">252 </a>            
 </span><span id="253" class="l"><a class="l" href="#253">253 </a>        parent::__construct( 
 </span><span id="254" class="l"><a class="l" href="#254">254 </a>            <span class="php-var">$sOptionKey</span>, 

@@ -7,7 +7,7 @@
 	<title>Class AdminPageFramework_TaxonomyField | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?2938817861"></script>
+	<script type="text/javascript" src="elementlist.js?1580164335"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -58,6 +58,8 @@
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
@@ -183,11 +185,35 @@ the callbacks of the filters and actions.</p>
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-AdminPageFramework_MetaBox_Base
+AdminPageFramework_Factory_Router
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_Model
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_View
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_Controller
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_TaxonomyField</span></b>			
 			
@@ -211,7 +237,7 @@ AdminPageFramework_MetaBox_Base
 				<b>Since:</b>
 				3.0.0<br>
 				<b>Extends:</b>
-				AdminPageFramework_MetaBox_Base<br>
+				AdminPageFramework_Factory<br>
 				<b>Use:</b>
 				AdminPageFramework_Utility<br>
 				<b>Use:</b>
@@ -220,7 +246,7 @@ AdminPageFramework_MetaBox_Base
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#10-372" title="Go to source code">taxonomy_field/AdminPageFramework_TaxonomyField.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#10-369" title="Go to source code">factory/AdminPageFramework_TaxonomyField/AdminPageFramework_TaxonomyField.php</a><br>
 	</div>
 
 
@@ -238,7 +264,7 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#80-124" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#85-121" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -284,7 +310,7 @@ instantiated class name will be applied.</dd>
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_MetaBox_Base::__construct</code></div>
+					<div class="list"><code>AdminPageFramework_Factory_View::__construct</code></div>
 
 			</div>
 			</div></td>
@@ -300,7 +326,7 @@ instantiated class name will be applied.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#170-176" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#167-173" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -327,12 +353,12 @@ instantiated class name will be applied.</dd>
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_MetaBox_Base::setUp</code></div>
+					<div class="list"><code>AdminPageFramework_Factory_Controller::setUp</code></div>
 
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="setOptionArray" id="_setOptionArray">
+		<tr data-order="_setOptionArray" id="__setOptionArray">
 
 			<td class="attributes"><code>
 				 protected 
@@ -342,8 +368,8 @@ instantiated class name will be applied.</dd>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_setOptionArray">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#178-192" title="Go to source code">setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
+			<a class="anchor" href="#__setOptionArray">#</a>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#175-189" title="Go to source code">_setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -371,27 +397,14 @@ object.</var></var></p>
 it. #internal<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_MetaBox_Base::setOptionArray</code></div>
 
 			</div>
 			</div></td>
 		</tr>
 		</table>
 
-		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
 		<p class="elementList">
-			<code>__call()</code>, 
-			<code>_isInThePage()</code>, 
-			<code>_loadDefaultFieldTypeDefinitions()</code>, 
-			<code>_registerFields()</code>, 
-			<code>_replyToAddMetaBox()</code>, 
-			<code>_replyToDetermineToLoad()</code>, 
-			<code>_replyToGetFieldOutput()</code>, 
-			<code>_replyToGetSectionHeaderOutput()</code>, 
-			<code>_replyToPrintMetaBoxContents()</code>, 
-			<code>_replyToRegisterFormElements()</code>, 
-			<code>_replyToSaveMetaBoxFields()</code>, 
 			<code>addHelpText()</code>, 
 			<code>addSettingField()</code>, 
 			<code>addSettingFields()</code>, 
@@ -401,8 +414,31 @@ it. #internal<br>
 			<code>enqueueScripts()</code>, 
 			<code>enqueueStyle()</code>, 
 			<code>enqueueStyles()</code>, 
-			<code>getInputArray()</code>, 
-			<code>getSavedMetaArray()</code>
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
+		<p class="elementList">
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToPrintSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
+		<p class="elementList">
+			<code>_deleteFieldErrors()</code>, 
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToSaveNotices()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code>__call()</code>, 
+			<code>_getHeadTagInstance()</code>, 
+			<code>_getHelpPaneInstance()</code>, 
+			<code>_getLinkInstancce()</code>, 
+			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_isInThePage()</code>
 		</p>
 
 
@@ -419,12 +455,12 @@ it. #internal<br>
 		<table class="summary table table-bordered table-striped" id="properties">
 		<tr data-order="oProp" id="$oProp">
 			<td class="attributes"><code>
-				protected  
+				public  
 				mixed
 			</code></td>
 
 			<td class="name">
-					<a href="source-class-AdminPageFramework_TaxonomyField.html#53-57" title="Go to source code"><var>$oProp</var></a>
+					<a href="source-class-AdminPageFramework_TaxonomyField.html#55-61" title="Go to source code"><var>$oProp</var></a>
 			</td>
 			<td class="description"><div>
 				<a href="#$oProp" class="anchor">#</a>
@@ -444,18 +480,24 @@ it. #internal<br>
 						<div class="list">
 								3.0.0<br>
 						</div>
+						<h4>Acess</h4>
+						<div class="list">
+								public Inherited from the ancestor class.<br>
+						</div>
 				</div>
 			</div></td>
 		</tr>
 		</table>
 
-		<h3>Properties inherited from AdminPageFramework_MetaBox_Base</h3>
+		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
-			<code><var>$_sFieldsType</var></code>, 
-			<code><var>$_sTargetSectionTabSlug</var></code>, 
 			<code><var>$oDebug</var></code>, 
+			<code><var>$oForm</var></code>, 
 			<code><var>$oHeadTag</var></code>, 
+			<code><var>$oHelpPane</var></code>, 
+			<code><var>$oLink</var></code>, 
 			<code><var>$oMsg</var></code>, 
+			<code><var>$oPageLoadInfo</var></code>, 
 			<code><var>$oUtil</var></code>
 		</p>
 

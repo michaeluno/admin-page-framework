@@ -7,7 +7,7 @@
 	<title>Class AdminPageFramework_Setting | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?2938817861"></script>
+	<script type="text/javascript" src="elementlist.js?1580164335"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -58,6 +58,8 @@
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
 				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
@@ -164,7 +166,7 @@ AdminPageFramework_Setting_Base
 				AdminPageFramework_Setting_Base<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#10-524" title="Go to source code">page/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#10-524" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
@@ -1137,7 +1139,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFieldErrors">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#439-488" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$nSavingDuration</var> = <span class="php-num">300</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#439-488" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$iLifeSpan</var> = <span class="php-num">300</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1223,12 +1225,12 @@ class="php-var">$aNewInput</span>;
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aErrors</var></dt>
-						<dd><code>array</code><br>the field error array. The structure should follow the one contained in the
-submitted $_POST array.</dd>
+						<dd><code>array</code><br>$aErrros the field error array. The structure should follow the one contained in
+the submitted $_POST array.</dd>
 						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>this should be the page slug of the page that has the dealing form field.</dd>
-						<dt><var>$nSavingDuration</var></dt>
-						<dd><code>integer</code><br>the transient's lifetime. 300 seconds means 5 minutes.</dd>
+						<dd><code>string</code><br>$sID this should be the page slug of the page that has the dealing form field.</dd>
+						<dt><var>$iLifeSpan</var></dt>
+						<dd><code>integer</code><br>$iLifeSpan the transient's lifetime. 300 seconds means 5 minutes.</dd>
 					</dl></div>
 
 
