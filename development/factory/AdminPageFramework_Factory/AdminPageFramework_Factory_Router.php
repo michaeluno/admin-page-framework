@@ -77,9 +77,9 @@ abstract class AdminPageFramework_Factory_Router {
 		$this->oMsg = AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
 		
 		if ( $this->_isInThePage() ) :
-			
+	
 			// Objects - Model
-			$this->oForm = new AdminPageFramework_FormElement( $this->oProp->sFieldsType, $this->oProp->sCapability );
+			$this->oForm = new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
 		
 			// Objects - Control
 			$this->oHeadTag = $this->_getHeadTagInstance( $oProp );
@@ -140,7 +140,7 @@ abstract class AdminPageFramework_Factory_Router {
 	 * @internal
 	 */
 	protected function _getHelpPaneInstance( $oProp ) {
-		
+
 		switch ( $oProp->sFieldsType ) {
 			case 'page':
 				return new AdminPageFramework_HelpPane_Page( $oProp );

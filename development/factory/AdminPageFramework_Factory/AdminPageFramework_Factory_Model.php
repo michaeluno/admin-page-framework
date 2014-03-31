@@ -116,7 +116,7 @@ $this->_deleteFieldErrors();
 		
 		// If a form submit button is not pressed, there is no need to set the setting errors.
 		// if ( ! isset( $_GET['settings-updated'] ) ) return null;
-//TODO: check whether the page is locded right after the user's submitting the form, and is not, return null. <-- might not be necessary as it's done in the constructor.
+//TODO: check whether the page is loaded right after the user's submitting the form, and is not, return null. <-- might not be necessary as it's done in the constructor.
 
 //TODO: currently field error transients are set per each class. This increases the number of DB queries as the instances of class increases. To avoid that, implement a metric that deals with those at once, maybe at shutdown.
 		// Find the transient.

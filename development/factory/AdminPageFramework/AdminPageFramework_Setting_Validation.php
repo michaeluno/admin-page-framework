@@ -80,7 +80,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			$aInput = $this->_resetOptions( $_sKeyToReset, $aInput );
 		}
 		
-		/* 5. Set the update notice */
+		/* 5. Set the admin notice */
 		$_bEmpty = empty( $aInput );
 		$this->setSettingNotice( 
 			$_bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
@@ -222,18 +222,18 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			// Merge the user input with the user-set default values.
 			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not include the default values of the submitted page's elements as they merge recursively
 			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
-			unset( $_aDefaultOptions ); // to be clear that we don't use this any more
+			unset( $_aDefaultOptions ); // no longer used
 			
 			// For each submitted element
 			$aInput = $this->_validateEachField( $aInput, $_aOptions, $_aInputToParse );
-			unset( $_aInputToParse ); // to be clear that we don't use this any more
-											
+			unset( $_aInputToParse ); // no longer used
+
 			// For tabs			
 			$aInput = $this->_validateTabFields( $aInput, $_aOptions, $_aTabOptions, $sPageSlug, $sTabSlug );
-			
+	
 			// For pages
 			$aInput = $this->_validatePageFields( $aInput, $_aOptions, $_aTabOptions, $sPageSlug, $sTabSlug );
-			
+		
 			// For the class
 			return $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
 		
@@ -306,9 +306,8 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				}
 
 				// Prepare the saved page option array.
-				$_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )
+				$_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )				
 				$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
-				
 				
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions ); // $aInput: new values, $aStoredPageOptions: old values	
 
@@ -319,7 +318,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 						? array()
 						: $_aPageOptions
 					);
-					
+			
 				return $this->oUtil->uniteArrays( 
 					$aInput, 
 					$_aPageOptions,	// repeatable elements have been dropped
