@@ -2004,7 +2004,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'autocomplete',
 				'type'	=>	'autocomplete',		
 				'field_id'	=>	'autocomplete_field',
-				'title'		=>	__( 'Dafault', 'admin-page-framework-demo' ),
+				'title'		=>	__( 'Default', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'By default, all the post titles will be fetched in the background and will pop up.', 'admin-page-framework-demo' ),	
 			),
 			array(
@@ -2029,6 +2029,10 @@ class APF_Demo extends AdminPageFramework {
 				'settings2'	=> array(
 					'theme'	=>	'mac',
 					'hintText'	=>	__( 'Type a programming language.', 'admin-page-framework-demo' ),
+					'prePopulate' => array(
+						array( 'id' => 3, 'name' => 'PHP' ),
+						array( 'id' => 5, 'name' => 'APS' ),
+					)					
 				),
 				'description'	=>	__( 'Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, C#, Fortran, Vidual Basic, C, C++, Java.', 'admin-page-framework-demo' ),	
 			),
@@ -2041,7 +2045,7 @@ class APF_Demo extends AdminPageFramework {
 				'settings2'	=>	array(	// equivalent to the second parameter of the tokenInput() method
 					'tokenLimit' =>	5,
 					'preventDuplicates'	=>	true,
-					'theme'	=> 'facebook',
+					'theme'	=> 'facebook',				
 				),
 				'description'	=>	__( 'To set a custom post type, you need to compose the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ),	//' syntax fixer
 			),
