@@ -234,8 +234,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 			remove_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 
 			// update the post to change post status
-// TODO: retrieve the previous post status and set it so.
-$_sPreviousPostStatus = 'draft';
+			// TODO: retrieve the previous post status and set it so.
+			$_sPreviousPostStatus = 'draft';
 			wp_update_post( array( 'ID' => $iPostID, 'post_status' => $_sPreviousPostStatus ) );
 
 			// re-hook this function again

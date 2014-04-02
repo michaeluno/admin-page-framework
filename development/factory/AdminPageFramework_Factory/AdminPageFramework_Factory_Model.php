@@ -113,9 +113,6 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 	 */
 	protected function _getFieldErrors( $sID='', $bDelete=true ) {
 		
-		// If a form submit button is not pressed, there is no need to set the setting errors.
-		// if ( ! isset( $_GET['settings-updated'] ) ) return null;
-//TODO: check whether the page is loaded right after the user's submitting the form, and is not, return null. <-- might not be necessary as it's done in the constructor.
 		static $_aFieldErrors;
 		
 		// Find the transient.
@@ -140,7 +137,11 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 	 */
 	protected function _isValidationErrors() {
 
-		return get_transient( md5( $this->oProp->sClassName ) );
+		if ( isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) && $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) {
+			return true;
+		}
+			
+		return get_transient( 'AdminPageFramework_FieldErrors' );
 
 	}
 	
@@ -151,7 +152,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 	 * @deprecated
 	 */
 	protected function _deleteFieldErrors() {
-		delete_transient( md5( $this->oProp->sClassName ) );
+		delete_transient( 'AdminPageFramework_FieldErrors' );
 	}
 		
 	/**
