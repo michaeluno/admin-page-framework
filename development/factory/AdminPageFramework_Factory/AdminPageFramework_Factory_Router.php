@@ -147,7 +147,7 @@ abstract class AdminPageFramework_Factory_Router {
 			case 'post_meta_box':
 				return new AdminPageFramework_HelpPane_MetaBox( $oProp );
 			case 'page_meta_box':
-				return new AdminPageFramework_HelpPane_MetaBox( $oProp );
+				return new AdminPageFramework_HelpPane_MetaBox_Page( $oProp );
 			case 'post_type':
 				return null;	// no help pane class for the post type factory class.
 			case 'taxonomy':

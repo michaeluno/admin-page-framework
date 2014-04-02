@@ -24,9 +24,11 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 		parent::__construct( $oProp );
 		
 		// the contextual help pane
-		add_action( "load-{$GLOBALS['pagenow']}", array( $this, '_replyToRegisterHelpTabTextForMetaBox' ), 20 );	
+		add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabTextForMetaBox' ) );	// since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
 		
 	}
+	
+		
 	
 	/**
 	 * Adds the given HTML text to the contextual help pane.
@@ -38,8 +40,10 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 	 * @internal
 	 */ 
 	public function _addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
+		
 		$this->oProp->aHelpTabText[] = "<div class='contextual-help-description'>" . $sHTMLContent . "</div>";
 		$this->oProp->aHelpTabTextSide[] = "<div class='contextual-help-description'>" . $sHTMLSidebarContent . "</div>";
+		
 	}
 	
 	/**
@@ -71,21 +75,35 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 	 * @internal
 	 */ 
 	public function _replyToRegisterHelpTabTextForMetaBox() {
-	
+
 		// Check if the currently loaded page is of meta box page.
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) {
-			return;
-		}
-		if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
-			return;				
-		}			
-		
+		if ( ! $this->_isInThePage() ) return false;
+
 		$this->_setHelpTab( 	// this method is defined in the base class.
 			$this->oProp->sMetaBoxID, 
 			$this->oProp->sTitle, 
 			$this->oProp->aHelpTabText, 
 			$this->oProp->aHelpTabTextSide 
 		);
+		
+	}
+	
+	/**
+	 * Determines whether the currently loaded page belongs to the meta box page.
+	 * 
+	 * @sicne			3.0.4
+	 * @internal
+	 */
+	protected function _isInThePage() {
+		
+		if ( ! $this->oProp->bIsAdmin ) return false;
+		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) {
+			return false;
+		}
+		if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
+			return false;				
+		}	
+		return true;
 		
 	}
 	

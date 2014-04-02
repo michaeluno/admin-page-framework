@@ -48,6 +48,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
 	 */ 
 	public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
+AdminPageFramework_Debug::logArray( '_addHelpText' );
 		$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
 	}
 
