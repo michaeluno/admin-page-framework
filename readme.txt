@@ -267,6 +267,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.4 =
+- Added the ability to set a validation error message to appear at the top of a form section output.
 - Fixed a bug that saved field values of page meta boxes got lost when fields are saved in a different tab but in the same page.
 - Fixed a bug that the `script_common_{...}` filter was not functioning in meta box classes.
 - Added the ability to throw a warning when undefined method is called.
