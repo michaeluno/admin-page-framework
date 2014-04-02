@@ -270,10 +270,10 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 	 */
 	private function _getFieldsOutput( $iTermID, $bRenderTableRow ) {
 	
-		$aOutput = array();
+		$_aOutput = array();
 		
 		/* Set nonce. */
-		$aOutput[] = wp_nonce_field( $this->oProp->sClassHash, $this->oProp->sClassHash, true, false );
+		$_aOutput[] = wp_nonce_field( $this->oProp->sClassHash, $this->oProp->sClassHash, true, false );
 		
 		/* Set the option property array */
 		$this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
@@ -282,18 +282,18 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 		$this->oForm->format();
 		
 		/* Get the field outputs */
-		$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
-		$aOutput[] = $bRenderTableRow 
-			? $oFieldsTable->getFieldRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
-			: $oFieldsTable->getFields( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
+		$_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
+		$_aOutput[] = $bRenderTableRow 
+			? $_oFieldsTable->getFieldRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
+			: $_oFieldsTable->getFields( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
 				
 		/* Filter the output */
-		$sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
+		$_sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );
 		
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
 			
-		return $sOutput;	
+		return $_sOutput;
 	
 	}
 	

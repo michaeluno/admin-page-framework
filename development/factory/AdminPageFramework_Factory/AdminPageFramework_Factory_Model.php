@@ -116,12 +116,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 		// If a form submit button is not pressed, there is no need to set the setting errors.
 		// if ( ! isset( $_GET['settings-updated'] ) ) return null;
 //TODO: check whether the page is loaded right after the user's submitting the form, and is not, return null. <-- might not be necessary as it's done in the constructor.
-
+		static $_aFieldErrors;
+		
 		// Find the transient.
 		$_sTransientKey = 'AdminPageFramework_FieldErrors';
 		$_sID = md5( $this->oProp->sClassName );
 
-		$_aFieldErrors = get_transient( $_sTransientKey );
+		$_aFieldErrors = isset( $_aFieldErrors ) ? $_aFieldErrors : get_transient( $_sTransientKey );
 		if ( $bDelete ) {
 			delete_transient( $_sTransientKey );	
 		}

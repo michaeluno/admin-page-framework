@@ -119,8 +119,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {	
 		
 		// Use nonce for verification
-		$aOutput = array();
-		$aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
+		$_aOutput = array();
+		$_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Condition the sections and fields definition arrays.
 		$this->oForm->applyConditions();	// will set $this->oForm->aConditionedFields internally
@@ -137,14 +137,14 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 							
 		// Get the fields output.
-		$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
-		$aOutput[] = $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+		$_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
+		$_aOutput[] = $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
 		
 		/* Render the filtered output */
-		echo $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $aOutput ) );
+		echo $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );
 
 	}
 	

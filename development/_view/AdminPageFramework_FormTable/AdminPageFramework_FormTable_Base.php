@@ -19,10 +19,17 @@ if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) :
  */
 class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 	
-	public function __construct( $aFieldTypeDefinitions, $oMsg=null ) {
+	/**
+	 * 
+	 * @since			3.0.0
+	 * @since			3.0.4			The $aFieldErrors parameter was added.
+	 */
+	public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) {
 		
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;	// used to merge the field definition array with the default field type definition. This is for the 'section_title' field type.
+		$this->aFieldErrors = $aFieldErrors;
 		$this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' );
+		
 		
 		$this->_loadScripts();
 		
@@ -37,8 +44,9 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 			
 			static $_bIsLoadedTabPlugin;
 			
-			if ( ! $_bIsLoadedTabPlugin ) 
+			if ( ! $_bIsLoadedTabPlugin ) {
 				$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) );
+			}
 			
 		}
 		

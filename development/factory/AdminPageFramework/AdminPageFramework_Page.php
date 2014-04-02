@@ -372,7 +372,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				// do_settings_sections( $sPageSlug ); // deprecated						
 				if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
 
-					$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->oMsg );
+					$this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
+					$oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->aFieldErrors, $this->oMsg );
 					$this->oForm->setCurrentPageSlug( $sPageSlug );
 					$this->oForm->setCurrentTabSlug( $sTabSlug );
 					$this->oForm->applyConditions();

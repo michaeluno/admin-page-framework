@@ -252,8 +252,12 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 			? " style='display:none;'"
 			: '';
 				
-		$aOutput = array();
-		$aOutput[] = "<table "
+		$_sSectionError = isset( $this->aFieldErrors[ $aSection['section_id'] ] ) && is_string( $this->aFieldErrors[ $aSection['section_id'] ] )
+			? $this->aFieldErrors[ $aSection['section_id'] ]
+			: '';
+				
+		$_aOutput = array();
+		$_aOutput[] = "<table "
 			. $this->generateAttributes(  
 					array( 
 						'id' => 'section_table-' . $sSectionTagID,
@@ -275,6 +279,10 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 									. "</div>"
 								: ""
 							)
+							. ( $_sSectionError  
+								? "<div class='admin-page-framework-error'><span style='color:red;'>* " . $_sSectionError .  "</span></div>"
+								: ''
+							)
 						. "</caption>"
 					: "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>"
 				)
@@ -289,7 +297,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 					)				
 				)
 			. ">"
-				. implode( PHP_EOL, $aOutput )
+				. implode( PHP_EOL, $_aOutput )
 			. "</div>";
 		
 	}
