@@ -21,10 +21,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		
 		parent::__construct( $oProp );
 
-// if ( 'post_meta_box' == $oProp->sFieldsType ) {
-	// AdminPageFramework_Debug::logArray( 'constructor is triggered: ' . $oProp->sFieldsType . ' : ' . $this->_isInThePage() );		
-// }
-
 		if ( $this->_isInThePage() && 'admin-ajax.php' != $GLOBALS['pagenow'] ) {
 				
 			add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
@@ -46,7 +42,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		if ( $_fIsLoaded ) return;
 		$_fIsLoaded = true;
 		
-		$_aNotices = get_transient( 'admin_page_framework_notices' );
+		$_aNotices = get_transient( 'AdminPageFramework_Notices' );
 		if ( false === $_aNotices )	return;
 					
 		foreach ( ( array ) $_aNotices as $__aNotice ) {
@@ -54,7 +50,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 			echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). "><p>" . $__aNotice['sMessage'] . "</p></div>";
 		}
 		
-		delete_transient( 'admin_page_framework_notices' );
+		delete_transient( 'AdminPageFramework_Notices' );
 		
 	}
 	
