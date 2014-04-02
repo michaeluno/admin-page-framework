@@ -87,7 +87,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'type' 			=> 'textarea',
 				'title' 		=> __( 'Rich Text Editor', 'admin-page-framework-demo' ),
 				'rich' 			=> true,	// array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
-			),				
+			)
+		);
+		$this->addSettingFields(
 			array(
 				'section_id'	=> 'selectors',
 				'field_id'		=> 'checkbox_field',
@@ -135,7 +137,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 					'two' => false,
 					'three' => false,
 				),
-			),			
+			)
+		);			
+		$this->addSettingFields(
 			array (
 				'section_id'	=> 'misc',
 				'field_id'		=> 'image_field',
@@ -143,6 +147,11 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'title'			=> __( 'Image', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
 			),		
+			array(
+				'field_id'		=>	'metabox_password',
+				'type'			=>	'password',
+				'title'			=>	__( 'Password', 'admin-page-framework-demo' ),
+			),
 			array (
 				'field_id'		=> 'color_field',
 				'type'			=> 'color',
@@ -276,6 +285,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 	
 		$_fIsValid = true;
 		$_aErrors = array();
+		// $_aErrors = array(
+			// 'selectors' => 'test',
+		// );
 		
 		// You can check the passed values and correct the data by modifying them.
 		// $this->oDebug->logArray( $aInput );		
@@ -287,11 +299,17 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 			$_fIsValid = false;			
 			
 		}
+		if ( empty( $aInput['misc']['metabox_password'] ) ) {
+			
+			$_aErrors['misc']['metabox_password'] = __( 'The password cannot be empty.', 'admin-page-framework-demo' );
+			$_fIsValid = false;
+			
+		}
 		
 		if ( ! $_fIsValid ) {
 			
 			$this->setFieldErrors( $_aErrors );
-			$this->setSettingNotice( 'There was an error in your input.' );	
+			$this->setSettingNotice( __( 'There was an error in your input.', 'admin-page-framework-demo' ) );	
 			return $aOldInput;
 			
 		}
