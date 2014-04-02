@@ -14,16 +14,15 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Model' ) ) :
  * @since			3.0.4
  * @subpackage		Factory
  * @internal
+ * @transient		AdminPageFramework_FieldErrors			Stores the user-set fields error array.
+ * @transient		AdminPageFramework_Notices				Stores the user-set admin notification messages.
  */
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
 	
 	function __construct( $oProp ) {
 		
 		parent::__construct( $oProp );
-		
-// TODO: check the field errors and delete the transient
-$this->_deleteFieldErrors();
-		
+				
 	}	
 	
 	/**
@@ -118,15 +117,17 @@ $this->_deleteFieldErrors();
 		// if ( ! isset( $_GET['settings-updated'] ) ) return null;
 //TODO: check whether the page is loaded right after the user's submitting the form, and is not, return null. <-- might not be necessary as it's done in the constructor.
 
-//TODO: currently field error transients are set per each class. This increases the number of DB queries as the instances of class increases. To avoid that, implement a metric that deals with those at once, maybe at shutdown.
 		// Find the transient.
-		$_sTransientKey = md5( $this->oProp->sClassName );
+		$_sTransientKey = 'AdminPageFramework_FieldErrors';
+		$_sID = md5( $this->oProp->sClassName );
 
 		$_aFieldErrors = get_transient( $_sTransientKey );
 		if ( $bDelete ) {
 			delete_transient( $_sTransientKey );	
 		}
-		return $_aFieldErrors;
+		return isset( $_aFieldErrors[ $_sID ] ) 
+			? $_aFieldErrors[ $_sID ]
+			: array();
 
 	}	
 	
@@ -146,24 +147,43 @@ $this->_deleteFieldErrors();
 	 * Deletes the field errors.
 	 * 
 	 * @since			3.0.4
+	 * @deprecated
 	 */
 	protected function _deleteFieldErrors() {
-		delete_transient( md5( $this->oProp->sClassName . '_' . $this->oProp->sClassName ) );
+		delete_transient( md5( $this->oProp->sClassName ) );
 	}
 		
+	/**
+	 * Saves the field error array into the transient.
+	 * 
+	 * @since			3.0.4
+	 * @internal
+	 */ 
+	public function _replyToSaveFieldErrors() {
 		
+		if ( ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) return;
+		
+		set_transient( 
+			'AdminPageFramework_FieldErrors',  
+			$GLOBALS['aAdminPageFramework']['aFieldErrors'], 
+			300 	// store it for 5 minutes ( 60 seconds * 5 )
+		);	
+		
+	}
+	
 	/**
 	 * Saves the notification array set via the setSettingNotice() method.
 	 * 
 	 * @remark			This method will be triggered with the 'shutdown' hook.
 	 * @since			3.0.4 
+	 * @internal
 	 */
 	public function _replyToSaveNotices() {
 		
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
 		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
 			
-		set_transient( 'admin_page_framework_notices', $GLOBALS['aAdminPageFramework']['aNotices'] );
+		set_transient( 'AdminPageFramework_Notices', $GLOBALS['aAdminPageFramework']['aNotices'] );
 		
 	}
 	

@@ -362,12 +362,17 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	 * 
 	 * @since			3.0.4			
 	 * @param			array			$aErrors			the field error array. The structure should follow the one contained in the submitted $_POST array.
-	 * @param			string			$sID				deprecated
-	 * @param			integer			$iLifeSpan			the transient's lifetime. 300 seconds means 5 minutes.
 	 */ 
-	public function setFieldErrors( $aErrors, $sID='', $iLifeSpan=300 ) {
+	public function setFieldErrors( $aErrors ) {
 		
-		set_transient( md5( $this->oProp->sClassName ), $aErrors, $iLifeSpan );	// store it for 5 minutes ( 60 seconds * 5 )
+		// The field-errors array will be stored in this global array element.
+		$GLOBALS['aAdminPageFramework']['aFieldErrors'] = ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ? $GLOBALS['aAdminPageFramework']['aFieldErrors'] : array();
+		if ( empty( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) {
+			add_action( 'shutdown', array( $this, '_replyToSaveFieldErrors' ) );	// the method is defined in the controller class.
+		}
+		
+		$_sID = md5( $this->oProp->sClassName );
+		$GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = $aErrors;
 	
 	}	
 	
