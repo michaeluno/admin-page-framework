@@ -362,10 +362,10 @@
 </span></span><span id="270" class="l"><a class="l" href="#270">270 </a><span class="php-comment">     */</span>
 </span><span id="271" class="l"><a class="l" href="#271">271 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="__getFieldsOutput" href="#__getFieldsOutput">_getFieldsOutput</a>( <span class="php-var">$iTermID</span>, <span class="php-var">$bRenderTableRow</span> ) {
 </span><span id="272" class="l"><a class="l" href="#272">272 </a>    
-</span><span id="273" class="l"><a class="l" href="#273">273 </a>        <span class="php-var">$aOutput</span> = <span class="php-keyword1">array</span>();
+</span><span id="273" class="l"><a class="l" href="#273">273 </a>        <span class="php-var">$_aOutput</span> = <span class="php-keyword1">array</span>();
 </span><span id="274" class="l"><a class="l" href="#274">274 </a>        
 </span><span id="275" class="l"><a class="l" href="#275">275 </a>        <span class="php-comment">/* Set nonce. */</span>
-</span><span id="276" class="l"><a class="l" href="#276">276 </a>        <span class="php-var">$aOutput</span>[] = wp_nonce_field( <span class="php-var">$this</span>-&gt;oProp-&gt;sClassHash, <span class="php-var">$this</span>-&gt;oProp-&gt;sClassHash, <span class="php-keyword1">true</span>, <span class="php-keyword1">false</span> );
+</span><span id="276" class="l"><a class="l" href="#276">276 </a>        <span class="php-var">$_aOutput</span>[] = wp_nonce_field( <span class="php-var">$this</span>-&gt;oProp-&gt;sClassHash, <span class="php-var">$this</span>-&gt;oProp-&gt;sClassHash, <span class="php-keyword1">true</span>, <span class="php-keyword1">false</span> );
 </span><span id="277" class="l"><a class="l" href="#277">277 </a>        
 </span><span id="278" class="l"><a class="l" href="#278">278 </a>        <span class="php-comment">/* Set the option property array */</span>
 </span><span id="279" class="l"><a class="l" href="#279">279 </a>        <span class="php-var">$this</span>-&gt;_setOptionArray( <span class="php-var">$iTermID</span>, <span class="php-var">$this</span>-&gt;oProp-&gt;sOptionKey );
@@ -374,18 +374,18 @@
 </span><span id="282" class="l"><a class="l" href="#282">282 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;format();
 </span><span id="283" class="l"><a class="l" href="#283">283 </a>        
 </span><span id="284" class="l"><a class="l" href="#284">284 </a>        <span class="php-comment">/* Get the field outputs */</span>
-</span><span id="285" class="l"><a class="l" href="#285">285 </a>        <span class="php-var">$oFieldsTable</span> = <span class="php-keyword1">new</span> AdminPageFramework_FormTable( <span class="php-var">$this</span>-&gt;oProp-&gt;aFieldTypeDefinitions, <span class="php-var">$this</span>-&gt;oMsg );
-</span><span id="286" class="l"><a class="l" href="#286">286 </a>        <span class="php-var">$aOutput</span>[] = <span class="php-var">$bRenderTableRow</span> 
-</span><span id="287" class="l"><a class="l" href="#287">287 </a>            ? <span class="php-var">$oFieldsTable</span>-&gt;getFieldRows( <span class="php-var">$this</span>-&gt;oForm-&gt;aFields[<span class="php-quote">'_default'</span>], <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToGetFieldOutput'</span> ) )
-</span><span id="288" class="l"><a class="l" href="#288">288 </a>            : <span class="php-var">$oFieldsTable</span>-&gt;getFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aFields[<span class="php-quote">'_default'</span>], <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToGetFieldOutput'</span> ) );
+</span><span id="285" class="l"><a class="l" href="#285">285 </a>        <span class="php-var">$_oFieldsTable</span> = <span class="php-keyword1">new</span> AdminPageFramework_FormTable( <span class="php-var">$this</span>-&gt;oProp-&gt;aFieldTypeDefinitions, <span class="php-var">$this</span>-&gt;_getFieldErrors(), <span class="php-var">$this</span>-&gt;oMsg );
+</span><span id="286" class="l"><a class="l" href="#286">286 </a>        <span class="php-var">$_aOutput</span>[] = <span class="php-var">$bRenderTableRow</span> 
+</span><span id="287" class="l"><a class="l" href="#287">287 </a>            ? <span class="php-var">$_oFieldsTable</span>-&gt;getFieldRows( <span class="php-var">$this</span>-&gt;oForm-&gt;aFields[<span class="php-quote">'_default'</span>], <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToGetFieldOutput'</span> ) )
+</span><span id="288" class="l"><a class="l" href="#288">288 </a>            : <span class="php-var">$_oFieldsTable</span>-&gt;getFields( <span class="php-var">$this</span>-&gt;oForm-&gt;aFields[<span class="php-quote">'_default'</span>], <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToGetFieldOutput'</span> ) );
 </span><span id="289" class="l"><a class="l" href="#289">289 </a>                
 </span><span id="290" class="l"><a class="l" href="#290">290 </a>        <span class="php-comment">/* Filter the output */</span>
-</span><span id="291" class="l"><a class="l" href="#291">291 </a>        <span class="php-var">$sOutput</span> = <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndApplyFilters( <span class="php-var">$this</span>, <span class="php-quote">'content_'</span> . <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName, <span class="php-keyword2">implode</span>( PHP_EOL, <span class="php-var">$aOutput</span> ) );
+</span><span id="291" class="l"><a class="l" href="#291">291 </a>        <span class="php-var">$_sOutput</span> = <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndApplyFilters( <span class="php-var">$this</span>, <span class="php-quote">'content_'</span> . <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName, <span class="php-keyword2">implode</span>( PHP_EOL, <span class="php-var">$_aOutput</span> ) );
 </span><span id="292" class="l"><a class="l" href="#292">292 </a>        
 </span><span id="293" class="l"><a class="l" href="#293">293 </a>        <span class="php-comment">/* Do action */</span>
 </span><span id="294" class="l"><a class="l" href="#294">294 </a>        <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndDoActions( <span class="php-var">$this</span>, <span class="php-quote">'do_'</span> . <span class="php-var">$this</span>-&gt;oProp-&gt;sClassName );
 </span><span id="295" class="l"><a class="l" href="#295">295 </a>            
-</span><span id="296" class="l"><a class="l" href="#296">296 </a>        <span class="php-keyword1">return</span> <span class="php-var">$sOutput</span>;    
+</span><span id="296" class="l"><a class="l" href="#296">296 </a>        <span class="php-keyword1">return</span> <span class="php-var">$_sOutput</span>;
 </span><span id="297" class="l"><a class="l" href="#297">297 </a>    
 </span><span id="298" class="l"><a class="l" href="#298">298 </a>    }
 </span><span id="299" class="l"><a class="l" href="#299">299 </a>    
