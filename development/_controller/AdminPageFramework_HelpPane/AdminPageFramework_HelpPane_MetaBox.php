@@ -21,7 +21,7 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 	
 	function __construct( $oProp ) {
 		
-		$this->oProp = $oProp;
+		parent::__construct( $oProp );
 		
 		// the contextual help pane
 		add_action( "load-{$GLOBALS['pagenow']}", array( $this, '_replyToRegisterHelpTabTextForMetaBox' ), 20 );	
@@ -72,10 +72,13 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 	 */ 
 	public function _replyToRegisterHelpTabTextForMetaBox() {
 	
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return;
-		if ( isset( $_GET['post_type'] ) && ! in_array( $_GET['post_type'], $this->oProp->aPostTypes ) ) return;
-		if ( ! isset( $_GET['post_type'] ) && ! in_array( 'post', $this->oProp->aPostTypes ) ) return;
-		if ( isset( $_GET['post'], $_GET['action'] ) && ! in_array( get_post_type( $_GET['post'] ), $this->oProp->aPostTypes ) ) return; // edit post page
+		// Check if the currently loaded page is of meta box page.
+		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) {
+			return;
+		}
+		if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
+			return;				
+		}			
 		
 		$this->_setHelpTab( 	// this method is defined in the base class.
 			$this->oProp->sMetaBoxID, 

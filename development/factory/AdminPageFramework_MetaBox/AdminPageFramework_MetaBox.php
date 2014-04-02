@@ -101,10 +101,10 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 			if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) {
 				return false;
 			}
-			
+						
 			if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
 				return false;				
-			}
+			}	
 			
 			return true;
 			

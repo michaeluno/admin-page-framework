@@ -25,6 +25,14 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug
 	 */ 
 	protected $_oScreen;
 	
+	function __construct( $oProp ) {
+		
+		$this->oProp = $oProp;
+		$this->oUtil = new AdminPageFramework_WPUtility;
+		
+	}
+		
+	
 	/**
 	 * Sets the contextual help tab.
 	 * 

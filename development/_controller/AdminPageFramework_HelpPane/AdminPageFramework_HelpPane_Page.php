@@ -38,7 +38,7 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
 
 	function __construct( $oProp ) {
 		
-		$this->oProp = $oProp;
+		parent::__construct( $oProp );
 		
 		// The contextual help pane.
 		add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 );		
