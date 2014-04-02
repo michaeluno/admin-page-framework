@@ -7,6 +7,14 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
 	public function setUp() {
 
 		/*
+		 * ( optional ) Adds a contextual help pane at the top right of the page that the meta box resides.
+		 */
+		$this->addHelpText( 
+			__( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
+			__( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
+		);	
+	
+		/*
 		 * ( optional ) Adds setting fields into the meta box.
 		 */
 		$this->addSettingFields(
@@ -15,8 +23,8 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
 				'type'			=> 'text',
 				'title'			=> __( 'Text Input', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
-				'help'			=> 'This is help text.',
-				'help_aside'	=> 'This is additional help text which goes to the side bar of the help pane.',
+				'help'			=> __( 'This is help text.', 'admin-page-framework-demo' ),
+				'help_aside'	=> __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'field_id'		=> 'metabox_text_field_repeatable',
