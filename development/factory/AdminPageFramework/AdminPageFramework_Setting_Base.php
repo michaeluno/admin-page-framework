@@ -81,13 +81,14 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @since				2.0.0
 	 * @since				2.1.2			Added the second parameter. 
 	 * @since				3.0.0			Changed the scope to private from protected since it is only used in this class.
-	 * @access				private
+	 * @since				3.0.4			Changed the scope to protected from private since it is called from the page class.
+	 * @access				protected
 	 * @internal
 	 */
-	private function _getFieldErrors( $sPageSlug, $bDelete=true ) {
+	protected function _getFieldErrors( $sPageSlug, $bDelete=true ) {
 		
 		// If a form submit button is not pressed, there is no need to set the setting errors.
-		if ( ! isset( $_GET['settings-updated'] ) ) return null;
+		if ( ! isset( $_GET['settings-updated'] ) ) return array();
 		
 		// Find the transient.
 		$_sTransient = md5( $this->oProp->sClassName . '_' . $sPageSlug );
@@ -95,7 +96,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		if ( $bDelete ) {
 			delete_transient( $_sTransient );	
 		}
-		return $_aFieldErrors;
+		return ( array ) $_aFieldErrors;
 
 	}
 		
