@@ -367,7 +367,7 @@ AdminPageFramework_Debug::logArray( '_addHelpText' );
 	public function setFieldErrors( $aErrors ) {
 		
 		// The field-errors array will be stored in this global array element.
-		$GLOBALS['aAdminPageFramework']['aFieldErrors'] = ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ? $GLOBALS['aAdminPageFramework']['aFieldErrors'] : array();
+		$GLOBALS['aAdminPageFramework']['aFieldErrors'] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ? $GLOBALS['aAdminPageFramework']['aFieldErrors'] : array();
 		if ( empty( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) {
 			add_action( 'shutdown', array( $this, '_replyToSaveFieldErrors' ) );	// the method is defined in the controller class.
 		}
@@ -401,7 +401,7 @@ AdminPageFramework_Debug::logArray( '_addHelpText' );
 	public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
 		
 		// The framework user set notification messages will be stored in this global array element.
-		$GLOBALS['aAdminPageFramework']['aNotices'] = ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();
+		$GLOBALS['aAdminPageFramework']['aNotices'] = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();
 		
 		// If the array is empty, save the array at shutdown.
 		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) {
