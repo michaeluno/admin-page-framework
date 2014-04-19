@@ -121,7 +121,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 
 		$_aFieldErrors = isset( $_aFieldErrors ) ? $_aFieldErrors : get_transient( $_sTransientKey );
 		if ( $bDelete ) {
-			delete_transient( $_sTransientKey );	
+			// delete_transient( $_sTransientKey );	
+			add_action( 'shutdown', array( $this, '_replyToDeleteFieldErrors' ) );
 		}
 		return isset( $_aFieldErrors[ $_sID ] ) 
 			? $_aFieldErrors[ $_sID ]
@@ -145,15 +146,18 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 
 	}
 	
-	/**
-	 * Deletes the field errors.
-	 * 
-	 * @since			3.0.4
-	 * @deprecated
-	 */
-	protected function _deleteFieldErrors() {
-		delete_transient( 'AdminPageFramework_FieldErrors' );
-	}
+
+		/**
+		 * Deletes the field errors.
+		 * 
+		 * This should be called with the shutdown hook.
+		 * 
+		 * @since			3.0.4
+		 * @internal
+		 */
+		public function _replyToDeleteFieldErrors() {
+			delete_transient( 'AdminPageFramework_FieldErrors' );
+		}
 		
 	/**
 	 * Saves the field error array into the transient.
