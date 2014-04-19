@@ -63,14 +63,20 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			
 				$_aGet = $_GET;
 				unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
-				
+							
 				// Retrieve posts
-				$_oResults = new WP_Query( 
-					$_aGet + array(
-						'post_type' => 'post',
-						'posts_per_page' => -1,
-					)
+				$_aArgs = $_aGet + array(
+					'post_type'			=> 'post',
+					'post_status'		=> 'publish',
+					'orderby'			=> 'title', 
+					'order'				=> 'ASC',
+					'posts_per_page'	=> -1,	
 				);
+				if ( isset( $_GET['q'] ) ) {
+					add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
+					$_aArgs['q'] = $_GET['q'] ;
+				}
+				$_oResults = new WP_Query( $_aArgs );					
 				
 				// Format the data
 				$_aData = array();
@@ -88,6 +94,18 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		}		
 		
 	}
+		/**
+		 * Modifies the WordPress database query.
+		 */
+		public function _replyToModifyMySQLWhereClause( $sWhere, $oWPQuery ) {
+			
+			global $wpdb;
+			if ( $_sSearchTerm = $oWPQuery->get( 'q' ) ) {
+				$sWhere .= ' AND ' . $wpdb->posts . '.post_title LIKE \'' . esc_sql( like_escape( $_sSearchTerm ) ) . '%\'';
+			}
+			return $sWhere;
+			
+		}	
 	
 	/**
 	 * Loads the field type necessary components.
