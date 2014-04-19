@@ -235,7 +235,7 @@ abstract class AdminPageFramework_Property_Base {
 		/* Section Caption */
 		.admin-page-framework-section-caption {
 			text-align: left;
-			margin: 1em 0;
+			margin: 0;
 		}
 		/* Section Title */
 		.admin-page-framework-section .admin-page-framework-section-title {
