@@ -3,7 +3,7 @@ Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -219,13 +219,19 @@ You are welcome to submit documentation. Please follow the [Documentation Guidel
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
-= Does my commercial product which incorporates your framework library have to be released under GPL? =
+= Does my commercial product incorporating your framework library have to be released under GPL? =
 No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
 
 = How do I retrieve the stored options? =
 The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 
 
 For instance, if your instantiated class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
+
+= Can I set a custom post type as a root page? =
+Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
+
+e.g.
+`$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );`
 
 == Other Notes ==
 
@@ -267,6 +273,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.4 =
+- Improved the accuracy on search results of the `autocomplete` custom field type.
 - Fixed a bug that the help pane of meta box fields did not appear in the page after submitting the form.
 - Added the ability to set a validation error message to appear at the top of a form section output.
 - Fixed a bug that saved field values of page meta boxes got lost when fields are saved in a different tab but in the same page.
