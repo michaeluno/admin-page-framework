@@ -2043,9 +2043,10 @@ class APF_Demo extends AdminPageFramework {
 				'title'		=>	__( 'Custom Post Type', 'admin-page-framework-demo' ),
 				'settings'	=> add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( $GLOBALS['pagenow'] ) ),
 				'settings2'	=>	array(	// equivalent to the second parameter of the tokenInput() method
-					'tokenLimit' =>	5,
+					'tokenLimit'		=>	5,
 					'preventDuplicates'	=>	true,
-					'theme'	=> 'facebook',				
+					'theme'				=>	'facebook',	
+					'searchDelay'		=>	50,	// 50 milliseconds. Default: 300
 				),
 				'description'	=>	__( 'To set a custom post type, you need to compose the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ),	//' syntax fixer
 			),
