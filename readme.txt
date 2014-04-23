@@ -272,6 +272,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.0.5 =
+- Made the post type class methods, `enquueueStyles()`, `enquueueStyle()`, `enquueueScripts()`, `enquueueScript()`, silently fail when they are called not in the post type page.
+
 = 3.0.4 =
 - Improved the accuracy on search results of the `autocomplete` custom field type.
 - Fixed a bug that the help pane of meta box fields did not appear in the page after submitting the form.

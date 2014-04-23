@@ -73,8 +73,10 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
 	 * @since			3.0.0
 	 * @return			array			An array holding the handle IDs of queued items.
 	 */
-	public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
+	public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {		
+		if ( method_exists( $this->oHeadTag, '_enqueueStyles' ) ) {
+			return $this->oHeadTag->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
+		}
 	}
 	/**
 	 * Enqueues a style by page slug and tab slug.
@@ -93,7 +95,9 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );		
+		if ( method_exists( $this->oHeadTag, '_enqueueStyle' ) ) {
+			return $this->oHeadTag->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );		
+		}
 	}
 	/**
 	 * Enqueues scripts by page slug and tab slug.
@@ -102,7 +106,9 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
 	 * @return			array			An array holding the handle IDs of queued items.
 	 */
 	public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueScripts' ) ) {
+			return $this->oHeadTag->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
+		}
 	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
@@ -134,7 +140,9 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $aCustomArgs=array() ) {	
-		return $this->oHeadTag->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueScript' ) ) {
+			return $this->oHeadTag->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
+		}
 	}		
 	
 	/*
