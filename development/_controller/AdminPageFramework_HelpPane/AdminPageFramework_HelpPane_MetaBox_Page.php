@@ -25,7 +25,7 @@ class AdminPageFramework_HelpPane_MetaBox_Page extends AdminPageFramework_HelpPa
 	 * @internal
 	 */
 	protected function _isInThePage() {
-AdminPageFramework_Debug::logArray( 'called' );
+
 		if ( ! $this->oProp->bIsAdmin ) return false;
 
 		if ( ! isset( $_GET['page'] ) ) return false;
