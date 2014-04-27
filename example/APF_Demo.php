@@ -2041,7 +2041,7 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'autocomplete',		
 				'field_id'	=>	'autocomplete_custom_post_type',
 				'title'		=>	__( 'Custom Post Type', 'admin-page-framework-demo' ),
-				'settings'	=> add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( $GLOBALS['pagenow'] ) ),
+				'settings'	=> add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( AdminPageFramework_WPUtility::getPageNow() ) ),
 				'settings2'	=>	array(	// equivalent to the second parameter of the tokenInput() method
 					'tokenLimit'		=>	5,
 					'preventDuplicates'	=>	true,
