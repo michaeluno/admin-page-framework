@@ -48,7 +48,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	 * @remark			This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
 	 */ 
 	public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
-		$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
+		if ( method_exists( $this->oHelpPane, '_addHelpText' ) ) {
+			$this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
+		}
 	}
 
 	/**
@@ -320,7 +322,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	* @remark			The $oForm property should be created in each extended class.
 	*/		
 	public function addSettingField( $asField ) {
-		$this->oForm->addField( $asField );		
+		if ( method_exists( $this->oForm, 'addField' ) ) {
+			$this->oForm->addField( $asField );		
+		}
 	}
 	
 	
