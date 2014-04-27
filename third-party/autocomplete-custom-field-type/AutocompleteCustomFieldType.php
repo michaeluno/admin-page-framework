@@ -44,7 +44,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		
 		$_aGet = $_GET;
 		unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
-		$this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_aGet, admin_url( $GLOBALS['pagenow'] ) );
+		$this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_aGet, admin_url( $this->getPageNow() ) );
 		$this->aDefaultKeys['settings2'] = array(
 			'hintText'	=>	__( 'Type the title of posts.', 'admin-page-framework-demo' ),
 		);
