@@ -43,7 +43,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
 			return false;				
 		}
 		
-		if ( in_array( $GLOBALS['pagenow'], array( 'options.php' ) ) ) {
+		if ( in_array( $this->oProp->sPageNow, array( 'options.php' ) ) ) {
 			return true;
 		}
 			

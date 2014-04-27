@@ -250,7 +250,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 				return false;
 			}
 			
-			if ( in_array( $GLOBALS['pagenow'], array( 'options.php' ) ) ) {
+			if ( in_array( $this->sPageNow, array( 'options.php' ) ) ) {
 				return true;
 			}
 			

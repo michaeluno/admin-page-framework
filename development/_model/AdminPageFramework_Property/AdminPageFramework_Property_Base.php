@@ -474,6 +474,14 @@ abstract class AdminPageFramework_Property_Base {
 	 */ 
 	public $sTextDomain;
 	
+	/**
+	 * Stores the current page's base name.
+	 * 
+	 * @since			3.0.5
+	 * @internal
+	 */
+	public $sPageNow;
+	
 	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
 		
 		$this->oCaller = $oCaller;
@@ -487,6 +495,7 @@ abstract class AdminPageFramework_Property_Base {
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
 			: array( 'aFieldFlags' => array() );
+		$this->sPageNow = AdminPageFramework_WPUtility::getPageNow();
 		$this->bIsAdmin = is_admin();
 		$this->bIsMinifiedVersion = ! class_exists( 'AdminPageFramework_Bootstrap' );
 		if ( ! isset( self::$_aLibraryData ) ) {			
@@ -603,7 +612,7 @@ abstract class AdminPageFramework_Property_Base {
 		$_aPostTypes = ( array ) $asPostTypes;
 		
 		// If it's not the post definition page, 
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return false;
+		if ( ! in_array( $this->sPageNow, array( 'post.php', 'post-new.php', ) ) ) return false;
 		
 		// If the parameter is empty, 
 		if ( empty( $_aPostTypes ) ) return true;

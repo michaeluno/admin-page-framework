@@ -26,7 +26,7 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 */		
 	public function _replyToAddStyle() {
 		
-		if ( $GLOBALS['pagenow'] != 'edit-tags.php' ) return;
+		if ( 'edit-tags.php' != $this->oProp->sPageNow ) return;
 		$this->_printCommonStyles( 'admin-page-framework-style-taxonomy-field-common', get_class() );	// Note that it's not get_class( $this ) to give the abstract class name.
 		$this->_printClassSpecificStyles( 'admin-page-framework-style-taxonomy-field' );
 		$this->oProp->_bAddedStyle = true;
@@ -41,7 +41,7 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
 	 */
 	public function _replyToAddScript() {
 		
-		if ( $GLOBALS['pagenow'] != 'edit-tags.php' ) return;
+		if ( 'edit-tags.php' != $this->oProp->sPageNow ) return;
 		$this->_printCommonScripts( 'admin-page-framework-style-taxonomy-field-common', get_class() );	// Note that it's not get_class( $this ) to give the abstract class name.
 		$this->_printClassSpecificScripts( 'admin-page-framework-script-taxonomy-field' );
 		$this->oProp->_bAddedScript = true;

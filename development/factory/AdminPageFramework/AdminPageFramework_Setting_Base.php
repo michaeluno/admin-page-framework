@@ -185,7 +185,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 		
 		/* 2-5. If there is no section or field to add, do nothing. */
-		if (  $GLOBALS['pagenow'] != 'options.php' && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
+		if ( 'options.php' != $this->oProp->sPageNow && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
 
 		/* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
 		new AdminPageFramework_FieldTypeRegistration( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );

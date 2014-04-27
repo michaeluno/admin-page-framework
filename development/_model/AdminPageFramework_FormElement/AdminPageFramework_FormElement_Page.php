@@ -201,7 +201,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 		if ( ! current_user_can( $aSection['capability'] ) ) return;
 		if ( ! $aSection['if'] ) return;	
 		if ( ! $aSection['page_slug'] ) return;	
-		if ( $GLOBALS['pagenow'] != 'options.php' && $this->sCurrentPageSlug != $aSection['page_slug'] ) return;	
+		if ( 'options.php' != $this->getPageNow() && $this->sCurrentPageSlug != $aSection['page_slug'] ) return;	
 		if ( ! $this->_isSectionOfCurrentTab( $aSection, $this->sCurrentPageSlug, $this->sCurrentTabSlug ) ) return;
 		return $aSection;
 		

@@ -98,7 +98,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 		 */
 		protected function _isInThePage() {
 			
-			if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ) ) ) {
+			if ( ! in_array( $this->oProp->sPageNow, array( 'post.php', 'post-new.php' ) ) ) {
 				return false;
 			}
 						

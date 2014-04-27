@@ -29,7 +29,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		// If it's not the post type's post listing page or the taxtonomy page
 		if ( 
 			! (
-				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) && ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )	// checks if it's in taxonomy page or post listing page
+				in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php' ) ) && ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )	// checks if it's in taxonomy page or post listing page
 				|| $this->oUtil->isPostDefinitionPage( $this->oProp->sPostType )	// checks if it's in the post definition page
 			)
 		) return;	
@@ -67,7 +67,7 @@ class AdminPageFramework_HeadTag_PostType extends AdminPageFramework_HeadTag_Met
 		// If it's not the post type's post listing page
 		if ( 
 			! (
-				in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php' ) ) && ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )	// checks if it's in taxonomy page or post listing page
+				in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php' ) ) && ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )	// checks if it's in taxonomy page or post listing page
 				|| $this->oUtil->isPostDefinitionPage( $this->oProp->sPostType )	// checks if it's in the post definition page
 			)
 		) return;	

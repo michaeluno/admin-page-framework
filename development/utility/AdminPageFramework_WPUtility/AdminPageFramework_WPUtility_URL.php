@@ -50,7 +50,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 	 */
 	public function getQueryAdminURL( $aAddingQueries, $aRemovingQueryKeys=array(), $sSubjectURL='' ) {
 		
-		$sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg( $_GET, admin_url( $GLOBALS['pagenow'] ) );
+		$sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg( $_GET, admin_url( AdminPageFramework_WPUtility_Page::getPageNow() ) );
 		return $this->getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
 		
 	}

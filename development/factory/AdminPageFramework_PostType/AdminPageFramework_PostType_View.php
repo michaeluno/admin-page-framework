@@ -106,7 +106,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 	 */
 	public function _replyToGetTableFilterQueryForTaxonomies( $oQuery=null ) {
 		
-		if ( 'edit.php' != $GLOBALS['pagenow'] ) return $oQuery;
+		if ( 'edit.php' != $this->oProp->sPageNow ) return $oQuery;
 		
 		if ( ! isset( $GLOBALS['typenow'] ) ) return $oQuery;
 		

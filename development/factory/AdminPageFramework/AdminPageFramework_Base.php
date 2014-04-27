@@ -313,7 +313,7 @@ abstract class AdminPageFramework_Base {
 	 */
 	protected function _isInThePage( $aPageSlugs=array() ) {
 		
-		if ( in_array( $GLOBALS['pagenow'], array( 'options.php' ) ) ) {			
+		if ( in_array( $this->oProp->sPageNow, array( 'options.php' ) ) ) {			
 			return true;
 		}
 

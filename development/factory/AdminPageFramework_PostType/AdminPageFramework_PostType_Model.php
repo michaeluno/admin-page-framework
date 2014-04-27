@@ -61,7 +61,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 		if ( ! $this->oProp->bIsAdmin ) {
 			return false;
 		}
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
+		if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
 			return false;
 		}
 				

@@ -217,7 +217,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		else		
 			wp_enqueue_script( 'media-upload' );	
 
-		if ( in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php', ) ) ) 
+		if ( in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php', ) ) ) 
 			add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );				
 		
 	}
@@ -240,7 +240,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		public function _replyToReplaceThickBoxText( $sTranslated, $sText ) {
 
 			// Replace the button label in the media thick box.
-			if ( ! in_array( $GLOBALS['pagenow'], array( 'media-upload.php', 'async-upload.php' ) ) ) return $sTranslated;
+			if ( ! in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php' ) ) ) return $sTranslated;
 			if ( $sText != 'Insert into Post' ) return $sTranslated;
 			if ( $this->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $sTranslated;
 			

@@ -128,7 +128,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 	 */
 	protected function _isInThePage() {
 		
-		return ( in_array( $GLOBALS['pagenow'], array( 'edit-tags.php', 'admin-ajax.php' ) ) );
+		return ( in_array( $this->oProp->sPageNow, array( 'edit-tags.php', 'admin-ajax.php' ) ) );
 		
 	}	
 	
@@ -332,7 +332,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 	public function _replyToRegisterFormElements() {
 	
 		// Schedule to add head tag elements and help pane contents.
-		if ( $GLOBALS['pagenow'] != 'edit-tags.php' ) return;
+		if ( 'edit-tags.php' != $this->oProp->sPageNow ) return;
 		
 		// Format the fields array.
 		$this->oForm->format();

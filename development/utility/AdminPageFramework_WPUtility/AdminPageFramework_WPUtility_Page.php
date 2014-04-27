@@ -77,7 +77,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 		$_aPostTypes = ( array ) $asPostTypes;
 
 		// If it's not the post definition page, 
-		if ( ! in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php', ) ) ) return false;
+		if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) return false;
 
 		// If the parameter is empty, 
 		if ( empty( $_aPostTypes ) ) return true;
@@ -97,7 +97,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 	 */
 	static public function isPostListingPage( $asPostTypes=array() ) {
 				
-		if ( $GLOBALS['pagenow'] != 'edit.php' ) return false;
+		if ( 'edit.php' != self::getPageNow() ) return false;
 		
 		$_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : array( $asPostTypes );
 		
@@ -107,5 +107,61 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 		
 	}
 	
+	/**
+	 * Returns the base name of the current url.
+	 * 
+	 * When a plugin is network activated, the global $pagenow variable sometimes is not set. Some framework's objects rely on the value of it.
+	 * So this method will provide an alternative mean when it is not set.
+	 * 
+	 * @since			3.0.5
+	 */
+	static public function getPageNow() {
+		
+		static $_sPageNow;
+		if ( isset( $_sPageNow ) ) {
+			return $_sPageNow;
+		}
+		
+		// If already set, use that.
+		if ( isset( $GLOBALS['pagenow'] ) ) {
+			$_sPageNow = $GLOBALS['pagenow'];
+			return $_sPageNow;
+		}
+				
+		// Front-end
+		if ( ! is_admin() ) {
+			if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $_aMatches ) ) {
+				$_sPageNow = strtolower( $_aMatches[ 1 ] );
+				return $_sPageNow;
+			}
+			$_sPageNow = 'index.php';
+			return $_sPageNow;
+		}
+		
+		// Back-end - wp-admin pages are checked more carefully		
+		if ( is_network_admin() )
+			preg_match( '#/wp-admin/network/?(.*?)$#i', $_SERVER['PHP_SELF'], $_aMatches );
+		elseif ( is_user_admin() )
+			preg_match( '#/wp-admin/user/?(.*?)$#i', $_SERVER['PHP_SELF'], $_aMatches );
+		else
+			preg_match( '#/wp-admin/?(.*?)$#i', $_SERVER['PHP_SELF'], $_aMatches );
+			
+		$_sPageNow = $_aMatches[ 1 ];
+		$_sPageNow = trim( $_sPageNow, '/' );
+		$_sPageNow = preg_replace( '#\?.*?$#', '', $_sPageNow );
+		if ( '' === $_sPageNow || 'index' === $_sPageNow || 'index.php' === $_sPageNow ) {
+			$_sPageNow = 'index.php';
+			return $_sPageNow;
+		} 
+			
+		preg_match( '#(.*?)(/|$)#', $_sPageNow, $_aMatches );
+		$_sPageNow = strtolower( $_aMatches[1] );
+		if ( '.php' !== substr( $_sPageNow, -4, 4 ) ) {
+			$_sPageNow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
+		}
+		return $_sPageNow;		
+		
+	}
+			
 }
 endif;

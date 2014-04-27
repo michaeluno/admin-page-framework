@@ -429,7 +429,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		/**
 		 * Displays admin notices set for the settings.
 		 * 
-		 * @global			$pagenow
 		 * @since			2.0.0
 		 * @since			2.0.1			Fixed a bug that the admin messages were displayed twice in the options-general.php page.
 		 * @return			void
@@ -438,7 +437,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		private function _showSettingsErrors() {
 			
 			// WordPress automatically performs the settings_errors() function in the options pages. See options-head.php.
-			if ( $GLOBALS['pagenow'] == 'options-general.php' ) return;	
+			if ( 'options-general.php' == $this->oProp->sPageNow ) return;	
 			
 			$aSettingsMessages = get_settings_errors( $this->oProp->sOptionKey );
 			
