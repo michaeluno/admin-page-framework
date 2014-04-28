@@ -306,7 +306,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 		if ( ! $_fIsValid ) {
 			
 			$this->setFieldErrors( $_aErrors );
-			$this->setSettingNotice( __( 'There was an error in your input.', 'admin-page-framework-demo' ) );	
+			$this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-demo' ) );	
 			return $aOldInput;
 			
 		}
