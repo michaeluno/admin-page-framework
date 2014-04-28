@@ -49,45 +49,48 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			'hintText'	=>	__( 'Type the title of posts.', 'admin-page-framework-demo' ),
 		);
 		parent::__construct( $asClassName, $asFieldTypeSlug, $oMsg, $bAutoRegister );
-		
+
 		/*
 		 * If the request key is set in the url and it yields 'autocomplete', return a JSON output and exit.
-		 */
+		 */		
 		if ( isset( $_GET['request'] ) && 'autocomplete' == $_GET['request'] ) {
-						
-			if ( $this->_isLoggedIn() ) :
+			add_action( 'init', array( $this, '_replyToReturnAutoCompleteRequest' ) );
+		}
+
+	}
+	
+	public function _replyToReturnAutoCompleteRequest() {
+	
+		if ( ! $this->_isLoggedIn() ) exit;
 			
-				$_aGet = $_GET;
-				unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
-							
-				// Retrieve posts
-				$_aArgs = $_aGet + array(
-					'post_type'			=> 'post',
-					'post_status'		=> 'publish',
-					'orderby'			=> 'title', 
-					'order'				=> 'ASC',
-					'posts_per_page'	=> -1,	
-				);
-				if ( isset( $_GET['q'] ) ) {
-					add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
-					$_aArgs['q'] = $_GET['q'] ;
-				}
-				$_oResults = new WP_Query( $_aArgs );					
-				
-				// Format the data
-				$_aData = array();
-				foreach( $_oResults->posts as $__iIndex => $__oPost ) {
-					$_aData[ $__iIndex ] = array(
-						'id'	=>	$__oPost->ID,
-						'name'	=>	$__oPost->post_title,
-					);
-				}
-				
-				die( json_encode( $_aData ) );
-				
-			endif;
-			
-		}		
+		$_aGet = $_GET;
+		unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
+					
+		// Retrieve posts
+		$_aArgs = $_aGet + array(
+			'post_type'			=> 'post',
+			'post_status'		=> 'publish',
+			'orderby'			=> 'title', 
+			'order'				=> 'ASC',
+			'posts_per_page'	=> -1,	
+		);
+		if ( isset( $_GET['q'] ) ) {
+			add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
+			$_aArgs['q'] = $_GET['q'] ;
+		}
+		$_oResults = new WP_Query( $_aArgs );					
+		
+		// Format the data
+		$_aData = array();
+		foreach( $_oResults->posts as $__iIndex => $__oPost ) {
+			$_aData[ $__iIndex ] = array(
+				'id'	=>	$__oPost->ID,
+				'name'	=>	$__oPost->post_title,
+			);
+		}
+		
+		die( json_encode( $_aData ) );
+	
 		
 	}
 		private function _isLoggedIn() {
@@ -100,16 +103,8 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			}
 			
 			// For multi-sites
-			if ( ! function_exists( 'get_currentuserinfo' )  ) {
-				include_once( ABSPATH . "wp-includes/pluggable.php" ); 			
-			}	
-			if ( ! function_exists( 'is_user_member_of_blog' )  ) {
-				include_once( ABSPATH . "wp-includes/user.php" ); 			
-			}			
-			global $current_user;
-			get_currentuserinfo();
-			return is_user_member_of_blog( $current_user->ID );
-			
+			return is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ;
+
 		}
 	
 		/**
