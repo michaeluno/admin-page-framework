@@ -2345,7 +2345,7 @@ class APF_Demo extends AdminPageFramework {
 	public function validation_APF_Demo_verification_verify_text_field( $sNewInput, $sOldInput ) {	// validation_{extended class name}_{section id}_{field id}
 	
 		/* 1. Set a flag. */
-		$bVerified = true;
+		$_bVerified = true;
 		
 		/* 2. Prepare an error array.
 		 	We store values that have an error in an array and pass it to the setFieldErrors() method.
@@ -2354,23 +2354,23 @@ class APF_Demo extends AdminPageFramework {
 			The library class will search for this transient when it renders the form fields 
 			and if it is found, it will display the error message set in the field array. 	
 		*/
-		$aErrors = array();
+		$_aErrors = array();
 
 		/* 3. Check if the submitted value meets your criteria. As an example, here a numeric value is expected. */
 		if ( ! is_numeric( $sNewInput ) ) {
 			
 			// $variable[ 'sectioni_id' ]['field_id']
-			$aErrors['verification']['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . ' ' . $sNewInput;
-			$bVerified = false;
-			
+			$_aErrors['verification']['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) . ' ' . $sNewInput;
+			$_bVerified = false;
+					
 		}
 		
 		/* 4. An invalid value is found. */
-		if ( ! $bVerified ) {
+		if ( ! $_bVerified ) {
 		
 			/* 4-1. Set the error array for the input fields. */
-			$this->setFieldErrors( $aErrors );		
-			$this->setSettingNotice( __( 'There was an error in your input.', 'admin-page-framework-demo' ) );
+			$this->setFieldErrors( $_aErrors );		
+			$this->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-demo' ) );
 			return $sOldInput;
 			
 		}
