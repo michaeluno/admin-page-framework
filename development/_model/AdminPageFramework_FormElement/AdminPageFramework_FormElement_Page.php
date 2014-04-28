@@ -170,7 +170,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	/**
 	 * Returns the formatted field array.
 	 * 
-	 * Before callign this method, $sOptionKey and $sClassName properties must be set.
+	 * Before calling this method, $sOptionKey and $sClassName properties must be set.
 	 * 
 	 * @since			3.0.0
 	 */
