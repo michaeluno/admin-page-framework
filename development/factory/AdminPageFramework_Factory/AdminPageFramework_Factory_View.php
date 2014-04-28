@@ -44,7 +44,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		
 		$_aNotices = get_transient( 'AdminPageFramework_Notices' );
 		if ( false === $_aNotices )	return;
-					
+
 		foreach ( ( array ) $_aNotices as $__aNotice ) {
 			if ( ! isset( $__aNotice['aAttributes'], $__aNotice['sMessage'] ) ) continue;
 			echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). "><p>" . $__aNotice['sMessage'] . "</p></div>";
