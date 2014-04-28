@@ -188,7 +188,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 		
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
 		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
-			
+				
 		set_transient( 'AdminPageFramework_Notices', $GLOBALS['aAdminPageFramework']['aNotices'] );
 		
 	}

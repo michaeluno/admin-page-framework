@@ -408,7 +408,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 		
 		// If the array is empty, save the array at shutdown.
 		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) {
-			add_action( 'shutdown', array( $this, '_replyToSaveNotices' ) );	// the method is defined in the controller class.
+			add_action( 'shutdown', array( $this, '_replyToSaveNotices' ) );	// the method is defined in the model class.
 		}
 		
 		// Set up local variables
