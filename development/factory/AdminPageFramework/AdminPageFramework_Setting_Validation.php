@@ -217,7 +217,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			// Prepare the saved options 
 			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );		
 			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
-			$_aTabOptions = array();	// stores options of the belongning in-page tab.
+			$_aTabOptions = array();	// stores options of the belonging in-page tab.
 			
 			// Merge the user input with the user-set default values.
 			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not include the default values of the submitted page's elements as they merge recursively
@@ -225,7 +225,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			unset( $_aDefaultOptions ); // no longer used
 			
 			// For each submitted element
-			$aInput = $this->_validateEachField( $aInput, $_aOptions, $_aInputToParse );
+			$aInput = $this->_validateEachField( $aInput, $_aOptions, $_aInputToParse, $sPageSlug, $sTabSlug );
 			unset( $_aInputToParse ); // no longer used
 
 			// For tabs			
@@ -244,11 +244,22 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			 * 
 			 * @since			3.0.2
 			 */
-			private function _validateEachField( $aInput, $aOptions, $aInputToParse ) {
-				
+			private function _validateEachField( $aInput, $aOptions, $aInputToParse, $sPageSlug, $sTabSlug ) {
+
 				foreach( $aInputToParse as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
 					
+					// For each section
 					if ( $this->oForm->isSection( $sID ) ) {
+						
+						// If the parsing item does not belong to the current page, do not call the validation callback method.
+						if ( 
+							( $sPageSlug && isset( $this->oForm->aSections[ $sID ][ 'page_slug' ] ) && $this->oForm->aSections[ $sID ][ 'page_slug' ] != $sPageSlug )
+							|| ( $sTabSlug && isset( $this->oForm->aSections[ $sID ][ 'tab_slug' ] ) && $this->oForm->aSections[ $sID ][ 'tab_slug' ] != $sTabSlug )
+						) {
+							continue;
+						}
+						
+						// Call the validation method.
 						foreach( $aSectionOrFields as $sFieldID => $aFields )	// For fields
 							$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( 
 								$this, 
@@ -256,8 +267,27 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 								$aInput[ $sID ][ $sFieldID ], 
 								isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null 
 							);
+						
+						// For an entire section
+						$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
+							$this, 
+							"validation_{$this->oProp->sClassName}_{$sID}", 
+							$aInput[ $sID ], 
+							isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null 
+						);							
+						
+						// End the iteration
+						continue;
 					}
-											
+										
+					// Check if the parsing item(the default section) belongs to the current page; if not, do not call the validation callback method.
+					if ( 
+						( $sPageSlug && isset( $this->oForm->aSections[ '_default' ][ 'page_slug' ] ) && $this->oForm->aSections[ '_default' ][ 'page_slug' ] != $sPageSlug )
+						|| ( $sTabSlug && isset( $this->oForm->aSections[ '_default' ][ 'tab_slug' ] ) && $this->oForm->aSections[ '_default' ][ 'tab_slug' ] != $sTabSlug )
+					) {
+						continue;
+					}					
+					// For a field
 					$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
 						$this, 
 						"validation_{$this->oProp->sClassName}_{$sID}", 
