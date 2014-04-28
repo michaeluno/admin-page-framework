@@ -116,8 +116,8 @@ class AdminPageFramework_Message {
 			'remove'				=> __( 'Remove', 'admin-page-framework' ),
 			
 			// AdminPageFramework_FormTable
-			'allowed_maximum_number_of_sections'	=>	__( 'The allowed maximum number of sections is (0)', 'admin-page-framework' ),
-			'allowed_minimum_number_of_sections'	=>	__( 'The allowed minimum number of sections is (0)', 'admin-page-framework' ),
+			'allowed_maximum_number_of_sections'	=>	__( 'The allowed maximum number of sections is {0}', 'admin-page-framework' ),
+			'allowed_minimum_number_of_sections'	=>	__( 'The allowed minimum number of sections is {0}', 'admin-page-framework' ),
 			'add_section'	=>	__( 'Add Section' ),
 			'remove_section'	=>	__( 'Remove Section' ),
 			
