@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -272,12 +272,14 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.0.5 =
-- Made the `validation_{instantiated class name}_{section id}_{field id}` and `validation_{instantiated class name}_{field id}` hooks being triggered only when the section or field belongs to the page that the form is submitted.
+= 3.0.5 - 04/29/2014 =
+- Fixed a bug that repeatable sections messages did not indicate the correct maximum and minimum numbers.
+- Tweaked the `autocomplete` custom field type to have some delays to perform post title queries in the background.
+- Changed the `validation_{instantiated class name}_{section id}_{field id}` and `validation_{instantiated class name}_{field id}` hooks to be triggered only when the section or field belongs to the page that the form is submitted.
 - Fixed a bug that some public methods caused a PHP fatal error "Call to a member function" after submitting a form in multi-sites when a plugin is network-activated.
-- Made the post type class methods, `enquueueStyles()`, `enquueueStyle()`, `enquueueScripts()`, `enquueueScript()`, silently fail when they are called not in the post type page.
+- Changed the post type class methods, `enquueueStyles()`, `enquueueStyle()`, `enquueueScripts()`, `enquueueScript()` to silently fail when they are called not in the post type page.
 
-= 3.0.4 =
+= 3.0.4 - 04/19/2014 =
 - Improved the accuracy on search results of the `autocomplete` custom field type.
 - Fixed a bug that the help pane of meta box fields did not appear in the page after submitting the form.
 - Added the ability to set a validation error message to appear at the top of a form section output.
