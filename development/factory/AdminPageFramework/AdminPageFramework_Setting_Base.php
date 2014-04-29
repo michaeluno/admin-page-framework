@@ -82,6 +82,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @since				2.1.2			Added the second parameter. 
 	 * @since				3.0.0			Changed the scope to private from protected since it is only used in this class.
 	 * @since				3.0.4			Changed the scope to protected from private since it is called from the page class.
+	 * @since				3.0.5			Fixed a bug that returning an non-empty array when the transient was null.
 	 * @access				protected
 	 * @internal
 	 */
@@ -96,7 +97,11 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		if ( $bDelete ) {
 			delete_transient( $_sTransient );	
 		}
-		return ( array ) $_aFieldErrors;
+		
+		// Not cast array here as null will create an element of zero and it won't yield empty with empty().
+		return is_array( $_aFieldErrors )
+			? $_aFieldErrors
+			: array();	
 
 	}
 		
@@ -107,21 +112,25 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @internal
 	 */
 	public function _replyToCheckRedirects() {
-	
+
 		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
 		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProp->isPageAdded( $_GET['page'] ) ) return; 
-		
+
 		// If the Settings API has not updated the options, do nothing.
 		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
 
 		// Check the settings error transient.
 		$aError = $this->_getFieldErrors( $_GET['page'], false );
-		if ( ! empty( $aError ) ) return;
+		if ( ! empty( $aError ) ) {
+			return;
+		}
 		
 		// Okay, it seems the submitted data have been updated successfully.
 		$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
 		$sURL = get_transient( $sTransient );
-		if ( $sURL === false ) return;
+		if ( false === $sURL  ) {
+			return;
+		}
 		
 		// The redirect URL seems to be set.
 		delete_transient( $sTransient );	// we don't need it any more.

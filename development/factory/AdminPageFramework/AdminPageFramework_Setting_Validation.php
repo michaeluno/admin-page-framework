@@ -31,7 +31,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 	 * @internal
 	 */ 
 	protected function _doValidationCall( $sMethodName, $aInput ) {
-		
+
 		/* Check if this is called from the framework's page */
 		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) return $aInput;
 		
@@ -70,8 +70,8 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		if ( isset( $_POST['__submit'] ) && $_sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) )
 			die( wp_redirect( $_sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
 		if ( isset( $_POST['__submit'] ) && $_sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) )
-			$this->_setRedirectTransients( $_sRedirectURL );
-				
+			$this->_setRedirectTransients( $_sRedirectURL, $_sPageSlug );
+
 		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
 		$aInput = $this->_getFilteredOptions( $aInput, $_sPageSlug, $_sTabSlug );
 		
@@ -148,9 +148,11 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		/**
 		 * Sets the given URL's transient.
 		 */
-		private function _setRedirectTransients( $sURL ) {
-			if ( empty( $sURL ) ) return;
-			$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_POST['page_slug']}" ) );
+		private function _setRedirectTransients( $sURL, $sPageSlug ) {
+			if ( empty( $sURL ) ) {
+				return;
+			}
+			$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$sPageSlug}" ) );
 			return set_transient( $sTransient, $sURL , 60*2 );
 		}
 		
