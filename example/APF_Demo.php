@@ -1393,7 +1393,7 @@ class APF_Demo extends AdminPageFramework {
 			),			
 			array( // Submit button as a redirect
 				'field_id'	=>	'submit_button_redirect',
-				'title'	=>	'Redirect Button',
+				'title'	=>	__( 'Redirect Button', 'admin-page-framework-demo' ),
 				'type'	=>	'submit',
 				'description'	=>	sprintf( __( 'Unlike the above link buttons, this button saves the options and then redirects to: <code>%1$s</code>', 'admin-page-framework-demo' ), admin_url() )
 					. ' ' . __( 'To enable this functionality, set the url to the <code>redirect_url</code> key in the field definition array.', 'admin-page-framework-demo' ),
@@ -1405,7 +1405,7 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array( // Reset Submit button
 				'field_id'	=>	'submit_button_reset',
-				'title'	=>	'Reset Button',
+				'title'	=>	__( 'Reset Button', 'admin-page-framework-demo' ),
 				'type'	=>	'submit',
 				'label'	=>	__( 'Reset', 'admin-page-framework-demo' ),
 				'reset'	=>	true,
