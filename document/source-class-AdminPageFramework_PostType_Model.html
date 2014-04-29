@@ -157,7 +157,7 @@
 </span><span id="61" class="l"><a class="l" href="#61"> 61 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oProp-&gt;bIsAdmin ) {
 </span><span id="62" class="l"><a class="l" href="#62"> 62 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="63" class="l"><a class="l" href="#63"> 63 </a>        }
-</span><span id="64" class="l"><a class="l" href="#64"> 64 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">in_array</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>], <span class="php-keyword1">array</span>( <span class="php-quote">'edit.php'</span>, <span class="php-quote">'edit-tags.php'</span>, <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) ) ) {
+</span><span id="64" class="l"><a class="l" href="#64"> 64 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sPageNow, <span class="php-keyword1">array</span>( <span class="php-quote">'edit.php'</span>, <span class="php-quote">'edit-tags.php'</span>, <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) ) ) {
 </span><span id="65" class="l"><a class="l" href="#65"> 65 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="66" class="l"><a class="l" href="#66"> 66 </a>        }
 </span><span id="67" class="l"><a class="l" href="#67"> 67 </a>                
