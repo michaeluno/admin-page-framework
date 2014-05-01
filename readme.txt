@@ -233,8 +233,8 @@ Yes. For built-in root menu items or create your own ones, you need to use the `
 e.g.
 `$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );`
 
-= Does the framework work with [WordPress MU](https://codex.wordpress.org/WordPress_MU)? =
-Yes.
+= Does the framework work with WordPress Multi-site? =
+Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
 
 == Other Notes ==
 
