@@ -276,6 +276,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.6 =
+- Added the ability to set a link and its label in the title cell of the plugin listing table for a custom post type created by the framework.
 - Fixed an issue that the `dial` custom fields could not be repeated properly in repeatable sections.
 
 = 3.0.5 - 04/29/2014 =

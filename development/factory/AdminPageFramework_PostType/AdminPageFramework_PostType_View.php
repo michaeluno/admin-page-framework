@@ -35,7 +35,42 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 			
 		}		
 		
+		// Add an action link in the plugin listing page
+		if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
+			add_filter( 
+				'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ),
+				array( $this, '_replyToAddSettingsLinkInPluginListingPage' ), 
+				20 	// set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
+			);				
+		}
+		
 	}
+	
+	
+	/**
+	 * Adds the post type link in the title cell of the plugin listing table in plugins.php.
+	 * 
+	 * @since			3.0.6			Moved from the Link_PostType class.
+	 */
+	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
+		
+		if ( ! isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] ) ) {
+			return $aLinks;
+		}
+		
+		$_sLinkLabel = $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
+			?	$this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
+			:	$this->oMsg->__( 'manage' );
+		
+		// http://.../wp-admin/edit.php?post_type=[...]
+		array_unshift(	
+			$aLinks,
+			"<a href='edit.php?post_type={$this->oProp->sPostType}'>" . $_sLinkLabel . "</a>"
+		); 
+		return $aLinks;		
+		
+	}
+		
 	
 	/**
 	 * Adds a drop-down list to filter posts by author, placed above the post type listing table.

@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.0.6b01
+	Version: 3.0.6b02
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -106,7 +106,8 @@ new APF_PostType( 	// this class deals with front-end components so checking wit
 			'search_items' => 'Search APF Post',
 			'not_found' => 'No APF Post found',
 			'not_found_in_trash' => 'No APF Post found in Trash',
-			'parent' => 'Parent APF Post'
+			'parent' => 'Parent APF Post',
+			'plugin_listing_table_title_cell_link'	=>	__( 'APF Posts', 'admin-page-framework-demo' ),		// framework specific key. [3.0.6+]
 		),
 		'public' => true,
 		'menu_position' => 110,
