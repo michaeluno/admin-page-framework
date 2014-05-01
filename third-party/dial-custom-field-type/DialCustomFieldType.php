@@ -52,20 +52,36 @@ class DialCustomFieldType extends AdminPageFramework_FieldType {
 		return "
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
-			
+				
+					/**
+					 * The repeatable field callback.
+					 * 
+					 * @param	object	oCopied
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */
+					added_repeatable_field: function( oCopied, sFieldType, sFieldTagID, iCallType ) {			
 						/* If it is not this field type, do nothing. */
-						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) {
+							return;
+						}
 
 						/* If the input tag is not found, do nothing  */
-						var nodeNewDialInput = node.find( 'input.knob' );
-						if ( nodeNewDialInput.length <= 0 ) return;
+						var oDialInput = oCopied.find( 'input.knob' );
+						if ( oDialInput.length <= 0 ) {
+							return;
+						}
 						
-						/* Remove unnecessary elements */
-						nodeNewDialInput.closest( '.admin-page-framework-field' ).find( 'canvas' ).remove();
+						// Find the wrapper element
+						var oWrapper = oDialInput.closest( 'label' ).children( 'div' );
 						
-						/* Bind the knob script */
-						nodeNewDialInput.knob();
+						// Not sure why but it needs to be cloned again (the framework repeater script clones it internally though)
+						var oClone = oDialInput.clone();	
+						jQuery( oWrapper ).replaceWith( oClone );
+						
+						// Create the dial(knob).
+						oClone.knob();
 						
 					},
 					
@@ -135,13 +151,12 @@ class DialCustomFieldType extends AdminPageFramework_FieldType {
 	}	
 		
 		private function getDialEnablerScript( $sInputID ) {
-				return 
-					"<script type='text/javascript' class='dial-enabler-script'>
-						jQuery( document ).ready( function() {
-							jQuery( '#{$sInputID}' ).knob();
-						});
-					</script>";		
-			
+			return 
+				"<script type='text/javascript' class='dial-enabler-script'>
+					jQuery( document ).ready( function() {
+						jQuery( '#{$sInputID}' ).knob();
+					});
+				</script>";				
 		}
 	
 }

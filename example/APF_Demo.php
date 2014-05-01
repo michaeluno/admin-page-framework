@@ -1493,7 +1493,7 @@ class APF_Demo extends AdminPageFramework {
 					'b'	=> 'B',
 					'c'	=> 'c',				
 				),
-			),			
+			),		
 			array()
 		);			
 		$this->addSettingFields(			

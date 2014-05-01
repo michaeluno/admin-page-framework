@@ -275,6 +275,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.0.6 =
+- Fixed an issue that the `dial` custom fields could not be repeated properly in repeatable sections.
+
 = 3.0.5 - 04/29/2014 =
 - Fixed a bug that the `redirect_url` option of the `submit` field type did not take effect.
 - Fixed a bug that repeatable sections messages did not indicate the correct maximum and minimum numbers.
