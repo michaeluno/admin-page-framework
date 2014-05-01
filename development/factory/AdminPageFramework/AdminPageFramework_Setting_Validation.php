@@ -246,7 +246,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			 * 
 			 * @since			3.0.2
 			 */
-			private function _validateEachField( $aInput, $aOptions, $aInputToParse, $sPageSlug, $sTabSlug ) {
+			private function _validateEachField( array $aInput, $aOptions, $aInputToParse, $sPageSlug, $sTabSlug ) {
 
 				foreach( $aInputToParse as $sID => $aSectionOrFields ) {	// $sID is either a section id or a field id
 					
@@ -270,16 +270,21 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 								isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null 
 							);
 						
-						// For an entire section
+						// For an entire section - consider each field has a different individual capability. In that case, the key itself will not be sent,
+						// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
+						// So merge the submitted array with the old stored array only for the first level.
+						$_aSectionInput = is_array( $aInput[ $sID ] ) ? $aInput[ $sID ] : array();
+						$_aSectionInput = $_aSectionInput + ( is_array( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : array() );
 						$aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
 							$this, 
 							"validation_{$this->oProp->sClassName}_{$sID}", 
-							$aInput[ $sID ], 
+							$_aSectionInput,
 							isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null 
 						);							
 						
 						// End the iteration
 						continue;
+						
 					}
 										
 					// Check if the parsing item(the default section) belongs to the current page; if not, do not call the validation callback method.
@@ -308,7 +313,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			 * 
 			 * @since			3.0.2
 			 */
-			private function _validateTabFields( $aInput, $aOptions, & $aTabOptions, $sPageSlug, $sTabSlug ) {
+			private function _validateTabFields( array $aInput, $aOptions, & $aTabOptions, $sPageSlug, $sTabSlug ) {
 				
 				if ( ! ( $sTabSlug && $sPageSlug ) ) {
 					return $aInput;
@@ -318,6 +323,11 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				$aTabOptions = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
 				$aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions );
 
+				// Consider each field has a different individual capability. In that case, the key itself will not be sent,
+				// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
+				// So merge the submitted array with the old stored array only for the first level.				
+				$aInput = $aInput + $aTabOptions;
+				
 				return $this->oUtil->uniteArrays( 
 					$this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aTabOptions ), 
 					$this->oUtil->invertCastArrayContents( $aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
@@ -331,7 +341,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			 * 
 			 * @since			3.0.2
 			 */
-			private function _validatePageFields( $aInput, $aOptions, $aTabOptions, $sPageSlug, $sTabSlug ) {
+			private function _validatePageFields( array $aInput, $aOptions, $aTabOptions, $sPageSlug, $sTabSlug ) {
 				
 				if ( ! $sPageSlug ) {
 					return $aInput;
@@ -340,6 +350,11 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				// Prepare the saved page option array.
 				$_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )				
 				$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
+				
+				// Consider each field has a different individual capability. In that case, the key itself will not be sent,
+				// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
+				// So merge the submitted array with the old stored array only for the first level.				
+				$aInput = $aInput + $_aPageOptions;				
 				
 				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions ); // $aInput: new values, $aStoredPageOptions: old values	
 
