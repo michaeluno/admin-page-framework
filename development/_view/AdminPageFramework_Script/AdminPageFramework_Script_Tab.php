@@ -28,7 +28,7 @@ class AdminPageFramework_Script_Tab {
 					var aOptions = $.extend( {
 					}, asOptions );
 				
-				this.find( 'ul' ).each( function () {
+				this.children( 'ul' ).each( function () {
 				
 					$( this ).children( 'li' ).each( function( i ) {			
 						

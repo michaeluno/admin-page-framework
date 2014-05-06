@@ -276,6 +276,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.6 =
+- Fixed an issue that the section tab script was applying the styling to all the ul elements inside the section.
+- Tweaked the styling of the repeatable section buttons.
 - Tweaked the `autocomplete` custom field type to find more posts by loosening the search criteria. 
 - Fixed a bug in the `autocomplete` custom field type that setting the `prePopulate` option caused a JavaScript error after submitting the form.
 - Fixed an issue that submitted form input data array in validation callback methods lost array keys of fields with individual set capabilities when the form-submitting user has lower capability than the stored field capability.
