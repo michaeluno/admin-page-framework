@@ -231,6 +231,7 @@ abstract class AdminPageFramework_Property_Base {
 		/* Repeatable Sections */
 		.admin-page-framework-repeatable-section-buttons {
 			float: right;
+			margin-top: 1em;
 		}
 		/* Section Caption */
 		.admin-page-framework-section-caption {
