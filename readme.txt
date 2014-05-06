@@ -280,7 +280,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed a bug in the `autocomplete` custom field type that setting the `prePopulate` option caused a JavaScript error after submitting the form.
 - Fixed an issue that submitted form input data array in validation callback methods lost array keys of fields with individual set capabilities when the form-submitting user has lower capability than the stored field capability.
 - Added the ability to set a link and its label in the title cell of the plugin listing table for a custom post type created by the framework.
-- Fixed an issue that the `dial` custom fields could not be repeated properly in repeatable sections.
+- Fixed an issue that the `dial` and `autocomplete` custom field type fields could not be repeated properly in repeatable sections.
 
 = 3.0.5 - 04/29/2014 =
 - Fixed a bug that the `redirect_url` option of the `submit` field type did not take effect.

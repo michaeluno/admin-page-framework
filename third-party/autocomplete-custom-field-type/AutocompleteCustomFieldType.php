@@ -191,21 +191,33 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		return "
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+				
+					/**
+					 * The repeatable field callback.
+					 * 
+					 * @param	object	oCopiedNode
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */
+					added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
 			
 						/* If it is not this field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
 						/* If the input tag is not found, do nothing  */
-						var nodeNewAutoComplete = node.find( 'input.autocomplete' );
+						var nodeNewAutoComplete = oCopiedNode.find( 'input.autocomplete' );
 						if ( nodeNewAutoComplete.length <= 0 ) return;
 						
 						/* Remove unnecessary elements */
-						node.find( 'ul.token-input-list' ).remove();
+						oCopiedNode.find( 'ul.token-input-list' ).remove();
 						
-						/* Bind the knob script */
-						var sFieldsID = node.closest( '.admin-page-framework-fields' ).attr( 'id' );
-						var aOptions = jQuery( '#' + nodeNewAutoComplete.attr( 'id' ) ).getTokenInputOptions( sFieldsID );
+						/* Bind the autocomplete script */
+						var sFieldsID = oCopiedNode.closest( '.admin-page-framework-fields' ).attr( 'id' );
+						var sOptionID = oCopiedNode.closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + oCopiedNode.closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+						var aOptions = jQuery( '#' + nodeNewAutoComplete.attr( 'id' ) ).getTokenInputOptions( sOptionID );
+						aOptions = jQuery.isArray( aOptions ) ? aOptions : [ [], [] ];
+						
 						jQuery( nodeNewAutoComplete ).tokenInput( 
 							aOptions[0], 
 							jQuery.extend( true, aOptions[1], {
@@ -217,8 +229,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 								},
 							})
 						);
-					},
-					
+					},					
 				});
 			});		
 		
@@ -302,7 +313,8 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 						jQuery( oSavedValues ).each( function ( index, value) {
 							jQuery( '#{$sInputID}' ).tokenInput( 'add', value );
 						}); 
-						jQuery( '#{$sInputID}' ).storeTokenInputOptions( jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' ), {$sParam1}, {$sParam2} );
+						var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
+						jQuery( '#{$sInputID}' ).storeTokenInputOptions( sOptionID, {$sParam1}, {$sParam2} );
 					});
 				</script>";		
 		}
