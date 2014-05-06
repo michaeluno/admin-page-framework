@@ -1461,29 +1461,26 @@ class APF_Demo extends AdminPageFramework {
 				),
 			)
 		);
-		$this->addSettingFields(			
+		$this->addSettingFields(	
+			'repeatable_sections',
 			array(
-				'section_id'	=>	'repeatable_sections',
 				'field_id'	=>	'text_field_in_repeatable_sections',
 				'title'	=>	__( 'Text', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'default'	=>	'xyz',
 			),
 			array(
-				'section_id'	=>	'repeatable_sections',
 				'field_id'	=>	'repeatable_field_in_repeatable_sections',
 				'title'	=>	__( 'Repeatable Field', 'admin-page-framework-demo' ),
 				'type'	=>	'text',
 				'repeatable'	=> true,
 			),			
 			array(
-				'section_id'	=>	'repeatable_sections',
 				'field_id'	=>	'color_in_repeatable_sections',
 				'title'	=>	__( 'Color', 'admin-page-framework-demo' ),
 				'type'	=>	'color',
 			),
 			array(
-				'section_id'	=>	'repeatable_sections',
 				'field_id'	=>	'radio_in_repeatable_sections',
 				'title'	=>	__( 'Radio', 'admin-page-framework-demo' ),
 				'type'	=>	'radio',
@@ -1493,7 +1490,7 @@ class APF_Demo extends AdminPageFramework {
 					'b'	=> 'B',
 					'c'	=> 'c',				
 				),
-			),		
+			),				
 			array()
 		);			
 		$this->addSettingFields(			
@@ -1592,7 +1589,7 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'media',
 				'repeatable'	=>	true,
 				'sortable'	=>	true,
-			),			
+			),				
 			array()
 		);		
 	
