@@ -239,7 +239,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		.admin-page-framework-field-autocomplete {
 			width: 100%;
 		}
-		.admin-page-framework-input-label-container {
+		.admin-page-framework-field-autocomplete .admin-page-framework-input-label-container {
 			min-width: 200px;
 		}
 		";
