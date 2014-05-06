@@ -114,7 +114,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			
 			global $wpdb;
 			if ( $_sSearchTerm = $oWPQuery->get( 'q' ) ) {
-				$sWhere .= ' AND ' . $wpdb->posts . '.post_title LIKE \'' . esc_sql( like_escape( $_sSearchTerm ) ) . '%\'';
+				$sWhere .= " AND " . $wpdb->posts . ".post_title LIKE '%" . esc_sql( like_escape( $_sSearchTerm ) ) . "%'";
 			}
 			return $sWhere;
 			
@@ -259,7 +259,8 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			'type'	=>	'text',
 		) + $aField['attributes'];
 		$aInputAttributes['class']	.= ' autocomplete';
-
+		// $aInputAttributes['value']	= '[]' === $aInputAttributes['value'] ? null : $aInputAttributes['value'];
+				
 		return 
 			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container'>"
@@ -273,22 +274,23 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"
-			. $this->getAutocompletenablerScript( $aField['input_id'], $aField['settings'], $aField['settings2'] )
+			. $this->getAutocompletenablerScript( $aField['input_id'], $aField['settings'], $aField['settings2'], $aInputAttributes['value'] )
 			. $aField['after_label'];
 		
 	}	
 		
-		private function getAutocompletenablerScript( $sInputID, $asParam1, $aParam2 ) {
-			$asParam1 = is_array( $asParam1 ) ? json_encode( $asParam1 ) : "'" . $asParam1 . "'";
-			$aParam2 = json_encode( ( array ) $aParam2 );
+		private function getAutocompletenablerScript( $sInputID, $asParam1, $aParam2, $sValue='' ) {
+			
+			$sParam1 = $this->_formatSettings( $asParam1, $sValue );
+			$sParam2 = $this->_formatSettings( $aParam2, $sValue );
 			return 
 				"<script type='text/javascript' class='autocomplete-enabler-script'>
 					jQuery( document ).ready( function() {
 
 						var oSavedValues = jQuery.parseJSON( jQuery( '#{$sInputID}' ).attr( 'value' ) );						
 						jQuery( '#{$sInputID}' ).tokenInput( 
-							{$asParam1}, 
-							jQuery.extend( true, {$aParam2}, {
+							{$sParam1}, 
+							jQuery.extend( true, {$sParam2}, {
 								onAdd: function ( item ) {
 									jQuery( '#{$sInputID}' ).attr( 'value', JSON.stringify( jQuery( '#{$sInputID}' ).tokenInput( 'get' ) ) );
 								},
@@ -300,9 +302,30 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 						jQuery( oSavedValues ).each( function ( index, value) {
 							jQuery( '#{$sInputID}' ).tokenInput( 'add', value );
 						}); 
-						jQuery( '#{$sInputID}' ).storeTokenInputOptions( jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' ), {$asParam1}, {$aParam2} );
+						jQuery( '#{$sInputID}' ).storeTokenInputOptions( jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' ), {$sParam1}, {$sParam2} );
 					});
 				</script>";		
+		}
+		
+		/**
+		 * 
+		 * @return			string			The json encoded string.
+		 */
+		private function _formatSettings( $asParams, $sValue='' ) {
+
+			if ( ! is_array( $asParams ) ) {
+				return "'" . ( string ) $asParams . "'";
+			}
+				
+			$aParams = $asParams;
+			
+			// the 'prePopulate' option should only be set when the value is not set; otherwise, the jQuery script causes an unknown error.
+			if ( isset( $aParams['prePopulate'] ) && $sValue ) {
+				unset( $aParams['prePopulate'] );
+			}
+			
+			return json_encode( ( array ) $aParams );
+			
 		}
 	
 }
