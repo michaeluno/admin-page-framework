@@ -282,7 +282,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				 */
 				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-					var fEscaped = false;	// indicates whether the frame is escaped/cancelled.
+					var fEscaped = false;	// indicates whether the frame is escaped/canceled.
 					
 					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_image_' + sInputID ).click( function( e ) {
@@ -365,9 +365,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						setTimeout( function (){
 							if ( ! fEscaped ) {
 								setPreviewElement( sInputID, oImage );
-								fEscaped = false;
 							}
-
+							fEscaped = false;
 						}, iMilliSeconds );
 						
 					}

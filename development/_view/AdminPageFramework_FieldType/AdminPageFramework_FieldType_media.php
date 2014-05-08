@@ -303,9 +303,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 						setTimeout( function (){
 							if ( ! fEscaped ) {
 								setPreviewElement( sInputID, oImage );
-								fEscaped = false;
 							}
-
+							fEscaped = false;
 						}, iMilliSeconds );
 						
 					}
