@@ -318,7 +318,9 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 
 				// Global Function Literal 
 				setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
-
+					
+					var fEscaped = false;	// indicates whether the frame is escaped/canceled.
+					
 					jQuery( '#select_font_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_font_' + sInputID ).click( function( e ) {
 						
@@ -349,6 +351,10 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						});
 			
 						// When the uploader window closes, 
+						custom_uploader.on( 'escape', function() {
+							fEscaped = true;
+							return false;
+						});						
 						custom_uploader.on( 'close', function() {
 
 							var state = custom_uploader.state();
@@ -359,7 +365,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( sInputID, image );
+								setPreviewElementWithDelay( sInputID, image );
 							} else {
 								
 								var selection = custom_uploader.state().get( 'selection' );
@@ -367,13 +373,13 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( sInputID, attachment );
+										setPreviewElementWithDelay( sInputID, attachment );
 									} else{
 										
 										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
 										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( sInputIDOfNewField, attachment );
+										setPreviewElementWithDelay( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -390,38 +396,27 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						return false;       
 					});	
 				
-					var setPreviewElement = function( sInputID, image ) {
-
-						// Escape the strings of some of the attributes.
-						// var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
-						// var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
-						// var title = jQuery( '<div/>' ).text( image.title ).html();
+					var setPreviewElement = function( sInputID, oImage ) {
 						
 						// If the user want the attributes to be saved, set them in the input tags.
-						jQuery( 'input#' + sInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
-						// jQuery( 'input#' + sInputID + '_id' ).val( image.id );
-						// jQuery( 'input#' + sInputID + '_width' ).val( image.width );
-						// jQuery( 'input#' + sInputID + '_height' ).val( image.height );
-						// jQuery( 'input#' + sInputID + '_caption' ).val( sCaption );
-						// jQuery( 'input#' + sInputID + '_alt' ).val( sAlt );
-						// jQuery( 'input#' + sInputID + '_title' ).val( title );
-						// jQuery( 'input#' + sInputID + '_align' ).val( image.align );
-						// jQuery( 'input#' + sInputID + '_link' ).val( image.link );
-						
-						// Update up the preview
-						// jQuery( '#font_preview_' + sInputID ).attr( 'data-id', image.id );
-						// jQuery( '#font_preview_' + sInputID ).attr( 'data-width', image.width );
-						// jQuery( '#font_preview_' + sInputID ).attr( 'data-height', image.height );
-						// jQuery( '#font_preview_' + sInputID ).attr( 'data-caption', sCaption );
-						// jQuery( '#font_preview_' + sInputID ).attr( 'alt', sAlt );
-						// jQuery( '#font_preview_' + sInputID ).attr( 'title', title );
-						// jQuery( '#font_preview_' + sInputID ).attr( 'src', image.url );
-						// jQuery( '#font_preview_container_' + sInputID ).show();				
+						jQuery( 'input#' + sInputID ).val( oImage.url );		// the url field is mandatory so it does not have the suffix.
 					
 						// Change the font-face
-						setFontPreview( image.url, sInputID );
+						setFontPreview( oImage.url, sInputID );
 					
 					}
+					
+					var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+						
+						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+						setTimeout( function (){
+							if ( ! fEscaped ) {
+								setPreviewElement( sInputID, oImage );
+							}
+							fEscaped = false;						
+						}, iMilliSeconds );
+						
+					}						
 					
 				}		
 			});
@@ -627,7 +622,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 			return "
 				<script type='text/javascript' >
 					jQuery( document ).ready( function() {
-						setFontPreview( '{$sFontURL}', {'$sInputID'} );
+						setFontPreview( '{$sFontURL}', '{$sInputID}' );
 					}); 
 				</script>";			
 		}
