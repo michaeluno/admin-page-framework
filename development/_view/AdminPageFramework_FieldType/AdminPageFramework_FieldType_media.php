@@ -127,8 +127,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							/* 2-2. Rebind the uploader script to each button. */
 							var nodeMediaInput = jQuery( this ).find( '.media-field input' );
 							if ( nodeMediaInput.length <= 0 ) return true;
-							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );	
-console.log( 'updated media input: ' + nodeMediaInput.attr( 'id' ) );
+							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
 						});
 					},
 					
@@ -221,12 +220,14 @@ console.log( 'updated media input: ' + nodeMediaInput.attr( 'id' ) );
 				 */				
 				setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
+					var fEscaped = false;
+						
 					jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_media_' + sInputID ).click( function( e ) {
-console.log( 'pressed id: ' + jQuery( this ).attr( 'id' ) );					
+				
 						// Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
 						var sInputID = jQuery( this ).attr( 'id' ).substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
-console.log( 'rebinding id: ' + sInputID );
+
 						window.wpActiveEditor = null;						
 						e.preventDefault();
 						
@@ -250,6 +251,10 @@ console.log( 'rebinding id: ' + sInputID );
 						});
 			
 						// When the uploader window closes, 
+						media_uploader.on( 'escape', function() {
+							fEscaped = true;
+							return false;
+						});	
 						media_uploader.on( 'close', function() {
 
 							var state = media_uploader.state();
@@ -260,7 +265,7 @@ console.log( 'rebinding id: ' + sInputID );
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( sInputID, image );
+								setPreviewElementWithDelay( sInputID, image );
 							} else {
 								
 								var selection = media_uploader.state().get( 'selection' );
@@ -268,13 +273,13 @@ console.log( 'rebinding id: ' + sInputID );
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( sInputID, attachment );
+										setPreviewElementWithDelay( sInputID, attachment );
 									} else{
 										
 										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
 										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( sInputIDOfNewField, attachment );
+										setPreviewElementWithDelay( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -291,6 +296,20 @@ console.log( 'rebinding id: ' + sInputID );
 						return false;       
 					});	
 				
+				
+					var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+						
+						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+						setTimeout( function (){
+							if ( ! fEscaped ) {
+								setPreviewElement( sInputID, oImage );
+								fEscaped = false;
+							}
+
+						}, iMilliSeconds );
+						
+					}
+					
 					var setPreviewElement = function( sInputID, image ) {
 									
 						// If the user want the attributes to be saved, set them in the input tags.

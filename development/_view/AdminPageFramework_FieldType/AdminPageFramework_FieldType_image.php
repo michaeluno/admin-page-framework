@@ -282,6 +282,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				 */
 				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
+					var fEscaped = false;	// indicates whether the frame is escaped/cancelled.
+					
 					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_image_' + sInputID ).click( function( e ) {
 						
@@ -312,17 +314,21 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						});
 			
 						// When the uploader window closes, 
+						custom_uploader.on( 'escape', function() {
+							fEscaped = true;
+							return false;
+						});
 						custom_uploader.on( 'close', function() {
 
-							var state = custom_uploader.state();
-							
+							var state = custom_uploader.state();				
 							// Check if it's an external URL
-							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
 								var image = state.props.attributes;	
+							}
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( sInputID, image );
+								setPreviewElementWithDelay( sInputID, image );
 							} else {
 								
 								var selection = custom_uploader.state().get( 'selection' );
@@ -330,13 +336,13 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( sInputID, attachment );
+										setPreviewElementWithDelay( sInputID, attachment );
 									} else{
 										
 										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
 										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( sInputIDOfNewField, attachment );
+										setPreviewElementWithDelay( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -353,8 +359,21 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						return false;       
 					});	
 				
+					var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+						
+						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+						setTimeout( function (){
+							if ( ! fEscaped ) {
+								setPreviewElement( sInputID, oImage );
+								fEscaped = false;
+							}
+
+						}, iMilliSeconds );
+						
+					}
+				
 					var setPreviewElement = function( sInputID, image ) {
-console.log( 'input id: ' + sInputID );
+
 						// Escape the strings of some of the attributes.
 						var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
 						var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
@@ -452,27 +471,27 @@ console.log( 'input id: ' + sInputID );
 	 */
 	public function _replyToGetField( $aField ) {
 		
-		/* Variables */
-		$aOutput = array();
-		$iCountAttributes = count( ( array ) $aField['attributes_to_store'] );	// If the saving extra attributes are not specified, the input field will be single only for the URL. 
-		$sCaptureAttribute = $iCountAttributes ? 'url' : '';
-		$sImageURL = $sCaptureAttribute
-				? ( isset( $aField['attributes']['value'][ $sCaptureAttribute ] ) ? $aField['attributes']['value'][ $sCaptureAttribute ] : "" )
+		/* Local variables */
+		$_aOutput = array();
+		$_iCountAttributes = count( ( array ) $aField['attributes_to_store'] );	// If the saving extra attributes are not specified, the input field will be single only for the URL. 
+		$_sCaptureAttribute = $_iCountAttributes ? 'url' : '';
+		$_sImageURL = $_sCaptureAttribute
+				? ( isset( $aField['attributes']['value'][ $_sCaptureAttribute ] ) ? $aField['attributes']['value'][ $_sCaptureAttribute ] : "" )
 				: $aField['attributes']['value'];
 		
 		/* Set up the attribute arrays */
-		$aBaseAttributes = $aField['attributes'];
-		unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'], $aBaseAttributes['name'], $aBaseAttributes['value'], $aBaseAttributes['type'] );
-		$aInputAttributes = array(
-			'name'	=>	$aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
-			'value'	=>	$sImageURL,
+		$_aBaseAttributes = $aField['attributes'];
+		unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'] );
+		$_aInputAttributes = array(
+			'name'	=>	$aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
+			'value'	=>	$_sImageURL,
 			'type'	=>	'text',
-		) + $aField['attributes']['input'] + $aBaseAttributes;
-		$aButtonAtributes = $aField['attributes']['button'] + $aBaseAttributes;
-		$aPreviewAtrributes = $aField['attributes']['preview'] + $aBaseAttributes;
+		) + $aField['attributes']['input'] + $_aBaseAttributes;
+		$_aButtonAtributes = $aField['attributes']['button'] + $_aBaseAttributes;
+		$_aPreviewAtrributes = $aField['attributes']['preview'] + $_aBaseAttributes;
 
 		/* Compose the field output */
-		$aOutput[] =
+		$_aOutput[] =
 			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>"	// image-field ( this will be media-field for the media field type )
 				. "<label for='{$aField['input_id']}'>"
@@ -481,18 +500,18 @@ console.log( 'input id: ' + sInputID );
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. "<input " . $this->generateAttributes( $aInputAttributes ) . " />"	// this method is defined in the base class
+					. "<input " . $this->generateAttributes( $_aInputAttributes ) . " />"	// this method is defined in the base class
 					. $aField['after_input']
 					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 					. $this->getExtraInputFields( $aField )
 				. "</label>"
 			. "</div>"			
 			. $aField['after_label']
-			. $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes )
-			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $aButtonAtributes );
+			. $this->_getPreviewContainer( $aField, $_sImageURL, $_aPreviewAtrributes )
+			. $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes );
 		;
 		
-		return implode( PHP_EOL, $aOutput );
+		return implode( PHP_EOL, $_aOutput );
 		
 	}
 		/**
@@ -502,9 +521,9 @@ console.log( 'input id: ' + sInputID );
 		protected function getExtraInputFields( &$aField ) {
 			
 			// Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
-			$aOutputs = array();
+			$_aOutputs = array();
 			foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
-				$aOutputs[] = "<input " . $this->generateAttributes( 
+				$_aOutputs[] = "<input " . $this->generateAttributes( 
 						array(
 							'id'	=>	"{$aField['input_id']}_{$sAttribute}",
 							'type'	=>	'hidden',
@@ -513,7 +532,7 @@ console.log( 'input id: ' + sInputID );
 							'value'	=>	isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
 						)
 					) . "/>";
-			return implode( PHP_EOL, $aOutputs );
+			return implode( PHP_EOL, $_aOutputs );
 			
 		}
 		
