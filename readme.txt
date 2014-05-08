@@ -276,6 +276,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.0.6 =
+- Fixed a JavaScript syntax error in the `font` custom field type.
+- Fixed a bug in the `image` and `media` field types and the `font` custom field type that escaping the frame did not cancel setting the selection.
 - Fixed an issue that the section tab script was applying the styling to all the ul elements inside the section.
 - Tweaked the styling of the repeatable section buttons.
 - Tweaked the `autocomplete` custom field type to find more posts by loosening the search criteria. 

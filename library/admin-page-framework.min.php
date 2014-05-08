@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.0.6b05
+ * Version: 3.0.6b06
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
@@ -568,6 +568,8 @@
 				 */
 				setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
+					var fEscaped = false;	// indicates whether the frame is escaped/canceled.
+					
 					jQuery( '#select_image_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_image_' + sInputID ).click( function( e ) {
 						
@@ -598,17 +600,21 @@
 						});
 			
 						// When the uploader window closes, 
+						custom_uploader.on( 'escape', function() {
+							fEscaped = true;
+							return false;
+						});
 						custom_uploader.on( 'close', function() {
 
-							var state = custom_uploader.state();
-							
+							var state = custom_uploader.state();				
 							// Check if it's an external URL
-							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
 								var image = state.props.attributes;	
+							}
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( sInputID, image );
+								setPreviewElementWithDelay( sInputID, image );
 							} else {
 								
 								var selection = custom_uploader.state().get( 'selection' );
@@ -616,13 +622,13 @@
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( sInputID, attachment );
+										setPreviewElementWithDelay( sInputID, attachment );
 									} else{
 										
 										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
 										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( sInputIDOfNewField, attachment );
+										setPreviewElementWithDelay( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -639,8 +645,20 @@
 						return false;       
 					});	
 				
+					var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+						
+						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+						setTimeout( function (){
+							if ( ! fEscaped ) {
+								setPreviewElement( sInputID, oImage );
+							}
+							fEscaped = false;
+						}, iMilliSeconds );
+						
+					}
+				
 					var setPreviewElement = function( sInputID, image ) {
-console.log( 'input id: ' + sInputID );
+
 						// Escape the strings of some of the attributes.
 						var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
 						var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
@@ -719,7 +737,7 @@ console.log( 'input id: ' + sInputID );
 			.select_image.button.button-small {
 				margin-top: 0.1em;				
 			}
-		" . PHP_EOL; } public function _replyToGetField( $aField ) { $aOutput = array(); $iCountAttributes = count( ( array ) $aField['attributes_to_store'] ); $sCaptureAttribute = $iCountAttributes ? 'url' : ''; $sImageURL = $sCaptureAttribute ? ( isset( $aField['attributes']['value'][ $sCaptureAttribute ] ) ? $aField['attributes']['value'][ $sCaptureAttribute ] : "" ) : $aField['attributes']['value']; $aBaseAttributes = $aField['attributes']; unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'], $aBaseAttributes['name'], $aBaseAttributes['value'], $aBaseAttributes['type'] ); $aInputAttributes = array( 'name' => $aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ), 'value' => $sImageURL, 'type' => 'text', ) + $aField['attributes']['input'] + $aBaseAttributes; $aButtonAtributes = $aField['attributes']['button'] + $aBaseAttributes; $aPreviewAtrributes = $aField['attributes']['preview'] + $aBaseAttributes; $aOutput[] = $aField['before_label'] . "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>" : "" ) . "<input " . $this->generateAttributes( $aInputAttributes ) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . $this->getExtraInputFields( $aField ) . "</label>" . "</div>" . $aField['after_label'] . $this->_getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $aButtonAtributes ); ; return implode( PHP_EOL, $aOutput ); } protected function getExtraInputFields( &$aField ) { $aOutputs = array(); foreach( ( array ) $aField['attributes_to_store'] as $sAttribute ) $aOutputs[] = "<input " . $this->generateAttributes( array( 'id' => "{$aField['input_id']}_{$sAttribute}", 'type' => 'hidden', 'name' => "{$aField['_input_name']}[{$sAttribute}]", 'disabled' => isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '', 'value' => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '', ) ) . "/>"; return implode( PHP_EOL, $aOutputs ); } protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) { if ( ! $aField['show_preview'] ) return ''; $sImageURL = $this->resolveSRC( $sImageURL, true ); return "<div " . $this->generateAttributes( array( 'id' => "image_preview_container_{$aField['input_id']}", 'class' => 'image_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ), 'style' => ( $sImageURL ? '' : "display: none; " ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ), ) + $aPreviewAtrributes ) . ">" . "<img src='{$sImageURL}' " . "id='image_preview_{$aField['input_id']}' " . "/>" . "</div>"; } protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) { $sButton = "<a " . $this->generateAttributes( array( 'id' => "select_image_{$sInputID}", 'href' => '#', 'class' => 'select_image button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ), 'data-uploader_type' => function_exists( 'wp_enqueue_media' ) ? 1 : 0, 'data-enable_external_source' => $bExternalSource ? 1 : 0, ) + $aButtonAttributes ) . ">" . $this->oMsg->__( 'select_image' ) ."</a>"; $sScript = "
+		" . PHP_EOL; } public function _replyToGetField( $aField ) { $_aOutput = array(); $_iCountAttributes = count( ( array ) $aField['attributes_to_store'] ); $_sCaptureAttribute = $_iCountAttributes ? 'url' : ''; $_sImageURL = $_sCaptureAttribute ? ( isset( $aField['attributes']['value'][ $_sCaptureAttribute ] ) ? $aField['attributes']['value'][ $_sCaptureAttribute ] : "" ) : $aField['attributes']['value']; $_aBaseAttributes = $aField['attributes']; unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'] ); $_aInputAttributes = array( 'name' => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ), 'value' => $_sImageURL, 'type' => 'text', ) + $aField['attributes']['input'] + $_aBaseAttributes; $_aButtonAtributes = $aField['attributes']['button'] + $_aBaseAttributes; $_aPreviewAtrributes = $aField['attributes']['preview'] + $_aBaseAttributes; $_aOutput[] = $aField['before_label'] . "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>" : "" ) . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . $this->getExtraInputFields( $aField ) . "</label>" . "</div>" . $aField['after_label'] . $this->_getPreviewContainer( $aField, $_sImageURL, $_aPreviewAtrributes ) . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes ); ; return implode( PHP_EOL, $_aOutput ); } protected function getExtraInputFields( &$aField ) { $_aOutputs = array(); foreach( ( array ) $aField['attributes_to_store'] as $sAttribute ) $_aOutputs[] = "<input " . $this->generateAttributes( array( 'id' => "{$aField['input_id']}_{$sAttribute}", 'type' => 'hidden', 'name' => "{$aField['_input_name']}[{$sAttribute}]", 'disabled' => isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '', 'value' => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '', ) ) . "/>"; return implode( PHP_EOL, $_aOutputs ); } protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) { if ( ! $aField['show_preview'] ) return ''; $sImageURL = $this->resolveSRC( $sImageURL, true ); return "<div " . $this->generateAttributes( array( 'id' => "image_preview_container_{$aField['input_id']}", 'class' => 'image_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ), 'style' => ( $sImageURL ? '' : "display: none; " ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ), ) + $aPreviewAtrributes ) . ">" . "<img src='{$sImageURL}' " . "id='image_preview_{$aField['input_id']}' " . "/>" . "</div>"; } protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) { $sButton = "<a " . $this->generateAttributes( array( 'id' => "select_image_{$sInputID}", 'href' => '#', 'class' => 'select_image button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ), 'data-uploader_type' => function_exists( 'wp_enqueue_media' ) ? 1 : 0, 'data-enable_external_source' => $bExternalSource ? 1 : 0, ) + $aButtonAttributes ) . ">" . $this->oMsg->__( 'select_image' ) ."</a>"; $sScript = "
 				if ( jQuery( 'a#select_image_{$sInputID}' ).length == 0 ) {
 					jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
 				}
@@ -1036,8 +1054,7 @@ vertical-align: top;
 							/* 2-2. Rebind the uploader script to each button. */
 							var nodeMediaInput = jQuery( this ).find( '.media-field input' );
 							if ( nodeMediaInput.length <= 0 ) return true;
-							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );	
-console.log( 'updated media input: ' + nodeMediaInput.attr( 'id' ) );
+							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
 						});
 					},
 					
@@ -1115,12 +1132,14 @@ console.log( 'updated media input: ' + nodeMediaInput.attr( 'id' ) );
 				 */				
 				setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
+					var fEscaped = false;
+						
 					jQuery( '#select_media_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_media_' + sInputID ).click( function( e ) {
-console.log( 'pressed id: ' + jQuery( this ).attr( 'id' ) );					
+				
 						// Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
 						var sInputID = jQuery( this ).attr( 'id' ).substring( 13 );	// remove the select_image_ prefix and set a property to pass it to the editor callback method.
-console.log( 'rebinding id: ' + sInputID );
+
 						window.wpActiveEditor = null;						
 						e.preventDefault();
 						
@@ -1144,6 +1163,10 @@ console.log( 'rebinding id: ' + sInputID );
 						});
 			
 						// When the uploader window closes, 
+						media_uploader.on( 'escape', function() {
+							fEscaped = true;
+							return false;
+						});	
 						media_uploader.on( 'close', function() {
 
 							var state = media_uploader.state();
@@ -1154,7 +1177,7 @@ console.log( 'rebinding id: ' + sInputID );
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElement( sInputID, image );
+								setPreviewElementWithDelay( sInputID, image );
 							} else {
 								
 								var selection = media_uploader.state().get( 'selection' );
@@ -1162,13 +1185,13 @@ console.log( 'rebinding id: ' + sInputID );
 									attachment = attachment.toJSON();
 									if( index == 0 ){	
 										// place first attachment in field
-										setPreviewElement( sInputID, attachment );
+										setPreviewElementWithDelay( sInputID, attachment );
 									} else{
 										
 										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
 										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
 										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElement( sInputIDOfNewField, attachment );
+										setPreviewElementWithDelay( sInputIDOfNewField, attachment );
 			
 									}
 								});				
@@ -1185,6 +1208,19 @@ console.log( 'rebinding id: ' + sInputID );
 						return false;       
 					});	
 				
+				
+					var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+						
+						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+						setTimeout( function (){
+							if ( ! fEscaped ) {
+								setPreviewElement( sInputID, oImage );
+							}
+							fEscaped = false;
+						}, iMilliSeconds );
+						
+					}
+					
 					var setPreviewElement = function( sInputID, image ) {
 									
 						// If the user want the attributes to be saved, set them in the input tags.
