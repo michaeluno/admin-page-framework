@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
 Tested up to: 3.9
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,8 +100,8 @@ The HTML documentation is included in the distribution package and can be access
 
 = Getting Started =
 
-<h5><strong>Step 1</strong> - Include <em><strong>admin-page-framework.php</strong></em></h5>
-You need to include the library file in your PHP script. The file is located in the `class` folder of the uncompressed plugin file.
+<h5><strong>Step 1</strong> - Include <em><strong>admin-page-framework.min.php</strong></em></h5>
+You need to include the library file in your PHP script. The file is located in the `library` folder of the uncompressed plugin file.
 
 `if ( ! class_exists( 'AdminPageFramework' ) )
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );`
@@ -275,10 +275,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.0.6 =
+= 3.0.6 - 05/10/2014 =
 - Fixed a JavaScript syntax error in the `font` custom field type.
 - Fixed a bug in the `image` and `media` field types and the `font` custom field type that escaping the frame did not cancel setting the selection.
-- Fixed an issue that the section tab script was applying the styling to all the ul elements inside the section.
+- Fixed an issue that the section tab script was applying the styling to all the `ul` elements inside the section.
 - Tweaked the styling of the repeatable section buttons.
 - Tweaked the `autocomplete` custom field type to find more posts by loosening the search criteria. 
 - Fixed a bug in the `autocomplete` custom field type that setting the `prePopulate` option caused a JavaScript error after submitting the form.

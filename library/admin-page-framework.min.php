@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.0.6b06
+ * Version: 3.0.6
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
