@@ -48,9 +48,13 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 	 * @param			string			$sSubjectURL				( optional ) The subject url to modify
 	 * @return			string			The modified url.
 	 */
-	public function getQueryAdminURL( $aAddingQueries, $aRemovingQueryKeys=array(), $sSubjectURL='' ) {
+	public function getQueryAdminURL( $aAddingQueries=array(), $aRemovingQueryKeys=array(), $sSubjectURL='' ) {
 		
-		$sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg( $_GET, admin_url( AdminPageFramework_WPUtility_Page::getPageNow() ) );
+		$_sAdminURL = AdminPageFramework_WPUtility::isNetworkAdmin()
+			? network_admin_url( AdminPageFramework_WPUtility_Page::getPageNow() )
+			: admin_url( AdminPageFramework_WPUtility_Page::getPageNow() );
+		
+		$sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg( $_GET, $_sAdminURL );
 		return $this->getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
 		
 	}
