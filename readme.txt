@@ -275,6 +275,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.0.7 =
+- Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
+
 = 3.0.6 - 05/10/2014 =
 - Fixed a JavaScript syntax error in the `font` custom field type.
 - Fixed a bug in the `image` and `media` field types and the `font` custom field type that escaping the frame did not cancel setting the selection.
