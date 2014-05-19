@@ -212,6 +212,15 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 */
 	public $aDisallowedQueryKeys	= array( 'settings-updated' );
 		
+		
+	/** 
+	 * Stores the target page redirected to when the user submit the form of the framework.
+	 * 
+	 * @since			3.0.7
+	 */
+	public $sTargetFormPage = '';
+	 
+		
 	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 
@@ -225,7 +234,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType );
 		
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
-					
+				
+		$this->sTargetFormPage = esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+				
 		/* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
 		$GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
 			? $GLOBALS['aAdminPageFramework']['aPageClasses']

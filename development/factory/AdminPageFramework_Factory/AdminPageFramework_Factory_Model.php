@@ -19,12 +19,6 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Model' ) ) :
  */
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
 	
-	function __construct( $oProp ) {
-		
-		parent::__construct( $oProp );
-				
-	}	
-	
 	/**
 	 * Loads the default field type definition.
 	 * 

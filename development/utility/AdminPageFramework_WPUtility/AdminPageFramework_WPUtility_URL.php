@@ -23,7 +23,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 	 * 
 	 * @since			2.1.1
 	 */
-	public function getCurrentAdminURL() {
+	static public function getCurrentAdminURL() {
 		
 		$sRequestURI = $GLOBALS['is_IIS'] ? $_SERVER['PATH_INFO'] : $_SERVER["REQUEST_URI"];
 		$sPageURL = ( @$_SERVER["HTTPS"] == "on" ) ? "https://" : "http://";
@@ -48,14 +48,14 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 	 * @param			string			$sSubjectURL				( optional ) The subject url to modify
 	 * @return			string			The modified url.
 	 */
-	public function getQueryAdminURL( $aAddingQueries=array(), $aRemovingQueryKeys=array(), $sSubjectURL='' ) {
+	static public function getQueryAdminURL( $aAddingQueries=array(), $aRemovingQueryKeys=array(), $sSubjectURL='' ) {
 		
 		$_sAdminURL = AdminPageFramework_WPUtility::isNetworkAdmin()
 			? network_admin_url( AdminPageFramework_WPUtility_Page::getPageNow() )
 			: admin_url( AdminPageFramework_WPUtility_Page::getPageNow() );
 		
 		$sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg( $_GET, $_sAdminURL );
-		return $this->getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
+		return self::getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
 		
 	}
 	/**
@@ -67,7 +67,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 	 * @param			string			$sSubjectURL				The subject url to modify
 	 * @return			string			The modified url.
 	 */
-	public function getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL ) {
+	static public function getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL ) {
 		
 		// Remove Queries
 		$sSubjectURL = empty( $aRemovingQueryKeys ) 

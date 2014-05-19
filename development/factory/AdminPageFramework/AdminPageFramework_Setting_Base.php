@@ -72,9 +72,9 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 
 		$this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $this->oProp->sCapability );
-		
+				
 	}
-							
+								
 	/**
 	 * Retrieves the settings error array set by the user in the validation callback.
 	 * 
@@ -85,8 +85,9 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @since				3.0.5			Fixed a bug that returning an non-empty array when the transient was null.
 	 * @access				protected
 	 * @internal
+	 * @deprecated			3.0.7
 	 */
-	protected function _getFieldErrors( $sPageSlug, $bDelete=true ) {
+	protected function ___getFieldErrors( $sPageSlug='', $bDelete=true ) {
 		
 		// If a form submit button is not pressed, there is no need to set the setting errors.
 		if ( ! isset( $_GET['settings-updated'] ) ) return array();
@@ -98,7 +99,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 			delete_transient( $_sTransient );	
 		}
 		
-		// Not cast array here as null will create an element of zero and it won't yield empty with empty().
+		// Do not cast array here as null will create an element of zero and it won't yield empty with empty().
 		return is_array( $_aFieldErrors )
 			? $_aFieldErrors
 			: array();	
@@ -194,7 +195,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 		
 		/* 2-5. If there is no section or field to add, do nothing. */
-		if ( 'options.php' != $this->oProp->sPageNow && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
+		// if ( 'options.php' != $this->oProp->sPageNow && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
 
 		/* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
 		new AdminPageFramework_FieldTypeRegistration( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
@@ -290,10 +291,12 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		$this->oProp->bEnableForm = true;	// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
 		register_setting(	
 			$this->oProp->sOptionKey,	// the option group name.	
-			$this->oProp->sOptionKey,	// the option key name that will be stored in the option table in the database.
-			array( $this, 'validation_pre_' . $this->oProp->sClassName )	// the validation callback method
+			$this->oProp->sOptionKey	// the option key name that will be stored in the option table in the database.
+			// array( $this, 'validation_pre_' . $this->oProp->sClassName )	// the validation callback method
 		); 
 		
+		/* 7. Handle submitted data. */
+		$this->_handleSubmittedData();				
 	}
 		
 	/**

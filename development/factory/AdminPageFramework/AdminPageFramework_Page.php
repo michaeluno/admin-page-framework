@@ -299,7 +299,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @internal
 	 */ 
 	protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
-
+				
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
 		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 		?>
@@ -316,9 +316,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			?>
 			<div class="admin-page-framework-container">	
 				<?php
-					$this->_showSettingsErrors();
+					// $this->_showSettingsErrors();	// deprecated
 					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_form_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
-					echo $this->_getFormOpeningTag();	// <form ... >
+					$this->_printFormOpeningTag( $this->oProp->bEnableForm );	// <form ... >
 				?>
 				<div id="poststuff">
 					<div id="post-body" class="metabox-holder columns-<?php echo $this->_getNumberOfColumns(); ?>">
@@ -331,7 +331,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 					</div><!-- #post-body -->	
 				</div><!-- #poststuff -->
 				
-			<?php echo $this->_getFormClosingTag( $sPageSlug, $sTabSlug );  // </form> ?>
+			<?php echo $this->_printFormClosingTag( $sPageSlug, $sTabSlug, $this->oProp->bEnableForm );  // </form> ?>
 			</div><!-- .admin-page-framework-container -->
 				
 			<?php	
@@ -356,8 +356,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 
 			echo "<!-- main admin page content -->";
 			echo "<div class='admin-page-framework-content'>";
-			if ( $_bIsSideMetaboxExist ) 
+			if ( $_bIsSideMetaboxExist ) {
 				echo "<div id='post-body-content'>";
+			}
 	
 			/* Capture the output buffer */
 			ob_start(); // start buffer
@@ -365,9 +366,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			// Render the form elements by Settings API
 			if ( $this->oProp->bEnableForm ) {
 
-				// this value also determines the $option_page global variable value. This is important to get redirected back from option.php page.
-				// This also is needed for page meta box fields.
-				settings_fields( $this->oProp->sOptionKey );	
+// this value also determines the $option_page global variable value. This is important to get redirected back from option.php page.
+// This also is needed for page meta box fields.
+// settings_fields( $this->oProp->sOptionKey );	
 				
 				// do_settings_sections( $sPageSlug ); // deprecated						
 				if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
@@ -404,26 +405,48 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		 * Retrieves the form opening tag.
 		 * 
 		 * @since			2.0.0
+		 * @since			3.0.7			Changed to echo the output
 		 * @internal
+		 * @return			void
 		 */ 
-		private function _getFormOpeningTag() {	
-			return $this->oProp->bEnableForm
-				? "<form action='options.php' method='post' enctype='{$this->oProp->sFormEncType}' id='admin-page-framework-form'>"
-				: "";
+		private function _printFormOpeningTag( $fEnableForm=true ) {	
+			
+			if ( ! $fEnableForm ) {
+				return;
+			}
+				
+			$_aAtrributes = array(
+				'method'	=>	'post',
+				'action'	=>	$this->oProp->sTargetFormPage,
+				'enctype'	=>	$this->oProp->sFormEncType,
+				'id'		=>	'admin-page-framework-form',
+			);
+			echo "<form " . $this->oUtil->generateAttributes( $_aAtrributes ) . ">";
+			settings_fields( $this->oProp->sOptionKey );
+				
+			// return "<form action='{$this->oProp->sTargetFormPage}' method='post' enctype='{$this->oProp->sFormEncType}' id='admin-page-framework-form'>";
+				
+				
 		}
 		/**
 		 * Retrieves the form closing tag.
 		 * 
 		 * @since			2.0.0
+		 * @since			3.0.7			Prints out the output.
 		 * @internal
+		 * @return			void
 		 */ 	
-		private function _getFormClosingTag( $sPageSlug, $sTabSlug ) {
-			return $this->oProp->bEnableForm 
-				? "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
+		private function _printFormClosingTag( $sPageSlug, $sTabSlug, $fEnableForm=true ) {
+			
+			if ( ! $fEnableForm ) {
+				return;
+			}
+			
+			echo "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
 					. "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL			
 					. "<input type='hidden' name='_is_admin_page_framework' value='1' />" . PHP_EOL			
-					. "</form><!-- End Form -->"
-				: '';
+					. "</form><!-- End Form -->";
+			
 		}	
 	
 		/**
@@ -431,8 +454,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		 * 
 		 * @since			2.0.0
 		 * @since			2.0.1			Fixed a bug that the admin messages were displayed twice in the options-general.php page.
+		 * @since			3.0.7			Deprecated
 		 * @return			void
 		 * @internal		
+		 * @deprecated
 		 */ 
 		private function _showSettingsErrors() {
 			

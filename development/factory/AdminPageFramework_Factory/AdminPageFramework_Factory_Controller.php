@@ -144,7 +144,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *         'title'          => 'Textarea',
     *         'description'    => 'The description for the field.',
     *         'type'           => 'textarea',
-    *         'default'          => 'This is a default text.',
+    *         'default'          => 'This is a default text value.',
     *     )
     * );</code>
 	* 

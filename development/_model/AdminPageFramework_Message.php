@@ -76,7 +76,6 @@ class AdminPageFramework_Message {
 			'use_this_image'		=> __( 'Use This Image', 'admin-page-framework' ),
 			'reset_options'			=> __( 'Are you sure you want to reset the options?', 'admin-page-framework' ),
 			'confirm_perform_task'	=> __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' ),
-			'option_been_reset'		=> __( 'The options have been reset.', 'admin-page-framework' ),
 			'specified_option_been_deleted'	=> __( 'The specified options have been deleted.', 'admin-page-framework' ),
 			
 			// AdminPageFramework_PostType

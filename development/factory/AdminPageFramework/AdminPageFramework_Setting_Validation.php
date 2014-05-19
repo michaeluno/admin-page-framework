@@ -30,7 +30,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 	 * @return			array			Return the input array merged with the original saved options so that other page's data will not be lost.
 	 * @internal
 	 */ 
-	protected function _doValidationCall( $sMethodName, $aInput ) {
+	protected function _doValidationCall( $aInput ) {
 
 		/* Check if this is called from the framework's page */
 		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) return $aInput;
@@ -134,7 +134,6 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			
 			if ( $sKeyToReset == 1 || $sKeyToReset === true ) {
 				delete_option( $this->oProp->sOptionKey );
-				$this->setSettingNotice( $this->oMsg->__( 'option_been_reset' ) );
 				return array();
 			}
 			

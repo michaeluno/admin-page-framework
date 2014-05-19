@@ -12,12 +12,12 @@ if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
  *
  * @abstract
  * @since		2.0.0
- * @extends		AdminPageFramework_Setting_Base
+ * @extends		AdminPageFramework_Setting_Validation
  * @package		AdminPageFramework
  * @subpackage	Page
  * @var			array		$aFieldErrors						stores the settings field errors.
  */
-abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Base {
+abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Validation {
 									
 	/**
 	* Sets the given message to be displayed in the next page load. 
@@ -41,8 +41,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	* @param			string			( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
 	* @param			integer			( optional ) false: do not override when there is a message of the same id. true: override the previous one.
 	* @return			void
+	* @deprecated		since 3.0.7
 	*/		
-	public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {
+	public function ___setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {
 		
 		// Check if the same message has been added already.
 		$aWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
@@ -479,8 +480,9 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Bas
 	 * @param			array			$aErrros			the field error array. The structure should follow the one contained in the submitted $_POST array.
 	 * @param			string			$sID				this should be the page slug of the page that has the dealing form field.
 	 * @param			integer			$iLifeSpan			the transient's lifetime. 300 seconds means 5 minutes.
+	 * @deprecated		3.0.7
 	 */ 
-	public function setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {
+	public function ___setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {
 		
 		$sID = isset( $sID ) ? $sID : ( isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProp->sClassName ) );	
 		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $iLifeSpan );	// store it for 5 minutes ( 60 seconds * 5 )
