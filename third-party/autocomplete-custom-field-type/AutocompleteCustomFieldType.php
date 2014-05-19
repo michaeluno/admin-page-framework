@@ -270,8 +270,8 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			'type'	=>	'text',
 		) + $aField['attributes'];
 		$aInputAttributes['class']	.= ' autocomplete';
-		// $aInputAttributes['value']	= '[]' === $aInputAttributes['value'] ? null : $aInputAttributes['value'];
-				
+		$aInputAttributes['value']	= $this->_setPrepopulate( $aField['settings'], $aField['settings2'], $aInputAttributes['value'] );
+			
 		return 
 			$aField['before_label']
 			. "<div class='admin-page-framework-input-label-container'>"
@@ -289,6 +289,31 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			. $aField['after_label'];
 		
 	}	
+		/**
+		 * If the user sets the prePopulate option, this method compose a sting JSON value of the pre-populated array. 
+		 */
+		private function _setPrepopulate( $asParam1, $aParam2, $sValue ) {
+
+			if ( '[]' == $sValue  ) {
+				return $sValue;
+			}
+		
+			// If the value is json encoded string, do nothing.
+			$_aoValue = json_decode( $sValue );
+			if ( ! empty( $_aoValue ) ) {	
+				return $sValue;
+			}
+					
+			if ( isset( $asParam1['prePopulate'] ) && is_array( $asParam1['prePopulate'] ) ) {
+				return json_encode( $asParam1['prePopulate'] );
+			}
+			if ( isset( $aParam2['prePopulate'] ) && is_array( $aParam2['prePopulate'] ) ) {
+				return json_encode( $aParam2['prePopulate'] );
+			}
+			
+			return $sValue;
+			
+		}
 		
 		private function getAutocompletenablerScript( $sInputID, $asParam1, $aParam2, $sValue='' ) {
 			
@@ -298,7 +323,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 				"<script type='text/javascript' class='autocomplete-enabler-script'>
 					jQuery( document ).ready( function() {
 
-						var oSavedValues = jQuery.parseJSON( jQuery( '#{$sInputID}' ).attr( 'value' ) );						
+						var oSavedValues = jQuery.parseJSON( jQuery( '#{$sInputID}' ).attr( 'value' ) );
 						jQuery( '#{$sInputID}' ).tokenInput( 
 							{$sParam1}, 
 							jQuery.extend( true, {$sParam2}, {
