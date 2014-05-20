@@ -132,7 +132,6 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 			return $_sContent
 				. $this->_getScriptForRichEditor( $aField['attributes']['id'] );
 			
-			
 		}
 	
 		/**
