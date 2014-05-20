@@ -77,7 +77,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'title'			=> __( 'Text Area', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
 				'help'			=> __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-				'default'		=> __( 'This is default text value.', 'admin-page-framework-demo' ),
+				'default'		=> __( 'This is a default text value.', 'admin-page-framework-demo' ),
 				'attributes'	=>	array(
 					'cols'	=>	40,				
 				),
