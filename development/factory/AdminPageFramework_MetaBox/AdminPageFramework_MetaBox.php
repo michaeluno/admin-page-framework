@@ -127,7 +127,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	* 			'title'			=> 'Textarea',
 	* 			'description'	=> 'The description for the field.',
 	* 			'type'			=> 'textarea',
-	* 			'default'			=> 'This is default text value.',
+	* 			'default'			=> 'This is a default text value.',
 	* 		)
 	* 	);		
 	* }</code>
