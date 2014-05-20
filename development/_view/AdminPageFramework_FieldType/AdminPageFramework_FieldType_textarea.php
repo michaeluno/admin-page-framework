@@ -79,32 +79,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
 						: "" 
 					)
-					. ( ! empty( $aField['rich'] ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' )
-							? wp_editor( 
-								$aField['value'],
-								$aField['attributes']['id'],  
-								$this->uniteArrays( 
-									( array ) $aField['rich'],
-									array(
-										'wpautop' => true, // use wpautop?
-										'media_buttons' => true, // show insert/upload button(s)
-										'textarea_name' => $aField['attributes']['name'],
-										'textarea_rows' => $aField['attributes']['rows'],
-										'tabindex' => '',
-										'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-										'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-										'editor_class' => $aField['attributes']['class'], // add extra class(es) to the editor textarea
-										'teeny' => false, // output the minimal editor config used in Press This
-										'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-										'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-										'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
-									)
-								)
-							) . $this->_getScriptForRichEditor( $aField['attributes']['id'] )
-							: "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >"	// this method is defined in the base class
-									. $aField['value']
-								. "</textarea>"
-					)
+					. $this->_getEditor( $aField )
 					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 					. $aField['after_input']
 				. "</label>"
@@ -112,6 +87,53 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 		;
 		
 	}
+	
+		/**
+		 * Returns the output of the editor.
+		 * 
+		 * @since			3.0.7
+		 */
+		private function _getEditor( $aField ) {
+			
+			// For no TinyMCE
+			if ( empty( $aField['rich'] ) || ! version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) || ! function_exists( 'wp_editor' ) ) {
+				return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >"	// this method is defined in the base class
+							. $aField['value']
+						. "</textarea>";
+			}
+			
+			// Rich editor
+			// Capture the output buffer.
+			ob_start(); // Start buffer.
+			wp_editor( 
+				$aField['value'],
+				$aField['attributes']['id'],  
+				$this->uniteArrays( 
+					( array ) $aField['rich'],
+					array(
+						'wpautop' => true, // use wpautop?
+						'media_buttons' => true, // show insert/upload button(s)
+						'textarea_name' => $aField['attributes']['name'],
+						'textarea_rows' => $aField['attributes']['rows'],
+						'tabindex' => '',
+						'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
+						'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
+						'editor_class' => $aField['attributes']['class'], // add extra class(es) to the editor textarea
+						'teeny' => false, // output the minimal editor config used in Press This
+						'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
+						'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+						'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()													
+					)
+				)
+			);
+			$_sContent = ob_get_contents(); // Assign the content buffer to a variable.
+			ob_end_clean(); // End buffer and remove the buffer.
+			
+			return $_sContent
+				. $this->_getScriptForRichEditor( $aField['attributes']['id'] );
+			
+			
+		}
 	
 		/**
 		 * Provides the JavaScript script that hides the rich editor until the document gets loaded and places into the right position.
