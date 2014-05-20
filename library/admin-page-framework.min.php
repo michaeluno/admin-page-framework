@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.0.7b03
+ * Version: 3.0.7b04
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
@@ -987,7 +987,7 @@ vertical-align: top;
 				vertical-align: top; 
 			} 
 			
-		" . PHP_EOL; } public function _replyToGetField( $aField ) { return "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>" : "" ) . ( ! empty( $aField['rich'] ) && version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) && function_exists( 'wp_editor' ) ? wp_editor( $aField['value'], $aField['attributes']['id'], $this->uniteArrays( ( array ) $aField['rich'], array( 'wpautop' => true, 'media_buttons' => true, 'textarea_name' => $aField['attributes']['name'], 'textarea_rows' => $aField['attributes']['rows'], 'tabindex' => '', 'tabfocus_elements' => ':prev,:next', 'editor_css' => '', 'editor_class' => $aField['attributes']['class'], 'teeny' => false, 'dfw' => false, 'tinymce' => true, 'quicktags' => true ) ) ) . $this->_getScriptForRichEditor( $aField['attributes']['id'] ) : "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" . $aField['value'] . "</textarea>" ) . "<div class='repeatable-field-buttons'></div>" . $aField['after_input'] . "</label>" . "</div>" ; } private function _getScriptForRichEditor( $sIDSelector ) { return "<script type='text/javascript'>
+		" . PHP_EOL; } public function _replyToGetField( $aField ) { return "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>" : "" ) . $this->_getEditor( $aField ) . "<div class='repeatable-field-buttons'></div>" . $aField['after_input'] . "</label>" . "</div>" ; } private function _getEditor( $aField ) { if ( empty( $aField['rich'] ) || ! version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) || ! function_exists( 'wp_editor' ) ) { return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" . $aField['value'] . "</textarea>"; } ob_start(); wp_editor( $aField['value'], $aField['attributes']['id'], $this->uniteArrays( ( array ) $aField['rich'], array( 'wpautop' => true, 'media_buttons' => true, 'textarea_name' => $aField['attributes']['name'], 'textarea_rows' => $aField['attributes']['rows'], 'tabindex' => '', 'tabfocus_elements' => ':prev,:next', 'editor_css' => '', 'editor_class' => $aField['attributes']['class'], 'teeny' => false, 'dfw' => false, 'tinymce' => true, 'quicktags' => true ) ) ); $_sContent = ob_get_contents(); ob_end_clean(); return $_sContent . $this->_getScriptForRichEditor( $aField['attributes']['id'] ); } private function _getScriptForRichEditor( $sIDSelector ) { return "<script type='text/javascript'>
 				jQuery( '#wp-{$sIDSelector}-wrap' ).hide();
 				jQuery( document ).ready( function() {
 					jQuery( '#wp-{$sIDSelector}-wrap' ).appendTo( '#field-{$sIDSelector}' );
