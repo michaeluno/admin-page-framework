@@ -32,7 +32,7 @@ if ( is_admin() ) :
 	include_once( APFDEMO_DIRNAME . '/example/APF_BasicUsage.php' );	// Include the basic usage example that creates a root page and its sub-pages.
 	new APF_BasicUsage;
 
-	// Adds pages and forms in the custom post type root page  - 2.2 seconds
+	// Adds pages and forms in the custom post type root page
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
 	new APF_Demo; 
 
@@ -84,6 +84,10 @@ if ( is_admin() ) :
 	// Add fields in the taxonomy page
 	include_once( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
 	new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
+	
+	// Adds pages and forms in the network admin area.
+	include_once( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin.php' );	// Include the demo class that creates various forms.
+	new APF_NetworkAdmin; 	
 	
 endif;
 

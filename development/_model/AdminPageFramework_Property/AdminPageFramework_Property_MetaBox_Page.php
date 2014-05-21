@@ -48,6 +48,9 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sFieldsType='page_meta_box' ) {		
 		
 		add_action( 'admin_menu', array( $this, '_replyToSetUpProperties' ), 100 );			// this must be done after the menu class finishes building the menu with the _replyToBuildMenu() method.
+		if ( is_network_admin() ) { 
+			add_action( 'network_admin_menu', array( $this, '_replyToSetUpProperties' ), 100 );	
+		}		
 		
 		parent::__construct( $oCaller, $sClassName, $sCapability, $sTextDomain, $sFieldsType );
 

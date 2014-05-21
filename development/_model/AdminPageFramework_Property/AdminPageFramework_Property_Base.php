@@ -462,6 +462,9 @@ abstract class AdminPageFramework_Property_Base {
 	
 	/**
 	 * Defines the fields type.
+	 * 
+	 * Can be either 'page', 'network_admin_page', 'post_meta_box', 'page_meta_box', 'post_type', 'taxonomy'
+	 * 
 	 * @since			3.0.4
 	 * @internal
 	 */
@@ -482,6 +485,14 @@ abstract class AdminPageFramework_Property_Base {
 	 * @internal
 	 */
 	public $sPageNow;
+	
+	/**
+	 * Indicates whether the setUp() method is loaded.
+	 * 
+	 * Currently only AdminPageFramework and AdminPageFramework_NetworkAdmin set this property.
+	 * @since			3.1.0
+	 */
+	public $bSetupLoaded;
 	
 	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
 		

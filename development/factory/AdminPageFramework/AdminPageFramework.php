@@ -249,7 +249,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @return			void			returns nothing.
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
-			
+						
 		parent::__construct( 
 			$sOptionKey, 
 			$sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.
@@ -335,7 +335,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @return			void
 	 */ 
 	public function addHelpTab( $aHelpTab ) {
-		$this->oHelpPane->_addHelpTab( $aHelpTab );
+		if ( method_exists( $this->oHelpPane, '_addHelpTab' ) ) {
+			$this->oHelpPane->_addHelpTab( $aHelpTab );
+		}
 	}
 
 	/*
@@ -363,7 +365,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @return			array			The array holing the queued items.
 	 */
 	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueStyles' ) ) {
+			return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 	}
 	/**
 	 * Enqueues a style by page slug and tab slug.
@@ -388,7 +392,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @return			string			The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
+		if ( method_exists( $this->oHeadTag, '_enqueueStyle' ) ) {
+			return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
+		}
 	}
 	/**
 	 * Enqueues scripts by page slug and tab slug.
@@ -412,7 +418,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @return			array			The array holding the queued items.
 	 */
 	public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueScripts' ) ) {
+			return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
@@ -449,7 +457,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	
-		return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueScript' ) ) {
+			return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 	}
 	
 	/**
@@ -471,7 +481,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* @return			void
 	*/		
 	public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
-		$this->oLink->_addLinkToPluginDescription( func_get_args() );		
+		if ( method_exists( $this->oLink, '_addLinkToPluginDescription' ) ) {
+			$this->oLink->_addLinkToPluginDescription( func_get_args() );		
+		}
 	}
 
 	/**
@@ -492,7 +504,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	* @return			void
 	*/	
 	public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {	
-		$this->oLink->_addLinkToPluginTitle( func_get_args() );		
+		if ( method_exists( $this->oLink, '_addLinkToPluginTitle' ) ) {
+			$this->oLink->_addLinkToPluginTitle( func_get_args() );		
+		}
 	}
 	 
 	/**

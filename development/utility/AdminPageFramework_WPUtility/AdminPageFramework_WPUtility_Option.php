@@ -41,5 +41,29 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 		
 	}
 	
+	/**
+	 * Retrieves the saved option value from the given option key, field ID, and section ID.
+	 * 
+	 * @since			3.1.0
+	 * @remark			Used in the network admin area.
+	 * @param			string			$sOptionKey			the option key of the options table.
+	 * @param			string			$asKey				the field id or the array that represents the key structure consisting of the section ID and the field ID.
+	 * @param			mixed			$vDefault			the default value that will be returned if nothing is stored.
+	 */
+	static public function getSiteOption( $sOptionKey, $asKey=null, $vDefault=null ) {
+
+		// If only the option key is given, the default value is treated as the entire option data.
+		if ( ! $asKey ) {
+			return get_site_option( $sOptionKey, isset( $vDefault ) ? $vDefault : array() );
+		}
+		
+		// Now either the section ID or field ID is given. 
+		$_aOptions = get_site_option( $sOptionKey, array() );
+		$_aKeys = self::shiftTillTrue( self::getAsArray( $asKey ) );
+
+		return self::getArrayValueByArrayKeys( $_aOptions, $_aKeys, $vDefault );
+		
+	}	
+	
 }
 endif;

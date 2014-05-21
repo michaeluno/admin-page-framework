@@ -29,6 +29,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public $_sPropertyType = 'page';
 	
 	/**
+	 * Defines the fields type.
+	 * 
+	 * @since			3.1.0
+	 */
+	public $sFieldsType = 'page';
+	
+	/**
 	 * Stores framework's instantiated object name.
 	 * 
 	 * @since			2.0.0
@@ -229,9 +236,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * @since			2.1.5			The $oCaller parameter was added.
 	 * @return			void
 	 */ 
-	public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sFieldsType='page' ) {
+	public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 		
-		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType );
+		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $this->sFieldsType );
 		
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 				
@@ -290,6 +297,16 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	/*
 	 * Utility methods
 	 * */
+	 
+	/**
+	 * Saves the options into the database.
+	 * 
+	 * @since			3.1.0
+	 */
+	public function updateOption( $aOptions=null ) {
+		update_option( $this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions );
+	}
+	
 	
 	/**
 	 * Checks if the given page slug is one of the pages added by the framework.

@@ -50,7 +50,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 	 */
 	static public function getQueryAdminURL( $aAddingQueries=array(), $aRemovingQueryKeys=array(), $sSubjectURL='' ) {
 		
-		$_sAdminURL = AdminPageFramework_WPUtility::isNetworkAdmin()
+		$_sAdminURL = is_network_admin()
 			? network_admin_url( AdminPageFramework_WPUtility_Page::getPageNow() )
 			: admin_url( AdminPageFramework_WPUtility_Page::getPageNow() );
 		

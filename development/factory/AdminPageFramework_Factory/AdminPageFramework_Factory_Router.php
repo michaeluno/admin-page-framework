@@ -75,11 +75,11 @@ abstract class AdminPageFramework_Factory_Router {
 		// Objects - Model
 		$this->oProp = $oProp;
 		$this->oMsg = AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
-		
+AdminPageFramework_Debug::logArray( array( 'fields type' => $oProp->sFieldsType, 'is in the page' => $this->_isInThePage() ) );
 		if ( $this->_isInThePage() ) :
 	
 			// Objects - Model
-			$this->oForm = new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
+			$this->oForm = $this->_getFormInstance( $oProp );
 		
 			// Objects - Control
 			$this->oHeadTag = $this->_getHeadTagInstance( $oProp );
@@ -110,6 +110,27 @@ abstract class AdminPageFramework_Factory_Router {
 	 * Route
 	 */
 	/**
+	 * Instantiate a form object based on the type.
+	 * 
+	 * @since			3.1.0
+	 */
+	protected function _getFormInstance( $oProp ) {
+		
+		switch ( $oProp->sFieldsType ) {
+			case 'page':
+			case 'network_admin_page':
+				return new AdminPageFramework_FormElement_Page( $oProp->sFieldsType, $oProp->sCapability );
+			case 'post_meta_box':
+			case 'page_meta_box':
+			case 'post_type':
+			case 'taxonomy':
+				return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
+	
+		}		
+		
+	}
+	
+	/**
 	 * Instantiate a head tag object based on the type.
 	 * 
 	 * @since			3.0.4
@@ -119,6 +140,7 @@ abstract class AdminPageFramework_Factory_Router {
 		
 		switch ( $oProp->sFieldsType ) {
 			case 'page':
+			case 'network_admin_page':
 				return new AdminPageFramework_HeadTag_Page( $oProp );
 			case 'post_meta_box':
 				return new AdminPageFramework_HeadTag_MetaBox( $oProp );
@@ -143,6 +165,7 @@ abstract class AdminPageFramework_Factory_Router {
 
 		switch ( $oProp->sFieldsType ) {
 			case 'page':
+			case 'network_admin_page':
 				return new AdminPageFramework_HelpPane_Page( $oProp );
 			case 'post_meta_box':
 				return new AdminPageFramework_HelpPane_MetaBox( $oProp );
@@ -165,7 +188,8 @@ abstract class AdminPageFramework_Factory_Router {
 		
 		switch ( $oProp->sFieldsType ) {
 			case 'page':
-				return null;
+			case 'network_admin_page':
+				return new AdminPageFramework_Link_Page( $oProp, $oMsg );
 			case 'post_meta_box':
 				return null;
 			case 'page_meta_box':
@@ -189,6 +213,8 @@ abstract class AdminPageFramework_Factory_Router {
 		switch ( $oProp->sFieldsType ) {
 			case 'page':
 				return AdminPageFramework_PageLoadInfo_Page::instantiate( $oProp, $oMsg );
+			case 'network_admin_page':
+				return AdminPageFramework_PageLoadInfo_NetworkAdminPage::instantiate( $oProp, $oMsg );
 			case 'post_meta_box':
 				return null;
 			case 'page_meta_box':

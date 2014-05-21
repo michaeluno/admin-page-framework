@@ -16,21 +16,5 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility' ) ) :
  * @subpackage		Utility
  * @internal
  */
-class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Post {
-	
-	/**
-	 * Checks whether the currently loading page is in the network admin area.
-	 * @since			3.0.7
-	 */
-	static public function isNetworkAdmin() {
-
-		if ( defined( 'WP_NETWORK_ADMIN' ) ) {
-			return WP_NETWORK_ADMIN;
-		}
-
-		return false;
-
-	}	
-	
-}
+class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Post {}
 endif;

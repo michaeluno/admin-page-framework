@@ -150,17 +150,20 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 				
 		// Objects
-		$this->oProp = new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
-		$this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
-		$this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
-		$this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
-		$this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $this->oMsg );
-		$this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
-		$this->oUtil = new AdminPageFramework_WPUtility;
-		$this->oDebug = new AdminPageFramework_Debug;		
+		$this->oProp = isset( $this->oProp ) 
+			? $this->oProp	// for the AdminPageFramework_NetworkAdmin class
+			: new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
+		parent::__construct( $this->oProp );
+		// $this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
+		// $this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
+		// $this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
+		// $this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $this->oMsg );
+		// $this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
+		// $this->oUtil = new AdminPageFramework_WPUtility;
+		// $this->oDebug = new AdminPageFramework_Debug;		
 
 		if ( $this->oProp->bIsAdmin ) {
-			add_action( 'wp_loaded', array( $this, 'setUp' ) );		
+			add_action( 'wp_loaded', array( $this, 'setup_pre' ) );		
 		}
 		
 	}
@@ -234,6 +237,12 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
 		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
 
+		if ( 'setup_pre' == $sMethodName ) {
+			$this->setUp();
+			$this->oProp->bSetupLoaded = true;
+			return;
+		}
+		
 		// If it is a pre callback method, call the redirecting method.		
 		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' )	return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback	- defined in AdminPageFramework_Setting
 		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )		== 'field_pre_' )	return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
@@ -313,17 +322,22 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 */
 	protected function _isInThePage( $aPageSlugs=array() ) {
 		
+		// If the setUp method is not loaded yet,
+		if ( ! $this->oProp->bSetupLoaded ) {
+			return true;
+		}	
+		
 		if ( in_array( $this->oProp->sPageNow, array( 'options.php' ) ) ) {			
 			return true;
 		}
 
 		if ( ! isset( $_GET['page'] ) ) return false;
-		
+				
 		if ( empty( $aPageSlugs ) ) {
 			return $this->oProp->isPageAdded();
 		}
 				
-		return ( in_array( $_GET['page'], $aPageSlugs ) );
+		return in_array( $_GET['page'], $aPageSlugs );
 		
 	}
 }
