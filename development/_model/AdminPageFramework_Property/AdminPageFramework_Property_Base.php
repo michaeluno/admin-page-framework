@@ -182,6 +182,11 @@ abstract class AdminPageFramework_Property_Base {
 		}
 		
 		/* Form Elements */
+		/* TD paddings when the field title is disabled */
+		.admin-page-framework-field-td-no-title {
+			padding-left: 0;
+			padding-right: 0;
+		}
 		/* Section Table */
 		.admin-page-framework-section .form-table {
 			margin-top: 0;
@@ -490,9 +495,11 @@ abstract class AdminPageFramework_Property_Base {
 	 * Indicates whether the setUp() method is loaded.
 	 * 
 	 * Currently only AdminPageFramework and AdminPageFramework_NetworkAdmin set this property.
+	 * 
 	 * @since			3.1.0
+	 * @internal
 	 */
-	public $bSetupLoaded;
+	public $_bSetupLoaded;
 	
 	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
 		
