@@ -25,7 +25,7 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 	 * If the form is submitted, it calls the validation callback method and reloads the page.
 	 * 
 	 * @remark			This method is triggered when the page is about to be rendered.
-	 * @since			3.0.7
+	 * @since			3.1.0
 	 */
 	protected function _handleSubmittedData() {
 		

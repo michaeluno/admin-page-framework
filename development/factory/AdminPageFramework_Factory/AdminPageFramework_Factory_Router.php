@@ -75,7 +75,7 @@ abstract class AdminPageFramework_Factory_Router {
 		// Objects - Model
 		$this->oProp = $oProp;
 		$this->oMsg = AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
-AdminPageFramework_Debug::logArray( array( 'fields type' => $oProp->sFieldsType, 'is in the page' => $this->_isInThePage() ) );
+
 		if ( $this->_isInThePage() ) :
 	
 			// Objects - Model
@@ -93,10 +93,16 @@ AdminPageFramework_Debug::logArray( array( 'fields type' => $oProp->sFieldsType,
 		
 	}	
 	
-		
+	/**
+	 * Determines whether the class object is instantiatable in the current page.
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */ 
+	protected function _isInstantiatabe() { return true; }
 	
 	/**
-	 * Determines whether the meta box belongs to the loading page.
+	 * Determines whether the instantiated object and its producing elements belong to the loading page.
 	 * 
 	 * This method should be redefined in the extended class.
 	 * 
@@ -224,6 +230,7 @@ AdminPageFramework_Debug::logArray( array( 'fields type' => $oProp->sFieldsType,
 			case 'taxonomy':
 				return null;
 		}		
+		
 	}
 	
 	/**

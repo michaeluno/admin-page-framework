@@ -57,8 +57,8 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_network', $sTextDomain='admin-page-framework' ){
 			
-		if ( ! is_network_admin() ) { 
-			return; 
+		if ( ! $this->_isInstantiatabe() ) {
+			return;
 		}
 		
 		add_action( 'network_admin_menu', array( $this, '_replyToBuildMenu' ), 98 );					
@@ -78,6 +78,23 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
 		
 	}	
 
+	/**
+	 * Checks whether the class should be instantiated.
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */
+	protected function _isInstantiatabe() {
+		
+		// Nothing to do in the non-network admin area.
+		if ( is_network_admin() ) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 	
 	/**
 	 * Retrieves the saved option value from the given option key and the dimensional array key representation.

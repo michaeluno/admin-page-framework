@@ -73,11 +73,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'	
 
 		if ( $this->oProp->bIsAdmin ) {
-			
 			add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );	
-								
 		}	
-
 
 	}
 
@@ -99,14 +96,13 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		
 		$this->_loadDefaultFieldTypeDefinitions();
 		$this->setUp();
+		$this->oProp->_bSetupLoaded = true;
 		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
 		add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
 		add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 		
 	}	
-		
-
-	
+			
 	/**
 	 * Echoes the meta box contents.
 	 * 
@@ -117,7 +113,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	 * @return			void
 	 */ 
 	public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {	
-		
+
 		// Use nonce for verification
 		$_aOutput = array();
 		$_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );

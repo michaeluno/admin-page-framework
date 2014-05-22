@@ -275,7 +275,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.0.7 =
+= 3.1.0 =
+- Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
+- Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
 - Fixed an issue that `textarea` input field was placed in the wrong position when the browser turned off JavaScript.
 - Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
 - Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.

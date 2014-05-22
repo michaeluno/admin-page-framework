@@ -25,7 +25,7 @@ class APF_BasicUsage extends AdminPageFramework {
 	public function do_apf_first_page() {	// do_ + {page slug}
 		?>
 			<h3><?php _e( 'do_ + {...} Action Hooks', 'admin-page-framework-demo' ); ?></h3>
-			<p><?php _e( 'Hi there! This text is inserted by the <code>do_{page slug}</code> action hook and the callback method.', 'admin-page-framework-demo' ); ?></p>
+			<p><?php _e( 'Hi there! This text message is inserted by the <code>do_{page slug}</code> action hook and the callback method.', 'admin-page-framework-demo' ); ?></p>
 		<?php
 
 	}

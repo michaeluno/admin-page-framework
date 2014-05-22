@@ -209,14 +209,14 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	protected function addSubMenuPage( array $aSubMenuPage ) {}
 	
 	/* Defined in AdminPageFramework_Setting */
-	// public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {}	// deprecated as of 3.0.7 and uses the definition defined in the factory class
+	// public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {}	// deprecated as of 3.1.0 and uses the definition defined in the factory class
 	public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {}
 	public function addSettingSection( $asSection ) {}
 	public function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {}	
 	public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {}
 	public function addSettingField( $asField ) {}
 	public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {}
-	// public function setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {}		// deprecated as of 3.0.7 and uses the definition defined in the factory class
+	// public function setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {}		// deprecated as of 3.1.0 and uses the definition defined in the factory class
 	public function getFieldValue( $sFieldID ) {}
 	/**#@-*/    
 	
@@ -239,14 +239,14 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 
 		if ( 'setup_pre' == $sMethodName ) {
 			$this->setUp();
-			$this->oProp->bSetupLoaded = true;
+			$this->oProp->_bSetupLoaded = true;
 			return;
 		}
 		
 		// If it is a pre callback method, call the redirecting method.		
 		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' )	return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback	- defined in AdminPageFramework_Setting
 		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )		== 'field_pre_' )	return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
-		// if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' )	return $this->_doValidationCall( $aArgs[ 0 ] ); // register_setting() callback - defined in AdminPageFramework_Setting	// deprecated as of 3.0.7
+		// if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' )	return $this->_doValidationCall( $aArgs[ 0 ] ); // register_setting() callback - defined in AdminPageFramework_Setting	// deprecated as of 3.1.0
 		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )		== 'load_pre_' )	return $this->_doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
 
 		// The callback of the call_page_{page slug} action hook
@@ -314,6 +314,24 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 			: 1;
 	}	
 
+	
+	/**
+	 * Checks whether the class should be instantiated.
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */
+	protected function _isInstantiatabe() {
+		
+		// Nothing to do in the non-network admin area.
+		if ( ! is_network_admin() ) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 	/**
 	 * Checks whether the currently loading page is of the given pages. 
 	 * 
@@ -321,9 +339,14 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 * @internal
 	 */
 	protected function _isInThePage( $aPageSlugs=array() ) {
+				
+		// Maybe called too early
+		if ( ! isset( $this->oProp ) ) {
+			return true;
+		}
 		
 		// If the setUp method is not loaded yet,
-		if ( ! $this->oProp->bSetupLoaded ) {
+		if ( ! $this->oProp->_bSetupLoaded ) {
 			return true;
 		}	
 		

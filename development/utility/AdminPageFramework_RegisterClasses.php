@@ -82,7 +82,7 @@ class AdminPageFramework_RegisterClasses {
 			  2 => string '.../class/MyClass3.php'
 			  ...
 		 * 
-		 * @since			3.0.7
+		 * @since			3.1.0
 		 */
 		protected function getFilePaths( $sClassDirPath, $aAllowedExtensions, $aRecursiveOptions ) {
 			

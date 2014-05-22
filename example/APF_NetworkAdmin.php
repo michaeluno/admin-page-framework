@@ -193,62 +193,16 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 				'order'		=>	97,
 			)
 		);
-		$this->addInPageTabs(	// ( optional )
-			/*
-			 * Read Me
-			 * */
-			'apf_read_me',
-			array(
-				'tab_slug'	=>	'description',
-				'title'		=>	__( 'Description', 'admin-page-framework-demo' ),
-			),				
-			array(
-				'tab_slug'	=>	'installation',
-				'title'		=>	__( 'Installation', 'admin-page-framework-demo' ),
-			),	
-			array(
-				'tab_slug'	=>	'frequently_asked_questions',
-				'title'		=>	__( 'FAQ', 'admin-page-framework-demo' ),
-			),		
-			array(
-				'tab_slug'	=>	'other_notes',
-				'title'		=>	__( 'Other Notes', 'admin-page-framework-demo' ),
-			),					
-			array(
-				'tab_slug'	=>	'changelog',
-				'title'		=>	__( 'Change Log', 'admin-page-framework-demo' ),
-			)
-		);			
 		
 		/* ( optional ) Determine the page style */
 		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setPageTitleVisibility( false, 'apf_read_me' );	// disable the page title of a specific page.
 		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
-		// $this->setInPageTabsVisibility( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 		
 		/* 
 		 * ( optional ) Enqueue styles  
 		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
 		 * */
 		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
-		$sStyleHandle = $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well
-		
-		/*
-		 * ( optional )Enqueue scripts
-		 * $this->enqueueScript(  'script url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-		 */
-		$this->enqueueScript(  
-			plugins_url( 'asset/js/test.js' , APFDEMO_FILE ),	// source url or path
-			'apf_read_me', 	// page slug
-			'', 	// tab slug
-			array(
-				'handle_id'	=>	'my_script',	// this handle ID also is used as the object name for the translation array below.
-				'translation'	=>	array( 
-					'a'	=>	'hello world!',
-					'style_handle_id'	=>	$sStyleHandle,	// check the enqueued style handle ID here.
-				),
-			)
-		);
 			
 		/*
 		 * ( optional ) Contextual help pane
@@ -1048,11 +1002,12 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 				'title'	=>	__( 'Select an Image', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
 				'label'	=>	__( 'First Image', 'admin-page-framework-demo' ),
-				'default'	=>	network_admin_url( 'images/wordpress-logo.png' ), 
+				// 'default'	=>	network_admin_url( 'images/wordpress-logo.png' ), 
+				'default'	=>	 plugins_url( 'asset/image/wordpress-logo-2x.png' , APFDEMO_FILE ),
 				'allow_external_source'	=>	false,
 				'attributes'	=> array(
 					'preview'	=> array(
-						'style'	=> 'max-width:250px;'	// determines the size of the preview image.	// margin-left: auto; margin-right: auto; will make the image in the center.
+						'style'	=> 'max-width:400px;'	// determines the size of the preview image.	// margin-left: auto; margin-right: auto; will make the image in the center.
 					),
 				),
 				array(

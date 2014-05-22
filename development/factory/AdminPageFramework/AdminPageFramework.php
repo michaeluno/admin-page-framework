@@ -250,6 +250,10 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
 						
+		if ( ! $this->_isInstantiatabe() ) {
+			return;
+		 }
+						
 		parent::__construct( 
 			$sOptionKey, 
 			$sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.

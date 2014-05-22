@@ -223,10 +223,18 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	/** 
 	 * Stores the target page redirected to when the user submit the form of the framework.
 	 * 
-	 * @since			3.0.7
+	 * @since			3.1.0
 	 */
 	public $sTargetFormPage = '';
 	 
+	 
+	/**
+	 * Indicates whether the menu building procedure has been completed. 
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */
+	public $_bBuiltMenu = false;
 		
 	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.

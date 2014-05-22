@@ -92,8 +92,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 				? $this->oProp->getOptionKey( $_GET['page'] )
 				: null;
 		}
-			
-			
+					
 	/**
 	 * Adds the defined meta box.
 	 * 
@@ -104,8 +103,8 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 	 * @remark			A callback for the <em>add_meta_boxes</em> hook.
 	 * @return			void
 	 */ 
-	public function _replyToAddMetaBox() {
-		
+	public function _replyToAddMetaBox( $sPageHook='' ) {
+
 		foreach( $this->oProp->aPageSlugs as $sKey => $asPage ) {
 			
 			if ( is_string( $asPage ) )  {
@@ -132,7 +131,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 		 * @internal
 		 */
 		private function _addMetaBox( $sPageSlug ) {
-			
+
 			add_meta_box( 
 				$this->oProp->sMetaBoxID, 		// id
 				$this->oProp->sTitle, 	// title

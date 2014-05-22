@@ -407,11 +407,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 			$aSubMenuItem = $this->_formatSubMenuItemArray( $aSubMenuItem );	// needs to be sanitized because there are hook filters applied to this array.
 			$aSubMenuItem['_page_hook'] = $this->_registerSubMenuItem( $aSubMenuItem );	// store the page hook; this is same as the value stored in the global $page_hook or $hook_suffix variable. 
 		}
-						
+
 		// After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
 		if ( $this->oProp->aRootMenu['fCreateRoot'] ) {
 			remove_submenu_page( $this->oProp->aRootMenu['sPageSlug'], $this->oProp->aRootMenu['sPageSlug'] );
 		}
+
+		$this->oProp->_bBuiltMenu = true;
 		
 	}	
 		
@@ -546,7 +548,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 
 				// If the visibility option is false, remove the one just added from the sub-menu array
 				if ( ! $aArgs['show_in_menu'] ) {
-AdminPageFramework_Debug::logArray( 'is network admin: ' . is_network_admin() );
+
 					foreach( ( array ) $GLOBALS['submenu'][ $sMenuLabel ] as $iIndex => $aSubMenu ) {
 						
 						if ( ! isset( $aSubMenu[ 3 ] ) ) continue;

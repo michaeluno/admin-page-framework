@@ -1092,11 +1092,12 @@ class APF_Demo extends AdminPageFramework {
 				'title'	=>	__( 'Select an Image', 'admin-page-framework-demo' ),
 				'type'	=>	'image',
 				'label'	=>	__( 'First Image', 'admin-page-framework-demo' ),
-				'default'	=>	admin_url( 'images/wordpress-logo.png' ), 
+				// 'default'	=>	admin_url( 'images/wordpress-logo.png' ), 
+				'default'	=>	 plugins_url( 'asset/image/wordpress-logo-2x.png' , APFDEMO_FILE ),
 				'allow_external_source'	=>	false,
 				'attributes'	=> array(
 					'preview'	=> array(
-						'style'	=> 'max-width:250px;'	// determines the size of the preview image.	// margin-left: auto; margin-right: auto; will make the image in the center.
+						'style'	=> 'max-width:400px;'	// determines the size of the preview image.	// margin-left: auto; margin-right: auto; will make the image in the center.
 					),
 				),
 				array(

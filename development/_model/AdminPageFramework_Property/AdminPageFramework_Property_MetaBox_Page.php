@@ -88,9 +88,9 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	 * @internal
 	 */
 	public function _getScreenIDOfPage( $sPageSlug ) {
-		
-		return ( $oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
-			? $oAdminPage->oProp->aPages[ $sPageSlug ]['_page_hook']
+
+		return ( $_oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
+			? $_oAdminPage->oProp->aPages[ $sPageSlug ]['_page_hook'] . ( is_network_admin() ? '-network' : '' )
 			: '';
 		
 	}	
@@ -103,8 +103,8 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	 */
 	public function isPageAdded( $sPageSlug='' ) {	
 		
-		return ( $oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
-			? $oAdminPage->oProp->isPageAdded( $sPageSlug )
+		return ( $_oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
+			? $_oAdminPage->oProp->isPageAdded( $sPageSlug )
 			: false;
 
 	}
@@ -139,8 +139,8 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	public function getDefaultInPageTab( $sPageSlug ) {
 	
 		if ( ! $sPageSlug ) return '';		
-		return ( $oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
-			? $oAdminPage->oProp->getDefaultInPageTab( $sPageSlug )
+		return ( $_oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
+			? $_oAdminPage->oProp->getDefaultInPageTab( $sPageSlug )
 			: '';	
 
 	}	
@@ -152,8 +152,8 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 	public function getOptionKey( $sPageSlug ) {
 		
 		if ( ! $sPageSlug ) return '';		
-		return ( $oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
-			? $oAdminPage->oProp->sOptionKey
+		return ( $_oAdminPage = $this->_getOwnerClass( $sPageSlug ) )
+			? $_oAdminPage->oProp->sOptionKey
 			: '';			
 		
 	}
@@ -167,9 +167,9 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) ) return null;
 		if ( ! is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) ) return null;
 		 		
-		foreach( $GLOBALS['aAdminPageFramework']['aPageClasses'] as $oClass )
-			if ( $oClass->oProp->isPageAdded( $sPageSlug ) )
-				return $oClass;
+		foreach( $GLOBALS['aAdminPageFramework']['aPageClasses'] as $__oClass )
+			if ( $__oClass->oProp->isPageAdded( $sPageSlug ) )
+				return $__oClass;
 		return null;
 		
 	}

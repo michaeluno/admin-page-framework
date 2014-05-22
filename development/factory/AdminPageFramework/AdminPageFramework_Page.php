@@ -316,7 +316,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			?>
 			<div class="admin-page-framework-container">	
 				<?php
-					// $this->_showSettingsErrors();	// deprecated
 					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_form_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 					$this->_printFormOpeningTag( $this->oProp->bEnableForm );	// <form ... >
 				?>
@@ -365,10 +364,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 										
 			// Render the form elements by Settings API
 			if ( $this->oProp->bEnableForm ) {
-
-// this value also determines the $option_page global variable value. This is important to get redirected back from option.php page.
-// This also is needed for page meta box fields.
-// settings_fields( $this->oProp->sOptionKey );	
 				
 				// do_settings_sections( $sPageSlug ); // deprecated						
 				if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
@@ -382,16 +377,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 					$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 					
 					echo $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
-					// echo $oFieldsTable->getFormTables( $this->oForm->getFieldsByPageSlug( $sPageSlug, $sTabSlug ), array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+
 				} 
 				
 			}				
 			 
-			$sContent = ob_get_contents(); // assign the content buffer to a variable
+			$_sContent = ob_get_contents(); // assign the content buffer to a variable
 			ob_end_clean(); // end buffer and remove the buffer
 						
 			// Apply the content filters.
-			echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContent );
+			echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $_sContent );
 
 			// Do the page actions.
 			$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );			
@@ -405,7 +400,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		 * Retrieves the form opening tag.
 		 * 
 		 * @since			2.0.0
-		 * @since			3.0.7			Changed to echo the output
+		 * @since			3.1.0			Changed to echo the output
 		 * @internal
 		 * @return			void
 		 */ 
@@ -432,7 +427,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		 * Retrieves the form closing tag.
 		 * 
 		 * @since			2.0.0
-		 * @since			3.0.7			Prints out the output.
+		 * @since			3.1.0			Prints out the output.
 		 * @internal
 		 * @return			void
 		 */ 	
@@ -448,70 +443,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 					. "</form><!-- End Form -->";
 			
 		}	
-	
-		/**
-		 * Displays admin notices set for the settings.
-		 * 
-		 * @since			2.0.0
-		 * @since			2.0.1			Fixed a bug that the admin messages were displayed twice in the options-general.php page.
-		 * @since			3.0.7			Deprecated
-		 * @return			void
-		 * @internal		
-		 * @deprecated
-		 */ 
-		private function _showSettingsErrors() {
-			
-			// WordPress automatically performs the settings_errors() function in the options pages. See options-head.php.
-			if ( 'options-general.php' == $this->oProp->sPageNow ) return;	
-			
-			$aSettingsMessages = get_settings_errors( $this->oProp->sOptionKey );
-			
-			// If custom messages are added, remove the default one. 
-			if ( count( $aSettingsMessages ) > 1 ) 
-				$this->_removeDefaultSettingsNotice();
-			
-			settings_errors( $this->oProp->sOptionKey );	// Show the message like "The options have been updated" etc.
-		
-		}
-			/**
-			 * Removes default admin notices set for the settings.
-			 * 
-			 * This removes the settings messages ( admin notice ) added automatically by the framework when the form is submitted.
-			 * This is used when a custom message is added manually and the default message should not be displayed.
-			 * 
-			 * @since			2.0.0
-			 * @internal
-			 */	
-			private function _removeDefaultSettingsNotice() {
-						
-				global $wp_settings_errors;
-				/*
-				 * The structure of $wp_settings_errors
-				 * 	array(
-				 *		array(
-							'setting' => $setting,
-							'code' => $code,
-							'message' => $message,
-							'type' => $type
-						),
-						array( ...
-					)
-				 * */
-				
-				$aDefaultMessages = array(
-					$this->oMsg->__( 'option_cleared' ),
-					$this->oMsg->__( 'option_updated' ),
-				);
-				
-				foreach ( ( array ) $wp_settings_errors as $iIndex => $aDetails ) {
-					
-					if ( $aDetails['setting'] != $this->oProp->sOptionKey ) continue;
-					
-					if ( in_array( $aDetails['message'], $aDefaultMessages ) )
-						unset( $wp_settings_errors[ $iIndex ] );
-						
-				}
-			}		
 	
 		/**
 		 * Retrieves the screen icon output as HTML.
