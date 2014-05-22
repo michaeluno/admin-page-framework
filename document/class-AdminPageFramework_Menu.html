@@ -7,7 +7,7 @@
 	<title>Class AdminPageFramework_Menu | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?1580164335"></script>
+	<script type="text/javascript" src="elementlist.js?734727412"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -57,6 +57,11 @@
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
+						</li>
+							</ul></li>
 				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
@@ -103,24 +108,54 @@
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-AdminPageFramework_Base
+AdminPageFramework_Factory_Router
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Page_MetaBox
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
 		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_View
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_Controller
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Base
+			
+			
+		</dd>
+		<dd style="padding-left:180px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Page_MetaBox
+			
+			
+		</dd>
+		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Page.html"><span>AdminPageFramework_Page</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:90px">
+		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_Menu</span></b>			
 			
@@ -134,6 +169,7 @@ AdminPageFramework_Page_MetaBox
 		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>, 
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>, 
 			<code><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></code>
 		</p>
 	</div>
@@ -152,7 +188,7 @@ AdminPageFramework_Page_MetaBox
 				2.0.0<br>
 				<b>Extends:</b>
 				AdminPageFramework_Page<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Menu.html#10-593" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Menu.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Menu.html#10-607" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Menu.php</a><br>
 	</div>
 
 
@@ -170,7 +206,7 @@ AdminPageFramework_Page_MetaBox
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setRootMenuPage">#</a>
-			<code><a href="source-class-AdminPageFramework_Menu.html#107-148" title="Go to source code">setRootMenuPage</a>( <span>string <var>$sRootMenuLabel</var></span>, <span>string <var>$sIcon16x16</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$iMenuPosition</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Menu.html#106-147" title="Go to source code">setRootMenuPage</a>( <span>string <var>$sRootMenuLabel</var></span>, <span>string <var>$sIcon16x16</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$iMenuPosition</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -261,7 +297,7 @@ function.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setRootMenuPageBySlug">#</a>
-			<code><a href="source-class-AdminPageFramework_Menu.html#164-184" title="Go to source code">setRootMenuPageBySlug</a>( <span>string <var>$sRootMenuSlug</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Menu.html#163-183" title="Go to source code">setRootMenuPageBySlug</a>( <span>string <var>$sRootMenuSlug</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -312,7 +348,7 @@ class="php-quote">'edit.php?post_type=apf_posts'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSubMenuItems">#</a>
-			<code><a href="source-class-AdminPageFramework_Menu.html#186-243" title="Go to source code">addSubMenuItems</a>( <span>array <var>$aSubMenuItem1</var></span>, <span>array <var>$aSubMenuItem2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Menu.html#185-242" title="Go to source code">addSubMenuItems</a>( <span>array <var>$aSubMenuItem1</var></span>, <span>array <var>$aSubMenuItem2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -465,7 +501,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSubMenuItem">#</a>
-			<code><a href="source-class-AdminPageFramework_Menu.html#245-282" title="Go to source code">addSubMenuItem</a>( <span>array <var>$aSubMenuItem</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Menu.html#244-281" title="Go to source code">addSubMenuItem</a>( <span>array <var>$aSubMenuItem</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -589,6 +625,7 @@ callback per page slug.<br>
 			<code>__call()</code>, 
 			<code>_doPageLoadCall()</code>, 
 			<code>_isInThePage()</code>, 
+			<code>_isInstantiatabe()</code>, 
 			<code>_sortByOrder()</code>, 
 			<code>addHelpTab()</code>, 
 			<code>addLinkToPluginDescription()</code>, 
@@ -610,11 +647,38 @@ callback per page slug.<br>
 			<code>setAdminNotice()</code>, 
 			<code>setCapability()</code>, 
 			<code>setDisallowedQueryKeys()</code>, 
-			<code>setFieldErrors()</code>, 
 			<code>setFooterInfoLeft()</code>, 
 			<code>setFooterInfoRight()</code>, 
-			<code>setSettingNotice()</code>, 
 			<code>setUp()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<p class="elementList">
+			<code>addHelpText()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
+		<p class="elementList">
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToPrintSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
+		<p class="elementList">
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code>_getFormInstance()</code>, 
+			<code>_getHeadTagInstance()</code>, 
+			<code>_getHelpPaneInstance()</code>, 
+			<code>_getLinkInstancce()</code>, 
+			<code>_getPageLoadInfoInstance()</code>
 		</p>
 
 
@@ -640,6 +704,10 @@ callback per page slug.<br>
 			<code><var>$oPageLoadInfo</var></code>, 
 			<code><var>$oProp</var></code>, 
 			<code><var>$oUtil</var></code>
+		</p>
+		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code><var>$oForm</var></code>
 		</p>
 
 

@@ -7,7 +7,7 @@
 	<title>Class AdminPageFramework_Setting | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?1580164335"></script>
+	<script type="text/javascript" src="elementlist.js?734727412"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -57,6 +57,11 @@
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
+						</li>
+							</ul></li>
 				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
@@ -103,37 +108,85 @@
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-AdminPageFramework_Base
+AdminPageFramework_Factory_Router
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Page_MetaBox
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
 		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_View
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_Controller
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Base
+			
+			
+		</dd>
+		<dd style="padding-left:180px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Page_MetaBox
+			
+			
+		</dd>
+		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Page.html"><span>AdminPageFramework_Page</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:90px">
+		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Menu.html"><span>AdminPageFramework_Menu</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:120px">
+		<dd style="padding-left:270px">
 			<img src="resources/inherit.png" alt="Extended by">
 AdminPageFramework_Setting_Base
 			
 			
 		</dd>
-		<dd style="padding-left:150px">
+		<dd style="padding-left:300px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Form
+			
+			
+		</dd>
+		<dd style="padding-left:330px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Port
+			
+			
+		</dd>
+		<dd style="padding-left:360px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Validation
+			
+			
+		</dd>
+		<dd style="padding-left:390px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_Setting</span></b>			
 			
@@ -142,11 +195,17 @@ AdminPageFramework_Setting_Base
 	</dl>
 
 
+	<div>
+		<h3>Direct known subclasses</h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>
+		</p>
+	</div>
 
 	<div>
 		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>
 		</p>
 	</div>
 
@@ -163,90 +222,16 @@ AdminPageFramework_Setting_Base
 				<b>Since:</b>
 				2.0.0<br>
 				<b>Extends:</b>
-				AdminPageFramework_Setting_Base<br>
+				AdminPageFramework_Setting_Validation<br>
 				<b>Var:</b>
 				array $aFieldErrors stores the settings field errors.<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#10-524" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Setting.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Setting.html#10-526" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Setting.php</a><br>
 	</div>
 
 
 
 		<h2>Methods summary</h2>
 		<table class="summary table table-bordered table-striped" id="methods">
-		<tr data-order="setSettingNotice" id="_setSettingNotice">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_setSettingNotice">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#22-75" title="Go to source code">setSettingNotice</a>( <span>string <var>$sMsg</var></span>, <span>string <var>$sType</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$bOverride</var> = <span class="php-keyword1">true</span> </span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Sets the given message to be displayed in the next page load.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Sets the given message to be displayed in the next page load.</p>
-
-<p>This is used to inform users about the submitted input data, such as "Updated
-successfully." or "Problem occurred." etc. and normally used in validation
-callback methods.</p>
-
-<h4>Example</h4>
-
-<pre><span class="php-keyword1">if</span> ( ! <span
-class="php-var">$bVerified</span> ) {
-        <span
-class="php-var">$this</span>-&gt;setFieldErrors( <span
-class="php-var">$aErrors</span> );
-        <span
-class="php-var">$this</span>-&gt;setSettingNotice( <span
-class="php-quote">'There was an error in your input.'</span> );
-        <span
-class="php-keyword1">return</span> <span
-class="php-var">$aOldPageOptions</span>;
-}</pre>
-
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$sMsg</var></dt>
-						<dd><code>string</code><br>the text message to be displayed.</dd>
-						<dt><var>$sType</var></dt>
-						<dd><code>string</code><br>( optional ) the type of the message, either "error" or "updated" is used.</dd>
-						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>( optional ) the ID of the message. This is used in the ID attribute of the
-message HTML element.</dd>
-						<dt><var>$bOverride</var></dt>
-						<dd><code>integer</code><br>( optional ) false: do not override when there is a message of the same id.
-true: override the previous one.</dd>
-					</dl></div>
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							2.0.0<br>
-							2.1.2 Added a check to prevent duplicate items.<br>
-							2.1.5 Added the $bOverride parameter.<br>
-							3.0.0 Changed the scope to public from protected.<br>
-					</div>
-
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setSettingNotice</code></div>
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="addSettingSections" id="_addSettingSections">
 
 			<td class="attributes"><code>
@@ -258,7 +243,7 @@ true: override the previous one.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#77-133" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#78-134" title="Go to source code">addSettingSections</a>( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -401,7 +386,7 @@ method returns.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSection">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#135-174" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#136-175" title="Go to source code">addSettingSection</a>( <span>array|string <var>$asSection</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -457,7 +442,7 @@ can be ommited.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingSections">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#176-200" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#177-201" title="Go to source code">removeSettingSections</a>( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -525,7 +510,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#202-398" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#203-399" title="Go to source code">addSettingFields</a>( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1022,7 +1007,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingField">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#399-412" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#400-413" title="Go to source code">addSettingField</a>( <span>array|string <var>$asField</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1071,7 +1056,7 @@ section_id key can be omitted from the next passing field array.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_removeSettingFields">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#414-437" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#415-438" title="Go to source code">removeSettingFields</a>( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1128,131 +1113,6 @@ to three.<br>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="setFieldErrors" id="_setFieldErrors">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_setFieldErrors">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#439-488" title="Go to source code">setFieldErrors</a>( <span>array <var>$aErrors</var></span>, <span>string <var>$sID</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$iLifeSpan</var> = <span class="php-num">300</span> </span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Sets the field error array.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Sets the field error array.</p>
-
-<p>This is normally used in validation callback methods when the submitted
-user's input data have an issue. This method saves the given array in a
-temporary area( transient ) of the options database table.</p>
-
-<h4>Example</h4>
-
-<pre>
-<span class="php-keyword1">public</span> <span
-class="php-keyword1">function</span> validation_APF_Demo_verify_text_field_submit( <span
-class="php-var">$aNewInput</span>, <span
-class="php-var">$aOldOptions</span> ) {
-
-        <span
-class="php-comment">// 1. Set a flag.</span>
-        <span
-class="php-var">$bVerified</span> = <span
-class="php-keyword1">true</span>;
-
-        <span
-class="php-comment">// 2. Prepare an error array.</span>
-        <span
-class="php-var">$aErrors</span> = <span
-class="php-keyword1">array</span>();
-
-        <span
-class="php-comment">// 3. Check if the submitted value meets your criteria.</span>
-        <span
-class="php-keyword1">if</span> ( ! <span
-class="php-keyword2">is_numeric</span>( <span
-class="php-var">$aNewInput</span>[<span
-class="php-quote">'verify_text_field'</span>] ) ) {
-                <span
-class="php-var">$aErrors</span>[<span
-class="php-quote">'verify_text_field'</span>] = __( <span
-class="php-quote">'The value must be numeric:'</span>, <span
-class="php-quote">'admin-page-framework-demo'</span> )
-                        . <span
-class="php-var">$aNewInput</span>[<span
-class="php-quote">'verify_text_field'</span>];
-                <span
-class="php-var">$bVerified</span> = <span
-class="php-keyword1">false</span>;
-        }
-
-        <span
-class="php-comment">// 4. An invalid value is found.</span>
-        <span
-class="php-keyword1">if</span> ( ! <span
-class="php-var">$bVerified</span> ) {
-                <span
-class="php-comment">// 4-1. Set the error array for the input fields.</span>
-                <span
-class="php-var">$this</span>-&gt;setFieldErrors( <span
-class="php-var">$aErrors</span> );
-                <span
-class="php-var">$this</span>-&gt;setSettingNotice( <span
-class="php-quote">'There was an error in your input.'</span> );
-                <span
-class="php-keyword1">return</span> <span
-class="php-var">$aOldOptions</span>;
-        }
-
-        <span
-class="php-keyword1">return</span> <span
-class="php-var">$aNewInput</span>;
-
-}
-</pre>
-
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$aErrors</var></dt>
-						<dd><code>array</code><br>$aErrros the field error array. The structure should follow the one contained in
-the submitted $_POST array.</dd>
-						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>$sID this should be the page slug of the page that has the dealing form field.</dd>
-						<dt><var>$iLifeSpan</var></dt>
-						<dd><code>integer</code><br>$iLifeSpan the transient's lifetime. 300 seconds means 5 minutes.</dd>
-					</dl></div>
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							2.0.0<br>
-							3.0.0 Changed the scope to public from protected.<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							the user may use this method.<br>
-							the transient name is a MD5 hash of the extended class name + _ + page slug (
-the passed ID )<br>
-					</div>
-
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setFieldErrors</code></div>
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="getFieldValue" id="_getFieldValue">
 
 			<td class="attributes"><code>
@@ -1264,7 +1124,7 @@ the passed ID )<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code><a href="source-class-AdminPageFramework_Setting.html#490-522" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_Setting.html#492-524" title="Go to source code">getFieldValue</a>( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1309,10 +1169,23 @@ return a default value even if it's not saved in the database.<br>
 		</tr>
 		</table>
 
+		<h3>Methods inherited from AdminPageFramework_Setting_Validation</h3>
+		<p class="elementList">
+			<code>_doValidationCall()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Setting_Port</h3>
+		<p class="elementList">
+			<code>_exportOptions()</code>, 
+			<code>_importOptions()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Setting_Form</h3>
+		<p class="elementList">
+			<code>_handleSubmittedData()</code>
+		</p>
 		<h3>Methods inherited from AdminPageFramework_Setting_Base</h3>
 		<p class="elementList">
+			<code><span class="deprecated">___getFieldErrors()</span></code>, 
 			<code>__construct()</code>, 
-			<code>_getFieldErrors()</code>, 
 			<code>_replyToCheckRedirects()</code>, 
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToGetSectionHeaderOutput()</code>, 
@@ -1350,6 +1223,7 @@ return a default value even if it's not saved in the database.<br>
 			<code>__call()</code>, 
 			<code>_doPageLoadCall()</code>, 
 			<code>_isInThePage()</code>, 
+			<code>_isInstantiatabe()</code>, 
 			<code>_sortByOrder()</code>, 
 			<code>addHelpTab()</code>, 
 			<code>addLinkToPluginDescription()</code>, 
@@ -1367,6 +1241,34 @@ return a default value even if it's not saved in the database.<br>
 			<code>setFooterInfoLeft()</code>, 
 			<code>setFooterInfoRight()</code>, 
 			<code>setUp()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<p class="elementList">
+			<code>addHelpText()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
+		<p class="elementList">
+			<code>_replyToPrintSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
+		<p class="elementList">
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code>_getFormInstance()</code>, 
+			<code>_getHeadTagInstance()</code>, 
+			<code>_getHelpPaneInstance()</code>, 
+			<code>_getLinkInstancce()</code>, 
+			<code>_getPageLoadInfoInstance()</code>
 		</p>
 
 
@@ -1400,6 +1302,10 @@ return a default value even if it's not saved in the database.<br>
 			<code><var>$oPageLoadInfo</var></code>, 
 			<code><var>$oProp</var></code>, 
 			<code><var>$oUtil</var></code>
+		</p>
+		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code><var>$oForm</var></code>
 		</p>
 
 

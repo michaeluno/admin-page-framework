@@ -7,7 +7,7 @@
 	<title>Class AdminPageFramework | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?1580164335"></script>
+	<script type="text/javascript" src="elementlist.js?734727412"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -57,6 +57,11 @@
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
+						<ul>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
+						</li>
+							</ul></li>
 				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
@@ -610,56 +615,92 @@ class="php-keyword1">class</span> name}
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-AdminPageFramework_Base
+AdminPageFramework_Factory_Router
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Page_MetaBox
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
 		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_View
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory_Controller
+			
+			
+		</dd>
+		<dd style="padding-left:120px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Factory
+			
+			
+		</dd>
+		<dd style="padding-left:150px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Base
+			
+			
+		</dd>
+		<dd style="padding-left:180px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Page_MetaBox
+			
+			
+		</dd>
+		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Page.html"><span>AdminPageFramework_Page</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:90px">
+		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Menu.html"><span>AdminPageFramework_Menu</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:120px">
+		<dd style="padding-left:270px">
 			<img src="resources/inherit.png" alt="Extended by">
 AdminPageFramework_Setting_Base
 			
 			
 		</dd>
-		<dd style="padding-left:150px">
+		<dd style="padding-left:300px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Form
+			
+			
+		</dd>
+		<dd style="padding-left:330px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Port
+			
+			
+		</dd>
+		<dd style="padding-left:360px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Setting_Validation
+			
+			
+		</dd>
+		<dd style="padding-left:390px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_Setting.html"><span>AdminPageFramework_Setting</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:180px">
-			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Setting_Port
-			
-			
-		</dd>
-		<dd style="padding-left:210px">
-			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Setting_Validation
-			
-			
-		</dd>
-		<dd style="padding-left:240px">
+		<dd style="padding-left:420px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework</span></b>			
 			
@@ -668,6 +709,12 @@ AdminPageFramework_Setting_Validation
 	</dl>
 
 
+	<div>
+		<h3>Direct known subclasses</h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>
+		</p>
+	</div>
 
 
 
@@ -698,7 +745,7 @@ AdminPageFramework_Setting_Validation
 				AdminPageFramework_Link_Page<br>
 				<b>Use:</b>
 				AdminPageFramework_Utility<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework.html#10-659" title="Go to source code">factory/AdminPageFramework/AdminPageFramework.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework.html#10-677" title="Go to source code">factory/AdminPageFramework/AdminPageFramework.php</a><br>
 	</div>
 
 
@@ -716,7 +763,7 @@ AdminPageFramework_Setting_Validation
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework.html#234-262" title="Go to source code">__construct</a>( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#234-266" title="Go to source code">__construct</a>( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -778,8 +825,6 @@ href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.
 href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains</a><br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Setting_Base::__construct</code></div>
 
 			</div>
 			</div></td>
@@ -795,7 +840,7 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework.html#264-302" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework.html#268-306" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -885,8 +930,6 @@ class="php-quote">'text'</span>,
 is triggered with the <em>wp_loaded</em> hook.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setUp</code></div>
 
 			</div>
 			</div></td>
@@ -902,7 +945,7 @@ is triggered with the <em>wp_loaded</em> hook.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addHelpTab">#</a>
-			<code><a href="source-class-AdminPageFramework.html#308-339" title="Go to source code">addHelpTab</a>( <span>array <var>$aHelpTab</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#312-345" title="Go to source code">addHelpTab</a>( <span>array <var>$aHelpTab</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -984,8 +1027,6 @@ class="php-quote">'admin-page-framework'</span> ),
 							Called when registering setting sections and fields.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::addHelpTab</code></div>
 
 			</div>
 			</div></td>
@@ -1001,7 +1042,7 @@ class="php-quote">'admin-page-framework'</span> ),
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyles">#</a>
-			<code><a href="source-class-AdminPageFramework.html#344-367" title="Go to source code">enqueueStyles</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#350-375" title="Go to source code">enqueueStyles</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1060,8 +1101,6 @@ applies to all the in-page tabs in the page.</dd>
 							3.0.0<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::enqueueStyles</code></div>
 
 			</div>
 			</div></td>
@@ -1077,7 +1116,7 @@ applies to all the in-page tabs in the page.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyle">#</a>
-			<code><a href="source-class-AdminPageFramework.html#368-392" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#376-402" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1151,8 +1190,6 @@ string will be returned.<br>
 href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://codex.wordpress.org/Function_Reference/wp_enqueue_style</a><br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::enqueueStyle</code></div>
 
 			</div>
 			</div></td>
@@ -1168,7 +1205,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScripts">#</a>
-			<code><a href="source-class-AdminPageFramework.html#393-416" title="Go to source code">enqueueScripts</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#403-428" title="Go to source code">enqueueScripts</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1227,8 +1264,6 @@ applies to all the in-page tabs in the page.</dd>
 							2.1.5<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::enqueueScripts</code></div>
 
 			</div>
 			</div></td>
@@ -1244,7 +1279,7 @@ applies to all the in-page tabs in the page.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScript">#</a>
-			<code><a href="source-class-AdminPageFramework.html#417-453" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#429-467" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1345,8 +1380,6 @@ string will be returned.<br>
 href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://codex.wordpress.org/Function_Reference/wp_enqueue_script</a><br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::enqueueScript</code></div>
 
 			</div>
 			</div></td>
@@ -1362,7 +1395,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addLinkToPluginDescription">#</a>
-			<code><a href="source-class-AdminPageFramework.html#455-475" title="Go to source code">addLinkToPluginDescription</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#469-491" title="Go to source code">addLinkToPluginDescription</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1411,8 +1444,6 @@ class="php-quote">&quot;&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;&qu
 to three.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::addLinkToPluginDescription</code></div>
 
 			</div>
 			</div></td>
@@ -1428,7 +1459,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addLinkToPluginTitle">#</a>
-			<code><a href="source-class-AdminPageFramework.html#477-496" title="Go to source code">addLinkToPluginTitle</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#493-514" title="Go to source code">addLinkToPluginTitle</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1472,8 +1503,6 @@ class="php-quote">&quot;&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a
 to three.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::addLinkToPluginTitle</code></div>
 
 			</div>
 			</div></td>
@@ -1489,7 +1518,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCapability">#</a>
-			<code><a href="source-class-AdminPageFramework.html#498-515" title="Go to source code">setCapability</a>( <span>string <var>$sCapability</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#516-533" title="Go to source code">setCapability</a>( <span>string <var>$sCapability</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1530,8 +1559,6 @@ for the created pages.</dd>
 href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a><br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setCapability</code></div>
 
 			</div>
 			</div></td>
@@ -1547,7 +1574,7 @@ href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoLeft">#</a>
-			<code><a href="source-class-AdminPageFramework.html#517-535" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#535-553" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1583,8 +1610,6 @@ class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
 							3.0.0 Changed the scope to public from protected.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setFooterInfoLeft</code></div>
 
 			</div>
 			</div></td>
@@ -1600,7 +1625,7 @@ class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoRight">#</a>
-			<code><a href="source-class-AdminPageFramework.html#537-555" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#555-573" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1636,8 +1661,6 @@ class="php-quote">'&lt;br /&gt;Custom Text on the right hand side.'</span> );
 							3.0.0 Changed the scope to public from protected.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setFooterInfoRight</code></div>
 
 			</div>
 			</div></td>
@@ -1653,7 +1676,7 @@ class="php-quote">'&lt;br /&gt;Custom Text on the right hand side.'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setAdminNotice">#</a>
-			<code><a href="source-class-AdminPageFramework.html#557-582" title="Go to source code">setAdminNotice</a>( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#575-600" title="Go to source code">setAdminNotice</a>( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1701,8 +1724,6 @@ used.</dd>
 							It should be used before the 'admin_notices' hook is triggered.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setAdminNotice</code></div>
 
 			</div>
 			</div></td>
@@ -1718,7 +1739,7 @@ used.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setDisallowedQueryKeys">#</a>
-			<code><a href="source-class-AdminPageFramework.html#597-623" title="Go to source code">setDisallowedQueryKeys</a>( <span>array|string <var>$asQueryKeys</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#615-641" title="Go to source code">setDisallowedQueryKeys</a>( <span>array|string <var>$asQueryKeys</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1755,8 +1776,6 @@ override the property.</dd>
 							3.0.0 It also accepts a string. Changed the scope to public.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setDisallowedQueryKeys</code></div>
 
 			</div>
 			</div></td>
@@ -1772,7 +1791,7 @@ override the property.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOption">#</a>
-			<code><a href="source-class-AdminPageFramework.html#625-657" title="Go to source code">getOption</a>( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#643-675" title="Go to source code">getOption</a>( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1840,6 +1859,16 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 		</tr>
 		</table>
 
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Setting.html#methods">AdminPageFramework_Setting</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_Setting.html#_addSettingField">addSettingField()</a></code>, 
+			<code><a href="class-AdminPageFramework_Setting.html#_addSettingFields">addSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Setting.html#_addSettingSection">addSettingSection()</a></code>, 
+			<code><a href="class-AdminPageFramework_Setting.html#_addSettingSections">addSettingSections()</a></code>, 
+			<code><a href="class-AdminPageFramework_Setting.html#_getFieldValue">getFieldValue()</a></code>, 
+			<code><a href="class-AdminPageFramework_Setting.html#_removeSettingFields">removeSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Setting.html#_removeSettingSections">removeSettingSections()</a></code>
+		</p>
 		<h3>Methods inherited from AdminPageFramework_Setting_Validation</h3>
 		<p class="elementList">
 			<code>_doValidationCall()</code>
@@ -1849,21 +1878,13 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 			<code>_exportOptions()</code>, 
 			<code>_importOptions()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Setting.html#methods">AdminPageFramework_Setting</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Setting_Form</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Setting.html#_addSettingField">addSettingField()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_addSettingFields">addSettingFields()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_addSettingSection">addSettingSection()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_addSettingSections">addSettingSections()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_getFieldValue">getFieldValue()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_removeSettingFields">removeSettingFields()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_removeSettingSections">removeSettingSections()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code>_handleSubmittedData()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Setting_Base</h3>
 		<p class="elementList">
-			<code>_getFieldErrors()</code>, 
+			<code><span class="deprecated">___getFieldErrors()</span></code>, 
 			<code>_replyToCheckRedirects()</code>, 
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToGetSectionHeaderOutput()</code>, 
@@ -1901,10 +1922,39 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 			<code>__call()</code>, 
 			<code>_doPageLoadCall()</code>, 
 			<code>_isInThePage()</code>, 
+			<code>_isInstantiatabe()</code>, 
 			<code>_sortByOrder()</code>, 
 			<code>addSubMenuLink()</code>, 
 			<code>addSubMenuPage()</code>, 
 			<code>addSubMenuPages()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<p class="elementList">
+			<code>addHelpText()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
+		<p class="elementList">
+			<code>_replyToPrintSettingNotice()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
+		<p class="elementList">
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code>_getFormInstance()</code>, 
+			<code>_getHeadTagInstance()</code>, 
+			<code>_getHelpPaneInstance()</code>, 
+			<code>_getLinkInstancce()</code>, 
+			<code>_getPageLoadInfoInstance()</code>
 		</p>
 
 
@@ -1938,6 +1988,10 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 			<code><var>$oPageLoadInfo</var></code>, 
 			<code><var>$oProp</var></code>, 
 			<code><var>$oUtil</var></code>
+		</p>
+		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
+			<code><var>$oForm</var></code>
 		</p>
 
 
