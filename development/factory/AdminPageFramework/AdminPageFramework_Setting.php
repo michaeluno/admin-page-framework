@@ -19,61 +19,6 @@ if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
  */
 abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Validation {
 									
-	/**
-	* Sets the given message to be displayed in the next page load. 
-	* 
-	* This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc. and normally used in validation callback methods.
-	* 
-	* <h4>Example</h4>
-	* <code>if ( ! $bVerified ) {
-	*		$this->setFieldErrors( $aErrors );		
-	*		$this->setSettingNotice( 'There was an error in your input.' );
-	*		return $aOldPageOptions;
-	*	}</code>
-	*
-	* @since			2.0.0
-	* @since			2.1.2			Added a check to prevent duplicate items.
-	* @since			2.1.5			Added the $bOverride parameter.
-	* @since			3.0.0			Changed the scope to public from protected.
-	* @access 			public
-	* @param			string			the text message to be displayed.
-	* @param			string			( optional ) the type of the message, either "error" or "updated"  is used.
-	* @param			string			( optional ) the ID of the message. This is used in the ID attribute of the message HTML element.
-	* @param			integer			( optional ) false: do not override when there is a message of the same id. true: override the previous one.
-	* @return			void
-	* @deprecated		since 3.0.7
-	*/		
-	public function ___setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {
-		
-		// Check if the same message has been added already.
-		$aWPSettingsErrors = isset( $GLOBALS['wp_settings_errors'] ) ? ( array ) $GLOBALS['wp_settings_errors'] : array();
-		$sID = isset( $sID ) ? $sID : $this->oProp->sOptionKey; 	// the id attribute for the message div element.
-
-		foreach( $aWPSettingsErrors as $iIndex => $aSettingsError ) {
-			
-			if ( $aSettingsError['setting'] != $this->oProp->sOptionKey ) continue;
-						
-			// If the same message is added, no need to add another.
-			if ( $aSettingsError['message'] == $sMsg ) return;
-				
-			// Prevent duplicated ids.
-			if ( $aSettingsError['code'] === $sID ) {
-				if ( ! $bOverride ) 
-					return;
-				else	// remove the item with the same id  
-					unset( $aWPSettingsErrors[ $iIndex ] );
-			}
-							
-		}
-
-		add_settings_error( 
-			$this->oProp->sOptionKey, // the script specific ID so the other settings error won't be displayed with the settings_errors() function.
-			$sID, 
-			$sMsg,	// error or updated
-			$sType
-		);
-					
-	}
 
 	/**
 	 * Adds the given form section items into the property. 
@@ -437,58 +382,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
 
 	}	
 			
-	/**
-	 * Sets the field error array. 
-	 * 
-	 * This is normally used in validation callback methods when the submitted user's input data have an issue.
-	 * This method saves the given array in a temporary area( transient ) of the options database table.
-	 * 
-	 * <h4>Example</h4>
-	 * <code>
-	 *	public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {
-	 *
-	 *		// 1. Set a flag.
-	 *		$bVerified = true;
-	 *		
-	 *		// 2. Prepare an error array. 
-	 *		$aErrors = array();
-	 *
-	 *		// 3. Check if the submitted value meets your criteria.
-	 *		if ( ! is_numeric( $aNewInput['verify_text_field'] ) ) {
-	 *			$aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) 
-	 *				. $aNewInput['verify_text_field'];
-	 *			$bVerified = false;
-	 *		}
-	 *	
-	 *		// 4. An invalid value is found.
-	 *		if ( ! $bVerified ) {
-	 *			// 4-1. Set the error array for the input fields.
-	 *			$this->setFieldErrors( $aErrors );		
-	 *			$this->setSettingNotice( 'There was an error in your input.' );
-	 *			return $aOldOptions;
-	 *		}
-	 *					
-	 *		return $aNewInput;		
-	 *
-	 *	}
-	 * </code>
-	 * 
-	 * @since			2.0.0
-	 * @since			3.0.0			Changed the scope to public from protected.
-	 * @remark			the user may use this method.
-	 * @remark			the transient name is a MD5 hash of the extended class name + _ + page slug ( the passed ID )
-	 * @param			array			$aErrros			the field error array. The structure should follow the one contained in the submitted $_POST array.
-	 * @param			string			$sID				this should be the page slug of the page that has the dealing form field.
-	 * @param			integer			$iLifeSpan			the transient's lifetime. 300 seconds means 5 minutes.
-	 * @deprecated		3.0.7
-	 */ 
-	public function ___setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {
-		
-		$sID = isset( $sID ) ? $sID : ( isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : ( isset( $_GET['page'] ) ? $_GET['page'] : $this->oProp->sClassName ) );	
-		set_transient( md5( $this->oProp->sClassName . '_' . $sID ), $aErrors, $iLifeSpan );	// store it for 5 minutes ( 60 seconds * 5 )
-	
-	}
-
 	/**
 	 * Retrieves the specified field value stored in the options by field ID.
 	 *  

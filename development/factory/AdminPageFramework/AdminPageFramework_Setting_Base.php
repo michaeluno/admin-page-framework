@@ -74,37 +74,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		// $this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $this->oProp->sCapability );
 				
 	}
-								
-	/**
-	 * Retrieves the settings error array set by the user in the validation callback.
-	 * 
-	 * @since				2.0.0
-	 * @since				2.1.2			Added the second parameter. 
-	 * @since				3.0.0			Changed the scope to private from protected since it is only used in this class.
-	 * @since				3.0.4			Changed the scope to protected from private since it is called from the page class.
-	 * @since				3.0.5			Fixed a bug that returning an non-empty array when the transient was null.
-	 * @access				protected
-	 * @internal
-	 * @deprecated			3.0.7
-	 */
-	protected function ___getFieldErrors( $sPageSlug='', $bDelete=true ) {
-		
-		// If a form submit button is not pressed, there is no need to set the setting errors.
-		if ( ! isset( $_GET['settings-updated'] ) ) return array();
-		
-		// Find the transient.
-		$_sTransient = md5( $this->oProp->sClassName . '_' . $sPageSlug );
-		$_aFieldErrors = get_transient( $_sTransient );
-		if ( $bDelete ) {
-			delete_transient( $_sTransient );	
-		}
-		
-		// Do not cast array here as null will create an element of zero and it won't yield empty with empty().
-		return is_array( $_aFieldErrors )
-			? $_aFieldErrors
-			: array();	
-
-	}
+							
 		
 	/**
 	 * Check if a redirect transient is set and if so it redirects to the set page.
