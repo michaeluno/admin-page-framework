@@ -162,6 +162,33 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 		return $_sPageNow;		
 		
 	}
+	
+	/**
+	 * Returns the current loading screen id.
+	 * 
+	 * @since			3.1.0
+	 * @return			string			The found screen ID.
+	 */
+	static public function getCurrentScreenID() {
+		
+		$_oScreen = get_current_screen();
+		if ( is_string( $_oScreen ) ) {
+			$_oScreen = convert_to_screen( $_oScreen );
+		}
+		if ( isset( $_oScreen->id ) ) {
+			return $_oScreen->id;
+		}
+		
+		if ( isset( $GLBOALS['page_hook'] ) ) {
+			return is_network_admin() 
+				? $GLBOALS['page_hook'] . '-network'
+				: $GLBOALS['page_hook'];
+		}
+		
+		return '';
+		
+	}
+	
 			
 }
 endif;
