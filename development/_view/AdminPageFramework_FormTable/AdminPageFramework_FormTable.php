@@ -340,7 +340,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 				array(
 					'colspan'	=>	$_aField['show_title_column'] ? 1 : 2,
 					'class'		=>	$_aField['show_title_column'] ?	'' : 'admin-page-framework-field-td-no-title',
-					// 'style'		=>	$_aField['show_title_column'] ? "" : 'padding-left: 0; padding-right: 0;',
 				)
 			);
 			$aOutput[] = "<tr {$_sAttributes_TR}>";
