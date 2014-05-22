@@ -183,7 +183,7 @@ abstract class AdminPageFramework_Property_Base {
 		
 		/* Form Elements */
 		/* TD paddings when the field title is disabled */
-		.admin-page-framework-field-td-no-title {
+		td.admin-page-framework-field-td-no-title {
 			padding-left: 0;
 			padding-right: 0;
 		}
