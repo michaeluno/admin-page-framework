@@ -431,6 +431,22 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 							
 	}
 	
+	/**
+	 * Checks if an error settings notice has been set.
+	 * 
+	 * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
+	 * If this method yields true, the framework discards the system message and displays the user set notification message.
+	 * 
+	 * @since			3.1.0
+	 * @return			boolean			True if a setting notice is set; otherwise, false.
+	 */
+	public function hasSettingsNotice() {
+		
+		// The framework user set notification messages are stored in this global array element.
+		$_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();		
+		return count( $_aNotices ) ? true : false;
+		
+	}
 
 }
 endif;

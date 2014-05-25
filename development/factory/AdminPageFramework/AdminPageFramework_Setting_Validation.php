@@ -81,13 +81,15 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		}
 		
 		/* 5. Set the admin notice */
-		$_bEmpty = empty( $aInput );
-		$this->setSettingNotice( 
-			$_bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
-			$_bEmpty ? 'error' : 'updated', 
-			$this->oProp->sOptionKey,	// the id
-			false	// do not override
-		);
+		if ( ! $this->hasSettingsNotice() ) {			
+			$_bEmpty = empty( $aInput );
+			$this->setSettingNotice( 
+				$_bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
+				$_bEmpty ? 'error' : 'updated', 
+				$this->oProp->sOptionKey,	// the id
+				false	// do not override
+			);
+		}
 		
 		return $aInput;	
 		
