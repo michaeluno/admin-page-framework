@@ -135,13 +135,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 	public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
 
 		$sRootMenuLabel = trim( $sRootMenuLabel );
-		$sSlug = $this->_isBuiltInMenuItem( $sRootMenuLabel );	// if true, this method returns the slug
+		$_sSlug = $this->_isBuiltInMenuItem( $sRootMenuLabel );	// if true, this method returns the slug
 		$this->oProp->aRootMenu = array(
 			'sTitle'			=> $sRootMenuLabel,
-			'sPageSlug' 		=> $sSlug ? $sSlug : $this->oProp->sClassName,	
+			'sPageSlug' 		=> $_sSlug ? $_sSlug : $this->oProp->sClassName,	
 			'sIcon16x16'		=> $this->oUtil->resolveSRC( $sIcon16x16 ),
 			'iPosition'			=> $iMenuPosition,
-			'fCreateRoot'		=> $sSlug ? false : true,
+			'fCreateRoot'		=> $_sSlug ? false : true,
 		);	
 					
 	}
@@ -159,7 +159,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 				return $this->_aBuiltInRootMenuSlugs[ $sMenuLabelLower ];
 			
 		}	
-	
+
 	/**
 	 * Sets the top level menu page by page slug.
 	 * 

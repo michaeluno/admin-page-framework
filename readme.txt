@@ -233,6 +233,15 @@ Yes. For built-in root menu items or create your own ones, you need to use the `
 e.g.
 `$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );`
 
+= How can I add sub-menu pages to the root page created by the framework in a separate script? =
+
+Say, in your main plugin, your class `MyAdminPageClassA` created a root page. In your extension plugin, you want to add sub-menu pages from another instance `MyAdminPageClassB`. 
+
+In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name of the main plugin that created the root menu, `MyAdminPageClassA`, to the `setRootMenuPageBySlug()` method.
+
+e.g.
+`$this->setRootMenuPageBySlug( 'MyAdminPageClassA' );`
+
 = Does the framework work with WordPress Multi-site? =
 Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
 
