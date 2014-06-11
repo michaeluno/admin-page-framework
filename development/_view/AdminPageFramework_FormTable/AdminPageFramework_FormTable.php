@@ -273,7 +273,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 									. "</div>"
 								: ""
 							)					
-							. ( $aSection['description'] && is_callable( $hfSectionCallback )
+							. ( is_callable( $hfSectionCallback )
 								? "<div class='admin-page-framework-section-description'>" 	// admin-page-framework-section-description is referred by the repeatable section buttons
 										. call_user_func_array( $hfSectionCallback, array( '<p>' . $aSection['description'] . '</p>', $aSection ) )
 									. "</div>"
