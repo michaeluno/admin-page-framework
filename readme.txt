@@ -285,6 +285,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
+- Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.
 - Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
 - Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
