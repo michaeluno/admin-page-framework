@@ -89,25 +89,28 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 
 		// If the Settings API has not updated the options, do nothing.
 		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) return;
-
+		
+		// The redirect transient key.
+		$_sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
+		
 		// Check the settings error transient.
 		$aError = $this->_getFieldErrors( $_GET['page'], false );
 		if ( ! empty( $aError ) ) {
+			delete_transient( $_sTransient );	// we don't need it any more.
 			return;
 		}
 		
 		// Okay, it seems the submitted data have been updated successfully.
-		$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
-		$sURL = get_transient( $sTransient );
-		if ( false === $sURL  ) {
+		$_sURL = get_transient( $_sTransient );
+		if ( false === $_sURL ) {
 			return;
 		}
 		
 		// The redirect URL seems to be set.
-		delete_transient( $sTransient );	// we don't need it any more.
+		delete_transient( $_sTransient );	// we don't need it any more.
 					
 		// Go to the page.
-		die( wp_redirect( $sURL ) );
+		die( wp_redirect( $_sURL ) );
 		
 	}
 	
