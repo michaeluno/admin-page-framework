@@ -31,7 +31,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 	 * @since			3.1.0
 	 */
 	protected function _setUp() { 
-		$this->setUp() 
+		$this->setUp();
 	}	
 	
 	/**
