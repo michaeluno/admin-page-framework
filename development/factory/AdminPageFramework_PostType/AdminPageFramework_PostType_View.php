@@ -53,12 +53,8 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 	 * @since			3.0.6			Moved from the Link_PostType class.
 	 */
 	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
-		
-		if ( ! isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] ) ) {
-			return $aLinks;
-		}
-		
-		$_sLinkLabel = $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
+				
+		$_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] ) && $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
 			?	$this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
 			:	$this->oMsg->__( 'manage' );
 		
