@@ -156,14 +156,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		$this->oProp = isset( $this->oProp ) 
 			? $this->oProp	// for the AdminPageFramework_NetworkAdmin class
 			: new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
+
 		parent::__construct( $this->oProp );
-		// $this->oMsg = AdminPageFramework_Message::instantiate( $sTextDomain );
-		// $this->oPageLoadInfo = AdminPageFramework_PageLoadInfo_Page::instantiate( $this->oProp, $this->oMsg );
-		// $this->oHelpPane = new AdminPageFramework_HelpPane_Page( $this->oProp );
-		// $this->oLink = new AdminPageFramework_Link_Page( $this->oProp, $this->oMsg );
-		// $this->oHeadTag = new AdminPageFramework_HeadTag_Page( $this->oProp );
-		// $this->oUtil = new AdminPageFramework_WPUtility;
-		// $this->oDebug = new AdminPageFramework_Debug;		
 
 		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'wp_loaded', array( $this, 'setup_pre' ) );		

@@ -20,7 +20,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	/*
 	 * Should be extended
 	 */
+	public function start() {}
 	public function setUp() {}
+			
 			
 	/*
 	 * Head Tag Methods - should be extended.

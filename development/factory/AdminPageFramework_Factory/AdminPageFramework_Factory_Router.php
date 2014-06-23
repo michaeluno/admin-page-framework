@@ -96,6 +96,9 @@ abstract class AdminPageFramework_Factory_Router {
 			
 		endif;
 		
+		// Call the start method.
+		$this->start();	// defined in the controller class.
+		
 	}	
 	
 	/**
