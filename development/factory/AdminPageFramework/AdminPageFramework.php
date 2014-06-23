@@ -685,5 +685,20 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		return AdminPageFramework_WPUtility::getOption( $sOptionKey,$asKey, $vDefault );
 	}
 	
+	
+	/**
+	 * Disables the functionality to save submitted form data into the options table.
+	 * 
+	 * <h4>Example</h4>
+	 * <code>
+	 * $this->disableSavingOptions();
+	 * </code>
+	 * @since			3.1.0
+	 */
+	public function disableSavingOptions() {
+		$this->oProp->sOptionKey = '';
+	}
+	
+	
 }
 endif;
