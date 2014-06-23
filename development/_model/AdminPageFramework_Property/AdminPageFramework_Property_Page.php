@@ -289,10 +289,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * */
 	public function &__get( $sName ) {
 		
-		// If $this->aOptions is called for the first time, retrieve the option data from the database and assign to the property.
+		// If $this->aOptions is called for the first time, retrieve the option data from the database and assign them to the property.
 		// Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
 		// Without the the ampersand in the method name, it causes a PHP warning.
-		if ( $sName == 'aOptions' ) {
+		if ( 'aOptions' == $sName ) {
 			$this->aOptions = get_option( $this->sOptionKey, array() );
 			return $this->aOptions;	
 		}

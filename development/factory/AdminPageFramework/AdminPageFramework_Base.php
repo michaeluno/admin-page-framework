@@ -238,7 +238,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
 
 		if ( 'setup_pre' == $sMethodName ) {
-			$this->setUp();
+			$this->_setUp();
 			$this->oProp->_bSetupLoaded = true;
 			return;
 		}

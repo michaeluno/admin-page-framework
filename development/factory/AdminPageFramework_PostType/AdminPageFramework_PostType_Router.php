@@ -24,6 +24,10 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
 	 */
 	public function __call( $sMethodName, $aArgs=null ) {	
 	
+		if ( 'setup_pre' == $sMethodName ) { 
+			$this->_setUp();
+			$this->oProp->_bSetupLoaded = true;
+		}
 		if ( substr( $sMethodName, 0, strlen( "cell_" ) ) == "cell_" ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "sortable_columns_" ) ) == "sortable_columns_" ) return $aArgs[0];
 		if ( substr( $sMethodName, 0, strlen( "columns_" ) ) == "columns_" ) return $aArgs[0];

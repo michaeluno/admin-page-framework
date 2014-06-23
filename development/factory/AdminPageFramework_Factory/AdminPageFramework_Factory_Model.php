@@ -20,6 +20,21 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Model' ) ) :
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
 	
 	/**
+	 * Calls the setUp() method. 
+	 * 
+	 * All the factory classes should call this method instead of directly calling the setUp() method.
+	 * This is because it allows the developer to design an abstract base class per package basis.
+	 * For example, if a plugin uses multiple meta-box classes and they all need to register certain field types, 
+	 * creating a base class that deals with the registration will be convenient. For that the developer can simply override 
+	 * this method rather than using the start_{instantiated class name} hook in each extended class.
+	 * 
+	 * @since			3.1.0
+	 */
+	protected function _setUp() { 
+		$this->setUp() 
+	}	
+	
+	/**
 	 * Loads the default field type definition.
 	 * 
 	 * @since			2.1.5
