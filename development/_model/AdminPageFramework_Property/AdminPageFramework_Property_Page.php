@@ -255,7 +255,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		
 		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $this->sFieldsType );
 		
-		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
+		$this->sOptionKey = null === $sOptionKey ? $sClassName : $sOptionKey;
 				
 		$this->sTargetFormPage = esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 				

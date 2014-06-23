@@ -293,6 +293,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 - Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
 
+- Changed the `AdminPageFramework` class to accept an empty string value to be passed to the first parameter of the constructor, to be used to disable saving options.
 - Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
 - Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.

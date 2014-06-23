@@ -69,10 +69,11 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 
 		
 		// If only page-meta-boxes are used, it's possible that the option key element does not exist.
-		$_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();
-		$_aInput = $this->_doValidationCall( stripslashes_deep( $_aInput ) );
-		$this->oProp->updateOption( $_aInput );
-			// update_option( $this->oProp->sOptionKey, $_aInput );	// deprecated as of 3.1.0
+		if ( $this->oProp->sOptionKey ) {			
+			$_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();
+			$_aInput = $this->_doValidationCall( stripslashes_deep( $_aInput ) );
+			$this->oProp->updateOption( $_aInput );
+		}
 		
 		// Reload the page with the update notice.
 		die( wp_redirect( $this->oUtil->getQueryAdminURL( array( 'settings-updated' => true ) ) ) );
