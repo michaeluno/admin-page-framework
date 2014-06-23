@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.1.0b08
+	Version: 3.1.0b09
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -36,6 +36,18 @@ if ( is_admin() ) :
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
 	new APF_Demo; 
 
+	// Add the Manage Options page.
+	include_once( APFDEMO_DIRNAME . '/example/APF_Demo_ManageOptions.php' );
+	new APF_Demo_ManageOptions( 'APF_Demo' );	// passing the option key used by the main pages.
+	
+	// Add a hidden page.
+	include_once( APFDEMO_DIRNAME . '/example/APF_Demo_HiddenPage.php' );
+	new APF_Demo_HiddenPage;
+	
+	// Add the readme and the documentation sub-menu items to the above main demo plugin root page.
+	include_once( APFDEMO_DIRNAME . '/example/APF_Demo_Readme.php' );
+	new APF_Demo_Readme; 	
+	
 	// Create meta boxes with form fields that appear in post definition pages (where you create a post) of the given post type.
 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );	
 	new APF_MetaBox_BuiltinFieldTypes(
@@ -56,7 +68,6 @@ if ( is_admin() ) :
 	
 	// Create meta boxes in the pages added with the framework 
  	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );
-
 	new APF_MetaBox_For_Pages_Normal(
 		'apf_metabox_for_pages_normal',		// meta box id
 		__( 'Sample Meta Box for Admin Pages Inserted in Normal Area', 'admin-page-framework-demo' ),	// title
