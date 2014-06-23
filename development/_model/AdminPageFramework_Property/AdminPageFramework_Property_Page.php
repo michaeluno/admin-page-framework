@@ -236,6 +236,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 */
 	public $_bBuiltMenu = false;
 		
+	/**	
+	 * Stores the label of the settings link embedded to the plugin listing table cell of the plugin title.
+	 * 
+	 * @since			3.1.0
+	 */
+	public $sLabelPluginSettingsLink = '';
+	 
 	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 

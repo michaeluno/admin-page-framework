@@ -28,6 +28,8 @@ class APF_Demo_HiddenPage extends AdminPageFramework {
 		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
 		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs		
 
+		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
+		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
 		
 	}
 	

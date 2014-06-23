@@ -60,6 +60,8 @@ class APF_Demo_Readme extends AdminPageFramework {
 		$this->setPageTitleVisibility( false, 'apf_read_me' );	// disable the page title of a specific page.
 		// $this->setInPageTabsVisibility( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
 
+		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
+		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
 		
 	}
 

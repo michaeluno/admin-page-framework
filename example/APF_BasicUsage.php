@@ -19,7 +19,8 @@ class APF_BasicUsage extends AdminPageFramework {
 		);
 		
 		$this->setPageHeadingTabsVisibility( true );		// disables the page heading tabs by passing false.
-
+	
+		
 	}	
 	
 	public function do_apf_first_page() {	// do_ + {page slug}

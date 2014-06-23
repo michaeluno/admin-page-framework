@@ -285,17 +285,23 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
-- Fixed a bug that page load info was not inserted when multiple admin page objects were instantiated.
+
+- Added the `setPluginSettingsLinkLabel()` method which enables to set the text label to the automatically embedded link to the plugin listing table of the plugin title cell in addition to disabling the functionality.
 - Added the `start()` method which is automatically called at the end of the constructor, which can be used when the instantiated class name cannot be determined. 
-- Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
-- Fixed a bug that the redirect transient remained when a field error is set and caused unexpected redirects when the 'href' argument is set for the submit field type.
-- Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.
 - Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
+
 - Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
+
+- Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
+- Changed the `section_head` filter hook to be triggered even when the section description is not set.
+- Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.
+
+- Fixed a bug that page load info was not inserted when multiple admin page objects were instantiated.
+- Fixed a bug that duplicated setting notices were displayed.
+- Fixed a bug that the redirect transient remained when a field error is set and caused unexpected redirects when the 'href' argument is set for the submit field type.
 - Fixed an issue that `textarea` input field was placed in the wrong position when the browser turned off JavaScript.
 - Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
-- Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.
 - Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
 
 = 3.0.6 - 05/10/2014 =

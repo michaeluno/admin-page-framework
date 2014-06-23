@@ -514,6 +514,17 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	}
 	 
 	/**
+	 * Sets the label applied to the settings link which automatically embedded to the plugin listing table of the plugin title cell.
+	 * 
+	 * To disable the embedded settings link, pass an empty value.
+	 * 
+	 * @since			3.1.0
+	 */	 
+	public function setPluginSettingsLinkLabel( $sLabel ) {
+		$this->oProp->sLabelPluginSettingsLink = $sLabel;
+	}
+	 
+	/**
 	 * Sets the overall capability.
 	 * 
 	 * <h4>Example</h4>

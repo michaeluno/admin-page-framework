@@ -29,21 +29,23 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	
 	public function __construct( &$oProp, $oMsg=null ) {
 		
-		if ( ! is_admin() ) return;
+		if ( ! $oProp->bIsAdmin ) return;
 		
 		$this->oProp = $oProp;
 		$this->oMsg = $oMsg;
+		$this->oProp->sLabelPluginSettingsLink = $this->oMsg->__( 'settings' );
 		
 		// Add script info into the footer 
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
-		$aLibraryData = AdminPageFramework_Property_Base::_getLibraryData();
-		$aLibraryData['sVersion'] = $this->oProp->bIsMinifiedVersion ? $aLibraryData['sVersion'] . '.min' : $aLibraryData['sVersion'];
-		$this->_setFooterInfoRight( $aLibraryData, $this->oProp->aFooterInfo['sRight'] );
+		$_aLibraryData = AdminPageFramework_Property_Base::_getLibraryData();
+		$_aLibraryData['sVersion'] = $this->oProp->bIsMinifiedVersion ? $_aLibraryData['sVersion'] . '.min' : $_aLibraryData['sVersion'];
+		$this->_setFooterInfoRight( $_aLibraryData, $this->oProp->aFooterInfo['sRight'] );
 	
-		if ( $this->oProp->aScriptInfo['sType'] == 'plugin' )
+		if ( 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) );
+		}
 
 	}
 			
@@ -108,9 +110,14 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 			? add_query_arg( array( 'page' => $this->oProp->sDefaultPageSlug ), admin_url( $this->oProp->aRootMenu['sPageSlug'] ) )
 			: "admin.php?page={$this->oProp->sDefaultPageSlug}";
 		
+		// If the user disables the settings link, the label property is empty. If so, do not add it.
+		if ( ! $this->oProp->sLabelPluginSettingsLink ) {
+			return $aLinks;
+		}
+		
 		array_unshift(	
 			$aLinks,
-			'<a href="' . $sLinkURL . '">' . $this->oMsg->__( 'settings' ) . '</a>'
+			'<a href="' . $sLinkURL . '">' . $this->oProp->sLabelPluginSettingsLink . '</a>'
 		); 
 		return $aLinks;
 		

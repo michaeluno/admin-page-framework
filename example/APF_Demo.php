@@ -1952,6 +1952,8 @@ class APF_Demo extends AdminPageFramework {
 		$this->addLinkToPluginTitle(
 			"<a href='http://www.wordpress.org'>WordPress</a>"
 		);
+		
+		$this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-demo' ) );
 
     }
 		
