@@ -50,9 +50,19 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		// By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
 		if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) return;
 		
+		// Display the settings notices.
+		$_aPeventDuplicates = array();
 		foreach ( ( array ) $_aNotices as $__aNotice ) {
-			if ( ! isset( $__aNotice['aAttributes'], $__aNotice['sMessage'] ) ) continue;
+			if ( ! isset( $__aNotice['aAttributes'], $__aNotice['sMessage'] ) || ! is_array( $__aNotice ) ) {
+				continue;
+			}
+			$_sNotificationKey = md5( serialize( $__aNotice ) );
+			if ( isset( $_aPeventDuplicates[ $_sNotificationKey ] ) ) {
+				continue;
+			}
+			$_aPeventDuplicates[ $_sNotificationKey ] = true;
 			echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). "><p>" . $__aNotice['sMessage'] . "</p></div>";
+			
 		}
 		
 	}
