@@ -43,13 +43,19 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 	 */
 	public function _replyToGetPageLoadInfo( $sFooterHTML ) {
 		
+		static $_fLoaded;
+		if ( $_fLoaded ) {
+			return;
+		}
+		$_fLoaded = true;		
+		
 		$_nSeconds 				= timer_stop( 0 );
 		$_nQueryCount 			= get_num_queries();
 		$_nMemoryUsage 			= round( $this->_convertBytesToHR( memory_get_usage() ), 2 );
 		$_nMemoryPeakUsage 		= round( $this->_convertBytesToHR( memory_get_peak_usage() ), 2 );
 		$_nMemoryLimit 			= round( $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ), 2 );
 		$_sInitialMemoryUsage	= round( $this->_convertBytesToHR( $this->_nInitialMemoryUsage ), 2 );
-				
+
 		return $sFooterHTML
 			. "<div id='admin-page-framework-page-load-stats'>"
 				. "<ul>"
