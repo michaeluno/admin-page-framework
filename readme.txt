@@ -285,6 +285,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
+- Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
 - Fixed a bug that the redirect transient remained when a field error is set and caused unexpected redirects when the 'href' argument is set for the submit field type.
 - Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.

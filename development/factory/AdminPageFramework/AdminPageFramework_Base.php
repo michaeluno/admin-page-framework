@@ -82,20 +82,33 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Moved from the main class.
-	* @access			protected
+	* @since			3.1.0			Changed the scope to public from protected to allow the user to use the methods.
+	* @access			public
 	* @var				object			an instance of AdminPageFramework_Debug will be assigned in the constructor.
     */		
-	protected $oDebug;
+	public $oDebug;
 	
 	/**
     * Provides the methods for text messages of the framework. 
 	* 
 	* @since			2.0.0
 	* @since			3.0.0			Moved from the main class.
-	* @access			protected
+	* @since			3.1.0			Changed the scope to public from protected.
+	* @access			public
 	* @var				object			an instance of AdminPageFramework_Message will be assigned in the constructor.
     */	
-	protected $oMsg;
+	public $oMsg;
+	
+	/**
+    * Provides the utility methods. 
+	* 
+	* @since			2.0.0
+	* @since			3.0.0			Moved from the main class.
+	* @since			3.1.0			Changed the scope to public from protected.
+	* @access			public
+	* @var				object			an instance of AdminPageFramework_Utility will be assigned in the constructor.
+    */			
+	public $oUtil;
 	
 	/**
     * Provides the methods for creating HTML link elements. 
@@ -106,16 +119,6 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	* @var				object			an instance of AdminPageFramework_Link_Page will be assigned in the constructor.
     */		
 	protected $oLink;
-	
-	/**
-    * Provides the utility methods. 
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Moved from the main class.
-	* @access			protected
-	* @var				object			an instance of AdminPageFramework_Utility will be assigned in the constructor.
-    */			
-	protected $oUtil;
 	
 	/**
 	 * Provides the methods to insert head tag elements.

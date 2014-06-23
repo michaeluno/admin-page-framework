@@ -36,9 +36,11 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
 	// Objects
 	/**
 	 * @since			2.0.0
+	 * @since			3.1.0			Changed the scope to public from protected.
+	 * @access			public
 	 * @internal
 	 */ 
-	protected $oUtil;
+	public $oUtil;
 	/**
 	 * @since			2.0.0
 	 * @internal

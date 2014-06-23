@@ -28,19 +28,24 @@ abstract class AdminPageFramework_Factory_Router {
 	public $oProp;	
 	/**
 	* @internal
+	* @access			public
 	* @since			2.0.0
+	* @since			3.1.0			Changed the scope to public from protected.
 	*/ 	
-	protected $oDebug;
+	public $oDebug;
 	/**
 	* @internal
 	* @since			2.0.0
+	* @since			3.1.0			Changed the scope to public from protected.
 	*/ 		
-	protected $oUtil;
+	public $oUtil;
 	/**
 	* @since			2.0.0
+	* @access			public
 	* @internal
+	* @since			3.1.0			Changed the scope to public from protected.
 	*/ 		
-	protected $oMsg;	
+	public $oMsg;	
 	
 	/**
 	* @internal
