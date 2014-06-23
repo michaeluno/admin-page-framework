@@ -417,8 +417,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 		$_sID = md5( trim( $sMessage ) );
 			
 		// If the override options is true, or if the message is set,
-		if ( $bOverride || ! isset( $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] )  ) {
-			
+		if ( $bOverride || ! isset( $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] )  ) {		
 			$GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] = array(
 				'sMessage' => $sMessage,
 				'aAttributes' => ( is_array( $asAttributes ) ? $asAttributes : array( 'id' => $asAttributes )  )
@@ -426,8 +425,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 						'class'	=>	$sType,
 						'id'	=>	$this->oProp->sClassName . '_' . $_sID,
 					),
-					
-			
 			);
 		}
 							

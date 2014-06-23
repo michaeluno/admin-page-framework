@@ -34,7 +34,7 @@ if ( is_admin() ) :
 
 	// Add pages and forms in the custom post type root page
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
-	new APF_Demo; 
+	new APF_Demo;
 
  	// Add the Manage Options page.
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo_ManageOptions.php' );

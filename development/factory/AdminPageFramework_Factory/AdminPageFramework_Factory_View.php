@@ -61,7 +61,12 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 				continue;
 			}
 			$_aPeventDuplicates[ $_sNotificationKey ] = true;
-			echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). "><p>" . $__aNotice['sMessage'] . "</p></div>";
+			$__aNotice['aAttributes']['class'] = isset( $__aNotice['aAttributes']['class'] )
+				? $__aNotice['aAttributes']['class'] . ' admin-page-framework-settings-notice-container'
+				: 'admin-page-framework-settings-notice-container';
+			echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). ">"
+					. "<p class='admin-page-framework-settings-notice-message'>" . $__aNotice['sMessage'] . "</p>"
+				. "</div>";
 			
 		}
 		
