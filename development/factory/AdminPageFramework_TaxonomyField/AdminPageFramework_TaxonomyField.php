@@ -317,7 +317,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 					$aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];
 			
 		/* Apply validation filters to the submitted option array. */
-		$aSubmittedOptions = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions );
+		$aSubmittedOptions = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions, $this );
 		
 		$aTaxonomyFieldOptions[ $iTermID ] = $this->oUtil->uniteArrays( $aSubmittedOptions, $aOldOptions );
 		update_option( $this->oProp->sOptionKey, $aTaxonomyFieldOptions );

@@ -239,7 +239,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			$aInput = $this->_validatePageFields( $aInput, $_aOptions, $_aOptionsWODynamicElements, $_aTabOptions, $sPageSlug, $sTabSlug );
 		
 			// For the class
-			return $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions );
+			return $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions, $this );
 		
 		}	
 			
@@ -269,7 +269,8 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 								$this, 
 								"validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", 
 								$aInput[ $sID ][ $sFieldID ], 
-								isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null 
+								isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null,
+								$this
 							);
 						
 						// For an entire section - consider each field has a different individual capability. In that case, the key itself will not be sent,
@@ -281,7 +282,8 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 							$this, 
 							"validation_{$this->oProp->sClassName}_{$sID}", 
 							$_aSectionInput,
-							isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null 
+							isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null,
+							$this
 						);							
 						
 						// End the iteration
@@ -301,7 +303,8 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 						$this, 
 						"validation_{$this->oProp->sClassName}_{$sID}", 
 						$aInput[ $sID ], 
-						isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null 
+						isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null,
+						$this
 					);
 					
 				}
@@ -323,7 +326,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 								
 				$_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
 				$aTabOptions = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
-				$aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions );
+				$aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
 				
 				// Consider each field has a different individual capability. In that case, the key itself will not be sent,
 				// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
@@ -331,7 +334,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				$aInput = $aInput + $this->oForm->getTabOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug );
 				
 				return $this->oUtil->uniteArrays( 
-					$this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aTabOptions ), 
+					$this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aTabOptions, $this ), 
 					$this->oUtil->invertCastArrayContents( $aTabOptions, $_aTabOnlyOptions ),	// will only consist of page meta box fields
 					$this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug )
 				);
@@ -351,14 +354,14 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 
 				// Prepare the saved page option array.
 				$_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )				
-				$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions );
+				$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions, $this );
 				
 				// Consider each field has a different individual capability. In that case, the key itself will not be sent,
 				// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
 				// So merge the submitted array with the old stored array only for the first level.				
 				$aInput = $aInput + $this->oForm->getPageOptions( $aOptionsWODynamicElements, $sPageSlug );
 				
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions ); // $aInput: new values, $aStoredPageOptions: old values	
+				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions, $this ); // $aInput: new values, $aStoredPageOptions: old values	
 
 				// If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
 				$_aPageOptions = $sTabSlug && ! empty( $aTabOptions ) 

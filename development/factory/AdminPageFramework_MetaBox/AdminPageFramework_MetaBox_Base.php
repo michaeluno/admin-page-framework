@@ -221,7 +221,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		$_aSavedMeta = $this->oUtil->getSavedMetaArray( $iPostID, array_keys( $_aInput ) );
 					
 		// Apply filters to the array of the submitted values.
-		$_aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aInput, $_aSavedMeta );
+		$_aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aInput, $_aSavedMeta, $this );
 
 		// If there are validation errors.
 		if ( $this->_isValidationErrors() ) {
