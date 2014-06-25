@@ -207,7 +207,15 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	 */
 	public function applyFiltersToFields( $oCaller, $sClassName ) {
 		
-		foreach( $this->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
+		// Apply filters to all the conditioned fields.
+		$_aConditionedField = $this->addAndApplyFilter(
+			$oCaller,
+			"field_definition_{$sClassName}",
+			$this->aConditionedFields
+		);
+		
+		// Apply filters to each definition field.
+		foreach( $_aConditionedField as $_sSectionID => $_aSubSectionOrFields ) {
 						
 			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
 				
@@ -215,7 +223,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
 					$_sSubSectionIndex = $_sIndexOrFieldID;
 					$_aFields = $_aSubSectionOrField;
-					$_sSectionSubString = $_sSectionID == '_default' ? '' : "_{$_sSectionID}";
+					$_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
 					foreach( $_aFields as $_aField ) {
 						$this->aConditionedFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
 							$oCaller,
@@ -230,7 +238,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				
 				// Otherwise, insert the formatted field definition array.
 				$_aField = $_aSubSectionOrField;
-				$_sSectionSubString = $_sSectionID == '_default' ? '' : "_{$_sSectionID}";
+				$_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
 				$this->aConditionedFields[ $_sSectionID ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
 					$oCaller,
 					"field_definition_{$sClassName}{$_sSectionSubString}_{$_aField['field_id']}",
