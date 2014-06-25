@@ -230,6 +230,14 @@ For instance, if your instantiated class name is `APF` then the code would be `g
 = Can I set a custom post type as a root page? =
 Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
 
+= Is it possible to use a custom database table to store options instead of in the options table? =
+Yes. But you have to code it by yourself the part that retrieve and store the options.
+
+What you need to do is to set the `value` argument in the field definition array to suppress the displaying value in the form.
+See an example. https://gist.github.com/michaeluno/fb4088b922b71710c7fb
+
+Also passing an empty string, `''` to the first paramter of the constuctor will disable the ability to store submitted form data into the options table.
+
 e.g.
 `$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );`
 
