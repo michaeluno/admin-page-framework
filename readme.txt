@@ -291,15 +291,13 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `start()` method which is automatically called at the end of the constructor, which can be used when the instantiated class name cannot be determined. 
 - Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.
 - Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
-
 - Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
-
+- Changed the demo plugin to be separated into smaller components.
 - Changed the `validation_{...}` callback methods to receive a third parameter of the class object so that third party scripts can access object members inside from the validation method.
 - Changed the `AdminPageFramework` class to accept an empty string value to be passed to the first parameter of the constructor, to be used to disable saving options.
 - Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
 - Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.
-
 - Fixed a bug that page load info was not inserted when multiple admin page objects were instantiated.
 - Fixed a bug that duplicated setting notices were displayed.
 - Fixed a bug that the redirect transient remained when a field error is set and caused unexpected redirects when the 'href' argument is set for the submit field type.

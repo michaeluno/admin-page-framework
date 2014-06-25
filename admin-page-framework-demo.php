@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.1.0b14
+	Version: 3.1.0b15
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -26,6 +26,12 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 	);
 }
 
+/* Examples */
+
+// Create a custom post type - this class deals with front-end components so checking with is_admin() is not necessary.
+include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
+new APF_PostType( 'apf_posts' ); 	// post type slug - you can pass multiple slugs with an array e.g. array( 'apf_posts', 'post', 'page' )
+
 if ( is_admin() ) :
 	
  	// Create an example page group
@@ -36,6 +42,10 @@ if ( is_admin() ) :
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo.php' );	// Include the demo class that creates various forms.
 	new APF_Demo;
 
+	// Add pages and forms in the custom post type root page
+	include_once( APFDEMO_DIRNAME . '/example/APF_Demo_CustomFieldTypes.php' );	// Include the demo class that creates various forms.
+	new APF_Demo_CustomFieldTypes( 'APF_Demo' );	// passing the option key used by the main pages.
+		
  	// Add the Manage Options page.
 	include_once( APFDEMO_DIRNAME . '/example/APF_Demo_ManageOptions.php' );
 	new APF_Demo_ManageOptions( 'APF_Demo' );	// passing the option key used by the main pages.
@@ -122,40 +132,6 @@ if ( is_admin() ) :
 	
 endif;
 
-// Creates a custom post type
-include_once( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
-new APF_PostType( 	// this class deals with front-end components so checking with is_admin() is not necessary.
-	'apf_posts', 	// post type slug - you can pass multiple slugs with an array e.g. array( 'apf_posts', 'post', 'page' )
-	array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		'labels' => array(
-			'name' => 'Admin Page Framework',
-			'all_items' => __( 'Sample Posts', 'admin-page-framework-demo' ),
-			'singular_name' => 'Admin Page Framework',
-			'add_new' => __( 'Add New', 'admin-page-framework-demo' ),
-			'add_new_item' => __( 'Add New APF Post', 'admin-page-framework-demo' ),
-			'edit' => __( 'Edit', 'admin-page-framework-demo' ),
-			'edit_item' => __( 'Edit APF Post', 'admin-page-framework-demo' ),
-			'new_item' => __( 'New APF Post', 'admin-page-framework-demo' ),
-			'view' => __( 'View', 'admin-page-framework-demo' ),
-			'view_item' => __( 'View APF Post', 'admin-page-framework-demo' ),
-			'search_items' => __( 'Search APF Post', 'admin-page-framework-demo' ),
-			'not_found' => __( 'No APF Post found', 'admin-page-framework-demo' ),
-			'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-demo' ),
-			'parent' => __( 'Parent APF Post', 'admin-page-framework-demo' ),
-			'plugin_listing_table_title_cell_link'	=>	__( 'APF Posts', 'admin-page-framework-demo' ),		// framework specific key. [3.0.6+]
-		),
-		'public' => true,
-		'menu_position' => 110,
-		'supports' => array( 'title' ), // 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
-		'taxonomies' => array( '' ),
-		'has_archive' => true,
-		'show_admin_column' => true,	// this is for custom taxonomies to automatically add the column in the listing table.
-		'menu_icon' => plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ),
-		// ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
-		'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
-	)
-);
-	
 /*
  * If you find this framework useful, include it in your project!
  * And please leave a nice comment in the review page, http://wordpress.org/support/view/plugin-reviews/admin-page-framework

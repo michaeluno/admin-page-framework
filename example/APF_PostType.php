@@ -1,12 +1,48 @@
 <?php
 class APF_PostType extends AdminPageFramework_PostType {
 	
-	public function start_APF_PostType() {	// start_{extended class name}
-	
-		// the setUp() method is too late to add taxonomies. So we use start_{class name} action hook.
+	/**
+	 * This method is called at the end of the constructor.
+	 * 
+	 * ALternatevely, you may use the start_{extended class name} method, which also is called at the end of the constructor.
+	 */
+	public function start() {	
 	
 		$this->setAutoSave( false );
 		$this->setAuthorTableFilter( true );
+		
+		$this->setPostTypeArgs(
+			array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+				'labels' => array(
+					'name'			=>	'Admin Page Framework',
+					'all_items' 	=>	__( 'Sample Posts', 'admin-page-framework-demo' ),
+					'singular_name' =>	'Admin Page Framework',
+					'add_new'		=>	__( 'Add New', 'admin-page-framework-demo' ),
+					'add_new_item'	=>	__( 'Add New APF Post', 'admin-page-framework-demo' ),
+					'edit'			=>	__( 'Edit', 'admin-page-framework-demo' ),
+					'edit_item'		=>	__( 'Edit APF Post', 'admin-page-framework-demo' ),
+					'new_item'		=>	__( 'New APF Post', 'admin-page-framework-demo' ),
+					'view'			=>	__( 'View', 'admin-page-framework-demo' ),
+					'view_item'		=>	__( 'View APF Post', 'admin-page-framework-demo' ),
+					'search_items'	=>	__( 'Search APF Post', 'admin-page-framework-demo' ),
+					'not_found'		=>	__( 'No APF Post found', 'admin-page-framework-demo' ),
+					'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-demo' ),
+					'parent'		=>	__( 'Parent APF Post', 'admin-page-framework-demo' ),
+					'plugin_listing_table_title_cell_link'	=>	__( 'APF Posts', 'admin-page-framework-demo' ),		// framework specific key. [3.0.6+]
+				),
+				'public'			=>	true,
+				'menu_position' 	=>	110,
+				'supports'			=>	array( 'title' ), // 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
+				'taxonomies'		=>	array( '' ),
+				'has_archive'		=>	true,
+				'show_admin_column' =>	true,	// this is for custom taxonomies to automatically add the column in the listing table.
+				'menu_icon'			=>	plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ),
+				// ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
+				'screen_icon'		=>	dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
+			)	
+		);
+		
+		// the setUp() method is too late to add taxonomies. So we use start_{class name} action hook.
 		$this->addTaxonomy( 
 			'apf_sample_taxonomy', // taxonomy slug
 			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
@@ -99,7 +135,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 				$aVars, 
 				array(
 					'meta_key'	=>	'metabox_text_field',
-					'orderby'  => 'meta_value',
+					'orderby'	=>	'meta_value',
 				)
 			);
 		}
