@@ -14,7 +14,7 @@
  * @remarks				To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks				Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks				The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version				3.1.0b16
+ * @version				3.1.0b17
  */
 
 if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :

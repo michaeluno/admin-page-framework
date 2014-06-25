@@ -206,6 +206,12 @@ class APF_Demo extends AdminPageFramework {
 				'description'	=>	__( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
 			),
 			array(
+				'section_id'	=>	'section_verification',
+				'tab_slug'		=>	'verification',
+				'title'			=>	__( 'Section Verification', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Show error messages the entire section.', 'admin-page-framework-demo' ),
+			),
+			array(
 				'section_id'	=>	'mixed_types',
 				'tab_slug'		=>	'mixed_types',
 				'title'			=>	__( 'Mixed Field Types', 'admin-page-framework-demo' ),
@@ -1239,6 +1245,25 @@ class APF_Demo extends AdminPageFramework {
 			)
 		);	
 		$this->addSettingFields(			
+			'section_verification',	// the target sectin ID
+			array(
+				'field_id'		=>	'item_a',
+				'title'			=>	__( 'Choose Item', 'admin-page-framework-demo' ),
+				'type'			=>	'select',
+				'label'			=>	array(
+					0		=>	'--- ' . __( 'Select Item', 'admin-page-framework-demo' ) . ' ---',
+					'one'	=>	__( 'One', 'admin-page-framework-demo' ),
+					'two'	=>	__( 'Two', 'admin-page-framework-demo' ),
+					'three'	=>	__( 'Three', 'admin-page-framework-demo' ),				
+				),
+			),
+			array(
+				'field_id'		=>	'item_b',	// this submit field ID can be used in a validation callback method
+				'type'			=>	'text',
+				'description'	=>	__( 'Select one above or enter text here.', 'admin-page-framework-demo' ),
+			)
+		);			
+		$this->addSettingFields(			
 			array(
 				'field_id'		=>	'mixed_fields',
 				'section_id'	=>	'mixed_types',
@@ -1479,7 +1504,10 @@ class APF_Demo extends AdminPageFramework {
 	/*
 	 * Validation Callbacks
 	 * */
-	public function validation_APF_Demo_verification_verify_text_field( $sNewInput, $sOldInput ) {	// validation_{extended class name}_{section id}_{field id}
+	/**
+	 * Validates the 'verify_text_field' field in the 'verification' section of the 'APF_Demo' class.
+	 */
+	public function validation_APF_Demo_verification_verify_text_field( $sNewInput, $sOldInput, $oAdmin ) {	// validation_{extended class name}_{section id}_{field id}
 	
 		/* 1. Set a flag. */
 		$_bVerified = true;
@@ -1515,7 +1543,38 @@ class APF_Demo extends AdminPageFramework {
 		return $sNewInput;		
 		
 	}
-	public function validation_apf_builtin_field_types_files( $aInput, $aOldPageOptions ) {	// validation_{page slug}_{tab slug}
+	
+	/**
+	 * Validates the 'section_verification' section items.
+	 */
+	public function validation_APF_Demo_section_verification( $aInput, $aOldInput, $oAdmin ) {	// validation_{extended class name}_{section id}
+		
+		// Local variables
+		$_bIsValid = true;
+		$_aErrors = array();
+		
+		if ( 0 == $aInput['item_a'] && '' == trim( $aInput['item_b'] ) ) {
+			$_bIsValid = false;
+			$_aErrors[ 'section_verification' ] = __( 'At least one item must be set', 'admin-page-framework-demo' );
+		}
+		
+		if ( ! $_bIsValid ) {
+		
+			$this->setFieldErrors( $_aErrors );		
+			$this->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-demo' ) );
+			return $aOldInput;
+			
+		}		
+		
+		// Otherwise, process the data.
+		return $aInput;
+		
+	}
+	
+	/**
+	 * Validates the items in the 'files' tab of the 'apf_bultin_field_types' page.
+	 */
+	public function validation_apf_builtin_field_types_files( $aInput, $aOldPageOptions, $oAdmin ) {	// validation_{page slug}_{tab slug}
 
 		/* Display the uploaded file information. */
 		$aFileErrors = array();

@@ -188,14 +188,10 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 		$aExtraOutput = array();
 
 		/* 1. Prepend the field error message. */
-		if ( isset( $this->aField['section_id'], $this->aErrors[ $this->aField['section_id'] ], $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] ) )	// if this field has a section and the error element is set
-			$aFieldsOutput[] = "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
-				. $this->aErrors[ $this->aField['section_id'] ][ $this->aField['field_id'] ] 
-			. "</span><br />";
-		else if ( isset( $this->aErrors[ $this->aField['field_id'] ] ) )	// if this field does not have a section and the error element is set,
-			$aFieldsOutput[] = "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
-				. $this->aErrors[ $this->aField['field_id'] ] 
-			. "</span><br />";
+		$_sFieldError = $this->_getFieldError( $this->aErrors, $this->aField['section_id'], $this->aField['field_id'] );
+		if ( $_sFieldError ) {
+			$aFieldsOutput[] = $_sFieldError;
+		}
 					
 		/* 2. Set new elements */
 		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
@@ -301,6 +297,37 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 		
 	}
 
+		/**
+		 * Returns the set field error message to the section or field.
+		 * 
+		 * @since		3.1.0
+		 */
+		private function _getFieldError( $aErrors, $sSectionID, $sFieldID ) {
+			
+			// If this field has a section and the error element is set
+			if ( 
+				isset( 
+					$aErrors[ $sSectionID ], 
+					$aErrors[ $sSectionID ][ $sFieldID ]
+				)
+				&& is_array( $aErrors[ $sSectionID ] )
+				&& ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] )
+				
+			) {							
+				return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
+						. $aErrors[ $sSectionID ][ $sFieldID ]
+					. "</span><br />";
+			} 
+			
+			// if this field does not have a section and the error element is set,
+			if ( isset( $aErrors[ $sFieldID ] ) && ! is_array( $aErrors[ $sFieldID ] ) ) {
+				return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
+						. $aErrors[ $sFieldID ]
+					. "</span><br />";
+			}		
+			
+		}	
+	
 		/**
 		 * Returns the array of fields 
 		 * 

@@ -378,7 +378,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 		}
 		
 		$_sID = md5( $this->oProp->sClassName );
-		$GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = $aErrors;
+		$GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] )
+			? $this->oUtil->uniteArrays( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], $aErrors )
+			: $aErrors;
 	
 	}	
 	
