@@ -420,10 +420,14 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 			
 		// If the override options is true, or if the message is set,
 		if ( $bOverride || ! isset( $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] )  ) {		
+			
+			$_aAttributes = is_array( $asAttributes ) ? $asAttributes : array();
+			if ( is_string( $asAttributes ) && ! empty( $asAttributes ) ) {
+				$_aAttributes['id'] = $asAttributes;
+			}
 			$GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] = array(
 				'sMessage' => $sMessage,
-				'aAttributes' => ( is_array( $asAttributes ) ? $asAttributes : array( 'id' => $asAttributes )  )
-					+ array(
+				'aAttributes' => $_aAttributes + array(
 						'class'	=>	$sType,
 						'id'	=>	$this->oProp->sClassName . '_' . $_sID,
 					),

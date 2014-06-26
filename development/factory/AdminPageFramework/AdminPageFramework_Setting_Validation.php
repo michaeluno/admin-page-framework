@@ -34,7 +34,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 
 		/* Check if this is called from the framework's page */
 		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) return $aInput;
-		
+
 		/* 1-1. Set up local variables */
 		$_sTabSlug =	isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
 		$_sPageSlug =	isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
@@ -133,6 +133,11 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		 * @remark			$aInput has only the page elements that called the validation callback. In other words, it does not hold other pages' option keys.
 		 */
 		private function _resetOptions( $sKeyToReset, $aInput ) {
+			
+			// As of 3.1.0, an empty value is accepted for the option key.
+			if ( ! $this->oProp->sOptionKey ) {
+				return array();
+			}
 			
 			if ( $sKeyToReset == 1 || $sKeyToReset === true ) {
 				delete_option( $this->oProp->sOptionKey );

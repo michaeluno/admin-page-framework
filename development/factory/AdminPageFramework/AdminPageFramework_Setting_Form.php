@@ -66,12 +66,11 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], $this->oProp->sOptionKey . '-options' ) ) {
 			return;
 		}
-
 		
 		// If only page-meta-boxes are used, it's possible that the option key element does not exist.
-		if ( $this->oProp->sOptionKey ) {			
-			$_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();
-			$_aInput = $this->_doValidationCall( stripslashes_deep( $_aInput ) );
+		$_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();
+		$_aInput = $this->_doValidationCall( stripslashes_deep( $_aInput ) );
+		if ( ! $this->oProp->_bDisableSavingOptions ) {	
 			$this->oProp->updateOption( $_aInput );
 		}
 		

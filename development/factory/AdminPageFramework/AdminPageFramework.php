@@ -696,7 +696,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @since			3.1.0
 	 */
 	public function disableSavingOptions() {
-		$this->oProp->sOptionKey = '';
+		$this->oProp->_bDisableSavingOptions = true;
 	}
 	
 	

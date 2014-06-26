@@ -243,6 +243,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 */
 	public $sLabelPluginSettingsLink = '';
 	 
+	 
+	/**
+	 * Indicates whether the form data should be automatically saved in the options table.
+	 * @since			3.1.0
+	 */ 
+	public $_bDisableSavingOptions = false;
+	 
 	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 
@@ -255,7 +262,8 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		
 		parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $this->sFieldsType );
 		
-		$this->sOptionKey = null === $sOptionKey ? $sClassName : $sOptionKey;
+		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
+		$this->_bDisableSavingOptions = '' === $sOptionKey ? true : false;
 				
 		$this->sTargetFormPage = esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 				
