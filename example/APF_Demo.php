@@ -1553,7 +1553,7 @@ class APF_Demo extends AdminPageFramework {
 		$_bIsValid = true;
 		$_aErrors = array();
 		
-		if ( 0 == $aInput['item_a'] && '' == trim( $aInput['item_b'] ) ) {
+		if ( '0' === (string) $aInput['item_a'] && '' === trim( $aInput['item_b'] ) ) {
 			$_bIsValid = false;
 			$_aErrors[ 'section_verification' ] = __( 'At least one item must be set', 'admin-page-framework-demo' );
 		}
