@@ -445,7 +445,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	 * @since			3.1.0
 	 * @return			boolean			True if a setting notice is set; otherwise, false.
 	 */
-	public function hasSettingsNotice() {
+	public function hasSettingNotice() {
 		
 		// The framework user set notification messages are stored in this global array element.
 		$_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();		
