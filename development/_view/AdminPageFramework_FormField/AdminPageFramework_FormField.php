@@ -228,6 +228,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 				}		
 
 				/* Set some internal keys */ 
+				$_bIsSubField = is_numeric( $__sKey ) && 0 < $__sKey;
 				$__aField['_index']					= $__sKey;
 				$__aField['input_id']				= $this->_getInputID( $__aField, $__sKey );	//  ({section id}_){field_id}_{index}
 				$__aField['_input_name']			= $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '' );	
@@ -235,9 +236,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 				$__aField['_field_container_id']	= "field-{$__aField['input_id']}";	// used in the attribute below plus it is also used in the sample custom field type.
 				$__aField['_fields_container_id']	= "fields-{$this->aField['tag_id']}";
 				$__aField['_fieldset_container_id']	= "fieldset-{$this->aField['tag_id']}";
-				
 				$__aField = $this->uniteArrays(
-					$__aField,	// the user-set values.
+					$__aField,	// includes the user-set values.
 					array(	// the automatically generated values.
 						'attributes'	=>	array(
 							'id'		=> $__aField['input_id'],
@@ -255,7 +255,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 					'id'			=>	$__aField['_field_container_id'],
 					'data-type'		=>	"{$__aField['type']}",	// this is referred by the repeatable field JavaScript script.
 					'class'			=>	"admin-page-framework-field admin-page-framework-field-{$__aField['type']}" 
-						. ( $__aField['attributes']['disabled'] ? ' disabled' : '' ),
+						. ( $__aField['attributes']['disabled'] ? ' disabled' : '' )
+						. ( $_bIsSubField ? ' admin-page-framework-subfield' : '' ),
 				) + $__aField['attributes']['field'];	
 				$_aOutput[] = $__aField['before_field']
 					. "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">"

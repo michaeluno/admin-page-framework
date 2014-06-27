@@ -293,6 +293,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
+- Added the `admin-page-framework-subfield` class selector to the div element's class attribute of field containers of sub-fields. 
 - Added the `field_definition_{instantiated class name}` filter hook that applies to all the defined field arrays.
 - Added the `disableSavingOptions()` method that disables the functionality to save submitted form data into the options table.
 - Added the `setPluginSettingsLinkLabel()` method which enables to set the text label to the automatically embedded link to the plugin listing table of the plugin title cell in addition to disabling the functionality.
