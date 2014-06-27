@@ -185,7 +185,6 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 	public function _getFieldOutput() {
 		
 		$aFieldsOutput = array(); 
-		$aExtraOutput = array();
 
 		/* 1. Prepend the field error message. */
 		$_sFieldError = $this->_getFieldError( $this->aErrors, $this->aField['section_id'], $this->aField['field_id'] );
@@ -193,11 +192,11 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 			$aFieldsOutput[] = $_sFieldError;
 		}
 					
-		/* 2. Set new elements */
+		/* 2. Set a teg ID used for the field container HTML tags. */
 		$this->aField['tag_id'] = $this->_getInputTagID( $this->aField );
 			
-		/* 3. Compose fields array for sub-fields	*/
-		$aFields = $this->_composeFieldsArray( $this->aField, $this->aOptions );
+		/* 3. Construct fields array for sub-fields	*/
+		$aFields = $this->_constructFieldsArray( $this->aField, $this->aOptions );
 
 		/* 4. Get the field output. */
 		foreach( $aFields as $sKey => $aField ) {
@@ -257,46 +256,89 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 
 		}
 				
-		/* 5. Add the description */
-		$aExtraOutput[] = ( isset( $this->aField['description'] ) && trim( $this->aField['description'] ) != '' ) 
-			? "<p class='admin-page-framework-fields-description'><span class='description'>{$this->aField['description']}</span></p>"
-			: '';
-			
-		/* 6. Add the repeater script */
-		$aExtraOutput[] = $this->aField['repeatable']
-			? $this->_getRepeaterFieldEnablerScript( 'fields-' . $this->aField['tag_id'], count( $aFields ), $this->aField['repeatable'] )
-			: '';
+		/* 5. Return the entire output */
+		return $this->_getFinalOutput( $this->aField, $aFieldsOutput, count( $aFields ) );
 
-		/* 7. Add the sortable script */
-		$aExtraOutput[] = $this->aField['sortable'] && ( count( $aFields ) > 1 || $this->aField['repeatable'] )
-			? $this->_getSortableFieldEnablerScript( 'fields-' . $this->aField['tag_id'] )
-			: '';		
-				
-		/* 8. Return the entire output */
-		$_aFieldsSetAttributes = array(
-			'id'	=> 'fieldset-' . $this->aField['tag_id'],
-			'class'	=> 'admin-page-framework-fieldset',
-			'data-field_id'	=>	$this->aField['tag_id'],	// <-- don't remember what this was for...
-		) + $this->aField['attributes']['fieldset'];
-		$_aFieldsContainerAttributes = array(
-			'id'	=> 'fields-' . $this->aField['tag_id'],
-			'class'	=> 'admin-page-framework-fields'
-				. ( $this->aField['repeatable'] ? ' repeatable' : '' )
-				. ( $this->aField['sortable'] ? ' sortable' : '' ),
-			'data-type'	=> $this->aField['type'],	// this is referred by the sortable field JavaScript script.
-		) + $this->aField['attributes']['fields'];
-		return 
-			"<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
-				. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
-					. $this->aField['before_fields'] 
-					. implode( PHP_EOL, $aFieldsOutput )
-					. $this->aField['after_fields']
-				. "</div>"
-				. implode( PHP_EOL, $aExtraOutput )
-			. "</fieldset>";
-		
 	}
+		
+		/**
+		 * Returns the final fields output.
+		 * 
+		 * @since	3.1.0
+		 */
+		private function _getFinalOutput( array $aField, array $aFieldsOutput, $iFieldsCount ) {
+							
+			// Construct attribute arrays.
+			$_aFieldsSetAttributes = array(
+				'id'	=> 'fieldset-' . $aField['tag_id'],
+				'class'	=> 'admin-page-framework-fieldset',
+				'data-field_id'	=>	$aField['tag_id'],	// <-- don't remember what this was for...
+			) + $aField['attributes']['fieldset'];
+			$_aFieldsContainerAttributes = array(
+				'id'	=> 'fields-' . $aField['tag_id'],
+				'class'	=> 'admin-page-framework-fields'
+					. ( $aField['repeatable'] ? ' repeatable' : '' )
+					. ( $aField['sortable'] ? ' sortable' : '' ),
+				'data-type'	=> $aField['type'],	// this is referred by the sortable field JavaScript script.
+			) + $aField['attributes']['fields'];
+			
+			return 
+				"<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
+					. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
+						. $aField['before_fields'] 
+							. implode( PHP_EOL, $aFieldsOutput )
+						. $aField['after_fields']
+					. "</div>"
+					. $this->_getExtras( $aField, $iFieldsCount )
+				. "</fieldset>";
+						
+		}
+			
+			/**
+			 * Returns the output of the extra elements for the fields such as description and JavaScri
+			 * 
+			 * The additional but necessary elements are placed outside of the fields tag. 
+			 */
+			private function _getExtras( $aField, $iFieldsCount ) {
+				
+				$_aOutput = array();
+				
+				// Add the description
+				if ( isset( $aField['description'] ) && trim( $aField['description'] ) != '' )  {
+					$_aOutput[] = "<p class='admin-page-framework-fields-description'><span class='description'>{$aField['description']}</span></p>";
+				}
+					
+				// Add the repeater & sortable scripts 
+				$_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount );
+				
+				return implode( PHP_EOL, $_aOutput );
+				
+			}
+			
+				/**
+				 * Returns the output of JavaScript scripts for the field (and its sub-fields).
+				 * 
+				 * @since	3.1.0
+				 */
+				private function _getFieldScripts( $aField, $iFieldsCount ) {
+					
+					$_aOutput = array();
+					
+					// Add the repeater script 
+					$_aOutput[] = $aField['repeatable']
+						? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable'] )
+						: '';
 
+					// Add the sortable script - if the number of fields is only one, no need to sort the field. 
+					// Repeatable fields can make the number increase so here it checkes the repeatability.
+					$_aOutput[] = $aField['sortable'] && ( $iFieldsCount > 1 || $aField['repeatable'] )
+						? $this->_getSortableFieldEnablerScript( 'fields-' . $aField['tag_id'] )
+						: '';				
+					
+					return implode( PHP_EOL, $_aOutput );
+					
+				}
+		
 		/**
 		 * Returns the set field error message to the section or field.
 		 * 
@@ -333,7 +375,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 		 * 
 		 * @since			3.0.0
 		 */
-		protected function _composeFieldsArray( &$aField, &$aOptions ) {
+		protected function _constructFieldsArray( &$aField, &$aOptions ) {
 
 			/* Get the set value(s) */
 			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
