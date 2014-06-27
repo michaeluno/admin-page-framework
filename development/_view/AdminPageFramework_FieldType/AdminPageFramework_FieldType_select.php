@@ -20,13 +20,13 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	/**
 	 * Defines the field type slugs used for this field type.
 	 */
-	public $aFieldTypeSlugs = array( 'select' );
+	public $aFieldTypeSlugs = array( 'select', );
 	
 	/**
 	 * Defines the default key-values of this field type. 
 	 */
 	protected $aDefaultKeys = array(
-		'label'	=>	array(),
+		'label'			=>	array(),
 		'is_multiple'	=> '',
 		'attributes'	=> array(
 			'select'	=> array(
@@ -78,11 +78,11 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 	 */
 	public function _replyToGetField( $aField ) {
 			
-		$aSelectAttributes = array(
-			'id'	=>	$aField['input_id'],
+		$_aSelectAttributes = array(
+			'id'		=>	$aField['input_id'],
 			'multiple'	=>	$aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
 		) + $aField['attributes']['select'];
-		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
+		$_aSelectAttributes['name'] = empty( $_aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
 
 		return
 			$aField['before_label']
@@ -90,7 +90,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
 					. "<span class='admin-page-framework-input-container'>"
-						. "<select " . $this->generateAttributes( $aSelectAttributes ) . " >"
+						. "<select " . $this->generateAttributes( $_aSelectAttributes ) . " >"
 							. $this->_getOptionTags( $aField['input_id'], $aField['attributes'], $aField['label'] )
 						. "</select>"
 					. "</span>"
@@ -113,47 +113,47 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 		 */ 	
 		protected function _getOptionTags( $sInputID, &$aAttributes, $aLabel ) {
 			
-			$aOutput = array();
-			$aValue = ( array ) $aAttributes['value'];
+			$_aOutput = array();
+			$_aValue = ( array ) $aAttributes['value'];
 
-			foreach( $aLabel as $sKey => $asLabel ) {
+			foreach( $aLabel as $__sKey => $__asLabel ) {
 				
 				// For the optgroup tag,
-				if ( is_array( $asLabel ) ) {	// optgroup
+				if ( is_array( $__asLabel ) ) {	// optgroup
 				
-					$aOptGroupAttributes = isset( $aAttributes['optgroup'][ $sKey ] ) && is_array( $aAttributes['optgroup'][ $sKey ] )
-						? $aAttributes['optgroup'][ $sKey ] + $aAttributes['optgroup']
+					$_aOptGroupAttributes = isset( $aAttributes['optgroup'][ $__sKey ] ) && is_array( $aAttributes['optgroup'][ $__sKey ] )
+						? $aAttributes['optgroup'][ $__sKey ] + $aAttributes['optgroup']
 						: $aAttributes['optgroup'];
 						
-					$aOutput[] = 
-						"<optgroup label='{$sKey}'" . $this->generateAttributes( $aOptGroupAttributes ) . ">"
-						. $this->_getOptionTags( $sInputID, $aAttributes, $asLabel )
+					$_aOutput[] = 
+						"<optgroup label='{$__sKey}'" . $this->generateAttributes( $_aOptGroupAttributes ) . ">"
+							. $this->_getOptionTags( $sInputID, $aAttributes, $__asLabel )
 						. "</optgroup>";
 					continue;
 					
 				}
 				
 				// For the option tag,
-				$aValue = isset( $aAttributes['option'][ $sKey ]['value'] )
-					? $aAttributes['option'][ $sKey ]['value']
-					: $aValue;
+				$_aValue = isset( $aAttributes['option'][ $__sKey ]['value'] )
+					? $aAttributes['option'][ $__sKey ]['value']
+					: $_aValue;
 				
-				$aOptionAttributes = array(
-					'id'	=> $sInputID . '_' . $sKey,
-					'value'	=> $sKey,
-					'selected'	=> in_array( ( string ) $sKey, $aValue ) ? 'Selected' : '',
-				) + ( isset( $aAttributes['option'][ $sKey ] ) && is_array( $aAttributes['option'][ $sKey ] )
-					? $aAttributes['option'][ $sKey ] + $aAttributes['option']
+				$_aOptionAttributes = array(
+					'id'	=> $sInputID . '_' . $__sKey,
+					'value'	=> $__sKey,
+					'selected'	=> in_array( ( string ) $__sKey, $_aValue ) ? 'Selected' : '',
+				) + ( isset( $aAttributes['option'][ $__sKey ] ) && is_array( $aAttributes['option'][ $__sKey ] )
+					? $aAttributes['option'][ $__sKey ] + $aAttributes['option']
 					: $aAttributes['option']
 				);
 
-				$aOutput[] =
-					"<option " . $this->generateAttributes( $aOptionAttributes ) . " >"	
-						. $asLabel
+				$_aOutput[] =
+					"<option " . $this->generateAttributes( $_aOptionAttributes ) . " >"	
+						. $__asLabel
 					. "</option>";
 					
 			}
-			return implode( PHP_EOL, $aOutput );	
+			return implode( PHP_EOL, $_aOutput );	
 			
 		}
 		
