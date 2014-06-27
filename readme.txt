@@ -3,7 +3,7 @@ Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
-Tested up to: 3.9
+Tested up to: 3.9.1
 Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -293,7 +293,6 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
-
 - Added the `field_definition_{instantiated class name}` filter hook that applies to all the defined field arrays.
 - Added the `disableSavingOptions()` method that disables the functionality to save submitted form data into the options table.
 - Added the `setPluginSettingsLinkLabel()` method which enables to set the text label to the automatically embedded link to the plugin listing table of the plugin title cell in addition to disabling the functionality.
@@ -307,6 +306,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
 - Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.
+- Fixed a bug that sub-fields could not properly have the default key-values of the field definition of the type.
 - Fixed a bug that in PHP v5.2.x, setting a section error message caused a string "A" to be inserted in each belonging field.
 - Fixed a bug that previously set field error arrays were lost if the `setFieldErrors()` method is performed multiple times in a page load.
 - Fixed a bug that page load info was not inserted when multiple admin page objects were instantiated.
