@@ -385,7 +385,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			}			
 			
 			/**
-			 * Removes option array elements that belongs to the given page/tab by their slug.
+			 * Removes option array elements that belong to the given page/tab by their slug.
 			 * 
 			 * This is used when merging options and avoiding merging options that have an array structure as the framework uses the recursive merge
 			 * and if an option is not a string but an array, the default array of such a structure will merge with the user input of the corresponding structure. 
