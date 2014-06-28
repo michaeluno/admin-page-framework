@@ -442,14 +442,29 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 	 * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
 	 * If this method yields true, the framework discards the system message and displays the user set notification message.
 	 * 
-	 * @since			3.1.0
-	 * @return			boolean			True if a setting notice is set; otherwise, false.
+	 * @since	3.1.0
+	 * 
+	 * @param	string	$sType	If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
+	 * @return	boolean	True if a setting notice is set; otherwise, false.
 	 */
-	public function hasSettingNotice() {
+	public function hasSettingNotice( $sType='' ) {
 		
 		// The framework user set notification messages are stored in this global array element.
-		$_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();		
-		return count( $_aNotices ) ? true : false;
+		$_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();
+		if ( ! $sType ) {
+			return count( $_aNotices ) ? true : false;
+		}
+		
+		// Check if there is a message of the type.
+		foreach( $_aNotices as $aNotice ) {
+			if ( ! isset( $aNotice['aAttributes']['class'] ) ) {
+				continue;
+			}
+			if ( $aNotice['aAttributes']['class'] == $sType ) {
+				return true;
+			}
+		}
+		return false;
 		
 	}
 

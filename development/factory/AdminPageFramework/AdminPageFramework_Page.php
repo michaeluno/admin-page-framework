@@ -375,7 +375,6 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 					$this->oForm->applyConditions();
 					$this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );	// applies filters to the conditioned field definition arrays.
 					$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
-					
 					echo $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 				} 
@@ -439,8 +438,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			
 			echo "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
 					. "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL			
-					. "<input type='hidden' name='_is_admin_page_framework' value='1' />" . PHP_EOL			
-					. "</form><!-- End Form -->";
+					. "<input type='hidden' name='_is_admin_page_framework' value='1' />" . PHP_EOL
+					. "</form><!-- End Form -->" . PHP_EOL;
 			
 		}	
 	
