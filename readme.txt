@@ -222,21 +222,21 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 = Does my commercial product incorporating your framework library have to be released under GPL? =
 No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
 
+= Can I set a custom post type as a root page? =
+Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
+
 = How do I retrieve the stored options? =
 The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 
 
 For instance, if your instantiated class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
 
-= Can I set a custom post type as a root page? =
-Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
-
-= Is it possible to use a custom database table to store options instead of in the options table? =
-Yes. But you have to code it by yourself the part that retrieve and store the options.
+= Is it possible to use a custom database table to store submitted form data instead of using the options table? =
+Yes. But you have to code it by yourself the part that retrieves and stores the form data.
 
 What you need to do is to set the `value` argument in the field definition array to suppress the displaying value in the form.
 See an example. https://gist.github.com/michaeluno/fb4088b922b71710c7fb
 
-Also passing an empty string, `''` to the first paramter of the constuctor will disable the ability to store submitted form data into the options table.
+Also passing an empty string, `''` to the first parameter of the constructor will disable the ability to store submitted form data into the options table.
 
 e.g.
 `$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );`
@@ -286,6 +286,43 @@ To specify a custom size to the preview element of the `image` field type, set a
 		'style'	=>	'max-width:300px;',
 	),
 ),`
+
+<h5><strong>Set default field value</strong></h5>
+To set the initial value of a field, use the `default` argument in the field definition array.
+
+`array(
+	'field_id'	=>	'my_text_field_id',
+	'title'	=>	__( 'My Text Inpu Field', 'admin-page-framework-demo' ),
+	'type'	=>	'text',
+	'default'	=>	'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
+),`
+
+<h5><strong>Always display a particular value in a field</strong></h5>
+The `value` argument in the definition array can suppress the saved value. This is useful when you want to set a value from a different data source or create a wizard form that stores the data in a custom location.
+
+`array(
+	'field_id'	=>	'my_text_field_id',
+	'title'	=>	__( 'My Text Inpu Field', 'admin-page-framework-demo' ),
+	'type'	=>	'text',
+	'value'	=>	'This will be always set.',
+),`
+
+If it is a repeatable field, set the value in the sub-fields.
+
+`array(
+	'field_id'	=>	'my_text_field_id',
+	'title'	=>	__( 'My Text Inpu Field', 'admin-page-framework-demo' ),
+	'type'	=>	'text',
+	'repeatable'	=>	true,
+	'value'	=>	'the first value',
+	array(
+		'value'	=>	'the second value',
+	),
+	array(
+		'value'	=>	'the third value',
+	),	
+),`
+
 
 = Roadmap =
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
