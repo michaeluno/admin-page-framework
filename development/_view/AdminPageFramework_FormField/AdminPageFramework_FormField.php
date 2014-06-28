@@ -83,69 +83,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 					
 		}	
 	}
-	
-	/**
-	 * Returns the stored field value.
-	 * 
-	 * @since			2.0.0
-	 * @since			3.0.0			Removed the check of the 'value' and 'default' keys. Made it use the '_fields_type' internal key.
-	 */
-	private function _getInputFieldValue( $aField, $aOptions ) {	
-
-		// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
-		// It's important to return null if not set as the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
-		switch( $aField['_fields_type'] ) {
-			default:
-			case 'page':
-			case 'page_meta_box':
-			case 'taxonomy':
-			
-				// If a section is not set, check the first dimension element.
-				if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
-					return isset( $aOptions[ $aField['field_id'] ] )
-						? $aOptions[ $aField['field_id'] ]
-						: null;		
-					
-				// At this point, the section dimension is set.
-				
-				// If it belongs to a sub section,
-				if ( isset( $aField['_section_index'] ) )
-					return isset( $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] )
-						? $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ]
-						: null;				
-				
-				// Otherwise, return the second dimension element.
-				return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
-					? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
-					: null;
-					
-			case 'post_meta_box':
-	
-				if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null;
-			
-				// If a section is not set,
-				if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
-					return get_post_meta( $_GET['post'], $aField['field_id'], true );
-					
-				// At this point, the section dimension is set.
-				$aSectionArray = get_post_meta( $_GET['post'], $aField['section_id'], true );
-				
-				// If it belongs to a sub section,
-				if ( isset( $aField['_section_index'] ) )
-					return isset( $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] )
-						? $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ]
-						: null;								
-						
-				// Otherwise, return the second dimension element.
-				return isset( $aSectionArray[ $aField['field_id'] ] )
-					? $aSectionArray[ $aField['field_id'] ]
-					: null;
-					
-		}
-		return null;	
-						
-	}	
-	
+		
 	/**
 	 * Returns the input ID
 	 * 
@@ -396,7 +334,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 		protected function _constructFieldsArray( &$aField, &$aOptions ) {
 
 			/* Get the set value(s) */
-			$vSavedValue = $this->_getInputFieldValue( $aField, $aOptions );
+			$vSavedValue = $this->_getStoredInputFieldValue( $aField, $aOptions );
 
 			/* Separate the first field and sub-fields */
 			$aFirstField = array();
@@ -409,13 +347,14 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 			}		
 			
 			/* Create the sub-fields of repeatable fields based on the saved values */
-			if ( $aField['repeatable'] ) 
+			if ( $aField['repeatable'] ) {
 				foreach( ( array ) $vSavedValue as $iIndex => $vValue ) {
 					if ( $iIndex == 0 ) continue;
 					$aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
 						? $aSubFields[ $iIndex - 1 ] 
 						: array();			
 				}
+			}
 			
 			/* Put the initial field and the sub-fields together in one array */
 			foreach( $aSubFields as &$aSubField ) {
@@ -466,6 +405,68 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 			return $aFields;
 			
 		}
-	
+		
+			/**
+			 * Returns the stored field value.
+			 * 
+			 * @since			2.0.0
+			 * @since			3.0.0			Removed the check of the 'value' and 'default' keys. Made it use the '_fields_type' internal key.
+			 * @since			3.1.0			Changed the name to _getStoredInputFieldValue from _getInputFieldValue
+			 */
+			private function _getStoredInputFieldValue( $aField, $aOptions ) {	
+
+				// Check if a previously saved option value exists or not. Regular setting pages and page meta boxes will be applied here.
+				// It's important to return null if not set as the returned value will be checked later on whether it is set or not. If an empty value is returned, they will think it's set.
+				switch( $aField['_fields_type'] ) {
+					default:
+					case 'page':
+					case 'page_meta_box':
+					case 'taxonomy':
+					
+						// If a section is not set, check the first dimension element.
+						if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
+							return isset( $aOptions[ $aField['field_id'] ] )
+								? $aOptions[ $aField['field_id'] ]
+								: null;		
+							
+						// At this point, the section dimension is set.
+						
+						// If it belongs to a sub section,
+						if ( isset( $aField['_section_index'] ) )
+							return isset( $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] )
+								? $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ]
+								: null;				
+						
+						// Otherwise, return the second dimension element.
+						return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
+							? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
+							: null;
+							
+					case 'post_meta_box':
+			
+						if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null;
+					
+						// If a section is not set,
+						if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' )
+							return get_post_meta( $_GET['post'], $aField['field_id'], true );
+							
+						// At this point, the section dimension is set.
+						$aSectionArray = get_post_meta( $_GET['post'], $aField['section_id'], true );
+						
+						// If it belongs to a sub section,
+						if ( isset( $aField['_section_index'] ) )
+							return isset( $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] )
+								? $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ]
+								: null;								
+								
+						// Otherwise, return the second dimension element.
+						return isset( $aSectionArray[ $aField['field_id'] ] )
+							? $aSectionArray[ $aField['field_id'] ]
+							: null;
+							
+				}
+				return null;	
+								
+			}		
 }
 endif;
