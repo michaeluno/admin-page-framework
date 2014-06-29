@@ -362,7 +362,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			/* Capture the output buffer */
 			ob_start(); // start buffer
 										
-			// Render the form elements by Settings API
+			// Render the form elements.
 			if ( $this->oProp->bEnableForm ) {
 				
 				// do_settings_sections( $sPageSlug ); // deprecated						
@@ -399,7 +399,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		 * Retrieves the form opening tag.
 		 * 
 		 * @since			2.0.0
-		 * @since			3.1.0			Changed to echo the output
+		 * @since			3.1.0			Changed to echo the output.	Changed to remove disallowed query keys in the target action url.
 		 * @internal
 		 * @return			void
 		 */ 
@@ -408,19 +408,21 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			if ( ! $fEnableForm ) {
 				return;
 			}
-				
-			$_aAtrributes = array(
-				'method'	=>	'post',
-				'action'	=>	$this->oProp->sTargetFormPage,
-				'enctype'	=>	$this->oProp->sFormEncType,
-				'id'		=>	'admin-page-framework-form',
-			);
-			echo "<form " . $this->oUtil->generateAttributes( $_aAtrributes ) . ">";
+	
+			echo "<form " 
+					. $this->oUtil->generateAttributes(
+						array(
+						'method'	=>	'post',
+						'enctype'	=>	$this->oProp->sFormEncType,
+						'id'		=>	'admin-page-framework-form',
+						'action'	=>	empty( $this->oProp->aDisallowedQueryKeys )
+							? wp_unslash( $this->oProp->sTargetFormPage )
+							: wp_unslash( remove_query_arg( $this->oProp->aDisallowedQueryKeys, $this->oProp->sTargetFormPage ) ),
+						)	
+					) 
+				. ">";
 			settings_fields( $this->oProp->sOptionKey );
-				
-			// return "<form action='{$this->oProp->sTargetFormPage}' method='post' enctype='{$this->oProp->sFormEncType}' id='admin-page-framework-form'>";
-				
-				
+			
 		}
 		/**
 		 * Retrieves the form closing tag.

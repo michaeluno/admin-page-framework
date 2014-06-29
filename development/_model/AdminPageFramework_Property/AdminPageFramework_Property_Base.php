@@ -493,14 +493,15 @@ abstract class AdminPageFramework_Property_Base {
 	
 	/**
 	 * Indicates whether the setUp() method is loaded.
-	 * 
-	 * Currently only AdminPageFramework and AdminPageFramework_NetworkAdmin set this property.
-	 * 
+	 *  
 	 * @since			3.1.0
 	 * @internal
 	 */
 	public $_bSetupLoaded;
 	
+	/**
+	 * Sets up necessary property values.
+	 */
 	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
 		
 		$this->oCaller = $oCaller;
@@ -557,10 +558,13 @@ abstract class AdminPageFramework_Property_Base {
 	 */
 	static public function _getLibraryData( $sLibraryFilePath=null ) {
 		
-		if ( isset( self::$_aLibraryData ) ) return self::$_aLibraryData;
+		if ( isset( self::$_aLibraryData ) ) {
+			return self::$_aLibraryData;
+		}
 		
-		if ( $sLibraryFilePath ) 
+		if ( $sLibraryFilePath ) {
 			self::_setLibraryData( $sLibraryFilePath );
+		}
 			
 		return self::$_aLibraryData;
 		
@@ -583,22 +587,24 @@ abstract class AdminPageFramework_Property_Base {
 		$aCallerInfo['sPath'] = $sCallerPath;
 		$aCallerInfo['sType'] = $this->_getCallerType( $aCallerInfo['sPath'] );
 
-		if ( $aCallerInfo['sType'] == 'unknown' ) return $aCallerInfo;
-		
-		if ( $aCallerInfo['sType'] == 'plugin' ) 
+		if ( 'unknown' == $aCallerInfo['sType'] ) {
+			return $aCallerInfo;
+		}
+		if ( 'plugin' == $aCallerInfo['sType'] ) {
 			return AdminPageFramework_WPUtility::getScriptData( $aCallerInfo['sPath'], $aCallerInfo['sType'] ) + $aCallerInfo;
-			
-		if ( $aCallerInfo['sType'] == 'theme' ) {
+		}
+		if ( 'theme' == $aCallerInfo['sType'] ) {
 			$oTheme = wp_get_theme();	// stores the theme info object
 			return array(
 				'sName'			=> $oTheme->Name,
 				'sVersion' 		=> $oTheme->Version,
 				'sThemeURI'		=> $oTheme->get( 'ThemeURI' ),
 				'sURI'			=> $oTheme->get( 'ThemeURI' ),
-				'sAuthorURI'		=> $oTheme->get( 'AuthorURI' ),
-				'sAuthor'			=> $oTheme->get( 'Author' ),				
+				'sAuthorURI'	=> $oTheme->get( 'AuthorURI' ),
+				'sAuthor'		=> $oTheme->get( 'Author' ),				
 			) + $aCallerInfo;	
 		}
+		return array();
 	}	
 		/**
 		 * Determines the script type.
@@ -610,8 +616,12 @@ abstract class AdminPageFramework_Property_Base {
 		 */ 
 		private function _getCallerType( $sScriptPath ) {
 			
-			if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) return 'theme';
-			if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) return 'plugin';
+			if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
+				return 'theme';
+			}
+			if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
+				return 'plugin';
+			}
 			return 'unknown';	
 		
 		}	
@@ -631,13 +641,19 @@ abstract class AdminPageFramework_Property_Base {
 		$_aPostTypes = ( array ) $asPostTypes;
 		
 		// If it's not the post definition page, 
-		if ( ! in_array( $this->sPageNow, array( 'post.php', 'post-new.php', ) ) ) return false;
+		if ( ! in_array( $this->sPageNow, array( 'post.php', 'post-new.php', ) ) ) {
+			return false;
+		}
 		
 		// If the parameter is empty, 
-		if ( empty( $_aPostTypes ) ) return true;
+		if ( empty( $_aPostTypes ) ) {
+			return true;
+		}
 		
 		// If the parameter the post type are set and it's in the given post types, 
-		if ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $_aPostTypes ) ) return true;
+		if ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $_aPostTypes ) ) {
+			return true;
+		}
 		
 		// Find the post type from the post ID.
 		$this->_sCurrentPostType = isset( $this->_sCurrentPostType )
@@ -648,8 +664,9 @@ abstract class AdminPageFramework_Property_Base {
 			);
 		
 		// If the found post type is in the given post types,
-		if ( isset( $_GET['post'], $_GET['action'] ) && in_array( $this->_sCurrentPostType, $_aPostTypes ) )		// edit post page
+		if ( isset( $_GET['post'], $_GET['action'] ) && in_array( $this->_sCurrentPostType, $_aPostTypes ) ) {
 			return true;						
+		}		
 		
 		// Otherwise,
 		return false;

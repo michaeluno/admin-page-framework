@@ -60,7 +60,9 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		) {			
 			return;
 		}
-		if ( wp_unslash( $_SERVER['REQUEST_URI'] ) != $_POST['_wp_http_referer'] ) {	// see the function definition of wp_referer_field() in functions.php.
+		$_sRequestURI = remove_query_arg( $this->oProp->aDisallowedQueryKeys, wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$_sReffererURI = remove_query_arg( $this->oProp->aDisallowedQueryKeys, $_POST['_wp_http_referer'] );
+		if ( $_sRequestURI != $_sReffererURI ) {	// see the function definition of wp_referer_field() in functions.php.
 			return;			
 		}
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], $this->oProp->sOptionKey . '-options' ) ) {
@@ -73,9 +75,10 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		if ( ! $this->oProp->_bDisableSavingOptions ) {	
 			$this->oProp->updateOption( $_aInput );
 		}
-		
+
 		// Reload the page with the update notice.
-		die( wp_redirect( $this->oUtil->getQueryAdminURL( array( 'settings-updated' => true ) ) ) );
+		die( wp_redirect( add_query_arg( array( 'settings-updated' => true ) ) ) );
+		// die( wp_redirect( $this->oUtil->getQueryAdminURL( array( 'settings-updated' => true ) ) ) );
 		
 	}
 							

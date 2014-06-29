@@ -217,7 +217,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * @remark			Currently this does not take effect on the meta box and post type classes of the framework.
 	 * @since			2.1.2
 	 */
-	public $aDisallowedQueryKeys	= array( 'settings-updated' );
+	public $aDisallowedQueryKeys = array( 'settings-updated' );
 		
 		
 	/** 
@@ -265,7 +265,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		$this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
 		$this->_bDisableSavingOptions = '' === $sOptionKey ? true : false;
 				
-		$this->sTargetFormPage = esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$this->sTargetFormPage = $_SERVER['REQUEST_URI'];
 				
 		/* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
 		$GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
