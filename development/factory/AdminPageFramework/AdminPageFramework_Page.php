@@ -412,12 +412,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			echo "<form " 
 					. $this->oUtil->generateAttributes(
 						array(
-						'method'	=>	'post',
-						'enctype'	=>	$this->oProp->sFormEncType,
-						'id'		=>	'admin-page-framework-form',
-						'action'	=>	empty( $this->oProp->aDisallowedQueryKeys )
-							? wp_unslash( $this->oProp->sTargetFormPage )
-							: wp_unslash( remove_query_arg( $this->oProp->aDisallowedQueryKeys, $this->oProp->sTargetFormPage ) ),
+							'method'	=>	'post',
+							'enctype'	=>	$this->oProp->sFormEncType,
+							'id'		=>	'admin-page-framework-form',
+							'action'	=>	wp_unslash( remove_query_arg( 'settings-updated', $this->oProp->sTargetFormPage ) ),
 						)	
 					) 
 				. ">";

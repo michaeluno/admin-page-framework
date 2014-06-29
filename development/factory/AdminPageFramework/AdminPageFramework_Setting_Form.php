@@ -60,8 +60,8 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		) {			
 			return;
 		}
-		$_sRequestURI = remove_query_arg( $this->oProp->aDisallowedQueryKeys, wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$_sReffererURI = remove_query_arg( $this->oProp->aDisallowedQueryKeys, $_POST['_wp_http_referer'] );
+		$_sRequestURI = remove_query_arg( array( 'settings-updated' ), wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$_sReffererURI = remove_query_arg( array( 'settings-updated' ), $_POST['_wp_http_referer'] );
 		if ( $_sRequestURI != $_sReffererURI ) {	// see the function definition of wp_referer_field() in functions.php.
 			return;			
 		}
@@ -78,7 +78,6 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 
 		// Reload the page with the update notice.
 		die( wp_redirect( add_query_arg( array( 'settings-updated' => true ) ) ) );
-		// die( wp_redirect( $this->oUtil->getQueryAdminURL( array( 'settings-updated' => true ) ) ) );
 		
 	}
 							
