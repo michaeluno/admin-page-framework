@@ -1,6 +1,41 @@
 <?php
 class APF_Demo extends AdminPageFramework {
+public function start() {	
+	
+	/*
+	 * ( Optional ) Register custom field types.
+	 */			
+	/* 1. Include the file that defines the custom field type. */
+	$_aFiles = array(
+		dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
+		dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
+	);
+	foreach( $_aFiles as $_sFilePath ) {
+		if ( file_exists( $_sFilePath ) ) {				
+			include_once( $_sFilePath );
+		}
+	}
+				
+	/* 2. Instantiate the classes by passing the instantiated admin page class name. */
+	$_sClassName = get_class( $this );
+	new DateCustomFieldType( $_sClassName );
+	new TimeCustomFieldType( $_sClassName );
+	new DateTimeCustomFieldType( $_sClassName );
+	new DialCustomFieldType( $_sClassName );
+	new FontCustomFieldType( $_sClassName );
+	new SampleCustomFieldType( $_sClassName );
+	new RevealerCustomFieldType( $_sClassName );
+	new GridCustomFieldType( $_sClassName );
+	new AutocompleteCustomFieldType( $_sClassName );
 
+}
 	/*
 	 *	( Required ) In the setUp() method, you will define how the pages and the form elements should be composed.
 	 */
@@ -1416,7 +1451,7 @@ class APF_Demo extends AdminPageFramework {
 				'attributes'	=>	array(
 					'style'	=>	'max-width:300px;',
 				),
-			),
+			),		
 			array(
 				'field_id'		=>	'media_in_tabbed_sections_in_repeatable_sections',
 				'title'			=>	__( 'Media', 'admin-page-framework-demo' ),

@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.1.0b22
+ * Version: 3.1.0b23
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
@@ -664,7 +664,7 @@
 						var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
 						var title = jQuery( '<div/>' ).text( image.title ).html();
 						
-						// If the user want the attributes to be saved, set them in the input tags.
+						// If the user wants the attributes to be saved, set them in the input tags.
 						jQuery( 'input#' + sInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
 						jQuery( 'input#' + sInputID + '_id' ).val( image.id );
 						jQuery( 'input#' + sInputID + '_width' ).val( image.width );
@@ -1628,7 +1628,7 @@ vertical-align: top;
 				});
 			};
 			
-			// The method that registers callbacks. This will be called in field type definition class.
+			// The method that registers callbacks. This will be called in each field type definition class.
 			$.fn.registerAPFCallback = function( oOptions ) {
 				
 				// This is the easiest way to have default options.
@@ -1747,8 +1747,8 @@ vertical-align: top;
 					$( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
 				});
 
-				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. 
-				 * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'
+				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method needs to count the fields. 
+				 * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'.
 				 * */
 				nodeNewField.updateAPFRepeatableFields();
 				

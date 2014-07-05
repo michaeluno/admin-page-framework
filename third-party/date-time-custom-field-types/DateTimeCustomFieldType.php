@@ -14,11 +14,14 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected $aDefaultKeys = array(
 		'date_format'	=>	'yy/mm/dd',
-		'time_format'	=> 'H:mm',
+		'time_format'	=>	'H:mm',
 		'attributes'	=>	array(
-			'size'	=>	10,
+			'size'		=>	16,
 			'maxlength'	=>	400,
-		),	
+		),
+		'options'		=>	array(
+			'showButtonPanel'	=>	false,
+		),
 	);
 	
 	/**
@@ -26,6 +29,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	public function setUp() {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_script( 'jquery-ui-slider' );
 	}	
 
 	/**
@@ -34,7 +38,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 	protected function getEnqueuingScripts() { 
 		return array(
 			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
-			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-sliderAccess.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
+			array( 'src'	=> dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),			
 		);
 	}	
 	
@@ -57,25 +61,75 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		/*	The below function will be triggered when a new repeatable field is added. */
 		return "
 			jQuery( document ).ready( function(){
-				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+				jQuery().registerAPFCallback( {			
+					/**
+					 * The repeatable field callback.
+					 * 
+					 * @param	object	oCopiedNode
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */				
+					added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallerType ) {
 			
 						/* If it is not this field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
 						/* If the input tag is not found, do nothing  */
-						var nodeNewDateTimePickerInput = node.find( 'input.datetime_picker' );
-						if ( nodeNewDateTimePickerInput.length <= 0 ) return;
+						if ( oCopiedNode.find( 'input.datetime_picker' ).length <= 0 ) return;
+						
+						/* Update the date-time input tag of all the next fields including the passed field. 
+						 * This is because the datetimepicker jQuery plugin looses its bind when the attribute is updated(incremented).
+						 * */
+						var oFieldContainer = oCopiedNode.closest( '.admin-page-framework-field' );
+						oFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
-						/* Bind the date picker script */
-						nodeNewDateTimePickerInput.removeClass( 'hasDatepicker' );
-						nodeNewDateTimePickerInput.datetimepicker({
-							timeFormat : nodeNewDateTimePickerInput.data( 'time_format' ),
-							dateFormat : nodeNewDateTimePickerInput.data( 'date_format' ),
-							showButtonPanel : false,
-						});						
+							var oDateTimePickerInput = jQuery( this ).find( 'input.datetime_picker' );	
+							if( oDateTimePickerInput.length <= 0 ) {
+								return true;	// continue (skip the iteration)
+							}
+							
+							/* (Re)bind the date picker script */
+							oDateTimePickerInput.removeClass( 'hasDatepicker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oDateTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oDateTimePickerInput.datetimepicker( aOptions );
+						
+						});
 						
 					},
+					
+					removed_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
+						
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						if ( oCopiedNode.find( 'input.datetime_picker' ).length <= 0 )  return;						
+						
+						/* Update the next all (including this one) fields */
+						var nodeFieldContainer = oCopiedNode.closest( '.admin-page-framework-field' );
+						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+							
+							var oDateTimePickerInput = jQuery( this ).find( 'input.datetime_picker' );	
+							if( oDateTimePickerInput.length <= 0 ) {
+								return true;	// continue (skip the iteration)
+							}
+							
+							/* (Re)bind the date picker script */
+							oDateTimePickerInput.removeClass( 'hasDatepicker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oDateTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oDateTimePickerInput.datetimepicker( aOptions );							
+
+						});
+						
+					},					
+					
 					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
 						/* Return if it is not the type. */
@@ -83,12 +137,11 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 						
 						/* Bind the date picker script */
 						node.children( '.admin-page-framework-field' ).each( function() {
-							nodeInput = jQuery( this ).find( 'input.datetime_picker' );
-							nodeInput.removeClass( 'hasDatepicker' );
-							nodeInput.datetimepicker({
-							timeFormat : nodeInput.data( 'time_format' ),
-							dateFormat : nodeInput.data( 'date_format' ),
-							});													
+							var oInput = jQuery( this ).find( 'input.datetime_picker' );
+							var sOptionID = oInput.closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + oInput.closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );							
+							oInput.removeClass( 'hasDatepicker' );
+							oInput.datetimepicker( aOptions );													
 						});
 					},					
 				});
@@ -133,7 +186,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"
-			. $this->getDateTimePickerEnablerScript( $aField['input_id'], $aField['date_format'], $aField['time_format'] )
+			. $this->_getDateTimePickerEnablerScript( $aField['input_id'], $aField['date_format'], $aField['time_format'], $aField['options'] )
 			. $aField['after_label'];
 		
 	}	
@@ -142,17 +195,20 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat ) {
+		private function _getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $aOptions ) {
+			
+			$aOptions = is_array( $aOptions ) ? $aOptions : array();
+			$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
+			$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
+			$_sOptions = json_encode( ( array ) $aOptions );	
 			return 
 				"<script type='text/javascript' class='date-time-picker-enabler-script'>
 					jQuery( document ).ready( function() {
-						jQuery( '#{$sInputID}' ).datetimepicker({
-							timeFormat : '{$sTimeFormat}',
-							dateFormat : '{$sDateFormat}',
-							showButtonPanel : false,
-						});
+						jQuery( '#{$sInputID}' ).datetimepicker({$_sOptions});
+						var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
+						jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});
 					});
-				</script>";
+				</script>";			
 		}
 	
 }

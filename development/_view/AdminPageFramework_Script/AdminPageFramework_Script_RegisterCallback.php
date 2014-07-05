@@ -54,7 +54,7 @@ class AdminPageFramework_Script_RegisterCallback {
 				});
 			};
 			
-			// The method that registers callbacks. This will be called in field type definition class.
+			// The method that registers callbacks. This will be called in each field type definition class.
 			$.fn.registerAPFCallback = function( oOptions ) {
 				
 				// This is the easiest way to have default options.

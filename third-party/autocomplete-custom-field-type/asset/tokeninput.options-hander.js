@@ -6,7 +6,7 @@
 (function ($) {
 	$.fn.storeTokenInputOptions = function( sID, asOptions1, aOptions2 ) {
 		if ( ! $.fn.aTokenInputOptions ) $.fn.aTokenInputOptions = {};
-		sID = sID.replace( /__\d+_/, '___' );	// remove the section index. The g modifier is not used so it will replace only the first occurence.
+		sID = sID.replace( /__\d+_/, '___' );	// remove the section index. The g modifier is not used so it will replace only the first occurrence.
 		$.fn.aTokenInputOptions[ sID ] = [ asOptions1, aOptions2 ];
 	};	
 	$.fn.getTokenInputOptions = function( sID ) {

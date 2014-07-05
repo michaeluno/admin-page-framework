@@ -18,6 +18,9 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 			'size'	=>	10,
 			'maxlength'	=>	400,
 		),	
+		'options'		=>	array(
+			'showButtonPanel'	=>	false,
+		),		
 	);
 		
 	/**
@@ -32,7 +35,9 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
 	protected function getEnqueuingScripts() { 
-		return array();
+		return array(
+			array( 'src'	=> dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),	
+		);
 	}	
 
 	/**
@@ -53,35 +58,89 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 		/*	The below function will be triggered when a new repeatable field is added. */
 		return "
 			jQuery( document ).ready( function(){
-				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+				jQuery().registerAPFCallback( {		
+					/**
+					 * The repeatable field callback.
+					 * 
+					 * @param	object	oCopiedNode
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID ) {
 			
 						/* If it is not this field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
+						
 						/* If the input tag is not found, do nothing  */
-						var nodeNewDatePickerInput = node.find( 'input.datepicker' );
-						if ( nodeNewDatePickerInput.length <= 0 ) return;
+						if ( oCopiedNode.find( 'input.datepicker' ).length <= 0 ) return;
+						
+						/* Update the date-time input tag of all the next fields including the passed field. 
+						 * This is because the datetimepicker jQuery plugin looses its bind when the attribute is updated(incremented).
+						 * */
+						var oFieldContainer = oCopiedNode.closest( '.admin-page-framework-field' );
+						oFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
-						/* Bind the date picker script */
-						nodeNewDatePickerInput.removeClass( 'hasDatepicker' );
-						nodeNewDatePickerInput.datepicker({
-							dateFormat : nodeNewDatePickerInput.data( 'date_format' ),
-						});			
+							var oDatePickerInput = jQuery( this ).find( 'input.datepicker' );	
+							if( oDatePickerInput.length <= 0 ) {
+								return true;	// continue (skip the iteration)
+							}
+							
+							/* (Re)bind the date picker script */
+							oDatePickerInput.removeClass( 'hasDatepicker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oDatePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oDatePickerInput.datepicker( aOptions );
+						
+						});					
 						
 					},
-					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+					
+					removed_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
+						
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						if ( oCopiedNode.find( 'input.datepicker' ).length <= 0 )  return;						
+						
+						/* Update the next all (including this one) fields */
+						var oFieldContainer = oCopiedNode.closest( '.admin-page-framework-field' );
+						oFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+
+							var oDatePickerInput = jQuery( this ).find( 'input.datepicker' );	
+							if( oDatePickerInput.length <= 0 ) {
+								return true;	// continue (skip the iteration)
+							}
+							
+							/* (Re)bind the date picker script */
+							oDatePickerInput.removeClass( 'hasDatepicker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oDatePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oDatePickerInput.datepicker( aOptions );
+						
+						});		
+					},						
+					
+					sorted_fields : function( oSortedFields, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
 						/* Return if it is not the type. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */						
 						
 						/* Bind the date picker script */
-						node.children( '.admin-page-framework-field' ).each( function() {
-							nodeInput = jQuery( this ).find( 'input.datepicker' );
-							nodeInput.removeClass( 'hasDatepicker' );
-							nodeInput.datepicker({
-								dateFormat : nodeInput.data( 'date_format' ),
-							});													
+						oSortedFields.children( '.admin-page-framework-field' ).each( function() {
+							var oDatePickerInput = jQuery( this ).find( 'input.datepicker' );
+							oDatePickerInput.removeClass( 'hasDatepicker' );							
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oDatePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oDatePickerInput.datepicker( aOptions );					
 						});
 					},
 										
@@ -134,7 +193,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"
-			. $this->getDatePickerEnablerScript( $aField['input_id'], $aField['date_format'] )
+			. $this->_getDatePickerEnablerScript( $aField['input_id'], $aField['date_format'], $aField['options'] )
 			. $aField['after_label'];
 		
 	}	
@@ -142,13 +201,16 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above _replyToGetField() method.
 		 * 
 		 */
-		private function getDatePickerEnablerScript( $sID, $sDateFormat ) {
+		private function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $aOptions  ) {
+			$aOptions = is_array( $aOptions ) ? $aOptions : array();
+			$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
+			$_sOptions = json_encode( ( array ) $aOptions );				
 			return 	// data-id='{$sID}'
 				"<script type='text/javascript' class='date-picker-enabler-script' >
 					jQuery( document ).ready( function() {
-						jQuery( '#{$sID}' ).datepicker({
-							dateFormat : '{$sDateFormat}'
-						});
+						jQuery( '#{$sInputID}' ).datepicker({$_sOptions});
+						var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
+						jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});						
 					});
 				</script>";
 		}

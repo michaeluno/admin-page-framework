@@ -113,8 +113,8 @@ class AdminPageFramework_Script_RepeatableField {
 					$( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
 				});
 
-				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. 
-				 * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'
+				/* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method needs to count the fields. 
+				 * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'.
 				 * */
 				nodeNewField.updateAPFRepeatableFields();
 				

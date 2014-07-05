@@ -18,6 +18,9 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 			'size'	=>	10,
 			'maxlength'	=>	400,
 		),	
+		'options'		=>	array(
+			'showButtonPanel'	=>	false,
+		),		
 	);
 
 	/**
@@ -25,6 +28,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	public function setUp() {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_script( 'jquery-ui-slider' );
 	}	
 
 	/**
@@ -32,8 +36,8 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected function getEnqueuingScripts() { 
 		return array(
+			array( 'src'	=> dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),	
 			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
-			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-sliderAccess.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
 		);
 	}
 	
@@ -56,36 +60,83 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		/*	The below function will be triggered when a new repeatable field is added. */
 		return "
 			jQuery( document ).ready( function(){
-				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+				jQuery().registerAPFCallback( {		
+					/**
+					 * The repeatable field callback.
+					 * 
+					 * @param	object	oCopiedNode
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */							
+					added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID ) {
 			
 						/* If it is not this field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
 						/* If the input tag is not found, do nothing  */
-						var nodeNewTimePickerInput = node.find( 'input.time_picker' );
-						if ( nodeNewTimePickerInput.length <= 0 ) return;
+						if ( oCopiedNode.find( 'input.time_picker' ).length <= 0 ) return;
+						
+						/* Update the date-time input tag of all the next fields including the passed field. 
+						 * This is because the datetimepicker jQuery plugin looses its bind when the attribute is updated(incremented).
+						 * */
+						oCopiedNode.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function( iIndex ) {
 
-						/* Bind the date picker script */
-						nodeNewTimePickerInput.removeClass( 'hasDatepicker' );
-						nodeNewTimePickerInput.timepicker({
-							timeFormat : nodeNewTimePickerInput.data( 'time_format' ),
-							showButtonPanel : false,
-						});						
+							var oTimePickerInput = jQuery( this ).find( 'input.time_picker' );	
+							if( oTimePickerInput.length <= 0 ) { return true; }	// continue (skip the iteration)
+														
+							/* (Re)bind the date picker script */
+							oTimePickerInput.removeClass( 'hasDatepicker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oTimePickerInput.timepicker( aOptions );
+						
+						});				
 						
 					},
-					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+					
+					removed_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
+						
+						/* If it is not the color field type, do nothing. */
+						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+											
+						/* If the uploader buttons are not found, do nothing */
+						if ( oCopiedNode.find( 'input.time_picker' ).length <= 0 )  return;						
+						
+						/* Update the next all (including this one) fields */
+						oCopiedNode.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function( iIndex ) {
+							
+							var oTimePickerInput = jQuery( this ).find( 'input.time_picker' );	
+							if( oTimePickerInput.length <= 0 ) { return true; }
+														
+							/* (Re)bind the date picker script */
+							oTimePickerInput.removeClass( 'hasDatepicker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oTimePickerInput.timepicker( aOptions );							
+
+						});
+						
+					},							
+					
+					sorted_fields : function( oSortedField, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
 						/* Return if it is not the type. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */						
 						
 						/* Bind the date picker script */
-						node.children( '.admin-page-framework-field' ).each( function() {
-							nodeInput = jQuery( this ).find( 'input.time_picker' );
-							nodeInput.removeClass( 'hasDatepicker' );
-							nodeInput.timepicker({
-								dateFormat : nodeInput.data( 'time_format' ),
-							});													
+						oSortedField.children( '.admin-page-framework-field' ).each( function() {
+							var oTimePickerInput = jQuery( this ).find( 'input.time_picker' );
+							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
+								+ '_' 
+								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
+							var aOptions = jQuery( '#' + oTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID );
+							oTimePickerInput.timepicker( aOptions );							
+							
 						});
 					},					
 				});
@@ -129,7 +180,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"
-			. $this->getTimePickerEnablerScript( $aField['input_id'], $aField['time_format'] )
+			. $this->getTimePickerEnablerScript( $aField['input_id'], $aField['time_format'], $aField['options'] )
 			. $aField['after_label'];
 		
 	}	
@@ -138,14 +189,17 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function getTimePickerEnablerScript( $sInputID, $sTimeFormat ) {
+		private function getTimePickerEnablerScript( $sInputID, $sTimeFormat, $aOptions ) {
+			$aOptions = is_array( $aOptions ) ? $aOptions : array();
+			$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
+			$_sOptions = json_encode( ( array ) $aOptions );			
 			return 
 				"<script type='text/javascript' class='time-picker-enabler-script'>
 					jQuery( document ).ready( function() {
-						jQuery( '#{$sInputID}' ).timepicker({
-							timeFormat : '{$sTimeFormat}',
-							showButtonPanel : false,
-						});
+						jQuery( '#{$sInputID}' ).timepicker({$_sOptions});
+						var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
+						jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});												
+						
 					});
 				</script>";
 		}

@@ -189,6 +189,8 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			)
 		);
 		$this->addSettingFields(
+			// To use advanced options, pass the options in the 'options' argument.
+			// The argument keys are the same as the ones documented here : http://trentrichardson.com/examples/timepicker/#rest_examples		
 			array(	// Single date picker
 				'field_id'	=>	'date',
 				'section_id'	=>	'date_pickers',
@@ -196,34 +198,42 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'type'	=>	'date',
 			),		
 			array(	// Multiple date pickers
-				'field_id'	=>	'dates',
-				'title'	=>	__( 'Dates', 'admin-page-framework-demo' ),
-				'type'	=>	'date',
-				'label'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ),
+				'field_id'		=>	'dates',
+				'title'			=>	__( 'Dates', 'admin-page-framework-demo' ),
+				'type'			=>	'date',
+				'label'			=>	__( 'Start Date: ', 'admin-page-framework-demo' ),
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
+				'delimiter'		=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
 				array( 
-					'label'	=>	__( 'End Date: ', 'amin-page-framework-demo' ), 
+					'label'	=>	__( 'End Date: ', 'admin-page-framework-demo' ), 
 				),
+				'description'	=>	__( 'See the date format is slightly different from the first example.', 'admin-page-framework-demo' ), 
 			),	
 			array(	// Repeatable date picker fields
-				'field_id'	=>	'date_repeatable',
-				'type'	=>	'date',
-				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
-				'repeatable'	=> true,
+				'field_id'		=>	'date_repeatable',
+				'type'			=>	'date',
+				'title'			=>	__( 'Repeatable', 'admin-page-framework-demo' ),
+				'repeatable'	=>	true,
+				'options'		=>	array(
+					'numberOfMonths'	=>	2,
+				),
+				'description'	=>	__( 'Notice that the multiple panels are shown.', 'admin-page-framework-demo' ), 
 			),			
 			array(	// Sortable date picker fields
-				'field_id'	=>	'date_sortable',
-				'type'	=>	'date',
-				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'sortable'	=> true,
+				'field_id'		=>	'date_sortable',
+				'type'			=>	'date',
+				'title'			=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'sortable'		=> true,
+				'options'		=>	array(
+					'numberOfMonths'	=>	3,
+				),				
 				array(),	// the second item
 				array(),	// the third item
 			),				
 			array(	// Single time picker
-				'field_id'	=>	'time',
-				'type'	=>	'time',
-				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
+				'field_id'		=>	'time',
+				'type'			=>	'time',
+				'title'			=>	__( 'Time', 'admin-page-framework-demo' ),
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),
 			array(	// Repeatable time picker fields
@@ -231,51 +241,109 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'type'	=>	'time',
 				'title'	=>	__( 'Repeatable Time Fields', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
+				'options'	=>	array(								
+					'hourGrid'		=>	4,
+					'minuteGrid'	=>	10,
+					'timeFormat'	=>	'hh:mm tt',
+				),
+				'description'	=>	__( 'The grid option is set.', 'admin-page-framework-demo' ), 
 			),
 			array(	// Sortable tune picker fields
 				'field_id'	=>	'time_sortable',
 				'type'	=>	'time',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
+				'options'	=>	array(
+					'hourMin'	=>	8,
+					'hourMax'	=>	16,
+				),
+				'description'	=>	__( 'The maximum and minimum hours are set.', 'admin-page-framework-demo' ), 
 				array(),	// the second item
 				array(),	// the third item
 			),				
-			array(	// Single date time picker
+			array(	// Single date-time picker
 				'field_id'	=>	'date_time',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),		
-			array(	// Multiple date time pickers
+			array(	// Multiple date-time pickers
 				'field_id'	=>	'dates_time_multiple',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Multiple Date and Time', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'With different time formats', 'admin-page-framework-demo' ),
-				'label'	=>	__( 'Default', 'amin-page-framework-demo' ), 
+				'label'	=>	__( 'Default', 'admin-page-framework-demo' ), 
 				'time_format'	=>	'H:mm',
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'<br />',				
+				'delimiter'	=>	'<br />',			
+				'attributes'	=>	array(
+					'size'	=>	24,
+				),									
 				array(
-					'label'	=>	__( 'AM PM', 'amin-page-framework-demo' ), 
+					'label'	=>	__( 'AM PM', 'admin-page-framework-demo' ), 
 					'time_format'	=>	'hh:mm tt',
 				),
 				array(
-					'label'	=>	__( 'Time Zone', 'amin-page-framework-demo' ), 
+					'label'	=>	__( 'Time Zone', 'admin-page-framework-demo' ), 
 					'time_format'	=>	'hh:mm tt z',
-				),	
+				),
+				array(
+					'label'	=>	__( 'Number Of Months', 'admin-page-framework-demo' ), 
+					'options'	=>	array(
+						'numberOfMonths' =>	3,
+					),
+				),		
+				array(
+					'label'	=>	__( 'Min & Max Dates', 'admin-page-framework-demo' ), 
+					'options'	=>	array(
+						'numberOfMonths' =>	2,
+						'minDate'	=>	0,
+						'maxDate'	=>	30,
+					),
+				),		
 			),
 			array(	// Single date time picker
 				'field_id'	=>	'date_time_repeatable',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Repeatable Date & Time Fields', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
+				'options'	=>	array(
+					'timeFormat'	=>	'HH:mm:ss',
+					'stepHour'		=>	2,
+					'stepMinute'	=>	10,
+					'stepSecond'	=>	10,
+				),
 			),	
 			array(	// Sortable date_time picker fields
 				'field_id'	=>	'date_time_sortable',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
+				'attributes'	=>	array(
+					'size'	=>	30,
+				),
+				'options'	=>	array(		
+					'timeFormat'	=>	'HH:mm z',
+					'timezoneList'	=>	array(
+						array(
+							'value'	=>	-300,
+							'label'	=>	__( 'Eastern', 'admin-page-framework-demo' ),
+						),
+						array(
+							'value'	=>	-360,
+							'label'	=>	__( 'Central', 'admin-page-framework-demo' ),
+						),		
+						array(
+							'value'	=>	-420,
+							'label'	=>	__( 'Mountain', 'admin-page-framework-demo' ),
+						),				
+						array(
+							'value'	=>	-480,
+							'label'	=>	__( 'Pacific', 'admin-page-framework-demo' ),
+						),							
+					),
+				),
 				array(),	// the second item
 				array(),	// the third item
 			),

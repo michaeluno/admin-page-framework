@@ -378,7 +378,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 						var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
 						var title = jQuery( '<div/>' ).text( image.title ).html();
 						
-						// If the user want the attributes to be saved, set them in the input tags.
+						// If the user wants the attributes to be saved, set them in the input tags.
 						jQuery( 'input#' + sInputID ).val( image.url );		// the url field is mandatory so it does not have the suffix.
 						jQuery( 'input#' + sInputID + '_id' ).val( image.id );
 						jQuery( 'input#' + sInputID + '_width' ).val( image.width );
