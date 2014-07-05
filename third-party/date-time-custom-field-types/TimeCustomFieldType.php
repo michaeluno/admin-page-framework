@@ -180,7 +180,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 					. "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons will be replaced with this element.
 				. "</label>"
 			. "</div>"
-			. $this->getTimePickerEnablerScript( $aField['input_id'], $aField['time_format'], $aField['options'] )
+			. $this->_getTimePickerEnablerScript( $aField['input_id'], $aField['time_format'], $aField['options'] )
 			. $aField['after_label'];
 		
 	}	
@@ -189,7 +189,7 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function getTimePickerEnablerScript( $sInputID, $sTimeFormat, $asOptions ) {
+		protected function _getTimePickerEnablerScript( $sInputID, $sTimeFormat, $asOptions ) {
 			
 			if ( is_array( $asOptions ) ) {				
 				$aOptions = $asOptions;

@@ -195,7 +195,7 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function _getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $asOptions ) {
+		protected function _getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $asOptions ) {
 			
 			if ( is_array( $asOptions ) ) {				
 				$aOptions = $asOptions;
