@@ -189,10 +189,15 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function getTimePickerEnablerScript( $sInputID, $sTimeFormat, $aOptions ) {
-			$aOptions = is_array( $aOptions ) ? $aOptions : array();
-			$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
-			$_sOptions = json_encode( ( array ) $aOptions );			
+		private function getTimePickerEnablerScript( $sInputID, $sTimeFormat, $asOptions ) {
+			
+			if ( is_array( $asOptions ) ) {				
+				$aOptions = $asOptions;
+				$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
+				$_sOptions = json_encode( ( array ) $aOptions );	
+			} else {
+				$_sOptions = ( string ) $asOptions;	
+			}			
 			return 
 				"<script type='text/javascript' class='time-picker-enabler-script'>
 					jQuery( document ).ready( function() {

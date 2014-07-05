@@ -195,12 +195,16 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above getDateField() method.
 		 * 
 		 */
-		private function _getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $aOptions ) {
+		private function _getDateTimePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $asOptions ) {
 			
-			$aOptions = is_array( $aOptions ) ? $aOptions : array();
-			$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
-			$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
-			$_sOptions = json_encode( ( array ) $aOptions );	
+			if ( is_array( $asOptions ) ) {				
+				$aOptions = $asOptions;
+				$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
+				$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
+				$_sOptions = json_encode( ( array ) $aOptions );	
+			} else {
+				$_sOptions = ( string ) $asOptions;	
+			}
 			return 
 				"<script type='text/javascript' class='date-time-picker-enabler-script'>
 					jQuery( document ).ready( function() {

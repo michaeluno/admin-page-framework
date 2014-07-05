@@ -201,10 +201,15 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 		 * A helper function for the above _replyToGetField() method.
 		 * 
 		 */
-		private function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $aOptions  ) {
-			$aOptions = is_array( $aOptions ) ? $aOptions : array();
-			$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
-			$_sOptions = json_encode( ( array ) $aOptions );				
+		private function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $asOptions  ) {
+			
+			if ( is_array( $asOptions ) ) {				
+				$aOptions = $asOptions;
+				$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
+				$_sOptions = json_encode( ( array ) $aOptions );	
+			} else {
+				$_sOptions = ( string ) $asOptions;	
+			}
 			return 	// data-id='{$sID}'
 				"<script type='text/javascript' class='date-picker-enabler-script' >
 					jQuery( document ).ready( function() {

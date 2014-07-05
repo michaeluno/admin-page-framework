@@ -224,9 +224,11 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'type'			=>	'date',
 				'title'			=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'		=> true,
-				'options'		=>	array(
-					'numberOfMonths'	=>	3,
-				),				
+				'options'		=>	'{
+					minDate: new Date(2010, 11, 20, 8, 30),
+					maxDate: new Date(2010, 11, 31, 17, 30)
+				}',				
+				'description'	=>	__( 'The option can be passed as a string.', 'admin-page-framework-demo' ),
 				array(),	// the second item
 				array(),	// the third item
 			),				
