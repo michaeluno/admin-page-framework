@@ -265,7 +265,6 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 		 */
 		protected function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $asOptions_From, $asOptions_To ) {
 			
-			static $sType	= 'from';
 			$_sInputID_From	= $sInputID . '_from';
 			$_sInputID_To	= $sInputID . '_to';
 			$_sOptions_From	= $this->_getEncodedOptions( $asOptions_From, $sDateFormat );
