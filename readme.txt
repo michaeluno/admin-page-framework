@@ -340,6 +340,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.
 - Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
 - Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
+- Changed the `removed_repeatable_field` callback to be triggered after the element is removed.
 - Changed the target form action url not to contain the `settings-updated` key.
 - Changed the demo plugin to be separated into smaller components.
 - Changed the `validation_{...}` callback methods to receive a third parameter of the class object so that third party scripts can access object members inside from the validation method.

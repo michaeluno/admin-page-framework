@@ -177,14 +177,22 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						});		
 						return false;
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */							
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID ) {
 						
 						/* 1. Return if not for this field type */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	// if it is not this field type
-						if ( node.find( '.select_font' ).length <= 0 )  return;		// if the input tag is not found, do nothing				
+						if ( oNextFieldConainer.find( '.select_font' ).length <= 0 )  return;		// if the input tag is not found, do nothing				
 
 						/* 2. Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-						node.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function() {		
+						oNextFieldConainer.nextAll().andSelf().each( function() {		
 							
 							/* 2-1. Check if the parsing node holds necessary elements. */
 							var nodeFontInput = jQuery( this ).find( '.font-field input' );

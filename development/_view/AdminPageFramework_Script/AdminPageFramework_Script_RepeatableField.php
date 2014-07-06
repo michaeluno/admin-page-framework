@@ -162,11 +162,19 @@ class AdminPageFramework_Script_RepeatableField {
 					$( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name' );																	
 				});
 
-				/* Call the registered callback functions */
-				nodeFieldContainer.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );	
-			
+				/* Store the next field */
+				var oNextField = nodeFieldContainer.next();
+
 				/* Remove the field */
 				nodeFieldContainer.remove();
+				
+				/* 
+				 * Call the registered callback functions
+				 * 
+				 * @since	3.0.0
+				 * @since	3.1.0	Changed it to do after removing the element and passing the next field element to the first parameter of the callback.
+				 * */
+				oNextField.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );	
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
 				var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove' );

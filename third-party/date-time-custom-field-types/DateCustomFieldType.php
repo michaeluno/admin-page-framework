@@ -60,7 +60,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {		
 					/**
-					 * The repeatable field callback.
+					 * The repeatable field callback for the add event.
 					 * 
 					 * @param	object	oCopiedNode
 					 * @param	string	the field type slug
@@ -83,9 +83,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 						oFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
 							var oDatePickerInput = jQuery( this ).find( 'input.datepicker' );	
-							if( oDatePickerInput.length <= 0 ) {
-								return true;	// continue (skip the iteration)
-							}
+							if( oDatePickerInput.length <= 0 ) { return true; }
 							
 							/* (Re)bind the date picker script */
 							oDatePickerInput.removeClass( 'hasDatepicker' );
@@ -98,24 +96,28 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
 						});					
 						
 					},
-					
-					removed_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */	
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If the uploader buttons are not found, do nothing */
-						if ( oCopiedNode.find( 'input.datepicker' ).length <= 0 )  return;						
+						if ( oNextFieldConainer.find( 'input.datepicker' ).length <= 0 )  return;						
 						
 						/* Update the next all (including this one) fields */
-						var oFieldContainer = oCopiedNode.closest( '.admin-page-framework-field' );
-						oFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+						oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
 
 							var oDatePickerInput = jQuery( this ).find( 'input.datepicker' );	
-							if( oDatePickerInput.length <= 0 ) {
-								return true;	// continue (skip the iteration)
-							}
-							
+							if( oDatePickerInput.length <= 0 ) { return true; }
+															
 							/* (Re)bind the date picker script */
 							oDatePickerInput.removeClass( 'hasDatepicker' );
 							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 

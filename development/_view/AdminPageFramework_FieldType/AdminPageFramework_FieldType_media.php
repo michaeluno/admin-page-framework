@@ -77,7 +77,14 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 			jQuery( document ).ready( function(){
 						
 				jQuery().registerAPFCallback( {	
-				
+					/**
+					 * The repeatable field callback for the add event.
+					 * 
+					 * @param	object	node
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */				
 					added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* 1. Return if it is not the type. */						
@@ -105,16 +112,23 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							
 						});						
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* 1. Return if it is not the type. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */
-						if ( node.find( '.select_media' ).length <= 0 )  return;	/* If the uploader buttons are not found, do nothing */
+						if ( oNextFieldConainer.find( '.select_media' ).length <= 0 )  return;	/* If the uploader buttons are not found, do nothing */
 						
 						/* 2. Decrement the ids of the next all (including this one) uploader buttons. ( the input values are already dealt by the framework repeater script ) */
-						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						var iOccurence = iCallType === 1 ? 1 : 0;	// the occurrence value indicates which part of digit to change 
-						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+						oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
 							
 							/* 2-1. Decrement the button ID */
 							nodeButton = jQuery( this ).find( '.select_media' );		
@@ -129,8 +143,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
 							if ( nodeMediaInput.length <= 0 ) return true;
 							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
 						});
-					},
-					
+					},	
 					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
 						/* 1. Return if it is not the type. */

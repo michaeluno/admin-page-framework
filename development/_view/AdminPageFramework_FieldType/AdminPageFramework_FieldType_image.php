@@ -77,7 +77,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 		
 				jQuery().registerAPFCallback( {				
 					/**
-					 * The repeatable field callback.
+					 * The repeatable field callback for the add event.
 					 * 
 					 * @param	object	node
 					 * @param	string	the field type slug
@@ -125,18 +125,25 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 
 						});
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */					
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If the uploader buttons are not found, do nothing */
-						if ( node.find( '.select_image' ).length <= 0 )  return;						
+						if ( oNextFieldConainer.find( '.select_image' ).length <= 0 )  return;						
 						
 						/* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						var iOccurence = iCallType === 1 ? 1 : 0;	// the occurrence value indicates which part of digit to change 
-						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+						oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
 							
 							var nodeButton = jQuery( this ).find( '.select_image' );			
 							

@@ -86,12 +86,20 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 							});
 						});								
 					},
-					removed_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */							
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, sCallType ) {
 						
 						/* If it is not this field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;						
 						
-						nodeField.nextAll().each( function() {
+						oNextFieldConainer.nextAll().andSelf().each( function() {
 							
 							/* Update the hidden elements' ID */		
 							jQuery( this ).find( '.sample_hidden_element' ).decrementIDAttribute( 'id' );

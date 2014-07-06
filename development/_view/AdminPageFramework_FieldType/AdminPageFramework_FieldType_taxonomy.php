@@ -83,13 +83,21 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 				enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
 
 				/*	The repeatable event */
-				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+				jQuery().registerAPFCallback( {		
+					/**
+					 * The repeatable field callback for the add event.
+					 * 
+					 * @param	object	node
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, iCallType ) {
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
-						node.nextAll().andSelf().each( function() {							
+						oClonedField.nextAll().andSelf().each( function() {							
 							jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
 							jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
 							jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
@@ -99,12 +107,20 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 						});						
 						
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 	
-						node.nextAll().each( function() {
+						oNextFieldConainer.nextAll().andSelf().each( function() {
 							jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );
 							jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
 							jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
@@ -112,7 +128,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 							jQuery( this ).find( 'input' ).decrementNameAttribute( 'name', -1 );	// now decrement the second found digit from the end 
 						});	
 						
-						// enableAPFTabbedBox( node.find( '.tab-box-container' ) );
+						// enableAPFTabbedBox( oNextFieldConainer.find( '.tab-box-container' ) );
 						
 					},					
 				});
