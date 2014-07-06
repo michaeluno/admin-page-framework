@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.1.0b23
+ * Version: 3.1.0b24
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
@@ -383,7 +383,7 @@
 		
 				jQuery().registerAPFCallback( {				
 					/**
-					 * The repeatable field callback.
+					 * The repeatable field callback for the add event.
 					 * 
 					 * @param	object	node
 					 * @param	string	the field type slug
@@ -431,18 +431,25 @@
 
 						});
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */					
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If the uploader buttons are not found, do nothing */
-						if ( node.find( '.select_image' ).length <= 0 )  return;						
+						if ( oNextFieldConainer.find( '.select_image' ).length <= 0 )  return;						
 						
 						/* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						var iOccurence = iCallType === 1 ? 1 : 0;	// the occurrence value indicates which part of digit to change 
-						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+						oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
 							
 							var nodeButton = jQuery( this ).find( '.select_image' );			
 							
@@ -855,13 +862,21 @@
 				enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
 
 				/*	The repeatable event */
-				jQuery().registerAPFCallback( {				
-					added_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+				jQuery().registerAPFCallback( {		
+					/**
+					 * The repeatable field callback for the add event.
+					 * 
+					 * @param	object	node
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, iCallType ) {
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 
-						node.nextAll().andSelf().each( function() {							
+						oClonedField.nextAll().andSelf().each( function() {							
 							jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
 							jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
 							jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
@@ -871,12 +886,20 @@
 						});						
 						
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 			
 						/* If it is not the color field type, do nothing. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 	
-						node.nextAll().each( function() {
+						oNextFieldConainer.nextAll().andSelf().each( function() {
 							jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );
 							jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
 							jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
@@ -884,7 +907,7 @@
 							jQuery( this ).find( 'input' ).decrementNameAttribute( 'name', -1 );	// now decrement the second found digit from the end 
 						});	
 						
-						// enableAPFTabbedBox( node.find( '.tab-box-container' ) );
+						// enableAPFTabbedBox( oNextFieldConainer.find( '.tab-box-container' ) );
 						
 					},					
 				});
@@ -1004,7 +1027,14 @@ vertical-align: top;
 			jQuery( document ).ready( function(){
 						
 				jQuery().registerAPFCallback( {	
-				
+					/**
+					 * The repeatable field callback for the add event.
+					 * 
+					 * @param	object	node
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */				
 					added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* 1. Return if it is not the type. */						
@@ -1032,16 +1062,23 @@ vertical-align: top;
 							
 						});						
 					},
-					removed_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+					/**
+					 * The repeatable field callback for the remove event.
+					 * 
+					 * @param	object	the field container element next to the removed field container.
+					 * @param	string	the field type slug
+					 * @param	string	the field container tag ID
+					 * @param	integer	the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */						
+					removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 						
 						/* 1. Return if it is not the type. */
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;	/* If it is not the color field type, do nothing. */
-						if ( node.find( '.select_media' ).length <= 0 )  return;	/* If the uploader buttons are not found, do nothing */
+						if ( oNextFieldConainer.find( '.select_media' ).length <= 0 )  return;	/* If the uploader buttons are not found, do nothing */
 						
 						/* 2. Decrement the ids of the next all (including this one) uploader buttons. ( the input values are already dealt by the framework repeater script ) */
-						var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
 						var iOccurence = iCallType === 1 ? 1 : 0;	// the occurrence value indicates which part of digit to change 
-						nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+						oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
 							
 							/* 2-1. Decrement the button ID */
 							nodeButton = jQuery( this ).find( '.select_media' );		
@@ -1056,8 +1093,7 @@ vertical-align: top;
 							if ( nodeMediaInput.length <= 0 ) return true;
 							setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
 						});
-					},
-					
+					},	
 					sorted_fields : function( node, sFieldType, sFieldsTagID ) {	// on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
 						/* 1. Return if it is not the type. */
@@ -1796,11 +1832,19 @@ vertical-align: top;
 					$( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name' );																	
 				});
 
-				/* Call the registered callback functions */
-				nodeFieldContainer.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );	
-			
+				/* Store the next field */
+				var oNextField = nodeFieldContainer.next();
+
 				/* Remove the field */
 				nodeFieldContainer.remove();
+				
+				/* 
+				 * Call the registered callback functions
+				 * 
+				 * @since	3.0.0
+				 * @since	3.1.0	Changed it to do after removing the element and passing the next field element to the first parameter of the callback.
+				 * */
+				oNextField.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );	
 				
 				/* Count the remaining Remove buttons and if it is one, disable the visibility of it */
 				var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove' );
