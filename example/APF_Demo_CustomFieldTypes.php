@@ -17,6 +17,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
@@ -35,6 +36,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		new DateCustomFieldType( $_sClassName );
 		new TimeCustomFieldType( $_sClassName );
 		new DateTimeCustomFieldType( $_sClassName );
+		new DateRangeCustomFieldType( $_sClassName );
 		new DialCustomFieldType( $_sClassName );
 		new FontCustomFieldType( $_sClassName );
 		new SampleCustomFieldType( $_sClassName );
@@ -191,29 +193,30 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		$this->addSettingFields(
 			// To use advanced options, pass the options in the 'options' argument.
 			// The argument keys are the same as the ones documented here : http://trentrichardson.com/examples/timepicker/#rest_examples		
+			'date_pickers',	// the target section ID.
 			array(	// Single date picker
 				'field_id'	=>	'date',
-				'section_id'	=>	'date_pickers',
 				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
 				'type'	=>	'date',
 			),		
-			array(	// Multiple date pickers
-				'field_id'		=>	'dates',
-				'title'			=>	__( 'Dates', 'admin-page-framework-demo' ),
-				'type'			=>	'date',
-				'label'			=>	__( 'Start Date: ', 'admin-page-framework-demo' ),
-				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'		=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
-				array( 
-					'label'	=>	__( 'End Date: ', 'admin-page-framework-demo' ), 
-				),
-				'description'	=>	__( 'See the date format is slightly different from the first example.', 'admin-page-framework-demo' ), 
-			),	
+			// array(	// Multiple date pickers
+				// 'field_id'		=>	'dates',
+				// 'title'			=>	__( 'Dates', 'admin-page-framework-demo' ),
+				// 'type'			=>	'date',
+				// 'label'			=>	__( 'Start Date: ', 'admin-page-framework-demo' ),
+				// 'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
+				// 'delimiter'		=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
+				// array( 
+					// 'label'	=>	__( 'End Date: ', 'admin-page-framework-demo' ), 
+				// ),
+				// 'description'	=>	__( 'See the date format is slightly different from the first example.', 'admin-page-framework-demo' ), 
+			// ),	
 			array(	// Repeatable date picker fields
 				'field_id'		=>	'date_repeatable',
 				'type'			=>	'date',
 				'title'			=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'repeatable'	=>	true,
+				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
 				'options'		=>	array(
 					'numberOfMonths'	=>	2,
 				),
@@ -349,6 +352,21 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				array(),	// the second item
 				array(),	// the third item
 			),
+			array(	// Single date-range picker
+				'field_id'		=>	'date_range',
+				'title'			=>	__( 'Date Range', 'admin-page-framework-demo' ),
+				'type'			=>	'date_range',
+			),			
+			array(	// Single date-range picker
+				'field_id'		=>	'date_range_repeatable',
+				'title'			=>	__( 'Repeatable Date Range', 'admin-page-framework-demo' ),
+				'type'			=>	'date_range',
+				'repeatable'	=>	true,
+'sortable'		=>	true,
+				'options'		=>	array(
+					'numberOfMonths' =>	2,
+				),
+			),			
 			array()
 		);
 		$this->addSettingFields(			

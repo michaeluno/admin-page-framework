@@ -330,6 +330,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
+- Added the `date_range` custom field type.
 - Added the ability to set options for the `date`, `date_time`, and `time` custom field types.
 - Added the `hasSettingNotice()` method that checks if at least one setting notice has been set or not.
 - Added the `admin-page-framework-subfield` class selector to the div element's class attribute of field containers of sub-fields. 
