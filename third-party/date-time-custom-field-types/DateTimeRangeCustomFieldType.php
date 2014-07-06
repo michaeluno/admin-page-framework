@@ -1,11 +1,11 @@
 <?php
-if ( ! class_exists( 'DateRangeCustomFieldType' ) ) :
-class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
+if ( ! class_exists( 'DateTimeRangeCustomFieldType' ) ) :
+class DateTimeRangeCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
 	 * Defines the field type slugs used for this field type.
 	 */
-	public $aFieldTypeSlugs = array( 'date_range', );
+	public $aFieldTypeSlugs = array( 'date_time_range', );
 	
 	/**
 	 * Defines the default key-values of this field type. 
@@ -14,6 +14,7 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected $aDefaultKeys = array(
 		'date_format'	=>	'yy/mm/dd',
+		'time_format'	=>	'H:mm',
 		'label_min_width'	=> 40, // in pixels
 		'label'			=>	array(
 			'from'	=>	null,
@@ -21,11 +22,11 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 		),
 		'attributes'	=>	array(
 			'from'	=>	array(
-				'size'		=>	10,
+				'size'		=>	16,
 				'maxlength'	=>	400,
 			),
 			'to'	=>	array(
-				'size'		=>	10,
+				'size'		=>	16,
 				'maxlength'	=>	400,
 			),			
 		),	
@@ -44,9 +45,9 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	public function setUp() {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_script( 'jquery-ui-slider' );
 	}	
 
-	
 	/**
 	 * Returns an array holding the urls of enqueuing scripts.
 	 */
@@ -54,6 +55,7 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 		return array(
 			array( 'src'	=> dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),	
 			array( 'src'	=> dirname( __FILE__ ) . '/js/apf_date_range.js', ),	
+			array( 'src'	=> dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies'	=> array( 'jquery-ui-datepicker' ) ),
 		);
 	}	
 
@@ -90,7 +92,7 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 			
 						/* If the input tag is not found, do nothing  */
-						if ( oCopiedNode.find( 'input.datepicker' ).length <= 0 ) return;
+						if ( oCopiedNode.find( 'input.datetimepicker' ).length <= 0 ) return;
 						
 						/* Update the date-time input tag of all the next fields including the passed field. 
 						 * This is because the datetimepicker jQuery plugin looses its bind when the attribute is updated(incremented).
@@ -98,17 +100,17 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 						var oFieldContainer = oCopiedNode.closest( '.admin-page-framework-field' );
 						oFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
-							var oDatePickerInput = jQuery( this ).find( 'input.datepicker.from' );	
-							var oDatePickerInput_To = jQuery( this ).find( 'input.datepicker.to' );	
-							if( oDatePickerInput.length <= 0 ) { return true; }	// continue (skip the iteration)
+							var oDateTimePickerInput = jQuery( this ).find( 'input.datetimepicker.from' );	
+							var oDateTimePickerInput_To = jQuery( this ).find( 'input.datetimepicker.to' );	
+							if( oDateTimePickerInput.length <= 0 ) { return true; }	// continue (skip the iteration)
 														
 							/* (Re)bind the date picker script */
 							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
 								+ '_' 
 								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
-							var aOptions_From = jQuery( '#' + oDatePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_from' );
-							var aOptions_To = jQuery( '#' + oDatePickerInput_To.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_to' );
-							oDatePickerInput.apf_date_range( oDatePickerInput_To.attr( 'id' ), aOptions_From, aOptions_To );						
+							var aOptions_From = jQuery( '#' + oDateTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_from' );
+							var aOptions_To = jQuery( '#' + oDateTimePickerInput_To.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_to' );
+							oDateTimePickerInput.apf_date_time_range( oDateTimePickerInput_To.attr( 'id' ), aOptions_From, aOptions_To );						
 						
 						});					
 						
@@ -127,22 +129,22 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 						if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
 											
 						/* If a datepicker element is not found, do nothing */
-						if ( oNextFieldConainer.find( 'input.datepicker' ).length <= 0 )  return;				
+						if ( oNextFieldConainer.find( 'input.datetimepicker' ).length <= 0 )  return;				
 
 						/* Update the next all (including this one) fields */
 						oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
 
-							var oDatePickerInput = jQuery( this ).find( 'input.datepicker.from' );	
-							var oDatePickerInput_To = jQuery( this ).find( 'input.datepicker.to' );	
-							if( oDatePickerInput.length <= 0 ) { return true; }	// continue (skip the iteration)
+							var oDateTimePickerInput = jQuery( this ).find( 'input.datetimepicker.from' );	
+							var oDateTimePickerInput_To = jQuery( this ).find( 'input.datetimepicker.to' );	
+							if( oDateTimePickerInput.length <= 0 ) { return true; }	// continue (skip the iteration)
 																				
 							/* (Re)bind the date picker script */
 							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
 								+ '_' 
 								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
-							var aOptions_From = jQuery( '#' + oDatePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_from' );
-							var aOptions_To = jQuery( '#' + oDatePickerInput_To.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_to' );																				
-							oDatePickerInput.apf_date_range( oDatePickerInput_To.attr( 'id' ), aOptions_From, aOptions_To );		
+							var aOptions_From = jQuery( '#' + oDateTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_from' );
+							var aOptions_To = jQuery( '#' + oDateTimePickerInput_To.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_to' );																				
+							oDateTimePickerInput.apf_date_time_range( oDateTimePickerInput_To.attr( 'id' ), aOptions_From, aOptions_To );		
 												
 						});		
 					},						
@@ -155,16 +157,16 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 						/* Bind the date picker script */
 						oSortedFields.children( '.admin-page-framework-field' ).each( function() {
 							
-							var oDatePickerInput = jQuery( this ).find( 'input.datepicker' );
-							var oDatePickerInput_To = jQuery( this ).find( 'input.datepicker.to' );	
+							var oDateTimePickerInput = jQuery( this ).find( 'input.datetimepicker' );
+							var oDateTimePickerInput_To = jQuery( this ).find( 'input.datetimepicker.to' );	
 							
 							/* (Re)bind the date picker script */
 							var sOptionID = jQuery( this ).closest( '.admin-page-framework-sections' ).attr( 'id' ) 
 								+ '_' 
 								+ jQuery( this ).closest( '.admin-page-framework-fields' ).attr( 'id' );	// sections id + _ + fields id 
-							var aOptions_From = jQuery( '#' + oDatePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_from' );
-							var aOptions_To = jQuery( '#' + oDatePickerInput_To.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_to' );																				
-							oDatePickerInput.apf_date_range( oDatePickerInput_To.attr( 'id' ), aOptions_From, aOptions_To );									
+							var aOptions_From = jQuery( '#' + oDateTimePickerInput.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_from' );
+							var aOptions_To = jQuery( '#' + oDateTimePickerInput_To.attr( 'id' ) ).getDateTimePickerOptions( sOptionID + '_to' );																				
+							oDateTimePickerInput.apf_date_time_range( oDateTimePickerInput_To.attr( 'id' ), aOptions_From, aOptions_To );									
 							
 						});
 					},
@@ -190,12 +192,12 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 			.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
 				display: none;
 			}		
-			.form-table td .admin-page-framework-field-date_range label {
+			.form-table td .admin-page-framework-field-date_time_range label {
 				display: inline-block;
 				width:	auto;
 				padding-right: 1em;
 			}
-			.form-table td .admin-page-framework-field-date_range .admin-page-framework-repeatable-field-buttons {
+			.form-table td .admin-page-framework-field-date_time_range .admin-page-framework-repeatable-field-buttons {
 				margin-bottom: 0;
 			}
 			" . PHP_EOL;
@@ -213,14 +215,14 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 			'name'	=>	$aField['_input_name'] . '[from]',
 			'value'	=>	isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
 		) + $aField['attributes']['from'] + $aField['attributes'];
-		$_aInputAttributes_From['class']	.= ' from datepicker';
+		$_aInputAttributes_From['class']	.= ' from datetimepicker';
 		$_aInputAttributes_To = array(
 			'type'	=>	'text',
 			'id'	=>	$aField['input_id'] . '_to',
 			'name'	=>	$aField['_input_name'] . '[to]',
 			'value'	=>	isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : '',
 		) + $aField['attributes']['to'] + $aField['attributes'];
-		$_aInputAttributes_To['class']	.= ' to datepicker';
+		$_aInputAttributes_To['class']	.= ' to datetimepicker';
 	
 		// Labels
 		$aField['label']['from'] = isset( $aField['label']['from'] ) ? $aField['label']['from'] : __( 'From', 'admin-page-framework' ) . ':';
@@ -253,7 +255,7 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 				. "</label>"				
 				. "<label><div class='repeatable-field-buttons'></div></label>"	// the repeatable field buttons will be replaced with this element.
 			. "</div>"
-			. $this->_getDatePickerEnablerScript( $aField['input_id'], $aField['date_format'], $_aOptions_From, $_aOptions_To )
+			. $this->_getDatePickerEnablerScript( $aField['input_id'], $aField['date_format'], $aField['time_format'], $_aOptions_From, $_aOptions_To )
 			. $aField['after_label'];
 		
 	}	
@@ -261,26 +263,27 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 		/**
 		 * A helper function for the above _replyToGetField() method.
 		 */
-		protected function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $asOptions_From, $asOptions_To ) {
+		protected function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $asOptions_From, $asOptions_To ) {
 			
 			$_sInputID_From	= $sInputID . '_from';
 			$_sInputID_To	= $sInputID . '_to';
-			$_sOptions_From	= $this->_getEncodedOptions( $asOptions_From, $sDateFormat );
-			$_sOptions_To 	= $this->_getEncodedOptions( $asOptions_To, $sDateFormat );
+			$_sOptions_From	= $this->_getEncodedOptions( $asOptions_From, $sDateFormat, $sTimeFormat );
+			$_sOptions_To 	= $this->_getEncodedOptions( $asOptions_To, $sDateFormat, $sTimeFormat );
 			return 	
-				"<script type='text/javascript' class='date-picker-enabler-script' >			
+				"<script type='text/javascript' class='date-time-picker-enabler-script' >			
 					jQuery( document ).ready( function() {
-						jQuery( '#{$_sInputID_From}' ).apf_date_range( '{$_sInputID_To}', {$_sOptions_From}, {$_sOptions_To} );
+						jQuery( '#{$_sInputID_From}' ).apf_date_time_range( '{$_sInputID_To}', {$_sOptions_From}, {$_sOptions_To} );
 					});
 				</script>";
 		}
 			/**
 			 * Returns the JSON encoded options.
 			 */
-			private function _getEncodedOptions( $asOptions, $sDateFormat ) {
+			private function _getEncodedOptions( $asOptions, $sDateFormat, $sTimeFormat ) {
 				if ( is_array( $asOptions ) ) {				
 					$aOptions = $asOptions;
 					$aOptions['dateFormat'] = isset( $aOptions['dateFormat'] ) ? $aOptions['dateFormat'] : $sDateFormat;
+					$aOptions['timeFormat'] = isset( $aOptions['timeFormat'] ) ? $aOptions['timeFormat'] : $sTimeFormat;
 					return json_encode( ( array ) $aOptions );	
 				} 
 				return ( string ) $asOptions;	
@@ -304,5 +307,5 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
 				: $_asSubOptions;	// string
 				
 		}		
-}
+}		
 endif;

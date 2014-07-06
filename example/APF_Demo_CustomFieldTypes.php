@@ -18,6 +18,8 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
@@ -37,6 +39,8 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		new TimeCustomFieldType( $_sClassName );
 		new DateTimeCustomFieldType( $_sClassName );
 		new DateRangeCustomFieldType( $_sClassName );
+		new DateTimeRangeCustomFieldType( $_sClassName );
+		new TimeRangeCustomFieldType( $_sClassName );
 		new DialCustomFieldType( $_sClassName );
 		new FontCustomFieldType( $_sClassName );
 		new SampleCustomFieldType( $_sClassName );
@@ -132,7 +136,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'section_id'	=>	'date_pickers',
 				'tab_slug'		=>	'date',
 				'title'			=>	__( 'Date Custom Field Type', 'admin-page-framework' ),
-				'description'	=>	__( 'These are date and time pickers.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'We have date and time pickers.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'dial',
@@ -352,21 +356,50 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				array(),	// the second item
 				array(),	// the third item
 			),
-			array(	// Single date-range picker
+			array(	// Single date_range picker
 				'field_id'		=>	'date_range',
 				'title'			=>	__( 'Date Range', 'admin-page-framework-demo' ),
 				'type'			=>	'date_range',
 			),			
-			array(	// Single date-range picker
+			array(	// Single date_range picker
 				'field_id'		=>	'date_range_repeatable',
 				'title'			=>	__( 'Repeatable Date Range', 'admin-page-framework-demo' ),
 				'type'			=>	'date_range',
 				'repeatable'	=>	true,
-'sortable'		=>	true,
+				'sortable'		=>	true,
 				'options'		=>	array(
 					'numberOfMonths' =>	2,
 				),
-			),			
+			),	
+			array(	// Single date_time_range picker
+				'field_id'		=>	'date_time_range',
+				'title'			=>	__( 'Date Time Range', 'admin-page-framework-demo' ),
+				'type'			=>	'date_time_range',
+			),				
+			array(	// Single date_time_range picker
+				'field_id'		=>	'date_time_range_repeatable',
+				'title'			=>	__( 'Repeatable Date Time Range', 'admin-page-framework-demo' ),
+				'type'			=>	'date_time_range',
+				'time_format'	=>	'HH:mm:ss',
+				'repeatable'	=>	true,
+				'sortable'		=>	true,
+				'options'		=>	array(
+					'numberOfMonths' =>	2,
+				),
+			),	
+			array(	// Single date_time_range picker
+				'field_id'		=>	'time_range',
+				'title'			=>	__( 'Time Range', 'admin-page-framework-demo' ),
+				'type'			=>	'time_range',
+			),	
+			array(	// Single date_time_range picker
+				'field_id'		=>	'time_range_repeatable',
+				'title'			=>	__( 'Repeatable Time Range', 'admin-page-framework-demo' ),
+				'type'			=>	'time_range',
+				'time_format'	=>	'HH:mm:ss',
+				'repeatable'	=>	true,
+				'sortable'		=>	true,				
+			),					
 			array()
 		);
 		$this->addSettingFields(			
