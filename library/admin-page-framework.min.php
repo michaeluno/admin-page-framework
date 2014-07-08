@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.1.0b25
+ * Version: 3.1.0b26
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
@@ -1483,11 +1483,13 @@ vertical-align: top;
 			vertical-align: middle;
 		}
 		
-		.admin-page-framework-field .admin-page-framework-input-label-container,
-		.admin-page-framework-field .admin-page-framework-input-label-string
-		{
+		.admin-page-framework-field .admin-page-framework-input-label-container {
 			display: inline-block;		
 			vertical-align: middle; 
+		}
+		.admin-page-framework-field .admin-page-framework-input-label-string {
+			display: inline;	/* Checkbox label should not fold(wrap) after the check box */
+			vertical-align: middle; 			
 		}
 		
 		/* Repeatable Fields */		
