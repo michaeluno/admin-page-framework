@@ -330,6 +330,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
+- Added the ability not to set the default link to the custom post type post listing table's page in the plugin listing table page by passing an empty string to the 'plugin_listing_table_title_cell_link` key of the 'label' argument option.
 - Added the `date_range`, `date_time_range`, `time_range` custom field type.
 - Added the ability to set options for the `date`, `date_time`, and `time` custom field types.
 - Added the `hasSettingNotice()` method that checks if at least one setting notice has been set or not.
