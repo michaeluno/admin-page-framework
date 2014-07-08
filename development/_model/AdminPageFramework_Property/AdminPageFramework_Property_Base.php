@@ -334,11 +334,13 @@ abstract class AdminPageFramework_Property_Base {
 			vertical-align: middle;
 		}
 		
-		.admin-page-framework-field .admin-page-framework-input-label-container,
-		.admin-page-framework-field .admin-page-framework-input-label-string
-		{
+		.admin-page-framework-field .admin-page-framework-input-label-container {
 			display: inline-block;		
 			vertical-align: middle; 
+		}
+		.admin-page-framework-field .admin-page-framework-input-label-string {
+			display: inline;	/* Checkbox label should not fold(wrap) after the check box */
+			vertical-align: middle; 			
 		}
 		
 		/* Repeatable Fields */		

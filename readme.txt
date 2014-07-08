@@ -340,6 +340,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `start()` method which is automatically called at the end of the constructor, which can be used when the instantiated class name cannot be determined. 
 - Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.
 - Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
+- Tweaked the styling of the `checkbox` field type not to wrap the label after the checkbox.
 - Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
 - Changed the `removed_repeatable_field` callback to be triggered after the element is removed.
 - Changed the target form action url not to contain the `settings-updated` key.
