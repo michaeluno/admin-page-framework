@@ -51,17 +51,23 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 	 * Adds the post type link in the title cell of the plugin listing table in plugins.php.
 	 * 
 	 * @since			3.0.6			Moved from the Link_PostType class.
+	 * @since			3.1.0			Made it not insert the link if the user sets an empty string to the 'plugin_listing_table_title_cell_link' key of the label argument array.
 	 */
 	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
-				
-		$_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] ) && $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
-			?	$this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
-			:	$this->oMsg->__( 'manage' );
 		
+		$_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] )
+			? $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
+			: $this->oMsg->__( 'manage' );
+			
+		// If the user explicitly sets an empty string to the label key, do not insert a link.
+		if ( ! $_sLinkLabel ) {
+			return $aLinks;
+		}
+						
 		// http://.../wp-admin/edit.php?post_type=[...]
 		array_unshift(	
 			$aLinks,
-			"<a href='edit.php?post_type={$this->oProp->sPostType}'>" . $_sLinkLabel . "</a>"
+			"<a href='" . esc_url( "edit.php?post_type={$this->oProp->sPostType}" ) . "'>" . $_sLinkLabel . "</a>"
 		); 
 		return $aLinks;		
 		
