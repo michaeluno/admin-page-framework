@@ -255,6 +255,9 @@ abstract class AdminPageFramework_Factory_Router {
 		
 		// the field_{class name}_{...} filter.
 		if ( substr( $sMethodName, 0, strlen( 'field_' . $this->oProp->sClassName . '_' ) ) == 'field_' . $this->oProp->sClassName . '_' ) return $aArgs[ 0 ];
+
+		// the options_ + class name filter. [3.1.0+]
+		if ( substr( $sMethodName, 0, strlen( "options_{$this->oProp->sClassName}" ) ) == "options_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];
 		
 		// the field_types_ + class name filter. [2.1.5+]
 		if ( substr( $sMethodName, 0, strlen( "field_types_{$this->oProp->sClassName}" ) ) == "field_types_{$this->oProp->sClassName}" ) return $aArgs[ 0 ];

@@ -675,5 +675,15 @@ abstract class AdminPageFramework_Property_Base {
 		
 	}	
 	
+	/**
+	 * Retrieves the option array.
+	 * 
+	 * This method should be extended in the extended class.
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */
+	protected function _getOptions() { return array(); }
+	
 }
 endif;

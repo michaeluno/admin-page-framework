@@ -370,7 +370,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 				/* Do recursive array merging */
 				$aSubField = $this->uniteArrays( $aSubField, $aFirstField );	// the 'attributes' array of some field types have more than one dimensions. // $aSubField = $aSubField + $aFirstField;
 				
-				/* Restore the label elemnet */
+				/* Restore the label element */
 				$aSubField['label']	= $aLabel;
 				
 			}

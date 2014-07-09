@@ -33,24 +33,25 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
 	 */
 	public $sFieldsType = 'network_admin_page';
 	
+	/**
+	 * Returns the option array.
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */
+	protected function _getOptions() {
 	
-	/*
-	 * Magic methods
-	 * */
-	public function &__get( $sName ) {
+		return AdminPageFramework_WPUtility::addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+			$GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ],	// the caller object
+			'options_' . $this->sClassName,	// options_{instantiated class name}
+			$this->sOptionKey ? get_site_option( $this->sOptionKey, array() ) : array()
+		);
 		
-		// If $this->aOptions is called for the first time, retrieve the option data from the database and assign to the property.
-		// Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
-		// Without the the ampersand in the method name, it causes a PHP warning.
-		if ( $sName == 'aOptions' ) {
-			$this->aOptions = get_site_option( $this->sOptionKey, array() );
-			return $this->aOptions;	
-		}
-		
-		// For regular undefined items, 
-		return null;
-		
-	}	
+		// return $this->sOptionKey
+			// ? get_site_option( $this->sOptionKey, array() )
+			// : array();
+			
+	}
 	
 	/**
 	 * Utility methods

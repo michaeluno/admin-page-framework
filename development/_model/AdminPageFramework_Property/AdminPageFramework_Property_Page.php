@@ -299,16 +299,35 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 			
 		}	
 	
+	/**
+	 * Returns the option array.
+	 * 
+	 * @since			3.1.0
+	 * @internal
+	 */
+	protected function _getOptions() {
+	
+		return AdminPageFramework_WPUtility::addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+			$GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ],	// the caller object
+			'options_' . $this->sClassName,	// options_{instantiated class name}
+			$this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
+		);
+			
+	}
+	
 	/*
 	 * Magic methods
 	 * */
+	/**
+	 * 
+	 * @remark		Without the the ampersand in the method name, it causes a PHP warning.
+	 */
 	public function &__get( $sName ) {
 		
 		// If $this->aOptions is called for the first time, retrieve the option data from the database and assign them to the property.
 		// Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
-		// Without the the ampersand in the method name, it causes a PHP warning.
 		if ( 'aOptions' == $sName ) {
-			$this->aOptions = get_option( $this->sOptionKey, array() );
+			$this->aOptions = $this->_getOptions();
 			return $this->aOptions;	
 		}
 		

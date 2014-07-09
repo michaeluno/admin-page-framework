@@ -41,7 +41,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 		);	
 		$this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
 		
-		/* 1-2. Store the other properties */
+		/* 1-2. Set the other properties */
 		$this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
 		$this->aOptions = $aOptions;
 		$this->aErrors = $aErrors ? $aErrors : array();

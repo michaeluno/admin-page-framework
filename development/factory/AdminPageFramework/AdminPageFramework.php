@@ -627,8 +627,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		public function _replyToPrintAdminNotices() {
 			
 			foreach( $this->oProp->aAdminNotices as $aAdminNotice ) {
-				echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' >"
-						"<p>" . $aAdminNotice['sMessage'] . "</p>"
+				echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}'>"
+						. "<p>" . $aAdminNotice['sMessage'] . "</p>"
 					. "</div>";
 			}
 			

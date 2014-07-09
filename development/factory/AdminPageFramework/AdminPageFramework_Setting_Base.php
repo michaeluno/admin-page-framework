@@ -319,9 +319,9 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 			? $aField['type']
 			: 'default';	// the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-		$oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
-		$sFieldOutput = $oField->_getFieldOutput();	// field output
-		unset( $oField );	// release the object for PHP 5.2.x or below.
+		$_oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
+		$_sFieldOutput = $_oField->_getFieldOutput();	// field output
+		unset( $_oField );	// release the object for PHP 5.2.x or below.
 
 		return $this->oUtil->addAndApplyFilters(
 			$this,
@@ -330,7 +330,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 					? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $_sFieldID
 					: 'field_' . $this->oProp->sClassName . '_' . $_sFieldID,
 			),
-			$sFieldOutput,
+			$_sFieldOutput,
 			$aField // the field array
 		);		
 		

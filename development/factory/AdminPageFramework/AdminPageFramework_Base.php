@@ -65,6 +65,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		
 		'field_types_'		=> 'field_types_',
 		'field_definition_'	=> 'field_definition_',	// 3.0.2+
+		'options_'			=> 'options_',	// 3.1.0+
 	);
 	
 	/**
@@ -247,12 +248,14 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )		== 'load_pre_' )	return $this->_doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
 
 		// The callback of the call_page_{page slug} action hook
-		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug )
+		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug ) {
 			return $this->_renderPage( $sPageSlug, $sTabSlug );		// the method is defined in the AdminPageFramework_Page class.
+		}
 		
 		// If it's one of the framework's callback methods, do nothing.	
-		if ( $this->_isFrameworkCallbackMethod( $sMethodName ) )
-			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter, otherwise, it's an action.		
+		if ( $this->_isFrameworkCallbackMethod( $sMethodName ) ) {
+			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter; otherwise, it's an action.		
+		}
 		
 		trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_ERROR );
 		
@@ -268,10 +271,11 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		 */
 		private function _isFrameworkCallbackMethod( $sMethodName ) {
 				
-			foreach( self::$_aHookPrefixes as $sPrefix ) 
-				if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) 
+			foreach( self::$_aHookPrefixes as $sPrefix ) {
+				if ( substr( $sMethodName, 0, strlen( $sPrefix ) )	== $sPrefix  ) {
 					return true;
-			
+				}
+			}
 			return false;
 			
 		}

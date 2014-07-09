@@ -42,7 +42,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 	 * @param			mixed			$_and_more				add as many arguments as necessary to the next parameters.
 	 * @return			void			does not return a value.
 	 */		
-	public function doActions( $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
+	static public function doActions( $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
 		
 		$aArgs = func_get_args();		
 		$aActionHooks = $aArgs[ 0 ];
@@ -75,7 +75,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 	 * @param			mixed			$_and_more				add as many arguments as necessary to the next parameters.
 	 * @return			void
 	 */ 
-	public function addAndDoActions( $oCallerObject, $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
+	static public function addAndDoActions( $oCallerObject, $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
 	
 		$aArgs = func_get_args();	
 		$oCallerObject = $aArgs[ 0 ];
@@ -83,7 +83,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 		foreach( ( array ) $aActionHooks as $sActionHook ) {
 			if ( ! $sActionHook ) continue;
 			$aArgs[ 1 ] = $sActionHook;
-			call_user_func_array( array( $this, 'addAndDoAction' ) , $aArgs );			
+			call_user_func_array( array( 'self', 'addAndDoAction' ) , $aArgs );			
 		}
 		
 	}
@@ -96,7 +96,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 	 * @remark			Accepts variadic parameters.
 	 * @return			void
 	 */ 
-	public function addAndDoAction( $oCallerObject, $sActionHook, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
+	static public function addAndDoAction( $oCallerObject, $sActionHook, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
 		
 		$iArgs = func_num_args();
 		$aArgs = func_get_args();
@@ -108,7 +108,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 		call_user_func_array( 'do_action' , $aArgs );
 		
 	}
-	public function addAndApplyFilters() {	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
+	static public function addAndApplyFilters() {	// Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
 			
 		$aArgs = func_get_args();	
 		$oCallerObject = $aArgs[ 0 ];
@@ -119,12 +119,12 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 			if ( ! $sFilter ) continue;
 			$aArgs[ 1 ] = $sFilter;
 			$aArgs[ 2 ] = $vInput;
-			$vInput = call_user_func_array( array( $this, 'addAndApplyFilter' ) , $aArgs );						
+			$vInput = call_user_func_array( array( 'self', 'addAndApplyFilter' ) , $aArgs );						
 		}
 		return $vInput;
 		
 	}
-	public function addAndApplyFilter() {	// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+	static public function addAndApplyFilter() {	// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 
 		$iArgs = func_num_args();
 		$aArgs = func_get_args();
@@ -146,7 +146,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 	 * @access			public
 	 * @return				array			Returns an array consisting of the filters.
 	 */ 
-	public function getFilterArrayByPrefix( $sPrefix, $sClassName, $sPageSlug, $sTabSlug, $bReverse=false ) {
+	static public function getFilterArrayByPrefix( $sPrefix, $sClassName, $sPageSlug, $sTabSlug, $bReverse=false ) {
 				
 		$aFilters = array();
 		if ( $sTabSlug && $sPageSlug )
