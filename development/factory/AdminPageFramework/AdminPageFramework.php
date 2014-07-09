@@ -59,12 +59,12 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>field_definition_{instantiated class name}_{section id}_{field ID}</strong> – [3.0.2+] receives the form field definition array of the given input field ID that has a section. The first parameter: the field definition array. The second parameter: the integer representing sub-section index if the field belongs to a sub-section.</li>
  * 	<li><strong>pages_{instantiated class name}</strong> – receives the registered page arrays. The first parameter: pages container array.</li> 
  * 	<li><strong>tabs_{instantiated class name}_{page slug}</strong> – receives the registered in-page tab arrays. The first parameter: tabs container array.</li> 
- * 	<li><strong>validation_{instantiated class name}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that does not have a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database.</li>
- * 	<li><strong>validation_{instantiated class name}_{section_id}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that has a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database.</li>
- * 	<li><strong>validation_{instantiated class name}_{section id}</strong> – [3.0.0+] receives the form submission values that belongs to the section.. The first parameter: ( array ) the array of submitted input values that belong to the section. The second parameter: ( array ) the array of the old values stored in the database.</li>
- * 	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><strong>validation_{page slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- * 	<li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ * 	<li><strong>validation_{instantiated class name}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that does not have a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
+ * 	<li><strong>validation_{instantiated class name}_{section_id}_{field id}</strong> – [3.0.0+] receives the form submission value of the field that has a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
+ * 	<li><strong>validation_{instantiated class name}_{section id}</strong> – [3.0.0+] receives the form submission values that belongs to the section.. The first parameter: ( array ) the array of submitted input values that belong to the section. The second parameter: ( array ) the array of the old values stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
+ * 	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
+ * 	<li><strong>validation_{page slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
+ * 	<li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  * 	<li><strong>style_{page slug}_{tab slug}</strong> – receives the output of the CSS rules applied to the tab page of the slug.</li>
  * 	<li><strong>style_{page slug}</strong> – receives the output of the CSS rules applied to the page of the slug.</li>
  * 	<li><strong>style_{instantiated class name}</strong> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
@@ -113,6 +113,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>import_option_key_{page slug}_{tab slug}</strong> – receives the option array key of the importing array submitted from the tab page.</li>
  * 	<li><strong>import_option_key_{page slug}</strong> – receives the option array key of the importing array submitted from the page.</li>
  * 	<li><strong>import_option_key_{instantiated class name}</strong> – receives the option array key of the importing array submitted from the plugin.</li> 
+ * 	<li><strong>options_{instantiated class name}</strong> – [3.1.0+] receives the option array.</li> 
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p>
@@ -177,7 +178,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *              do_form_{page slug}_{tab slug}
  *              do_form_{page slug}
  *              do_form_{instantiated class name}
- *  
+ *  			
+ * 				field_definition_{instantiated class name}_{section ID}_{field ID}
+ * 				field_definition_{instantiated class name}_{field ID (which does not have a section)}
  *              section_head_{instantiated class name}_{section ID}
  *              field_{instantiated class name}_{field ID}
  *  
@@ -203,10 +206,17 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  do_after_{page slug}_{tab slug}
  *  
  *  ----- After Submitting the Form ------
- *  
- *  validation_{instantiated class name}_{submit button input id}
- *  validation_{instantiated class name}_{submit button field id}
- *  validation_{page slug}_{tab slug }
+ * 
+ *  submit_{instantiated class name}_{pressed submit field id}
+ *  submit_{instantiated class name}_{section id}
+ *  submit_{instantiated class name}_{section id}_{field id}
+ *  submit_{instantiated class name}_{page slug}
+ *  submit_{instantiated class name}_{page slug}_{tab slug}
+ *  submit_{instantiated class name}
+ *  validation_{instantiated class name}_{field id (which does not have a section)}
+ *  validation_{instantiated class name}_{section_id}
+ *  validation_{instantiated class name}_{section id}_{field id}
+ *  validation_{page slug}_{tab slug}
  *  validation_{page slug }
  *  validation_{instantiated class name }
  *  export_{page slug}_{tab slug}
@@ -616,10 +626,11 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		 */
 		public function _replyToPrintAdminNotices() {
 			
-			foreach( $this->oProp->aAdminNotices as $aAdminNotice ) 
-				echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' ><p>"
-					. $aAdminNotice['sMessage']
-					. "</p></div>";
+			foreach( $this->oProp->aAdminNotices as $aAdminNotice ) {
+				echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}' >"
+						"<p>" . $aAdminNotice['sMessage'] . "</p>"
+					. "</div>";
+			}
 			
 		}	
 	
@@ -694,7 +705,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * $this->disableSavingOptions();
 	 * </code>
 	 * @since			3.1.0
-	 * @deprecated
+	 * @deprecated		3.1.0b27		Passing an empty string to the first parameter of the constructor should be sufficient.
 	 */
 	// public function disableSavingOptions() {
 		// $this->oProp->_bDisableSavingOptions = true;
