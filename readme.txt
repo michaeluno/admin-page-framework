@@ -231,15 +231,18 @@ The framework stores them as an organized multidimensional array in the options 
 For instance, if your instantiated class name is `APF` then the code would be `get_option( 'APF' );` Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
 
 = Is it possible to use a custom database table to store submitted form data instead of using the options table? =
-Yes. But you have to code it by yourself the part that retrieves and stores the form data.
+Yes. There are two main means to achive that. 
 
-What you need to do is to set the `value` argument in the field definition array to suppress the displaying value in the form.
+One is to set the `value` argument in the field definition array to suppress the displaying value in the field.
 See an example. https://gist.github.com/michaeluno/fb4088b922b71710c7fb
+
+The other is to override the options array set to the entire form using the `options_{instantiated class name}`.
+See an example. https://gist.github.com/michaeluno/fcfac27825aa8a35b90f
 
 Also passing an empty string, `''` to the first parameter of the constructor will disable the ability to store submitted form data into the options table.
 
 e.g.
-`$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );`
+`new MyAdminPage( '' );`
 
 = How can I add sub-menu pages to the root page created by the framework in a separate script? =
 
@@ -292,7 +295,7 @@ To set the initial value of a field, use the `default` argument in the field def
 
 `array(
 	'field_id'	=>	'my_text_field_id',
-	'title'	=>	__( 'My Text Inpu Field', 'admin-page-framework-demo' ),
+	'title'	=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
 	'type'	=>	'text',
 	'default'	=>	'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
 ),`
@@ -311,7 +314,7 @@ If it is a repeatable field, set the value in the sub-fields.
 
 `array(
 	'field_id'	=>	'my_text_field_id',
-	'title'	=>	__( 'My Text Inpu Field', 'admin-page-framework-demo' ),
+	'title'	=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
 	'type'	=>	'text',
 	'repeatable'	=>	true,
 	'value'	=>	'the first value',
@@ -323,6 +326,8 @@ If it is a repeatable field, set the value in the sub-fields.
 	),	
 ),`
 
+Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
+See an example, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f
 
 = Roadmap =
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
@@ -330,6 +335,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.0 =
+- Added the `options_{instantiated class name}` filter to suppress the data used to display the form values.
+- Added the `AdminPageFramework_Debug::log()` method.
 - Added the ability not to set the default link to the custom post type post listing table's page in the plugin listing table page by passing an empty string to the 'plugin_listing_table_title_cell_link` key of the 'label' argument option.
 - Added the `date_range`, `date_time_range`, `time_range` custom field type.
 - Added the ability to set options for the `date`, `date_time`, and `time` custom field types.
