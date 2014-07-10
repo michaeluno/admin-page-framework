@@ -54,24 +54,7 @@ class AdminPageFramework_Debug {
 	 * @deprecated		3.1.0		Use the log() method instead
 	 */
 	static public function logArray( $asArray, $sFilePath=null ) {
-		
-		self::log( $asArray, $sFilePath );
-		static $_iPageLoadID;
-		$_iPageLoadID = $_iPageLoadID ? $_iPageLoadID : uniqid();		
-		
-		$_oCallerInfo = debug_backtrace();
-		$_sCallerFunction = isset( $_oCallerInfo[ 1 ]['function'] ) ? $_oCallerInfo[ 1 ]['function'] : '';
-		$_sCallerClasss = isset( $_oCallerInfo[ 1 ]['class'] ) ? $_oCallerInfo[ 1 ]['class'] : '';
-		$sFilePath = $sFilePath
-			? $sFilePath
-			: WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . date( "Ymd" ) . '.log';		
-		file_put_contents( 
-			$sFilePath,
-			date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' . "{$_iPageLoadID} {$_sCallerClasss}::{$_sCallerFunction} " . AdminPageFramework_Utility::getCurrentURL() . PHP_EOL	
-			. print_r( $asArray, true ) . PHP_EOL . PHP_EOL,
-			FILE_APPEND 
-		);			
-			
+		self::log( $asArray, $sFilePath );		
 	}	
 	
 	/**
