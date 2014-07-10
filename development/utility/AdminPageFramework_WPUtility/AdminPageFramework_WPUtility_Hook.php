@@ -82,8 +82,8 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 		$aActionHooks = $aArgs[ 1 ];
 		foreach( ( array ) $aActionHooks as $sActionHook ) {
 			if ( ! $sActionHook ) continue;
-			$aArgs[ 1 ] = $sActionHook;
-			call_user_func_array( array( 'self', 'addAndDoAction' ) , $aArgs );			
+			$aArgs[ 1 ] = $sActionHook;	
+			call_user_func_array( array( get_class(), 'addAndDoAction' ) , $aArgs );			
 		}
 		
 	}
@@ -119,7 +119,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 			if ( ! $sFilter ) continue;
 			$aArgs[ 1 ] = $sFilter;
 			$aArgs[ 2 ] = $vInput;
-			$vInput = call_user_func_array( array( 'self', 'addAndApplyFilter' ) , $aArgs );						
+			$vInput = call_user_func_array( array( get_class(), 'addAndApplyFilter' ) , $aArgs );						
 		}
 		return $vInput;
 		
