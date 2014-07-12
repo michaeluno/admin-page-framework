@@ -89,8 +89,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		
 		// This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
 		if ( $bAutoRegister ) {
-			foreach( ( array ) $asClassName as $sClassName  )
+			foreach( ( array ) $asClassName as $sClassName  ) {
 				add_filter( "field_types_{$sClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+			}
 		}
 	
 	}	
@@ -103,9 +104,9 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 */
 	public function replyToRegisterInputFieldType( $aFieldDefinitions ) {
 		
-		foreach ( $this->aFieldTypeSlugs as $sFieldTypeSlug )
+		foreach ( $this->aFieldTypeSlugs as $sFieldTypeSlug ) {
 			$aFieldDefinitions[ $sFieldTypeSlug ] = $this->getDefinitionArray( $sFieldTypeSlug );
-
+		}
 		return $aFieldDefinitions;		
 
 	}
@@ -127,17 +128,17 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 			: self::$_aDefaultKeys['attributes'];
 		
 		return array(
-			'sFieldTypeSlug'	=> $sFieldTypeSlug,
-			'aFieldTypeSlugs'	=> $this->aFieldTypeSlugs,
-			'hfRenderField' => array( $this, "_replyToGetField" ),
-			'hfGetScripts' => array( $this, "_replyToGetScripts" ),
-			'hfGetStyles' => array( $this, "_replyToGetStyles" ),
-			'hfGetIEStyles' => array( $this, "_replyToGetInputIEStyles" ),
-			'hfFieldLoader' => array( $this, "_replyToFieldLoader" ),
-			'hfFieldSetTypeSetter' => array( $this, "_replyToFieldTypeSetter" ),
-			'aEnqueueScripts' => $this->_replyToGetEnqueuingScripts(),	// urls of the scripts
-			'aEnqueueStyles' => $this->_replyToGetEnqueuingStyles(),	// urls of the styles
-			'aDefaultKeys' => $_aDefaultKeys, 		// 'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
+			'sFieldTypeSlug'		=> $sFieldTypeSlug,
+			'aFieldTypeSlugs'		=> $this->aFieldTypeSlugs,
+			'hfRenderField'			=> array( $this, "_replyToGetField" ),
+			'hfGetScripts'			=> array( $this, "_replyToGetScripts" ),
+			'hfGetStyles'			=> array( $this, "_replyToGetStyles" ),
+			'hfGetIEStyles'			=> array( $this, "_replyToGetInputIEStyles" ),
+			'hfFieldLoader'			=> array( $this, "_replyToFieldLoader" ),
+			'hfFieldSetTypeSetter'	=> array( $this, "_replyToFieldTypeSetter" ),
+			'aEnqueueScripts'		=> $this->_replyToGetEnqueuingScripts(),	// urls of the scripts
+			'aEnqueueStyles'		=> $this->_replyToGetEnqueuingStyles(),	// urls of the styles
+			'aDefaultKeys'			=> $_aDefaultKeys, 		// 'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
 		);
 		
 	}
@@ -190,7 +191,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 */
 	protected function getFieldElementByKey( $asElement, $sKey, $asDefault='' ) {
 					
-		if ( ! is_array( $asElement ) || ! isset( $sKey ) ) return $asElement;
+		if ( ! is_array( $asElement ) || ! isset( $sKey ) ) { return $asElement; }
 				
 		$aElements = &$asElement;	// it is an array
 		return isset( $aElements[ $sKey ] )
@@ -212,13 +213,15 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		wp_enqueue_script( 'thickbox' );
 		wp_enqueue_style( 'thickbox' );
 	
-		if ( function_exists( 'wp_enqueue_media' ) ) 	// means the WordPress version is 3.5 or above
+		if ( function_exists( 'wp_enqueue_media' ) ) { 	// means the WordPress version is 3.5 or above
 			add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 );	// 
-		else		
+		} else {
 			wp_enqueue_script( 'media-upload' );	
+		}
 
-		if ( in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php', ) ) ) 
+		if ( in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php', ) ) ) {			
 			add_filter( 'gettext', array( $this, '_replyToReplaceThickBoxText' ) , 1, 2 );				
+		}
 		
 	}
 		/**
@@ -240,13 +243,15 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		public function _replyToReplaceThickBoxText( $sTranslated, $sText ) {
 
 			// Replace the button label in the media thick box.
-			if ( ! in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php' ) ) ) return $sTranslated;
-			if ( $sText != 'Insert into Post' ) return $sTranslated;
-			if ( $this->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) return $sTranslated;
+			if ( ! in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php' ) ) ) { return $sTranslated; }
+			if ( $sText != 'Insert into Post' ) { return $sTranslated; }
+			if ( $this->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) { return $sTranslated; }
 			
-			if ( isset( $_GET['button_label'] ) ) return $_GET['button_label'];
+			if ( isset( $_GET['button_label'] ) ) { return $_GET['button_label']; }
 
-			return $this->oProp->sThickBoxButtonUseThis ?  $this->oProp->sThickBoxButtonUseThis : $this->oMsg->__( 'use_this_image' );
+			return $this->oProp->sThickBoxButtonUseThis 
+				? $this->oProp->sThickBoxButtonUseThis 
+				: $this->oMsg->__( 'use_this_image' );
 			
 		}
 		/**
@@ -259,10 +264,11 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 		 */
 		public function _replyToRemovingMediaLibraryTab( $aTabs ) {
 			
-			if ( ! isset( $_REQUEST['enable_external_source'] ) ) return $aTabs;
+			if ( ! isset( $_REQUEST['enable_external_source'] ) ) { return $aTabs; }
 			
-			if ( ! $_REQUEST['enable_external_source'] )
+			if ( ! $_REQUEST['enable_external_source'] ) {
 				unset( $aTabs['type_url'] );	// removes the 'From URL' tab in the thick box.
+			}
 			
 			return $aTabs;
 			
@@ -277,7 +283,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 */
 	protected function _getScript_CustomMediaUploaderObject() {
 
-		if ( ! function_exists( 'wp_enqueue_media' ) ) return "";	// means the WordPress version is 3.4.x or below
+		if ( ! function_exists( 'wp_enqueue_media' ) ) { return ""; }	// means the WordPress version is 3.4.x or below
 		
 		// Check if it's loaded in this field set type to prevent multiple insertions.
 		$GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'] = isset( $GLOBALS['aAdminPageFramework']['aLoadedCustomMediaUploaderObject'] )
