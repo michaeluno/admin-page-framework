@@ -359,6 +359,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
 - Changed the `section_head` filter hook to be triggered even when the section description is not set.
 - Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.
+- Fixed a bug that a value of `0` did not get displayed but and empty string instead.
 - Fixed a bug that sub-fields could not properly have the default key-values of the field definition of the type.
 - Fixed a bug that in PHP v5.2.x, setting a section error message caused a string "A" to be inserted in each belonging field.
 - Fixed a bug that previously set field error arrays were lost if the `setFieldErrors()` method is performed multiple times in a page load.

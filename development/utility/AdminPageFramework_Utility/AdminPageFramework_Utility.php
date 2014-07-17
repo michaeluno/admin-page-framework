@@ -47,7 +47,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
 		
 		$aOutput = array();
 		foreach( $aAttributes as $sAttribute => $sProperty ) {
-			if ( empty( $sProperty ) && $sProperty !== 0  )	continue;	// drop non-value elements.
+			if ( empty( $sProperty ) && 0 !== $sProperty && '0' !== $sProperty ) { continue; }	// drop non value elements except numeric 0.
 			if ( is_array( $sProperty ) || is_object( $sProperty ) ) continue;	// must be resolved as a string.
 			$aOutput[] = "{$sAttribute}='{$sProperty}'";
 		}
