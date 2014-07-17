@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.1.0b31
+	Version: 3.1.0
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -125,14 +125,6 @@ if ( is_admin() ) :
 			'side',		// context
 			'default'	// priority
 		);		  
-		
-		// new APF_MetaBox_For_Pages_Normal(
-			// 'apf_metabox_for_pages_normal',		// meta box id
-			// __( 'Sample Meta Box for Network Admin Pages Inserted in Normal Area', 'admin-page-framework-demo' ),	// title
-			// 'apf_builtin_field_types',	// page slugs
-			// 'normal',	// context
-			// 'default'	// priority
-		// );		
 		
 	endif;
 	

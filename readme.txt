@@ -81,6 +81,8 @@ The HTML documentation is included in the distribution package and can be access
 4. [Create In-page Tabs](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/04-create-inpage-tabs/)
 5. [Organize a Form with Sections](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/05-organize-a-form-with-sections/)
 6. [Use Section Tabs and Repeatable Sections](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/06-use-section-tabs-and-repeatable-sections/)
+7. [Validate Submitted Form Data of a Single Field](en.michaeluno.jp/admin-page-framework/tutorials-v3/07-validate-submitted-form-data-of-a-single-field/)
+8. [Validate Submitted Form Data of Multiple Fields](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/08-validate-submitted-form-data-of-multiple-fields/)
 
 == Screenshots ==
 1. **Text Fields**
@@ -327,14 +329,14 @@ If it is a repeatable field, set the value in the sub-fields.
 ),`
 
 Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
-See an example, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f
+See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 = Roadmap =
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
 
-= 3.1.0 =
+= 3.1.0 - 2014/07/18 =
 - Added the `options_{instantiated class name}` filter to suppress the data used to display the form values.
 - Added the `AdminPageFramework_Debug::log()` method.
 - Added the ability not to set the default link to the custom post type post listing table's page in the plugin listing table page by passing an empty string to the 'plugin_listing_table_title_cell_link` key of the 'label' argument option.
