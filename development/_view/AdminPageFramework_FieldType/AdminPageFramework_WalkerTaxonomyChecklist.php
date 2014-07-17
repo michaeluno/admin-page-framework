@@ -76,7 +76,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
 			'name'	=>	"{$aArgs['name']}[{$iID}]",
 			'checked'	=>	in_array( $iID, ( array ) $aArgs['selected'] )  ? 'Checked' : '',
 		) + $aInputAttributes;
-		$sOutput .= "\n"	// the variable is by reference so the modification takes an effect
+		$sOutput .= "\n"	// the variable is by reference so the modification takes effect
 			. "<li id='list-{$sID}' class='category-list'>" 
 				. "<label for='{$sID}' class='taxonomy-checklist-label'>"
 					. "<input value='0' type='hidden' name='{$aArgs['name']}[{$iID}]' />"

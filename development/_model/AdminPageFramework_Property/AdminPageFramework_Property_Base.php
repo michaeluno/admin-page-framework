@@ -275,6 +275,11 @@ abstract class AdminPageFramework_Property_Base {
 			width: 100%;
 		}
 		
+		/* Number Input */
+		.admin-page-framework-field input[type='number'] {
+			text-align: right;
+		}		
+		
 		/* Disabled */
 		.admin-page-framework-fields .disabled,
 		.admin-page-framework-fields .disabled input,
