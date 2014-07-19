@@ -105,6 +105,17 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
 	public $aTaxonomies;		// stores the registering taxonomy info.
 	
 	/**
+	 * Stores the object types for the set taxonomies.
+	 * 
+	 * It will be a multi-dimensional array. The first depth keys are the added taxonomy slugs. 
+	 * Each of them contains an array holding the object types.
+	 * 
+	 * @since			3.1.1
+	 * @internal
+	 */
+	public $aTaxonomyObjectTypes = array();
+	
+	/**
 	 * Stores the taxonomy IDs as value to indicate whether the drop-down filter option should be displayed or not.
 	 * 
 	 * @since			2.0.0

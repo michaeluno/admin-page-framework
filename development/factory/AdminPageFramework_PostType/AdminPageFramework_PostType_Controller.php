@@ -184,26 +184,37 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
 	*		)
 	*	);</code>
 	* 
-	* @see				http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
-	* @since			2.0.0
-	* @param			string			The taxonomy slug.
-	* @param			array			The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
-	* @return			void
+	* @see		http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
+	* @since	2.0.0
+	* @since	3.1.1	Added the third parameter.
+	* @param	string	$sTaxonomySlug			The taxonomy slug.
+	* @param	array	$aArgs					The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
+	* @param	array	$aAdditionalObjectTypes	Additional object types(post types) besides the caller post type.
+	* @return	void
 	*/ 
-	protected function addTaxonomy( $sTaxonomySlug, $aArgs ) {
+	protected function addTaxonomy( $sTaxonomySlug, array $aArgs, array $aAdditionalObjectTypes=array() ) {
 		
 		$sTaxonomySlug = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
 		$this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;	
-		if ( isset( $aArgs['show_table_filter'] ) && $aArgs['show_table_filter'] )
+		if ( isset( $aArgs['show_table_filter'] ) && $aArgs['show_table_filter'] ) {
 			$this->oProp->aTaxonomyTableFilters[] = $sTaxonomySlug;
-		if ( isset( $aArgs['show_in_sidebar_menus'] ) && ! $aArgs['show_in_sidebar_menus'] )
+		}
+		if ( isset( $aArgs['show_in_sidebar_menus'] ) && ! $aArgs['show_in_sidebar_menus'] ) {
 			$this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
-				
-		if ( count( $this->oProp->aTaxonomyTableFilters ) == 1 )
+		}
+		if ( count( $this->oProp->aTaxonomyTableFilters ) == 1 ) {
 			add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) );	// the hook should not be admin_init because taxonomies need to be accessed in regular pages.
-		if ( count( $this->oProp->aTaxonomyRemoveSubmenuPages ) == 1 )
+		}
+		if ( count( $this->oProp->aTaxonomyRemoveSubmenuPages ) == 1 ) {
 			add_action( 'admin_menu', array( $this, '_replyToRemoveTexonomySubmenuPages' ), 999 );		
-			
+		}
+		
+		$_aExistingObjectTypes = isset( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] ) && is_array( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] )
+			? $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] 
+			: array();
+		$aAdditionalObjectTypes = array_merge( $_aExistingObjectTypes, $aAdditionalObjectTypes );
+		$this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] = array_unique( $aAdditionalObjectTypes );
+		
 	}	
 
 	/**
