@@ -57,7 +57,7 @@ It provides plugin and theme developers with easier means of creating option pag
 You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The example custom field types are included in the demo plugin.
 
 * `geometry` - a location selector with the Google map.
-* `date`, `time`, `date_time` - date and time fields with the date picker.
+* `date`, `time`, `date_time`, `date_range`, `time_range`, `date_time_range` - date and time fields with the date picker.
 * `dial` - a dial input field.
 * `font` - a font uploader and its preview.
 * `revealer` - a selector field that displays a hidden HTML element.
@@ -337,6 +337,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.1.1 =
+- Added the third parameter to the `addTaxonomy()` method to accept multiple object types in the post type class.
 
 = 3.1.0 - 2014/07/18 =
 - Added the `options_{instantiated class name}` filter to suppress the data used to display the form values.

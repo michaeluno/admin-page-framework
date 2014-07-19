@@ -5,7 +5,7 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.1.0
+	Version: 3.1.1b01
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
