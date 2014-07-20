@@ -23,12 +23,16 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	 * This is used in the filtering method that merges user input data with the saved options. If the user input data includes repeatable sections
 	 * and the user removed some elements, then the corresponding elements also need to be removed from the options array. Otherwise, the user's removing element
 	 * remains in the saved option array as the framework performs recursive array merge.
-	 *  
+	 * 
 	 * @remark			The options array structure is slightly different from the fields array. An options array does not have '_default' section keys.
+	 * @remark			If the user capability is insufficient to display the element, it should not be removed because the element(field/section) itself is not submitted and
+	 * if the merging saved options array misses the element(which this method is going to deal with), the element will be gone forever. 
+	 * @remark			This method MUST be called after formatting the form elements because this checks the set user capability.
 	 * @since			3.0.0
+	 * @since			3.1.1	Made it not remove if the user capability is insufficient.
 	 */
 	public function dropRepeatableElements( array $aOptions ) {
-
+// AdminPageFramework_Debug::log( $this->aSections );
 		foreach( $aOptions as $_sFieldOrSectionID => $_aSectionOrFieldValue ) {
 			
 			// If it's a section
@@ -36,15 +40,27 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				
 				$_aFields = $_aSectionOrFieldValue;
 				$_sSectionID = $_sFieldOrSectionID;		
+				
+				// Check the capability - do not drop if the level is insufficient.
+				if ( ! $this->isCurrentUserCapable( $_sSectionID ) ) {
+					continue;
+				}
+				
 				if ( $this->isRepeatableSection( $_sSectionID ) ) {
 					unset( $aOptions[ $_sSectionID ] );				
 					continue;
 				}
 				
-				if ( ! is_array( $_aFields ) ) continue;	// an error may occur with an empty _default element.
+				// An error may occur with an empty _default element.
+				if ( ! is_array( $_aFields ) ) { continue; }	
 				
-				// At this point, it is ensured that it's not a repeatable section. 
+				// At this point, it is not a repeatable section. 
 				foreach( $_aFields as $_sFieldID => $_aField ) {
+					
+					if ( ! $this->isCurrentUserCapable( $_sSectionID, $_sFieldID ) ) {
+						continue;
+					}					
+					
 					if ( $this->isRepeatableField( $_sFieldID, $_sSectionID ) ) {
 						unset( $aOptions[ $_sSectionID ][ $_sFieldID ] );
 						continue;
@@ -55,7 +71,10 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 			}
 
 			// It's a field saved in the root dimension, which corresponds to the '_default' section of the stored registered fields array.
-			$_sFieldID = $_sFieldOrSectionID;			
+			$_sFieldID = $_sFieldOrSectionID;		
+			if ( ! $this->isCurrentUserCapable( '_default', $_sFieldID ) ) {
+				continue;
+			}					
 			if ( $this->isRepeatableField( $_sFieldID, '_default' ) ) {
 				unset( $aOptions[ $_sFieldID ] );
 			}
@@ -64,6 +83,28 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 		return $aOptions;
 		
 	}	
+	
+		/**
+		 * Checks if the current user can have the sufficient capability level.
+		 * 
+		 * @since			3.1.1
+		 */
+		private function isCurrentUserCapable( $sSectionID, $sFieldID='' ) {
+			
+			// Section
+			if ( ! $sFieldID ) {
+				return isset( $this->aSections[ $sSectionID ]['capability'] )
+					? current_user_can( $this->aSections[ $sSectionID ]['capability'] )
+					: true;
+			}
+			
+			// Field
+			return isset( $this->aFields[ $sSectionID ][ $sFieldID ]['capability'] )
+				? current_user_can( $this->aFields[ $sSectionID ][ $sFieldID ]['capability'] )
+				: true;
+			
+		}
+	
 		/**
 		 * Checks whether a section is repeatable from the given section ID.
 		 * 
