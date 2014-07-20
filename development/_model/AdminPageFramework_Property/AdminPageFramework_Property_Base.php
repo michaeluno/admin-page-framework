@@ -327,6 +327,8 @@ abstract class AdminPageFramework_Property_Base {
 		
 		.admin-page-framework-field .admin-page-framework-input-label-string {
 			padding-right: 1em;	/* for checkbox label strings, a right padding is needed */
+			vertical-align: middle; 
+			display: inline-block;	/* each (sub)field label can have a fix min-width */
 		}
 		.admin-page-framework-field .admin-page-framework-input-button-container {
 			padding-right: 1em; 
@@ -342,10 +344,6 @@ abstract class AdminPageFramework_Property_Base {
 		.admin-page-framework-field .admin-page-framework-input-label-container {
 			display: inline-block;		
 			vertical-align: middle; 
-		}
-		.admin-page-framework-field .admin-page-framework-input-label-string {
-			display: inline;	/* Checkbox label should not fold(wrap) after the check box */
-			vertical-align: middle; 			
 		}
 		
 		/* Repeatable Fields */		

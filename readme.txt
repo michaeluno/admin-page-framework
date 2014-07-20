@@ -341,6 +341,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.1.1 =
 - Changed the field definition arrays to be formatted after applying filters of the `field_definition_{instantiated class name}` hook.
 - Changed the timing of `field_definition_{instantiated class name}` filter hook to be triggered after all `field_definition_{instantiated class name}_{section id}_{field_id}` and `field_definition_{instantiated class name}_{field_id}` filter hooks.
+- Fixed an issue that the `label_min_width` argument of a field definition array was no longer effective as of v3.1.0.
 - Fixed a bug that the stored values of repeatable fields with a custom capability got lost when a lower capability user submits the form.
 - Fixed a bug that items of repeatable fields of page-meta-boxes could not be removed.
 - Added the third parameter to the `addTaxonomy()` method to accept multiple object types in the post type class.

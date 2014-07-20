@@ -55,6 +55,9 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 			.admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
 				padding-right: 1em;
 			}
+			.admin-page-framework-field-checkbox .admin-page-framework-input-label-string  {
+				display: inline;	/* Checkbox labels should not fold(wrap) after the check box */
+			}
 		";
 	}
 	

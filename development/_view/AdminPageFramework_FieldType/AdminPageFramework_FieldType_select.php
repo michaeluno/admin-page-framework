@@ -64,7 +64,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 			}
 			.admin-page-framework-field-select .admin-page-framework-input-label-container {
 				padding-right: 1em;
-			}
+			}		
 		";
 	}
 	

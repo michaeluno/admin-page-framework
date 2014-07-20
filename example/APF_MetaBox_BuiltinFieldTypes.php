@@ -116,9 +116,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'title'			=> __( 'Radio Group', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
 				'label' => array( 
-					'one'	=>	__( 'This is the first item of the radio button example field.', 'admin-page-framework-demo' ),
-					'two'	=>	__( 'This is the second item of the radio button example field.', 'admin-page-framework-demo' ),
-					'three'	=>	__( 'This is the third item of the radio button example field.', 'admin-page-framework-demo' ),
+					'one'	=>	__( 'This option is the first item of the radio button example field and lets the user choose one from many.', 'admin-page-framework-demo' ),
+					'two'	=>	__( 'This option is the second item of the radio button example field.', 'admin-page-framework-demo' ),
+					'three'	=>	__( 'This option is the third item of the radio button example field.', 'admin-page-framework-demo' ),
 				),
 				'default' => 'one',
 			),
@@ -128,9 +128,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'title'			=> __( 'Checkbox Group', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
 				'label' => array( 
-					'one' => __( 'Option One', 'admin-page-framework-demo' ),
-					'two' => __( 'Option Two', 'admin-page-framework-demo' ),
-					'three' => __( 'Option Three', 'admin-page-framework-demo' ),
+					'one'	=> __( 'This option is the first item of the checkbox button example field.', 'admin-page-framework-demo' ),
+					'two'	=> __( 'This option is the second item of the radio button example field.', 'admin-page-framework-demo' ),
+					'three'	=> __( 'This option is the third item of the radio button example field.', 'admin-page-framework-demo' ),
 				),
 				'default' => array(
 					'one' => true,

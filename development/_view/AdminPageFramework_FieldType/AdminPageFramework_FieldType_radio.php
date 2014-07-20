@@ -50,7 +50,10 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 			}			
 			.admin-page-framework-field-radio .admin-page-framework-input-container {
 				display: inline;
-			}			
+			}		
+			.admin-page-framework-field-radio .admin-page-framework-input-label-string  {
+				display: inline;	/* radio labels should not fold(wrap) after the check box */
+			}				
 		";
 	}
 
