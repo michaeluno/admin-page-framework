@@ -153,12 +153,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 	 * @param			array
 	 */
 	public function _replyToFilterPageOptions( $aPageOptions ) {
-AdminPageFramework_Debug::log( '$aPageOptions' );		
-AdminPageFramework_Debug::log( $aPageOptions );		
-		$_aResult = $this->oForm->dropRepeatableElements( $aPageOptions );
-AdminPageFramework_Debug::log( '$_aResult' );		
-AdminPageFramework_Debug::log( $_aResult );		
-		return $_aResult;
+		
+		return $this->oForm->dropRepeatableElements( $aPageOptions );	
+	
 	}
 	
 	/**
