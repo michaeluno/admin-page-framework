@@ -7,7 +7,7 @@
  * Library URI: http://wordpress.org/extend/plugins/admin-page-framework/
  * Author:  Michael Uno
  * Author URI: http://michaeluno.jp
- * Version: 3.1.1b03
+ * Version: 3.1.1b04
  * Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * Description: Provides simpler means of building administration pages for plugin and theme developers.
  * @copyright	  	2013-2014 (c) Michael Uno
@@ -284,6 +284,9 @@
 			}			
 			.admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
 				padding-right: 1em;
+			}
+			.admin-page-framework-field-checkbox .admin-page-framework-input-label-string  {
+				display: inline;	/* Checkbox labels should not fold(wrap) after the check box */
 			}
 		"; } public function _replyToGetField( $aField ) { $aOutput = array(); $asValue = $aField['attributes']['value']; foreach( ( array ) $aField['label'] as $sKey => $sLabel ) { $aInputAttributes = array( 'type' => 'checkbox', 'id' => $aField['input_id'] . '_' . $sKey, 'checked' => $this->getCorrespondingArrayValue( $asValue, $sKey, null ) == 1 ? 'checked' : '', 'value' => 1, 'name' => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$sKey}]" : $aField['attributes']['name'], ) + $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] ) + $aField['attributes']; $aLabelAttributes = array( 'for' => $aInputAttributes['id'], 'class' => $aInputAttributes['disabled'] ? 'disabled' : '', ); $aOutput[] = $this->getFieldElementByKey( $aField['before_label'], $sKey ) . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: {$aField['label_min_width']}px;'>" . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">" . $this->getFieldElementByKey( $aField['before_input'], $sKey ) . "<span class='admin-page-framework-input-container'>" . "<input type='hidden' name='{$aInputAttributes['name']}' value='0' />" . "<input " . $this->generateAttributes( $aInputAttributes ) . " />" . "</span>" . "<span class='admin-page-framework-input-label-string'>" . $sLabel . "</span>" . $this->getFieldElementByKey( $aField['after_input'], $sKey ) . "</label>" . "</div>" . $this->getFieldElementByKey( $aField['after_label'], $sKey ); } return implode( PHP_EOL, $aOutput ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_color' ) ) : class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Base { public $aFieldTypeSlugs = array( 'color' ); protected $aDefaultKeys = array( 'attributes' => array( 'size' => 10, 'maxlength' => 400, 'value' => 'transparent', ), ); public function _replyToFieldLoader() { if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) { wp_enqueue_style( 'wp-color-picker' ); wp_enqueue_script( 'wp-color-picker' ); } else { wp_enqueue_style( 'farbtastic' ); wp_enqueue_script( 'farbtastic' ); } } public function _replyToGetStyles() { return "/* Color Picker */
 			.repeatable .colorpicker {
@@ -759,7 +762,10 @@
 			}			
 			.admin-page-framework-field-radio .admin-page-framework-input-container {
 				display: inline;
-			}			
+			}		
+			.admin-page-framework-field-radio .admin-page-framework-input-label-string  {
+				display: inline;	/* radio labels should not fold(wrap) after the check box */
+			}				
 		"; } public function _replyToGetScripts() { $aJSArray = json_encode( $this->aFieldTypeSlugs ); return "			
 			jQuery( document ).ready( function(){
 				jQuery().registerAPFCallback( {				
@@ -820,7 +826,7 @@
 			}
 			.admin-page-framework-field-select .admin-page-framework-input-label-container {
 				padding-right: 1em;
-			}
+			}		
 		"; } public function _replyToGetField( $aField ) { $_aSelectAttributes = array( 'id' => $aField['input_id'], 'multiple' => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'], ) + $aField['attributes']['select']; $_aSelectAttributes['name'] = empty( $_aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]"; return $aField['before_label'] . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . "<span class='admin-page-framework-input-container'>" . "<select " . $this->generateAttributes( $_aSelectAttributes ) . " >" . $this->_getOptionTags( $aField['input_id'], $aField['attributes'], $aField['label'] ) . "</select>" . "</span>" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label']; } protected function _getOptionTags( $sInputID, &$aAttributes, $aLabel ) { $_aOutput = array(); $_aValue = ( array ) $aAttributes['value']; foreach( $aLabel as $__sKey => $__asLabel ) { if ( is_array( $__asLabel ) ) { $_aOptGroupAttributes = isset( $aAttributes['optgroup'][ $__sKey ] ) && is_array( $aAttributes['optgroup'][ $__sKey ] ) ? $aAttributes['optgroup'][ $__sKey ] + $aAttributes['optgroup'] : $aAttributes['optgroup']; $_aOutput[] = "<optgroup label='{$__sKey}'" . $this->generateAttributes( $_aOptGroupAttributes ) . ">" . $this->_getOptionTags( $sInputID, $aAttributes, $__asLabel ) . "</optgroup>"; continue; } $_aValue = isset( $aAttributes['option'][ $__sKey ]['value'] ) ? $aAttributes['option'][ $__sKey ]['value'] : $_aValue; $_aOptionAttributes = array( 'id' => $sInputID . '_' . $__sKey, 'value' => $__sKey, 'selected' => in_array( ( string ) $__sKey, $_aValue ) ? 'Selected' : '', ) + ( isset( $aAttributes['option'][ $__sKey ] ) && is_array( $aAttributes['option'][ $__sKey ] ) ? $aAttributes['option'][ $__sKey ] + $aAttributes['option'] : $aAttributes['option'] ); $_aOutput[] = "<option " . $this->generateAttributes( $_aOptionAttributes ) . " >" . $__asLabel . "</option>"; } return implode( PHP_EOL, $_aOutput ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_submit' ) ) : class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_Base { public $aFieldTypeSlugs = array( 'submit', ); protected $aDefaultKeys = array( 'redirect_url' => null, 'href' => null, 'reset' => null, 'attributes' => array( 'class' => 'button button-primary', ), ); public function _replyToFieldLoader() { } public function _replyToGetScripts() { return ""; } public function _replyToGetStyles() { return "/* Submit Buttons */
 		.admin-page-framework-field input[type='submit'] {
 			margin-bottom: 0.5em;
@@ -1476,6 +1482,8 @@ vertical-align: top;
 		
 		.admin-page-framework-field .admin-page-framework-input-label-string {
 			padding-right: 1em;	/* for checkbox label strings, a right padding is needed */
+			vertical-align: middle; 
+			display: inline-block;	/* each (sub)field label can have a fix min-width */
 		}
 		.admin-page-framework-field .admin-page-framework-input-button-container {
 			padding-right: 1em; 
@@ -1491,10 +1499,6 @@ vertical-align: top;
 		.admin-page-framework-field .admin-page-framework-input-label-container {
 			display: inline-block;		
 			vertical-align: middle; 
-		}
-		.admin-page-framework-field .admin-page-framework-input-label-string {
-			display: inline;	/* Checkbox label should not fold(wrap) after the check box */
-			vertical-align: middle; 			
 		}
 		
 		/* Repeatable Fields */		
