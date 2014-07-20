@@ -45,24 +45,20 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				
 				// At this point, it is ensured that it's not a repeatable section. 
 				foreach( $_aFields as $_sFieldID => $_aField ) {
-					
 					if ( $this->isRepeatableField( $_sFieldID, $_sSectionID ) ) {
-						
 						unset( $aOptions[ $_sSectionID ][ $_sFieldID ] );
 						continue;
 					}
-
 				}
-				
 				continue;
+				
 			}
-			
 
 			// It's a field saved in the root dimension, which corresponds to the '_default' section of the stored registered fields array.
 			$_sFieldID = $_sFieldOrSectionID;			
-			if ( $this->isRepeatableField( $_sFieldID, '_default' ) ) 
+			if ( $this->isRepeatableField( $_sFieldID, '_default' ) ) {
 				unset( $aOptions[ $_sFieldID ] );
-
+			}
 		
 		}
 		return $aOptions;
@@ -93,28 +89,31 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	/**
 	 * Determines whether the given ID is of a registered form section.
 	 * 
+	 * Consider the possibility that the given ID may be used both for a section and a field.
+	 * 1. Check if the given ID is not a section.
+	 * 2. Parse stored fields and check their ID. If one matches, return false.
+	 * 
 	 * @since			3.0.0
 	 */
 	public function isSection( $sID ) {
 		
-		/* 
-		 * Consider the possibility that the given ID may be used both for a section and a field.
-		 * 1. Check if the given ID is not a section.
-		 * 2. Parse stored fields and check their ID. If one matches, return false.
-		 */
-		
-		if ( is_numeric( $sID ) && is_int( $sID + 0 ) ) return false;		// integer IDs are not accepted.
+		// Integer IDs are not accepted.
+		if ( is_numeric( $sID ) && is_int( $sID + 0 ) ) { return false;	}
 		
 		// If the section ID is not registered, return false.
-		if ( ! array_key_exists( $sID, $this->aSections ) ) return false;
-		if ( ! array_key_exists( $sID, $this->aFields ) ) return false;	// the fields array's first dimension is also filled with the keys of section ids.
+		if ( ! array_key_exists( $sID, $this->aSections ) ) { return false; }
 		
+		// the fields array's first dimension is also filled with the keys of section ids.
+		if ( ! array_key_exists( $sID, $this->aFields ) ) { return false; }	
+		
+		// Since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
 		$_bIsSeciton = false;
-		foreach( $this->aFields as $_sSectionID => $_aFields ) {	// since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
+		foreach( $this->aFields as $_sSectionID => $_aFields ) {	
+		
+			if ( $_sSectionID == $sID ) { $_bIsSeciton = true; }
 			
-			if ( $_sSectionID == $sID ) $_bIsSeciton = true;
-			
-			if ( array_key_exists( $sID, $_aFields ) ) return false;	// a field using the ID is found, and it precedes a section match.
+			// a field using the ID is found, and it precedes a section match.			
+			if ( array_key_exists( $sID, $_aFields ) ) { return false; }	
 			
 		}
 		
@@ -165,8 +164,8 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	 */
 	public function getFieldsModel( array $aFields=array() )  {
 		
-		$_aFieldsModel = array();
-		$aFields = empty( $aFields ) ? $this->aFields : $aFields;
+		$_aFieldsModel	= array();
+		$aFields		= empty( $aFields ) ? $this->aFields : $aFields;
 		foreach ( $aFields as $_sSectionID => $_aFields ) {
 
 			if ( $_sSectionID != '_default' ) {
@@ -175,13 +174,13 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 			}
 			
 			// For default field items.
-			foreach( $_aFields as $_sFieldID => $_aField ) 
+			foreach( $_aFields as $_sFieldID => $_aField ) {
 				$_aFieldsModel[ $_aField['field_id'] ] = $_aField;
+			}
 
 		}
 		return $_aFieldsModel;
 	}
-	
 	
 		/**
 		 * Calculates the subtraction of two values with the array key of <em>order</em>
@@ -198,7 +197,6 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				? $a['order'] - $b['order']
 				: 1;
 		}		
-	
 	
 	/**
 	 * Applies filters to each conditioned field definition array.
@@ -250,7 +248,6 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 		}		
 		
 	}
-
 	
 }
 endif;
