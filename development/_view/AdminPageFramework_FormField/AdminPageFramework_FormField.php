@@ -249,7 +249,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 					. "</div>"
 					. $this->_getExtras( $aField, $iFieldsCount )
 				. "</fieldset>"
-				. $aField['after_fieldset']
+				. $aField['after_fieldset'];
 						
 		}
 			/**
