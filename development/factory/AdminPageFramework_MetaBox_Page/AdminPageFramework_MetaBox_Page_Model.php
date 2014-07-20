@@ -171,9 +171,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 	public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
 		
 		// The field values of this class will not be included in the parameter array. So get them.
-		$_aFieldsModel = $this->oForm->getFieldsModel();
-		$_aNewMetaBoxInput = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
-		$_aOldMetaBoxInput = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
+		$_aFieldsModel			= $this->oForm->getFieldsModel();
+		$_aNewMetaBoxInput		= $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
+		$_aOldMetaBoxInput		= $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
 		$_aOtherOldMetaBoxInput = $this->oUtil->invertCastArrayContents( $aOldPageOptions, $_aFieldsModel );
 
 		// Apply filters - third party scripts will have access to the input.
@@ -199,7 +199,6 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 		// Format the fields array.
 		$this->oForm->format();
 		$this->oForm->applyConditions();	// will create the conditioned elements.
-		// $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
 		
 		// Add the repeatable section elements to the fields definition array.
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields

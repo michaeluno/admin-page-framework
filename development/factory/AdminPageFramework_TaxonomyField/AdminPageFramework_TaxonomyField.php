@@ -338,7 +338,6 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 		// Format the fields array.
 		$this->oForm->format();
 		$this->oForm->applyConditions();
-		// $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
 		
 		// not sure if setDynamicElements() should be performed or not...
 		

@@ -32,7 +32,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	 * @since			3.1.1	Made it not remove if the user capability is insufficient.
 	 */
 	public function dropRepeatableElements( array $aOptions ) {
-// AdminPageFramework_Debug::log( $this->aSections );
+
 		foreach( $aOptions as $_sFieldOrSectionID => $_aSectionOrFieldValue ) {
 			
 			// If it's a section
@@ -243,18 +243,12 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 	 * Applies filters to each conditioned field definition array.
 	 * 
 	 * @since			3.0.2
+	 * @since			3.1.1	Made it reformat the fields after applying filters.
 	 */
 	public function applyFiltersToFields( $oCaller, $sClassName ) {
-		
-		// Apply filters to all the conditioned fields.
-		$_aConditionedField = $this->addAndApplyFilter(
-			$oCaller,
-			"field_definition_{$sClassName}",
-			$this->aConditionedFields
-		);
-		
+			
 		// Apply filters to each definition field.
-		foreach( $_aConditionedField as $_sSectionID => $_aSubSectionOrFields ) {
+		foreach( $this->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
 						
 			foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
 				
@@ -286,7 +280,15 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 				
 			}
 			
-		}		
+		}
+
+		// Apply filters to all the conditioned fields.
+		$this->aConditionedFields = $this->addAndApplyFilter(
+			$oCaller,
+			"field_definition_{$sClassName}",
+			$this->aConditionedFields
+		);		
+		$this->aConditionedFields	= $this->formatFields( $this->aConditionedFields, $this->sFieldsType, $this->sCapability );
 		
 	}
 	

@@ -267,20 +267,22 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 	 */
 	public function format() {
 		
-		$this->formatSections( $this->sFieldsType, $this->sCapability );
-		$this->formatFields( $this->sFieldsType, $this->sCapability );
+		$this->aSections	= $this->formatSections( $this->aSections, $this->sFieldsType, $this->sCapability );
+		$this->aFields		= $this->formatFields( $this->aFields, $this->sFieldsType, $this->sCapability );
 		
 	}
 	
 	/**
 	 * Formats the stored sections definition array.
 	 * 
-	 * @since			3.0.0
+	 * @since	3.0.0
+	 * @since	3.1.1	Added a parameter. Changed to return the formatted sections array.
+	 * @return	array	the formatted sections array.
 	 */
-	public function formatSections( $sFieldsType, $sCapability ) {
+	public function formatSections( array $aSections, $sFieldsType, $sCapability ) {
 		
 		$_aNewSectionArray = array();
-		foreach( $this->aSections as $_sSectionID => $_aSection ) {
+		foreach( $aSections as $_sSectionID => $_aSection ) {
 			
 			if ( ! is_array( $_aSection ) ) { continue; }
 			
@@ -291,7 +293,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 			
 		}
 		uasort( $_aNewSectionArray, array( $this, '_sortByOrder' ) ); 
-		$this->aSections = $_aNewSectionArray;
+		return $_aNewSectionArray;
 		
 	}
 	
@@ -307,8 +309,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 				array( 
 					'_fields_type'	=> $sFieldsType,
 					'capability'	=> $sCapability,
-				),
-				self::$_aStructure_Section
+				)
+				+ self::$_aStructure_Section
 			);
 				
 			$aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
@@ -321,11 +323,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 	 * Formats the stored fields definition array.
 	 * 
 	 * @since			3.0.0
+	 * @since	3.1.1	Added a parameter. Changed to return the formatted sections array.
 	 */
-	public function formatFields( $sFieldsType, $sCapability ) {
+	public function formatFields( array $aFields, $sFieldsType, $sCapability ) {
 
 		$_aNewFields = array();
-		foreach ( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
+		foreach ( $aFields as $_sSectionID => $_aSubSectionsOrFields ) {
 			
 			if ( ! isset( $this->aSections[ $_sSectionID ] ) ) { continue; }
 
@@ -380,7 +383,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 			$_aNewFields = $_aSortedFields;
 		endif;
 		
-		$this->aFields = $_aNewFields;
+		return $_aNewFields;
 		
 	}
 		/**
@@ -393,15 +396,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
 			if ( ! isset( $aField['field_id'], $aField['type'] ) ) { return; }
 			
 			$_aField = $this->uniteArrays(
-				array( '_fields_type' => $sFieldsType ),
-				$aField,
+				array( '_fields_type' => $sFieldsType )
+				+ $aField,
 				array( 
 					'capability'			=> $sCapability,
 					'section_id'			=> '_default',
 					'_section_index'		=> $iSectionIndex,
 					'_section_repeatable'	=> $bIsSectionRepeatable,
-				),
-				self::$_aStructure_Field
+				)
+				+ self::$_aStructure_Field
 			);
 			$_aField['field_id']	= $this->sanitizeSlug( $_aField['field_id'] );
 			$_aField['section_id']	= $this->sanitizeSlug( $_aField['section_id'] );			

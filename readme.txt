@@ -339,12 +339,14 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.1 =
+- Changed the field definition arrays to be formatted after applying filters of the `field_definition_{instantiated class name}` hook.
+- Changed the timing of `field_definition_{instantiated class name}` filter hook to be triggered after all `field_definition_{instantiated class name}_{section id}_{field_id}` and `field_definition_{instantiated class name}_{field_id}` filter hooks.
 - Fixed a bug that the stored values of repeatable fields with a custom capability got lost when a lower capability user submits the form.
 - Fixed a bug that items of repeatable fields of page-meta-boxes could not be removed.
 - Added the third parameter to the `addTaxonomy()` method to accept multiple object types in the post type class.
 
 = 3.1.0 - 2014/07/18 =
-- Added the `options_{instantiated class name}` filter to suppress the data used to display the form values.
+- Added the `options_{instantiated class name}` filter hook to suppress the data used to display the form values.
 - Added the `AdminPageFramework_Debug::log()` method.
 - Added the ability not to set the default link to the custom post type post listing table's page in the plugin listing table page by passing an empty string to the 'plugin_listing_table_title_cell_link` key of the 'label' argument option.
 - Added the `date_range`, `date_time_range`, `time_range` custom field type.
