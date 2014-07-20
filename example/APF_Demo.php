@@ -311,26 +311,27 @@ class APF_Demo extends AdminPageFramework {
 				'type'	=>	'number',
 			),					
 			array(	// Multiple text fields
-				'field_id'	=>	'text_multiple',
-				'title'	=>	__( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-				'help'	=>	__( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
-				'type'	=>	'text',
-				'default'	=>	'Hello World',
-				'label'	=>	'First Item: ',
+				'field_id'		=>	'text_multiple',
+				'title'			=>	__( 'Multiple Text Fields', 'admin-page-framework-demo' ),
+				'help'			=>	__( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
+				'type'			=>	'text',
+				'default'		=>	'Hello World',
+				'label'			=>	'First Item: ',
 				'attributes'	=>	array(
 					'size'	=>	20,				
 				),
-				'delimiter'	=>	'<br />',
+				'capability'	=> 'manage_options',				
+				'delimiter'		=>	'<br />',
 				array(
 					'default'	=>	'Foo bar',
-					'label'	=>	'Second Item: ',
+					'label'		=>	'Second Item: ',
 					'attributes'	=>	array(
 						'size'	=>	40,
 					)
 				),
 				array(
 					'default'	=>	'Yes, we can',
-					'label'	=>	'Third Item: ',
+					'label'		=>	'Third Item: ',
 					'attributes'	=>	array(
 						'size'	=>	60,
 					)
@@ -338,10 +339,11 @@ class APF_Demo extends AdminPageFramework {
 				'description'	=>	__( 'These are multiple text fields. To include multiple input fields associated with one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
 			),		
 			array(	// Repeatable text fields
-				'field_id'	=>	'text_repeatable',
-				'title'	=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
-				'type'	=>	'text',
-				'default'	=>	'a',
+				'field_id'		=>	'text_repeatable',
+				'title'			=>	__( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
+				'type'			=>	'text',
+				'default'		=>	'a',
+				'capability'	=> 'manage_options',
 				'repeatable'	=>	array(
 					'max'	=>	10,
 					'min'	=>	3,
