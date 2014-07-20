@@ -122,7 +122,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	/**
 	 * Sets the current page slug.
 	 * 
-	 * Usd by the conditioning method for secitons.
+	 * Used by the conditioning method for sections.
 	 * 
 	 * @since			3.0.0
 	 */
@@ -133,7 +133,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	/**
 	 * Sets the current page slug.
 	 * 
-	 * Usd by the conditioning method for secitons.
+	 * Used by the conditioning method for sections.
 	 * 
 	 * @since			3.0.0
 	 */
