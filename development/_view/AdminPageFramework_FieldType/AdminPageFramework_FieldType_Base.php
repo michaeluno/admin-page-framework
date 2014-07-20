@@ -44,28 +44,30 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 	 * @internal
 	 */
 	protected static $_aDefaultKeys = array(
-		'value'	=>	null,	// ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
-		'default'	=>	null,	// ( array or string )
-		'repeatable'	=>	false,
-		'sortable'	=>	false,
-		'label'	=>	'',	// ( string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
-		'delimiter'	=>	'',
-		'before_input'	=>	'',
-		'after_input'	=>	'',				
-		'before_label'	=>	null,
-		'after_label'	=>	null,	
-		'before_field'	=>	null,
-		'after_field'	=>	null,
-		'label_min_width'	=> 140,	// in pixel
+		'value'				=>	null,	// ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
+		'default'			=>	null,	// ( array or string )
+		'repeatable'		=>	false,
+		'sortable'			=>	false,
+		'label'				=>	'',	// ( string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+		'delimiter'			=>	'',
+		'before_input'		=>	'',
+		'after_input'		=>	'',				
+		'before_label'		=>	null,
+		'after_label'		=>	null,	
+		'before_field'		=>	null,
+		'after_field'		=>	null,
+		'label_min_width'	=>	140,	// in pixel
+		'before_fieldset'	=>	null,	// 3.1.1+
+		'after_fieldset'	=>	null,	// 3.1.1+
 		
 		/* Mandatory keys */
-		'field_id' => null,		
+		'field_id'			=> null,		
 		
 		/* For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings. */
-		'page_slug' => null,
-		'section_id' => null,
-		'before_fields' => null,
-		'after_fields' => null,	
+		'page_slug'			=> null,
+		'section_id'		=> null,
+		'before_fields'		=> null,
+		'after_fields'		=> null,	
 		
 		'attributes'			=> array(
 			/* Root Attributes - the root attributes are assumed to be for the input tag. */

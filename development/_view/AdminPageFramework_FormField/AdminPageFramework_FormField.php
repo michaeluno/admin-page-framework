@@ -240,15 +240,16 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 				'data-type'	=> $aField['type'],	// this is referred by the sortable field JavaScript script.
 			) + $aField['attributes']['fields'];
 			
-			return 
-				"<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
+			return $aField['before_fieldset']
+				. "<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
 					. "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
-						. $aField['before_fields'] 
+						. $aField['before_fields']
 							. implode( PHP_EOL, $aFieldsOutput )
 						. $aField['after_fields']
 					. "</div>"
 					. $this->_getExtras( $aField, $iFieldsCount )
-				. "</fieldset>";
+				. "</fieldset>"
+				. $aField['after_fieldset']
 						
 		}
 			/**
