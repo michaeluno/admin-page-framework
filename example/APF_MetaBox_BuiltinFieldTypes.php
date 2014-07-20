@@ -116,9 +116,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 				'title'			=> __( 'Radio Group', 'admin-page-framework-demo' ),
 				'description'	=> __( 'The description for the field.', 'admin-page-framework-demo' ),
 				'label' => array( 
-					'one' => __( 'Option One', 'demo' ),
-					'two' => __( 'Option Two', 'demo' ),
-					'three' => __( 'Option Three', 'demo' ),
+					'one'	=>	__( 'This is the first item of the radio button example field.', 'admin-page-framework-demo' ),
+					'two'	=>	__( 'This is the second item of the radio button example field.', 'admin-page-framework-demo' ),
+					'three'	=>	__( 'This is the third item of the radio button example field.', 'admin-page-framework-demo' ),
 				),
 				'default' => 'one',
 			),
