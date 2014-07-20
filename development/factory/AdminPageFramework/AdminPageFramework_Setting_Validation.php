@@ -33,19 +33,19 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 	protected function _doValidationCall( $aInput ) {
 
 		/* Check if this is called from the framework's page */
-		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) return $aInput;
+		if ( ! isset( $_POST['_is_admin_page_framework'] ) ) { return $aInput; }
 
 		/* 1-1. Set up local variables */
-		$_sTabSlug =	isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
-		$_sPageSlug =	isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
+		$_sTabSlug	= isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : '';	// no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
+		$_sPageSlug	= isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
 		
 		/* 1-2. Retrieve the pressed submit field data */
-		$_sPressedFieldID =		isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'field_id' ) : '';
-		$_sPressedInputID =		isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'input_id' ) : '';
-		$_sPressedInputName =	isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'name' ) : '';
-		$_bIsReset =			isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'is_reset' ) : '';	// if the 'reset' key in the field definition array is set, this value will be set.
-		$_sKeyToReset =			isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'reset_key' ) : '';	// this will be set if the user confirms the reset action.
-		$_sSubmitSectionID =	isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'section_id' ) : '';
+		$_sPressedFieldID	= isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'field_id' ) : '';
+		$_sPressedInputID	= isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'input_id' ) : '';
+		$_sPressedInputName = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'name' ) : '';
+		$_bIsReset			= isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'is_reset' ) : '';	// if the 'reset' key in the field definition array is set, this value will be set.
+		$_sKeyToReset		= isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'reset_key' ) : '';	// this will be set if the user confirms the reset action.
+		$_sSubmitSectionID	= isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'section_id' ) : '';
 		
 		/* 1-3. Execute the submit_{...} actions. */
 		$this->oUtil->addAndDoActions(
@@ -61,16 +61,21 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		);                
 		
 		/* 2. Check if custom submit keys are set [part 1] */
-		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) 
+		if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) {
 			return $this->_importOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug );
-		if ( isset( $_POST['__export']['submit'] ) ) 
-			die( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );		
-		if ( $_bIsReset )
+		} 
+		if ( isset( $_POST['__export']['submit'] ) ) {
+			exit( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );		
+		}
+		if ( $_bIsReset ) {
 			return $this->_askResetOptions( $_sPressedInputName, $_sPageSlug, $_sSubmitSectionID );
-		if ( isset( $_POST['__submit'] ) && $_sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) )
-			die( wp_redirect( $_sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
-		if ( isset( $_POST['__submit'] ) && $_sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) )
+		}
+		if ( isset( $_POST['__submit'] ) && $_sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) ) {
+			exit( wp_redirect( $_sLinkURL ) );	// if the associated submit button for the link is pressed, it will be redirected.
+		}
+		if ( isset( $_POST['__submit'] ) && $_sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) ) {
 			$this->_setRedirectTransients( $_sRedirectURL, $_sPageSlug );
+		}
 
 		/* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
 		$aInput = $this->_getFilteredOptions( $aInput, $_sPageSlug, $_sTabSlug );
@@ -105,17 +110,17 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			// Retrieve the pressed button's associated submit field ID.
 			$aNameKeys = explode( '|', $sPressedInputName );	
 			$sFieldID = $sSectionID 
-				? $aNameKeys[ 2 ]	// Optionkey|section_id|field_id
+				? $aNameKeys[ 2 ]	// OptionKey|section_id|field_id
 				: $aNameKeys[ 1 ];	// OptionKey|field_id
 			
 			// Set up the field error array.
 			$aErrors = array();
-			if ( $sSectionID )
+			if ( $sSectionID ) {
 				$aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->__( 'reset_options' );
-			else
+			} else {
 				$aErrors[ $sFieldID ] = $this->oMsg->__( 'reset_options' );
+			}
 			$this->setFieldErrors( $aErrors );
-
 				
 			// Set a flag that the confirmation is displayed
 			set_transient( md5( "reset_confirm_" . $sPressedInputName ), $sPressedInputName, 60*2 );
@@ -155,9 +160,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		 * Sets the given URL's transient.
 		 */
 		private function _setRedirectTransients( $sURL, $sPageSlug ) {
-			if ( empty( $sURL ) ) {
-				return;
-			}
+			if ( empty( $sURL ) ) { return; }
 			$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$sPageSlug}" ) );
 			return set_transient( $sTransient, $sURL , 60*2 );
 		}
@@ -196,15 +199,17 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 				
 				// The count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
 				// The isset() checks if the associated button is actually pressed or not.
-				if ( count( $aNameKeys ) == 2 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ] ) )
+				if ( count( $aNameKeys ) == 2 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ] ) ) {
 					return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
-				if ( count( $aNameKeys ) == 3 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ] ) )
+				}
+				if ( count( $aNameKeys ) == 3 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ] ) ) {
 					return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
-				if ( count( $aNameKeys ) == 4 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ] ) )
+				}
+				if ( count( $aNameKeys ) == 4 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ] ) ) {
 					return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
+				}
 					
 			}
-			
 			return null;	// not found
 			
 		}
@@ -219,22 +224,22 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		 */
 		private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug ) {
 
-			$aInput = is_array( $aInput ) ? $aInput : array();
-			$_aInputToParse = $aInput;	// copy one for parsing
+			$aInput			= is_array( $aInput ) ? $aInput : array();
+			$_aInputToParse	= $aInput;	// copy one for parsing
 			
 			// Prepare the saved options 
-			$_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );		
-			$_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
+			$_aDefaultOptions			= $this->oProp->getDefaultOptions( $this->oForm->aFields );		
+			$_aOptions					= $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions );
 			$_aOptionsWODynamicElements = $this->oForm->dropRepeatableElements( $_aOptions );
-			$_aTabOptions = array();	// stores options of the belonging in-page tab.
+			$_aTabOptions				= array();	// stores options of the belonging in-page tab.
 			
 			// Merge the user input with the user-set default values.
-			$_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not include the default values of the submitted page's elements as they merge recursively
-			$aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
+			$_aDefaultOptions	= $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug );	// do not include the default values of the submitted page's elements as they merge recursively
+			$aInput				= $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
 			unset( $_aDefaultOptions ); // no longer used
 			
 			// For each submitted element
-			$aInput = $this->_validateEachField( $aInput, $_aOptions, $_aOptionsWODynamicElements, $_aInputToParse, $sPageSlug, $sTabSlug );
+			$aInput	= $this->_validateEachField( $aInput, $_aOptions, $_aOptionsWODynamicElements, $_aInputToParse, $sPageSlug, $sTabSlug );
 			unset( $_aInputToParse ); // no longer used
 
 			// For tabs			
@@ -269,7 +274,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 						}
 						
 						// Call the validation method.
-						foreach( $aSectionOrFields as $sFieldID => $aFields )	// For fields
+						foreach( $aSectionOrFields as $sFieldID => $aFields ) {	// For fields
 							$aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( 
 								$this, 
 								"validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", 
@@ -277,9 +282,10 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 								isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null,
 								$this
 							);
+						}
 						
 						// For an entire section - consider each field has a different individual capability. In that case, the key itself will not be sent,
-						// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
+						// which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
 						// So merge the submitted array with the old stored array only for the first level.
 						$_aSectionInput = is_array( $aInput[ $sID ] ) ? $aInput[ $sID ] : array();
 						$_aSectionInput = $_aSectionInput + ( isset( $aOptionsWODynamicElements[ $sID ] ) && is_array( $aOptionsWODynamicElements[ $sID ] ) ? $aOptionsWODynamicElements[ $sID ] : array() );
@@ -291,7 +297,6 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 							$this
 						);							
 						
-						// End the iteration
 						continue;
 						
 					}
@@ -329,14 +334,15 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 					return $aInput;
 				}
 								
-				$_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
-				$aTabOptions = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
-				$aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
+				$_aTabOnlyOptions	= $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug );		// does not respect page meta box fields
+				$aTabOptions		= $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug );		// respects page meta box fields
+				$aTabOptions		= $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
 				
 				// Consider each field has a different individual capability. In that case, the key itself will not be sent,
-				// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
+				// which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
 				// So merge the submitted array with the old stored array only for the first level.			
-				$aInput = $aInput + $this->oForm->getTabOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug );
+				$_aTabOnlyOptionsWODynamicElements	= $this->oForm->getTabOnlyOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug );	// this method excludes injected elements such as page-meta-box fields
+				$aInput				= $aInput + $this->oForm->getTabOptions( $_aTabOnlyOptionsWODynamicElements, $sPageSlug, $sTabSlug );
 				
 				return $this->oUtil->uniteArrays( 
 					$this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aTabOptions, $this ), 
@@ -353,20 +359,19 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			 */
 			private function _validatePageFields( array $aInput, array $aOptions, array $aOptionsWODynamicElements, array $aTabOptions, $sPageSlug, $sTabSlug ) {
 				
-				if ( ! $sPageSlug ) {
-					return $aInput;
-				}
+				if ( ! $sPageSlug ) { return $aInput; }
 
 				// Prepare the saved page option array.
-				$_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )				
-				$_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions, $this );
+				$_aPageOptions		= $this->oForm->getPageOptions( $aOptions, $sPageSlug );	// this method respects injected elements into the page ( page meta box fields )				
+				$_aPageOptions		= $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions, $this );
 				
 				// Consider each field has a different individual capability. In that case, the key itself will not be sent,
-				// which causes data loss when a lower capability user submit a form but it was stored by a higher capability user.
+				// which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
 				// So merge the submitted array with the old stored array only for the first level.				
-				$aInput = $aInput + $this->oForm->getPageOptions( $aOptionsWODynamicElements, $sPageSlug );
+				$_aPageOnlyOptionsWODynamicElements	= $this->oForm->getPageOnlyOptions( $aOptionsWODynamicElements, $sPageSlug );	// this method excludes injected elements
+				$aInput			= $aInput + $this->oForm->getPageOptions( $_aPageOnlyOptionsWODynamicElements, $sPageSlug );
 				
-				$aInput = $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions, $this ); // $aInput: new values, $aStoredPageOptions: old values	
+				$aInput			= $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}", $aInput, $_aPageOptions, $this ); // $aInput: new values, $aStoredPageOptions: old values	
 
 				// If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
 				$_aPageOptions = $sTabSlug && ! empty( $aTabOptions ) 
@@ -395,7 +400,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			 */
 			private function _removePageElements( $aOptions, $sPageSlug, $sTabSlug ) {
 				
-				if ( ! $sPageSlug && ! $sTabSlug ) return $aOptions;
+				if ( ! $sPageSlug && ! $sTabSlug ) { return $aOptions; }
 				
 				// If the tab is given
 				if ( $sTabSlug && $sPageSlug ) {

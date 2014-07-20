@@ -271,7 +271,6 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
 	 * This is a strict version of the getPageOptions() method and this does not respect the injected elements by the page meta box class.
 	 * 
 	 * @since			3.0.0
-	 * @remark			Not used yet
 	 */
 	public function getPageOnlyOptions( $aOptions, $sPageSlug ) {
 

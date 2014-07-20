@@ -60,17 +60,17 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	 */ 
 	function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
-		if ( empty( $asPostTypeOrScreenID ) ) return;
+		if ( empty( $asPostTypeOrScreenID ) ) { return; }
 				
 		// Properties
 		parent::__construct( 
 			isset( $this->oProp )? $this->oProp : new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability )
 		);
 		
-		$this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
-		$this->oProp->sTitle = $sTitle;
-		$this->oProp->sContext = $sContext;	//  'normal', 'advanced', or 'side' 
-		$this->oProp->sPriority = $sPriority;	// 	'high', 'core', 'default' or 'low'	
+		$this->oProp->sMetaBoxID	= $this->oUtil->sanitizeSlug( $sMetaBoxID );
+		$this->oProp->sTitle		= $sTitle;
+		$this->oProp->sContext		= $sContext;	//  'normal', 'advanced', or 'side' 
+		$this->oProp->sPriority		= $sPriority;	// 	'high', 'core', 'default' or 'low'	
 
 		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );	
@@ -115,26 +115,27 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {	
 
 		// Use nonce for verification
-		$_aOutput = array();
-		$_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
+		$_aOutput	= array();
+		$_aOutput[]	= wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
 		
 		// Condition the sections and fields definition arrays.
 		$this->oForm->applyConditions();	// will set $this->oForm->aConditionedFields internally
 		$this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
 		
 		// Set the option array - the framework will refer to this data when displaying the fields.
-		if ( isset( $this->oProp->aOptions ) )
+		if ( isset( $this->oProp->aOptions ) ) {
 			$this->_setOptionArray( 
 				isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null ), 
 				$this->oForm->aConditionedFields 
 			);	// will set $this->oProp->aOptions
+		}
 		
 		// Add the repeatable section elements to the fields definition array.
 		$this->oForm->setDynamicElements( $this->oProp->aOptions );	// will update $this->oForm->aConditionedFields
 							
 		// Get the fields output.
-		$_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
-		$_aOutput[] = $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+		$_oFieldsTable	= new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
+		$_aOutput[]		= $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
 		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
@@ -154,7 +155,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	 */
 	protected function _setOptionArray( $isPostIDOrPageSlug, $aFields ) {
 		
-		if ( ! is_array( $aFields ) ) return;
+		if ( ! is_array( $aFields ) ) { return; }
 		
 		// For post meta box, the $isPostIDOrPageSlug will be an integer representing the post ID.
 		if ( is_numeric( $isPostIDOrPageSlug ) && is_int( $isPostIDOrPageSlug + 0 ) ) :
@@ -162,13 +163,11 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 			$_iPostID = $isPostIDOrPageSlug;
 			foreach( $aFields as $_sSectionID => $_aFields ) {
 				
-				if ( $_sSectionID == '_default' ) {
-					
-					foreach( $_aFields as $_aField ) 
+				if ( '_default' == $_sSectionID  ) {
+					foreach( $_aFields as $_aField ) {
 						$this->oProp->aOptions[ $_aField['field_id'] ] = get_post_meta( $_iPostID, $_aField['field_id'], true );	
-					
+					}
 				}
-				
 				$this->oProp->aOptions[ $_sSectionID ] = get_post_meta( $_iPostID, $_sSectionID, true );
 				
 			}
@@ -204,20 +203,19 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	public function _replyToSaveMetaBoxFields( $iPostID ) {
 		
 		// Bail if we're doing an auto save
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return; }
 		
 		// If our nonce isn't there, or we can't verify it, bail
-		if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) return;
+		if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) { return; }
 			
 		// Check permissions
-		if ( ! $iPostID ) return;
-		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) return;
+		if ( ! $iPostID ) { return; }
+		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) { return; }
 
 		// Retrieve the submitted data.
 		$_aInput = $this->_getInputArray( $this->oForm->aFields, $this->oForm->aSections );	// Todo: make sure if the aFields is formatted and conditioned or not.
 	
 		// Prepare the saved data.
-		// $_aSavedMeta = $this->_getSavedMetaArray( $iPostID, $_aInput );
 		$_aSavedMeta = $this->oUtil->getSavedMetaArray( $iPostID, array_keys( $_aInput ) );
 					
 		// Apply filters to the array of the submitted values.
@@ -226,12 +224,14 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		// If there are validation errors.
 		if ( $this->_isValidationErrors() ) {
 			
-			// unhook this function to prevent indefinite loop
+			// unhook this function to prevent indefinite loops.
 			remove_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 
-			// update the post to change post status
-			// TODO: retrieve the previous post status and set it so.
-			$_sPreviousPostStatus = 'draft';
+			// Revert the post status.
+			// TODO: this does not do the job if it is a new post. (somehow it gets published)
+			// $_oPost = get_post( $iPostID );	
+			// $_sPreviousPostStatus = is_object( $_oPost ) && isset( $_oPost->post_status ) ? $_oPost->post_status : 'draft';
+			$_sPreviousPostStatus = get_post_status( $iPostID );
 			wp_update_post( array( 'ID' => $iPostID, 'post_status' => $_sPreviousPostStatus ) );
 
 			// re-hook this function again
@@ -260,12 +260,12 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 			// Loop through sections/fields and save the data.
 			foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
 				
-				if ( is_null( $_vValue ) ) continue;
+				if ( is_null( $_vValue ) ) { continue; }
 				
 				$_vSavedValue = isset( $aSavedMeta[ $_sSectionOrFieldID ] ) ? $aSavedMeta[ $_sSectionOrFieldID ] : null;
 				
 				// PHP can compare even array contents with the == operator. See http://www.php.net/manual/en/language.operators.array.php
-				if ( $_vValue == $_vSavedValue ) continue;	// if the input value and the saved meta value are the same, no need to update it.
+				if ( $_vValue == $_vSavedValue ) { continue; }	// if the input value and the saved meta value are the same, no need to update it.
 			
 				update_post_meta( $iPostID, $_sSectionOrFieldID, $_vValue );
 				
@@ -286,7 +286,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 			foreach( $aFieldDefinitionArrays as $_sSectionID => $_aSubSectionsOrFields ) {
 				
 				// If a section is not set,
-				if ( $_sSectionID == '_default' ) {
+				if ( '_default' == $_sSectionID ) {
 					$_aFields = $_aSubSectionsOrFields;
 					foreach( $_aFields as $_aField ) {
 						$aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 

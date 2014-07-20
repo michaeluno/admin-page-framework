@@ -339,6 +339,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.1 =
+- Fixed a bug that items of repeatable fields of page-meta-boxes could not be removed.
 - Added the third parameter to the `addTaxonomy()` method to accept multiple object types in the post type class.
 
 = 3.1.0 - 2014/07/18 =
