@@ -213,7 +213,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) { return; }
 
 		// Retrieve the submitted data.
-		$_aInput = $this->_getInputArray( $this->oForm->aFields, $this->oForm->aSections );	// Todo: make sure if the aFields is formatted and conditioned or not.
+		$_aInput = $this->_getInputArray( $this->oForm->aFields, $this->oForm->aSections );
 	
 		// Prepare the saved data.
 		$_aSavedMeta = $this->oUtil->getSavedMetaArray( $iPostID, array_keys( $_aInput ) );
