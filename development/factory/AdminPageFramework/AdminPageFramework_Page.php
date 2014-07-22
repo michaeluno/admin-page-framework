@@ -550,27 +550,30 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		private function _getInPageTabs( $sCurrentPageSlug, $sTag='h3', $aOutput=array() ) {
 			
 			// If in-page tabs are not set, return an empty string.
-			if ( empty( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] ) ) return implode( '', $aOutput );
+			if ( empty( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] ) ) { 
+				return implode( '', $aOutput ); 
+			}
 					
 			// Determine the current tab slug.
 			$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
 			$sCurrentTabSlug = $this->_getParentTabSlug( $sCurrentPageSlug, $sCurrentTabSlug );
-			
+
 			$sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
 				? $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
 				: $sTag;
 		
 			// If the in-page tabs' visibility is set to false, returns the title.
-			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_in_page_tabs' ]	)
+			if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_in_page_tabs' ]	) {
 				return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
 					? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
 					: "";
+			}
 
 			// Get the actual string buffer.
 			foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
 						
 				// If it's hidden and its parent tab is not set, skip
-				if ( ! $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) continue;
+				if ( ! $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) { continue; }
 				
 				// The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
 				$sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
@@ -641,8 +644,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				$this->oProp->aInPageTabs[ $sPageSlug ]			
 			);	
 			// Added in-page arrays may be missing necessary keys so merge them with the default array structure.
-			foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) 
+			foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) {
 				$aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
+				$aInPageTab['order'] = is_null( $aInPageTab['order'] ) ? 10 : $aInPageTab['order'];
+			}
 						
 			// Sort the in-page tab array.
 			uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this, '_sortByOrder' ) );
