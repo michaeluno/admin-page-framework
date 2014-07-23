@@ -286,9 +286,9 @@ If you want to change it to something else, modify the `oMsg` object. It has the
 To specify a custom size to the preview element of the `image` field type, set an attribute array like the below, where 300px is the max width.
 
 `array(
-	'field_id'	=>	'my_image_field_id',
-	'title'	=>	__( 'Image', 'admin-page-framework-demo' ),
-	'type'	=>	'image',
+	'field_id'		=>	'my_image_field_id',
+	'title'			=>	__( 'Image', 'admin-page-framework-demo' ),
+	'type'			=>	'image',
 	'attributes'	=>	array(
 		'style'	=>	'max-width:300px;',
 	),
@@ -299,8 +299,8 @@ To set the initial value of a field, use the `default` argument in the field def
 
 `array(
 	'field_id'	=>	'my_text_field_id',
-	'title'	=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
-	'type'	=>	'text',
+	'title'		=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
+	'type'		=>	'text',
 	'default'	=>	'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
 ),`
 
@@ -309,19 +309,19 @@ The `value` argument in the definition array can suppress the saved value. This 
 
 `array(
 	'field_id'	=>	'my_text_field_id',
-	'title'	=>	__( 'My Text Inpu Field', 'admin-page-framework-demo' ),
-	'type'	=>	'text',
-	'value'	=>	'This will be always set.',
+	'title'		=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
+	'type'		=>	'text',
+	'value'		=>	'This will be always set.',
 ),`
 
 If it is a repeatable field, set the value in the sub-fields.
 
 `array(
-	'field_id'	=>	'my_text_field_id',
-	'title'	=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
-	'type'	=>	'text',
+	'field_id'		=>	'my_text_field_id',
+	'title'			=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
+	'type'			=>	'text',
 	'repeatable'	=>	true,
-	'value'	=>	'the first value',
+	'value'			=>	'the first value',
 	array(
 		'value'	=>	'the second value',
 	),
