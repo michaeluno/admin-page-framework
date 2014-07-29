@@ -558,9 +558,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 
 							// Remove from the menu. If the current page is being accessed, do not remove it from the menu.
 							// If it is in the network admin area, do not remove the menu; otherwise, it gets not accessible. 
-							if ( ! is_network_admin() ) {
+							if ( is_network_admin() ) {
 								unset( $GLOBALS['submenu'][ $sMenuLabel ][ $iIndex ] );
-							} else if ( isset( $_GET['page'] ) && $sPageSlug != $_GET['page'] ) {
+							} else if ( ! isset( $_GET['page'] ) || isset( $_GET['page'] ) && $sPageSlug != $_GET['page'] ) {
 								unset( $GLOBALS['submenu'][ $sMenuLabel ][ $iIndex ] );
 							}
 

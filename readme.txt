@@ -344,6 +344,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Changed the default value of the `order` argument of in-page tabs to 10.
 - Changed the field definition arrays to be formatted after applying filters of the `field_definition_{instantiated class name}` hook.
 - Changed the timing of `field_definition_{instantiated class name}` filter hook to be triggered after all `field_definition_{instantiated class name}_{section id}_{field_id}` and `field_definition_{instantiated class name}_{field_id}` filter hooks.
+- Fixed a bug that the `show_in_menu` argument of the `addSubMenuItems()` method did not take effect.
 - Fixed an issue that the `order` argument of in-page tabs did not take effect when in-page tabs are added via the `tabs_{instantiated class name}` filter.
 - Fixed an issue that the `label_min_width` argument of a field definition array was no longer effective as of v3.1.0.
 - Fixed a bug that the stored values of repeatable fields with a custom capability got lost when a lower capability user submits the form.
