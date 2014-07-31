@@ -190,7 +190,7 @@ AdminPageFramework_Factory
 
 				<b>Since:</b>
 				3.0.4<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_PostType_Controller.html#10-277" title="Go to source code">factory/AdminPageFramework_PostType/AdminPageFramework_PostType_Controller.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_PostType_Controller.html#10-288" title="Go to source code">factory/AdminPageFramework_PostType/AdminPageFramework_PostType_Controller.php</a><br>
 	</div>
 
 
@@ -660,7 +660,7 @@ class="php-keyword1">false</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addTaxonomy">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#166-207" title="Go to source code">addTaxonomy</a>( <span>string <var>$sTaxonomySlug</var></span>, <span>array <var>$aArgs</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#166-218" title="Go to source code">addTaxonomy</a>( <span>string <var>$sTaxonomySlug</var></span>, <span>array <var>$aArgs</var></span>, <span>array <var>$aAdditionalObjectTypes</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				Adds a custom taxonomy to the class post type.
@@ -769,11 +769,14 @@ class="php-comment">// framework specific key</span>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sTaxonomySlug</var></dt>
-						<dd><code>string</code><br>The taxonomy slug.</dd>
+						<dd><code>string</code><br>$sTaxonomySlug The taxonomy slug.</dd>
 						<dt><var>$aArgs</var></dt>
-						<dd><code>array</code><br>The taxonomy argument array passed to the second parameter of the <a
+						<dd><code>array</code><br>$aArgs The taxonomy argument array passed to the second parameter of the <a
 href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a>
 function.</dd>
+						<dt><var>$aAdditionalObjectTypes</var></dt>
+						<dd><code>array</code><br>$aAdditionalObjectTypes Additional object types(post types) besides the caller
+post type.</dd>
 					</dl></div>
 
 
@@ -781,6 +784,7 @@ function.</dd>
 					<h4>Since</h4>
 					<div class="list">
 							2.0.0<br>
+							3.1.1 Added the third parameter.<br>
 					</div>
 					<h4>See</h4>
 					<div class="list">
@@ -803,7 +807,7 @@ href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments"
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setAuthorTableFilter">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#209-222" title="Go to source code">setAuthorTableFilter</a>( <span>boolean <var>$bEnableAuthorTableFileter</var> = <span class="php-keyword1">false</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#220-233" title="Go to source code">setAuthorTableFilter</a>( <span>boolean <var>$bEnableAuthorTableFileter</var> = <span class="php-keyword1">false</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -853,7 +857,7 @@ class="php-keyword1">true</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setPostTypeArgs">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#224-236" title="Go to source code">setPostTypeArgs</a>( <span>array <var>$aArgs</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#235-247" title="Go to source code">setPostTypeArgs</a>( <span>array <var>$aArgs</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -905,7 +909,7 @@ href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoLeft">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#238-255" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#249-266" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -955,7 +959,7 @@ class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoRight">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#257-274" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_PostType_Controller.html#268-285" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				

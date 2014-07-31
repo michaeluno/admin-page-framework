@@ -757,9 +757,10 @@ class="php-num">90</span>,
 	the passed HTML string should not contain block elements.</li>
 
 	<li><strong>label_min_width</strong> - ( optional, string ) the inline style
-	property of the <em>min-width</em> of the label tag for the field in pixel
-	without the unit. Default: <code>&lt;span
-	class="php-num"&gt;120&lt;/span&gt;</code>.</li>
+	property of the <em>min-width</em> of the label tag for the field. If the unit
+	is not specified, 'px' is applied. Default: <code>&lt;span
+	class="php-num"&gt;120&lt;/span&gt;</code>. e.g. <code>&lt;span
+	class="php-num"&gt;100&lt;/span&gt;%</code></li>
 
 	<li><strong>help</strong> - ( optional, string ) the help description added to
 	the contextual help tab.</li>
@@ -817,8 +818,8 @@ class="php-num">90</span>,
 	<li><strong>textarea</strong> - a textarea input field. The following array keys
 	are supported.
 		<ul>
-			<li><strong>rich</strong> - [2.1.2+]( optional, array ) to make it a rich text
-			editor pass a non-empty value. It accept a setting array of the
+			<li><strong>rich</strong> - <a href="optional, array">2.1.2+</a> to make it a
+			rich text editor pass a non-empty value. It accept a setting array of the
 			<code>_WP_Editors</code> class defined in the core. For more information, see
 			the argument section of <a
 			href="http://codex.wordpress.org/Function_Reference/wp_editor"
