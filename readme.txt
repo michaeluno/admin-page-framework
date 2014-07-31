@@ -353,7 +353,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.1.1 =
+= 3.1.1 - 2014/08/01 =
 - Added the `before_fieldset` and `after_fieldset` arguments for the field definition array.
 - Added the third parameter to the `addTaxonomy()` method to accept multiple object types in the post type class.
 - Changed the `label_min_width` argument to accept non pixel values.
