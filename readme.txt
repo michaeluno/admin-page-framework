@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 3.0.5
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -262,39 +262,54 @@ Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
 
 == Other Notes ==
 
-= Tips =
-<h5><strong>Use Unique Page Slug</strong></h5>
+<h3>Tips</h3>
+<h4>Use Unique Page Slug</h4>
 The framework internally uses the `add_submenu_page()` function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. The other ones will be ignored.
 
 This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your users will get either of your page or the other.
 
 So just use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
-<h5><strong>Change Class Names</strong></h5>
+<h4>Change PHP Class Names</h4>
 When you include the library, change the class names that the library uses. This is because if there is a plugin that uses a lesser version of the library and it is loaded earlier than yours, your script may not work properly.
 
 All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
 
 Most text editors supports the *Replace All* command so just use that. By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use namespaces then this problem will be solved.
 
-<h5><strong>Change Framework's System Messages</strong></h5>
+<h4>Change Framework's System Messages</h4>
 The default messages defined by the framework can be changed. For example when you import a setting with the framework, the setting notice will be displayed. 
 
 If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array which holds all the messages that the library uses.
 
-<h5><strong>Change Preview Image Size of the `image` Field Type</strong></h5>
+<h4>Change Preview Image Size of the 'image' Field Type</h4>
 To specify a custom size to the preview element of the `image` field type, set an attribute array like the below, where 300px is the max width.
 
 `array(
-	'field_id'		=>	'my_image_field_id',
-	'title'			=>	__( 'Image', 'admin-page-framework-demo' ),
-	'type'			=>	'image',
-	'attributes'	=>	array(
+	'field_id'			=>	'my_image_field_id',
+	'title'				=>	__( 'Image', 'admin-page-framework-demo' ),
+	'type'				=>	'image',
+	'attributes'		=>	array(
 		'style'	=>	'max-width:300px;',
 	),
 ),`
 
-<h5><strong>Set default field value</strong></h5>
+<h4>Display items of 'radio' field type one per line</h4>
+To display radio button items one per line, set the `label_min_width` to `100%`.
+
+`array(
+	'field_id'			=>	'my_radio_field_id',
+	'title'				=>	__( 'Radio Button', 'admin-page-framework-demo' ),
+	'type'				=>	'radio',
+	'label_min_width'	=>	'100%',
+	'label'				=>	array(
+		'a'	=>	__( 'This is a.', 'admin-page-framework-demo' ),
+		'b'	=>	__( 'This is b.', 'admin-page-framework-demo' ),
+		'c'	=>	__( 'This is a.', 'admin-page-framework-demo' )c
+	),
+),`
+
+<h4>Set default field value</h4>
 To set the initial value of a field, use the `default` argument in the field definition array.
 
 `array(
@@ -304,7 +319,7 @@ To set the initial value of a field, use the `default` argument in the field def
 	'default'	=>	'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
 ),`
 
-<h5><strong>Always display a particular value in a field</strong></h5>
+<h4>Always display a particular value in a field</h4>
 The `value` argument in the definition array can suppress the saved value. This is useful when you want to set a value from a different data source or create a wizard form that stores the data in a custom location.
 
 `array(
@@ -333,7 +348,7 @@ If it is a repeatable field, set the value in the sub-fields.
 Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
-= Roadmap =
+<h3>Roadmap</h3>
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
