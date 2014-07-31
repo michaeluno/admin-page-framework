@@ -238,7 +238,7 @@ class TimeRangeCustomFieldType extends AdminPageFramework_FieldType {
 				. "<label for='{$aField['input_id']}_from'>"
 					. $aField['before_input']
 					. ( $aField['label'] 
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label']['from'] . "</span>"
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label']['from'] . "</span>"
 						: "" 
 					)
 					. "<input " . $this->generateAttributes( $_aInputAttributes_From ) . " />"
@@ -247,7 +247,7 @@ class TimeRangeCustomFieldType extends AdminPageFramework_FieldType {
 				. "<label for='{$aField['input_id']}_to'>"
 					. $aField['before_input']
 					. ( $aField['label'] 
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label']['to'] . "</span>"
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label']['to'] . "</span>"
 						: "" 
 					)
 					. "<input " . $this->generateAttributes( $_aInputAttributes_To ) . " />"

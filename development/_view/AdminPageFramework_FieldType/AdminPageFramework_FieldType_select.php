@@ -86,7 +86,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
 
 		return
 			$aField['before_label']
-			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"
+			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
 					. "<span class='admin-page-framework-input-container'>"

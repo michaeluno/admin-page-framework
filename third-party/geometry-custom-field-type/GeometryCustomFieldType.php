@@ -84,7 +84,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 			. "<div class='admin-page-framework-input-label-container'>"
 					. $aField['before_input']
 					. ( $aField['label'] && ! $aField['repeatable']
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
 						: "" 
 					)
 					. $this->_getInputs( $aField )
@@ -145,24 +145,24 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
 						. "<a " . $this->generateAttributes( $aButtonAttributes ) . ">" . __( 'Update Map', 'admin-page-framework-demo' ) . "</a>"
 					. "</label>"					
 					. "<label for='{$aField['input_id']}_latitude'>"
-						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Latitude', 'admin-page-framework-demo' ) . "</span>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . __( 'Latitude', 'admin-page-framework-demo' ) . "</span>"
 						. "<input " . $this->generateAttributes( $aLattitudeAttributes ) . " />"				
 					. "</label><br />"
 					. "<label for='{$aField['input_id']}_longitude'>"
-						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Longitude', 'admin-page-framework-demo' ) . "</span>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . __( 'Longitude', 'admin-page-framework-demo' ) . "</span>"
 						. "<input " . $this->generateAttributes( $aLongitudeAttributes ) . " />"	
 					. "</label><br />"
 					. "<label for='{$aField['input_id']}_elevation'>"
-						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Elevation', 'admin-page-framework-demo' ) . "</span>"					
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . __( 'Elevation', 'admin-page-framework-demo' ) . "</span>"					
 						. "<input " . $this->generateAttributes( $aElevationAttributes ) . " />"
 						. ' ' . __( "metres", "admin-page-framework-demo" )
 					. "</label><br />"								
 					. "<label for='{$aField['input_id']}_name'>"
-						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'Location Name', 'admin-page-framework-demo' ) . "</span>"
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . __( 'Location Name', 'admin-page-framework-demo' ) . "</span>"
 						. "<input " . $this->generateAttributes( $aLocationNameAttributes ) . " />"
 					. "</label><br />"
 					. "<label for='{$aField['input_id']}_zoom'>"
-						. "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . __( 'zoom', 'admin-page-framework-demo' ) . "</span>"	
+						. "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . __( 'zoom', 'admin-page-framework-demo' ) . "</span>"	
 						. "<input type='number' class='gllpZoom' id='{$aField['input_id']}_zoom' min='1' value='3'/>"
 					. "</label><br />"
 				. "</div>";	

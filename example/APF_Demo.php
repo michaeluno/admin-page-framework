@@ -1440,7 +1440,7 @@ class APF_Demo extends AdminPageFramework {
 			),
 			array(
 				'field_id'		=>	'apf_post_titles',
-				'type'			=>	'select',
+				'type'			=>	'checkbox',
 			),				
 			array()
 		);

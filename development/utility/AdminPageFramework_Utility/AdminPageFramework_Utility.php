@@ -17,7 +17,21 @@ if ( ! class_exists( 'AdminPageFramework_Utility' ) ) :
  * @internal
  */
 abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL {
-			
+		
+	/**
+	 * Returns the width for HTML attributes.
+	 * 
+	 * When a value may be a number with a unit like, '100%', it returns the value itself.
+	 * When a value misses a unit like '60', it returns with the unit.
+	 * 
+	 * @since		3.1.1
+	 */
+	static public function sanitizeLength( $sLength, $sUnit='px' ) {
+		return is_numeric( $sLength ) 
+			? $sLength . $sUnit
+			: $sLength;
+	}
+		
 	/**
 	 * Retrieves the query value from the given URL with a key.
 	 * 

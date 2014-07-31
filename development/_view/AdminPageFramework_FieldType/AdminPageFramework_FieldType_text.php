@@ -61,7 +61,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
 				. "<label for='{$aField['input_id']}'>"
 					. $aField['before_input']
 					. ( $aField['label'] && ! $aField['repeatable']
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
 						: "" 
 					)
 					. "<input " . $this->generateAttributes( $aField['attributes'] ) . " />"	// this method is defined in the base class

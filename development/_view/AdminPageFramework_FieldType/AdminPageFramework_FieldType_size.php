@@ -164,12 +164,12 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
 		/* 3. Return the output */
 		return
 			$aField['before_label']
-			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: {$aField['label_min_width']}px;'>"
+			. "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
 				/* The size (number) part */
 				. "<label " . $this->generateAttributes( $aSizeLabelAttributes ) . ">"
 					. $this->getFieldElementByKey( $aField['before_label'], 'size' )
 					. ( $aField['label'] && ! $aField['repeatable']
-						? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" . $aField['label'] . "</span>"
+						? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
 						: "" 
 					)
 					. "<input " . $this->generateAttributes( $aSizeAttributes ) . " />"	// this method is defined in the base class

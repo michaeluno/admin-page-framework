@@ -77,12 +77,12 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		);
 
 		$aLabelAttributes = array(
-			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
+			'style'	=>	$aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
 			'for'	=>	$aInputAttributes['id'],
 			'class'	=>	$aInputAttributes['disabled'] ? 'disabled' : '',			
 		);
 		$aLabelContainerAttributes = array(
-			'style'	=>	$aField['label_min_width'] ? "min-width:{$aField['label_min_width']}px;" : null,
+			'style'	=>	$aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
 			'class'	=>	'admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container',
 		);
 
