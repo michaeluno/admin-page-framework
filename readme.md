@@ -78,24 +78,25 @@ It includes the demo plugin which uses the framework and is ready to be installe
 <?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
-if ( ! class_exists( 'AdminPageFramework' ) )
+if ( ! class_exists( 'AdminPageFramework' ) ) {
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
     
 class APF extends AdminPageFramework {
 
-    function setUp() {
+    public function setUp() {
 		
     	$this->setRootMenuPage( 'Settings' );	// where to belong
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Page',
-				'page_slug' => 'myfirstpage'
+				'title'		=>	'My First Page',
+				'page_slug'	=>	'myfirstpage'
 			)
 		);
 			
     }
 
-    function do_myfirstpage() {  // do_{page slug}
+    public function do_myfirstpage() {  // do_{page slug}
         ?>
         <h3>Say Something</h3>
         <p>This is my first admin page!</p>
@@ -118,18 +119,19 @@ new APF;
 <?php
 /* Plugin Name: Admin Page Framework - My First Form */ 
 
-if ( ! class_exists( 'AdminPageFramework' ) )
+if ( ! class_exists( 'AdminPageFramework' ) ) {
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
     
 class APF_MyFirstFrom extends AdminPageFramework {
 
-    function setUp() {
+    public function setUp() {
 		
     	$this->setRootMenuPage( 'My Settings' );	// create a root page 
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Form',
-				'page_slug' => 'my_first_form'
+				'title'		=>	'My First Form',
+				'page_slug'	=>	'my_first_form'
 			)
 		);
 			
@@ -142,15 +144,15 @@ class APF_MyFirstFrom extends AdminPageFramework {
 		
 		$this->addSettingFields(
 			array(	
-				'field_id'	=>	'text',
+				'field_id'		=>	'text',
 				'section_id'	=>	'my_first_text_section',
-				'title'	=>	'Text',
-				'type'	=>	'text',
-				'default'	=>	123456,
+				'title'			=>	'Text',
+				'type'			=>	'text',
+				'default'		=>	123456,
 			),
 			array(	
-				'field_id'	=>	'submit',
-				'type'	=>	'submit',
+				'field_id'		=>	'submit',
+				'type'			=>	'submit',
 			)
 		);
 		
@@ -236,4 +238,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
