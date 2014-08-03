@@ -540,11 +540,13 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
 					$sCapability,				 			// capability
 					$sPageSlug,	// menu_slug
 					// In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $_sPageHook )
-					// will be executed and it triggers the __call magic method with the method name of "md5 class hash + _page_ + this page slug".
+					// will be executed and it triggers the __call() magic method with the method name of "md5 class hash + _page_ + this page slug".
 					array( $this, $this->oProp->sClassHash . '_page_' . $sPageSlug )
 				);			
-				
-				add_action( "load-" . $_sPageHook , array( $this, "load_pre_" . $sPageSlug ) );
+				$this->oProp->aPageHooks[ $_sPageHook ] = is_network_admin() ? $_sPageHook . '-network' : $_sPageHook;
+
+				// add_action( "load-" . $_sPageHook , array( $this, "load_pre_" . $sPageSlug ) );
+				add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ) );
 
 				// If the visibility option is false, remove the one just added from the sub-menu array
 				if ( ! $aArgs['show_in_menu'] ) {

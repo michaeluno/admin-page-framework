@@ -260,7 +260,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 */
 	public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
 						
-		if ( ! $this->_isInstantiatabe() ) {
+		if ( ! $this->_isInstantiatable() ) {
 			return;
 		 }
 						

@@ -107,7 +107,7 @@ abstract class AdminPageFramework_Factory_Router {
 	 * @since			3.1.0
 	 * @internal
 	 */ 
-	protected function _isInstantiatabe() { return true; }
+	protected function _isInstantiatable() { return true; }
 	
 	/**
 	 * Determines whether the instantiated object and its producing elements belong to the loading page.

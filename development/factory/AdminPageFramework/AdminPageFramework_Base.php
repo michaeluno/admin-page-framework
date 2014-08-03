@@ -290,10 +290,24 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		 * @return			void
 		 * @internal
 		 */ 
-		protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $aArg ) {
+		protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $oScreen ) {
 
+			if ( ! in_array( $oScreen->id, $this->oProp->aPageHooks ) ) {		
+				return;
+			}
+					
 			// Do actions, class name -> page -> in-page tab.
-			$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( "load_", $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
+			$this->oUtil->addAndDoActions( 
+				$this, 
+				$this->oUtil->getFilterArrayByPrefix( 
+					"load_", 
+					$this->oProp->sClassName, 
+					$sPageSlug, 
+					$sTabSlug, 
+					true 
+				),
+				$this	// the admin page object - this lets third-party scripts use the framework methods.
+			);
 			
 		}
 		
@@ -322,7 +336,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 * @since			3.1.0
 	 * @internal
 	 */
-	protected function _isInstantiatabe() {
+	protected function _isInstantiatable() {
 		
 		// Nothing to do in the non-network admin area.
 		if ( ! is_network_admin() ) {

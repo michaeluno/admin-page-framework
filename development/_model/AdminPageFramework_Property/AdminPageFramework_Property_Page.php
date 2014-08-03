@@ -251,6 +251,13 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	public $_bDisableSavingOptions = false;
 	 
 	/**
+	 * Stores added page hooks.
+	 * 
+	 * @since			3.1.2
+	 */ 
+	public $aPageHooks = array();
+	 
+	/**
 	 * Construct the instance of AdminPageFramework_Property_Page class object.
 	 * 
 	 * @remark			Used by the setInPageTabsVisibility() method.

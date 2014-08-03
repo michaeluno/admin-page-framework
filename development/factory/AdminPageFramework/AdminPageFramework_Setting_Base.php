@@ -66,8 +66,11 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 */
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 		
-		add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
-		add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects
+		if ( is_admin() ) {
+			add_action( 'current_screen', array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let the load_{...} callbacks being loaded earlier.
+			// add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
+			add_action( 'current_screen', array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
+		}
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 
@@ -127,14 +130,23 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * 
 	 * @since			2.0.0
 	 * @since			2.1.5			Added the ability to define custom field types.
+	 * @since			3.1.2			Changed the hook from the <em>admin_menu</em> to <em>current_screen</em> so that the user can add forms in <em>load_{...}</em> callback methods.
 	 * @remark			This method is not intended to be used by the user.
-	 * @remark			The callback method for the <em>admin_menu</em> hook.
+	 * @remark			The callback method for the <em>admin_init</em> hook.
 	 * @return			void
 	 * @internal
 	 */ 
-	public function _replyToRegisterSettings() {
+	public function _replyToRegisterSettings( $oScreen ) {
 		
-		if ( ! $this->_isInThePage() ) return;
+		if ( ! is_object( $oScreen ) ) {
+			return;
+		}
+		if ( ! in_array( $oScreen->id, $this->oProp->aPageHooks ) ) {
+			return;
+		}
+		if ( ! $this->_isInThePage() ) { 
+			return;
+		}
 		
 		/* 1. Apply filters to added sections and fields */
 		$this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $this->oForm->aSections );
