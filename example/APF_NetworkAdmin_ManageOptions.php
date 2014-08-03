@@ -1,6 +1,5 @@
 <?php
-class APF_Demo_ManageOptions extends AdminPageFramework {
-
+class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
 
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
@@ -8,7 +7,8 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		$this->setCapability( 'read' );
 		
 		/* ( required ) Set the root page */
-		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	
+		$this->setRootMenuPageBySlug( 'APF_NetworkAdmin' );	
+
 		
 		/* ( required ) Add sub-menu items (pages or links) */
 		$this->addSubMenuItems(	
@@ -16,9 +16,10 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'title'	=>	__( 'Manage Options', 'admin-page-framework-demo' ),
 				'page_slug'	=>	'apf_manage_options',
 				'screen_icon'	=>	'link-manager',	
+				'order'	=>	3,	// ( optional )
 			)
 		);
-
+				
 		$this->addInPageTabs(	// ( optional )
 			/*
 			 * Manage Options
@@ -53,16 +54,20 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'order'		=>	97,
 			)
 		);
-						
+
 		/* ( optional ) Determine the page style */
 		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs		
-
-		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
-		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
-		
+		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
+	
+		/* 
+		 * ( optional ) Enqueue styles  
+		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 * */
+		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
+	
+	
 	}
-
+	
 	/**
 	 * The pre-defined callback method that is triggered when the page loads.
 	 */ 
@@ -96,7 +101,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 			),			
 			array()			
 		);
-		
+	
 		/*
 		 * Fields for the manage option page.
 		 */
@@ -107,7 +112,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
 				'type'	=>	'submit',
 				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'href'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' ),
+				'href'	=>	network_admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' ),
 				'attributes' => array(
 					'class'	=> 'button-secondary',
 				),			
@@ -118,7 +123,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
 				'type'	=>	'submit',				
 				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'redirect_url'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' ),
+				'redirect_url'	=>	network_admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' ),
 				'attributes' => array(
 					'class'	=> 'button-secondary',
 				),
@@ -208,6 +213,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 	 * Manage Options Page
 	 * */
 	public function do_apf_manage_options_saved_data() {	// do_{page slug}_{tab slug}
+	
 		?>
 		<h3><?php _e( 'Saved Data', 'admin-page-framework-demo' ); ?></h3>
 		<p>
@@ -221,14 +227,14 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		<?php
 			echo __( 'Alternatively, there is the <code>AdminPageFramework::getOption()</code> static method. This allows you to retrieve the array element by specifying the option key and the array key (field id or section id).', 'admin-page-framework-demo' );
 			echo ' ' . __( 'Pass the option key to the first parameter and an array representing the dimensional keys to the second parameter', 'admin-page-framework-demo' );
-			echo ' ' . __( '<code>$aData = AdminPageFramework::getOption( \'APF_Demo\', array( \'text_fields\', \'text\' ), \'default value\' );</code> will retrieve the option array value of <code>$aArray[\'text_field\'][\'text\']</code>.', 'admin-page-framework-demo' );	
+			echo ' ' . __( '<code>$aData = AdminPageFramework::getOption( \'APF_NetworkAdmin\', array( \'text_fields\', \'text\' ), \'default value\' );</code> will retrieve the option array value of <code>$aArray[\'text_field\'][\'text\']</code>.', 'admin-page-framework-demo' );	
 			echo ' ' . __( 'This method is merely to avoid multiple uses of <code>isset()</code> to prevent PHP warnings.', 'admin-page-framework-demo' );
 			echo ' ' . __( 'So if you already know how to retrieve a value of an array element, you don\'t have to use it.', 'admin-page-framework-demo' );	// ' syntax fixer
 		?>
 		</p>
 		<?php
 			echo $this->oDebug->getArray( $this->oProp->aOptions ); 
-			// echo $this->oDebug->getArray( AdminPageFramework::getOption( 'APF_Demo', array( 'text_fields' ) ) ); 
+			// echo $this->oDebug->getArray( AdminPageFramework::getOption( 'APF_NetworkAdmin', array( 'text_fields' ) ) ); 
 		
 	}
 	public function do_apf_manage_options_properties() {	// do_{page slug}_{tab slug}
@@ -247,11 +253,11 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		<?php
 			echo $this->oDebug->getArray( $this->oMsg->aMessages );
 	}
-		
+	
 	/*
 	 * Import and Export Callbacks
 	 * */
-	public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export section id}_{export field id}
+	public function export_name_APF_NetworkAdmin_exports_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export section id}_{export field id}
 
 		// Change the exporting file name based on the selected format type in the other field.
 		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
@@ -272,7 +278,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		return $sReturnName;
 		
 	}
-	public function export_format_APF_Demo_exports_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export section id}_{export field id}
+	public function export_format_APF_NetworkAdmin_exports_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export section id}_{export field id}
 
 		// Set the internal formatting type based on the selected format type in the other field.
 		return isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] ) 
@@ -287,7 +293,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 			: $sFormatType;
 		
 	}
-	public function import_APF_Demo_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{import section id}_{import field id}
+	public function import_APF_NetworkAdmin_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{import section id}_{import field id}
 
 		if ( $sImportFormat == 'text' ) {
 			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
@@ -297,14 +303,6 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		$this->setSettingNotice( __( 'Importing options were validated.', 'admin-page-framework-demo' ), 'updated' );
 		return $vData;
 		
-	}
-
-	public function validation_APF_Demo_ManageOptions( $aInput, $aOldOptions ) {	// validation_{extended class name}
-		
-		/* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
-		if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) return array();
-		return $aInput;
-		
 	}	
-
+	
 }

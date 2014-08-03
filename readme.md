@@ -134,7 +134,14 @@ class APF_MyFirstFrom extends AdminPageFramework {
 				'page_slug'	=>	'my_first_form'
 			)
 		);
-			
+					
+    }
+	
+	/**
+	 * The pre-defined callback method that is triggered when the page loads.
+	 */
+	public function load_my_first_form( $oAdminPage ) {	// load_{page slug}
+	
 		$this->addSettingSections(	
 			array(
 				'section_id'	=>	'my_first_text_section',	
@@ -156,7 +163,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
 			)
 		);
 		
-    }
+	}
     
 }
 new APF_MyFirstFrom;

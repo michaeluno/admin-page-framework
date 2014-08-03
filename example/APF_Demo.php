@@ -130,6 +130,28 @@ class APF_Demo extends AdminPageFramework {
 				'help_tab_sidebar_content'	=>	__( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
 			)
 		);
+				
+		/*
+		 * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
+		 */
+ 		$this->addLinkToPluginDescription( 
+			"<a href='http://www.google.com'>Google</a>",
+			"<a href='http://www.yahoo.com'>Yahoo!</a>",
+			"<a href='http://en.michaeluno.jp'>miunosoft</a>",
+			"<a href='https://github.com/michaeluno/admin-page-framework' title='Contribute to the GitHub repository!' >Repository</a>"
+		);
+		$this->addLinkToPluginTitle(
+			"<a href='http://www.wordpress.org'>WordPress</a>"
+		);
+		
+		$this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-demo' ) );
+
+    }
+		
+	/**
+	 * The pre-defined callback method that is triggered when the page loads.
+	 */
+	public function load_apf_builtin_field_types( $oAdminPage )	{	// load_{page_slug}
 		
 		/*
 		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -256,9 +278,7 @@ class APF_Demo extends AdminPageFramework {
 				'section_id'	=>	'callbacks',
 				'tab_slug'		=>	'callbacks',
 				'title'			=>	__( 'Using Callbacks', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'These fields are (re)defined with callbacks.', 'admin-page-framework-demo' )
-					. ' ' . __( 'This is useful when you need to pass dynamic data to a field definition array that should only be performed in the page that displays the field.', 'admin-page-framework-demo' )
-					. ' ' . __( 'By default, the <code>setUp()</code> method is triggered in all admin pages. So if you do a heavy task during the method, it affects the page load of other pages. This solves such problems.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'These fields are (re)defined with callbacks.', 'admin-page-framework-demo' ),
 			),	
 			array()
 		);
@@ -1444,24 +1464,10 @@ class APF_Demo extends AdminPageFramework {
 				'label_min_width'	=>	'100%',
 			),				
 			array()
-		);
+		);		
 		
-		/*
-		 * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
-		 */
- 		$this->addLinkToPluginDescription( 
-			"<a href='http://www.google.com'>Google</a>",
-			"<a href='http://www.yahoo.com'>Yahoo!</a>",
-			"<a href='http://en.michaeluno.jp'>miunosoft</a>",
-			"<a href='https://github.com/michaeluno/admin-page-framework' title='Contribute to the GitHub repository!' >Repository</a>"
-		);
-		$this->addLinkToPluginTitle(
-			"<a href='http://www.wordpress.org'>WordPress</a>"
-		);
 		
-		$this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-demo' ) );
-
-    }
+	}
 		
 	/*
 	 * Built-in Field Types Page

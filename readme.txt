@@ -143,24 +143,25 @@ You need to include the library file in your PHP script. The file is located in 
 `<?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
-if ( ! class_exists( 'AdminPageFramework' ) )
+if ( ! class_exists( 'AdminPageFramework' ) ) {
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
     
 class APF extends AdminPageFramework {
 
-    function setUp() {
+    public function setUp() {
 		
     	$this->setRootMenuPage( 'Settings' );	// where to belong
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Page',
-				'page_slug' => 'myfirstpage'
+				'title'		=>	'My First Page',
+				'page_slug'	=>	'myfirstpage'
 			)
 		);
 			
     }
 
-    function do_myfirstpage() {  // do_{page slug}
+    public function do_myfirstpage() {  // do_{page slug}
         ?>
         <h3>Say Something</h3>
         <p>This is my first admin page!</p>
@@ -175,21 +176,29 @@ new APF;`
 `<?php
 /* Plugin Name: Admin Page Framework - My First Form */ 
 
-if ( ! class_exists( 'AdminPageFramework' ) )
+if ( ! class_exists( 'AdminPageFramework' ) ) {
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
     
 class APF_MyFirstFrom extends AdminPageFramework {
 
-    function setUp() {
+    public function setUp() {
 		
     	$this->setRootMenuPage( 'My Settings' );	// create a root page 
 		$this->addSubMenuItem(
 			array(
-				'title' => 'My First Form',
-				'page_slug' => 'my_first_form'
+				'title'		=>	'My First Form',
+				'page_slug'	=>	'my_first_form'
 			)
 		);
-					
+							
+    }
+	
+	/**
+	 * The pre-defined callback method that is triggered when the page loads.
+	 */
+	public function load_my_first_form( $oAdminPage ) {	// load_{page slug}
+	
 		$this->addSettingFields(
 			array(	
 				'field_id'	=>	'text',
@@ -202,9 +211,10 @@ class APF_MyFirstFrom extends AdminPageFramework {
 				'field_id'	=>	'submit',
 				'type'	=>	'submit',
 			)
-		);
-		
-    }
+		);	
+	
+	}
+	
     
 }
 new APF_MyFirstFrom;`

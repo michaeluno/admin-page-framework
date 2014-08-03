@@ -1,25 +1,22 @@
 <?php
-class APF_Demo_CustomFieldTypes extends AdminPageFramework {
+class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin {
 
 	/**
-	 * The start() method is called at the end of the constructor. [3.1.0+]
+	 * Triggered at the end of the constructor.
 	 * 
-	 * Alternatively you may use the 'start_{instantiated class name}()' method instead, which also called at the end of the constructor.
-	 * 
+	 * Alternatively you may use the start_{extended class name} predefined callback method.
 	 */
-	public function start() {	
+	public function start() {
 		
 		/*
 		 * ( Optional ) Register custom field types.
 		 */			
 		/* 1. Include the file that defines the custom field type. */
-		$_aFiles = array(
+		$aFiles = array(
+			dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
@@ -27,57 +24,47 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
 		);
-		foreach( $_aFiles as $_sFilePath ) {
-			if ( file_exists( $_sFilePath ) ) {				
-				include_once( $_sFilePath );
+		foreach( $aFiles as $sFilePath ) {
+			if ( file_exists( $sFilePath ) ) { 
+				include_once( $sFilePath ); 
 			}
 		}
 					
-		/* 2. Instantiate the classes by passing the instantiated admin page class name. */
-		$_sClassName = get_class( $this );
-		new DateCustomFieldType( $_sClassName );
-		new TimeCustomFieldType( $_sClassName );
-		new DateTimeCustomFieldType( $_sClassName );
-		new DateRangeCustomFieldType( $_sClassName );
-		new DateTimeRangeCustomFieldType( $_sClassName );
-		new TimeRangeCustomFieldType( $_sClassName );
-		new DialCustomFieldType( $_sClassName );
-		new FontCustomFieldType( $_sClassName );
-		new SampleCustomFieldType( $_sClassName );
-		new RevealerCustomFieldType( $_sClassName );
-		new GridCustomFieldType( $_sClassName );
-		new AutocompleteCustomFieldType( $_sClassName );
+		/* 2. Instantiate the classes  */
+		$sClassName = get_class( $this );
+		new GeometryCustomFieldType( $sClassName );
+		new DateCustomFieldType( $sClassName );
+		new TimeCustomFieldType( $sClassName );
+		new DateTimeCustomFieldType( $sClassName );
+		new DialCustomFieldType( $sClassName );
+		new FontCustomFieldType( $sClassName );
+		new SampleCustomFieldType( $sClassName );
+		new RevealerCustomFieldType( $sClassName );
+		new GridCustomFieldType( $sClassName );
+		new AutocompleteCustomFieldType( $sClassName );
 
 	}
 
-	/*
-	 *	( Required ) In the setUp() method, you will define how the pages and the form elements should be composed.
-	 */
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
 		/* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
 		$this->setCapability( 'read' );
 		
 		/* ( required ) Set the root page */
-		$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	
-		
+		$this->setRootMenuPageBySlug( 'APF_NetworkAdmin' );	
+
 		/* ( required ) Add sub-menu items (pages or links) */
 		$this->addSubMenuItems(	
 			array(
-				'title'	=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
-				'page_slug'	=>	'apf_custom_field_types',
+				'title'			=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
+				'page_slug'		=>	'apf_custom_field_types',
 				'screen_icon'	=>	'options-general',
 			)
-		);
-		
-		/*
-		 * ( optional ) Add in-page tabs - In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
-		 * Page-heading tabs show the titles of sub-page items which belong to the set root page. 
-		 * In-page tabs show tabs that you define to be embedded within an individual page.
-		 */
-		$this->addInPageTabs(	
+		);				
+				
+		$this->addInPageTabs(	// ( optional )
 			/*
-			 * In-page tabs for custom field types
+			 * Page-heading tabs for custom field types
 			 */
 			'apf_custom_field_types',	// target page slug
 			array(
@@ -108,36 +95,21 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'tab_slug'	=>	'grid',
 				'title'		=>	__( 'Grid', 'admin-page-framework-demo' ),	
 			),
-			array(
-				'tab_slug'	=>	'autocomplete',
-				'title'		=>	__( 'Autocomplete', 'admin-page-framework-demo' ),	
-			),
 			array()			
 		);
-		
+
 		/* ( optional ) Determine the page style */
 		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
 		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
-						
-		/* ( optional ) Determine the page style */
-		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
+			
+				
+	}
 	
-		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
-		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.		
-		
-    }
-		
 	/**
 	 * The pre-defined callback method that is triggered when the page loads.
-	 */ 
-	public function load_apf_custom_field_types( $oAdminPage ) {	// load_{page slug}
-		
-		/*
-		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
-		 * A section groups fields and fields belong to a section. So a section needs to be created prior to fields.
-		 * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
-		 */
+	 */ 	
+	public function load_apf_custom_field_types( $oAdminPage ) {
+	
 		$this->addSettingSections(	
 			array(
 				'section_id'	=>	'geometry',
@@ -150,7 +122,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'section_id'	=>	'date_pickers',
 				'tab_slug'		=>	'date',
 				'title'			=>	__( 'Date Custom Field Type', 'admin-page-framework' ),
-				'description'	=>	__( 'We have date and time pickers.', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'These are date and time pickers.', 'admin-page-framework-demo' ),
 			),
 			array(
 				'section_id'	=>	'dial',
@@ -180,17 +152,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'tab_slug'		=>	'grid',
 				'title'			=>	__( 'Grid Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This field will save the grid positions of the widgets.', 'admin-page-framework-demo' ),				
-			),
-			array(
-				'section_id'	=>	'autocomplete',
-				'tab_slug'		=>	'autocomplete',
-				'title'			=>	__( 'Autocomplete Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This field will show predefined list when the user type something on the input field.', 'admin-page-framework-demo' ),				
 			),				
 			array()
 		);
-
-		/* Add setting fields */		
+				
 		/*
 		 * Custom Field Types - in order to use these types, those custom field types must be registered. 
 		 * The way to register a field type is demonstrated in the start_{extended class name} callback function.
@@ -209,54 +174,41 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			)
 		);
 		$this->addSettingFields(
-			// To use advanced options, pass the options in the 'options' argument.
-			// The argument keys are the same as the ones documented here : http://trentrichardson.com/examples/timepicker/#rest_examples		
-			'date_pickers',	// the target section ID.
 			array(	// Single date picker
 				'field_id'	=>	'date',
+				'section_id'	=>	'date_pickers',
 				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
 				'type'	=>	'date',
 			),		
-			// array(	// Multiple date pickers
-				// 'field_id'		=>	'dates',
-				// 'title'			=>	__( 'Dates', 'admin-page-framework-demo' ),
-				// 'type'			=>	'date',
-				// 'label'			=>	__( 'Start Date: ', 'admin-page-framework-demo' ),
-				// 'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				// 'delimiter'		=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
-				// array( 
-					// 'label'	=>	__( 'End Date: ', 'admin-page-framework-demo' ), 
-				// ),
-				// 'description'	=>	__( 'See the date format is slightly different from the first example.', 'admin-page-framework-demo' ), 
-			// ),	
-			array(	// Repeatable date picker fields
-				'field_id'		=>	'date_repeatable',
-				'type'			=>	'date',
-				'title'			=>	__( 'Repeatable', 'admin-page-framework-demo' ),
-				'repeatable'	=>	true,
+			array(	// Multiple date pickers
+				'field_id'	=>	'dates',
+				'title'	=>	__( 'Dates', 'admin-page-framework-demo' ),
+				'type'	=>	'date',
+				'label'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ),
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'options'		=>	array(
-					'numberOfMonths'	=>	2,
+				'delimiter'	=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
+				array( 
+					'label'	=>	__( 'End Date: ', 'amin-page-framework-demo' ), 
 				),
-				'description'	=>	__( 'Notice that the multiple panels are shown.', 'admin-page-framework-demo' ), 
+			),	
+			array(	// Repeatable date picker fields
+				'field_id'	=>	'date_repeatable',
+				'type'	=>	'date',
+				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
+				'repeatable'	=> true,
 			),			
 			array(	// Sortable date picker fields
-				'field_id'		=>	'date_sortable',
-				'type'			=>	'date',
-				'title'			=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'sortable'		=> true,
-				'options'		=>	'{
-					minDate: new Date(2010, 11, 20, 8, 30),
-					maxDate: new Date(2010, 11, 31, 17, 30)
-				}',				
-				'description'	=>	__( 'The option can be passed as a string.', 'admin-page-framework-demo' ),
+				'field_id'	=>	'date_sortable',
+				'type'	=>	'date',
+				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
+				'sortable'	=> true,
 				array(),	// the second item
 				array(),	// the third item
 			),				
 			array(	// Single time picker
-				'field_id'		=>	'time',
-				'type'			=>	'time',
-				'title'			=>	__( 'Time', 'admin-page-framework-demo' ),
+				'field_id'	=>	'time',
+				'type'	=>	'time',
+				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),
 			array(	// Repeatable time picker fields
@@ -264,156 +216,54 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'type'	=>	'time',
 				'title'	=>	__( 'Repeatable Time Fields', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
-				'options'	=>	array(								
-					'hourGrid'		=>	4,
-					'minuteGrid'	=>	10,
-					'timeFormat'	=>	'hh:mm tt',
-				),
-				'description'	=>	__( 'The grid option is set.', 'admin-page-framework-demo' ), 
 			),
 			array(	// Sortable tune picker fields
 				'field_id'	=>	'time_sortable',
 				'type'	=>	'time',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
-				'options'	=>	array(
-					'hourMin'	=>	8,
-					'hourMax'	=>	16,
-				),
-				'description'	=>	__( 'The maximum and minimum hours are set.', 'admin-page-framework-demo' ), 
 				array(),	// the second item
 				array(),	// the third item
 			),				
-			array(	// Single date-time picker
+			array(	// Single date time picker
 				'field_id'	=>	'date_time',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
 				'time_format'	=>	'H:mm',	// H:mm is the default format.
 			),		
-			array(	// Multiple date-time pickers
+			array(	// Multiple date time pickers
 				'field_id'	=>	'dates_time_multiple',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Multiple Date and Time', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'With different time formats', 'admin-page-framework-demo' ),
-				'label'	=>	__( 'Default', 'admin-page-framework-demo' ), 
+				'label'	=>	__( 'Default', 'amin-page-framework-demo' ), 
 				'time_format'	=>	'H:mm',
 				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'<br />',			
-				'attributes'	=>	array(
-					'size'	=>	24,
-				),									
+				'delimiter'	=>	'<br />',				
 				array(
-					'label'	=>	__( 'AM PM', 'admin-page-framework-demo' ), 
+					'label'	=>	__( 'AM PM', 'amin-page-framework-demo' ), 
 					'time_format'	=>	'hh:mm tt',
 				),
 				array(
-					'label'	=>	__( 'Time Zone', 'admin-page-framework-demo' ), 
+					'label'	=>	__( 'Time Zone', 'amin-page-framework-demo' ), 
 					'time_format'	=>	'hh:mm tt z',
-				),
-				array(
-					'label'	=>	__( 'Number Of Months', 'admin-page-framework-demo' ), 
-					'options'	=>	array(
-						'numberOfMonths' =>	3,
-					),
-				),		
-				array(
-					'label'	=>	__( 'Min & Max Dates', 'admin-page-framework-demo' ), 
-					'options'	=>	array(
-						'numberOfMonths' =>	2,
-						'minDate'	=>	0,
-						'maxDate'	=>	30,
-					),
-				),		
+				),	
 			),
 			array(	// Single date time picker
 				'field_id'	=>	'date_time_repeatable',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Repeatable Date & Time Fields', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
-				'options'	=>	array(
-					'timeFormat'	=>	'HH:mm:ss',
-					'stepHour'		=>	2,
-					'stepMinute'	=>	10,
-					'stepSecond'	=>	10,
-				),
 			),	
 			array(	// Sortable date_time picker fields
 				'field_id'	=>	'date_time_sortable',
 				'type'	=>	'date_time',
 				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
 				'sortable'	=> true,
-				'attributes'	=>	array(
-					'size'	=>	30,
-				),
-				'options'	=>	array(		
-					'timeFormat'	=>	'HH:mm z',
-					'timezoneList'	=>	array(
-						array(
-							'value'	=>	-300,
-							'label'	=>	__( 'Eastern', 'admin-page-framework-demo' ),
-						),
-						array(
-							'value'	=>	-360,
-							'label'	=>	__( 'Central', 'admin-page-framework-demo' ),
-						),		
-						array(
-							'value'	=>	-420,
-							'label'	=>	__( 'Mountain', 'admin-page-framework-demo' ),
-						),				
-						array(
-							'value'	=>	-480,
-							'label'	=>	__( 'Pacific', 'admin-page-framework-demo' ),
-						),							
-					),
-				),
 				array(),	// the second item
 				array(),	// the third item
 			),
-			array(	// Single date_range picker
-				'field_id'		=>	'date_range',
-				'title'			=>	__( 'Date Range', 'admin-page-framework-demo' ),
-				'type'			=>	'date_range',
-			),			
-			array(	// Single date_range picker
-				'field_id'		=>	'date_range_repeatable',
-				'title'			=>	__( 'Repeatable Date Range', 'admin-page-framework-demo' ),
-				'type'			=>	'date_range',
-				'repeatable'	=>	true,
-				'sortable'		=>	true,
-				'options'		=>	array(
-					'numberOfMonths' =>	2,
-				),
-			),	
-			array(	// Single date_time_range picker
-				'field_id'		=>	'date_time_range',
-				'title'			=>	__( 'Date Time Range', 'admin-page-framework-demo' ),
-				'type'			=>	'date_time_range',
-			),				
-			array(	// Single date_time_range picker
-				'field_id'		=>	'date_time_range_repeatable',
-				'title'			=>	__( 'Repeatable Date Time Range', 'admin-page-framework-demo' ),
-				'type'			=>	'date_time_range',
-				'time_format'	=>	'HH:mm:ss',
-				'repeatable'	=>	true,
-				'sortable'		=>	true,
-				'options'		=>	array(
-					'numberOfMonths' =>	2,
-				),
-			),	
-			array(	// Single date_time_range picker
-				'field_id'		=>	'time_range',
-				'title'			=>	__( 'Time Range', 'admin-page-framework-demo' ),
-				'type'			=>	'time_range',
-			),	
-			array(	// Single date_time_range picker
-				'field_id'		=>	'time_range_repeatable',
-				'title'			=>	__( 'Repeatable Time Range', 'admin-page-framework-demo' ),
-				'type'			=>	'time_range',
-				'time_format'	=>	'HH:mm:ss',
-				'repeatable'	=>	true,
-				'sortable'		=>	true,				
-			),					
 			array()
 		);
 		$this->addSettingFields(			
@@ -573,9 +423,9 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			)	
 		);
 		$this->addSettingFields(
-			'revealer',	// the target section id
 			array(
 				'field_id'	=>	'revealer_field_by_id',
+				'section_id'	=>	'revealer',
 				'type'	=>	'revealer',			
 				'title'	=>	__( 'Reveal Hidden Fields' ),
 				'value'	=>	'undefined',	// always set the 'Select a Field' label.
@@ -588,27 +438,30 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			),
 			array(
 				'field_id'	=>	'revealer_field_option_a',
+				'section_id'	=>	'revealer',
 				'type'	=>	'textarea',		
 				'default'	=>	__( 'Hi there!', 'admin-page-framework-demo' ),
 				'hidden'	=> true,
 			),
 			array(
 				'field_id'	=>	'revealer_field_option_b',				
+				'section_id'	=>	'revealer',
 				'type'	=>	'password',		
 				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
 				'hidden'	=> true,
 			),
 			array(
 				'field_id'	=>	'revealer_field_option_c',
+				'section_id'	=>	'revealer',
 				'type'	=>	'text',		
 				'description'	=>	__( 'Type text.', 'admin-page-framework-demo' ),			
 				'hidden'	=> true,
 			)
 		);
 		$this->addSettingFields(
-			'grid',	// the target section id
 			array(
 				'field_id'	=>	'grid_field',				
+				'section_id'	=>	'grid',
 				'type'	=>	'grid',		
 				'description'	=>	__( 'Move the widgets.', 'admin-page-framework-demo' ),	
 				'show_title_column'	=> false,	// this removes the title column of the field output
@@ -686,67 +539,6 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			),				
 			array()
 		);
-		$this->addSettingFields(
-			// The 'Autocomplete' custom field type - the settings are the same as the tokeninput jQuery plugin.
-			// see: http://loopj.com/jquery-tokeninput/
-			// For the first parameter, use the 'settings' key and the second parameter, use the 'settings2'.
-			'autocomplete',	// the target section id
-			array(
-				'type'	=>	'autocomplete',		
-				'field_id'	=>	'autocomplete_field',
-				'title'		=>	__( 'Default', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'By default, all the post titles will be fetched in the background and will pop up.', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'type'	=>	'autocomplete',		
-				'field_id'	=>	'autocomplete_local_data',
-				'title'		=>	__( 'Local Data', 'admin-page-framework-demo' ),
-				'settings'	=>	array(
-					array( 'id' => 7, 'name' => 'Ruby' ),
-					array( 'id' => 11, 'name' => 'Python' ),
-					array( 'id' => 13, 'name' => 'JavaScript' ),
-					array( 'id' => 17, 'name' => 'ActionScript' ),
-					array( 'id' => 19, 'name' => 'Scheme' ),
-					array( 'id' => 23, 'name' => 'Lisp' ),
-					array( 'id' => 29, 'name' => 'C#' ),
-					array( 'id' => 31, 'name' => 'Fortran' ),
-					array( 'id' => 37, 'name' => 'Visual Basic' ),
-					array( 'id' => 41, 'name' => 'C' ),
-					array( 'id' => 43, 'name' => 'C++' ),
-					array( 'id' => 47, 'name' => 'Java' ),
-				),
-				'settings2'	=> array(
-					'theme'	=>	'mac',
-					'hintText'	=>	__( 'Type a programming language.', 'admin-page-framework-demo' ),
-					'prePopulate' => array(
-						array( 'id' => 3, 'name' => 'PHP' ),
-						array( 'id' => 5, 'name' => 'APS' ),
-					)					
-				),
-				'description'	=>	__( 'Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, C#, Fortran, Vidual Basic, C, C++, Java.', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'type'	=>	'autocomplete',		
-				'field_id'	=>	'autocomplete_custom_post_type',
-				'title'		=>	__( 'Custom Post Type', 'admin-page-framework-demo' ),
-				'settings'	=> add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( AdminPageFramework_WPUtility::getPageNow() ) ),
-				'settings2'	=>	array(	// equivalent to the second parameter of the tokenInput() method
-					'tokenLimit'		=>	5,
-					'preventDuplicates'	=>	true,
-					'theme'				=>	'facebook',	
-					'searchDelay'		=>	50,	// 50 milliseconds. Default: 300
-				),
-				'description'	=>	__( 'To set a custom post type, you need to compose the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ),	//' syntax fixer
-			),
-			array(
-				'type'	=>	'autocomplete',		
-				'field_id'	=>	'autocomplete_repeatable_field',
-				'title'		=>	__( 'Repeatable', 'admin-page-framework-demo' ),
-				'repeatable'	=> true,
-			),
-			array()
-		);		
-		
 		
 	}
 	
@@ -756,26 +548,6 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 	public function do_apf_custom_field_types() {	// do_{page slug}
 		submit_button();
 	}
-	
-	/*
-	 * Custom field types - This is another way to register a custom field type. 
-	 * This method gets fired when the framework tries to define field types. 
-	 */
- 	public function field_types_APF_Demo_CustomFieldTypes( $aFieldTypeDefinitions ) {	// field_types_{extended class name}
-				
-		/* 1. Include the file that defines the custom field type. 
-		 This class should extend the predefined abstract class that the library prepares already with necessary methods. */
-		$sFilePath = dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
-		if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
-		
-		/* 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
-		 Then assign it to the filtering array with the key of the field type slug. */
-		$oFieldType = new GeometryCustomFieldType( 'APF_Demo' );
-		$aFieldTypeDefinitions['geometry'] = $oFieldType->getDefinitionArray();
-		
-		/* 3. Return the modified array. */
-		return $aFieldTypeDefinitions;
-		
-	} 
+
 	
 }

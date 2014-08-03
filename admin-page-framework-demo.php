@@ -118,6 +118,12 @@ if ( is_admin() ) :
 		include_once( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin.php' );	// Include the demo class that creates various forms.
 		new APF_NetworkAdmin; 	
 		
+		include_once( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin_CustomFieldTypes.php' );
+		new APF_NetworkAdmin_CustomFieldTypes( 'APF_NetworkAdmin' );		
+		
+		include_once( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin_ManageOptions.php' );
+		new APF_NetworkAdmin_ManageOptions( 'APF_NetworkAdmin' );
+		
 		new APF_MetaBox_For_Pages_Side(	
 			'apf_metabox_for_pages_side',	// meta box id
 			__( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ),	// title

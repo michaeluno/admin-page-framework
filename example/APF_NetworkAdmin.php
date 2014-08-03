@@ -1,42 +1,6 @@
 <?php
 class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
-	
-	public function start_APF_NetworkAdmin() {	// start_{extended class name} - this method gets automatically triggered at the end of the class constructor.
 		
-		/*
-		 * ( Optional ) Register custom field types.
-		 */			
-		/* 1. Include the file that defines the custom field type. */
-		$aFiles = array(
-			dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
-		);
-		foreach( $aFiles as $sFilePath )
-			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
-					
-		/* 2. Instantiate the classes  */
-		$sClassName = get_class( $this );
-		new GeometryCustomFieldType( $sClassName );
-		new DateCustomFieldType( $sClassName );
-		new TimeCustomFieldType( $sClassName );
-		new DateTimeCustomFieldType( $sClassName );
-		new DialCustomFieldType( $sClassName );
-		new FontCustomFieldType( $sClassName );
-		new SampleCustomFieldType( $sClassName );
-		new RevealerCustomFieldType( $sClassName );
-		new GridCustomFieldType( $sClassName );
-		new AutocompleteCustomFieldType( $sClassName );
-
-	}
-	
 	/*
 	 *	( Required ) In the setUp() method, you will define how the pages and the form elements should be composed.
 	 */
@@ -60,18 +24,6 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 					'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',		 
 				*/							
 				'order'	=>	1,	// ( optional ) - if you don't set this, an index will be assigned internally in the added order
-			),
-			array(
-				'title'	=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
-				'page_slug'	=>	'apf_custom_field_types',
-				'screen_icon'	=>	'options-general',
-				'order'	=>	2,	// ( optional )
-			),			
-			array(
-				'title'	=>	__( 'Manage Options', 'admin-page-framework-demo' ),
-				'page_slug'	=>	'apf_manage_options',
-				'screen_icon'	=>	'link-manager',	
-				'order'	=>	3,	// ( optional )
 			)
 		);
 		
@@ -120,89 +72,12 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 			),
 			array()
 		);
-		$this->addInPageTabs(	// ( optional )
-			/*
-			 * Page-heading tabs for custom field types
-			 */
-			'apf_custom_field_types',	// target page slug
-			array(
-				'tab_slug'	=>	'geometry',
-				'title'		=>	__( 'Geometry', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'date',
-				'title'		=>	__( 'Date & Time', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'dial',
-				'title'		=>	__( 'Dials', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'font',
-				'title'		=>	__( 'Fonts', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'sample',
-				'title'		=>	__( 'Sample', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'revealer',
-				'title'		=>	__( 'Revealer', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'grid',
-				'title'		=>	__( 'Grid', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'tab_slug'	=>	'autocomplete',
-				'title'		=>	__( 'Autocomplete', 'admin-page-framework-demo' ),	
-			),
-			array()			
-		);
-		$this->addInPageTabs(	// ( optional )
-			/*
-			 * Manage Options
-			 * */
-			'apf_manage_options',	// target page slug
-			array(
-				'tab_slug'	=>	'saved_data',
-				'title'		=>	'Saved Data',
-			),
-			array(
-				'tab_slug'	=>	'properties',
-				'title'		=>	__( 'Properties', 'admin-page-framework-demo' ),
-			),
-			array(
-				'tab_slug'	=>	'messages',
-				'title'		=>	__( 'Messages', 'admin-page-framework-demo' ),
-			),			
-			array(
-				'tab_slug'	=>	'export_import',
-				'title'		=>	__( 'Export / Import', 'admin-page-framework-demo' ),			
-			),
-			array(
-				'tab_slug'	=>	'delete_options',
-				'title'		=>	__( 'Reset', 'admin-page-framework-demo' ),
-				'order'		=>	99,	
-			),						
-			array(	// TIPS: you can hide an in-page tab by setting the 'show_in_page_tab' key
-				'tab_slug'	=>	'delete_options_confirm',
-				'title'		=>	__( 'Reset Confirmation', 'admin-page-framework-demo' ),
-				'show_in_page_tab'	=>	false,
-				'parent_tab_slug'	=>	'delete_options',
-				'order'		=>	97,
-			)
-		);
+
 		
 		/* ( optional ) Determine the page style */
 		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
 		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
 		
-		/* 
-		 * ( optional ) Enqueue styles  
-		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-		 * */
-		$sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
 			
 		/*
 		 * ( optional ) Contextual help pane
@@ -217,6 +92,26 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 				'help_tab_sidebar_content'	=>	__( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
 			)
 		);
+		
+		/*
+		 * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
+		 */
+ 		$this->addLinkToPluginDescription( 
+			"<a href='http://www.google.com'>Google</a>",
+			"<a href='http://www.yahoo.com'>Yahoo!</a>",
+			"<a href='http://en.michaeluno.jp'>miunosoft</a>",
+			"<a href='https://github.com/michaeluno/admin-page-framework' title='Contribute to the GitHub repository!' >Repository</a>"
+		);
+		$this->addLinkToPluginTitle(
+			"<a href='http://www.wordpress.org'>WordPress</a>"
+		);
+
+    }
+	
+	/**
+	 * The pre-defined callback method that is triggered when the page loads.
+	 */ 	
+	public function load_apf_builtin_field_types( $oAdminPage ) {	// load_{page slug}
 		
 		/*
 		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -335,87 +230,8 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 				
 			),
 			array()
-		);
-		$this->addSettingSections(	
-			array(
-				'section_id'	=>	'geometry',
-				'page_slug'		=>	'apf_custom_field_types',	// renew the target page slug
-				'tab_slug'		=>	'geometry',	
-				'title'			=>	__( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
-			),	
-			array(
-				'section_id'	=>	'date_pickers',
-				'tab_slug'		=>	'date',
-				'title'			=>	__( 'Date Custom Field Type', 'admin-page-framework' ),
-				'description'	=>	__( 'These are date and time pickers.', 'admin-page-framework-demo' ),
-			),
-			array(
-				'section_id'	=>	'dial',
-				'tab_slug'		=>	'dial',
-				'title'			=>	__( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
-			),
-			array(
-				'section_id'	=>	'font',
-				'tab_slug'		=>	'font',
-				'title'			=>	__( 'Font Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This is still experimental.', 'admin-page-framework-demo' ),				
-			),
-			array(
-				'section_id'	=>	'sample',
-				'tab_slug'		=>	'sample',
-				'title'			=>	__( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),				
-			),			
-			array(
-				'section_id'	=>	'revealer',
-				'tab_slug'		=>	'revealer',
-				'title'			=>	__( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),				
-			),	
-			array(
-				'section_id'	=>	'grid',
-				'tab_slug'		=>	'grid',
-				'title'			=>	__( 'Grid Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This field will save the grid positions of the widgets.', 'admin-page-framework-demo' ),				
-			),
-			array(
-				'section_id'	=>	'autocomplete',
-				'tab_slug'		=>	'autocomplete',
-				'title'			=>	__( 'Autocomplete Custom Field Type', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This field will show predefined list when the user type something on the input field.', 'admin-page-framework-demo' ),				
-			),				
-			array()
-		);
-		$this->addSettingSections(	
-			array(
-				'section_id'	=>	'submit_buttons_manage',
-				'page_slug'		=>	'apf_manage_options',
-				'tab_slug'		=>	'delete_options',
-				'title'			=>	'Reset Button',
-				'order'			=>	10,
-			),			
-			array(
-				'section_id'	=>	'submit_buttons_confirm',
-				'tab_slug'		=>	'delete_options_confirm',
-				'title'			=>	'Confirmation',
-				'description'	=>	"<div class='settings-error error'><p><strong>Are you sure you want to delete all the options?</strong></p></div>",
-				'order'			=>	10,
-			),				
-			array(
-				'section_id'	=>	'exports',
-				'tab_slug'		=>	'export_import',
-				'title'			=>	'Export Data',
-				'description'	=>	'After exporting the options, change and save new options and then import the file to see if the options get restored.',
-			),				
-			array(
-				'section_id'	=>	'imports',
-				'tab_slug'		=>	'export_import',
-				'title'			=>	'Import Data',
-			),			
-			array()			
-		);
-		
+		);		
+	
 		/* Add setting fields */
 		/*
 		 * Text input - text, password, number, textarea, rich text editor
@@ -1504,544 +1320,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 			array()
 		);		
 	
-		
-		/*
-		 * Custom Field Types - in order to use these types, those custom field types must be registered. 
-		 * The way to register a field type is demonstrated in the start_{extended class name} callback function.
-		 */
-		$this->addSettingFields(			
-			array(
-				'field_id'	=>	'geometrical_coordinates',
-				'section_id'	=>	'geometry',
-				'title'	=>	__( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
-				'type'	=>	'geometry',
-				'description'	=>	__( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
-				'default'	=>	array(
-					'latitude'	=>	20,
-					'longitude'	=>	20,
-				),
-			)
-		);
-		$this->addSettingFields(
-			array(	// Single date picker
-				'field_id'	=>	'date',
-				'section_id'	=>	'date_pickers',
-				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
-				'type'	=>	'date',
-			),		
-			array(	// Multiple date pickers
-				'field_id'	=>	'dates',
-				'title'	=>	__( 'Dates', 'admin-page-framework-demo' ),
-				'type'	=>	'date',
-				'label'	=>	__( 'Start Date: ', 'amin-page-framework-demo' ),
-				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
-				array( 
-					'label'	=>	__( 'End Date: ', 'amin-page-framework-demo' ), 
-				),
-			),	
-			array(	// Repeatable date picker fields
-				'field_id'	=>	'date_repeatable',
-				'type'	=>	'date',
-				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
-				'repeatable'	=> true,
-			),			
-			array(	// Sortable date picker fields
-				'field_id'	=>	'date_sortable',
-				'type'	=>	'date',
-				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'sortable'	=> true,
-				array(),	// the second item
-				array(),	// the third item
-			),				
-			array(	// Single time picker
-				'field_id'	=>	'time',
-				'type'	=>	'time',
-				'title'	=>	__( 'Time', 'admin-page-framework-demo' ),
-				'time_format'	=>	'H:mm',	// H:mm is the default format.
-			),
-			array(	// Repeatable time picker fields
-				'field_id'	=>	'time_repeatable',
-				'type'	=>	'time',
-				'title'	=>	__( 'Repeatable Time Fields', 'admin-page-framework-demo' ),
-				'repeatable'	=> true,
-			),
-			array(	// Sortable tune picker fields
-				'field_id'	=>	'time_sortable',
-				'type'	=>	'time',
-				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'sortable'	=> true,
-				array(),	// the second item
-				array(),	// the third item
-			),				
-			array(	// Single date time picker
-				'field_id'	=>	'date_time',
-				'type'	=>	'date_time',
-				'title'	=>	__( 'Date & Time', 'admin-page-framework-demo' ),
-				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'time_format'	=>	'H:mm',	// H:mm is the default format.
-			),		
-			array(	// Multiple date time pickers
-				'field_id'	=>	'dates_time_multiple',
-				'type'	=>	'date_time',
-				'title'	=>	__( 'Multiple Date and Time', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'With different time formats', 'admin-page-framework-demo' ),
-				'label'	=>	__( 'Default', 'amin-page-framework-demo' ), 
-				'time_format'	=>	'H:mm',
-				'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				'delimiter'	=>	'<br />',				
-				array(
-					'label'	=>	__( 'AM PM', 'amin-page-framework-demo' ), 
-					'time_format'	=>	'hh:mm tt',
-				),
-				array(
-					'label'	=>	__( 'Time Zone', 'amin-page-framework-demo' ), 
-					'time_format'	=>	'hh:mm tt z',
-				),	
-			),
-			array(	// Single date time picker
-				'field_id'	=>	'date_time_repeatable',
-				'type'	=>	'date_time',
-				'title'	=>	__( 'Repeatable Date & Time Fields', 'admin-page-framework-demo' ),
-				'repeatable'	=> true,
-			),	
-			array(	// Sortable date_time picker fields
-				'field_id'	=>	'date_time_sortable',
-				'type'	=>	'date_time',
-				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'sortable'	=> true,
-				array(),	// the second item
-				array(),	// the third item
-			),
-			array()
-		);
-		$this->addSettingFields(			
-			array(
-				'field_id'	=>	'dials',
-				'section_id'	=>	'dial',
-				'title'	=>	__( 'Multiple Dials', 'admin-page-framework-demo' ),
-				'type'	=>	'dial',
-				'label'	=>	__( 'Default', 'admin-page-framework-demo' ),
-				'attributes'	=>	array(	
-					'field'	=>	array(
-						'style'	=>	'display: inline; clear: none',	// this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
-					),
-				),
-				array(					
-					'label'	=>	__( 'Disable display input', 'admin-page-framework-demo' ),
-					'attributes'	=>	array(
-						// For details, see https://github.com/aterrien/jQuery-Knob
-						'data-width'	=>	100,
-						'data-displayInput'	=> 'false',
-					),
-				),				
-				array(					
-					'label'	=>	__( 'Cursor mode', 'admin-page-framework-demo' ),
-					'attributes'	=>	array(
-						'data-width'	=>	150,
-						'data-cursor'	=>	'true',
-						'data-thickness'	=>	'.3', 
-						'data-fgColor'	=>	'#222222',					
-					),
-				),
-				array(
-					'label'	=>	__( 'Display previous value (effect)', 'admin-page-framework-demo' ),
-					'attributes'	=>	array(
-						'data-width'	=>	200,
-						'data-min'	=>	-100, 
-						'data-displayPrevious'	=>	'true', // a boolean value also needs to be passed as string
-					),					
-				),
-				array(
-					'label'	=>	__( 'Angle offset', 'admin-page-framework-demo' ),				
-					'attributes'	=>	array(
-						'data-angleOffset'	=>	90,
-						'data-linecap'	=>	'round',
-					),										
-				),
-				array(
-					'label'	=>	__( 'Angle offset and arc', 'admin-page-framework-demo' ),
-					'attributes'	=>	array(
-						'data-fgColor'	=>	'#66CC66',
-						'data-angleOffset'	=>	-125,
-						'data-angleArc'	=>	250,
-					),										
-				),
-				array(
-					'label'	=>	__( '5-digit values, step 1000', 'admin-page-framework-demo' ),
-					'attributes'	=>	array(
-						'data-step'	=>	1000,
-						'data-min'	=>	-15000,
-						'data-max'	=>	15000,
-						'data-displayPrevious'	=>	true,
-					),										
-				),
-
-			),
-			array(
-				'field_id'	=>	'dial_big',
-				'title'	=>	__( 'Big', 'admin-page-framework-demo' ),
-				'type'	=>	'dial',
-				'attributes'	=>	array(
-					'data-width'	=>	400,
-					'data-height'	=>	400,
-				),
-			),
-			array(
-				'field_id'	=>	'dial_repeatable',
-				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
-				'type'	=>	'dial',
-				'repeatable'	=>	true,
-			),
-			array(
-				'field_id'	=>	'dial_sortable',
-				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'type'	=>	'dial',
-				'sortable'	=>	true,
-				'attributes'	=>	array(	
-					'field'	=>	array(
-						'style'	=>	'display: inline; clear: none',	// this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
-					),
-					'data-width'	=>	100,
-					'data-height'	=> 	100,
-				),				
-				array(),	// the second item
-				array(),	// the third item
-				array(),	// the fourth item
-			)			
-		);
-		$this->addSettingFields(			
-			array(
-				'field_id'	=>	'font_field',
-				'section_id'	=>	'font',
-				'title'	=>	__( 'Font Upload', 'admin-page-framework-demo' ),
-				'type'	=>	'font',
-				'description'	=>	__( 'Set the URL of the font.', 'admin-page-framework-demo' ),
-			),
-			array(
-				'field_id'	=>	'font_field_repeatable',
-				'title'	=>	__( 'Repeatable', 'admin-page-framework-demo' ),
-				'type'	=>	'font',
-				'repeatable'	=>	 true,
-			),			
-			array(
-				'field_id'	=>	'font_field_sortable',
-				'title'	=>	__( 'Sortable', 'admin-page-framework-demo' ),
-				'type'	=>	'font',
-				'sortable'	=>	 true,
-				array(),	// second
-				array(),	// third
-			),			
-			array()
-		);
-		$this->addSettingFields(
-			array(
-				'field_id'	=>	'sample_field',
-				'section_id'	=>	'sample',
-				'type'	=>	'sample',
-				'title'	=>	__( 'Sample', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'This sample custom field demonstrates how to display a certain element after selecting a radio button.', 'admin-page-framework-demo' ),
-				// 'default'	=> 'red',
-				'label'	=>	array(
-					'red'	=> __( 'Red', 'admin-page-framework-demo' ),
-					'blue'	=> __( 'Blue', 'admin-page-framework-demo' ),
-					'green'	=> __( 'Green', 'admin-page-framework-demo' ),
-				),
-				'reveal'	=> array(	// the field type specific key. This is defined in the
-					'red' => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
-					'blue' => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
-					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
-				),
-			),
-			array(
-				'field_id'	=>	'sample_field_repeatable',
-				'type'	=>	'sample',
-				'title'	=>	__( 'Sample', 'admin-page-framework-demo' ),
-				// 'default'	=> 'red',
-				'label'	=>	array(
-					'red'	=> __( 'Red', 'admin-page-framework-demo' ),
-					'blue'	=> __( 'Blue', 'admin-page-framework-demo' ),
-					'green'	=> __( 'Green', 'admin-page-framework-demo' ),
-				),
-				'reveal'	=> array(	// the field type specific key. This is defined in the
-					'red' => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
-					'blue' => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
-					'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
-				),
-				'repeatable'	=> true,
-			)	
-		);
-		$this->addSettingFields(
-			array(
-				'field_id'	=>	'revealer_field_by_id',
-				'section_id'	=>	'revealer',
-				'type'	=>	'revealer',			
-				'title'	=>	__( 'Reveal Hidden Fields' ),
-				'value'	=>	'undefined',	// always set the 'Select a Field' label.
-				'label'	=>	array(	// the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
-					'undefined'	=> __( '-- Select a Field --', 'admin-page-framework-demo' ),		
-					'#fieldrow-revealer_revealer_field_option_a'	=> __( 'Option A', 'admin-page-framework-demo' ),		
-					'#fieldrow-revealer_revealer_field_option_b, #fieldrow-revealer_revealer_field_option_c'	=> __( 'Option B and C', 'admin-page-framework-demo' ),
-				),
-				'description'	=>	__( 'Specify the selectors to reveal in the label keys in the field definition array.', 'admin-page-framework-demo' ),
-			),
-			array(
-				'field_id'	=>	'revealer_field_option_a',
-				'section_id'	=>	'revealer',
-				'type'	=>	'textarea',		
-				'default'	=>	__( 'Hi there!', 'admin-page-framework-demo' ),
-				'hidden'	=> true,
-			),
-			array(
-				'field_id'	=>	'revealer_field_option_b',				
-				'section_id'	=>	'revealer',
-				'type'	=>	'password',		
-				'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
-				'hidden'	=> true,
-			),
-			array(
-				'field_id'	=>	'revealer_field_option_c',
-				'section_id'	=>	'revealer',
-				'type'	=>	'text',		
-				'description'	=>	__( 'Type text.', 'admin-page-framework-demo' ),			
-				'hidden'	=> true,
-			)
-		);
-		$this->addSettingFields(
-			array(
-				'field_id'	=>	'grid_field',				
-				'section_id'	=>	'grid',
-				'type'	=>	'grid',		
-				'description'	=>	__( 'Move the widgets.', 'admin-page-framework-demo' ),	
-				'show_title_column'	=> false,	// this removes the title column of the field output
-				'grid_options' => array(
-					'resize' => array(
-						'enabled'	=>	false,
-					),
-				),
-				'default'	=>	array(	// '[{"id":"","col":1,"row":1,"size_y":1,"size_x":1},{"id":"","col":1,"row":2,"size_y":1,"size_x":1}]',
-					array( 
-						'col'	=>	1,
-						'row'	=>	1,
-						'size_y'	=>	1,
-						'size_x'	=>	1,
-					),
-					array(
-						'col'	=>	2,
-						'row'	=>	2,
-						'size_y'	=>	1,
-						'size_x'	=>	1,					
-					),
-				),
-			),
-			array(
-				'field_id'	=>	'grid_field2',				
-				'description'	=>	__( 'Widgets can be expanded.', 'admin-page-framework-demo' ),	
-				'type'	=>	'grid',		
-				'grid_options' => array(
-					'resize' => array(
-						'enabled'	=>	true,
-					),
-				),
-				'show_title_column'	=> false,	
-				'default'	=>	array(	
-					array( 
-						'col'	=>	1,
-						'row'	=>	1,
-						'size_y'	=>	2,
-						'size_x'	=>	1,
-					),
-					array(
-						'col'	=>	2,
-						'row'	=>	1,
-						'size_y'	=>	1,
-						'size_x'	=>	2,					
-					),
-					array(
-						'col'	=>	4,
-						'row'	=>	1,
-						'size_y'	=>	1,
-						'size_x'	=>	2,					
-					),					
-				),
-			),	
-			array(
-				'field_id'	=>	'grid_field3',
-				'type'	=>	'grid',		
-				'description'	=>	__( 'The base size can be different.', 'admin-page-framework-demo' ),	
-				'grid_options' => array(
-					'resize' => array(
-						'enabled'	=>	true,
-					),
-					'widget_margins' => array( 10, 10 ),
-					'widget_base_dimensions' => array( 100, 100 ),					
-				),
-				'show_title_column'	=> false,	
-				'default'	=>	array(	
-					array( 
-						'col'	=>	1,
-						'row'	=>	1,
-						'size_y'	=>	1,
-						'size_x'	=>	1,
-					),			
-				),
-			),				
-			array()
-		);
-		$this->addSettingFields(
-			// The settings are the same as the tokeninput jQuery plugin.
-			// see: http://loopj.com/jquery-tokeninput/
-			// For the first parameter, use the 'settings' key and the second parameter, use the 'settings2'.
-			array(
-				'section_id'	=>	'autocomplete',
-				'type'	=>	'autocomplete',		
-				'field_id'	=>	'autocomplete_local_data',
-				'title'		=>	__( 'Local Data', 'admin-page-framework-demo' ),
-				'settings'	=>	array(
-					array( 'id' => 7, 'name' => 'Ruby' ),
-					array( 'id' => 11, 'name' => 'Python' ),
-					array( 'id' => 13, 'name' => 'JavaScript' ),
-					array( 'id' => 17, 'name' => 'ActionScript' ),
-					array( 'id' => 19, 'name' => 'Scheme' ),
-					array( 'id' => 23, 'name' => 'Lisp' ),
-					array( 'id' => 29, 'name' => 'C#' ),
-					array( 'id' => 31, 'name' => 'Fortran' ),
-					array( 'id' => 37, 'name' => 'Visual Basic' ),
-					array( 'id' => 41, 'name' => 'C' ),
-					array( 'id' => 43, 'name' => 'C++' ),
-					array( 'id' => 47, 'name' => 'Java' ),
-				),
-				'settings2'	=> array(
-					'theme'	=>	'mac',
-					'hintText'	=>	__( 'Type a programming language.', 'admin-page-framework-demo' ),
-					'prePopulate' => array(
-						array( 'id' => 3, 'name' => 'PHP' ),
-						array( 'id' => 5, 'name' => 'APS' ),
-					)					
-				),
-				'description'	=>	__( 'Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, C#, Fortran, Vidual Basic, C, C++, Java.', 'admin-page-framework-demo' ),	
-			),
-			array()
-		);
-		/*
-		 * Fields for the manage option page.
-		 */
-		$this->addSettingFields(			
-			array( // Delete Option Button
-				'field_id'	=>	'submit_manage',
-				'section_id'	=>	'submit_buttons_manage',
-				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'type'	=>	'submit',
-				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'href'	=>	network_admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' ),
-				'attributes' => array(
-					'class'	=> 'button-secondary',
-				),			
-			),			
-			array( // Delete Option Confirmation Button
-				'field_id'	=>	'submit_delete_options_confirmation',
-				'section_id'	=>	'submit_buttons_confirm',
-				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'type'	=>	'submit',				
-				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'redirect_url'	=>	network_admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' ),
-				'attributes' => array(
-					'class'	=> 'button-secondary',
-				),
-			),			
-			array(
-				'field_id'	=>	'export_format_type',			
-				'section_id'	=>	'exports',
-				'title'	=>	__( 'Export Format Type', 'admin-page-framework-demo' ),
-				'type'	=>	'radio',
-				'description'	=>	__( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 
-					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
-					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
-					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
-				),
-				'default'	=>	'json',
-			),			
-			array(	// Single Export Button
-				'field_id'	=>	'export_single',
-				'section_id'	=>	'exports',
-				'type'	=>	'export',
-				'description'	=>	__( 'Download the saved option data.', 'admin-page-framework-demo' ),
-			),
-			array(	// Multiple Export Buttons
-				'field_id'	=>	'export_multiple',
-				'section_id'	=>	'exports',
-				'title'	=>	__( 'Multiple Export Buttons', 'admin-page-framework-demo' ),
-				'type'	=>	'export',
-				'label'	=>	__( 'Pain Text', 'admin-page-framework-demo' ),
-				'file_name'	=>	'plain_text.txt',
-				'format'	=>	'text',
-				'attributes'	=>	array(
-					'field'	=>	array(
-						'style'	=>	'display: inline; clear: none;',
-					),
-				),
-				array(
-					'label'	=>	__( 'JSON', 'admin-page-framework-demo' ),
-					'file_name'	=>	'json.json', 
-					'format'	=>	'json',
-				),
-				array(
-					'label'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
-					'file_name'	=>	'serialized_array.txt', 
-					'format'	=>	'array',
-				),
-				'description'	=>	__( 'To set a file name, use the <code>file_name</code> key in the field definition array.', 'admin-page-framework-demo' )
-				 . ' ' . __( 'To set the data format, use the <code>format</code> key in the field definition array.', 'admin-page-framework-demo' ),	
-			),	
-			array(	// Custom Data to Export
-				'field_id'	=>	'export_custom_data',
-				'section_id'	=>	'exports',		
-				'title'	=>	__( 'Custom Exporting Data', 'admin-page-framework-demo' ),
-				'type'	=>	'export',
-				'data'	=>	__( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
-				'file_name' => 'hello_world.txt',
-				'label'	=>	__( 'Export Custom Data', 'admin-page-framework-demo' ),
-				'description'	=>	__( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> key in the field definition array.', 'admin-page-framework-demo' ),	
-			),
-			array(
-				'field_id'	=>	'import_format_type',			
-				'section_id'	=>	'imports',
-				'title'	=>	__( 'Import Format Type', 'admin-page-framework-demo' ),
-				'type'	=>	'radio',
-				'description'	=>	__( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 
-					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
-					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
-					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
-				),
-				'default'	=>	'json',
-			),
-			array(	// Single Import Button
-				'field_id'	=>	'import_single',
-				'section_id'	=>	'imports',
-				'title'	=>	__( 'Single Import Field', 'admin-page-framework-demo' ),
-				'type'	=>	'import',
-				'description'	=>	__( 'Upload the saved option data.', 'admin-page-framework-demo' ),
-				'label'	=>	'Import Options',
-			),			
-			array()
-		);
-		
-		/*
-		 * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
-		 */
- 		$this->addLinkToPluginDescription( 
-			"<a href='http://www.google.com'>Google</a>",
-			"<a href='http://www.yahoo.com'>Yahoo!</a>",
-			"<a href='http://en.michaeluno.jp'>miunosoft</a>",
-			"<a href='https://github.com/michaeluno/admin-page-framework' title='Contribute to the GitHub repository!' >Repository</a>"
-		);
-		$this->addLinkToPluginTitle(
-			"<a href='http://www.wordpress.org'>WordPress</a>"
-		);
-
-    }
+	}
 		
 	/*
 	 * Built-in Field Types Page
@@ -2049,60 +1328,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 	public function do_apf_builtin_field_types() {	// do_{page slug}
 		submit_button();
 	}
-	
-	/*
-	 * Custom Field Types Page
-	 * */
-	public function do_apf_custom_field_types() {	// do_{page slug}
-		submit_button();
-	}
-	
-	
-	/*
-	 * Manage Options Page
-	 * */
-	public function do_apf_manage_options_saved_data() {	// do_{page slug}_{tab slug}
-	
-		?>
-		<h3><?php _e( 'Saved Data', 'admin-page-framework-demo' ); ?></h3>
-		<p>
-		<?php 
-			echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the extended class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
-			echo ' ' . sprintf( __( 'It is stored in the <code>$this->oProp-sOptionKey</code> class property so you may access it directly to confirm the value. So the required code would be <code>get_option( %1$s );</code>.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
-			echo ' ' . __( 'If you are retrieving them within the framework class, simply call <code>$this->oProp->aOptions</code>.', 'admin-page-framework-demo' );
-		?>
-		</p>
-		<p>
-		<?php
-			echo __( 'Alternatively, there is the <code>AdminPageFramework::getOption()</code> static method. This allows you to retrieve the array element by specifying the option key and the array key (field id or section id).', 'admin-page-framework-demo' );
-			echo ' ' . __( 'Pass the option key to the first parameter and an array representing the dimensional keys to the second parameter', 'admin-page-framework-demo' );
-			echo ' ' . __( '<code>$aData = AdminPageFramework::getOption( \'APF_NetworkAdmin\', array( \'text_fields\', \'text\' ), \'default value\' );</code> will retrieve the option array value of <code>$aArray[\'text_field\'][\'text\']</code>.', 'admin-page-framework-demo' );	
-			echo ' ' . __( 'This method is merely to avoid multiple uses of <code>isset()</code> to prevent PHP warnings.', 'admin-page-framework-demo' );
-			echo ' ' . __( 'So if you already know how to retrieve a value of an array element, you don\'t have to use it.', 'admin-page-framework-demo' );	// ' syntax fixer
-		?>
-		</p>
-		<?php
-			echo $this->oDebug->getArray( $this->oProp->aOptions ); 
-			// echo $this->oDebug->getArray( AdminPageFramework::getOption( 'APF_NetworkAdmin', array( 'text_fields' ) ) ); 
 		
-	}
-	public function do_apf_manage_options_properties() {	// do_{page slug}_{tab slug}
-		?>
-		<h3><?php _e( 'Framework Properties', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can view the property values stored in the framework. Advanced users may change the property values by directly modifying the <code>$this->oProp</code> object.', 'admin-page-framework-demo' ); ?></p>
-		<pre><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProp ) );</code></pre>		
-		<?php
-			$this->oDebug->dumpArray( get_object_vars( $this->oProp ) );
-	}
-	public function do_apf_manage_options_messages() {	// do_{page slug}_{tab slug}
-		?>
-		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
-		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;aMessages );</code></pre>
-		<?php
-			echo $this->oDebug->getArray( $this->oMsg->aMessages );
-	}
-	
 	/*
 	 * The sample page and the hidden page
 	 */
@@ -2122,56 +1348,6 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 		
 	}
 	
-	/*
-	 * Import and Export Callbacks
-	 * */
-	public function export_name_APF_NetworkAdmin_exports_export_single( $sFileName, $sFieldID, $sInputID ) {	// export_name_{extended class name}_{export section id}_{export field id}
-
-		// Change the exporting file name based on the selected format type in the other field.
-		$sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
-			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] 
-			: null;	
-		$aFileNameParts = pathinfo( $sFileName );
-		$sFileNameWOExt = $aFileNameParts['filename'];			
-		switch( $sSelectedFormatType ) {			
-			default:
-			case 'json':
-				$sReturnName = $sFileNameWOExt . '.json';
-				break;
-			case 'text':
-			case 'array':
-				$sReturnName = $sFileNameWOExt . '.txt';
-				break;				
-		}
-		return $sReturnName;
-		
-	}
-	public function export_format_APF_NetworkAdmin_exports_export_single( $sFormatType, $sFieldID ) {	// export_format_{extended class name}_{export section id}_{export field id}
-
-		// Set the internal formatting type based on the selected format type in the other field.
-		return isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type']
-			: $sFormatType;
-		
-	}	
-	public function import_format_apf_manage_options_export_import( $sFormatType, $sFieldID ) {	// import_format_{page slug}_{tab slug}
-		
-		return isset( $_POST[ $this->oProp->sOptionKey ]['imports']['import_format_type'] ) 
-			? $_POST[ $this->oProp->sOptionKey ]['imports']['import_format_type']
-			: $sFormatType;
-		
-	}
-	public function import_APF_NetworkAdmin_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) {	// import_{extended class name}_{import section id}_{import field id}
-
-		if ( $sImportFormat == 'text' ) {
-			$this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
-			return $aOldOptions;
-		}
-		
-		$this->setSettingNotice( __( 'Importing options were validated.', 'admin-page-framework-demo' ), 'updated' );
-		return $vData;
-		
-	}
 	
 	/*
 	 * Validation Callbacks
@@ -2233,7 +1409,9 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 	public function validation_APF_NetworkAdmin( $aInput, $aOldOptions ) {	// validation_{extended class name}
 		
 		/* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
-		if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) return array();
+		if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) { 
+			return array();
+		}
 		return $aInput;
 		
 	}
