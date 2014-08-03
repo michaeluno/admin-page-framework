@@ -63,18 +63,12 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
 		
 		add_action( 'network_admin_menu', array( $this, '_replyToBuildMenu' ), 98 );					
 		add_action( 'network_admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
-		// add_action( 'current_screen', array( $this, '_replyToRegisterSettings' ), 20 );
-		// add_action( 'admin_init', array( $this, '_replyToCheckRedirects' ) );	// redirects		
 
 		$sCallerPath = $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ); 	// this is important to attempt to find the caller script path here when separating the library into multiple files.
 		
 		$this->oProp = new AdminPageFramework_Property_NetworkAdmin( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
 		
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-
-		// add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );
-		// add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );
-		// add_action( 'current_screen', array( $this, '_replyToRegisterSettings' ), 20 );
 		
 	}	
 
