@@ -366,6 +366,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.1.2 =
 - Added the `validation_saved_options_{instantiated class name}` filter hook.
 - Changed the `load_{...}` hook callbacks to be able to add form elements.
+- Fixed a bug that meta boxes for the `post` post type created with the framework meta box class did not appear in `post-new.php` page.
 
 = 3.1.1 - 2014/08/01 =
 - Added the `before_fieldset` and `after_fieldset` arguments for the field definition array.

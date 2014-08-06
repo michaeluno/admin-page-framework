@@ -28,7 +28,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 		static $_sCurrentPostType;
 		
 		// Since the current page will be the same throughout the execution of the script, if once it's found, there is no need to find it again.
-		if ( $_sCurrentPostType ) return $_sCurrentPostType;
+		if ( $_sCurrentPostType ) { 
+			return $_sCurrentPostType; 
+		}
 		
 		// Check to see if a post object exists
 		if ( isset( $GLOBALS['post'], $GLOBALS['post']->post_type ) && $GLOBALS['post']->post_type ) {
