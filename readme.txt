@@ -364,6 +364,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.2 =
+- Added the `validation_saved_options_{instantiated class name}` filter hook.
 - Changed the `load_{...}` hook callbacks to be able to add form elements.
 
 = 3.1.1 - 2014/08/01 =

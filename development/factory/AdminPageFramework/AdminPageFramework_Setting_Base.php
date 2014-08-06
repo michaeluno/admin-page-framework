@@ -68,7 +68,6 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		
 		if ( is_admin() ) {
 			add_action( 'current_screen', array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let the load_{...} callbacks being loaded earlier.
-			// add_action( 'admin_menu', array( $this, '_replyToRegisterSettings' ), 100 );	// registers the settings
 			add_action( 'current_screen', array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
 		}
 		
