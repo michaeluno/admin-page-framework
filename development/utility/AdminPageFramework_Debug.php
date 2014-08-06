@@ -78,6 +78,7 @@ class AdminPageFramework_Debug {
 			);
 		$_sHeading = date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' 
 			. "{$_iPageLoadID} {$_sCallerClasss}::{$_sCallerFunction} " 
+			. current_filter() . ' '
 			. AdminPageFramework_Utility::getCurrentURL();
 		file_put_contents( 
 			$sFilePath, 
