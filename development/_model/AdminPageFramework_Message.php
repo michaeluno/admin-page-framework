@@ -77,6 +77,7 @@ class AdminPageFramework_Message {
 			'reset_options'			=> __( 'Are you sure you want to reset the options?', 'admin-page-framework' ),
 			'confirm_perform_task'	=> __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' ),
 			'specified_option_been_deleted'	=> __( 'The specified options have been deleted.', 'admin-page-framework' ),
+			'nonce_veification_failed'	=>	__( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' ),
 			
 			// AdminPageFramework_PostType
 			'title'			=> __( 'Title', 'admin-page-framework' ),	

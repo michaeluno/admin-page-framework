@@ -41,20 +41,19 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 
 				[page_slug] => apf_builtin_field_types
 				[tab_slug] => textfields
-				[_is_admin_page_framework] => 1 
+				[_is_admin_page_framework] => ...
 			)
 		*/
-		
 		if ( 
 			! isset( 
 				// The framework specific keys
-				$_POST['_is_admin_page_framework'], 
+				$_POST['_is_admin_page_framework'], // holds the form nonce
 				$_POST['page_slug'], 
 				$_POST['tab_slug'], 
 				// The settings API fields keys
 				$_POST['option_page'], 
 				$_POST['action'], 
-				$_POST['_wpnonce'],
+				// $_POST['_wpnonce'],	// deprecated
 				$_POST['_wp_http_referer']
 			) 
 		) {			
@@ -65,9 +64,13 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		if ( $_sRequestURI != $_sReffererURI ) {	// see the function definition of wp_referer_field() in functions.php.
 			return;			
 		}
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], $this->oProp->sOptionKey . '-options' ) ) {
+		
+		$_sNonceTransientKey = 'form_' . md5( $this->oProp->sClassName . get_current_user_id() );
+		if ( $_POST['_is_admin_page_framework'] !== get_transient( $_sNonceTransientKey ) ) {
+			$this->setAdminNotice( $this->oMsg->__( 'nonce_veification_failed' ) );
 			return;
 		}
+		delete_transient( $_sNonceTransientKey );
 		
 		// If only page-meta-boxes are used, it's possible that the option key element does not exist.
 		$_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();
