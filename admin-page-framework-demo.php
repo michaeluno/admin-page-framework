@@ -5,12 +5,12 @@
 	Description: Demonstrates the features of the Admin Page Framework class.
 	Author: Michael Uno
 	Author URI: http://michaeluno.jp
-	Version: 3.1.2b04
+	Version: 3.1.2b05
 	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
 /* Exit if accessed directly */
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* Define constants for the demo plugin - these are not necessary in your project */
 define( 'APFDEMO_DEVMODE', true );
