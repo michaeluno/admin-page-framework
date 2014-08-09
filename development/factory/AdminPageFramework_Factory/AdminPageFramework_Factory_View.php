@@ -30,25 +30,29 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 	}		
 	
 	/**
+	 * Stores a flag value indicating whether the setting notice method is called or not.
+	 * 
+	 * @since			3.1.3
+	 */
+	static private $_bSettingNoticeLoaded = false;
+	
+	/**
 	 * Displays stored setting notification messages.
 	 * 
 	 * @since			3.0.4
 	 */
 	public function _replyToPrintSettingNotice() {
-		
-		// Only do this per a page load. PHP static variables will remain in different instantiated objects.
-		static $_fIsLoaded;
-		
-		if ( $_fIsLoaded ) return;
-		$_fIsLoaded = true;
-		
-		$_aNotices = get_transient( 'AdminPageFramework_Notices' );
-		if ( false === $_aNotices )	return;
+			
+		// Ensure this method is called only once per a page load.
+		if ( self::$_bSettingNoticeLoaded ) { return; }
+		self::$_bSettingNoticeLoaded = true;
 
+		$_aNotices = get_transient( 'AdminPageFramework_Notices' );
+		if ( false === $_aNotices )	{ return; }
 		delete_transient( 'AdminPageFramework_Notices' );
-		
+	
 		// By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
-		if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) return;
+		if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { return; }
 		
 		// Display the settings notices.
 		$_aPeventDuplicates = array();

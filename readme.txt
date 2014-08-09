@@ -429,6 +429,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.3 =
+- Fixed a bug that the same setting notice message got displayed the number of times of the framework object instances when another framework page with a form is loaded while saving the form data in the page.
 - Added the `link` custom field type in the demo plugin.
 - Tweaked the styling of media select buttons.
 
