@@ -28,7 +28,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 		);
 		foreach( $aFiles as $sFilePath ) {
 			if ( file_exists( $sFilePath ) ) { 
-				include_once( $sFilePath ); 
+				include( $sFilePath ); 
 			}
 		}
 					

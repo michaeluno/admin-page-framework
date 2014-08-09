@@ -55,7 +55,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 		'normal',	// context
 	 * 		'default'	// priority
 	 * 	);
-	 * 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
+	 * 	include( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
 	 * 	new APF_MetaBox_For_Pages_Advanced(
 	 * 		'apf_metabox_for_pages_advanced',	// meta box id
 	 * 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title
@@ -63,7 +63,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
 	 * 		'advanced',		// context
 	 * 		'default'	// priority
 	 * 	);	
-	 * 	include_once( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );
+	 * 	include( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );
 	 * 	new APF_MetaBox_For_Pages_Side(
 	 * 		'apf_metabox_for_pages_side',	// meta box id
 	 * 		__( 'Sample Meta Box For Admin Pages Inserted in Advanced Area' ),	// title

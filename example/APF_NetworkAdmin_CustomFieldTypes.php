@@ -91,7 +91,7 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
 		);
 		foreach( $aFiles as $sFilePath ) {
 			if ( file_exists( $sFilePath ) ) { 
-				include_once( $sFilePath ); 
+				include( $sFilePath ); 
 			}
 		}
 					

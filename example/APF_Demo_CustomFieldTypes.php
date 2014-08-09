@@ -797,13 +797,15 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				
 		/* 1. Include the file that defines the custom field type. 
 		 This class should extend the predefined abstract class that the library prepares already with necessary methods. */
-		$sFilePath = dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
-		if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
+		$_sFilePath = dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php';
+		if ( file_exists( $_sFilePath ) ) {
+			include( $_sFilePath );	
+		}
 		
 		/* 2. Instantiate the class - use the getDefinitionArray() method to get the field type definition array.
 		 Then assign it to the filtering array with the key of the field type slug. */
-		$oFieldType = new GeometryCustomFieldType( 'APF_Demo' );
-		$aFieldTypeDefinitions['geometry'] = $oFieldType->getDefinitionArray();
+		$_oFieldType = new GeometryCustomFieldType( 'APF_Demo' );
+		$aFieldTypeDefinitions['geometry'] = $_oFieldType->getDefinitionArray();
 		
 		/* 3. Return the modified array. */
 		return $aFieldTypeDefinitions;
