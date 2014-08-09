@@ -466,6 +466,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 			.select_image.button.button-small {		
 				vertical-align: middle;
 			}
+			@media screen and (max-width: 782px) {
+				.admin-page-framework-field-image input {
+					margin: 0.5em 0.5em 0.5em 0;
+				}
+			}			
 		" . PHP_EOL;	
 	}
 	
