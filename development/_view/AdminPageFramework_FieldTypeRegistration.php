@@ -44,21 +44,40 @@ class AdminPageFramework_FieldTypeRegistration  {
 		'size',
 		'section_title',	//	3.0.0+
 	);	
-	
-	function __construct( &$aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
 		
-		$_aFieldTypeDefinitions = array();
+	/**
+	 * Registers field types.
+	 * 
+	 * @since			3.1.3		Moved from the constructor.
+	 */
+	static public function register( $aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
+
 		foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug ) {
-			$_sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
-			if ( ! class_exists( $_sInstantiatingClassName ) ) continue;
-			$_oFieldType = new $_sInstantiatingClassName( $sExtendedClassName, null, $oMsg, false );	// passing false for the forth parameter disables auto-registering.		
-			foreach( $_oFieldType->aFieldTypeSlugs as $__sSlug ) {			
-				$_aFieldTypeDefinitions[ $__sSlug ] = $_oFieldType->getDefinitionArray();
-			}
 			
+			$_sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
+			if ( ! class_exists( $_sInstantiatingClassName ) ) { 
+				continue; 
+			}
+			$_oFieldType = new $_sInstantiatingClassName( 
+				$sExtendedClassName, 
+				null, 
+				$oMsg, 
+				false 	// pass false to disable auto-registering.		
+			);	
+			foreach( $_oFieldType->aFieldTypeSlugs as $__sSlug ) {			
+				$aFieldTypeDefinitions[ $__sSlug ] = $_oFieldType->getDefinitionArray();
+			}
 		}
-		$aFieldTypeDefinitions = $_aFieldTypeDefinitions;
+		return $aFieldTypeDefinitions;
+		
 	}
+	
+	/**
+	 * The flags to indicate whether the field type is already processed or not.
+	 * 
+	 * Note that it must be checked per a type (here property type is used).
+	 */
+	static private $_aLoadFlags = array();
 	
 	/**
 	 * Sets the given field type's enqueuing scripts and styles.
@@ -70,45 +89,52 @@ class AdminPageFramework_FieldTypeRegistration  {
 	 */
 	static public function _setFieldHeadTagElements( array $aField, $oProp, $oHeadTag ) {
 
-		$sFieldType = $aField['type'];
+		$_sFieldType = $aField['type'];
 			
-		// Set the global flag to indicate whether the elements are already added and enqueued. Note that it must be checked per a type (here property type is used).
-		static $aLoadFlags = array();	// indicates whether the field type is already processed or not.
-		$aLoadFlags[ $oProp->_sPropertyType ] = isset( $aLoadFlags[ $oProp->_sPropertyType ] ) && is_array( $aLoadFlags[ $oProp->_sPropertyType ] )
-			? $aLoadFlags[ $oProp->_sPropertyType ]
+		self::$_aLoadFlags[ $oProp->_sPropertyType ] = isset( self::$_aLoadFlags[ $oProp->_sPropertyType ] ) && is_array( self::$_aLoadFlags[ $oProp->_sPropertyType ] )
+			? self::$_aLoadFlags[ $oProp->_sPropertyType ]
 			: array();
-		if ( isset( $aLoadFlags[ $oProp->_sPropertyType ][ $sFieldType ] ) && $aLoadFlags[ $oProp->_sPropertyType ][ $sFieldType ] ) return;
-		$aLoadFlags[ $oProp->_sPropertyType ][ $sFieldType ] = true;
+		if ( isset( self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] ) && self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] ) { return; }
+		self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] = true;
 				
 		// If the field type is not defined, return.
-		if ( ! isset( $oProp->aFieldTypeDefinitions[ $sFieldType ] ) ) return;
+		if ( ! isset( $oProp->aFieldTypeDefinitions[ $_sFieldType ] ) ) { return; }
 
-		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldSetTypeSetter'] ) )
-			call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldSetTypeSetter'], array( $oProp->_sPropertyType ) );
-		
-		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'] ) )
-			call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfFieldLoader'], array() );		
-		
-		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'] ) )
-			$oProp->sScript .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetScripts'], array() );
-			
-		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'] ) ) 
-			$oProp->sStyle .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetStyles'], array() );
-			
-		if ( is_callable( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'] ) )
-			$oProp->sStyleIE .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $sFieldType ]['hfGetIEStyles'], array() );					
-	
-		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueStyles'] as $asSource ) {
-			if ( is_string( $asSource ) )
-				$oHeadTag->_forceToEnqueueStyle( $asSource );
-			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )				
-				$oHeadTag->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldSetTypeSetter'] ) ) {
+			call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldSetTypeSetter'], array( $oProp->_sPropertyType ) );
 		}
-		foreach( $oProp->aFieldTypeDefinitions[ $sFieldType ]['aEnqueueScripts'] as $asSource ) {
-			if ( is_string( $asSource ) )
+		
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldLoader'] ) ) {
+			call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldLoader'], array() );		
+		}
+		
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetScripts'] ) ) {
+			$oProp->sScript .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetScripts'], array() );
+		}
+			
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetStyles'] ) ) {
+			$oProp->sStyle .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetStyles'], array() );
+		}
+			
+		if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetIEStyles'] ) ) {
+			$oProp->sStyleIE .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetIEStyles'], array() );					
+		}
+	
+		foreach( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueStyles'] as $asSource ) { 
+			if ( is_string( $asSource ) ) {
+				$oHeadTag->_forceToEnqueueStyle( $asSource );
+			}
+			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
+				$oHeadTag->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
+			}
+		}
+		foreach( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueScripts'] as $asSource ) {
+			if ( is_string( $asSource ) ) {
 				$oHeadTag->_forceToEnqueueScript( $asSource );
-			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) )
+			}
+			else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
 				$oHeadTag->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );			
+			}
 		}							
 			
 	}

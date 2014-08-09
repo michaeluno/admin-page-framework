@@ -184,7 +184,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		// if ( 'options.php' != $this->oProp->sPageNow && ( count( $this->oForm->aConditionedFields ) == 0 ) ) return;
 
 		/* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
-		new AdminPageFramework_FieldTypeRegistration( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
+		$this->oProp->aFieldTypeDefinitions = AdminPageFramework_FieldTypeRegistration::register( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
 		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
 			'field_types_' . $this->oProp->sClassName,	// 'field_types_' . {extended class name}

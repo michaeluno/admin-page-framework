@@ -41,7 +41,7 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
  * @subpackage		Utility
  * @internal
  */
-class AdminPageFramework_Bootstrap {
+final class AdminPageFramework_Bootstrap {
 	
 	function __construct( $sLibraryPath ) {
 		
@@ -54,4 +54,19 @@ class AdminPageFramework_Bootstrap {
 	
 }
 new AdminPageFramework_Bootstrap( __FILE__ );	// do it now
+endif;
+
+if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
+abstract class AdminPageFramework_Registry_Base {
+	
+	
+}
+endif;
+if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
+/**
+ * 
+ */
+final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
+		
+}
 endif;

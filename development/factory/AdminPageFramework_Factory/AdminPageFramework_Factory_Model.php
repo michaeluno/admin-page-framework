@@ -35,6 +35,15 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 	}	
 	
 	/**
+	 * Stores the default field definitions. 
+	 * 
+	 * Once they are set, it no longer needs to be done.
+	 * 
+	 * @since			3.1.3
+	 */
+	static private $_aFieldTypeDefinitions = array();
+	
+	/**
 	 * Loads the default field type definition.
 	 * 
 	 * @since			2.1.5
@@ -42,19 +51,21 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 	 */
 	public function _loadDefaultFieldTypeDefinitions() {
 		
-		static $_aFieldTypeDefinitions = array();	// Stores the default field definitions. Once they are set, it no longer needs to be done.
-		
-		if ( empty( $_aFieldTypeDefinitions ) ) {
+		if ( empty( self::$_aFieldTypeDefinitions ) ) {
 			
 			// This class adds filters for the field type definitions so that framework's default field types will be added.
-			new AdminPageFramework_FieldTypeRegistration( $_aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );					
+			self::$_aFieldTypeDefinitions = AdminPageFramework_FieldTypeRegistration::register( 
+				array(), 
+				$this->oProp->sClassName, 
+				$this->oMsg 
+			);			
 			
 		} 
 				
 		$this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
 			$this,
 			'field_types_' . $this->oProp->sClassName,	// 'field_types_' . {extended class name}
-			$_aFieldTypeDefinitions
+			self::$_aFieldTypeDefinitions
 		);				
 		
 	}	
