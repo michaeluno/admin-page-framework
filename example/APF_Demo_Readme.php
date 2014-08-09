@@ -1,8 +1,12 @@
 <?php
 class APF_Demo_Readme extends AdminPageFramework {
 
-
-	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
+	/**
+	 * Sets up pages.
+	 * 
+	 * This method automatically gets triggered with the wp_loaded hook. 
+	 */
+	public function setUp() {
 
 		/* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
 		$this->setCapability( 'read' );
@@ -13,13 +17,13 @@ class APF_Demo_Readme extends AdminPageFramework {
 		/* ( required ) Add sub-menu items (pages or links) */
 		$this->addSubMenuItems(					
 			array(
-				'title'	=>	__( 'Read Me', 'admin-page-framework-demo' ),
-				'page_slug'	=>	'apf_read_me',
-				'screen_icon'	=>	'page',
+				'title'					=>	__( 'Read Me', 'admin-page-framework-demo' ),
+				'page_slug'				=>	'apf_read_me',
+				'screen_icon'			=>	'page',
 			),			
 			array(
-				'title'	=>	__( 'Documentation', 'admin-page-framework-demo' ),
-				'href'	=>	plugins_url( 'document/class-AdminPageFramework.html', APFDEMO_FILE ),
+				'title'					=>	__( 'Documentation', 'admin-page-framework-demo' ),
+				'href'					=>	plugins_url( 'document/class-AdminPageFramework.html', APFDEMO_FILE ),
 				'show_page_heading_tab'	=>	false,
 			)
 		);
@@ -68,27 +72,42 @@ class APF_Demo_Readme extends AdminPageFramework {
 	public function do_before_apf_read_me() {		// do_before_ + page slug 
 
 		include_once( dirname( APFDEMO_FILE ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );
-		$this->oWPReadMe = new WordPress_Readme_Parser;
-		$this->aWPReadMe = $this->oWPReadMe->parse_readme( dirname( APFDEMO_FILE ) . '/readme.txt' );
+		$this->oWPReadMe	= new WordPress_Readme_Parser;
+		$this->aWPReadMe	= $this->oWPReadMe->parse_readme( dirname( APFDEMO_FILE ) . '/readme.txt' );
 	
 	}
 	public function do_apf_read_me_description() {		// do_ + page slug + _ + tab slug
+		
 		echo $this->aWPReadMe['sections']['description'];
+		
 	}
 	public function do_apf_read_me_installation() {		// do_ + page slug + _ + tab slug
+		
 		echo $this->aWPReadMe['sections']['installation'];
+		
 	}
 	public function do_apf_read_me_frequently_asked_questions() {	// do_ + page slug + _ + tab slug
+		
 		echo $this->aWPReadMe['sections']['frequently_asked_questions'];
+		
 	}
 	public function do_apf_read_me_other_notes() {
+		
 		echo $this->aWPReadMe['remaining_content'];
+		
 	}
 	public function do_apf_read_me_screenshots() {		// do_ + page slug + _ + tab slug
+		
 		echo $this->aWPReadMe['sections']['screenshots'];
+		
 	}	
 	public function do_apf_read_me_changelog() {		// do_ + page slug + _ + tab slug
+		
 		echo $this->aWPReadMe['sections']['changelog'];
+		
+		$_aChangeLog	= $this->oWPReadMe->parse_readme( dirname( APFDEMO_FILE ) . '/changelog.md' );
+		echo $_aChangeLog['sections']['changelog'];
+	
 	}
 		
 

@@ -1,5 +1,6 @@
-== Changelog ==
+=== Admin Page Framework Change Log ===
 
+== Changelog ==
 
 = 3.0.6 - 05/10/2014 =
 - Fixed a JavaScript syntax error in the `font` custom field type.
