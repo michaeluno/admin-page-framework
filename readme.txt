@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -427,6 +427,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.1.3 =
+- Added the `link` custom field type in the demo plugin.
+- Tweaked the styling of media select buttons.
 
 = 3.1.2 - 2014/08/09 =
 - Added the `validation_saved_options_{instantiated class name}` filter hook.

@@ -71,6 +71,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'tab_slug'	=>	'autocomplete',
 				'title'		=>	__( 'Autocomplete', 'admin-page-framework-demo' ),	
 			),
+			array(
+				'tab_slug'	=>	'link',
+				'title'		=>	__( 'Links', 'admin-page-framework-demo' ),	
+			),			
 			array()			
 		);
 		
@@ -109,10 +113,11 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
+			dirname( APFDEMO_FILE ) . '/third-party/link-custom-field-type/LinkCustomFieldType.php',			
 		);
 		foreach( $_aFiles as $_sFilePath ) {
 			if ( file_exists( $_sFilePath ) ) {				
-				include_once( $_sFilePath );
+				include( $_sFilePath );
 			}
 		}
 					
@@ -130,6 +135,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		new RevealerCustomFieldType( $_sClassName );
 		new GridCustomFieldType( $_sClassName );
 		new AutocompleteCustomFieldType( $_sClassName );		
+		new LinkCustomFieldType( $_sClassName );		
 		
 		/*
 		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -137,9 +143,9 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		 * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
 		 */
 		$this->addSettingSections(	
+			'apf_custom_field_types',	// the target page slug
 			array(
 				'section_id'	=>	'geometry',
-				'page_slug'		=>	'apf_custom_field_types',	// renew the target page slug
 				'tab_slug'		=>	'geometry',	
 				'title'			=>	__( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
@@ -184,7 +190,13 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'tab_slug'		=>	'autocomplete',
 				'title'			=>	__( 'Autocomplete Custom Field Type', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'This field will show predefined list when the user type something on the input field.', 'admin-page-framework-demo' ),				
-			),				
+			),
+			array(
+				'section_id'	=>	'link',
+				'tab_slug'		=>	'link',
+				'title'			=>	__( 'Link Custom Field Type', 'admin-page-framework-demo' ),
+				'description'	=>	__( 'Allows to insert page and post links.', 'admin-page-framework-demo' ),		
+			),			
 			array()
 		);
 
@@ -730,6 +742,40 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'title'		=>	__( 'Repeatable', 'admin-page-framework-demo' ),
 				'repeatable'	=> true,
 			),
+			array()
+		);		
+		
+		$this->addSettingFields(
+			'link',	// the target section id
+			array(
+				'field_id'		=>	'link_field',
+				'type'			=>	'link',			
+				'title'			=>	__( 'Single Link' ),
+			),
+			array(
+				'field_id'		=>	'link_repeatable_field',
+				'type'			=>	'link',			
+				'title'			=>	__( 'Repeatable Links' ),
+				'repeatable'	=>	true,
+			),			
+			// array(
+				// 'field_id'	=>	'revealer_field_option_a',
+				// 'type'	=>	'textarea',		
+				// 'default'	=>	__( 'Hi there!', 'admin-page-framework-demo' ),
+				// 'hidden'	=> true,
+			// ),
+			// array(
+				// 'field_id'	=>	'revealer_field_option_b',				
+				// 'type'	=>	'password',		
+				// 'description'	=>	__( 'Type a password.', 'admin-page-framework-demo' ),			
+				// 'hidden'	=> true,
+			// ),
+			// array(
+				// 'field_id'	=>	'revealer_field_option_c',
+				// 'type'	=>	'text',		
+				// 'description'	=>	__( 'Type text.', 'admin-page-framework-demo' ),			
+				// 'hidden'	=> true,
+			// ),
 			array()
 		);		
 		
