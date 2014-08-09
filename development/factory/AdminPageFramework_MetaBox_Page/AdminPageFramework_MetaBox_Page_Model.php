@@ -196,6 +196,8 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 		// Schedule to add head tag elements and help pane contents.		
 		if ( ! $this->_isInThePage() ) return;
 		
+		$this->_loadDefaultFieldTypeDefinitions();
+		
 		// Format the fields array.
 		$this->oForm->format();
 		$this->oForm->applyConditions();	// will create the conditioned elements.

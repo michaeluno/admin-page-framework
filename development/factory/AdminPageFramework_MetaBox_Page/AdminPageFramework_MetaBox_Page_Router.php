@@ -43,6 +43,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
 			return false;				
 		}
 		
+		// This should be deprecated
 		if ( in_array( $this->oProp->sPageNow, array( 'options.php' ) ) ) {
 			return true;
 		}
