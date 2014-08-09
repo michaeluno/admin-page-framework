@@ -71,7 +71,7 @@ class APF_Demo_Readme extends AdminPageFramework {
 
 	public function do_before_apf_read_me() {		// do_before_ + page slug 
 
-		include_once( dirname( APFDEMO_FILE ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );
+		include( dirname( APFDEMO_FILE ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );
 		$this->oWPReadMe	= new WordPress_Readme_Parser;
 		$this->aWPReadMe	= $this->oWPReadMe->parse_readme( dirname( APFDEMO_FILE ) . '/readme.txt' );
 	
