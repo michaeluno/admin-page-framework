@@ -52,31 +52,35 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 		
 	}	
 		/**
+		 * The flags that indicate loading components.
+		 */
+		static private $_bIsLoadedUtility			= false;
+		static private $_bIsLoadedRepeatable		= false;
+		static private $_bIsLoadedSortable			= false;
+		static private $_bIsLoadedRegisterCallback	= false;
+		
+		/**
 		 * Inserts necessary JavaScript scripts for fields.
 		 * 
 		 * @since			3.0.0
 		 */
 		private function _loadScripts() {
-			
-			// In PHP, static variables are alive in newly instantiated objects. So they can serve as an internal global flag.
-			static $_bIsLoadedUtility, $_bIsLoadedRepeatable, $_bIsLoadedSortable, $_bIsLoadedRegisterCallback;
-			
-			if ( ! $_bIsLoadedUtility ) {
+						
+			if ( ! self::$_bIsLoadedUtility ) {
 				add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
-				$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
+				self::$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
 			}
-			if ( ! $_bIsLoadedRepeatable ) {
-				$_bIsLoadedRepeatable = add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
-			}
-			
-			if ( ! $_bIsLoadedSortable ) {
-				$_bIsLoadedSortable = add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
+			if ( ! self::$_bIsLoadedRepeatable ) {
+				self::$_bIsLoadedRepeatable = add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
 			}
 			
-			if ( ! $_bIsLoadedRegisterCallback ) {
-				$_bIsLoadedRegisterCallback = add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
+			if ( ! self::$_bIsLoadedSortable ) {
+				self::$_bIsLoadedSortable = add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
 			}
-
+			
+			if ( ! self::$_bIsLoadedRegisterCallback ) {
+				self::$_bIsLoadedRegisterCallback = add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
+			}
 			
 		}
 	

@@ -43,19 +43,20 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
 	}
 		
 		/**
+		 * Indicates whether the tab enabler script is loaded or not.
+		 */
+		static private $_bLoadedTabEnablerScript = false;
+		
+		/**
 		 * Returns the JavaScript script that enables section tabs.
 		 * 
 		 * @since			3.0.0
 		 */
 		private function _getSectionTabsEnablerScript() {
 			
-			// Stores the flag indicating whether the method is called. PHP static variables are stored among different class instances. 
-			// So this will make sure that it is done only once per a page load.
-			static $bIsCalled = false;	
-			if ( $bIsCalled ) return '';
-			$bIsCalled = true;
+			if ( self::$_bLoadedTabEnablerScript ) return '';
+			self::$_bLoadedTabEnablerScript = true;
 			
-			// wp_enqueue_script( 'jquery-ui-tabs' );
 			return "<script type='text/javascript'>
 				jQuery( document ).ready( function() {
 					jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs();	// the parent element of the ul tag; The ul element holds li tags of titles.

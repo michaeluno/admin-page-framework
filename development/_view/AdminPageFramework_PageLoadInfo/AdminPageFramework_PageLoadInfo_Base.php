@@ -34,6 +34,11 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 	 * @remark			Should be overridden in an extended class.
 	 */
 	public function _replyToSetPageLoadInfoInFooter() {}
+	
+	/**
+	 * Indicates whether the page load info is inserted or not.
+	 */
+	static private $_bLoadedPageLoadInfo = false;	
 		
 	/**
 	 * Display gathered information.
@@ -43,11 +48,8 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 	 */
 	public function _replyToGetPageLoadInfo( $sFooterHTML ) {
 		
-		static $_fLoaded;
-		if ( $_fLoaded ) {
-			return;
-		}
-		$_fLoaded = true;		
+		if ( self::$_bLoadedPageLoadInfo ) { return; }
+		self::$_bLoadedPageLoadInfo = true;		
 		
 		$_nSeconds 				= timer_stop( 0 );
 		$_nQueryCount 			= get_num_queries();
@@ -106,10 +108,10 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 		 * @see				http://mikejolley.com/projects/wp-page-load-stats/
 		 */
 		private function _convertBytesToHR( $nBytes ) {
-			$_aUnits = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
-			$_nLog = log( $nBytes, 1024 );
-			$_iPower = ( int ) $_nLog;
-			$_iSize = pow( 1024, $_nLog - $_iPower );
+			$_aUnits	= array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+			$_nLog		= log( $nBytes, 1024 );
+			$_iPower	= ( int ) $_nLog;
+			$_iSize		= pow( 1024, $_nLog - $_iPower );
 			return $_iSize . $_aUnits[ $_iPower ];
 		}
 

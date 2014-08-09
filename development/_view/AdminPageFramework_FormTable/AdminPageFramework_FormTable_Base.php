@@ -30,10 +30,14 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 		$this->aFieldErrors = $aFieldErrors;
 		$this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' );
 		
-		
 		$this->_loadScripts();
 		
 	}
+		
+		/**
+		 * Indicates whether the tab JavaScript plugin is loaded or not.
+		 */
+		static private $_bIsLoadedTabPlugin;
 		
 		/**
 		 * Inserts necessary JavaScript scripts for fields.
@@ -42,11 +46,9 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 		 */ 
 		private function _loadScripts() {
 			
-			static $_bIsLoadedTabPlugin;
+			if ( self::$_bIsLoadedTabPlugin ) { return; }
 			
-			if ( ! $_bIsLoadedTabPlugin ) {
-				$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) );
-			}
+			self::$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) );
 			
 		}
 		
