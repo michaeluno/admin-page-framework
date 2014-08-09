@@ -2,7 +2,7 @@
 class APF_Demo extends AdminPageFramework {
 
 	/*
-	 *	( Required ) In the setUp() method, you will define how the pages and the form elements should be composed.
+	 *	( Required ) In the setUp() method, you will define admin pages.
 	 */
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
