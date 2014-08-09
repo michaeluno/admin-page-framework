@@ -463,8 +463,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
 				vertical-align: middle;	
 			}
 			/* Image Uploader Button */
-			.select_image.button.button-small {
-				margin-top: 0.1em;				
+			.select_image.button.button-small {		
+				vertical-align: middle;
 			}
 		" . PHP_EOL;	
 	}
