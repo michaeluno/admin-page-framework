@@ -59,13 +59,7 @@ class AdminPageFramework_PageLoadInfo_NetworkAdminPage extends AdminPageFramewor
 	 * @internal
 	 */ 
 	public function _replyToSetPageLoadInfoInFooter() {
-		
-		// static $_fLoaded;
-		// if ( $_fLoaded ) {
-			// return;
-		// }
-		// $_fLoaded = true;
-		
+				
 		// For added pages
 		if ( $this->oProp->isPageAdded( isset( $_GET['page'] ) ? $_GET['page'] : '' ) ) {
 			add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
