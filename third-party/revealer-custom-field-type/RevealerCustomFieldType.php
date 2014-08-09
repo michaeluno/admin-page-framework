@@ -27,17 +27,19 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 			'option'	=> array(),
 		),		
 	);
-
+	
+	/**
+	 * Indicates whether the JavaScirpt script is inserted or not.
+	 */
+	private static $_bIsLoaded = false;
+	
 	/**
 	 * Loads the field type necessary components.
 	 */ 
 	public function setUp() {
-		
-		static $_bIsLoaded; 
-		
-		if ( ! $_bIsLoaded ) {
-			add_action( 'admin_footer', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
-			$_bIsLoaded = true;
+				
+		if ( ! self::$_bIsLoaded ) {
+			self::$_bIsLoaded = add_action( 'admin_footer', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
 		}
 		
 	}	
