@@ -82,7 +82,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	 * Internal methods that should be extended.
 	 */
 	public function _replyToAddMetaBox() {}
-	public function _replyToRegisterFormElements() {}
+	public function _replyToRegisterFormElements( $oScreen ) {}
 
 	/**
 	 * Determines whether the meta box should be loaded in the currently loading page.
@@ -94,10 +94,9 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		
 		if ( ! $this->_isInThePage() ) return;
 		
-		$this->_loadDefaultFieldTypeDefinitions();
 		$this->_setUp();
 		$this->oProp->_bSetupLoaded = true;
-		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
+		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 );	// the screen object should be established to detect the loaded page. 
 		add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
 		add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 		

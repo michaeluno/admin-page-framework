@@ -142,10 +142,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 		
 		if ( ! $this->_isInThePage() ) return;
 		
-		$this->_loadDefaultFieldTypeDefinitions();
 		$this->_setUp();
 		$this->oProp->_bSetupLoaded = true;
-		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ) );	// the screen object should be established to detect the loaded page. 
+		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 );	// the screen object should be established to detect the loaded page. 
 	
 		foreach( $this->oProp->aTaxonomySlugs as $__sTaxonomySlug ) {				
 			
@@ -330,10 +329,12 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 	 * @since			3.0.0
 	 * @internal
 	 */
-	public function _replyToRegisterFormElements() {
+	public function _replyToRegisterFormElements( $oScreen ) {
 	
 		// Schedule to add head tag elements and help pane contents.
 		if ( 'edit-tags.php' != $this->oProp->sPageNow ) return;
+		
+		$this->_loadDefaultFieldTypeDefinitions();
 		
 		// Format the fields array.
 		$this->oForm->format();

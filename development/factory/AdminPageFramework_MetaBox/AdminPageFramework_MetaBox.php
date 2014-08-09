@@ -243,10 +243,12 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 * @since			3.0.0
 	 * @internal
 	 */
-	public function _replyToRegisterFormElements() {
+	public function _replyToRegisterFormElements( $oScreen ) {
 				
 		// Schedule to add head tag elements and help pane contents. 
 		if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;
+	
+		$this->_loadDefaultFieldTypeDefinitions();
 	
 		// Format the fields array.
 		$this->oForm->format();
