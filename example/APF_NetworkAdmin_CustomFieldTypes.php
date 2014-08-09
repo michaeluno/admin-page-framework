@@ -6,44 +6,7 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
 	 * 
 	 * Alternatively you may use the start_{extended class name} predefined callback method.
 	 */
-	public function start() {
-		
-		/*
-		 * ( Optional ) Register custom field types.
-		 */			
-		/* 1. Include the file that defines the custom field type. */
-		$aFiles = array(
-			dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
-		);
-		foreach( $aFiles as $sFilePath ) {
-			if ( file_exists( $sFilePath ) ) { 
-				include_once( $sFilePath ); 
-			}
-		}
-					
-		/* 2. Instantiate the classes  */
-		$sClassName = get_class( $this );
-		new GeometryCustomFieldType( $sClassName );
-		new DateCustomFieldType( $sClassName );
-		new TimeCustomFieldType( $sClassName );
-		new DateTimeCustomFieldType( $sClassName );
-		new DialCustomFieldType( $sClassName );
-		new FontCustomFieldType( $sClassName );
-		new SampleCustomFieldType( $sClassName );
-		new RevealerCustomFieldType( $sClassName );
-		new GridCustomFieldType( $sClassName );
-		new AutocompleteCustomFieldType( $sClassName );
-
-	}
+	public function start() {}
 
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
@@ -109,6 +72,41 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
 	 * The pre-defined callback method that is triggered when the page loads.
 	 */ 	
 	public function load_apf_custom_field_types( $oAdminPage ) {
+	
+		/*
+		 * ( Optional ) Register custom field types.
+		 */			
+		/* 1. Include the file that defines the custom field type. */
+		$aFiles = array(
+			dirname( APFDEMO_FILE ) . '/third-party/geometry-custom-field-type/GeometryCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
+		);
+		foreach( $aFiles as $sFilePath ) {
+			if ( file_exists( $sFilePath ) ) { 
+				include_once( $sFilePath ); 
+			}
+		}
+					
+		/* 2. Instantiate the classes  */
+		$sClassName = get_class( $this );
+		new GeometryCustomFieldType( $sClassName );
+		new DateCustomFieldType( $sClassName );
+		new TimeCustomFieldType( $sClassName );
+		new DateTimeCustomFieldType( $sClassName );
+		new DialCustomFieldType( $sClassName );
+		new FontCustomFieldType( $sClassName );
+		new SampleCustomFieldType( $sClassName );
+		new RevealerCustomFieldType( $sClassName );
+		new GridCustomFieldType( $sClassName );
+		new AutocompleteCustomFieldType( $sClassName );
 	
 		$this->addSettingSections(	
 			array(

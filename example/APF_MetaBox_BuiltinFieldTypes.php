@@ -287,7 +287,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 		$_aErrors = array();
 
 		// You can check the passed values and correct the data by modifying them.
-		// $this->oDebug->logArray( $aInput );		
+		// $this->oDebug->log( $aInput );		
 		
 		// Validate the submitted data.
 		if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {

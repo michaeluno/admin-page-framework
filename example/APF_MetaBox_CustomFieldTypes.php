@@ -2,8 +2,17 @@
 
 class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 	
+	/**
+	 * Called at the end of the constructor.
+	 * 
+	 * Alternatively, the 'start_{instantiated class name}' hook can be used.
+	 */
+	public function start() {}
 	
-	public function start_APF_MetaBox_CustomFieldTypes() {	// start_{extended class name}
+	/*
+	 * ( optional ) Use the setUp() method to define settings of this meta box.
+	 */
+	public function setUp() {
 		
 		/*
 		 * ( Optional ) Register custom field types.
@@ -17,8 +26,11 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
 			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
 		);
-		foreach( $aFiles as $sFilePath )
-			if ( file_exists( $sFilePath ) ) include_once( $sFilePath );
+		foreach( $aFiles as $sFilePath ) {
+			if ( file_exists( $sFilePath ) ) { 
+				include_once( $sFilePath ); 
+			}
+		}
 					
 		/* 2. Instantiate the classes  */
 		$sClassName = get_class( $this );
@@ -27,15 +39,8 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 		new TimeCustomFieldType( $sClassName );
 		new DateTimeCustomFieldType( $sClassName );
 		new DialCustomFieldType( $sClassName );
-		new FontCustomFieldType( $sClassName );
-		
-	}
+		new FontCustomFieldType( $sClassName );		
 	
-	/*
-	 * ( optional ) Use the setUp() method to define settings of this meta box.
-	 */
-	public function setUp() {
-				
 		/*
 		 * ( optional ) Adds setting fields into the meta box.
 		 */
@@ -105,12 +110,13 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 		);		
 	}
 		
-	
-	
-	public function validation_APF_MetaBox_CustomFieldTypes( $aInput, $aOldInput ) {	// validation_{extended class name}
+	/**
+	 * The pre-defined validation callback method.
+	 */
+	public function validation_APF_MetaBox_CustomFieldTypes( $aInput, $aOldInput, $oAdminPage ) {	// validation_{instantiated class name}
 		
 		// You can check the passed values and correct the data by modifying them.
-		// $this->oDebug->logArray( $aInput );
+		// $this->oDebug->log( $aInput );
 		return $aInput;
 		
 	}

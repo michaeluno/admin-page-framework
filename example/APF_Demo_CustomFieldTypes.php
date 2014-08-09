@@ -7,51 +7,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 	 * Alternatively you may use the 'start_{instantiated class name}()' method instead, which also called at the end of the constructor.
 	 * 
 	 */
-	public function start() {	
-		
-		/*
-		 * ( Optional ) Register custom field types.
-		 */			
-		/* 1. Include the file that defines the custom field type. */
-		$_aFiles = array(
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
-			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
-		);
-		foreach( $_aFiles as $_sFilePath ) {
-			if ( file_exists( $_sFilePath ) ) {				
-				include_once( $_sFilePath );
-			}
-		}
-					
-		/* 2. Instantiate the classes by passing the instantiated admin page class name. */
-		$_sClassName = get_class( $this );
-		new DateCustomFieldType( $_sClassName );
-		new TimeCustomFieldType( $_sClassName );
-		new DateTimeCustomFieldType( $_sClassName );
-		new DateRangeCustomFieldType( $_sClassName );
-		new DateTimeRangeCustomFieldType( $_sClassName );
-		new TimeRangeCustomFieldType( $_sClassName );
-		new DialCustomFieldType( $_sClassName );
-		new FontCustomFieldType( $_sClassName );
-		new SampleCustomFieldType( $_sClassName );
-		new RevealerCustomFieldType( $_sClassName );
-		new GridCustomFieldType( $_sClassName );
-		new AutocompleteCustomFieldType( $_sClassName );
-
-	}
+	public function start() {}
 
 	/*
-	 *	( Required ) In the setUp() method, you will define how the pages and the form elements should be composed.
+	 *	( Required ) In the setUp() method, you will define pages.
 	 */
 	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
 
@@ -132,6 +91,45 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 	 * The pre-defined callback method that is triggered when the page loads.
 	 */ 
 	public function load_apf_custom_field_types( $oAdminPage ) {	// load_{page slug}
+		
+		/*
+		 * ( Optional ) Register custom field types.
+		 */			
+		/* 1. Include the file that defines the custom field type. */
+		$_aFiles = array(
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
+			dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',			
+		);
+		foreach( $_aFiles as $_sFilePath ) {
+			if ( file_exists( $_sFilePath ) ) {				
+				include_once( $_sFilePath );
+			}
+		}
+					
+		/* 2. Instantiate the classes by passing the instantiated admin page class name. */
+		$_sClassName = get_class( $this );
+		new DateCustomFieldType( $_sClassName );
+		new TimeCustomFieldType( $_sClassName );
+		new DateTimeCustomFieldType( $_sClassName );
+		new DateRangeCustomFieldType( $_sClassName );
+		new DateTimeRangeCustomFieldType( $_sClassName );
+		new TimeRangeCustomFieldType( $_sClassName );
+		new DialCustomFieldType( $_sClassName );
+		new FontCustomFieldType( $_sClassName );
+		new SampleCustomFieldType( $_sClassName );
+		new RevealerCustomFieldType( $_sClassName );
+		new GridCustomFieldType( $_sClassName );
+		new AutocompleteCustomFieldType( $_sClassName );		
 		
 		/*
 		 * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -216,19 +214,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'field_id'	=>	'date',
 				'title'	=>	__( 'Date', 'admin-page-framework-demo' ),
 				'type'	=>	'date',
-			),		
-			// array(	// Multiple date pickers
-				// 'field_id'		=>	'dates',
-				// 'title'			=>	__( 'Dates', 'admin-page-framework-demo' ),
-				// 'type'			=>	'date',
-				// 'label'			=>	__( 'Start Date: ', 'admin-page-framework-demo' ),
-				// 'date_format'	=>	'yy-mm-dd',	// yy/mm/dd is the default format.
-				// 'delimiter'		=>	'&nbsp;&nbsp;&nbsp;&nbsp;',
-				// array( 
-					// 'label'	=>	__( 'End Date: ', 'admin-page-framework-demo' ), 
-				// ),
-				// 'description'	=>	__( 'See the date format is slightly different from the first example.', 'admin-page-framework-demo' ), 
-			// ),	
+			),			
 			array(	// Repeatable date picker fields
 				'field_id'		=>	'date_repeatable',
 				'type'			=>	'date',
