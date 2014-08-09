@@ -429,9 +429,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.3 =
-- Fixed a bug that the same setting notice message got displayed the number of times of the framework object instances when another framework page with a form is loaded while saving the form data in the page.
 - Added the `link` custom field type in the demo plugin.
+- Tweaked the performance by eliminating unnecessary function calls.
 - Tweaked the styling of media select buttons.
+- Fixed a bug that the same setting notice message got displayed the number of times of the framework object instances when another framework page with a form is loaded while saving the form data in the page.
 
 = 3.1.2 - 2014/08/09 =
 - Added the `validation_saved_options_{instantiated class name}` filter hook.
