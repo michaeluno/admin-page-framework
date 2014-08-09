@@ -403,7 +403,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.1.2 =
+= 3.1.2 - 2014/08/09 =
 - Added the `validation_saved_options_{instantiated class name}` filter hook.
 - Changed the timing of loading field type definitions in the taxonomy and meta box classes to allow define custom field types in the `setUp()` method.
 - Changed the `load_{...}` hook callbacks to be able to add form elements.
