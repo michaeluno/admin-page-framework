@@ -272,25 +272,65 @@ Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
 
 == Other Notes ==
 
-<h3>Tips</h3>
 <h4>Use Unique Page Slug</h4>
 The framework internally uses the `add_submenu_page()` function to register sub menu pages. When the same page slug is registered for multiple root pages, only the last registered callback gets triggered. The other ones will be ignored.
 
-This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using same page slug, your users will get either of your page or the other.
+This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using the same page slug, your users will get either of your page or the other.
 
-So just use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
+To avoid this, make sure to use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
 <h4>Change PHP Class Names</h4>
-When you include the library, change the class names that the library uses. This is because if there is a plugin that uses a lesser version of the library and it is loaded earlier than yours, your script may not work properly.
+When you include the framework, change the class names that the framework uses. This is because if there is a plugin that uses a lesser version of the framework and it is loaded earlier than yours, your script may not work properly.
 
 All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
 
 Most text editors supports the *Replace All* command so just use that. By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use namespaces then this problem will be solved.
 
 <h4>Change Framework's System Messages</h4>
-The default messages defined by the framework can be changed. For example when you import a setting with the framework, the setting notice will be displayed. 
+The default messages defined by the framework can be changed. For example, when you import a setting with the framework, the setting notice "The options have been updated." will be displayed. 
 
-If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array which holds all the messages that the library uses.
+If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array holding all the messages that the framework uses.
+
+<h4>Get comfortable with the 'attributes' array argument</h4>
+In each field definition array, you can set the `attributes` arguments which defines the HTML attributes of the field so that you can modify the output of the field by passing attribute values.
+
+The argument accepts the values as an array. Each element represents the attribute's name and value. The array key corresponds to the name of the attribute and the value to the attribute value.
+
+For example,
+`
+array(	
+	'field_id'			=>	'interval',
+	'title'				=>	__( 'Interval', 'task-scheduler' ),
+	'type'				=>	'number',
+	'attributes'		=>	array(
+		'min'	=>	0,
+		'step'	=>	1,
+		'max'	=>	24m
+	),
+),
+`
+
+In addition, you can change the attributes of the following container elements by setting their key and passing a nested attribute array.
+
+- `fieldrow` - the `td` tag element containing the field output.
+- `fieldset` - the `fieldset` tag element containing the field output.
+- `fields` - the `div` tag element containing the sub-fields and the main field.
+- `field` - the `div` tag element containing each field.
+
+This submit button will float on the right.
+`
+array(	
+	'field_id'			=>	'submit',
+	'type'				=>	'submit',
+	'label'				=>	__( 'Save', 'task-scheduler' ),
+	'label_min_width'	=>	0,
+	'attributes'		=>	array(
+		'field'	=>	array(
+			'style'	=>	'float:right; clear:none; display: inline;',
+		),
+	),					
+)	
+`
 
 <h4>Change Preview Image Size of the 'image' Field Type</h4>
 To specify a custom size to the preview element of the `image` field type, set an attribute array like the below, where 300px is the max width.
