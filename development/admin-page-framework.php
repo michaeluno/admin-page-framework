@@ -41,13 +41,37 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
 		
 	const TextDomain		= 'admin-page-framework';
 	const TextDomainPath	= './language';
+	
 	/**
 	 * Indicates whether the framework is loaded from the minified version or not.
 	 * 
 	 * @remark		The value will be reassign by the bootstrap script.
 	 */
 	static public $bIsMinifiedVersion = true;
+	
+	/**
+	 * Stores the autoloader class file path.
+	 */
+	static public $sAutoLoaderPath;
+	
+	// These properties will be defined in the setUp() method.
+	static public $sFilePath	= '';
+	static public $sDirPath		= '';
+	static public $sFileURI		= '';
+	
+	/**
+	 * Sets up static properties.
+	 */
+	static function setUp( $sFilePath=null ) {
+						
+		self::$sFilePath			= $sFilePath ? $sFilePath : __FILE__;
+		self::$sDirPath				= dirname( self::$sFilePath );
+		self::$sFileURI				= plugins_url( '', self::$sFilePath );
+		self::$sAutoLoaderPath		= self::$sDirPath . '/utility/AdminPageFramework_RegisterClasses.php';
+		self::$bIsMinifiedVersion	= ! file_exists( self::$sAutoLoaderPath );
 		
+	}	
+	
 }
 endif;
 
@@ -79,15 +103,18 @@ final class AdminPageFramework_Bootstrap {
 			return;
 		}
 		
-		// Determine whether it is a minifed version or not.
-		$_sDirPath				= dirname( $sLibraryPath );
-		$_sAutoLoaderClassPath	= $_sDirPath . '/utility/AdminPageFramework_RegisterClasses.php';		
-		AdminPageFramework_Registry::$bIsMinifiedVersion = ! file_exists( $_sAutoLoaderClassPath );	
+		// Sets up registry properties.
+		AdminPageFramework_Registry::setUp( $sLibraryPath );
 			
 		// Load the classes. For the minified version, the autoloader class should not be located in the utility folder.
 		if ( ! AdminPageFramework_Registry::$bIsMinifiedVersion ) {
-			include( $_sAutoLoaderClassPath );
-			new AdminPageFramework_RegisterClasses( $_sDirPath );
+			include( AdminPageFramework_Registry::$sAutoLoaderPath );			
+			include( AdminPageFramework_Registry::$sDirPath . '/admin-page-framework-include-class-list.php' );
+			new AdminPageFramework_RegisterClasses( 
+				isset( $aClassFiles ) ? '' : AdminPageFramework_Registry::$sDirPath, 	// scanning directory
+				array(),	// search options
+				isset( $aClassFiles ) ? $aClassFiles : array()	// default class list array
+			);
 		}
 		
 	}
