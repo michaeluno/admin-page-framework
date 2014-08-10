@@ -40,16 +40,14 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		),	
 	);
 
-	public function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
+	public function construct() {
 		
 		$_aGet = $_GET;
 		unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
-		// $this->aDefaultKeys['settings'] = add_query_arg( array( 'request' => 'autocomplete' ) + $_aGet, admin_url( $this->getPageNow() ) );
-		$this->aDefaultKeys['settings'] = $this->getQueryAdminURL( array( 'request' => 'autocomplete' ) + $_aGet );
-		$this->aDefaultKeys['settings2'] = array(
+		$this->aDefaultKeys['settings']		= $this->getQueryAdminURL( array( 'request' => 'autocomplete' ) + $_aGet );
+		$this->aDefaultKeys['settings2']	= array(
 			'hintText'	=>	__( 'Type the title of posts.', 'admin-page-framework-demo' ),
 		);
-		parent::__construct( $asClassName, $asFieldTypeSlug, $oMsg, $bAutoRegister );
 
 		/*
 		 * If the request key is set in the url and it yields 'autocomplete', return a JSON output and exit.
@@ -75,6 +73,9 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			'order'				=> 'ASC',
 			'posts_per_page'	=> -1,	
 		);
+		$_aArgs['post_type']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_type'] ), 0, PREG_SPLIT_NO_EMPTY );
+		$_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
+		
 		if ( isset( $_GET['q'] ) ) {
 			add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
 			$_aArgs['q'] = $_GET['q'] ;
