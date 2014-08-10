@@ -92,23 +92,23 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
 	public function __construct( $sPostType, $aArgs=array(), $sCallerPath=null, $sTextDomain='admin-page-framework' ) {
 		
 		if ( empty( $sPostType ) ) return;
-		
+
 		// Properties
-		$this->oProp = new AdminPageFramework_Property_PostType( 
+		$this->oProp				= new AdminPageFramework_Property_PostType( 
 			$this, 
 			$sCallerPath ? trim( $sCallerPath ) : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.			
 			get_class( $this ),	// class name
-			'post',			// capability
-			$sTextDomain,	// text domain
-			'post_type'		// fields type
+			'post',				// capability
+			$sTextDomain,		// text domain
+			'post_type'			// fields type
 		);
-		$this->oProp->sPostType = AdminPageFramework_WPUtility::sanitizeSlug( $sPostType );
-		$this->oProp->aPostTypeArgs = $aArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-		
+		$this->oProp->sPostType		= AdminPageFramework_WPUtility::sanitizeSlug( $sPostType );
+		$this->oProp->aPostTypeArgs	= $aArgs;	// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+
 		parent::__construct( $this->oProp );
 				
 		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
-		
+							
 	}
 				
 }
