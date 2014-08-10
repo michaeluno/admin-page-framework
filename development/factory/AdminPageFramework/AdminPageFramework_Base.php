@@ -232,8 +232,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	public function __call( $sMethodName, $aArgs=null ) {		
 				 
 		// The currently loading in-page tab slug. Be careful that not all cases $sMethodName have the page slug.
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;	
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
+		$sPageSlug	= isset( $_GET['page'] ) ? $_GET['page'] : null;	
+		$sTabSlug	= isset( $_GET['tab'] )	? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	
 
 		if ( 'setup_pre' == $sMethodName ) {
 			$this->_setUp();
@@ -338,12 +338,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 */
 	protected function _isInstantiatable() {
 		
-		// Nothing to do in the non-network admin area.
-		if ( ! is_network_admin() ) {
-			return true;
-		}
-		
-		return false;
+		// Nothing to do in the network admin area.
+		return ! is_network_admin();
 		
 	}
 	
@@ -354,7 +350,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 * @internal
 	 */
 	protected function _isInThePage( $aPageSlugs=array() ) {
-				
+
 		// Maybe called too early
 		if ( ! isset( $this->oProp ) ) {
 			return true;
@@ -364,12 +360,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		if ( ! $this->oProp->_bSetupLoaded ) {
 			return true;
 		}	
-		
-		if ( in_array( $this->oProp->sPageNow, array( 'options.php' ) ) ) {			
-			return true;
-		}
 
-		if ( ! isset( $_GET['page'] ) ) return false;
+		if ( ! isset( $_GET['page'] ) ) { return false; }
 				
 		if ( empty( $aPageSlugs ) ) {
 			return $this->oProp->isPageAdded();
