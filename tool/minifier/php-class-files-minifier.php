@@ -42,7 +42,9 @@ new PHP_Class_Files_Minifier(
 		'output_buffer'		=>	true,
 		'header_type'		=>	'CONSTANTS',	
 		'exclude_classes'	=>	array(
-			'AdminPageFramework_MinifiedVersionHeader', 'AdminPageFramework_InclusionClassFilesHeader'
+			'AdminPageFramework_MinifiedVersionHeader', 
+			'AdminPageFramework_InclusionClassFilesHeader',
+			'admin-page-framework-include-class-list',
 		),
 	)
 );
