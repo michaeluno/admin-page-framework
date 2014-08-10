@@ -49,7 +49,11 @@ abstract class AdminPageFramework_HeadTag_Base {
 		
 		$this->oProp = $oProp;
 		$this->oUtil = new AdminPageFramework_WPUtility;
-				
+		
+		if ( 'admin-ajax.php' === $this->oProp->sPageNow ) {
+			return;
+		}
+		
 		// Hook the admin header to insert custom admin stylesheet.
 		add_action( 'admin_head', array( $this, '_replyToAddStyle' ), 999 );
 		add_action( 'admin_head', array( $this, '_replyToAddScript' ), 999 );
