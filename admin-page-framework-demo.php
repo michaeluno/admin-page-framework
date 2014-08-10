@@ -19,7 +19,7 @@ define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 /* Include the library */
 if ( ! class_exists( 'AdminPageFramework' ) ) {
 	include( 
-		( defined( 'WP_DEBUG' ) && WP_DEBUG ) 
+		( defined( 'WP_DEBUG' ) && WP_DEBUG )
 			? APFDEMO_DIRNAME . '/development/admin-page-framework.php'	// use the development version when you need to do debugging.
 			: APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'	// use the minified version in your plugins or themes.
 	);
