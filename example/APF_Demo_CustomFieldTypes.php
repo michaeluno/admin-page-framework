@@ -724,18 +724,32 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'description'	=>	__( 'Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, C#, Fortran, Vidual Basic, C, C++, Java.', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'type'	=>	'autocomplete',		
-				'field_id'	=>	'autocomplete_custom_post_type',
-				'title'		=>	__( 'Custom Post Type', 'admin-page-framework-demo' ),
-				'settings'	=> add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( AdminPageFramework_WPUtility::getPageNow() ) ),
-				'settings2'	=>	array(	// equivalent to the second parameter of the tokenInput() method
+				'type'			=>	'autocomplete',		
+				'field_id'		=>	'autocomplete_custom_post_type',
+				'title'			=>	__( 'Custom Post Type', 'admin-page-framework-demo' ),
+				'settings'		=>	add_query_arg( array( 'request' => 'autocomplete', 'post_type' => 'apf_posts' ) + $_GET, admin_url( AdminPageFramework_WPUtility::getPageNow() ) ),
+				'settings2'		=>	array(	// equivalent to the second parameter of the tokenInput() method
 					'tokenLimit'		=>	5,
 					'preventDuplicates'	=>	true,
 					'theme'				=>	'facebook',	
 					'searchDelay'		=>	50,	// 50 milliseconds. Default: 300
 				),
 				'description'	=>	__( 'To set a custom post type, you need to compose the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ),	//' syntax fixer
-			),
+			),		
+			array(
+				'type'		=>	'autocomplete',		
+				'field_id'	=>	'autocomplete_mixed_field_types',
+				'title'		=>	__( 'Mixed Post Types', 'admin-page-framework-demo' ),
+				'settings'	=>	add_query_arg( 
+					array( 
+						'request'		=>	'autocomplete', 
+						'post_types'	=>	'post, page, apf_posts', // Note that the argument key is not 'post_type'
+						'post_status'	=>	'publish, private',
+					) + $_GET,
+					admin_url( AdminPageFramework_WPUtility::getPageNow() )
+				),
+				'description'	=>	__( 'To seatch from multiple post types use the \'post_types\' argument (not \'post_type\') and pass comma delimited post type slugs.', 'admin-page-framework-demo' ),	//' syntax fixer
+			),			
 			array(
 				'type'	=>	'autocomplete',		
 				'field_id'	=>	'autocomplete_repeatable_field',

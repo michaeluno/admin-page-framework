@@ -40,8 +40,13 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		),	
 	);
 
+	/**
+	 * User constructor.
+	 * 
+	 * Loaded at the end of the constructor.
+	 */
 	public function construct() {
-		
+AdminPageFramework_Debug::log( 'called' );
 		$_aGet = $_GET;
 		unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
 		$this->aDefaultKeys['settings']		= $this->getQueryAdminURL( array( 'request' => 'autocomplete' ) + $_aGet );
@@ -53,13 +58,20 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 		 * If the request key is set in the url and it yields 'autocomplete', return a JSON output and exit.
 		 */		
 		if ( isset( $_GET['request'] ) && 'autocomplete' == $_GET['request'] ) {
-			add_action( 'init', array( $this, '_replyToReturnAutoCompleteRequest' ) );
+			if ( did_action( 'init' ) ) {
+				$this->_replyToReturnAutoCompleteRequest();
+			} else {			
+				add_action( 'init', array( $this, '_replyToReturnAutoCompleteRequest' ) );
+			}
 		}
 
 	}
 	
+	/**
+	 * Responds to the request.
+	 */
 	public function _replyToReturnAutoCompleteRequest() {
-	
+AdminPageFramework_Debug::log( 'loaded' );
 		if ( ! $this->_isLoggedIn() ) exit;
 			
 		$_aGet = $_GET;
@@ -67,15 +79,17 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 					
 		// Retrieve posts
 		$_aArgs = $_aGet + array(
-			'post_type'			=> 'post',
-			'post_status'		=> 'publish',
+			'post_type'			=> 'post',		
+			'post_status'		=> 'publish, private',
 			'orderby'			=> 'title', 
 			'order'				=> 'ASC',
 			'posts_per_page'	=> -1,	
 		);
-		$_aArgs['post_type']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_type'] ), 0, PREG_SPLIT_NO_EMPTY );
+		if ( isset( $_aArgs['post_types'] ) ) {
+			$_aArgs['post_type'] = preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_types'] ), 0, PREG_SPLIT_NO_EMPTY );
+		}	
 		$_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
-		
+AdminPageFramework_Debug::log( $_aArgs['post_type'] );		
 		if ( isset( $_GET['q'] ) ) {
 			add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
 			$_aArgs['q'] = $_GET['q'] ;
