@@ -613,9 +613,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			
 		$sID = $sID ? $sID : md5( $sMessage );
 		$this->oProp->aAdminNotices[ md5( $sMessage ) ] = array(  
-			'sMessage' => $sMessage,
-			'sClassSelector' => $sClassSelector,
-			'sID' => $sID,
+			'sMessage'			=> $sMessage,
+			'sClassSelector'	=> $sClassSelector,
+			'sID'				=> $sID,
 		);
 		add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
 		

@@ -74,25 +74,25 @@ abstract class AdminPageFramework_Factory_Router {
 	function __construct( $oProp ) {
 
 		// Objects - Utility
-		$this->oUtil = new AdminPageFramework_WPUtility;
-		$this->oDebug = new AdminPageFramework_Debug;
+		$this->oUtil	= new AdminPageFramework_WPUtility;
+		$this->oDebug	= new AdminPageFramework_Debug;
 	
 		// Objects - Model
-		$this->oProp = $oProp;
-		$this->oMsg = AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
+		$this->oProp	= $oProp;
+		$this->oMsg		= AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
 
 		if ( $this->_isInThePage() ) :
 	
 			// Objects - Model
-			$this->oForm = $this->_getFormInstance( $oProp );
+			$this->oForm			= $this->_getFormInstance( $oProp );
 		
 			// Objects - Control
-			$this->oHeadTag = $this->_getHeadTagInstance( $oProp );
-			$this->oHelpPane = $this->_getHelpPaneInstance( $oProp );
+			$this->oHeadTag			= $this->_getHeadTagInstance( $oProp );
+			$this->oHelpPane		= $this->_getHelpPaneInstance( $oProp );
 			
 			// Objects - View
-			$this->oLink = $this->_getLinkInstancce( $oProp, $this->oMsg );
-			$this->oPageLoadInfo = $this->_getPageLoadInfoInstance( $oProp, $this->oMsg );
+			$this->oLink			= $this->_getLinkInstancce( $oProp, $this->oMsg );
+			$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $oProp, $this->oMsg );
 			
 		endif;
 		
