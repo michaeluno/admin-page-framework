@@ -1,26 +1,25 @@
 <?php
 /* 
-	Plugin Name: Admin Page Framework - Demo
-	Plugin URI: http://en.michaeluno.jp/admin-page-framework
-	Description: Demonstrates the features of the Admin Page Framework class.
-	Author: Michael Uno
-	Author URI: http://michaeluno.jp
-	Version: 3.1.3b02
-	Requirements: PHP 5.2.4 or above, WordPress 3.3 or above.
+	Plugin Name:	Admin Page Framework - Demo
+	Plugin URI:		http://en.michaeluno.jp/admin-page-framework
+	Description:	Demonstrates the features of the Admin Page Framework class.
+	Author:			Michael Uno
+	Author URI:		http://michaeluno.jp
+	Version:		3.1.3b02
+	Requirements:	PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
 /* Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* Define constants for the demo plugin - these are not necessary in your project */
-define( 'APFDEMO_DEVMODE', true );
 define( 'APFDEMO_FILE', __FILE__ );
 define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 
 /* Include the library */
 if ( ! class_exists( 'AdminPageFramework' ) ) {
 	include( 
-		defined( 'APFDEMO_DEVMODE' ) && APFDEMO_DEVMODE
+		( defined( 'WP_DEBUG' ) && WP_DEBUG ) 
 			? APFDEMO_DIRNAME . '/development/admin-page-framework.php'	// use the development version when you need to do debugging.
 			: APFDEMO_DIRNAME . '/library/admin-page-framework.min.php'	// use the minified version in your plugins or themes.
 	);
