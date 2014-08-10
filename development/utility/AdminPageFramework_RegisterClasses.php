@@ -36,7 +36,7 @@ class AdminPageFramework_RegisterClasses {
 	/**
 	 * Sets up properties and performs registering classes.
 	 * 
-	 * param			array			$sClassDirPath		the target directory path to scan	 * 
+	 * param			array|string	$asScanDirPath		the target directory path to scan
 	 * param			array			$aSearchOptions		The recursive settings
 	 * 		array(
 	 * 			'is_recursive'	=> true,		// determines whether the scan should be performed recursively.
@@ -52,9 +52,9 @@ class AdminPageFramework_RegisterClasses {
 	 * )
 	 * @remark			The directory paths set for the 'exclude_dir_paths' option should use the system directory separator.
 	 */
-	function __construct( $sClassDirPath, array $aSearchOptions=array(), array $aClasses=array() ) {
+	function __construct( $asScanDirPaths, array $aSearchOptions=array(), array $aClasses=array() ) {
 			
-		$this->_aClasses = $aClasses + $this->_constructClassArray( $sClassDirPath, $aSearchOptions + self::$_aStructure_RecursiveOptions );
+		$this->_aClasses = $aClasses + $this->_constructClassArray( $asScanDirPaths, $aSearchOptions + self::$_aStructure_RecursiveOptions );
 		$this->_registerClasses();
 		
 	}
@@ -62,9 +62,17 @@ class AdminPageFramework_RegisterClasses {
 	/**
 	 * Sets up the array consisting of class paths with the key of file name w/o extension.
 	 */
-	protected function _constructClassArray( $sClassDirPath, array $aSearchOptions ) {
-				
-		$_aFilePaths = $this->getFilePaths( $sClassDirPath, $aSearchOptions );
+	protected function _constructClassArray( $asScanDirPaths, array $aSearchOptions ) {
+		
+		if ( empty( $asScanDirPaths ) ) {
+			return array();
+		}
+		$_aFilePaths = array();
+		foreach( ( array ) $asScanDirPaths as $_sClassDirPath ) {
+			if ( realpath( $_sClassDirPath ) ) {
+				$_aFilePaths = array_merge( $this->getFilePaths( $_sClassDirPath, $aSearchOptions ), $_aFilePaths );
+			}
+		}
 		$_aClasses = array();
 		foreach( $_aFilePaths as $_sFilePath ) {
 			$_aClasses[ pathinfo( $_sFilePath, PATHINFO_FILENAME ) ] = $_sFilePath;	// the file name without extension will be assigned to the key
@@ -157,12 +165,12 @@ class AdminPageFramework_RegisterClasses {
 		 * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
 		 */
 		public function _replyToAutoLoad( $sCalledUnknownClassName ) {			
-			if ( ! array_key_exists( $sCalledUnknownClassName, $this->_aClasses ) ) {
+			if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
 				return;
 			}
-			if ( ! file_exists( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
-				return;
-			}
+			// if ( ! file_exists( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
+				// return;
+			// }
 			include( $this->_aClasses[ $sCalledUnknownClassName ] );
 		}
 	
