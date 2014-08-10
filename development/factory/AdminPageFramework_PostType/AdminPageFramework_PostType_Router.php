@@ -18,6 +18,24 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Router' ) ) :
 abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {	
 	
 	/**
+	 * Determines whether the instantiated object and its producing elements belong to the loading page.
+	 * 
+	 * This method should be redefined in the extended class.
+	 * 
+	 * @since			3.1.3
+	 * @internal
+	 */
+	protected function _isInThePage() { 
+	
+		if ( ! $this->oProp->bIsAdmin ) {
+			return false;
+		}
+		
+		return in_array( $this->oProp->sPageNow, array( 'edit.php' ) );
+		
+	}			
+	
+	/**
 	 * Redirects undefined callback methods or to the appropriate methods.
 	 * 
 	 * @internal

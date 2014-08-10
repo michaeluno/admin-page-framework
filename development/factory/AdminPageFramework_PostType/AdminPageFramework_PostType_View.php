@@ -23,6 +23,10 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 		
 		parent::__construct( $oProp );
 			
+		if ( ! $this->oProp->bIsAdmin )	{ 
+			return;
+		}
+			
 		if ( $this->_isInThePage() ) {			
 	
 			// Table filters
@@ -169,21 +173,24 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 	 * @internal
 	 */
 	public function _replyToPrintStyle() {
-
-		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] != $this->oProp->sPostType )
+		
+		if ( $this->oUtil->getCurrentPostType() !== $this->oProp->sPostType ) {
 			return;
+		}
 
 		// If the screen icon url is specified
-		if ( isset( $this->oProp->aPostTypeArgs['screen_icon'] ) && $this->oProp->aPostTypeArgs['screen_icon'] )
+		if ( isset( $this->oProp->aPostTypeArgs['screen_icon'] ) && $this->oProp->aPostTypeArgs['screen_icon'] ) {
 			$this->oProp->sStyle .= $this->_getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs['screen_icon'] );
+		}
 			
 		$this->oProp->sStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
 		
 		// Print out the filtered styles.
-		if ( ! empty( $this->oProp->sStyle ) )
+		if ( ! empty( $this->oProp->sStyle ) ) {
 			echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
 				. $this->oProp->sStyle
 				. "</style>";			
+		}
 		
 	}
 		/**

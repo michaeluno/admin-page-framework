@@ -144,18 +144,17 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 	 * @internal
 	 */
 	public function _replyToRegisterTaxonomies() {
-		
+
 		foreach( $this->oProp->aTaxonomies as $_sTaxonomySlug => $_aArgs ) {
 			$_aObjectTypes		= is_array( $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] ) ? $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] : array();
 			$_aObjectTypes[]	= $this->oProp->sPostType;
-			$_aObjectTypes		= array_unique( $_aObjectTypes );
 			register_taxonomy(
 				$_sTaxonomySlug,
-				$_aObjectTypes,	// object types
+				array_unique( $_aObjectTypes ),	// object types
 				$_aArgs			// for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
 			);	
 		}
-			
+
 	}
 
 	/**
@@ -164,11 +163,11 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 	 * @internal
 	 */
 	public function _replyToRemoveTexonomySubmenuPages() {
-		
+	
 		foreach( $this->oProp->aTaxonomyRemoveSubmenuPages as $sSubmenuPageSlug => $sTopLevelPageSlug ) {
 			remove_submenu_page( $sTopLevelPageSlug, $sSubmenuPageSlug );
 		}
-		
+
 	}
 	
 	
