@@ -54,10 +54,6 @@ if ( is_admin() ) :
 	include( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
 	new APF_TaxonomyField( 'apf_sample_taxonomy' );		// taxonomy slug
 
-endif;
-
-
-if ( is_admin() ) :
 	
  	// Create an example page group and add sub-pages including a page with the slug 'apf_first_page'.
 	include( APFDEMO_DIRNAME . '/example/APF_BasicUsage.php' );	// Include the basic usage example that creates a root page and its sub-pages.
