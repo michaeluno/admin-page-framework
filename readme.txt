@@ -431,6 +431,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.1.3 =
 - Added the ability for the `autocomplete` custom field type to support multiple post types and post statues.
 - Added the `link` custom field type in the demo plugin.
+- Tweaked the process of post type registration to improve performance.
 - Tweaked the performance by eliminating unnecessary function calls.
 - Tweaked the styling of media select buttons.
 - Fixed a bug that the same setting notice message got displayed the number of times of the framework object instances when another framework page with a form is loaded while saving the form data in the page.
