@@ -76,7 +76,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 		);
 			
 		add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );	
-		
+	
 	}
 	
 	/**
