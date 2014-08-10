@@ -11,11 +11,12 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
  * Provides debugging methods.
  *
  * @since			2.0.0
+ * @since			3.1.3				Extends AdminPageFramework_WPUtility
  * @package			AdminPageFramework
  * @subpackage		Debug
  * @internal
  */
-class AdminPageFramework_Debug {
+class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
 		
 	/**
 	 * Prints out the given array contents
@@ -62,10 +63,13 @@ class AdminPageFramework_Debug {
 	 * 
 	 * @remark		The alias of the logArray() method.
 	 * @since		3.1.0
+	 * @since		3.1.3		Made it leave milliseconds and elapsed time from the last call of the method.
 	 **/
 	static public function log( $v, $sFilePath=null ) {
 				
 		static $_iPageLoadID;	// identifies the page load.
+		static $_nGMTOffset;
+		static $_fPreviousTimeStamp = 0;
 		$_iPageLoadID		= $_iPageLoadID ? $_iPageLoadID : uniqid();		
 		$_oCallerInfo		= debug_backtrace();
 		$_sCallerFunction	= isset( $_oCallerInfo[ 1 ]['function'] ) ? $_oCallerInfo[ 1 ]['function'] : '';
@@ -76,15 +80,28 @@ class AdminPageFramework_Debug {
 				? WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . date( "Ymd" ) . '.log'
 				: $sFilePath
 			);
-		$_sHeading = date( "Y/m/d H:i:s", current_time( 'timestamp' ) ) . ' ' 
+		$_nGMTOffset		= isset( $_nGMTOffset ) ? $_nGMTOffset : get_option( 'gmt_offset' );
+		$_fCurrentTimeStamp = microtime( true );
+		$_nNow				= $_fCurrentTimeStamp + ( $_nGMTOffset * 60 * 60 );
+		$_nMicroseconds		= round( ( $_nNow - floor( $_nNow ) ) * 10000 );
+		$_nMicroseconds		= str_pad( $_nMicroseconds, 4, '0' );
+		$_nElapsed			= round( $_fCurrentTimeStamp - $_fPreviousTimeStamp, 3 );
+		$_aElapsedParts		= explode( ".", ( string ) $_nElapsed );
+		$_sElapsedFloat		= str_pad( isset( $_aElapsedParts[ 1 ] ) ? $_aElapsedParts[ 1 ] : 0, 3, '0' );
+		$_sElapsed			= isset( $_aElapsedParts[ 0 ] ) ? $_aElapsedParts[ 0 ] : 0;
+		$_sElapsed			= strlen( $_sElapsed ) > 1 ? '+' . substr( $_sElapsed, -1, 2 ) : ' ' . $_sElapsed;
+		$_sHeading			= date( "Y/m/d H:i:s", $_nNow ) . '.' . $_nMicroseconds . ' ' 
+			. $_sElapsed . '.' . $_sElapsedFloat . ' '	
 			. "{$_iPageLoadID} {$_sCallerClasss}::{$_sCallerFunction} " 
 			. current_filter() . ' '
-			. AdminPageFramework_Utility::getCurrentURL();
+			. self::getCurrentURL();
 		file_put_contents( 
 			$sFilePath, 
 			$_sHeading . PHP_EOL . print_r( $v, true ) . PHP_EOL . PHP_EOL,
 			FILE_APPEND 
 		);			
+		$_fPreviousTimeStamp = $_fCurrentTimeStamp;
+		
 	}		
 }
 endif;
