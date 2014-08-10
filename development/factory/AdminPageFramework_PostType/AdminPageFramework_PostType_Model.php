@@ -142,6 +142,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 	 * Registers the set custom taxonomies.
 	 * 
 	 * @internal
+	 * @remark			0.01 elapsed for this function call in the demo plugin which has two custom taxonomies.
 	 */
 	public function _replyToRegisterTaxonomies() {
 
