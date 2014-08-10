@@ -85,11 +85,14 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 	 */ 
 	public function _replyToAddAuthorTableFilter() {
 		
-		if ( ! $this->oProp->bEnableAuthorTableFileter ) return;
+		if ( ! $this->oProp->bEnableAuthorTableFileter ) { return; }
 		
-		if ( ! ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) 
-			&& in_array( strtolower( $_GET['post_type'] ), array( $this->oProp->sPostType ) ) ) )
+		if ( 
+			! ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) 
+			&& in_array( strtolower( $_GET['post_type'] ), array( $this->oProp->sPostType ) ) ) 
+		) {
 			return;
+		}
 		
 		wp_dropdown_users( array(
 			'show_option_all'	=> 'Show all Authors',
@@ -150,7 +153,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 		if ( 'edit.php' != $this->oProp->sPageNow ) return $oQuery;
 		
 		if ( ! isset( $GLOBALS['typenow'] ) ) return $oQuery;
-		
+
 		foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySlug ) {
 			
 			if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) continue;
@@ -163,6 +166,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 				$sVar = $oTerm->slug;
 
 		}
+		
 		return $oQuery;
 		
 	}
