@@ -147,6 +147,25 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  fields_{instantiated class name}
  *  pages_{instantiated class name}
  *  tabs_{instantiated class name}_{page slug}
+ *  
+ *  submit_{instantiated class name}_{pressed submit field id}
+ *  submit_{instantiated class name}_{section id}
+ *  submit_{instantiated class name}_{section id}_{field id}
+ *  submit_{instantiated class name}_{page slug}
+ *  submit_{instantiated class name}_{page slug}_{tab slug}
+ *  submit_{instantiated class name}
+ *  validation_{instantiated class name}_{field id (which does not have a section)}
+ *  validation_{instantiated class name}_{section_id}
+ *  validation_{instantiated class name}_{section id}_{field id}
+ *  validation_{page slug}_{tab slug}
+ *  validation_{page slug }
+ *  validation_{instantiated class name }
+ *  export_{page slug}_{tab slug}
+ *  export_{page slug}
+ *  export_{instantiated class name}
+ *  import_{page slug}_{tab slug}
+ *  import_{page slug}
+ *  import_{instantiated class name}
  * 
  *  ------ Start Rendering HTML ------
  *  
@@ -168,12 +187,12 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  
  *  <div class="wrap">
  *  
- *      content_foot_{page slug}_{tab slug}
- *      content_foot_{page slug}
- *      content_foot_{instantiated class name}
+ *      content_top_{page slug}_{tab slug}
+ *      content_top_{page slug}
+ *      content_top_{instantiated class name}
  *  
  *      <div class="acmin-page-framework-container">
- *          <form action="options.php" method="post">
+ *          <form action="current page" method="post">
  *  
  *              do_form_{page slug}_{tab slug}
  *              do_form_{page slug}
@@ -205,26 +224,6 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  do_after_{page slug}
  *  do_after_{page slug}_{tab slug}
  *  
- *  ----- After Submitting the Form ------
- * 
- *  submit_{instantiated class name}_{pressed submit field id}
- *  submit_{instantiated class name}_{section id}
- *  submit_{instantiated class name}_{section id}_{field id}
- *  submit_{instantiated class name}_{page slug}
- *  submit_{instantiated class name}_{page slug}_{tab slug}
- *  submit_{instantiated class name}
- *  validation_{instantiated class name}_{field id (which does not have a section)}
- *  validation_{instantiated class name}_{section_id}
- *  validation_{instantiated class name}_{section id}_{field id}
- *  validation_{page slug}_{tab slug}
- *  validation_{page slug }
- *  validation_{instantiated class name }
- *  export_{page slug}_{tab slug}
- *  export_{page slug}
- *  export_{instantiated class name}
- *  import_{page slug}_{tab slug}
- *  import_{page slug}
- *  import_{instantiated class name}
  * </code>
  * @abstract
  * @since			2.0.0
@@ -262,7 +261,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 						
 		if ( ! $this->_isInstantiatable() ) {
 			return;
-		 }
+		}
 						
 		parent::__construct( 
 			$sOptionKey, 
@@ -549,8 +548,10 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	 * @access			public
 	 */ 
 	public function setCapability( $sCapability ) {
+
 		$this->oProp->sCapability = $sCapability;
 		$this->oForm->sCapability = $sCapability;
+		
 	}
 
 	/**
@@ -626,6 +627,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 		 */
 		public function _replyToPrintAdminNotices() {
 			
+			if ( ! $this->_isInThePage() ) { return; }
 			foreach( $this->oProp->aAdminNotices as $aAdminNotice ) {
 				echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}'>"
 						. "<p>" . $aAdminNotice['sMessage'] . "</p>"
@@ -695,22 +697,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	static public function getOption( $sOptionKey, $asKey=null , $vDefault=null ) {
 		return AdminPageFramework_WPUtility::getOption( $sOptionKey,$asKey, $vDefault );
 	}
-	
-	
-	/**
-	 * Disables the functionality to save submitted form data into the options table.
-	 * 
-	 * <h4>Example</h4>
-	 * <code>
-	 * $this->disableSavingOptions();
-	 * </code>
-	 * @since			3.1.0
-	 * @deprecated		3.1.0b27		Passing an empty string to the first parameter of the constructor should be sufficient.
-	 */
-	// public function disableSavingOptions() {
-		// $this->oProp->_bDisableSavingOptions = true;
-	// }
-	
-	
+		
 }
 endif;
