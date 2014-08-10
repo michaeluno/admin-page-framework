@@ -95,8 +95,21 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 				add_filter( "field_types_{$sClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
 			}
 		}
-	
+		
+		// User constructor
+		$this->construct();
+		
 	}	
+	
+	/**
+	 * The user constructor.
+	 * 
+	 * When the user defines a field type, they may use this instead of the real constructor 
+	 * so that they don't have to care about the internal parameters.
+	 * 
+	 * @since		3.1.3
+	 */
+	public function construct() {}
 	
 	/**
 	 * Registers the field type.
