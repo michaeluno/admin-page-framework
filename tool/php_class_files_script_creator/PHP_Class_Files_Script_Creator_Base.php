@@ -2,13 +2,15 @@
 /**
  * Provides basic methods for PHP Class Files Script Creator.
  * 
- * @author				Michael Uno <michael@michaeluno.jp>
- * @copyright			2013-2014 (c) Michael Uno
- * @license				MIT	<http://opensource.org/licenses/MIT>
+ * @author		Michael Uno <michael@michaeluno.jp>
+ * @copyright	2013-2014 (c) Michael Uno
+ * @license		MIT	<http://opensource.org/licenses/MIT>
  */
  
 /**
  * The base class of script creator.
+ * 
+ * @version		1.0.1
  */
 abstract class PHP_Class_Files_Script_Creator_Base {
 
