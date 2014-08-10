@@ -7,13 +7,10 @@ class APF_PostType extends AdminPageFramework_PostType {
 	 * ALternatevely, you may use the start_{extended class name} method, which also is called at the end of the constructor.
 	 */
 	public function start() {	
-	
-		$this->setAutoSave( false );
-		$this->setAuthorTableFilter( true );
-		
+
 		$this->setPostTypeArgs(
 			array(			// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-				'labels' => array(
+				'labels'			=> array(
 					'name'			=>	'Admin Page Framework',
 					'all_items' 	=>	__( 'Sample Posts', 'admin-page-framework-demo' ),
 					'singular_name' =>	'Admin Page Framework',
@@ -46,18 +43,18 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->addTaxonomy( 
 			'apf_sample_taxonomy', // taxonomy slug
 			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
-				'labels' => array(
-					'name' => 'Sample Genre',
-					'add_new_item' => 'Add New Genre',
-					'new_item_name' => "New Genre"
+				'labels'				=> array(
+					'name'				=>	'Sample Genre',
+					'add_new_item'		=>	'Add New Genre',
+					'new_item_name'		=>	"New Genre"
 				),
-				'show_ui' => true,
-				'show_tagcloud' => false,
-				'hierarchical' => true,
-				'show_admin_column' => true,
-				'show_in_nav_menus' => true,
-				'show_table_filter' => true,	// framework specific key
-				'show_in_sidebar_menus' => true,	// framework specific key
+				'show_ui'				=>	true,
+				'show_tagcloud'			=>	false,
+				'hierarchical'			=>	true,
+				'show_admin_column'		=>	true,
+				'show_in_nav_menus'		=>	true,
+				'show_table_filter'		=>	true,	// framework specific key
+				'show_in_sidebar_menus'	=>	true,	// framework specific key
 			)
 		);
 		$this->addTaxonomy( 
@@ -77,14 +74,26 @@ class APF_PostType extends AdminPageFramework_PostType {
 				'show_in_sidebar_menus' => false,	// framework specific key
 			)
 		);
-
-		$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
-		$this->setFooterInfoRight( '<br />Custom text on the right hand side' );
 			
 		add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );	
 		
-		add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
+	}
 	
+	/**
+	 * Automatically called with the 'wp_loaded' hook.
+	 */
+	public function setUp() {
+
+		if ( $this->oProp->bIsAdmin ) {
+				
+			$this->setAutoSave( false );
+			$this->setAuthorTableFilter( true );								
+			$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
+			$this->setFooterInfoRight( '<br />Custom text on the right hand side' );			
+			add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
+			
+		}	
+		
 	}
 	
 	/*
@@ -102,7 +111,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 				// 'tags'		=> __( 'Tags', 'admin-page-framework' ),	// Tags for the post. 
 				'comments' 		=> '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
 				'date'			=> __( 'Date', 'admin-page-framework' ), 	// The date and publish status of the post. 
-				'samplecolumn'			=> __( 'Sample Column' ),
+				'samplecolumn'	=> __( 'Sample Column' ),
 			)			
 		);
 		
