@@ -46,7 +46,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	 * Loaded at the end of the constructor.
 	 */
 	public function construct() {
-AdminPageFramework_Debug::log( 'called' );
+
 		$_aGet = $_GET;
 		unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
 		$this->aDefaultKeys['settings']		= $this->getQueryAdminURL( array( 'request' => 'autocomplete' ) + $_aGet );
@@ -71,7 +71,7 @@ AdminPageFramework_Debug::log( 'called' );
 	 * Responds to the request.
 	 */
 	public function _replyToReturnAutoCompleteRequest() {
-AdminPageFramework_Debug::log( 'loaded' );
+
 		if ( ! $this->_isLoggedIn() ) exit;
 			
 		$_aGet = $_GET;
@@ -89,7 +89,7 @@ AdminPageFramework_Debug::log( 'loaded' );
 			$_aArgs['post_type'] = preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_types'] ), 0, PREG_SPLIT_NO_EMPTY );
 		}	
 		$_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
-AdminPageFramework_Debug::log( $_aArgs['post_type'] );		
+
 		if ( isset( $_GET['q'] ) ) {
 			add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
 			$_aArgs['q'] = $_GET['q'] ;
