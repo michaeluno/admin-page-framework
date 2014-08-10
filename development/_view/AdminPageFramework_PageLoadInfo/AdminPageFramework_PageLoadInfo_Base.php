@@ -19,12 +19,18 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 	
 	function __construct( $oProp, $oMsg ) {
 		
+		if ( 'admin-ajax.php' === $oProp->sPageNow ) {
+			return;
+		}		
+		
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			
-			$this->oProp = $oProp;
-			$this->oMsg = $oMsg;
-			$this->_nInitialMemoryUsage = memory_get_usage();
-			add_action( 'admin_menu', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );	// must be loaded after the sub pages are registered
+			$this->oProp				= $oProp;
+			$this->oMsg					= $oMsg;
+			$this->_nInitialMemoryUsage	= memory_get_usage();
+			
+			// must be loaded after the sub pages are registered
+			add_action( 'admin_menu', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );	
 						
 		}
 
