@@ -17,6 +17,41 @@
  * @version				3.1.3b03
  */
 
+if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
+abstract class AdminPageFramework_Registry_Base {
+	
+	const Version		= '3.1.3b03';	// <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const Name			= 'Admin Page Framework';
+	const Description	= 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes.';
+	const URI			= 'http://en.michaeluno.jp/admin-page-framework';
+	const Author		= 'Michael Uno';
+	const AuthorURI		= 'http://en.michaeluno.jp/';
+	const Copyright		= 'Copyright (c) 2013-2014, Michael Uno';
+	const License		= 'MIT	<http://opensource.org/licenses/MIT>';
+	const Contributors	= '';	
+	
+}
+endif;
+if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
+/**
+ * Defines the framework common information.
+ * 
+ * @since		3.1.3
+ */
+final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
+		
+	const TextDomain		= 'admin-page-framework';
+	const TextDomainPath	= './language';
+	/**
+	 * Indicates whether the framework is loaded from the minified version or not.
+	 * 
+	 * @remark		The value will be reassign by the bootstrap script.
+	 */
+	static public $bIsMinifiedVersion = true;
+		
+}
+endif;
+
 if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
 /**
  * Loads the Admin Page Framework library.
@@ -55,10 +90,13 @@ final class AdminPageFramework_Bootstrap {
 			return;
 		}
 		
-		// Load the classes. For the minified version, the autoloader class should not be located in the utility folder.
+		// Determine whether it is a minifed version or not.
 		$_sDirPath				= dirname( $sLibraryPath );
-		$_sAutoLoaderClassPath	= $_sDirPath . '/utility/AdminPageFramework_RegisterClasses.php';
-		if ( file_exists( $_sAutoLoaderClassPath ) ) {
+		$_sAutoLoaderClassPath	= $_sDirPath . '/utility/AdminPageFramework_RegisterClasses.php';		
+		AdminPageFramework_Registry::$bIsMinifiedVersion = ! file_exists( $_sAutoLoaderClassPath );	
+			
+		// Load the classes. For the minified version, the autoloader class should not be located in the utility folder.
+		if ( ! AdminPageFramework_Registry::$bIsMinifiedVersion ) {
 			include( $_sAutoLoaderClassPath );
 			new AdminPageFramework_RegisterClasses( $_sDirPath );
 		}
@@ -67,27 +105,4 @@ final class AdminPageFramework_Bootstrap {
 	
 }
 new AdminPageFramework_Bootstrap( __FILE__ );	// do it now
-endif;
-
-if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
-abstract class AdminPageFramework_Registry_Base {
-	
-	const Version		= '3.1.3b03';	// <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-	const Name			= 'Admin Page Framework';
-	const Description	= 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes.';
-	const URI			= 'http://en.michaeluno.jp/admin-page-framework';
-	const Author		= 'Michael Uno';
-	const AuthorURI		= 'http://en.michaeluno.jp/';
-	const Copyright		= 'Copyright (c) 2013-2014, Michael Uno';
-	const License		= 'MIT	<http://opensource.org/licenses/MIT>';
-	const Contributors	= '';	
-}
-endif;
-if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
-/**
- * Defines the framework common information.
- */
-final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
-		
-}
 endif;

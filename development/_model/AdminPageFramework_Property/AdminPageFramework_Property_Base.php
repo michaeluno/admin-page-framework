@@ -41,9 +41,10 @@ abstract class AdminPageFramework_Property_Base {
 	/**
 	 * Stores the library information.
 	 * 
+	 * @remark			Do not assign anything here because it is checked whether it is set.
 	 * @since			3.0.0
 	 */
-	static public $_aLibraryData;	// do not assign anything here because it is checked whether it is set.
+	static public $_aLibraryData;
 
 	/**
 	 * Stores the main (caller) object.
@@ -62,9 +63,10 @@ abstract class AdminPageFramework_Property_Base {
 	/**
 	 * Stores the caller script data
 	 * 
+	 * @remark			Do not assign a value here since it is checked whether it is set or not.
 	 * @since			Unknown
 	 */
-	public $aScriptInfo;		// do not assign a value here since it is checked whether it is set or not.
+	public $aScriptInfo;
 	
 	/**
 	 * Stores the extended class name that instantiated the property object.
@@ -460,6 +462,7 @@ abstract class AdminPageFramework_Property_Base {
 	/**
 	 * Stores the flag that indicates whether the library is minified or not.
 	 * @since			3.0.0
+	 * @deprecated		3.1.3	Use AdminPageFramework_Registry::$bIsMinifiedVersion
 	 */
 	public $bIsMinifiedVersion;
 		
@@ -509,27 +512,19 @@ abstract class AdminPageFramework_Property_Base {
 	 */
 	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
 		
-		$this->oCaller = $oCaller;
-		$this->sCallerPath = $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
-		$this->sClassName = $sClassName;		
-		$this->sClassHash = md5( $sClassName );	
-		$this->sCapability = empty( $sCapability ) ? 'manage_options' : $sCapability ;
-		$this->sTextDomain = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
-		$this->sFieldsType = $sFieldsType;
-		$this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
+		$this->oCaller		= $oCaller;
+		$this->sCallerPath	= $sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
+		$this->sClassName	= $sClassName;		
+		$this->sClassHash	= md5( $sClassName );	
+		$this->sCapability	= empty( $sCapability ) ? 'manage_options' : $sCapability ;
+		$this->sTextDomain	= empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
+		$this->sFieldsType	= $sFieldsType;
+		$this->aScriptInfo	= $this->getCallerInfo( $this->sCallerPath );
 		$GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
 			? $GLOBALS['aAdminPageFramework']
 			: array( 'aFieldFlags' => array() );
-		$this->sPageNow = AdminPageFramework_WPUtility::getPageNow();
-		$this->bIsAdmin = is_admin();
-		$this->bIsMinifiedVersion = ! class_exists( 'AdminPageFramework_Bootstrap' );
-		if ( ! isset( self::$_aLibraryData ) ) {			
-			$_sLibraryMainClassName = ( $this->bIsMinifiedVersion )
-				? 'AdminPageFramework'	
-				: 'AdminPageFramework_Bootstrap';	// the minified version does not have the bootstrap class.
-			$oRC = new ReflectionClass( $_sLibraryMainClassName );
-			self::_setLibraryData( $oRC->getFileName() );
-		}
+		$this->sPageNow		= AdminPageFramework_WPUtility::getPageNow();
+		$this->bIsAdmin		= is_admin();
 		
 	}
 		
@@ -548,12 +543,34 @@ abstract class AdminPageFramework_Property_Base {
 	}
 	
 	/**
-	 * Sets the library information property.
+	 * Sets the library information property array.
 	 * @internal
 	 * @since			3.0.0
 	 */
-	static public function _setLibraryData( $sLibraryFilePath ) {
-		self::$_aLibraryData = AdminPageFramework_WPUtility::getScriptData( $sLibraryFilePath, 'library' );
+	static public function _setLibraryData() {
+
+		self::$_aLibraryData = array(
+			'sName'			=> AdminPageFramework_Registry::Name,
+			'sURI'			=> AdminPageFramework_Registry::URI,
+			'sScriptName'	=> AdminPageFramework_Registry::Name,
+			'sLibraryName'	=> AdminPageFramework_Registry::Name,
+			'sLibraryURI'	=> AdminPageFramework_Registry::URI,
+			'sPluginName'	=> '',
+			'sPluginURI'	=> '',
+			'sThemeName'	=> '',
+			'sThemeURI'		=> '',
+			'sVersion'		=> AdminPageFramework_Registry::Version 
+				. ( AdminPageFramework_Registry::$bIsMinifiedVersion ? '.min' : '' ),
+			'sDescription'	=> AdminPageFramework_Registry::Description,
+			'sAuthor'		=> AdminPageFramework_Registry::Author,
+			'sAuthorURI'	=> AdminPageFramework_Registry::AuthorURI,
+			'sTextDomain'	=> AdminPageFramework_Registry::TextDomain,
+			'sDomainPath'	=> AdminPageFramework_Registry::TextDomainPath,
+			'sNetwork'		=> '',
+			'_sitewide'		=> '',
+		);
+		return self::$_aLibraryData;
+		
 	}
 	/**
 	 * Returns the set library data array.
@@ -561,17 +578,11 @@ abstract class AdminPageFramework_Property_Base {
 	 * @internal
 	 * @since			3.0.0
 	 */
-	static public function _getLibraryData( $sLibraryFilePath=null ) {
-		
-		if ( isset( self::$_aLibraryData ) ) {
-			return self::$_aLibraryData;
-		}
-		
-		if ( $sLibraryFilePath ) {
-			self::_setLibraryData( $sLibraryFilePath );
-		}
-			
-		return self::$_aLibraryData;
+	static public function _getLibraryData() {
+				
+		return isset( self::$_aLibraryData )
+			? self::$_aLibraryData
+			: self::_setLibraryData();		
 		
 	}
 

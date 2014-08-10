@@ -32,43 +32,44 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
 		$aData = get_file_data( 
 			$sPath, 
 			array(
-				'sName' => 'Name',
-				'sURI' => 'URI',
-				'sScriptName' => 'Script Name',
-				'sLibraryName' => 'Library Name',
-				'sLibraryURI' => 'Library URI',
-				'sPluginName' => 'Plugin Name',
-				'sPluginURI' => 'Plugin URI',
-				'sThemeName' => 'Theme Name',
-				'sThemeURI' => 'Theme URI',
-				'sVersion' => 'Version',
-				'sDescription' => 'Description',
-				'sAuthor' => 'Author',
-				'sAuthorURI' => 'Author URI',
-				'sTextDomain' => 'Text Domain',
-				'sDomainPath' => 'Domain Path',
-				'sNetwork' => 'Network',
+				// storing array key	=>	the comment entry header label
+				'sName'			=> 'Name',
+				'sURI'			=> 'URI',
+				'sScriptName'	=> 'Script Name',
+				'sLibraryName'	=> 'Library Name',
+				'sLibraryURI'	=> 'Library URI',
+				'sPluginName'	=> 'Plugin Name',
+				'sPluginURI'	=> 'Plugin URI',
+				'sThemeName'	=> 'Theme Name',
+				'sThemeURI'		=> 'Theme URI',
+				'sVersion'		=> 'Version',
+				'sDescription'	=> 'Description',
+				'sAuthor'		=> 'Author',
+				'sAuthorURI'	=> 'Author URI',
+				'sTextDomain'	=> 'Text Domain',
+				'sDomainPath'	=> 'Domain Path',
+				'sNetwork'		=> 'Network',
 				// Site Wide Only is deprecated in favour of Network.
-				'_sitewide' => 'Site Wide Only',
+				'_sitewide'		=> 'Site Wide Only',
 			),
-			in_array( $sType, array( 'plugin', 'theme' ) ) ? $sType : 'plugin' 
+			$sType	// context
 		);			
 
 		switch ( trim( $sType ) ) {
 			case 'theme':	
-				$aData['sName'] = $aData['sThemeName'];
-				$aData['sURI'] = $aData['sThemeURI'];
+				$aData['sName']	= $aData['sThemeName'];
+				$aData['sURI']	= $aData['sThemeURI'];
 				break;
 			case 'library':	
-				$aData['sName'] = $aData['sLibraryName'];
-				$aData['sURI'] = $aData['sLibraryURI'];
+				$aData['sName']	= $aData['sLibraryName'];
+				$aData['sURI']	= $aData['sLibraryURI'];
 				break;
 			case 'script':	
-				$aData['sName'] = $aData['sScriptName'];
+				$aData['sName']	= $aData['sScriptName'];
 				break;		
 			case 'plugin':	
-				$aData['sName'] = $aData['sPluginName'];
-				$aData['sURI'] = $aData['sPluginURI'];
+				$aData['sName']	= $aData['sPluginName'];
+				$aData['sURI']	= $aData['sPluginURI'];
 				break;
 			default:	
 				break;				

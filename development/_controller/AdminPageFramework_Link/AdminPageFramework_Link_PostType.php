@@ -40,7 +40,6 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->aFooterInfo['sLeft'] );
 		$aLibraryData = $this->oProp->_getLibraryData();
-		$aLibraryData['sVersion'] = $this->oProp->bIsMinifiedVersion ? $aLibraryData['sVersion'] . '.min' : $aLibraryData['sVersion'];
 		$this->_setFooterInfoRight( $aLibraryData, $this->aFooterInfo['sRight'] );
 				
 		// For post type posts listing table page ( edit.php )

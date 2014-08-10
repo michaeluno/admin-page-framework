@@ -40,7 +40,6 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
 		$_aLibraryData = AdminPageFramework_Property_Base::_getLibraryData();
-		$_aLibraryData['sVersion'] = $this->oProp->bIsMinifiedVersion ? $_aLibraryData['sVersion'] . '.min' : $_aLibraryData['sVersion'];
 		$this->_setFooterInfoRight( $_aLibraryData, $this->oProp->aFooterInfo['sRight'] );
 	
 		if ( 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
