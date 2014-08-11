@@ -4,6 +4,9 @@ class APF_PostType extends AdminPageFramework_PostType {
 	/**
 	 * This method is called at the end of the constructor.
 	 * 
+	 * Use this method to set post type arguments and add custom taxonomies as those need to be done in the front-end as well.
+	 * Also, to add custom taxonomies, the setUp() method is too late.
+	 * 
 	 * ALternatevely, you may use the start_{extended class name} method, which also is called at the end of the constructor.
 	 */
 	public function start() {	
@@ -29,17 +32,16 @@ class APF_PostType extends AdminPageFramework_PostType {
 				),
 				'public'			=>	true,
 				'menu_position' 	=>	110,
-				'supports'			=>	array( 'title' ), // 'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),	// 'custom-fields'
+				'supports'			=>	array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail' ),	
 				'taxonomies'		=>	array( '' ),
 				'has_archive'		=>	true,
 				'show_admin_column' =>	true,	// this is for custom taxonomies to automatically add the column in the listing table.
-				'menu_icon'			=>	plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ),
+				'menu_icon'			=>	$this->oProp->bIsAdmin ? plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) : null,	// do not call the function in the front-end.
 				// ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
 				'screen_icon'		=>	dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
 			)	
 		);
 		
-		// the setUp() method is too late to add taxonomies. So we use start_{class name} action hook.
 		$this->addTaxonomy( 
 			'apf_sample_taxonomy', // taxonomy slug
 			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
