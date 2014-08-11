@@ -85,6 +85,19 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 	public function _replyToRegisterFormElements( $oScreen ) {}
 
 	/**
+	 * Determines whether the meta box class components should be loaded in the currently loading page.
+	 * @since			3.1.3	
+	 */
+	protected  function _isInstantiatable() {
+		
+		// Disable in admin-ajax.php
+		if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+			return false;
+		}
+		return true;
+		
+	}
+	/**
 	 * Determines whether the meta box should be loaded in the currently loading page.
 	 * 
 	 * 

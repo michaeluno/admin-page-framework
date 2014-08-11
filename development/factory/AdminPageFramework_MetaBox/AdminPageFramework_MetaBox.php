@@ -80,6 +80,8 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 	 */ 
 	function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
 		
+		if ( ! $this->_isInstantiatable() ) { return; }
+		
 		/* The property object needs to be done first */
 		$this->oProp = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );
 		$this->oProp->aPostTypes = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;	
