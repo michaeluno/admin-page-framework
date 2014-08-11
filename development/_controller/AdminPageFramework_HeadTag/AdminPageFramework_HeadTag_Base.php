@@ -107,8 +107,9 @@ abstract class AdminPageFramework_HeadTag_Base {
 	 * @internal
 	 */	
 	public function _replyToEnqueueStyles() {	
-		foreach( $this->oProp->aEnqueuingStyles as $sKey => $aEnqueuingStyle ) 
+		foreach( $this->oProp->aEnqueuingStyles as $sKey => $aEnqueuingStyle ) {
 			$this->_enqueueSRCByConditoin( $aEnqueuingStyle );
+		}
 	}
 	
 	/**
@@ -121,8 +122,9 @@ abstract class AdminPageFramework_HeadTag_Base {
 	 * @internal
 	 */
 	public function _replyToEnqueueScripts() {							
-		foreach( $this->oProp->aEnqueuingScripts as $sKey => $aEnqueuingScript ) 
+		foreach( $this->oProp->aEnqueuingScripts as $sKey => $aEnqueuingScript ) {
 			$this->_enqueueSRCByConditoin( $aEnqueuingScript );				
+		}
 	}
 	
 }
