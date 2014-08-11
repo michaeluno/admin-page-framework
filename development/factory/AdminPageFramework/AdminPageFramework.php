@@ -136,9 +136,12 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * ...
  * }</code>
  * <h3>Timing of Hooks</h3>
- * <code>------ When the class is instantiated ------
+ * <code>------ After the class is instantiated ------
  *  
  *  start_{instantiated class name}
+ * 
+ * ------ When the page starts loading  ------
+ * 
  *  load_{instantiated class name}
  *  load_{page slug}
  *  load_{page slug}_{tab slug}
@@ -167,7 +170,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  import_{page slug}
  *  import_{instantiated class name}
  * 
- *  ------ Start Rendering HTML ------
+ *  ------ Start Rendering HTML - after HTML header is sent ------
  *  
  *  <head>
  *      <style type="text/css" name="admin-page-framework">
