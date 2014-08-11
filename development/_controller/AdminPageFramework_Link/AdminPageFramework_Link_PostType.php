@@ -32,6 +32,10 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		
 		if ( ! $oProp->bIsAdmin ) return;
 		
+		if ( in_array( $oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
+			return;
+		}				
+		
 		$this->oProp	= $oProp;
 		$this->oMsg		= $oMsg;
 				
