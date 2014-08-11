@@ -29,7 +29,7 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug
 		
 		$this->oProp = $oProp;
 		$this->oUtil = new AdminPageFramework_WPUtility;
-		
+
 	}
 		
 	

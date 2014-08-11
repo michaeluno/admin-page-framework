@@ -23,6 +23,10 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 		
 		parent::__construct( $oProp );
 		
+		if ( in_array( $oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
+			return;
+		}
+		
 		// the contextual help pane
 		add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabTextForMetaBox' ) );	// since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
 		
