@@ -248,10 +248,15 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
 	public function do_apf_manage_options_messages() {	// do_{page slug}_{tab slug}
 		?>
 		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
-		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;aMessages );</code></pre>
+		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?>
+			<?php _e( 'The keys and the default values are listed below.', 'admin-page-framework-demo' ); ?>
+		</p>
 		<?php
-			echo $this->oDebug->getArray( $this->oMsg->aMessages );
+			$_aMessages = array();
+			foreach ( $this->oMsg->aMessages as $_sLabel => $_sTranslation ) {
+				$_aMessages[ $_sLabel ] = $this->oMsg->__( $_sLabel );
+			}
+			echo $this->oDebug->getArray( $_aMessages );
 	}
 	
 	/*
