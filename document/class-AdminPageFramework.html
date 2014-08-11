@@ -7,7 +7,7 @@
 	<title>Class AdminPageFramework | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?734727412"></script>
+	<script type="text/javascript" src="elementlist.js?1864300470"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -71,6 +71,8 @@
 				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
 						</li>
 							</ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
 			</ul>
 		</div>
 
@@ -526,6 +528,37 @@ class="php-keyword1">class</span> name}
  tabs_{instantiated <span
 class="php-keyword1">class</span> name}_{page slug}
 
+ submit_{instantiated <span
+class="php-keyword1">class</span> name}_{pressed submit field id}
+ submit_{instantiated <span
+class="php-keyword1">class</span> name}_{section id}
+ submit_{instantiated <span
+class="php-keyword1">class</span> name}_{section id}_{field id}
+ submit_{instantiated <span
+class="php-keyword1">class</span> name}_{page slug}
+ submit_{instantiated <span
+class="php-keyword1">class</span> name}_{page slug}_{tab slug}
+ submit_{instantiated <span
+class="php-keyword1">class</span> name}
+ validation_{instantiated <span
+class="php-keyword1">class</span> name}_{field id (which does not have a section)}
+ validation_{instantiated <span
+class="php-keyword1">class</span> name}_{section_id}
+ validation_{instantiated <span
+class="php-keyword1">class</span> name}_{section id}_{field id}
+ validation_{page slug}_{tab slug}
+ validation_{page slug }
+ validation_{instantiated <span
+class="php-keyword1">class</span> name }
+ export_{page slug}_{tab slug}
+ export_{page slug}
+ export_{instantiated <span
+class="php-keyword1">class</span> name}
+ import_{page slug}_{tab slug}
+ import_{page slug}
+ import_{instantiated <span
+class="php-keyword1">class</span> name}
+
  ------ Start Rendering HTML ------
 
  &lt;head&gt;
@@ -553,16 +586,16 @@ class="php-keyword1">class</span> name}
 class="php-keyword1">class</span>=<span
 class="php-quote">&quot;wrap&quot;</span>&gt;
 
-     content_foot_{page slug}_{tab slug}
-     content_foot_{page slug}
-     content_foot_{instantiated <span
+     content_top_{page slug}_{tab slug}
+     content_top_{page slug}
+     content_top_{instantiated <span
 class="php-keyword1">class</span> name}
 
      &lt;div <span
 class="php-keyword1">class</span>=<span
 class="php-quote">&quot;acmin-page-framework-container&quot;</span>&gt;
          &lt;form action=<span
-class="php-quote">&quot;options.php&quot;</span> method=<span
+class="php-quote">&quot;current page&quot;</span> method=<span
 class="php-quote">&quot;post&quot;</span>&gt;
 
              do_form_{page slug}_{tab slug}
@@ -604,38 +637,6 @@ class="php-keyword1">class</span> name}
  do_after_{page slug}
  do_after_{page slug}_{tab slug}
 
- ----- After Submitting the Form ------
-
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{pressed submit field id}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{section id}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{section id}_{field id}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{page slug}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{page slug}_{tab slug}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}
- validation_{instantiated <span
-class="php-keyword1">class</span> name}_{field id (which does not have a section)}
- validation_{instantiated <span
-class="php-keyword1">class</span> name}_{section_id}
- validation_{instantiated <span
-class="php-keyword1">class</span> name}_{section id}_{field id}
- validation_{page slug}_{tab slug}
- validation_{page slug }
- validation_{instantiated <span
-class="php-keyword1">class</span> name }
- export_{page slug}_{tab slug}
- export_{page slug}
- export_{instantiated <span
-class="php-keyword1">class</span> name}
- import_{page slug}_{tab slug}
- import_{page slug}
- import_{instantiated <span
-class="php-keyword1">class</span> name}
 </pre>
 
 	</div>
@@ -772,7 +773,7 @@ AdminPageFramework_Setting_Validation
 				AdminPageFramework_Link_Page<br>
 				<b>Use:</b>
 				AdminPageFramework_Utility<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework.html#10-715" title="Go to source code">factory/AdminPageFramework/AdminPageFramework.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework.html#10-701" title="Go to source code">factory/AdminPageFramework/AdminPageFramework.php</a><br>
 	</div>
 
 
@@ -790,7 +791,7 @@ AdminPageFramework_Setting_Validation
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework.html#244-276" title="Go to source code">__construct</a>( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#243-275" title="Go to source code">__construct</a>( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -867,7 +868,7 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework.html#278-316" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework.html#277-315" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -972,7 +973,7 @@ is triggered with the <em>wp_loaded</em> hook.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addHelpTab">#</a>
-			<code><a href="source-class-AdminPageFramework.html#322-355" title="Go to source code">addHelpTab</a>( <span>array <var>$aHelpTab</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#321-354" title="Go to source code">addHelpTab</a>( <span>array <var>$aHelpTab</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1069,7 +1070,7 @@ class="php-quote">'admin-page-framework'</span> ),
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyles">#</a>
-			<code><a href="source-class-AdminPageFramework.html#360-385" title="Go to source code">enqueueStyles</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#359-384" title="Go to source code">enqueueStyles</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1143,7 +1144,7 @@ applies to all the in-page tabs in the page.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyle">#</a>
-			<code><a href="source-class-AdminPageFramework.html#386-412" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#385-411" title="Go to source code">enqueueStyle</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1232,7 +1233,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScripts">#</a>
-			<code><a href="source-class-AdminPageFramework.html#413-438" title="Go to source code">enqueueScripts</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#412-437" title="Go to source code">enqueueScripts</a>( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1306,7 +1307,7 @@ applies to all the in-page tabs in the page.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScript">#</a>
-			<code><a href="source-class-AdminPageFramework.html#439-477" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#438-476" title="Go to source code">enqueueScript</a>( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1422,7 +1423,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addLinkToPluginDescription">#</a>
-			<code><a href="source-class-AdminPageFramework.html#479-501" title="Go to source code">addLinkToPluginDescription</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#478-500" title="Go to source code">addLinkToPluginDescription</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1486,7 +1487,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addLinkToPluginTitle">#</a>
-			<code><a href="source-class-AdminPageFramework.html#503-524" title="Go to source code">addLinkToPluginTitle</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#502-523" title="Go to source code">addLinkToPluginTitle</a>( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1545,7 +1546,7 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setPluginSettingsLinkLabel">#</a>
-			<code><a href="source-class-AdminPageFramework.html#526-535" title="Go to source code">setPluginSettingsLinkLabel</a>( <span>mixed <var>$sLabel</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#525-534" title="Go to source code">setPluginSettingsLinkLabel</a>( <span>mixed <var>$sLabel</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1586,7 +1587,7 @@ the plugin listing table of the plugin title cell.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setCapability">#</a>
-			<code><a href="source-class-AdminPageFramework.html#537-554" title="Go to source code">setCapability</a>( <span>string <var>$sCapability</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#536-555" title="Go to source code">setCapability</a>( <span>string <var>$sCapability</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1642,7 +1643,7 @@ href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoLeft">#</a>
-			<code><a href="source-class-AdminPageFramework.html#556-574" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#557-575" title="Go to source code">setFooterInfoLeft</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1693,7 +1694,7 @@ class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setFooterInfoRight">#</a>
-			<code><a href="source-class-AdminPageFramework.html#576-594" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#577-595" title="Go to source code">setFooterInfoRight</a>( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1744,7 +1745,7 @@ class="php-quote">'&lt;br /&gt;Custom Text on the right hand side.'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setAdminNotice">#</a>
-			<code><a href="source-class-AdminPageFramework.html#596-621" title="Go to source code">setAdminNotice</a>( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#597-622" title="Go to source code">setAdminNotice</a>( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1807,7 +1808,7 @@ used.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setDisallowedQueryKeys">#</a>
-			<code><a href="source-class-AdminPageFramework.html#637-663" title="Go to source code">setDisallowedQueryKeys</a>( <span>array|string <var>$asQueryKeys</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#639-665" title="Go to source code">setDisallowedQueryKeys</a>( <span>array|string <var>$asQueryKeys</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1859,7 +1860,7 @@ override the property.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOption">#</a>
-			<code><a href="source-class-AdminPageFramework.html#665-697" title="Go to source code">getOption</a>( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework.html#667-699" title="Go to source code">getOption</a>( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -1989,7 +1990,7 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 			<code>__call()</code>, 
 			<code>_doPageLoadCall()</code>, 
 			<code>_isInThePage()</code>, 
-			<code>_isInstantiatabe()</code>, 
+			<code>_isInstantiatable()</code>, 
 			<code>_sortByOrder()</code>, 
 			<code>addSubMenuLink()</code>, 
 			<code>addSubMenuPage()</code>, 

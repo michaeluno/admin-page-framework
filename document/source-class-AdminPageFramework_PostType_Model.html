@@ -8,7 +8,7 @@
 	<title>File factory/AdminPageFramework_PostType/AdminPageFramework_PostType_Model.php | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?734727412"></script>
+	<script type="text/javascript" src="elementlist.js?1864300470"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -73,6 +73,8 @@
 				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
 						</li>
 							</ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
 			</ul>
 		</div>
 
@@ -231,11 +233,11 @@
 </span><span id="130" class="l"><a class="l" href="#130">130 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__replyToRegisterPostType" href="#__replyToRegisterPostType">_replyToRegisterPostType</a>() {
 </span><span id="131" class="l"><a class="l" href="#131">131 </a>
 </span><span id="132" class="l"><a class="l" href="#132">132 </a>        register_post_type( <span class="php-var">$this</span>-&gt;oProp-&gt;sPostType, <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypeArgs );
-</span><span id="133" class="l"><a class="l" href="#133">133 </a>        
-</span><span id="134" class="l"><a class="l" href="#134">134 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">true</span> !== get_option( <span class="php-quote">&quot;post_type_rules_flased_</span><span class="php-var">{$this-&gt;oProp-&gt;sPostType}</span><span class="php-quote">&quot;</span> ) ) {
-</span><span id="135" class="l"><a class="l" href="#135">135 </a>           flush_rewrite_rules( <span class="php-keyword1">false</span> );
-</span><span id="136" class="l"><a class="l" href="#136">136 </a>           update_option( <span class="php-quote">&quot;post_type_rules_flased_</span><span class="php-var">{$this-&gt;oProp-&gt;sPostType}</span><span class="php-quote">&quot;</span>, <span class="php-keyword1">true</span> );
-</span><span id="137" class="l"><a class="l" href="#137">137 </a>        }
+</span><span id="133" class="l"><a class="l" href="#133">133 </a>
+</span><span id="134" class="l"><a class="l" href="#134">134 </a>        <span class="php-comment">// if ( ! get_option( &quot;post_type_rules_flased_{$this-&gt;oProp-&gt;sPostType}&quot; ) ) {</span>
+</span><span id="135" class="l"><a class="l" href="#135">135 </a>           <span class="php-comment">// flush_rewrite_rules( false );</span>
+</span><span id="136" class="l"><a class="l" href="#136">136 </a>           <span class="php-comment">// update_option( &quot;post_type_rules_flased_{$this-&gt;oProp-&gt;sPostType}&quot;, true );</span>
+</span><span id="137" class="l"><a class="l" href="#137">137 </a>        <span class="php-comment">// }</span>
 </span><span id="138" class="l"><a class="l" href="#138">138 </a>
 </span><span id="139" class="l"><a class="l" href="#139">139 </a>    }
 </span><span id="140" class="l"><a class="l" href="#140">140 </a>
@@ -243,20 +245,20 @@
 </span></span><span id="142" class="l"><a class="l" href="#142">142 </a><span class="php-comment">     * Registers the set custom taxonomies.
 </span></span><span id="143" class="l"><a class="l" href="#143">143 </a><span class="php-comment">     * 
 </span></span><span id="144" class="l"><a class="l" href="#144">144 </a><span class="php-comment">     * @internal
-</span></span><span id="145" class="l"><a class="l" href="#145">145 </a><span class="php-comment">     */</span>
-</span><span id="146" class="l"><a class="l" href="#146">146 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__replyToRegisterTaxonomies" href="#__replyToRegisterTaxonomies">_replyToRegisterTaxonomies</a>() {
-</span><span id="147" class="l"><a class="l" href="#147">147 </a>        
-</span><span id="148" class="l"><a class="l" href="#148">148 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomies <span class="php-keyword1">as</span> <span class="php-var">$_sTaxonomySlug</span> =&gt; <span class="php-var">$_aArgs</span> ) {
-</span><span id="149" class="l"><a class="l" href="#149">149 </a>            <span class="php-var">$_aObjectTypes</span>      = <span class="php-keyword2">is_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomyObjectTypes[ <span class="php-var">$_sTaxonomySlug</span> ] ) ? <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomyObjectTypes[ <span class="php-var">$_sTaxonomySlug</span> ] : <span class="php-keyword1">array</span>();
-</span><span id="150" class="l"><a class="l" href="#150">150 </a>            <span class="php-var">$_aObjectTypes</span>[]    = <span class="php-var">$this</span>-&gt;oProp-&gt;sPostType;
-</span><span id="151" class="l"><a class="l" href="#151">151 </a>            <span class="php-var">$_aObjectTypes</span>      = <span class="php-keyword2">array_unique</span>( <span class="php-var">$_aObjectTypes</span> );
+</span></span><span id="145" class="l"><a class="l" href="#145">145 </a><span class="php-comment">     * @remark          0.01 elapsed for this function call in the demo plugin which has two custom taxonomies.
+</span></span><span id="146" class="l"><a class="l" href="#146">146 </a><span class="php-comment">     */</span>
+</span><span id="147" class="l"><a class="l" href="#147">147 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__replyToRegisterTaxonomies" href="#__replyToRegisterTaxonomies">_replyToRegisterTaxonomies</a>() {
+</span><span id="148" class="l"><a class="l" href="#148">148 </a>
+</span><span id="149" class="l"><a class="l" href="#149">149 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomies <span class="php-keyword1">as</span> <span class="php-var">$_sTaxonomySlug</span> =&gt; <span class="php-var">$_aArgs</span> ) {
+</span><span id="150" class="l"><a class="l" href="#150">150 </a>            <span class="php-var">$_aObjectTypes</span>      = <span class="php-keyword2">is_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomyObjectTypes[ <span class="php-var">$_sTaxonomySlug</span> ] ) ? <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomyObjectTypes[ <span class="php-var">$_sTaxonomySlug</span> ] : <span class="php-keyword1">array</span>();
+</span><span id="151" class="l"><a class="l" href="#151">151 </a>            <span class="php-var">$_aObjectTypes</span>[]    = <span class="php-var">$this</span>-&gt;oProp-&gt;sPostType;
 </span><span id="152" class="l"><a class="l" href="#152">152 </a>            register_taxonomy(
 </span><span id="153" class="l"><a class="l" href="#153">153 </a>                <span class="php-var">$_sTaxonomySlug</span>,
-</span><span id="154" class="l"><a class="l" href="#154">154 </a>                <span class="php-var">$_aObjectTypes</span>, <span class="php-comment">// object types</span>
+</span><span id="154" class="l"><a class="l" href="#154">154 </a>                <span class="php-keyword2">array_unique</span>( <span class="php-var">$_aObjectTypes</span> ), <span class="php-comment">// object types</span>
 </span><span id="155" class="l"><a class="l" href="#155">155 </a>                <span class="php-var">$_aArgs</span>         <span class="php-comment">// for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments</span>
 </span><span id="156" class="l"><a class="l" href="#156">156 </a>            );  
 </span><span id="157" class="l"><a class="l" href="#157">157 </a>        }
-</span><span id="158" class="l"><a class="l" href="#158">158 </a>            
+</span><span id="158" class="l"><a class="l" href="#158">158 </a>
 </span><span id="159" class="l"><a class="l" href="#159">159 </a>    }
 </span><span id="160" class="l"><a class="l" href="#160">160 </a>
 </span><span id="161" class="l"><a class="l" href="#161">161 </a>    <span class="php-comment">/**
@@ -265,11 +267,11 @@
 </span></span><span id="164" class="l"><a class="l" href="#164">164 </a><span class="php-comment">     * @internal
 </span></span><span id="165" class="l"><a class="l" href="#165">165 </a><span class="php-comment">     */</span>
 </span><span id="166" class="l"><a class="l" href="#166">166 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__replyToRemoveTexonomySubmenuPages" href="#__replyToRemoveTexonomySubmenuPages">_replyToRemoveTexonomySubmenuPages</a>() {
-</span><span id="167" class="l"><a class="l" href="#167">167 </a>        
+</span><span id="167" class="l"><a class="l" href="#167">167 </a>    
 </span><span id="168" class="l"><a class="l" href="#168">168 </a>        <span class="php-keyword1">foreach</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;aTaxonomyRemoveSubmenuPages <span class="php-keyword1">as</span> <span class="php-var">$sSubmenuPageSlug</span> =&gt; <span class="php-var">$sTopLevelPageSlug</span> ) {
 </span><span id="169" class="l"><a class="l" href="#169">169 </a>            remove_submenu_page( <span class="php-var">$sTopLevelPageSlug</span>, <span class="php-var">$sSubmenuPageSlug</span> );
 </span><span id="170" class="l"><a class="l" href="#170">170 </a>        }
-</span><span id="171" class="l"><a class="l" href="#171">171 </a>        
+</span><span id="171" class="l"><a class="l" href="#171">171 </a>
 </span><span id="172" class="l"><a class="l" href="#172">172 </a>    }
 </span><span id="173" class="l"><a class="l" href="#173">173 </a>    
 </span><span id="174" class="l"><a class="l" href="#174">174 </a>    
