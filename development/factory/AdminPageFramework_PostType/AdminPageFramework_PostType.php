@@ -94,9 +94,10 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
 		if ( empty( $sPostType ) ) return;
 
 		// Properties
+		$_bIsInThePage				= is_admin() && isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'edit.php', 'post.php', 'post-new.php' ) );
 		$this->oProp				= new AdminPageFramework_Property_PostType( 
 			$this, 
-			$sCallerPath ? trim( $sCallerPath ) : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.			
+			$sCallerPath ? trim( $sCallerPath ) : ( $_bIsInThePage ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) : null ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.	
 			get_class( $this ),	// class name
 			'post',				// capability
 			$sTextDomain,		// text domain

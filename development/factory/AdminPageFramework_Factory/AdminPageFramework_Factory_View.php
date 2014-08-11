@@ -21,10 +21,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		
 		parent::__construct( $oProp );
 
-		if ( $this->_isInThePage() && 'admin-ajax.php' != $this->oProp->sPageNow ) {
-				
+		if ( $this->_isInThePage() && ! $this->oProp->bIsAdminAjax ) {				
 			add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-			
 		}
 		
 	}		

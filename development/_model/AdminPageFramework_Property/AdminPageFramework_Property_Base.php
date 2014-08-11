@@ -508,6 +508,13 @@ abstract class AdminPageFramework_Property_Base {
 	public $_bSetupLoaded;
 	
 	/**
+	 * Indicates whether the current page is in admin-ajax.php
+	 * 
+	 * @since			3.1.3
+	 */
+	public $bIsAdminAjax;
+	
+	/**
 	 * Sets up necessary property values.
 	 */
 	function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
@@ -524,6 +531,7 @@ abstract class AdminPageFramework_Property_Base {
 			: array( 'aFieldFlags' => array() );
 		$this->sPageNow		= AdminPageFramework_WPUtility::getPageNow();
 		$this->bIsAdmin		= is_admin();
+		$this->bIsAdminAjax = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
 		
 	}
 		

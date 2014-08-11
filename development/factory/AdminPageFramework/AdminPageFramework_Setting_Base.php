@@ -66,15 +66,17 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 */
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 		
-		if ( is_admin() ) {
+		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
+
+		if ( $this->oProp->bIsAdminAjax ) {
+			return;
+		}
+		
+		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'current_screen', array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let the load_{...} callbacks being loaded earlier.
 			add_action( 'current_screen', array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
 		}
-		
-		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-
-		// $this->oForm = new AdminPageFramework_FormElement_Page( $this->oProp->sFieldsType, $this->oProp->sCapability );
-				
+					
 	}
 							
 		

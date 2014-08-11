@@ -81,23 +81,23 @@ abstract class AdminPageFramework_Factory_Router {
 		$this->oProp	= $oProp;
 		$this->oMsg		= AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
 
-		if ( $this->_isInThePage() ) :
-	
-			// Objects - Model
-			$this->oForm			= $this->_getFormInstance( $oProp );
-		
-			// Objects - Control
-			$this->oHeadTag			= $this->_getHeadTagInstance( $oProp );
-			$this->oHelpPane		= $this->_getHelpPaneInstance( $oProp );
+		if ( $this->oProp->bIsAdmin && $this->_isInThePage() ) :
 			
-			// Objects - View
-			$this->oLink			= $this->_getLinkInstancce( $oProp, $this->oMsg );
-			$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $oProp, $this->oMsg );
+			$this->oForm			= $this->_getFormInstance( $oProp );
+			
+			if ( ! $this->oProp->bIsAdminAjax ) :
+			
+				$this->oHeadTag			= $this->_getHeadTagInstance( $oProp );
+				$this->oHelpPane		= $this->_getHelpPaneInstance( $oProp );
+				$this->oLink			= $this->_getLinkInstancce( $oProp, $this->oMsg );
+				$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $oProp, $this->oMsg );
+				
+			endif;
 			
 		endif;
 		
-		// Call the start method.
-		$this->start();	// defined in the controller class.
+		// Call the start method - defined in the controller class.
+		$this->start();	
 		
 	}	
 	
@@ -133,10 +133,17 @@ abstract class AdminPageFramework_Factory_Router {
 		switch ( $oProp->sFieldsType ) {
 			case 'page':
 			case 'network_admin_page':
+				if ( $oProp->bIsAdminAjax ) {
+					return null;
+				}
 				return new AdminPageFramework_FormElement_Page( $oProp->sFieldsType, $oProp->sCapability );
 			case 'post_meta_box':
 			case 'page_meta_box':
 			case 'post_type':
+				if ( $oProp->bIsAdminAjax ) {
+					return null;
+				}			
+				return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
 			case 'taxonomy':
 				return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
 	
@@ -246,7 +253,7 @@ abstract class AdminPageFramework_Factory_Router {
 	 * 
 	 */
 	function __call( $sMethodName, $aArgs=null ) {	
-
+		 
 		// the start_ action hook.
 		if ( $sMethodName == 'start_' . $this->oProp->sClassName ) return;
 

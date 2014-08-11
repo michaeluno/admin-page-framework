@@ -19,7 +19,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 	
 	function __construct( $oProp, $oMsg ) {
 		
-		if ( 'admin-ajax.php' === $oProp->sPageNow ) {
+		if ( $oProp->bIsAdminAjax ) {
 			return;
 		}		
 		

@@ -22,7 +22,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
 	function __construct( $oProp ) {
 		
 		parent::__construct( $oProp );
-			
+		
 		if ( $this->_isInThePage() ) :
 		
 			add_action( 'wp_loaded', array( $this, 'setup_pre' ) );					

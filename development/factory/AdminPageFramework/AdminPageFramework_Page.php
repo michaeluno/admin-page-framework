@@ -63,9 +63,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 */
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {	
 	
-		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
-				
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
+		
+		if ( $this->oProp->bIsAdminAjax ) {
+			return;
+		}		
+		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
 				
 	}
 	
@@ -299,7 +302,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * @internal
 	 */ 
 	protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
-				
+
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
 		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
 		?>

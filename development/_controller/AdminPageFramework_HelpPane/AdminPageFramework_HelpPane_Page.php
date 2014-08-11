@@ -40,7 +40,7 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
 		
 		parent::__construct( $oProp );
 		
-		if ( in_array( $oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
+		if ( $oProp->bIsAdminAjax ) {
 			return;
 		}
 		

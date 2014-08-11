@@ -160,6 +160,9 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 
 		parent::__construct( $this->oProp );
 
+		if ( $this->oProp->bIsAdminAjax ) {
+			return;
+		}		
 		if ( $this->oProp->bIsAdmin ) {
 			add_action( 'wp_loaded', array( $this, 'setup_pre' ) );		
 		}
@@ -230,7 +233,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 * @internal
 	 */
 	public function __call( $sMethodName, $aArgs=null ) {		
-				 
+
 		// The currently loading in-page tab slug. Be careful that not all cases $sMethodName have the page slug.
 		$sPageSlug	= isset( $_GET['page'] ) ? $_GET['page'] : null;	
 		$sTabSlug	= isset( $_GET['tab'] )	? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );	

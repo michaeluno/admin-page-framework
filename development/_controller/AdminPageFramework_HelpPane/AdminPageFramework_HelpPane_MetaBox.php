@@ -23,7 +23,7 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
 		
 		parent::__construct( $oProp );
 		
-		if ( in_array( $oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
+		if ( $oProp->bIsAdminAjax ) {
 			return;
 		}
 		

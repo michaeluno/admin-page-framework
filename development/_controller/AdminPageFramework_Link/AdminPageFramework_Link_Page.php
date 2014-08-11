@@ -30,13 +30,15 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	public function __construct( &$oProp, $oMsg=null ) {
 		
 		if ( ! $oProp->bIsAdmin ) return;
-
-		if ( in_array( $oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
-			return;
-		}		
 		
 		$this->oProp	= $oProp;
 		$this->oMsg		= $oMsg;
+		
+		// The property object needs to be set as there are some public methods accesses the property object.
+		if ( $oProp->bIsAdminAjax ) {
+			return;
+		}		
+		
 		$this->oProp->sLabelPluginSettingsLink = $this->oMsg->__( 'settings' );
 		
 		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
@@ -56,12 +58,13 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		
 		if ( ! $this->oProp->isPageAdded() ) { return; }
 		
+		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
+		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );	
+	
 		// Add script info into the footer 
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );			
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );		
 
-		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
-		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );	
 		
 	}
 		
@@ -72,22 +75,22 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	/**
 	 * @internal
 	 */
-	public function _addLinkToPluginDescription( $linkss ) {
+	public function _addLinkToPluginDescription( $asLinks ) {
 		
-		if ( !is_array( $linkss ) )
-			$this->oProp->aPluginDescriptionLinks[] = $linkss;
+		if ( ! is_array( $asLinks ) )
+			$this->oProp->aPluginDescriptionLinks[] = $asLinks;
 		else
-			$this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $linkss );
+			$this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $asLinks );
 	
 		add_filter( 'plugin_row_meta', array( $this, '_replyToAddLinkToPluginDescription' ), 10, 2 );
 
 	}
-	public function _addLinkToPluginTitle( $linkss ) {
+	public function _addLinkToPluginTitle( $asLinks ) {
 		
-		if ( !is_array( $linkss ) )
-			$this->oProp->aPluginTitleLinks[] = $linkss;
+		if ( ! is_array( $asLinks ) )
+			$this->oProp->aPluginTitleLinks[] = $asLinks;
 		else
-			$this->oProp->aPluginTitleLinks = array_merge( $this->oProp->aPluginTitleLinks, $linkss );
+			$this->oProp->aPluginTitleLinks = array_merge( $this->oProp->aPluginTitleLinks, $asLinks );
 		
 		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, '_replyToAddLinkToPluginTitle' ) );
 

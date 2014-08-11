@@ -22,11 +22,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 	function __construct( $oProp ) {
 		
 		parent::__construct( $oProp );
-			
-		if ( ! $this->oProp->bIsAdmin )	{ 
-			return;
-		}
-			
+						
 		if ( $this->_isInThePage() ) {			
 	
 			// Table filters

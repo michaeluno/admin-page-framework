@@ -31,13 +31,14 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	public function __construct( $oProp, $oMsg=null ) {
 		
 		if ( ! $oProp->bIsAdmin ) return;
-		
-		if ( in_array( $oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
-			return;
-		}				
-		
+				
 		$this->oProp	= $oProp;
 		$this->oMsg		= $oMsg;
+				
+		// The property object needs to be set as there are some public methods accesses the property object.
+		if ( $oProp->bIsAdminAjax ) {
+			return;
+		}		
 				
 		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );		
 								
@@ -58,13 +59,13 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) ) {
 			return;
 		}
+AdminPageFramework_Debug::log( $this->oProp->aScriptInfo );
+		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->aFooterInfo['sLeft'] );
+		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->aFooterInfo['sRight'] );
 		
 		// Add script info into the footer 
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
-		
-		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->aFooterInfo['sLeft'] );
-		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->aFooterInfo['sRight'] );
 		
 	}
 	
