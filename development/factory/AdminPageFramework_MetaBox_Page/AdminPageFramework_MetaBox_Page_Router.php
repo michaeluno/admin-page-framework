@@ -30,6 +30,19 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
 	
 	}
 			
+	/**
+	 * Determines whether the meta box class components should be loaded in the currently loading page.
+	 * @since			3.1.3	
+	 */
+	protected  function _isInstantiatable() {
+		
+		// Disable in admin-ajax.php
+		if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+			return false;
+		}
+		return true;
+		
+	}
 	
 	/**
 	 * Determines whether the meta box belongs to the loading page.

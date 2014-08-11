@@ -60,7 +60,6 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
 			}
 		
 		endif;
-
 	
 	}
 			
