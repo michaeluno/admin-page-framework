@@ -341,6 +341,10 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 */
 	protected function _isInstantiatable() {
 		
+		if ( $this->oProp->bIsAdminAjax ) {
+			return false;
+		}
+		
 		// Nothing to do in the network admin area.
 		return ! is_network_admin();
 		
