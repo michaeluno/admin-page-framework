@@ -131,10 +131,10 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 
 		register_post_type( $this->oProp->sPostType, $this->oProp->aPostTypeArgs );
 
-		if ( ! get_option( "post_type_rules_flased_{$this->oProp->sPostType}" ) ) {
-		   flush_rewrite_rules( false );
-		   update_option( "post_type_rules_flased_{$this->oProp->sPostType}", true );
-		}
+		// if ( ! get_option( "post_type_rules_flased_{$this->oProp->sPostType}" ) ) {
+		   // flush_rewrite_rules( false );
+		   // update_option( "post_type_rules_flased_{$this->oProp->sPostType}", true );
+		// }
 
 	}
 
