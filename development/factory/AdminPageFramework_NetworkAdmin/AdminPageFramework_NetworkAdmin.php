@@ -80,6 +80,10 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
 	 */
 	protected function _isInstantiatable() {
 		
+		if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+			return false;
+		}		
+		
 		// Nothing to do in the non-network admin area.
 		if ( is_network_admin() ) {
 			return true;
