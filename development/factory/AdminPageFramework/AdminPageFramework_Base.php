@@ -341,7 +341,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 */
 	protected function _isInstantiatable() {
 		
-		if ( $this->oProp->bIsAdminAjax ) {
+		// Disable in admin-ajax.php
+		if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
 			return false;
 		}
 		

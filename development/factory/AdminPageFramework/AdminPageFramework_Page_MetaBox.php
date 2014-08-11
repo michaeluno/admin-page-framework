@@ -19,7 +19,7 @@ if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
 abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
-			
+						
 		parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 		
 		if ( $this->oProp->bIsAdminAjax ) {
@@ -27,7 +27,6 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
 		}		
 		add_action( 'admin_head', array( $this, '_replyToEnableMetaBox' ) );	// since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
 		add_filter( 'screen_layout_columns', array( $this, '_replyToSetNumberOfScreenLayoutColumns'), 10, 2 );	// sets the column layout option for meta boxes.
-		
 					
 	}
 		
