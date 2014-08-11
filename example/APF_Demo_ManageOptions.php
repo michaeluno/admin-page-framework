@@ -1,8 +1,12 @@
 <?php
 class APF_Demo_ManageOptions extends AdminPageFramework {
 
-
-	public function setUp() {	// this method automatically gets triggered with the wp_loaded hook. 
+	/**
+	 * Sets up pages.
+	 * 
+	 * This method automatically gets triggered with the wp_loaded hook. 
+	 */
+	public function setUp() {
 
 		/* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
 		$this->setCapability( 'read' );
@@ -13,16 +17,14 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		/* ( required ) Add sub-menu items (pages or links) */
 		$this->addSubMenuItems(	
 			array(
-				'title'	=>	__( 'Manage Options', 'admin-page-framework-demo' ),
-				'page_slug'	=>	'apf_manage_options',
+				'title'			=>	__( 'Manage Options', 'admin-page-framework-demo' ),
+				'page_slug'		=>	'apf_manage_options',
 				'screen_icon'	=>	'link-manager',	
 			)
 		);
-
-		$this->addInPageTabs(	// ( optional )
-			/*
-			 * Manage Options
-			 * */
+		
+		/* ( optional ) Add in-page tabs */
+		$this->addInPageTabs(	// 
 			'apf_manage_options',	// target page slug
 			array(
 				'tab_slug'	=>	'saved_data',
@@ -46,11 +48,11 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'order'		=>	99,	
 			),						
 			array(	// TIPS: you can hide an in-page tab by setting the 'show_in_page_tab' key
-				'tab_slug'	=>	'delete_options_confirm',
-				'title'		=>	__( 'Reset Confirmation', 'admin-page-framework-demo' ),
+				'tab_slug'			=>	'delete_options_confirm',
+				'title'				=>	__( 'Reset Confirmation', 'admin-page-framework-demo' ),
 				'show_in_page_tab'	=>	false,
 				'parent_tab_slug'	=>	'delete_options',
-				'order'		=>	97,
+				'order'				=>	97,
 			)
 		);
 						
@@ -102,102 +104,102 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		 */
 		$this->addSettingFields(			
 			array( // Delete Option Button
-				'field_id'	=>	'submit_manage',
+				'field_id'		=>	'submit_manage',
 				'section_id'	=>	'submit_buttons_manage',
-				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'type'	=>	'submit',
-				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'href'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' ),
-				'attributes' => array(
+				'title'			=>	__( 'Delete Options', 'admin-page-framework' ),
+				'type'			=>	'submit',
+				'label'			=>	__( 'Delete Options', 'admin-page-framework' ),
+				'href'			=>	admin_url( 'admin.php?page=apf_manage_options&tab=delete_options_confirm' ),
+				'attributes'	=> array(
 					'class'	=> 'button-secondary',
 				),			
 			),			
 			array( // Delete Option Confirmation Button
-				'field_id'	=>	'submit_delete_options_confirmation',
+				'field_id'		=>	'submit_delete_options_confirmation',
 				'section_id'	=>	'submit_buttons_confirm',
-				'title'	=>	__( 'Delete Options', 'admin-page-framework' ),
-				'type'	=>	'submit',				
-				'label'	=>	__( 'Delete Options', 'admin-page-framework' ),
+				'title'			=>	__( 'Delete Options', 'admin-page-framework' ),
+				'type'			=>	'submit',				
+				'label'			=>	__( 'Delete Options', 'admin-page-framework' ),
 				'redirect_url'	=>	admin_url( 'admin.php?page=apf_manage_options&tab=saved_data&settings-updated=true' ),
-				'attributes' => array(
+				'attributes'	=> array(
 					'class'	=> 'button-secondary',
 				),
 			),			
 			array(
-				'field_id'	=>	'export_format_type',			
+				'field_id'		=>	'export_format_type',			
 				'section_id'	=>	'exports',
-				'title'	=>	__( 'Export Format Type', 'admin-page-framework-demo' ),
-				'type'	=>	'radio',
+				'title'			=>	__( 'Export Format Type', 'admin-page-framework-demo' ),
+				'type'			=>	'radio',
 				'description'	=>	__( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 
+				'label'			=>	array( 
 					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
 					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
 					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
 				),
-				'default'	=>	'json',
+				'default'		=>	'json',
 			),			
 			array(	// Single Export Button
-				'field_id'	=>	'export_single',
+				'field_id'		=>	'export_single',
 				'section_id'	=>	'exports',
-				'type'	=>	'export',
+				'type'			=>	'export',
 				'description'	=>	__( 'Download the saved option data.', 'admin-page-framework-demo' ),
 			),
 			array(	// Multiple Export Buttons
-				'field_id'	=>	'export_multiple',
+				'field_id'		=>	'export_multiple',
 				'section_id'	=>	'exports',
-				'title'	=>	__( 'Multiple Export Buttons', 'admin-page-framework-demo' ),
-				'type'	=>	'export',
-				'label'	=>	__( 'Pain Text', 'admin-page-framework-demo' ),
-				'file_name'	=>	'plain_text.txt',
-				'format'	=>	'text',
+				'title'			=>	__( 'Multiple Export Buttons', 'admin-page-framework-demo' ),
+				'type'			=>	'export',
+				'label'			=>	__( 'Pain Text', 'admin-page-framework-demo' ),
+				'file_name'		=>	'plain_text.txt',
+				'format'		=>	'text',
 				'attributes'	=>	array(
-					'field'	=>	array(
+					'field'		=>	array(
 						'style'	=>	'display: inline; clear: none;',
 					),
 				),
 				array(
-					'label'	=>	__( 'JSON', 'admin-page-framework-demo' ),
+					'label'		=>	__( 'JSON', 'admin-page-framework-demo' ),
 					'file_name'	=>	'json.json', 
 					'format'	=>	'json',
 				),
 				array(
-					'label'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
+					'label'		=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
 					'file_name'	=>	'serialized_array.txt', 
 					'format'	=>	'array',
 				),
 				'description'	=>	__( 'To set a file name, use the <code>file_name</code> key in the field definition array.', 'admin-page-framework-demo' )
-				 . ' ' . __( 'To set the data format, use the <code>format</code> key in the field definition array.', 'admin-page-framework-demo' ),	
+					. ' ' . __( 'To set the data format, use the <code>format</code> key in the field definition array.', 'admin-page-framework-demo' ),	
 			),	
 			array(	// Custom Data to Export
-				'field_id'	=>	'export_custom_data',
+				'field_id'		=>	'export_custom_data',
 				'section_id'	=>	'exports',		
-				'title'	=>	__( 'Custom Exporting Data', 'admin-page-framework-demo' ),
-				'type'	=>	'export',
-				'data'	=>	__( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
-				'file_name' => 'hello_world.txt',
-				'label'	=>	__( 'Export Custom Data', 'admin-page-framework-demo' ),
+				'title'			=>	__( 'Custom Exporting Data', 'admin-page-framework-demo' ),
+				'type'			=>	'export',
+				'data'			=>	__( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
+				'file_name'		=> 'hello_world.txt',
+				'label'			=>	__( 'Export Custom Data', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> key in the field definition array.', 'admin-page-framework-demo' ),	
 			),
 			array(
-				'field_id'	=>	'import_format_type',			
+				'field_id'		=>	'import_format_type',			
 				'section_id'	=>	'imports',
-				'title'	=>	__( 'Import Format Type', 'admin-page-framework-demo' ),
-				'type'	=>	'radio',
+				'title'			=>	__( 'Import Format Type', 'admin-page-framework-demo' ),
+				'type'			=>	'radio',
 				'description'	=>	__( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
-				'label'	=>	array( 
+				'label'			=>	array( 
 					'json'	=>	__( 'JSON', 'admin-page-framework-demo' ),
 					'array'	=>	__( 'Serialized Array', 'admin-page-framework-demo' ),
 					'text'	=>	__( 'Text', 'admin-page-framework-demo' ),
 				),
-				'default'	=>	'json',
+				'default'		=>	'json',
 			),
 			array(	// Single Import Button
-				'field_id'	=>	'import_single',
+				'field_id'		=>	'import_single',
 				'section_id'	=>	'imports',
-				'title'	=>	__( 'Single Import Field', 'admin-page-framework-demo' ),
-				'type'	=>	'import',
+				'title'			=>	__( 'Single Import Field', 'admin-page-framework-demo' ),
+				'type'			=>	'import',
 				'description'	=>	__( 'Upload the saved option data.', 'admin-page-framework-demo' ),
-				'label'	=>	'Import Options',
+				'label'			=>	__( 'Import Options', 'admin-page-framework-demo' ),
 			),			
 			array()
 		);		
@@ -228,7 +230,6 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 		</p>
 		<?php
 			echo $this->oDebug->getArray( $this->oProp->aOptions ); 
-			// echo $this->oDebug->getArray( AdminPageFramework::getOption( 'APF_Demo', array( 'text_fields' ) ) ); 
 		
 	}
 	public function do_apf_manage_options_properties() {	// do_{page slug}_{tab slug}
@@ -242,10 +243,15 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 	public function do_apf_manage_options_messages() {	// do_{page slug}_{tab slug}
 		?>
 		<h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?></p>
-		<pre><code>echo $this-&gt;oDebug-&gt;getArray( $this-&gt;oMsg-&gt;aMessages );</code></pre>
+		<p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?>
+			<?php _e( 'The keys and the default values are listed below.', 'admin-page-framework-demo' ); ?>
+		</p>
 		<?php
-			echo $this->oDebug->getArray( $this->oMsg->aMessages );
+			$_aMessages = array();
+			foreach ( $this->oMsg->aMessages as $_sLabel => $_sTranslation ) {
+				$_aMessages[ $_sLabel ] = $this->oMsg->__( $_sLabel );
+			}
+			echo $this->oDebug->getArray( $_aMessages );
 	}
 		
 	/*
