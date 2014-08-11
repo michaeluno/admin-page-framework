@@ -196,14 +196,16 @@
 </span></span><span id="93" class="l"><a class="l" href="#93"> 93 </a><span class="php-comment">     */</span>
 </span><span id="94" class="l"><a class="l" href="#94"> 94 </a>    <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>( <span class="php-var">$sMetaBoxID</span>, <span class="php-var">$sTitle</span>, <span class="php-var">$asPageSlugs</span>=<span class="php-keyword1">array</span>(), <span class="php-var">$sContext</span>=<span class="php-quote">'normal'</span>, <span class="php-var">$sPriority</span>=<span class="php-quote">'default'</span>, <span class="php-var">$sCapability</span>=<span class="php-quote">'manage_options'</span>, <span class="php-var">$sTextDomain</span>=<span class="php-quote">'admin-page-framework'</span> ) {      
 </span><span id="95" class="l"><a class="l" href="#95"> 95 </a>        
-</span><span id="96" class="l"><a class="l" href="#96"> 96 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">empty</span>( <span class="php-var">$asPageSlugs</span> ) ) <span class="php-keyword1">return</span>;
-</span><span id="97" class="l"><a class="l" href="#97"> 97 </a>                
-</span><span id="98" class="l"><a class="l" href="#98"> 98 </a>        parent::__construct( <span class="php-var">$sMetaBoxID</span>, <span class="php-var">$sTitle</span>, <span class="php-var">$asPageSlugs</span>, <span class="php-var">$sContext</span>, <span class="php-var">$sPriority</span>, <span class="php-var">$sCapability</span>, <span class="php-var">$sTextDomain</span> );
-</span><span id="99" class="l"><a class="l" href="#99"> 99 </a>                    
-</span><span id="100" class="l"><a class="l" href="#100">100 </a>    }
-</span><span id="101" class="l"><a class="l" href="#101">101 </a>                
-</span><span id="102" class="l"><a class="l" href="#102">102 </a>}
-</span><span id="103" class="l"><a class="l" href="#103">103 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="96" class="l"><a class="l" href="#96"> 96 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">empty</span>( <span class="php-var">$asPageSlugs</span> ) ) { <span class="php-keyword1">return</span>; }
+</span><span id="97" class="l"><a class="l" href="#97"> 97 </a>        
+</span><span id="98" class="l"><a class="l" href="#98"> 98 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;_isInstantiatable() ) { <span class="php-keyword1">return</span>; }
+</span><span id="99" class="l"><a class="l" href="#99"> 99 </a>                
+</span><span id="100" class="l"><a class="l" href="#100">100 </a>        parent::__construct( <span class="php-var">$sMetaBoxID</span>, <span class="php-var">$sTitle</span>, <span class="php-var">$asPageSlugs</span>, <span class="php-var">$sContext</span>, <span class="php-var">$sPriority</span>, <span class="php-var">$sCapability</span>, <span class="php-var">$sTextDomain</span> );
+</span><span id="101" class="l"><a class="l" href="#101">101 </a>                    
+</span><span id="102" class="l"><a class="l" href="#102">102 </a>    }
+</span><span id="103" class="l"><a class="l" href="#103">103 </a>                
+</span><span id="104" class="l"><a class="l" href="#104">104 </a>}
+</span><span id="105" class="l"><a class="l" href="#105">105 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">

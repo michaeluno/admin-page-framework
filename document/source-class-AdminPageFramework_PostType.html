@@ -197,25 +197,26 @@
 </span><span id="94" class="l"><a class="l" href="#94"> 94 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">empty</span>( <span class="php-var">$sPostType</span> ) ) <span class="php-keyword1">return</span>;
 </span><span id="95" class="l"><a class="l" href="#95"> 95 </a>
 </span><span id="96" class="l"><a class="l" href="#96"> 96 </a>        <span class="php-comment">// Properties</span>
-</span><span id="97" class="l"><a class="l" href="#97"> 97 </a>        <span class="php-var">$this</span>-&gt;oProp                = <span class="php-keyword1">new</span> AdminPageFramework_Property_PostType( 
-</span><span id="98" class="l"><a class="l" href="#98"> 98 </a>            <span class="php-var">$this</span>, 
-</span><span id="99" class="l"><a class="l" href="#99"> 99 </a>            <span class="php-var">$sCallerPath</span> ? <span class="php-keyword2">trim</span>( <span class="php-var">$sCallerPath</span> ) : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ),  <span class="php-comment">// this is important to attempt to find the caller script path here when separating the library into multiple files.            </span>
-</span><span id="100" class="l"><a class="l" href="#100">100 </a>            <span class="php-keyword2">get_class</span>( <span class="php-var">$this</span> ), <span class="php-comment">// class name</span>
-</span><span id="101" class="l"><a class="l" href="#101">101 </a>            <span class="php-quote">'post'</span>,             <span class="php-comment">// capability</span>
-</span><span id="102" class="l"><a class="l" href="#102">102 </a>            <span class="php-var">$sTextDomain</span>,       <span class="php-comment">// text domain</span>
-</span><span id="103" class="l"><a class="l" href="#103">103 </a>            <span class="php-quote">'post_type'</span>         <span class="php-comment">// fields type</span>
-</span><span id="104" class="l"><a class="l" href="#104">104 </a>        );
-</span><span id="105" class="l"><a class="l" href="#105">105 </a>        <span class="php-var">$this</span>-&gt;oProp-&gt;sPostType     = AdminPageFramework_WPUtility::sanitizeSlug( <span class="php-var">$sPostType</span> );
-</span><span id="106" class="l"><a class="l" href="#106">106 </a>        <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypeArgs = <span class="php-var">$aArgs</span>;   <span class="php-comment">// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments</span>
-</span><span id="107" class="l"><a class="l" href="#107">107 </a>
-</span><span id="108" class="l"><a class="l" href="#108">108 </a>        parent::__construct( <span class="php-var">$this</span>-&gt;oProp );
-</span><span id="109" class="l"><a class="l" href="#109">109 </a>                
-</span><span id="110" class="l"><a class="l" href="#110">110 </a>        <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndDoAction( <span class="php-var">$this</span>, <span class="php-quote">&quot;start_</span><span class="php-var">{$this-&gt;oProp-&gt;sClassName}</span><span class="php-quote">&quot;</span> );
-</span><span id="111" class="l"><a class="l" href="#111">111 </a>                            
-</span><span id="112" class="l"><a class="l" href="#112">112 </a>    }
-</span><span id="113" class="l"><a class="l" href="#113">113 </a>                
-</span><span id="114" class="l"><a class="l" href="#114">114 </a>}
-</span><span id="115" class="l"><a class="l" href="#115">115 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="97" class="l"><a class="l" href="#97"> 97 </a>        <span class="php-var">$_bIsInThePage</span>              = is_admin() &amp;&amp; <span class="php-keyword1">isset</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>] ) &amp;&amp; <span class="php-keyword2">in_array</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>], <span class="php-keyword1">array</span>( <span class="php-quote">'edit.php'</span>, <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) );
+</span><span id="98" class="l"><a class="l" href="#98"> 98 </a>        <span class="php-var">$this</span>-&gt;oProp                = <span class="php-keyword1">new</span> AdminPageFramework_Property_PostType( 
+</span><span id="99" class="l"><a class="l" href="#99"> 99 </a>            <span class="php-var">$this</span>, 
+</span><span id="100" class="l"><a class="l" href="#100">100 </a>            <span class="php-var">$sCallerPath</span> ? <span class="php-keyword2">trim</span>( <span class="php-var">$sCallerPath</span> ) : ( <span class="php-var">$_bIsInThePage</span> ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) : <span class="php-keyword1">null</span> ),  <span class="php-comment">// this is important to attempt to find the caller script path here when separating the library into multiple files.    </span>
+</span><span id="101" class="l"><a class="l" href="#101">101 </a>            <span class="php-keyword2">get_class</span>( <span class="php-var">$this</span> ), <span class="php-comment">// class name</span>
+</span><span id="102" class="l"><a class="l" href="#102">102 </a>            <span class="php-quote">'post'</span>,             <span class="php-comment">// capability</span>
+</span><span id="103" class="l"><a class="l" href="#103">103 </a>            <span class="php-var">$sTextDomain</span>,       <span class="php-comment">// text domain</span>
+</span><span id="104" class="l"><a class="l" href="#104">104 </a>            <span class="php-quote">'post_type'</span>         <span class="php-comment">// fields type</span>
+</span><span id="105" class="l"><a class="l" href="#105">105 </a>        );
+</span><span id="106" class="l"><a class="l" href="#106">106 </a>        <span class="php-var">$this</span>-&gt;oProp-&gt;sPostType     = AdminPageFramework_WPUtility::sanitizeSlug( <span class="php-var">$sPostType</span> );
+</span><span id="107" class="l"><a class="l" href="#107">107 </a>        <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypeArgs = <span class="php-var">$aArgs</span>;   <span class="php-comment">// for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments</span>
+</span><span id="108" class="l"><a class="l" href="#108">108 </a>
+</span><span id="109" class="l"><a class="l" href="#109">109 </a>        parent::__construct( <span class="php-var">$this</span>-&gt;oProp );
+</span><span id="110" class="l"><a class="l" href="#110">110 </a>                
+</span><span id="111" class="l"><a class="l" href="#111">111 </a>        <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndDoAction( <span class="php-var">$this</span>, <span class="php-quote">&quot;start_</span><span class="php-var">{$this-&gt;oProp-&gt;sClassName}</span><span class="php-quote">&quot;</span> );
+</span><span id="112" class="l"><a class="l" href="#112">112 </a>                            
+</span><span id="113" class="l"><a class="l" href="#113">113 </a>    }
+</span><span id="114" class="l"><a class="l" href="#114">114 </a>                
+</span><span id="115" class="l"><a class="l" href="#115">115 </a>}
+</span><span id="116" class="l"><a class="l" href="#116">116 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">

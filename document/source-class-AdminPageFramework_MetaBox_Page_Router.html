@@ -133,33 +133,46 @@
 </span><span id="30" class="l"><a class="l" href="#30">30 </a>    
 </span><span id="31" class="l"><a class="l" href="#31">31 </a>    }
 </span><span id="32" class="l"><a class="l" href="#32">32 </a>            
-</span><span id="33" class="l"><a class="l" href="#33">33 </a>    
-</span><span id="34" class="l"><a class="l" href="#34">34 </a>    <span class="php-comment">/**
-</span></span><span id="35" class="l"><a class="l" href="#35">35 </a><span class="php-comment">     * Determines whether the meta box belongs to the loading page.
-</span></span><span id="36" class="l"><a class="l" href="#36">36 </a><span class="php-comment">     * 
-</span></span><span id="37" class="l"><a class="l" href="#37">37 </a><span class="php-comment">     * @since           3.0.3
-</span></span><span id="38" class="l"><a class="l" href="#38">38 </a><span class="php-comment">     * @internal
-</span></span><span id="39" class="l"><a class="l" href="#39">39 </a><span class="php-comment">     */</span>
-</span><span id="40" class="l"><a class="l" href="#40">40 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> <a id="__isInThePage" href="#__isInThePage">_isInThePage</a>() {
-</span><span id="41" class="l"><a class="l" href="#41">41 </a>        
-</span><span id="42" class="l"><a class="l" href="#42">42 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oProp-&gt;bIsAdmin ) {
-</span><span id="43" class="l"><a class="l" href="#43">43 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;               
-</span><span id="44" class="l"><a class="l" href="#44">44 </a>        }
-</span><span id="45" class="l"><a class="l" href="#45">45 </a>        
-</span><span id="46" class="l"><a class="l" href="#46">46 </a>        <span class="php-comment">// This should be deprecated</span>
-</span><span id="47" class="l"><a class="l" href="#47">47 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sPageNow, <span class="php-keyword1">array</span>( <span class="php-quote">'options.php'</span> ) ) ) {
-</span><span id="48" class="l"><a class="l" href="#48">48 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="49" class="l"><a class="l" href="#49">49 </a>        }
-</span><span id="50" class="l"><a class="l" href="#50">50 </a>            
-</span><span id="51" class="l"><a class="l" href="#51">51 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) {
-</span><span id="52" class="l"><a class="l" href="#52">52 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="53" class="l"><a class="l" href="#53">53 </a>        }
-</span><span id="54" class="l"><a class="l" href="#54">54 </a>            
-</span><span id="55" class="l"><a class="l" href="#55">55 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs );
-</span><span id="56" class="l"><a class="l" href="#56">56 </a>        
-</span><span id="57" class="l"><a class="l" href="#57">57 </a>    }       
-</span><span id="58" class="l"><a class="l" href="#58">58 </a>}
-</span><span id="59" class="l"><a class="l" href="#59">59 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="33" class="l"><a class="l" href="#33">33 </a>    <span class="php-comment">/**
+</span></span><span id="34" class="l"><a class="l" href="#34">34 </a><span class="php-comment">     * Determines whether the meta box class components should be loaded in the currently loading page.
+</span></span><span id="35" class="l"><a class="l" href="#35">35 </a><span class="php-comment">     * @since           3.1.3   
+</span></span><span id="36" class="l"><a class="l" href="#36">36 </a><span class="php-comment">     */</span>
+</span><span id="37" class="l"><a class="l" href="#37">37 </a>    <span class="php-keyword1">protected</span>  <span class="php-keyword1">function</span> <a id="__isInstantiatable" href="#__isInstantiatable">_isInstantiatable</a>() {
+</span><span id="38" class="l"><a class="l" href="#38">38 </a>        
+</span><span id="39" class="l"><a class="l" href="#39">39 </a>        <span class="php-comment">// Disable in admin-ajax.php</span>
+</span><span id="40" class="l"><a class="l" href="#40">40 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>] ) &amp;&amp; <span class="php-quote">'admin-ajax.php'</span> === <span class="php-var">$GLOBALS</span>[<span class="php-quote">'pagenow'</span>] ) {
+</span><span id="41" class="l"><a class="l" href="#41">41 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="42" class="l"><a class="l" href="#42">42 </a>        }
+</span><span id="43" class="l"><a class="l" href="#43">43 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="44" class="l"><a class="l" href="#44">44 </a>        
+</span><span id="45" class="l"><a class="l" href="#45">45 </a>    }
+</span><span id="46" class="l"><a class="l" href="#46">46 </a>    
+</span><span id="47" class="l"><a class="l" href="#47">47 </a>    <span class="php-comment">/**
+</span></span><span id="48" class="l"><a class="l" href="#48">48 </a><span class="php-comment">     * Determines whether the meta box belongs to the loading page.
+</span></span><span id="49" class="l"><a class="l" href="#49">49 </a><span class="php-comment">     * 
+</span></span><span id="50" class="l"><a class="l" href="#50">50 </a><span class="php-comment">     * @since           3.0.3
+</span></span><span id="51" class="l"><a class="l" href="#51">51 </a><span class="php-comment">     * @internal
+</span></span><span id="52" class="l"><a class="l" href="#52">52 </a><span class="php-comment">     */</span>
+</span><span id="53" class="l"><a class="l" href="#53">53 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> <a id="__isInThePage" href="#__isInThePage">_isInThePage</a>() {
+</span><span id="54" class="l"><a class="l" href="#54">54 </a>        
+</span><span id="55" class="l"><a class="l" href="#55">55 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oProp-&gt;bIsAdmin ) {
+</span><span id="56" class="l"><a class="l" href="#56">56 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;               
+</span><span id="57" class="l"><a class="l" href="#57">57 </a>        }
+</span><span id="58" class="l"><a class="l" href="#58">58 </a>        
+</span><span id="59" class="l"><a class="l" href="#59">59 </a>        <span class="php-comment">// This should be deprecated</span>
+</span><span id="60" class="l"><a class="l" href="#60">60 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sPageNow, <span class="php-keyword1">array</span>( <span class="php-quote">'options.php'</span> ) ) ) {
+</span><span id="61" class="l"><a class="l" href="#61">61 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="62" class="l"><a class="l" href="#62">62 </a>        }
+</span><span id="63" class="l"><a class="l" href="#63">63 </a>            
+</span><span id="64" class="l"><a class="l" href="#64">64 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) {
+</span><span id="65" class="l"><a class="l" href="#65">65 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="66" class="l"><a class="l" href="#66">66 </a>        }
+</span><span id="67" class="l"><a class="l" href="#67">67 </a>            
+</span><span id="68" class="l"><a class="l" href="#68">68 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs );
+</span><span id="69" class="l"><a class="l" href="#69">69 </a>        
+</span><span id="70" class="l"><a class="l" href="#70">70 </a>    }       
+</span><span id="71" class="l"><a class="l" href="#71">71 </a>}
+</span><span id="72" class="l"><a class="l" href="#72">72 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">
