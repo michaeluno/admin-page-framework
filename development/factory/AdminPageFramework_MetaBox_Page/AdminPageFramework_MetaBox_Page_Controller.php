@@ -23,7 +23,9 @@ abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFrame
 	 * @since			3.0.0
 	 */
 	public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueStyles' ) ) {
+			return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 	}
 	/**
 	 * Enqueues a style by page slug and tab slug.
@@ -37,7 +39,9 @@ abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFrame
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */	
 	public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
+		if ( method_exists( $this->oHeadTag, '_enqueueStyle' ) ) {
+			return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );		
+		}
 	}
 	/**
 	 * Enqueues scripts by page slug and tab slug.
@@ -45,7 +49,9 @@ abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFrame
 	 * @since			2.1.5
 	 */
 	public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-		return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueScripts' ) ) {
+			return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 	}	
 	/**
 	 * Enqueues a script by page slug and tab slug.
@@ -59,7 +65,9 @@ abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFrame
 	 * @return			string			The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
 	 */
 	public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {	
-		return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		if ( method_exists( $this->oHeadTag, '_enqueueScript' ) ) {
+			return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 	}
 	
 }
