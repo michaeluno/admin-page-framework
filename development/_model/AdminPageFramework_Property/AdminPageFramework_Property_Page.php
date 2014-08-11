@@ -334,7 +334,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 		}
 		
 		// For regular undefined items, 
-		return null;
+		return parent::__get( $sName );
 		
 	}
 	

@@ -37,7 +37,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		
 		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
 	
-		if ( 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
+		if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) );
 		}
 
@@ -55,7 +55,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		// Add script info into the footer 
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );			
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );		
-		
+
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
 		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );	
 		
