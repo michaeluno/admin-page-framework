@@ -56,7 +56,7 @@ class APF_Demo_Readme extends AdminPageFramework {
 		 * ( optional ) Enqueue styles  
 		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
 		 * */		
-		$this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well
+		$this->enqueueStyle( plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well
 		
 		/* ( optional ) Determine the page style */
 		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
