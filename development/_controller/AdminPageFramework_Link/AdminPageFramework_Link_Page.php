@@ -31,23 +31,36 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		
 		if ( ! $oProp->bIsAdmin ) return;
 		
-		$this->oProp = $oProp;
-		$this->oMsg = $oMsg;
+		$this->oProp	= $oProp;
+		$this->oMsg		= $oMsg;
 		$this->oProp->sLabelPluginSettingsLink = $this->oMsg->__( 'settings' );
 		
-		// Add script info into the footer 
-		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
-		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
-		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
-		$_aLibraryData = AdminPageFramework_Property_Base::_getLibraryData();
-		$this->_setFooterInfoRight( $_aLibraryData, $this->oProp->aFooterInfo['sRight'] );
+		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
 	
 		if ( 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ) , array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) );
 		}
 
 	}
-			
+		
+	/**
+	 * Sets up footer information.
+	 * 
+	 * @since			3.1.3
+	 */
+	public function _replyToSetFooterInfo() {
+		
+		if ( ! $this->oProp->isPageAdded() ) { return; }
+		
+		// Add script info into the footer 
+		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );			
+		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );		
+		
+		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
+		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );	
+		
+	}
+		
 	/*
 	 * Methods for embedding links 
 	 * 
@@ -75,7 +88,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, '_replyToAddLinkToPluginTitle' ) );
 
 	}
-	
+		
 	/**
 	 * 
 	 * @since			2.0.0

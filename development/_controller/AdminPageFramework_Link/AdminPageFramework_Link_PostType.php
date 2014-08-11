@@ -30,21 +30,37 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	
 	public function __construct( $oProp, $oMsg=null ) {
 		
-		if ( ! is_admin() ) return;
+		if ( ! $oProp->bIsAdmin ) return;
 		
-		$this->oProp = $oProp;
-		$this->oMsg = $oMsg;
+		$this->oProp	= $oProp;
+		$this->oMsg		= $oMsg;
 				
-		// Add script info into the footer 
-		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
-		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
-		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->aFooterInfo['sLeft'] );
-		$aLibraryData = $this->oProp->_getLibraryData();
-		$this->_setFooterInfoRight( $aLibraryData, $this->aFooterInfo['sRight'] );
-				
+		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );		
+								
 		// For post type posts listing table page ( edit.php )
-		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType )
+		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType ) {			
 			add_action( 'get_edit_post_link', array( $this, '_replyToAddPostTypeQueryInEditPostLink' ), 10, 3 );
+		}
+		
+	}
+	
+	/**
+	 * Sets up footer information.
+	 * 
+	 * @since			3.1.3
+	 */
+	public function _replyToSetFooterInfo() {
+		
+		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) ) {
+			return;
+		}
+		
+		// Add script info into the footer 
+		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );	
+		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
+		
+		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->aFooterInfo['sLeft'] );
+		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->aFooterInfo['sRight'] );
 		
 	}
 	
@@ -70,10 +86,6 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	 */ 
 	public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
 		
-		// Check if it's in the post definition page and the post listing page
-		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) )	
-			return $sLinkHTML;	// $sLinkHTML is given by the hook.
-			
 		if ( empty( $this->oProp->aScriptInfo['sName'] ) ) return $sLinkHTML;
 					
 		return $this->aFooterInfo['sLeft'];
@@ -86,10 +98,6 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	 * @internal
 	 */ 	
 	public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
-
-		// Check if it's in the post definition page and the post listing page
-		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) )	
-			return $sLinkHTML;	// $sLinkHTML is given by the hook.
 			
 		return $this->aFooterInfo['sRight'];		
 			

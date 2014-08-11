@@ -297,11 +297,6 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 			if ( ! is_admin() ) {
 				return false;
 			}
-			
-			if ( in_array( $this->sPageNow, array( 'options.php' ) ) ) {
-				return true;
-			}
-			
 			return isset( $_GET['page'] );
 			
 		}	
@@ -365,10 +360,11 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 */
 	public function isPageAdded( $sPageSlug='' ) {	
 		
-		$sPageSlug = $sPageSlug ? $sPageSlug : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
-		return ( array_key_exists( trim( $sPageSlug ), $this->aPages ) )
-			? true
-			: false;
+		$sPageSlug = $sPageSlug ? trim( $sPageSlug ) : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
+		return isset( $this->aPages[ $sPageSlug ] );
+		// return ( array_key_exists( trim( $sPageSlug ), $this->aPages ) )
+			// ? true
+			// : false;
 	}
 	
 	/**
