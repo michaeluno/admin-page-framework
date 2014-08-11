@@ -26,24 +26,26 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	 */		
 	public function _replyToAddStyle() {
 		
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
+		$sPageSlug	= isset( $_GET['page'] ) ? $_GET['page'] : null;
+		$sTabSlug	= isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
 		
 		// If the loading page has not been registered nor the plugin page which uses this library, do nothing.
-		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
+		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) { return; }
 							
 		// Print out the filtered styles.		
-		$oCaller = $this->oProp->_getCallerObject();
-		$sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
+		$oCaller	= $this->oProp->_getCallerObject();
+		$sStyle		= $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyle );
-		$sStyle = $this->oUtil->minifyCSS( $sStyle );
-		if ( $sStyle )
+		$sStyle		= $this->oUtil->minifyCSS( $sStyle );
+		if ( $sStyle ) {
 			echo "<style type='text/css' id='admin-page-framework-style_{$this->oProp->sClassName}'>{$sStyle}</style>";
-		$sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyleIE )
+		}
+		$sStyleIE	= $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyleIE )
 			. $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyleIE );			
-		$sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-		if ( $sStyleIE )
+		$sStyleIE	= $this->oUtil->minifyCSS( $sStyleIE );
+		if ( $sStyleIE ) {
 			echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE_{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";						
+		}
 			
 		$this->oProp->_bAddedStyle = true;
 		
@@ -58,11 +60,11 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	 */
 	public function _replyToAddScript() {
 		
-		$sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		$sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
+		$sPageSlug	= isset( $_GET['page'] ) ? $_GET['page'] : null;
+		$sTabSlug	= isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
 		
 		// If the loading page has not been registered or not the plugin page which uses this library, do nothing.
-		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) return;
+		if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) { return; }
 
 		$oCaller = $this->oProp->_getCallerObject();
 
@@ -84,8 +86,9 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	public function _enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		
 		$aHandleIDs = array();
-		foreach( ( array ) $aSRCs as $sSRC )
+		foreach( ( array ) $aSRCs as $sSRC ) {
 			$aHandleIDs[] = $this->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 		return $aHandleIDs;
 		
 	}
@@ -113,8 +116,8 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	public function _enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		
 		$sSRC = trim( $sSRC );
-		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
+		if ( empty( $sSRC ) ) { return ''; }
+		if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; }	// if already set
 		
 		$sSRC = $this->oUtil->resolveSRC( $sSRC );
 		
@@ -142,8 +145,9 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	public function _enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		
 		$aHandleIDs = array();
-		foreach( ( array ) $aSRCs as $sSRC )
+		foreach( ( array ) $aSRCs as $sSRC ) {
 			$aHandleIDs[] = $this->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+		}
 		return $aHandleIDs;
 		
 	}	
@@ -172,8 +176,8 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	public function _enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
 		
 		$sSRC = trim( $sSRC );
-		if ( empty( $sSRC ) ) return '';
-		if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return '';	// if already set
+		if ( empty( $sSRC ) ) { return ''; }
+		if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; }	// if already set
 		
 		$sSRC = $this->oUtil->resolveSRC( $sSRC );
 		
@@ -220,33 +224,34 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
 	 * @internal
 	 */
 	protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
-		
-		$sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-		$sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
-			
-		$sPageSlug = $aEnqueueItem['sPageSlug'];
-		$sTabSlug = $aEnqueueItem['sTabSlug'];
+
+		$sCurrentPageSlug	= isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$sCurrentTabSlug	= isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
+		$sPageSlug			= $aEnqueueItem['sPageSlug'];
+		$sTabSlug			= $aEnqueueItem['sTabSlug'];
 		
 		// If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
-		if ( ! $sPageSlug && $this->oProp->isPageAdded( $sCurrentPageSlug ) )  // means script-global(among pages added by the framework)
+		if ( ! $sPageSlug && $this->oProp->isPageAdded( $sCurrentPageSlug ) ) { // means script-global(among pages added by the framework)
 			return $this->_enqueueSRC( $aEnqueueItem );
+		}
 				
 		// If both tab and page slugs are specified,
 		if ( 
 			( $sPageSlug && $sCurrentPageSlug == $sPageSlug )
 			&& ( $sTabSlug && $sCurrentTabSlug == $sTabSlug )
-		) 
+		) {
 			return $this->_enqueueSRC( $aEnqueueItem );
+		}
 		
 		// If the tab slug is not specified and the page slug is specified, 
 		// and if the current loading page slug and the specified one matches,
 		if ( 
 			( $sPageSlug && ! $sTabSlug )
 			&& ( $sCurrentPageSlug == $sPageSlug )
-		) 
+		) {
 			return $this->_enqueueSRC( $aEnqueueItem );
+		}
 
 	}
-	
 }
 endif;
