@@ -181,11 +181,15 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug ) {
 			return $this->_renderPage( $sPageSlug, $sTabSlug );		// the method is defined in the AdminPageFramework_Page class.
 		}
-		
-		// If it's one of the framework's callback methods, do nothing.	
-		if ( $this->_isFrameworkCallbackMethod( $sMethodName ) ) {
-			return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter; otherwise, it's an action.		
+
+		if ( has_filter( $sMethodName ) ) {
+			return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
 		}
+				
+		// If it's one of the framework's callback methods, do nothing.	
+		// if ( $this->_isFrameworkCallbackMethod( $sMethodName ) ) {
+			// return isset( $aArgs[0] ) ? $aArgs[0] : null;	// if $aArgs[0] is set, it's a filter; otherwise, it's an action.		
+		// }
 		
 		trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_ERROR );
 		
@@ -198,6 +202,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		 * @param			string			$sMethodName			the called method name
 		 * @return			boolean			If it is a framework's callback method, returns true; otherwise, false.
 		 * @internal
+		 * @deprecated
 		 */
 		private function _isFrameworkCallbackMethod( $sMethodName ) {
 				

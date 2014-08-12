@@ -305,7 +305,11 @@ abstract class AdminPageFramework_Factory_Router {
 	 */
 	function __call( $sMethodName, $aArgs=null ) {	
 		 
-		// the start_ action hook.
+		if ( has_filter( $sMethodName ) ) {
+			return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+		}
+		
+/* 		// the start_ action hook.
 		if ( $sMethodName == 'start_' . $this->oProp->sClassName ) return;
 
 		// the section_{class name}_{...} filter. [3.0.0+]
@@ -350,6 +354,7 @@ abstract class AdminPageFramework_Factory_Router {
 		// do_{meta box id} [3.0.0.+]
 		if ( substr( $sMethodName, 0, strlen( "do_{$this->oProp->sClassName}" ) ) == "do_{$this->oProp->sClassName}" ) return;
 			
+ */		
 		trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_ERROR );
 		
 	}		
