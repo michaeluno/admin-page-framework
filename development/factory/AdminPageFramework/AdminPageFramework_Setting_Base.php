@@ -88,8 +88,11 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 */
 	public function _replyToCheckRedirects() {
 
-		// So it's not options.php. Now check if it's one of the plugin's added page. If not, do nothing.
-		if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProp->isPageAdded( $_GET['page'] ) ) return; 
+		// Check if it's one of the plugin's added page. If not, do nothing.
+		// if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProp->isPageAdded( $_GET['page'] ) ) return; 
+		if ( ! $this->_isInThePage() ) {
+			return;
+		}
 
 		// If the settings have not updated the options, do nothing.
 		if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) {
@@ -139,12 +142,6 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 */ 
 	public function _replyToRegisterSettings( $oScreen ) {
 		
-		if ( ! is_object( $oScreen ) ) {
-			return;
-		}
-		if ( ! in_array( $oScreen->id, $this->oProp->aPageHooks ) ) {
-			return;
-		}
 		if ( ! $this->_isInThePage() ) { 
 			return;
 		}
@@ -218,7 +215,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 				);
 				
 		}
-		
+
 		/* 5. Register settings fields	*/
 		foreach( $this->oForm->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
 			
