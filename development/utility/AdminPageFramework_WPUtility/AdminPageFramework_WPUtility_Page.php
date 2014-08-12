@@ -67,6 +67,30 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 	}
 
 	/**
+	 * Checks if the current page is a custom taxonomy of the give post types.
+	 * 
+	 * @since			3.1.3
+	 * 
+	 * @param			array|string			The post type slug(s) to check. If this is empty, the method just checks the current page is a taxonomy page.
+	 * @return			boolean
+	 */	
+	static public function isCustomTaxonomyPage( $asPostTypes=array() ) {
+		
+		$_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : empty( $asPostTypes ) ? array() : array( $asPostTypes ) ;
+		
+		if ( ! in_array( self::getPageNow(), array( 'tags.php', 'edit-tags.php', ) ) ) {
+			return false;
+		}
+		
+		// If the parameter is empty, 
+		if ( empty( $_aPostTypes ) ) { return true; }
+		
+		// If the parameter of the post type is set and it's in the given post types, 
+		return in_array( self::getCurrentPostType(), $_aPostTypes );
+
+	}
+	
+	/**
 	 * Checks if the current page is post editing page that belongs to the given post type(s).
 	 * 
 	 * @since			3.0.0
@@ -76,7 +100,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 	 */
 	static public function isPostDefinitionPage( $asPostTypes=array() ) {
 		
-		$_aPostTypes = ( array ) $asPostTypes;
+		$_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : empty( $asPostTypes ) ? array() : array( $asPostTypes );
 
 		// If it's not the post definition page, 
 		if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) return false;
@@ -85,10 +109,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 		if ( empty( $_aPostTypes ) ) return true;
 
 		// If the parameter of the post type is set and it's in the given post types, 
-		if ( in_array( self::getCurrentPostType(), $_aPostTypes ) ) return true;				
-
-		// Otherwise,
-		return false;
+		return in_array( self::getCurrentPostType(), $_aPostTypes );
 		
 	}		
 	
@@ -101,13 +122,18 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 				
 		if ( 'edit.php' != self::getPageNow() ) return false;
 		
-		$_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : array( $asPostTypes );
+		$_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : empty( $asPostTypes ) ? array() : array( $asPostTypes ) ;
 		
 		if ( ! isset( $_GET['post_type'] )  ) return in_array( 'post', $_aPostTypes );
 
 		return in_array( $_GET['post_type'], $_aPostTypes );
 		
 	}
+	
+	/**
+	 * Stores the cache of the pagenow value.
+	 */
+	static private $_sPageNow;
 	
 	/**
 	 * Returns the base name of the current url.
@@ -119,25 +145,24 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 	 */
 	static public function getPageNow() {
 		
-		static $_sPageNow;
-		if ( isset( $_sPageNow ) ) {
-			return $_sPageNow;
+		if ( isset( self::$_sPageNow ) ) {
+			return self::$_sPageNow;
 		}
 		
 		// If already set, use that.
 		if ( isset( $GLOBALS['pagenow'] ) ) {
-			$_sPageNow = $GLOBALS['pagenow'];
-			return $_sPageNow;
+			self::$_sPageNow = $GLOBALS['pagenow'];
+			return self::$_sPageNow;
 		}
 				
 		// Front-end
 		if ( ! is_admin() ) {
 			if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $_aMatches ) ) {
-				$_sPageNow = strtolower( $_aMatches[ 1 ] );
-				return $_sPageNow;
+				self::$_sPageNow = strtolower( $_aMatches[ 1 ] );
+				return self::$_sPageNow;
 			}
-			$_sPageNow = 'index.php';
-			return $_sPageNow;
+			self::$_sPageNow = 'index.php';
+			return self::$_sPageNow;
 		}
 		
 		// Back-end - wp-admin pages are checked more carefully		
@@ -152,16 +177,17 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
 		$_sPageNow = trim( $_sPageNow, '/' );
 		$_sPageNow = preg_replace( '#\?.*?$#', '', $_sPageNow );
 		if ( '' === $_sPageNow || 'index' === $_sPageNow || 'index.php' === $_sPageNow ) {
-			$_sPageNow = 'index.php';
-			return $_sPageNow;
+			self::$_sPageNow = 'index.php';
+			return self::$_sPageNow;
 		} 
 			
 		preg_match( '#(.*?)(/|$)#', $_sPageNow, $_aMatches );
 		$_sPageNow = strtolower( $_aMatches[1] );
 		if ( '.php' !== substr( $_sPageNow, -4, 4 ) ) {
 			$_sPageNow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
+			self::$_sPageNow = $_sPageNow;
 		}
-		return $_sPageNow;		
+		return self::$_sPageNow;		
 		
 	}
 	
