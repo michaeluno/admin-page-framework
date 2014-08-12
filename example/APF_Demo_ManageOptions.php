@@ -176,7 +176,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'title'			=>	__( 'Custom Exporting Data', 'admin-page-framework-demo' ),
 				'type'			=>	'export',
 				'data'			=>	__( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
-				'file_name'		=> 'hello_world.txt',
+				'file_name'		=>	'hello_world.txt',
 				'label'			=>	__( 'Export Custom Data', 'admin-page-framework-demo' ),
 				'description'	=>	__( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> key in the field definition array.', 'admin-page-framework-demo' ),	
 			),
