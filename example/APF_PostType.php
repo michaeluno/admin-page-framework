@@ -45,7 +45,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->addTaxonomy( 
 			'apf_sample_taxonomy', // taxonomy slug
 			array(			// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
-				'labels'				=> array(
+				'labels'				=>	array(
 					'name'				=>	'Sample Genre',
 					'add_new_item'		=>	'Add New Genre',
 					'new_item_name'		=>	"New Genre"
@@ -62,18 +62,18 @@ class APF_PostType extends AdminPageFramework_PostType {
 		$this->addTaxonomy( 
 			'apf_second_taxonomy', 
 			array(
-				'labels' => array(
-					'name' => 'Non Hierarchical',
-					'add_new_item' => 'Add New Taxonomy',
-					'new_item_name' => "New Sample Taxonomy"
+				'labels'				=> array(
+					'name'			=> 'Non Hierarchical',
+					'add_new_item'	=> 'Add New Taxonomy',
+					'new_item_name'	=> "New Sample Taxonomy"
 				),
-				'show_ui' => true,
-				'show_tagcloud' => false,
-				'hierarchical' => false,
-				'show_admin_column' => true,
-				'show_in_nav_menus' => false,
-				'show_table_filter' => true,	// framework specific key
-				'show_in_sidebar_menus' => false,	// framework specific key
+				'show_ui'				=> true,
+				'show_tagcloud'			=> false,
+				'hierarchical'			=> false,
+				'show_admin_column'		=> true,
+				'show_in_nav_menus'		=> false,
+				'show_table_filter'		=> true,	// framework specific key
+				'show_in_sidebar_menus'	=> false,	// framework specific key
 			)
 		);
 			
