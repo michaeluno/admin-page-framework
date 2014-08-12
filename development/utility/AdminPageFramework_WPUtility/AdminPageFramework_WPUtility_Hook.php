@@ -144,19 +144,22 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 	 * 
 	 * @since			2.0.0
 	 * @access			public
-	 * @return				array			Returns an array consisting of the filters.
+	 * @return			array			Returns an array consisting of the filters.
 	 */ 
 	static public function getFilterArrayByPrefix( $sPrefix, $sClassName, $sPageSlug, $sTabSlug, $bReverse=false ) {
 				
-		$aFilters = array();
-		if ( $sTabSlug && $sPageSlug )
-			$aFilters[] = "{$sPrefix}{$sPageSlug}_{$sTabSlug}";
-		if ( $sPageSlug )	
-			$aFilters[] = "{$sPrefix}{$sPageSlug}";			
-		if ( $sClassName )
-			$aFilters[] = "{$sPrefix}{$sClassName}";
+		$_aFilters = array();
+		if ( $sTabSlug && $sPageSlug ) {
+			$_aFilters[] = "{$sPrefix}{$sPageSlug}_{$sTabSlug}";
+		}
+		if ( $sPageSlug ) {
+			$_aFilters[] = "{$sPrefix}{$sPageSlug}";			
+		}
+		if ( $sClassName ) {
+			$_aFilters[] = "{$sPrefix}{$sClassName}";
+		}
 		
-		return $bReverse ? array_reverse( $aFilters ) : $aFilters;	
+		return $bReverse ? array_reverse( $_aFilters ) : $_aFilters;	
 		
 	}	
 	
