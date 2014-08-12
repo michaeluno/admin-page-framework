@@ -149,9 +149,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 
  * ------ When the page starts loading  ------
  * 
- *  load_{instantiated class name}
- *  load_{page slug}
  *  load_{page slug}_{tab slug}
+ *  load_{page slug}
+ *  load_{instantiated class name}
  * 
  *  sections_{instantiated class name}
  *  fields_{instantiated class name}
