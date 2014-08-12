@@ -32,20 +32,6 @@ if ( ! class_exists( 'AdminPageFramework_PostType' ) ) :
  * @subpackage		PostType
  */
 abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {	
-
-	// Objects
-	/**
-	 * @since			2.0.0
-	 * @since			3.1.0			Changed the scope to public from protected.
-	 * @access			public
-	 * @internal
-	 */ 
-	public $oUtil;
-	/**
-	 * @since			2.0.0
-	 * @internal
-	 */ 	
-	protected $oLink;
 		
 	/**
 	* The constructor of the class object.
@@ -94,10 +80,13 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
 		if ( empty( $sPostType ) ) return;
 
 		// Properties
-		$_bIsInThePage				= is_admin() && isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'edit.php', 'post.php', 'post-new.php' ) );
 		$this->oProp				= new AdminPageFramework_Property_PostType( 
 			$this, 
-			$sCallerPath ? trim( $sCallerPath ) : ( $_bIsInThePage ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) : null ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.	
+			$sCallerPath ? trim( $sCallerPath ) : ( 
+				( is_admin() && isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'edit.php', 'post.php', 'post-new.php', 'plugins.php' ) ) )
+					? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) 
+					: null 
+				), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.	
 			get_class( $this ),	// class name
 			'post',				// capability
 			$sTextDomain,		// text domain
