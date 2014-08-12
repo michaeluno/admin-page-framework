@@ -158,7 +158,6 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
 		if ( $sClassName ) {
 			$_aFilters[] = "{$sPrefix}{$sClassName}";
 		}
-		
 		return $bReverse ? array_reverse( $_aFilters ) : $_aFilters;	
 		
 	}	
