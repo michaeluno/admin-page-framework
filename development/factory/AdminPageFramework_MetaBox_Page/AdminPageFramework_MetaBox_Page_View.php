@@ -15,6 +15,5 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_View' ) ) :
  * @package			AdminPageFramework
  * @subpackage		PageMetaBox
  */
-abstract class AdminPageFramework_MetaBox_Page_View extends AdminPageFramework_MetaBox_Page_Model {			
-}
+abstract class AdminPageFramework_MetaBox_Page_View extends AdminPageFramework_MetaBox_Page_Model {}
 endif;
