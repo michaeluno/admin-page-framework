@@ -69,16 +69,17 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
 	 * @return			string
 	 */
 	static public function getCallerScriptPath( $asRedirectedFiles=array( __FILE__ ) ) {
-		
-		$aRedirectedFiles = ( array ) $asRedirectedFiles;
-		$aRedirectedFiles[] = __FILE__;
-		$sCallerFilePath = '';
+
+		$aRedirectedFiles	= ( array ) $asRedirectedFiles;
+		$aRedirectedFiles[]	= __FILE__;
+		$_sCallerFilePath	= '';
 		foreach( debug_backtrace() as $aDebugInfo )  {			
-			$sCallerFilePath = $aDebugInfo['file'];
-			if ( in_array( $sCallerFilePath, $aRedirectedFiles ) ) continue;
-			break;	// the first found item.
+			$_sCallerFilePath = $aDebugInfo['file'];
+			if ( in_array( $_sCallerFilePath, $aRedirectedFiles ) ) { continue; }
+			break;	// catch the first found item.
 		}
-		return $sCallerFilePath;
+		return $_sCallerFilePath;
+		
 	}	
 		
 }
