@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		if ( $this->oProp->bIsAdminAjax ) {
 			return;
 		}		
-		add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method 
+		add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToFinalizeInPageTabs' ), 19 );	// must be called before the _replyToRegisterSettings() method 
 				
 	}
 	
