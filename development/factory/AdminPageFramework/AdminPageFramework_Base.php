@@ -78,79 +78,6 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
     */		
 	public $oProp;
 	
-	/**
-    * The object that provides the debug methods. 
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Moved from the main class.
-	* @since			3.1.0			Changed the scope to public from protected to allow the user to use the methods.
-	* @access			public
-	* @var				object			an instance of AdminPageFramework_Debug will be assigned in the constructor.
-    */		
-	public $oDebug;
-	
-	/**
-    * Provides the methods for text messages of the framework. 
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Moved from the main class.
-	* @since			3.1.0			Changed the scope to public from protected.
-	* @access			public
-	* @var				object			an instance of AdminPageFramework_Message will be assigned in the constructor.
-    */	
-	public $oMsg;
-	
-	/**
-    * Provides the utility methods. 
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Moved from the main class.
-	* @since			3.1.0			Changed the scope to public from protected.
-	* @access			public
-	* @var				object			an instance of AdminPageFramework_Utility will be assigned in the constructor.
-    */			
-	public $oUtil;
-	
-	/**
-    * Provides the methods for creating HTML link elements. 
-	* 
-	* @since			2.0.0
-	* @since			3.0.0			Moved from the main class.
-	* @access			protected
-	* @var				object			an instance of AdminPageFramework_Link_Page will be assigned in the constructor.
-    */		
-	protected $oLink;
-	
-	/**
-	 * Provides the methods to insert head tag elements.
-	 * 
-	 * @since			2.1.5
-	 * @since			3.0.0			Moved from the main class.
-	 * @access			protected
-	 * @var				object			an instance of AdminPageFramework_HeadTag_Page will be assigned in the constructor.
-	 */
-	protected $oHeadTag;
-	
-	/**
-	 * Inserts page load information into the footer area of the page. 
-	 * 
-	 * @since			2.1.7
-	 * @since			3.0.0			Moved from the main class.
-	 * @access			protected
-	 * @var				object			
-	 */
-	protected $oPageLoadInfo;
-	
-	/**
-	 * Provides methods to manipulate contextual help pane.
-	 * 
-	 * @since			3.0.0
-	 * @access			protected
-	 * @var				object			
-	 */
-	protected $oHelpPane;
-	
-
 	function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 				
 		// Objects
@@ -370,6 +297,11 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		}	
 
 		if ( ! isset( $_GET['page'] ) ) { return false; }
+				
+		$_oScreen = get_current_screen();
+		if ( is_object( $_oScreen ) ) {
+			return in_array( $_oScreen->id, $this->oProp->aPageHooks );
+		}
 				
 		if ( empty( $aPageSlugs ) ) {
 			return $this->oProp->isPageAdded();
