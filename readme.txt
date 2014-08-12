@@ -429,6 +429,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.3 =
+- Added the footer link in the custom taxonomy pages created by the framework (`tags.php`, `edit-tags.php`).
 - Added the ability for the `autocomplete` custom field type to support multiple post types and post statues.
 - Added the `link` custom field type in the demo plugin.
 - Tweaked the process of post type registration to improve performance.
