@@ -55,12 +55,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
 		if ( ! $this->oProp->bIsAdmin ) {
 			return false;				
 		}
-		
-		// This should be deprecated
-		if ( in_array( $this->oProp->sPageNow, array( 'options.php' ) ) ) {
-			return true;
-		}
-			
+					
 		if ( ! isset( $_GET['page'] ) )	{
 			return false;
 		}
