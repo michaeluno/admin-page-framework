@@ -50,6 +50,7 @@ class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLo
 		if ( 
 			AdminPageFramework_WPUtility::getCurrentPostType() == $this->oProp->sPostType
 			|| AdminPageFramework_WPUtility::isPostDefinitionPage( $this->oProp->sPostType )
+			|| AdminPageFramework_WPUtility::isCustomTaxonomyPage( $this->oProp->sPostType )
 		) {
 			add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
 		}

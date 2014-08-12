@@ -19,7 +19,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 	
 	function __construct( $oProp, $oMsg ) {
 		
-		if ( $oProp->bIsAdminAjax ) {
+		if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
 			return;
 		}		
 		
@@ -30,7 +30,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
 			$this->_nInitialMemoryUsage	= memory_get_usage();
 			
 			// must be loaded after the sub pages are registered
-			add_action( 'admin_menu', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );	
+			add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );	
 						
 		}
 

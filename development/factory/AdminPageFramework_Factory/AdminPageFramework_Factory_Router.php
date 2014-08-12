@@ -95,8 +95,10 @@ abstract class AdminPageFramework_Factory_Router {
 	function __construct( $oProp ) {
 
 		$this->oProp	= $oProp;
-		
-		add_action( 'current_screen', array( $this, '_replyToLoadHeatTagObject' ) );	// set a higher priority
+	
+		if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax	) {
+			add_action( 'current_screen', array( $this, '_replyToLoadHeatTagObject' ) );	// set a higher priority
+		}
 		
 		// Call the start method - defined in the controller class.
 		$this->start();	
@@ -110,9 +112,10 @@ abstract class AdminPageFramework_Factory_Router {
 
 			if ( ! $this->_isInThePage() ) { return; }
 
-			$this->oHeadTag = $this->_getHeadTagInstance( $this->oProp );
-			$this->oLink	= $this->_getLinkInstancce( $this->oProp, $this->oMsg );
-
+			$this->oHeadTag 		= $this->_getHeadTagInstance( $this->oProp );
+			$this->oLink			= $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+			$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
+			
 		}
 	
 	/**
