@@ -304,13 +304,17 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
 
 		// Do actions before rendering the page. In this order, global -> page -> in-page tab
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
+		$this->oUtil->addAndDoActions( 
+			$this, 	// the caller object
+			$this->oUtil->getFilterArrayByPrefix( 'do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ),	// the action hooks
+			$this	// the argument 1
+		);
 		?>
 		<div class="wrap">
 			<?php
 				// Screen icon, page heading tabs(page title), and in-page tabs.
 				$sContentTop = $this->_getScreenIcon( $sPageSlug );	
-				$sContentTop .= $this->_getPageHeadingTabs( $sPageSlug, $this->oProp->sPageHeadingTabTag ); 	
+				$sContentTop .= $this->_getPageHeadingTabs( $sPageSlug, $this->oProp->sPageHeadingTabTag );
 				$sContentTop .= $this->_getInPageTabs( $sPageSlug, $this->oProp->sInPageTabTag );
 
 				// Apply filters in this order, in-page tab -> page -> global.
@@ -319,7 +323,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			?>
 			<div class="admin-page-framework-container">	
 				<?php
-					$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_form_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );	
+					$this->oUtil->addAndDoActions( 
+						$this,	// the caller object
+						$this->oUtil->getFilterArrayByPrefix( 'do_form_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ),	// the action hooks
+						$this	// the argument 1
+					);
 					$this->_printFormOpeningTag( $this->oProp->bEnableForm );	// <form ... >
 				?>
 				<div id="poststuff">
@@ -343,7 +351,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		</div><!-- .wrap -->
 		<?php
 		// Do actions after rendering the page.
-		$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_after_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );
+		$this->oUtil->addAndDoActions( 
+			$this,	// the caller object
+			$this->oUtil->getFilterArrayByPrefix( 'do_after_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ), // the action hooks
+			$this	// the argument 1
+		);
 		
 	}
 
@@ -391,7 +403,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $_sContent );
 
 			// Do the page actions.
-			$this->oUtil->addAndDoActions( $this, $this->oUtil->getFilterArrayByPrefix( 'do_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ) );			
+			$this->oUtil->addAndDoActions(
+				$this,	// the caller object
+				$this->oUtil->getFilterArrayByPrefix( 'do_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ), // the action hooks
+				$this	// the argument 1
+			);			
 			
 			if ( $_bIsSideMetaboxExist )
 				echo "</div><!-- #post-body-content -->";

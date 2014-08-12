@@ -19,20 +19,23 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and the actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page except admin-ajax.php. The class object will be passed to the first parameter.</li>
- * 	<li><strong>set_up_{instantiated class name}</strong> – triggered after the setUp() method is called. The class object will be passed to the first parameter.</li>
- * 	<li><strong>load_{instantiated class name}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><strong>load_{page slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><strong>load_{page slug}_{tab slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><strong>do_before_{instantiated class name}</strong> – triggered before rendering the page. It applies to all the pages created by the instantiated class object.</li>
- * 	<li><strong>do_before_{page slug}</strong> – triggered before rendering the page.</li>
- * 	<li><strong>do_before_{page slug}_{tab slug}</strong> – triggered before rendering the page.</li>
- * 	<li><strong>do_{instantiated class name}</strong> – triggered in the middle of rendering the page. It applies to all the pages created by the instantiated class object.</li>
- * 	<li><strong>do_{page slug}</strong> – triggered in the middle of rendering the page.</li>
- * 	<li><strong>do_{page slug}_{tab slug}</strong> – triggered in the middle of rendering the page.</li>
- * 	<li><strong>do_after_{instantiated class name}</strong> – triggered after rendering the page. It applies to all the pages created by the instantiated class object.</li>
- * 	<li><strong>do_after_{page slug}</strong> – triggered after rendering the page.</li>
- * 	<li><strong>do_after_{page slug}_{tab slug}</strong> – triggered after rendering the page.</li>
+ * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page except admin-ajax.php. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>set_up_{instantiated class name}</strong> – [3.1.3+] triggered after the setUp() method is called. The class object will be passed to the first parameter.</li>
+ * 	<li><strong>load_{instantiated class name}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>load_{page slug}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>load_{page slug}_{tab slug}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>do_before_{instantiated class name}</strong> – triggered before rendering the page. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_before_{page slug}</strong> – triggered before rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_before_{page slug}_{tab slug}</strong> – triggered before rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_form_{instantiated class name}</strong> – triggered right after the form opening tag. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_form_{page slug}</strong> – triggered right after the form opening tag. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_form_{page slug}_{tab slug}</strong> – triggered right after the form opening tag. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_{instantiated class name}</strong> – triggered in the middle of rendering the page. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_{page slug}</strong> – triggered in the middle of rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_{page slug}_{tab slug}</strong> – triggered in the middle of rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_after_{instantiated class name}</strong> – triggered after rendering the page. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_after_{page slug}</strong> – triggered after rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
+ * 	<li><strong>do_after_{page slug}_{tab slug}</strong> – triggered after rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
  * 	<li><strong>submit_{instantiated class name}_{submit input id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified input id.</li>
  * 	<li><strong>submit_{instantiated class name}_{submit field id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified field that does not hava section is submitted.</li>
  * 	<li><strong>submit_{instantiated class name}_{submit section id}_{submit field id}</strong> – [3.0.0+] triggered after the form is submitted with the submit button of the specified section and field is submitted.</li>
@@ -66,6 +69,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  * 	<li><strong>validation_{page slug}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  * 	<li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
+ * 	<li><strong>validation_saved_options_{instantiated class name}</strong> – [3.1.2+] receives the saved form options as an array. The first parameter: the stored options array. The second parameter: the caller object.</li>
+ * 	<li><strong>validation_saved_options_{page slug}</strong> – [3.0.0+] receives the saved form options as an array of the page. The first parameter: the stored options array of the page. The second parameter: the caller object.</li>
+ * 	<li><strong>validation_saved_options_{page slug}_{tab slug}</strong> – [3.0.0+] receives the saved form options as an array of the tab. The first parameter: the stored options array of the tab. The second parameter: the caller object.</li>
  * 	<li><strong>style_{page slug}_{tab slug}</strong> – receives the output of the CSS rules applied to the tab page of the slug.</li>
  * 	<li><strong>style_{page slug}</strong> – receives the output of the CSS rules applied to the page of the slug.</li>
  * 	<li><strong>style_{instantiated class name}</strong> – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
