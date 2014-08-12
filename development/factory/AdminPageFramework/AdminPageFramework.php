@@ -553,7 +553,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 	public function setCapability( $sCapability ) {
 
 		$this->oProp->sCapability = $sCapability;
-		$this->oForm->sCapability = $sCapability;
+		if ( isset( $this->oForm ) ) {
+			$this->oForm->sCapability = $sCapability;
+		}
 		
 	}
 

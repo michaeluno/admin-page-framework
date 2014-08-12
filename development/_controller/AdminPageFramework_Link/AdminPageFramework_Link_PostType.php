@@ -55,8 +55,12 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 	 * @since			3.1.3
 	 */
 	public function _replyToSetFooterInfo() {
-		
-		if ( ! $this->isPostDefinitionPage( $this->oProp->sPostType ) && ! $this->isPostListingPage( $this->oProp->sPostType ) ) {
+AdminPageFramework_Debug::log( 'called: ' . $this->oProp->sPostType );		
+		if ( 
+			! $this->isPostDefinitionPage( $this->oProp->sPostType ) 
+			&& ! $this->isPostListingPage( $this->oProp->sPostType ) 
+			&& ! $this->isCustomTaxonomyPage( $this->oProp->sPostType )
+		) {
 			return;
 		}
 AdminPageFramework_Debug::log( $this->oProp->aScriptInfo );

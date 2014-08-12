@@ -87,7 +87,7 @@ class AdminPageFramework_FieldTypeRegistration  {
 	 * @since			2.1.5
 	 * @since			3.0.0			Moved to the field type registration class and made it static to be used by different classes.
 	 */
-	static public function _setFieldHeadTagElements( array $aField, $oProp, $oHeadTag ) {
+	static public function _setFieldHeadTagElements( array $aField, $oProp, & $oHeadTag ) {
 
 		$_sFieldType = $aField['type'];
 			

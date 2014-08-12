@@ -26,83 +26,99 @@ abstract class AdminPageFramework_Factory_Router {
 	 * @acess			public			The AdminPageFramework_Page_MetaBox class accesses it.
 	 */ 	
 	public $oProp;	
-	/**
-	* @internal
-	* @access			public
-	* @since			2.0.0
-	* @since			3.1.0			Changed the scope to public from protected.
-	*/ 	
-	public $oDebug;
-	/**
-	* @internal
-	* @since			2.0.0
-	* @since			3.1.0			Changed the scope to public from protected.
-	*/ 		
-	public $oUtil;
-	/**
-	* @since			2.0.0
-	* @access			public
-	* @internal
-	* @since			3.1.0			Changed the scope to public from protected.
-	*/ 		
-	public $oMsg;	
 	
 	/**
-	* @internal
-	* @since			3.0.0
-	*/ 	
-	protected $oForm;	
+	 * * The object that provides the debug methods. 
+	 * @internal
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
+	 * @access			public
+	 * @since			2.0.0
+	 * @since			3.1.0			Changed the scope to public from protected.
+	 */ 	
+	// public $oDebug;
+	/**
+	 * Provides the utility methods. 
+	 * @internal
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
+	 * @since			2.0.0
+	 * @since			3.1.0			Changed the scope to public from protected.
+	 */ 		
+	// public $oUtil;
+	/**
+	 * Provides the methods for text messages of the framework. 
+	 * @since			2.0.0
+	 * @access			public
+	 * @internal
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
+	 * @since			3.1.0			Changed the scope to public from protected.
+	 */ 		
+	// public $oMsg;	
 	
 	/**
-	 * Stores the page load info object
+	 * @internal
+	 * @since			3.0.0
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
+	 */ 	
+	 // protected $oForm = null;	
+	
+	/**
+	 * Inserts page load information into the footer area of the page. 
 	 * 
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
 	 */
-	protected $oPageLoadInfo;
+	// protected $oPageLoadInfo;
 	
 	/**
+	 * Provides the methods to insert head tag elements.
 	 * 
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
 	 */
-	protected $oHeadTag;
+	// protected $oHeadTag;
 	
-	protected $oHelpPane;
+	/**
+	 * Provides methods to manipulate contextual help pane.
+	 * 
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
+	 */
+	// protected $oHelpPane;
 	
-	protected $oLink;
+	/**
+	 * Provides the methods for creating HTML link elements. 
+	 * 
+	 * @remark			Do not even declare the variable to allow to trigger the getter method.
+	 */	
+	// protected $oLink;
 	
 	/**
 	 * Sets up built-in objects.
 	 */
 	function __construct( $oProp ) {
 
-		// Objects - Utility
-		$this->oUtil	= new AdminPageFramework_WPUtility;
-		$this->oDebug	= new AdminPageFramework_Debug;
-	
-		// Objects - Model
 		$this->oProp	= $oProp;
-		$this->oMsg		= AdminPageFramework_Message::instantiate( $oProp->sTextDomain );
-
-		if ( $this->oProp->bIsAdmin && $this->_isInThePage() ) :
-			
-			$this->oForm			= $this->_getFormInstance( $oProp );
-			
-			if ( ! $this->oProp->bIsAdminAjax ) :
-			
-				$this->oHeadTag			= $this->_getHeadTagInstance( $oProp );
-				$this->oHelpPane		= $this->_getHelpPaneInstance( $oProp );
-				$this->oLink			= $this->_getLinkInstancce( $oProp, $this->oMsg );
-				$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $oProp, $this->oMsg );
-				
-			endif;
-			
-		endif;
+		
+		add_action( 'current_screen', array( $this, '_replyToLoadHeatTagObject' ) );	// set a higher priority
 		
 		// Call the start method - defined in the controller class.
 		$this->start();	
 		
 	}	
+		
+		/**
+		 * Determines whether the head tag object should be instantiated or not.
+		 */
+		public function _replyToLoadHeatTagObject( $oScreen ) {
+
+			if ( ! $this->_isInThePage() ) { return; }
+
+			$this->oHeadTag = $this->_getHeadTagInstance( $this->oProp );
+			$this->oLink	= $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+
+		}
 	
 	/**
 	 * Determines whether the class object is instantiatable in the current page.
+	 * 
+	 * This method should be redefined in the extended class.
 	 * 
 	 * @since			3.1.0
 	 * @internal
@@ -117,8 +133,7 @@ abstract class AdminPageFramework_Factory_Router {
 	 * @since			3.0.3
 	 * @internal
 	 */
-	protected function _isInThePage() { return true; }			
-
+	protected function _isInThePage() { return true; }
 	
 	/*
 	 * Route
@@ -173,7 +188,7 @@ abstract class AdminPageFramework_Factory_Router {
 				return new AdminPageFramework_HeadTag_TaxonomyField( $oProp );
 	
 		}
-		
+
 	}
 	
 	/**
@@ -244,6 +259,42 @@ abstract class AdminPageFramework_Factory_Router {
 				return AdminPageFramework_PageLoadInfo_PostType::instantiate( $oProp, $oMsg );
 			case 'taxonomy':
 				return null;
+		}		
+		
+	}
+	
+	/**
+	 * Responds to a request of an undefined property.
+	 * 
+	 * This is meant to instantiate classes only when necessary, rather than instantiating them all at once.
+	 */
+	function __get( $sPropertyName ) {
+			
+		switch( $sPropertyName ) {
+			case 'oUtil':				
+				$this->oUtil			= new AdminPageFramework_WPUtility;
+				return $this->oUtil;
+			case 'oDebug':				
+				$this->oDebug			= new AdminPageFramework_Debug;
+				return $this->oDebug;
+			case 'oMsg':				
+				$this->oMsg				= AdminPageFramework_Message::instantiate( $this->oProp->sTextDomain );
+				return $this->oMsg;
+			case 'oForm':
+				$this->oForm			= $this->_getFormInstance( $this->oProp );
+				return $this->oForm;
+			case 'oHeadTag':
+				$this->oHeadTag			= $this->_getHeadTagInstance( $this->oProp );
+				return $this->oHeadTag;
+			case 'oHelpPane':
+				$this->oHelpPange		= $this->_getHelpPaneInstance( $this->oProp );
+				return $this->oHelpPange;
+			case 'oLink':
+				$this->oLink			= $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+				return $this->oLink;
+			case 'oPageLoadInfo':
+				$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
+				return $this->oPageLoadInfo;
 		}		
 		
 	}

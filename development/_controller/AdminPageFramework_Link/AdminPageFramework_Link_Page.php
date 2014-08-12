@@ -28,7 +28,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	private $oProp;
 	
 	public function __construct( &$oProp, $oMsg=null ) {
-		
+AdminPageFramework_Debug::log( 'instantiated: ' . $oProp->sFieldsType );		
 		if ( ! $oProp->bIsAdmin ) return;
 		
 		$this->oProp	= $oProp;
@@ -55,9 +55,10 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	 * @since			3.1.3
 	 */
 	public function _replyToSetFooterInfo() {
-		
+AdminPageFramework_Debug::log( 'called: ' . $this->oProp->sFieldsType );
+AdminPageFramework_Debug::log( $this->oProp->aPages );
 		if ( ! $this->oProp->isPageAdded() ) { return; }
-		
+AdminPageFramework_Debug::log( 'passed' );		
 		$this->_setFooterInfoLeft( $this->oProp->aScriptInfo, $this->oProp->aFooterInfo['sLeft'] );
 		$this->_setFooterInfoRight( $this->oProp->_getLibraryData(), $this->oProp->aFooterInfo['sRight'] );	
 	

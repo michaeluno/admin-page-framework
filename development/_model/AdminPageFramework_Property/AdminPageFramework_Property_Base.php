@@ -711,9 +711,9 @@ abstract class AdminPageFramework_Property_Base {
 	 */
 	public function &__get( $sName ) {
 		
-		if ( 'aScriptInfo' == $sName ) {
+		if ( 'aScriptInfo' === $sName ) {
 			$this->sCallerPath	= $this->sCallerPath ? $this->sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
-			$this->aScriptInfo	= $this->getCallerInfo( $this->sCallerPath );		
+			$this->aScriptInfo	= $this->getCallerInfo( $this->sCallerPath );
 			return $this->aScriptInfo;	
 		}
 		
