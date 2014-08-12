@@ -206,7 +206,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 				
 		}
 
-		/* 5. Register settings fields	*/
+		/* 5. Set head tag and help pane elements */
 		foreach( $this->oForm->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
 			
 			foreach( $_aSubSectionOrFields as $_sSubSectionIndexOrFieldID => $_aSubSectionOrField ) {
@@ -248,11 +248,12 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 			
 		}
 		
-		/* 6. Register the settings. */
-		$this->oProp->bEnableForm = true;	// Set the form enabling flag so that the <form></form> tag will be inserted in the page.
+		/* 6. Enable the form - Set the form enabling flag so that the <form></form> tag will be inserted in the page. */
+		$this->oProp->bEnableForm = true;	
 		
 		/* 7. Handle submitted data. */
-		$this->_handleSubmittedData();				
+		$this->_handleSubmittedData();	
+		
 	}
 		
 	/**
