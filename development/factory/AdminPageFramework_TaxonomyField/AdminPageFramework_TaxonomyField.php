@@ -53,29 +53,6 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
 abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Factory {
 	
 	/**
-	 * Stores the property object.
-	 * 
-	 * @since			3.0.0
-	 * @acess			public			Inherited from the ancestor class.
-	 */
-	public $oProp;
-	
-	/**
-	 * Stores the head tag object.
-	 * 
-	 * @since			3.0.0
-	 * @internal
-	 */
-	protected $oHeadTag;
-	
-	/**
-	 * Stores the contextual help pane object.
-	 * @since			3.0.0
-	 * @internal
-	 */
-	protected $oHelpPane;
-
-	/**
 	 * Defines the fields type.
 	 * @since			3.0.0
 	 * @internal
