@@ -177,7 +177,13 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) )	== 'section_pre_' )	return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback	- defined in AdminPageFramework_Setting
 		if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) )		== 'field_pre_' )	return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
 		// if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) )	== 'validation_pre_' )	return $this->_doValidationCall( $aArgs[ 0 ] ); // register_setting() callback - defined in AdminPageFramework_Setting	// deprecated as of 3.1.0
-		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )		== 'load_pre_' )	return $this->_doPageLoadCall( substr( $sMethodName, strlen( 'load_pre_' ) ), $sTabSlug, $aArgs[ 0 ] );  // load-{page} callback
+		if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) )		== 'load_pre_' ) {
+			
+			return substr( $sMethodName, strlen( 'load_pre_' ) ) === $sPageSlug
+				? $this->_doPageLoadCall( $sPageSlug, $sTabSlug, $aArgs[ 0 ] )  // load-{page} callback
+				: null;
+
+		}
 
 		// The callback of the call_page_{page slug} action hook
 		if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug ) {
@@ -228,20 +234,19 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 		 * @internal
 		 */ 
 		protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $oScreen ) {
-
-			if ( ! in_array( $oScreen->id, $this->oProp->aPageHooks ) ) {		
+			
+			if ( ! isset( $this->oProp->aPageHooks[ $sPageSlug ] ) || $oScreen->id !== $this->oProp->aPageHooks[ $sPageSlug ] ) {
 				return;
 			}
-					
-			// Do actions, class name -> page -> in-page tab.
+		
+			// Do actions, in-page tab -> page -> class name.
 			$this->oUtil->addAndDoActions( 
-				$this, 
+				$this, // the caller object
 				$this->oUtil->getFilterArrayByPrefix( 
 					"load_", 
 					$this->oProp->sClassName, 
 					$sPageSlug, 
-					$sTabSlug, 
-					true 
+					$sTabSlug
 				),
 				$this	// the admin page object - this lets third-party scripts use the framework methods.
 			);

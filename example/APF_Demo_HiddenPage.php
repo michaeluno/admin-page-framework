@@ -33,7 +33,9 @@ class APF_Demo_HiddenPage {
 			array(
 				'title'			=>	__( 'Hidden Page', 'admin-page-framework-demo' ),
 				'page_slug'		=>	'apf_hidden_page',
-				'screen_icon'	=>	plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE ),	// ( for WP v3.7.1 or below ) the icon _url_ can be used
+				'screen_icon'	=>		version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
+					? plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE )
+					: null,	// ( for WP v3.7.1 or below ) 
 				'show_in_menu'	=>	false,
 			)
 		);

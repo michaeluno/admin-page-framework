@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 		if ( $this->oProp->bIsAdminAjax ) {
 			return;
 		}		
-		add_action( 'admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method which uses the same hook.
+		add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToFinalizeInPageTabs' ), 99 );	// must be called before the _replyToRegisterSettings() method 
 				
 	}
 	
@@ -647,16 +647,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 	 * This must be done before registering settings sections because the default tab needs to be determined in the process.
 	 * 
 	 * @since			2.0.0
-	 * @remark			A callback for the <em>admin_menu</em> hook.
+	 * @remark			A callback for the <em>admin_menu</em> hook. It must be called earlier than _replyToRegisterSettings() method.
 	 * @return			void
 	 */ 		
 	public function _replyToFinalizeInPageTabs() {
-	
-		if ( ! $this->oProp->isPageAdded() ) return;
-		
+
+		if ( ! $this->oProp->isPageAdded() ) { return; }
+
 		foreach( $this->oProp->aPages as $sPageSlug => $aPage ) {
 			
-			if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) continue;
+			if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) { continue; }
 			
 			// Apply filters to let modify the in-page tab array.
 			$this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(		// Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
@@ -677,7 +677,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 			// Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $aInPageTab, is also used as reference in the above foreach.
 			foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as $sTabSlug => &$aInPageTab ) { 	
 			
-				if ( ! isset( $aInPageTab['tab_slug'] ) ) continue;	
+				if ( ! isset( $aInPageTab['tab_slug'] ) ) { continue; }
 				
 				// Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
 				$this->oProp->aDefaultInPageTabs[ $sPageSlug ] = $aInPageTab['tab_slug'];
@@ -685,6 +685,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 				break;	// The first iteration item is the default one.
 			}
 		}
+
 	}			
 	
 }

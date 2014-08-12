@@ -21,7 +21,34 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'page_slug'		=>	'apf_manage_options',
 				'screen_icon'	=>	'link-manager',	
 			)
-		);
+		);			
+		
+		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
+		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
+			
+	}
+	
+	/**
+	 * The pre-defined callback method triggered when one of the added pages loads
+	 */
+	public function load_APF_Demo_ManageOptions( $oAdminPage ) {	// load_{instantiated class name}
+	
+		/* ( optional ) Determine the page style */
+		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
+		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs		
+
+		/* 
+		 * ( optional ) Enqueue styles  
+		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 * */
+		$this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
+				
+	}
+
+	/**
+	 * The pre-defined callback method that is triggered when the page loads.
+	 */ 
+	public function load_apf_manage_options( $oAdminPage ) {	// load_{page slug}
 		
 		/* ( optional ) Add in-page tabs */
 		$this->addInPageTabs(	// 
@@ -54,21 +81,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 				'parent_tab_slug'	=>	'delete_options',
 				'order'				=>	97,
 			)
-		);
-						
-		/* ( optional ) Determine the page style */
-		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs		
-
-		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
-		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
-		
-	}
-
-	/**
-	 * The pre-defined callback method that is triggered when the page loads.
-	 */ 
-	public function load_apf_manage_options( $oAdminPage ) {	// load_{page slug}
+		);		
 		
 		$this->addSettingSections(	
 			array(

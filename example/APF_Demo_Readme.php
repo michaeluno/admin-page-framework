@@ -28,6 +28,52 @@ class APF_Demo_Readme extends AdminPageFramework {
 			)
 		);
 
+		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
+		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
+		
+	}
+	
+	/**
+	 * The pre-defined callback method triggered when one of the added pages loads
+	 */
+	public function load_APF_Demo_Readme( $oAdminPage ) {	// load_{instantiated class name}
+	
+		/* ( optional ) Determine the page style */
+		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
+		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs		
+		$this->setPageTitleVisibility( false, 'apf_read_me' );	// disable the page title of a specific page.
+		// $this->setInPageTabsVisibility( false, 'apf_read_me' );	// in-page tabs can be disabled like so.	
+	
+		/* 
+		 * ( optional ) Enqueue styles  
+		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 * */
+		$_sStyleHandle = $this->enqueueStyle( plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well	
+	
+		/*
+		 * ( optional )Enqueue scripts
+		 * $this->enqueueScript(  'script url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
+		 */
+		$this->enqueueScript(  
+			plugins_url( 'asset/js/test.js' , APFDEMO_FILE ),	// source url or path
+			'apf_read_me', 	// page slug
+			'', 	// tab slug
+			array(
+				'handle_id'	=>	'my_script',	// this handle ID also is used as the object name for the translation array below.
+				'translation'	=>	array( 
+					'a'	=>	'hello world!',
+					'style_handle_id'	=>	$_sStyleHandle,	// check the enqueued style handle ID here.
+				),
+			)
+		);		
+
+	}
+	
+	/**
+	 * Do page specific settings.
+	 */
+	public function load_apf_read_me() {
+		
 		$this->addInPageTabs(	// ( optional )
 			'apf_read_me',
 			array(
@@ -50,53 +96,8 @@ class APF_Demo_Readme extends AdminPageFramework {
 				'tab_slug'	=>	'changelog',
 				'title'		=>	__( 'Change Log', 'admin-page-framework-demo' ),
 			)
-		);					
-		
-		/* ( optional ) Determine the page style */
-		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs		
-		$this->setPageTitleVisibility( false, 'apf_read_me' );	// disable the page title of a specific page.
-		// $this->setInPageTabsVisibility( false, 'apf_read_me' );	// in-page tabs can be disabled like so.
-
-		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
-		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.
-		
-	}
-	
-	/**
-	 * Do page specific settings.
-	 */
-	public function load_apf_read_me() {
-		
-		/* 
-		 * ( optional ) Enqueue styles  
-		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-		 * */
-		$_sStyleHandle = $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );	// a path can be used
-			
-		/*
-		 * ( optional )Enqueue scripts
-		 * $this->enqueueScript(  'script url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-		 */
-		$this->enqueueScript(  
-			plugins_url( 'asset/js/test.js' , APFDEMO_FILE ),	// source url or path
-			'apf_read_me', 	// page slug
-			'', 	// tab slug
-			array(
-				'handle_id'	=>	'my_script',	// this handle ID also is used as the object name for the translation array below.
-				'translation'	=>	array( 
-					'a'	=>	'hello world!',
-					'style_handle_id'	=>	$_sStyleHandle,	// check the enqueued style handle ID here.
-				),
-			)
-		);		
-			
-		/* 
-		 * ( optional ) Enqueue styles  
-		 * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-		 * */		
-		$this->enqueueStyle( plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );	// a url can be used as well
-				
+		);							
+							
 	}
 	
 	public function do_before_apf_read_me() {		// do_before_ + page slug 

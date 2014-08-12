@@ -23,11 +23,36 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		/* ( required ) Add sub-menu items (pages or links) */
 		$this->addSubMenuItems(	
 			array(
-				'title'	=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
-				'page_slug'	=>	'apf_custom_field_types',
+				'title'			=>	__( 'Custom Field Types', 'admin-page-framework-demo' ),
+				'page_slug'		=>	'apf_custom_field_types',
 				'screen_icon'	=>	'options-general',
 			)
 		);
+		
+		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
+		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.			
+			
+    }
+		
+	/**
+	 * The pre-defined callback method triggered when one of the added pages loads
+	 */
+	public function load_APF_Demo_CustomFieldTypes( $oAdminPage ) {	// load_{instantiated class name}
+		
+		/* ( optional ) Determine the page style */
+		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
+		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
+						
+		/* ( optional ) Determine the page style */
+		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
+		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
+		
+	}
+		
+	/**
+	 * The pre-defined callback method that is triggered when the page loads.
+	 */ 
+	public function load_apf_custom_field_types( $oAdminPage ) {	// load_{page slug}
 		
 		/*
 		 * ( optional ) Add in-page tabs - In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
@@ -35,9 +60,6 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 		 * In-page tabs show tabs that you define to be embedded within an individual page.
 		 */
 		$this->addInPageTabs(	
-			/*
-			 * In-page tabs for custom field types
-			 */
 			'apf_custom_field_types',	// target page slug
 			array(
 				'tab_slug'	=>	'geometry',
@@ -76,25 +98,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
 				'title'		=>	__( 'Links', 'admin-page-framework-demo' ),	
 			),			
 			array()			
-		);
-		
-		/* ( optional ) Determine the page style */
-		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
-						
-		/* ( optional ) Determine the page style */
-		$this->setPageHeadingTabsVisibility( false );	// disables the page heading tabs by passing false.
-		$this->setInPageTabTag( 'h2' );		// sets the tag used for in-page tabs
-	
-		/* ( optional ) Disable the automatic settings link in the plugin listing table. */	
-		$this->setPluginSettingsLinkLabel( '' );	// pass an empty string.		
-		
-    }
-		
-	/**
-	 * The pre-defined callback method that is triggered when the page loads.
-	 */ 
-	public function load_apf_custom_field_types( $oAdminPage ) {	// load_{page slug}
+		);	
 		
 		/*
 		 * ( Optional ) Register custom field types.
