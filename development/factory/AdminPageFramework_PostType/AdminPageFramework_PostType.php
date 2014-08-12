@@ -15,7 +15,8 @@ if ( ! class_exists( 'AdminPageFramework_PostType' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><strong>start_ + extended class name</strong> – triggered at the end of the class constructor.</li>
+ * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This receives the class object in the first parameter.</li>
+ * 	<li><strong>set_up_{instantiated class name}</strong> – triggered after the setUp() method is called. This receives the class object in the first parameter.</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
@@ -97,7 +98,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
 
 		parent::__construct( $this->oProp );
 				
-		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
+		$this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
 							
 	}
 				

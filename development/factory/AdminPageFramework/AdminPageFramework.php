@@ -19,7 +19,8 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and the actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page.</li>
+ * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page except admin-ajax.php. The class object will be passed to the first parameter.</li>
+ * 	<li><strong>set_up_{instantiated class name}</strong> – triggered after the setUp() method is called. The class object will be passed to the first parameter.</li>
  * 	<li><strong>load_{instantiated class name}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
  * 	<li><strong>load_{page slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
  * 	<li><strong>load_{page slug}_{tab slug}</strong>[2.1.0+] – triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
@@ -273,7 +274,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			$sTextDomain 
 		);
 					
-		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName );	// fire the start_{instantiated class name} action.
+		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );	
 
 	}	
 

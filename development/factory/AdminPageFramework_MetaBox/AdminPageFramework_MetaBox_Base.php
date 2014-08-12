@@ -101,6 +101,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		if ( ! $this->_isInThePage() ) return;
 		
 		$this->_setUp();
+		$this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
 		$this->oProp->_bSetupLoaded = true;
 		add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 );	// the screen object should be established to detect the loaded page. 
 		add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );

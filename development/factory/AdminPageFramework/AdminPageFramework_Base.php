@@ -33,6 +33,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	 */ 
 	protected static $_aHookPrefixes = array(	
 		'start_'			=> 'start_',
+		'set_up_'			=> 'set_up_',	// 3.1.3+
 		'load_'				=> 'load_',
 		'do_before_'		=> 'do_before_',
 		'do_after_'			=> 'do_after_',
@@ -167,6 +168,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 
 		if ( 'setup_pre' == $sMethodName ) {
 			$this->_setUp();
+			$this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
 			$this->oProp->_bSetupLoaded = true;
 			return;
 		}

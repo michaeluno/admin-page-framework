@@ -26,6 +26,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
 	
 		if ( 'setup_pre' == $sMethodName ) { 
 			$this->_setUp();
+			$this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
 			$this->oProp->_bSetupLoaded = true;
 			return;
 		}
