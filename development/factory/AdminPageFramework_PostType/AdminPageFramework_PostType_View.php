@@ -36,7 +36,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 		}		
 		
 		// Add an action link in the plugin listing page
-		if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
+		if ( 'plugins.php' === $this->oProp->sPageNow && 'plugin' === $this->oProp->aScriptInfo['sType'] ) {
 			add_filter( 
 				'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ),
 				array( $this, '_replyToAddSettingsLinkInPluginListingPage' ), 
@@ -58,12 +58,12 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 		$_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] )
 			? $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
 			: $this->oMsg->__( 'manage' );
-			
+
 		// If the user explicitly sets an empty string to the label key, do not insert a link.
 		if ( ! $_sLinkLabel ) {
 			return $aLinks;
 		}
-						
+
 		// http://.../wp-admin/edit.php?post_type=[...]
 		array_unshift(	
 			$aLinks,
@@ -72,7 +72,6 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 		return $aLinks;		
 		
 	}
-		
 	
 	/**
 	 * Adds a drop-down list to filter posts by author, placed above the post type listing table.
