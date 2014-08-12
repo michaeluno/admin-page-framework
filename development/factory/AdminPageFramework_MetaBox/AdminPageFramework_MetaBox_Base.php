@@ -144,7 +144,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 		$_aOutput[]		= $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
 		/* Do action */
-		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
+		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
 		
 		/* Render the filtered output */
 		echo $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );

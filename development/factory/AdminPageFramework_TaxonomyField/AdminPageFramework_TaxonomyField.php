@@ -16,7 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * <h3>Methods and Action Hooks</h3>
  * <ul>
  * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor.</li>
- * 	<li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered.</li>
+ * 	<li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered. The first parameter: the class object [3.1.3+]. </li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
@@ -269,7 +269,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
 		$_sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );
 		
 		/* Do action */
-		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName );
+		$this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
 			
 		return $_sOutput;
 	

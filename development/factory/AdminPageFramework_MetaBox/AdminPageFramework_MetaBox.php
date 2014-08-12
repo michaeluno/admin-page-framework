@@ -17,7 +17,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * <ul>
  * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This receives the class object in the first parameter.</li>
  * 	<li><strong>set_up_{instantiated class name}</strong> – triggered after the setUp() method is called. This receives the class object in the first parameter.</li>
- * 	<li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered.</li>
+ * 	<li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered. The first parameter: the calss object[3.1.3+].</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
