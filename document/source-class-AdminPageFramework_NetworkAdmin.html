@@ -161,7 +161,7 @@
 </span><span id="62" class="l"><a class="l" href="#62"> 62 </a>        }
 </span><span id="63" class="l"><a class="l" href="#63"> 63 </a>        
 </span><span id="64" class="l"><a class="l" href="#64"> 64 </a>        add_action( <span class="php-quote">'network_admin_menu'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToBuildMenu'</span> ), <span class="php-num">98</span> );                    
-</span><span id="65" class="l"><a class="l" href="#65"> 65 </a>        add_action( <span class="php-quote">'network_admin_menu'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToFinalizeInPageTabs'</span> ), <span class="php-num">99</span> );   <span class="php-comment">// must be called before the _replyToRegisterSettings() method which uses the same hook.</span>
+</span><span id="65" class="l"><a class="l" href="#65"> 65 </a>        <span class="php-comment">// add_action( 'network_admin_menu', array( $this, '_replyToFinalizeInPageTabs' ), 99 );    // must be called before the _replyToRegisterSettings() method which uses the same hook.</span>
 </span><span id="66" class="l"><a class="l" href="#66"> 66 </a>
 </span><span id="67" class="l"><a class="l" href="#67"> 67 </a>        <span class="php-var">$sCallerPath</span> = <span class="php-var">$sCallerPath</span> ? <span class="php-var">$sCallerPath</span> : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );   <span class="php-comment">// this is important to attempt to find the caller script path here when separating the library into multiple files.</span>
 </span><span id="68" class="l"><a class="l" href="#68"> 68 </a>        

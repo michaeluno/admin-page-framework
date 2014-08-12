@@ -118,7 +118,7 @@ the callbacks of the filters and actions.</p>
 	the class constructor.</li>
 
 	<li><strong>do_{instantiated class name}</strong> – triggered when the meta
-	box gets rendered.</li>
+	box gets rendered. The first parameter: the class object [3.1.3+].</li>
 </ul>
 
 <h3>Methods and Filter Hooks</h3>
@@ -253,7 +253,7 @@ AdminPageFramework_Factory
 				AdminPageFramework_Debug<br>
 				<b>Use:</b>
 				AdminPageFramework_Property_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#10-370" title="Go to source code">factory/AdminPageFramework_TaxonomyField/AdminPageFramework_TaxonomyField.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_TaxonomyField.html#10-354" title="Go to source code">factory/AdminPageFramework_TaxonomyField/AdminPageFramework_TaxonomyField.php</a><br>
 	</div>
 
 
@@ -271,7 +271,7 @@ AdminPageFramework_Factory
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#85-121" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#62-98" title="Go to source code">__construct</a>( <span>array|string <var>$asTaxonomySlug</var></span>, <span>string <var>$sOptionKey</var> = <span class="php-quote">''</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -333,7 +333,7 @@ instantiated class name will be applied.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setUp">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#167-173" title="Go to source code">setUp</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#145-151" title="Go to source code">setUp</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -376,7 +376,7 @@ instantiated class name will be applied.</dd>
 
 			<td class="name"><div>
 			<a class="anchor" href="#__setOptionArray">#</a>
-			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#175-189" title="Go to source code">_setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_TaxonomyField.html#153-167" title="Go to source code">_setOptionArray</a>( <span>mixed <var>$iTermID</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$sOptionKey</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -445,13 +445,15 @@ it. #internal<br>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
 			<code>__call()</code>, 
+			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
 			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
 			<code>_isInThePage()</code>, 
-			<code>_isInstantiatable()</code>
+			<code>_isInstantiatable()</code>, 
+			<code>_replyToLoadHeatTagObject()</code>
 		</p>
 
 
@@ -465,53 +467,10 @@ it. #internal<br>
 
 
 		<h2>Properties summary</h2>
-		<table class="summary table table-bordered table-striped" id="properties">
-		<tr data-order="oProp" id="$oProp">
-			<td class="attributes"><code>
-				public  
-				mixed
-			</code></td>
-
-			<td class="name">
-					<a href="source-class-AdminPageFramework_TaxonomyField.html#55-61" title="Go to source code"><var>$oProp</var></a>
-			</td>
-			<td class="description"><div>
-				<a href="#$oProp" class="anchor">#</a>
-
-				<div class="description short" style="display:none;">
-					
-<p>Stores the property object.</p>
-
-				</div>
-
-				<div class="description detailed hidden">
-					
-<p>Stores the property object.</p>
-
-
-						<h4>Since</h4>
-						<div class="list">
-								3.0.0<br>
-						</div>
-						<h4>Acess</h4>
-						<div class="list">
-								public Inherited from the ancestor class.<br>
-						</div>
-				</div>
-			</div></td>
-		</tr>
-		</table>
 
 		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
-			<code><var>$oDebug</var></code>, 
-			<code><var>$oForm</var></code>, 
-			<code><var>$oHeadTag</var></code>, 
-			<code><var>$oHelpPane</var></code>, 
-			<code><var>$oLink</var></code>, 
-			<code><var>$oMsg</var></code>, 
-			<code><var>$oPageLoadInfo</var></code>, 
-			<code><var>$oUtil</var></code>
+			<code><var>$oProp</var></code>
 		</p>
 
 

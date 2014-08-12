@@ -129,7 +129,7 @@
 </span><span id="26" class="l"><a class="l" href="#26">26 </a>                        
 </span><span id="27" class="l"><a class="l" href="#27">27 </a>        parent::__construct( <span class="php-var">$sMetaBoxID</span>, <span class="php-var">$sTitle</span>, <span class="php-var">$asPageSlugs</span>, <span class="php-var">$sContext</span>, <span class="php-var">$sPriority</span>, <span class="php-var">$sCapability</span>, <span class="php-var">$sTextDomain</span> );
 </span><span id="28" class="l"><a class="l" href="#28">28 </a>                
-</span><span id="29" class="l"><a class="l" href="#29">29 </a>        <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndDoAction( <span class="php-var">$this</span>, <span class="php-quote">&quot;start_</span><span class="php-var">{$this-&gt;oProp-&gt;sClassName}</span><span class="php-quote">&quot;</span> );
+</span><span id="29" class="l"><a class="l" href="#29">29 </a>        <span class="php-var">$this</span>-&gt;oUtil-&gt;addAndDoAction( <span class="php-var">$this</span>, <span class="php-quote">&quot;start_</span><span class="php-var">{$this-&gt;oProp-&gt;sClassName}</span><span class="php-quote">&quot;</span>, <span class="php-var">$this</span> );
 </span><span id="30" class="l"><a class="l" href="#30">30 </a>    
 </span><span id="31" class="l"><a class="l" href="#31">31 </a>    }
 </span><span id="32" class="l"><a class="l" href="#32">32 </a>            
@@ -158,21 +158,16 @@
 </span><span id="55" class="l"><a class="l" href="#55">55 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oProp-&gt;bIsAdmin ) {
 </span><span id="56" class="l"><a class="l" href="#56">56 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;               
 </span><span id="57" class="l"><a class="l" href="#57">57 </a>        }
-</span><span id="58" class="l"><a class="l" href="#58">58 </a>        
-</span><span id="59" class="l"><a class="l" href="#59">59 </a>        <span class="php-comment">// This should be deprecated</span>
-</span><span id="60" class="l"><a class="l" href="#60">60 </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sPageNow, <span class="php-keyword1">array</span>( <span class="php-quote">'options.php'</span> ) ) ) {
-</span><span id="61" class="l"><a class="l" href="#61">61 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="62" class="l"><a class="l" href="#62">62 </a>        }
-</span><span id="63" class="l"><a class="l" href="#63">63 </a>            
-</span><span id="64" class="l"><a class="l" href="#64">64 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) {
-</span><span id="65" class="l"><a class="l" href="#65">65 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="66" class="l"><a class="l" href="#66">66 </a>        }
-</span><span id="67" class="l"><a class="l" href="#67">67 </a>            
-</span><span id="68" class="l"><a class="l" href="#68">68 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs );
-</span><span id="69" class="l"><a class="l" href="#69">69 </a>        
-</span><span id="70" class="l"><a class="l" href="#70">70 </a>    }       
-</span><span id="71" class="l"><a class="l" href="#71">71 </a>}
-</span><span id="72" class="l"><a class="l" href="#72">72 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span><span id="58" class="l"><a class="l" href="#58">58 </a>                    
+</span><span id="59" class="l"><a class="l" href="#59">59 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) {
+</span><span id="60" class="l"><a class="l" href="#60">60 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="61" class="l"><a class="l" href="#61">61 </a>        }
+</span><span id="62" class="l"><a class="l" href="#62">62 </a>            
+</span><span id="63" class="l"><a class="l" href="#63">63 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs );
+</span><span id="64" class="l"><a class="l" href="#64">64 </a>        
+</span><span id="65" class="l"><a class="l" href="#65">65 </a>    }       
+</span><span id="66" class="l"><a class="l" href="#66">66 </a>}
+</span><span id="67" class="l"><a class="l" href="#67">67 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">

@@ -193,7 +193,7 @@ AdminPageFramework_Page_MetaBox
 				3.0.0 No longer extends AdminPageFramework_HelpPane_Page.<br>
 				<b>Extends:</b>
 				AdminPageFramework_Page_MetaBox<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_Page.html#10-674" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Page.php</a><br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Page.html#10-691" title="Go to source code">factory/AdminPageFramework/AdminPageFramework_Page.php</a><br>
 	</div>
 
 
@@ -691,7 +691,7 @@ class="php-quote">'h2'</span> );
 
 			<td class="name"><div>
 			<a class="anchor" href="#__replyToFinalizeInPageTabs">#</a>
-			<code><a href="source-class-AdminPageFramework_Page.html#626-672" title="Go to source code">_replyToFinalizeInPageTabs</a>( )</code>
+			<code><a href="source-class-AdminPageFramework_Page.html#642-689" title="Go to source code">_replyToFinalizeInPageTabs</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -719,7 +719,8 @@ determined in the process.</p>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
-							A callback for the <em>admin_menu</em> hook.<br>
+							A callback for the <em>admin_menu</em> hook. It must be called earlier than
+_replyToRegisterSettings() method.<br>
 					</div>
 
 
@@ -799,11 +800,13 @@ determined in the process.</p>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
+			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
 			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
-			<code>_getPageLoadInfoInstance()</code>
+			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_replyToLoadHeatTagObject()</code>
 		</p>
 
 
@@ -821,18 +824,7 @@ determined in the process.</p>
 		<h3>Properties inherited from AdminPageFramework_Base</h3>
 		<p class="elementList">
 			<code><var>$_aHookPrefixes</var></code>, 
-			<code><var>$oDebug</var></code>, 
-			<code><var>$oHeadTag</var></code>, 
-			<code><var>$oHelpPane</var></code>, 
-			<code><var>$oLink</var></code>, 
-			<code><var>$oMsg</var></code>, 
-			<code><var>$oPageLoadInfo</var></code>, 
-			<code><var>$oProp</var></code>, 
-			<code><var>$oUtil</var></code>
-		</p>
-		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
-		<p class="elementList">
-			<code><var>$oForm</var></code>
+			<code><var>$oProp</var></code>
 		</p>
 
 
