@@ -73,12 +73,13 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		}
 		
 		if ( $this->oProp->bIsAdmin ) {
-			add_action( 'current_screen', array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let the load_{...} callbacks being loaded earlier.
-			add_action( 'current_screen', array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
+		
+			add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let the load_{...} callbacks being loaded earlier.
+			add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
+			
 		}
 					
 	}
-							
 		
 	/**
 	 * Check if a redirect transient is set and if so it redirects to the set page.
@@ -141,12 +142,12 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 	 * @return			void
 	 * @internal
 	 */ 
-	public function _replyToRegisterSettings( $oScreen ) {
-		
+	public function _replyToRegisterSettings() {
+
 		if ( ! $this->_isInThePage() ) { 
 			return;
 		}
-		
+
 		/* 1. Apply filters to added sections and fields */
 		$this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $this->oForm->aSections );
 		foreach( $this->oForm->aFields as $_sSectionID => &$_aFields ) {
