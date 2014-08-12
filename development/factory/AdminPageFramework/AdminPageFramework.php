@@ -164,6 +164,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *  submit_{instantiated class name}_{page slug}
  *  submit_{instantiated class name}_{page slug}_{tab slug}
  *  submit_{instantiated class name}
+ *  validation_saved_options_{instantiated class name}
+ *  validation_saved_options_{page slug}_{tab slug}
+ *  validation_saved_options_{page slug}
  *  validation_{instantiated class name}_{field id (which does not have a section)}
  *  validation_{instantiated class name}_{section_id}
  *  validation_{instantiated class name}_{section id}_{field id}
