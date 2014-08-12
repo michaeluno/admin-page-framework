@@ -22,13 +22,6 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Base' ) ) :
  */
 abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factory {
 	
-	// Objects
-	/**
-	 * @since			2.1.5
-	 * @internal
-	 */
-	protected $oHeadTag;
-	
 	/**
 	 * Defines the fields type.
 	 * @since			3.0.0
