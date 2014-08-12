@@ -105,7 +105,6 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
 				'title'			=> __( 'Font Repeatable', 'admin-page-framework-demo' ),				
 				'repeatable'	=>	true,
 			),
-			
 			array()
 		);		
 	}

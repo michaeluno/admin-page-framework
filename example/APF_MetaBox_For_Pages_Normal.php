@@ -57,7 +57,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
 		
 	}
 	
-	public function validation_APF_MetaBox_For_Pages_Normal( $aNewOptions, $aOldOptions ) {	// validtion_{extended class name}
+	public function validation_APF_MetaBox_For_Pages_Normal( $aNewOptions, $aOldOptions, $oAdminPage ) {	// validtion_{extended class name}
 		
 		// Do something with the submitted data.
 		return $aNewOptions;
