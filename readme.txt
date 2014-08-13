@@ -428,13 +428,13 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.1.3 =
+= 3.1.3 - 2014/08/13 =
 - Added the `load_after_{instantiated class name}` hook that is triggered right after the `load_{...}` hooks are triggered.
 - Added the `set_up_{instantiated class name}` hook that is triggered right after the `setUp()` method is called.
 - Added the footer link in the custom taxonomy pages created by the framework (`tags.php`, `edit-tags.php`).
 - Added the ability for the `autocomplete` custom field type to support multiple post types and post statues.
 - Added the `link` custom field type in the demo plugin.
-- Changed the timing of finalizing in-page tabs so that in-page tabs are now added in `load_{...}` hook callbacks.
+- Changed the timing of finalizing in-page tabs so that in-page tabs now can be added in `load_{...}` hook callbacks.
 - Changed the `start_{instantiated class name}`, `do_{...}`, `do_before_{...}`, `do_after_{...}`, and `do_form_{...}` action hook to pass the class object instance in the first parameter of the callback methods.
 - Tweaked the process of post type registration to improve performance.
 - Tweaked the performance by eliminating unnecessary function calls.
