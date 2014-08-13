@@ -4,90 +4,87 @@
  * 
  * Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes. 
  * 
- * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2014 (c) Michael Uno
- * @license     MIT	<http://opensource.org/licenses/MIT>
+ * @author				Michael Uno <michael@michaeluno.jp>
+ * @copyright			2013-2014 (c) Michael Uno
+ * @license				MIT	<http://opensource.org/licenses/MIT>
  */
-if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
-	require( dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );
-}
-
+ 
 /**
  * Creates a minified version of PHP scripts from the given PHP class directory.
  * 
  * It collects PHP class files and make them into one and removes PHP comments except the specified class docBlock.
  * 
- * @remark     The parsed class file must have a name of the class defined in the file.
- * @version    1.0.1
+ * @remark	The parsed class file must have a name of the class defined in the file.
  */
-class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
+class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Creator_Base {
 	
 	static protected $_aStructure_Options = array(
 	
-		'header_class_name' => '',
-		'header_class_path' => '',		
-		'output_buffer'     => true,
-		'header_type'       => 'DOCBLOCK',	
-		'exclude_classes'   => array(),
+		'header_class_name'	=>	'',
+		'header_class_path'	=>	'',		
+		'output_buffer'		=>	true,
+		'header_type'		=>	'DOCBLOCK',	
+		'exclude_classes'	=>	array(),
 		
 		// Search options
 		'search'	=>	array(
-			'allowed_extensions' => array( 'php' ),	// e.g. array( 'php', 'inc' )
-			'exclude_dir_paths'  => array(),
-			'exclude_dir_names'  => array(),
-			'is_recursive'       => true,
+			'allowed_extensions'	=>	array( 'php' ),	// e.g. array( 'php', 'inc' )
+			'exclude_dir_paths'		=>	array(),
+			'exclude_dir_names'		=>	array(),
+			'is_recursive'			=>	true,
 		),		
 		
 	);
 	
 	/**
 	 * 
-	 * @param string    $sSourceDirPath     The target directory path.
-	 * @param string    $sOutputFilePath    The destination file path.
-	 * @param array     $aOptions           The options array. It takes the following arguments.
-	 *  - 'header_class_name'   : string    the class name that provides the information for the heading comment of the result output of the minified script.
-	 *  - 'header_class_path'   : string    (optional) the path to the header class file.
-	 *  - 'output_buffer'       : boolean	whether or not output buffer should be printed.
-	 *  - 'header_type'         : string	whether or not to use the docBlock of the header class; otherwise, it will parse the constants of the class. 
-	 *  - 'exclude_classes'     : array		an array holding class names to exclude.
-	 *  - 'search'              : array		the arguments for the directory search options.
+	 * @param		string	$sSourceDirPath		The target directory path.
+	 * @param		string	$sOutputFilePath	The destination file path.
+	 * @param		array	$aOptions			The options array. It takes the following arguments.
+	 *  - 'header_class_name'	: string	the class name that provides the information for the heading comment of the result output of the minified script.
+	 *  - 'header_class_path'	: string	(optional) the path to the header class file.
+	 *  - 'output_buffer'	: boolean	whether or not output buffer should be printed.
+	 *  - 'header_type'		: string	whether or not to use the docBlock of the header class; otherwise, it will parse the constants of the class. 
+	 *  - 'exclude_classes'	: array		an array holding class names to exclude.
+	 *  - 'search'			: array		the arguments for the directory search options.
 	 * 	The accepted values are 'CONSTANTS' or 'DOCBLOCK'.
 	 * <h3>Example</h3>
 	 * <code>array(
-	 *		'header_class_name' => 'HeaderClassForMinifiedVerions',
-	 *		'file_pettern'      => '/.+\.(php|inc)/i',
-	 *		'output_buffer'     => false,
-	 *		'header_type'       => 'CONSTANTS',
+	 *		'header_class_name'	=>	'HeaderClassForMinifiedVerions',
+	 *		'file_pettern'		=>	'/.+\.(php|inc)/i',
+	 *		'output_buffer'		=>	false,
+	 *		'header_type'		=>	'CONSTANTS',
 	 * 
 	 * )</code>
 	 * 
 	 * When false is passed to the 'use_docblock' argument, the constants of the header class must include 'Version', 'Name', 'Description', 'URI', 'Author', 'CopyRight', 'License'. 
 	 * <h3>Example</h3>
 	 * <code>class TaskScheduler_Registry_Base {
-	 * 		const Version       = '1.0.0b08';
-	 * 		const Name          = 'Task Scheduler';
-	 * 		const Description   = 'Provides an enhanced task management system for WordPress.';
-	 * 		const URI           = 'http://en.michaeluno.jp/';
-	 * 		const Author        = 'miunosoft (Michael Uno)';
-	 * 		const AuthorURI     = 'http://en.michaeluno.jp/';
-	 * 		const CopyRight     = 'Copyright (c) 2014, <Michael Uno>';
-	 * 		const License       = 'GPL v2 or later';
-	 * 		const Contributors  = '';
+	 * 		const Version		= '1.0.0b08';
+	 * 		const Name			= 'Task Scheduler';
+	 * 		const Description	= 'Provides an enhanced task management system for WordPress.';
+	 * 		const URI			= 'http://en.michaeluno.jp/';
+	 * 		const Author		= 'miunosoft (Michael Uno)';
+	 * 		const AuthorURI		= 'http://en.michaeluno.jp/';
+	 * 		const CopyRight		= 'Copyright (c) 2014, <Michael Uno>';
+	 * 		const License		= 'GPL v2 or later';
+	 * 		const Contributors	= '';
 	 * }</code>
 	 */
 	public function __construct( $asScanDirPaths, $sOutputFilePath, array $aOptions=array() ) {
 
-		$aOptions           = $aOptions + self::$_aStructure_Options;
-		$aOptions['search'] = $aOptions['search'] + self::$_aStructure_Options['search'];
-		$_sCarriageReturn   = php_sapi_name() == 'cli' ? PHP_EOL : '<br />';
-		$_aScanDirPaths     = ( array ) $asScanDirPaths;
+		$aOptions			= $aOptions + self::$_aStructure_Options;
+		$aOptions['search']	= $aOptions['search'] + self::$_aStructure_Options['search'];
+		
+		$_sCarriageReturn	= php_sapi_name() == 'cli' ? PHP_EOL : '<br />';
+		$_aScanDirPaths		= ( array ) $asScanDirPaths;
 		
 			if ( $aOptions['output_buffer'] ) {
 				echo 'Searching files under the directory: ' . implode( ', ', $_aScanDirPaths ) . $_sCarriageReturn;
 			}
 		
 		/* Store the file contents into an array. */
-		$_aFiles = $this->_formatFileArray( $this->_getFileLists( $_aScanDirPaths, $aOptions['search'] ) );
+		$_aFiles		= $this->_formatFileArray( $this->_getFileLists( $_aScanDirPaths, $aOptions['search'] ) );
 		unset( $_aFiles[ pathinfo( $sOutputFilePath, PATHINFO_FILENAME ) ] );	// it's possible that the minified file also gets loaded but we don't want it.
 
 			if ( $aOptions['output_buffer'] ) {				

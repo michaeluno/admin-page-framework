@@ -1,9 +1,4 @@
 <?php
-/**
- * The example script of the minifier script.
- * 
- * Note that this is not ready to be used for anybody.
- */
 
 /* Set necessary paths */
 $sTargetBaseDir		= dirname( dirname( dirname( __FILE__ ) ) );
@@ -22,6 +17,7 @@ $sCarriageReturn	= $bIsCLI ? PHP_EOL : '<br />';
 if ( ! $bIsCLI ) { exit; }
 
 /* Include necessary files */
+require( dirname( dirname( __FILE__ ) ) . '/php_class_files_script_creator/PHP_Class_Files_Script_Creator_Base.php' );
 require( dirname( __FILE__ ) . '/class/PHP_Class_Files_Minifier.php' );
 
 /* Check the permission to write. */
