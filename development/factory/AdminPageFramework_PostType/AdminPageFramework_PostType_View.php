@@ -34,45 +34,9 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 			add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
 			
 		}		
-		
-		// Add an action link in the plugin listing page
-		if ( 'plugins.php' === $this->oProp->sPageNow && 'plugin' === $this->oProp->aScriptInfo['sType'] ) {
-			add_filter( 
-				'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ),
-				array( $this, '_replyToAddSettingsLinkInPluginListingPage' ), 
-				20 	// set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
-			);				
-		}
-		
+				
 	}
-	
-	
-	/**
-	 * Adds the post type link in the title cell of the plugin listing table in plugins.php.
-	 * 
-	 * @since			3.0.6			Moved from the Link_PostType class.
-	 * @since			3.1.0			Made it not insert the link if the user sets an empty string to the 'plugin_listing_table_title_cell_link' key of the label argument array.
-	 */
-	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
 		
-		$_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] )
-			? $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
-			: $this->oMsg->__( 'manage' );
-
-		// If the user explicitly sets an empty string to the label key, do not insert a link.
-		if ( ! $_sLinkLabel ) {
-			return $aLinks;
-		}
-
-		// http://.../wp-admin/edit.php?post_type=[...]
-		array_unshift(	
-			$aLinks,
-			"<a href='" . esc_url( "edit.php?post_type={$this->oProp->sPostType}" ) . "'>" . $_sLinkLabel . "</a>"
-		); 
-		return $aLinks;		
-		
-	}
-	
 	/**
 	 * Adds a drop-down list to filter posts by author, placed above the post type listing table.
 	 * 

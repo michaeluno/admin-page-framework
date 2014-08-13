@@ -97,7 +97,7 @@ abstract class AdminPageFramework_Factory_Router {
 		$this->oProp	= $oProp;
 	
 		if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax	) {
-			add_action( 'current_screen', array( $this, '_replyToLoadHeatTagObject' ) );	// set a higher priority
+			add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) );	// set a higher priority
 		}
 		
 		// Call the start method - defined in the controller class.
@@ -106,15 +106,24 @@ abstract class AdminPageFramework_Factory_Router {
 	}	
 		
 		/**
-		 * Determines whether the head tag object should be instantiated or not.
+		 * Determines whether the class component classes should be instantiated or not.
 		 */
-		public function _replyToLoadHeatTagObject( $oScreen ) {
+		public function _replyToLoadComponents( $oScreen ) {
 
+			if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) ) {
+				$this->oLink		= isset( $this->oLink )	// the user may have already accessed it
+					? $this->oLink
+					: $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+			}
+	
 			if ( ! $this->_isInThePage() ) { return; }
 
-			$this->oHeadTag 		= $this->_getHeadTagInstance( $this->oProp );
-			$this->oLink			= $this->_getLinkInstancce( $this->oProp, $this->oMsg );
-			$this->oPageLoadInfo	= $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
+			$this->oHeadTag 		= isset( $this->oHeadTag )	// the user may have already accessed it
+				? $this->oHeadTag
+				: $this->_getHeadTagInstance( $this->oProp );
+			$this->oPageLoadInfo	= isset( $this->oPageLoadInfo )	// the user may have already accessed it
+				? $this->oPageLoadInfo
+				: $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
 			
 		}
 	

@@ -280,11 +280,16 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 						
 		parent::__construct( 
 			$sOptionKey, 
-			$sCallerPath ? $sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.
+			$sCallerPath 
+				? trim( $sCallerPath )
+				: $sCallerPath = ( is_admin() && ( isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'plugins.php', ) ) || isset( $_GET['page'] ) ) 
+					? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) 
+					: null 
+				), 	// this is important to attempt to find the caller script path here when separating the library into multiple files.	
 			$sCapability, 
 			$sTextDomain 
 		);
-					
+		
 		$this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );	
 
 	}	

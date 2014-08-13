@@ -240,9 +240,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 	 * Stores the label of the settings link embedded to the plugin listing table cell of the plugin title.
 	 * 
 	 * @since			3.1.0
+	 * @remark			The default value should be null as it checks whether it is null or not when assigning the defalut translated text.
 	 */
-	public $sLabelPluginSettingsLink = '';
-	 
+	public $sLabelPluginSettingsLink = null;	 
 	 
 	/**
 	 * Indicates whether the form data should be automatically saved in the options table.

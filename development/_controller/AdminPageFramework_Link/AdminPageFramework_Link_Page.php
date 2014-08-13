@@ -39,7 +39,9 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 			return;
 		}		
 		
-		$this->oProp->sLabelPluginSettingsLink = $this->oMsg->__( 'settings' );
+		$this->oProp->sLabelPluginSettingsLink = $this->oProp->sLabelPluginSettingsLink === null
+			? $this->oMsg->__( 'settings' )
+			: $this->oProp->sLabelPluginSettingsLink;
 		
 		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
 	
@@ -122,21 +124,24 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 	
 	public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
  		
-		if ( count( $this->oProp->aPages ) < 1 ) return $aLinks;	// if the sub-pages are not added, do nothing.
-		
-		// For a custom root slug,
-		$sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu['sPageSlug'] ) 
-			? add_query_arg( array( 'page' => $this->oProp->sDefaultPageSlug ), admin_url( $this->oProp->aRootMenu['sPageSlug'] ) )
-			: "admin.php?page={$this->oProp->sDefaultPageSlug}";
-		
+		// If the sub-pages are not added, do nothing.
+		if ( count( $this->oProp->aPages ) < 1 ) { 
+			return $aLinks; 
+		}	
+
 		// If the user disables the settings link, the label property is empty. If so, do not add it.
 		if ( ! $this->oProp->sLabelPluginSettingsLink ) {
 			return $aLinks;
 		}
 		
+		// For a custom root slug,
+		$_sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu['sPageSlug'] ) 
+			? add_query_arg( array( 'page' => $this->oProp->sDefaultPageSlug ), admin_url( $this->oProp->aRootMenu['sPageSlug'] ) )
+			: "admin.php?page={$this->oProp->sDefaultPageSlug}";
+		
 		array_unshift(	
 			$aLinks,
-			'<a href="' . $sLinkURL . '">' . $this->oProp->sLabelPluginSettingsLink . '</a>'
+			'<a href="' . $_sLinkURL . '">' . $this->oProp->sLabelPluginSettingsLink . '</a>'
 		); 
 		return $aLinks;
 		
