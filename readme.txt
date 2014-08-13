@@ -434,7 +434,6 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the footer link in the custom taxonomy pages created by the framework (`tags.php`, `edit-tags.php`).
 - Added the ability for the `autocomplete` custom field type to support multiple post types and post statues.
 - Added the `link` custom field type in the demo plugin.
-- Changed the order of triggering the hooks from `load_{page slug}_{tab slug}`, `load_{page slug}`, `load_{instantiated class name}` to the other way around.
 - Changed the timing of finalizing in-page tabs so that in-page tabs are now added in `load_{...}` hook callbacks.
 - Changed the `start_{instantiated class name}`, `do_{...}`, `do_before_{...}`, `do_after_{...}`, and `do_form_{...}` action hook to pass the class object instance in the first parameter of the callback methods.
 - Tweaked the process of post type registration to improve performance.
