@@ -176,14 +176,15 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
 		 */
 		private function _checkConfirmationDisplayed( $sResetKey, $sFlatFieldName ) {
 				
-			if ( ! $sResetKey ) return false;
+			if ( ! $sResetKey ) { return false; }
 			
-			$bResetConfirmed =  get_transient( md5( "reset_confirm_" . $sFlatFieldName ) ) !== false 
+			$bResetConfirmed =  $this->getTransient( md5( "reset_confirm_" . $sFlatFieldName ) ) !== false 
 				? true
 				: false;
 			
-			if ( $bResetConfirmed )
-				delete_transient( md5( "reset_confirm_" . $sFlatFieldName ) );
+			if ( $bResetConfirmed ) {
+				$this->deleteTransient( md5( "reset_confirm_" . $sFlatFieldName ) );
+			}
 				
 			return $bResetConfirmed;
 			

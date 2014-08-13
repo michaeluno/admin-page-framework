@@ -106,18 +106,18 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		// Check the settings error transient.
 		$_aError = $this->_getFieldErrors( $_GET['page'], false );
 		if ( ! empty( $_aError ) ) {
-			delete_transient( $_sTransient );	// we don't need it any more.
+			$this->oUtil->deleteTransient( $_sTransient );	// we don't need it any more.
 			return;
 		}
 		
 		// Okay, it seems the submitted data have been updated successfully.
-		$_sURL = get_transient( $_sTransient );
+		$_sURL = $this->oUtil->getTransient( $_sTransient );
 		if ( false === $_sURL ) {
 			return;
 		}
 		
 		// The redirect URL seems to be set.
-		delete_transient( $_sTransient );	// we don't need it any more.
+		$this->oUtil->deleteTransient( $_sTransient );	// we don't need it any more.
 					
 		// Go to the page.
 		die( wp_redirect( $_sURL ) );

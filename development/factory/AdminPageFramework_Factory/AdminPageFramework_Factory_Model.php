@@ -139,9 +139,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 		$_sTransientKey = 'AdminPageFramework_FieldErrors';
 		$_sID = md5( $this->oProp->sClassName );
 
-		$_aFieldErrors = isset( $_aFieldErrors ) ? $_aFieldErrors : get_transient( $_sTransientKey );
+		$_aFieldErrors = isset( $_aFieldErrors ) ? $_aFieldErrors : $this->oUtil->getTransient( $_sTransientKey );
 		if ( $bDelete ) {
-			// delete_transient( $_sTransientKey );	
 			add_action( 'shutdown', array( $this, '_replyToDeleteFieldErrors' ) );
 		}
 		return isset( $_aFieldErrors[ $_sID ] ) 
@@ -162,7 +161,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 			return true;
 		}
 			
-		return get_transient( 'AdminPageFramework_FieldErrors' );
+		return $this->oUtil->getTransient( 'AdminPageFramework_FieldErrors' );
 
 	}
 	
@@ -176,7 +175,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 		 * @internal
 		 */
 		public function _replyToDeleteFieldErrors() {
-			delete_transient( 'AdminPageFramework_FieldErrors' );
+			$this->oUtil->deleteTransient( 'AdminPageFramework_FieldErrors' );
 		}
 		
 	/**
@@ -189,7 +188,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 		
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) return;
 
-		set_transient( 
+		$this->oUtil->setTransient( 
 			'AdminPageFramework_FieldErrors',  
 			$GLOBALS['aAdminPageFramework']['aFieldErrors'], 
 			300 	// store it for 5 minutes ( 60 seconds * 5 )
@@ -209,7 +208,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 		if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
 		if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
 				
-		set_transient( 'AdminPageFramework_Notices', $GLOBALS['aAdminPageFramework']['aNotices'] );
+		$this->oUtil->setTransient( 'AdminPageFramework_Notices', $GLOBALS['aAdminPageFramework']['aNotices'] );
 		
 	}
 	

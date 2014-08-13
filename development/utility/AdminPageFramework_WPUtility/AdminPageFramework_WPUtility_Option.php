@@ -19,6 +19,47 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility_Option' ) ) :
 class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File {
 	
 	/**
+	 * Stores whether the page is loaded in the network admin or not.
+	 * @since		3.1.3
+	 */
+	static private $_bIsNetworkAdmin;
+	
+	/**
+	 * Deletes the given transient.
+	 *
+	 * @since		3.1.3
+	 */
+	static public function deleteTransient( $sTransientKey ) {
+		self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
+		if ( self::$_bIsNetworkAdmin ) {
+			return delete_site_transient( $sTransientKey );
+		} 
+		return delete_transient( $sTransientKey );
+	}
+	/**
+	 * Retrieves the given transient.
+	 * 
+	 * @since		3.1.3
+	 */	
+	static public function getTransient( $sTransientKey ) {
+		self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
+		if ( self::$_bIsNetworkAdmin ) {
+			return get_site_transient( $sTransientKey );
+		} 
+		return get_transient( $sTransientKey );		
+	}
+	/**
+	 * Sets the given transient.
+	 */
+	static public function setTransient( $sTransientKey, $vValue, $iExpiration=0 ) {
+		self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
+		if ( self::$_bIsNetworkAdmin ) {
+			return set_site_transient( $sTransientKey, $vValue, $iExpiration );
+		} 
+		return set_transient( $sTransientKey, $vValue, $iExpiration );				
+	}
+	
+	/**
 	 * Retrieves the saved option value from the given option key, field ID, and section ID.
 	 * 
 	 * @since			3.0.1

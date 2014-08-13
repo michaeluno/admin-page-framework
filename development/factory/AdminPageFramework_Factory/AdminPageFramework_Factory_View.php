@@ -21,8 +21,12 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		
 		parent::__construct( $oProp );
 
-		if ( $this->_isInThePage() && ! $this->oProp->bIsAdminAjax ) {				
-			add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
+		if ( $this->_isInThePage() && ! $this->oProp->bIsAdminAjax ) {	
+			if ( is_network_admin() ) {
+				add_action( 'network_admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
+			} else {
+				add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
+			}			
 		}
 		
 	}		
@@ -47,9 +51,9 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 		if ( self::$_bSettingNoticeLoaded ) { return; }
 		self::$_bSettingNoticeLoaded = true;
 
-		$_aNotices = get_transient( 'AdminPageFramework_Notices' );
+		$_aNotices = $this->oUtil->getTransient( 'AdminPageFramework_Notices' );
 		if ( false === $_aNotices )	{ return; }
-		delete_transient( 'AdminPageFramework_Notices' );
+		$this->oUtil->deleteTransient( 'AdminPageFramework_Notices' );
 	
 		// By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
 		if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { return; }

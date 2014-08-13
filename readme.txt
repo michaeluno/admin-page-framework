@@ -440,6 +440,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Tweaked the process of post type registration to improve performance.
 - Tweaked the performance by eliminating unnecessary function calls.
 - Tweaked the styling of media select buttons.
+- Fixef bugs that in the network admin area, transients were not handled properly.
+- Fixef a bug that admin notices were not displayed in the network admin pages.
 - Fixed a bug that the `load_{...}` hooks are triggered more than once per page.
 - Fixed a bug that the same setting notice message got displayed the number of times of the framework object instances when another framework page with a form is loaded while saving the form data in the page.
 

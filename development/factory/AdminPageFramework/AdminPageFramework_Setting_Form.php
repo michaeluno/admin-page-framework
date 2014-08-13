@@ -66,11 +66,11 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		}
 		
 		$_sNonceTransientKey = 'form_' . md5( $this->oProp->sClassName . get_current_user_id() );
-		if ( $_POST['_is_admin_page_framework'] !== get_transient( $_sNonceTransientKey ) ) {
+		if ( $_POST['_is_admin_page_framework'] !== $this->oUtil->getTransient( $_sNonceTransientKey ) ) {
 			$this->setAdminNotice( $this->oMsg->__( 'nonce_veification_failed' ) );
 			return;
 		}
-		delete_transient( $_sNonceTransientKey );
+		$this->oUtil->deleteTransient( $_sNonceTransientKey );
 		
 		// If only page-meta-boxes are used, it's possible that the option key element does not exist.
 		$_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();

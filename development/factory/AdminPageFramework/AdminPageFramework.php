@@ -634,7 +634,11 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
 			'sClassSelector'	=> $sClassSelector,
 			'sID'				=> $sID,
 		);
-		add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
+		if ( is_network_admin() ) {
+			add_action( 'network_admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
+		} else {
+			add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
+		}
 		
 	}
 		/**

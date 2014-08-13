@@ -36,10 +36,10 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 	public function getTransientIfSet( $vData ) {
 		
 		if ( $this->bIsDataSet ) {
-			$_tmp = get_transient( md5( "{$this->sClassName}_{$this->sInputID}" ) );
+			$_tmp = $this->getTransient( md5( "{$this->sClassName}_{$this->sInputID}" ) );
 			if ( $_tmp !== false ) {
 				$vData = $_tmp;
-				// delete_transient( md5( "{$this->sClassName}_{$this->sInputID}" ) ); // don't have to delete it as the user may press the button multiple times to get the copies of the file.
+				// $this->deleteTransient( md5( "{$this->sClassName}_{$this->sInputID}" ) ); // don't have to delete it as the user may press the button multiple times to get the copies of the file.
 			}
 		}
 		return $vData;

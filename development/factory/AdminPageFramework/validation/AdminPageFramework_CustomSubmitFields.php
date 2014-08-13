@@ -17,7 +17,7 @@ if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
  * @subpackage		Setting
  * @internal
  */
-abstract class AdminPageFramework_CustomSubmitFields {
+abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_WPUtility {
 	 
 	public function __construct( $aPostElement ) {
 			

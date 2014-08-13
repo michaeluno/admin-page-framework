@@ -63,8 +63,9 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 	public function _replyToGetField( $aField ) {
 			
 		/* Set the transient data to export - If the value is not an array and the export data is set. */
-		if ( isset( $aField['data'] ) ) 
-			set_transient( md5( "{$aField['class_name']}_{$aField['input_id']}" ), $aField['data'], 60*2 );	// 2 minutes.
+		if ( isset( $aField['data'] ) ) {
+			$this->setTransient( md5( "{$aField['class_name']}_{$aField['input_id']}" ), $aField['data'], 60*2 );	// 2 minutes.
+		} 
 		
 		/* Set some required values */
 		$aField['attributes']['name'] = "__export[submit][{$aField['input_id']}]";

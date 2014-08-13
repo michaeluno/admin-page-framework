@@ -123,7 +123,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 			$this->setFieldErrors( $aErrors );
 				
 			// Set a flag that the confirmation is displayed
-			set_transient( md5( "reset_confirm_" . $sPressedInputName ), $sPressedInputName, 60*2 );
+			$this->oUtil->setTransient( md5( "reset_confirm_" . $sPressedInputName ), $sPressedInputName, 60*2 );
 			
 			$this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
 			
@@ -162,7 +162,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
 		private function _setRedirectTransients( $sURL, $sPageSlug ) {
 			if ( empty( $sURL ) ) { return; }
 			$sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$sPageSlug}" ) );
-			return set_transient( $sTransient, $sURL , 60*2 );
+			return $this->oUtil->setTransient( $sTransient, $sURL , 60*2 );
 		}
 		
 		/**
