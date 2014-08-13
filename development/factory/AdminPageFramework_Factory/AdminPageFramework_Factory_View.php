@@ -41,6 +41,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 	 */
 	public function _replyToPrintSettingNotice() {
 			
+		if ( ! $this->_isInThePage() ) { return; }
+			
 		// Ensure this method is called only once per a page load.
 		if ( self::$_bSettingNoticeLoaded ) { return; }
 		self::$_bSettingNoticeLoaded = true;

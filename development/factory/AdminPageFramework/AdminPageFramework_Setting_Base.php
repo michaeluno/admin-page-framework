@@ -74,8 +74,8 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
 		
 		if ( $this->oProp->bIsAdmin ) {
 		
-			add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let in-page finalization done earlier.
-			add_action( "load_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
+			add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );	// Have a low priority to let in-page finalization done earlier.
+			add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 );	// should be loaded after registering the settings.
 			
 		}
 					

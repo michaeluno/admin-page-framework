@@ -21,9 +21,10 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * <ul>
  * 	<li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This will be triggered in any admin page except admin-ajax.php. The class object will be passed to the first parameter [3.1.3+].</li>
  * 	<li><strong>set_up_{instantiated class name}</strong> – [3.1.3+] triggered after the setUp() method is called. The class object will be passed to the first parameter.</li>
- * 	<li><strong>load_{instantiated class name}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><strong>load_{page slug}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
- * 	<li><strong>load_{page slug}_{tab slug}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework.</li>
+ * 	<li><strong>load_{instantiated class name}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object [3.1.2+].</li>
+ * 	<li><strong>load_{page slug}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object [3.1.2+].</li>
+ * 	<li><strong>load_{page slug}_{tab slug}</strong> – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object [3.1.2+].</li>
+ * 	<li><strong>load_after_{instantiated class name}</strong> – [3.1.3+] triggered when one of the framework's pages is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object.</li>
  * 	<li><strong>do_before_{instantiated class name}</strong> – triggered before rendering the page. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
  * 	<li><strong>do_before_{page slug}</strong> – triggered before rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
  * 	<li><strong>do_before_{page slug}_{tab slug}</strong> – triggered before rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
@@ -149,9 +150,10 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 
  * ------ When the page starts loading  ------
  * 
- *  load_{page slug}_{tab slug}
- *  load_{page slug}
  *  load_{instantiated class name}
+ *  load_{page slug}
+ *  load_{page slug}_{tab slug}
+ *  load_after_{instantiated class name}
  * 
  *  sections_{instantiated class name}
  *  fields_{instantiated class name}
@@ -204,15 +206,15 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  *      content_top_{page slug}
  *      content_top_{instantiated class name}
  *  
- *      <div class="acmin-page-framework-container">
+ *      <div class="admin-page-framework-container">
  *          <form action="current page" method="post">
  *  
- *              do_form_{page slug}_{tab slug}
- *              do_form_{page slug}
  *              do_form_{instantiated class name}
+ *              do_form_{page slug}
+ *              do_form_{page slug}_{tab slug}
  *  			
- * 				field_definition_{instantiated class name}_{section ID}_{field ID}
- * 				field_definition_{instantiated class name}_{field ID (which does not have a section)}
+ *              field_definition_{instantiated class name}_{section ID}_{field ID}
+ *              field_definition_{instantiated class name}_{field ID (which does not have a section)}
  *              section_head_{instantiated class name}_{section ID}
  *              field_{instantiated class name}_{field ID}
  *  

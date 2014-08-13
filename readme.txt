@@ -429,6 +429,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.3 =
+- Added the `load_after_{instantiated class name}` hook that is triggered right after the `load_{...}` hooks are triggered.
 - Added the `set_up_{instantiated class name}` hook that is triggered right after the `setUp()` method is called.
 - Added the footer link in the custom taxonomy pages created by the framework (`tags.php`, `edit-tags.php`).
 - Added the ability for the `autocomplete` custom field type to support multiple post types and post statues.

@@ -34,7 +34,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 	protected static $_aHookPrefixes = array(	
 		'start_'			=> 'start_',
 		'set_up_'			=> 'set_up_',	// 3.1.3+
-		'load_'				=> 'load_',
+		'load_'				=> 'load_',		
+		'load_after_'		=> 'load_after_',		// 3.1.3+
 		'do_before_'		=> 'do_before_',
 		'do_after_'			=> 'do_after_',
 		'do_form_'			=> 'do_form_',
@@ -239,15 +240,21 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
 				return;
 			}
 		
-			// Do actions, in-page tab -> page -> class name.
+			// Do actions, class ->  page -> in-page tab
 			$this->oUtil->addAndDoActions( 
 				$this, // the caller object
 				$this->oUtil->getFilterArrayByPrefix( 
 					"load_", 
 					$this->oProp->sClassName, 
 					$sPageSlug, 
-					$sTabSlug
+					$sTabSlug,
+					true
 				),
+				$this	// the admin page object - this lets third-party scripts use the framework methods.
+			);
+			$this->oUtil->addAndDoActions( 
+				$this, // the caller object
+				array( "load_after_{$this->oProp->sClassName}" ),
 				$this	// the admin page object - this lets third-party scripts use the framework methods.
 			);
 			
