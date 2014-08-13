@@ -110,7 +110,7 @@ abstract class AdminPageFramework_Factory_Router {
 		 */
 		public function _replyToLoadComponents( $oScreen ) {
 
-			if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) ) {
+			if ( 'plugins.php' === $this->oProp->sPageNow ) {
 				$this->oLink		= isset( $this->oLink )	// the user may have already accessed it
 					? $this->oLink
 					: $this->_getLinkInstancce( $this->oProp, $this->oMsg );
@@ -121,6 +121,9 @@ abstract class AdminPageFramework_Factory_Router {
 			$this->oHeadTag 		= isset( $this->oHeadTag )	// the user may have already accessed it
 				? $this->oHeadTag
 				: $this->_getHeadTagInstance( $this->oProp );
+			$this->oLink			= isset( $this->oLink )	// the user may have already accessed it
+				? $this->oLink
+				: $this->_getLinkInstancce( $this->oProp, $this->oMsg );				
 			$this->oPageLoadInfo	= isset( $this->oPageLoadInfo )	// the user may have already accessed it
 				? $this->oPageLoadInfo
 				: $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );

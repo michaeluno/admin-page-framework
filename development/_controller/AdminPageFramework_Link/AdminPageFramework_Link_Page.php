@@ -39,10 +39,10 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 			return;
 		}		
 		
-		$this->oProp->sLabelPluginSettingsLink = $this->oProp->sLabelPluginSettingsLink === null
+		$this->oProp->sLabelPluginSettingsLink = null === $this->oProp->sLabelPluginSettingsLink
 			? $this->oMsg->__( 'settings' )
 			: $this->oProp->sLabelPluginSettingsLink;
-		
+
 		add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
 	
 		if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' == $this->oProp->aScriptInfo['sType'] ) {
@@ -66,7 +66,6 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
 		// Add script info into the footer 
 		add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );			
 		add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );		
-
 		
 	}
 		
