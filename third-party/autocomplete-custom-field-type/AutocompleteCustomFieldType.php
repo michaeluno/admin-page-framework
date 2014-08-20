@@ -72,43 +72,111 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	public function _replyToReturnAutoCompleteRequest() {
 
-		if ( ! $this->_isLoggedIn() ) exit;
-			
+		if ( ! $this->_isLoggedIn() ) { exit; }
+        if ( ! isset( $_GET['q'] ) ) { exit; }
+        
 		$_aGet = $_GET;
 		unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
 					
-		// Retrieve posts
-		$_aArgs = $_aGet + array(
-			'post_type'			=> 'post',		
-			'post_status'		=> 'publish, private',
-			'orderby'			=> 'title', 
-			'order'				=> 'ASC',
-			'posts_per_page'	=> -1,	
-		);
-		if ( isset( $_aArgs['post_types'] ) ) {
-			$_aArgs['post_type'] = preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_types'] ), 0, PREG_SPLIT_NO_EMPTY );
-		}	
-		$_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
-
-		if ( isset( $_GET['q'] ) ) {
-			add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClause' ), 10, 2 );
-			$_aArgs['q'] = $_GET['q'] ;
-		}
-		$_oResults = new WP_Query( $_aArgs );					
-		
-		// Format the data
-		$_aData = array();
-		foreach( $_oResults->posts as $__iIndex => $__oPost ) {
-			$_aData[ $__iIndex ] = array(
-				'id'	=>	$__oPost->ID,
-				'name'	=>	$__oPost->post_title,
-			);
-		}
-		
+        $_aData = array();
+        $_sType = isset( $_GET['type'] ) ? $_GET['type'] : '';
+        switch ( $_sType ) {
+            default:
+            case 'post':
+                $_aData = $this->_searchPosts( $_aGet );
+                break;
+            case 'user':
+                $_aData = $this->_searchUsers( $_aGet );
+                break;
+        }
 		die( json_encode( $_aData ) );
-	
 		
 	}
+        /**
+         * Searches users by the given criteria.
+         */
+        private function _searchUsers( array $aGet=array() ) {
+            
+            $_aArgs = $aGet + array();
+            
+            // Set the callback to modify the database query string.
+            add_action( 'pre_user_query', array( $this, '_replyToModifyMySQLWhereClauseToSearchUsers' ) );
+            
+            $_oResults = new WP_User_Query( $_aArgs );
+
+            // Format the data
+            $_aData = array();
+            foreach( $_oResults->results as $_iIndex => $_oUser ) {
+                $_aData[ $_iIndex ] = array(
+                    'id'	=>	$_oUser->ID,
+                    'name'	=>	$_oUser->data->display_name,
+                );
+            }            
+            return $_aData;
+            
+        }
+            /**
+             * Modifies the WordPress database query.
+             */
+            public function _replyToModifyMySQLWhereClauseToSearchUsers( $oWPQuery ) {
+                
+                global $wpdb;
+                if ( $oWPQuery->get( 'q' ) ) {
+                    $_sSearchTerm = $oWPQuery->get( 'q' );
+                    $oWPQuery->query_where .= " AND " . $wpdb->users . ".display_name LIKE '%" . esc_sql( like_escape( $_sSearchTerm ) ) . "%'";
+                }    
+                                
+            }	        
+        /**
+         * Searches posts by the given criteria.
+         */
+        private function _searchPosts( array $aGet=array() ) {
+            
+            $_aArgs = $aGet + array(
+                'post_type'			=> 'post',		
+                'post_status'		=> 'publish, private',
+                'orderby'			=> 'title', 
+                'order'				=> 'ASC',
+                'posts_per_page'	=> -1,	
+            );
+            if ( isset( $_aArgs['post_types'] ) ) {
+                $_aArgs['post_type'] = preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_types'] ), 0, PREG_SPLIT_NO_EMPTY );
+            }	
+            $_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
+
+            // Set the callback to modify the database query string.
+            add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClauseToSearchPosts' ), 10, 2 );
+            $_aArgs['q'] = $_GET['q'] ;
+            
+            $_oResults = new WP_Query( $_aArgs );					
+            
+            // Format the data
+            $_aData = array();
+            foreach( $_oResults->posts as $__iIndex => $__oPost ) {
+                $_aData[ $__iIndex ] = array(
+                    'id'	=>	$__oPost->ID,
+                    'name'	=>	$__oPost->post_title,
+                );
+            }            
+            return $_aData;
+            
+        }
+            /**
+             * Modifies the WordPress database query.
+             */
+            public function _replyToModifyMySQLWhereClauseToSearchPosts( $sWhere, $oWPQuery ) {
+                
+                global $wpdb;
+                if ( $oWPQuery->get( 'q' ) ) {
+                    $_sSearchTerm = $oWPQuery->get( 'q' );
+                    $sWhere .= " AND " . $wpdb->posts . ".post_title LIKE '%" . esc_sql( like_escape( $_sSearchTerm ) ) . "%'";
+                }
+                return $sWhere;
+                
+            }	        
+        /**
+         * Checks whether the user is logged-in.
+         */
 		private function _isLoggedIn() {
 			
 			if ( ! is_multisite() ) {				
@@ -119,22 +187,10 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			}
 			
 			// For multi-sites
-			return is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ;
+			return is_user_member_of_blog( get_current_user_id(), get_current_blog_id() );
 
 		}
 	
-		/**
-		 * Modifies the WordPress database query.
-		 */
-		public function _replyToModifyMySQLWhereClause( $sWhere, $oWPQuery ) {
-			
-			global $wpdb;
-			if ( $_sSearchTerm = $oWPQuery->get( 'q' ) ) {
-				$sWhere .= " AND " . $wpdb->posts . ".post_title LIKE '%" . esc_sql( like_escape( $_sSearchTerm ) ) . "%'";
-			}
-			return $sWhere;
-			
-		}	
 	
 	/**
 	 * Loads the field type necessary components.
@@ -185,6 +241,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			dirname( __FILE__ ) . '/asset/token-input.css',
 			dirname( __FILE__ ) . '/asset/token-input-facebook.css',
 			dirname( __FILE__ ) . '/asset/token-input-mac.css',		
+			dirname( __FILE__ ) . '/asset/token-input-admin_page_framework.css',		
 		);
 	}			
 
@@ -301,7 +358,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 					. $aField['after_input']
 				. "</label>"
 			. "</div>"
-			. $this->getAutocompletenablerScript( $aField['input_id'], $aField['settings'], $aField['settings2'], $aInputAttributes['value'] )
+			. $this->getAutocompletEnablerScript( $aField['input_id'], $aField['settings'], $aField['settings2'], $aInputAttributes['value'] )
 			. $aField['after_label'];
 		
 	}	
@@ -331,7 +388,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			
 		}
 		
-		private function getAutocompletenablerScript( $sInputID, $asParam1, $aParam2, $sValue='' ) {
+		private function getAutocompletEnablerScript( $sInputID, $asParam1, $aParam2, $sValue='' ) {
 			
 			$sParam1 = $this->_formatSettings( $asParam1, $sValue );
 			$sParam2 = $this->_formatSettings( $aParam2, $sValue );

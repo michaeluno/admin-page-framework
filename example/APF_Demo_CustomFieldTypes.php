@@ -694,10 +694,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             // For the first parameter, use the 'settings' key and the second parameter, use the 'settings2'.
             'autocomplete', // the target section id
             array(
-                'type' => 'autocomplete',     
-                'field_id' => 'autocomplete_field',
-                'title' => __( 'Default', 'admin-page-framework-demo' ),
-                'description' => __( 'By default, all the post titles will be fetched in the background and will pop up.', 'admin-page-framework-demo' ),    
+                'type'          => 'autocomplete',     
+                'field_id'      => 'autocomplete_field',
+                'title'         => __( 'Default', 'admin-page-framework-demo' ),
+                'description'   => __( 'By default, all the post titles will be fetched in the background and will pop up.', 'admin-page-framework-demo' ),    
             ),
             array(
                 'type' => 'autocomplete',     
@@ -752,7 +752,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     ) + $_GET,
                     admin_url( AdminPageFramework_WPUtility::getPageNow() )
                 ),
-                'description' => __( 'To seatch from multiple post types use the \'post_types\' argument (not \'post_type\') and pass comma delimited post type slugs.', 'admin-page-framework-demo' ), //' syntax fixer
+                'settings2'     =>  array(
+                    'theme'         => 'admin_page_framework',
+                ),                
+                'description' => __( 'To search from multiple post types use the \'post_types\' argument (not \'post_type\') and pass comma delimited post type slugs.', 'admin-page-framework-demo' ), //' syntax fixer
             ),     
             array(
                 'type' => 'autocomplete',     
@@ -760,6 +763,22 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'repeatable' => true,
             ),
+            array(
+                'type'          => 'autocomplete', 
+                'field_id'      => 'autocomplete_users',
+                'title'         => __( 'Search Users', 'admin-page-framework-demo' ),
+                'settings'      => add_query_arg( 
+                    array( 
+                        'request'   => 'autocomplete', 
+                        'type'      => 'user', // Note that the argument key is not 'post_type'
+                    ) + $_GET,
+                    admin_url( AdminPageFramework_WPUtility::getPageNow() )
+                ),                
+                'settings2'     =>  array(
+                    'theme' => 'admin_page_framework',
+                ),                
+                'description'   => __( 'To search users, pass the \'user\' to the <code>type</code> argument.', 'admin-page-framework-demo' ), //' syntax fixer   
+            ),            
             array()
         );     
         

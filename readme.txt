@@ -3,8 +3,8 @@ Contributors: Michael Uno, miunosoft
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
-Tested up to: 3.9.1
-Stable tag: 3.1.2
+Tested up to: 3.9.2
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,7 +110,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
     include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
 }
 `
-	
+    
 <h5><strong>Step 2</strong> - Extend the Library Class</h5>
 
 `
@@ -122,24 +122,24 @@ class APF_GettingStarted extends AdminPageFramework {
 
 `
 public function setUp() {
-	$this->setRootMenuPage( 'Settings' );	// specifies to which parent menu to belong.
-	$this->addSubMenuItem(
-		array(
-			'title'		=>	'My First Page',
-			'page_slug'	=>	'myfirstpage',
-		)
-	); 
+    $this->setRootMenuPage( 'Settings' );    // specifies to which parent menu to belong.
+    $this->addSubMenuItem(
+        array(
+            'title'     => 'My First Page',
+            'page_slug' => 'myfirstpage',
+        )
+    ); 
 }
 `
 
 <h5><strong>Step 4</strong> - Define the Methods for Hooks</h5>
 
 `
-public function do_myfirstpage() {  // do_{page slug}	
-	?>
-	<h3>Say Something</h3>
-	<p>This is my first admin page!</p>
-	<?php
+public function do_myfirstpage() {  // do_{page slug}    
+    ?>
+    <h3>Say Something</h3>
+    <p>This is my first admin page!</p>
+    <?php
 }
 `
 
@@ -162,15 +162,15 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 class APF extends AdminPageFramework {
 
     public function setUp() {
-		
-    	$this->setRootMenuPage( 'Settings' );	// where to belong
-		$this->addSubMenuItem(
-			array(
-				'title'		=>	'My First Page',
-				'page_slug'	=>	'myfirstpage'
-			)
-		);
-			
+        
+        $this->setRootMenuPage( 'Settings' );    // where to belong
+        $this->addSubMenuItem(
+            array(
+                'title'     => 'My First Page',
+                'page_slug' => 'myfirstpage'
+            )
+        );
+            
     }
 
     public function do_myfirstpage() {  // do_{page slug}
@@ -196,38 +196,38 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 class APF_MyFirstFrom extends AdminPageFramework {
 
     public function setUp() {
-		
-    	$this->setRootMenuPage( 'My Settings' );	// create a root page 
-		$this->addSubMenuItem(
-			array(
-				'title'		=>	'My First Form',
-				'page_slug'	=>	'my_first_form'
-			)
-		);
-							
+        
+        $this->setRootMenuPage( 'My Settings' );    // create a root page 
+        $this->addSubMenuItem(
+            array(
+                'title'     => 'My First Form',
+                'page_slug' => 'my_first_form'
+            )
+        );
+                            
     }
-	
-	/**
-	 * The pre-defined callback method that is triggered when the page loads.
-	 */
-	public function load_my_first_form( $oAdminPage ) {	// load_{page slug}
-	
-		$this->addSettingFields(
-			array(	
-				'field_id'		=>	'text',
-				'section_id'	=>	'my_first_text_section',
-				'title'			=>	'Text',
-				'type'			=>	'text',
-				'default'		=>	123456,
-			),
-			array(	
-				'field_id'		=>	'submit',
-				'type'			=>	'submit',
-			)
-		);	
-	
-	}
-	
+    
+    /**
+     * The pre-defined callback method that is triggered when the page loads.
+     */
+    public function load_my_first_form( $oAdminPage ) {    // load_{page slug}
+    
+        $this->addSettingFields(
+            array(    
+                'field_id'      =>  'text',
+                'section_id'    =>  'my_first_text_section',
+                'title'         =>  'Text',
+                'type'          =>  'text',
+                'default'       =>  123456,
+            ),                      
+            array(                  
+                'field_id'      =>  'submit',
+                'type'          =>  'submit',
+            )
+        );    
+    
+    }
+    
     
 }
 new APF_MyFirstFrom;
@@ -235,7 +235,7 @@ new APF_MyFirstFrom;
 
 == Frequently asked questions ==
 = What is this for? =
-This is	a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
+This is    a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
 
 = I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it? = 
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
@@ -251,7 +251,7 @@ No. The demo plugin is released under GPLv2 or later but the library itself is r
 = Can I set a custom post type as a root page? =
 Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
 
-`$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );	`
+`$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );    `
 
 = How do I retrieve the stored options? =
 The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 
@@ -323,15 +323,15 @@ The argument accepts the values as an array. Each element represents the attribu
 
 For example,
 `
-array(	
-	'field_id'			=>	'interval',
-	'title'				=>	__( 'Interval', 'task-scheduler' ),
-	'type'				=>	'number',
-	'attributes'		=>	array(
-		'min'	=>	0,
-		'step'	=>	1,
-		'max'	=>	24m
-	),
+array(    
+    'field_id'      => 'interval',
+    'title'         => __( 'Interval', 'task-scheduler' ),
+    'type'          => 'number',
+    'attributes'    => array(
+        'min'   => 0,
+        'step'  => 1,
+        'max'   => 24,
+    ),
 ),
 `
 
@@ -344,80 +344,80 @@ In addition, you can change the attributes of the following container elements b
 
 This submit button will float on the right.
 `
-array(	
-	'field_id'			=>	'submit',
-	'type'				=>	'submit',
-	'label'				=>	__( 'Save', 'task-scheduler' ),
-	'label_min_width'	=>	0,
-	'attributes'		=>	array(
-		'field'	=>	array(
-			'style'	=>	'float:right; clear:none; display: inline;',
-		),
-	),					
-)	
+array(    
+    'field_id'          => 'submit',
+    'type'              => 'submit',
+    'label'             => __( 'Save', 'task-scheduler' ),
+    'label_min_width'   => 0,
+    'attributes'        => array(
+        'field' => array(
+            'style' => 'float:right; clear:none; display: inline;',
+        ),
+    ),                    
+)    
 `
 
 <h4>Change Preview Image Size of the 'image' Field Type</h4>
 To specify a custom size to the preview element of the `image` field type, set an attribute array like the below, where 300px is the max width.
 
 `array(
-	'field_id'			=>	'my_image_field_id',
-	'title'				=>	__( 'Image', 'admin-page-framework-demo' ),
-	'type'				=>	'image',
-	'attributes'		=>	array(
-		'style'	=>	'max-width:300px;',
-	),
+    'field_id'      => 'my_image_field_id',
+    'title'         => __( 'Image', 'admin-page-framework-demo' ),
+    'type'          => 'image',
+    'attributes'    => array(
+        'style' => 'max-width:300px;',
+    ),
 ),`
 
 <h4>Display items of 'radio' field type one per line</h4>
 To display radio button items one per line, set the `label_min_width` to `100%`.
 
 `array(
-	'field_id'			=>	'my_radio_field_id',
-	'title'				=>	__( 'Radio Button', 'admin-page-framework-demo' ),
-	'type'				=>	'radio',
-	'label_min_width'	=>	'100%',
-	'label'				=>	array(
-		'a'	=>	__( 'This is a.', 'admin-page-framework-demo' ),
-		'b'	=>	__( 'This is b.', 'admin-page-framework-demo' ),
-		'c'	=>	__( 'This is a.', 'admin-page-framework-demo' )c
-	),
+    'field_id'          => 'my_radio_field_id',
+    'title'             => __( 'Radio Button', 'admin-page-framework-demo' ),
+    'type'              => 'radio',
+    'label_min_width'   => '100%',
+    'label'             => array(
+        'a' => __( 'This is a.', 'admin-page-framework-demo' ),
+        'b' => __( 'This is b.', 'admin-page-framework-demo' ),
+        'c' => __( 'This is a.', 'admin-page-framework-demo' )c
+    ),
 ),`
 
 <h4>Set default field value</h4>
 To set the initial value of a field, use the `default` argument in the field definition array.
 
 `array(
-	'field_id'	=>	'my_text_field_id',
-	'title'		=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
-	'type'		=>	'text',
-	'default'	=>	'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
+    'field_id'  => 'my_text_field_id',
+    'title'     => __( 'My Text Input Field', 'admin-page-framework-demo' ),
+    'type'      => 'text',
+    'default'   => 'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
 ),`
 
 <h4>Always display a particular value in a field</h4>
 The `value` argument in the definition array can suppress the saved value. This is useful when you want to set a value from a different data source or create a wizard form that stores the data in a custom location.
 
 `array(
-	'field_id'	=>	'my_text_field_id',
-	'title'		=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
-	'type'		=>	'text',
-	'value'		=>	'This will be always set.',
+    'field_id'  => 'my_text_field_id',
+    'title'     => __( 'My Text Input Field', 'admin-page-framework-demo' ),
+    'type'      => 'text',
+    'value'     => 'This will be always set.',
 ),`
 
 If it is a repeatable field, set the value in the sub-fields.
 
 `array(
-	'field_id'		=>	'my_text_field_id',
-	'title'			=>	__( 'My Text Input Field', 'admin-page-framework-demo' ),
-	'type'			=>	'text',
-	'repeatable'	=>	true,
-	'value'			=>	'the first value',
-	array(
-		'value'	=>	'the second value',
-	),
-	array(
-		'value'	=>	'the third value',
-	),	
+    'field_id'      => 'my_text_field_id',
+    'title'         => __( 'My Text Input Field', 'admin-page-framework-demo' ),
+    'type'          => 'text',
+    'repeatable'    => true,
+    'value'         => 'the first value',
+    array(
+        'value' => 'the second value',
+    ),
+    array(
+        'value' => 'the third value',
+    ),    
 ),`
 
 Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
@@ -427,6 +427,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.1.4 =
+- Added the ability to search users for the `autocomplete` custom field type.
 
 = 3.1.3 - 2014/08/13 =
 - Added the `load_after_{instantiated class name}` hook that is triggered right after the `load_{...}` hooks are triggered.
