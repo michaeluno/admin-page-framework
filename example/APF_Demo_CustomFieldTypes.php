@@ -758,10 +758,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'description' => __( 'To search from multiple post types use the \'post_types\' argument (not \'post_type\') and pass comma delimited post type slugs.', 'admin-page-framework-demo' ), //' syntax fixer
             ),     
             array(
-                'type' => 'autocomplete',     
-                'field_id' => 'autocomplete_repeatable_field',
-                'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'repeatable' => true,
+                'type'          => 'autocomplete',     
+                'field_id'      => 'autocomplete_repeatable_field',
+                'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
+                'repeatable'    => true,
             ),
             array(
                 'type'          => 'autocomplete', 
@@ -775,7 +775,9 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     admin_url( AdminPageFramework_WPUtility::getPageNow() )
                 ),                
                 'settings2'     =>  array(
-                    'theme' => 'admin_page_framework',
+                    'theme'             => 'admin_page_framework',
+                    'hintText'          => __( 'Type a user name.', 'auto-post' ),
+                    'preventDuplicates' => true,
                 ),                
                 'description'   => __( 'To search users, pass the \'user\' to the <code>type</code> argument.', 'admin-page-framework-demo' ), //' syntax fixer   
             ),            
