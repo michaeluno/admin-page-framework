@@ -214,15 +214,15 @@ class APF_MyFirstFrom extends AdminPageFramework {
     
         $this->addSettingFields(
             array(    
-                'field_id'      =>  'text',
-                'section_id'    =>  'my_first_text_section',
-                'title'         =>  'Text',
-                'type'          =>  'text',
-                'default'       =>  123456,
-            ),                      
-            array(                  
-                'field_id'      =>  'submit',
-                'type'          =>  'submit',
+                'field_id'      => 'text',
+                'section_id'    => 'my_first_text_section',
+                'title'         => 'Text',
+                'type'          => 'text',
+                'default'       => 123456,
+            ),                     
+            array(                 
+                'field_id'      => 'submit',
+                'type'          => 'submit',
             )
         );    
     
@@ -430,6 +430,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.1.4 =
 - Added the ability to search users for the `autocomplete` custom field type.
+- Fixed an issue that field error transients and admin notice transients were not handled properly when multiple WordPress users on the site are working on admin pages created by the framework.
+- Fixed an issue that options did not save when the site enables object caching.
 
 = 3.1.3 - 2014/08/13 =
 - Added the `load_after_{instantiated class name}` hook that is triggered right after the `load_{...}` hooks are triggered.
