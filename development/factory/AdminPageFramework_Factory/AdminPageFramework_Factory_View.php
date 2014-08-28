@@ -51,9 +51,10 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         if ( self::$_bSettingNoticeLoaded ) { return; }
         self::$_bSettingNoticeLoaded = true;
 
-        $_aNotices = $this->oUtil->getTransient( 'AdminPageFramework_Notices' );
+        $_iUserID  = get_current_user_id();
+        $_aNotices = $this->oUtil->getTransient( "apf_notices_{$_iUserID}" );
         if ( false === $_aNotices ) { return; }
-        $this->oUtil->deleteTransient( 'AdminPageFramework_Notices' );
+        $this->oUtil->deleteTransient( "apf_notices_{$_iUserID}" );
     
         // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
         if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { return; }
