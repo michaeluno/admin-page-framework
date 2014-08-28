@@ -79,7 +79,7 @@ class AdminPageFramework_Message {
 			'reset_options'			=> null,
 			'confirm_perform_task'	=> null,
 			'specified_option_been_deleted'	=> null,
-			'nonce_veification_failed'	=> null,
+			'nonce_verification_failed'	=> null,
 			
 			// AdminPageFramework_PostType
 			'title'			=> null,
@@ -196,7 +196,7 @@ class AdminPageFramework_Message {
 					return __( 'Please confirm if you want to perform the specified task.', 'admin-page-framework' );
 				case 'specified_option_been_deleted':
 					return __( 'The specified options have been deleted.', 'admin-page-framework' );
-				case 'nonce_veification_failed':
+				case 'nonce_verification_failed':
 					return	__( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
 				
 				// AdminPageFramework_PostType

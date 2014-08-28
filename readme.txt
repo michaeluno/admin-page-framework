@@ -1,5 +1,5 @@
 === Admin Page Framework ===
-Contributors: Michael Uno, miunosoft
+Contributors: Michael Uno, miunosoft, pcraig3
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
