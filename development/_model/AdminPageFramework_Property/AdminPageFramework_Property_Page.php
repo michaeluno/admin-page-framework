@@ -102,11 +102,11 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since 2.0.0
      */         
     public $aRootMenu = array(
-        'sTitle' => null, // menu label that appears on the menu list
-        'sPageSlug' => null, // menu slug that identifies the menu item
-        'sIcon16x16' => null, // the associated icon that appears beside the label on the list
-        'iPosition' => null, // determines the position of the menu
-        'fCreateRoot' => null, // indicates whether the framework should create the root menu or not.
+        'sTitle'        => null, // menu label that appears on the menu list
+        'sPageSlug'     => null, // menu slug that identifies the menu item
+        'sIcon16x16'    => null, // the associated icon that appears beside the label on the list
+        'iPosition'     => null, // determines the position of the menu
+        'fCreateRoot'   => null, // indicates whether the framework should create the root menu or not.
     ); 
     
     /**
@@ -258,21 +258,20 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     public $aPageHooks = array();
      
     /**
-     * Construct the instance of AdminPageFramework_Property_Page class object.
+     * Constructs the instance of AdminPageFramework_Property_Page class object.
      * 
-     * @remark Used by the setInPageTabsVisibility() method.
-     * @since 2.0.0
-     * @since 2.1.5 The $oCaller parameter was added.
-     * @return void
+     * @remark      Used by the setInPageTabsVisibility() method.
+     * @since       2.0.0
+     * @since       2.1.5   The $oCaller parameter was added.
+     * @return      void
      */ 
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $this->sFieldsType );
         
+        $this->sTargetFormPage = $_SERVER['REQUEST_URI'];
         $this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
         $this->_bDisableSavingOptions = '' === $sOptionKey ? true : false;
-                
-        $this->sTargetFormPage = $_SERVER['REQUEST_URI'];
                 
         /* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
         $GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
@@ -362,9 +361,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         
         $sPageSlug = $sPageSlug ? trim( $sPageSlug ) : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
         return isset( $this->aPages[ $sPageSlug ] );
-        // return ( array_key_exists( trim( $sPageSlug ), $this->aPages ) )
-            // ? true
-            // : false;
+
     }
     
     /**
