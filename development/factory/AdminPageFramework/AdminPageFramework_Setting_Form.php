@@ -67,7 +67,7 @@ abstract class AdminPageFramework_Setting_Form extends AdminPageFramework_Settin
 		
 		$_sNonceTransientKey = 'form_' . md5( $this->oProp->sClassName . get_current_user_id() );
 		if ( $_POST['_is_admin_page_framework'] !== $this->oUtil->getTransient( $_sNonceTransientKey ) ) {
-			$this->setAdminNotice( $this->oMsg->__( 'nonce_veification_failed' ) );
+			$this->setAdminNotice( $this->oMsg->__( 'nonce_verification_failed' ) );
 			return;
 		}
 		$this->oUtil->deleteTransient( $_sNonceTransientKey );
