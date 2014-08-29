@@ -143,24 +143,24 @@ class may be extended to create a field definition class.</p>
 	<em>addSettingFields()</em> method in the framework extending class.
 		<pre>
 <span class="php-var">$this</span>-&gt;addSettingFields(
-        <span
+<span
 		class="php-keyword1">array</span>(
-                <span
+<span
 		class="php-quote">'field_id'</span>  =&gt;  <span
 		class="php-quote">'my_field_id'</span>,
-                <span
+<span
 		class="php-quote">'section_id'</span>    =&gt;  <span
 		class="php-quote">'my_section_id'</span>,
-                <span
+<span
 		class="php-quote">'type'</span>  =&gt;  <span
 		class="php-quote">'my_custom_field_type_slug'</span>,    <span
 		class="php-comment">// &lt;-- here put the field type slug</span>
-                <span
+<span
 		class="php-quote">'...'</span> =&gt; <span
 		class="php-quote">'...'</span>
-        )
+)
 );
-</pre>
+        </pre>
 	</li>
 </ol>
 
@@ -536,22 +536,22 @@ class="php-keyword1">function</span> getEnqueuingScripts() {
 <span
 class="php-keyword1">return</span> <span
 class="php-keyword1">array</span>(
-        <span
-class="php-keyword1">array</span>(  <span
+<span
+class="php-keyword1">array</span>(     <span
 class="php-comment">// if you need to set a dependency, pass as a custom argument array.</span>
-                <span
-class="php-quote">'src'</span>   =&gt; <span
+<span
+class="php-quote">'src'</span> =&gt; <span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
-class="php-quote">'/asset/my_script.js'</span>,         <span
+class="php-quote">'/asset/my_script.js'</span>,     <span
 class="php-comment">// path or url</span>
-                <span
-class="php-quote">'dependencies'</span>  =&gt; <span
+<span
+class="php-quote">'dependencies'</span> =&gt; <span
 class="php-keyword1">array</span>( <span
 class="php-quote">'jquery'</span> )
-        ),
-        <span
+),
+<span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
-class="php-quote">'/asset/my_another.js'</span>,   <span
+class="php-quote">'/asset/my_another.js'</span>, <span
 class="php-comment">// a string value of the target path or url will work as well.</span>
 );
 }
@@ -627,23 +627,23 @@ argument.</p>
 <pre>
 <span class="php-keyword1">protected</span> <span
 class="php-keyword1">function</span> getEnqueuingStyles() {
-        <span
+<span
 class="php-keyword1">return</span> <span
 class="php-keyword1">array</span>(
-                <span
+<span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
 class="php-quote">'/asset/my_style.css'</span>,
-                <span
+<span
 class="php-keyword1">array</span>(
-                        <span
+<span
 class="php-quote">'src'</span> =&gt; <span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
 class="php-quote">'/asset/my_style2.css'</span>,
-                        <span
+<span
 class="php-quote">'handle_id'</span> =&gt; <span
 class="php-quote">'my_style2'</span>,
-                ),
-        );
+),
+);
 }
 </pre>
 
@@ -811,24 +811,23 @@ class="php-quote">'my_style2'</span>,
 <p>The slug is used for the type key in a field definition array.</p>
 
 <pre>
-        <span
-class="php-var">$this</span>-&gt;addSettingFields(
-        <span
+    <span class="php-var">$this</span>-&gt;addSettingFields(
+<span
 class="php-keyword1">array</span>(
-                <span
-class="php-quote">'section_id'</span>    =&gt;      <span
+<span
+class="php-quote">'section_id'</span> =&gt; <span
 class="php-quote">'...'</span>,
-                <span
-class="php-quote">'type'</span>  =&gt;      <span
-class="php-quote">'my_filed_type_slug'</span>,   <span
+<span
+class="php-quote">'type'</span> =&gt; <span
+class="php-quote">'my_filed_type_slug'</span>, <span
 class="php-comment">// &lt;--- THIS PART</span>
-                <span
-class="php-quote">'field_id'</span>      =&gt;      <span
+<span
+class="php-quote">'field_id'</span> =&gt; <span
 class="php-quote">'...'</span>,
-                <span
-class="php-quote">'title'</span>         =&gt;      <span
+<span
+class="php-quote">'title'</span> =&gt; <span
 class="php-quote">'...'</span>,
-        )
+)
 );
 </pre>
 
@@ -865,22 +864,22 @@ parameter of the <em>getField()</em> method.</p>
 
 <pre>
  <span class="php-var">$this</span>-&gt;addSettingFields(
-        <span
+<span
 class="php-keyword1">array</span>(
-                <span
-class="php-quote">'section_id'</span>    =&gt;      <span
+<span
+class="php-quote">'section_id'</span> =&gt; <span
 class="php-quote">'...'</span>,
-                <span
-class="php-quote">'type'</span>  =&gt;      <span
+<span
+class="php-quote">'type'</span> =&gt; <span
 class="php-quote">'...'</span>,
-                <span
-class="php-quote">'field_id'</span>      =&gt;      <span
+<span
+class="php-quote">'field_id'</span> =&gt; <span
 class="php-quote">'...'</span>,
-                <span
+<span
 class="php-quote">'my_custom_key'</span> =&gt; <span
-class="php-quote">'...'</span>,       <span
+class="php-quote">'...'</span>, <span
 class="php-comment">// &lt;-- THIS PART</span>
-        )
+)
 );
 </pre>
 
@@ -889,19 +888,18 @@ class="php-comment">// &lt;-- THIS PART</span>
 <pre>
 <span class="php-var">$aDefaultKeys</span> = <span
 class="php-keyword1">array</span>(
-        <span
+     <span
 class="php-quote">'my_custom_key'</span> =&gt; <span
 class="php-quote">'my default value'</span>,
-        <span
-class="php-quote">'attributes'</span>    =&gt; <span
+     <span
+class="php-quote">'attributes'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                <span
-class="php-quote">'size'</span>  =&gt;      <span
-class="php-num">30</span>,
-                <span
-class="php-quote">'maxlength'</span>     =&gt;      <span
+<span
+class="php-quote">'size'</span> =&gt; <span class="php-num">30</span>,
+<span
+class="php-quote">'maxlength'</span> =&gt; <span
 class="php-num">400</span>,
-        ),
+),
 );
 </pre>
 

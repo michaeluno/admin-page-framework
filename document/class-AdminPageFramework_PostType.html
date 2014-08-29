@@ -266,80 +266,80 @@ AdminPageFramework_Factory
 <h4>Example</h4>
 
 <pre><span class="php-keyword1">new</span> APF_PostType(
-        <span
-class="php-quote">'apf_posts'</span>,    <span
+    <span
+class="php-quote">'apf_posts'</span>,     <span
 class="php-comment">// post type slug</span>
-        <span
-class="php-keyword1">array</span>(  <span
+    <span
+class="php-keyword1">array</span>( <span
 class="php-comment">// argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments</span>
-                <span
+        <span
 class="php-quote">'labels'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                        <span
+            <span
 class="php-quote">'name'</span> =&gt; <span
 class="php-quote">'Admin Page Framework'</span>,
-                        <span
+            <span
 class="php-quote">'singular_name'</span> =&gt; <span
 class="php-quote">'Admin Page Framework'</span>,
-                        <span
+            <span
 class="php-quote">'add_new'</span> =&gt; <span
 class="php-quote">'Add New'</span>,
-                        <span
+            <span
 class="php-quote">'add_new_item'</span> =&gt; <span
 class="php-quote">'Add New APF Post'</span>,
-                        <span
+            <span
 class="php-quote">'edit'</span> =&gt; <span
 class="php-quote">'Edit'</span>,
-                        <span
+            <span
 class="php-quote">'edit_item'</span> =&gt; <span
 class="php-quote">'Edit APF Post'</span>,
-                        <span
+            <span
 class="php-quote">'new_item'</span> =&gt; <span
 class="php-quote">'New APF Post'</span>,
-                        <span
+            <span
 class="php-quote">'view'</span> =&gt; <span
 class="php-quote">'View'</span>,
-                        <span
+            <span
 class="php-quote">'view_item'</span> =&gt; <span
 class="php-quote">'View APF Post'</span>,
-                        <span
+            <span
 class="php-quote">'search_items'</span> =&gt; <span
 class="php-quote">'Search APF Post'</span>,
-                        <span
+            <span
 class="php-quote">'not_found'</span> =&gt; <span
 class="php-quote">'No APF Post found'</span>,
-                        <span
+            <span
 class="php-quote">'not_found_in_trash'</span> =&gt; <span
 class="php-quote">'No APF Post found in Trash'</span>,
-                        <span
+            <span
 class="php-quote">'parent'</span> =&gt; <span
 class="php-quote">'Parent APF Post'</span>
-                ),
-                <span
+        ),
+        <span
 class="php-quote">'public'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+        <span
 class="php-quote">'menu_position'</span> =&gt; <span
 class="php-num">110</span>,
-                <span
+        <span
 class="php-quote">'supports'</span> =&gt; <span
 class="php-keyword1">array</span>( <span
 class="php-quote">'title'</span> ),
-                <span
+        <span
 class="php-quote">'taxonomies'</span> =&gt; <span
 class="php-keyword1">array</span>( <span
 class="php-quote">''</span> ),
-                <span
+        <span
 class="php-quote">'menu_icon'</span> =&gt; <span
 class="php-keyword1">null</span>,
-                <span
+        <span
 class="php-quote">'has_archive'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+        <span
 class="php-quote">'show_admin_column'</span> =&gt; <span
-class="php-keyword1">true</span>,    <span
+class="php-keyword1">true</span>, <span
 class="php-comment">// for custom taxonomies</span>
-        )
+    )
 );</pre>
 
 

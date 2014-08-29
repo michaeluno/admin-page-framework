@@ -864,7 +864,7 @@ properties.</p>
 <h4>Example</h4>
 
 <pre><span class="php-keyword1">if</span> ( is_admin() )
-        <span
+    <span
 class="php-keyword1">new</span> MyAdminPageClass( <span
 class="php-quote">'my_custom_option_key'</span>, __FILE__ );</pre>
 
@@ -945,57 +945,57 @@ constructor.</p>
 
 <pre><span class="php-keyword1">public</span> <span
 class="php-keyword1">function</span> setUp() {
-        <span
+    <span
 class="php-var">$this</span>-&gt;setRootMenuPage( <span
 class="php-quote">'APF Form'</span> );
-        <span
+    <span
 class="php-var">$this</span>-&gt;addSubMenuItems(
-                <span
+        <span
 class="php-keyword1">array</span>(
-                        <span
+            <span
 class="php-quote">'title'</span> =&gt; <span
 class="php-quote">'Form Fields'</span>,
-                        <span
+            <span
 class="php-quote">'page_slug'</span> =&gt; <span
 class="php-quote">'apf_form_fields'</span>,
-                )
-        );
-        <span
+        )
+    );
+    <span
 class="php-var">$this</span>-&gt;addSettingSections(
-                <span
-class="php-keyword1">array</span>(
-                        <span
-class="php-quote">'section_id'</span>            =&gt; <span
-class="php-quote">'text_fields'</span>,
-                        <span
-class="php-quote">'page_slug'</span>             =&gt; <span
-class="php-quote">'apf_form_fields'</span>,
-                        <span
-class="php-quote">'title'</span>                 =&gt; <span
-class="php-quote">'Text Fields'</span>,
-                        <span
-class="php-quote">'description'</span>   =&gt; <span
-class="php-quote">'These are text type fields.'</span>,
-                )
-        );
         <span
-class="php-var">$this</span>-&gt;addSettingFields(
-                <span
 class="php-keyword1">array</span>(
-                        <span
-class="php-quote">'field_id'</span> =&gt; <span
-class="php-quote">'text'</span>,
-                        <span
+            <span
 class="php-quote">'section_id'</span> =&gt; <span
 class="php-quote">'text_fields'</span>,
-                        <span
+            <span
+class="php-quote">'page_slug'</span> =&gt; <span
+class="php-quote">'apf_form_fields'</span>,
+            <span
+class="php-quote">'title'</span> =&gt; <span
+class="php-quote">'Text Fields'</span>,
+            <span
+class="php-quote">'description'</span> =&gt; <span
+class="php-quote">'These are text type fields.'</span>,
+        )
+    );
+    <span
+class="php-var">$this</span>-&gt;addSettingFields(
+        <span
+class="php-keyword1">array</span>(
+            <span
+class="php-quote">'field_id'</span> =&gt; <span
+class="php-quote">'text'</span>,
+            <span
+class="php-quote">'section_id'</span> =&gt; <span
+class="php-quote">'text_fields'</span>,
+            <span
 class="php-quote">'title'</span> =&gt; <span
 class="php-quote">'Text'</span>,
-                        <span
+            <span
 class="php-quote">'type'</span> =&gt; <span
 class="php-quote">'text'</span>,
-                )
-        );
+        )
+    );
 }</pre>
 
 
@@ -1043,31 +1043,31 @@ is triggered with the <em>wp_loaded</em> hook.<br>
 
 <h4>Example</h4>
 
-<pre>  <span class="php-var">$this</span>-&gt;addHelpTab(
-        <span
+<pre> <span class="php-var">$this</span>-&gt;addHelpTab(
+<span
 class="php-keyword1">array</span>(
-                <span
-class="php-quote">'page_slug'</span>                                     =&gt; <span
-class="php-quote">'first_page'</span>,        <span
+<span
+class="php-quote">'page_slug'</span> =&gt; <span
+class="php-quote">'first_page'</span>, <span
 class="php-comment">// ( mandatory )</span>
-                <span
-class="php-comment">// 'page_tab_slug'                      =&gt; null,        // ( optional )</span>
-                <span
-class="php-quote">'help_tab_title'</span>                        =&gt; <span
+<span
+class="php-comment">// 'page_tab_slug' =&gt; null, // ( optional )</span>
+<span
+class="php-quote">'help_tab_title'</span> =&gt; <span
 class="php-quote">'Admin Page Framework'</span>,
-                <span
-class="php-quote">'help_tab_id'</span>                           =&gt; <span
-class="php-quote">'admin_page_framework'</span>,      <span
+<span
+class="php-quote">'help_tab_id'</span> =&gt; <span
+class="php-quote">'admin_page_framework'</span>, <span
 class="php-comment">// ( mandatory )</span>
-                <span
-class="php-quote">'help_tab_content'</span>                      =&gt; __( <span
+<span
+class="php-quote">'help_tab_content'</span> =&gt; __( <span
 class="php-quote">'This contextual help text can be set with the &lt;em&gt;addHelpTab()&lt;/em&gt; method.'</span>, <span
 class="php-quote">'admin-page-framework'</span> ),
-                <span
-class="php-quote">'help_tab_sidebar_content'</span>      =&gt; __( <span
+<span
+class="php-quote">'help_tab_sidebar_content'</span> =&gt; __( <span
 class="php-quote">'This is placed in the sidebar of the help pane.'</span>, <span
 class="php-quote">'admin-page-framework'</span> ),
-        )
+)
 );</pre>
 
 
@@ -1143,16 +1143,16 @@ class="php-quote">'admin-page-framework'</span> ),
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;enqueueStyle(
-                <span
+        <span
 class="php-keyword1">array</span>(
-                        <span
+            <span
 class="php-keyword2">dirname</span>( APFDEMO_FILE ) . <span
 class="php-quote">'/asset/css/code.css'</span>,
-                        <span
+            <span
 class="php-keyword2">dirname</span>( APFDEMO_FILE ) . <span
 class="php-quote">'/asset/css/code2.css'</span>,
-                ),
-                <span
+        ),
+        <span
 class="php-quote">'apf_manage_options'</span>
 );</pre>
 
@@ -1305,16 +1305,16 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 <pre>
 <span class="php-var">$this</span>-&gt;enqueueScripts(
-        <span
+    <span
 class="php-keyword1">array</span>(
-                plugins_url( <span
-class="php-quote">'asset/js/test.js'</span> , __FILE__ ),   <span
+plugins_url( <span
+class="php-quote">'asset/js/test.js'</span> , __FILE__ ), <span
 class="php-comment">// source url or path</span>
-                plugins_url( <span
+plugins_url( <span
 class="php-quote">'asset/js/test2.js'</span> , __FILE__ ),
-        )
-        <span
-class="php-quote">'apf_read_me'</span>,  <span
+    )
+    <span
+class="php-quote">'apf_read_me'</span>,     <span
 class="php-comment">// page slug</span>
 );
 </pre>
@@ -1377,35 +1377,34 @@ applies to all the in-page tabs in the page.</dd>
 
 <h4>Example</h4>
 
-<pre><span
-class="php-var">$this</span>-&gt;enqueueScript(
-        plugins_url( <span
-class="php-quote">'asset/js/test.js'</span> , __FILE__ ),   <span
+<pre><span class="php-var">$this</span>-&gt;enqueueScript(
+plugins_url( <span
+class="php-quote">'asset/js/test.js'</span> , __FILE__ ), <span
 class="php-comment">// source url or path</span>
-        <span
-class="php-quote">'apf_read_me'</span>,  <span
+<span
+class="php-quote">'apf_read_me'</span>,     <span
 class="php-comment">// page slug</span>
-        <span
+<span
 class="php-quote">''</span>,     <span
 class="php-comment">// tab slug</span>
-        <span
+<span
 class="php-keyword1">array</span>(
-                <span
+<span
 class="php-quote">'handle_id'</span> =&gt; <span
-class="php-quote">'my_script'</span>,     <span
+class="php-quote">'my_script'</span>, <span
 class="php-comment">// this handle ID also is used as the object name for the translation array below.</span>
-                <span
+<span
 class="php-quote">'translation'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                        <span
+<span
 class="php-quote">'a'</span> =&gt; <span
 class="php-quote">'hello world!'</span>,
-                        <span
+<span
 class="php-quote">'style_handle_id'</span> =&gt; <span
-class="php-var">$sStyleHandle</span>,     <span
+class="php-var">$sStyleHandle</span>, <span
 class="php-comment">// check the enqueued style handle ID here.</span>
-                ),
-        )
+),
+)
 );</pre>
 
 
@@ -1495,11 +1494,10 @@ table.</p>
 
 <h4>Example</h4>
 
-<pre><span
-class="php-var">$this</span>-&gt;addLinkToPluginDescription(
-        <span
+<pre><span class="php-var">$this</span>-&gt;addLinkToPluginDescription(
+<span
 class="php-quote">&quot;&lt;a href='http://www.google.com'&gt;Google&lt;/a&gt;&quot;</span>,
-        <span
+<span
 class="php-quote">&quot;&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;&quot;</span>
 );</pre>
 
@@ -1558,7 +1556,7 @@ to three.<br>
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addLinkToPluginTitle(
-        <span
+<span
 class="php-quote">&quot;&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a&gt;&quot;</span>
 );</pre>
 
@@ -1658,7 +1656,7 @@ the plugin listing table of the plugin title cell.</p>
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;setCpability( <span
-class="php-quote">'read'</span> );            <span
+class="php-quote">'read'</span> ); <span
 class="php-comment">// let subscribers access the pages.</span>
 </pre>
 

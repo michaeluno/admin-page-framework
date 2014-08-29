@@ -116,17 +116,17 @@
 </span></span><span id="13" class="l"><a class="l" href="#13"> 13 </a><span class="php-comment"> * Those methods are internal and deal with printing outputs.
 </span></span><span id="14" class="l"><a class="l" href="#14"> 14 </a><span class="php-comment"> * 
 </span></span><span id="15" class="l"><a class="l" href="#15"> 15 </a><span class="php-comment"> * @abstract
-</span></span><span id="16" class="l"><a class="l" href="#16"> 16 </a><span class="php-comment"> * @since           3.0.4
-</span></span><span id="17" class="l"><a class="l" href="#17"> 17 </a><span class="php-comment"> * @package         AdminPageFramework
-</span></span><span id="18" class="l"><a class="l" href="#18"> 18 </a><span class="php-comment"> * @subpackage      PostType
+</span></span><span id="16" class="l"><a class="l" href="#16"> 16 </a><span class="php-comment"> * @since 3.0.4
+</span></span><span id="17" class="l"><a class="l" href="#17"> 17 </a><span class="php-comment"> * @package AdminPageFramework
+</span></span><span id="18" class="l"><a class="l" href="#18"> 18 </a><span class="php-comment"> * @subpackage PostType
 </span></span><span id="19" class="l"><a class="l" href="#19"> 19 </a><span class="php-comment"> */</span>
-</span><span id="20" class="l"><a class="l" href="#20"> 20 </a><span class="php-keyword1">abstract</span> <span class="php-keyword1">class</span> <a id="AdminPageFramework_PostType_View" href="#AdminPageFramework_PostType_View">AdminPageFramework_PostType_View</a> <span class="php-keyword1">extends</span> AdminPageFramework_PostType_Model { 
+</span><span id="20" class="l"><a class="l" href="#20"> 20 </a><span class="php-keyword1">abstract</span> <span class="php-keyword1">class</span> <a id="AdminPageFramework_PostType_View" href="#AdminPageFramework_PostType_View">AdminPageFramework_PostType_View</a> <span class="php-keyword1">extends</span> AdminPageFramework_PostType_Model {    
 </span><span id="21" class="l"><a class="l" href="#21"> 21 </a>
 </span><span id="22" class="l"><a class="l" href="#22"> 22 </a>    <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>( <span class="php-var">$oProp</span> ) {
 </span><span id="23" class="l"><a class="l" href="#23"> 23 </a>        
 </span><span id="24" class="l"><a class="l" href="#24"> 24 </a>        parent::__construct( <span class="php-var">$oProp</span> );
 </span><span id="25" class="l"><a class="l" href="#25"> 25 </a>                        
-</span><span id="26" class="l"><a class="l" href="#26"> 26 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$this</span>-&gt;_isInThePage() ) {          
+</span><span id="26" class="l"><a class="l" href="#26"> 26 </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$this</span>-&gt;_isInThePage() ) {     
 </span><span id="27" class="l"><a class="l" href="#27"> 27 </a>    
 </span><span id="28" class="l"><a class="l" href="#28"> 28 </a>            <span class="php-comment">// Table filters</span>
 </span><span id="29" class="l"><a class="l" href="#29"> 29 </a>            add_action( <span class="php-quote">'restrict_manage_posts'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToAddAuthorTableFilter'</span> ) );
@@ -136,7 +136,7 @@
 </span><span id="33" class="l"><a class="l" href="#33"> 33 </a>            <span class="php-comment">// Style</span>
 </span><span id="34" class="l"><a class="l" href="#34"> 34 </a>            add_action( <span class="php-quote">'admin_head'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'_replyToPrintStyle'</span> ) );
 </span><span id="35" class="l"><a class="l" href="#35"> 35 </a>            
-</span><span id="36" class="l"><a class="l" href="#36"> 36 </a>        }       
+</span><span id="36" class="l"><a class="l" href="#36"> 36 </a>        }     
 </span><span id="37" class="l"><a class="l" href="#37"> 37 </a>                
 </span><span id="38" class="l"><a class="l" href="#38"> 38 </a>    }
 </span><span id="39" class="l"><a class="l" href="#39"> 39 </a>        
@@ -157,11 +157,11 @@
 </span><span id="54" class="l"><a class="l" href="#54"> 54 </a>        }
 </span><span id="55" class="l"><a class="l" href="#55"> 55 </a>        
 </span><span id="56" class="l"><a class="l" href="#56"> 56 </a>        wp_dropdown_users( <span class="php-keyword1">array</span>(
-</span><span id="57" class="l"><a class="l" href="#57"> 57 </a>            <span class="php-quote">'show_option_all'</span>   =&gt; <span class="php-quote">'Show all Authors'</span>,
-</span><span id="58" class="l"><a class="l" href="#58"> 58 </a>            <span class="php-quote">'show_option_none'</span>  =&gt; <span class="php-keyword1">false</span>,
-</span><span id="59" class="l"><a class="l" href="#59"> 59 </a>            <span class="php-quote">'name'</span>          =&gt; <span class="php-quote">'author'</span>,
-</span><span id="60" class="l"><a class="l" href="#60"> 60 </a>            <span class="php-quote">'selected'</span>      =&gt; ! <span class="php-keyword1">empty</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'author'</span>] ) ? <span class="php-var">$_GET</span>[<span class="php-quote">'author'</span>] : <span class="php-num">0</span>,
-</span><span id="61" class="l"><a class="l" href="#61"> 61 </a>            <span class="php-quote">'include_selected'</span>  =&gt; <span class="php-keyword1">false</span>
+</span><span id="57" class="l"><a class="l" href="#57"> 57 </a>            <span class="php-quote">'show_option_all'</span> =&gt; <span class="php-quote">'Show all Authors'</span>,
+</span><span id="58" class="l"><a class="l" href="#58"> 58 </a>            <span class="php-quote">'show_option_none'</span> =&gt; <span class="php-keyword1">false</span>,
+</span><span id="59" class="l"><a class="l" href="#59"> 59 </a>            <span class="php-quote">'name'</span> =&gt; <span class="php-quote">'author'</span>,
+</span><span id="60" class="l"><a class="l" href="#60"> 60 </a>            <span class="php-quote">'selected'</span> =&gt; ! <span class="php-keyword1">empty</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'author'</span>] ) ? <span class="php-var">$_GET</span>[<span class="php-quote">'author'</span>] : <span class="php-num">0</span>,
+</span><span id="61" class="l"><a class="l" href="#61"> 61 </a>            <span class="php-quote">'include_selected'</span> =&gt; <span class="php-keyword1">false</span>
 </span><span id="62" class="l"><a class="l" href="#62"> 62 </a>        ));
 </span><span id="63" class="l"><a class="l" href="#63"> 63 </a>            
 </span><span id="64" class="l"><a class="l" href="#64"> 64 </a>    }
@@ -187,20 +187,20 @@
 </span><span id="84" class="l"><a class="l" href="#84"> 84 </a>            <span class="php-var">$oTaxonomy</span> = get_taxonomy( <span class="php-var">$sTaxonomySulg</span> );
 </span><span id="85" class="l"><a class="l" href="#85"> 85 </a> 
 </span><span id="86" class="l"><a class="l" href="#86"> 86 </a>            <span class="php-comment">// If there is no added term, skip.</span>
-</span><span id="87" class="l"><a class="l" href="#87"> 87 </a>            <span class="php-keyword1">if</span> ( wp_count_terms( <span class="php-var">$oTaxonomy</span>-&gt;name ) == <span class="php-num">0</span> ) <span class="php-keyword1">continue</span>;            
+</span><span id="87" class="l"><a class="l" href="#87"> 87 </a>            <span class="php-keyword1">if</span> ( wp_count_terms( <span class="php-var">$oTaxonomy</span>-&gt;name ) == <span class="php-num">0</span> ) <span class="php-keyword1">continue</span>;             
 </span><span id="88" class="l"><a class="l" href="#88"> 88 </a>
 </span><span id="89" class="l"><a class="l" href="#89"> 89 </a>            <span class="php-comment">// This function will echo the drop down list based on the passed array argument.</span>
 </span><span id="90" class="l"><a class="l" href="#90"> 90 </a>            wp_dropdown_categories( <span class="php-keyword1">array</span>(
 </span><span id="91" class="l"><a class="l" href="#91"> 91 </a>                <span class="php-quote">'show_option_all'</span> =&gt; <span class="php-var">$this</span>-&gt;oMsg-&gt;__( <span class="php-quote">'show_all'</span> ) . <span class="php-quote">' '</span> . <span class="php-var">$oTaxonomy</span>-&gt;label,
-</span><span id="92" class="l"><a class="l" href="#92"> 92 </a>                <span class="php-quote">'taxonomy'</span>    =&gt; <span class="php-var">$sTaxonomySulg</span>,
-</span><span id="93" class="l"><a class="l" href="#93"> 93 </a>                <span class="php-quote">'name'</span>        =&gt; <span class="php-var">$oTaxonomy</span>-&gt;name,
-</span><span id="94" class="l"><a class="l" href="#94"> 94 </a>                <span class="php-quote">'orderby'</span>     =&gt; <span class="php-quote">'name'</span>,
-</span><span id="95" class="l"><a class="l" href="#95"> 95 </a>                <span class="php-quote">'selected'</span>    =&gt; <span class="php-keyword2">intval</span>( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[ <span class="php-var">$sTaxonomySulg</span> ] ) ),
-</span><span id="96" class="l"><a class="l" href="#96"> 96 </a>                <span class="php-quote">'hierarchical'</span>    =&gt; <span class="php-var">$oTaxonomy</span>-&gt;hierarchical,
-</span><span id="97" class="l"><a class="l" href="#97"> 97 </a>                <span class="php-quote">'show_count'</span>      =&gt; <span class="php-keyword1">true</span>,
-</span><span id="98" class="l"><a class="l" href="#98"> 98 </a>                <span class="php-quote">'hide_empty'</span>      =&gt; <span class="php-keyword1">false</span>,
+</span><span id="92" class="l"><a class="l" href="#92"> 92 </a>                <span class="php-quote">'taxonomy'</span>       =&gt; <span class="php-var">$sTaxonomySulg</span>,
+</span><span id="93" class="l"><a class="l" href="#93"> 93 </a>                <span class="php-quote">'name'</span>           =&gt; <span class="php-var">$oTaxonomy</span>-&gt;name,
+</span><span id="94" class="l"><a class="l" href="#94"> 94 </a>                <span class="php-quote">'orderby'</span>       =&gt; <span class="php-quote">'name'</span>,
+</span><span id="95" class="l"><a class="l" href="#95"> 95 </a>                <span class="php-quote">'selected'</span>       =&gt; <span class="php-keyword2">intval</span>( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[ <span class="php-var">$sTaxonomySulg</span> ] ) ),
+</span><span id="96" class="l"><a class="l" href="#96"> 96 </a>                <span class="php-quote">'hierarchical'</span>       =&gt; <span class="php-var">$oTaxonomy</span>-&gt;hierarchical,
+</span><span id="97" class="l"><a class="l" href="#97"> 97 </a>                <span class="php-quote">'show_count'</span>       =&gt; <span class="php-keyword1">true</span>,
+</span><span id="98" class="l"><a class="l" href="#98"> 98 </a>                <span class="php-quote">'hide_empty'</span>       =&gt; <span class="php-keyword1">false</span>,
 </span><span id="99" class="l"><a class="l" href="#99"> 99 </a>                <span class="php-quote">'hide_if_empty'</span> =&gt; <span class="php-keyword1">false</span>,
-</span><span id="100" class="l"><a class="l" href="#100">100 </a>                <span class="php-quote">'echo'</span>  =&gt; <span class="php-keyword1">true</span>,    <span class="php-comment">// this make the function print the output</span>
+</span><span id="100" class="l"><a class="l" href="#100">100 </a>                <span class="php-quote">'echo'</span> =&gt; <span class="php-keyword1">true</span>, <span class="php-comment">// this make the function print the output</span>
 </span><span id="101" class="l"><a class="l" href="#101">101 </a>            ) );
 </span><span id="102" class="l"><a class="l" href="#102">102 </a>            
 </span><span id="103" class="l"><a class="l" href="#103">103 </a>        }
@@ -255,15 +255,15 @@
 </span><span id="152" class="l"><a class="l" href="#152">152 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">empty</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sStyle ) ) {
 </span><span id="153" class="l"><a class="l" href="#153">153 </a>            <span class="php-keyword1">echo</span> <span class="php-quote">&quot;&lt;style type='text/css' id='admin-page-framework-style-post-type'&gt;&quot;</span> 
 </span><span id="154" class="l"><a class="l" href="#154">154 </a>                . <span class="php-var">$this</span>-&gt;oProp-&gt;sStyle
-</span><span id="155" class="l"><a class="l" href="#155">155 </a>                . <span class="php-quote">&quot;&lt;/style&gt;&quot;</span>;           
+</span><span id="155" class="l"><a class="l" href="#155">155 </a>                . <span class="php-quote">&quot;&lt;/style&gt;&quot;</span>;     
 </span><span id="156" class="l"><a class="l" href="#156">156 </a>        }
 </span><span id="157" class="l"><a class="l" href="#157">157 </a>        
 </span><span id="158" class="l"><a class="l" href="#158">158 </a>    }
 </span><span id="159" class="l"><a class="l" href="#159">159 </a>        <span class="php-comment">/**
 </span></span><span id="160" class="l"><a class="l" href="#160">160 </a><span class="php-comment">         * Sets the given screen icon to the post type screen icon.
 </span></span><span id="161" class="l"><a class="l" href="#161">161 </a><span class="php-comment">         * 
-</span></span><span id="162" class="l"><a class="l" href="#162">162 </a><span class="php-comment">         * @since           2.1.3
-</span></span><span id="163" class="l"><a class="l" href="#163">163 </a><span class="php-comment">         * @since           2.1.6               The $sSRC parameter can accept file path.
+</span></span><span id="162" class="l"><a class="l" href="#162">162 </a><span class="php-comment">         * @since 2.1.3
+</span></span><span id="163" class="l"><a class="l" href="#163">163 </a><span class="php-comment">         * @since 2.1.6 The $sSRC parameter can accept file path.
 </span></span><span id="164" class="l"><a class="l" href="#164">164 </a><span class="php-comment">         */</span>
 </span><span id="165" class="l"><a class="l" href="#165">165 </a>        <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="__getStylesForPostTypeScreenIcon" href="#__getStylesForPostTypeScreenIcon">_getStylesForPostTypeScreenIcon</a>( <span class="php-var">$sSRC</span> ) {
 </span><span id="166" class="l"><a class="l" href="#166">166 </a>            
@@ -280,10 +280,10 @@
 </span></span><span id="177" class="l"><a class="l" href="#177">177 </a><span class="php-quote">                #icon-edit.icon32.icon32-posts-&quot;</span> . <span class="php-var">$this</span>-&gt;oProp-&gt;sPostType . <span class="php-quote">&quot; {
 </span></span><span id="178" class="l"><a class="l" href="#178">178 </a><span class="php-quote">                    background: url('&quot;</span> . <span class="php-var">$sSRC</span> . <span class="php-quote">&quot;') no-repeat;
 </span></span><span id="179" class="l"><a class="l" href="#179">179 </a><span class="php-quote">                    background-size: 32px 32px;
-</span></span><span id="180" class="l"><a class="l" href="#180">180 </a><span class="php-quote">                }           
-</span></span><span id="181" class="l"><a class="l" href="#181">181 </a><span class="php-quote">            &quot;</span>;      
+</span></span><span id="180" class="l"><a class="l" href="#180">180 </a><span class="php-quote">                }     
+</span></span><span id="181" class="l"><a class="l" href="#181">181 </a><span class="php-quote">            &quot;</span>;     
 </span><span id="182" class="l"><a class="l" href="#182">182 </a>            
-</span><span id="183" class="l"><a class="l" href="#183">183 </a>        }   
+</span><span id="183" class="l"><a class="l" href="#183">183 </a>        }    
 </span><span id="184" class="l"><a class="l" href="#184">184 </a>    
 </span><span id="185" class="l"><a class="l" href="#185">185 </a>}
 </span><span id="186" class="l"><a class="l" href="#186">186 </a></span><span class="php-keyword1">endif</span>;</code></pre>

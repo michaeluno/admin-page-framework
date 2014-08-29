@@ -261,59 +261,59 @@ AdminPageFramework_Factory
 
 <pre><span class="php-keyword1">public</span> <span
 class="php-keyword1">function</span> setUp() {
-                <span
+        <span
 class="php-var">$this</span>-&gt;setAutoSave( <span
 class="php-keyword1">false</span> );
-                <span
+        <span
 class="php-var">$this</span>-&gt;setAuthorTableFilter( <span
 class="php-keyword1">true</span> );
-                <span
+        <span
 class="php-var">$this</span>-&gt;addTaxonomy(
-                        <span
+            <span
 class="php-quote">'sample_taxonomy'</span>, <span
 class="php-comment">// taxonomy slug</span>
-                        <span
-class="php-keyword1">array</span>(  <span
+            <span
+class="php-keyword1">array</span>( <span
 class="php-comment">// argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments</span>
-                                <span
+                <span
 class="php-quote">'labels'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                                        <span
+                    <span
 class="php-quote">'name'</span> =&gt; <span
 class="php-quote">'Genre'</span>,
-                                        <span
+                    <span
 class="php-quote">'add_new_item'</span> =&gt; <span
 class="php-quote">'Add New Genre'</span>,
-                                        <span
+                    <span
 class="php-quote">'new_item_name'</span> =&gt; <span
 class="php-quote">&quot;New Genre&quot;</span>
-                                ),
-                                <span
+                ),
+                <span
 class="php-quote">'show_ui'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                                <span
+                <span
 class="php-quote">'show_tagcloud'</span> =&gt; <span
 class="php-keyword1">false</span>,
-                                <span
+                <span
 class="php-quote">'hierarchical'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                                <span
+                <span
 class="php-quote">'show_admin_column'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                                <span
+                <span
 class="php-quote">'show_in_nav_menus'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                                <span
+                <span
 class="php-quote">'show_table_filter'</span> =&gt; <span
-class="php-keyword1">true</span>,    <span
+class="php-keyword1">true</span>, <span
 class="php-comment">// framework specific key</span>
-                                <span
+                <span
 class="php-quote">'show_in_sidebar_menus'</span> =&gt; <span
-class="php-keyword1">false</span>,       <span
+class="php-keyword1">false</span>, <span
 class="php-comment">// framework specific key</span>
-                        )
-                );
-        }</pre>
+            )
+        );
+    }</pre>
 
 
 
@@ -521,29 +521,28 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 <h4>Example</h4>
 
-<pre><span
-class="php-var">$this</span>-&gt;enqueueScript(
-        plugins_url( <span
-class="php-quote">'asset/js/test.js'</span> , __FILE__ ),   <span
+<pre><span class="php-var">$this</span>-&gt;enqueueScript(
+plugins_url( <span
+class="php-quote">'asset/js/test.js'</span> , __FILE__ ), <span
 class="php-comment">// source url or path</span>
-        <span
+<span
 class="php-keyword1">array</span>(
-                <span
+<span
 class="php-quote">'handle_id'</span> =&gt; <span
-class="php-quote">'my_script'</span>,     <span
+class="php-quote">'my_script'</span>, <span
 class="php-comment">// this handle ID also is used as the object name for the translation array below.</span>
-                <span
+<span
 class="php-quote">'translation'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                        <span
+<span
 class="php-quote">'a'</span> =&gt; <span
 class="php-quote">'hello world!'</span>,
-                        <span
+<span
 class="php-quote">'style_handle_id'</span> =&gt; <span
-class="php-var">$sStyleHandle</span>,     <span
+class="php-var">$sStyleHandle</span>, <span
 class="php-comment">// check the enqueued style handle ID here.</span>
-                ),
-        )
+),
+)
 );</pre>
 
 
@@ -669,49 +668,49 @@ class="php-keyword1">false</span> );
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addTaxonomy(
-        <span
+<span
 class="php-quote">'sample_taxonomy'</span>, <span
 class="php-comment">// taxonomy slug</span>
-        <span
-class="php-keyword1">array</span>(                  <span
+<span
+class="php-keyword1">array</span>( <span
 class="php-comment">// argument</span>
-                <span
+<span
 class="php-quote">'labels'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                        <span
+<span
 class="php-quote">'name'</span> =&gt; <span
 class="php-quote">'Genre'</span>,
-                        <span
+<span
 class="php-quote">'add_new_item'</span> =&gt; <span
 class="php-quote">'Add New Genre'</span>,
-                        <span
+<span
 class="php-quote">'new_item_name'</span> =&gt; <span
 class="php-quote">&quot;New Genre&quot;</span>
-                ),
-                <span
+),
+<span
 class="php-quote">'show_ui'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_tagcloud'</span> =&gt; <span
 class="php-keyword1">false</span>,
-                <span
+<span
 class="php-quote">'hierarchical'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_admin_column'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_in_nav_menus'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_table_filter'</span> =&gt; <span
-class="php-keyword1">true</span>,    <span
+class="php-keyword1">true</span>, <span
 class="php-comment">// framework specific key</span>
-                <span
+<span
 class="php-quote">'show_in_sidebar_menus'</span> =&gt; <span
-class="php-keyword1">false</span>,       <span
+class="php-keyword1">false</span>, <span
 class="php-comment">// framework specific key</span>
-        )
+)
 );</pre>
 
 			</div>
@@ -721,49 +720,49 @@ class="php-comment">// framework specific key</span>
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addTaxonomy(
-        <span
+<span
 class="php-quote">'sample_taxonomy'</span>, <span
 class="php-comment">// taxonomy slug</span>
-        <span
-class="php-keyword1">array</span>(                  <span
+<span
+class="php-keyword1">array</span>( <span
 class="php-comment">// argument</span>
-                <span
+<span
 class="php-quote">'labels'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                        <span
+<span
 class="php-quote">'name'</span> =&gt; <span
 class="php-quote">'Genre'</span>,
-                        <span
+<span
 class="php-quote">'add_new_item'</span> =&gt; <span
 class="php-quote">'Add New Genre'</span>,
-                        <span
+<span
 class="php-quote">'new_item_name'</span> =&gt; <span
 class="php-quote">&quot;New Genre&quot;</span>
-                ),
-                <span
+),
+<span
 class="php-quote">'show_ui'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_tagcloud'</span> =&gt; <span
 class="php-keyword1">false</span>,
-                <span
+<span
 class="php-quote">'hierarchical'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_admin_column'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_in_nav_menus'</span> =&gt; <span
 class="php-keyword1">true</span>,
-                <span
+<span
 class="php-quote">'show_table_filter'</span> =&gt; <span
-class="php-keyword1">true</span>,    <span
+class="php-keyword1">true</span>, <span
 class="php-comment">// framework specific key</span>
-                <span
+<span
 class="php-quote">'show_in_sidebar_menus'</span> =&gt; <span
-class="php-keyword1">false</span>,       <span
+class="php-keyword1">false</span>, <span
 class="php-comment">// framework specific key</span>
-        )
+)
 );</pre>
 
 

@@ -279,22 +279,22 @@ AdminPageFramework_MetaBox_Base
 <pre>
 <span
 class="php-keyword1">new</span> APF_MetaBox_BuiltinFieldTypes(
-        <span
-class="php-quote">'sample_custom_meta_box'</span>,       <span
+    <span
+class="php-quote">'sample_custom_meta_box'</span>, <span
 class="php-comment">// meta box ID</span>
-        __( <span
+    __( <span
 class="php-quote">'Demo Meta Box with Built-in Field Types'</span>, <span
-class="php-quote">'admin-page-framework-demo'</span> ),   <span
+class="php-quote">'admin-page-framework-demo'</span> ), <span
 class="php-comment">// title</span>
-        <span
+    <span
 class="php-keyword1">array</span>( <span
-class="php-quote">'apf_posts'</span> ),   <span
+class="php-quote">'apf_posts'</span> ), <span
 class="php-comment">// post type slugs: post, page, etc.</span>
-        <span
-class="php-quote">'normal'</span>,       <span
+    <span
+class="php-quote">'normal'</span>, <span
 class="php-comment">// context (what kind of metabox this is)</span>
-        <span
-class="php-quote">'default'</span>       <span
+    <span
+class="php-quote">'default'</span> <span
 class="php-comment">// priority</span>
 );
 </pre>
@@ -367,44 +367,44 @@ href="http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters">htt
 
 <h4>Example</h4>
 
-<pre>  <span class="php-keyword1">public</span> <span
+<pre> <span class="php-keyword1">public</span> <span
 class="php-keyword1">function</span> setUp() {
-        <span
+    <span
 class="php-var">$this</span>-&gt;addSettingFields(
-                <span
+        <span
 class="php-keyword1">array</span>(
-                        <span
-class="php-quote">'field_id'</span>              =&gt; <span
+            <span
+class="php-quote">'field_id'</span> =&gt; <span
 class="php-quote">'sample_metabox_text_field'</span>,
-                        <span
-class="php-quote">'title'</span>                 =&gt; <span
+            <span
+class="php-quote">'title'</span> =&gt; <span
 class="php-quote">'Text Input'</span>,
-                        <span
-class="php-quote">'description'</span>   =&gt; <span
+            <span
+class="php-quote">'description'</span> =&gt; <span
 class="php-quote">'The description for the field.'</span>,
-                        <span
-class="php-quote">'type'</span>                  =&gt; <span
+            <span
+class="php-quote">'type'</span> =&gt; <span
 class="php-quote">'text'</span>,
-                ),
-                <span
+        ),
+        <span
 class="php-keyword1">array</span>(
-                        <span
-class="php-quote">'field_id'</span>              =&gt; <span
+            <span
+class="php-quote">'field_id'</span> =&gt; <span
 class="php-quote">'sample_metabox_textarea_field'</span>,
-                        <span
-class="php-quote">'title'</span>                 =&gt; <span
+            <span
+class="php-quote">'title'</span> =&gt; <span
 class="php-quote">'Textarea'</span>,
-                        <span
-class="php-quote">'description'</span>   =&gt; <span
+            <span
+class="php-quote">'description'</span> =&gt; <span
 class="php-quote">'The description for the field.'</span>,
-                        <span
-class="php-quote">'type'</span>                  =&gt; <span
+            <span
+class="php-quote">'type'</span> =&gt; <span
 class="php-quote">'textarea'</span>,
-                        <span
-class="php-quote">'default'</span>                       =&gt; <span
+            <span
+class="php-quote">'default'</span> =&gt; <span
 class="php-quote">'This is a default text value.'</span>,
-                )
-        );
+        )
+    );
 }</pre>
 
 
@@ -607,32 +607,31 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 <h4>Example</h4>
 
-<pre><span
-class="php-var">$this</span>-&gt;enqueueScript(
-        plugins_url( <span
-class="php-quote">'asset/js/test.js'</span> , __FILE__ ),   <span
+<pre><span class="php-var">$this</span>-&gt;enqueueScript(
+plugins_url( <span
+class="php-quote">'asset/js/test.js'</span> , __FILE__ ), <span
 class="php-comment">// source url or path</span>
-        <span
+<span
 class="php-keyword1">array</span>( <span
 class="php-quote">'my_post_type_slug'</span> ),
-        <span
+<span
 class="php-keyword1">array</span>(
-                <span
+<span
 class="php-quote">'handle_id'</span> =&gt; <span
-class="php-quote">'my_script'</span>,     <span
+class="php-quote">'my_script'</span>, <span
 class="php-comment">// this handle ID also is used as the object name for the translation array below.</span>
-                <span
+<span
 class="php-quote">'translation'</span> =&gt; <span
 class="php-keyword1">array</span>(
-                        <span
+<span
 class="php-quote">'a'</span> =&gt; <span
 class="php-quote">'hello world!'</span>,
-                        <span
+<span
 class="php-quote">'style_handle_id'</span> =&gt; <span
-class="php-var">$sStyleHandle</span>,     <span
+class="php-var">$sStyleHandle</span>, <span
 class="php-comment">// check the enqueued style handle ID here.</span>
-                ),
-        )
+),
+)
 );</pre>
 
 
