@@ -428,7 +428,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.1.4 =
+= 3.1.4 - 2014/08/29 =
 - Added the ability to search users for the `autocomplete` custom field type.
 - Fixed an issue that field error transients and admin notice transients were not handled properly when multiple WordPress users on the site are working on admin pages created by the framework.
 - Fixed an issue that options did not save when the site enables object caching.
