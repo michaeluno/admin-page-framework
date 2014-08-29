@@ -269,9 +269,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         
         parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $this->sFieldsType );
         
-        $this->sTargetFormPage = $_SERVER['REQUEST_URI'];
-        $this->sOptionKey = $sOptionKey ? $sOptionKey : $sClassName;
-        $this->_bDisableSavingOptions = '' === $sOptionKey ? true : false;
+        $this->sTargetFormPage          = $_SERVER['REQUEST_URI'];
+        $this->sOptionKey               = $sOptionKey ? $sOptionKey : $sClassName;
+        $this->_bDisableSavingOptions   = '' === $sOptionKey ? true : false;
                 
         /* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
         $GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
