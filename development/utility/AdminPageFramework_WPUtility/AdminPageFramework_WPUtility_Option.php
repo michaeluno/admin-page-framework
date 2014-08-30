@@ -10,10 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility_Option' ) ) :
 /**
  * Provides utility methods dealing with the options table which use WordPress functions.
  *
- * @since 3.0.1
- * @extends AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since       3.0.1
+ * @extends     AdminPageFramework_Utility
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
  */
 class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File {
@@ -48,9 +48,10 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     /**
      * Retrieves the given transient.
      * 
-     * @since 3.1.3
+     * @since   3.1.3
+     * @since   3.1.5   Added the $vDefault parameter.
      */    
-    static public function getTransient( $sTransientKey ) {
+    static public function getTransient( $sTransientKey, $vDefault=null ) {
 
         // temporarily disable $_wp_using_ext_object_cache
         global $_wp_using_ext_object_cache;  
@@ -64,7 +65,13 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         // reset prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
 
-        return $_vTransient;
+        return null === $vDefault 
+            ? $_vTransient
+            : ( false === $_vTransient 
+                ? $vDefault
+                : $_vTransient
+            );        
+            
     }
     /**
      * Sets the given transient.
@@ -90,10 +97,10 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     /**
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
-     * @since 3.0.1
-     * @param string $sOptionKey     the option key of the options table.
-     * @param string|array $asKey     the field id or the array that represents the key structure consisting of the section ID and the field ID.
-     * @param mixed $vDefault     the default value that will be returned if nothing is stored.
+     * @since   3.0.1
+     * @param   string        $sOptionKey   the option key of the options table.
+     * @param   string|array  $asKey        the field id or the array that represents the key structure consisting of the section ID and the field ID.
+     * @param   mixed         $vDefault     the default value that will be returned if nothing is stored.
      */
     static public function getOption( $sOptionKey, $asKey=null, $vDefault=null ) {
         
@@ -114,10 +121,10 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
      * @since 3.1.0
-     * @remark Used in the network admin area.
-     * @param string $sOptionKey     the option key of the options table.
-     * @param string $asKey     the field id or the array that represents the key structure consisting of the section ID and the field ID.
-     * @param mixed $vDefault     the default value that will be returned if nothing is stored.
+     * @param   string          $sOptionKey     the option key of the options table.
+     * @param   array|string    $asKey          the field id or the array that represents the key structure consisting of the section ID and the field ID.
+     * @param   mixed           $vDefault       the default value that will be returned if nothing is stored.
+     * @remark  Used in the network admin area.
      */
     static public function getSiteOption( $sOptionKey, $asKey=null, $vDefault=null ) {
 
@@ -127,8 +134,8 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         }
         
         // Now either the section ID or field ID is given. 
-        $_aOptions = get_site_option( $sOptionKey, array() );
-        $_aKeys = self::shiftTillTrue( self::getAsArray( $asKey ) );
+        $_aOptions  = get_site_option( $sOptionKey, array() );
+        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey ) );
 
         return self::getArrayValueByArrayKeys( $_aOptions, $_aKeys, $vDefault );
         
