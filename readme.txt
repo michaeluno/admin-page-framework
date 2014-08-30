@@ -429,7 +429,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.5 =
-- Fixed a bug that caused JavaScript errors in `poost.php` when adding meta box fields with the framework, which caused the media button not to function in the page.
+- Fixed a bug that caused JavaScript errors in `post.php` when adding meta box fields with the framework, which caused the media button not to function in the page.
 
 = 3.1.4 - 2014/08/29 =
 - Added the ability to search users for the `autocomplete` custom field type.
