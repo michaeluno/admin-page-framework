@@ -455,8 +455,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 return;
             }
             
-            $_sNonce = '_admin_page_framework_form_nonce_' . uniqid();
-            $this->oUtil->setTransient( 'form_' . md5( $this->oProp->sClassName . get_current_user_id() ), $_sNonce, 60*60 ); // 60 minutes
+            $_sNonceTransientKey    = 'form_' . md5( $this->oProp->sClassName . get_current_user_id() );
+            $_sNonce                = $this->oUtil->getTransient( $_sNonceTransientKey, '_admin_page_framework_form_nonce_' . uniqid() );
+            $this->oUtil->setTransient( $_sNonceTransientKey, $_sNonce, 60*60 ); // 60 minutes
             echo "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL
                 . "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL     
                 . "<input type='hidden' name='_is_admin_page_framework' value='{$_sNonce}' />" . PHP_EOL

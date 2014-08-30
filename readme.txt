@@ -432,6 +432,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `content_{instantiated class name}` hook and the default `content()` callback method that filters the post type post content for the post type class.
 - Added the ability to flush rewrite rules automatically upon plugin de/activation and theme activation.
 - Changed the post type class to perform the set-ups including post type and taxonomy registration immediately if the class is instantiated after the `init' hook.
+- Fixed an issue that then the user opens multiple pages created by the framework in the browser and submit one of the forms, the other forms failed nonce verification.
 - Fixed a bug that caused JavaScript errors in `post.php` when adding meta box fields with the framework, which caused the media button not to function in the page.
 
 = 3.1.4 - 2014/08/29 =

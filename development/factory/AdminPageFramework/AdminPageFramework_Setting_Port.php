@@ -13,12 +13,12 @@ if ( ! class_exists( 'AdminPageFramework_Setting_Port' ) ) :
  * 
  * @abstract
  * @since 3.0.0
- * @extends AdminPageFramework_Setting_Form
+ * @extends AdminPageFramework_Setting_Base
  * @package AdminPageFramework
  * @subpackage Page
  * @internal
  */
-abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Setting_Form {     
+abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Setting_Base {     
             
     /**
      * Processes importing data.

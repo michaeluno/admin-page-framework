@@ -513,7 +513,7 @@ abstract class AdminPageFramework_Property_Base {
      * @since 3.1.3
      */
     public $bIsAdminAjax;
-    
+        
     /**
      * Sets up necessary property values.
      */
