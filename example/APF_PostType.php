@@ -156,8 +156,9 @@ class APF_PostType extends AdminPageFramework_PostType {
      * 
      * This method is called in the single page of this class post type.
      * 
+     * Alternatively, you may use the 'content_{instantiated class name}' method,
      */
-    public function content_APF_PostType( $sContent ) { // content_{instantiated class name}
+    public function content( $sContent ) { 
                     
         // 1. To retrieve the meta box data - get_post_meta( $post->ID ) will return an array of all the meta field values.
         // or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
