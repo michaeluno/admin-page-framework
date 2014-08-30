@@ -25,7 +25,11 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         
         if ( $this->_isInThePage() ) :
         
-            add_action( 'wp_loaded', array( $this, 'setup_pre' ) );     
+            if ( did_action( 'wp_loaded' ) ) {  // For the activation hook.
+                $this->setup_pre();
+            } {
+                add_action( 'wp_loaded', array( $this, 'setup_pre' ) );     
+            }
             
         endif;
         
