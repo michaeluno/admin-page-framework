@@ -199,7 +199,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             return $sContent;
         }
         global $post;
-        if ( $this->oProp->sPostType !== $post->post_type ) ) {
+        if ( $this->oProp->sPostType !== $post->post_type ) {
             return $sContent;
         }
     
