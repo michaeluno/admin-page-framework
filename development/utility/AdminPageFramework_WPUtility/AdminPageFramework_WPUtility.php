@@ -16,5 +16,31 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility' ) ) :
  * @subpackage Utility
  * @internal
  */
-class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Post {}
+class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Post {
+    
+    /**
+     * Indicates whether the flushing rewrite rules has been performed or not.
+     * @since       3.1.5
+     */
+    static private $_bIsFlushed;
+    
+    /**
+     * Flushes the site rewrite rules.
+     *
+     * The method ensures it is done mo more than once in a page load.
+     * 
+     * @since       3.1.5
+     */
+    static public function FlushRewriteRules() {
+        
+        $_bIsFlushed = isset( self::$_bIsFlushed ) ? self::$_bIsFlushed : false;
+        if ( $_bIsFlushed ) {
+            return;
+        }
+        flush_rewrite_rules();
+        self::$_bIsFlushed = true;
+        
+    }    
+    
+}
 endif;

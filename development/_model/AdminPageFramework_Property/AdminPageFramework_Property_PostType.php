@@ -148,6 +148,29 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * @internal
      */                     
     public $bEnableAuthorTableFileter = false;    
+ 
+    /**
+     * Sets up activation/deactivation hooks.
+     */
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
+            
+        parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType );
+
+        // Set up activation/deactivation hooks.
+        if ( ! $sCallerPath ) {
+            return;
+        }
+        switch ( $this->_getCallerType( $sCallerPath ) ) {
+            case 'theme':
+                add_action( 'after_switch_theme', array( 'AdminPageFramework_WPUtility', 'FlushRewriteRules' ) );
+            break;
+            case 'plugin':
+                register_activation_hook( $sCallerPath, array( 'AdminPageFramework_WPUtility', 'FlushRewriteRules' ) );
+                register_deactivation_hook( $sCallerPath, array( 'AdminPageFramework_WPUtility', 'FlushRewriteRules' ) );
+            break;
+        }
+        
+    }
         
 }
 endif;

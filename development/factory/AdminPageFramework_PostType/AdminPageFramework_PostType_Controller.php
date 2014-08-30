@@ -206,6 +206,14 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         if ( isset( $aArgs['show_in_sidebar_menus'] ) && ! $aArgs['show_in_sidebar_menus'] ) {
             $this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
         }
+        
+        $_aExistingObjectTypes = isset( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] ) && is_array( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] )
+            ? $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] 
+            : array();
+        $aAdditionalObjectTypes = array_merge( $_aExistingObjectTypes, $aAdditionalObjectTypes );
+        $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] = array_unique( $aAdditionalObjectTypes );
+
+        // Set up hooks.
         if ( count( $this->oProp->aTaxonomyTableFilters ) == 1 ) {
             if ( did_action( 'init' ) ) {
                 $this->_replyToRegisterTaxonomies();
@@ -220,13 +228,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
                 add_action( 'admin_menu', array( $this, '_replyToRemoveTexonomySubmenuPages' ), 999 ); 
             }
         }
-        
-        $_aExistingObjectTypes = isset( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] ) && is_array( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] )
-            ? $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] 
-            : array();
-        $aAdditionalObjectTypes = array_merge( $_aExistingObjectTypes, $aAdditionalObjectTypes );
-        $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] = array_unique( $aAdditionalObjectTypes );
-        
+    
     }    
 
     /**

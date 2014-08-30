@@ -517,20 +517,20 @@ abstract class AdminPageFramework_Property_Base {
     /**
      * Sets up necessary property values.
      */
-    function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
         
-        $this->oCaller = $oCaller;
-        $this->sCallerPath = $sCallerPath ? $sCallerPath : null;
-        $this->sClassName = $sClassName;     
-        $this->sClassHash = md5( $sClassName );    
-        $this->sCapability = empty( $sCapability ) ? 'manage_options' : $sCapability ;
-        $this->sTextDomain = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
-        $this->sFieldsType = $sFieldsType;
+        $this->oCaller      = $oCaller;
+        $this->sCallerPath  = $sCallerPath ? $sCallerPath : null;
+        $this->sClassName   = $sClassName;     
+        $this->sClassHash   = md5( $sClassName );    
+        $this->sCapability  = empty( $sCapability ) ? 'manage_options' : $sCapability ;
+        $this->sTextDomain  = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
+        $this->sFieldsType  = $sFieldsType;
         $GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
             ? $GLOBALS['aAdminPageFramework']
             : array( 'aFieldFlags' => array() );
-        $this->sPageNow = AdminPageFramework_WPUtility::getPageNow();
-        $this->bIsAdmin = is_admin();
+        $this->sPageNow     = AdminPageFramework_WPUtility::getPageNow();
+        $this->bIsAdmin     = is_admin();
         $this->bIsAdminAjax = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
         
     }
@@ -625,25 +625,28 @@ abstract class AdminPageFramework_Property_Base {
         }
         return array();
     }    
-        /**
-         * Determines the script type.
-         * 
-         * It tries to find what kind of script this is, theme, plugin or something else from the given path.
-         * @since 2.0.0
-         * @since 3.0.0 Moved from the link class.
-         * @return string Returns either 'theme', 'plugin', or 'unknown'
-         */ 
-        private function _getCallerType( $sScriptPath ) {
-            
-            if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
-                return 'theme';
-            }
-            if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
-                return 'plugin';
-            }
-            return 'unknown';    
+    
+    /**
+     * Determines the script type.
+     * 
+     * It tries to find what kind of script this is, theme, plugin or something else from the given path.
+     * 
+     * @since   2.0.0
+     * @since   3.0.0 Moved from the link class.
+     * @since   3.1.5   Changed the scope to protected as the post type property class access it.
+     * @return  string Returns either 'theme', 'plugin', or 'unknown'
+     */ 
+    protected function _getCallerType( $sScriptPath ) {
         
-        }    
+        if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
+            return 'theme';
+        }
+        if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
+            return 'plugin';
+        }
+        return 'unknown';    
+    
+    }    
         
     
     /**
