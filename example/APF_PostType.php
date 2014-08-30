@@ -76,9 +76,7 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'show_in_sidebar_menus' => false, // framework specific key
             )
         );
-            
-        add_filter( 'the_content', array( $this, 'replyToPrintOptionValues' ) );    
-    
+                
     }
     
     /**
@@ -155,27 +153,29 @@ class APF_PostType extends AdminPageFramework_PostType {
     
     /**
      * Modifies the output of the post content.
+     * 
+     * This method is called in the single page of this class post type.
+     * 
      */
-    public function replyToPrintOptionValues( $sContent ) {
-        
-        if ( ! isset( $GLOBALS['post']->ID ) || get_post_type() != 'apf_posts' ) return $sContent;
-            
+    public function content_APF_PostType( $sContent ) { // content_{instantiated class name}
+                    
         // 1. To retrieve the meta box data - get_post_meta( $post->ID ) will return an array of all the meta field values.
         // or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
-        $iPostID = $GLOBALS['post']->ID;
-        $aPostData = array();
-        foreach( ( array ) get_post_custom_keys( $iPostID ) as $sKey )     // This way, array will be unserialized; easier to view.
-            $aPostData[ $sKey ] = get_post_meta( $iPostID, $sKey, true );
+        $_iPostID   = $GLOBALS['post']->ID;
+        $_aPostData = array();
+        foreach( ( array ) get_post_custom_keys( $_iPostID ) as $sKey ) {    // This way, array will be unserialized; easier to view.
+            $_aPostData[ $sKey ] = get_post_meta( $_iPostID, $sKey, true );
+        }    
         
         // 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
         // The key name is the class name by default. The key can be changed by passing an arbitrary string 
         // to the first parameter of the constructor of the AdminPageFramework class.     
-        $aSavedOptions = get_option( 'APF_Demo' );
+        $_aSavedOptions = get_option( 'APF_Demo' );
             
         return "<h3>" . __( 'Saved Meta Field Values', 'admin-page-framework-demo' ) . "</h3>" 
-            . $this->oDebug->getArray( $aPostData )
+            . $this->oDebug->getArray( $_aPostData )
             . "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
-            . $this->oDebug->getArray( $aSavedOptions );
+            . $this->oDebug->getArray( $_aSavedOptions );
 
     }    
     
