@@ -34,7 +34,10 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
             
         }     
-                
+        
+        // Front-end
+        add_action( 'the_content', array( $this, '_replyToFilterPostTypeContent' ) );
+        
     }
         
     /**
@@ -181,6 +184,32 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             ";     
             
         }    
+    
+    /**
+     * Filters the post type post content.
+     * 
+     * @since   3.1.5
+     */
+    public function _replyToFilterPostTypeContent( $sContent ) {
+        
+        if ( ! is_singular() ) {
+            return $sContent;
+        }
+        if ( ! is_main_query() ) {
+            return $sContent;
+        }
+        global $post;
+        if ( $this->oProp->sPostType !== $post->post_type ) ) {
+            return $sContent;
+        }
+    
+        return $this->oUtil->addAndApplyFilters(
+            $this, 
+            "content_{$this->oProp->sClassName}", 
+            $sContent
+        );    
+        
+    }
     
 }
 endif;
