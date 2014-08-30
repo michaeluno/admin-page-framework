@@ -68,7 +68,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
         return "     
             jQuery( document ).ready( function(){
                 jQuery().registerAPFCallback( {     
-                    added_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
+                    added_repeatable_field: function( nodeField, sFieldType, sFieldTagID, sCallType ) {
             
                         /* If it is not the color field type, do nothing. */
                         if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;

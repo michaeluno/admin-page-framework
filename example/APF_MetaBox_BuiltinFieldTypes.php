@@ -53,6 +53,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'section_tab_slug' => '', // reset the target tab slug  for the next use.
             )
         );
+        
         /*
          * ( optional ) Adds setting fields into the meta box.
          */
@@ -83,44 +84,45 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 ),
             ),
             array( // Rich Text Editor
-                'field_id'         => 'rich_textarea',
-                'type'             => 'textarea',
-                'title'         => __( 'Rich Text Editor', 'admin-page-framework-demo' ),
-                'rich'             =>    true, // array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
+                'field_id'          => 'rich_textarea',
+                'type'              => 'textarea',
+                'title'             => __( 'Rich Text Editor', 'admin-page-framework-demo' ),
+                'rich'              =>    true, // array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
             )
-        );
+        );        
+               
         $this->addSettingFields(
             array(
-                'section_id' => 'selectors',
-                'field_id' => 'checkbox_field',
-                'type' => 'checkbox',
-                'title' => __( 'Checkbox Input', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'label' => __( 'This is a check box.', 'admin-page-framework-demo' ),
+                'section_id'    => 'selectors',
+                'field_id'      => 'checkbox_field',
+                'type'          => 'checkbox',
+                'title'         => __( 'Checkbox Input', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'label'         => __( 'This is a check box.', 'admin-page-framework-demo' ),
             ),
             array(
-                'field_id' => 'select_filed',
-                'type' => 'select',
-                'title' => __( 'Select Box', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'field_id'      => 'select_filed',
+                'type'          => 'select',
+                'title'         => __( 'Select Box', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'default'       => 'one', // 0 means the first item
                 'label' => array( 
-                    'one' => __( 'One', 'admin-page-framework-demo' ),
-                    'two' => __( 'Two', 'admin-page-framework-demo' ),
+                    'one'   => __( 'One', 'admin-page-framework-demo' ),
+                    'two'   => __( 'Two', 'admin-page-framework-demo' ),
                     'three' => __( 'Three', 'admin-page-framework-demo' ),
                 ),
-                'default'         => 'one', // 0 means the first item
             ),     
             array (
                 'field_id' => 'radio_field',
                 'type' => 'radio',
                 'title' => __( 'Radio Group', 'admin-page-framework-demo' ),
                 'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'default' => 'one',
                 'label' => array( 
                     'one' => __( 'This option is the first item of the radio button example field and lets the user choose one from many.', 'admin-page-framework-demo' ),
                     'two' => __( 'This option is the second item of the radio button example field.', 'admin-page-framework-demo' ),
                     'three' => __( 'This option is the third item of the radio button example field.', 'admin-page-framework-demo' ),
                 ),
-                'default' => 'one',
             ),
             array (
                 'field_id' => 'checkbox_group_field',
@@ -137,8 +139,10 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                     'two' => false,
                     'three' => false,
                 ),
-            )
+            ),
+            array()
         );     
+
         $this->addSettingFields(
             array (
                 'section_id' => 'misc',
@@ -190,7 +194,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
             ),     
             array()
         );     
-        
+  
         $this->addSettingFields(     
             array(
                 'section_id' => 'tabbed_sections_a',
@@ -283,8 +287,8 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
     
     public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput, $oAdmin ) { // validation_{instantiated class name}
     
-        $_fIsValid = true;
-        $_aErrors = array();
+        $_bIsValid  = true;
+        $_aErrors   = array();
 
         // You can check the passed values and correct the data by modifying them.
         // $this->oDebug->log( $aInput );     
@@ -293,17 +297,17 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {
             
             $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-demo' ) . ': ' . $aInput['metabox_text_field'];
-            $_fIsValid = false;     
+            $_bIsValid = false;     
             
         }
         if ( empty( $aInput['misc']['metabox_password'] ) ) {
             
             $_aErrors['misc']['metabox_password'] = __( 'The password cannot be empty.', 'admin-page-framework-demo' );
-            $_fIsValid = false;
+            $_bIsValid = false;
             
         }
         
-        if ( ! $_fIsValid ) {
+        if ( ! $_bIsValid ) {
             
             $this->setFieldErrors( $_aErrors );
             $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-demo' ) );    

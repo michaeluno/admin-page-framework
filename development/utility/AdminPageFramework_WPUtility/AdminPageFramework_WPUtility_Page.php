@@ -91,7 +91,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     }
     
     /**
-     * Checks if the current page is post editing page that belongs to the given post type(s).
+     * Checks if the current page is a post editing page that belongs to the given post type(s).
      * 
      * @since 3.0.0
      * @param array|string The post type slug(s) to check. If this is empty, the method just checks the current page is a post definition page.

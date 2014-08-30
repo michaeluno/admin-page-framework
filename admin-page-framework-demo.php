@@ -5,7 +5,7 @@
     Description:    Demonstrates the features of the Admin Page Framework class.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.1.4
+    Version:        3.1.5b01
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -41,6 +41,7 @@ if ( is_admin() ) :
         'normal', // context (what kind of metabox this is)
         'default' // priority
     );
+    
     include( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );    
     new APF_MetaBox_CustomFieldTypes(
         'sample_custom_meta_box_with_custom_field_types', // meta box ID
@@ -48,7 +49,7 @@ if ( is_admin() ) :
         array( 'apf_posts' ), // post type slugs: post, page, etc.
         'normal', // context
         'default' // priority
-    );
+    ); 
     
     // Add fields in the taxonomy page
     include( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
@@ -86,8 +87,8 @@ if ( is_admin() ) :
         );       
     
     
-    // Add pages and forms in the custom post type root page - all the settings should be defined in the setUp() method in each class.
-    include( APFDEMO_DIRNAME . '/example/APF_Demo.php' ); // Include the demo class that creates various forms.
+    // Add pages and forms in the custom post type root page.
+    include( APFDEMO_DIRNAME . '/example/APF_Demo.php' );
     new APF_Demo;
 
         // Add pages and forms in the custom post type root page
@@ -110,7 +111,7 @@ if ( is_admin() ) :
     if ( is_network_admin() ) :
     
         // Add pages and forms in the network admin area.
-        include( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin.php' ); // Include the demo class that creates various forms.
+        include( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin.php' );
         new APF_NetworkAdmin;     
         
         include( APFDEMO_DIRNAME . '/example/APF_NetworkAdmin_CustomFieldTypes.php' );

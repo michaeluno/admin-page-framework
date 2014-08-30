@@ -66,7 +66,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         $this->oProp->sPriority = $sPriority; //     'high', 'core', 'default' or 'low'    
 
         if ( $this->oProp->bIsAdmin ) {
-            add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );    
+            add_action( 'current_screen', array( $this, '_replyToDetermineToLoad' ) );    
         }    
 
     }
@@ -94,19 +94,26 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
      * Determines whether the meta box should be loaded in the currently loading page.
      * 
      * 
-     * @since 3.0.3
+     * @since   3.0.3
+     * @since   3.1.5   Changed the hook to 'current_screen' from 'wp_loaded'.
      */
-    public function _replyToDetermineToLoad() {
-        
-        if ( ! $this->_isInThePage() ) return;
+    public function _replyToDetermineToLoad( $oScreen ) {
+ 
+        if ( ! $this->_isInThePage() ) { 
+            return; 
+        }
         
         $this->_setUp();
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
         $this->oProp->_bSetupLoaded = true;
-        add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 ); // the screen object should be established to detect the loaded page. 
+        
+        // The screen object should be established to detect the loaded page. 
+        // @since   3.1.5   No longer called as a callback.
+        $this->_replyToRegisterFormElements( $oScreen ); 
+
         add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
         add_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
-        
+          
     }    
             
     /**
@@ -210,10 +217,10 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         
         // Bail if we're doing an auto save
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return; }
-        
+ 
         // If our nonce isn't there, or we can't verify it, bail
         if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) { return; }
-            
+
         // Check permissions
         if ( ! $iPostID ) { return; }
         if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) { return; }
