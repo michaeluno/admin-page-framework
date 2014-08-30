@@ -5,7 +5,7 @@
     Description:    Demonstrates the features of the Admin Page Framework class.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.1.5b05
+    Version:        3.1.5
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -29,7 +29,11 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 
 // Create a custom post type - this class deals with front-end components so checking with is_admin() is not necessary.
 include( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
-new APF_PostType( 'apf_posts', null, __FILE__ );     // post type slug
+new APF_PostType( 
+    'apf_posts',    // the post type slug
+    null,           // the argument array. Here null is passed because it is defined inside the class.
+    __FILE__        // the caller script path.
+);     
 if ( is_admin() ) :
 
     // Create meta boxes with form fields that appear in post definition pages (where you create a post) of the given post type.
