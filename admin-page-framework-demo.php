@@ -29,7 +29,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 
 // Create a custom post type - this class deals with front-end components so checking with is_admin() is not necessary.
 include( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
-new APF_PostType( 'apf_posts' );     // post type slug
+new APF_PostType( 'apf_posts', null, __FILE__ );     // post type slug
 if ( is_admin() ) :
 
     // Create meta boxes with form fields that appear in post definition pages (where you create a post) of the given post type.
