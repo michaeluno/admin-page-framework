@@ -4,7 +4,7 @@ Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
 Tested up to: 3.9.2
-Stable tag: 3.1.4
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,7 @@ You can include your own custom field types when they are necessary. The reason 
 * `revealer` - a selector field that displays a hidden HTML element.
 * `grid` - a drag and drop grid composer.
 * `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
+* `link` - it lets pick a post and set the url.
 
 = Necessary Files =
 * **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
