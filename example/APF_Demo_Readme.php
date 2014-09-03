@@ -17,13 +17,13 @@ class APF_Demo_Readme extends AdminPageFramework {
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(     
             array(
-                'title' => __( 'Read Me', 'admin-page-framework-demo' ),
-                'page_slug' => 'apf_read_me',
-                'screen_icon' => 'page',
+                'title'                 => __( 'Read Me', 'admin-page-framework-demo' ),
+                'page_slug'             => 'apf_read_me',
+                'screen_icon'           => 'page',
             ),     
             array(
-                'title' => __( 'Documentation', 'admin-page-framework-demo' ),
-                'href' => plugins_url( 'document/class-AdminPageFramework.html', APFDEMO_FILE ),
+                'title'                 => __( 'Documentation', 'admin-page-framework-demo' ),
+                'href'                  => plugins_url( 'document/class-AdminPageFramework.html', APFDEMO_FILE ),
                 'show_page_heading_tab' => false,
             )
         );
@@ -77,24 +77,24 @@ class APF_Demo_Readme extends AdminPageFramework {
         $this->addInPageTabs( // ( optional )
             'apf_read_me',
             array(
-                'tab_slug' => 'description',
-                'title' => __( 'Description', 'admin-page-framework-demo' ),
+                'tab_slug'  => 'description',
+                'title'     => __( 'Description', 'admin-page-framework-demo' ),
             ),     
             array(
-                'tab_slug' => 'installation',
-                'title' => __( 'Installation', 'admin-page-framework-demo' ),
+                'tab_slug'  => 'installation',
+                'title'     => __( 'Installation', 'admin-page-framework-demo' ),
             ),    
             array(
-                'tab_slug' => 'frequently_asked_questions',
-                'title' => __( 'FAQ', 'admin-page-framework-demo' ),
+                'tab_slug'  => 'frequently_asked_questions',
+                'title'     => __( 'FAQ', 'admin-page-framework-demo' ),
             ),     
             array(
-                'tab_slug' => 'other_notes',
-                'title' => __( 'Other Notes', 'admin-page-framework-demo' ),
+                'tab_slug'  => 'other_notes',
+                'title'     => __( 'Other Notes', 'admin-page-framework-demo' ),
             ),     
             array(
-                'tab_slug' => 'changelog',
-                'title' => __( 'Change Log', 'admin-page-framework-demo' ),
+                'tab_slug'  => 'changelog',
+                'title'     => __( 'Change Log', 'admin-page-framework-demo' ),
             )
         );     
                             
