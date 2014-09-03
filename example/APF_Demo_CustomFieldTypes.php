@@ -62,41 +62,45 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         $this->addInPageTabs(    
             'apf_custom_field_types', // target page slug
             array(
-                'tab_slug' => 'geometry',
-                'title' => __( 'Geometry', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'geometry',
+                'title'     => __( 'Geometry', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'date',
-                'title' => __( 'Date & Time', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'date',
+                'title'     => __( 'Date & Time', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'dial',
-                'title' => __( 'Dials', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'dial',
+                'title'     => __( 'Dials', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'font',
-                'title' => __( 'Fonts', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'font',
+                'title'     => __( 'Fonts', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'sample',
-                'title' => __( 'Sample', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'sample',
+                'title'     => __( 'Sample', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'revealer',
-                'title' => __( 'Revealer', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'revealer',
+                'title'     => __( 'Revealer', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'grid',
-                'title' => __( 'Grid', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'grid',
+                'title'     => __( 'Grid', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'autocomplete',
-                'title' => __( 'Autocomplete', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'autocomplete',
+                'title'     => __( 'Autocomplete', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'link',
-                'title' => __( 'Links', 'admin-page-framework-demo' ),    
+                'tab_slug'  => 'link',
+                'title'     => __( 'Links', 'admin-page-framework-demo' ),    
             ),     
+            array(
+                'tab_slug'  => 'system',
+                'title'     => __( 'System', 'admin-page-framework-demo' ),    
+            ),                 
             array()     
         );    
         
@@ -118,6 +122,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
             dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',     
             dirname( APFDEMO_FILE ) . '/third-party/link-custom-field-type/LinkCustomFieldType.php',     
+            dirname( APFDEMO_FILE ) . '/third-party/system-custom-field-type/SystemCustomFieldType.php',
         );
         foreach( $_aFiles as $_sFilePath ) {
             if ( file_exists( $_sFilePath ) ) {     
@@ -140,6 +145,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         new GridCustomFieldType( $_sClassName );
         new AutocompleteCustomFieldType( $_sClassName );     
         new LinkCustomFieldType( $_sClassName );     
+        new SystemCustomFieldType( $_sClassName );     
         
         /*
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -149,58 +155,64 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         $this->addSettingSections(    
             'apf_custom_field_types', // the target page slug
             array(
-                'section_id' => 'geometry',
-                'tab_slug' => 'geometry',    
-                'title' => __( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
+                'section_id'    => 'geometry',
+                'tab_slug'      => 'geometry',    
+                'title'         => __( 'Geometry Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'This is a custom field type defined externally.', 'admin-page-framework-demo' ),
             ),    
             array(
-                'section_id' => 'date_pickers',
-                'tab_slug' => 'date',
-                'title' => __( 'Date Custom Field Type', 'admin-page-framework' ),
-                'description' => __( 'We have date and time pickers.', 'admin-page-framework-demo' ),
+                'section_id'    => 'date_pickers',
+                'tab_slug'      => 'date',
+                'title'         => __( 'Date Custom Field Type', 'admin-page-framework' ),
+                'description'   => __( 'We have date and time pickers.', 'admin-page-framework-demo' ),
             ),
             array(
-                'section_id' => 'dial',
-                'tab_slug' => 'dial',
-                'title' => __( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
+                'section_id'    => 'dial',
+                'tab_slug'      => 'dial',
+                'title'         => __( 'Dial Custom Field Type', 'admin-page-framework-demo' ),
             ),
             array(
-                'section_id' => 'font',
-                'tab_slug' => 'font',
-                'title' => __( 'Font Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'This is still experimental.', 'admin-page-framework-demo' ),     
+                'section_id'    => 'font',
+                'tab_slug'      => 'font',
+                'title'         => __( 'Font Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'This is still experimental.', 'admin-page-framework-demo' ),     
             ),
             array(
-                'section_id' => 'sample',
-                'tab_slug' => 'sample',
-                'title' => __( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),     
+                'section_id'    => 'sample',
+                'tab_slug'      => 'sample',
+                'title'         => __( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),     
             ),     
             array(
-                'section_id' => 'revealer',
-                'tab_slug' => 'revealer',
-                'title' => __( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),     
+                'section_id'    => 'revealer',
+                'tab_slug'      => 'revealer',
+                'title'         => __( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),     
             ),    
             array(
-                'section_id' => 'grid',
-                'tab_slug' => 'grid',
-                'title' => __( 'Grid Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'This field will save the grid positions of the widgets.', 'admin-page-framework-demo' ),     
+                'section_id'    => 'grid',
+                'tab_slug'      => 'grid',
+                'title'         => __( 'Grid Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'This field will save the grid positions of the widgets.', 'admin-page-framework-demo' ),     
             ),
             array(
-                'section_id' => 'autocomplete',
-                'tab_slug' => 'autocomplete',
-                'title' => __( 'Autocomplete Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'This field will show predefined list when the user type something on the input field.', 'admin-page-framework-demo' ),     
+                'section_id'    => 'autocomplete',
+                'tab_slug'      => 'autocomplete',
+                'title'         => __( 'Autocomplete Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'This field will show predefined list when the user type something on the input field.', 'admin-page-framework-demo' ),     
             ),
             array(
-                'section_id' => 'link',
-                'tab_slug' => 'link',
-                'title' => __( 'Link Custom Field Type', 'admin-page-framework-demo' ),
-                'description' => __( 'Allows to insert page and post links.', 'admin-page-framework-demo' ),     
-            ),     
+                'section_id'    => 'link',
+                'tab_slug'      => 'link',
+                'title'         => __( 'Link Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'Allows to insert page and post links.', 'admin-page-framework-demo' ),     
+            ),
+            array(
+                'section_id'    => 'system',
+                'tab_slug'      => 'system',
+                'title'         => __( 'System Custom Field Type', 'admin-page-framework-demo' ),
+                'description'   => __( 'Displays the system information.', 'admin-page-framework-demo' ),     
+            ),            
             array()
         );
 
@@ -797,24 +809,21 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'title' => __( 'Repeatable Links' ),
                 'repeatable' =>    true,
             ),     
+            array()
+        );     
+        
+        $this->addSettingFields(
+            'system', // the target section id
+            array(
+                'field_id'      => 'system_information',
+                'type'          => 'system',     
+                'title'         => __( 'System Information' ),
+            ),
             // array(
-                // 'field_id' => 'revealer_field_option_a',
-                // 'type' => 'textarea',     
-                // 'default' => __( 'Hi there!', 'admin-page-framework-demo' ),
-                // 'hidden' => true,
-            // ),
-            // array(
-                // 'field_id' => 'revealer_field_option_b',     
-                // 'type' => 'password',     
-                // 'description' => __( 'Type a password.', 'admin-page-framework-demo' ),     
-                // 'hidden' => true,
-            // ),
-            // array(
-                // 'field_id' => 'revealer_field_option_c',
-                // 'type' => 'text',     
-                // 'description' => __( 'Type text.', 'admin-page-framework-demo' ),     
-                // 'hidden' => true,
-            // ),
+                // 'field_id'      => 'system_email',
+                // 'type'          => 'submit',     
+                // 'title'         => __( 'Email System Information' ),
+            // ),     
             array()
         );     
         
