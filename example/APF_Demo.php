@@ -1167,20 +1167,19 @@ class APF_Demo extends AdminPageFramework {
         $this->addSettingFields(
             'submit_buttons', // the target section ID.
             array( // Default Submit Button
-                'field_id' => 'submit_button_field',
-                'section_id' => 'submit_buttons',
-                'title' => __( 'Submit Button', 'admin-page-framework-demo' ),
-                'type' => 'submit',
-                'description' => __( 'This is the default submit button.', 'admin-page-framework-demo' ),
+                'field_id'          => 'submit_button_field',
+                'title'             => __( 'Submit Button', 'admin-page-framework-demo' ),
+                'type'              => 'submit',
+                'description'       => __( 'This is the default submit button.', 'admin-page-framework-demo' ),
             ),     
             array( // Submit button as a link
-                'field_id' => 'submit_button_link',
-                'type' => 'submit',
-                'title' => __( 'Link Button', 'admin-page-framework-demo' ),
-                'description' => __( 'These buttons serve as a hyper link. Set the url to the <code>href</code> key to enable this option.', 'admin-page-framework-demo' ),
-                'label' => __( 'Google', 'admin-page-framework-demo' ),
-                'href' => 'http://www.google.com',
-                'attributes' => array(
+                'field_id'          => 'submit_button_link',
+                'type'              => 'submit',
+                'title'             => __( 'Link Button', 'admin-page-framework-demo' ),
+                'description'       => __( 'These buttons serve as a hyper link. Set the url to the <code>href</code> key to enable this option.', 'admin-page-framework-demo' ),
+                'label'             => __( 'Google', 'admin-page-framework-demo' ),
+                'href'              => 'http://www.google.com',
+                'attributes'        => array(
                     'class' => 'button button-secondary',     
                     'title' => __( 'Go to Google!', 'admin-page-framework-demo' ),
                     'style' => 'background-color: #C1DCFA;',
@@ -1189,18 +1188,18 @@ class APF_Demo extends AdminPageFramework {
                     ),
                 ),
                 array(
-                    'label' => __( 'Yahoo', 'admin-page-framework-demo' ),
-                    'href' => 'http://www.yahoo.com',
-                    'attributes' => array(
+                    'label'         => __( 'Yahoo', 'admin-page-framework-demo' ),
+                    'href'          => 'http://www.yahoo.com',
+                    'attributes'    => array(
                         'class' => 'button button-secondary',     
                         'title' => __( 'Go to Yahoo!', 'admin-page-framework-demo' ),
                         'style' => 'background-color: #C8AEFF;',
                     ),
                 ),
                 array(
-                    'label' => __( 'Bing', 'admin-page-framework-demo' ),
-                    'href' => 'http://www.bing.com',
-                    'attributes' => array(
+                    'label'         => __( 'Bing', 'admin-page-framework-demo' ),
+                    'href'          => 'http://www.bing.com',
+                    'attributes'    => array(
                         'class' => 'button button-secondary',     
                         'title' => __( 'Go to Bing!', 'admin-page-framework-demo' ),
                         'style' => 'background-color: #FFE5AE;',
@@ -1216,27 +1215,27 @@ class APF_Demo extends AdminPageFramework {
                 'href'          => 'http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip',
             ),            
             array( // Submit button as a redirect
-                'field_id' => 'submit_button_redirect',
-                'title' => __( 'Redirect Button', 'admin-page-framework-demo' ),
-                'type' => 'submit',
-                'description' => sprintf( __( 'Unlike the above link buttons, this button saves the options and then redirects to: <code>%1$s</code>', 'admin-page-framework-demo' ), admin_url() )
+                'field_id'      => 'submit_button_redirect',
+                'title'         => __( 'Redirect Button', 'admin-page-framework-demo' ),
+                'type'          => 'submit',
+                'description'   => sprintf( __( 'Unlike the above link buttons, this button saves the options and then redirects to: <code>%1$s</code>', 'admin-page-framework-demo' ), admin_url() )
                     . ' ' . __( 'To enable this functionality, set the url to the <code>redirect_url</code> key in the field definition array.', 'admin-page-framework-demo' ),
-                'label' => __( 'Dashboard', 'admin-page-framework-demo' ),
-                'redirect_url' => admin_url(),
-                'attributes' => array(
+                'label'         => __( 'Dashboard', 'admin-page-framework-demo' ),
+                'redirect_url'  => admin_url(),
+                'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
             ),
             array( // Reset Submit button
-                'field_id' => 'submit_button_reset',
-                'title' => __( 'Reset Button', 'admin-page-framework-demo' ),
-                'type' => 'submit',
-                'label' => __( 'Reset', 'admin-page-framework-demo' ),
-                'reset' =>    true,
-                'attributes' => array(
+                'field_id'      => 'submit_button_reset',
+                'title'         => __( 'Reset Button', 'admin-page-framework-demo' ),
+                'type'          => 'submit',
+                'label'         => __( 'Reset', 'admin-page-framework-demo' ),
+                'reset'         => true,
+                'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
-                'description' => __( 'If you press this button, a confirmation message will appear and then if you press it again, it resets the option.', 'admin-page-framework-demo' ),
+                'description'   => __( 'If you press this button, a confirmation message will appear and then if you press it again, it resets the option.', 'admin-page-framework-demo' ),
             ),
             array()
         );
