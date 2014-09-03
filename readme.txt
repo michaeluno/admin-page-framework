@@ -64,6 +64,7 @@ You can include your own custom field types when they are necessary. The reason 
 * `grid` - a drag and drop grid composer.
 * `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
 * `link` - it lets pick a post and set the url.
+* `system` - displays the site system information.
 
 = Necessary Files =
 * **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
@@ -428,6 +429,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.1.6 =
+- Added an example of download button in the demo plugin.
+- Added the `system` custom field type.
 
 = 3.1.5 - 2014/08/31 =
 - Added the `content_{instantiated class name}` hook and the default `content()` callback method that filters the post type post content for the post type class.
