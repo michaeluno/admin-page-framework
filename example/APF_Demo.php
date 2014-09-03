@@ -1165,7 +1165,7 @@ class APF_Demo extends AdminPageFramework {
             )
         );
         $this->addSettingFields(
-            'hidden_field', // the target section ID.
+            'submit_buttons', // the target section ID.
             array( // Default Submit Button
                 'field_id' => 'submit_button_field',
                 'section_id' => 'submit_buttons',
@@ -1207,6 +1207,14 @@ class APF_Demo extends AdminPageFramework {
                     ),     
                 ),     
             ),     
+            array( 
+                'field_id'      => 'submit_button_download',
+                'title'         => __( 'Download Button', 'admin-page-framework-demo' ),
+                'type'          => 'submit',
+                'label'         => __( 'Admin Page Framework', 'admin-page-framework-demo' ),
+                'description'   => __( 'Download the latest version of the Admin Page Framework Demo plugin.', 'admin-page-framework-demo' ),
+                'href'          => 'http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip',
+            ),            
             array( // Submit button as a redirect
                 'field_id' => 'submit_button_redirect',
                 'title' => __( 'Redirect Button', 'admin-page-framework-demo' ),
@@ -1335,7 +1343,7 @@ class APF_Demo extends AdminPageFramework {
             array()
         );     
         $this->addSettingFields(    
-            'tabbed_sections_a', // the target setion ID
+            'tabbed_sections_a', // the target section ID
             array(
                 'field_id' => 'text_field_in_tabbed_section',
                 'title' => __( 'Text', 'admin-page-framework-demo' ),
