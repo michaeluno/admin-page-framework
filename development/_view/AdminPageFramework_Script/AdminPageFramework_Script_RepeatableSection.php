@@ -203,8 +203,19 @@ class AdminPageFramework_Script_RepeatableSection {
                     return;     
                 }     
                 
+                /** 
+                 * Call the registered callback functions
+                 * 
+                 * @since 3.0.0
+                 * @since 3.1.6 Changed it to do after removing the element.
+                 */                
+                var oNextAllSections = nodeSectionContainer.nextAll();
+                
+                /* Remove the field */
+                nodeSectionContainer.remove();
+                
                 /* Decrement the names and ids of the next following siblings. */
-                nodeSectionContainer.nextAll().each( function() {
+                oNextAllSections.each( function() {
                     
                     decrementAttributes( this );
                     
@@ -215,8 +226,7 @@ class AdminPageFramework_Script_RepeatableSection {
                     
                 });
             
-                /* Remove the field */
-                nodeSectionContainer.remove();
+
                 
                 /* For tabbed sections - remove the title tab list */
                 if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 ) {
