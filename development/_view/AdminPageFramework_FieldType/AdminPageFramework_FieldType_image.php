@@ -131,24 +131,24 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                      * @param object    the field container element next to the removed field container.
                      * @param string    the field type slug
                      * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param integer   the caller type. 1 : repeatable sections. 0 : repeatable fields.
                      */     
-                    removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
+                    removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
                         
                         /* If it is not the color field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
                                             
                         /* If the uploader buttons are not found, do nothing */
-                        if ( oNextFieldConainer.find( '.select_image' ).length <= 0 )  return;     
+                        if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
                         
                         /* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-                        var iOccurence = iCallType === 1 ? 1 : 0; // the occurrence value indicates which part of digit to change 
-                        oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
+                        var iOccurence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
+                        oNextFieldContainer.nextAll().andSelf().each( function( iIndex ) {
                             
                             var nodeButton = jQuery( this ).find( '.select_image' );     
                             
                             // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {     
+                            if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {     
                                 nodeButton.decrementIDAttribute( 'id', iOccurence );
                                 jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurence );
                                 jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurence );
