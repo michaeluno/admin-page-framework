@@ -11,7 +11,7 @@
 	};	
 	$.fn.getTokenInputOptions = function( sID ) {
 		sID = sID.replace( /__\d+_/, '___' ); // remove the section index
-		return ( typeof $.fn.aTokenInputOptions[ sID ] === undefined )
+		return ( 'undefined' === typeof $.fn.aTokenInputOptions[ sID ] )
 			? null
 			: $.fn.aTokenInputOptions[ sID ];
 	}
