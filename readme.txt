@@ -431,8 +431,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.1.6 =
+- Added support of repeatable rich text editor of the `textarea` field type except quick tags.
 - Added an example of download button in the demo plugin.
 - Added the `system` custom field type.
+- Changed the timing of the `removed_repeatable_field` callback for sections from before removing the section to after removing it.
 
 = 3.1.5 - 2014/08/31 =
 - Added the `content_{instantiated class name}` hook and the default `content()` callback method that filters the post type post content for the post type class.
