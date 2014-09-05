@@ -68,6 +68,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
                         
             if ( ! self::$_bIsLoadedUtility ) {
                 add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
+                add_action( 'admin_footer', array( $this, '_replyToOptionsStoragejQueryPlugin' ) );
                 self::$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
             }
             if ( ! self::$_bIsLoadedRepeatable ) {
@@ -143,6 +144,18 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
                 . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_fields' ), $this->oMsg->__( 'allowed_minimum_number_of_fields' ) )
             . "</script>";
     
+    }
+    
+    /**
+     * Adds options storage jQuery plugin. 
+     * @since   3.1.6
+     */
+    public function _replyToOptionsStoragejQueryPlugin() {
+
+        echo "<script type='text/javascript' class='admin-page-framework-options-storage'>"
+                . AdminPageFramework_Script_OptionStorage::getjQueryPlugin()
+            . "</script>";        
+            
     }
     
     /**

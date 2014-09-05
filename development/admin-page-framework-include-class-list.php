@@ -108,6 +108,7 @@ $aClassFiles = array(
 	"AdminPageFramework_PageLoadInfo_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_PageLoadInfo/AdminPageFramework_PageLoadInfo_Page.php", 
 	"AdminPageFramework_PageLoadInfo_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_PageLoadInfo/AdminPageFramework_PageLoadInfo_PostType.php", 
 	"AdminPageFramework_Script_AttributeUpdator"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_AttributeUpdator.php", 
+	"AdminPageFramework_Script_OptionStorage"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_OptionStorage.php", 
 	"AdminPageFramework_Script_RegisterCallback"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_RegisterCallback.php", 
 	"AdminPageFramework_Script_RepeatableField"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_RepeatableField.php", 
 	"AdminPageFramework_Script_RepeatableSection"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_RepeatableSection.php", 

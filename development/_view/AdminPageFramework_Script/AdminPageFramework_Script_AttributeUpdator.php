@@ -76,7 +76,7 @@ class AdminPageFramework_Script_AttributeUpdator {
             var updateID = function( iIndex, sID, bIncrement, bFirstOccurence ) {
                 if ( typeof sID === 'undefined' ) return sID;
                 var sNeedlePrefix = ( typeof bFirstOccurence === 'undefined' ) || ! bFirstOccurence ? '(.+)': '(.+?)';
-                var sNeedle = new RegExp( sNeedlePrefix + '__(\\\d+)(?=(_|$))' ); // triple escape - not sure why but on a separate test script, double escape was working
+                var sNeedle = new RegExp( sNeedlePrefix + '__(\\\d+)(?=([_-]|$))' ); // triple escape - not sure why but on a separate test script, double escape was working
                 return sID.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
                     if ( bIncrement === 1 )
                         return m0 + '__' + ( Number( m1 ) + 1 );
