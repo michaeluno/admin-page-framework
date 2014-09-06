@@ -317,7 +317,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
                         _.defaults( this.options, {
                             multiple:  true,
                             editing:   false,
-                            state:    'insert'
+                            state:    'insert',
+                            metadata:   {},
                         });
 
                         this.createSelection();
@@ -354,7 +355,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
                             }),
 
                             // Embed states.
-                            new wp.media.controller.Embed(),
+                            new wp.media.controller.Embed( options ),
                         ]);
 
                         if ( wp.media.view.settings.post.featuredImageId ) {     
