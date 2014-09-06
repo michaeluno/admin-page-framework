@@ -47,8 +47,8 @@ jQuery( document ).ready( function(){
 
 					// Embed states.
 					new wp.media.controller.Embed( options ),
+                    
 				]);
-
 
 				if ( wp.media.view.settings.post.featuredImageId ) {
 					this.states.add( new wp.media.controller.FeaturedImage() );

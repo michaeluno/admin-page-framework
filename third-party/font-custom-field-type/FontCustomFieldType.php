@@ -27,11 +27,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 		),	
 	);
 
-	function __construct() {
-				
-		$aArgs = func_get_args();
-		call_user_func_array( array( $this, "parent::__construct" ), $aArgs );	// Call the parent constructor.
-				
+	function construct() {
+			
 		add_filter( 'upload_mimes', array( $this, 'replyToFilterUploadMimes' ) );
 
 	}
@@ -40,11 +37,12 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 		 * 
 		 */
 		public function replyToFilterUploadMimes( $aMimes ) {
-			$aMimes[ 'eot' ] = 'application/vnd.ms-fontobject';
-			$aMimes[ 'ttf' ] = 'application/x-font-ttf';
-			$aMimes[ 'otf' ] = 'font/opentype';
-			$aMimes[ 'woff' ] = 'application/font-woff';
-			$aMimes['svg'] = 'image/svg+xml';
+AdminPageFramework_Debug::log( $aMimes );					            
+			$aMimes[ 'eot' ]    = 'application/vnd.ms-fontobject';
+			$aMimes[ 'ttf' ]    = 'application/x-font-ttf';
+			$aMimes[ 'otf' ]    = 'font/opentype';
+			$aMimes[ 'woff' ]   = 'application/font-woff';
+			$aMimes[ 'svg' ]    = 'image/svg+xml';
 			return $aMimes;						
 		}
 
@@ -356,7 +354,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 								type: 'application/font-woff,application/x-font-ttf,application/vnd.ms-fontobject,application/x-font-otf',
 							},
 							multiple: fMultiple,  // Set this to true to allow multiple files to be selected
-                            
+                            metadata: {},
 						});
 			
 						// When the uploader window closes, 
