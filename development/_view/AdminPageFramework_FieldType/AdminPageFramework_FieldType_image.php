@@ -28,15 +28,15 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'attributes_to_store' => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-        'show_preview' =>    true,
-        'allow_external_source' =>    true, // ( boolean ) Indicates whether the media library box has the From URL tab.
-        'attributes' => array(
-            'input' => array(
-                'size' => 40,
+        'attributes_to_store'       => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+        'show_preview'              =>    true,
+        'allow_external_source'     =>    true, // ( boolean ) Indicates whether the media library box has the From URL tab.
+        'attributes'                => array(
+            'input'     => array(
+                'size'      => 40,
                 'maxlength' => 400,     
             ),
-            'button' => array(
+            'button'    => array(
             ),
             'preview' => array(
             ),     
@@ -79,39 +79,39 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     /**
                      * The repeatable field callback for the add event.
                      * 
-                     * @param object node
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param object    node
+                     * @param string    sFieldType      the field type slug
+                     * @param string    sFieldTagID     the field container tag ID
+                     * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
                      */
                     added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
                         
                         /* If it is not the image field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
                                             
                         /* If the uploader buttons are not found, do nothing */
-                        if ( node.find( '.select_image' ).length <= 0 )  return;
+                        if ( node.find( '.select_image' ).length <= 0 ) { return; }
                         
                         /* Remove the value of the cloned preview element - check the value for repeatable sections */
                         var sValue = node.find( 'input' ).first().val();
-                        if ( iCallType !== 1 || ! sValue ) { // if it's not for repeatable sections
+                        if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
                             node.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
                             node.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
                         }
                         
                         /* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
                         var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-                        var iOccurence = iCallType === 1 ? 1 : 0;
+                        var iOccurrence = 1 === iCallType ? 1 : 0;
                         nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
                             var nodeButton = jQuery( this ).find( '.select_image' );     
                             
                             // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {
+                            if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {
                                     
-                                nodeButton.incrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurence );
+                                nodeButton.incrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurrence );
                                 
                             }
                             
@@ -128,10 +128,10 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     /**
                      * The repeatable field callback for the remove event.
                      * 
-                     * @param object    the field container element next to the removed field container.
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer   the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param object    oNextFieldContainer     the field container element next to the removed field container.
+                     * @param string    sFieldType              the field type slug
+                     * @param string    sFieldTagID             the field container tag ID
+                     * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
                      */     
                     removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
                         
@@ -142,22 +142,22 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
                         
                         /* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-                        var iOccurence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
+                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
                         oNextFieldContainer.nextAll().andSelf().each( function( iIndex ) {
                             
                             var nodeButton = jQuery( this ).find( '.select_image' );     
                             
                             // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
                             if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {     
-                                nodeButton.decrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurence );
+                                nodeButton.decrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurrence );
                             }
                             
                             /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
                              * otherwise, the script sets the preview image in the wrong place. */     
                             var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) return true;
+                            if ( nodeImageInput.length <= 0 ) { return true; }
                             
                             var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
                             setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
@@ -168,24 +168,24 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     sorted_fields : function( node, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
                         /* 1. Return if it is not the type. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */     
-                        if ( node.find( '.select_image' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
+                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
+                        if ( node.find( '.select_image' ).length <= 0 ) { return; } /* If the uploader buttons are not found, do nothing */
                         
                         /* 2. Update the Select File button */
                         var iCount = 0;
-                        var iOccurence = iCallType === 1 ? 1 : 0; // the occurrence value indicates which part of digit to change 
+                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
                         node.children( '.admin-page-framework-field' ).each( function() {
                             
                             var nodeButton = jQuery( this ).find( '.select_image' );
                             
                             /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
-                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurence );    
-                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurence );
-                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurence );
+                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
+                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
+                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
                             
                             /* 2-2. Rebuind the uploader script to the button */
                             var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) return true;
+                            if ( nodeImageInput.length <= 0 ) { return true; }
                             setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
     
                             iCount++;
@@ -209,6 +209,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
          */     
         private function _getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
             
+            $sThickBoxTitle         = esc_js( $sThickBoxTitle );
+            $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );
+             
             if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
                 return "
                     jQuery( document ).ready( function(){
@@ -219,11 +222,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
                             jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
                             jQuery( '#select_image_' + sInputID ).click( function() {
-                                var sPressedID = jQuery( this ).attr( 'id' );     
-                                window.sInputID = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-                                window.original_send_to_editor = window.send_to_editor;
-                                window.send_to_editor = hfAPFSendToEditorImage;
-                                var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+                                var sPressedID                  = jQuery( this ).attr( 'id' );     
+                                window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+                                window.original_send_to_editor  = window.send_to_editor;
+                                window.send_to_editor           = hfAPFSendToEditorImage;
+                                var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
                                 tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
                                 return false; // do not click the button after the script by returning false.     
                             });    
@@ -231,26 +234,26 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         
                         var hfAPFSendToEditorImage = function( sRawHTML ) {
 
-                            var sHTML = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-                            var src = jQuery( 'img', sHTML ).attr( 'src' );
-                            var alt = jQuery( 'img', sHTML ).attr( 'alt' );
-                            var title = jQuery( 'img', sHTML ).attr( 'title' );
-                            var width = jQuery( 'img', sHTML ).attr( 'width' );
-                            var height = jQuery( 'img', sHTML ).attr( 'height' );
-                            var classes = jQuery( 'img', sHTML ).attr( 'class' );
-                            var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
-                            var sCaption = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+                            var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+                            var src         = jQuery( 'img', sHTML ).attr( 'src' );
+                            var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
+                            var title       = jQuery( 'img', sHTML ).attr( 'title' );
+                            var width       = jQuery( 'img', sHTML ).attr( 'width' );
+                            var height      = jQuery( 'img', sHTML ).attr( 'height' );
+                            var classes     = jQuery( 'img', sHTML ).attr( 'class' );
+                            var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
+                            var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
                                 .replace( /<a.*?>(.*?)<\/a>/m, '' );
-                            var align = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
-                            var link = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
+                            var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
+                            var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
 
                             // Escape the strings of some of the attributes.
-                            var sCaption = jQuery( '<div/>' ).text( sCaption ).html();
-                            var sAlt = jQuery( '<div/>' ).text( alt ).html();
-                            var title = jQuery( '<div/>' ).text( title ).html();     
+                            var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
+                            var sAlt        = jQuery( '<div/>' ).text( alt ).html();
+                            var title       = jQuery( '<div/>' ).text( title ).html();     
                 
                             // If the user wants to save relevant attributes, set them.
-                            var sInputID = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
+                            var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
                 
                             jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
                             jQuery( '#' + sInputID + '_id' ).val( id );
@@ -282,7 +285,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 ";
 
             return "jQuery( document ).ready( function(){
-
+                
                 // Global Function Literal 
                 /**
                  * Binds/rebinds the uploader button script to the specified element with the given ID.
@@ -290,10 +293,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
                     var fEscaped = false; // indicates whether the frame is escaped/canceled.
+                    var custom_uploader;
                     
                     jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_image_' + sInputID ).click( function( e ) {
-                        
+                     
                         // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
                         var sInputID = jQuery( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
                         
@@ -301,25 +305,26 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( custom_uploader ) {
+                        if ( 'object' === typeof custom_uploader ) {
                             custom_uploader.open();
                             return;
                         }     
-                        
+
                         // Store the original select object in a global variable
                         oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
-                        var custom_uploader = wp.media({
-                            title: '{$sThickBoxTitle}',
-                            button: {
+                        custom_uploader = wp.media({
+                            title:      '{$sThickBoxTitle}',
+                            button:     {
                                 text: '{$sThickBoxButtonUseThis}'
                             },
-                            library     : { type : 'image' },
-                            multiple: fMultiple  // Set this to true to allow multiple files to be selected
+                            library:    { type : 'image' },
+                            multiple:   fMultiple,  // Set this to true to allow multiple files to be selected
+                            metadata:   { test : 'testing' },
                         });
-            
+
                         // When the uploader window closes, 
                         custom_uploader.on( 'escape', function() {
                             fEscaped = true;
@@ -407,7 +412,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         jQuery( '#image_preview_container_' + sInputID ).show();     
                         
                     }
-                }     
+                }       
+                
             });
             ";
         }

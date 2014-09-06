@@ -181,6 +181,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
          */
         private function _getScript_MediaUploader( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
             
+            $sThickBoxTitle         = esc_js( $sThickBoxTitle );
+            $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );            
+            
             if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
                 return "
                     jQuery( document ).ready( function(){
@@ -234,7 +237,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                 setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
                     var fEscaped = false;
-                        
+                    var media_uploader;
+                    
                     jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_media_' + sInputID ).click( function( e ) {
                 
@@ -245,7 +249,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( media_uploader ) {
+                        if ( 'object' === typeof media_uploader ) {
                             media_uploader.open();
                             return;
                         }     
@@ -255,12 +259,13 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
-                        var media_uploader = wp.media({
-                            title: '{$sThickBoxTitle}',
-                            button: {
+                        media_uploader = wp.media({
+                            title:      '{$sThickBoxTitle}',
+                            button:     {
                                 text: '{$sThickBoxButtonUseThis}'
                             },
-                            multiple: fMultiple  // Set this to true to allow multiple files to be selected
+                            multiple:   fMultiple, // Set this to true to allow multiple files to be selected
+                            metadata:   {},
                         });
             
                         // When the uploader window closes, 
