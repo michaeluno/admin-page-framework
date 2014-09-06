@@ -6,9 +6,10 @@ jQuery( document ).ready( function(){
 				wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
 				_.defaults( this.options, {
-					multiple:  true,
-					editing:   false,
-					state:    'insert'
+					multiple:   true,
+					editing:    false,
+					state:      'insert',
+                    metadata:   {},
 				});
 
 				this.createSelection();
@@ -45,7 +46,7 @@ jQuery( document ).ready( function(){
 					}),
 
 					// Embed states.
-					new wp.media.controller.Embed(),
+					new wp.media.controller.Embed( options ),
 				]);
 
 

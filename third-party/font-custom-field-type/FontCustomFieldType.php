@@ -355,7 +355,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 							library: {
 								type: 'application/font-woff,application/x-font-ttf,application/vnd.ms-fontobject,application/x-font-otf',
 							},
-							multiple: fMultiple  // Set this to true to allow multiple files to be selected
+							multiple: fMultiple,  // Set this to true to allow multiple files to be selected
+                            
 						});
 			
 						// When the uploader window closes, 
