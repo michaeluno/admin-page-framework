@@ -1437,6 +1437,14 @@ class APF_Demo extends AdminPageFramework {
                 'repeatable' =>    true,
                 'sortable' =>    true,
             ),     
+            array(
+                'field_id'      => 'textarea_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Textarea', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'rich'          => true,
+                'repeatable'    => true,
+                // 'sortable'   => true,
+            ),               
             array()
         );     
     

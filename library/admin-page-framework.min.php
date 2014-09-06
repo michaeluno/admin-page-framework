@@ -49,7 +49,8 @@
                         _.defaults( this.options, {
                             multiple:  true,
                             editing:   false,
-                            state:    'insert'
+                            state:    'insert',
+                            metadata:   {},
                         });
 
                         this.createSelection();
@@ -86,7 +87,7 @@
                             }),
 
                             // Embed states.
-                            new wp.media.controller.Embed(),
+                            new wp.media.controller.Embed( options ),
                         ]);
 
                         if ( wp.media.view.settings.post.featuredImageId ) {     
@@ -235,7 +236,7 @@
                     }     
                 });
             }
-        "; } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) : abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base { public function _replyToFieldLoader() { $this->setUp(); } public function _replyToGetScripts() { return $this->getScripts(); } public function _replyToGetInputIEStyles() { return $this->getIEStyles(); } public function _replyToGetStyles() { return $this->getStyles(); } public function _replyToGetField( $aField ) { return $this->getField( $aField ); } protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); } protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); } public $aFieldTypeSlugs = array(); protected $aDefaultKeys = array(); protected function setUp() {} protected function getScripts() { return ''; } protected function getIEStyles() { return ''; } protected function getStyles() { return ''; } protected function getField( $aField ) { return ''; } protected function getEnqueuingScripts() { return array(); } protected function getEnqueuingStyles() { return array(); } } endif;if ( ! class_exists( 'AdminPageFramework_FormField_Base' ) ) : class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility { public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) { $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default']; $aFieldTypeDefinition['aDefaultKeys']['attributes'] = array( 'fieldrow' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'], 'fieldset' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'], 'fields' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'], 'field' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'], ); $this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] ); $this->aFieldTypeDefinitions = $aFieldTypeDefinitions; $this->aOptions = $aOptions; $this->aErrors = $aErrors ? $aErrors : array(); $this->oMsg = $oMsg; $this->_loadScripts(); } static private $_bIsLoadedUtility = false; static private $_bIsLoadedRepeatable = false; static private $_bIsLoadedSortable = false; static private $_bIsLoadedRegisterCallback = false; private function _loadScripts() { if ( ! self::$_bIsLoadedUtility ) { add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) ); self::$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) ); } if ( ! self::$_bIsLoadedRepeatable ) { self::$_bIsLoadedRepeatable = add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) ); } if ( ! self::$_bIsLoadedSortable ) { self::$_bIsLoadedSortable = add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) ); } if ( ! self::$_bIsLoadedRegisterCallback ) { self::$_bIsLoadedRegisterCallback = add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) ); } } protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) { $_sAdd = $this->oMsg->__( 'add' ); $_sRemove = $this->oMsg->__( 'remove' ); $_sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : ""; $_sSettingsAttributes = $this->generateDataAttributes( ( array ) $aSettings ); $_sButtons = "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >" . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>+</a>" . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>-</a>" . "</div>"; $_aJSArray = json_encode( $aSettings ); return "<script type='text/javascript'>
+        "; } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) : abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base { public function _replyToFieldLoader() { $this->setUp(); } public function _replyToGetScripts() { return $this->getScripts(); } public function _replyToGetInputIEStyles() { return $this->getIEStyles(); } public function _replyToGetStyles() { return $this->getStyles(); } public function _replyToGetField( $aField ) { return $this->getField( $aField ); } protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); } protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); } public $aFieldTypeSlugs = array(); protected $aDefaultKeys = array(); protected function setUp() {} protected function getScripts() { return ''; } protected function getIEStyles() { return ''; } protected function getStyles() { return ''; } protected function getField( $aField ) { return ''; } protected function getEnqueuingScripts() { return array(); } protected function getEnqueuingStyles() { return array(); } } endif;if ( ! class_exists( 'AdminPageFramework_FormField_Base' ) ) : class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility { public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) { $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default']; $aFieldTypeDefinition['aDefaultKeys']['attributes'] = array( 'fieldrow' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'], 'fieldset' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'], 'fields' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'], 'field' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'], ); $this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] ); $this->aFieldTypeDefinitions = $aFieldTypeDefinitions; $this->aOptions = $aOptions; $this->aErrors = $aErrors ? $aErrors : array(); $this->oMsg = $oMsg; $this->_loadScripts(); } static private $_bIsLoadedUtility = false; static private $_bIsLoadedRepeatable = false; static private $_bIsLoadedSortable = false; static private $_bIsLoadedRegisterCallback = false; private function _loadScripts() { if ( ! self::$_bIsLoadedUtility ) { add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) ); add_action( 'admin_footer', array( $this, '_replyToOptionsStoragejQueryPlugin' ) ); self::$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) ); } if ( ! self::$_bIsLoadedRepeatable ) { self::$_bIsLoadedRepeatable = add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) ); } if ( ! self::$_bIsLoadedSortable ) { self::$_bIsLoadedSortable = add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) ); } if ( ! self::$_bIsLoadedRegisterCallback ) { self::$_bIsLoadedRegisterCallback = add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) ); } } protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) { $_sAdd = $this->oMsg->__( 'add' ); $_sRemove = $this->oMsg->__( 'remove' ); $_sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : ""; $_sSettingsAttributes = $this->generateDataAttributes( ( array ) $aSettings ); $_sButtons = "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >" . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>+</a>" . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>-</a>" . "</div>"; $_aJSArray = json_encode( $aSettings ); return "<script type='text/javascript'>
                 jQuery( document ).ready( function() {
                     nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
                     if ( nodePositionIndicators.length > 0 ) { /* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
@@ -251,7 +252,7 @@
                 jQuery( document ).ready( function() {
                     jQuery( this ).enableAPFSortable( '{$sFieldsContainerID}' );
                 });
-            </script>"; } public function _replyToAddRepeatableFieldjQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-repeatable-fields-plugin'>" . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_fields' ), $this->oMsg->__( 'allowed_minimum_number_of_fields' ) ) . "</script>"; } public function _replyToAddAttributeUpdaterjQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-attribute-updater'>" . AdminPageFramework_Script_AttributeUpdator::getjQueryPlugin() . "</script>"; } public function _replyToAddRegisterCallbackjQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-register-callback'>" . AdminPageFramework_Script_RegisterCallback::getjQueryPlugin() . "</script>"; } public function _replyToAddUtilityPlugins() { echo "<script type='text/javascript' class='admin-page-framework-utility-plugins'>" . AdminPageFramework_Script_Utility::getjQueryPlugin() . "</script>"; } public function _replyToAddSortableFieldPlugin() { wp_enqueue_script( 'jquery-ui-sortable' ); echo "<script type='text/javascript' class='admin-page-framework-sortable-field-plugin'>" . AdminPageFramework_Script_Sortable::getjQueryPlugin() . "</script>"; } } endif;if ( ! class_exists( 'AdminPageFramework_FormField' ) ) : class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base { private function _getInputName( $aField=null, $sKey='' ) { $sKey = ( string ) $sKey; $aField = isset( $aField ) ? $aField : $this->aField; $_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "[{$sKey}]"; $sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "[{$aField['_section_index']}]" : ""; switch( $aField['_fields_type'] ) { default: case 'page': $sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "[{$aField['section_id']}]" : ''; return "{$aField['option_key']}{$sSectionDimension}{$sSectionIndex}[{$aField['field_id']}]{$_sKey}"; case 'page_meta_box': case 'post_meta_box': return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "{$aField['section_id']}{$sSectionIndex}[{$aField['field_id']}]{$_sKey}" : "{$aField['field_id']}{$_sKey}"; case 'taxonomy': return "{$aField['field_id']}{$_sKey}"; } } protected function _getFlatInputName( $aField, $sKey='' ) { $sKey = ( string ) $sKey; $_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "|{$sKey}"; $sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "|{$aField['_section_index']}" : ""; switch( $aField['_fields_type'] ) { default: case 'page': $sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "|{$aField['section_id']}" : ''; return "{$aField['option_key']}{$sSectionDimension}{$sSectionIndex}|{$aField['field_id']}{$_sKey}"; case 'page_meta_box': case 'post_meta_box': return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "{$aField['section_id']}{$sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}"; case 'taxonomy': return "{$aField['field_id']}{$_sKey}"; } } private function _getInputID( $aField, $sIndex ) { $sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : ''; $sFieldIndex = '__' . $sIndex; return isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] . $sFieldIndex : $aField['field_id'] . $sFieldIndex; } static public function _getInputTagID( $aField ) { $sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : ''; return isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] : $aField['field_id']; } public function _getFieldOutput() { $aFieldsOutput = array(); $_sFieldError = $this->_getFieldError( $this->aErrors, $this->aField['section_id'], $this->aField['field_id'] ); if ( $_sFieldError ) { $aFieldsOutput[] = $_sFieldError; } $this->aField['tag_id'] = $this->_getInputTagID( $this->aField ); $aFields = $this->_constructFieldsArray( $this->aField, $this->aOptions ); $aFieldsOutput[] = $this->_getFieldsOutput( $aFields ); return $this->_getFinalOutput( $this->aField, $aFieldsOutput, count( $aFields ) ); } private function _getFieldsOutput( array $aFields ) { $_aOutput = array(); foreach( $aFields as $__sKey => $__aField ) { $_aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $__aField['type'] ] ) ? $this->aFieldTypeDefinitions[ $__aField['type'] ] : $this->aFieldTypeDefinitions['default']; if ( ! is_callable( $_aFieldTypeDefinition['hfRenderField'] ) ) { continue; } $_bIsSubField = is_numeric( $__sKey ) && 0 < $__sKey; $__aField['_index'] = $__sKey; $__aField['input_id'] = $this->_getInputID( $__aField, $__sKey ); $__aField['_input_name'] = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '' ); $__aField['_input_name_flat'] = $this->_getFlatInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '' ); $__aField['_field_container_id'] = "field-{$__aField['input_id']}"; $__aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}"; $__aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}"; $__aField = $this->uniteArrays( $__aField, array( 'attributes' => array( 'id' => $__aField['input_id'], 'name' => $__aField['_input_name'], 'value' => $__aField['value'], 'type' => $__aField['type'], 'disabled' => null, ), ), ( array ) $_aFieldTypeDefinition['aDefaultKeys'] ); $_aFieldAttributes = array( 'id' => $__aField['_field_container_id'], 'data-type' => "{$__aField['type']}", 'class' => "admin-page-framework-field admin-page-framework-field-{$__aField['type']}" . ( $__aField['attributes']['disabled'] ? ' disabled' : '' ) . ( $_bIsSubField ? ' admin-page-framework-subfield' : '' ), ) + $__aField['attributes']['field']; $_aOutput[] = $__aField['before_field'] . "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">" . call_user_func_array( $_aFieldTypeDefinition['hfRenderField'], array( $__aField ) ) . ( ( $sDelimiter = $__aField['delimiter'] ) ? "<div " . $this->generateAttributes( array( 'class' => 'delimiter', 'id' => "delimiter-{$__aField['input_id']}", 'style' => $this->isLastElement( $aFields, $__sKey ) ? "display:none;" : "", ) ) . ">{$sDelimiter}</div>" : "" ) . "</div>" . $__aField['after_field']; } return implode( PHP_EOL, $_aOutput ); } private function _getFinalOutput( array $aField, array $aFieldsOutput, $iFieldsCount ) { $_aFieldsSetAttributes = array( 'id' => 'fieldset-' . $aField['tag_id'], 'class' => 'admin-page-framework-fieldset', 'data-field_id' => $aField['tag_id'], ) + $aField['attributes']['fieldset']; $_aFieldsContainerAttributes = array( 'id' => 'fields-' . $aField['tag_id'], 'class' => 'admin-page-framework-fields' . ( $aField['repeatable'] ? ' repeatable' : '' ) . ( $aField['sortable'] ? ' sortable' : '' ), 'data-type' => $aField['type'], ) + $aField['attributes']['fields']; return $aField['before_fieldset'] . "<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">" . "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">" . $aField['before_fields'] . implode( PHP_EOL, $aFieldsOutput ) . $aField['after_fields'] . "</div>" . $this->_getExtras( $aField, $iFieldsCount ) . "</fieldset>" . $aField['after_fieldset']; } private function _getExtras( $aField, $iFieldsCount ) { $_aOutput = array(); if ( isset( $aField['description'] ) && trim( $aField['description'] ) != '' ) { $_aOutput[] = "<p class='admin-page-framework-fields-description'><span class='description'>{$aField['description']}</span></p>"; } $_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount ); return implode( PHP_EOL, $_aOutput ); } private function _getFieldScripts( $aField, $iFieldsCount ) { $_aOutput = array(); $_aOutput[] = $aField['repeatable'] ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable'] ) : ''; $_aOutput[] = $aField['sortable'] && ( $iFieldsCount > 1 || $aField['repeatable'] ) ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField['tag_id'] ) : ''; return implode( PHP_EOL, $_aOutput ); } private function _getFieldError( $aErrors, $sSectionID, $sFieldID ) { if ( isset( $aErrors[ $sSectionID ], $aErrors[ $sSectionID ][ $sFieldID ] ) && is_array( $aErrors[ $sSectionID ] ) && ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] ) ) { return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $aErrors[ $sSectionID ][ $sFieldID ] . "</span><br />"; } if ( isset( $aErrors[ $sFieldID ] ) && ! is_array( $aErrors[ $sFieldID ] ) ) { return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $aErrors[ $sFieldID ] . "</span><br />"; } } protected function _constructFieldsArray( &$aField, &$aOptions ) { $vSavedValue = $this->_getStoredInputFieldValue( $aField, $aOptions ); $aFirstField = array(); $aSubFields = array(); foreach( $aField as $nsIndex => $vFieldElement ) { if ( is_numeric( $nsIndex ) ) $aSubFields[] = $vFieldElement; else $aFirstField[ $nsIndex ] = $vFieldElement; } if ( $aField['repeatable'] ) { foreach( ( array ) $vSavedValue as $iIndex => $vValue ) { if ( $iIndex == 0 ) continue; $aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) ? $aSubFields[ $iIndex - 1 ] : array(); } } foreach( $aSubFields as &$aSubField ) { $aLabel = isset( $aSubField['label'] ) ? $aSubField['label'] : ( isset( $aFirstField['label'] ) ? $aFirstField['label'] : null ); $aSubField = $this->uniteArrays( $aSubField, $aFirstField ); $aSubField['label'] = $aLabel; } $aFields = array_merge( array( $aFirstField ), $aSubFields ); if ( count( $aSubFields ) > 0 || $aField['repeatable'] || $aField['sortable'] ) { foreach( $aFields as $iIndex => &$aThisField ) { $aThisField['_saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null; $aThisField['_is_multiple_fields'] = true; } } else { $aFields[ 0 ]['_saved_value'] = $vSavedValue; $aFields[ 0 ]['_is_multiple_fields'] = false; } unset( $aThisField ); foreach( $aFields as &$aThisField ) { $aThisField['_is_value_set_by_user'] = isset( $aThisField['value'] ); $aThisField['value'] = isset( $aThisField['value'] ) ? $aThisField['value'] : ( isset( $aThisField['_saved_value'] ) ? $aThisField['_saved_value'] : ( isset( $aThisField['default'] ) ? $aThisField['default'] : null ) ); } return $aFields; } private function _getStoredInputFieldValue( $aField, $aOptions ) { switch( $aField['_fields_type'] ) { default: case 'page': case 'page_meta_box': case 'taxonomy': if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' ) return isset( $aOptions[ $aField['field_id'] ] ) ? $aOptions[ $aField['field_id'] ] : null; if ( isset( $aField['_section_index'] ) ) return isset( $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] ) ? $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] : null; return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] ) ? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] : null; case 'post_meta_box': if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null; if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' ) return get_post_meta( $_GET['post'], $aField['field_id'], true ); $aSectionArray = get_post_meta( $_GET['post'], $aField['section_id'], true ); if ( isset( $aField['_section_index'] ) ) return isset( $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] ) ? $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] : null; return isset( $aSectionArray[ $aField['field_id'] ] ) ? $aSectionArray[ $aField['field_id'] ] : null; } return null; } } endif;if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) : class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility { public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) { $this->aFieldTypeDefinitions = $aFieldTypeDefinitions; $this->aFieldErrors = $aFieldErrors; $this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' ); $this->_loadScripts(); } static private $_bIsLoadedTabPlugin; private function _loadScripts() { if ( self::$_bIsLoadedTabPlugin ) { return; } self::$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) ); } protected function _getAttributes( $aField, $aAttributes=array() ) { $_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() ); if ( $aField['hidden'] ) $_aAttributes['style'] = 'display:none;' . ( isset( $_aAttributes['style'] ) ? $_aAttributes['style'] : '' ); return $this->generateAttributes( $_aAttributes ); } protected function _getFieldTitle( $aField ) { return "<label for='{$aField['field_id']}'>" . "<a id='{$aField['field_id']}'></a>" . "<span title='" . ( strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) ) . "'>" . $aField['title'] . "</span>" . "</label>"; } protected function _mergeDefault( $aField ) { return $this->uniteArrays( $aField, isset( $this->aFieldTypeDefinitions[ $aField['type'] ]['aDefaultKeys'] ) ? $this->aFieldTypeDefinitions[ $aField['type'] ]['aDefaultKeys'] : array() ); } public function _replyToAddRepeatableSectionjQueryPlugin() { static $bIsCalled = false; if ( $bIsCalled ) return; $bIsCalled = true; echo "<script type='text/javascript' class='admin-page-framework-repeatable-sections-plugin'>" . AdminPageFramework_Script_RepeatableSection::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_sections' ), $this->oMsg->__( 'allowed_minimum_number_of_sections' ) ) . "</script>"; } public function _replyToAddTabPlugin() { echo "<script type='text/javascript' class='admin-page-framework-tab-plugin'>" . AdminPageFramework_Script_Tab::getjQueryPlugin() . "</script>"; } } endif;if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) : class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base { public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) { $_aOutput = array(); foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) { $_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ); if ( $_sSectionSet ) $_aOutput[] = "<div " . $this->generateAttributes( array( 'class' => 'admin-page-framework-sectionset', 'id' => "sectionset-{$_sSectionTabSlug}_" . md5( serialize( $_aSections ) ), ) ) . ">" . $_sSectionSet . "</div>"; } return implode( PHP_EOL, $_aOutput ) . $this->_getSectionTabsEnablerScript(); } static private $_bLoadedTabEnablerScript = false; private function _getSectionTabsEnablerScript() { if ( self::$_bLoadedTabEnablerScript ) return ''; self::$_bLoadedTabEnablerScript = true; return "<script type='text/javascript'>
+            </script>"; } public function _replyToAddRepeatableFieldjQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-repeatable-fields-plugin'>" . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_fields' ), $this->oMsg->__( 'allowed_minimum_number_of_fields' ) ) . "</script>"; } public function _replyToOptionsStoragejQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-options-storage'>" . AdminPageFramework_Script_OptionStorage::getjQueryPlugin() . "</script>"; } public function _replyToAddAttributeUpdaterjQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-attribute-updater'>" . AdminPageFramework_Script_AttributeUpdator::getjQueryPlugin() . "</script>"; } public function _replyToAddRegisterCallbackjQueryPlugin() { echo "<script type='text/javascript' class='admin-page-framework-register-callback'>" . AdminPageFramework_Script_RegisterCallback::getjQueryPlugin() . "</script>"; } public function _replyToAddUtilityPlugins() { echo "<script type='text/javascript' class='admin-page-framework-utility-plugins'>" . AdminPageFramework_Script_Utility::getjQueryPlugin() . "</script>"; } public function _replyToAddSortableFieldPlugin() { wp_enqueue_script( 'jquery-ui-sortable' ); echo "<script type='text/javascript' class='admin-page-framework-sortable-field-plugin'>" . AdminPageFramework_Script_Sortable::getjQueryPlugin() . "</script>"; } } endif;if ( ! class_exists( 'AdminPageFramework_FormField' ) ) : class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base { private function _getInputName( $aField=null, $sKey='' ) { $sKey = ( string ) $sKey; $aField = isset( $aField ) ? $aField : $this->aField; $_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "[{$sKey}]"; $sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "[{$aField['_section_index']}]" : ""; switch( $aField['_fields_type'] ) { default: case 'page': $sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "[{$aField['section_id']}]" : ''; return "{$aField['option_key']}{$sSectionDimension}{$sSectionIndex}[{$aField['field_id']}]{$_sKey}"; case 'page_meta_box': case 'post_meta_box': return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "{$aField['section_id']}{$sSectionIndex}[{$aField['field_id']}]{$_sKey}" : "{$aField['field_id']}{$_sKey}"; case 'taxonomy': return "{$aField['field_id']}{$_sKey}"; } } protected function _getFlatInputName( $aField, $sKey='' ) { $sKey = ( string ) $sKey; $_sKey = $sKey !== '0' && empty( $sKey ) ? '' : "|{$sKey}"; $sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "|{$aField['_section_index']}" : ""; switch( $aField['_fields_type'] ) { default: case 'page': $sSectionDimension = isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "|{$aField['section_id']}" : ''; return "{$aField['option_key']}{$sSectionDimension}{$sSectionIndex}|{$aField['field_id']}{$_sKey}"; case 'page_meta_box': case 'post_meta_box': return isset( $aField['section_id'] ) && $aField['section_id'] && $aField['section_id'] != '_default' ? "{$aField['section_id']}{$sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}"; case 'taxonomy': return "{$aField['field_id']}{$_sKey}"; } } private function _getInputID( $aField, $sIndex ) { $sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : ''; $sFieldIndex = '__' . $sIndex; return isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] . $sFieldIndex : $aField['field_id'] . $sFieldIndex; } static public function _getInputTagID( $aField ) { $sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : ''; return isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] . $sSectionIndex . '_' . $aField['field_id'] : $aField['field_id']; } public function _getFieldOutput() { $aFieldsOutput = array(); $_sFieldError = $this->_getFieldError( $this->aErrors, $this->aField['section_id'], $this->aField['field_id'] ); if ( $_sFieldError ) { $aFieldsOutput[] = $_sFieldError; } $this->aField['tag_id'] = $this->_getInputTagID( $this->aField ); $aFields = $this->_constructFieldsArray( $this->aField, $this->aOptions ); $aFieldsOutput[] = $this->_getFieldsOutput( $aFields ); return $this->_getFinalOutput( $this->aField, $aFieldsOutput, count( $aFields ) ); } private function _getFieldsOutput( array $aFields ) { $_aOutput = array(); foreach( $aFields as $__sKey => $__aField ) { $_aFieldTypeDefinition = isset( $this->aFieldTypeDefinitions[ $__aField['type'] ] ) ? $this->aFieldTypeDefinitions[ $__aField['type'] ] : $this->aFieldTypeDefinitions['default']; if ( ! is_callable( $_aFieldTypeDefinition['hfRenderField'] ) ) { continue; } $_bIsSubField = is_numeric( $__sKey ) && 0 < $__sKey; $__aField['_index'] = $__sKey; $__aField['input_id'] = $this->_getInputID( $__aField, $__sKey ); $__aField['_input_name'] = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '' ); $__aField['_input_name_flat'] = $this->_getFlatInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '' ); $__aField['_field_container_id'] = "field-{$__aField['input_id']}"; $__aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}"; $__aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}"; $__aField = $this->uniteArrays( $__aField, array( 'attributes' => array( 'id' => $__aField['input_id'], 'name' => $__aField['_input_name'], 'value' => $__aField['value'], 'type' => $__aField['type'], 'disabled' => null, ), ), ( array ) $_aFieldTypeDefinition['aDefaultKeys'] ); $_aFieldAttributes = array( 'id' => $__aField['_field_container_id'], 'data-type' => "{$__aField['type']}", 'class' => "admin-page-framework-field admin-page-framework-field-{$__aField['type']}" . ( $__aField['attributes']['disabled'] ? ' disabled' : '' ) . ( $_bIsSubField ? ' admin-page-framework-subfield' : '' ), ) + $__aField['attributes']['field']; $_aOutput[] = $__aField['before_field'] . "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">" . call_user_func_array( $_aFieldTypeDefinition['hfRenderField'], array( $__aField ) ) . ( ( $sDelimiter = $__aField['delimiter'] ) ? "<div " . $this->generateAttributes( array( 'class' => 'delimiter', 'id' => "delimiter-{$__aField['input_id']}", 'style' => $this->isLastElement( $aFields, $__sKey ) ? "display:none;" : "", ) ) . ">{$sDelimiter}</div>" : "" ) . "</div>" . $__aField['after_field']; } return implode( PHP_EOL, $_aOutput ); } private function _getFinalOutput( array $aField, array $aFieldsOutput, $iFieldsCount ) { $_aFieldsSetAttributes = array( 'id' => 'fieldset-' . $aField['tag_id'], 'class' => 'admin-page-framework-fieldset', 'data-field_id' => $aField['tag_id'], ) + $aField['attributes']['fieldset']; $_aFieldsContainerAttributes = array( 'id' => 'fields-' . $aField['tag_id'], 'class' => 'admin-page-framework-fields' . ( $aField['repeatable'] ? ' repeatable' : '' ) . ( $aField['sortable'] ? ' sortable' : '' ), 'data-type' => $aField['type'], ) + $aField['attributes']['fields']; return $aField['before_fieldset'] . "<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">" . "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">" . $aField['before_fields'] . implode( PHP_EOL, $aFieldsOutput ) . $aField['after_fields'] . "</div>" . $this->_getExtras( $aField, $iFieldsCount ) . "</fieldset>" . $aField['after_fieldset']; } private function _getExtras( $aField, $iFieldsCount ) { $_aOutput = array(); if ( isset( $aField['description'] ) && trim( $aField['description'] ) != '' ) { $_aOutput[] = "<p class='admin-page-framework-fields-description'><span class='description'>{$aField['description']}</span></p>"; } $_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount ); return implode( PHP_EOL, $_aOutput ); } private function _getFieldScripts( $aField, $iFieldsCount ) { $_aOutput = array(); $_aOutput[] = $aField['repeatable'] ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable'] ) : ''; $_aOutput[] = $aField['sortable'] && ( $iFieldsCount > 1 || $aField['repeatable'] ) ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField['tag_id'] ) : ''; return implode( PHP_EOL, $_aOutput ); } private function _getFieldError( $aErrors, $sSectionID, $sFieldID ) { if ( isset( $aErrors[ $sSectionID ], $aErrors[ $sSectionID ][ $sFieldID ] ) && is_array( $aErrors[ $sSectionID ] ) && ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] ) ) { return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $aErrors[ $sSectionID ][ $sFieldID ] . "</span><br />"; } if ( isset( $aErrors[ $sFieldID ] ) && ! is_array( $aErrors[ $sFieldID ] ) ) { return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" . $aErrors[ $sFieldID ] . "</span><br />"; } } protected function _constructFieldsArray( &$aField, &$aOptions ) { $vSavedValue = $this->_getStoredInputFieldValue( $aField, $aOptions ); $aFirstField = array(); $aSubFields = array(); foreach( $aField as $nsIndex => $vFieldElement ) { if ( is_numeric( $nsIndex ) ) $aSubFields[] = $vFieldElement; else $aFirstField[ $nsIndex ] = $vFieldElement; } if ( $aField['repeatable'] ) { foreach( ( array ) $vSavedValue as $iIndex => $vValue ) { if ( $iIndex == 0 ) continue; $aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) ? $aSubFields[ $iIndex - 1 ] : array(); } } foreach( $aSubFields as &$aSubField ) { $aLabel = isset( $aSubField['label'] ) ? $aSubField['label'] : ( isset( $aFirstField['label'] ) ? $aFirstField['label'] : null ); $aSubField = $this->uniteArrays( $aSubField, $aFirstField ); $aSubField['label'] = $aLabel; } $aFields = array_merge( array( $aFirstField ), $aSubFields ); if ( count( $aSubFields ) > 0 || $aField['repeatable'] || $aField['sortable'] ) { foreach( $aFields as $iIndex => &$aThisField ) { $aThisField['_saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null; $aThisField['_is_multiple_fields'] = true; } } else { $aFields[ 0 ]['_saved_value'] = $vSavedValue; $aFields[ 0 ]['_is_multiple_fields'] = false; } unset( $aThisField ); foreach( $aFields as &$aThisField ) { $aThisField['_is_value_set_by_user'] = isset( $aThisField['value'] ); $aThisField['value'] = isset( $aThisField['value'] ) ? $aThisField['value'] : ( isset( $aThisField['_saved_value'] ) ? $aThisField['_saved_value'] : ( isset( $aThisField['default'] ) ? $aThisField['default'] : null ) ); } return $aFields; } private function _getStoredInputFieldValue( $aField, $aOptions ) { switch( $aField['_fields_type'] ) { default: case 'page': case 'page_meta_box': case 'taxonomy': if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' ) return isset( $aOptions[ $aField['field_id'] ] ) ? $aOptions[ $aField['field_id'] ] : null; if ( isset( $aField['_section_index'] ) ) return isset( $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] ) ? $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] : null; return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] ) ? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] : null; case 'post_meta_box': if ( ! isset( $_GET['action'], $_GET['post'] ) ) return null; if ( ! isset( $aField['section_id'] ) || $aField['section_id'] == '_default' ) return get_post_meta( $_GET['post'], $aField['field_id'], true ); $aSectionArray = get_post_meta( $_GET['post'], $aField['section_id'], true ); if ( isset( $aField['_section_index'] ) ) return isset( $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] ) ? $aSectionArray[ $aField['_section_index'] ][ $aField['field_id'] ] : null; return isset( $aSectionArray[ $aField['field_id'] ] ) ? $aSectionArray[ $aField['field_id'] ] : null; } return null; } } endif;if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) : class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility { public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) { $this->aFieldTypeDefinitions = $aFieldTypeDefinitions; $this->aFieldErrors = $aFieldErrors; $this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' ); $this->_loadScripts(); } static private $_bIsLoadedTabPlugin; private function _loadScripts() { if ( self::$_bIsLoadedTabPlugin ) { return; } self::$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) ); } protected function _getAttributes( $aField, $aAttributes=array() ) { $_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() ); if ( $aField['hidden'] ) $_aAttributes['style'] = 'display:none;' . ( isset( $_aAttributes['style'] ) ? $_aAttributes['style'] : '' ); return $this->generateAttributes( $_aAttributes ); } protected function _getFieldTitle( $aField ) { return "<label for='{$aField['field_id']}'>" . "<a id='{$aField['field_id']}'></a>" . "<span title='" . ( strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) ) . "'>" . $aField['title'] . "</span>" . "</label>"; } protected function _mergeDefault( $aField ) { return $this->uniteArrays( $aField, isset( $this->aFieldTypeDefinitions[ $aField['type'] ]['aDefaultKeys'] ) ? $this->aFieldTypeDefinitions[ $aField['type'] ]['aDefaultKeys'] : array() ); } public function _replyToAddRepeatableSectionjQueryPlugin() { static $bIsCalled = false; if ( $bIsCalled ) return; $bIsCalled = true; echo "<script type='text/javascript' class='admin-page-framework-repeatable-sections-plugin'>" . AdminPageFramework_Script_RepeatableSection::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_sections' ), $this->oMsg->__( 'allowed_minimum_number_of_sections' ) ) . "</script>"; } public function _replyToAddTabPlugin() { echo "<script type='text/javascript' class='admin-page-framework-tab-plugin'>" . AdminPageFramework_Script_Tab::getjQueryPlugin() . "</script>"; } } endif;if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) : class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base { public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) { $_aOutput = array(); foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) { $_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ); if ( $_sSectionSet ) $_aOutput[] = "<div " . $this->generateAttributes( array( 'class' => 'admin-page-framework-sectionset', 'id' => "sectionset-{$_sSectionTabSlug}_" . md5( serialize( $_aSections ) ), ) ) . ">" . $_sSectionSet . "</div>"; } return implode( PHP_EOL, $_aOutput ) . $this->_getSectionTabsEnablerScript(); } static private $_bLoadedTabEnablerScript = false; private function _getSectionTabsEnablerScript() { if ( self::$_bLoadedTabEnablerScript ) return ''; self::$_bLoadedTabEnablerScript = true; return "<script type='text/javascript'>
                 jQuery( document ).ready( function() {
                     jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); // the parent element of the ul tag; The ul element holds li tags of titles.
                     // jQuery( '.admin-page-framework-section-tabs-contents' ).tabs(); // the parent element of the ul tag; The ul element holds li tags of titles.
@@ -371,39 +372,39 @@
                     /**
                      * The repeatable field callback for the add event.
                      * 
-                     * @param object node
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param object    node
+                     * @param string    sFieldType      the field type slug
+                     * @param string    sFieldTagID     the field container tag ID
+                     * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
                      */
                     added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
                         
                         /* If it is not the image field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
                                             
                         /* If the uploader buttons are not found, do nothing */
-                        if ( node.find( '.select_image' ).length <= 0 )  return;
+                        if ( node.find( '.select_image' ).length <= 0 ) { return; }
                         
                         /* Remove the value of the cloned preview element - check the value for repeatable sections */
                         var sValue = node.find( 'input' ).first().val();
-                        if ( iCallType !== 1 || ! sValue ) { // if it's not for repeatable sections
+                        if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
                             node.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
                             node.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
                         }
                         
                         /* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
                         var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-                        var iOccurence = iCallType === 1 ? 1 : 0;
+                        var iOccurrence = 1 === iCallType ? 1 : 0;
                         nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
                             var nodeButton = jQuery( this ).find( '.select_image' );     
                             
                             // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {
+                            if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {
                                     
-                                nodeButton.incrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurence );
+                                nodeButton.incrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurrence );
                                 
                             }
                             
@@ -420,36 +421,36 @@
                     /**
                      * The repeatable field callback for the remove event.
                      * 
-                     * @param object    the field container element next to the removed field container.
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param object    oNextFieldContainer     the field container element next to the removed field container.
+                     * @param string    sFieldType              the field type slug
+                     * @param string    sFieldTagID             the field container tag ID
+                     * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
                      */     
-                    removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
+                    removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
                         
                         /* If it is not the color field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
                                             
                         /* If the uploader buttons are not found, do nothing */
-                        if ( oNextFieldConainer.find( '.select_image' ).length <= 0 )  return;     
+                        if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
                         
                         /* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-                        var iOccurence = iCallType === 1 ? 1 : 0; // the occurrence value indicates which part of digit to change 
-                        oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
+                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
+                        oNextFieldContainer.nextAll().andSelf().each( function( iIndex ) {
                             
                             var nodeButton = jQuery( this ).find( '.select_image' );     
                             
                             // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {     
-                                nodeButton.decrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurence );
-                                jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurence );
+                            if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {     
+                                nodeButton.decrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurrence );
+                                jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurrence );
                             }
                             
                             /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
                              * otherwise, the script sets the preview image in the wrong place. */     
                             var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) return true;
+                            if ( nodeImageInput.length <= 0 ) { return true; }
                             
                             var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
                             setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
@@ -460,31 +461,31 @@
                     sorted_fields : function( node, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
                         /* 1. Return if it is not the type. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */     
-                        if ( node.find( '.select_image' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
+                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
+                        if ( node.find( '.select_image' ).length <= 0 ) { return; } /* If the uploader buttons are not found, do nothing */
                         
                         /* 2. Update the Select File button */
                         var iCount = 0;
-                        var iOccurence = iCallType === 1 ? 1 : 0; // the occurrence value indicates which part of digit to change 
+                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
                         node.children( '.admin-page-framework-field' ).each( function() {
                             
                             var nodeButton = jQuery( this ).find( '.select_image' );
                             
                             /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
-                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurence );    
-                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurence );
-                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurence );
+                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
+                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
+                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
                             
                             /* 2-2. Rebuind the uploader script to the button */
                             var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) return true;
+                            if ( nodeImageInput.length <= 0 ) { return true; }
                             setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
     
                             iCount++;
                         });
                     },     
                 });
-            });" . PHP_EOL; } private function _getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) { if ( ! function_exists( 'wp_enqueue_media' ) ) return "
+            });" . PHP_EOL; } private function _getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) { $sThickBoxTitle = esc_js( $sThickBoxTitle ); $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis ); if ( ! function_exists( 'wp_enqueue_media' ) ) return "
                     jQuery( document ).ready( function(){
                         /**
                          * Bind/rebinds the thickbox script the given selector element.
@@ -493,11 +494,11 @@
                         setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
                             jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
                             jQuery( '#select_image_' + sInputID ).click( function() {
-                                var sPressedID = jQuery( this ).attr( 'id' );     
-                                window.sInputID = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-                                window.original_send_to_editor = window.send_to_editor;
-                                window.send_to_editor = hfAPFSendToEditorImage;
-                                var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+                                var sPressedID                  = jQuery( this ).attr( 'id' );     
+                                window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+                                window.original_send_to_editor  = window.send_to_editor;
+                                window.send_to_editor           = hfAPFSendToEditorImage;
+                                var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
                                 tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
                                 return false; // do not click the button after the script by returning false.     
                             });    
@@ -505,26 +506,26 @@
                         
                         var hfAPFSendToEditorImage = function( sRawHTML ) {
 
-                            var sHTML = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-                            var src = jQuery( 'img', sHTML ).attr( 'src' );
-                            var alt = jQuery( 'img', sHTML ).attr( 'alt' );
-                            var title = jQuery( 'img', sHTML ).attr( 'title' );
-                            var width = jQuery( 'img', sHTML ).attr( 'width' );
-                            var height = jQuery( 'img', sHTML ).attr( 'height' );
-                            var classes = jQuery( 'img', sHTML ).attr( 'class' );
-                            var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
-                            var sCaption = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+                            var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+                            var src         = jQuery( 'img', sHTML ).attr( 'src' );
+                            var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
+                            var title       = jQuery( 'img', sHTML ).attr( 'title' );
+                            var width       = jQuery( 'img', sHTML ).attr( 'width' );
+                            var height      = jQuery( 'img', sHTML ).attr( 'height' );
+                            var classes     = jQuery( 'img', sHTML ).attr( 'class' );
+                            var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
+                            var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
                                 .replace( /<a.*?>(.*?)<\/a>/m, '' );
-                            var align = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
-                            var link = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
+                            var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
+                            var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
 
                             // Escape the strings of some of the attributes.
-                            var sCaption = jQuery( '<div/>' ).text( sCaption ).html();
-                            var sAlt = jQuery( '<div/>' ).text( alt ).html();
-                            var title = jQuery( '<div/>' ).text( title ).html();     
+                            var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
+                            var sAlt        = jQuery( '<div/>' ).text( alt ).html();
+                            var title       = jQuery( '<div/>' ).text( title ).html();     
                 
                             // If the user wants to save relevant attributes, set them.
-                            var sInputID = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
+                            var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
                 
                             jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
                             jQuery( '#' + sInputID + '_id' ).val( id );
@@ -554,7 +555,7 @@
                         }
                     });
                 "; return "jQuery( document ).ready( function(){
-
+                
                 // Global Function Literal 
                 /**
                  * Binds/rebinds the uploader button script to the specified element with the given ID.
@@ -562,10 +563,11 @@
                 setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
                     var fEscaped = false; // indicates whether the frame is escaped/canceled.
+                    var custom_uploader;
                     
                     jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_image_' + sInputID ).click( function( e ) {
-                        
+                     
                         // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
                         var sInputID = jQuery( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
                         
@@ -573,25 +575,26 @@
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( custom_uploader ) {
+                        if ( 'object' === typeof custom_uploader ) {
                             custom_uploader.open();
                             return;
                         }     
-                        
+
                         // Store the original select object in a global variable
                         oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
-                        var custom_uploader = wp.media({
-                            title: '{$sThickBoxTitle}',
-                            button: {
+                        custom_uploader = wp.media({
+                            title:      '{$sThickBoxTitle}',
+                            button:     {
                                 text: '{$sThickBoxButtonUseThis}'
                             },
-                            library     : { type : 'image' },
-                            multiple: fMultiple  // Set this to true to allow multiple files to be selected
+                            library:    { type : 'image' },
+                            multiple:   fMultiple,  // Set this to true to allow multiple files to be selected
+                            metadata:   { test : 'testing' },
                         });
-            
+
                         // When the uploader window closes, 
                         custom_uploader.on( 'escape', function() {
                             fEscaped = true;
@@ -679,7 +682,8 @@
                         jQuery( '#image_preview_container_' + sInputID ).show();     
                         
                     }
-                }     
+                }       
+                
             });
             "; } public function _replyToGetStyles() { return "/* Image Field Preview Container */
             .admin-page-framework-field .image_preview {
@@ -991,7 +995,266 @@ vertical-align: top;
                 .admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
                     vertical-align: top; 
                 }
-            " . PHP_EOL; } public function _replyToGetField( $aField ) { return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>" : "" ) . "<input " . $this->generateAttributes( $aField['attributes'] ) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label']; } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_file' ) ) : class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text { public $aFieldTypeSlugs = array( 'file', ); protected $aDefaultKeys = array( 'attributes' => array( 'accept' => 'audio/*|video/*|image/*|MIME_type', ), ); public function _replyToFieldLoader() { } public function _replyToGetScripts() { return ""; } public function _replyToGetStyles() { return ""; } public function _replyToGetField( $aField ) { return parent::_replyToGetField( $aField ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) : class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text { public $aFieldTypeSlugs = array( 'number', 'range' ); protected $aDefaultKeys = array( 'attributes' => array( 'size' => 30, 'maxlength' => 400, 'class' => '', 'min' => '', 'max' => '', 'step' => '', 'readonly' => '', 'required' => '', 'placeholder' => '', 'list' => '', 'autofocus' => '', 'autocomplete' => '', ), ); public function _replyToFieldLoader() { } public function _replyToGetScripts() { return ""; } public function _replyToGetStyles() { return ""; } public function _replyToGetField( $aField ) { return parent::_replyToGetField( $aField ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_textarea' ) ) : class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType_Base { public $aFieldTypeSlugs = array( 'textarea' ); protected $aDefaultKeys = array( 'rich' => false, 'attributes' => array( 'autofocus' => '', 'cols' => 60, 'disabled' => '', 'formNew' => '', 'maxlength' => '', 'placeholder' => '', 'readonly' => '', 'required' => '', 'rows' => 4, 'wrap' => '', ), ); public function _replyToGetStyles() { return "/* Textarea Field Type */
+            " . PHP_EOL; } public function _replyToGetField( $aField ) { return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>" : "" ) . "<input " . $this->generateAttributes( $aField['attributes'] ) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label']; } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_file' ) ) : class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text { public $aFieldTypeSlugs = array( 'file', ); protected $aDefaultKeys = array( 'attributes' => array( 'accept' => 'audio/*|video/*|image/*|MIME_type', ), ); public function _replyToFieldLoader() { } public function _replyToGetScripts() { return ""; } public function _replyToGetStyles() { return ""; } public function _replyToGetField( $aField ) { return parent::_replyToGetField( $aField ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) : class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text { public $aFieldTypeSlugs = array( 'number', 'range' ); protected $aDefaultKeys = array( 'attributes' => array( 'size' => 30, 'maxlength' => 400, 'class' => '', 'min' => '', 'max' => '', 'step' => '', 'readonly' => '', 'required' => '', 'placeholder' => '', 'list' => '', 'autofocus' => '', 'autocomplete' => '', ), ); public function _replyToFieldLoader() { } public function _replyToGetScripts() { return ""; } public function _replyToGetStyles() { return ""; } public function _replyToGetField( $aField ) { return parent::_replyToGetField( $aField ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_textarea' ) ) : class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType_Base { public $aFieldTypeSlugs = array( 'textarea' ); protected $aDefaultKeys = array( 'rich' => false, 'attributes' => array( 'autofocus' => '', 'cols' => 60, 'disabled' => '', 'formNew' => '', 'maxlength' => '', 'placeholder' => '', 'readonly' => '', 'required' => '', 'rows' => 4, 'wrap' => '', ), ); public function _replyToGetScripts() { $_aJSArray = json_encode( $this->aFieldTypeSlugs ); return "
+            jQuery( document ).ready( function(){
+                
+                // Move the link tag into the bottom of the page
+                jQuery( 'link#editor-buttons-css' ).appendTo( '#wpwrap' );
+                
+                /**
+                 * Determines whether the callback is handleable or not.
+                 */
+                var isHandleable = function( oField, sFieldType ) {
+                 
+                    if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) {
+                        return false
+                    }
+                                
+                    // If tinyMCE is not ready, return.
+                    if ( 'object' !== typeof tinyMCEPreInit ){
+                        return;
+                    }
+                                        
+                    return true;
+                    
+                };
+                
+                /**
+                 * Removes the editor by the given textarea ID.
+                 */
+                var removeEditor = function( sTextAreaID ) {
+
+                    if ( 'object' !== typeof tinyMCEPreInit ){
+                        return;
+                    }
+// tinyMCE.execCommand( 'mceFocus', false, sTextAreaID );
+// tinyMCE.execCommand( 'mceRemoveControl', false, sTextAreaID );                    
+                    tinyMCE.execCommand( 'mceRemoveEditor', false, sTextAreaID );
+                    delete tinyMCEPreInit[ 'mceInit' ][ sTextAreaID ];
+                    delete tinyMCEPreInit[ 'qtInit' ][ sTextAreaID ];
+                
+                }
+                
+                jQuery().registerAPFCallback( {				
+					/**
+					 * The repeatable field callback.
+					 * 
+					 * When a repeat event occurs and a field is copied, this method will be triggered.
+					 * 
+					 * @param   object  oCopied     the copied node object.
+					 * @param   string  sFieldType  the field type slug
+					 * @param   string  sFieldTagID the field container tag ID
+					 * @param   integer iCallType   the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 */
+					added_repeatable_field: function( oCopied, sFieldType, sFieldTagID, iCallType ) {
+                                               
+                        if ( ! isHandleable( oCopied, sFieldType ) ) {
+                            return;
+                        }
+                      
+                        /* If the textarea tag is not found, do nothing  */
+                        var oTextAreas = oCopied.find( 'textarea.wp-editor-area' );
+                        if ( oTextAreas.length <= 0 ) {
+                            return;
+                        }                    
+                        
+                        // Find the tinyMCE wrapper element
+                        var oWrap       = oCopied.find( '.wp-editor-wrap' );
+                        if ( oWrap.length <= 0 ) {
+                            return;
+                        }                      
+                                              
+                        // Retrieve the TinyMCE and Quick Tags settings
+                        var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   // the enabler script stores the original element id.
+  
+                        // Increment the ids of the next all (including this copied element) sub-fields.
+                        var iOccurrence          = 1 === iCallType ? 1 : 0;                        
+                        var oFields = oCopied.closest( '.admin-page-framework-field' ).nextAll();
+                        oFields.andSelf().each( function( iIndex ) {
+
+                            var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
+                            if ( oWrap.length <= 0 ) {
+                                return true;
+                            }        
+                            
+                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone()
+                                .show()
+                                .removeAttr( 'aria-hidden' );
+
+                            if ( 0 === oFields.length || 0 === iIndex ) {
+                                oTextArea.val( '' );    // only delete the value of the directly copied one
+                                oTextArea.empty();      // the above use of val( '' ) does not erase the value completely.
+                            } 
+                            var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
+                            var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
+                                   
+                            // Remove the old tinyMCE editor.
+                            tinyMCE.execCommand( 'mceRemoveEditor', true, oTextArea.attr( 'id' ) );
+
+                            // Replace the tinyMCE wrapper with the plain textarea tag element.
+                            oWrap.empty()
+                                .prepend( oEditorContainer.prepend( oTextArea.show() ) )
+                                .prepend( oToolBar );   
+                                 
+                            // Update the settings
+                            var aTMCSettings    = jQuery.extend( 
+                                {}, 
+                                oSettings['TinyMCE'], 
+                                { 
+                                    selector : '#' + oTextArea.attr( 'id' ),
+                                    body_class : oTextArea.attr( 'id' ),
+                                    height: '100px',  
+                                    setup : function( ed ) {    // see: http://www.tinymce.com/wiki.php/API3:event.tinymce.Editor.onChange
+                               
+                                        // It seems for tinyMCE 4 or above the on() method must be used.
+                                        if ( tinymce.majorVersion >= 4 ) {
+                                            ed.on( 'change', function(){                                           
+                                                jQuery( '#' + this.id ).html( this.getContent() );
+                                            });
+                                        } else {
+                                            // For tinyMCE 3.x or below the onChange.add() method needs to be used.
+                                            ed.onChange.add( function( ed, l ) {
+                                                console.debug( ed.id + ' : Editor contents was modified. Contents: ' + l.content);
+                                                jQuery( '#' + ed.id ).html( ed.getContent() );
+                                            });
+                                        }
+                                    },      
+                                }
+                            );   
+                            var aQTSettings     = jQuery.extend( {}, oSettings['QuickTags'], { id : oTextArea.attr( 'id' ) } );    
+                            
+                            // Store the settings.
+                            tinyMCEPreInit.mceInit[ oTextArea.attr( 'id' ) ]   = aTMCSettings;
+                            tinyMCEPreInit.qtInit[ oTextArea.attr( 'id' ) ]    = aQTSettings;
+                            QTags.instances[ aQTSettings.id ] = aQTSettings;
+                            
+                             // Enable quick tags
+                            quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
+                                                  
+                            window.tinymce.dom.Event.domLoaded = true;   
+                            tinyMCE.init( aTMCSettings );
+                            jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
+                                if ( this.id ) {
+                                    window.wpActiveEditor = this.id.slice( 3, -5 );
+                                }
+                            }); 
+                                                  
+                            // The ID attributes of sub-elements are not updated yet
+                            oToolBar.find( 'a,div' ).incrementIDAttribute( 'id', iOccurrence );
+                            jQuery( this ).find( '.wp-editor-wrap a' ).incrementIDAttribute( 'data-editor', iOccurrence );
+                            jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementIDAttribute( 'id', iOccurrence );
+
+                            // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
+                            if ( 0 === iCallType ) {
+                                jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
+                            }
+
+                        });    
+
+					},
+                    
+                    /**
+                     * The repeatable field callback for the remove event.
+                     * 
+                     * @param object    oNextFieldContainer     the field container element next to the removed field container.
+                     * @param string    sFieldType              the field type slug
+                     * @param string    sFieldTagID             the removed field container tag ID
+                     * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     */     
+                    removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
+
+                        if ( ! isHandleable( oNextFieldContainer, sFieldType ) ) {
+                            return;
+                        }  
+
+                        // Find the tinyMCE wrapper element
+                        var oWrap       = oNextFieldContainer.find( '.wp-editor-wrap' );
+                        if ( oWrap.length <= 0 ) {
+     
+                            // Remove the old one from the internal tinyMCE setting object.
+                            removeEditor( sFieldTagID.substring( 6 ) );              
+                            return;
+                            
+                        }
+                        
+                        // Retrieve the TinyMCE and Quick Tags settings
+                        var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   // the enabler script stores the original element id.
+
+                        // Increment the ids of the next all (including this copied element) sub-fields.
+                        var iOccurrence = 1 === iCallType ? 1 : 0;                        
+                        oNextFieldContainer.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function( iIndex ) {
+
+                            var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
+                            if ( oWrap.length <= 0 ) {                       
+                                return true;
+                            }        
+                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone()
+                                .show()
+                                .removeAttr( 'aria-hidden' );
+                            var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
+                            var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
+                            var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
+                            
+                            // Remove the editor which is assigned to the newly decremented ID if exists and the old assigned editor.
+                            removeEditor( oTextAreaPrevious.attr( 'id' ) );
+                            removeEditor( oTextArea.attr( 'id' ) );
+
+                            // Replace the tinyMCE wrapper with the plain textarea tag element.
+                            oWrap.empty()
+                                .prepend( oEditorContainer.prepend( oTextArea.show() ) )
+                                .prepend( oToolBar );   
+                                
+                            // Update the settings
+                            var aTMCSettings    = jQuery.extend( {}, oSettings['TinyMCE'], { selector : '#' + oTextArea.attr( 'id' ), body_class : oTextArea.attr( 'id' ), height: '100px', } );   
+                            var aQTSettings     = jQuery.extend( {}, oSettings['QuickTags'], { id : oTextArea.attr( 'id' ) } );    
+
+                            // Store the settings.
+                            window.tinymce.dom.Event.domLoaded = true; 
+                            tinyMCEPreInit.mceInit[ oTextArea.attr( 'id' ) ]   = aTMCSettings;  
+                            tinyMCEPreInit.qtInit[ oTextArea.attr( 'id' ) ]    = aQTSettings;
+                            QTags.instances[ aQTSettings.id ] = aQTSettings;
+                            
+                            // Enable quick tags
+                            quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
+                                  
+                            // Initialize TinyMCE
+                            tinyMCE.init( aTMCSettings );
+                            jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
+                                if ( this.id ) {
+                                    window.wpActiveEditor = this.id.slice( 3, -5 );
+                                }
+                            }); 
+                                           
+                            // The ID attributes of sub-elements are not updated yet
+                            oToolBar.find( 'a,div' ).decrementIDAttribute( 'id', iOccurrence );
+                            jQuery( this ).find( '.wp-editor-wrap a' ).decrementIDAttribute( 'data-editor', iOccurrence );
+                            jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).decrementIDAttribute( 'id', iOccurrence );
+
+                            // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
+                            if ( 0 === iCallType ) {
+                                jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
+                            }
+                            
+                            // If this is called for repeatable section, handle only the first iteration as the rest will be also called one by one.
+                            if ( 1 === iCallType ) {
+                                return false;   
+                            }
+
+                        });                            
+                        
+                    },
+                    sorted_fields : function( oSorted, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+
+                        /* 1. Return if it is not the type. */
+                        if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) { return; }
+                        if ( oSorted.find( '.select_image' ).length <= 0 )  { return;  }
+                   
+                    },   
+
+					
+				});	        
+            });
+        "; } public function _replyToGetStyles() { return "/* Textarea Field Type */
             .admin-page-framework-field-textarea .admin-page-framework-input-label-string {
                 vertical-align: top;
                 margin-top: 2px;
@@ -1003,12 +1266,24 @@ vertical-align: top;
             .admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {
                 vertical-align: top; 
             } 
-            
-        " . PHP_EOL; } public function _replyToGetField( $aField ) { return "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>" : "" ) . $this->_getEditor( $aField ) . "<div class='repeatable-field-buttons'></div>" . $aField['after_input'] . "</label>" . "</div>" ; } private function _getEditor( $aField ) { if ( empty( $aField['rich'] ) || ! version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) || ! function_exists( 'wp_editor' ) ) { return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" . $aField['value'] . "</textarea>"; } ob_start(); wp_editor( $aField['value'], $aField['attributes']['id'], $this->uniteArrays( ( array ) $aField['rich'], array( 'wpautop' => true, 'media_buttons' => true, 'textarea_name' => $aField['attributes']['name'], 'textarea_rows' => $aField['attributes']['rows'], 'tabindex' => '', 'tabfocus_elements' => ':prev,:next', 'editor_css' => '', 'editor_class' => $aField['attributes']['class'], 'teeny' => false, 'dfw' => false, 'tinymce' => true, 'quicktags' => true ) ) ); $_sContent = ob_get_contents(); ob_end_clean(); return $_sContent . $this->_getScriptForRichEditor( $aField['attributes']['id'] ); } private function _getScriptForRichEditor( $sIDSelector ) { return "<script type='text/javascript'>
-                jQuery( '#wp-{$sIDSelector}-wrap' ).hide();
+        " . PHP_EOL; } public function _replyToGetField( $aField ) { return "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ( $aField['label'] && ! $aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>" : "" ) . $this->_getEditor( $aField ) . "<div class='repeatable-field-buttons'></div>" . $aField['after_input'] . "</label>" . "</div>" ; } private function _getEditor( $aField ) { unset( $aField['attributes']['value'] ); if ( empty( $aField['rich'] ) || ! version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) || ! function_exists( 'wp_editor' ) ) { return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" . $aField['value'] . "</textarea>"; } ob_start(); wp_editor( $aField['value'], $aField['attributes']['id'], $this->uniteArrays( ( array ) $aField['rich'], array( 'wpautop' => true, 'media_buttons' => true, 'textarea_name' => $aField['attributes']['name'], 'textarea_rows' => $aField['attributes']['rows'], 'tabindex' => '', 'tabfocus_elements' => ':prev,:next', 'editor_css' => '', 'editor_class' => $aField['attributes']['class'], 'teeny' => false, 'dfw' => false, 'tinymce' => true, 'quicktags' => true ) ) ); $_sContent = ob_get_contents(); ob_end_clean(); return $_sContent . $this->_getScriptForRichEditor( $aField['attributes']['id'] ); } private function _getScriptForRichEditor( $sIDSelector ) { return "<script type='text/javascript' class='admin-page-framework-textarea-enabler'>
                 jQuery( document ).ready( function() {
-                    jQuery( '#wp-{$sIDSelector}-wrap' ).appendTo( '#field-{$sIDSelector}' );
-                    jQuery( '#wp-{$sIDSelector}-wrap' ).show();
+                                        
+                    // Store the textarea tag ID to be referred by the repeatable routines.
+                    jQuery( '#wp-{$sIDSelector}-wrap' ).attr( 'data-id', '{$sIDSelector}' );    // store the id
+                    if ( 'object' !== typeof tinyMCEPreInit ){ 
+                        return; 
+                    }
+                    
+                    // Store the settings.
+                    jQuery().storeAPFInputOptions( 
+                        '{$sIDSelector}', 
+                        { 
+                            TinyMCE: tinyMCEPreInit.mceInit[ '{$sIDSelector}' ], 
+                            QuickTags: tinyMCEPreInit.qtInit[ '{$sIDSelector}' ],
+                        } 
+                    );
+                                        
                 })
             </script>"; } } endif;if ( ! class_exists( 'AdminPageFramework_HelpPane_MetaBox' ) ) : class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Base { function __construct( $oProp ) { parent::__construct( $oProp ); if ( $oProp->bIsAdminAjax ) { return; } add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabTextForMetaBox' ) ); } public function _addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) { $this->oProp->aHelpTabText[] = "<div class='contextual-help-description'>" . $sHTMLContent . "</div>"; $this->oProp->aHelpTabTextSide[] = "<div class='contextual-help-description'>" . $sHTMLSidebarContent . "</div>"; } public function _addHelpTextForFormFields( $sFieldTitle, $sHelpText, $sHelpTextSidebar="" ) { $this->_addHelpText( "<span class='contextual-help-tab-title'>" . $sFieldTitle . "</span> - " . PHP_EOL . $sHelpText, $sHelpTextSidebar ); } public function _replyToRegisterHelpTabTextForMetaBox() { if ( ! $this->_isInThePage() ) return false; $this->_setHelpTab( $this->oProp->sMetaBoxID, $this->oProp->sTitle, $this->oProp->aHelpTabText, $this->oProp->aHelpTabTextSide ); } protected function _isInThePage() { if ( ! $this->oProp->bIsAdmin ) return false; if ( ! in_array( $this->oProp->sPageNow, array( 'post.php', 'post-new.php' ) ) ) { return false; } if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) { return false; } return true; } } endif;if ( ! class_exists( 'AdminPageFramework_HelpPane_Page' ) ) : class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base { protected static $_aStructure_HelpTabUserArray = array( 'page_slug' => null, 'page_tab_slug' => null, 'help_tab_title' => null, 'help_tab_id' => null, 'help_tab_content' => null, 'help_tab_sidebar_content' => null, ); function __construct( $oProp ) { parent::__construct( $oProp ); if ( $oProp->bIsAdminAjax ) { return; } add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 ); } public function _replyToRegisterHelpTabs() { $sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : ''; $sCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProp->aDefaultInPageTabs[ $sCurrentPageSlug ] ) ? $this->oProp->aDefaultInPageTabs[ $sCurrentPageSlug ] : '' ); if ( empty( $sCurrentPageSlug ) ) return; if ( ! $this->oProp->isPageAdded( $sCurrentPageSlug ) ) return; foreach( $this->oProp->aHelpTabs as $aHelpTab ) { if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) continue; if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentPageTabSlug != $aHelpTab['sPageTabSlug'] ) continue; $this->_setHelpTab( $aHelpTab['sID'], $aHelpTab['sTitle'], $aHelpTab['aContent'], $aHelpTab['aSidebar'] ); } } public function _addHelpTab( $aHelpTab ) { $aHelpTab = ( array ) $aHelpTab + self::$_aStructure_HelpTabUserArray; if ( ! isset( $this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ] ) ) { $this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ] = array( 'sID' => $aHelpTab['help_tab_id'], 'sTitle' => $aHelpTab['help_tab_title'], 'aContent' => ! empty( $aHelpTab['help_tab_content'] ) ? array( $this->_formatHelpDescription( $aHelpTab['help_tab_content'] ) ) : array(), 'aSidebar' => ! empty( $aHelpTab['help_tab_sidebar_content'] ) ? array( $this->_formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ) ) : array(), 'sPageSlug' => $aHelpTab['page_slug'], 'sPageTabSlug' => $aHelpTab['page_tab_slug'], ); return; } if ( ! empty( $aHelpTab['help_tab_content'] ) ) $this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aContent'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_content'] ); if ( ! empty( $aHelpTab['help_tab_sidebar_content'] ) ) $this->oProp->aHelpTabs[ $aHelpTab['help_tab_id'] ]['aSidebar'][] = $this->_formatHelpDescription( $aHelpTab['help_tab_sidebar_content'] ); } } endif;if ( ! class_exists( 'AdminPageFramework_FieldType_posttype' ) ) : class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox { public $aFieldTypeSlugs = array( 'posttype', ); protected $aDefaultKeys = array( 'slugs_to_remove' => null, 'attributes' => array( 'size' => 30, 'maxlength' => 400, ), ); protected $aDefaultRemovingPostTypeSlugs = array( 'revision', 'attachment', 'nav_menu_item', ); public function _replyToFieldLoader() { } public function _replyToGetScripts() { return ""; } public function _replyToGetStyles() { return "/* Posttype Field Type */
             .admin-page-framework-field input[type='checkbox'] {
@@ -1113,7 +1388,7 @@ vertical-align: top;
                     },
                     
                 });
-            });" . PHP_EOL; } private function _getScript_MediaUploader( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) { if ( ! function_exists( 'wp_enqueue_media' ) ) return "
+            });" . PHP_EOL; } private function _getScript_MediaUploader( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) { $sThickBoxTitle = esc_js( $sThickBoxTitle ); $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis ); if ( ! function_exists( 'wp_enqueue_media' ) ) return "
                     jQuery( document ).ready( function(){
                         
                         /**
@@ -1163,7 +1438,8 @@ vertical-align: top;
                 setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
                     var fEscaped = false;
-                        
+                    var media_uploader;
+                    
                     jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_media_' + sInputID ).click( function( e ) {
                 
@@ -1174,7 +1450,7 @@ vertical-align: top;
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( media_uploader ) {
+                        if ( 'object' === typeof media_uploader ) {
                             media_uploader.open();
                             return;
                         }     
@@ -1184,12 +1460,13 @@ vertical-align: top;
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
-                        var media_uploader = wp.media({
-                            title: '{$sThickBoxTitle}',
-                            button: {
+                        media_uploader = wp.media({
+                            title:      '{$sThickBoxTitle}',
+                            button:     {
                                 text: '{$sThickBoxButtonUseThis}'
                             },
-                            multiple: fMultiple  // Set this to true to allow multiple files to be selected
+                            multiple:   fMultiple, // Set this to true to allow multiple files to be selected
+                            metadata:   {},
                         });
             
                         // When the uploader window closes, 
@@ -1612,7 +1889,7 @@ vertical-align: top;
             var updateID = function( iIndex, sID, bIncrement, bFirstOccurence ) {
                 if ( typeof sID === 'undefined' ) return sID;
                 var sNeedlePrefix = ( typeof bFirstOccurence === 'undefined' ) || ! bFirstOccurence ? '(.+)': '(.+?)';
-                var sNeedle = new RegExp( sNeedlePrefix + '__(\\\d+)(?=(_|$))' ); // triple escape - not sure why but on a separate test script, double escape was working
+                var sNeedle = new RegExp( sNeedlePrefix + '__(\\\d+)(?=([_-]|$))' ); // triple escape - not sure why but on a separate test script, double escape was working
                 return sID.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
                     if ( bIncrement === 1 )
                         return m0 + '__' + ( Number( m1 ) + 1 );
@@ -1639,6 +1916,21 @@ vertical-align: top;
                 });
             }
                 
+        }( jQuery ));"; } } endif;if ( ! class_exists( 'AdminPageFramework_Script_OptionStorage' ) ) : class AdminPageFramework_Script_OptionStorage { static public function getjQueryPlugin() { return "(function ( $ ) {
+            
+            $.fn.aAPFInputOptions = {}; 
+                                    
+            $.fn.storeAPFInputOptions = function( sID, vOptions ) {
+                var sID = sID.replace( /__\d+_/, '___' );	// remove the section index. The g modifier is not used so it will replace only the first occurrence.
+                $.fn.aAPFInputOptions[ sID ] = vOptions;
+            };	
+            $.fn.getAPFInputOptions = function( sID ) {
+                var sID = sID.replace( /__\d+_/, '___' ); // remove the section index
+                return ( 'undefined' === typeof $.fn.aAPFInputOptions[ sID ] )
+                    ? null
+                    : $.fn.aAPFInputOptions[ sID ];
+            }
+  
         }( jQuery ));"; } } endif;if ( ! class_exists( 'AdminPageFramework_Script_RegisterCallback' ) ) : class AdminPageFramework_Script_RegisterCallback { static public function getjQueryPlugin() { return "(function ( $ ) {
                         
             // The method that gets triggered when a repeatable field add button is pressed.
@@ -1842,12 +2134,12 @@ vertical-align: top;
                 /* Remove the field */
                 nodeFieldContainer.remove();
                 
-                /* 
+                /** 
                  * Call the registered callback functions
                  * 
                  * @since 3.0.0
                  * @since 3.1.0 Changed it to do after removing the element and passing the next field element to the first parameter of the callback.
-                 * */
+                 */
                 oNextField.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );    
                 
                 /* Count the remaining Remove buttons and if it is one, disable the visibility of it */
@@ -2041,8 +2333,19 @@ vertical-align: top;
                     return;     
                 }     
                 
+                /** 
+                 * Call the registered callback functions
+                 * 
+                 * @since 3.0.0
+                 * @since 3.1.6 Changed it to do after removing the element.
+                 */                
+                var oNextAllSections = nodeSectionContainer.nextAll();
+                
+                /* Remove the field */
+                nodeSectionContainer.remove();
+                
                 /* Decrement the names and ids of the next following siblings. */
-                nodeSectionContainer.nextAll().each( function() {
+                oNextAllSections.each( function() {
                     
                     decrementAttributes( this );
                     
@@ -2053,8 +2356,7 @@ vertical-align: top;
                     
                 });
             
-                /* Remove the field */
-                nodeSectionContainer.remove();
+
                 
                 /* For tabbed sections - remove the title tab list */
                 if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 ) {
