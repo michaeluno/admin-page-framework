@@ -160,17 +160,19 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                     body_class : oTextArea.attr( 'id' ),
                                     height: '100px',  
                                     setup : function( ed ) {    // see: http://www.tinymce.com/wiki.php/API3:event.tinymce.Editor.onChange
-                                        
+                               
                                         // It seems for tinyMCE 4 or above the on() method must be used.
-                                        ed.on( 'change', function(){                                           
-                                            jQuery( '#' + this.id ).html( this.getContent() );
-                                        });
-                                        
-                                        // For tinyMCE 3.x or below the onChange.add() method needs to be used.
-                                        // ed.onChange.add( function( ed, l ) {
-                                            // console.debug( ed.id + ' : Editor contents was modified. Contents: ' + l.content);
-                                            // jQuery( '#' + ed.id ).html( ed.getContent() );
-                                        // });
+                                        if ( tinymce.majorVersion >= 4 ) {
+                                            ed.on( 'change', function(){                                           
+                                                jQuery( '#' + this.id ).html( this.getContent() );
+                                            });
+                                        } else {
+                                            // For tinyMCE 3.x or below the onChange.add() method needs to be used.
+                                            ed.onChange.add( function( ed, l ) {
+                                                console.debug( ed.id + ' : Editor contents was modified. Contents: ' + l.content);
+                                                jQuery( '#' + ed.id ).html( ed.getContent() );
+                                            });
+                                        }
                                     },      
                                 }
                             );   
@@ -183,8 +185,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             
                              // Enable quick tags
                             quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
-                            
-console.log( 'initializing' );                            
+                                                  
                             window.tinymce.dom.Event.domLoaded = true;   
                             tinyMCE.init( aTMCSettings );
                             jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
@@ -192,19 +193,19 @@ console.log( 'initializing' );
                                     window.wpActiveEditor = this.id.slice( 3, -5 );
                                 }
                             }); 
-console.log( 'initialized' );                                                          
+                                                  
                             // The ID attributes of sub-elements are not updated yet
                             oToolBar.find( 'a,div' ).incrementIDAttribute( 'id', iOccurrence );
                             jQuery( this ).find( '.wp-editor-wrap a' ).incrementIDAttribute( 'data-editor', iOccurrence );
                             jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementIDAttribute( 'id', iOccurrence );
-console.log( 'going to click the tab' );
+
                             // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
                             if ( 0 === iCallType ) {
                                 jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
                             }
-console.log( 'end of iteration' );
+
                         });    
-console.log( 'done' );                              
+
 					},
                     
                     /**
@@ -226,9 +227,7 @@ console.log( 'done' );
                         if ( oWrap.length <= 0 ) {
      
                             // Remove the old one from the internal tinyMCE setting object.
-                            removeEditor( sFieldTagID.substring( 6 ) );
-
-console.log( tinyMCEPreInit );                            
+                            removeEditor( sFieldTagID.substring( 6 ) );              
                             return;
                             
                         }
@@ -241,8 +240,7 @@ console.log( tinyMCEPreInit );
                         oNextFieldContainer.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function( iIndex ) {
 
                             var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
-                            if ( oWrap.length <= 0 ) {
-console.log( 'No editor wrapper found' );                                
+                            if ( oWrap.length <= 0 ) {                       
                                 return true;
                             }        
                             var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone()
@@ -252,8 +250,6 @@ console.log( 'No editor wrapper found' );
                             var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
                             var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
                             
-console.log( 'renewing textarea id: ' + oTextArea.attr( 'id' ) );
-console.log( 'previous textarea id: ' +  oTextAreaPrevious.attr( 'id' ) );
                             // Remove the editor which is assigned to the newly decremented ID if exists and the old assigned editor.
                             removeEditor( oTextAreaPrevious.attr( 'id' ) );
                             removeEditor( oTextArea.attr( 'id' ) );
@@ -277,9 +273,7 @@ console.log( 'previous textarea id: ' +  oTextAreaPrevious.attr( 'id' ) );
                             quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
                                   
                             // Initialize TinyMCE
-console.log( 'number of editors: ' + tinymce.editors.length );
                             tinyMCE.init( aTMCSettings );
-console.log( 'number of editors (after initializing): ' + tinymce.editors.length );                            
                             jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
                                 if ( this.id ) {
                                     window.wpActiveEditor = this.id.slice( 3, -5 );
@@ -302,7 +296,6 @@ console.log( 'number of editors (after initializing): ' + tinymce.editors.length
                             }
 
                         });                            
-console.log( tinyMCEPreInit );
                         
                     },
                     sorted_fields : function( oSorted, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
