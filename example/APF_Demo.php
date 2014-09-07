@@ -274,157 +274,157 @@ class APF_Demo extends AdminPageFramework {
         $this->addSettingFields(
             'text_fields',
             array( // Single text field
-                'field_id' => 'text',
-                // 'section_id' => 'text_fields', // can be omitted as it is set previously
-                'title' => __( 'Text', 'admin-page-framework-demo' ),
-                'description' => __( 'Type something here. This text is inserted with the <code>description</code> key in the field definition array.', 'admin-page-framework-demo' ),
-                'help' => __( 'This is a text field and typed text will be saved. This text is inserted with the <code>help</code> key in the field definition array.', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'order' => 1, // ( optional )
-                'default' => 123456,
-                'attributes' => array(
+                'field_id'          => 'text',
+                // 'section_id'     => 'text_fields', // can be omitted as it is set previously
+                'title'             => __( 'Text', 'admin-page-framework-demo' ),
+                'description'       => __( 'Type something here. This text is inserted with the <code>description</code> key in the field definition array.', 'admin-page-framework-demo' ),
+                'help'              => __( 'This is a text field and typed text will be saved. This text is inserted with the <code>help</code> key in the field definition array.', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'order'             => 1, // ( optional )
+                'default'           => 123456,
+                'attributes'        => array(
                     'size' => 40,
                 ),
             ),    
             array( // Password Field
-                'field_id' => 'password',
-                'title' => __( 'Password', 'admin-page-framework-demo' ),
-                'tip' => __( 'This input will be masked.', 'admin-page-framework-demo' ),
-                'type' => 'password',
-                'help' => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ), //'
-                'attributes' => array(
+                'field_id'          => 'password',
+                'title'             => __( 'Password', 'admin-page-framework-demo' ),
+                'tip'               => __( 'This input will be masked.', 'admin-page-framework-demo' ),
+                'type'              => 'password',
+                'help'              => __( 'This is a password type field; the user\'s entered input will be masked.', 'admin-page-framework-demo' ), //'
+                'attributes'        => array(
                     'size' => 20,
                 ),
-                'description' => __( 'The entered characters will be masked.', 'admin-page-framework-demo' ),
+                'description'       => __( 'The entered characters will be masked.', 'admin-page-framework-demo' ),
             ),     
             array( // Read-only
-                'field_id' => 'read_only_text',
-                'title' => __( 'Read Only', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'attributes' => array(
-                    'size' => 20,
-                    'readonly' => 'ReadOnly',
+                'field_id'          => 'read_only_text',
+                'title'             => __( 'Read Only', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'attributes'        => array(
+                    'size'          => 20,
+                    'readonly'      => 'ReadOnly',
                     // 'disabled' => 'Disabled', // disabled can be specified like so
                 ),
-                'value' => __( 'This is a read-only value.', 'admin-page-framework-demo' ),
-                'description' => __( 'The attribute can be set with the <code>attributes</code> key.', 'admin-page-framework-demo' ),
+                'value'             => __( 'This is a read-only value.', 'admin-page-framework-demo' ),
+                'description'       => __( 'The attribute can be set with the <code>attributes</code> key.', 'admin-page-framework-demo' ),
             ),     
             array( // Number Field
-                'field_id' => 'number',
-                'title' => __( 'Number', 'admin-page-framework-demo' ),
-                'type' => 'number',
+                'field_id'          => 'number',
+                'title'             => __( 'Number', 'admin-page-framework-demo' ),
+                'type'              => 'number',
             ),     
             array( // Multiple text fields
-                'field_id' => 'text_multiple',
-                'title' => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-                'help' => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'default' => 'Hello World',
-                'label' => 'First Item: ',
-                'attributes' => array(
+                'field_id'          => 'text_multiple',
+                'title'             => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
+                'help'              => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'default'           => 'Hello World',
+                'label'             => 'First Item: ',
+                'attributes'        => array(
                     'size' => 20,     
                 ),
-                'capability' => 'manage_options',     
-                'delimiter' => '<br />',
+                'capability'        => 'manage_options',     
+                'delimiter'         => '<br />',
                 array(
-                    'default' => 'Foo bar',
-                    'label' => 'Second Item: ',
-                    'attributes' => array(
+                    'default'       => 'Foo bar',
+                    'label'         => 'Second Item: ',
+                    'attributes'    => array(
                         'size' => 40,
                     )
                 ),
                 array(
-                    'default' => 'Yes, we can',
-                    'label' => 'Third Item: ',
-                    'attributes' => array(
+                    'default'       => 'Yes, we can',
+                    'label'         => 'Third Item: ',
+                    'attributes'    => array(
                         'size' => 60,
                     )
                 ),     
-                'description' => __( 'These are multiple text fields. To include multiple input fields associated with one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
+                'description'       => __( 'These are multiple text fields. To include multiple input fields associated with one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
             ),     
             array( // Repeatable text fields
-                'field_id' => 'text_repeatable',
-                'title' => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'default' => 'a',
-                'capability' => 'manage_options',
-                'repeatable' => array(
+                'field_id'          => 'text_repeatable',
+                'title'             => __( 'Repeatable Text Fields', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'default'           => 'a',
+                'capability'        => 'manage_options',
+                'repeatable'        => array(
                     'max' => 10,
                     'min' => 3,
                 ),
-                'description' => __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> key to true.', 'admin-page-framework-demo' )
+                'description'       => __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> key to true.', 'admin-page-framework-demo' )
                     . __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> keys in the repeatable field setting array.' ),
             ),     
             array( // Sortable text fields
-                'field_id' => 'text_sortable',
-                'title' => __( 'Sortable Text Fields', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'default' => 'a',
-                'label' => __( 'Sortable Item', 'admin-page-framework-demo' ),
-                'sortable' =>    true,
-                'description' => __( 'Drag and drop the fields to change the order.', 'admin-page-framework-demo' ),
+                'field_id'          => 'text_sortable',
+                'title'             => __( 'Sortable Text Fields', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'default'           => 'a',
+                'label'             => __( 'Sortable Item', 'admin-page-framework-demo' ),
+                'sortable'          =>    true,
+                'description'       => __( 'Drag and drop the fields to change the order.', 'admin-page-framework-demo' ),
                 array(
-                    'default' => 'b',
+                    'default'       => 'b',
                 ),
                 array(
-                    'default' => 'c',
+                    'default'       => 'c',
                 ),     
                 array(
-                    'label' => __( 'Disabled Item', 'admin-page-framework-demo' ),
-                    'default' => 'd',
-                    'attributes' => array(
+                    'label'         => __( 'Disabled Item', 'admin-page-framework-demo' ),
+                    'default'       => 'd',
+                    'attributes'    => array(
                         'disabled' => 'Disabled',
                     ),
                 ),     
-                'delimiter' => '<br />',
+                'delimiter'     => '<br />',
             ),    
             array( // Sortable + Repeatable text fields
-                'field_id' => 'text_repeatable_and_sortable',
-                'title' => __( 'Repeatable & Sortable', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'repeatable' =>    true,
-                'sortable' =>    true,
+                'field_id'      => 'text_repeatable_and_sortable',
+                'title'         => __( 'Repeatable & Sortable', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'repeatable'    => true,
+                'sortable'      => true,
             ),     
             array( // Text Area
-                'field_id' => 'textarea',
-                'title' => __( 'Single Text Area', 'admin-page-framework-demo' ),
-                'description' => __( 'Type a text string here.', 'admin-page-framework-demo' ),
-                'type' => 'textarea',
-                'default' => __( 'Hello World! This is set as the default string.', 'admin-page-framework-demo' ),
-                'attributes' => array(
+                'field_id'      => 'textarea',
+                'title'         => __( 'Single Text Area', 'admin-page-framework-demo' ),
+                'description'   => __( 'Type a text string here.', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'default'       => __( 'Hello World! This is set as the default string.', 'admin-page-framework-demo' ),
+                'attributes'    => array(
                     'rows' => 6,
                     'cols' => 60,
                 ),
             ),
             array( // Repeatable Text Areas
-                'field_id' => 'textarea_repeatable',
-                'title' => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
-                'type' => 'textarea',
-                'repeatable' => array(
+                'field_id'      => 'textarea_repeatable',
+                'title'         => __( 'Repeatable Text Areas', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'repeatable'    => array(
                     'max' => 20,
                     'min' => 2,
                 ),
-                'attributes' => array(
+                'attributes'    => array(
                     'rows' => 3,
                     'cols' => 60,
                 ),
-                'description' => __( 'Currently the repeatable field functionality is not supported for the rich text editor.', 'admin-page-framework-demo' ),
+                'description'   => __( 'Currently the repeatable field functionality is not supported for the rich text editor.', 'admin-page-framework-demo' ),
             ),     
             array( // Sortable Text Areas
-                'field_id' => 'textarea_sortable',
-                'title' => __( 'Sortable', 'admin-page-framework-demo' ),
-                'type' => 'textarea',
-                'sortable' =>    true,
-                'label' => __( 'Sortable Item', 'admin-page-framework-demo' ),
+                'field_id'      => 'textarea_sortable',
+                'title'         => __( 'Sortable', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'sortable'      =>    true,
+                'label'         => __( 'Sortable Item', 'admin-page-framework-demo' ),
                 array(), // the second item
                 array(), // the third item
             ),     
             array( // Rich Text Editors
-                'field_id' => 'rich_textarea',
-                'title' => __( 'Rich Text Area', 'admin-page-framework-demo' ),
-                'type' => 'textarea',
-                'rich' =>    true, // just pass non empty value to enable the rich editor.
-                'attributes' => array(
+                'field_id'      => 'rich_textarea',
+                'title'         => __( 'Rich Text Area', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'rich'          =>    true, // just pass non empty value to enable the rich editor.
+                'attributes'    => array(
                     'field' => array(
                         'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
                     ),
@@ -433,39 +433,46 @@ class APF_Demo extends AdminPageFramework {
                     // pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
                     'rich' => array( 
                         'media_buttons' => false, 
-                        'tinymce' => false
+                        'tinymce'       => false
                     ),    
                 ),
             ),     
             array( // Multiple text areas
-                'field_id' => 'textarea_multiple',
-                'title' => __( 'Multiple Text Areas', 'admin-page-framework-demo' ),
-                'description' => __( 'These are multiple text areas.', 'admin-page-framework-demo' ),
-                'type' => 'textarea',
-                'label' => __( 'First Text Area: ', 'admin-page-framework-demo' ),
-                'default' => __( 'The first default text.', 'admin-page-framework-demo' ),
-                'delimiter' => '<br />',
-                'attributes' => array(
+                'field_id'      => 'textarea_multiple',
+                'title'         => __( 'Multiple Text Areas', 'admin-page-framework-demo' ),
+                'description'   => __( 'These are multiple text areas.', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'label'         => __( 'First Text Area: ', 'admin-page-framework-demo' ),
+                'default'       => __( 'The first default text.', 'admin-page-framework-demo' ),
+                'delimiter'     => '<br />',
+                'attributes'    => array(
                     'rows' => 5,
                     'cols' => 60,
                 ),
                 array(
-                    'label' => __( 'Second Text Area: ', 'admin-page-framework-demo' ),
-                    'default' => __( 'The second default text. See the background color is different from the others. This is done with the attributes key.', 'admin-page-framework-demo' ),
-                    'attributes' => array(
-                        'rows' => 3,
-                        'cols' => 40,
+                    'label'         => __( 'Second Text Area: ', 'admin-page-framework-demo' ),
+                    'default'       => __( 'The second default text. See the background color is different from the others. This is done with the attributes key.', 'admin-page-framework-demo' ),
+                    'attributes'    => array(
+                        'rows'  => 3,
+                        'cols'  => 40,
                         'style' => 'background-color: #F0F8FA;' // this changes the style of the textarea tag.
                     ),     
                 ),
                 array(
-                    'label' => __( 'Third Text Area: ', 'admin-page-framework-demo' ),
-                    'default' => __( 'The third default text.', 'admin-page-framework-demo' ),
-                    'attributes' => array(
+                    'label'         => __( 'Third Text Area: ', 'admin-page-framework-demo' ),
+                    'default'       => __( 'The third default text.', 'admin-page-framework-demo' ),
+                    'attributes'    => array(
                         'rows' => 2,
                         'cols' => 20,
                     ),     
                 ),    
+            ),
+            array( // Repeatable TinyMCE Text Editor [3.1.6+]
+                'field_id'      => 'rich_textarea',
+                'title'         => __( 'Rich Text Area', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'rich'          => true,
+                'repeatable'    => true,
             )
         );
         
@@ -496,7 +503,7 @@ class APF_Demo extends AdminPageFramework {
                 'help' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
                 'type' => 'select',
                 'is_multiple' =>    true,
-                'default' => 3, // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array..
+                'default' => 3, // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array.
                 'size' => 10,    
                 'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
                 'description' => __( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
@@ -1437,14 +1444,14 @@ class APF_Demo extends AdminPageFramework {
                 'repeatable' =>    true,
                 'sortable' =>    true,
             ),     
-            array(
-                'field_id'      => 'textarea_in_tabbed_sections_in_repeatable_sections',
-                'title'         => __( 'Textarea', 'admin-page-framework-demo' ),
-                'type'          => 'textarea',
-                'rich'          => true,
-                'repeatable'    => true,
+            // array(
+                // 'field_id'      => 'textarea_in_tabbed_sections_in_repeatable_sections',
+                // 'title'         => __( 'Textarea', 'admin-page-framework-demo' ),
+                // 'type'          => 'textarea',
+                // 'rich'          => true,
+                // 'repeatable'    => true,
                 // 'sortable'   => true,
-            ),               
+            // ),               
             array()
         );     
     
