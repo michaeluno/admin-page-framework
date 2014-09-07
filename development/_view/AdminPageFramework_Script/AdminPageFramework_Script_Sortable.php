@@ -111,14 +111,11 @@ class AdminPageFramework_Script_Sortable {
                     { items: '> div:not( .disabled )', } // the options for the sortable plugin
                 ).bind( 'sortupdate', function() {
                     
-                    /* Rename the ids and names */
-                    var nodeFields = $( this ).children( 'div' );
-                    var iCount = 1;
-                    var iMaxCount = nodeFields.length;
+                    // Reverse is needed for radio buttons since they loose the selections when updating the IDs
+                    var oFields = $( this ).children( 'div' ).reverse();
+                    oFields.each( function( iIterationIndex ) { 
 
-                    $( $( this ).children( 'div' ).reverse() ).each( function() { // reverse is needed for radio buttons since they loose the selections when updating the IDs
-
-                        var iIndex = ( iMaxCount - iCount );
+                        var iIndex = oFields.length - iIterationIndex - 1;
                         $( this ).setIndexIDAttribute( 'id', iIndex );
                         $( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
                         $( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
@@ -127,18 +124,22 @@ class AdminPageFramework_Script_Sortable {
                         /* Radio buttons loose their selections when IDs and names are updated, so reassign them */
                         $( this ).find( 'input[type=radio]' ).each( function() {    
                             var sAttr = $( this ).prop( 'checked' );
-                            if ( typeof sAttr !== 'undefined' && sAttr !== false) 
+                            if ( 'undefined' !== typeof sAttr && false !== sAttr ) {
                                 $( this ).attr( 'checked', 'Checked' );
+                            } 
                         });
                             
-                        iCount++;
                     });
                     
                     /* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
                     $( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );    
                     
                     /* Callback the registered functions */
-                    $( this ).callBackSortedFields( $( this ).data( 'type' ), $( this ).attr( 'id' ) );
+                    $( this ).callBackSortedFields( 
+                        $( this ).data( 'type' ),
+                        $( this ).attr( 'id' ),
+                        0  // call type 0: fields, 1: sections
+                    );
                     
                 });                 
             
