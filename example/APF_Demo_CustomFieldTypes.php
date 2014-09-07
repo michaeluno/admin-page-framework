@@ -7,7 +7,24 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
      * Alternatively you may use the 'start_{instantiated class name}()' method instead, which also called at the end of the constructor.
      * 
      */
-    public function start() {}
+    public function start() {
+        
+        // For the font custom field type.
+        add_filter( 'upload_mimes', array( $this, 'replyToFilterUploadMimes' ) );
+        
+    }
+		/**
+		 * This allows several file types to be uploaded with the WordPress media uploader.
+		 */
+		public function replyToFilterUploadMimes( $aMimes ) {			            
+			$aMimes[ 'eot' ]    = 'application/vnd.ms-fontobject';
+			$aMimes[ 'ttf' ]    = 'application/x-font-ttf';
+			$aMimes[ 'otf' ]    = 'font/opentype';
+			$aMimes[ 'woff' ]   = 'application/font-woff';
+			$aMimes[ 'svg' ]    = 'image/svg+xml';
+			return $aMimes;						
+		}
+    
 
     /*
      * ( Required ) In the setUp() method, you will define pages.

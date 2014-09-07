@@ -139,7 +139,6 @@ class APF_Demo_Readme extends AdminPageFramework {
         $_aChangeLog = $this->oWPReadMe->parse_readme( dirname( APFDEMO_FILE ) . '/changelog.md' );
         echo $_aChangeLog['sections']['changelog'];
     
-    }
-        
+    }        
 
 }

@@ -8,6 +8,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
      * Alternatively, the 'start_{instantiated class name}' hook can be used.
      */
     public function start() {}
+
     
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.
