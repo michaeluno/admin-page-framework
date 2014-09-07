@@ -27,9 +27,13 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 		),	
 	);
 
+    /**
+     * The user constructor.
+     * 
+     * @remark  This must be instantiated also in in ...wp-admin/async-upload.php to modify the allowed mime types.
+     */
 	function construct() {
 			
-        // @todo: this is not working as of v3.1.x (not sure which one exactly) as this is not loaded in ...wp-admin/async-upload.php.
 		add_filter( 'upload_mimes', array( $this, 'replyToFilterUploadMimes' ) );
 
 	}

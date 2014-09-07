@@ -9,22 +9,51 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
      */
     public function start() {
         
-        // For the font custom field type.
-        add_filter( 'upload_mimes', array( $this, 'replyToFilterUploadMimes' ) );
+        /*
+         * ( Optional ) Register custom field types.
+         */     
+        /* 1. Include the file that defines the custom field type. */
+        $_sPluginDirName = dirname( APFDEMO_FILE );
+        $_aFiles = array(
+            $_sPluginDirName . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
+            $_sPluginDirName . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
+            $_sPluginDirName . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+            $_sPluginDirName . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
+            $_sPluginDirName . '/third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php',
+            $_sPluginDirName . '/third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php',
+            $_sPluginDirName . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+            $_sPluginDirName . '/third-party/font-custom-field-type/FontCustomFieldType.php',
+            $_sPluginDirName . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
+            $_sPluginDirName . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
+            $_sPluginDirName . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
+            $_sPluginDirName . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',     
+            $_sPluginDirName . '/third-party/link-custom-field-type/LinkCustomFieldType.php',     
+            $_sPluginDirName . '/third-party/system-custom-field-type/SystemCustomFieldType.php',
+        );
+        foreach( $_aFiles as $_sFilePath ) {
+            if ( file_exists( $_sFilePath ) ) {     
+                include( $_sFilePath );
+            }
+        }
+                    
+        /* 2. Instantiate the classes by passing the instantiated admin page class name. */
+        $_sClassName = get_class( $this );
+        new DateCustomFieldType( $_sClassName );
+        new TimeCustomFieldType( $_sClassName );
+        new DateTimeCustomFieldType( $_sClassName );
+        new DateRangeCustomFieldType( $_sClassName );
+        new DateTimeRangeCustomFieldType( $_sClassName );
+        new TimeRangeCustomFieldType( $_sClassName );
+        new DialCustomFieldType( $_sClassName );
+        new FontCustomFieldType( $_sClassName );
+        new SampleCustomFieldType( $_sClassName );
+        new RevealerCustomFieldType( $_sClassName );
+        new GridCustomFieldType( $_sClassName );
+        new AutocompleteCustomFieldType( $_sClassName );     
+        new LinkCustomFieldType( $_sClassName );     
+        new SystemCustomFieldType( $_sClassName );     
         
-    }
-		/**
-		 * This allows several file types to be uploaded with the WordPress media uploader.
-		 */
-		public function replyToFilterUploadMimes( $aMimes ) {			            
-			$aMimes[ 'eot' ]    = 'application/vnd.ms-fontobject';
-			$aMimes[ 'ttf' ]    = 'application/x-font-ttf';
-			$aMimes[ 'otf' ]    = 'font/opentype';
-			$aMimes[ 'woff' ]   = 'application/font-woff';
-			$aMimes[ 'svg' ]    = 'image/svg+xml';
-			return $aMimes;						
-		}
-    
+    }    
 
     /*
      * ( Required ) In the setUp() method, you will define pages.
@@ -120,50 +149,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             ),                 
             array()     
         );    
-        
-        /*
-         * ( Optional ) Register custom field types.
-         */     
-        /* 1. Include the file that defines the custom field type. */
-        $_aFiles = array(
-            dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateRangeCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/font-custom-field-type/FontCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/sample-custom-field-type/SampleCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/revealer-custom-field-type/RevealerCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
-            dirname( APFDEMO_FILE ) . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',     
-            dirname( APFDEMO_FILE ) . '/third-party/link-custom-field-type/LinkCustomFieldType.php',     
-            dirname( APFDEMO_FILE ) . '/third-party/system-custom-field-type/SystemCustomFieldType.php',
-        );
-        foreach( $_aFiles as $_sFilePath ) {
-            if ( file_exists( $_sFilePath ) ) {     
-                include( $_sFilePath );
-            }
-        }
-                    
-        /* 2. Instantiate the classes by passing the instantiated admin page class name. */
-        $_sClassName = get_class( $this );
-        new DateCustomFieldType( $_sClassName );
-        new TimeCustomFieldType( $_sClassName );
-        new DateTimeCustomFieldType( $_sClassName );
-        new DateRangeCustomFieldType( $_sClassName );
-        new DateTimeRangeCustomFieldType( $_sClassName );
-        new TimeRangeCustomFieldType( $_sClassName );
-        new DialCustomFieldType( $_sClassName );
-        new FontCustomFieldType( $_sClassName );
-        new SampleCustomFieldType( $_sClassName );
-        new RevealerCustomFieldType( $_sClassName );
-        new GridCustomFieldType( $_sClassName );
-        new AutocompleteCustomFieldType( $_sClassName );     
-        new LinkCustomFieldType( $_sClassName );     
-        new SystemCustomFieldType( $_sClassName );     
-        
+                
         /*
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
          * A section groups fields and fields belong to a section. So a section needs to be created prior to fields.
