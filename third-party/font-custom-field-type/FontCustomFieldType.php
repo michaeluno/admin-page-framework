@@ -29,6 +29,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 
 	function construct() {
 			
+        // @todo: this is not working as of v3.1.x (not sure which one exactly) as this is not loaded in ...wp-admin/async-upload.php.
 		add_filter( 'upload_mimes', array( $this, 'replyToFilterUploadMimes' ) );
 
 	}
@@ -36,8 +37,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 		 * This allows several file types to be uploaded with the WordPress media uploader.
 		 * 
 		 */
-		public function replyToFilterUploadMimes( $aMimes ) {
-AdminPageFramework_Debug::log( $aMimes );					            
+		public function replyToFilterUploadMimes( $aMimes ) {			            
 			$aMimes[ 'eot' ]    = 'application/vnd.ms-fontobject';
 			$aMimes[ 'ttf' ]    = 'application/x-font-ttf';
 			$aMimes[ 'otf' ]    = 'font/opentype';
