@@ -115,12 +115,14 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 // It seems for tinyMCE 4 or above the on() method must be used.
                                 if ( tinymce.majorVersion >= 4 ) {
                                     ed.on( 'change', function(){                                           
+                                        jQuery( '#' + this.id ).val( this.getContent() );
                                         jQuery( '#' + this.id ).html( this.getContent() );
                                     });
                                 } else {
                                     // For tinyMCE 3.x or below the onChange.add() method needs to be used.
                                     ed.onChange.add( function( ed, l ) {
                                         // console.debug( ed.id + ' : Editor contents was modified. Contents: ' + l.content);
+                                        jQuery( '#' + ed.id ).val( ed.getContent() );
                                         jQuery( '#' + ed.id ).html( ed.getContent() );
                                     });
                                 }
@@ -279,19 +281,15 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 return true;    // continue
                             }        
                             
-                            // Store the original textarea value as jQuery has a bug that it looses textarea values when the element is cloned.
-                            var oTextAreaOriginal   = jQuery( this ).find( 'textarea.wp-editor-area' ).first();
-                            var oTextArea           = oTextAreaOriginal.clone().show().removeAttr( 'aria-hidden' );
-                            oTextArea.val( oTextAreaOriginal.val() );
+                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().show().removeAttr( 'aria-hidden' );
                             var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
                             var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
                             var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
-
+                            
                             // Replace the tinyMCE wrapper with the plain textarea tag element.
                             oWrap.empty()
                                 .prepend( oEditorContainer.prepend( oTextArea.show() ) )
                                 .prepend( oToolBar );   
-
 
                             // Remove the editor which is assigned to the newly decremented ID if exists and the old assigned editor.
                             if ( 0 === iIndex ) {
