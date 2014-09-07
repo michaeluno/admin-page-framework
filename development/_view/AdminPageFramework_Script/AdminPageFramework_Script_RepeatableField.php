@@ -175,7 +175,13 @@ class AdminPageFramework_Script_RepeatableField {
                  * @since 3.0.0
                  * @since 3.1.0 Changed it to do after removing the element and passing the next field element to the first parameter of the callback.
                  */
-                oNextField.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ), 0, 0, 0 );    
+                oNextField.callBackRemoveRepeatableField( 
+                    nodeFieldContainer.data( 'type' ), 
+                    nodeFieldContainer.attr( 'id' ), 
+                    0,  // call type 0: fields, 1: sections
+                    0,  // section index
+                    0   // field index
+                );    
                 
                 /* Count the remaining Remove buttons and if it is one, disable the visibility of it */
                 var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove' );
