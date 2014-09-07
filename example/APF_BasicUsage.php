@@ -25,7 +25,7 @@ class APF_BasicUsage extends AdminPageFramework {
         $this->setPageHeadingTabsVisibility( true ); // disables the page heading tabs by passing false.
 
     }    
-    
+
     /**
      * Do page specific settings.
      */
@@ -35,7 +35,7 @@ class APF_BasicUsage extends AdminPageFramework {
             plugins_url( 'asset/css/code.css', APFDEMO_FILE ), // a url can be used as well
             'apf_second_page'
         );     
-        
+
     }
     
     /**
