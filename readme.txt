@@ -3,7 +3,7 @@ Contributors: Michael Uno, miunosoft, pcraig3
 Donate link: http://michaeluno.jp/en/donate
 Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
 Requires at least: 3.3
-Tested up to: 3.9.2
+Tested up to: 4.0
 Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -433,7 +433,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.1.6 =
 - Added the `stopped_sorting_fields` JavaScript hook for field type that supports sortable fields.
 - Added support of repeatable and sortable rich text editor of the `textarea` field type except quick tags.
-- Added an example of download button in the demo plugin.
+- Added an example of a download button in the demo plugin.
 - Added the `system` custom field type.
 - Changed the timing of the `removed_repeatable_field` callback for sections from before removing the section to after removing it.
 - Fixed a compatibility issue with WordPress 4.0 for the media modal frame.
