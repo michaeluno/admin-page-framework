@@ -83,7 +83,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                         return;
                     }
                  
-                    // Store the previous texatrea value
+                    // Store the previous texatrea value. jQuery has a bug that val() for <textarea> does not work for cloned element. @see: http://bugs.jquery.com/ticket/3016
                     var oTextArea       = jQuery( '#' + sTextAreaID );
                     var sTextAreaValue  = oTextArea.val();
                     
@@ -198,8 +198,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                               
                         // Retrieve the TinyMCE and Quick Tags settings
                         var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   // the enabler script stores the original element id.
-  
-                        // Increment the ids of the next all (including this copied element) sub-fields.
+
+                        // Update the TinyMCE editor and Quick Tags bar and increment the ids of the next all (including this copied element) sub-fields.
                         var iOccurrence          = 1 === iCallType ? 1 : 0;                        
                         var oFieldsNextAll = oCopied.closest( '.admin-page-framework-field' ).nextAll();
                         oFieldsNextAll.andSelf().each( function( iIndex ) {
@@ -209,9 +209,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 return true;
                             }        
                             
-                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first()
-                                .show()
-                                .removeAttr( 'aria-hidden' );
+                            // Cloning is needed here as repeatable sections does not work with the original element for unknown reasons.
+                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone().show().removeAttr( 'aria-hidden' );
 
                             if ( shouldEmpty( iCallType, iIndex, oFieldsNextAll.length, iSectionIndex ) ) {
                                 oTextArea.val( '' );    // only delete the value of the directly copied one
@@ -225,7 +224,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 .prepend( oEditorContainer.prepend( oTextArea.show() ) )
                                 .prepend( oToolBar );   
 
-                            // Update the editor
+                            // Update the editor. For repeatable sections, remove the previously assigned editor.                        
                             removeEditor( oTextArea.attr( 'id' ) );
                             updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
                                                   
@@ -238,6 +237,11 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             if ( 0 === iCallType ) {
                                 jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
                             }
+                            
+                            // If this is called for a repeatable section, handle only the first iteration as the rest will be also called one by one.
+                            if ( 1 === iCallType ) {
+                                return false;   // break
+                            }                            
 
                         });    
 
@@ -308,7 +312,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
                             }
                             
-                            // If this is called for repeatable section, handle only the first iteration as the rest will be also called one by one.
+                            // If this is called for a repeatable section, handle only the first iteration as the rest will be also called one by one.
                             if ( 1 === iCallType ) {
                                 return false;   // break
                             }
@@ -354,7 +358,6 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().show().removeAttr( 'aria-hidden' );
                             var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
                             var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
-                            var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
                             
                             // Replace the tinyMCE wrapper with the plain textarea tag element.
                             oWrap.empty()
