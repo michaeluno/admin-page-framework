@@ -209,7 +209,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 return true;
                             }        
                             
-                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone()
+                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first()
                                 .show()
                                 .removeAttr( 'aria-hidden' );
 
@@ -317,7 +317,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                         
                     },
                     /**
-                     * The repeatable field callback for the remove event.
+                     * The sortable field callback for the sort update event.
                      * 
                      * On contrary to repeatable fields callbacks, the _fields_ container element object and its ID will be passed.
                      * 
@@ -325,19 +325,16 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                      * @param string    sFieldType      the field type slug
                      * @param string    sFieldTagID     the field container tag ID
                      * @param integer   iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */                     
-                    sorted_fields : function( oSortedFields, sFieldType, sFieldsTagID, iCallType ) { 
+                     */
+                    stopped_sorting_fields : function( oSortedFields, sFieldType, sFieldsTagID, iCallType ) { 
 
                         if ( ! isHandleable( oSortedFields, sFieldType ) ) {
                             return;
                         }                     
-// console.log( oSorted.attr( 'id' ) );
-// console.log( oSorted );
                         
                         // Update the editor.
-                        var iCount = 0;
                         var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
-                        oSortedFields.children( '.admin-page-framework-field' ).each( function() {
+                        oSortedFields.children( '.admin-page-framework-field' ).each( function( iIndex ) {
                                                         
                             /* If the textarea tag is not found, do nothing  */
                             var oTextAreas = jQuery( this ).find( 'textarea.wp-editor-area' );
@@ -354,28 +351,30 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             // Retrieve the TinyMCE and Quick Tags settings. The enabler script stores the original element id.
                             var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   
       
-console.log( jQuery( this ).attr( 'id' ) );
-
-
-return true;
+                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().show().removeAttr( 'aria-hidden' );
+                            var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
+                            var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
+                            var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
                             
-                            /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
-                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
-                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
-                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
-                            
-                            /* 2-2. Rebuind the uploader script to the button */
-                            var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) { return true; }
-                            setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
-    
-                            iCount++;
+                            // Replace the tinyMCE wrapper with the plain textarea tag element.
+                            oWrap.empty()
+                                .prepend( oEditorContainer.prepend( oTextArea.show() ) )
+                                .prepend( oToolBar );   
+
+                            removeEditor( oTextArea.attr( 'id' ) );
+                            updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
+
+                            // The ID attributes of sub-elements are not updated yet
+                            oToolBar.find( 'a,div' ).setIndexIDAttribute( 'id', iIndex, iOccurrence );
+                            jQuery( this ).find( '.wp-editor-wrap a' ).setIndexIDAttribute( 'data-editor', iIndex, iOccurrence );
+                            jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).setIndexIDAttribute( 'id', iIndex, iOccurrence );
+
+                            // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
+                            jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
+                                                                                
                         });
                         
-
                     },   
-                    
-
 					
 				});	        
             });

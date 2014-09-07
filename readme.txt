@@ -432,7 +432,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.1.6 =
 - Added the `stopped_sorting_fields` JavaScript hook for field type that supports sortable fields.
-- Added support of repeatable rich text editor of the `textarea` field type except quick tags.
+- Added support of repeatable and sortable rich text editor of the `textarea` field type except quick tags.
 - Added an example of download button in the demo plugin.
 - Added the `system` custom field type.
 - Changed the timing of the `removed_repeatable_field` callback for sections from before removing the section to after removing it.
