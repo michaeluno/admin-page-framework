@@ -436,6 +436,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added an example of a download button in the demo plugin.
 - Added the `system` custom field type.
 - Changed the timing of the `removed_repeatable_field` callback for sections from before removing the section to after removing it.
+- Tweaked the styling of switchable tabs of tabbed sections to remove dotted outlines when focused or activated which occur in FireFox.
 - Fixed a compatibility issue with WordPress 4.0 for the media modal frame.
 
 = 3.1.5 - 2014/08/31 =
