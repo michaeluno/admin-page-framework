@@ -107,10 +107,20 @@ class AdminPageFramework_Script_Sortable {
                     : this;
                 
                 oTarget.unbind( 'sortupdate' );
-                oTarget.sortable(
+                var oSortable = oTarget.sortable(
                     { items: '> div:not( .disabled )', } // the options for the sortable plugin
-                ).bind( 'sortupdate', function() {
-                    
+                );
+                oSortable.bind( 'sortstop', function() {
+console.log( 'sort stopped' );                  
+                    /* Callback the registered functions */
+                    $( this ).callBackStoppedSortingFields( 
+                        $( this ).data( 'type' ),
+                        $( this ).attr( 'id' ),
+                        0  // call type 0: fields, 1: sections
+                    );  
+                });
+                oSortable.bind( 'sortupdate', function() {
+console.log( 'sorted' );
                     // Reverse is needed for radio buttons since they loose the selections when updating the IDs
                     var oFields = $( this ).children( 'div' ).reverse();
                     oFields.each( function( iIterationIndex ) { 
