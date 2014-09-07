@@ -54,7 +54,9 @@ class AdminPageFramework_Script_RegisterCallback {
                 var nodeThis = this;
                 if ( ! $.fn.aAPFSortedFieldsCallbacks ) $.fn.aAPFSortedFieldsCallbacks = [];
                 $.fn.aAPFSortedFieldsCallbacks.forEach( function( hfCallback ) {
-                    if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID, iCallType );
+                    if ( jQuery.isFunction( hfCallback ) ) { 
+                        hfCallback( nodeThis, sFieldType, sID, iCallType ); 
+                    }
                 });
             };
             
