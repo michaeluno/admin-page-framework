@@ -28,20 +28,24 @@ class AdminPageFramework_Script_RegisterCallback {
         return "(function ( $ ) {
                         
             // The method that gets triggered when a repeatable field add button is pressed.
-            $.fn.callBackAddRepeatableField = function( sFieldType, sID, iCallType ) {
-                var nodeThis = this;
+            $.fn.callBackAddRepeatableField = function( sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ) {
+                var oThisNode = this;
                 if ( ! $.fn.aAPFAddRepeatableFieldCallbacks ) $.fn.aAPFAddRepeatableFieldCallbacks = [];
                 $.fn.aAPFAddRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-                    if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID, iCallType );
+                    if ( jQuery.isFunction( hfCallback ) ) { 
+                        hfCallback( oThisNode, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ); 
+                    }
                 });
             };
             
             // The method that gets triggered when a repeatable field remove button is pressed.
-            $.fn.callBackRemoveRepeatableField = function( sFieldType, sID, iCallType ) {
-                var nodeThis = this;
+            $.fn.callBackRemoveRepeatableField = function( sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ) {
+                var oThisNode = this;
                 if ( ! $.fn.aAPFRemoveRepeatableFieldCallbacks ) $.fn.aAPFRemoveRepeatableFieldCallbacks = [];
                 $.fn.aAPFRemoveRepeatableFieldCallbacks.forEach( function( hfCallback ) {
-                    if ( jQuery.isFunction( hfCallback ) ) hfCallback( nodeThis, sFieldType, sID, iCallType );
+                    if ( jQuery.isFunction( hfCallback ) ) { 
+                        hfCallback( oThisNode, sFieldType, sID, iCallType, iSectionIndex. iFieldIndex );
+                    }
                 });
             };
 

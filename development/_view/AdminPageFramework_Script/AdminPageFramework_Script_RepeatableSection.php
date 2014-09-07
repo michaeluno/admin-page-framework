@@ -104,18 +104,18 @@ class AdminPageFramework_Script_RepeatableSection {
                 nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );    
                 
                 /* Iterate each section and increment the names and ids of the next following siblings. */
-                nodeSectionContainer.nextAll().each( function() {
+                nodeSectionContainer.nextAll().each( function( iSectionIndex ) {
                     
                     incrementAttributes( this );
                     
                     /* Iterate each field one by one */
-                    $( this ).find( '.admin-page-framework-field' ).each( function() {    
+                    $( this ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
                     
                         /* Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields. */
                         $( this ).updateAPFRepeatableFields();
                                                     
                         /* Call the registered callback functions */
-                        $( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
+                        $( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1, iSectionIndex, iFieldIndex );
                         
                     });     
                     
@@ -215,18 +215,16 @@ class AdminPageFramework_Script_RepeatableSection {
                 nodeSectionContainer.remove();
                 
                 /* Decrement the names and ids of the next following siblings. */
-                oNextAllSections.each( function() {
+                oNextAllSections.each( function( iSectionIndex ) {
                     
                     decrementAttributes( this );
                     
                     /* Call the registered callback functions */
-                    $( this ).find( '.admin-page-framework-field' ).each( function() {    
-                        $( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1 );
+                    $( this ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
+                        $( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1, iSectionIndex, iFieldIndex );
                     });     
                     
                 });
-            
-
                 
                 /* For tabbed sections - remove the title tab list */
                 if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 ) {

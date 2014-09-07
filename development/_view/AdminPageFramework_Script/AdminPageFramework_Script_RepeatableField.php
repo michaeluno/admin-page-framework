@@ -39,7 +39,7 @@ class AdminPageFramework_Script_RepeatableField {
                 $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-max', aOptions['max'] );
                 $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-min', aOptions['min'] );
                 
-                /* The Add button behaviour - if the tag id is given, multiple buttons will be selected. 
+                /* The Add button behavior - if the tag id is given, multiple buttons will be selected. 
                  * Otherwise, a field node is given and single button will be selected. */
                 $( nodeThis ).find( '.repeatable-field-add' ).unbind( 'click' );
                 $( nodeThis ).find( '.repeatable-field-add' ).click( function() {
@@ -47,7 +47,7 @@ class AdminPageFramework_Script_RepeatableField {
                     return false; // will not click after that
                 });
                 
-                /* The Remove button behaviour */
+                /* The Remove button behavior */
                 $( nodeThis ).find( '.repeatable-field-remove' ).unbind( 'click' );
                 $( nodeThis ).find( '.repeatable-field-remove' ).click( function() {
                     $( this ).removeAPFRepeatableField();
@@ -122,7 +122,7 @@ class AdminPageFramework_Script_RepeatableField {
                 nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );    
                 
                 /* Call the registered callback functions */
-                nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ) );     
+                nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ), 0, 0, 0 );     
                 
                 /* If more than one fields are created, show the Remove button */
                 var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove' );
@@ -146,10 +146,11 @@ class AdminPageFramework_Script_RepeatableField {
                     var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
                     var sMessage = $( this ).formatPrintText( '{$sCannotRemoveMore}', sMinNumberOfFields );
                     var nodeMessage = $( '<span class=\"repeatable-error\" id=\"repeatable-error-' + sFieldsContainerID + '\" style=\"float:right;color:red;margin-left:1em;\">' + sMessage + '</span>' );
-                    if ( nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).length > 0 )
+                    if ( nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).length > 0 ) {
                         nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).replaceWith( nodeMessage );
-                    else
+                    } else {
                         nodeLastRepeaterButtons.before( nodeMessage );
+                    }
                     nodeMessage.delay( 2000 ).fadeOut( 1000 );
                     return;     
                 }     
@@ -174,11 +175,11 @@ class AdminPageFramework_Script_RepeatableField {
                  * @since 3.0.0
                  * @since 3.1.0 Changed it to do after removing the element and passing the next field element to the first parameter of the callback.
                  */
-                oNextField.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ) );    
+                oNextField.callBackRemoveRepeatableField( nodeFieldContainer.data( 'type' ), nodeFieldContainer.attr( 'id' ), 0, 0, 0 );    
                 
                 /* Count the remaining Remove buttons and if it is one, disable the visibility of it */
                 var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove' );
-                if ( nodeRemoveButtons.length == 1 ) nodeRemoveButtons.css( 'display', 'none' );
+                if ( 1 === nodeRemoveButtons.length ) { nodeRemoveButtons.css( 'display', 'none' ); }
                     
             };
                 
