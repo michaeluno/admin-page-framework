@@ -231,6 +231,11 @@ abstract class AdminPageFramework_Property_Base {
             text-decoration: none;
             color: #464646;
             vertical-align: inherit; /* for Firefox - without this tiny dots appear */
+            outline: 0; /* for FireFox - remove dotted outline */
+        }        
+        .admin-page-framework-section-tab.nav-tab a:focus { 
+            /* For FireFox - remove dotted outline when a switchable tab is activated */
+            box-shadow: none;
         }
         .admin-page-framework-section-tab.nav-tab.active a {
             color: #000;
