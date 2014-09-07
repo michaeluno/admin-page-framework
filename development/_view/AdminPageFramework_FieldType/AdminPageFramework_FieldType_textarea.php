@@ -82,12 +82,85 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                     if ( 'object' !== typeof tinyMCEPreInit ){
                         return;
                     }
-// tinyMCE.execCommand( 'mceFocus', false, sTextAreaID );
-// tinyMCE.execCommand( 'mceRemoveControl', false, sTextAreaID );                    
+                 
+                    // Store the previous texatrea value
+                    var oTextArea       = jQuery( '#' + sTextAreaID );
+                    var sTextAreaValue  = oTextArea.val();
+                    
+                    // Delete the rich editor. Somehow this deletes the value of the textarea tag in some occasions.
                     tinyMCE.execCommand( 'mceRemoveEditor', false, sTextAreaID );
                     delete tinyMCEPreInit[ 'mceInit' ][ sTextAreaID ];
                     delete tinyMCEPreInit[ 'qtInit' ][ sTextAreaID ];
+                    
+                    // Restore the previous textarea value
+                    oTextArea.val( sTextAreaValue );
                 
+                }
+                
+                /**
+                 * Updates the editor
+                 * 
+                 * @param   string  sTextAreaID     The textarea element ID without the sharp mark(#).
+                 */
+                var updateEditor = function( sTextAreaID, oTinyMCESettings, oQickTagSettings ) {
+                
+                    var aTMCSettings    = jQuery.extend( 
+                        {}, 
+                        oTinyMCESettings, 
+                        { 
+                            selector:       '#' + sTextAreaID,
+                            body_class:     sTextAreaID,
+                            height:         '100px',  
+                            setup :         function( ed ) {    // see: http://www.tinymce.com/wiki.php/API3:event.tinymce.Editor.onChange
+                                // It seems for tinyMCE 4 or above the on() method must be used.
+                                if ( tinymce.majorVersion >= 4 ) {
+                                    ed.on( 'change', function(){                                           
+                                        jQuery( '#' + this.id ).html( this.getContent() );
+                                    });
+                                } else {
+                                    // For tinyMCE 3.x or below the onChange.add() method needs to be used.
+                                    ed.onChange.add( function( ed, l ) {
+                                        // console.debug( ed.id + ' : Editor contents was modified. Contents: ' + l.content);
+                                        jQuery( '#' + ed.id ).html( ed.getContent() );
+                                    });
+                                }
+                            },      
+                        }
+                    );   
+                    var aQTSettings     = jQuery.extend( {}, oQickTagSettings, { id : sTextAreaID } );    
+                    
+                    // Store the settings.
+                    tinyMCEPreInit.mceInit[ sTextAreaID ]   = aTMCSettings;
+                    tinyMCEPreInit.qtInit[ sTextAreaID ]    = aQTSettings;
+                    QTags.instances[ aQTSettings.id ]       = aQTSettings;
+                    
+                     // Enable quick tags
+                    quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
+                                          
+                    window.tinymce.dom.Event.domLoaded = true;   
+                    tinyMCE.init( aTMCSettings );
+                    jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
+                        if ( this.id ) {
+                            window.wpActiveEditor = this.id.slice( 3, -5 );
+                        }
+                    }); 
+                
+                    
+                }
+                
+                /**
+                 * Decides whether the textarea element should be empty.
+                 */
+                var shouldEmpty = function( iCallType, iIndex, iCountNextAll, iSectionIndex ) {
+
+                    // For repeatable fields,
+                    if ( 0 === iCallType ) {
+                       return ( 0 === iCountNextAll || 0 === iIndex )
+                    }
+
+                    // At this point, this is for repeatable sections. In this case, only the first iterated section should empty the fields.
+                    return ( 0 === iSectionIndex );
+                    
                 }
                 
                 jQuery().registerAPFCallback( {				
@@ -96,12 +169,14 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 					 * 
 					 * When a repeat event occurs and a field is copied, this method will be triggered.
 					 * 
-					 * @param   object  oCopied     the copied node object.
-					 * @param   string  sFieldType  the field type slug
-					 * @param   string  sFieldTagID the field container tag ID
-					 * @param   integer iCallType   the caller type. 1 : repeatable sections. 0 : repeatable fields.
+					 * @param   object  oCopied         the copied node object.
+					 * @param   string  sFieldType      the field type slug
+					 * @param   string  sFieldTagID     the field container tag ID
+					 * @param   integer iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.\
+                     * @param   integer iSectionIndex   the section index. For repeatable fields, it will be always 0
+                     * @param   integer iFieldIndex     the field index. For repeatable fields, it will be always 0.
 					 */
-					added_repeatable_field: function( oCopied, sFieldType, sFieldTagID, iCallType ) {
+					added_repeatable_field: function( oCopied, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
                                                
                         if ( ! isHandleable( oCopied, sFieldType ) ) {
                             return;
@@ -124,8 +199,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
   
                         // Increment the ids of the next all (including this copied element) sub-fields.
                         var iOccurrence          = 1 === iCallType ? 1 : 0;                        
-                        var oFields = oCopied.closest( '.admin-page-framework-field' ).nextAll();
-                        oFields.andSelf().each( function( iIndex ) {
+                        var oFieldsNextAll = oCopied.closest( '.admin-page-framework-field' ).nextAll();
+                        oFieldsNextAll.andSelf().each( function( iIndex ) {
 
                             var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
                             if ( oWrap.length <= 0 ) {
@@ -136,63 +211,21 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 .show()
                                 .removeAttr( 'aria-hidden' );
 
-                            if ( 0 === oFields.length || 0 === iIndex ) {
+                            if ( shouldEmpty( iCallType, iIndex, oFieldsNextAll.length, iSectionIndex ) ) {
                                 oTextArea.val( '' );    // only delete the value of the directly copied one
                                 oTextArea.empty();      // the above use of val( '' ) does not erase the value completely.
                             } 
                             var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
                             var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
                                    
-                            // Remove the old tinyMCE editor.
-                            tinyMCE.execCommand( 'mceRemoveEditor', true, oTextArea.attr( 'id' ) );
-
                             // Replace the tinyMCE wrapper with the plain textarea tag element.
                             oWrap.empty()
                                 .prepend( oEditorContainer.prepend( oTextArea.show() ) )
                                 .prepend( oToolBar );   
-                                 
-                            // Update the settings
-                            var aTMCSettings    = jQuery.extend( 
-                                {}, 
-                                oSettings['TinyMCE'], 
-                                { 
-                                    selector : '#' + oTextArea.attr( 'id' ),
-                                    body_class : oTextArea.attr( 'id' ),
-                                    height: '100px',  
-                                    setup : function( ed ) {    // see: http://www.tinymce.com/wiki.php/API3:event.tinymce.Editor.onChange
-                               
-                                        // It seems for tinyMCE 4 or above the on() method must be used.
-                                        if ( tinymce.majorVersion >= 4 ) {
-                                            ed.on( 'change', function(){                                           
-                                                jQuery( '#' + this.id ).html( this.getContent() );
-                                            });
-                                        } else {
-                                            // For tinyMCE 3.x or below the onChange.add() method needs to be used.
-                                            ed.onChange.add( function( ed, l ) {
-                                                console.debug( ed.id + ' : Editor contents was modified. Contents: ' + l.content);
-                                                jQuery( '#' + ed.id ).html( ed.getContent() );
-                                            });
-                                        }
-                                    },      
-                                }
-                            );   
-                            var aQTSettings     = jQuery.extend( {}, oSettings['QuickTags'], { id : oTextArea.attr( 'id' ) } );    
-                            
-                            // Store the settings.
-                            tinyMCEPreInit.mceInit[ oTextArea.attr( 'id' ) ]   = aTMCSettings;
-                            tinyMCEPreInit.qtInit[ oTextArea.attr( 'id' ) ]    = aQTSettings;
-                            QTags.instances[ aQTSettings.id ] = aQTSettings;
-                            
-                             // Enable quick tags
-                            quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
-                                                  
-                            window.tinymce.dom.Event.domLoaded = true;   
-                            tinyMCE.init( aTMCSettings );
-                            jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
-                                if ( this.id ) {
-                                    window.wpActiveEditor = this.id.slice( 3, -5 );
-                                }
-                            }); 
+
+                            // Update the editor
+                            removeEditor( oTextArea.attr( 'id' ) );
+                            updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
                                                   
                             // The ID attributes of sub-elements are not updated yet
                             oToolBar.find( 'a,div' ).incrementIDAttribute( 'id', iOccurrence );
@@ -211,12 +244,14 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                     /**
                      * The repeatable field callback for the remove event.
                      * 
-                     * @param object    oNextFieldContainer     the field container element next to the removed field container.
-                     * @param string    sFieldType              the field type slug
-                     * @param string    sFieldTagID             the removed field container tag ID
-                     * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param   object      oNextFieldContainer     the field container element next to the removed field container.
+                     * @param   string      sFieldType              the field type slug.
+                     * @param   string      sFieldTagID             the removed field container tag ID.
+                     * @param   integer     iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     * @param   integer     iSectionIndex           the section index. For repeatable fields, it will be always 0.
+                     * @param   integer     iFieldIndex             the field index. For repeatable fields, it will be always 0.
                      */     
-                    removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
+                    removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
 
                         if ( ! isHandleable( oNextFieldContainer, sFieldType ) ) {
                             return;
@@ -232,8 +267,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             
                         }
                         
-                        // Retrieve the TinyMCE and Quick Tags settings
-                        var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   // the enabler script stores the original element id.
+                        // Retrieve the TinyMCE and Quick Tags settings. The enabler script stores the original element id.
+                        var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );  
 
                         // Increment the ids of the next all (including this copied element) sub-fields.
                         var iOccurrence = 1 === iCallType ? 1 : 0;                        
@@ -241,45 +276,30 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 
                             var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
                             if ( oWrap.length <= 0 ) {                       
-                                return true;
+                                return true;    // continue
                             }        
-                            var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone()
-                                .show()
-                                .removeAttr( 'aria-hidden' );
+                            
+                            // Store the original textarea value as jQuery has a bug that it looses textarea values when the element is cloned.
+                            var oTextAreaOriginal   = jQuery( this ).find( 'textarea.wp-editor-area' ).first();
+                            var oTextArea           = oTextAreaOriginal.clone().show().removeAttr( 'aria-hidden' );
+                            oTextArea.val( oTextAreaOriginal.val() );
                             var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
                             var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
                             var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
-                            
-                            // Remove the editor which is assigned to the newly decremented ID if exists and the old assigned editor.
-                            removeEditor( oTextAreaPrevious.attr( 'id' ) );
-                            removeEditor( oTextArea.attr( 'id' ) );
 
                             // Replace the tinyMCE wrapper with the plain textarea tag element.
                             oWrap.empty()
                                 .prepend( oEditorContainer.prepend( oTextArea.show() ) )
                                 .prepend( oToolBar );   
-                                
-                            // Update the settings
-                            var aTMCSettings    = jQuery.extend( {}, oSettings['TinyMCE'], { selector : '#' + oTextArea.attr( 'id' ), body_class : oTextArea.attr( 'id' ), height: '100px', } );   
-                            var aQTSettings     = jQuery.extend( {}, oSettings['QuickTags'], { id : oTextArea.attr( 'id' ) } );    
 
-                            // Store the settings.
-                            window.tinymce.dom.Event.domLoaded = true; 
-                            tinyMCEPreInit.mceInit[ oTextArea.attr( 'id' ) ]   = aTMCSettings;  
-                            tinyMCEPreInit.qtInit[ oTextArea.attr( 'id' ) ]    = aQTSettings;
-                            QTags.instances[ aQTSettings.id ] = aQTSettings;
-                            
-                            // Enable quick tags
-                            quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
-                                  
-                            // Initialize TinyMCE
-                            tinyMCE.init( aTMCSettings );
-                            jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
-                                if ( this.id ) {
-                                    window.wpActiveEditor = this.id.slice( 3, -5 );
-                                }
-                            }); 
-                                           
+
+                            // Remove the editor which is assigned to the newly decremented ID if exists and the old assigned editor.
+                            if ( 0 === iIndex ) {
+                                removeEditor( oTextAreaPrevious.attr( 'id' ) );
+                            }
+                            removeEditor( oTextArea.attr( 'id' ) );
+                            updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
+                                                      
                             // The ID attributes of sub-elements are not updated yet
                             oToolBar.find( 'a,div' ).decrementIDAttribute( 'id', iOccurrence );
                             jQuery( this ).find( '.wp-editor-wrap a' ).decrementIDAttribute( 'data-editor', iOccurrence );
@@ -292,19 +312,71 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             
                             // If this is called for repeatable section, handle only the first iteration as the rest will be also called one by one.
                             if ( 1 === iCallType ) {
-                                return false;   
+                                return false;   // break
                             }
 
                         });                            
                         
                     },
-                    sorted_fields : function( oSorted, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+                    /**
+                     * The repeatable field callback for the remove event.
+                     * 
+                     * On contrary to repeatable fields callbacks, the _fields_ container element object and its ID will be passed.
+                     * 
+                     * @param object    oSortedFields   the sorted fields container element.
+                     * @param string    sFieldType      the field type slug
+                     * @param string    sFieldTagID     the field container tag ID
+                     * @param integer   iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.
+                     */                     
+                    sorted_fields : function( oSortedFields, sFieldType, sFieldsTagID, iCallType ) { 
 
-                        /* 1. Return if it is not the type. */
-                        if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) { return; }
-                        if ( oSorted.find( '.select_image' ).length <= 0 )  { return;  }
-                   
+                        if ( ! isHandleable( oSortedFields, sFieldType ) ) {
+                            return;
+                        }                     
+// console.log( oSorted.attr( 'id' ) );
+// console.log( oSorted );
+                        
+                        // Update the editor.
+                        var iCount = 0;
+                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
+                        oSortedFields.children( '.admin-page-framework-field' ).each( function() {
+                                                        
+                            /* If the textarea tag is not found, do nothing  */
+                            var oTextAreas = jQuery( this ).find( 'textarea.wp-editor-area' );
+                            if ( oTextAreas.length <= 0 ) {
+                                return true;
+                            }                    
+                            
+                            // Find the tinyMCE wrapper element
+                            var oWrap       = jQuery( this ).find( '.wp-editor-wrap' );
+                            if ( oWrap.length <= 0 ) {
+                                return true;
+                            }                                   
+
+                            // Retrieve the TinyMCE and Quick Tags settings. The enabler script stores the original element id.
+                            var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   
+      
+console.log( jQuery( this ).attr( 'id' ) );
+
+
+return true;
+                            
+                            /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
+                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
+                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
+                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
+                            
+                            /* 2-2. Rebuind the uploader script to the button */
+                            var nodeImageInput = jQuery( this ).find( '.image-field input' );
+                            if ( nodeImageInput.length <= 0 ) { return true; }
+                            setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+    
+                            iCount++;
+                        });
+                        
+
                     },   
+                    
 
 					
 				});	        
