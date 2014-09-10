@@ -16,63 +16,63 @@ It provides plugin and theme developers with easier means of creating option pag
 **Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
 = Features =
-* **Root Page, Sub Pages, and Tabs** - it allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
-* **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
-* **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
-* **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
-* **Color Picker** - it lets the user easily pick colors.
-* **Rich Text Editor** - supports the rich text editor form input.
-* **Section Tabs** - Form sections can be displayed in a tabbed box.
-* **Repeatable Sections and Fields** - supports repeatable form sections and fields.
-* **Sortable Fields** - supports sortable fields.
-* **Reset Button** - create a reset button that lets your users to initialize the saved options.
-* **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
-* **Custom Post Types** - the framework provides methods to create custom post types.
-* **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
-* **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
-* **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
-* **Custom Field Types** - your own field type can be registered. 
+- **Root Page, Sub Pages, and Tabs** - it allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
+- **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
+- **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
+- **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
+- **Color Picker** - it lets the user easily pick colors.
+- **Rich Text Editor** - supports the rich text editor form input.
+- **Section Tabs** - Form sections can be displayed in a tabbed box.
+- **Repeatable Sections and Fields** - supports repeatable form sections and fields.
+- **Sortable Fields** - supports sortable fields.
+- **Reset Button** - create a reset button that lets your users to initialize the saved options.
+- **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
+- **Custom Post Types** - the framework provides methods to create custom post types.
+- **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
+- **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
+- **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
+- **Custom Field Types** - your own field type can be registered. 
 
 = Built-in Field Types =
-* `text` - a normal field to enter text input.
-* `password` - a masked text input field.
-* `textarea` - a text input field with multiple lines. It supports rich text editor.
-* `radio` - a set of radio buttons that lets the user pick an option.
-* `checkbox` - a check box that lets the user enable/disable an item.
-* `select` - a drop-down list that lest the user pick one or more item(s) from a list.
-* `hidden` - a hidden field that will be useful to insert invisible values.
-* `file` - a file uploader that lets the user upload files.
-* `image` - a custom text field with the image uploader script that lets the user set the image URL.
-* `media` - a custom text field with the media uploader script that lets the user set the file URL.
-* `color` - a custom text field with the color picker script.
-* `submit` - a submit button that lets the user send the form.
-* `export` - a custom submit field that lets the user export the stored data.
-* `import` - a custom combination field of the file and the submit fields that let the user import data.
-* `posttype` - a set of check-lists of taxonomies enabled on the site in a tabbed box.
-* `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
-* `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
-* `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
+- `text` - a normal field to enter text input.
+- `password` - a masked text input field.
+- `textarea` - a text input field with multiple lines. It supports rich text editor.
+- `radio` - a set of radio buttons that lets the user pick an option.
+- `checkbox` - a check box that lets the user enable/disable an item.
+- `select` - a drop-down list that lest the user pick one or more item(s) from a list.
+- `hidden` - a hidden field that will be useful to insert invisible values.
+- `file` - a file uploader that lets the user upload files.
+- `image` - a custom text field with the image uploader script that lets the user set the image URL.
+- `media` - a custom text field with the media uploader script that lets the user set the file URL.
+- `color` - a custom text field with the color picker script.
+- `submit` - a submit button that lets the user send the form.
+- `export` - a custom submit field that lets the user export the stored data.
+- `import` - a custom combination field of the file and the submit fields that let the user import data.
+- `posttype` - a set of check-lists of taxonomies enabled on the site in a tabbed box.
+- `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
+- `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
+- `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 
 = Custom Field Types = 
 You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The example custom field types are included in the demo plugin.
 
-* `geometry` - a location selector with the Google map.
-* `date`, `time`, `date_time`, `date_range`, `time_range`, `date_time_range` - date and time fields with the date picker.
-* `dial` - a dial input field.
-* `font` - a font uploader and its preview.
-* `revealer` - a selector field that displays a hidden HTML element.
-* `grid` - a drag and drop grid composer.
-* `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
-* `link` - it lets pick a post and set the url.
-* `system` - displays the site system information.
+- `geometry` - a location selector with the Google map.
+- `date`, `time`, `date_time`, `date_range`, `time_range`, `date_time_range` - date and time fields with the date picker.
+- `dial` - a dial input field.
+- `font` - a font uploader and its preview.
+- `revealer` - a selector field that displays a hidden HTML element.
+- `grid` - a drag and drop grid composer.
+- `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
+- `link` - it lets pick a post and set the url.
+- `system` - displays the site system information.
 
 = Necessary Files =
-* **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
+- **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
 
-* [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
+- [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
 
 = Tutorials =
 [Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
@@ -236,26 +236,32 @@ new APF_MyFirstFrom;
 `
 
 == Frequently asked questions ==
-= What is this for? =
-This is    a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
 
-= I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it? = 
-The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is avaiable. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
+<h4>About the Project</h4>
+<h5><strong>What is this for?</strong></h5>
+This is a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
 
-= How can I contribute to improving the documentation? =
+<h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
+The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
+
+<h5><strong>How can I contribute to improving the documentation?</strong></h5>
 You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
-= Does my commercial product incorporating your framework library have to be released under GPL? =
-No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. 
+<h5><strong>Does my commercial product incorporating your framework library have to be released under GPL2v+?</strong></h5>
+No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. Make sure to include only the library file.
 
-= Can I set a custom post type as a root page? =
+<h5><strong>Does the framework work with WordPress Multi-site?</strong></h5>
+Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
+
+<h4>Technical Questions</h4>
+<h5><strong>Can I set a custom post type as a root page?</strong></h5>
 Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
 
 `$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );    `
 
-= How do I retrieve the stored options? =
+<h5><strong>How do I retrieve the stored options?</strong></h5>
 The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 
 
 For instance, if your instantiated class name is `APF` then the code would be 
@@ -266,8 +272,8 @@ $my_options = get_option( 'APF' );
 
 Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
 
-= Is it possible to use a custom options data for the form instead of the ones used by the framework? =
-There are two main means to achieve that. 
+<h5><strong>Is it possible to use a custom options data for the form instead of the ones used by the framework?</strong></h5>
+Yes, there are two main means to achieve that. 
 
 1. Use the `value` argument in the field definition array to suppress the displaying value in the field.
 See an example. https://gist.github.com/michaeluno/fb4088b922b71710c7fb
@@ -281,7 +287,7 @@ When you go with the second method, make sure to pass an empty string, `''` to t
 new MyAdminPage( '' );
 `
 
-= How can I add sub-menu pages to the top-level page created by the framework in a separate script? =
+<h5><strong>How can I add sub-menu pages to the top-level page created by the framework in a separate script?</strong></h5>
 
 Say, in your main plugin, your class `MyAdminPageClassA` created a top-level page. In your extension plugin, you want to add sub-menu pages from another instance `MyAdminPageClassB`. 
 
@@ -291,11 +297,11 @@ In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name 
 $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 `
 
-= Does the framework work with WordPress Multi-site? =
-Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
-
-= Can I create pages in the network admin area? =
+<h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
+
+<h4>More FAQ on Technical Questions</h4>
+Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
 
 == Other Notes ==
 
