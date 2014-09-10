@@ -32,11 +32,11 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
-		'settings'	=>	null,	// will be set in the constructor.
-		'settings2'	=>	null,	// will be set in the constructor.
-		'attributes'	=>	array(
+		'settings'      => null,	// will be set in the constructor.
+		'settings2'     => null,	// will be set in the constructor.
+		'attributes'	=> array(
 			'size'	=>	10,
-			'maxlength'	=>	400,
+			'maxlength'	=> 400,
 		),	
 	);
 
@@ -74,7 +74,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 
 		if ( ! $this->_isLoggedIn() ) { exit; }
         if ( ! isset( $_GET['q'] ) ) { exit; }
-        
+
 		$_aGet = $_GET;
 		unset( $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
 					
@@ -89,7 +89,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
                 $_aData = $this->_searchUsers( $_aGet );
                 break;
         }
-		die( json_encode( $_aData ) );
+		exit( json_encode( $_aData ) );
 		
 	}
         /**
@@ -97,7 +97,9 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
          */
         private function _searchUsers( array $aGet=array() ) {
             
-            $_aArgs = $aGet + array();
+            $_aArgs = $aGet + array(
+                'number'    => 100,    // the maximum number to return.
+            );
             
             // Set the callback to modify the database query string.
             add_action( 'pre_user_query', array( $this, '_replyToModifyMySQLWhereClauseToSearchUsers' ) );
@@ -123,7 +125,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
                 global $wpdb;
                 if ( $oWPQuery->get( 'q' ) ) {
                     $_sSearchTerm = $oWPQuery->get( 'q' );
-                    $oWPQuery->query_where .= " AND " . $wpdb->users . ".display_name LIKE '%" . esc_sql( like_escape( $_sSearchTerm ) ) . "%'";
+                    $oWPQuery->query_where .= " AND " . $wpdb->users . ".display_name LIKE '%" . esc_sql( $wpdb->esc_like( $_sSearchTerm ) ) . "%'";
                 }    
                                 
             }	        
@@ -137,19 +139,18 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
                 'post_status'		=> 'publish, private',
                 'orderby'			=> 'title', 
                 'order'				=> 'ASC',
-                'posts_per_page'	=> -1,	
+                'posts_per_page'	=> 100,	
             );
             if ( isset( $_aArgs['post_types'] ) ) {
                 $_aArgs['post_type'] = preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_types'] ), 0, PREG_SPLIT_NO_EMPTY );
             }	
             $_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
+            $_aArgs['q'] = $_GET['q'] ;
 
             // Set the callback to modify the database query string.
             add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClauseToSearchPosts' ), 10, 2 );
-            $_aArgs['q'] = $_GET['q'] ;
-            
             $_oResults = new WP_Query( $_aArgs );					
-            
+
             // Format the data
             $_aData = array();
             foreach( $_oResults->posts as $__iIndex => $__oPost ) {
@@ -165,12 +166,12 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
              * Modifies the WordPress database query.
              */
             public function _replyToModifyMySQLWhereClauseToSearchPosts( $sWhere, $oWPQuery ) {
-                
+
                 global $wpdb;
                 if ( $oWPQuery->get( 'q' ) ) {
                     $_sSearchTerm = $oWPQuery->get( 'q' );
-                    $sWhere .= " AND " . $wpdb->posts . ".post_title LIKE '%" . esc_sql( like_escape( $_sSearchTerm ) ) . "%'";
-                }
+                    $sWhere .= " AND " . $wpdb->posts . ".post_title LIKE '%" . esc_sql( $wpdb->esc_like( $_sSearchTerm ) ) . "%'";
+                }               
                 return $sWhere;
                 
             }	        
@@ -395,8 +396,8 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 			return 
 				"<script type='text/javascript' class='autocomplete-enabler-script'>
 					jQuery( document ).ready( function() {
-
-						var oSavedValues = jQuery.parseJSON( jQuery( '#{$sInputID}' ).attr( 'value' ) );
+                        var _sJSONValue     = jQuery( '#{$sInputID}' ).attr( 'value' );
+						var oSavedValues    = _sJSONValue ? jQuery.parseJSON( _sJSONValue ) : '';
 						jQuery( '#{$sInputID}' ).tokenInput( 
 							{$sParam1}, 
 							jQuery.extend( true, {$sParam2}, {
