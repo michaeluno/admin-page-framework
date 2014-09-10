@@ -500,16 +500,20 @@ class APF_Demo extends AdminPageFramework {
                     . ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> element, specify the KEY.', 'admin-page-framework-demo' ),
             ),    
             array( // Single Drop-down List with Multiple Options
-                'field_id' => 'select_multiple_options',
+                'field_id'      => 'select_multiple_options',
                 // 'section_id' => 'selectors', // <-- this can be omitted since it is set in the previous field array
-                'title' => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
-                'help' => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
-                'type' => 'select',
-                'is_multiple' =>    true,
-                'default' => 3, // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array.
-                'size' => 10,    
-                'label' => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
-                'description' => __( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
+                'title'         => __( 'Dropdown List with Multiple Options', 'admin-page-framework-demo' ),
+                'help'          => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
+                'type'          => 'select',
+                'is_multiple'   =>    true,
+                'default'       => 3, // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array.  
+                'label'         => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
+                'description'   => __( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
+                'attributes'    =>  array(
+                    'select'    =>  array(
+                        'size'  => 10,
+                    ),
+                ),
             ),    
             array( // Single Drop-down List with Multiple Options
                 'field_id' => 'select_multiple_groups',
