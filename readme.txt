@@ -438,6 +438,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.1.7 =
 - Added the `github` custom field type that displays GitHub buttons.
+- Fixed an incompatibility issue of the `autocomplete` field type with WordPress 4.0 when `WP_DEBUG` is enabled.
 
 = 3.1.6 - 2014/09/08 =
 - Added the `stopped_sorting_fields` JavaScript hook for field type that supports sortable fields.
@@ -446,7 +447,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `system` custom field type.
 - Changed the timing of the `removed_repeatable_field` callback for sections from before removing the section to after removing it.
 - Tweaked the styling of switchable tabs of tabbed sections to remove dotted outlines when focused or activated which occur in FireFox.
-- Fixed a compatibility issue with WordPress 4.0 for the media modal frame.
+- Fixed an incompatibility issue with WordPress 4.0 for the media modal frame.
 
 = 3.1.5 - 2014/08/31 =
 - Added the `content_{instantiated class name}` hook and the default `content()` callback method that filters the post type post content for the post type class.
