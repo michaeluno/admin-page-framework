@@ -65,6 +65,7 @@ You can include your own custom field types when they are necessary. The reason 
 - `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
 - `link` - it lets pick a post and set the url.
 - `system` - displays the site system information.
+- `github` - displays GitHub buttons.
 
 = Necessary Files =
 - **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
