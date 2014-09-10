@@ -75,32 +75,40 @@ class AdminPageFramework_Script_AttributeUpdator {
             /* Local Function Literals */    
             var updateID = function( iIndex, sID, iIncrementType, biFirstOccurence ) {
                 if ( 'undefined' === typeof sID ) { return sID; }
-                var sNeedlePrefix   = ( typeof biFirstOccurence === 'undefined' ) || ! biFirstOccurence ? '(.+)': '(.+?)';
-                var sNeedle         = new RegExp( sNeedlePrefix + '__(\\\d+)(?=([_-]|$))' ); // triple escape - not sure why but on a separate test script, double escape was working
-                return sID.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
-                    if ( 1 === iIncrementType ) {
-                        return m0 + '__' + ( Number( m1 ) + 1 );
-                    } else if ( -1 === iIncrementType ) {
-                        return m0 + '__' + ( Number( m1 ) - 1 );
-                    } else {
-                        return m0 + '__' + ( iIndex );
-                    }
+                var _sNeedlePrefix   = ( typeof biFirstOccurence === 'undefined' ) || ! biFirstOccurence ? '(.+)': '(.+?)';
+                var _sNeedle         = new RegExp( _sNeedlePrefix + '__(\\\d+)(?=([_-]|$))' ); // triple escape - not sure why but on a separate test script, double escape was working
+                return sID.replace( _sNeedle, function ( sFullMatch, m0, m1 ) {
+                    
+                    switch ( iIncrementType ) {
+                        case 1:
+                            return m0 + '__' + ( Number( m1 ) + 1 );
+                        case -1:
+                            return m0 + '__' + ( Number( m1 ) - 1 );
+                        default:
+                            return m0 + '__' + ( iIndex );
+                    }                     
+                    
                 });
             }
             var updateName = function( iIndex, sName, iIncrementType, biFirstOccurence ) {
+console.log( arguments );                
                 if ( 'undefined' === typeof sName ) { return sName; }
-                var sNeedlePrefix   = ( typeof biFirstOccurence === 'undefined' ) || ! biFirstOccurence ? '(.+)': '(.+?)';
-                var sNeedle         = biFirstOccurence === -1    
+                var _sNeedlePrefix   = ( 'undefined' === typeof biFirstOccurence ) || ! biFirstOccurence ? '(.+)': '(.+?)';
+                var _sNeedle         = -1 === biFirstOccurence 
                     ? new RegExp( '(.+)' + '\\\[(\\\d+)(?=\\\].+\\\[\\\d+(?=\\\]))' ) // -1 is for the second occurrence from the last; for taxonomy field type
-                    : new RegExp( sNeedlePrefix + '\\\[(\\\d+)(?=\\\])' ); // triple escape - not sure why but on a separate test script, double escape was working
-                return sName.replace( sNeedle, function ( sFullMatch, m0, m1 ) {
-                    if ( iIncrementType === 1 ) {
-                        return m0 + '[' + ( Number( m1 ) + 1 );
-                    } else if ( iIncrementType === -1 ) {
-                        return m0 + '[' + ( Number( m1 ) - 1 );
-                    } else {
-                        return m0 + '[' + ( iIndex );
-                    }
+                    : new RegExp( _sNeedlePrefix + '\\\[(\\\d+)(?=\\\])' ); // triple escape - not sure why but on a separate test script, double escape was working
+                return sName.replace( _sNeedle, function ( sFullMatch, m0, m1 ) {
+                    
+                    switch ( iIncrementType ) {
+                        case 1:
+                            return m0 + '[' + ( Number( m1 ) + 1 );
+                        case -1:
+                            return m0 + '[' + ( Number( m1 ) - 1 );
+                        default:
+console.log( 'returning: ' +  m0 + '[' + ( iIndex ) );                        
+                            return m0 + '[' + ( iIndex );
+                    }                    
+
                 });
             }
                 
