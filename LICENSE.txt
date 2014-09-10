@@ -73,6 +73,21 @@ Copyright (c) 2009 James Smith (http://loopj.com)
 Licensed MIT 
 <https://github.com/loopj>
 
+github-buttons
+Copyright (c) 2014, なつき  
+All rights reserved.
+Licensed The BSD 2-Clause License
+<https://github.com/ntkme/github-buttons>
+
+Octicons
+(c) 2012-2014 GitHub
+Font License: SIL OFL 1.1 (http://scripts.sil.org/OFL)
+Applies to all font files
+
+Code License: MIT (http://choosealicense.com/licenses/mit/)
+Applies to all other files
+<https://octicons.github.com/>
+
 The documentation component of the demo plugin incorporates work covered by the following copyright:
 
 ApiGen
