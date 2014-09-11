@@ -77,7 +77,8 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * @since   3.0.0 Reconstructed entirely.
      */
     public function _replyToGetField( $aField ) {
-
+        
+        $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
         $aField['label'] = $this->_getPostTypeArrayForChecklist( isset( $aField['slugs_to_remove'] ) ? $aField['slugs_to_remove'] : $this->aDefaultRemovingPostTypeSlugs );
         return parent::_replyToGetField( $aField );
             

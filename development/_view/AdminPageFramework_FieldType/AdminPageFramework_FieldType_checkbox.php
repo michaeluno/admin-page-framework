@@ -61,6 +61,14 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
     }
     
     /**
+     * The class selector to indicate that the input tag is a admin page framework checkbox.
+     * 
+     * This selector is used for the repeatable and sortable field scripts.
+     * @since   3.1.7
+     */
+    protected $_sCheckboxClassSelector = 'apf_checkbox';
+    
+    /**
      * Returns the output of the field type.
      * 
      * @since 2.1.5
@@ -82,7 +90,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
             ) 
                 + $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
                 + $aField['attributes'];
-            $aInputAttributes['class'] .= ' apf_checkbox';
+            $aInputAttributes['class'] .= ' ' . $this->_sCheckboxClassSelector;
         
             $aLabelAttributes = array(
                 'for'   => $aInputAttributes['id'],
@@ -95,7 +103,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
                     . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
                         . $this->getFieldElementByKey( $aField['before_input'], $sKey )
                         . "<span class='admin-page-framework-input-container'>"
-                            . "<input type='hidden' class='apf_checkbox' name='{$aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
+                            . "<input type='hidden' class='{$this->_sCheckboxClassSelector}' name='{$aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
                             . "<input " . $this->generateAttributes( $aInputAttributes ) . " />" // this method is defined in the base class    
                         . "</span>"
                         . "<span class='admin-page-framework-input-label-string'>"
