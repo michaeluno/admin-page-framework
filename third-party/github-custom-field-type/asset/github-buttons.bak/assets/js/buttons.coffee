@@ -17,7 +17,7 @@ class QueryString
     results.join "&"
   @parse: (str) ->
     obj = {}
-    for pair in str.split "&" when pair isnt ""
+    for pair in str.split "&"
       [key, value...] = pair.split "="
       obj[decodeURIComponent key] = decodeURIComponent value.join "="
     obj

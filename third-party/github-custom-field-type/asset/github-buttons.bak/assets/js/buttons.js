@@ -38,9 +38,6 @@
       _ref = str.split("&");
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         pair = _ref[_i];
-        if (!(pair !== "")) {
-          continue;
-        }
         _ref1 = pair.split("="), key = _ref1[0], value = 2 <= _ref1.length ? __slice.call(_ref1, 1) : [];
         obj[decodeURIComponent(key)] = decodeURIComponent(value.join("="));
       }

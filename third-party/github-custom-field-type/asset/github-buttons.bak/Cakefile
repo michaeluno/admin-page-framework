@@ -17,8 +17,10 @@ task 'build:coffee', 'Build scripts', ->
     exec "uglifyjs --output buttons.js assets/js/buttons.js", callback ->
 
 task 'build:less', 'Build stylesheets', ->
-  for file in fs.readdirSync 'assets/css/' when file.match /\.less$/
-    exec "lessc assets/css/#{file} assets/css/#{file.replace /\.less$/, '.css'}", callback ->
+  fs.readdir 'assets/css/', (err, files) ->
+    throw err if err
+    for file in files when file.match /\.less$/
+      exec "lessc assets/css/#{file} assets/css/#{file.replace /\.less$/, '.css'}", callback ->
 
 task 'build:octicons', 'Build octicons', ->
   exec "phantomjs src/octicons.coffee assets/css/octicons.css", callback ->
