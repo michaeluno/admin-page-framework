@@ -14,12 +14,12 @@
  * @remarks     To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks     Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks     The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version     3.1.7b01
+ * @version     3.1.7b02
  */
 if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.1.7b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.1.7b02'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
