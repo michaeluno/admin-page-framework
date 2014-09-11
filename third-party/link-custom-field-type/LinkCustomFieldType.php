@@ -21,12 +21,22 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
 		),
 
 	);
+    
+    /**
+     * Stores the flag indicating whether it is loaded or not.
+     */
+    static public $_bLoaded;
 
 	/**
 	 * Loads the field type necessary components.
 	 */ 
 	public function setUp() {
 		
+        if ( isset( self::$_bLoaded ) ) {
+            return;
+        }
+        self::$_bLoaded = true;
+        
 		wp_enqueue_script( 'wplink' );
 		if ( ! class_exists( '_WP_Editors' ) ) {			
 			require( ABSPATH . WPINC . '/class-wp-editor.php' );		
@@ -59,15 +69,31 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
 		add_action( 'admin_footer', array( $this, '_replyToAddLinkModalQueryPlugin' ) );
 		$_aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "jQuery( document ).ready( function(){	
+        
+            var stripHTML = function( sHTML ){
+               var _sTmp = document.createElement( 'DIV' );
+               _sTmp.innerHTML = sHTML;
+               return _sTmp.textContent || _sTmp.innerText || '';
+            }
+
             jQuery( '#wp-link-submit' ).on( 'click', function( event ) {
                 
-                if ( ! sInputID_LinkModal ) return;
-                var linkAtts = wpLink.getAttrs();
-                jQuery( '#' + sInputID_LinkModal ).val( linkAtts.href );
-                jQuery( '#' + sInputID_LinkModal + '_title' ).val( linkAtts.title );
-                jQuery( '#' + sInputID_LinkModal + '_target' ).val( linkAtts.target );
+                if ( ! sInputID_LinkModal ) { return; }
+                var _oLinkAtts  = wpLink.getAttrs();
                 wpLink.textarea = jQuery( 'body' );
                 wpLink.close();
+                                
+                // IE does not set the values without delays.                
+                var _sInputID   = sInputID_LinkModal;
+                var _sValue     = stripHTML( _oLinkAtts.href );
+                var _sTitle     = _oLinkAtts.title;
+                var _sTarget    = _oLinkAtts.target;
+                setTimeout( function () {
+                    jQuery( '#' + _sInputID ).val( _sValue );                
+                    jQuery( '#' + _sInputID + '_title' ).val( _sTitle );
+                    jQuery( '#' + _sInputID + '_target' ).val( _sTarget );    
+                }, 1 );
+                
                 event.preventDefault ? event.preventDefault() : event.returnValue = false;
                 event.stopPropagation();
                 sInputID_LinkModal = '';
@@ -218,7 +244,7 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
 		
 		$_sScript = "
 		(function ( $ ) {
-		
+                        
 			$.fn.link_modal_dialog = function() {
 								
 				this.on( 'click', function( event ) {
@@ -232,12 +258,17 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
                     tinyMCEPopup        = 'undefined' !== typeof tinyMCEPopup ? tinyMCEPopup : null;    
 					
                     // Open the modal dialog. Since v3.9, we can directly pass the element id to the parameter.
-					wpLink.open( oInput.attr( 'id' ) );
-
+					wpLink.open( oInput.attr( 'id' ) );                 
+                       
 					return false;
 					
-				});     				
-								
+				});     	
+			
+                this.on( 'wplink-close', function() {
+                    console.log( 'closed' );
+                    console.log( arguments );
+                });        
+            
 			};
 
 		}( jQuery ));";
