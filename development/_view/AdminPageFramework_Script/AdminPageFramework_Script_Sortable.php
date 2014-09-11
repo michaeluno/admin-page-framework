@@ -111,7 +111,7 @@ class AdminPageFramework_Script_Sortable {
                     { items: '> div:not( .disabled )', } // the options for the sortable plugin
                 );
                 oSortable.bind( 'sortstop', function() {
-console.log( 'sort stopped' );                  
+                 
                     /* Callback the registered functions */
                     $( this ).callBackStoppedSortingFields( 
                         $( this ).data( 'type' ),
@@ -120,17 +120,19 @@ console.log( 'sort stopped' );
                     );  
                 });
                 oSortable.bind( 'sortupdate', function() {
-console.log( 'sorted' );
+
                     // Reverse is needed for radio buttons since they loose the selections when updating the IDs
                     var oFields = $( this ).children( 'div' ).reverse();
                     oFields.each( function( iIterationIndex ) { 
 
                         var iIndex = oFields.length - iIterationIndex - 1;
+
                         $( this ).setIndexIDAttribute( 'id', iIndex );
                         $( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
                         $( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
-                        $( this ).find( 'input,textarea,select' ).setIndexNameAttribute( 'name', iIndex );
-
+                        $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).setIndexNameAttribute( 'name', iIndex );
+                        $( this ).find( 'input.apf_checkbox' ).setIndexNameAttribute( 'name', iIndex, -2 ); // for checkboxes, set the second found digit from the end                                       
+                        
                         /* Radio buttons loose their selections when IDs and names are updated, so reassign them */
                         $( this ).find( 'input[type=radio]' ).each( function() {    
                             var sAttr = $( this ).prop( 'checked' );

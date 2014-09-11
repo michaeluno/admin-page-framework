@@ -162,20 +162,20 @@ class AdminPageFramework_Script_RepeatableSection {
                 
             };    
             // Local function literal
-            var incrementAttributes = function( oElement, bFirstFound ) {
+            var incrementAttributes = function( oElement, iOccurrence ) {
                 
-                bFirstFound = typeof bFirstFound !== 'undefined' ? bFirstFound : true;
-                $( oElement ).incrementIDAttribute( 'id', bFirstFound ); // passing true in the second parameter means to apply the change to the first occurrence.
-                $( oElement ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', bFirstFound ); // I don't remember what this data attribute was for...
-                $( oElement ).find( '.admin-page-framework-fields' ).incrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.admin-page-framework-field' ).incrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( 'table.form-table' ).incrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.repeatable-field-add' ).incrementIDAttribute( 'data-id', bFirstFound ); // holds the fields container ID referred by the repeater field script.
-                $( oElement ).find( 'label' ).incrementIDAttribute( 'for', bFirstFound );    
-                $( oElement ).find( 'input,textarea,select' ).incrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( 'input,textarea,select' ).incrementNameAttribute( 'name', bFirstFound );     
+                var iOccurrence = 'undefined' !== typeof iOccurrence ? iOccurrence : 1;
+                $( oElement ).incrementIDAttribute( 'id', iOccurrence ); // passing 1 in the second parameter means to apply the change to the first occurrence.
+                $( oElement ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', iOccurrence ); // I don't remember what this data attribute was for...
+                $( oElement ).find( '.admin-page-framework-fields' ).incrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.admin-page-framework-field' ).incrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( 'table.form-table' ).incrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.repeatable-field-add' ).incrementIDAttribute( 'data-id', iOccurrence ); // holds the fields container ID referred by the repeater field script.
+                $( oElement ).find( 'label' ).incrementIDAttribute( 'for', iOccurrence );    
+                $( oElement ).find( 'input,textarea,select' ).incrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( 'input,textarea,select' ).incrementNameAttribute( 'name', iOccurrence );     
                 
             }     
                 
@@ -258,20 +258,20 @@ class AdminPageFramework_Script_RepeatableSection {
                     
             };
             // Local function literal
-            var decrementAttributes = function( oElement, bFirstFound ) {
+            var decrementAttributes = function( oElement, iOccurrence ) {
                 
-                bFirstFound = typeof bFirstFound !== 'undefined' ? bFirstFound : true;
+                var iOccurrence = 'undefined' !== typeof iOccurrence ? iOccurrence : 1;
                 $( oElement ).decrementIDAttribute( 'id' );     
-                $( oElement ).find( 'tr.admin-page-framework-fieldrow' ).decrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'data-field_id', bFirstFound ); // I don't remember what this data attribute was for...
-                $( oElement ).find( '.admin-page-framework-fields' ).decrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.admin-page-framework-field' ).decrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( 'table.form-table' ).decrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( '.repeatable-field-add' ).decrementIDAttribute( 'data-id', bFirstFound ); // holds the fields container ID referred by the repeater field script.
-                $( oElement ).find( 'label' ).decrementIDAttribute( 'for', bFirstFound );
-                $( oElement ).find( 'input,textarea,select' ).decrementIDAttribute( 'id', bFirstFound );
-                $( oElement ).find( 'input,textarea,select' ).decrementNameAttribute( 'name', bFirstFound );     
+                $( oElement ).find( 'tr.admin-page-framework-fieldrow' ).decrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'data-field_id', iOccurrence ); // I don't remember what this data attribute was for...
+                $( oElement ).find( '.admin-page-framework-fields' ).decrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.admin-page-framework-field' ).decrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( 'table.form-table' ).decrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( '.repeatable-field-add' ).decrementIDAttribute( 'data-id', iOccurrence ); // holds the fields container ID referred by the repeater field script.
+                $( oElement ).find( 'label' ).decrementIDAttribute( 'for', iOccurrence );
+                $( oElement ).find( 'input,textarea,select' ).decrementIDAttribute( 'id', iOccurrence );
+                $( oElement ).find( 'input,textarea,select' ).decrementNameAttribute( 'name', iOccurrence );     
                 
             }    
             

@@ -439,6 +439,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.1.7 =
 - Added the `github` custom field type that displays GitHub buttons.
+- Fixed a bug that the `checkbox` field type could not be repeatead and sorted.
 - Fixed an incompatibility issue of the `autocomplete` field type with WordPress 4.0 when `WP_DEBUG` is enabled.
 
 = 3.1.6 - 2014/09/08 =

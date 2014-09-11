@@ -110,7 +110,8 @@ class AdminPageFramework_Script_RepeatableField {
                     $( this ).incrementIDAttribute( 'id' );
                     $( this ).find( 'label' ).incrementIDAttribute( 'for' );
                     $( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
-                    $( this ).find( 'input,textarea,select' ).incrementNameAttribute( 'name' );
+                    $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).incrementNameAttribute( 'name' );
+                    $( this ).find( 'input.apf_checkbox' ).incrementNameAttribute( 'name', -2 ); // for checkboxes, increment the second found digit from the end 
                 });
 
                 /* Rebind the click event to the buttons - important to update AFTER inserting the clone to the document node since the update method needs to count the fields. 
@@ -160,7 +161,9 @@ class AdminPageFramework_Script_RepeatableField {
                     $( this ).decrementIDAttribute( 'id' );
                     $( this ).find( 'label' ).decrementIDAttribute( 'for' );
                     $( this ).find( 'input,textarea,select' ).decrementIDAttribute( 'id' );
-                    $( this ).find( 'input,textarea,select' ).decrementNameAttribute( 'name' );     
+                    $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).decrementNameAttribute( 'name' );     
+                    $( this ).find( 'input.apf_checkbox' ).decrementNameAttribute( 'name', -2 ); // for checkboxes, increment the second found digit from the end                     
+                    
                 });
 
                 /* Store the next field */

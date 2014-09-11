@@ -102,7 +102,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
                             jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
                             jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
                             jQuery( this ).find( 'input' ).decrementNameAttribute( 'name' ); // the framework increments the last found digit by default so revert it
-                            jQuery( this ).find( 'input' ).incrementNameAttribute( 'name', -1 ); // now increment the second found digit from the end 
+                            jQuery( this ).find( 'input' ).incrementNameAttribute( 'name', -2 ); // now increment the second found digit from the end 
                             enableAPFTabbedBox( jQuery( this ).find( '.tab-box-container' ) );
                         });     
                         
@@ -125,7 +125,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
                             jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
                             jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
                             jQuery( this ).find( 'input' ).incrementNameAttribute( 'name' ); // the framework decrements the last found digit by default so revert it
-                            jQuery( this ).find( 'input' ).decrementNameAttribute( 'name', -1 ); // now decrement the second found digit from the end 
+                            jQuery( this ).find( 'input' ).decrementNameAttribute( 'name', -2 ); // now decrement the second found digit from the end 
                         });    
                         
                         // enableAPFTabbedBox( oNextFieldConainer.find( '.tab-box-container' ) );

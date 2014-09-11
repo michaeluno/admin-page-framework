@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_checkbox' ) ) :
 /**
  * Defines the checkbox field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType_Base {
@@ -34,14 +34,13 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
     /**
      * Loads the field type necessary components.
      */ 
-    public function _replyToFieldLoader() {
-    }    
+    public function _replyToFieldLoader() {}    
     
     /**
      * Returns the field type specific JavaScript script.
      */ 
     public function _replyToGetScripts() {
-        return "";     
+        return "";        
     }    
 
     /**
@@ -68,24 +67,25 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      * @since 3.0.0 Removed unnecessary parameters.
      */
     public function _replyToGetField( $aField ) {
-// var_dump( $aField['before_label'] );
+
         $aOutput = array();
         $asValue = $aField['attributes']['value'];
-        // $aOutput[] = is_array( $aField['before_label'] ) ? '' : $aField['before_label'];
+
         foreach( ( array ) $aField['label'] as $sKey => $sLabel ) {
             
             $aInputAttributes = array(
-                'type' => 'checkbox', // needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
-                'id' => $aField['input_id'] . '_' . $sKey,
-                'checked' => $this->getCorrespondingArrayValue( $asValue, $sKey, null ) == 1 ? 'checked' : '',
-                'value' => 1, // must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
-                'name' => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$sKey}]" : $aField['attributes']['name'],
+                'type'      => 'checkbox', // needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
+                'id'        => $aField['input_id'] . '_' . $sKey,
+                'checked'   => $this->getCorrespondingArrayValue( $asValue, $sKey, null ) == 1 ? 'checked' : '',
+                'value'     => 1, // must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
+                'name'      => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$sKey}]" : $aField['attributes']['name'],
             ) 
-            + $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
-            + $aField['attributes'];
+                + $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
+                + $aField['attributes'];
+            $aInputAttributes['class'] .= ' apf_checkbox';
         
             $aLabelAttributes = array(
-                'for' => $aInputAttributes['id'],
+                'for'   => $aInputAttributes['id'],
                 'class' => $aInputAttributes['disabled'] ? 'disabled' : '',
             );
             
@@ -95,7 +95,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
                     . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
                         . $this->getFieldElementByKey( $aField['before_input'], $sKey )
                         . "<span class='admin-page-framework-input-container'>"
-                            . "<input type='hidden' name='{$aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
+                            . "<input type='hidden' class='apf_checkbox' name='{$aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
                             . "<input " . $this->generateAttributes( $aInputAttributes ) . " />" // this method is defined in the base class    
                         . "</span>"
                         . "<span class='admin-page-framework-input-label-string'>"
@@ -107,8 +107,6 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
                 . $this->getFieldElementByKey( $aField['after_label'], $sKey );
                 
         }    
-        // $aOutput[] = is_array( $aField['after_label'] ) ? '' : $aField['after_label'];
-        
         return implode( PHP_EOL, $aOutput );
         
     }    
