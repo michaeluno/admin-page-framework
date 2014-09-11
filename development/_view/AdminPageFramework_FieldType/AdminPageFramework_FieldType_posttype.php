@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_posttype' ) ) :
 /**
  * Defines the posttype field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
@@ -28,9 +28,9 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'slugs_to_remove' => null, // the default array will be assigned in the rendering method.
-        'attributes' => array(
-            'size' => 30,
+        'slugs_to_remove'   => null, // the default array will be assigned in the rendering method.
+        'attributes'        => array(
+            'size'      => 30,
             'maxlength' => 400,
         ),    
     );
@@ -71,10 +71,10 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * 
      * Returns the output of post type checklist check boxes.
      * 
-     * @remark     the posttype checklist field does not support multiple elements by passing an array of labels.
-     * @since 2.0.0
-     * @since 2.1.5 Moved from AdminPageFramework_FormField.
-     * @since 3.0.0 Reconstructed entirely.
+     * @remark  the posttype checklist field does not support multiple elements by passing an array of labels.
+     * @since   2.0.0
+     * @since   2.1.5 Moved from AdminPageFramework_FormField.
+     * @since   3.0.0 Reconstructed entirely.
      */
     public function _replyToGetField( $aField ) {
 
@@ -93,9 +93,11 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
          */ 
         private function _getPostTypeArrayForChecklist( $aRemoveNames, $aPostTypes=array() ) {
             
-            foreach( get_post_types( '','objects' ) as $oPostType ) 
-                if (  isset( $oPostType->name, $oPostType->label ) ) 
+            foreach( get_post_types( '','objects' ) as $oPostType ) {
+                if (  isset( $oPostType->name, $oPostType->label ) ) {
                     $aPostTypes[ $oPostType->name ] = $oPostType->label;
+                }
+            }
 
             return array_diff_key( $aPostTypes, array_flip( $aRemoveNames ) );    
 
