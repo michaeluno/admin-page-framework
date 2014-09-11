@@ -168,7 +168,7 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 								stop: function( event, ui ){ 							
 									setTimeout( function() {	// give a delay for Firefox
 										var oGridster = jQuery( '#grid_container-{$sInputID}' ).gridster().data('gridster');
-										oGridster.saveGrid( {$sInputID} );
+										oGridster.saveGrid( '#{$sInputID}' );
 									}, 500 );	
 								},
 							},
@@ -176,7 +176,7 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 								stop: function( event, ui ){ 
 									setTimeout( function() {	// give a delay for Firefox
 										var oGridster = jQuery( '#grid_container-{$sInputID}' ).gridster().data('gridster');
-										oGridster.saveGrid( {$sInputID} );
+										oGridster.saveGrid( '#{$sInputID}' );
 									}, 500 );	
 								},
 							},
@@ -217,7 +217,7 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 								json[i]['col'], 
 								json[i]['row'] 
 							);
-							oGridster.setRemoveButton( joWidget.find( '.remove_gridster_widget' ), {$sInputID} );
+							oGridster.setRemoveButton( joWidget.find( '.remove_gridster_widget' ), '#{$sInputID}' );
 						}						
 
 								
@@ -231,11 +231,11 @@ class GridCustomFieldType extends AdminPageFramework_FieldType {
 							1,	// x-colspan
 							1,	// y-colspan
 							aLargestPosition['x'],	// col index
-							aLargestPosition['y'] === 1 ? aLargestPosition['y'] : aLargestPosition['y'] + 1,	// row index
+							1 === aLargestPosition['y'] ? aLargestPosition['y'] : aLargestPosition['y'] + 1,	// row index
 							null	// max colspan
 						);
-						oGridster.setRemoveButton( joWidget.find( '.remove_gridster_widget' ), {$sInputID} );
-						oGridster.saveGrid( {$sInputID} );
+						oGridster.setRemoveButton( joWidget.find( '.remove_gridster_widget' ), '#{$sInputID}' );
+						oGridster.saveGrid( '#{$sInputID}' );
 						return false;
 						
 					});	
