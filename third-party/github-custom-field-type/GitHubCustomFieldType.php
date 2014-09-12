@@ -112,7 +112,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
 	protected function getEnqueuingStyles() { 
 		return array(	
             '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700',
-			dirname( __FILE__ ) . '/asset/css/main.css',		
+			dirname( __FILE__ ) . '/github-buttons/assets/css/main.css',		
 		);
 	}			
 
