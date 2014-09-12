@@ -437,7 +437,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.1.7 =
+= 3.1.7 - 2014/0912 =
 - Added the `github` custom field type that displays GitHub buttons.
 - Fixed an incompatibility issue of the `grid` custom field type with Internet Explorer.
 - Fixed an incompatibility issue of the `link` custom field type with WordPress 3.8.x or below and Internet Explorer.
