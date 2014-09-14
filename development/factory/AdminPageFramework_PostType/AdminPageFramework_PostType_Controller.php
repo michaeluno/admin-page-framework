@@ -252,12 +252,23 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * This is only necessary if it is not set in the constructor.
      * 
      * @since 2.0.0
-     * @see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-     * @param array The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">array of arguments</a> to be passed to the second parameter of the <em>register_post_type()</em> function.
+     * @deprecated      3.2.0   Use the setArguments() method instead.
      * @return void
      */ 
     protected function setPostTypeArgs( $aArgs ) {
-        $this->oProp->aPostTypeArgs = $aArgs;
+        $this->setArguments( ( array ) $aArgs );
+    }
+    
+    /**
+     * Sets the post type arguments.
+     * 
+     * @remark      The alias of setPostTypeArgs().
+     * @see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+     * @param array The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">array of arguments</a> to be passed to the second parameter of the <em>register_post_type()</em> function.
+     * @since       3.2.0
+     */
+    protected function setArguments( array $aArguments=array() ) {
+        $this->oProp->aPostTypeArgs = $aArguments;
     }
     
     /**
