@@ -25,6 +25,18 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     private $_sPostTypeSlugOfCurrentPost = null;
         
     /**
+     * Determines whether the element should be loaded.
+     * 
+     * This method is created for other fields type factories to extend this class so that they can define own criteria to load the elements.
+     * 
+     * @since   3.2.0
+     * @internal
+     */
+    protected function _isInThePage() {
+        return $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes );
+    }
+        
+    /**
      * Appends the CSS rules of the framework in the head tag. 
      * @since 2.0.0
      * @since 2.1.5 Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to replyToAddStyle().
@@ -33,7 +45,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      */     
     public function _replyToAddStyle() {
     
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return; // if it's not post (post edit) page nor the post type page,
+        // if it's not post (post edit) page nor the post type page,
+        if ( ! $this->_isInThePage() ) { return; } 
     
         $this->_printCommonStyles( 'admin-page-framework-style-meta-box-common', get_class() );
         $this->_printClassSpecificStyles( 'admin-page-framework-style-meta-box' );
@@ -49,8 +62,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      */ 
     public function _replyToAddScript() {
 
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return; // if it's not post (post edit) page nor the post type page,
-    
+        // if it's not post (post edit) page nor the post type page,
+        if ( ! $this->_isInThePage() ) { return; }
+        
         $this->_printCommonScripts( 'admin-page-framework-script-meta-box-common', get_class() );
         $this->_printClassSpecificScripts( 'admin-page-framework-script-meta-box' );
         $this->oProp->_bAddedScript = true;
@@ -67,13 +81,15 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
             // Print out the filtered styles.
             $sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
             $sStyle = $this->oUtil->minifyCSS( $sStyle );
-            if ( $sStyle )
+            if ( $sStyle ) {
                 echo "<style type='text/css' id='{$sIDPrefix}-{$this->oProp->sClassName}'>{$sStyle}</style>";
+            }
                 
             $sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
             $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-            if ( $sStyleIE )
+            if ( $sStyleIE ) {
                 echo  "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie-{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";
+            }
         
         }
         /**
@@ -92,13 +108,15 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
             $oCaller = $this->oProp->_getCallerObject();     
             $sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyle );
             $sStyle = $this->oUtil->minifyCSS( $sStyle );
-            if ( $sStyle )
+            if ( $sStyle ) {
                 echo "<style type='text/css' id='{$sIDPrefix}'>{$sStyle}</style>";
+            }
 
             $sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyleIE );
             $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-            if ( $sStyleIE )
+            if ( $sStyleIE ) {
                 echo "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie'>{$sStyleIE}</style><![endif]-->";
+            }
                 
         }     
         /**
@@ -108,8 +126,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
         protected function _printClassSpecificScripts( $sIDPrefix ) {
                 
             $sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
-            if ( $sScript )
+            if ( $sScript ) {
                 echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}'>{$sScript}</script>";     
+            }
 
         }
         /**
@@ -126,8 +145,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
             $GLOBALS[ "{$sClassName}_ScriptLoaded" ] = true;
             
             $sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultScript );
-            if ( $sScript )
+            if ( $sScript ) {
                 echo "<script type='text/javascript' id='{$sIDPrefix}'>{$sScript}</script>";
+            }
         
         }
     
@@ -140,8 +160,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC )
+        foreach( ( array ) $aSRCs as $sSRC ) {
             $aHandleIDs[] = $this->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );
+        }
         return $aHandleIDs;
         
     }
@@ -167,8 +188,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) return '';
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return ''; // if already set
+        if ( empty( $sSRC ) ) { return ''; }
+        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
         $sSRC = $this->oUtil->resolveSRC( $sSRC );
         
@@ -196,8 +217,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC )
+        foreach( ( array ) $aSRCs as $sSRC ) {
             $aHandleIDs[] = $this->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
+        }
         return $aHandleIDs;
         
     }    
@@ -224,8 +246,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) return '';
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return ''; // if already set
+        if ( empty( $sSRC ) ) { return ''; }
+        
+        // if already set
+        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } 
         
         $sSRC = $this->oUtil->resolveSRC( $sSRC );
         
@@ -271,9 +295,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
         
         $sCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
-                
-        if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) )     
+        if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) ) {
             return $this->_enqueueSRC( $aEnqueueItem );
+        }
             
     }
 
