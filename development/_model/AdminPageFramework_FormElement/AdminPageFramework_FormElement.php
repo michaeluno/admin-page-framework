@@ -152,11 +152,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function addSection( array $aSection ) {
         
-        $aSection = $aSection + self::$_aStructure_Section;
+        $aSection               = $aSection + self::$_aStructure_Section;
         $aSection['section_id'] = $this->sanitizeSlug( $aSection['section_id'] );
         
         $this->aSections[ $aSection['section_id'] ] = $aSection;    
-        $this->aFields[ $aSection['section_id'] ] = isset( $this->aFields[ $aSection['section_id'] ] ) 
+        $this->aFields[ $aSection['section_id'] ]   = isset( $this->aFields[ $aSection['section_id'] ] ) 
             ? $this->aFields[ $aSection['section_id'] ] 
             : array();
 
@@ -169,7 +169,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function removeSection( $sSectionID ) {
         
-        if ( $sSectionID == '_default' ){  return; }
+        if ( '_default' === $sSectionID ){  return; }
         
         unset( $this->aSections[ $sSectionID ] );
         unset( $this->aFields[ $sSectionID ] );
@@ -200,8 +200,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         if ( ! isset( $aField['field_id'], $aField['type'] ) ) { return null; } // Check the required keys as these keys are necessary.
             
         // Sanitize the IDs since they are used as a callback method name.
-        $aField['field_id'] = $this->sanitizeSlug( $aField['field_id'] );
-        $aField['section_id'] = $this->sanitizeSlug( $aField['section_id'] );     
+        $aField['field_id']     = $this->sanitizeSlug( $aField['field_id'] );
+        $aField['section_id']   = $this->sanitizeSlug( $aField['section_id'] );     
         
         $this->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
         return $aField;
