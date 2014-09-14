@@ -60,10 +60,10 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
             isset( $this->oProp )? $this->oProp : new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability )
         );
         
-        $this->oProp->sMetaBoxID = $this->oUtil->sanitizeSlug( $sMetaBoxID );
-        $this->oProp->sTitle = $sTitle;
-        $this->oProp->sContext = $sContext; //  'normal', 'advanced', or 'side' 
-        $this->oProp->sPriority = $sPriority; //     'high', 'core', 'default' or 'low'    
+        $this->oProp->sMetaBoxID    = $this->oUtil->sanitizeSlug( $sMetaBoxID );
+        $this->oProp->sTitle        = $sTitle;
+        $this->oProp->sContext      = $sContext; //  'normal', 'advanced', or 'side' 
+        $this->oProp->sPriority     = $sPriority; //     'high', 'core', 'default' or 'low'    
 
         if ( $this->oProp->bIsAdmin ) {
             add_action( 'current_screen', array( $this, '_replyToDetermineToLoad' ) );    
@@ -128,7 +128,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
     public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {    
 
         // Use nonce for verification
-        $_aOutput = array();
+        $_aOutput   = array();
         $_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
         
         // Condition the sections and fields definition arrays.
