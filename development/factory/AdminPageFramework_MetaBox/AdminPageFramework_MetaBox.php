@@ -249,7 +249,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
         // Schedule to add head tag elements and help pane contents. 
         if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;
     
-        $this->_loadDefaultFieldTypeDefinitions();
+        $this->_loadDefaultFieldTypeDefinitions();  // defined in the factory class.
     
         // Format the fields array.
         $this->oForm->format();
