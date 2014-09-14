@@ -473,11 +473,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function getConditionedFields( $aFields=null, $aSections=null ) {
         
-        $aFields = is_null( $aFields ) ? $this->aFields : $aFields;
-        $aSections = is_null( $aSections ) ? $this->aSections : $aSections;
+        $aFields    = is_null( $aFields ) ? $this->aFields : $aFields;
+        $aSections  = is_null( $aSections ) ? $this->aSections : $aSections;
 
         // Drop keys of fields-array which do not exist in the sections-array. For this reasons, the sections-array should be conditioned first before applying this method.
-        $aFields = ( array ) $this->castArrayContents( $aSections, $aFields );
+        $aFields    = ( array ) $this->castArrayContents( $aSections, $aFields );
 
         $_aNewFields = array();
         foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
@@ -502,7 +502,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                     
                 }
                 
-                // Otherwise, insert the formatted field definiton array.
+                // Otherwise, insert the formatted field definition array.
                 $_aField = $_aSubSectionOrField;
                 $_aField = $this->getConditionedField( $_aField );
                 if ( $_aField ) {
