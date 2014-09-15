@@ -111,17 +111,6 @@ abstract class AdminPageFramework_Property_Base {
     public $sStyleIE = '';    
 
     /**
-     * Will store true when the style is added in the head tag.
-     * @since 3.0.0
-     */
-    public $_bAddedStyle = false;    
-    /**
-     * Will store true when the script is added in the head tag.
-     * @since 3.0.0
-     */
-    public $_bAddedScript = false;
-
-    /**
      * Stores the field type definitions.
      * 
      * @since 2.1.5
@@ -516,8 +505,22 @@ abstract class AdminPageFramework_Property_Base {
      * Indicates whether the current page is in admin-ajax.php
      * 
      * @since 3.1.3
+     * @internal
      */
     public $bIsAdminAjax;
+        
+    /**
+     * Stores callable for the form field outputs such as the id and name attribute values.
+     * 
+     * @internal
+     * @since       3.2.0
+     */
+    public $aFieldCallbacks  = array(
+        'hfID'          => null,
+        'hfName'        => null,
+        'hfNameFlat'    => null,
+    );
+        
         
     /**
      * Sets up necessary property values.
@@ -717,7 +720,7 @@ abstract class AdminPageFramework_Property_Base {
      * 
      * @since 3.1.3
      */
-    public function &__get( $sName ) {
+    public function __get( $sName ) {
         
         if ( 'aScriptInfo' === $sName ) {
             $this->sCallerPath = $this->sCallerPath ? $this->sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
@@ -726,7 +729,7 @@ abstract class AdminPageFramework_Property_Base {
         }
         
         // For regular undefined items, 
-        return 'undefined';
+        // return 'undefined';
         
     }
     
