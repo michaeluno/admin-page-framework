@@ -32,23 +32,5 @@ class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag
      */    
     protected $_sClassSelector_Script   = 'admin-page-framework-script-page-meta-box';
  
-    /**
-     * Checks wither the currently loading page is appropriate for the meta box to be displayed.
-     * @since   3.0.0
-     * @since   3.2.0    Changed the name to _isInThePage() from _isMetaBoxPage().
-     * @internal
-     */
-    protected function _isInThePage() {
-            
-        if ( ! isset( $_GET['page'] ) ) { return false; }
-        
-        if ( in_array( $_GET['page'], $this->oProp->aPageSlugs ) ) {
-            return true;
-        }
-        
-        return false;
-        
-    }
-
 }
 endif;

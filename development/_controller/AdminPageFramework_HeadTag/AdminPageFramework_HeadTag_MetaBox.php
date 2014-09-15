@@ -37,19 +37,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      * @internal
      */    
     protected $_sClassSelector_Script   = 'admin-page-framework-script-meta-box';
-    
-    /**
-     * Determines whether the element should be loaded.
-     * 
-     * This method is created for other fields type factories to extend this class so that they can define own criteria to load the elements.
-     * 
-     * @since   3.2.0
-     * @internal
-     */
-    protected function _isInThePage() {
-        return $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes );
-    }
-        
+            
     /**
      * Enqueues styles by post type slug.
      * 

@@ -99,7 +99,6 @@ abstract class AdminPageFramework_HeadTag_Base {
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {}
     public function _forceToEnqueueStyle( $sSRC, $aCustomArgs=array() ) {}
     public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {}
-    protected function _isInThePage() { return true; }   
     
     /*
      * Shared methods
@@ -237,9 +236,6 @@ abstract class AdminPageFramework_HeadTag_Base {
      */     
     public function _replyToAddStyle() {
     
-        // if it's not post (post edit) page nor the post type page,
-        // if ( ! $this->_isInThePage() ) { return; } 
-            
         $_oCaller = $this->oProp->_getCallerObject();     
         if ( ! $_oCaller->_isInThePage() ) { return; }
         
@@ -257,8 +253,6 @@ abstract class AdminPageFramework_HeadTag_Base {
      */ 
     public function _replyToAddScript() {
 
-        // if it's not post (post edit) page nor the post type page,
-        // if ( ! $this->_isInThePage() ) { return; }
         
         $_oCaller = $this->oProp->_getCallerObject();     
         if ( ! $_oCaller->_isInThePage() ) { return; }

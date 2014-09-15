@@ -32,22 +32,6 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
     protected $_sClassSelector_Script   = 'admin-page-framework-script-page';
  
     /**
-     * Checks wither the currently loading page is appropriate for the meta box to be displayed.
-     * @since   3.0.0
-     * @since   3.2.0    Changed the name to _isInThePage() from _isMetaBoxPage().
-     * @internal
-     */
-    protected function _isInThePage() {
-            
-        $sPageSlug  = isset( $_GET['page'] ) ? $_GET['page'] : null;
-        // $sTabSlug   = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
-        
-        // If the loading page has not been registered or not the plugin page which uses this library, do nothing.
-        return $this->oProp->isPageAdded( $sPageSlug );
-        
-    }
-
-    /**
      * Enqueues styles by page slug and tab slug.
      * 
      * @since 2.1.5

@@ -31,19 +31,7 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
      * @internal
      */    
     protected $_sClassSelector_Script   = 'admin-page-framework-script-taxonomy-field';
- 
-    /**
-     * Checks wither the currently loading page is appropriate for the meta box to be displayed.
-     * @since   3.0.0
-     * @since   3.2.0    Changed the name to _isInThePage() from _isMetaBoxPage().
-     * @internal
-     */
-    protected function _isInThePage() {
-                      
-        return ( 'edit-tags.php' === $this->oProp->sPageNow );
-        
-    }
- 
+  
     /**
      * Enqueues styles by page slug and tab slug.
      * 
