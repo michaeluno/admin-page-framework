@@ -19,35 +19,31 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_TaxonomyField' ) ) :
 class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTag_MetaBox {
 
     /**
-     * Adds the stored CSS rules in the property into the head tag.
-     * 
-     * @remark A callback for the <em>admin_head</em> hook.
-     * @since 3.0.0
-     * @internal
-     */     
-    public function _replyToAddStyle() {
-        
-        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { return; }
-        $this->_printCommonStyles( 'admin-page-framework-style-taxonomy-field-common', get_class() ); // Note that it's not get_class( $this ) to give the abstract class name.
-        $this->_printClassSpecificStyles( 'admin-page-framework-style-taxonomy-field' );
-        
-    }
-    
-    /**
-     * Adds the stored JavaScript scripts in the property into the head tag.
-     * 
-     * @remark A callback for the <em>admin_head</em> hook.
-     * @since 3.0.0
+     * Stores the class selector used to the class-specific style.
+     * @since   3.2.0
      * @internal
      */
-    public function _replyToAddScript() {
-        
-        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { return; }
-        $this->_printCommonScripts( 'admin-page-framework-style-taxonomy-field-common', get_class() ); // Note that it's not get_class( $this ) to give the abstract class name.
-        $this->_printClassSpecificScripts( 'admin-page-framework-script-taxonomy-field' );
+    protected $_sClassSelector_Style    = 'admin-page-framework-style-taxonomy-field';
+    
+    /**
+     * Stores the class selector used to the class-specific script.
+     * @since   3.2.0
+     * @internal
+     */    
+    protected $_sClassSelector_Script   = 'admin-page-framework-script-taxonomy-field';
+ 
+    /**
+     * Checks wither the currently loading page is appropriate for the meta box to be displayed.
+     * @since   3.0.0
+     * @since   3.2.0    Changed the name to _isInThePage() from _isMetaBoxPage().
+     * @internal
+     */
+    protected function _isInThePage() {
+                      
+        return ( 'edit-tags.php' === $this->oProp->sPageNow );
         
     }
-
+ 
     /**
      * Enqueues styles by page slug and tab slug.
      * 
