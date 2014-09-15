@@ -1,12 +1,12 @@
 === Admin Page Framework ===
-Contributors: Michael Uno, miunosoft, pcraig3
-Donate link: http://michaeluno.jp/en/donate
-Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
-Requires at least: 3.3
-Tested up to: 4.0
-Stable tag: 3.1.6
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors:       Michael Uno, miunosoft, pcraig3
+Donate link:        http://michaeluno.jp/en/donate
+Tags:               admin, administration, admin panel, admin page framework, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
+Requires at least:  3.3
+Tested up to:       4.0
+Stable tag:         3.1.7
+License:            GPLv2 or later
+License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
 Provides simpler means of building administration pages for plugin and theme developers. 
 
@@ -32,6 +32,7 @@ It provides plugin and theme developers with easier means of creating option pag
 - **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
 - **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
 - **Custom Field Types** - your own field type can be registered. 
+- **Network Admin Pages** - network admin pages for WordPress multi-sites can be created.
 
 = Built-in Field Types =
 - `text` - a normal field to enter text input.
@@ -301,7 +302,7 @@ $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
 
-<h4>More FAQ on Technical Questions</h4>
+<h4>More FAQ Items</h4>
 Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
 
 == Other Notes ==
@@ -436,6 +437,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.2.0 =
+- Fixed a bug in the `autocomplete` custom field type that the default post type slug was not set properly when the page that the field is displayed contains the `post_type` query key in the url.
 
 = 3.1.7 - 2014/0912 =
 - Added the `github` custom field type that displays GitHub buttons.
