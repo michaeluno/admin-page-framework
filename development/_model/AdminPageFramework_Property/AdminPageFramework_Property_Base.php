@@ -516,9 +516,10 @@ abstract class AdminPageFramework_Property_Base {
      * @since       3.2.0
      */
     public $aFieldCallbacks  = array(
-        'hfID'          => null,
-        'hfName'        => null,
-        'hfNameFlat'    => null,
+        'hfID'          => null,    // the input id attribute
+        'hfTagID'       => null,    // the fieldset/field row container id attribute
+        'hfName'        => null,    // the input name attribute
+        'hfNameFlat'    => null,    // the flat input name attribute
     );
         
         
