@@ -73,12 +73,13 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      */ 
     public function _replyToAddTaxonomyTableFilter() {
         
-        if ( $GLOBALS['typenow'] != $this->oProp->sPostType ) return;
+        if ( $GLOBALS['typenow'] != $this->oProp->sPostType ) { return; }
         
         // If there is no post added to the post type, do nothing.
         $oPostCount = wp_count_posts( $this->oProp->sPostType );
-        if ( $oPostCount->publish + $oPostCount->future + $oPostCount->draft + $oPostCount->pending + $oPostCount->private + $oPostCount->trash == 0 )
+        if ( $oPostCount->publish + $oPostCount->future + $oPostCount->draft + $oPostCount->pending + $oPostCount->private + $oPostCount->trash == 0 ) {
             return;
+        }
         
         foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySulg ) {
             
@@ -112,20 +113,21 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      */
     public function _replyToGetTableFilterQueryForTaxonomies( $oQuery=null ) {
         
-        if ( 'edit.php' != $this->oProp->sPageNow ) return $oQuery;
+        if ( 'edit.php' != $this->oProp->sPageNow ) { return $oQuery; }
         
-        if ( ! isset( $GLOBALS['typenow'] ) ) return $oQuery;
+        if ( ! isset( $GLOBALS['typenow'] ) ) { return $oQuery; }
 
         foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySlug ) {
             
-            if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) continue;
+            if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) { continue; }
             
             $sVar = &$oQuery->query_vars[ $sTaxonomySlug ];
-            if ( ! isset( $sVar ) ) continue;
+            if ( ! isset( $sVar ) ) { continue; }
             
             $oTerm = get_term_by( 'id', $sVar, $sTaxonomySlug );
-            if ( is_object( $oTerm ) )
+            if ( is_object( $oTerm ) ) {
                 $sVar = $oTerm->slug;
+            }
 
         }
         
