@@ -21,6 +21,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     /**
      * Stores the post type slug of the post id assigned to the currently loaded page with the %_GET['post'] element.
      * @internal
+     * @deprecated  I don't remember but maybe this was created during the development of refactoring and deprecated right away.
      */
     private $_sPostTypeSlugOfCurrentPost = null;
     
