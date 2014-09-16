@@ -8,7 +8,7 @@
  */
 if ( ! class_exists( 'AdminPageFramework_Script_OptionStorage' ) ) :
 /**
- * Provides JavaScript scripts to update attribute values.
+ * Provides JavaScript scripts to store temporary option data.
  * 
  * @since       3.1.6
  * @package     AdminPageFramework
@@ -20,9 +20,8 @@ class AdminPageFramework_Script_OptionStorage {
     static public function getjQueryPlugin() {
         
         /**
-         * Attribute increment/decrement jQuery Plugin
+         * Stores framework JavaScript script options.
          */     
-        
         return "(function ( $ ) {
             
             $.fn.aAPFInputOptions = {}; 
