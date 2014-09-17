@@ -17,47 +17,60 @@ if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
  * @internal
  */
 class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
-        
+            
     /**
      * Prints out the given array contents
      * 
      * If a file pass is given, it saves the output in the file.
      * 
-     * @since unknown
+     * @remark      An alias of the dumpArray() method.
+     * @since       3.2.0
      */
-    static public function dumpArray( $asArray, $sFilePath=null ) {
+    static public function dump( $asArray, $sFilePath=null ) {
         echo self::getArray( $asArray, $sFilePath );
-    }
-    
+    }    
+        /**
+         * Prints out the given array contents
+         * 
+         * If a file pass is given, it saves the output in the file.
+         * 
+         * @since unknown
+         * @deprecated      3.2.0
+         */
+        static public function dumpArray( $asArray, $sFilePath=null ) {
+            self::dump( $asArray, $sFilePath );
+        }    
+        
     /**
      * Retrieves the output of the given array contents.
      * 
      * If a file pass is given, it saves the output in the file.
      * 
-     * @since 2.1.6 The $bEncloseInTag parameter is added.
-     * @since 3.0.0 Changed the $bEncloseInTag parameter to bEscape.
+     * @remark      An alias of getArray() method.
+     * @since       3.2.0
      */
-    static public function getArray( $asArray, $sFilePath=null, $bEscape=true ) {
-            
+    static public function get( $asArray, $sFilePath=null, $bEscape=true ) {
+
         if ( $sFilePath ) self::logArray( $asArray, $sFilePath );     
         
         return $bEscape
             ? "<pre class='dump-array'>" . htmlspecialchars( print_r( $asArray, true ) ) . "</pre>" // esc_html() has a bug that breaks with complex HTML code.
-            : print_r( $asArray, true ); // non-escape is used for exporting data into file.
+            : print_r( $asArray, true ); // non-escape is used for exporting data into file.    
         
-    }    
-    
-    /**
-     * Logs the given array output into the given file.
-     * 
-     * @since 2.1.1
-     * @since 3.0.3 Changed the default log location and file name.
-     * @deprecated 3.1.0 Use the log() method instead
-     */
-    static public function logArray( $asArray, $sFilePath=null ) {
-        self::log( $asArray, $sFilePath );     
-    }    
-    
+    }
+        /**
+         * Retrieves the output of the given array contents.
+         * 
+         * If a file pass is given, it saves the output in the file.
+         * 
+         * @since       2.1.6 The $bEncloseInTag parameter is added.
+         * @since       3.0.0 Changed the $bEncloseInTag parameter to bEscape.
+         * @deprecated` 3.2.0
+         */
+        static public function getArray( $asArray, $sFilePath=null, $bEscape=true ) {
+            return self::get( $asArray, $sFilePath, $bEscape );
+        }      
+            
     /**
      * Logs the given variable output to a file.
      * 
@@ -103,5 +116,15 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
         $_fPreviousTimeStamp = $_fCurrentTimeStamp;
         
     }     
+        /**
+         * Logs the given array output into the given file.
+         * 
+         * @since       2.1.1
+         * @since       3.0.3 Changed the default log location and file name.
+         * @deprecated  3.1.0 Use the log() method instead
+         */
+        static public function logArray( $asArray, $sFilePath=null ) {
+            self::log( $asArray, $sFilePath );     
+        }        
 }
 endif;
