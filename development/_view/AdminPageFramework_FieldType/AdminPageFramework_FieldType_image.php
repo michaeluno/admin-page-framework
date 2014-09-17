@@ -214,77 +214,77 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
              
             if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
                 return "
-                    jQuery( document ).ready( function(){
-                        /**
-                         * Bind/rebinds the thickbox script the given selector element.
-                         * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
-                         */
-                        setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
-                            jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
-                            jQuery( '#select_image_' + sInputID ).click( function() {
-                                var sPressedID                  = jQuery( this ).attr( 'id' );     
-                                window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-                                window.original_send_to_editor  = window.send_to_editor;
-                                window.send_to_editor           = hfAPFSendToEditorImage;
-                                var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
-                                tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-                                return false; // do not click the button after the script by returning false.     
-                            });    
-                        }     
+                    
+                    /**
+                     * Bind/rebinds the thickbox script the given selector element.
+                     * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
+                     */
+                    setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+                        jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
+                        jQuery( '#select_image_' + sInputID ).click( function() {
+                            var sPressedID                  = jQuery( this ).attr( 'id' );     
+                            window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+                            window.original_send_to_editor  = window.send_to_editor;
+                            window.send_to_editor           = hfAPFSendToEditorImage;
+                            var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
+                            tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+                            return false; // do not click the button after the script by returning false.     
+                        });    
+                    }     
+                    
+                    var hfAPFSendToEditorImage = function( sRawHTML ) {
+
+                        var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+                        var src         = jQuery( 'img', sHTML ).attr( 'src' );
+                        var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
+                        var title       = jQuery( 'img', sHTML ).attr( 'title' );
+                        var width       = jQuery( 'img', sHTML ).attr( 'width' );
+                        var height      = jQuery( 'img', sHTML ).attr( 'height' );
+                        var classes     = jQuery( 'img', sHTML ).attr( 'class' );
+                        var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
+                        var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+                            .replace( /<a.*?>(.*?)<\/a>/m, '' );
+                        var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
+                        var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
+
+                        // Escape the strings of some of the attributes.
+                        var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
+                        var sAlt        = jQuery( '<div/>' ).text( alt ).html();
+                        var title       = jQuery( '<div/>' ).text( title ).html();     
+            
+                        // If the user wants to save relevant attributes, set them.
+                        var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
+            
+                        jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+                        jQuery( '#' + sInputID + '_id' ).val( id );
+                        jQuery( '#' + sInputID + '_width' ).val( width );
+                        jQuery( '#' + sInputID + '_height' ).val( height );
+                        jQuery( '#' + sInputID + '_caption' ).val( sCaption );
+                        jQuery( '#' + sInputID + '_alt' ).val( sAlt );
+                        jQuery( '#' + sInputID + '_title' ).val( title );     
+                        jQuery( '#' + sInputID + '_align' ).val( align );     
+                        jQuery( '#' + sInputID + '_link' ).val( link );     
                         
-                        var hfAPFSendToEditorImage = function( sRawHTML ) {
+                        // Update the preview
+                        jQuery( '#image_preview_' + sInputID ).attr( 'alt', alt );
+                        jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
+                        jQuery( '#image_preview_' + sInputID ).attr( 'data-classes', classes );
+                        jQuery( '#image_preview_' + sInputID ).attr( 'data-id', id );
+                        jQuery( '#image_preview_' + sInputID ).attr( 'src', src ); // updates the preview image
+                        jQuery( '#image_preview_container_' + sInputID ).css( 'display', '' ); // updates the visibility
+                        jQuery( '#image_preview_' + sInputID ).show() // updates the visibility
+                        
+                        // restore the original send_to_editor
+                        window.send_to_editor = window.original_send_to_editor;
 
-                            var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-                            var src         = jQuery( 'img', sHTML ).attr( 'src' );
-                            var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
-                            var title       = jQuery( 'img', sHTML ).attr( 'title' );
-                            var width       = jQuery( 'img', sHTML ).attr( 'width' );
-                            var height      = jQuery( 'img', sHTML ).attr( 'height' );
-                            var classes     = jQuery( 'img', sHTML ).attr( 'class' );
-                            var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
-                            var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
-                                .replace( /<a.*?>(.*?)<\/a>/m, '' );
-                            var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
-                            var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
+                        // close the thickbox
+                        tb_remove();    
 
-                            // Escape the strings of some of the attributes.
-                            var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
-                            var sAlt        = jQuery( '<div/>' ).text( alt ).html();
-                            var title       = jQuery( '<div/>' ).text( title ).html();     
-                
-                            // If the user wants to save relevant attributes, set them.
-                            var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
-                
-                            jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-                            jQuery( '#' + sInputID + '_id' ).val( id );
-                            jQuery( '#' + sInputID + '_width' ).val( width );
-                            jQuery( '#' + sInputID + '_height' ).val( height );
-                            jQuery( '#' + sInputID + '_caption' ).val( sCaption );
-                            jQuery( '#' + sInputID + '_alt' ).val( sAlt );
-                            jQuery( '#' + sInputID + '_title' ).val( title );     
-                            jQuery( '#' + sInputID + '_align' ).val( align );     
-                            jQuery( '#' + sInputID + '_link' ).val( link );     
-                            
-                            // Update the preview
-                            jQuery( '#image_preview_' + sInputID ).attr( 'alt', alt );
-                            jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
-                            jQuery( '#image_preview_' + sInputID ).attr( 'data-classes', classes );
-                            jQuery( '#image_preview_' + sInputID ).attr( 'data-id', id );
-                            jQuery( '#image_preview_' + sInputID ).attr( 'src', src ); // updates the preview image
-                            jQuery( '#image_preview_container_' + sInputID ).css( 'display', '' ); // updates the visibility
-                            jQuery( '#image_preview_' + sInputID ).show() // updates the visibility
-                            
-                            // restore the original send_to_editor
-                            window.send_to_editor = window.original_send_to_editor;
-
-                            // close the thickbox
-                            tb_remove();    
-
-                        }
-                    });
+                    }
+                    
                 ";
 
-            return "jQuery( document ).ready( function(){
+            return "
                 
                 // Global Function Literal 
                 /**
@@ -414,7 +414,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     }
                 }       
                 
-            });
+
             ";
         }
     
