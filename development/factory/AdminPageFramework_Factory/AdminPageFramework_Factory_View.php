@@ -89,7 +89,14 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      */
     public function _replyToGetFieldOutput( $aField ) {
 
-        $_oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, $this->_getFieldErrors(), $this->oProp->aFieldTypeDefinitions, $this->oMsg ); // currently the error array is not supported for meta-boxes     
+        $_oField = new AdminPageFramework_FormField( 
+            $aField,                                // the field definition array
+            $this->oProp->aOptions,                 // the stored form data
+            $this->_getFieldErrors(),               // the field error array. Not supported in meta boxes.
+            $this->oProp->aFieldTypeDefinitions,    // the field type definition array.
+            $this->oMsg,                            // the system message object
+            $this->oProp->aFieldCallbacks           // field output element callables.
+        ); 
         return $this->oUtil->addAndApplyFilters(
             $this,
             array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}

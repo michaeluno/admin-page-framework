@@ -500,12 +500,12 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
         $_aBaseAttributes = $aField['attributes'];
         unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'] );
         $_aInputAttributes = array(
-            'name' => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
+            'name'  => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
             'value' => $_sImageURL,
-            'type' => 'text',
+            'type'  => 'text',
         ) + $aField['attributes']['input'] + $_aBaseAttributes;
-        $_aButtonAtributes = $aField['attributes']['button'] + $_aBaseAttributes;
-        $_aPreviewAtrributes = $aField['attributes']['preview'] + $_aBaseAttributes;
+        $_aButtonAtributes      = $aField['attributes']['button'] + $_aBaseAttributes;
+        $_aPreviewAtrributes    = $aField['attributes']['preview'] + $_aBaseAttributes;
 
         /* Compose the field output */
         $_aOutput[] =

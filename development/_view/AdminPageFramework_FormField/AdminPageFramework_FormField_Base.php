@@ -62,24 +62,35 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
             'hfTagID'       => null,    // the fieldset/field row container id attribute
             'hfName'        => null,    // the input name attribute
             'hfNameFlat'    => null,    // the flat input name attribute                
+            'hfClass'       => null,    // the class attribute
         );        
         
         /* 2. Load necessary JavaScript scripts */
-        $this->_loadScripts();
+        $this->_loadScripts( $this->aField['_fields_type'] );
         
     }    
         /**
-         * The flags that indicate loading components.
+         * Flags whether scripts are loaded or not.
+         * 
+         * @since   3.2.0
          */
-        static private $_bIsLoadedSScripts = false;
+        static private $_bIsLoadedSScripts          = false;
+        static private $_bIsLoadedSScripts_Widget   = false;
         
         /**
          * Inserts necessary JavaScript scripts for fields.
          * 
-         * @since 3.0.0
+         * @since   3.0.0
+         * @since   3.2.0   Added the $sFieldsType parameter.
+         * @internal
          */
-        private function _loadScripts() {
-                        
+        private function _loadScripts( $sFieldsType='' ) {
+            
+            if ( 'widget' === $sFieldsType && ! self::$_bIsLoadedSScripts_Widget ) {
+                add_action( 'admin_footer', array( $this, '_replyToAddWidgetEventHanderjQueryScript' ) );
+                self::$_bIsLoadedSScripts_Widget = true;
+            }
+            
             if ( self::$_bIsLoadedSScripts ) { return; }
             
             self::$_bIsLoadedSScripts = true;
@@ -89,7 +100,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
             add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
-            
+                        
         }
     
     /**
@@ -215,6 +226,24 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
                 . AdminPageFramework_Script_Sortable::getjQueryPlugin()
             . "</script>";
             
+    }
+    
+    /**
+    * Returns the JavaScript script that handles widget drop events.
+    * @since        3.2.0
+    * @access       public    
+    * @internal
+    */   
+    public function _replyToAddWidgetEventHanderjQueryScript() {
+        
+        // If the WordPress version is greater than or equal to 4.0, do not add the script.
+        if ( version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
+            return;
+        }
+        
+        echo "<script type='text/javascript' class='admin-page-framework-widget-event-handler'>"
+                . AdminPageFramework_Script_Widget::getjQueryPlugin()
+            . "</script>"; 
     }
         
 }

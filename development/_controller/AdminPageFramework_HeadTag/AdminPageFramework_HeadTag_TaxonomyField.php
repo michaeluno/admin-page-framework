@@ -10,28 +10,14 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_TaxonomyField' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag in the taxonomy page.
  * 
- * @since 3.0.0
- * @package Admin Page Framework
- * @subpackage HeadTag
- * @extends AdminPageFramework_HeadTag_MetaBox
+ * @since       3.0.0
+ * @package     Admin Page Framework
+ * @subpackage  HeadTag
+ * @extends     AdminPageFramework_HeadTag_MetaBox
  * @internal
  */
 class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTag_MetaBox {
 
-    /**
-     * Stores the class selector used to the class-specific style.
-     * @since   3.2.0
-     * @internal
-     */
-    protected $_sClassSelector_Style    = 'admin-page-framework-style-taxonomy-field';
-    
-    /**
-     * Stores the class selector used to the class-specific script.
-     * @since   3.2.0
-     * @internal
-     */    
-    protected $_sClassSelector_Script   = 'admin-page-framework-script-taxonomy-field';
-  
     /**
      * Enqueues styles by page slug and tab slug.
      * 

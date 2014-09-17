@@ -286,47 +286,44 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 			
 			if( ! function_exists( 'wp_enqueue_media' ) )	// means the WordPress version is 3.4.x or below
 				return "
-					jQuery( document ).ready( function(){
-						
-						setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
-							jQuery( '#select_font_' + sInputID ).unbind( 'click' );	// for repeatable fields
-							jQuery( '#select_font_' + sInputID ).click( function() {
-								var sPressedID = jQuery( this ).attr( 'id' );
-								window.sInputID = sPressedID.substring( 12 );	// remove the select_font_ prefix and set a property to pass it to the editor callback method.
-								window.original_send_to_editor = window.send_to_editor;
-								window.send_to_editor = hfAPFSendToEditorFont;
-								var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-								tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-								return false;	// do not click the button after the script by returning false.									
-							});	
-						}					
-						
-						var hfAPFSendToEditorFont = function( sRawHTML ) {
-							
-							var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
-							var src = jQuery( 'a', sHTML ).attr( 'href' );
+                
+                    
+                    setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
+                        jQuery( '#select_font_' + sInputID ).unbind( 'click' );	// for repeatable fields
+                        jQuery( '#select_font_' + sInputID ).click( function() {
+                            var sPressedID = jQuery( this ).attr( 'id' );
+                            window.sInputID = sPressedID.substring( 12 );	// remove the select_font_ prefix and set a property to pass it to the editor callback method.
+                            window.original_send_to_editor = window.send_to_editor;
+                            window.send_to_editor = hfAPFSendToEditorFont;
+                            var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+                            tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+                            return false;	// do not click the button after the script by returning false.									
+                        });	
+                    }					
+                    
+                    var hfAPFSendToEditorFont = function( sRawHTML ) {
+                        
+                        var sHTML = '<div>' + sRawHTML + '</div>';	// This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.							
+                        var src = jQuery( 'a', sHTML ).attr( 'href' );
 
-							// If the user wants to save relevant attributes, set them.
-							var sInputID = window.sInputID;	// window.sInputID should be assigned when the thickbox is opened.
-							jQuery( '#' + sInputID ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-																					
-							// restore the original send_to_editor
-							window.send_to_editor = window.original_send_to_editor;
-																					
-							// Set the font preview
-							setFontPreview( src, sInputID );		
-							
-							// close the thickbox
-							tb_remove();							
-							
-						}
-												
-					});
+                        // If the user wants to save relevant attributes, set them.
+                        var sInputID = window.sInputID;	// window.sInputID should be assigned when the thickbox is opened.
+                        jQuery( '#' + sInputID ).val( src );	// sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+                                                                                
+                        // restore the original send_to_editor
+                        window.send_to_editor = window.original_send_to_editor;
+                                                                                
+                        // Set the font preview
+                        setFontPreview( src, sInputID );		
+                        
+                        // close the thickbox
+                        tb_remove();							
+                        
+                    }
+					
 				";
 					
-			return "jQuery( document ).ready( function(){
-
-				// Global Function Literal 
+			return "// Global Function Literal 
 				setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
 					
 					var fEscaped = false;	// indicates whether the frame is escaped/canceled.
@@ -430,7 +427,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 					}						
 					
 				}		
-			});
+
 			";
 		}
 		

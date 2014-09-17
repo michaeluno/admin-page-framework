@@ -13,24 +13,9 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox_Page' ) ) :
  * @since       3.0.0
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
+ * @extends     AdminPageFramework_HeadTag_Page
  * @subpackage  HeadTag
  * @internal
  */
-class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {
-        
-    /**
-     * Stores the class selector used to the class-specific style.
-     * @since   3.2.0
-     * @internal
-     */
-    protected $_sClassSelector_Style    = 'admin-page-framework-style-page-meta-box';
-    
-    /**
-     * Stores the class selector used to the class-specific script.
-     * @since   3.2.0
-     * @internal
-     */    
-    protected $_sClassSelector_Script   = 'admin-page-framework-script-page-meta-box';
- 
-}
+class AdminPageFramework_HeadTag_MetaBox_Page extends AdminPageFramework_HeadTag_Page {}
 endif;

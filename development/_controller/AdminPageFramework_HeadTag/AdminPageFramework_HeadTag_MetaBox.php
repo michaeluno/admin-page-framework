@@ -10,35 +10,15 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
  * 
- * @since 2.1.5
- * @use AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage HeadTag
+ * @since       2.1.5
+ * @use         AdminPageFramework_Utility
+ * @package     AdminPageFramework
+ * @extends     AdminPageFramework_HeadTag_Base
+ * @subpackage  HeadTag
  * @internal
  */
 class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
-    
-    /**
-     * Stores the post type slug of the post id assigned to the currently loaded page with the %_GET['post'] element.
-     * @internal
-     * @deprecated  I don't remember but maybe this was created during the development of refactoring and deprecated right away.
-     */
-    private $_sPostTypeSlugOfCurrentPost = null;
-    
-    /**
-     * Stores the class selector used to the class-specific style.
-     * @since   3.2.0
-     * @internal
-     */
-    protected $_sClassSelector_Style    = 'admin-page-framework-style-meta-box';
-    
-    /**
-     * Stores the class selector used to the class-specific script.
-     * @since   3.2.0
-     * @internal
-     */    
-    protected $_sClassSelector_Script   = 'admin-page-framework-script-meta-box';
-            
+             
     /**
      * Enqueues styles by post type slug.
      * 

@@ -100,13 +100,12 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Determines whether the meta box belongs to the loading page.
      * 
-     * @since 3.0.3
      * @internal
+     * @since       3.0.3
+     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
      */
-    protected function _isInThePage() {
-        
+    public function _isInThePage() {
         return ( in_array( $this->oProp->sPageNow, array( 'edit-tags.php', 'admin-ajax.php' ) ) );
-        
     }    
     
     /**

@@ -47,10 +47,11 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
     /**
      * Determines whether the meta box belongs to the loading page.
      * 
-     * @since 3.0.3
+     * @since       3.0.3
+     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
      * @internal
      */
-    protected function _isInThePage() {
+    public function _isInThePage() {
         
         if ( ! $this->oProp->bIsAdmin ) {
             return false;     

@@ -13,23 +13,10 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_Page' ) ) :
  * @since       2.1.5
  * @package     AdminPageFramework
  * @subpackage  HeadTag
+ * @extends     AdminPageFramework_HeadTag_Base
  * @internal
  */
 class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
-
-    /**
-     * Stores the class selector used to the class-specific style.
-     * @since   3.2.0
-     * @internal
-     */
-    protected $_sClassSelector_Style    = 'admin-page-framework-style-page';
-    
-    /**
-     * Stores the class selector used to the class-specific script.
-     * @since   3.2.0
-     * @internal
-     */    
-    protected $_sClassSelector_Script   = 'admin-page-framework-script-page';
  
     /**
      * Enqueues styles by page slug and tab slug.

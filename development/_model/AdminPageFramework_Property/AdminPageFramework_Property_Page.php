@@ -321,9 +321,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * */
     /**
      * 
-     * @remark Without the the ampersand in the method name, it causes a PHP warning.
+     * @since       3.2.0   Removed the ampersand prepended in the method name.
      */
-    public function &__get( $sName ) {
+    public function __get( $sName ) {
         
         // If $this->aOptions is called for the first time, retrieve the option data from the database and assign them to the property.
         // Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.

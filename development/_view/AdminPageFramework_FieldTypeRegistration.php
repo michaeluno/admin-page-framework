@@ -90,7 +90,7 @@ class AdminPageFramework_FieldTypeRegistration  {
     static public function _setFieldHeadTagElements( array $aField, $oProp, & $oHeadTag ) {
 
         $_sFieldType = $aField['type'];
-            
+
         self::$_aLoadFlags[ $oProp->_sPropertyType ] = isset( self::$_aLoadFlags[ $oProp->_sPropertyType ] ) && is_array( self::$_aLoadFlags[ $oProp->_sPropertyType ] )
             ? self::$_aLoadFlags[ $oProp->_sPropertyType ]
             : array();

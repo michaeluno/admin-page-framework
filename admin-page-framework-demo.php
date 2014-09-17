@@ -5,7 +5,7 @@
     Description:    Demonstrates the features of the Admin Page Framework class.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.1.7
+    Version:        3.2.0b02
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -34,6 +34,16 @@ new APF_PostType(
     null,           // the argument array. Here null is passed because it is defined inside the class.
     __FILE__        // the caller script path.
 );     
+
+// Create widgets.
+include( APFDEMO_DIRNAME . '/example/APF_Widget.php' );
+new APF_Widget( __( 'Admin Page Framework', 'admin-page-framework-demo' ) );  // the widget title
+include( APFDEMO_DIRNAME . '/example/APF_Widget_CustomFieldTypes.php' );
+new APF_Widget_CustomFieldTypes( __( 'APF - Advanced', 'admin-page-framework-demo' ) );
+include( APFDEMO_DIRNAME . '/example/APF_Widget_Example.php' );
+new APF_Widget_Example( __( 'APF - GitHub Button', 'admin-page-framework-demo' ) );
+
+// Create admin pages.
 if ( is_admin() ) :
 
     // Create meta boxes with form fields that appear in post definition pages (where you create a post) of the given post type.
