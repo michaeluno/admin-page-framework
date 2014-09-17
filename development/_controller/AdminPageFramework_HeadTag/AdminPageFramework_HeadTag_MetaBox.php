@@ -77,7 +77,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
+        if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
         $sSRC = $this->oUtil->resolveSRC( $sSRC );
         
