@@ -8,7 +8,7 @@
 	<title>File factory/AdminPageFramework_MetaBox_Page/AdminPageFramework_MetaBox_Page_Router.php | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?1864300470"></script>
+	<script type="text/javascript" src="elementlist.js?3958693048"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -71,6 +71,8 @@
 				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
 						</li>
 							</ul></li>
 				<li><a href="package-None.html">None</a>
@@ -150,24 +152,25 @@
 </span><span id="47" class="l"><a class="l" href="#47">47 </a>    <span class="php-comment">/**
 </span></span><span id="48" class="l"><a class="l" href="#48">48 </a><span class="php-comment">     * Determines whether the meta box belongs to the loading page.
 </span></span><span id="49" class="l"><a class="l" href="#49">49 </a><span class="php-comment">     * 
-</span></span><span id="50" class="l"><a class="l" href="#50">50 </a><span class="php-comment">     * @since 3.0.3
-</span></span><span id="51" class="l"><a class="l" href="#51">51 </a><span class="php-comment">     * @internal
-</span></span><span id="52" class="l"><a class="l" href="#52">52 </a><span class="php-comment">     */</span>
-</span><span id="53" class="l"><a class="l" href="#53">53 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> <a id="__isInThePage" href="#__isInThePage">_isInThePage</a>() {
-</span><span id="54" class="l"><a class="l" href="#54">54 </a>        
-</span><span id="55" class="l"><a class="l" href="#55">55 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oProp-&gt;bIsAdmin ) {
-</span><span id="56" class="l"><a class="l" href="#56">56 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;     
-</span><span id="57" class="l"><a class="l" href="#57">57 </a>        }
-</span><span id="58" class="l"><a class="l" href="#58">58 </a>                    
-</span><span id="59" class="l"><a class="l" href="#59">59 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) {
-</span><span id="60" class="l"><a class="l" href="#60">60 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="61" class="l"><a class="l" href="#61">61 </a>        }
-</span><span id="62" class="l"><a class="l" href="#62">62 </a>            
-</span><span id="63" class="l"><a class="l" href="#63">63 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs );
-</span><span id="64" class="l"><a class="l" href="#64">64 </a>        
-</span><span id="65" class="l"><a class="l" href="#65">65 </a>    }     
-</span><span id="66" class="l"><a class="l" href="#66">66 </a>}
-</span><span id="67" class="l"><a class="l" href="#67">67 </a></span><span class="php-keyword1">endif</span>;</code></pre>
+</span></span><span id="50" class="l"><a class="l" href="#50">50 </a><span class="php-comment">     * @since       3.0.3
+</span></span><span id="51" class="l"><a class="l" href="#51">51 </a><span class="php-comment">     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
+</span></span><span id="52" class="l"><a class="l" href="#52">52 </a><span class="php-comment">     * @internal
+</span></span><span id="53" class="l"><a class="l" href="#53">53 </a><span class="php-comment">     */</span>
+</span><span id="54" class="l"><a class="l" href="#54">54 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__isInThePage" href="#__isInThePage">_isInThePage</a>() {
+</span><span id="55" class="l"><a class="l" href="#55">55 </a>        
+</span><span id="56" class="l"><a class="l" href="#56">56 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oProp-&gt;bIsAdmin ) {
+</span><span id="57" class="l"><a class="l" href="#57">57 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;     
+</span><span id="58" class="l"><a class="l" href="#58">58 </a>        }
+</span><span id="59" class="l"><a class="l" href="#59">59 </a>                    
+</span><span id="60" class="l"><a class="l" href="#60">60 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) {
+</span><span id="61" class="l"><a class="l" href="#61">61 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="62" class="l"><a class="l" href="#62">62 </a>        }
+</span><span id="63" class="l"><a class="l" href="#63">63 </a>            
+</span><span id="64" class="l"><a class="l" href="#64">64 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">in_array</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>], <span class="php-var">$this</span>-&gt;oProp-&gt;aPageSlugs );
+</span><span id="65" class="l"><a class="l" href="#65">65 </a>        
+</span><span id="66" class="l"><a class="l" href="#66">66 </a>    }     
+</span><span id="67" class="l"><a class="l" href="#67">67 </a>}
+</span><span id="68" class="l"><a class="l" href="#68">68 </a></span><span class="php-keyword1">endif</span>;</code></pre>
 	</div>
 
 	<div id="footer">

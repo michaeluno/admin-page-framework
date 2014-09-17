@@ -8,7 +8,7 @@
 	<title>File factory/AdminPageFramework_MetaBox/AdminPageFramework_MetaBox.php | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?1864300470"></script>
+	<script type="text/javascript" src="elementlist.js?3958693048"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
 
@@ -71,6 +71,8 @@
 				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
 						</li>
 							</ul></li>
 				<li><a href="package-None.html">None</a>
@@ -194,20 +196,20 @@
 </span><span id="95" class="l"><a class="l" href="#95"> 95 </a>        <span class="php-comment">/**
 </span></span><span id="96" class="l"><a class="l" href="#96"> 96 </a><span class="php-comment">         * Determines whether the meta box belongs to the loading page.
 </span></span><span id="97" class="l"><a class="l" href="#97"> 97 </a><span class="php-comment">         * 
-</span></span><span id="98" class="l"><a class="l" href="#98"> 98 </a><span class="php-comment">         * @since 3.0.3
-</span></span><span id="99" class="l"><a class="l" href="#99"> 99 </a><span class="php-comment">         * @internal
-</span></span><span id="100" class="l"><a class="l" href="#100">100 </a><span class="php-comment">         */</span>
-</span><span id="101" class="l"><a class="l" href="#101">101 </a>        <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> <a id="__isInThePage" href="#__isInThePage">_isInThePage</a>() {
-</span><span id="102" class="l"><a class="l" href="#102">102 </a>
-</span><span id="103" class="l"><a class="l" href="#103">103 </a>            <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sPageNow, <span class="php-keyword1">array</span>( <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) ) ) {
-</span><span id="104" class="l"><a class="l" href="#104">104 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="105" class="l"><a class="l" href="#105">105 </a>            }
-</span><span id="106" class="l"><a class="l" href="#106">106 </a>            
-</span><span id="107" class="l"><a class="l" href="#107">107 </a>            <span class="php-var">$_sCurrentPostType</span> = <span class="php-var">$this</span>-&gt;oUtil-&gt;getCurrentPostType();
-</span><span id="108" class="l"><a class="l" href="#108">108 </a>            <span class="php-keyword1">if</span> ( <span class="php-var">$_sCurrentPostType</span> &amp;&amp; ! <span class="php-keyword2">in_array</span>( <span class="php-var">$_sCurrentPostType</span>, <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) ) {     
+</span></span><span id="98" class="l"><a class="l" href="#98"> 98 </a><span class="php-comment">         * @since       3.0.3
+</span></span><span id="99" class="l"><a class="l" href="#99"> 99 </a><span class="php-comment">         * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
+</span></span><span id="100" class="l"><a class="l" href="#100">100 </a><span class="php-comment">         * @internal
+</span></span><span id="101" class="l"><a class="l" href="#101">101 </a><span class="php-comment">         */</span>
+</span><span id="102" class="l"><a class="l" href="#102">102 </a>        <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="__isInThePage" href="#__isInThePage">_isInThePage</a>() {
+</span><span id="103" class="l"><a class="l" href="#103">103 </a>
+</span><span id="104" class="l"><a class="l" href="#104">104 </a>            <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oProp-&gt;sPageNow, <span class="php-keyword1">array</span>( <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) ) ) {            
+</span><span id="105" class="l"><a class="l" href="#105">105 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="106" class="l"><a class="l" href="#106">106 </a>            }
+</span><span id="107" class="l"><a class="l" href="#107">107 </a>            
+</span><span id="108" class="l"><a class="l" href="#108">108 </a>            <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">in_array</span>( <span class="php-var">$this</span>-&gt;oUtil-&gt;getCurrentPostType(), <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) ) {     
 </span><span id="109" class="l"><a class="l" href="#109">109 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;    
 </span><span id="110" class="l"><a class="l" href="#110">110 </a>            }    
-</span><span id="111" class="l"><a class="l" href="#111">111 </a>        
+</span><span id="111" class="l"><a class="l" href="#111">111 </a>
 </span><span id="112" class="l"><a class="l" href="#112">112 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
 </span><span id="113" class="l"><a class="l" href="#113">113 </a>            
 </span><span id="114" class="l"><a class="l" href="#114">114 </a>        }
@@ -349,7 +351,7 @@
 </span><span id="250" class="l"><a class="l" href="#250">250 </a>        <span class="php-comment">// Schedule to add head tag elements and help pane contents. </span>
 </span><span id="251" class="l"><a class="l" href="#251">251 </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;oUtil-&gt;isPostDefinitionPage( <span class="php-var">$this</span>-&gt;oProp-&gt;aPostTypes ) ) <span class="php-keyword1">return</span>;
 </span><span id="252" class="l"><a class="l" href="#252">252 </a>    
-</span><span id="253" class="l"><a class="l" href="#253">253 </a>        <span class="php-var">$this</span>-&gt;_loadDefaultFieldTypeDefinitions();
+</span><span id="253" class="l"><a class="l" href="#253">253 </a>        <span class="php-var">$this</span>-&gt;_loadDefaultFieldTypeDefinitions();  <span class="php-comment">// defined in the factory class.</span>
 </span><span id="254" class="l"><a class="l" href="#254">254 </a>    
 </span><span id="255" class="l"><a class="l" href="#255">255 </a>        <span class="php-comment">// Format the fields array.</span>
 </span><span id="256" class="l"><a class="l" href="#256">256 </a>        <span class="php-var">$this</span>-&gt;oForm-&gt;format();

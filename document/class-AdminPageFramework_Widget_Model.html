@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="generator" content="ApiGen 2.8.0">
 
-	<title>Class AdminPageFramework_PostType_View | Admin Page Framework Documentation</title>
+	<title>Class AdminPageFramework_Widget_Model | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
 	<script type="text/javascript" src="elementlist.js?3958693048"></script>
@@ -21,7 +21,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li>
-							<a href="package-AdminPageFramework.PostType.html" title="Summary of AdminPageFramework\PostType"><span>Package</span></a>
+							<a href="package-AdminPageFramework.Widget.html" title="Summary of AdminPageFramework\Widget"><span>Package</span></a>
 						</li>
 						<li class="active">
 <span>Class</span>						</li>
@@ -66,11 +66,11 @@
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
-				<li class="active main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
+				<li class="main"><a href="package-AdminPageFramework.PostType.html">PostType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
+				<li class="active main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
 						</li>
 							</ul></li>
 				<li><a href="package-None.html">None</a>
@@ -82,11 +82,12 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-AdminPageFramework_PostType.html">AdminPageFramework_PostType</a></li>
-				<li><a href="class-AdminPageFramework_PostType_Controller.html">AdminPageFramework_PostType_Controller</a></li>
-				<li><a href="class-AdminPageFramework_PostType_Model.html">AdminPageFramework_PostType_Model</a></li>
-				<li><a href="class-AdminPageFramework_PostType_Router.html">AdminPageFramework_PostType_Router</a></li>
-				<li class="active"><a href="class-AdminPageFramework_PostType_View.html">AdminPageFramework_PostType_View</a></li>
+				<li><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></li>
+				<li><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></li>
+				<li><a href="class-AdminPageFramework_Widget_Factory.html">AdminPageFramework_Widget_Factory</a></li>
+				<li class="active"><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></li>
+				<li><a href="class-AdminPageFramework_Widget_Router.html">AdminPageFramework_Widget_Router</a></li>
+				<li><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></li>
 			</ul>
 
 
@@ -102,14 +103,14 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class AdminPageFramework_PostType_View</h1>
+	<h1>Class AdminPageFramework_Widget_Model</h1>
 
 
 	<div class="description">
 	
-<p>Provides methods of views for the post type factory class.</p>
+<p>Provides methods of models for the widget factory class.</p>
 
-<p>Those methods are internal and deal with printing outputs.</p>
+<p>Those methods are internal and deal with internal properties.</p>
 
 	</div>
 
@@ -145,21 +146,14 @@ AdminPageFramework_Factory
 		</dd>
 		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_PostType_Router.html"><span>AdminPageFramework_PostType_Router</span></a>
+			<a href="class-AdminPageFramework_Widget_Router.html"><span>AdminPageFramework_Widget_Router</span></a>
 			
 			
 			
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_PostType_Model.html"><span>AdminPageFramework_PostType_Model</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:210px">
-			<img src="resources/inherit.png" alt="Extended by">
-<b><span>AdminPageFramework_PostType_View</span></b>			
+<b><span>AdminPageFramework_Widget_Model</span></b>			
 			
 			
 		</dd>
@@ -169,14 +163,15 @@ AdminPageFramework_Factory
 	<div>
 		<h3>Direct known subclasses</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_PostType_Controller.html">AdminPageFramework_PostType_Controller</a></code>
+			<code><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></code>
 		</p>
 	</div>
 
 	<div>
 		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_PostType.html">AdminPageFramework_PostType</a></code>
+			<code><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></code>, 
+			<code><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></code>
 		</p>
 	</div>
 
@@ -188,11 +183,11 @@ AdminPageFramework_Factory
 		<b>Abstract</b><br>
 		
 		
-		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.PostType.html">PostType</a><br>
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Widget.html">Widget</a><br>
 
 				<b>Since:</b>
-				3.0.4<br>
-		<b>Located at</b> <a href="source-class-AdminPageFramework_PostType_View.html#10-226" title="Go to source code">factory/AdminPageFramework_PostType/AdminPageFramework_PostType_View.php</a><br>
+				3.2.0<br>
+		<b>Located at</b> <a href="source-class-AdminPageFramework_Widget_Model.html#10-100" title="Go to source code">factory/AdminPageFramework_Widget/AdminPageFramework_Widget_Model.php</a><br>
 	</div>
 
 
@@ -210,7 +205,7 @@ AdminPageFramework_Factory
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_View.html#22-41" title="Go to source code">__construct</a>( <span>mixed <var>$oProp</var></span> )</code>
+			<code><a href="source-class-AdminPageFramework_Widget_Model.html#22-33" title="Go to source code">__construct</a>( <span>mixed <var>$oProp</var></span> )</code>
 
 			<div class="description short" style="display:none;">
 				
@@ -229,12 +224,51 @@ AdminPageFramework_Factory
 
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_PostType_Model.html#___construct">AdminPageFramework_PostType_Model::__construct</a></code></div>
+					<div class="list"><code>AdminPageFramework_Factory_View::__construct</code></div>
 
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="content" id="_content">
+		<tr data-order="validate" id="_validate">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_validate">#</a>
+			<code><a href="source-class-AdminPageFramework_Widget_Model.html#35-44" title="Go to source code">validate</a>( <span>mixed <var>$aSubmit</var></span>, <span>mixed <var>$aStored</var></span>, <span>mixed <var>$oAdminWidget</var></span> )</code>
+
+			<div class="description short" style="display:none;">
+				
+<p>The predefined validation method.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The predefined validation method.</p>
+
+<p>This method should be overridden in an extended class.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.2.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="_isInThePage" id="__isInThePage">
 
 			<td class="attributes"><code>
 				 public 
@@ -244,21 +278,18 @@ AdminPageFramework_Factory
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_content">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_View.html#190-198" title="Go to source code">content</a>( <span>mixed <var>$sContent</var></span> )</code>
+			<a class="anchor" href="#__isInThePage">#</a>
+			<code><a href="source-class-AdminPageFramework_Widget_Model.html#46-54" title="Go to source code">_isInThePage</a>( )</code>
 
 			<div class="description short" style="display:none;">
 				
-<p>Filters the post type post content.</p>
+<p>Determines whether the currently loaded page is of the post type page.</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>Filters the post type post content.</p>
-
-<p>This method is called in the same timing of the content_{instantiated class
-name.}. This is shorthand for it.</p>
+<p>Determines whether the currently loaded page is of the post type page.</p>
 
 
 
@@ -267,48 +298,11 @@ name.}. This is shorthand for it.</p>
 
 					<h4>Since</h4>
 					<div class="list">
-							3.1.5<br>
+							3.2.0<br>
 					</div>
-					<h4>Remark</h4>
+					<h4>Todo:</h4>
 					<div class="list">
-							This class should be overridden in the extended class.<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="_replyToFilterPostTypeContent" id="__replyToFilterPostTypeContent">
-
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#__replyToFilterPostTypeContent">#</a>
-			<code><a href="source-class-AdminPageFramework_PostType_View.html#200-224" title="Go to source code">_replyToFilterPostTypeContent</a>( <span>mixed <var>$sContent</var></span> )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Filters the post type post content.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Filters the post type post content.</p>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.1.5<br>
+							complete this method<br>
 					</div>
 
 
@@ -359,7 +353,6 @@ name.}. This is shorthand for it.</p>
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
-			<code>_isInThePage()</code>, 
 			<code>_isInstantiatable()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
