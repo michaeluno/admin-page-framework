@@ -51,14 +51,15 @@ class AdminPageFramework_Script_Widget {
                             
                         } 
     
-                        // Else: It seems it is only enough to save the widget so that the elements inside the widget form will update the attributes. 
-                        // There is no need to trigger any event to update bindings.
-                        return;                        
+                        // Check if it is the framework widget.
+                        if ( $( oWidget ).find( '.admin-page-framework-sectionset' ).length <= 0 ) { 
+                            return; 
+                        } 
                         
                         // we got an response, this could be either our request above,
                         // or a correct widget-save call, so fire an event on which we can hook our js                        
                         $( document ).trigger( 'admin_page_framework_saved_widget', oWidget );
-                        
+                
                     }
                 });           
            
