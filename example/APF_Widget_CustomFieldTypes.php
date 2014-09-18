@@ -107,7 +107,7 @@ class APF_Widget_CustomFieldTypes extends AdminPageFramework_Widget {
     public function content( $sContent, $aArguments, $aFormData ) {
         
         return $sContent
-            . '<p>' . __( 'Hello world! This is a widget created by Admin Page Framework.', 'admin-page-framework-demo' ) . '</p>'
+            . '<p>' . __( 'Hello world! This is a widget created by Admin Page Framework with some custom field types.', 'admin-page-framework-demo' ) . '</p>'
             . AdminPageFramework_Debug::get( $aArguments )
             . AdminPageFramework_Debug::get( $aFormData );
             
