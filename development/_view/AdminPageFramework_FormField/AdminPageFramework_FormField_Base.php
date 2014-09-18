@@ -237,9 +237,9 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
     public function _replyToAddWidgetEventHanderjQueryScript() {
         
         // If the WordPress version is greater than or equal to 4.0, do not add the script.
-        if ( version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
-            return;
-        }
+        // if ( version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
+            // return;
+        // }
         
         echo "<script type='text/javascript' class='admin-page-framework-widget-event-handler'>"
                 . AdminPageFramework_Script_Widget::getjQueryPlugin()
