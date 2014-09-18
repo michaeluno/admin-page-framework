@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_taxonomy' ) ) :
 /**
  * Defines the taxonomy field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_Base {
@@ -25,7 +25,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     /**
      * Defines the default key-values of this field type. 
      * 
-     * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
+     * @remark  $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
         'taxonomy_slugs'    => 'category', // ( array|string ) This is for the taxonomy field type.
@@ -38,49 +38,50 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     /**
      * Loads the field type necessary components.
      */ 
-    public function _replyToFieldLoader() {
-    }    
+    public function _replyToFieldLoader() {}
     
     /**
      * Returns the field type specific JavaScript script.
      * 
      * Returns the JavaScript script of the taxonomy field type.
      * 
-     * @since 2.1.1
-     * @since 2.1.5 Moved from AdminPageFramework_Property_Base().
+     * @since   2.1.1
+     * @since   2.1.5   Moved from AdminPageFramework_Property_Base().
      */ 
     public function _replyToGetScripts() {
         
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return "    
-            jQuery( document ).ready( function() {
-                /* For tabs */
-                var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
-                    jQuery( nodeTabBoxContainer ).each( function() {
-                        jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
+        return "
+            /* For tabs */
+            var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
+                jQuery( nodeTabBoxContainer ).each( function() {
+                    jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
+                        
+                        if ( 0 === i ) {
+                            jQuery( this ).addClass( 'active' );
+                        }
                             
-                            if ( 0 === i ) {
-                                jQuery( this ).addClass( 'active' );
-                            }
-                                
-                            jQuery( this ).click( function( e ){
-                                     
-                                // Prevents jumping to the anchor which moves the scroll bar.
-                                e.preventDefault();
-                                
-                                // Remove the active tab and set the clicked tab to be active.
-                                jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
-                                jQuery( this ).addClass( 'active' );
-                                
-                                // Find the element id and select the content element with it.
-                                var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
-                                active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
-                                active_content.siblings().css( 'display', 'none' );
-                                
-                            });
-                        });     
-                    });
-                }     
+                        jQuery( this ).click( function( e ){
+                                 
+                            // Prevents jumping to the anchor which moves the scroll bar.
+                            e.preventDefault();
+                            
+                            // Remove the active tab and set the clicked tab to be active.
+                            jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
+                            jQuery( this ).addClass( 'active' );
+                            
+                            // Find the element id and select the content element with it.
+                            var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
+                            active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
+                            active_content.siblings().css( 'display', 'none' );
+                            
+                        });
+                    });     
+                });
+            };        
+            
+            jQuery( document ).ready( function() {
+                     
                 enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
 
                 /* The repeatable event */
@@ -233,16 +234,16 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * 
      * Returns the output of taxonomy checklist check boxes.
      * 
-     * @remark Multiple fields are not supported.
-     * @remark Repeater fields are not supported.
-     * @since 2.0.0
-     * @since 2.1.1 The checklist boxes are rendered in a tabbed single box.
-     * @since 2.1.5 Moved from AdminPageFramework_FormField.
+     * @remark  Multiple fields are not supported.
+     * @remark  Repeater fields are not supported.
+     * @since   2.0.0
+     * @since   2.1.1   The checklist boxes are rendered in a tabbed single box.
+     * @since   2.1.5   Moved from AdminPageFramework_FormField.
      */
     public function _replyToGetField( $aField ) {
 
-        $aTabs = array();
-        $aCheckboxes = array();
+        $aTabs          = array();
+        $aCheckboxes    = array();
         foreach( ( array ) $aField['taxonomy_slugs'] as $sKey => $sTaxonomySlug ) {
             
             $aInputAttributes = isset( $aField['attributes'][ $sKey ] ) && is_array( $aField['attributes'][ $sKey ] )
@@ -278,8 +279,8 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
                 . "</div>";
         }
 
-        $sTabs = "<ul class='tab-box-tabs category-tabs'>" . implode( PHP_EOL, $aTabs ) . "</ul>";
-        $sContents = 
+        $sTabs      = "<ul class='tab-box-tabs category-tabs'>" . implode( PHP_EOL, $aTabs ) . "</ul>";
+        $sContents  = 
             "<div class='tab-box-contents-container'>"
                 . "<div class='tab-box-contents' style='height: {$aField['height']};'>"
                     . implode( PHP_EOL, $aCheckboxes )
@@ -300,10 +301,10 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
          * 
          * A helper function for the above getTaxonomyChecklistField() method. 
          * 
-         * @since 2.0.0
-         * @param array $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
-         * @param string $sKey     
-         * @return array Returns an numerically indexed array holding the keys that yield true as the value.
+         * @since   2.0.0
+         * @param   array   $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
+         * @param   string  $sKey     
+         * @return  array   Returns an numerically indexed array holding the keys that yield true as the value.
          */ 
         private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
 
@@ -322,7 +323,6 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
          * A helper function for the above getTaxonomyChecklistField() method.
          * 
          * @since 2.1.1
-         * 
          */
         private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
             
