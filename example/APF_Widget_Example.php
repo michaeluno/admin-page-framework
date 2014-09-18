@@ -90,10 +90,9 @@ class APF_Widget_Example extends AdminPageFramework_Widget {
             'data-icon'         => 'octicon-star',
             // 'data-text'         => '',            
         );        
-            
+        
         return $sContent
             . "<div class='github-button-container'>"
-
                 . "<a " . AdminPageFramework_WPUtility::generateAttributes( $_aAttributes ) . ">"
                     . $aFormData['repository_name']
                 . "</a>"
@@ -110,9 +109,7 @@ class APF_Widget_Example extends AdminPageFramework_Widget {
             self::$_bInlineScriptLoaded = true;
             
             return "<script async defer id='github-bjs' src='" . AdminPageFramework_WPUtility::resolveSRC( APFDEMO_DIRNAME . '/third-party/github-custom-field-type/asset/github-buttons/buttons.js' ) . "'>"
-                . "</script>";                        
+                . "</script>";
         }
-            
-    
-        
+
 }
