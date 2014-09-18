@@ -22,7 +22,10 @@ if ( ! class_exists( 'AdminPageFramework_WalkerTaxonomyChecklist' ) ) :
  * @internal
  */
 class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
-        
+    
+    /**
+     * Modifies the variable stirng the opening 'li' tag of the list.
+     */
     function start_el( &$sOutput, $oCategory, $iDepth=0, $aArgs=array(), $iCurrentObjectID=0 ) {
         
         /*    
@@ -53,18 +56,24 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         */
         
         $aArgs = $aArgs + array(
-            'name'          => null,
-            'disabled'      => null,
-            'selected'      => array(),
-            'input_id'      => null,
-            'attributes'    => array(),
-            'taxonomy'      => null,
+            'name'              => null,
+            'disabled'          => null,
+            'selected'          => array(),
+            'input_id'          => null,
+            'attributes'        => array(),
+            'taxonomy'          => null,
+            'show_post_count'   => false,    // 3.2.0+
         );
         
+        // Local variables
         $_iID            = $oCategory->term_id;
         $_sTaxonomySlug  = empty( $aArgs['taxonomy'] ) ? 'category' : $aArgs['taxonomy'];
         $_sID            = "{$aArgs['input_id']}_{$_sTaxonomySlug}_{$_iID}";
+
+        // Post count
+        $_sPostCount     = $aArgs['show_post_count'] ? " <span class='font-lighter'>(" . $oCategory->count . ")</span>" : '';
         
+        // Attributes
         $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] ) 
             ? $_aInputAttributes[ $_iID ] + $aArgs['attributes']
             : $aArgs['attributes'];
@@ -77,12 +86,15 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'checked'   => in_array( $_iID, ( array ) $aArgs['selected'] ) ? 'Checked' : '',
         ) + $_aInputAttributes;
         $_aInputAttributes['class'] .= ' apf_checkbox';
+        
+        // Output
         $sOutput .= "\n" // the variable is by reference so the modification takes effect
             . "<li id='list-{$_sID}' class='category-list'>" 
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
                     . "<input value='0' type='hidden' name='{$aArgs['name']}[{$_iID}]' class='apf_checkbox' />"
                     . "<input " . AdminPageFramework_WPUtility::generateAttributes( $_aInputAttributes ) . " />"
                     . esc_html( apply_filters( 'the_category', $oCategory->name ) ) 
+                    . $_sPostCount
                 . "</label>";    
             /* no need to close the </li> tag since it is dealt in the end_el() method. */
             

@@ -28,11 +28,11 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @remark  $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'taxonomy_slugs'    => 'category', // ( array|string ) This is for the taxonomy field type.
-        'height'            => '250px', // 
-        'max_width'         => '100%', // for the taxonomy checklist field type, since 2.1.1.     
-        'attributes'        => array(
-        ),    
+        'taxonomy_slugs'    => 'category',  // ( array|string ) This is for the taxonomy field type.
+        'height'            => '250px',     // 
+        'max_width'         => '100%',      // for the taxonomy checklist field type, since 2.1.1.     
+        'show_post_count'   => true,       // (boolean) 3.2.0+ whether or not the post count associated with the term should be displayed or not.
+        'attributes'        => array(),    
     );
     
     /**
@@ -262,17 +262,20 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
                 "<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
                     . $this->getFieldElementByKey( $aField['before_label'], $sKey )
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
-                        . wp_list_categories( array(
-                            'walker' => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
-                            'name'     => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
-                            'selected' => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
-                            'title_li' => '', // disable the Categories heading string 
-                            'hide_empty' => 0,    
-                            'echo' => false, // returns the output
-                            'taxonomy' => $sTaxonomySlug, // the taxonomy slug (id) such as category and post_tag 
-                            'input_id' => $aField['input_id'],
-                            'attributes' => $aInputAttributes,
-                        ) )     
+                        . wp_list_categories( 
+                            array(
+                                'walker'            => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
+                                'name'              => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
+                                'selected'          => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
+                                'title_li'          => '',                          // disable the Categories heading string 
+                                'hide_empty'        => 0,    
+                                'echo'              => false,                       // returns the output
+                                'taxonomy'          => $sTaxonomySlug,              // the taxonomy slug (id) such as category and post_tag 
+                                'input_id'          => $aField['input_id'],
+                                'attributes'        => $aInputAttributes,
+                                'show_post_count'   => $aField['show_post_count'],  // 3.2.0+
+                            ) 
+                        )     
                     . "</ul>"     
                     . "<!--[if IE]><b>.</b><![endif]-->"
                     . $this->getFieldElementByKey( $aField['after_label'], $sKey )

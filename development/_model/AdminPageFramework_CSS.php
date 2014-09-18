@@ -298,6 +298,10 @@ td.admin-page-framework-field-td-no-title {
     width: auto;
 }
  
+/* Fonts */
+.font-lighter {
+    font-weight: lighter;
+}
 ";
             
         }   

@@ -1079,24 +1079,25 @@ class APF_Demo extends AdminPageFramework {
                 'delimiter' => '<hr />',
             ),     
             array(
-                'field_id' => 'taxonomy_checklist',
-                'title' => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
-                'type' => 'taxonomy',
-                'height' => '200px', // ( optional )
-                'taxonomy_slugs' => array( 'category', 'post_tag' ),
+                'field_id'          => 'taxonomy_checklist',
+                'title'             => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
+                'type'              => 'taxonomy',
+                'height'            => '200px', // (optional)
+                'show_post_count'   => true,    // (optional) whether to show the post count. Default: false.
+                'taxonomy_slugs'    => array( 'category', 'post_tag' ),
             ),     
             array(
-                'field_id' => 'taxonomy_checklist_all',
-                'title' => __( 'All Taxonomies', 'admin-page-framework-demo' ),
-                'type' => 'taxonomy',
-                'taxonomy_slugs' => $aTaxnomies = get_taxonomies( '', 'names' ),
+                'field_id'          => 'taxonomy_checklist_all',
+                'title'             => __( 'All Taxonomies', 'admin-page-framework-demo' ),
+                'type'              => 'taxonomy',
+                'taxonomy_slugs'    => $aTaxnomies = get_taxonomies( '', 'names' ),
             ),
             array(
-                'field_id' => 'taxonomy_multiple_checklists',
-                'title' => __( 'Multiple Taxonomy Fields', 'admin-page-framework-demo' ),
-                'type' => 'taxonomy',
-                'taxonomy_slugs' => $aTaxnomies,
-                'before_field' => '<p style="clear:both; font-weight: bold;">' . __( 'For I', 'admin-page-framework-demo' ) . '</p>',
+                'field_id'          => 'taxonomy_multiple_checklists',
+                'title'             => __( 'Multiple Taxonomy Fields', 'admin-page-framework-demo' ),
+                'type'              => 'taxonomy',
+                'taxonomy_slugs'    => $aTaxnomies,
+                'before_field'      => '<p style="clear:both; font-weight: bold;">' . __( 'For I', 'admin-page-framework-demo' ) . '</p>',
                 array(  
                     'before_field' => '<p style="clear:both; font-weight: bold;">' . __( 'For II', 'admin-page-framework-demo' ) . '</p>',
                 ),
@@ -1105,11 +1106,11 @@ class APF_Demo extends AdminPageFramework {
                 ),     
             ),
             array(
-                'field_id' => 'taxonomy_checklist_repeatable',
-                'title' => __( 'Repeatable Taxonomy Fields', 'admin-page-framework-demo' ),
-                'type' => 'taxonomy',
-                'repeatable' =>    true,
-                'taxonomy_slugs' => $aTaxnomies,
+                'field_id'          => 'taxonomy_checklist_repeatable',
+                'title'             => __( 'Repeatable Taxonomy Fields', 'admin-page-framework-demo' ),
+                'type'              => 'taxonomy',
+                'repeatable'        => true,
+                'taxonomy_slugs'    => $aTaxnomies,
             ),
             array()
         );
