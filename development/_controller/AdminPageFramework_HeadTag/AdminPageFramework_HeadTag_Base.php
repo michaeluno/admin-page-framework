@@ -30,19 +30,19 @@ abstract class AdminPageFramework_HeadTag_Base {
     protected static $_aStructure_EnqueuingScriptsAndStyles = array(
     
         /* The system internal keys. */
-        'sSRC' => null,
-        'aPostTypes' => array(), // for meta box class
-        'sPageSlug' => null,    
-        'sTabSlug' => null,
-        'sType' => null, // script or style
+        'sSRC'          => null,
+        'aPostTypes'    => array(), // for meta box class
+        'sPageSlug'     => null,    
+        'sTabSlug'      => null,
+        'sType'         => null, // script or style
         
         /* The below keys are for users. */
-        'handle_id' => null,
-        'dependencies' => array(),
-        'version' => false, // although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'translation' => array(), // only for scripts
-        'in_footer' => false, // only for scripts
-        'media' => 'all', // only for styles     
+        'handle_id'     => null,
+        'dependencies'  => array(),
+        'version'       => false, // although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'translation'   => array(), // only for scripts
+        'in_footer'     => false, // only for scripts
+        'media'         => 'all', // only for styles     
         
     );    
       
