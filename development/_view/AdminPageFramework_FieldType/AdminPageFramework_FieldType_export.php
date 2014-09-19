@@ -70,7 +70,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
         /* Set some required values */
         $aField['attributes']['name'] = "__export[submit][{$aField['input_id']}]";
         $aField['file_name'] = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
-        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'export' );
+        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'export' );
         
         return parent::_replyToGetField( $aField );
         

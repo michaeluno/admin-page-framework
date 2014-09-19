@@ -57,8 +57,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
         return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL    
             . $this->_getScript_ImageSelector( 
                 "admin_page_framework", 
-                $this->oMsg->__( 'upload_image' ),
-                $this->oMsg->__( 'use_this_image' )
+                $this->oMsg->get( 'upload_image' ),
+                $this->oMsg->get( 'use_this_image' )
             )  . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
     }
@@ -596,7 +596,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         'data-enable_external_source' => $bExternalSource ? 1 : 0,
                     ) + $aButtonAttributes
                 ) . ">"
-                    . $this->oMsg->__( 'select_image' )
+                    . $this->oMsg->get( 'select_image' )
                 ."</a>";
                 
             $sScript = "

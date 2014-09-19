@@ -66,7 +66,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
      */
     public function _replyToGetField( $aField ) {
         
-        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'submit' );
+        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'submit' );
 
         $aInputAttributes = array(
             'type' => 'submit', // must be set because child class including export will use this method; in that case the export type will be assigned which input tag does not support

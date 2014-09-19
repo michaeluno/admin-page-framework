@@ -266,7 +266,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 
             return $this->oProp->sThickBoxButtonUseThis 
                 ? $this->oProp->sThickBoxButtonUseThis 
-                : $this->oMsg->__( 'use_this_image' );
+                : $this->oMsg->get( 'use_this_image' );
             
         }
         /**

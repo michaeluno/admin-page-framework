@@ -57,8 +57,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL // defined in the parent class
             . $this->_getScript_MediaUploader(
                 "admin_page_framework", 
-                $this->oMsg->__( 'upload_file' ),
-                $this->oMsg->__( 'use_this_file' )
+                $this->oMsg->get( 'upload_file' ),
+                $this->oMsg->get( 'use_this_file' )
             ) . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
     }    
@@ -390,7 +390,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         'data-enable_external_source' => $bExternalSource ? 1 : 0,
                     ) + $aButtonAttributes
                 ) . ">"
-                    . $this->oMsg->__( 'select_file' )
+                    . $this->oMsg->get( 'select_file' )
                 ."</a>";
                 
             $sScript = "

@@ -540,3 +540,5 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that `textarea` input field was placed in the wrong position when the browser turned off JavaScript.
 - Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
 - Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
+
+= [Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md) =

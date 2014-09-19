@@ -10,11 +10,11 @@ if ( ! class_exists( 'AdminPageFramework_Message' ) ) :
 /**
  * Provides methods for text messages.
  *
- * @since 2.0.0
- * @since 2.1.6 Multiple instances of this class are disallowed.
- * @extends n/a
- * @package AdminPageFramework
- * @subpackage Property
+ * @since       2.0.0
+ * @since       2.1.6 Multiple instances of this class are disallowed.
+ * @extends     n/a
+ * @package     AdminPageFramework
+ * @subpackage  Property
  * @internal
  */
 class AdminPageFramework_Message {
@@ -41,8 +41,9 @@ class AdminPageFramework_Message {
     /**
      * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
      * 
-     * @since   2.1.6
-     * @remark  This class should be instantiated via this method.
+     * @since       2.1.6
+     * @remark      This class should be instantiated via this method.
+     * @deprecated  As of 3.2.0, this class gets instantiated per factory instance.
      */
     public static function instantiate( $sTextDomain='admin-page-framework' ) {
         
@@ -127,23 +128,52 @@ class AdminPageFramework_Message {
         );     
         
     }
-    public function __( $sKey ) {
+    
+    /**
+     * Returns the framework system message by key.
+     * 
+     * @remark  An alias of the __() method.
+     * @since   3.2.0
+     */
+    public function get( $sKey ) {
         
         return isset( $this->aMessages[ $sKey ] )
             ? __( $this->aMessages[ $sKey ], $this->_sTextDomain )
-            : __( $this->{$sKey}, $this->_sTextDomain );
-            
+            : __( $this->{$sKey}, $this->_sTextDomain );        
+        
     }
-    
-    public function _e( $sKey ) {
+
+    /**
+     * Echoes the framework system message by key.
+     * @remark  An alias of the _e() method.
+     * @since   3.2.0
+     */    
+    public function output( $sKey ) {
         
         if ( isset( $this->aMessages[ $sKey ] ) ) {
             _e( $this->aMessages[ $sKey ], $this->_sTextDomain );
         } else {
             _e( $this->{$sKey}, $this->_sTextDomain );
         }
-            
-    }
+        
+    }   
+        
+        /**
+         * Returns the framework system message by key.
+         * @since       2.x
+         * @deprecated  3.2.0
+         */
+        public function __( $sKey ) {
+            return $this->get( $sKey );
+        }       
+        /**
+         * Echoes the framework system message by key.
+         * @since       2.x
+         * @deprecated  3.2.0
+         */    
+        public function _e( $sKey ) {
+            $this->output( $sKey );
+        }
     
     /**
      * Responds to a request to an undefined property.

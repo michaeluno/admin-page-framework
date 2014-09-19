@@ -110,8 +110,8 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
      */
     protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) {
 
-        $_sAdd                  = $this->oMsg->__( 'add' );
-        $_sRemove               = $this->oMsg->__( 'remove' );
+        $_sAdd                  = $this->oMsg->get( 'add' );
+        $_sRemove               = $this->oMsg->get( 'remove' );
         $_sVisibility           = $iFieldCount <= 1 ? " style='display:none;'" : "";
         $_sSettingsAttributes   = $this->generateDataAttributes( ( array ) $aSettings );
         $_sButtons              = 
@@ -159,7 +159,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
     public function _replyToAddRepeatableFieldjQueryPlugin() {
         
         echo "<script type='text/javascript' class='admin-page-framework-repeatable-fields-plugin'>"
-                . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_fields' ), $this->oMsg->__( 'allowed_minimum_number_of_fields' ) )
+                . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->get( 'allowed_maximum_number_of_fields' ), $this->oMsg->get( 'allowed_minimum_number_of_fields' ) )
             . "</script>";
     
     }

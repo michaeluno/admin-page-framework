@@ -80,7 +80,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
         
         /* Set some required values */
         $aField['attributes']['name'] = "__import[submit][{$aField['input_id']}]";
-        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->__( 'import' );
+        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'import' );
         return parent::_replyToGetField( $aField );     
     }    
     

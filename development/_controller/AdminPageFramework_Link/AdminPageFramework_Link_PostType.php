@@ -69,7 +69,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
         
         $_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] )
             ? $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
-            : $this->oMsg->__( 'manage' );
+            : $this->oMsg->get( 'manage' );
 
         // If the user explicitly sets an empty string to the label key, do not insert a link.
         if ( ! $_sLinkLabel ) {

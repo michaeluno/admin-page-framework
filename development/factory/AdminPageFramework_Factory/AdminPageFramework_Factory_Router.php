@@ -301,7 +301,7 @@ abstract class AdminPageFramework_Factory_Router {
                 $this->oDebug = new AdminPageFramework_Debug;
                 return $this->oDebug;
             case 'oMsg':     
-                $this->oMsg = AdminPageFramework_Message::instantiate( $this->oProp->sTextDomain );
+                $this->oMsg = new AdminPageFramework_Message( $this->oProp->sTextDomain );
                 return $this->oMsg;
             case 'oForm':
                 $this->oForm = $this->_getFormInstance( $this->oProp );

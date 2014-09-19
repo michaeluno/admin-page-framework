@@ -70,7 +70,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
         
         $_sNonceTransientKey = 'form_' . md5( $this->oProp->sClassName . get_current_user_id() );
         if ( $_POST['_is_admin_page_framework'] !== $this->oUtil->getTransient( $_sNonceTransientKey ) ) {
-            $this->setAdminNotice( $this->oMsg->__( 'nonce_verification_failed' ) );
+            $this->setAdminNotice( $this->oMsg->get( 'nonce_verification_failed' ) );
             return;
         }
         // Do not delete the nonce transient to let it vanish by itself. This allows the user to open multiple pages/tabs in their browser and save forms by switching pages/tabs.
@@ -157,7 +157,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
         if ( ! $this->hasSettingNotice() ) {     
             $_bEmpty = empty( $aInput );
             $this->setSettingNotice( 
-                $_bEmpty ? $this->oMsg->__( 'option_cleared' ) : $this->oMsg->__( 'option_updated' ), 
+                $_bEmpty ? $this->oMsg->get( 'option_cleared' ) : $this->oMsg->get( 'option_updated' ), 
                 $_bEmpty ? 'error' : 'updated', 
                 $this->oProp->sOptionKey, // the id
                 false // do not override
@@ -184,16 +184,16 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             // Set up the field error array.
             $aErrors = array();
             if ( $sSectionID ) {
-                $aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->__( 'reset_options' );
+                $aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->get( 'reset_options' );
             } else {
-                $aErrors[ $sFieldID ] = $this->oMsg->__( 'reset_options' );
+                $aErrors[ $sFieldID ] = $this->oMsg->get( 'reset_options' );
             }
             $this->setFieldErrors( $aErrors );
                 
             // Set a flag that the confirmation is displayed
             $this->oUtil->setTransient( md5( "reset_confirm_" . $sPressedInputName ), $sPressedInputName, 60*2 );
             
-            $this->setSettingNotice( $this->oMsg->__( 'confirm_perform_task' ) );
+            $this->setSettingNotice( $this->oMsg->get( 'confirm_perform_task' ) );
             
             return $this->oForm->getPageOptions( $this->oProp->aOptions, $sPageSlug );             
             
@@ -219,7 +219,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             
             unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ], $aInput[ trim( $sKeyToReset ) ] );
             update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
-            $this->setSettingNotice( $this->oMsg->__( 'specified_option_been_deleted' ) );
+            $this->setSettingNotice( $this->oMsg->get( 'specified_option_been_deleted' ) );
         
             return $aInput; // the returned array will be saved with the Settings API.
         }

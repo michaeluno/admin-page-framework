@@ -92,7 +92,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 
             // This function will echo the drop down list based on the passed array argument.
             wp_dropdown_categories( array(
-                'show_option_all' => $this->oMsg->__( 'show_all' ) . ' ' . $oTaxonomy->label,
+                'show_option_all' => $this->oMsg->get( 'show_all' ) . ' ' . $oTaxonomy->label,
                 'taxonomy'       => $sTaxonomySulg,
                 'name'           => $oTaxonomy->name,
                 'orderby'       => 'name',
