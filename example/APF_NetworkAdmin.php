@@ -282,7 +282,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
             array( // Multiple text fields
                 'field_id' => 'text_multiple',
                 'title' => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-                'help' => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
+                'help'              => __( 'Multiple text fields can be passed by setting an array to the <code>label</code> argument.', 'admin-page-framework-demo' ),
                 'type' => 'text',
                 'default' => 'Hello World',
                 'label' => 'First Item: ',

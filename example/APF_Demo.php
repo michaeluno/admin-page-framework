@@ -317,7 +317,7 @@ class APF_Demo extends AdminPageFramework {
             array( // Multiple text fields
                 'field_id'          => 'text_multiple',
                 'title'             => __( 'Multiple Text Fields', 'admin-page-framework-demo' ),
-                'help'              => __( 'Multiple text fields can be passed by setting an array to the label key.', 'admin-page-framework-demo' ),
+                'help'              => __( 'Multiple text fields can be passed by setting an array to the <code>label</code> argument.', 'admin-page-framework-demo' ),
                 'type'              => 'text',
                 'default'           => 'Hello World',
                 'label'             => 'First Item: ',
@@ -694,13 +694,13 @@ class APF_Demo extends AdminPageFramework {
                 array(), // the fourth item
             ),     
             array( // Single checkbox item - set a check box item to the 'label' element.
-                'field_id' => 'checkbox',
-                'title' => __( 'Single Checkbox', 'admin-page-framework-demo' ),
-                'tip' => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
-                'type' => 'checkbox',
-                'label' => __( 'This is a check box.', 'admin-page-framework-demo' ) 
-                    . ' ' . 'description'   => __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-demo' ), //' syntax fixer
-                'default' => false,
+                'field_id'  => 'checkbox',
+                'title'     => __( 'Single Checkbox', 'admin-page-framework-demo' ),
+                'tip'       => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
+                'type'      => 'checkbox',
+                'label'     => __( 'This is a check box.', 'admin-page-framework-demo' ) 
+                    . ' ' . __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-demo' ), 
+                'default'   => false,
             ),    
             array( // Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
                 'field_id'  => 'checkbox_multiple_items',
