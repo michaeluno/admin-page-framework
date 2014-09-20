@@ -133,7 +133,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
                 'section_id' => 'selectors',
                 'tab_slug' => 'selectors',
                 'title' => __( 'Selectors and Checkboxes', 'admin-page-framework-demo' ),
-                'description' => __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'admin-page-framework-demo' ),
+                'description' => __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes.', 'admin-page-framework-demo' ),
             ),
             array(
                 'section_id' => 'sizes',
