@@ -530,12 +530,12 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
                 ),
             ),     
             array( // Repeatable Drop-down List
-                'field_id' => 'select_repeatable',
-                'title' => __( 'Repeatable Dropdown List', 'admin-page-framework-demo' ),
-                'type' => 'select',
-                'repeatable' =>    true,
-                'description' => __( 'To enable repeatable fields, set the <code>repeatable</code> key to true.', 'admin-page-framework-demo' ),
-                'default' => 'y',
+                'field_id'      => 'select_repeatable',
+                'title'         => __( 'Repeatable Dropdown List', 'admin-page-framework-demo' ),
+                'type'          => 'select',
+                'repeatable'    =>    true,
+                'description'   => __( 'To enable repeatable fields, pass <code>true</code> to the <code>repeatable</code> argument.', 'admin-page-framework-demo' ),
+                'default'       => 'y',
                 'label' => array( 
                     'x' => 'X',
                     'y' => 'Y',     
