@@ -271,13 +271,13 @@ class AdminPageFramework_Message {
 
                 // AdminPageFramework_PageLoadInfo_Base
                 case 'queries_in_seconds':
-                    return __( '%s queries in %s seconds.', 'admin-page-framework' );
+                    return __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );
                 case 'out_of_x_memory_used':
-                    return __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' );
+                    return __( '%1$s out of %2$s MB (%3$s) memory used.', 'admin-page-framework' );
                 case 'peak_memory_usage':
-                    return __( 'Peak memory usage %s MB.', 'admin-page-framework' );
+                    return __( 'Peak memory usage %1$s MB.', 'admin-page-framework' );
                 case 'initial_memory_usage':
-                    return __( 'Initial memory usage  %s MB.', 'admin-page-framework' );
+                    return __( 'Initial memory usage  %1$s MB.', 'admin-page-framework' );
         
                 // AdminPageFramework_FormField
                 case 'allowed_maximum_number_of_fields':
