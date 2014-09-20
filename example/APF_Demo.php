@@ -703,20 +703,20 @@ class APF_Demo extends AdminPageFramework {
                 'default' => false,
             ),    
             array( // Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
-                'field_id' => 'checkbox_multiple_items',
-                'title' => __( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
-                'type' => 'checkbox',
-                'label' => array( 
-                    'moon' => __( 'Moon', 'admin-page-framework-demo' ),
-                    'earth' => __( 'Earth (this option is disabled.)', 'admin-page-framework-demo' ),
-                    'sun' => __( 'Sun', 'admin-page-framework-demo' ),
-                    'mars' => __( 'Mars', 'admin-page-framework-demo' ),
+                'field_id'  => 'checkbox_multiple_items',
+                'title'     => __( 'Multiple Checkbox Items', 'admin-page-framework-demo' ),
+                'type'      => 'checkbox',
+                'label'     => array( 
+                    'moon'  => __( 'Moon', 'admin-page-framework-demo' ),
+                    'earth' => __( 'Earth', 'admin-page-framework-demo' ) . ' (' . __( 'this option is disabled.', 'admin-page-framework-demo' ) . ')',
+                    'sun'   => __( 'Sun', 'admin-page-framework-demo' ),
+                    'mars'  => __( 'Mars', 'admin-page-framework-demo' ),
                 ),
                 'default' => array( 
-                    'moon' =>    true, 
+                    'moon'  => true, 
                     'earth' => false, 
-                    'sun' =>    true, 
-                    'mars' => false,
+                    'sun'   => true, 
+                    'mars'  => false,
                 ),
                 'attributes' => array(
                     'earth' => array(
@@ -737,7 +737,7 @@ class APF_Demo extends AdminPageFramework {
                 ),
                 'default' => array( 
                     'a' => false,
-                    'b' =>    true,
+                    'b' => true,
                     'c' => false 
                 ),
                 'delimiter' => '<hr />',
@@ -753,7 +753,7 @@ class APF_Demo extends AdminPageFramework {
                         'f' => 'F' 
                     ),
                     'default' => array(
-                        'd' =>    true,
+                        'd' => true,
                         'e' => false,
                         'f' => false 
                     ),
