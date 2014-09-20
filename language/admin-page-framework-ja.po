@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Admin Page Framework\n"
 "POT-Creation-Date: 2014-09-19 23:48+0900\n"
-"PO-Revision-Date: 2014-09-19 23:54+0900\n"
+"PO-Revision-Date: 2014-09-20 16:25+0900\n"
 "Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -174,11 +174,11 @@ msgstr "%1$s 初期メモリ使用量。"
 
 #: ../development/_model/AdminPageFramework_Message.php:284
 msgid "The allowed maximum number of fields is {0}."
-msgstr "最大(0)個 のフィールドが使用できます。"
+msgstr "最大{0}個 のフィールドが使用できます。"
 
 #: ../development/_model/AdminPageFramework_Message.php:286
 msgid "The allowed minimum number of fields is {0}."
-msgstr "最小(0)個 のフィールドが使用できます。"
+msgstr "最小{0}個 のフィールドが使用できます。"
 
 #: ../development/_model/AdminPageFramework_Message.php:288
 msgid "Add"
@@ -190,11 +190,11 @@ msgstr "削除"
 
 #: ../development/_model/AdminPageFramework_Message.php:294
 msgid "The allowed maximum number of sections is {0}"
-msgstr "最大(0)個 のセクションが使用できます。"
+msgstr "最大{0}個 のセクションが使用できます。"
 
 #: ../development/_model/AdminPageFramework_Message.php:296
 msgid "The allowed minimum number of sections is {0}"
-msgstr "最小(0)個 のセクションが使用できます。"
+msgstr "最小{0}個 のセクションが使用できます。"
 
 #: ../development/_model/AdminPageFramework_Message.php:298
 msgid "Add Section"
