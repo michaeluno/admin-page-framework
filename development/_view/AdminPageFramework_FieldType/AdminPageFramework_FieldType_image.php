@@ -29,8 +29,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
      */
     protected $aDefaultKeys = array(
         'attributes_to_store'       => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-        'show_preview'              =>    true,
-        'allow_external_source'     =>    true, // ( boolean ) Indicates whether the media library box has the From URL tab.
+        'show_preview'              => true,
+        'allow_external_source'     => true,    // ( boolean ) Indicates whether the media library box has the From URL tab.
         'attributes'                => array(
             'input'     => array(
                 'size'      => 40,
@@ -183,7 +183,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                             jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
                             jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
                             
-                            /* 2-2. Rebuind the uploader script to the button */
+                            /* 2-2. Rebind the uploader script to the button */
                             var nodeImageInput = jQuery( this ).find( '.image-field input' );
                             if ( nodeImageInput.length <= 0 ) { return true; }
                             setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
@@ -292,8 +292,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                  */
                 setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-                    var fEscaped = false; // indicates whether the frame is escaped/canceled.
-                    var custom_uploader;
+                    var _bEscaped = false; // indicates whether the frame is escaped/canceled.
+                    var _oCustomImageUploader;
                     
                     jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_image_' + sInputID ).click( function( e ) {
@@ -305,8 +305,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( 'object' === typeof custom_uploader ) {
-                            custom_uploader.open();
+                        if ( 'object' === typeof _oCustomImageUploader ) {
+                            _oCustomImageUploader.open();
                             return;
                         }     
 
@@ -315,7 +315,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
-                        custom_uploader = wp.media({
+                        _oCustomImageUploader = wp.media({
                             title:      '{$sThickBoxTitle}',
                             button:     {
                                 text: '{$sThickBoxButtonUseThis}'
@@ -326,13 +326,13 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         });
 
                         // When the uploader window closes, 
-                        custom_uploader.on( 'escape', function() {
-                            fEscaped = true;
+                        _oCustomImageUploader.on( 'escape', function() {
+                            _bEscaped = true;
                             return false;
                         });
-                        custom_uploader.on( 'close', function() {
+                        _oCustomImageUploader.on( 'close', function() {
 
-                            var state = custom_uploader.state();     
+                            var state = _oCustomImageUploader.state();     
                             // Check if it's an external URL
                             if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
                                 var image = state.props.attributes;    
@@ -340,23 +340,24 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                             
                             // If the image variable is not defined at this point, it's an attachment, not an external URL.
                             if ( typeof( image ) !== 'undefined'  ) {
-                                setPreviewElementWithDelay( sInputID, image );
+                                setImagePreviewElementWithDelay( sInputID, image );
                             } else {
                                 
-                                var selection = custom_uploader.state().get( 'selection' );
-                                selection.each( function( attachment, index ) {
+                                var _oNewField;
+                                _oCustomImageUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
+
                                     attachment = attachment.toJSON();
-                                    if( index == 0 ){    
-                                        // place first attachment in field
-                                        setPreviewElementWithDelay( sInputID, attachment );
-                                    } else{
-                                        
-                                        var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
-                                        var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
-                                        var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-                                        setPreviewElementWithDelay( sInputIDOfNewField, attachment );
-            
-                                    }
+                                    if ( 0 === iIndex ){    
+                                        // place first attachment in the field
+                                        setImagePreviewElementWithDelay( sInputID, attachment );
+                                        return true;
+                                    } 
+
+                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
+                                    var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
+                                    setImagePreviewElementWithDelay( sInputIDOfNewField, attachment );
+                                    
                                 });     
                                 
                             }
@@ -367,23 +368,23 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         });
                         
                         // Open the uploader dialog
-                        custom_uploader.open();     
+                        _oCustomImageUploader.open();     
                         return false;       
                     });    
                 
-                    var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
-                        
-                        iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+                    var setImagePreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+                    
+                        iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
                         setTimeout( function (){
-                            if ( ! fEscaped ) {
-                                setPreviewElement( sInputID, oImage );
+                            if ( ! _bEscaped ) {
+                                setImagePreviewElement( sInputID, oImage );
                             }
-                            fEscaped = false;
+                            _bEscaped = false;
                         }, iMilliSeconds );
                         
                     }
                 
-                    var setPreviewElement = function( sInputID, image ) {
+                    var setImagePreviewElement = function( sInputID, image ) {
 
                         // Escape the strings of some of the attributes.
                         var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
@@ -414,7 +415,6 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     }
                 }       
                 
-
             ";
         }
     

@@ -28,17 +28,17 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'attributes_to_store' => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-        'show_preview' =>    true,
+        'attributes_to_store'   => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+        'show_preview'          =>    true,
         'allow_external_source' =>    true, // ( boolean ) Indicates whether the media library box has the From URL tab.
-        'attributes' => array(
-            'input' => array(
-                'size' => 40,
+        'attributes'            => array(
+            'input'     => array(
+                'size'      => 40,
                 'maxlength' => 400,     
             ),
-            'button' => array(
+            'button'    => array(
             ),
-            'preview' => array(
+            'preview'   => array(
             ),     
         ),    
     );
@@ -232,8 +232,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                  */     
                 setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-                    var fEscaped = false;
-                    var media_uploader;
+                    var _bEscaped = false;
+                    var _oMediaUploader;
                     
                     jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_media_' + sInputID ).click( function( e ) {
@@ -245,8 +245,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( 'object' === typeof media_uploader ) {
-                            media_uploader.open();
+                        if ( 'object' === typeof _oMediaUploader ) {
+                            _oMediaUploader.open();
                             return;
                         }     
                         
@@ -255,7 +255,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
-                        media_uploader = wp.media({
+                        _oMediaUploader = wp.media({
                             title:      '{$sThickBoxTitle}',
                             button:     {
                                 text: '{$sThickBoxButtonUseThis}'
@@ -265,37 +265,38 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         });
             
                         // When the uploader window closes, 
-                        media_uploader.on( 'escape', function() {
-                            fEscaped = true;
+                        _oMediaUploader.on( 'escape', function() {
+                            _bEscaped = true;
                             return false;
                         });    
-                        media_uploader.on( 'close', function() {
+                        _oMediaUploader.on( 'close', function() {
 
-                            var state = media_uploader.state();
+                            var state = _oMediaUploader.state();
                             
                             // Check if it's an external URL
-                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
                                 var image = state.props.attributes;    
+                            }
                             
                             // If the image variable is not defined at this point, it's an attachment, not an external URL.
                             if ( typeof( image ) !== 'undefined'  ) {
-                                setPreviewElementWithDelay( sInputID, image );
+                                setMediaPreviewElementWithDelay( sInputID, image );
                             } else {
                                 
-                                var selection = media_uploader.state().get( 'selection' );
-                                selection.each( function( attachment, index ) {
+                                var _oNewField;
+                                _oMediaUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
                                     attachment = attachment.toJSON();
-                                    if( index == 0 ){    
+                                    if( 0 === iIndex ){    
                                         // place first attachment in field
-                                        setPreviewElementWithDelay( sInputID, attachment );
-                                    } else{
+                                        setMediaPreviewElementWithDelay( sInputID, attachment );
+                                        return true;
+                                    } 
                                         
-                                        var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
-                                        var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
-                                        var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-                                        setPreviewElementWithDelay( sInputIDOfNewField, attachment );
-            
-                                    }
+                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
+                                    var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
+                                    setMediaPreviewElementWithDelay( sInputIDOfNewField, attachment );
+                                
                                 });     
                                 
                             }
@@ -306,24 +307,24 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         });
                         
                         // Open the uploader dialog
-                        media_uploader.open();     
+                        _oMediaUploader.open();     
                         return false;       
                     });    
                 
                 
-                    var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+                    var setMediaPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
                         
-                        iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+                        iMilliSeconds = 'undefiend' === typeof iMilliSeconds ? 100 : iMilliSeconds;
                         setTimeout( function (){
-                            if ( ! fEscaped ) {
-                                setPreviewElement( sInputID, oImage );
+                            if ( ! _bEscaped ) {
+                                setMediaPreviewElement( sInputID, oImage );
                             }
-                            fEscaped = false;
+                            _bEscaped = false;
                         }, iMilliSeconds );
                         
                     }
                     
-                    var setPreviewElement = function( sInputID, image ) {
+                    var setMediaPreviewElement = function( sInputID, image ) {
                                     
                         // If the user want the attributes to be saved, set them in the input tags.
                         jQuery( '#' + sInputID ).val( image.url ); // the url field is mandatory so  it does not have the suffix.
@@ -333,7 +334,6 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         
                     }
                 }     
-                
             
             ";
         }

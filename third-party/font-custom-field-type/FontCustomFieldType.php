@@ -14,12 +14,12 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 	 */
 	protected $aDefaultKeys = array(
 		'attributes_to_store'	=> array(),	// ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-		'show_preview'	=> true,	// ( boolean )
+		'show_preview'          => true,	// ( boolean )
 		'allow_external_source'	=> true,	// ( boolean ) Indicates whether the media library box has the From URL tab.
-		'preview_text'	=> 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
-		'attributes'	=>	array(
-			'input'	=>	array(
-				'size'	=>	60,	
+		'preview_text'          => 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
+		'attributes'	        =>	array(
+			'input'     =>	array(
+				'size'      =>	60,	
 				'maxlength'	=>	400,
 			),
 			'preview'	=>	array(),
@@ -69,7 +69,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 			'getAPFFontUploaderSelectObject', 
 			'oAPFFontUploader', 	// the translation object name - used in the above script
 			array(  
-				'upload_font' => __( 'Upload Font', 'admin-page-framework-demo' ),
+				'upload_font'   => __( 'Upload Font', 'admin-page-framework-demo' ),
 				'use_this_font' => __( 'Use This Font', 'admin-page-framework-demo' ),
 			) 
 		);
@@ -326,8 +326,9 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 			return "// Global Function Literal 
 				setAPFFontUploader = function( sInputID, fMultiple, fExternalSource ) {
 					
-					var fEscaped = false;	// indicates whether the frame is escaped/canceled.
-					
+					var _bEscaped = false;	// indicates whether the frame is escaped/canceled.
+					var _oFontUploader;
+                    
 					jQuery( '#select_font_' + sInputID ).unbind( 'click' );	// for repeatable fields
 					jQuery( '#select_font_' + sInputID ).click( function( e ) {
 						
@@ -335,8 +336,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						e.preventDefault();
 						
 						// If the uploader object has already been created, reopen the dialog
-						if ( custom_uploader ) {
-							custom_uploader.open();
+						if ( _oFontUploader ) {
+							_oFontUploader.open();
 							return;
 						}					
 						
@@ -345,7 +346,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						
 						// Assign a custom select object.
 						wp.media.view.MediaFrame.Select = fExternalSource ? getAPFFontUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
-						var custom_uploader = wp.media({
+						var _oFontUploader = wp.media({
 							title: '{$sThickBoxTitle}',
 							button: {
 								text: '{$sThickBoxButtonUseThis}'
@@ -359,13 +360,13 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						});
 			
 						// When the uploader window closes, 
-						custom_uploader.on( 'escape', function() {
-							fEscaped = true;
+						_oFontUploader.on( 'escape', function() {
+							_bEscaped = true;
 							return false;
 						});						
-						custom_uploader.on( 'close', function() {
+						_oFontUploader.on( 'close', function() {
 
-							var state = custom_uploader.state();
+							var state = _oFontUploader.state();
 							
 							// Check if it's an external URL
 							if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
@@ -373,23 +374,23 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 							
 							// If the image variable is not defined at this point, it's an attachment, not an external URL.
 							if ( typeof( image ) !== 'undefined'  ) {
-								setPreviewElementWithDelay( sInputID, image );
+								setFontPreviewElementWithDelay( sInputID, image );
 							} else {
 								
-								var selection = custom_uploader.state().get( 'selection' );
-								selection.each( function( attachment, index ) {
+                                var _oNewField;
+								_oFontUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
 									attachment = attachment.toJSON();
-									if( index == 0 ){	
+									if( 0 === iIndex ){	
 										// place first attachment in field
-										setPreviewElementWithDelay( sInputID, attachment );
-									} else{
+										setFontPreviewElementWithDelay( sInputID, attachment );
+                                        return true;
+									} 
 										
-										var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
-										var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
-										var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-										setPreviewElementWithDelay( sInputIDOfNewField, attachment );
-			
-									}
+                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
+                                    var sInputIDOfNewField = _oNewField.find( 'input' ).attr( 'id' );
+                                    setFontPreviewElementWithDelay( sInputIDOfNewField, attachment );
+        
 								});				
 								
 							}
@@ -400,10 +401,21 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						});
 						
 						// Open the uploader dialog
-						custom_uploader.open();											
+						_oFontUploader.open();											
 						return false;       
 					});	
-				
+									
+					var setFontPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+						
+						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+						setTimeout( function (){
+							if ( ! _bEscaped ) {
+								setPreviewElement( sInputID, oImage );
+							}
+							_bEscaped = false;						
+						}, iMilliSeconds );
+						
+					}		
 					var setPreviewElement = function( sInputID, oImage ) {
 						
 						// If the user want the attributes to be saved, set them in the input tags.
@@ -412,21 +424,9 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
 						// Change the font-face
 						setFontPreview( oImage.url, sInputID );
 					
-					}
+					}                    
 					
-					var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
-						
-						iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
-						setTimeout( function (){
-							if ( ! fEscaped ) {
-								setPreviewElement( sInputID, oImage );
-							}
-							fEscaped = false;						
-						}, iMilliSeconds );
-						
-					}						
-					
-				}		
+				}	
 
 			";
 		}
