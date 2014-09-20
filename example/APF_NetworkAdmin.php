@@ -620,13 +620,13 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
                 array(), // the fourth item
             ),     
             array( // Single checkbox item - set a check box item to the 'label' element.
-                'field_id' => 'checkbox',
-                'title' => __( 'Single Checkbox', 'admin-page-framework-demo' ),
-                'tip' => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
-                'description' => __( 'Check box\'s label can be a string, not an array.', 'admin-page-framework-demo' ), //' syntax fixer
-                'type' => 'checkbox',
-                'label' => __( 'Check me.', 'admin-page-framework-demo' ),
-                'default' => false,
+                'field_id'      => 'checkbox',
+                'title'         => __( 'Single Checkbox', 'admin-page-framework-demo' ),
+                'tip'           => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
+                'description'   => __( 'A string can be passed to the <code>label</code> argument besides an array for a single item.', 'admin-page-framework-demo' ), //' syntax fixer
+                'type'          => 'checkbox',
+                'label'         => __( 'Check me.', 'admin-page-framework-demo' ),
+                'default'       => false,
             ),    
             array( // Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
                 'field_id' => 'checkbox_multiple_items',
