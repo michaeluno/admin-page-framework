@@ -437,6 +437,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.2.0 =
+- Added the default and Japanese translation files.
 - Added the `show_post_count` argument for the `taxonomy` field type and made it enabled by default.
 - Added the widget factory class and the examples of creating widgets with the framework in the demo plugin.
 - Fixed a bug that a last item did not set when selecting multiple items in the fields of the `image`, `media`, `font` field types.
