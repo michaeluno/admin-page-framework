@@ -28,7 +28,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
         
         $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions; // used to merge the field definition array with the default field type definition. This is for the 'section_title' field type.
         $this->aFieldErrors             = $aFieldErrors;
-        $this->oMsg                     = $oMsg ? $oMsg: new AdminPageFramework_Message( '' );
+        $this->oMsg                     = $oMsg ? $oMsg: AdminPageFramework_Message::getInstance();
         
         $this->_loadScripts();
         

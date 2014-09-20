@@ -11,7 +11,8 @@ if ( ! class_exists( 'AdminPageFramework_Message' ) ) :
  * Provides methods for text messages.
  *
  * @since       2.0.0
- * @since       2.1.6 Multiple instances of this class are disallowed.
+ * @since       2.1.6   Multiple instances of this class are disallowed.
+ * @since       3.2.0   Multiple instances of this class are allowed by the instantiation is restricted to per text domain basis.
  * @extends     n/a
  * @package     AdminPageFramework
  * @subpackage  Property
@@ -25,37 +26,38 @@ class AdminPageFramework_Message {
      * @remark     The user may modify this property directly.
      */ 
     public $aMessages = array();
-
-    /**
-     * Stores the self instance.
-     * @internal
-     */
-    static private $_oInstance;
     
     /**
-     * Stores the text domain used for the messages.
+     * Stores the self instance by text domain.
      * @internal
+     * @since       3.2.0
      */
-    protected $_sTextDomain = 'admin-page-framework';
-    
+    static private $_aInstancesByTextDomain = array();
+   
     /**
      * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
      * 
      * @since       2.1.6
+     * @since       3.2.0       Changed it to create an instance per text domain basis.
      * @remark      This class should be instantiated via this method.
-     * @deprecated  As of 3.2.0, this class gets instantiated per factory instance.
      */
-    public static function instantiate( $sTextDomain='admin-page-framework' ) {
+    public static function getInstance( $sTextDomain='admin-page-framework' ) {
         
-        static $_sTextDomain;
-        $_sTextDomain = $sTextDomain ? $sTextDomain : ( $_sTextDomain ? $_sTextDomain : 'admin-page-framework' ) ;
-        if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_Message ) ) {
-            self::$_oInstance = new AdminPageFramework_Message( $_sTextDomain );
-        }
-        return self::$_oInstance;
+        $_oInstance = isset( $_aInstancesByTextDomain[ $sTextDomain ] ) && ( $_aInstancesByTextDomain[ $sTextDomain ] instanceof AdminPageFramework_Message )
+            ? $_aInstancesByTextDomain[ $sTextDomain ]
+            : new AdminPageFramework_Message( $sTextDomain );
+        $_aInstancesByTextDomain[ $sTextDomain ] = $_oInstance;
+        return $_aInstancesByTextDomain[ $sTextDomain ];
         
     }    
-    
+        /**
+         * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
+         * @deprecated  3.2.0
+         */
+        public static function instantiate( $sTextDomain='admin-page-framework' ) {
+            return self::getInstantiate( $sTextDomain );
+        }
+        
     public function __construct( $sTextDomain='admin-page-framework' ) {
         
         $this->_sTextDomain = $sTextDomain;
