@@ -212,10 +212,10 @@ class APF_Demo extends AdminPageFramework {
                 'description' => __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-demo' ),
             ),
             array(
-                'section_id' => 'section_verification',
-                'tab_slug' => 'verification',
-                'title' => __( 'Section Verification', 'admin-page-framework-demo' ),
-                'description' => __( 'Show error messages the entire section.', 'admin-page-framework-demo' ),
+                'section_id'    => 'section_verification',
+                'tab_slug'      => 'verification',
+                'title'         => __( 'Section Verification', 'admin-page-framework-demo' ),
+                'description'   => __( 'Show error messages of the entire section.', 'admin-page-framework-demo' ),
             ),
             array(
                 'section_id' => 'mixed_types',
