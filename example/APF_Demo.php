@@ -699,7 +699,7 @@ class APF_Demo extends AdminPageFramework {
                 'tip' => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
                 'type' => 'checkbox',
                 'label' => __( 'This is a check box.', 'admin-page-framework-demo' ) 
-                    . ' ' . __( 'Check box\'s label can be a single string, not an array of multiple labels.', 'admin-page-framework-demo' ), //'syntax fixer
+                    . ' ' . 'description'   => __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-demo' ), //' syntax fixer
                 'default' => false,
             ),    
             array( // Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.

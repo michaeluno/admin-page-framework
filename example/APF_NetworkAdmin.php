@@ -623,7 +623,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
                 'field_id'      => 'checkbox',
                 'title'         => __( 'Single Checkbox', 'admin-page-framework-demo' ),
                 'tip'           => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
-                'description'   => __( 'A string can be passed to the <code>label</code> argument besides an array for a single item.', 'admin-page-framework-demo' ), //' syntax fixer
+                'description'   => __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-demo' ), //' syntax fixer
                 'type'          => 'checkbox',
                 'label'         => __( 'Check me.', 'admin-page-framework-demo' ),
                 'default'       => false,
