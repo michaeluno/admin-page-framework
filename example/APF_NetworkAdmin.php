@@ -692,14 +692,14 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
                 array(), // the fourth item
             ),     
             array( // Size
-                'field_id' => 'size_field',
-                'section_id' => 'sizes', // changes the target section ID
-                'title' => __( 'Size', 'admin-page-framework-demo' ),
-                'help' => $sDescription = __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
-                'description' => __( 'The default units are the lengths for CSS.', 'admin-page-framework-demo' ) 
+                'field_id'      => 'size_field',
+                'section_id'    => 'sizes', // changes the target section ID
+                'title'         => __( 'Size', 'admin-page-framework-demo' ),
+                'help'          => $sDescription = __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
+                'description'   => __( 'The default units and the lengths for CSS.', 'admin-page-framework-demo' ) 
                     . ' ' . $sDescription,
-                'type' => 'size',
-                'default' => array( 
+                'type'          => 'size',
+                'default'       => array( 
                     'size' => 5, 
                     'unit' => '%' 
                 ),
