@@ -19,12 +19,12 @@ define( 'APFDEMO_DIRNAME', dirname( APFDEMO_FILE ) );
 /* Localization */		
 if ( is_admin() ) {
     load_plugin_textdomain( 
-        'admin-page-framework-demo', 
+        'admin-page-framework-demo', // text domain
         false,   // deprecated
         basename( APFDEMO_DIRNAME ) . '/language/'  // Relative path to WP_PLUGIN_DIR where the .mo file resides.
     );
     load_plugin_textdomain( 
-        'admin-page-framework', 
+        'admin-page-framework',     // text domain
         false,  // deprecated
         basename( APFDEMO_DIRNAME ) . '/language/'  // Relative path to WP_PLUGIN_DIR where the .mo file resides.
     );		
