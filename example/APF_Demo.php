@@ -429,8 +429,8 @@ class APF_Demo extends AdminPageFramework {
                         'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
                     ),
                 ),
-                'description'   =>  __( 'The argument can be passed to the <code>rich</code> argument.', 'admin-page-framework-demo' )
-                    . sprintf( __( 'For more information see the <a href="%1$s">Codex page</a>.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/wp_editor#Parameters' ),                
+                'description'   =>  __( 'The arguments can be passed to the <code>rich</code> argument.', 'admin-page-framework-demo' )
+                    . sprintf( __( 'For more information see the <a href="%1$s">Codex page</a>.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/wp_editor#Parameters' ),
                 array(
                     // pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
                     'rich' => array( 
