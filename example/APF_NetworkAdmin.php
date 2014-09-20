@@ -267,7 +267,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
     /*
      * Validation Callbacks
      * */
-    public function validation_APF_NetworkAdmin_verification_verify_text_field( $sNewInput, $sOldInput ) { // validation_{extended class name}_{section id}_{field id}
+    public function validation_APF_NetworkAdmin_verification_verify_text_field( $sNewInput, $sOldInput ) { // validation_{instantiated class name}_{section id}_{field id}
     
         /* 1. Set a flag. */
         $_bVerified = true;
@@ -321,7 +321,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         
     }
     
-    public function validation_APF_NetworkAdmin( $aInput, $aOldOptions ) { // validation_{extended class name}
+    public function validation_APF_NetworkAdmin( $aInput, $aOldOptions ) { // validation_{instantiated class name}
         
         /* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
         if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) { 

@@ -67,9 +67,9 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
         
     }
     
-    public function do_APF_MetaBox_For_Pages_Advanced() { // do_{extended class name}
+    public function do_APF_MetaBox_For_Pages_Advanced() { // do_{instantiated class name}
         ?>
-            <p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{extended class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+            <p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
         <?php
         
     }

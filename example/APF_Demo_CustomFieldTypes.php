@@ -233,7 +233,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         /* Add setting fields */     
         /*
          * Custom Field Types - in order to use these types, those custom field types must be registered. 
-         * The way to register a field type is demonstrated in the start_{extended class name} callback function.
+         * The way to register a field type is demonstrated in the start_{instantiated class name} callback function.
          */
         $this->addSettingFields(     
             array(
@@ -603,34 +603,34 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         $this->addSettingFields(
             'revealer', // the target section id
             array(
-                'field_id' => 'revealer_field_by_id',
-                'type' => 'revealer',     
-                'title' => __( 'Reveal Hidden Fields' ),
-                'value' => 'undefined', // always set the 'Select a Field' label.
-                'label' => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
+                'field_id'      => 'revealer_field_by_id',
+                'type'          => 'revealer',     
+                'title'         => __( 'Reveal Hidden Fields' ),
+                'value'         => 'undefined', // always set the 'Select a Field' label.
+                'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
                     'undefined' => __( '-- Select a Field --', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_a' => __( 'Option A', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_b, #fieldrow-revealer_revealer_field_option_c' => __( 'Option B and C', 'admin-page-framework-demo' ),
                 ),
-                'description' => __( 'Specify the selectors to reveal in the label keys in the field definition array.', 'admin-page-framework-demo' ),
+                'description'   => __( 'Specify the selectors to reveal in the <code>label</code> argument keys in the field definition array.', 'admin-page-framework-demo' ),
             ),
             array(
-                'field_id' => 'revealer_field_option_a',
-                'type' => 'textarea',     
-                'default' => __( 'Hi there!', 'admin-page-framework-demo' ),
-                'hidden' => true,
+                'field_id'      => 'revealer_field_option_a',
+                'type'          => 'textarea',     
+                'default'       => __( 'Hi there!', 'admin-page-framework-demo' ),
+                'hidden'        => true,
             ),
             array(
-                'field_id' => 'revealer_field_option_b',     
-                'type' => 'password',     
-                'description' => __( 'Type a password.', 'admin-page-framework-demo' ),     
-                'hidden' => true,
+                'field_id'      => 'revealer_field_option_b',     
+                'type'          => 'password',     
+                'description'   => __( 'Type a password.', 'admin-page-framework-demo' ),     
+                'hidden'        => true,
             ),
             array(
-                'field_id' => 'revealer_field_option_c',
-                'type' => 'text',     
-                'description' => __( 'Type text.', 'admin-page-framework-demo' ),     
-                'hidden' => true,
+                'field_id'      => 'revealer_field_option_c',
+                'type'          => 'text',     
+                'description'   => __( 'Type text.', 'admin-page-framework-demo' ),     
+                'hidden'        => true,
             )
         );
         $this->addSettingFields(
@@ -764,7 +764,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'theme' => 'facebook',    
                     'searchDelay' => 50, // 50 milliseconds. Default: 300
                 ),
-                'description' => __( 'To set a custom post type, you need to compose the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ), //' syntax fixer
+                'description' => __( 'To set a custom post type, you need to construct the query url. This field is for the titles of this demo plugin\'s custom post type.', 'admin-page-framework-demo' ), //' syntax fixer
             ),     
             array(
                 'type' => 'autocomplete',     
@@ -781,7 +781,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'settings2'     =>  array(
                     'theme'         => 'admin_page_framework',
                 ),                
-                'description' => __( 'To search from multiple post types use the \'post_types\' argument (not \'post_type\') and pass comma delimited post type slugs.', 'admin-page-framework-demo' ), //' syntax fixer
+                'description' => __( 'To search from multiple post types use the <code>post_types</code> argument (not <code>post_type</code>) and pass comma delimited post type slugs.', 'admin-page-framework-demo' ), 
             ),     
             array(
                 'type'          => 'autocomplete',     
@@ -805,7 +805,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'hintText'          => __( 'Type a user name.', 'auto-post' ),
                     'preventDuplicates' => true,
                 ),                
-                'description'   => __( 'To search users, pass the \'user\' to the <code>type</code> argument.', 'admin-page-framework-demo' ), //' syntax fixer   
+                'description'   => __( 'To search users, pass the <code>user</code> to the <code>type</code> argument.', 'admin-page-framework-demo' ), 
             ),            
             array()
         );     
@@ -1016,7 +1016,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
      * Custom field types - This is another way to register a custom field type. 
      * This method gets fired when the framework tries to define field types. 
      */
-     public function field_types_APF_Demo_CustomFieldTypes( $aFieldTypeDefinitions ) { // field_types_{extended class name}
+     public function field_types_APF_Demo_CustomFieldTypes( $aFieldTypeDefinitions ) { // field_types_{instantiated class name}
                 
         /* 1. Include the file that defines the custom field type. 
          This class should extend the predefined abstract class that the library prepares already with necessary methods. */

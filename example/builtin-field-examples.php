@@ -8,8 +8,9 @@ $this->addSettingFields(
         'field_id'          => 'text',
         // 'section_id'     => 'text_fields', // can be omitted as it is set previously
         'title'             => __( 'Text', 'admin-page-framework-demo' ),
-        'description'       => __( 'Type something here. This text is inserted with the <code>description</code> key in the field definition array.', 'admin-page-framework-demo' ),
-        'help'              => __( 'This is a text field and typed text will be saved. This text is inserted with the <code>help</code> key in the field definition array.', 'admin-page-framework-demo' ),
+        'description'       => __( 'Type something here. This text is inserted with the <code>description</code> argument in the field definition array.', 'admin-page-framework-demo' ),
+        'help'              => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' )
+            . ' ' . __( 'This text is inserted with the <code>help</code> argument in the field definition array.', 'admin-page-framework-demo' ),
         'type'              => 'text',
         'order'             => 1, // ( optional )
         'default'           => 123456,
@@ -48,7 +49,7 @@ $this->addSettingFields(
     array( // Multiple text fields
         'field_id'          => 'text_multiple',
         'title'             => __( 'Multiple', 'admin-page-framework-demo' ),
-        'help'              => __( 'Multiple text fields can be passed by setting an array to the <code>label</code> argument.', 'admin-page-framework-demo' ),
+        'help'              => __( 'Multiple text fields can be set by passing an array to the <code>label</code> argument.', 'admin-page-framework-demo' ),
         'type'              => 'text',
         'default'           => __( 'Hello world!', 'admin-page-framework-demo' ),
         'label'             => __( 'First', 'admin-page-framework-demo' ) . ': ',
@@ -83,8 +84,8 @@ $this->addSettingFields(
             'max' => 10,
             'min' => 3,
         ),
-        'description'       => __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> key to true.', 'admin-page-framework-demo' )
-            . __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> keys in the repeatable field setting array.' ),
+        'description'       => __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> argument to <code>true</code>.', 'admin-page-framework-demo' )
+            . __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable<code> argument array in the field deifnition array.' ),
     ),     
     array( // Sortable text fields
         'field_id'          => 'text_sortable',
@@ -184,7 +185,7 @@ $this->addSettingFields(
         ),
         array(
             'label'         => __( 'Second', 'admin-page-framework-demo' ),
-            'default'       => __( 'The second default text. See the background color is different from the others. This is done with the attributes key.', 'admin-page-framework-demo' ),
+            'default'       => __( 'The second default text. See the background color is different from the others. This is done with the <code>attributes</code> argument.', 'admin-page-framework-demo' ),
             'attributes'    => array(
                 'rows'  => 3,
                 'cols'  => 40,
@@ -227,8 +228,8 @@ $this->addSettingFields(
             2 => __( 'Yellow', 'admin-page-framework-demo' ),
             3 => __( 'Orange', 'admin-page-framework-demo' ),
         ),
-        'description' => __( 'The key of the array of the <code>label</code> element serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-demo' )
-            . ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> element, specify the KEY.', 'admin-page-framework-demo' ),
+        'description' => __( 'The key of the array of the <code>label</code> argument serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-demo' )
+            . ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> argument, specify the <em>KEY</em>.', 'admin-page-framework-demo' ),
     ),    
     array( // Single Drop-down List with Multiple Options
         'field_id'      => 'select_multiple_options',
@@ -239,7 +240,7 @@ $this->addSettingFields(
         'is_multiple'   => true,
         'default'       => 3, // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array.  
         'label'         => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
-        'description'   => __( 'Use <code>is_multiple</code> key to enable multiple selections.' ),
+        'description'   => __( 'Use <code>is_multiple</code> argument to enable multiple selections.' ),
         'attributes'    =>  array(
             'select'    =>  array(
                 'size'  => 10,
@@ -278,7 +279,7 @@ $this->addSettingFields(
             )
         ),
         'description'   => __( 'To create grouped options, pass arrays with the key of the group label and pass the options as an array inside them.', 'admin-page-framework-demo' )
-            . ' ' . __( 'To style the pulldown(dropdown) list, use the <code>attributes</code> key. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-demo' ),
+            . ' ' . __( 'To style the pulldown (dropdown) list, use the <code>attributes</code> argument. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-demo' ),
 
     ),     
     array( // Drop-down Lists with Mixed Types
@@ -360,14 +361,14 @@ $this->addSettingFields(
                 'disabled' => 'Disabled',
             ),
         ),
-        'description'   => __( 'Use the <code>after_input</code> key to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-demo' )
-            . ' ' . __( 'To disable elements(or apply different attributes) on an individual element basis, use the <code>attributes</code> key and create the element whose key name is the radio input element value.', 'admin-page-framework-demo' ),
+        'description'   => __( 'Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-demo' )
+            . ' ' . __( 'To disable elements (or apply different attributes) on an individual element basis, use the <code>attributes</code> argument and create the element whose key name is the radio input element value.', 'admin-page-framework-demo' ),
         
     ),
     array( // Multiple sets of radio buttons
         'field_id'      => 'radio_multiple',
         'title'         => __( 'Multiple Sets', 'admin-page-framework-demo' ),
-        'description'   => __( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> key.', 'admin-page-framework-demo' ),
+        'description'   => __( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> argument.', 'admin-page-framework-demo' ),
         'type'          => 'radio',
         'delimiter'     => '<hr />',
         'default'       => 2,
@@ -427,7 +428,7 @@ $this->addSettingFields(
     array( // Single checkbox item - set a check box item to the 'label' element.
         'field_id'      => 'checkbox',
         'title'         => __( 'Checkbox', 'admin-page-framework-demo' ),
-        'tip'           => __( 'The description key can be omitted though.', 'admin-page-framework-demo' ),
+        'tip'           => __( 'The <code>description</code> argument can be omitted though.', 'admin-page-framework-demo' ),
         'type'          => 'checkbox',
         'label'         => __( 'This is a check box.', 'admin-page-framework-demo' ) 
             . ' ' . __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-demo' ), 
@@ -524,7 +525,7 @@ $this->addSettingFields(
         'field_id'      => 'size_field',
         'section_id'    => 'sizes', // changes the target section ID
         'title'         => __( 'Size', 'admin-page-framework-demo' ),
-        'help'          => $sDescription = __( 'In order to set a default value for the size field type, an array with the \'size\' and the \'unit\' keys needs to be passed.', 'admin-page-framework-demo' ),
+        'help'          => $sDescription = __( 'In order to set a default value for the size field type, an array with the <code>size</code> and the <code>unit</code> arguments needs to be set.', 'admin-page-framework-demo' ),
         'description'   => __( 'The default units and the lengths for CSS.', 'admin-page-framework-demo' ) 
             . ' ' . $sDescription,
         'type'          => 'size',
@@ -931,7 +932,7 @@ $this->addSettingFields(
         'field_id'          => 'submit_button_link',
         'type'              => 'submit',
         'title'             => __( 'Link Button', 'admin-page-framework-demo' ),
-        'description'       => __( 'These buttons serve as a hyper link. Set the url to the <code>href</code> key to enable this option.', 'admin-page-framework-demo' ),
+        'description'       => __( 'These buttons serve as a hyper link. Set the url to the <code>href</code> argument to enable this option.', 'admin-page-framework-demo' ),
         'label'             => __( 'Google', 'admin-page-framework-demo' ),
         'href'              => 'http://www.google.com',
         'attributes'        => array(
@@ -974,7 +975,7 @@ $this->addSettingFields(
         'title'         => __( 'Redirect Button', 'admin-page-framework-demo' ),
         'type'          => 'submit',
         'description'   => sprintf( __( 'Unlike the above link buttons, this button saves the options and then redirects to: <code>%1$s</code>', 'admin-page-framework-demo' ), admin_url() )
-            . ' ' . __( 'To enable this functionality, set the url to the <code>redirect_url</code> key in the field definition array.', 'admin-page-framework-demo' ),
+            . ' ' . __( 'To enable this functionality, set the url to the <code>redirect_url</code> argument in the field definition array.', 'admin-page-framework-demo' ),
         'label'         => __( 'Dashboard', 'admin-page-framework-demo' ),
         'redirect_url'  => admin_url(),
         'attributes'    => array(

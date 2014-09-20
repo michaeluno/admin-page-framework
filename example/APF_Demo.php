@@ -300,11 +300,11 @@ class APF_Demo extends AdminPageFramework {
     }    
         private function _getPostTitles( $sPostTypeSlug='post' ) {
             
-            $_aArgs = array(
+            $_aArgs         = array(
                 'post_type' => $sPostTypeSlug,
             );
-            $_oResults = new WP_Query( $_aArgs );
-            $_aPostTitles = array();
+            $_oResults      = new WP_Query( $_aArgs );
+            $_aPostTitles   = array();
             foreach( $_oResults->posts as $_iIndex => $_oPost ) {
                 $_aPostTitles[ $_oPost->ID ] = $_oPost->post_title;
             }
@@ -319,7 +319,7 @@ class APF_Demo extends AdminPageFramework {
     /**
      * Validates the 'verify_text_field' field in the 'verification' section of the 'APF_Demo' class.
      */
-    public function validation_APF_Demo_verification_verify_text_field( $sNewInput, $sOldInput, $oAdmin ) { // validation_{extended class name}_{section id}_{field id}
+    public function validation_APF_Demo_verification_verify_text_field( $sNewInput, $sOldInput, $oAdmin ) { // validation_{instantiated class name}_{section id}_{field id}
     
         /* 1. Set a flag. */
         $_bVerified = true;
@@ -359,7 +359,7 @@ class APF_Demo extends AdminPageFramework {
     /**
      * Validates the 'section_verification' section items.
      */
-    public function validation_APF_Demo_section_verification( $aInput, $aOldInput, $oAdmin ) { // validation_{extended class name}_{section id}
+    public function validation_APF_Demo_section_verification( $aInput, $aOldInput, $oAdmin ) { // validation_{instantiated class name}_{section id}
         
         // Local variables
         $_bIsValid = true;
