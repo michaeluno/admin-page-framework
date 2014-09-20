@@ -286,7 +286,7 @@ class APF_Demo extends AdminPageFramework {
     public function field_definition_APF_DEMO_callbacks_callback_example( $aField ) { // field_definition_{instantiated class name}_{section id}_{field_id}
         
         $aField['title']        = __( 'Post Titles', 'admin-page-framework-demo' );
-        $aField['description']  = sprintf( __( "This description is inserted with the callback method: <code>%1$s</code>.", 'admin-page-framework-demo' ), __METHOD__ );
+        $aField['description']  = sprintf( __( 'This description is inserted with the callback method: <code>%1$s</code>.', 'admin-page-framework-demo' ), __METHOD__ );
         $aField['label']        = $this->_getPostTitles();
         return $aField;
         
