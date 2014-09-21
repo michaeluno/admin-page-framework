@@ -102,16 +102,16 @@ class AdminPageFramework_Script_Sortable {
             
             $.fn.enableAPFSortable = function( sFieldsContainerID ) {
                 
-                var _oTarget = typeof sFieldsContainerID === 'string' 
+                var _oTarget    = typeof sFieldsContainerID === 'string' 
                     ? $( '#' + sFieldsContainerID + '.sortable' )
                     : this;
                 
                 _oTarget.unbind( 'sortupdate' );
                 _oTarget.unbind( 'sortstop' );
-                var oSortable = _oTarget.sortable(
+                var _oSortable  = _oTarget.sortable(
                     { items: '> div:not( .disabled )', } // the options for the sortable plugin
                 );
-                oSortable.bind( 'sortstop', function() {
+                _oSortable.bind( 'sortstop', function() {
                  
                     /* Callback the registered functions */
                     $( this ).callBackStoppedSortingFields( 
@@ -121,7 +121,7 @@ class AdminPageFramework_Script_Sortable {
                     );  
                     
                 });
-                oSortable.bind( 'sortupdate', function() {
+                _oSortable.bind( 'sortupdate', function() {
 
                     // Reverse is needed for radio buttons since they loose the selections when updating the IDs
                     var _oFields = $( this ).children( 'div' ).reverse();
