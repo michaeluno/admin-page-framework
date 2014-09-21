@@ -384,36 +384,58 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                         
                     }
                 
-                    var setImagePreviewElement = function( sInputID, image ) {
+                }    
+                
+                /**
+                 * Sets the preview element.
+                 * 
+                 * @since   3.2.0   Changed the scope to global.
+                 */
+                setImagePreviewElement = function( sInputID, oImage ) {
 
-                        // Escape the strings of some of the attributes.
-                        var sCaption = jQuery( '<div/>' ).text( image.caption ).html();
-                        var sAlt = jQuery( '<div/>' ).text( image.alt ).html();
-                        var title = jQuery( '<div/>' ).text( image.title ).html();
-                        
-                        // If the user wants the attributes to be saved, set them in the input tags.
-                        jQuery( 'input#' + sInputID ).val( image.url ); // the url field is mandatory so it does not have the suffix.
-                        jQuery( 'input#' + sInputID + '_id' ).val( image.id );
-                        jQuery( 'input#' + sInputID + '_width' ).val( image.width );
-                        jQuery( 'input#' + sInputID + '_height' ).val( image.height );
-                        jQuery( 'input#' + sInputID + '_caption' ).val( sCaption );
-                        jQuery( 'input#' + sInputID + '_alt' ).val( sAlt );
-                        jQuery( 'input#' + sInputID + '_title' ).val( title );
-                        jQuery( 'input#' + sInputID + '_align' ).val( image.align );
-                        jQuery( 'input#' + sInputID + '_link' ).val( image.link );
-                        
-                        // Update up the preview
-                        jQuery( '#image_preview_' + sInputID ).attr( 'data-id', image.id );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'data-width', image.width );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'data-height', image.height );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', sCaption );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'alt', sAlt );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'src', image.url );
-                        jQuery( '#image_preview_container_' + sInputID ).show();     
-                        
-                    }
-                }       
+                    var oImage      = jQuery.extend( 
+                        // {}, 
+                        { 
+                            caption:    '',  
+                            alt:        '',
+                            title:      '',
+                            url:        '',
+                            id:         '',
+                            width:      '',
+                            height:     '',
+                            align:      '',
+                            link:       '',
+                        },
+                        oImage
+                    );    
+
+                    // Escape the strings of some of the attributes.
+                    var _sCaption   = jQuery( '<div/>' ).text( oImage.caption ).html();
+                    var _sAlt       = jQuery( '<div/>' ).text( oImage.alt ).html();
+                    var _sTitle     = jQuery( '<div/>' ).text( oImage.title ).html();
+                    
+                    // If the user wants the attributes to be saved, set them in the input tags.
+                    jQuery( 'input#' + sInputID ).val( oImage.url ); // the url field is mandatory so it does not have the suffix.
+                    jQuery( 'input#' + sInputID + '_id' ).val( oImage.id );
+                    jQuery( 'input#' + sInputID + '_width' ).val( oImage.width );
+                    jQuery( 'input#' + sInputID + '_height' ).val( oImage.height );
+                    jQuery( 'input#' + sInputID + '_caption' ).val( _sCaption );
+                    jQuery( 'input#' + sInputID + '_alt' ).val( _sAlt );
+                    jQuery( 'input#' + sInputID + '_title' ).val( _sTitle );
+                    jQuery( 'input#' + sInputID + '_align' ).val( oImage.align );
+                    jQuery( 'input#' + sInputID + '_link' ).val( oImage.link );
+                    
+                    // Update up the preview
+                    jQuery( '#image_preview_' + sInputID ).attr( 'data-id', oImage.id );
+                    jQuery( '#image_preview_' + sInputID ).attr( 'data-width', oImage.width );
+                    jQuery( '#image_preview_' + sInputID ).attr( 'data-height', oImage.height );
+                    jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', _sCaption );
+                    jQuery( '#image_preview_' + sInputID ).attr( 'alt', _sAlt );
+                    jQuery( '#image_preview_' + sInputID ).attr( 'title', _sTitle );
+                    jQuery( '#image_preview_' + sInputID ).attr( 'src', oImage.url );
+                    jQuery( '#image_preview_container_' + sInputID ).show();     
+                    
+                }                
                 
             ";
         }
@@ -469,8 +491,13 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 vertical-align: middle;    
             }
             /* Image Uploader Button */
-            .select_image.button.button-small {     
+            .select_image.button.button-small,
+            .remove_image.button.button-small
+            {     
                 vertical-align: middle;
+            }
+            .remove_image.button.button-small {
+                margin-left: 0.2em;
             }
             @media screen and (max-width: 782px) {
                 .admin-page-framework-field-image input {
@@ -483,8 +510,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
     /**
      * Returns the output of the field type.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Reconstructed entirely.
+     * @since   2.1.5
+     * @since   3.0.0   Reconstructed entirely.
      */
     public function _replyToGetField( $aField ) {
         
@@ -497,7 +524,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 : $aField['attributes']['value'];
         
         /* Set up the attribute arrays */
-        $_aBaseAttributes = $aField['attributes'];
+        $_aBaseAttributes = $aField['attributes'] + array( 'class' => null );
         unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'] );
         $_aInputAttributes = array(
             'name'  => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
@@ -525,7 +552,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             . "</div>"     
             . $aField['after_label']
             . $this->_getPreviewContainer( $aField, $_sImageURL, $_aPreviewAtrributes )
-            . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes );
+            // . $this->_getRemoveButtonScript( $aField['input_id'], $_aButtonAtributes )
+            . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes )
         ;
         
         return implode( PHP_EOL, $_aOutput );
@@ -581,34 +609,90 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
         /**
          * A helper function for the above getImageInputTags() method to add a image button script.
          * 
-         * @since 2.1.3
-         * @since 2.1.5 Moved from AdminPageFramework_FormField.
+         * @since   2.1.3
+         * @since   2.1.5   Moved from AdminPageFramework_FormField.
+         * @since   3.2.0   Made it use dashicon for the select image button.
+         * @remark  This class is extended by the media field type and this method will be overridden. So the scope needs to be protected rather than private.
          */
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
             
-            $sButton = 
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : $bRpeatable ? 'dashicons dashicons-images-alt2' : 'dashicons dashicons-format-image'; 
+            $_sButton = 
                 "<a " . $this->generateAttributes( 
                     array(
-                        'id' => "select_image_{$sInputID}",
-                        'href' => '#',
-                        'class' => 'select_image button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
-                        'data-uploader_type' => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
-                        'data-enable_external_source' => $bExternalSource ? 1 : 0,
+                        'id'        => "select_image_{$sInputID}",
+                        'title'     => $this->oMsg->get( 'select_image' ),
+                        'href'      => '#',
+                        'class'     => "select_image button button-small " 
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],
+                        'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+                        'data-enable_external_source'   => $bExternalSource ? 1 : 0,
+                        
                     ) + $aButtonAttributes
                 ) . ">"
-                    . $this->oMsg->get( 'select_image' )
+                    . ( $_bDashiconSupported ? '' : $this->oMsg->get( 'select_image' ) )
                 ."</a>";
                 
-            $sScript = "
-                if ( jQuery( 'a#select_image_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
+            $_sScript = "
+                if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
                 }
                 jQuery( document ).ready( function(){     
                     setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
                 });" . PHP_EOL;    
                     
-            return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $sScript . "</script>". PHP_EOL;
+            return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
 
         }
+        
+        /**
+         * Removes the set image values and attributes.
+         * 
+         * @since   3.2.0
+         */
+        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes ) {
+           
+            if ( ! function_exists( 'wp_enqueue_media' ) ) {
+                return '';
+            }
+           
+            $_sButton = 
+                "<a " . $this->generateAttributes( 
+                    array(
+                        'id'        => "remove_image_{$sInputID}",
+                        'href'      => '#',
+                        // 'class'     => 'remove_image button button-small remove_field_value ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+                        // 'class'     => 'remove_image button_icon_wrapper dashicons dashicons-dismiss ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+                        'class'     => ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
+                                ? 'remove_image button button-small ' 
+                                : 'remove_image button button-small dashicons dashicons-dismiss '
+                            ) 
+                            .  $aButtonAttributes['class'],
+                        // 'class'     => 'welcome-panel-close ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+                        'onclick'   => esc_js( "setImagePreviewElement( '{$sInputID}', {} ); return false;" ),
+                        // 'style'     => "::before",
+                    ) + $aButtonAttributes
+                ) . ">"
+                    // . '::before'
+                    // . 'x'
+                ."</a>";
+                
+                
+            $_sScript = "
+                if ( 0 === jQuery( 'a#remove_image_{$sInputID}' ).length ) {
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                }
+                " . PHP_EOL;    
+                    
+            return "<script type='text/javascript' class='admin-page-framework-image-remvoe-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
+           
+        }
+        
 }
 endif;

@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_media' ) ) :
 /**
  * Defines the media field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
@@ -375,33 +375,42 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         /**
          * A helper function for the above getImageInputTags() method to add a image button script.
          * 
-         * @since 2.1.3
-         * @since 2.1.5 Moved from AdminPageFramework_FormField.
+         * @since   2.1.3
+         * @since   2.1.5   Moved from AdminPageFramework_FormField.
+         * @since   3.2.0   Made it use dashicon for the select button.
          */     
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
-            
-            $sButton = 
+   
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : 'dashicons dashicons-portfolio';
+   
+            $_sButton                = 
                 "<a " . $this->generateAttributes( 
                     array(
-                        'id' => "select_media_{$sInputID}",
-                        'href' => '#',
-                        'class' => 'select_media button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+                        'id'                 => "select_media_{$sInputID}",
+                        'title'              => $this->oMsg->get( 'select_file' ),
+                        'href'               => '#',
+                        'class'     => "select_media button button-small " 
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],                            
                         'data-uploader_type' => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
                         'data-enable_external_source' => $bExternalSource ? 1 : 0,
                     ) + $aButtonAttributes
                 ) . ">"
-                    . $this->oMsg->get( 'select_file' )
+                    . ( $_bDashiconSupported ? '' : $this->oMsg->get( 'select_file' ) )
                 ."</a>";
                 
-            $sScript = "
+            $_sScript                = "
                 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
                 }
                 jQuery( document ).ready( function(){     
                     setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
                 });" . PHP_EOL;    
                     
-            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $sScript . "</script>". PHP_EOL;
+            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
 
         }
         
