@@ -324,16 +324,42 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         
                     }
                     
-                    var setMediaPreviewElement = function( sInputID, image ) {
-                                    
-                        // If the user want the attributes to be saved, set them in the input tags.
-                        jQuery( '#' + sInputID ).val( image.url ); // the url field is mandatory so  it does not have the suffix.
-                        jQuery( '#' + sInputID + '_id' ).val( image.id );     
-                        jQuery( '#' + sInputID + '_caption' ).val( jQuery( '<div/>' ).text( image.caption ).html() );     
-                        jQuery( '#' + sInputID + '_description' ).val( jQuery( '<div/>' ).text( image.description ).html() );     
-                        
+                }   
+
+                /**
+                 * Removes the set values to the input tags.
+                 * 
+                 * @since   3.2.0
+                 */
+                removeInputValuesForMedia = function( oElem ) {
+
+                    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.media-field input' );                  
+                    if ( _oImageInput.length <= 0 )  {
+                        return;
                     }
-                }     
+                    
+                    // Find the input tag.
+                    var _sInputID = _oImageInput.first().attr( 'id' );
+                    
+                    // Remove the associated values.
+                    setMediaPreviewElement( _sInputID, {} );
+                    
+                }
+                
+                /**
+                 * Sets the preview element.
+                 * 
+                 * @since   3.2.0   Changed the scope to global.
+                 */                
+                setMediaPreviewElement = function( sInputID, oSelectedFile ) {
+                                
+                    // If the user want the attributes to be saved, set them in the input tags.
+                    jQuery( '#' + sInputID ).val( oSelectedFile.url ); // the url field is mandatory so  it does not have the suffix.
+                    jQuery( '#' + sInputID + '_id' ).val( oSelectedFile.id );     
+                    jQuery( '#' + sInputID + '_caption' ).val( jQuery( '<div/>' ).text( oSelectedFile.caption ).html() );     
+                    jQuery( '#' + sInputID + '_description' ).val( jQuery( '<div/>' ).text( oSelectedFile.description ).html() );     
+                    
+                }                
             
             ";
         }
@@ -351,9 +377,14 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                     margin: 0.5em 0.5em 0.5em 0;
                 }
             }     
-            .select_media.button.button-small {
-                vertical-align: middle;    
+            .select_media.button.button-small,
+            .remove_media.button.button-small
+            {     
+                vertical-align: middle;
             }
+            .remove_media.button.button-small {
+                margin-left: 0.2em;
+            }            
         ";
     }
     
@@ -413,6 +444,45 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                 . "</script>". PHP_EOL;
 
         }
+
+        /**
+         * Removes the set image values and attributes.
+         * 
+         * @since   3.2.0
+         */
+        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes ) {
+           
+            if ( ! function_exists( 'wp_enqueue_media' ) ) {
+                return '';
+            }
+           
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_sButton               = 
+                "<a " . $this->generateAttributes( 
+                    array(
+                        'id'        => "remove_media_{$sInputID}",
+                        'href'      => '#',
+                        'class'     => 'remove_media button button-small '
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],                        
+                        'onclick'   => esc_js( "removeInputValuesForMedia( this ); return false;" ),
+                    ) + $aButtonAttributes
+                ) . ">"
+                    . ( $_bDashiconSupported ? '' : 'x' )
+                . "</a>";      
+                
+            $_sScript = "
+                if ( 0 === jQuery( 'a#remove_media_{$sInputID}' ).length ) {
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                }
+                " . PHP_EOL;    
+                    
+            return "<script type='text/javascript' class='admin-page-framework-media-remove-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
+           
+        }     
         
 }
 endif;

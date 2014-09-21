@@ -385,6 +385,25 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     }
                 
                 }    
+                /**
+                 * Removes the set values to the input tags.
+                 * 
+                 * @since   3.2.0
+                 */
+                removeInputValuesForImage = function( oElem ) {
+
+                    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.image-field input' );                  
+                    if ( _oImageInput.length <= 0 )  {
+                        return;
+                    }
+                    
+                    // Find the input tag.
+                    var _sInputID = _oImageInput.first().attr( 'id' );
+                    
+                    // Remove the associated values.
+                    setImagePreviewElement( _sInputID, {} );
+                    
+                }
                 
                 /**
                  * Sets the preview element.
@@ -433,7 +452,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     jQuery( '#image_preview_' + sInputID ).attr( 'alt', _sAlt );
                     jQuery( '#image_preview_' + sInputID ).attr( 'title', _sTitle );
                     jQuery( '#image_preview_' + sInputID ).attr( 'src', oImage.url );
-                    jQuery( '#image_preview_container_' + sInputID ).show();     
+                    if ( oImage.url ) {
+                        jQuery( '#image_preview_container_' + sInputID ).show();     
+                    } else {
+                        jQuery( '#image_preview_container_' + sInputID ).hide();     
+                    }
                     
                 }                
                 
@@ -552,7 +575,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             . "</div>"     
             . $aField['after_label']
             . $this->_getPreviewContainer( $aField, $_sImageURL, $_aPreviewAtrributes )
-            // . $this->_getRemoveButtonScript( $aField['input_id'], $_aButtonAtributes )
+            . $this->_getRemoveButtonScript( $aField['input_id'], $_aButtonAtributes )
             . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes )
         ;
         
@@ -660,27 +683,21 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 return '';
             }
            
-            $_sButton = 
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_sButton               = 
                 "<a " . $this->generateAttributes( 
                     array(
                         'id'        => "remove_image_{$sInputID}",
                         'href'      => '#',
-                        // 'class'     => 'remove_image button button-small remove_field_value ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
-                        // 'class'     => 'remove_image button_icon_wrapper dashicons dashicons-dismiss ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
-                        'class'     => ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
-                                ? 'remove_image button button-small ' 
-                                : 'remove_image button button-small dashicons dashicons-dismiss '
-                            ) 
-                            .  $aButtonAttributes['class'],
-                        // 'class'     => 'welcome-panel-close ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
-                        'onclick'   => esc_js( "setImagePreviewElement( '{$sInputID}', {} ); return false;" ),
-                        // 'style'     => "::before",
+                        'class'     => 'remove_image button button-small '
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],                        
+                        'onclick'   => esc_js( "removeInputValuesForImage( this ); return false;" ),
                     ) + $aButtonAttributes
                 ) . ">"
-                    // . '::before'
-                    // . 'x'
-                ."</a>";
-                
+                    . ( $_bDashiconSupported ? '' : 'x' )
+                . "</a>";      
                 
             $_sScript = "
                 if ( 0 === jQuery( 'a#remove_image_{$sInputID}' ).length ) {
@@ -688,7 +705,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 }
                 " . PHP_EOL;    
                     
-            return "<script type='text/javascript' class='admin-page-framework-image-remvoe-button'>" 
+            return "<script type='text/javascript' class='admin-page-framework-image-remove-button'>" 
                     . $_sScript 
                 . "</script>". PHP_EOL;
            

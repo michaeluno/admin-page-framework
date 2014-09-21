@@ -409,24 +409,15 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                         iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
                         setTimeout( function (){
                             if ( ! _bEscaped ) {
-                                setPreviewElement( sInputID, oImage );
+                                setFontPreviewElement( sInputID, oImage );
                             }
                             _bEscaped = false;                        
                         }, iMilliSeconds );
                         
                     }        
-                    var setPreviewElement = function( sInputID, oImage ) {
-                        
-                        // If the user want the attributes to be saved, set them in the input tags.
-                        jQuery( 'input#' + sInputID ).val( oImage.url );        // the url field is mandatory so it does not have the suffix.
-                    
-                        // Change the font-face
-                        setFontPreview( oImage.url, sInputID );
-                    
-                    }                    
-                    
+                  
                 }    
-
+                      
             ";
         }
         
@@ -444,17 +435,21 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                 margin-left: 1em;                
             }
             
-            
             /* Font Uploader Input Field */
             .admin-page-framework-field-font input {
                 margin-right: 0.5em;
                 vertical-align: middle;    
             }
+            
             /* Font Uploader Button */
-            .select_font.button.button-small
+            .select_font.button.button-small,
+            .remove_font.button.button-small
             {     
                 vertical-align: middle;
-            }            
+            }
+            .remove_media.button.button-small {
+                margin-left: 0.2em;
+            }                 
             " . PHP_EOL;
      }
         
@@ -499,6 +494,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
             . "</div>"            
             . $aField['after_label']
             . $this->_getPreviewContainer( $aField, $sFontURL, $aPreviewAtrributes )
+            . $this->_getRemoveButtonScript( $aField['input_id'], $aButtonAtributes )            
             . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $aButtonAtributes );
             ;
                     
@@ -659,6 +655,46 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                         return $_sExtension;    // woff, svg,
                 }
             }
+
+        /**
+         * Removes the set image values and attributes.
+         * 
+         * @since   3.2.0
+         */
+        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes ) {
+           
+            if ( ! function_exists( 'wp_enqueue_media' ) ) {
+                return '';
+            }
+           
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_sButton               = 
+                "<a " . $this->generateAttributes( 
+                    array(
+                        'id'        => "remove_font_{$sInputID}",
+                        'href'      => '',
+                        'class'     => 'remove_font button button-small '
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],                        
+                        'onclick'   => esc_js( "removeInputValuesForFont( this ); return false;" ),
+                    ) + $aButtonAttributes
+                ) . ">"
+                    . ( $_bDashiconSupported ? '' : 'x' )
+                . "</a>";      
+                
+            $_sScript = "
+                if ( 0 === jQuery( 'a#remove_font_{$sInputID}' ).length ) {
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                }
+                " . PHP_EOL;    
+                    
+            return "<script type='text/javascript' class='admin-page-framework-font-remove-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
+           
+        }
+
             
 }
 endif;

@@ -259,6 +259,11 @@ td.admin-page-framework-field-td-no-title {
     vertical-align: middle;
     text-align: center;
 }
+@media only screen and (max-width: 960px) {
+    .admin-page-framework-repeatable-field-buttons {
+        margin-top: 0;
+    }
+}
 
 /* Sortable Fields */
 .sortable .admin-page-framework-field {
@@ -283,8 +288,8 @@ td.admin-page-framework-field-td-no-title {
     background: #f1f1f1;
     background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));
     background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);
-    background-image:    -moz-linear-gradient(bottom, #ececec, #f9f9f9);
-    background-image:      -o-linear-gradient(bottom, #ececec, #f9f9f9);
+    background-image: -moz-linear-gradient(bottom, #ececec, #f9f9f9);
+    background-image: -o-linear-gradient(bottom, #ececec, #f9f9f9);
     background-image: linear-gradient(to top, #ececec, #f9f9f9);
     border: 1px solid #CCC;
     background: #F6F6F6;    
@@ -302,6 +307,16 @@ td.admin-page-framework-field-td-no-title {
 .font-lighter {
     font-weight: lighter;
 }
+
+/* Dashicons */ 
+.admin-page-framework-field .button.button-small.dashicons {
+    font-size: 1.2em;
+    padding-left: 0.2em;
+    padding-right: 0.22em;
+
+}
+
+
 ";
             
         }   
@@ -380,12 +395,19 @@ td.admin-page-framework-field-td-no-title {
             if ( version_compare( $sWPVersion, '3.8', '>=' ) ) {        
             
                 return
-".widget .form-table th {
+"
+/* Widget Forms */
+.widget .form-table th {
     font-size: 13px;
     font-weight: normal;
 }
 .widget .admin-page-framework-section .form-table {
     margin-top: 1em;
+}
+
+/* Repeatable field buttons */
+.admin-page-framework-repeatable-field-buttons {
+    margin: 2px 0 0 0.3em;
 }
 ";        
                 

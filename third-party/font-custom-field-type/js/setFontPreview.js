@@ -33,4 +33,39 @@ setFontPreview = function( strURL, strInputID ) {
 		opacity: 1,	
 	}, 1000 );					
 
-}
+};
+
+ /**
+ * Removes the set values to the input tags.
+ * 
+ * @since   3.2.0
+ */
+removeInputValuesForFont = function( oElem ) {
+
+    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.font-field input' );
+    if ( _oImageInput.length <= 0 )  {
+        return;
+    }
+    
+    // Find the input tag.
+    var _sInputID = _oImageInput.first().attr( 'id' );
+    
+    // Remove the associated values.
+    setFontPreviewElement( _sInputID, {} );
+    
+};
+
+/**
+ * Sets the preview element.
+ * 
+ * @since   3.2.0   Changed the scope to global.
+ */                
+setFontPreviewElement = function( sInputID, oFont ) {
+    
+    // If the user want the attributes to be saved, set them in the input tags.
+    jQuery( 'input#' + sInputID ).val( oFont.url );        // the url field is mandatory so it does not have the suffix.
+
+    // Change the font-face
+    setFontPreview( oFont.url ? oFont.url : '', sInputID );
+
+};
