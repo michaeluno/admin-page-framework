@@ -114,11 +114,11 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         
         return "
             createFontSizeChangeSlider = function( sInputID ) {
-                var sSliderID = 'slider_' + sInputID;
-                var sSliderContainerID = 'slider_container_' + sInputID;
-                return '<div class=\"fontSliderHolder\" id=\"' + sSliderContainerID + '\" >'
+                var _sSliderID = 'slider_' + sInputID;
+                var _sSliderContainerID = 'slider_container_' + sInputID;
+                return '<div class=\"fontSliderHolder\" id=\"' + _sSliderContainerID + '\" >'
                     + '<div class=\"sliderT\">A</div>'
-                    + '<div class=\"holder\"><div id=\"' + sSliderID + '\" class=\"noUiSlider\"></div></div>'
+                    + '<div class=\"holder\"><div id=\"' + _sSliderID + '\" class=\"noUiSlider\"></div></div>'
                     + '<div class=\"sliderB\">A</div>'
                 + '</div>';
             }
@@ -442,7 +442,20 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         return "/* Font Custom Field Type */
             .admin-page-framework-field-font .admin-page-framework-repeatable-field-buttons {
                 margin-left: 1em;                
-            }" . PHP_EOL;
+            }
+            
+            
+            /* Font Uploader Input Field */
+            .admin-page-framework-field-font input {
+                margin-right: 0.5em;
+                vertical-align: middle;    
+            }
+            /* Font Uploader Button */
+            .select_font.button.button-small
+            {     
+                vertical-align: middle;
+            }            
+            " . PHP_EOL;
      }
         
     /**
@@ -451,22 +464,22 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
     protected function getField( $aField ) { 
         
         /* Variables */
-        $aOutput = array();
-        $iCountAttributes = count( ( array ) $aField['attributes_to_store'] );    // If the saving extra attributes are not specified, the input field will be single only for the URL. 
-        $sCaptureAttribute = $iCountAttributes ? 'url' : '';
+        $aOutput            = array();
+        $iCountAttributes   = count( ( array ) $aField['attributes_to_store'] );    // If the saving extra attributes are not specified, the input field will be single only for the URL. 
+        $sCaptureAttribute  = $iCountAttributes ? 'url' : '';
         $sFontURL = $sCaptureAttribute
             ? ( isset( $aField['attributes']['value'][ $sCaptureAttribute ] ) ? $aField['attributes']['value'][ $sCaptureAttribute ] : "" )
             : $aField['attributes']['value'];
         
         /* Set up the attribute arrays */
-        $aBaseAttributes = $aField['attributes'];
+        $aBaseAttributes    = $aField['attributes'] + array( 'class' => null );
         unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'], $aBaseAttributes['name'], $aBaseAttributes['value'], $aBaseAttributes['type'] );
-        $aInputAttributes = array(
-            'name'    =>    $aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
-            'value'    =>    $sFontURL,
-            'type'    =>    'text',
+        $aInputAttributes   = array(
+            'name'    => $aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
+            'value'   => $sFontURL,
+            'type'    => 'text',
         ) + $aField['attributes']['input'] + $aBaseAttributes;
-        $aButtonAtributes = $aField['attributes']['button'] + $aBaseAttributes;
+        $aButtonAtributes   = $aField['attributes']['button'] + $aBaseAttributes;
         $aPreviewAtrributes = $aField['attributes']['preview'] + $aBaseAttributes;
 
         /* Compose the field output */
@@ -545,22 +558,27 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         /**
          * A helper function for the above getImageInputTags() method to add a image button script.
          * 
-         * @since            2.1.3
-         * @since            2.1.5            Moved from AdminPageFramework_InputField.
+         * @since   2.1.3
+         * @since   2.1.5   Moved from AdminPageFramework_InputField.
          */
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
             
-            $_sButton = 
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = 'dashicons dashicons-portfolio';
+            $_sButton               = 
                 "<a " . $this->generateAttributes( 
                     array(
                         'id'                    => "select_font_{$sInputID}",
+                        'title'                 => __( 'Select Font', 'admin-page-framework-demo' ),
                         'href'                  => '#',
-                        'class'                 => 'select_font button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+                        'class'                 => 'select_font button button-small ' 
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],
                         'data-uploader_type'    => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
                         'data-enable_external_source' => $bExternalSource ? 1 : 0,
                     ) + $aButtonAttributes
                 ) . ">"
-                    . __( 'Select Font', 'admin-page-framework-demo' )
+                    . ( $_bDashiconSupported ? '' : __( 'Select Font', 'admin-page-framework-demo' ) )
                 ."</a>";
                 
             $_sScript = "
@@ -593,27 +611,19 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         
         private function getFontSizeChangerElement( $sInputID, $sPreviewContainerID, $sPreviewID ) {
             
-            $sSliderID              = "slider_{$sInputID}";
-            $sSliderContainerID     = "slider_container_{$sInputID}";
-            $sFontSizeChangerHTML   = 
-                "<div class='fontSliderHolder' id='{$sSliderContainerID}' >"
-                    . "<div class='sliderT'>A</div>"
-                    . "<div class='holder'><div id='{$sSliderID}' class='noUiSlider'></div></div>"
-                    . "<div class='sliderB'>A</div>"
-                . "</div>";
-            
+            $_sSliderID             = "slider_{$sInputID}";
+            $_sSliderContainerID    = "slider_container_{$sInputID}";            
             return "
                 <script type='text/javascript' class='font-size-changer' >
                     jQuery( document ).ready( function() {
                         
                         // Write the element
-                        if ( jQuery( '#{$sSliderContainerID}' ).length == 0 ) {
-                            // jQuery( '#{$sPreviewContainerID}' ).before( \"{$sFontSizeChangerHTML}\" );
+                        if ( jQuery( '#{$_sSliderContainerID}' ).length == 0 ) {
                             jQuery( '#{$sPreviewContainerID}' ).before( createFontSizeChangeSlider( \"{$sInputID}\" ) );
                         }
                         
                         // Run noUiSlider
-                        jQuery( '#{$sSliderID}' ).noUiSlider({
+                        jQuery( '#{$_sSliderID}' ).noUiSlider({
                             range: [ 100, 300 ],
                             start: 150,
                             step: 1,
@@ -637,8 +647,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         }
     
             private function getFontFormat( $sURL ) {
-                $sExtension = strtolower( pathinfo( $sURL, PATHINFO_EXTENSION ) );
-                switch( $sExtension ) {
+                $_sExtension = strtolower( pathinfo( $sURL, PATHINFO_EXTENSION ) );
+                switch( $_sExtension ) {
                     case 'eot':
                         return 'embedded-opentype';
                     case 'ttf':
@@ -646,7 +656,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                     case 'otf':
                         return 'opentype';
                     default:
-                        return $sExtension;    // woff, svg,
+                        return $_sExtension;    // woff, svg,
                 }
             }
             
