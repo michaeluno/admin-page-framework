@@ -259,8 +259,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * Registers necessary callbacks ans sets up internal components including properties.
      * 
      * <h4>Example</h4>
-     * <code>if ( is_admin() )
-     *     new MyAdminPageClass( 'my_custom_option_key', __FILE__ );</code>
+     * <code>if ( is_admin() ) {
+     *     new MyAdminPageClass( 'my_custom_option_key', __FILE__ );
+     * }</code>
      * 
      * @access public
      * @since 2.0.0
