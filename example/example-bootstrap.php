@@ -3,9 +3,10 @@
 // Create a custom post type - this class deals with front-end components so checking with is_admin() is not necessary.
 include( APFDEMO_DIRNAME . '/example/APF_PostType.php' );
 new APF_PostType( 
-    'apf_posts',    // the post type slug
-    null,           // the argument array. Here null is passed because it is defined inside the class.
-    APFDEMO_FILE    // the caller script path.
+    'apf_posts',                // the post type slug
+    null,                       // the argument array. Here null is passed because it is defined inside the class.
+    APFDEMO_FILE,               // the caller script path.
+    'admin-page-framework-demo' // the text domain.
 );     
 
 // Create widgets - this class also deals with front-end components so no need to check with is_admin().
