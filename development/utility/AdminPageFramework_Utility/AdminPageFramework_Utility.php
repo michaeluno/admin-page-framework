@@ -47,6 +47,37 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
     }
     
     /**
+     * Generates the string of class selectors for the class attribute value from multiple arguments.
+     * 
+     * Duplicated items will be single.
+     * 
+     * For example, 
+     * <code>$sClasses = generateClassAttribute( array( 'button, button-primary' ), 'remove_button button' );</code>
+     * Will generates
+     * <code>button button-primary remove_button</code>
+     * 
+     * @since   3.2.0
+     */
+    static public function generateClassAttribute( $asClassSelectors ) {
+        
+        $_aClasses  = array();
+        foreach( func_get_args() as $_asClasses ) {
+            if ( ! is_string( $_asClasses ) && ! is_array( $_asClasses ) ) {
+                continue;
+            }
+            $_aClasses = array_merge( 
+                $_aClasses,
+                is_array( $_asClasses )
+                    ? $_asClasses
+                    : explode( ' ', $_asClasses )
+            );
+        }
+        $_aClasses  = array_unique( $_aClasses );
+        return trim( implode( ' ', $_aClasses ) );
+        
+    }
+    
+    /**
      * Generates the string of attributes to be embedded in an HTML tag from an associative array.
      * 
      * For example, 
@@ -55,14 +86,14 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
      *     id="my_id" name="my_name" style="background-color:#fff"
      * 
      * This is mostly used by the method to output input fields.
-     * @since 3.0.0
+     * @since   3.0.0
      */
     static public function generateAttributes( array $aAttributes ) {
         
         $aOutput = array();
         foreach( $aAttributes as $sAttribute => $sProperty ) {
             if ( empty( $sProperty ) && 0 !== $sProperty && '0' !== $sProperty ) { continue; } // drop non value elements except numeric 0.
-            if ( is_array( $sProperty ) || is_object( $sProperty ) ) continue; // must be resolved as a string.
+            if ( is_array( $sProperty ) || is_object( $sProperty ) ) { continue; }  // must be resolved as a string.
             $aOutput[] = "{$sAttribute}='{$sProperty}'";
         }
         return implode( ' ', $aOutput );
