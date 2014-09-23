@@ -549,7 +549,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
         
         /* Set up the attribute arrays */
         $_aBaseAttributes = $aField['attributes'] + array( 'class' => null );
-        unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'] );
+        unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'], $_aBaseAttributes['remove_button'] );
         $_aInputAttributes = array(
             'name'  => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
             'value' => $_sImageURL,
@@ -693,7 +693,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             if ( ! function_exists( 'wp_enqueue_media' ) ) {
                 return '';
             }
-            
+
             $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
             $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
             $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
