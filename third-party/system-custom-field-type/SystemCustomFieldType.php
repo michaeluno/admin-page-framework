@@ -32,6 +32,7 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
+        'data'          =>  array(),        // [3.2.0+] Stores the data to be displayed
 		'attributes'	=>	array(
 			// 'size'	=>	10,
             // 'cols'          =>  60,
@@ -44,7 +45,7 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
             'readonly'      => 'ReadOnly',
             'required'      => '',
             'wrap'          => '',  
-            'style'         => 'background-color: #f9f9f9; width: 97%; outline: 0; font-family: Consolas, Monaco, monospace;',
+            'style'         => '',
             'onclick'       => 'this.focus();this.select()',
 		),	
 	);
@@ -159,6 +160,15 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
         .admin-page-framework-field-system .admin-page-framework-input-label-container {
             width: 100%;
         }
+        .admin-page-framework-field-system textarea {
+            background-color: #f9f9f9; 
+            width: 97%; 
+            outline: 0; 
+            font-family: Consolas, Monaco, monospace;
+            white-space: pre;
+            word-wrap: normal;
+            overflow-x: scroll;            
+        }
         ";
         
 	}
@@ -175,6 +185,7 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
 			
 		$aInputAttributes = array(
 			'type'	=>	'textarea',
+            'name'  =>  '',
 		) + $aField['attributes'];
 		$aInputAttributes['class']	.= ' system';
         unset( $aInputAttributes['value'] );
@@ -188,7 +199,7 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
 						: "" 
 					)
 					. "<textarea " . $this->generateAttributes( $aInputAttributes ) . " >"	
-                        . $this->_getSystemInfomation( $aField['value'] )
+                        . $this->_getSystemInfomation( $aField['value'], $aField['data'] )
                     . "</textarea>"
 					. $aField['after_input']
 				. "</label>"
@@ -196,40 +207,40 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
 			. $aField['after_label'];
 		
 	}	
-        private function _getSystemInfomation( $asValue=null ) {
+        private function _getSystemInfomation( $asValue=null, $asCustomData=null ) {
             
             global $wpdb;
             
             if ( ! class_exists( 'AdminPageFramework_SystemCustomFieldType_ErrorReporting' ) ) {
                 include_once( dirname( __FILE__ ) . '/include/AdminPageFramework_SystemCustomFieldType_ErrorReporting.php' );
             }
-            $_oErrorReporting = new AdminPageFramework_SystemCustomFieldType_ErrorReporting;
-            $_aSystemInfo = array(
-                'Admin Page Framework' =>  array(
-                    __( 'Version', 'admin-page-framework' )    =>  class_exists( 'AdminPageFramework_Registry' ) ? AdminPageFramework_Registry::Version : '',
-                    __( 'Minified', 'admin-page-framework' )   =>  $this->_getYesOrNo( class_exists( 'AdminPageFramework_Registry' ) && AdminPageFramework_Registry::$bIsMinifiedVersion ),
+            $_oErrorReporting   = new AdminPageFramework_SystemCustomFieldType_ErrorReporting;
+            $_aSystemInfo       = array(
+                'Admin Page Framework'  => array(
+                    __( 'Version', 'admin-page-framework' )                 => class_exists( 'AdminPageFramework_Registry' ) ? AdminPageFramework_Registry::Version : '',
+                    __( 'Minified', 'admin-page-framework' )                => $this->_getYesOrNo( class_exists( 'AdminPageFramework_Registry' ) && AdminPageFramework_Registry::$bIsMinifiedVersion ),
                 ),
-                'WordPress'     =>  array(
-                    __( 'Version', 'admin-page-framework' )             =>  $GLOBALS['wp_version'],
-                    __( 'Language', 'admin-page-framework' )            =>  ( defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US' ),
-                    __( 'Memory Limit', 'admin-page-framework' )        =>  $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ),
-                    __( 'Multi-site', 'admin-page-framework' )          =>  $this->_getYesOrNo( is_multisite() ), 
-                    __( 'Permalink Structure', 'admin-page-framework' )     =>  get_option( 'permalink_structure' ), 
-                    __( 'Active Theme', 'admin-page-framework' )        =>  $this->_getActiveThemeName(),
-                    __( 'Registered Post Statuses', 'admin-page-framework' )    =>  implode( ', ', get_post_stati() ),
-                    'WP_DEBUG'                                          =>  $this->_getEnabledOrDisabled( defined( 'WP_DEBUG' ) && WP_DEBUG ),
-                    'WP_DEBUG_LOG'			                            =>	$this->_getEnabledOrDisabled( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ),
-                    'WP_DEBUG_DISPLAY'	                                =>	$this->_getEnabledOrDisabled( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ),
-                    __( 'Table Prefix', 'admin-page-framework' )        =>  $wpdb->prefix,
-                    __( 'Table Prefix Length', 'admin-page-framework' ) =>  strlen( $wpdb->prefix ),
-                    __( 'Table Prefix Status', 'admin-page-framework' ) =>  strlen( $wpdb->prefix ) >16 ? __( 'Too Long', 'admin-page-framework' ) : __( 'Acceptable', 'admin-page-frmework' ),
-                    'wp_remote_post()'                                  =>  $this->_getWPRemotePostStatus(),
-                    __( 'WP_CONTENT_DIR Writable', 'admin-page-framework' )     =>	$this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
-                    __( 'Active Plugins', 'admin-page-framework' )      =>  PHP_EOL . $this->_getActivePlugins(),
-                    __( 'Network Active Plugins', 'admin-page-framework' )      =>  PHP_EOL . $this->_getNetworkActivePlugins(),
+                'WordPress'             => array(
+                    __( 'Version', 'admin-page-framework' )                 => $GLOBALS['wp_version'],
+                    __( 'Language', 'admin-page-framework' )                => ( defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US' ),
+                    __( 'Memory Limit', 'admin-page-framework' )            => $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ),
+                    __( 'Multi-site', 'admin-page-framework' )              => $this->_getYesOrNo( is_multisite() ), 
+                    __( 'Permalink Structure', 'admin-page-framework' )     => get_option( 'permalink_structure' ), 
+                    __( 'Active Theme', 'admin-page-framework' )            => $this->_getActiveThemeName(),
+                    __( 'Registered Post Statuses', 'admin-page-framework' ) => implode( ', ', get_post_stati() ),
+                    'WP_DEBUG'                                              => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG' ) && WP_DEBUG ),
+                    'WP_DEBUG_LOG'			                                => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ),
+                    'WP_DEBUG_DISPLAY'	                                    => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ),
+                    __( 'Table Prefix', 'admin-page-framework' )            => $wpdb->prefix,
+                    __( 'Table Prefix Length', 'admin-page-framework' )     => strlen( $wpdb->prefix ),
+                    __( 'Table Prefix Status', 'admin-page-framework' )     => strlen( $wpdb->prefix ) >16 ? __( 'Too Long', 'admin-page-framework' ) : __( 'Acceptable', 'admin-page-frmework' ),
+                    'wp_remote_post()'                                      => $this->_getWPRemotePostStatus(),
+                    __( 'WP_CONTENT_DIR Writable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
+                    __( 'Active Plugins', 'admin-page-framework' )          => PHP_EOL . $this->_getActivePlugins(),
+                    __( 'Network Active Plugins', 'admin-page-framework' )  => PHP_EOL . $this->_getNetworkActivePlugins(),
 
                 ),
-                'PHP'           =>  array(
+                'PHP'                   => array(
                     __( 'Version', 'admin-page-framework' )                 => phpversion(),
                     __( 'Safe Mode', 'admin-page-framework' )               => $this->_getYesOrNo( ini_get( 'safe_mode' ) ),
                     __( 'Memory Limit', 'admin-page-framework' )            => ini_get( 'memory_limit' ),
@@ -240,49 +251,82 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
                     __( 'Max Input Vars', 'admin-page-framework' )          => ini_get( 'max_input_vars' ),
                     __( 'Argument Separator', 'admin-page-framework' )      => ini_get( 'arg_separator.output' ),
                     __( 'Allow URL File Open', 'admin-page-framework' )     => $this->_getYesOrNo( ini_get( 'allow_url_fopen' ) ),
-                    __( 'Display Errors', 'admin-page-framework' ) =>  $this->_getOnOrOff( ini_get( 'display_errors' ) ),
-                    __( 'Log Errors', 'admin-page-framework' ) =>  $this->_getOnOrOff( ini_get( 'log_errors' ) ),
-                    __( 'Error log location', 'admin-page-framework' ) =>	ini_get( 'error_log' ),
-                    __( 'Error Reporting Level', 'admin-page-framweork' ) =>	$_oErrorReporting->getErrorLevel(),
-                    __( 'FSOCKOPEN', 'admin-page-framework' ) =>  $this->_getSupportedOrNot( function_exists( 'fsockopen' ) ),
-                    __( 'cURL', 'admin-page-framework' ) =>  $this->_getSupportedOrNot( function_exists( 'curl_init' ) ),
-                    __( 'SOAP', 'admin-page-framework' ) =>  $this->_getSupportedOrNot( class_exists( 'SoapClient' ) ),
-                    __( 'SUHOSIN', 'admin-page-framework' ) =>  $this->_getSupportedOrNot( extension_loaded( 'suhosin' ) ),
-                    'ini_set()' => $this->_getSupportedOrNot( function_exists( 'ini_set' ) ),                    
+                    __( 'Display Errors', 'admin-page-framework' )          => $this->_getOnOrOff( ini_get( 'display_errors' ) ),
+                    __( 'Log Errors', 'admin-page-framework' )              => $this->_getOnOrOff( ini_get( 'log_errors' ) ),
+                    __( 'Error log location', 'admin-page-framework' )      => ini_get( 'error_log' ),
+                    __( 'Error Reporting Level', 'admin-page-framweork' )   => $_oErrorReporting->getErrorLevel(),
+                    __( 'FSOCKOPEN', 'admin-page-framework' )               => $this->_getSupportedOrNot( function_exists( 'fsockopen' ) ),
+                    __( 'cURL', 'admin-page-framework' )                    => $this->_getSupportedOrNot( function_exists( 'curl_init' ) ),
+                    __( 'SOAP', 'admin-page-framework' )                    => $this->_getSupportedOrNot( class_exists( 'SoapClient' ) ),
+                    __( 'SUHOSIN', 'admin-page-framework' )                 => $this->_getSupportedOrNot( extension_loaded( 'suhosin' ) ),
+                    'ini_set()'                                             => $this->_getSupportedOrNot( function_exists( 'ini_set' ) ),                    
 				
                 ),
-                'MySQL'         =>  array(
-                    __( 'Version', 'admin-page-framework' )    =>  $this->_getMySQLVersion(),
+                'MySQL'               => array(
+                    __( 'Version', 'admin-page-framework' )                     => $this->_getMySQLVersion(),
                 ),      
-                'Server'    =>  array(
-                    __( 'Web Server', 'admin-page-framework' ) =>  $_SERVER['SERVER_SOFTWARE'],
-                    'SSL'                                       => $this->_getYesOrNo( is_ssl() ),
-                    __( 'Session', 'admin-page-framework' ) =>  $this->_getEnabledOrDisabled( isset( $_SESSION ) ),
-                    __( 'Session Name', 'admin-page-framework' ) =>  esc_html( ini_get( 'session.name' ) ),
-                    __( 'Session Cookie Path', 'admin-page-framework' ) =>  esc_html( ini_get( 'session.cookie_path' ) ),
-                    __( 'Session Save Path', 'admin-page-framework' ) =>  esc_html( ini_get( 'session.save_path' ) ),
-                    __( 'Session Use Cookies', 'admin-page-framework' ) =>  $this->_getOnOrOff( ini_get( 'session.use_cookies' ) ),
-                    __( 'Session Use Only Cookies', 'admin-page-framework' ) =>  $this->_getOnOrOff( ini_get( 'session.use_only_cookies' ) ),                                    
+                'Server'              => array(
+                    __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
+                    'SSL'                                                       => $this->_getYesOrNo( is_ssl() ),
+                    __( 'Session', 'admin-page-framework' )                     => $this->_getEnabledOrDisabled( isset( $_SESSION ) ),
+                    __( 'Session Name', 'admin-page-framework' )                => esc_html( ini_get( 'session.name' ) ),
+                    __( 'Session Cookie Path', 'admin-page-framework' )         => esc_html( ini_get( 'session.cookie_path' ) ),
+                    __( 'Session Save Path', 'admin-page-framework' )           => esc_html( ini_get( 'session.save_path' ) ),
+                    __( 'Session Use Cookies', 'admin-page-framework' )         => $this->_getOnOrOff( ini_get( 'session.use_cookies' ) ),
+                    __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->_getOnOrOff( ini_get( 'session.use_only_cookies' ) ),                                    
                 ),
+                __( 'Current Time', 'admin-page-framework' )               => current_time( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ),
             );
 
-      
-            $_aOutput = array();
-            foreach( $_aSystemInfo as $_sSection => $_aInfo ) {
-                $_aOutput[] = '[' . $_sSection . ']';
-                $_aOutput[] = $this->_getSectionInfo( $_aInfo ) . PHP_EOL;
+            $_aData     = $this->getAsArray( $asCustomData );
+            $_aOutput   = array();
+            foreach( $_aData + $_aSystemInfo as $_sSection => $_aInfo ) {
+
+                // Skipping an empty element allows the user to remove a section by passing an empty section.
+                if ( empty( $_aInfo ) ) { continue; }
+            
+                // $_aOutput[] = '[' . $_sSection . ']';
+                $_aOutput[] = $this->_getSectionInfo( $_sSection, $_aInfo, 32 ) . PHP_EOL;
+                
             }
             return implode( PHP_EOL, $_aOutput );
             
         }
-        
-            private function _getSectionInfo( array $aArray, $sLabelCharLengths=32 ) {
+            /**
+             * 
+             * @since   3.2.0
+             */
+            private function _getItem( $asItem ) {
                 
-                $_aOutput = array();
-                foreach ( $aArray as $_sTitle => $_sDescription ) {
-                    $_aOutput[] = $_sTitle 
-                        . str_pad( ':', $sLabelCharLengths - $this->_getStringLength( $_sTitle ) )
-                        . $_sDescription;
+                
+            }
+        
+            private function _getSectionInfo( $sSection, $asInfo, $sLabelCharLengths=16, $iOffset=0 ) {
+                
+                $_aOutput   = array();
+                $_aOutput[] = ( $iOffset ? str_pad( ' ', $iOffset  ) : '' ) 
+                    . ( $sSection ? '[' . $sSection . ']' : '' );
+                
+                if ( ! is_array( $asInfo ) && ! is_object( $asInfo ) ) {
+                    $_aOutput[] = $asInfo;
+                    return implode( PHP_EOL, $_aOutput );    
+                }
+                
+                foreach ( $asInfo as $_sTitle => $_asDescription ) {
+                    if ( ! is_array( $_asDescription ) && ! is_object( $_asDescription ) ) {
+                        $_aOutput[] = str_pad( ' ', $iOffset )
+                            . $_sTitle 
+                            . str_pad( ':', $sLabelCharLengths - $this->_getStringLength( $_sTitle ) )
+                            . $_asDescription;
+                        continue;
+                    }
+                    $_aOutput[] = str_pad( ' ', $iOffset )
+                        . $_sTitle 
+                        . ": {" 
+                        // . str_pad( ':', $sLabelCharLengths - $this->_getStringLength( $_sTitle ) )
+                        . $this->_getSectionInfo( '', $_asDescription, 16, $iOffset + 4 )
+                        . PHP_EOL 
+                        . str_pad( ' ', $iOffset ) . "}";
                 }
                 return implode( PHP_EOL, $_aOutput );    
                 

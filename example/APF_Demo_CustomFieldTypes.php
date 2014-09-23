@@ -840,6 +840,13 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'field_id'      => 'system_information',
                 'type'          => 'system',     
                 'title'         => __( 'System Information', 'admin-page-framework-demo' ),
+                'data'          => array(
+                    __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-demo' ),
+                    __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
+                ) 
+                + array(    
+                    __( 'Plugin Options', 'admin-page-framework-demo' ) => $this->oProp->aOptions,
+                ),
             ),
             array()
         );     
