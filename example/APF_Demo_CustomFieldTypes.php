@@ -541,23 +541,31 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         );
         $this->addSettingFields(     
             array(
-                'field_id' => 'font_field',
-                'section_id' => 'font',
-                'title' => __( 'Font Upload', 'admin-page-framework-demo' ),
-                'type' => 'font',
-                'description' => __( 'Set the URL of the font.', 'admin-page-framework-demo' ),
+                'field_id'      => 'font_field',
+                'section_id'    => 'font',
+                'title'         => __( 'Font Upload', 'admin-page-framework-demo' ),
+                'type'          => 'font',
+                'description'   => __( 'Set the URL of the font.', 'admin-page-framework-demo' ),
             ),
             array(
-                'field_id' => 'font_field_repeatable',
-                'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'type' => 'font',
-                'repeatable' =>  true,
+                'field_id'      => 'font_field_repeatable',
+                'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
+                'type'          => 'font',
+                'repeatable'    => true,
+                'attributes'    => array(
+                    'button'            =>  array(
+                        'data-label'    => __( 'Select Font', 'admin-page-framework-demo' ),
+                    ),
+                    'remove_button'     =>  array(
+                        'data-label'    => __( 'Remove Font', 'admin-page-framework-demo' ),
+                    )                    
+                ),
             ),     
             array(
-                'field_id' => 'font_field_sortable',
-                'title' => __( 'Sortable', 'admin-page-framework-demo' ),
-                'type' => 'font',
-                'sortable' =>  true,
+                'field_id'      => 'font_field_sortable',
+                'title'         => __( 'Sortable', 'admin-page-framework-demo' ),
+                'type'          => 'font',
+                'sortable'      =>  true,
                 array(), // second
                 array(), // third
             ),     

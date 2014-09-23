@@ -18,12 +18,13 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         'allow_external_source' => true,    // ( boolean ) Indicates whether the media library box has the From URL tab.
         'preview_text'          => 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
         'attributes'            => array(
-            'input'     =>    array(
+            'input'         => array(
                 'size'      => 60,    
                 'maxlength' => 400,
             ),
-            'preview'   => array(),
-            'button'    => array(),
+            'preview'       => array(),
+            'button'        => array(),
+            'remove_button' => array(), // 3.2.0+
         ),    
     );
 
@@ -474,8 +475,9 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
             'value'   => $sFontURL,
             'type'    => 'text',
         ) + $aField['attributes']['input'] + $aBaseAttributes;
-        $aButtonAtributes   = $aField['attributes']['button'] + $aBaseAttributes;
-        $aPreviewAtrributes = $aField['attributes']['preview'] + $aBaseAttributes;
+        $_aButtonAtributes          = $aField['attributes']['button'] + $aBaseAttributes;
+        $_aRemoveButtonAtributes    = $aField['attributes']['remove_button'] + $aBaseAttributes;
+        $_aPreviewAtrributes        = $aField['attributes']['preview'] + $aBaseAttributes;
 
         /* Compose the field output */
         $aOutput[] =
@@ -493,9 +495,9 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                 . "</label>"
             . "</div>"            
             . $aField['after_label']
-            . $this->_getPreviewContainer( $aField, $sFontURL, $aPreviewAtrributes )
-            . $this->_getRemoveButtonScript( $aField['input_id'], $aButtonAtributes )            
-            . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $aButtonAtributes );
+            . $this->_getPreviewContainer( $aField, $sFontURL, $_aPreviewAtrributes )
+            . $this->_getRemoveButtonScript( $aField['input_id'], $_aRemoveButtonAtributes )            
+            . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes );
             ;
                     
         return implode( PHP_EOL, $aOutput );
@@ -559,22 +561,32 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
          */
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
             
-            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
-            $_sDashIconSelector     = 'dashicons dashicons-portfolio';
-            $_sButton               = 
-                "<a " . $this->generateAttributes( 
-                    array(
-                        'id'                    => "select_font_{$sInputID}",
-                        'title'                 => __( 'Select Font', 'admin-page-framework-demo' ),
-                        'href'                  => '#',
-                        'class'                 => 'select_font button button-small ' 
-                            . $_sDashIconSelector . ' '
-                            . $aButtonAttributes['class'],
-                        'data-uploader_type'    => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
-                        'data-enable_external_source' => $bExternalSource ? 1 : 0,
-                    ) + $aButtonAttributes
-                ) . ">"
-                    . ( $_bDashiconSupported ? '' : __( 'Select Font', 'admin-page-framework-demo' ) )
+            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );            
+            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : 'dashicons dashicons-portfolio';
+            $_aAttributes           = array(
+                    'id'        => "select_font_{$sInputID}",
+                    'href'      => '#',            
+                    'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+                    'data-enable_external_source'   => $bExternalSource ? 1 : 0,                    
+                ) 
+                + $aButtonAttributes
+                + array(
+                    'title'     => $_bIsLabelSet ? $aButtonAttributes['data-label'] : __( 'Select Font', 'admin-page-framework-demo' ),
+                );
+            $_aAttributes['class']  = $this->generateClassAttribute( 
+                'select_font button button-small ',
+                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
+            );            
+            $_sButton = 
+                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $aButtonAttributes['data-label'] 
+                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
+                            ? '' 
+                            : __( 'Select Font', 'admin-page-framework-demo' )
+                        )
+                    )                    
                 ."</a>";
                 
             $_sScript = "
@@ -667,21 +679,32 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                 return '';
             }
            
-            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
             $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_aAttributes           = array(
+                'id'        => "remove_font_{$sInputID}",
+                'href'      => '#',            
+                'onclick'   => esc_js( "removeInputValuesForFont( this ); return false;" ),
+                ) 
+                + $aButtonAttributes
+                + array(
+                    'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
+                );
+            $_aAttributes['class']  = $this->generateClassAttribute( 
+                'remove_font button button-small', 
+                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
+            );
             $_sButton               = 
-                "<a " . $this->generateAttributes( 
-                    array(
-                        'id'        => "remove_font_{$sInputID}",
-                        'href'      => '',
-                        'class'     => 'remove_font button button-small '
-                            . $_sDashIconSelector . ' '
-                            . $aButtonAttributes['class'],                        
-                        'onclick'   => esc_js( "removeInputValuesForFont( this ); return false;" ),
-                    ) + $aButtonAttributes
-                ) . ">"
-                    . ( $_bDashiconSupported ? '' : 'x' )
-                . "</a>";      
+                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $_aAttributes['data-label'] 
+                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
+                            ? '' 
+                            : 'x'
+                        )
+                    )
+                . "</a>";  
                 
             $_sScript = "
                 if ( 0 === jQuery( 'a#remove_font_{$sInputID}' ).length ) {
