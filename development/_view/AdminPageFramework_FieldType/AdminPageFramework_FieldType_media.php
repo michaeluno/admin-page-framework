@@ -38,6 +38,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
             ),
             'button'    => array(
             ),
+            'remove_button' =>  array(  // 3.2.0+
+            ),
             'preview'   => array(
             ),     
         ),    
@@ -411,24 +413,33 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
          * @since   3.2.0   Made it use dashicon for the select button.
          */     
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
-   
-            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+
+            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );            
             $_sDashIconSelector     = ! $_bDashiconSupported ? '' : 'dashicons dashicons-portfolio';
-   
-            $_sButton                = 
-                "<a " . $this->generateAttributes( 
-                    array(
-                        'id'                 => "select_media_{$sInputID}",
-                        'title'              => $this->oMsg->get( 'select_file' ),
-                        'href'               => '#',
-                        'class'     => "select_media button button-small " 
-                            . $_sDashIconSelector . ' '
-                            . $aButtonAttributes['class'],                            
-                        'data-uploader_type' => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
-                        'data-enable_external_source' => $bExternalSource ? 1 : 0,
-                    ) + $aButtonAttributes
-                ) . ">"
-                    . ( $_bDashiconSupported ? '' : $this->oMsg->get( 'select_file' ) )
+            $_aAttributes           = array(
+                    'id'        => "select_media_{$sInputID}",
+                    'href'      => '#',            
+                    'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+                    'data-enable_external_source'   => $bExternalSource ? 1 : 0,                    
+                ) 
+                + $aButtonAttributes
+                + array(
+                    'title'     => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'select_file' ),
+                );
+            $_aAttributes['class']  = $this->generateClassAttribute( 
+                'select_media button button-small ',
+                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
+            );            
+            $_sButton = 
+                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $aButtonAttributes['data-label'] 
+                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
+                            ? '' 
+                            : $this->oMsg->get( 'select_file' )
+                        )
+                    )                    
                 ."</a>";
                 
             $_sScript                = "
@@ -456,22 +467,32 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                 return '';
             }
            
-            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
             $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_aAttributes           = array(
+                'id'        => "remove_media_{$sInputID}",
+                'href'      => '#',            
+                'onclick'   => esc_js( "removeInputValuesForMedia( this ); return false;" ),
+                ) 
+                + $aButtonAttributes
+                + array(
+                    'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
+                );
+            $_aAttributes['class']  = $this->generateClassAttribute( 
+                'remove_media button button-small', 
+                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
+            );
             $_sButton               = 
-                "<a " . $this->generateAttributes( 
-                    array(
-                        'id'        => "remove_media_{$sInputID}",
-                        'href'      => '#',
-                        'class'     => 'remove_media button button-small '
-                            . $_sDashIconSelector . ' '
-                            . $aButtonAttributes['class'],                        
-                        'onclick'   => esc_js( "removeInputValuesForMedia( this ); return false;" ),
-                    ) + $aButtonAttributes
-                ) . ">"
-                    . ( $_bDashiconSupported ? '' : 'x' )
-                . "</a>";      
-                
+                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $_aAttributes['data-label'] 
+                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
+                            ? '' 
+                            : 'x'
+                        )
+                    )
+                . "</a>";                 
             $_sScript = "
                 if ( 0 === jQuery( 'a#remove_media_{$sInputID}' ).length ) {
                     jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );

@@ -680,6 +680,15 @@ $this->addSettingFields(
         'title'                 => __( 'Save Image Attributes', 'admin-page-framework-demo' ),
         'type'                  => 'image',
         'attributes_to_store'   => array( 'alt', 'id', 'title', 'caption', 'width', 'height', 'align', 'link' ), // some attributes cannot be captured with external URLs and the old media uploader.
+        'attributes'            => array(
+            // To use a custom text label, pass the label to the 'data-label' attribute.
+            'button'        => array(
+                'data-label' => __( 'Select Image', 'admin-page-framework-demo' ),
+            ),
+            'remove_button' => array(      // 3.2.0+
+                'data-label' => __( 'Remove', 'admin-page-framework-demo' ), // will set the Remove button label instead of the dashicon
+            ),
+        ),
     ),     
     array( // Repeatable Image Fields
         'field_id'              => 'image_select_field_repeater',
@@ -731,6 +740,14 @@ $this->addSettingFields(
         'title'                 => __( 'Media File with Attributes', 'admin-page-framework-demo' ),
         'type'                  => 'media',
         'attributes_to_store'   => array( 'id', 'caption', 'description' ),
+        'attributes'            => array(
+            'button'        => array(
+                'data-label' => __( 'Select File', 'admin-page-framework-demo' ),
+            ),
+            'remove_button' => array(      // 3.2.0+
+                'data-label' => __( 'Remove', 'admin-page-framework-demo' ), // will set the Remove button label instead of the dashicon
+            ),
+        ),        
     ),     
     array( // Repeatable Media Files
         'field_id'              => 'media_repeatable_fields',

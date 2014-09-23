@@ -29,17 +29,18 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
      */
     protected $aDefaultKeys = array(
         'attributes_to_store'       => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-        'show_preview'              => true,
+        'show_preview'              => true,    // ( boolean ) Indicates whether the image preview should be displayed or not.
         'allow_external_source'     => true,    // ( boolean ) Indicates whether the media library box has the From URL tab.
         'attributes'                => array(
             'input'     => array(
                 'size'      => 40,
                 'maxlength' => 400,     
             ),
-            'button'    => array(
+            'button'            => array(
             ),
-            'preview' => array(
-            ),     
+            'remove_button'     => array(       // 3.2.0+
+            ),
+            'preview'           => array(),
         ),    
     );
 
@@ -554,10 +555,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             'value' => $_sImageURL,
             'type'  => 'text',
         ) + $aField['attributes']['input'] + $_aBaseAttributes;
-        $_aButtonAtributes      = $aField['attributes']['button'] + $_aBaseAttributes;
-        $_aPreviewAtrributes    = $aField['attributes']['preview'] + $_aBaseAttributes;
+        $_aButtonAtributes          = $aField['attributes']['button'] + $_aBaseAttributes;
+        $_aRemoveButtonAtributes    = $aField['attributes']['remove_button'] + $_aBaseAttributes;
+        $_aPreviewAtrributes        = $aField['attributes']['preview'] + $_aBaseAttributes;
 
-        /* Compose the field output */
+        /* Construct the field output */
         $_aOutput[] =
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>" // image-field ( this will be media-field for the media field type )
@@ -575,7 +577,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             . "</div>"     
             . $aField['after_label']
             . $this->_getPreviewContainer( $aField, $_sImageURL, $_aPreviewAtrributes )
-            . $this->_getRemoveButtonScript( $aField['input_id'], $_aButtonAtributes )
+            . $this->_getRemoveButtonScript( $aField['input_id'], $_aRemoveButtonAtributes )
             . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes )
         ;
         
@@ -639,23 +641,32 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
          */
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
             
-            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
-            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : $bRpeatable ? 'dashicons dashicons-images-alt2' : 'dashicons dashicons-format-image'; 
+            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );            
+            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : ( $bRpeatable ? 'dashicons dashicons-images-alt2' : 'dashicons dashicons-format-image' ); 
+            $_aAttributes           = array(
+                    'id'        => "select_image_{$sInputID}",
+                    'href'      => '#',            
+                    'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
+                    'data-enable_external_source'   => $bExternalSource ? 1 : 0,                    
+                ) 
+                + $aButtonAttributes
+                + array(
+                    'title'     => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'select_image' ),
+                );
+            $_aAttributes['class']  = $this->generateClassAttribute( 
+                'select_image button button-small ',
+                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
+            );            
             $_sButton = 
-                "<a " . $this->generateAttributes( 
-                    array(
-                        'id'        => "select_image_{$sInputID}",
-                        'title'     => $this->oMsg->get( 'select_image' ),
-                        'href'      => '#',
-                        'class'     => "select_image button button-small " 
-                            . $_sDashIconSelector . ' '
-                            . $aButtonAttributes['class'],
-                        'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
-                        'data-enable_external_source'   => $bExternalSource ? 1 : 0,
-                        
-                    ) + $aButtonAttributes
-                ) . ">"
-                    . ( $_bDashiconSupported ? '' : $this->oMsg->get( 'select_image' ) )
+                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $aButtonAttributes['data-label'] 
+                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
+                            ? '' 
+                            : $this->oMsg->get( 'select_image' )
+                        )
+                    )                    
                 ."</a>";
                 
             $_sScript = "
@@ -682,21 +693,32 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             if ( ! function_exists( 'wp_enqueue_media' ) ) {
                 return '';
             }
-           
-            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            
+            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
             $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_aAttributes           = array(
+                'id'        => "remove_image_{$sInputID}",
+                'href'      => '#',            
+                'onclick'   => esc_js( "removeInputValuesForImage( this ); return false;" ),
+                ) 
+                + $aButtonAttributes
+                + array(
+                    'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
+                );
+            $_aAttributes['class']  = $this->generateClassAttribute( 
+                'remove_image button button-small', 
+                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
+            );
             $_sButton               = 
-                "<a " . $this->generateAttributes( 
-                    array(
-                        'id'        => "remove_image_{$sInputID}",
-                        'href'      => '#',
-                        'class'     => 'remove_image button button-small '
-                            . $_sDashIconSelector . ' '
-                            . $aButtonAttributes['class'],                        
-                        'onclick'   => esc_js( "removeInputValuesForImage( this ); return false;" ),
-                    ) + $aButtonAttributes
-                ) . ">"
-                    . ( $_bDashiconSupported ? '' : 'x' )
+                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $_aAttributes['data-label'] 
+                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
+                            ? '' 
+                            : 'x'
+                        )
+                    )
                 . "</a>";      
                 
             $_sScript = "
