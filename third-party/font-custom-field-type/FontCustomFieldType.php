@@ -492,6 +492,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                     . "<input " . $this->generateAttributes( $aInputAttributes ) . " />"    // this method is defined in the base class
                     . $this->getExtraInputFields( $aField )
                     . $aField['after_input']
+                    . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"
             . "</div>"            
             . $aField['after_label']
