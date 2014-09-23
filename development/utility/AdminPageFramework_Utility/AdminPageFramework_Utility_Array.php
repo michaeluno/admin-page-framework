@@ -63,18 +63,18 @@ abstract class AdminPageFramework_Utility_Array {
     /**
      * Casts array contents into another while keeping the same key structure.
      * 
-     * @since 3.0.0
-     * @remark It won't check key structure deeper than or equal to the second dimension.
-     * @param array     the array that holds the necessary keys.
-     * @param array     the array to be modified.
-     * @return array     the modified array.
+     * @since       3.0.0
+     * @remark      It won't check key structure deeper than or equal to the second dimension.
+     * @param       array     the array that holds the necessary keys.
+     * @param       array     the array to be modified.
+     * @return      array     the modified array.
      */
     public static function castArrayContents( $aModel, $aSubject ) {
         
         $aMod = array();
-        foreach( $aModel as $sKey => $_v ) 
+        foreach( $aModel as $sKey => $_v ) {
             $aMod[ $sKey ] = isset( $aSubject[ $sKey ] ) ? $aSubject[ $sKey ] : null;
-
+        }
         return $aMod;
         
     }
@@ -82,23 +82,20 @@ abstract class AdminPageFramework_Utility_Array {
     /**
      * Returns the array consisting of keys which don't exist in another.
      * 
-     * @since 3.0.0
-     * @remark It won't check key structure deeper than or equal to the second dimension.
-     * @param array     the array that holds the necessary keys.
-     * @param array     the array to be modified.
-     * @return array     the modified array.
+     * @since       3.0.0
+     * @remark      It won't check key structure deeper than or equal to the second dimension.
+     * @param       array     the array that holds the necessary keys.
+     * @param       array     the array to be modified.
+     * @return      array     the modified array.
      */
     public static function invertCastArrayContents( $sModel, $aSubject ) {
         
-        $aMod = array();
-        foreach( $sModel as $sKey => $_v ) {
-            
-            if ( array_key_exists( $sKey, $aSubject ) ) continue;
-            
-            $aMod[ $sKey ] = $_v;
-            
+        $_aMod = array();
+        foreach( $sModel as $_sKey => $_v ) {
+            if ( array_key_exists( $_sKey, $aSubject ) ) { continue; }
+            $_aMod[ $_sKey ] = $_v;
         }
-        return $aMod;
+        return $_aMod;
         
     }
     
@@ -107,20 +104,20 @@ abstract class AdminPageFramework_Utility_Array {
      * 
      * The advantage of using this method over the array unite operator or array_merge() is that it merges recursively and the null values of the preceding array will be overridden.
      * 
-     * @since 2.1.2
+     * @since       2.1.2
      * @static
-     * @access public
-     * @remark The parameters are variadic and can add arrays as many as necessary.
-     * @return array     the united array.
+     * @access      public
+     * @remark      The parameters are variadic and can add arrays as many as necessary.
+     * @return      array     the united array.
      */
     public static function uniteArrays( $aPrecedence, $aDefault1 ) {
                 
-        $aArgs = array_reverse( func_get_args() );
-        $aArray = array();
-        foreach( $aArgs as $aArg ) 
-            $aArray = self::uniteArraysRecursive( $aArg, $aArray );
-            
-        return $aArray;
+        $_aArgs  = array_reverse( func_get_args() );
+        $_aArray = array();
+        foreach( $_aArgs as $_aArg ) {
+            $_aArray = self::uniteArraysRecursive( $_aArg, $_aArray );
+        }
+        return $_aArray;
         
     }
     
@@ -130,19 +127,23 @@ abstract class AdminPageFramework_Utility_Array {
      * The first parameter array takes its precedence. This is useful to merge default option values. 
      * An alternative to <em>array_replace_recursive()</em>; it is not supported PHP 5.2.x or below.
      * 
-     * @since 2.0.0
-     * @since 2.1.5 Changed the scope to static. 
-     * @access public
-     * @remark null values will be overwritten.     
-     * @param array     the array that overrides the same keys.
-     * @param array     the array that is going to be overridden.
-     * @return array     the united array.
+     * @since       2.0.0
+     * @since       2.1.5 Changed the scope to static. 
+     * @access      public
+     * @remark      null values will be overwritten.     
+     * @param       array     the array that overrides the same keys.
+     * @param       array     the array that is going to be overridden.
+     * @return      array     the united array.
      */ 
     public static function uniteArraysRecursive( $aPrecedence, $aDefault ) {
                 
-        if ( is_null( $aPrecedence ) ) $aPrecedence = array();
+        if ( is_null( $aPrecedence ) ) { 
+            $aPrecedence = array(); 
+        }
         
-        if ( ! is_array( $aDefault ) || ! is_array( $aPrecedence ) ) return $aPrecedence;
+        if ( ! is_array( $aDefault ) || ! is_array( $aPrecedence ) ) { 
+            return $aPrecedence; 
+        }
             
         foreach( $aDefault as $sKey => $v ) {
             
@@ -152,8 +153,9 @@ abstract class AdminPageFramework_Utility_Array {
             else {
                 
                 // if the both are arrays, do the recursive process.
-                if ( is_array( $aPrecedence[ $sKey ] ) && is_array( $v ) ) 
+                if ( is_array( $aPrecedence[ $sKey ] ) && is_array( $v ) ) {
                     $aPrecedence[ $sKey ] = self::uniteArraysRecursive( $aPrecedence[ $sKey ], $v );     
+                }
             
             }
         }
@@ -177,7 +179,7 @@ abstract class AdminPageFramework_Utility_Array {
      */
     static public function getIntegerElements( $aParse ) {
         
-        if ( ! is_array( $aParse ) ) return array();
+        if ( ! is_array( $aParse ) ) { return array(); }
         foreach ( $aParse as $isKey => $v ) {
             
             if ( ! is_numeric( $isKey ) ) {
@@ -187,8 +189,9 @@ abstract class AdminPageFramework_Utility_Array {
             
             $isKey = $isKey + 0; // this will convert string numeric value to integer or flaot.
             
-            if ( ! is_int( $isKey ) ) 
+            if ( ! is_int( $isKey ) ) {
                 unset( $aParse[ $isKey ] );
+            }
                 
         }
         return $aParse;
@@ -201,10 +204,11 @@ abstract class AdminPageFramework_Utility_Array {
      */
     static public function getNonIntegerElements( $aParse ) {
         
-        foreach ( $aParse as $isKey => $v ) 
-            if ( is_numeric( $isKey ) && is_int( $isKey+ 0 ) ) 
+        foreach ( $aParse as $isKey => $v ) {
+            if ( is_numeric( $isKey ) && is_int( $isKey+ 0 ) ) {
                 unset( $aParse[ $isKey ] );     
-        
+            }
+        }
         return $aParse;
         
     }
@@ -246,12 +250,14 @@ abstract class AdminPageFramework_Utility_Array {
             ),
          )
          */
-        $_aNumeric = self::getIntegerElements( $aSubject );
-        $_aAssociative = self::invertCastArrayContents( $aSubject, $_aNumeric );
-        foreach( $_aNumeric as &$_aElem ) 
+        $_aNumeric      = self::getIntegerElements( $aSubject );
+        $_aAssociative  = self::invertCastArrayContents( $aSubject, $_aNumeric );
+        foreach( $_aNumeric as &$_aElem ) {
             $_aElem = self::uniteArrays( $_aElem, $_aAssociative );
-        if ( ! empty( $_aAssociative ) )
+        }
+        if ( ! empty( $_aAssociative ) ) {
             array_unshift( $_aNumeric, $_aAssociative ); // insert the main section to the beginning of the array.
+        }
         return $_aNumeric;
         
     }
@@ -275,7 +281,7 @@ abstract class AdminPageFramework_Utility_Array {
         
         foreach( $aArray as &$vElem ) {
             
-            if ( $vElem ) break;
+            if ( $vElem ) { break; }
             unset( $vElem );
             
         }
@@ -332,9 +338,9 @@ abstract class AdminPageFramework_Utility_Array {
      */
     static public function getAsArray( $asValue ) {
         
-        if ( is_array( $asValue ) ) return $asValue;
+        if ( is_array( $asValue ) ) { return $asValue; }
         
-        if ( ! isset( $asValue ) ) return array();
+        if ( ! isset( $asValue ) ) { return array(); }
         
         return ( array ) $asValue; // finally
         
