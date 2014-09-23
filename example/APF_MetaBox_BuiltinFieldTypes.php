@@ -300,12 +300,6 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
             $_bIsValid = false;     
             
         }
-        if ( empty( $aInput['misc']['metabox_password'] ) ) {
-            
-            $_aErrors['misc']['metabox_password'] = __( 'The password cannot be empty.', 'admin-page-framework-demo' );
-            $_bIsValid = false;
-            
-        }
         
         if ( ! $_bIsValid ) {
             
