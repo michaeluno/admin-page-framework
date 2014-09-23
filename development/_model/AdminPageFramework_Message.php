@@ -108,7 +108,8 @@ class AdminPageFramework_Message {
             'upload_file'                           => null,
             'use_this_file'                         => null,
             'select_file'                           => null,
-
+            'remove_value'                          => null,    // 3.2.0+
+            
             // AdminPageFramework_PageLoadInfo_Base
             'queries_in_seconds'                    => null,
             'out_of_x_memory_used'                  => null,
@@ -270,6 +271,8 @@ class AdminPageFramework_Message {
                     return __( 'Use This File', 'admin-page-framework' );
                 case 'select_file':
                     return __( 'Select File', 'admin-page-framework' );
+                case 'remove_value':    // 3.2.0+
+                    return __( 'Remove Value', 'admin-page-framework' );
 
                 // AdminPageFramework_PageLoadInfo_Base
                 case 'queries_in_seconds':
