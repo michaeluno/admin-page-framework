@@ -10,73 +10,14 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_Page' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag for the main framework class.
  * 
- * @since 2.1.5
- * @package AdminPageFramework
- * @subpackage HeadTag
+ * @since       2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  HeadTag
+ * @extends     AdminPageFramework_HeadTag_Base
  * @internal
  */
 class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
-
-    /**
-     * Adds the stored CSS rules in the property into the head tag.
-     * 
-     * @remark A callback for the <em>admin_head</em> hook.
-     * @since 2.0.0
-     * @since 2.1.5 Moved from the main class.
-     */     
-    public function _replyToAddStyle() {
-        
-        $sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-        $sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
-        
-        // If the loading page has not been registered nor the plugin page which uses this library, do nothing.
-        if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) { return; }
-                            
-        // Print out the filtered styles.     
-        $oCaller = $this->oProp->_getCallerObject();
-        $sStyle = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyle )
-            . $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyle );
-        $sStyle = $this->oUtil->minifyCSS( $sStyle );
-        if ( $sStyle ) {
-            echo "<style type='text/css' id='admin-page-framework-style_{$this->oProp->sClassName}'>{$sStyle}</style>";
-        }
-        $sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_common_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), AdminPageFramework_Property_Page::$_sDefaultStyleIE )
-            . $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'style_ie_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sStyleIE );     
-        $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-        if ( $sStyleIE ) {
-            echo "<!--[if IE]><style type='text/css' id='admin-page-framework-style-for-IE_{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";     
-        }
-            
-        $this->oProp->_bAddedStyle = true;
-        
-    }
-    
-    /**
-     * Adds the stored JavaScript scripts in the property into the head tag.
-     * 
-     * @remark A callback for the <em>admin_head</em> hook.
-     * @since 2.0.0
-     * @since 2.1.5 Moved from the main class.
-     */
-    public function _replyToAddScript() {
-        
-        $sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;
-        $sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );
-        
-        // If the loading page has not been registered or not the plugin page which uses this library, do nothing.
-        if ( ! $this->oProp->isPageAdded( $sPageSlug ) ) { return; }
-
-        $oCaller = $this->oProp->_getCallerObject();
-
-        // Print out the filtered scripts.
-        echo "<script type='text/javascript' id='admin-page-framework-script_{$this->oProp->sClassName}'>"
-                . ( $sScript = $this->oUtil->addAndApplyFilters( $oCaller, $this->oUtil->getFilterArrayByPrefix( 'script_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $this->oProp->sScript ) )
-            . "</script>";
-
-        $this->oProp->_bAddedScript = true;
-        
-    }
-
+ 
     /**
      * Enqueues styles by page slug and tab slug.
      * 
@@ -117,7 +58,7 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
+        if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
         $sSRC = $this->oUtil->resolveSRC( $sSRC );
         

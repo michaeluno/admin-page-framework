@@ -30,14 +30,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
             $this->oProp->_bSetupLoaded = true;
             return;
         }
-/*         if ( substr( $sMethodName, 0, strlen( "cell_" ) ) == "cell_" ) return $aArgs[0];
-        if ( substr( $sMethodName, 0, strlen( "sortable_columns_" ) ) == "sortable_columns_" ) return $aArgs[0];
-        if ( substr( $sMethodName, 0, strlen( "columns_" ) ) == "columns_" ) return $aArgs[0];
-        if ( substr( $sMethodName, 0, strlen( "style_ie_common_" ) )== "style_ie_common_" ) return $aArgs[0];
-        if ( substr( $sMethodName, 0, strlen( "style_common_" ) )== "style_common_" ) return $aArgs[0];
-        if ( substr( $sMethodName, 0, strlen( "style_ie_" ) )== "style_ie_" ) return $aArgs[0];
-        if ( substr( $sMethodName, 0, strlen( "style_" ) )== "style_" ) return $aArgs[0];
- */
+
         if ( has_filter( $sMethodName ) ) {
             return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
         }

@@ -12,19 +12,30 @@ if ( ! class_exists( 'AdminPageFramework_FormField_Base' ) ) :
  * 
  * This class mainly handles JavaScript scripts and the constructor setting class properties.
  * 
- * @since 3.0.0 Separated the methods that defines field types to different classes.
- * @extends AdminPageFramework_WPUtility
- * @package AdminPageFramework
- * @subpackage Form
+ * @since       3.0.0      Separated the methods that defines field types to different classes.
+ * @extends     AdminPageFramework_WPUtility
+ * @package     AdminPageFramework
+ * @subpackage  Form
  * @internal
  */
 class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
             
     /**
+     * Sets up properties and load necessary scripts.
      * 
      * @remark The third parameter should not be by reference as an expression will be passed.
+     * 
+     * @internal
+     * @since   3.0.0
+     * @since   3.2.0   Added the $aCallbacks parameter.
+     * @param   array   $aField                 An array storing the field definition array.
+     * @param   array   $aOptions               An array storing the stored data in the database.
+     * @param   array   $aErrors                An array storing the field errors.
+     * @param   array   $aFieldTypeDefinitions  An array storing registered field type definitions.
+     * @param   object  $oMsg                   An object storing the system messages.
+     * @param   array   $aCallbacks             An array storing the form-field specific callbacks.     
      */
-    public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg ) {
+    public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
 
         /* 1. Set up the properties that will be accessed later in the methods. */
         $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
@@ -34,55 +45,62 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
          * There are required keys in the attributes array: 'fieldrow', 'fieldset', 'fields', and 'field'; these should not be removed here.
          */
         $aFieldTypeDefinition['aDefaultKeys']['attributes'] = array(    
-            'fieldrow' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'],
-            'fieldset' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'],
-            'fields' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'],
-            'field' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],
+            'fieldrow'  => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'],
+            'fieldset'  => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'],
+            'fields'    => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'],
+            'field'     => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],
         );    
         $this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
         
         /* 1-2. Set the other properties */
-        $this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
-        $this->aOptions = $aOptions;
-        $this->aErrors = $aErrors ? $aErrors : array();
-        $this->oMsg = $oMsg;
-                
+        $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions;
+        $this->aOptions                 = $aOptions;
+        $this->aErrors                  = $aErrors ? $aErrors : array();
+        $this->oMsg                     = $oMsg;
+        $this->aCallbacks               = $aCallbacks + array(
+            'hfID'          => null,    // the input id attribute
+            'hfTagID'       => null,    // the fieldset/field row container id attribute
+            'hfName'        => null,    // the input name attribute
+            'hfNameFlat'    => null,    // the flat input name attribute                
+            'hfClass'       => null,    // the class attribute
+        );        
+        
         /* 2. Load necessary JavaScript scripts */
-        $this->_loadScripts();
+        $this->_loadScripts( $this->aField['_fields_type'] );
         
     }    
         /**
-         * The flags that indicate loading components.
+         * Flags whether scripts are loaded or not.
+         * 
+         * @since   3.2.0
          */
-        static private $_bIsLoadedUtility = false;
-        static private $_bIsLoadedRepeatable = false;
-        static private $_bIsLoadedSortable = false;
-        static private $_bIsLoadedRegisterCallback = false;
+        static private $_bIsLoadedSScripts          = false;
+        static private $_bIsLoadedSScripts_Widget   = false;
         
         /**
          * Inserts necessary JavaScript scripts for fields.
          * 
-         * @since 3.0.0
+         * @since   3.0.0
+         * @since   3.2.0   Added the $sFieldsType parameter.
+         * @internal
          */
-        private function _loadScripts() {
+        private function _loadScripts( $sFieldsType='' ) {
+            
+            if ( 'widget' === $sFieldsType && ! self::$_bIsLoadedSScripts_Widget ) {
+                add_action( 'admin_footer', array( $this, '_replyToAddWidgetEventHanderjQueryScript' ) );
+                self::$_bIsLoadedSScripts_Widget = true;
+            }
+            
+            if ( self::$_bIsLoadedSScripts ) { return; }
+            
+            self::$_bIsLoadedSScripts = true;
+            add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
+            add_action( 'admin_footer', array( $this, '_replyToOptionsStoragejQueryPlugin' ) );
+            add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
+            add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
+            add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
+            add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
                         
-            if ( ! self::$_bIsLoadedUtility ) {
-                add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
-                add_action( 'admin_footer', array( $this, '_replyToOptionsStoragejQueryPlugin' ) );
-                self::$_bIsLoadedUtility = add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
-            }
-            if ( ! self::$_bIsLoadedRepeatable ) {
-                self::$_bIsLoadedRepeatable = add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
-            }
-            
-            if ( ! self::$_bIsLoadedSortable ) {
-                self::$_bIsLoadedSortable = add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
-            }
-            
-            if ( ! self::$_bIsLoadedRegisterCallback ) {
-                self::$_bIsLoadedRegisterCallback = add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
-            }
-            
         }
     
     /**
@@ -92,20 +110,27 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
      */
     protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) {
 
-        $_sAdd = $this->oMsg->__( 'add' );
-        $_sRemove = $this->oMsg->__( 'remove' );
-        $_sVisibility = $iFieldCount <= 1 ? " style='display:none;'" : "";
-        $_sSettingsAttributes = $this->generateDataAttributes( ( array ) $aSettings );
-        $_sButtons = 
+        $_sAdd                  = $this->oMsg->get( 'add' );
+        $_sRemove               = $this->oMsg->get( 'remove' );
+        $_sVisibility           = $iFieldCount <= 1 ? " style='display:none;'" : "";
+        $_sSettingsAttributes   = $this->generateDataAttributes( ( array ) $aSettings );
+        $_bDashiconSupported    = false;     // version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+        $_sDashiconPlus         = $_bDashiconSupported ? 'dashicons dashicons-plus' : '';
+        $_sDashiconMinus        = $_bDashiconSupported ? 'dashicons dashicons-minus' : '';
+        $_sButtons              = 
             "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>+</a>"
-                . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>-</a>"
+                . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
+                    . ( $_bDashiconSupported ? '' : '+' )
+                . "</a>"
+                . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
+                  . ( $_bDashiconSupported ? '' : '-' )
+                . "</a>"
             . "</div>";
-        $_aJSArray = json_encode( $aSettings );
+        $_aJSArray              = json_encode( $aSettings );
         return
             "<script type='text/javascript'>
                 jQuery( document ).ready( function() {
-                    nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
+                    var nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
                     if ( nodePositionIndicators.length > 0 ) { /* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
                         nodePositionIndicators.replaceWith( \"{$_sButtons}\" );     
                     } else { /* Otherwise, insert the button element at the beginning of the field tag */
@@ -141,7 +166,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
     public function _replyToAddRepeatableFieldjQueryPlugin() {
         
         echo "<script type='text/javascript' class='admin-page-framework-repeatable-fields-plugin'>"
-                . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_fields' ), $this->oMsg->__( 'allowed_minimum_number_of_fields' ) )
+                . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->get( 'allowed_maximum_number_of_fields' ), $this->oMsg->get( 'allowed_minimum_number_of_fields' ) )
             . "</script>";
     
     }
@@ -208,6 +233,24 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
                 . AdminPageFramework_Script_Sortable::getjQueryPlugin()
             . "</script>";
             
+    }
+    
+    /**
+    * Returns the JavaScript script that handles widget drop events.
+    * @since        3.2.0
+    * @access       public    
+    * @internal
+    */   
+    public function _replyToAddWidgetEventHanderjQueryScript() {
+        
+        // If the WordPress version is greater than or equal to 4.0, do not add the script.
+        // if ( version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
+            // return;
+        // }
+        
+        echo "<script type='text/javascript' class='admin-page-framework-widget-event-handler'>"
+                . AdminPageFramework_Script_Widget::getjQueryPlugin()
+            . "</script>"; 
     }
         
 }

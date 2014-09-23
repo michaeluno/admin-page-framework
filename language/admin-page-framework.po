@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Page Framework\n"
+"POT-Creation-Date: 2014-09-20 17:07+0900\n"
+"PO-Revision-Date: 2014-09-20 17:07+0900\n"
+"Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: development\n"
+
+#: development/factory/AdminPageFramework/AdminPageFramework_Base.php:197
+#: development/factory/AdminPageFramework_Factory/AdminPageFramework_Factory_Router.php:335
+#, php-format
+msgid "The method is not defined: %1$s"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:200
+msgid "The options have been updated."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:202
+msgid "The options have been cleared."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:204
+msgid "Export"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:206
+msgid "Export Options"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:208
+msgid "Import"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:210
+msgid "Import Options"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:212
+msgid "Submit"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:214
+msgid "An error occurred while uploading the import file."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:216
+#, php-format
+msgid "The uploaded file type is not supported: %1$s"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:218
+msgid "Could not load the importing data."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:220
+msgid "The uploaded file has been imported."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:222
+msgid "No data could be imported."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:224
+msgid "Upload Image"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:226
+msgid "Use This Image"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:228
+msgid "Are you sure you want to reset the options?"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:230
+msgid "Please confirm if you want to perform the specified task."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:232
+msgid "The specified options have been deleted."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:234
+msgid "A problem occurred while processing the form data. Please try again."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:238
+msgid "Title"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:240
+msgid "Author"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:242
+msgid "Categories"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:244
+msgid "Tags"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:246
+msgid "Comments"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:248
+msgid "Date"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:250
+msgid "Show All"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:254
+msgid "Powered by"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:258
+msgid "Settings"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:262
+msgid "Manage"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:266
+msgid "Select Image"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:268
+msgid "Upload File"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:270
+msgid "Use This File"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:272
+msgid "Select File"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:276
+#, php-format
+msgid "%1$s queries in %2$s seconds."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:278
+#, php-format
+msgid "%1$s out of %2$s MB (%3$s) memory used."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:280
+#, php-format
+msgid "Peak memory usage %1$s MB."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:282
+#, php-format
+msgid "Initial memory usage  %1$s MB."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:286
+msgid "The allowed maximum number of fields is {0}."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:288
+msgid "The allowed minimum number of fields is {0}."
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:290
+msgid "Add"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:292
+msgid "Remove"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:296
+msgid "The allowed maximum number of sections is {0}"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:298
+msgid "The allowed minimum number of sections is {0}"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:300
+msgid "Add Section"
+msgstr ""
+
+#: development/_model/AdminPageFramework_Message.php:302
+msgid "Remove Section"
+msgstr ""

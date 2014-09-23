@@ -31,7 +31,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
      */
     protected $aDefaultKeys = array(
         'attributes' => array(
-            'size' => 30,
             'maxlength' => 400,
         ),    
     );

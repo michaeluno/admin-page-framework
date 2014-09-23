@@ -7,7 +7,7 @@ class APF_PostType extends AdminPageFramework_PostType {
      * Use this method to set post type arguments and add custom taxonomies as those need to be done in the front-end as well.
      * Also, to add custom taxonomies, the setUp() method is too late.
      * 
-     * ALternatevely, you may use the start_{extended class name} method, which also is called at the end of the constructor.
+     * ALternatevely, you may use the start_{instantiated class name} method, which also is called at the end of the constructor.
      */
     public function start() {    
 

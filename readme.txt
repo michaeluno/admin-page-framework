@@ -1,12 +1,12 @@
 === Admin Page Framework ===
-Contributors: Michael Uno, miunosoft, pcraig3
-Donate link: http://michaeluno.jp/en/donate
-Tags: admin, administration, admin panel, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools
-Requires at least: 3.3
-Tested up to: 4.0
-Stable tag: 3.1.6
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors:       Michael Uno, miunosoft, pcraig3
+Donate link:        http://michaeluno.jp/en/donate
+Tags:               admin, administration, admin panel, admin page framework, option, options, option page, option pages, setting, settings, setting page, setting pages, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, meta box field, meta box fields, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools, widget, widgets, factory
+Requires at least:  3.3
+Tested up to:       4.0
+Stable tag:         3.1.7
+License:            GPLv2 or later
+License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
 Provides simpler means of building administration pages for plugin and theme developers. 
 
@@ -16,34 +16,33 @@ It provides plugin and theme developers with easier means of creating option pag
 **Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
 = Features =
-- **Root Page, Sub Pages, and Tabs** - it allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
+- **Root Page, Sub Pages, and Tabs** - allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
+- **Custom Post Types** - helps to create custom post types and insert custom columns in the post listing table.
+- **Meta Boxes** - helps to create custom meta boxes with form fields, that means it enables to store additinal data associated with a post that your users create. 
+- **Widgets** - helps to create widgets with the form fields that the framework provides. 
+- **Network Admin Pages** - network admin pages for WordPress multi-sites can be created.
 - **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
+- **Section Tabs** - form sections can be displayed in a tabbed box.
+- **Repeatability** - supports repeatable form sections and fields which means the user can dynamically add/remove form fields.
+- **Sotability** - supports sortable form fields which means the user can set the order of fields by moving the field with drag-and-drop.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
-- **Image Upload** - it lets the user easily upload images to the site or the user can choose from existent urls or already uploaded files.
-- **Color Picker** - it lets the user easily pick colors.
-- **Rich Text Editor** - supports the rich text editor form input.
-- **Section Tabs** - Form sections can be displayed in a tabbed box.
-- **Repeatable Sections and Fields** - supports repeatable form sections and fields.
-- **Sortable Fields** - supports sortable fields.
-- **Reset Button** - create a reset button that lets your users to initialize the saved options.
-- **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting data can be verified as a part of using the Settings API. Furthermore, by setting the error array, you can display the error message to the user.
-- **Custom Post Types** - the framework provides methods to create custom post types.
-- **Meta Boxes** - the framework provides methods to create custom meta boxes with form elements that you define.
+- **Reset Button** - lets the user to initialize the saved options.
+- **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
 - **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
 - **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
-- **Custom Field Types** - your own field type can be registered. 
+- **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
 
 = Built-in Field Types =
 - `text` - a normal field to enter text input.
 - `password` - a masked text input field.
-- `textarea` - a text input field with multiple lines. It supports rich text editor.
+- `textarea` - a text input field with multiple lines. It supports TinyMCE rich text editor.
 - `radio` - a set of radio buttons that lets the user pick an option.
 - `checkbox` - a check box that lets the user enable/disable an item.
 - `select` - a drop-down list that lest the user pick one or more item(s) from a list.
 - `hidden` - a hidden field that will be useful to insert invisible values.
 - `file` - a file uploader that lets the user upload files.
-- `image` - a custom text field with the image uploader script that lets the user set the image URL.
-- `media` - a custom text field with the media uploader script that lets the user set the file URL.
+- `image` - a custom text field with the image uploader script that lets the user set an image URL.
+- `media` - a custom text field with the media uploader script that lets the user set a file URL.
 - `color` - a custom text field with the color picker script.
 - `submit` - a submit button that lets the user send the form.
 - `export` - a custom submit field that lets the user export the stored data.
@@ -301,7 +300,7 @@ $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
 
-<h4>More FAQ on Technical Questions</h4>
+<h4>More FAQ Items</h4>
 Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
 
 == Other Notes ==
@@ -437,6 +436,14 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.2.0 =
+- Added the remove button for the `image`, `media`, and `font` field types.
+- Added the default and Japanese translation files.
+- Added the `show_post_count` argument for the `taxonomy` field type and made it enabled by default.
+- Added the widget factory class and the examples of creating widgets with the framework in the demo plugin.
+- Fixed a bug that a last item did not set when selecting multiple items in the fields of the `image`, `media`, `font` field types.
+- Fixed a bug in the `autocomplete` custom field type that the default post type slug was not set properly when the page that the field is displayed contains the `post_type` query key in the url.
+
 = 3.1.7 - 2014/0912 =
 - Added the `github` custom field type that displays GitHub buttons.
 - Fixed an incompatibility issue of the `grid` custom field type with Internet Explorer.
@@ -536,3 +543,5 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that `textarea` input field was placed in the wrong position when the browser turned off JavaScript.
 - Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
 - Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
+
+= [Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md) =

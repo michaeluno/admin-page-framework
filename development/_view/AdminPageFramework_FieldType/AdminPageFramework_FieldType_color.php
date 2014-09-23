@@ -107,13 +107,13 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
         return "
             registerAPFColorPickerField = function( osTragetInput ) {
                 
-                var osTargetInput = typeof osTragetInput === 'string' ? '#' + osTragetInput : osTragetInput;
-                var sInputID = typeof osTragetInput === 'string' ? osTragetInput : osTragetInput.attr( 'id' );
-                
+                var osTargetInput   = typeof osTragetInput === 'string' ? '#' + osTragetInput : osTragetInput;
+                var sInputID        = typeof osTragetInput === 'string' ? osTragetInput : osTragetInput.attr( 'id' );
+;                
                 'use strict';
                 /* This if statement checks if the color picker element exists within jQuery UI
-                 If it does exist then we initialize the WordPress color picker on our text input field */
-                if( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ){
+                 If it does exist, then we initialize the WordPress color picker on our text input field */
+                if( 'object' === typeof jQuery.wp && 'function' === typeof jQuery.wp.wpColorPicker ){
                     var aColorPickerOptions = {
                         defaultColor: false, // you can declare a default color here, or in the data-default-color attribute on the input     
                         change: function(event, ui){}, // a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/     
@@ -121,13 +121,11 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
                         hide: true, // hide the color picker controls on load
                         palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
                     };     
-
                     jQuery( osTargetInput ).wpColorPicker( aColorPickerOptions );
-            
                 }
                 else {
                     /* We use farbtastic if the WordPress color picker widget doesn't exist */
-                    jQuery( '#color_' + sInputID ).farbtastic( osTargetInput );
+                    jQuery( '#color_' + sInputID ).farbtastic( osTargetInput );                   
                 }
             }
             

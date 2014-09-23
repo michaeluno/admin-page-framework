@@ -86,7 +86,7 @@ class AdminPageFramework_Script_Sortable {
                         e.originalEvent.dataTransfer.dropEffect = 'move';
                         if (items.is(this)) {
                             if (options.forcePlaceholderSize) {
-                                placeholder.height(dragging.outerHeight());
+                                placeholder.height( dragging.outerHeight() );
                             }
                             dragging.hide();
                             $(this)[placeholder.index() < $(this).index() ? 'after' : 'before'](placeholder);
@@ -102,15 +102,16 @@ class AdminPageFramework_Script_Sortable {
             
             $.fn.enableAPFSortable = function( sFieldsContainerID ) {
                 
-                var oTarget = typeof sFieldsContainerID === 'string' 
+                var _oTarget    = typeof sFieldsContainerID === 'string' 
                     ? $( '#' + sFieldsContainerID + '.sortable' )
                     : this;
                 
-                oTarget.unbind( 'sortupdate' );
-                var oSortable = oTarget.sortable(
+                _oTarget.unbind( 'sortupdate' );
+                _oTarget.unbind( 'sortstop' );
+                var _oSortable  = _oTarget.sortable(
                     { items: '> div:not( .disabled )', } // the options for the sortable plugin
                 );
-                oSortable.bind( 'sortstop', function() {
+                _oSortable.bind( 'sortstop', function() {
                  
                     /* Callback the registered functions */
                     $( this ).callBackStoppedSortingFields( 
@@ -118,20 +119,21 @@ class AdminPageFramework_Script_Sortable {
                         $( this ).attr( 'id' ),
                         0  // call type 0: fields, 1: sections
                     );  
+                    
                 });
-                oSortable.bind( 'sortupdate', function() {
+                _oSortable.bind( 'sortupdate', function() {
 
                     // Reverse is needed for radio buttons since they loose the selections when updating the IDs
-                    var oFields = $( this ).children( 'div' ).reverse();
-                    oFields.each( function( iIterationIndex ) { 
+                    var _oFields = $( this ).children( 'div' ).reverse();
+                    _oFields.each( function( iIterationIndex ) { 
 
-                        var iIndex = oFields.length - iIterationIndex - 1;
+                        var _iIndex = _oFields.length - iIterationIndex - 1;
 
-                        $( this ).setIndexIDAttribute( 'id', iIndex );
-                        $( this ).find( 'label' ).setIndexIDAttribute( 'for', iIndex );
-                        $( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', iIndex );
-                        $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).setIndexNameAttribute( 'name', iIndex );
-                        $( this ).find( 'input.apf_checkbox' ).setIndexNameAttribute( 'name', iIndex, -2 ); // for checkboxes, set the second found digit from the end                                       
+                        $( this ).setIndexIDAttribute( 'id', _iIndex );
+                        $( this ).find( 'label' ).setIndexIDAttribute( 'for', _iIndex );
+                        $( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', _iIndex );
+                        $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).setIndexNameAttribute( 'name', _iIndex );
+                        $( this ).find( 'input.apf_checkbox' ).setIndexNameAttribute( 'name', _iIndex, -2 ); // for checkboxes, set the second found digit from the end                                       
                         
                         /* Radio buttons loose their selections when IDs and names are updated, so reassign them */
                         $( this ).find( 'input[type=radio]' ).each( function() {    

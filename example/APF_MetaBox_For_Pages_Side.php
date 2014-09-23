@@ -37,14 +37,14 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_MetaBox_Page {
         
     }
     
-    public function do_APF_MetaBox_For_Pages_Side() { // do_{extended class name}
+    public function do_APF_MetaBox_For_Pages_Side() { // do_{instantiated class name}
         ?>
-            <p><?php _e( 'This is a side meta box. This is inserted with the <code>do_{extended class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+            <p><?php _e( 'This is a side meta box. This is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
         <?php
         
     }
 
-    public function validation_APF_MetaBox_For_Pages_Side( $aNewOptions, $aOldOptions ) { // validation_{extended class name}
+    public function validation_APF_MetaBox_For_Pages_Side( $aNewOptions, $aOldOptions ) { // validation_{instantiated class name}
 
         // Do something with the submitted values.
         return $aNewOptions;

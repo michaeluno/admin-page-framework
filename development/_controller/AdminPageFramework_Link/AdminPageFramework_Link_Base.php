@@ -61,7 +61,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
             ? $aScriptInfo['sName'] 
             : "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";    
     
-        $sFooterInfoRight = $this->oMsg->__( 'powered_by' ) . '&nbsp;' 
+        $sFooterInfoRight = $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
             . $sLibraryInfo
             . ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
         

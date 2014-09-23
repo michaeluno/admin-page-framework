@@ -1,0 +1,3261 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Page Framework - Demo\n"
+"POT-Creation-Date: 2014-09-21 00:37+0900\n"
+"PO-Revision-Date: 2014-09-21 00:41+0900\n"
+"Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: example\n"
+"X-Poedit-SearchPath-1: third-party\n"
+
+#: example/APF_BasicUsage.php:16
+msgid "First Page"
+msgstr "ファーストページ"
+
+#: example/APF_BasicUsage.php:20
+msgid "Second Page"
+msgstr "セカンドページ"
+
+#: example/APF_BasicUsage.php:46
+msgid "do_ + {...} Action Hooks"
+msgstr "do_ + {...} アクションフック"
+
+#: example/APF_BasicUsage.php:47
+msgid ""
+"Hi there! This text message is inserted by the <code>do_{page slug}</code> "
+"action hook and the callback method."
+msgstr ""
+"やあ、どうも！このテキストメッセージは<code>do_{ページスラッグ}</code> アク"
+"ションフックとそのコールバックメソッドにより挿入されています。"
+
+#: example/APF_BasicUsage.php:58
+msgid "content_ + {...} Filter Hooks"
+msgstr "content_ + {...} フィルターフック"
+
+#: example/APF_BasicUsage.php:60
+msgid ""
+"This message is inserted with the <code>content_{page slug}</code> filter."
+msgstr ""
+"このメッセージは<code>content_{ページスラッグ}</code>フィルターによって挿入さ"
+"れています。"
+
+#: example/APF_BasicUsage.php:62
+msgid "Saved Options"
+msgstr "保存された設定"
+
+#: example/APF_Demo.php:31 example/APF_Demo.php:70
+#: example/APF_NetworkAdmin.php:18
+msgid "Built-in Field Types"
+msgstr "ビルトインフィールドタイプ"
+
+#: example/APF_Demo.php:52 example/APF_NetworkAdmin.php:91
+msgid ""
+"This contextual help text can be set with the <code>addHelpTab()</code> "
+"method."
+msgstr ""
+"コンテクスチュアルヘルプテキストは<code>addHelpTab()</code>メソッドを用いて設"
+"定することができます。"
+
+#: example/APF_Demo.php:53 example/APF_NetworkAdmin.php:92
+msgid "This is placed in the sidebar of the help pane."
+msgstr "これはヘルプパネルのサイドバーに表示されます。"
+
+#: example/APF_Demo.php:102 example/APF_Demo_ManageOptions.php:150
+#: example/APF_Demo_ManageOptions.php:205
+#: example/APF_MetaBox_BuiltinFieldTypes.php:202
+#: example/APF_MetaBox_BuiltinFieldTypes.php:245
+#: example/APF_NetworkAdmin.php:42
+#: example/APF_NetworkAdmin_ManageOptions.php:140
+#: example/APF_NetworkAdmin_ManageOptions.php:195 example/APF_PostType.php:127
+#: example/builtin-field-examples.php:10
+#: example/builtin-field-examples.php:1072
+#: example/builtin-field-examples.php:1104
+#: example/builtin-field-examples.php:1146
+msgid "Text"
+msgstr "テキスト"
+
+#: example/APF_Demo.php:107 example/APF_MetaBox_BuiltinFieldTypes.php:23
+#: example/APF_NetworkAdmin.php:47
+msgid "Selectors"
+msgstr "セレクタ"
+
+#: example/APF_Demo.php:111 example/APF_NetworkAdmin.php:51
+msgid "Files"
+msgstr "ファイル"
+
+#: example/APF_Demo.php:115 example/APF_NetworkAdmin.php:55
+msgid "Checklist"
+msgstr "チェックリスト"
+
+#: example/APF_Demo.php:119 example/APF_MetaBox_BuiltinFieldTypes.php:28
+#: example/APF_NetworkAdmin.php:59
+msgid "MISC"
+msgstr "その他"
+
+#: example/APF_Demo.php:123 example/APF_NetworkAdmin.php:63
+msgid "Verification"
+msgstr "確認"
+
+#: example/APF_Demo.php:127 example/APF_NetworkAdmin.php:67
+msgid "Mixed"
+msgstr "ミックス"
+
+#: example/APF_Demo.php:131 example/APF_NetworkAdmin.php:71
+msgid "Sections"
+msgstr "セクション"
+
+#: example/APF_Demo.php:135
+msgid "Callbacks"
+msgstr "コールバック"
+
+#: example/APF_Demo.php:152 example/APF_NetworkAdmin.php:128
+msgid "Text Fields"
+msgstr "テキストフィールド"
+
+#: example/APF_Demo.php:153 example/APF_NetworkAdmin.php:129
+msgid "These are text type fields."
+msgstr "これらはテキストタイプのフィールド。"
+
+#: example/APF_Demo.php:159 example/APF_NetworkAdmin.php:135
+msgid "Selectors and Checkboxes"
+msgstr "セレクタとチェックボックス"
+
+#: example/APF_Demo.php:160 example/APF_NetworkAdmin.php:136
+msgid ""
+"These are selector type options such as dropdown lists, radio buttons, and "
+"checkboxes."
+msgstr ""
+"これらは、ドロップダウンリスト、ラジオボタン、チェックボックといったセレクタ"
+"タイプのオプションです。"
+
+#: example/APF_Demo.php:165 example/APF_NetworkAdmin.php:141
+msgid "Sizes"
+msgstr "サイズ"
+
+#: example/APF_Demo.php:170 example/APF_NetworkAdmin.php:146
+msgid "Image Selector"
+msgstr "イメージセレクタ"
+
+#: example/APF_Demo.php:171 example/APF_NetworkAdmin.php:147
+msgid "Set an image url with jQuwey based image selector."
+msgstr "jQuery ベースのイメージセレクタで画像のURLを指定します。"
+
+#: example/APF_Demo.php:176 example/APF_NetworkAdmin.php:152
+msgid "Colors"
+msgstr "・カラー"
+
+#: example/APF_Demo.php:181 example/APF_NetworkAdmin.php:157
+msgid "Media Uploader"
+msgstr "メディアアップローダ"
+
+#: example/APF_Demo.php:182 example/APF_NetworkAdmin.php:158
+msgid "Upload binary files in addition to images."
+msgstr "画像に加えバイナリファイルをアップロードします。"
+
+#: example/APF_Demo.php:187 example/APF_NetworkAdmin.php:163
+msgid "Checklists"
+msgstr "チェックリスト"
+
+#: example/APF_Demo.php:188 example/APF_NetworkAdmin.php:164
+msgid "Post type and taxonomy checklists ( custom checkbox )."
+msgstr "投稿タイプと分類チェックリスト（カスタムチェックボックス）"
+
+#: example/APF_Demo.php:193 example/APF_NetworkAdmin.php:169
+msgid "Hidden Fields"
+msgstr "不可視フィールド"
+
+#: example/APF_Demo.php:194 example/APF_NetworkAdmin.php:170
+msgid "These are hidden fields."
+msgstr "これらは不可視フィールドです。"
+
+#: example/APF_Demo.php:199 example/APF_NetworkAdmin.php:175
+msgid "File Uploads"
+msgstr "ファイルアップロード"
+
+#: example/APF_Demo.php:200 example/APF_NetworkAdmin.php:176
+msgid ""
+"These are upload fields. Check the <code>$_FILES</code> variable in the "
+"validation callback method that indicates the temporary location of the "
+"uploaded files."
+msgstr ""
+"これらはアップロードフィールドです。アップロードファイルの一時的なパスを表示"
+"してくれる <code>$_FILES</code> 変数をバリデーションコールバックメソッド内で"
+"確認してみて下さい。"
+
+#: example/APF_Demo.php:205 example/APF_NetworkAdmin.php:181
+msgid "Submit Buttons"
+msgstr "送信ボタン"
+
+#: example/APF_Demo.php:206 example/APF_NetworkAdmin.php:182
+msgid "These are custom submit buttons."
+msgstr "これらはカスタム送信ボタンです。"
+
+#: example/APF_Demo.php:211 example/APF_NetworkAdmin.php:187
+msgid "Verify Submitted Data"
+msgstr "送信データを確認する"
+
+#: example/APF_Demo.php:212 example/APF_NetworkAdmin.php:188
+msgid "Show error messages when the user submits improper option value."
+msgstr ""
+"ユーザーが不適切なオプションの値を送信した場合、エラーメッセージを表示しま"
+"す。"
+
+#: example/APF_Demo.php:217
+msgid "Section Verification"
+msgstr "セクションの認証"
+
+#: example/APF_Demo.php:218
+msgid "Show error messages of the entire section."
+msgstr "セクション全体のエラーメッセージを表示します。"
+
+#: example/APF_Demo.php:223 example/APF_NetworkAdmin.php:193
+msgid "Mixed Field Types"
+msgstr "ミックスされたフィールドタイプ"
+
+#: example/APF_Demo.php:224 example/APF_NetworkAdmin.php:194
+msgid ""
+"As of v3, it is possible to mix field types in one field on a per-ID basis."
+msgstr ""
+"v3より、フィールドタイプを一つのフィールドセットにフィールドID毎に組焦ること"
+"ができます。"
+
+#: example/APF_Demo.php:229 example/APF_NetworkAdmin.php:199
+msgid "Section Title"
+msgstr "セクションタイトル"
+
+#: example/APF_Demo.php:230 example/APF_NetworkAdmin.php:200
+msgid ""
+"The <code>section_title</code> field type will be placed in the position of "
+"the section title if set. If not set, the set section title will be placed. "
+"Only one <code>section_title</code> field is allowed per section."
+msgstr ""
+"<code>section_title</code> フィールドタイプは設定されている場合、セクションタ"
+"イトルの場所に表示されます。もし設定されていない場合、通常のセクションタイト"
+"ルが表示されます。セクション一つにつき、一つの<code>section_title</code>"
+"フィールドが設定できます。"
+
+#: example/APF_Demo.php:235 example/APF_NetworkAdmin.php:205
+msgid "Repeatable Sections"
+msgstr "リピータブルセクション"
+
+#: example/APF_Demo.php:236 example/APF_NetworkAdmin.php:206
+msgid "As of v3, it is possible to repeat sections."
+msgstr "v3より、セクションがリピートできます。"
+
+#: example/APF_Demo.php:242 example/APF_MetaBox_BuiltinFieldTypes.php:36
+#: example/APF_NetworkAdmin.php:212
+msgid "Section Tab A"
+msgstr "セクションタブA"
+
+#: example/APF_Demo.php:243 example/APF_MetaBox_BuiltinFieldTypes.php:37
+#: example/APF_NetworkAdmin.php:213
+msgid "This is the first item of the tabbed section."
+msgstr "1つ目のタブ化されたセクション。"
+
+#: example/APF_Demo.php:247 example/APF_MetaBox_BuiltinFieldTypes.php:41
+#: example/APF_NetworkAdmin.php:217
+msgid "Section Tab B"
+msgstr "セクションタブB"
+
+#: example/APF_Demo.php:248 example/APF_MetaBox_BuiltinFieldTypes.php:42
+#: example/APF_NetworkAdmin.php:218
+msgid "This is the second item of the tabbed section."
+msgstr "2つ目のタブ化されたセクション。"
+
+#: example/APF_Demo.php:254 example/APF_Demo_CustomFieldTypes.php:263
+#: example/APF_Demo_CustomFieldTypes.php:521
+#: example/APF_Demo_CustomFieldTypes.php:552
+#: example/APF_Demo_CustomFieldTypes.php:789
+#: example/APF_MetaBox_BuiltinFieldTypes.php:48
+#: example/APF_NetworkAdmin.php:224
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:195
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:341
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:372
+#: example/builtin-field-examples.php:79
+#: example/builtin-field-examples.php:134
+#: example/builtin-field-examples.php:206
+#: example/builtin-field-examples.php:317
+#: example/builtin-field-examples.php:404
+#: example/builtin-field-examples.php:509
+#: example/builtin-field-examples.php:626
+#: example/builtin-field-examples.php:686
+#: example/builtin-field-examples.php:737
+#: example/builtin-field-examples.php:771
+#: example/builtin-field-examples.php:807
+#: example/builtin-field-examples.php:841
+#: example/builtin-field-examples.php:874
+#: example/builtin-field-examples.php:900
+#: example/builtin-field-examples.php:1078
+#: example/builtin-field-examples.php:1110
+#: example/builtin-field-examples.php:1152
+msgid "Repeatable"
+msgstr "リピータブル"
+
+#: example/APF_Demo.php:255 example/APF_MetaBox_BuiltinFieldTypes.php:49
+#: example/APF_NetworkAdmin.php:225
+msgid "It is possible to tab repeatable sections."
+msgstr "リピータブルセクションをタブ化させることが可能です。"
+
+#: example/APF_Demo.php:264
+msgid "Using Callbacks"
+msgstr "コールバックの使用"
+
+#: example/APF_Demo.php:265
+msgid "These fields are (re)defined with callbacks."
+msgstr "これらのフィールドはコールバックによって再定義されています。"
+
+#: example/APF_Demo.php:288
+msgid "Post Titles"
+msgstr "記事名"
+
+#: example/APF_Demo.php:289
+#, php-format
+msgid ""
+"This description is inserted with the callback method: <code>%1$s</code>."
+msgstr ""
+"この詳細は<code>%1$s</code>コールバックメソッドによって挿入されています。"
+
+#: example/APF_Demo.php:296
+msgid "APF Custom Post Titles"
+msgstr "APF カスタム記事タイトル"
+
+#: example/APF_Demo.php:340 example/APF_NetworkAdmin.php:288
+msgid "The value must be numeric:"
+msgstr "値は数字でなければなりません。"
+
+#: example/APF_Demo.php:350 example/APF_Demo.php:376
+#: example/APF_NetworkAdmin.php:298
+msgid "There was something wrong with your input."
+msgstr "入力された情報に何か不具合がありました。"
+
+#: example/APF_Demo.php:370
+msgid "At least one item must be set"
+msgstr "少なくとも一つの項目が設定されている必要があります"
+
+#: example/APF_Demo.php:401 example/APF_NetworkAdmin.php:318
+msgid "<h3>File(s) Uploaded</h3>"
+msgstr "<h3>ファイルはアップロードされました</h3>"
+
+#: example/APF_Demo_CustomFieldTypes.php:74
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:22
+msgid "Custom Field Types"
+msgstr "カスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:114
+#: example/APF_MetaBox_CustomFieldTypes.php:52
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:35
+msgid "Geometry"
+msgstr "ジオメトリ"
+
+#: example/APF_Demo_CustomFieldTypes.php:118
+#: example/APF_Demo_CustomFieldTypes.php:318
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:39
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:229
+#: example/APF_Widget_CustomFieldTypes.php:65
+msgid "Date & Time"
+msgstr "日付＆時間"
+
+#: example/APF_Demo_CustomFieldTypes.php:122
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:43
+msgid "Dials"
+msgstr "ダイアル"
+
+#: example/APF_Demo_CustomFieldTypes.php:126
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:47
+msgid "Fonts"
+msgstr "フォント"
+
+#: example/APF_Demo_CustomFieldTypes.php:130
+#: example/APF_Demo_CustomFieldTypes.php:571
+#: example/APF_Demo_CustomFieldTypes.php:588
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:51
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:391
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:408
+msgid "Sample"
+msgstr "サンプル"
+
+#: example/APF_Demo_CustomFieldTypes.php:134
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:55
+msgid "Revealer"
+msgstr "リビーラー"
+
+#: example/APF_Demo_CustomFieldTypes.php:138
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:59
+msgid "Grid"
+msgstr "グリッド"
+
+#: example/APF_Demo_CustomFieldTypes.php:142
+msgid "Autocomplete"
+msgstr "オートコンプリート"
+
+#: example/APF_Demo_CustomFieldTypes.php:146
+msgid "Links"
+msgstr "リンク"
+
+#: example/APF_Demo_CustomFieldTypes.php:150
+msgid "System"
+msgstr "システム"
+
+#: example/APF_Demo_CustomFieldTypes.php:154
+msgid "GitHub"
+msgstr "GitHub"
+
+#: example/APF_Demo_CustomFieldTypes.php:169
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:116
+msgid "Geometry Custom Field Type"
+msgstr "ジオメトリカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:170
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:117
+msgid "This is a custom field type defined externally."
+msgstr "これは外部から定義されたカスタムフィールドタイプです。"
+
+#: example/APF_Demo_CustomFieldTypes.php:175
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:122
+msgid "Date Custom Field Type"
+msgstr "日付カスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:176
+msgid "We have date and time pickers."
+msgstr "日付と時刻ピッカーが使用できます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:181
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:128
+msgid "Dial Custom Field Type"
+msgstr "ダイアルカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:186
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:133
+msgid "Font Custom Field Type"
+msgstr "フォントカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:187
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:134
+msgid "This is still experimental."
+msgstr "これはまだ試作段階です。"
+
+#: example/APF_Demo_CustomFieldTypes.php:192
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:139
+msgid "Sample Custom Field Type"
+msgstr "サンプルカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:193
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:140
+msgid ""
+"This is just an example of creating a custom field type with Admin Page "
+"Framework."
+msgstr ""
+"これは、Admin Page Framework でカスタムフィールドタイプを用いた一つの例に過ぎ"
+"ません。"
+
+#: example/APF_Demo_CustomFieldTypes.php:198
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:145
+msgid "Revealer Custom Field Type"
+msgstr "リビーラーフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:199
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:146
+msgid ""
+"When the user selects an item from the selector, it reveals one of the "
+"predefined fields."
+msgstr ""
+"ユーザーがセレクタから項目を選択すると、前もって設定しておいたフィールドを表"
+"示させます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:204
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:151
+msgid "Grid Custom Field Type"
+msgstr "グリッドカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:205
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:152
+msgid "This field will save the grid positions of the widgets."
+msgstr "このフィールドはウィジェットのグリッドの位置を保存します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:210
+msgid "Autocomplete Custom Field Type"
+msgstr "オートコンプリートカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:211
+msgid ""
+"This field will show predefined list when the user type something on the "
+"input field."
+msgstr ""
+"ユーザーがインプットフィールド上で何かタイプすると、このフィールドは予め設定"
+"しておいたリストを表示させます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:216
+msgid "Link Custom Field Type"
+msgstr "リンクカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:217
+msgid "Allows to insert page and post links."
+msgstr "ページとポストリンクの挿入ができます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:222
+msgid "System Custom Field Type"
+msgstr "システムカスタムフィールドタイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:223
+msgid "Displays the system information."
+msgstr "システム上を表示します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:228
+msgid "GitHub Buttons"
+msgstr "GitHub ボタン"
+
+#: example/APF_Demo_CustomFieldTypes.php:242
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:165
+msgid "Geometrical Coordinates"
+msgstr "ジオメトリの位置情報"
+
+#: example/APF_Demo_CustomFieldTypes.php:244
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:167
+msgid "Get the coordinates from the map."
+msgstr "位置情報を地図から取得します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:257
+#: example/APF_MetaBox_CustomFieldTypes.php:57
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:178
+#: example/APF_PostType.php:113
+msgid "Date"
+msgstr "日付"
+
+#: example/APF_Demo_CustomFieldTypes.php:269
+msgid "Notice that the multiple panels are shown."
+msgstr "複数のパネルが表示されていることをご確認下さい。"
+
+#: example/APF_Demo_CustomFieldTypes.php:274
+#: example/APF_Demo_CustomFieldTypes.php:305
+#: example/APF_Demo_CustomFieldTypes.php:372
+#: example/APF_Demo_CustomFieldTypes.php:527
+#: example/APF_Demo_CustomFieldTypes.php:558
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:201
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:221
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:260
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:347
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:378
+#: example/builtin-field-examples.php:92
+#: example/builtin-field-examples.php:147
+#: example/builtin-field-examples.php:330
+#: example/builtin-field-examples.php:415
+#: example/builtin-field-examples.php:516
+#: example/builtin-field-examples.php:632
+#: example/builtin-field-examples.php:698
+#: example/builtin-field-examples.php:743
+#: example/builtin-field-examples.php:880
+msgid "Sortable"
+msgstr "ソータブル"
+
+#: example/APF_Demo_CustomFieldTypes.php:280
+msgid "The option can be passed as a string."
+msgstr "このオプションは文字列として渡すことができます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:287
+#: example/APF_MetaBox_CustomFieldTypes.php:79
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:209
+msgid "Time"
+msgstr "時間"
+
+#: example/APF_Demo_CustomFieldTypes.php:293
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:215
+msgid "Repeatable Time Fields"
+msgstr "リピータブルの時刻フィールド"
+
+#: example/APF_Demo_CustomFieldTypes.php:300
+msgid "The grid option is set."
+msgstr "グリッドオプションはセットされました。"
+
+#: example/APF_Demo_CustomFieldTypes.php:311
+msgid "The maximum and minimum hours are set."
+msgstr "最大、最小時間は設定されています。"
+
+#: example/APF_Demo_CustomFieldTypes.php:325
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:236
+msgid "Multiple Date and Time"
+msgstr "複数の日付と時刻"
+
+#: example/APF_Demo_CustomFieldTypes.php:326
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:237
+msgid "With different time formats"
+msgstr "別の時刻フォーマット"
+
+#: example/APF_Demo_CustomFieldTypes.php:327
+#: example/APF_Demo_CustomFieldTypes.php:453
+#: example/APF_Demo_CustomFieldTypes.php:725
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:238
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:273
+msgid "Default"
+msgstr "デフォルト"
+
+#: example/APF_Demo_CustomFieldTypes.php:335
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:243
+msgid "AM PM"
+msgstr "AM PM"
+
+#: example/APF_Demo_CustomFieldTypes.php:339
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:247
+msgid "Time Zone"
+msgstr "タイムゾーン"
+
+#: example/APF_Demo_CustomFieldTypes.php:343
+msgid "Number Of Months"
+msgstr "月数"
+
+#: example/APF_Demo_CustomFieldTypes.php:349
+msgid "Min & Max Dates"
+msgstr "最小&最大日付"
+
+#: example/APF_Demo_CustomFieldTypes.php:360
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:254
+msgid "Repeatable Date & Time Fields"
+msgstr "リピータブルの日付&時刻フィールド"
+
+#: example/APF_Demo_CustomFieldTypes.php:382
+msgid "Eastern"
+msgstr "イースタン"
+
+#: example/APF_Demo_CustomFieldTypes.php:386
+msgid "Central"
+msgstr "セントラル"
+
+#: example/APF_Demo_CustomFieldTypes.php:390
+msgid "Mountain"
+msgstr "山"
+
+#: example/APF_Demo_CustomFieldTypes.php:394
+msgid "Pacific"
+msgstr "太平洋"
+
+#: example/APF_Demo_CustomFieldTypes.php:403
+msgid "Date Range"
+msgstr "日付の範囲:"
+
+#: example/APF_Demo_CustomFieldTypes.php:408
+msgid "Repeatable Date Range"
+msgstr "リピータブルな日付の範囲"
+
+#: example/APF_Demo_CustomFieldTypes.php:418
+msgid "Date Time Range"
+msgstr "日付と時刻の範囲"
+
+#: example/APF_Demo_CustomFieldTypes.php:423
+msgid "Repeatable Date Time Range"
+msgstr "リピータブルな日付と時刻の範囲"
+
+#: example/APF_Demo_CustomFieldTypes.php:434
+msgid "Time Range"
+msgstr "時刻の範囲"
+
+#: example/APF_Demo_CustomFieldTypes.php:439
+msgid "Repeatable Time Range"
+msgstr "リピータブルな時刻の範囲"
+
+#: example/APF_Demo_CustomFieldTypes.php:451
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:271
+msgid "Multiple Dials"
+msgstr "複数のダイアル"
+
+#: example/APF_Demo_CustomFieldTypes.php:460
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:280
+msgid "Disable display input"
+msgstr "インプットの表示を無効にする"
+
+#: example/APF_Demo_CustomFieldTypes.php:468
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:288
+msgid "Cursor mode"
+msgstr "カーソルモード"
+
+#: example/APF_Demo_CustomFieldTypes.php:477
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:297
+msgid "Display previous value (effect)"
+msgstr "前回の値を表示する"
+
+#: example/APF_Demo_CustomFieldTypes.php:485
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:305
+msgid "Angle offset"
+msgstr "角度のオフセット"
+
+#: example/APF_Demo_CustomFieldTypes.php:492
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:312
+msgid "Angle offset and arc"
+msgstr "角度のオフセットと弧"
+
+#: example/APF_Demo_CustomFieldTypes.php:500
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:320
+msgid "5-digit values, step 1000"
+msgstr "5 桁の数値、ステップ1000 "
+
+#: example/APF_Demo_CustomFieldTypes.php:512
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:332
+msgid "Big"
+msgstr "大"
+
+#: example/APF_Demo_CustomFieldTypes.php:546
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:366
+msgid "Font Upload"
+msgstr "フォントアップロード"
+
+#: example/APF_Demo_CustomFieldTypes.php:548
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:368
+msgid "Set the URL of the font."
+msgstr "フォントのURLをセットします。"
+
+#: example/APF_Demo_CustomFieldTypes.php:572
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:392
+msgid ""
+"This sample custom field demonstrates how to display a certain element after "
+"selecting a radio button."
+msgstr ""
+"このサンプルフィールドでは、ラジオボタンを選択後ある特定の要素を表示する方法"
+"をデモンストレーションします。"
+
+#: example/APF_Demo_CustomFieldTypes.php:575
+#: example/APF_Demo_CustomFieldTypes.php:591
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:395
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:411
+#: example/builtin-field-examples.php:226
+msgid "Red"
+msgstr "赤"
+
+#: example/APF_Demo_CustomFieldTypes.php:576
+#: example/APF_Demo_CustomFieldTypes.php:592
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:396
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:412
+#: example/builtin-field-examples.php:227
+msgid "Blue"
+msgstr "青"
+
+#: example/APF_Demo_CustomFieldTypes.php:577
+#: example/APF_Demo_CustomFieldTypes.php:593
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:397
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:413
+msgid "Green"
+msgstr "緑"
+
+#: example/APF_Demo_CustomFieldTypes.php:580
+#: example/APF_Demo_CustomFieldTypes.php:596
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:400
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:416
+msgid "You selected red!"
+msgstr "赤を選択しました！"
+
+#: example/APF_Demo_CustomFieldTypes.php:581
+#: example/APF_Demo_CustomFieldTypes.php:597
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:401
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:417
+msgid "You selected blue!"
+msgstr "青を選択しました！"
+
+#: example/APF_Demo_CustomFieldTypes.php:582
+#: example/APF_Demo_CustomFieldTypes.php:598
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:402
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:418
+msgid "You selected green!"
+msgstr "緑を選択しました!"
+
+#: example/APF_Demo_CustomFieldTypes.php:608
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:428
+msgid "Reveal Hidden Fields"
+msgstr "隠しフィールドを表示させます"
+
+#: example/APF_Demo_CustomFieldTypes.php:611
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:431
+msgid "-- Select a Field --"
+msgstr "-- フィールドを選択 --"
+
+#: example/APF_Demo_CustomFieldTypes.php:612
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:432
+msgid "Option A"
+msgstr "オプションA"
+
+#: example/APF_Demo_CustomFieldTypes.php:613
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:433
+msgid "Option B and C"
+msgstr "オプションBとC"
+
+#: example/APF_Demo_CustomFieldTypes.php:615
+msgid ""
+"Specify the selectors to reveal in the <code>label</code> argument keys in "
+"the field definition array."
+msgstr ""
+"フィールド定義配列で、表示させる要素のセレクタを指定し、<code>label</code> "
+"アーギュメントキーに渡します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:620
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:441
+msgid "Hi there!"
+msgstr " やあ、みなさん！"
+
+#: example/APF_Demo_CustomFieldTypes.php:626
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:448
+msgid "Type a password."
+msgstr "パスワードを入力します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:632
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:455
+msgid "Type text."
+msgstr "テキストを入力します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:641
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:464
+msgid "Move the widgets."
+msgstr "ウィジェットを動かします。"
+
+#: example/APF_Demo_CustomFieldTypes.php:665
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:488
+msgid "Widgets can be expanded."
+msgstr "ウィジェットは拡大できます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:697
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:520
+msgid "The base size can be different."
+msgstr "ベースサイズは違っていても構いません。"
+
+#: example/APF_Demo_CustomFieldTypes.php:726
+msgid ""
+"By default, all the post titles will be fetched in the background and will "
+"pop up."
+msgstr ""
+"デフォルトでは、全ての記事タイトルはバックグラウンドで取得されポップアップし"
+"ます。"
+
+#: example/APF_Demo_CustomFieldTypes.php:731
+msgid "Local Data"
+msgstr "ローカルデータ"
+
+#: example/APF_Demo_CustomFieldTypes.php:748
+msgid "Type a programming language."
+msgstr "プログラミング言語を入力します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:754
+msgid ""
+"Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, "
+"C#, Fortran, Vidual Basic, C, C++, Java."
+msgstr ""
+"予め設定されている項目は、 Ruby, Python, JavaScript, ActionScript, Scheme, "
+"Lisp, C#, Fortran, Vidual Basic, C, C++, Java です。"
+
+#: example/APF_Demo_CustomFieldTypes.php:759
+msgid "Custom Post Type"
+msgstr "カスタム投稿タイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:767
+msgid ""
+"To set a custom post type, you need to construct the query url. This field "
+"is for the titles of this demo plugin's custom post type."
+msgstr ""
+"カスタムポストタイプを設定するには、クエリ URL を作る必要があります。この"
+"フィールドはデモプラグインが使用するカスタムポストタイプの記事タイトル用で"
+"す。"
+
+#: example/APF_Demo_CustomFieldTypes.php:772
+msgid "Mixed Post Types"
+msgstr "複合投稿タイプ"
+
+#: example/APF_Demo_CustomFieldTypes.php:784
+msgid ""
+"To search from multiple post types use the <code>post_types</code> argument "
+"(not <code>post_type</code>) and pass comma delimited post type slugs."
+msgstr ""
+"複数のポストタイプから検索するには、<code>post_types</code> アーギュメント"
+"(<code>post_type</code>ではない事に注意)にコンマで区切ったポストタイプのス"
+"ラッグを渡します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:795
+msgid "Search Users"
+msgstr "ユーザーを検索"
+
+#: example/APF_Demo_CustomFieldTypes.php:805
+msgid "Type a user name."
+msgstr "ユーザー名を入力。"
+
+#: example/APF_Demo_CustomFieldTypes.php:808
+msgid ""
+"To search users, pass the <code>user</code> to the <code>type</code> "
+"argument."
+msgstr ""
+"ユーザーを検索するには、<code>user</code> を <code>type</code> アーギュメント"
+"に渡します。"
+
+#: example/APF_Demo_CustomFieldTypes.php:818
+msgid "Single Link"
+msgstr "一つのリンク"
+
+#: example/APF_Demo_CustomFieldTypes.php:823
+msgid "Repeatable Links"
+msgstr "リピータブルのリンク"
+
+#: example/APF_Demo_CustomFieldTypes.php:834
+msgid "System Information"
+msgstr "システム情報"
+
+#: example/APF_Demo_CustomFieldTypes.php:845
+msgid "Follow"
+msgstr "フォロー"
+
+#: example/APF_Demo_CustomFieldTypes.php:846
+#: example/APF_Demo_CustomFieldTypes.php:871
+#: example/APF_Demo_CustomFieldTypes.php:896
+#: example/APF_Demo_CustomFieldTypes.php:921
+#: example/APF_Demo_CustomFieldTypes.php:946
+msgid "Small & Count"
+msgstr "スモール & カウント"
+
+#: example/APF_Demo_CustomFieldTypes.php:854
+#: example/APF_Demo_CustomFieldTypes.php:879
+#: example/APF_Demo_CustomFieldTypes.php:904
+#: example/APF_Demo_CustomFieldTypes.php:929
+#: example/APF_Demo_CustomFieldTypes.php:954
+msgid "Mega & Count"
+msgstr "メガ & カウント"
+
+#: example/APF_Demo_CustomFieldTypes.php:858
+#: example/APF_Demo_CustomFieldTypes.php:883
+#: example/APF_Demo_CustomFieldTypes.php:908
+#: example/APF_Demo_CustomFieldTypes.php:933
+#: example/APF_Demo_CustomFieldTypes.php:958
+msgid "Small"
+msgstr "小"
+
+#: example/APF_Demo_CustomFieldTypes.php:863
+#: example/APF_Demo_CustomFieldTypes.php:888
+#: example/APF_Demo_CustomFieldTypes.php:913
+#: example/APF_Demo_CustomFieldTypes.php:938
+#: example/APF_Demo_CustomFieldTypes.php:963
+msgid "Mega"
+msgstr "メガ"
+
+#: example/APF_Demo_CustomFieldTypes.php:870
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:274
+msgid "Star"
+msgstr "スター"
+
+#: example/APF_Demo_CustomFieldTypes.php:895
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:272
+msgid "Watch"
+msgstr "ウォッチ"
+
+#: example/APF_Demo_CustomFieldTypes.php:920
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:276
+msgid "Fork"
+msgstr "フォーク"
+
+#: example/APF_Demo_CustomFieldTypes.php:945
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:278
+msgid "Issue"
+msgstr "問題"
+
+#: example/APF_Demo_CustomFieldTypes.php:970
+msgid "Custom Label"
+msgstr "カスタムラベル"
+
+#: example/APF_Demo_CustomFieldTypes.php:971
+msgid "Follow Me"
+msgstr "フォローミー"
+
+#: example/APF_Demo_CustomFieldTypes.php:983
+#: example/APF_Demo_CustomFieldTypes.php:990
+msgid "Download"
+msgstr "ダウンロード"
+
+#: example/APF_Demo_CustomFieldTypes.php:995
+msgid "Gist"
+msgstr "Eastern"
+
+#: example/APF_Demo_HiddenPage.php:29
+msgid "Sample Page"
+msgstr "サンプルページ"
+
+#: example/APF_Demo_HiddenPage.php:34
+msgid "Hidden Page"
+msgstr "隠しページ"
+
+#: example/APF_Demo_HiddenPage.php:50 example/APF_NetworkAdmin.php:252
+msgid ""
+"This is a sample page that has a link to a hidden page created by the "
+"framework."
+msgstr ""
+"これはフレームワークによって作成された隠しページへのリンクがあるサンプルペー"
+"ジです。"
+
+#: example/APF_Demo_HiddenPage.php:52 example/APF_NetworkAdmin.php:254
+msgid "Go to Hidden Page"
+msgstr "隠しページへ"
+
+#: example/APF_Demo_HiddenPage.php:57 example/APF_NetworkAdmin.php:259
+msgid "This is a hidden page."
+msgstr "これは隠しページです。"
+
+#: example/APF_Demo_HiddenPage.php:58 example/APF_NetworkAdmin.php:260
+msgid ""
+"It is useful when you have a setting page that requires a proceeding page."
+msgstr "これは追従する設定ページを作る場合に便利です。"
+
+#: example/APF_Demo_HiddenPage.php:60 example/APF_NetworkAdmin.php:262
+msgid "Go Back"
+msgstr "戻る"
+
+#: example/APF_Demo_ManageOptions.php:20
+#: example/APF_NetworkAdmin_ManageOptions.php:16
+msgid "Manage Options"
+msgstr "オプションを編集"
+
+#: example/APF_Demo_ManageOptions.php:62
+#: example/APF_NetworkAdmin_ManageOptions.php:34
+msgid "Properties"
+msgstr "プロパティ"
+
+#: example/APF_Demo_ManageOptions.php:66
+#: example/APF_NetworkAdmin_ManageOptions.php:38
+msgid "Messages"
+msgstr "メッセージ"
+
+#: example/APF_Demo_ManageOptions.php:70
+#: example/APF_NetworkAdmin_ManageOptions.php:42
+msgid "Export / Import"
+msgstr "エクスポート / インポート"
+
+#: example/APF_Demo_ManageOptions.php:74
+#: example/APF_NetworkAdmin_ManageOptions.php:46
+#: example/builtin-field-examples.php:989
+msgid "Reset"
+msgstr "リセット"
+
+#: example/APF_Demo_ManageOptions.php:79
+#: example/APF_NetworkAdmin_ManageOptions.php:51
+msgid "Reset Confirmation"
+msgstr "リセットの確認"
+
+#: example/APF_Demo_ManageOptions.php:122
+#: example/APF_Demo_ManageOptions.php:124
+#: example/APF_Demo_ManageOptions.php:133
+#: example/APF_Demo_ManageOptions.php:135
+#: example/APF_NetworkAdmin_ManageOptions.php:112
+#: example/APF_NetworkAdmin_ManageOptions.php:114
+#: example/APF_NetworkAdmin_ManageOptions.php:123
+#: example/APF_NetworkAdmin_ManageOptions.php:125
+msgid "Delete Options"
+msgstr "オプションの削除"
+
+#: example/APF_Demo_ManageOptions.php:144
+#: example/APF_NetworkAdmin_ManageOptions.php:134
+msgid "Export Format Type"
+msgstr "エクスポートフォーマットタイプ"
+
+#: example/APF_Demo_ManageOptions.php:146
+#: example/APF_NetworkAdmin_ManageOptions.php:136
+msgid "Choose the file format. Array means the PHP serialized array."
+msgstr ""
+"ファイルフォーマットを選択します。Array は PHP のシリアライズされた配列を意味"
+"します。"
+
+#: example/APF_Demo_ManageOptions.php:148
+#: example/APF_Demo_ManageOptions.php:174
+#: example/APF_Demo_ManageOptions.php:203
+#: example/APF_NetworkAdmin_ManageOptions.php:138
+#: example/APF_NetworkAdmin_ManageOptions.php:164
+#: example/APF_NetworkAdmin_ManageOptions.php:193
+msgid "JSON"
+msgstr "JSON"
+
+#: example/APF_Demo_ManageOptions.php:149
+#: example/APF_Demo_ManageOptions.php:179
+#: example/APF_Demo_ManageOptions.php:204
+#: example/APF_NetworkAdmin_ManageOptions.php:139
+#: example/APF_NetworkAdmin_ManageOptions.php:169
+#: example/APF_NetworkAdmin_ManageOptions.php:194
+msgid "Serialized Array"
+msgstr "シリアライズされた配列"
+
+#: example/APF_Demo_ManageOptions.php:158
+#: example/APF_NetworkAdmin_ManageOptions.php:148
+msgid "Download the saved option data."
+msgstr "保存されたオプションデータをダウンロードする。"
+
+#: example/APF_Demo_ManageOptions.php:163
+#: example/APF_NetworkAdmin_ManageOptions.php:153
+msgid "Multiple Export Buttons"
+msgstr "複数のエクスポートボタン"
+
+#: example/APF_Demo_ManageOptions.php:165
+#: example/APF_NetworkAdmin_ManageOptions.php:155
+msgid "Pain Text"
+msgstr "通常のテキスト"
+
+#: example/APF_Demo_ManageOptions.php:183
+#: example/APF_NetworkAdmin_ManageOptions.php:173
+msgid ""
+"To set a file name, use the <code>file_name</code> argument in the field "
+"definition array."
+msgstr ""
+"ファイル名を設定するには、<code>file_name</code> アーギュメントをフィールド定"
+"義配列内で使用します。"
+
+#: example/APF_Demo_ManageOptions.php:184
+#: example/APF_NetworkAdmin_ManageOptions.php:174
+msgid ""
+"To set the data format, use the <code>format</code> argument in the field "
+"definition array."
+msgstr ""
+"データフォーマットを設定するには、<code>format</code> アーギュメントをフィー"
+"ルド定義配列内で使用します。"
+
+#: example/APF_Demo_ManageOptions.php:189
+#: example/APF_NetworkAdmin_ManageOptions.php:179
+msgid "Custom Exporting Data"
+msgstr "カスタムエクスポートデータ"
+
+#: example/APF_Demo_ManageOptions.php:191
+#: example/APF_NetworkAdmin_ManageOptions.php:181
+msgid "Hello World! This is custom export data."
+msgstr "こんにちは世界! これはカスタムのエクスポートデータです。"
+
+#: example/APF_Demo_ManageOptions.php:193
+#: example/APF_NetworkAdmin_ManageOptions.php:183
+msgid "Export Custom Data"
+msgstr "カスタムデータをエクスポートする"
+
+#: example/APF_Demo_ManageOptions.php:194
+#: example/APF_NetworkAdmin_ManageOptions.php:184
+msgid ""
+"It is possible to set custom data to be downloaded. For that, use the "
+"<code>data</code> argument in the field definition array."
+msgstr ""
+"カスタムデータをダウンロードさせることが可能です。その為には、<code>data</"
+"code> アーギュメントをフィールド定義配列内で使用します。"
+
+#: example/APF_Demo_ManageOptions.php:199
+#: example/APF_NetworkAdmin_ManageOptions.php:189
+msgid "Import Format Type"
+msgstr "インポートフォーマットタイプ"
+
+#: example/APF_Demo_ManageOptions.php:201
+#: example/APF_NetworkAdmin_ManageOptions.php:191
+msgid ""
+"The text format type will not set the option values properly. However, you "
+"can see that the text contents are directly saved in the database."
+msgstr ""
+"テキストフォーマットタイプはオプションの値を適切に設定しません。しかし、テキ"
+"ストコンテンツが直接データベースに保存されるのが分かります。"
+
+#: example/APF_Demo_ManageOptions.php:212
+#: example/APF_NetworkAdmin_ManageOptions.php:202
+msgid "Single Import Field"
+msgstr "単一のインポートフィールド"
+
+#: example/APF_Demo_ManageOptions.php:214
+#: example/APF_NetworkAdmin_ManageOptions.php:204
+msgid "Upload the saved option data."
+msgstr "保存されたオプションデータをアップロードする。"
+
+#: example/APF_Demo_ManageOptions.php:215
+msgid "Import Options"
+msgstr "インポートオプション"
+
+#: example/APF_Demo_ManageOptions.php:227
+#: example/APF_NetworkAdmin_ManageOptions.php:218
+msgid "Saved Data"
+msgstr "保存データ"
+
+#: example/APF_Demo_ManageOptions.php:230
+#: example/APF_NetworkAdmin_ManageOptions.php:221
+#, php-format
+msgid ""
+"To retrieve the saved option values simply you can use the WordPress "
+"<code>get_option()</code> function. The key is the instantiated class name "
+"by default unless it is specified in the constructor. In this demo plugin, "
+"<code>%1$s</code>, is used as the option key."
+msgstr ""
+"保存されたオプションの値を取得するには、単純に WordPress の <code>get_option"
+"()</code> 関数が使用できます。指定するキーはデフォルトでは継承したクラス名で"
+"すが、コンストラクタで指定した場合はそれになります。デモプラグインでは、"
+"<code>%1$s</code>がオプションキーとして使用されています。"
+
+#: example/APF_Demo_ManageOptions.php:231
+#: example/APF_NetworkAdmin_ManageOptions.php:222
+#, php-format
+msgid ""
+"It is stored in the <code>$this->oProp-sOptionKey</code> class property so "
+"you may access it directly to confirm the value. So the required code would "
+"be <code>get_option( %1$s );</code>."
+msgstr ""
+"それは <code>$this->oProp-sOptionKey</code> クラスプロパティに保管されおり、"
+"直接アクセスして値を確認することもできます。ですので、必要なコードは "
+"<code>get_option( %1$s );</code> となります。"
+
+#: example/APF_Demo_ManageOptions.php:232
+#: example/APF_NetworkAdmin_ManageOptions.php:223
+msgid ""
+"If you are retrieving them within the framework class, simply call <code>"
+"$this->oProp->aOptions</code>."
+msgstr ""
+"もし、フレームワークのクラス内でそれらの値を取得するのであれば、<code>$this-"
+">oProp->aOptions</code> で呼び出すと良いでしょう。"
+
+#: example/APF_Demo_ManageOptions.php:237
+#: example/APF_NetworkAdmin_ManageOptions.php:228
+msgid ""
+"Alternatively, there is the <code>AdminPageFramework::getOption()</code> "
+"static method. This allows you to retrieve the array element by specifying "
+"the option key and the array key (field id or section id)."
+msgstr ""
+"代わりに、<code>AdminPageFramework::getOption()</code> スタティックメソッドが"
+"使えます。このメソッドは、オプションキーと、フィールドIDとセクションIDを配列"
+"のキーで指定し、配列の要素を取得できます。"
+
+#: example/APF_Demo_ManageOptions.php:238
+#: example/APF_NetworkAdmin_ManageOptions.php:229
+msgid ""
+"Pass the option key to the first parameter and an array representing the "
+"dimensional keys to the second parameter"
+msgstr ""
+"オプションキーを最初のパラメータに渡し、2つ目のパラメータに次元を表すキーを配"
+"列で渡します。"
+
+#: example/APF_Demo_ManageOptions.php:239
+msgid ""
+"<code>$aData = AdminPageFramework::getOption( 'APF_Demo', array"
+"( 'text_fields', 'text' ), 'default value' );</code> will retrieve the "
+"option array value of <code>$aArray['text_field']['text']</code>."
+msgstr ""
+"<code>$aData = AdminPageFramework::getOption( 'APF_Demo', array"
+"( 'text_fields', 'text' ), 'default value' );</code>は<code>$aArray"
+"['text_field']['text']</code>の配列のオプションの値を取得します。"
+
+#: example/APF_Demo_ManageOptions.php:240
+#: example/APF_NetworkAdmin_ManageOptions.php:231
+msgid ""
+"This method is merely to avoid multiple uses of <code>isset()</code> to "
+"prevent PHP warnings."
+msgstr ""
+"このメソッドは単に、PHP ワーニングを防ぐために<code>isset()</code>を何度も呼"
+"び出すことを避けるためのものです。"
+
+#: example/APF_Demo_ManageOptions.php:241
+#: example/APF_NetworkAdmin_ManageOptions.php:232
+msgid ""
+"So if you already know how to retrieve a value of an array element, you "
+"don't have to use it."
+msgstr ""
+"ですので、既に配列の値を取得する方法をご存じであれば、使う必要はありません。"
+
+#: example/APF_Demo_ManageOptions.php:250
+#: example/APF_NetworkAdmin_ManageOptions.php:242
+msgid "Framework Properties"
+msgstr "フレームワークプロパティ"
+
+#: example/APF_Demo_ManageOptions.php:251
+#: example/APF_NetworkAdmin_ManageOptions.php:243
+msgid ""
+"These are the property values stored in the framework. Advanced users may "
+"change the property values by directly modifying the <code>$this->oProp</"
+"code> object."
+msgstr ""
+"これらはフレームワークが保管するプロパティの値です。上級ユーザーならば、"
+"<code>$this->oProp</code>オブジェクト内のこれらのプロパティを直接変更するのも"
+"よいでしょう。"
+
+#: example/APF_Demo_ManageOptions.php:258
+#: example/APF_NetworkAdmin_ManageOptions.php:250
+msgid "Framework Messages"
+msgstr "フレームワークのメッセージ"
+
+#: example/APF_Demo_ManageOptions.php:259
+#: example/APF_NetworkAdmin_ManageOptions.php:251
+msgid ""
+"You can change the framework's defined internal messages by directly "
+"modifying the <code>$aMessages</code> array in the <code>oMsg</code> object."
+msgstr ""
+"フレームワークの内部で定義されるメッセージを、<code>oMsg</code> オブジェクト"
+"内の<code>$aMessages</code> 配列を直接編集することで変更することができます。"
+
+#: example/APF_Demo_ManageOptions.php:260
+#: example/APF_NetworkAdmin_ManageOptions.php:252
+msgid "The keys and the default values are listed below."
+msgstr "キーとデフォルト値は以下にリストされています。"
+
+#: example/APF_Demo_ManageOptions.php:312
+#: example/APF_NetworkAdmin_ManageOptions.php:304
+msgid "The text import type is not supported."
+msgstr "そのテキストインポートタイプはサポートされていません。"
+
+#: example/APF_Demo_ManageOptions.php:316
+#: example/APF_NetworkAdmin_ManageOptions.php:308
+msgid "Importing options were validated."
+msgstr "インポートするオプションは確認されました。"
+
+#: example/APF_Demo_Readme.php:20
+msgid "Read Me"
+msgstr "Read Me"
+
+#: example/APF_Demo_Readme.php:25
+msgid "Documentation"
+msgstr "ドキュメンテーション"
+
+#: example/APF_Demo_Readme.php:81
+msgid "Description"
+msgstr "詳細"
+
+#: example/APF_Demo_Readme.php:85
+msgid "Installation"
+msgstr "インストール"
+
+#: example/APF_Demo_Readme.php:89
+msgid "FAQ"
+msgstr "FAQ"
+
+#: example/APF_Demo_Readme.php:93
+msgid "Other Notes"
+msgstr "その他"
+
+#: example/APF_Demo_Readme.php:97
+msgid "Change Log"
+msgstr "チェンジログ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:13
+#: example/APF_MetaBox_For_Pages_Normal.php:13
+msgid "This text will appear in the contextual help pane."
+msgstr "このテキストはコンテクストヘルプパネルに表示されます。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:14
+#: example/APF_MetaBox_For_Pages_Normal.php:14
+msgid "This description goes to the sidebar of the help pane."
+msgstr "この詳細はヘルプパネルのサイドバーに表示されます。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:24
+msgid "These are grouped in the <code>selectors</code> section."
+msgstr "これらは、<code>selectors</code> セクションにグループ化されています。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:29
+msgid "These are grouped in the <code>misc</code> section."
+msgstr "これらは、<code>misc</code> セクションにグループ化されています。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:64
+#: example/APF_MetaBox_For_Pages_Normal.php:24
+#: example/APF_TaxonomyField.php:16
+msgid "Text Input"
+msgstr "テキストインプット"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:65
+msgid "Type more than two characters."
+msgstr "2文字以上を入力して下さい。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:66
+#: example/APF_MetaBox_For_Pages_Normal.php:26
+msgid "This is help text."
+msgstr "これはヘルプテキストです。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:67
+#: example/APF_MetaBox_For_Pages_Normal.php:27
+msgid ""
+"This is additional help text which goes to the side bar of the help pane."
+msgstr "これは追加のヘルプテキストで、ヘルプパネルのサイドバーに表示されます。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:72
+#: example/APF_MetaBox_For_Pages_Normal.php:32
+#: example/APF_TaxonomyField.php:24 example/APF_Widget.php:42
+msgid "Text Repeatable"
+msgstr "テキストのリピータブル"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:78
+#: example/APF_MetaBox_For_Pages_Normal.php:38
+#: example/APF_TaxonomyField.php:30 example/builtin-field-examples.php:122
+msgid "Text Area"
+msgstr "テキストエリア"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:79
+#: example/APF_MetaBox_BuiltinFieldTypes.php:100
+#: example/APF_MetaBox_BuiltinFieldTypes.php:107
+#: example/APF_MetaBox_BuiltinFieldTypes.php:119
+#: example/APF_MetaBox_BuiltinFieldTypes.php:131
+#: example/APF_MetaBox_BuiltinFieldTypes.php:152
+#: example/APF_MetaBox_For_Pages_Advanced.php:17
+#: example/APF_MetaBox_For_Pages_Advanced.php:24
+#: example/APF_MetaBox_For_Pages_Advanced.php:36
+#: example/APF_MetaBox_For_Pages_Advanced.php:48
+#: example/APF_MetaBox_For_Pages_Advanced.php:64
+#: example/APF_MetaBox_For_Pages_Normal.php:25
+#: example/APF_MetaBox_For_Pages_Normal.php:39
+#: example/APF_TaxonomyField.php:17 example/APF_TaxonomyField.php:31
+msgid "The description for the field."
+msgstr "フィールドの詳細。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:80
+#: example/APF_MetaBox_For_Pages_Normal.php:40
+#: example/APF_TaxonomyField.php:32
+msgid ""
+"This a <em>text area</em> input field, which is larger than the <em>text</"
+"em> input field."
+msgstr ""
+"これは<code>textarea</code> インプットフィールドで、<code>text</code> フィー"
+"ルドよりも大きくなります。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:81
+#: example/APF_MetaBox_For_Pages_Normal.php:41
+#: example/APF_TaxonomyField.php:33
+msgid "This is a default text value."
+msgstr "これはデフォルトのテキストの値です。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:89
+msgid "Rich Text Editor"
+msgstr "リッチテキストエディター"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:99
+#: example/APF_MetaBox_For_Pages_Advanced.php:16
+msgid "Checkbox Input"
+msgstr "チェックボックスインプット"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:101
+#: example/APF_MetaBox_For_Pages_Advanced.php:18
+#: example/builtin-field-examples.php:433
+msgid "This is a check box."
+msgstr "これはチェックボックスです。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:106
+#: example/APF_MetaBox_For_Pages_Advanced.php:23
+msgid "Select Box"
+msgstr "セレクトボックス"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:110
+#: example/APF_MetaBox_For_Pages_Advanced.php:26 example/APF_Widget.php:62
+#: example/builtin-field-examples.php:418
+#: example/builtin-field-examples.php:1024
+msgid "One"
+msgstr "一"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:111
+#: example/APF_MetaBox_For_Pages_Advanced.php:27 example/APF_Widget.php:63
+#: example/builtin-field-examples.php:419
+#: example/builtin-field-examples.php:1025
+msgid "Two"
+msgstr "二"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:112
+#: example/APF_MetaBox_For_Pages_Advanced.php:28 example/APF_Widget.php:64
+#: example/builtin-field-examples.php:420
+#: example/builtin-field-examples.php:1026
+msgid "Three"
+msgstr "三"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:118
+#: example/APF_MetaBox_For_Pages_Advanced.php:35
+msgid "Radio Group"
+msgstr "ラジオグループ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:122
+msgid ""
+"This option is the first item of the radio button example field and lets the "
+"user choose one from many."
+msgstr ""
+"このオプションはラジオボタンの例の最初の項目で、ユーザーがたくさんある中から"
+"一つを選ぶことができます。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:123
+#: example/APF_MetaBox_BuiltinFieldTypes.php:134
+msgid "This option is the second item of the radio button example field."
+msgstr "このオプションはラジオボタンのフィールドの2番目の例になります。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:124
+#: example/APF_MetaBox_BuiltinFieldTypes.php:135
+msgid "This option is the third item of the radio button example field."
+msgstr "このオプションはラジオボタンのフィールドの3番目の例になります。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:130
+#: example/APF_MetaBox_For_Pages_Advanced.php:47
+msgid "Checkbox Group"
+msgstr "チェックボックスグループ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:133
+msgid "This option is the first item of the checkbox button example field."
+msgstr "このオプションはチェックボックスのフィールドの最初のの例になります。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:151
+#: example/APF_MetaBox_For_Pages_Advanced.php:63 example/APF_Widget.php:80
+#: example/builtin-field-examples.php:1181
+msgid "Image"
+msgstr "画像"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:157
+#: example/builtin-field-examples.php:23
+msgid "Password"
+msgstr "パスワード"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:162
+#: example/APF_MetaBox_BuiltinFieldTypes.php:273
+#: example/APF_MetaBox_For_Pages_Side.php:16 example/APF_Widget.php:90
+#: example/builtin-field-examples.php:1084
+#: example/builtin-field-examples.php:1174
+msgid "Color"
+msgstr "カラー"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:167
+#: example/APF_MetaBox_BuiltinFieldTypes.php:215
+#: example/APF_MetaBox_BuiltinFieldTypes.php:257
+#: example/APF_MetaBox_For_Pages_Side.php:21
+#: example/builtin-field-examples.php:527
+#: example/builtin-field-examples.php:1117
+#: example/builtin-field-examples.php:1158
+msgid "Size"
+msgstr "サイズ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:173
+msgid "Multiple Sizes"
+msgstr "複数のサイズ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:174
+#: example/builtin-field-examples.php:609
+msgid "Weight"
+msgstr "重さ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:178
+#: example/builtin-field-examples.php:614
+msgid "Length"
+msgstr "長さ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:183
+#: example/builtin-field-examples.php:619
+msgid "File Size"
+msgstr "ファイルサイズ"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:192
+#: example/builtin-field-examples.php:814
+msgid "Taxonomy Checklist"
+msgstr "分類チェックリスト"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:208
+#: example/APF_MetaBox_BuiltinFieldTypes.php:251
+msgid "Repeatable Field"
+msgstr "リピータブルフィールド"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:220
+#: example/APF_MetaBox_BuiltinFieldTypes.php:262
+#: example/builtin-field-examples.php:1122
+#: example/builtin-field-examples.php:1163
+msgid "Select"
+msgstr "セレクト"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:237
+#: example/builtin-field-examples.php:1138
+msgid "Name"
+msgstr "名称"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:283
+#, php-format
+msgid "This text is inserted with the <code>%1$s</code> hook."
+msgstr "このテキストは<code>%1$s</code>フックによって挿入されています。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:299
+msgid "The entered text is too short! Type more than 2 characters."
+msgstr "入力されたテキストは短すぎます！2文字以上を入力して下さい。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:305
+msgid "The password cannot be empty."
+msgstr "パスワードは空欄にできません。"
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:313
+msgid "There was an error in your input in meta box form fields"
+msgstr "メタボックスのフォームフィールドの入力にエラーがありました。"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:62
+msgid "Date Repeatable"
+msgstr "日付のリピータブル"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:68
+msgid "Date Time"
+msgstr "日付と時刻"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:73
+msgid "Date Time Repeatable"
+msgstr "日付と時刻のりピータブル"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:84
+msgid "Time Repeatable"
+msgstr "時刻のリピータブル"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:90
+#: example/APF_Widget_CustomFieldTypes.php:70
+msgid "Dial"
+msgstr "ダイアル"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:95
+msgid "Dial Repeatable"
+msgstr "ダイアルのリピータブル"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:101
+msgid "Font"
+msgstr "フォント"
+
+#: example/APF_MetaBox_CustomFieldTypes.php:106
+msgid "Font Repeatable"
+msgstr "フォントのリピータブル"
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:38
+#: example/APF_MetaBox_For_Pages_Advanced.php:50
+msgid "Option One"
+msgstr "オプション１"
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:39
+#: example/APF_MetaBox_For_Pages_Advanced.php:51
+msgid "Option Two"
+msgstr "オプション２"
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:40
+#: example/APF_MetaBox_For_Pages_Advanced.php:52
+msgid "Option Three"
+msgstr "オプション３"
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:72
+msgid ""
+"This meta box is placed with the <code>advanced</code> context and this text "
+"is inserted with the <code>do_{instantiated class name}</code> hook."
+msgstr ""
+"このメタボックスは<code>advanced</code> コンテクストで設定され、このテキスト"
+"は<code>do_{instantiated class name}</code> フックにより挿入されています。"
+
+#: example/APF_MetaBox_For_Pages_Normal.php:55
+msgid ""
+"This meta box is placed with the <code>normal</code>context and this text is "
+"inserted with the <code>do_{instantiated class name}</code> hook."
+msgstr ""
+"このメタボックスは<code>normal</code> コンテクストで設定され、このテキストは"
+"<code>do_{instantiated class name}</code> フックにより挿入されています。"
+
+#: example/APF_MetaBox_For_Pages_Side.php:42
+msgid ""
+"This is a side meta box. This is inserted with the <code>do_{instantiated "
+"class name}</code> hook."
+msgstr ""
+"このメタボックスは<code>side</code> コンテクストで設定され、このテキストは"
+"<code>do_{instantiated class name}</code> フックにより挿入されています。"
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:123
+msgid "These are date and time pickers."
+msgstr "日付と時刻のピッカーがあります。"
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:183
+msgid "Dates"
+msgstr "日付"
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:185
+msgid "Start Date: "
+msgstr "開始日:"
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:189
+msgid "End Date: "
+msgstr "終了日:"
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:435
+msgid ""
+"Specify the selectors to reveal in the label argument keys in the field "
+"definition array."
+msgstr ""
+"フィールド定義配列で、表示させる要素のセレクタを指定し、label アーギュメント"
+"キーに渡します。"
+
+#: example/APF_NetworkAdmin_ManageOptions.php:230
+msgid ""
+"<code>$aData = AdminPageFramework::getOption( 'APF_NetworkAdmin', array"
+"( 'text_fields', 'text' ), 'default value' );</code> will retrieve the "
+"option array value of <code>$aArray['text_field']['text']</code>."
+msgstr ""
+"<code>$aData = AdminPageFramework::getOption( 'APF_NetworkAdmin', array"
+"( 'text_fields', 'text' ), 'default value' );</code>は<code>$aArray"
+"['text_field']['text']</code>の配列のオプションの値を取得します。"
+
+#: example/APF_PostType.php:18
+msgid "Sample Posts"
+msgstr "サンプル記事"
+
+#: example/APF_PostType.php:20
+msgid "Add New"
+msgstr "新規追加"
+
+#: example/APF_PostType.php:21
+msgid "Add New APF Post"
+msgstr "新規 APF 記事"
+
+#: example/APF_PostType.php:22
+msgid "Edit"
+msgstr "編集"
+
+#: example/APF_PostType.php:23
+msgid "Edit APF Post"
+msgstr "APF 記事の編集"
+
+#: example/APF_PostType.php:24
+msgid "New APF Post"
+msgstr "新規 APF 記事"
+
+#: example/APF_PostType.php:25
+msgid "View"
+msgstr "閲覧"
+
+#: example/APF_PostType.php:26
+msgid "View APF Post"
+msgstr "APF 記事の閲覧"
+
+#: example/APF_PostType.php:27
+msgid "Search APF Post"
+msgstr "APF 記事の検索"
+
+#: example/APF_PostType.php:28
+msgid "No APF Post found"
+msgstr "APF 記事は見つかりませんでた"
+
+#: example/APF_PostType.php:29
+msgid "No APF Post found in Trash"
+msgstr "ゴミ箱には APF 記事は見つかりませんでした"
+
+#: example/APF_PostType.php:30
+msgid "Parent APF Post"
+msgstr "親 APF 記事"
+
+#: example/APF_PostType.php:31
+msgid "APF Posts"
+msgstr "APF 記事"
+
+#: example/APF_PostType.php:108 example/APF_Widget.php:37
+#: example/APF_Widget_CustomFieldTypes.php:60
+#: example/APF_Widget_Example.php:37
+msgid "Title"
+msgstr "タイトル"
+
+#: example/APF_PostType.php:109
+msgid "Author"
+msgstr "作成者"
+
+#: example/APF_PostType.php:114
+msgid "Sample Column"
+msgstr "サンプルカラム"
+
+#: example/APF_PostType.php:126
+#, php-format
+msgid "Post ID: %1$s"
+msgstr "投稿 ID: %1$s"
+
+#: example/APF_PostType.php:176
+msgid "Saved Meta Field Values"
+msgstr "保存されているメタフィールドの値"
+
+#: example/APF_PostType.php:178
+msgid "Saved Setting Options"
+msgstr "保存されている設定オプション"
+
+#: example/APF_TaxonomyField.php:41
+msgid "Image Upload"
+msgstr "画像アップロード"
+
+#: example/APF_TaxonomyField.php:67
+msgid "Thumbnail"
+msgstr "サムネイル"
+
+#: example/APF_TaxonomyField.php:68
+msgid "Custom Column"
+msgstr "カスタムカラム"
+
+#: example/APF_TaxonomyField.php:102
+msgid ""
+"This text is inserted with the <code>do_{instantiated class name}</code> "
+"hook."
+msgstr ""
+"このテキストは<code>do_{インスタンス化されたクラス名}</code>フックによって挿"
+"入されています。"
+
+#: example/APF_Widget.php:20
+msgid ""
+"This is a sample widget with built-in field types created by Admin Page "
+"Framework."
+msgstr ""
+"これは Admin Page Framework によって作られた、ビルトインフィールドタイプを"
+"使ったサンプルウィジェットです。"
+
+#: example/APF_Widget.php:48
+msgid "TextArea"
+msgstr "テキストエリア"
+
+#: example/APF_Widget.php:54
+msgid "Check Box"
+msgstr "チェックボックス"
+
+#: example/APF_Widget.php:55
+msgid "This is a check box in a widget form."
+msgstr "これはウィジェットフォームのチェックボックスです。"
+
+#: example/APF_Widget.php:60
+msgid "Radio Buttons"
+msgstr "ラジオボタン"
+
+#: example/APF_Widget.php:70
+msgid "Dropdown"
+msgstr "ドロップダウン"
+
+#: example/APF_Widget.php:72
+msgid "I"
+msgstr "I"
+
+#: example/APF_Widget.php:73
+msgid "II"
+msgstr "II"
+
+#: example/APF_Widget.php:74
+msgid "III"
+msgstr "III"
+
+#: example/APF_Widget.php:85 example/builtin-field-examples.php:1191
+msgid "Media"
+msgstr "メディア"
+
+#: example/APF_Widget.php:120
+msgid "Hello world! This is a widget created by Admin Page Framework."
+msgstr ""
+"こんにちは世界！これは Admin Page Framework によって作られたウィジェットで"
+"す。"
+
+#: example/APF_Widget_CustomFieldTypes.php:20
+msgid ""
+"This is a sample widget of Admin Page Framework with custom field types."
+msgstr ""
+"これはAdmin Page Framework とカスタムフィールドタイプのサンプルウィジェットで"
+"す。"
+
+#: example/APF_Widget_CustomFieldTypes.php:75
+msgid "Post"
+msgstr "投稿"
+
+#: example/APF_Widget_CustomFieldTypes.php:110
+msgid ""
+"Hello world! This is a widget created by Admin Page Framework with some "
+"custom field types."
+msgstr ""
+"こんにちは世界！これはAdmin Page Framework とカスタムフィールドタイプによって"
+"作られたウィジェットです。"
+
+#: example/APF_Widget_Example.php:20
+msgid "Displays a GitHub button."
+msgstr "GitHub ボタンを表示します。"
+
+#: example/APF_Widget_Example.php:42
+msgid "GitHub User Name"
+msgstr "GitHub ユーザー名"
+
+#: example/APF_Widget_Example.php:48
+msgid "Repository Name"
+msgstr "リポジトリ名"
+
+#: example/APF_Widget_Example.php:54
+msgid "GitHub Repository"
+msgstr "GitHub リポジトリ"
+
+#: example/builtin-field-examples.php:11
+msgid ""
+"Type something here. This text is inserted with the <code>description</code> "
+"argument in the field definition array."
+msgstr ""
+"ここに何か入力します。このテキストはフィールド定義配列内の "
+"<code>description</code> アーギュメントで挿入されます。"
+
+#: example/builtin-field-examples.php:12
+msgid "This is a text field and typed text will be saved."
+msgstr "これはテキストフィールドです。入力された文字列は保存されます。"
+
+#: example/builtin-field-examples.php:13
+msgid ""
+"This text is inserted with the <code>help</code> argument in the field "
+"definition array."
+msgstr ""
+"このテキストはフィールド定義配列内の <code>help</code> アーギュメントで挿入さ"
+"れています。"
+
+#: example/builtin-field-examples.php:24
+msgid "This input will be masked."
+msgstr "この入力情報はマスクされます。"
+
+#: example/builtin-field-examples.php:26
+msgid "This is a password type field; the user's entered input will be masked."
+msgstr "これはパスワードのフィールドです。ユーザーの入力はマスクされます。"
+
+#: example/builtin-field-examples.php:30
+msgid "The entered characters will be masked."
+msgstr "この入力情報はマスクされます。"
+
+#: example/builtin-field-examples.php:34
+msgid "Read Only"
+msgstr "読み専用"
+
+#: example/builtin-field-examples.php:41
+msgid "This is a read-only value."
+msgstr "これは読み専用の値です。"
+
+#: example/builtin-field-examples.php:42
+msgid "The attribute can be set with the <code>attributes</code> argument."
+msgstr "属性は<code>attributes</code>アーギュメントで設定できます。"
+
+#: example/builtin-field-examples.php:46
+msgid "Number"
+msgstr "数字"
+
+#: example/builtin-field-examples.php:51
+#: example/builtin-field-examples.php:176
+#: example/builtin-field-examples.php:237
+#: example/builtin-field-examples.php:287
+#: example/builtin-field-examples.php:439
+#: example/builtin-field-examples.php:607
+#: example/builtin-field-examples.php:758
+#: example/builtin-field-examples.php:790
+#: example/builtin-field-examples.php:828
+#: example/builtin-field-examples.php:861
+#: example/builtin-field-examples.php:908
+msgid "Multiple"
+msgstr "複数"
+
+#: example/builtin-field-examples.php:52
+msgid ""
+"Multiple text fields can be set by passing an array to the <code>label</"
+"code> argument."
+msgstr ""
+"複数のテキストフィールドは配列を<code>label</code>アーギュメントに渡すことで"
+"設定できます。"
+
+#: example/builtin-field-examples.php:54
+#: example/builtin-field-examples.php:125
+msgid "Hello world!"
+msgstr "こんにちは世界！"
+
+#: example/builtin-field-examples.php:55
+#: example/builtin-field-examples.php:179
+#: example/builtin-field-examples.php:650
+#: example/builtin-field-examples.php:760
+#: example/builtin-field-examples.php:863
+#: example/builtin-field-examples.php:910
+msgid "First"
+msgstr "1つ目"
+
+#: example/builtin-field-examples.php:63
+#: example/builtin-field-examples.php:187
+#: example/builtin-field-examples.php:659
+#: example/builtin-field-examples.php:763
+#: example/builtin-field-examples.php:866
+#: example/builtin-field-examples.php:913
+msgid "Second"
+msgstr "2つ目"
+
+#: example/builtin-field-examples.php:69
+msgid "Yes, we can"
+msgstr "イエス、ウィーキャン"
+
+#: example/builtin-field-examples.php:70
+#: example/builtin-field-examples.php:196
+#: example/builtin-field-examples.php:672
+#: example/builtin-field-examples.php:766
+#: example/builtin-field-examples.php:869
+#: example/builtin-field-examples.php:917
+msgid "Third"
+msgstr "3つ目"
+
+#: example/builtin-field-examples.php:75
+msgid ""
+"These are multiple text fields. To include multiple input fields associated "
+"with one field ID, use the numeric keys in the field definition array."
+msgstr ""
+"これらは複数のテキストフィールドです。一つのフィールド ID に複数のフィールド"
+"を関連付けするには、フィールド定義配列の数字のキーを使用します。"
+
+#: example/builtin-field-examples.php:87
+msgid ""
+"Press + / - to add / remove the fields. To enable the repeatable fields "
+"functionality, set the <code>repeatable</code> argument to <code>true</code>."
+msgstr ""
+"+ / - を押し、フィールドを追加 / 削除します。リピータブルの機能を有効にするに"
+"は。<code>repeatable</code> アーギュメントを <code>true</code> に設定します。"
+
+#: example/builtin-field-examples.php:88
+msgid ""
+"To set maximum and minimum numbers of fields, set the <code>max</code> and "
+"<code>min</code> arguments in the <code>repeatable<code> argument array in "
+"the field deifnition array."
+msgstr ""
+"フィールド数の最大値、最小値を設定するには、<code>max</code>と<code>min</"
+"code>アーギュメントをフィールド定義配列内の<code>repeatable</code>アーギュメ"
+"ント配列内に設定します。"
+
+#: example/builtin-field-examples.php:95
+#: example/builtin-field-examples.php:150
+#: example/builtin-field-examples.php:336
+msgid "Sortable Item"
+msgstr "ソータブルの例"
+
+#: example/builtin-field-examples.php:97
+msgid "Drag and drop the fields to change the order."
+msgstr "順番を変更するにはフィールドをドラッグ＆ドロップします。"
+
+#: example/builtin-field-examples.php:105
+msgid "Disabled Item"
+msgstr "無効の例"
+
+#: example/builtin-field-examples.php:115
+#: example/builtin-field-examples.php:712
+msgid "Repeatable & Sortable"
+msgstr "リピータブル&ソータブル"
+
+#: example/builtin-field-examples.php:123
+msgid "Type a text string here."
+msgstr "文字列をここに入力します。"
+
+#: example/builtin-field-examples.php:126
+msgid "This is set as the default string."
+msgstr " これはデフォルトの文字列として設定されています。"
+
+#: example/builtin-field-examples.php:156
+msgid "Rich Text Area"
+msgstr "リッチテキストエリア"
+
+#: example/builtin-field-examples.php:164
+msgid "The arguments can be passed to the <code>rich</code> argument."
+msgstr "設定パラメータは<code>rich</code>アーギュメントに渡すことができます。"
+
+#: example/builtin-field-examples.php:165
+#, php-format
+msgid "For more information see the <a href=\"%1$s\">Codex page</a>."
+msgstr "詳しくは<a href=\"%1$s\">コーデックスページ</a>をご覧ください。"
+
+#: example/builtin-field-examples.php:177
+msgid "These are multiple text areas."
+msgstr "複数のテキストエリアがあります。"
+
+#: example/builtin-field-examples.php:180
+msgid "The first default text."
+msgstr "最初のデフォルトテキスト。"
+
+#: example/builtin-field-examples.php:188
+msgid ""
+"The second default text. See the background color is different from the "
+"others. This is done with the <code>attributes</code> argument."
+msgstr ""
+"2つ目のデフォルトテキスト。背景色が他と違うことにご留意下さい。これは"
+"<code>attributes</code>アーギュメントでなされます。"
+
+#: example/builtin-field-examples.php:197
+msgid "The third default text."
+msgstr "3つ目のデフォルトテキスト。"
+
+#: example/builtin-field-examples.php:210
+msgid ""
+"As of v3.1.6, repeatable TinyMCE editor fields are supported. However, Quick "
+"Tags are not supported."
+msgstr ""
+"v3.1.6 より TinyMCE のエディタフィールドがリピータブルをサポートしています。"
+"しかし、クイックタグはサポートしていません。"
+
+#: example/builtin-field-examples.php:221
+msgid "Dropdown List"
+msgstr "ドロップダウンリスト"
+
+#: example/builtin-field-examples.php:223
+msgid "This is the <em>select</em> field type."
+msgstr "これは <code>select</code>フィールドタイプです。"
+
+#: example/builtin-field-examples.php:228
+msgid "Yellow"
+msgstr "黄色"
+
+#: example/builtin-field-examples.php:229
+msgid "Orange"
+msgstr "オレンジ"
+
+#: example/builtin-field-examples.php:231
+msgid ""
+"The key of the array of the <code>label</code> argument serves as the value "
+"of the option tag which will be sent to the form and saved in the database."
+msgstr ""
+"<code>label</code>　アーギュメントの配列のキーがオプションタグの値として機能"
+"し、フォームに送信され、データベースに保存されます。"
+
+#: example/builtin-field-examples.php:232
+msgid ""
+"So when you specify the default value with the <code>default</code> or "
+"<code>value</code> argument, specify the <em>KEY</em>."
+msgstr ""
+"初期値を設定するには、<code>default</code>か<code>value</code>アーギュメント"
+"に<em>キー</em>を指定します。"
+
+#: example/builtin-field-examples.php:238
+msgid "This is the <em>select</em> field type with multiple elements."
+msgstr "これらは<code>select</code>フィールドタイプの複数のフィールドです。"
+
+#: example/builtin-field-examples.php:243
+msgid "Use <code>is_multiple</code> argument to enable multiple selections."
+msgstr ""
+"<code>is_multiple</code> アーギュメントを使用し、複数選択を可能にします。"
+
+#: example/builtin-field-examples.php:252
+msgid "Grouping"
+msgstr "グルーピング"
+
+#: example/builtin-field-examples.php:281
+msgid ""
+"To create grouped options, pass arrays with the key of the group label and "
+"pass the options as an array inside them."
+msgstr ""
+"グループ化された選択項目を作成するには、グループラベルのキーの配列を渡し、オ"
+"プションを配列としてその中に渡します。"
+
+#: example/builtin-field-examples.php:282
+msgid ""
+"To style the pulldown (dropdown) list, use the <code>attributes</code> "
+"argument. For the <code>select</code> field type, it has three major keys, "
+"<code>select</code>, <code>option</code>, and <code>optgroup</code>, "
+"representing the tag names."
+msgstr ""
+"プルダウン(ドロップダウン) リストをスタイライズするには、<code>attributes</"
+"code>アーギュメントを使用します。<code>select</code>フィールドタイプの場合、"
+"次の3つの主要キーがあります。<code>select</code>, <code>option</code>. "
+"<code>optgroup</code>。これらは各タグ名を表します。"
+
+#: example/builtin-field-examples.php:288
+msgid "These are multiple sets of drop down list."
+msgstr "複数のドロップダウンリストのセットがあります。"
+
+#: example/builtin-field-examples.php:320
+msgid ""
+"To enable repeatable fields, pass <code>true</code> to the <code>repeatable</"
+"code> argument."
+msgstr ""
+"リピータブルのフィールドを有効にするには、<code>repetable</code> アーギュメン"
+"トに<code>true</code>を渡します。"
+
+#: example/builtin-field-examples.php:350
+msgid "Radio Button"
+msgstr "ラジオボタン"
+
+#: example/builtin-field-examples.php:364
+msgid ""
+"Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</"
+"code> after each sub-field."
+msgstr ""
+"各サブフィールドの後に、<code>&lt;br /&gt;</code>を挿入するには、"
+"<code>after_input</code> アーギュメントを使用します。"
+
+#: example/builtin-field-examples.php:365
+msgid ""
+"To disable elements (or apply different attributes) on an individual element "
+"basis, use the <code>attributes</code> argument and create the element whose "
+"key name is the radio input element value."
+msgstr ""
+"各要素を個別に無効化（もしくは別の属性を適用）するには、<code>attributes</"
+"code>アーギュメントを使用し、キー名がラジオ要素の値である要素を作成します。"
+
+#: example/builtin-field-examples.php:370
+#: example/builtin-field-examples.php:463
+msgid "Multiple Sets"
+msgstr "複数セット"
+
+#: example/builtin-field-examples.php:371
+msgid ""
+"Multiple sets of radio buttons. The horizontal line is set with the "
+"<code>delimiter</code> argument."
+msgstr ""
+"複数のラジオボタンのセット。ホリゾンタルラインは<code>delimiter</code> アー"
+"ギュメントで設定します。"
+
+#: example/builtin-field-examples.php:430
+msgid "Checkbox"
+msgstr "チェックボックス"
+
+#: example/builtin-field-examples.php:431
+msgid "The <code>description</code> argument can be omitted though."
+msgstr "<code>description</code> アーギュメントは省略可能です。"
+
+#: example/builtin-field-examples.php:434
+msgid ""
+"A string can be passed to the <code>label</code> argument for a single item."
+msgstr ""
+"フィールドが一つの場合、<code>label</code> アーギュメントに文字列を渡します。"
+
+#: example/builtin-field-examples.php:442
+msgid "Moon"
+msgstr "月"
+
+#: example/builtin-field-examples.php:443
+msgid "Earth"
+msgstr "地球"
+
+#: example/builtin-field-examples.php:443
+msgid "this option is disabled."
+msgstr "このオプションは無効化されています。"
+
+#: example/builtin-field-examples.php:444
+msgid "Sun"
+msgstr "太陽"
+
+#: example/builtin-field-examples.php:445
+msgid "Mars"
+msgstr "火星"
+
+#: example/builtin-field-examples.php:458
+msgid "It is possible to disable checkbox items on an individual basis."
+msgstr "個別にチェックボックスの項目を無効化させることができます。"
+
+#: example/builtin-field-examples.php:505
+msgid ""
+"To create multiple fields for one field ID, use the numeric keys in the "
+"field definition array."
+msgstr ""
+"一つのフィールド ID に複数のフィールドを作成する場合、数字のキーをフィールド"
+"定義配列で使用します。"
+
+#: example/builtin-field-examples.php:528
+msgid ""
+"In order to set a default value for the size field type, an array with the "
+"<code>size</code> and the <code>unit</code> arguments needs to be set."
+msgstr ""
+"サイズフィールドタイプでデフォルト値を設定するには、<code>size</code> と "
+"<code>unit</code> アーギュメントを設定する必要があります。"
+
+#: example/builtin-field-examples.php:529
+msgid "The default units and the lengths for CSS."
+msgstr "CSS 用のデフォルトの単位と長さです。"
+
+#: example/builtin-field-examples.php:539
+msgid "Size with Custom Units"
+msgstr "カスタム単位を用いたサイズ"
+
+#: example/builtin-field-examples.php:540
+msgid ""
+"The units can be specified so it can be quantity, length, or capacity etc."
+msgstr "単位には、長さ、容量などを指定することができます。"
+
+#: example/builtin-field-examples.php:544
+msgid "grains"
+msgstr "グレイン"
+
+#: example/builtin-field-examples.php:545
+msgid "drams"
+msgstr "ドラム"
+
+#: example/builtin-field-examples.php:546
+msgid "ounces"
+msgstr "オンス"
+
+#: example/builtin-field-examples.php:547
+msgid "pounds"
+msgstr "ポンド"
+
+#: example/builtin-field-examples.php:556
+msgid "Size with Custom Attributes"
+msgstr "サイズとカスタムアトリビュート"
+
+#: example/builtin-field-examples.php:559
+msgid "Metric Unit System"
+msgstr "メトリックユニットシステム"
+
+#: example/builtin-field-examples.php:560
+msgid "millimetre"
+msgstr "ミリメートル"
+
+#: example/builtin-field-examples.php:561
+msgid "centmeter"
+msgstr "センチメートル"
+
+#: example/builtin-field-examples.php:562
+msgid "meter"
+msgstr "メートル"
+
+#: example/builtin-field-examples.php:563
+msgid "kilometer"
+msgstr "キロメートル"
+
+#: example/builtin-field-examples.php:565
+msgid "Imperial and US Unit System"
+msgstr "US ヤード・ポンド法"
+
+#: example/builtin-field-examples.php:566
+msgid "inch"
+msgstr "インチ"
+
+#: example/builtin-field-examples.php:567
+msgid "foot"
+msgstr "フィート"
+
+#: example/builtin-field-examples.php:568
+msgid "yard"
+msgstr "ヤード"
+
+#: example/builtin-field-examples.php:569
+msgid "mile"
+msgstr "マイル"
+
+#: example/builtin-field-examples.php:571
+#: example/builtin-field-examples.php:598
+msgid "Astronomical Units"
+msgstr "天文単位"
+
+#: example/builtin-field-examples.php:572
+msgid "astronomical unit"
+msgstr "天文単位"
+
+#: example/builtin-field-examples.php:573
+msgid "light year"
+msgstr "光年"
+
+#: example/builtin-field-examples.php:574
+msgid "parsec"
+msgstr "パーセク"
+
+#: example/builtin-field-examples.php:603
+msgid ""
+"The <code>size</code> field type has four initial keys in the "
+"<code>attributes</code> array element: <code>size</code>, <code>unit</code>, "
+"<code>optgroup</code>, and <code>option</code>."
+msgstr ""
+"<code>size</code> フィールドタイプは4つのキーが <code>attributes</code>アー"
+"ギュメントに予め用意されており、<code>size</code>, <code>unit</code>, "
+"<code>optgroup</code>, <code>option</code> があります。"
+
+#: example/builtin-field-examples.php:648
+msgid "Select an Image"
+msgstr "画像を選択"
+
+#: example/builtin-field-examples.php:675
+msgid ""
+"See the button and the input colors of the second item are different. This "
+"is done by setting the attributes individually."
+msgstr ""
+"ボタンと色が違うのをご確認下さい。これは属性を個別に設定することで為されてい"
+"ます。"
+
+#: example/builtin-field-examples.php:680
+msgid "Save Image Attributes"
+msgstr "画像アトリビュートを保存する"
+
+#: example/builtin-field-examples.php:694
+msgid "In repeatable fields, you can select multiple items at once."
+msgstr "リピータブルフィールでは、複数の項目を一度に選択することができます。"
+
+#: example/builtin-field-examples.php:708
+msgid ""
+"Image fields can be sortable. This may be useful when you need to let the "
+"user set an order of images."
+msgstr ""
+"イメージフィールドはソータブルにできます。画像の順番を設定するのに便利です。"
+
+#: example/builtin-field-examples.php:725
+msgid "Media File"
+msgstr "メディアファイル"
+
+#: example/builtin-field-examples.php:731
+msgid "Media File with Attributes"
+msgstr "属性を使用したメディアファイル"
+
+#: example/builtin-field-examples.php:752
+msgid "File"
+msgstr "ファイル"
+
+#: example/builtin-field-examples.php:754
+msgid "Select the file"
+msgstr "ファイルを選択"
+
+#: example/builtin-field-examples.php:785
+msgid "Post Types"
+msgstr "投稿タイプ"
+
+#: example/builtin-field-examples.php:792
+msgid "For A"
+msgstr "A用"
+
+#: example/builtin-field-examples.php:794
+msgid "For B"
+msgstr "B用"
+
+#: example/builtin-field-examples.php:797
+msgid "For C"
+msgstr "C用"
+
+#: example/builtin-field-examples.php:822
+msgid "All Taxonomies"
+msgstr "全ての分類"
+
+#: example/builtin-field-examples.php:831
+msgid "For I"
+msgstr "I 用"
+
+#: example/builtin-field-examples.php:833
+msgid "For II"
+msgstr "II 用"
+
+#: example/builtin-field-examples.php:836
+msgid "For III"
+msgstr "III 用"
+
+#: example/builtin-field-examples.php:856
+msgid "Color Picker"
+msgstr "カラーピッカー"
+
+#: example/builtin-field-examples.php:892
+msgid "Hidden Field"
+msgstr "隠しフィールド"
+
+#: example/builtin-field-examples.php:895
+msgid "Test value"
+msgstr "テストの値"
+
+#: example/builtin-field-examples.php:896
+msgid "Test label"
+msgstr "テキストラベル"
+
+#: example/builtin-field-examples.php:903
+msgid "Repeat Me"
+msgstr "リピートミー"
+
+#: example/builtin-field-examples.php:927
+msgid "Submit Button"
+msgstr "送信ボタン"
+
+#: example/builtin-field-examples.php:929
+msgid "This is the default submit button."
+msgstr "これはデフォルトの送信ボタンです。"
+
+#: example/builtin-field-examples.php:934
+msgid "Link Button"
+msgstr "リンクボタン"
+
+#: example/builtin-field-examples.php:935
+msgid ""
+"These buttons serve as a hyper link. Set the url to the <code>href</code> "
+"argument to enable this option."
+msgstr ""
+"このボタンはハイパーリンクとして機能します。<code>href</code> アーギュメント"
+"に URL を渡し、このオプションを有効にします。"
+
+#: example/builtin-field-examples.php:936
+msgid "Google"
+msgstr "Google"
+
+#: example/builtin-field-examples.php:940
+msgid "Go to Google!"
+msgstr "Google を訪問する"
+
+#: example/builtin-field-examples.php:947
+msgid "Yahoo"
+msgstr "Yahoo"
+
+#: example/builtin-field-examples.php:951
+msgid "Go to Yahoo!"
+msgstr "Yahoo! を訪問する"
+
+#: example/builtin-field-examples.php:956
+msgid "Bing"
+msgstr "Bing"
+
+#: example/builtin-field-examples.php:960
+msgid "Go to Bing!"
+msgstr "Bing を訪問する"
+
+#: example/builtin-field-examples.php:967
+msgid "Download Button"
+msgstr "ダウンロードボタン"
+
+#: example/builtin-field-examples.php:969 example/example-bootstrap.php:13
+msgid "Admin Page Framework"
+msgstr "Admin Page Framework"
+
+#: example/builtin-field-examples.php:970
+msgid "Download the latest version of the Admin Page Framework Demo plugin."
+msgstr ""
+"Admin Page Framework デモプラグインの最新バージョンをダウンロードします。"
+
+#: example/builtin-field-examples.php:975
+msgid "Redirect Button"
+msgstr "リダイレクトボタン"
+
+#: example/builtin-field-examples.php:977
+#, php-format
+msgid ""
+"Unlike the above link buttons, this button saves the options and then "
+"redirects to: <code>%1$s</code>"
+msgstr ""
+"上のリンクボタンとは違い、このボタンはオプションを保存してから　<code>%1$s</"
+"code> にリダイレクトします。"
+
+#: example/builtin-field-examples.php:978
+msgid ""
+"To enable this functionality, set the url to the <code>redirect_url</code> "
+"argument in the field definition array."
+msgstr ""
+"この機能を使うには、フィールド定義配列内の <code>redirect_url</code> アーギュ"
+"メントに URL を渡します。"
+
+#: example/builtin-field-examples.php:979
+msgid "Dashboard"
+msgstr "ダッシュボード"
+
+#: example/builtin-field-examples.php:987
+msgid "Reset Button"
+msgstr "リセットボタン"
+
+#: example/builtin-field-examples.php:994
+msgid ""
+"If you press this button, a confirmation message will appear and then if you "
+"press it again, it resets the option."
+msgstr ""
+"このボタンを押すと、確認メッセージが表示され、もう一度押すとオプションをリ"
+"セットします。"
+
+#: example/builtin-field-examples.php:1006
+msgid "Verify Text Input"
+msgstr "テキスト入力を確認する"
+
+#: example/builtin-field-examples.php:1008
+msgid "Enter a non numeric value here."
+msgstr "数字ではない値を入力してみてください。"
+
+#: example/builtin-field-examples.php:1013
+msgid "Verify"
+msgstr "確認する"
+
+#: example/builtin-field-examples.php:1020
+msgid "Choose Item"
+msgstr "項目を選択"
+
+#: example/builtin-field-examples.php:1023
+msgid "Select Item"
+msgstr "項目の選択"
+
+#: example/builtin-field-examples.php:1032
+msgid "Select one above or enter text here."
+msgstr "上の一つを選択するか、テキストを入力します。"
+
+#: example/builtin-field-examples.php:1039
+msgid "Text and Hidden"
+msgstr "テキストと不可視"
+
+#: example/builtin-field-examples.php:1051
+msgid ""
+"A hidden field is embedded. This is useful when you need to embed extra "
+"information to be sent with the visible elements."
+msgstr ""
+"隠しフィールドが埋め込まれています。これは表示されているフィールドと一緒に送"
+"信される追加情報を埋め込む時に便利です。"
+
+#: example/builtin-field-examples.php:1061
+msgid "Section Name"
+msgstr "セクション名"
+
+#: example/builtin-field-examples.php:1089
+msgid "Radio"
+msgstr "ラジオボタン"
+
+#: example/example-bootstrap.php:15
+msgid "APF - Advanced"
+msgstr "APF - アドバンスド"
+
+#: example/example-bootstrap.php:17
+msgid "APF - GitHub Button"
+msgstr "APF - GitHub ボタン"
+
+#: example/example-bootstrap.php:26
+msgid "Demo Meta Box with Built-in Field Types"
+msgstr "ビルトインフィールドタイプを使ったデモ用メタボックス"
+
+#: example/example-bootstrap.php:35
+msgid "Demo Meta Box with Custom Field Types"
+msgstr "カスタムフィールドタイプを使ったデモ用メタボックス"
+
+#: example/example-bootstrap.php:54
+msgid "Sample Meta Box for Admin Pages Inserted in Normal Area"
+msgstr "ノーマルエリアに挿入されたアドミンページ用サンプルメタボックス"
+
+#: example/example-bootstrap.php:62 example/example-bootstrap.php:70
+#: example/example-bootstrap.php:112
+msgid "Sample Meta Box for Admin Pages Inserted in Advanced Area"
+msgstr "アドバンスドエリアに挿入されたアドミンページ用サンプルメタボックス"
+
+#: third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php:54
+msgid "Type the title of posts."
+msgstr "記事のタイトルを入力してください"
+
+#: third-party/date-time-custom-field-types/DateRangeCustomFieldType.php:226
+#: third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php:228
+#: third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php:228
+msgid "From"
+msgstr "From"
+
+#: third-party/date-time-custom-field-types/DateRangeCustomFieldType.php:227
+#: third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php:229
+#: third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php:229
+msgid "To"
+msgstr "To"
+
+#: third-party/font-custom-field-type/FontCustomFieldType.php:72
+#: third-party/font-custom-field-type/FontCustomFieldType.php:106
+msgid "Upload Font"
+msgstr "フォントのアップロード"
+
+#: third-party/font-custom-field-type/FontCustomFieldType.php:73
+#: third-party/font-custom-field-type/FontCustomFieldType.php:107
+msgid "Use This Font"
+msgstr "このフォントを使う"
+
+#: third-party/font-custom-field-type/FontCustomFieldType.php:564
+msgid "Select Font"
+msgstr "フォントの選択"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:143
+msgid "Google Maps"
+msgstr "Google 地図"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:145
+msgid "Update Map"
+msgstr "地図を更新"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:148
+msgid "Latitude"
+msgstr "緯度"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:152
+msgid "Longitude"
+msgstr "経度"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:156
+msgid "Elevation"
+msgstr "海抜"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:158
+msgid "metres"
+msgstr "メートル"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:161
+msgid "Location Name"
+msgstr "場所の名称"
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:165
+msgid "zoom"
+msgstr "ズーム"
+
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:270
+#, php-format
+msgid "Follow @%1$s"
+msgstr "@%1$sをフォロー"
+
+#: third-party/grid-custom-field-type/GridCustomFieldType.php:149
+msgid "Add Widget"
+msgstr "ウィジェットの追加"
+
+#: third-party/link-custom-field-type/LinkCustomFieldType.php:193
+msgid "Select Link"
+msgstr "リンクの選択"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:209
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:213
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:233
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:255
+msgid "Version"
+msgstr "バージョン"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:210
+msgid "Minified"
+msgstr "縮小版"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:214
+msgid "Language"
+msgstr "言語"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:215
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:235
+msgid "Memory Limit"
+msgstr "メモリ上限"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:216
+msgid "Multi-site"
+msgstr "マルチサイト"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:217
+msgid "Permalink Structure"
+msgstr "パーマリンク構造"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:218
+msgid "Active Theme"
+msgstr "有効にされているテーマ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:219
+msgid "Registered Post Statuses"
+msgstr "登録されているポストステータス"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:223
+msgid "Table Prefix"
+msgstr "テーブルプレフィックス"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:224
+msgid "Table Prefix Length"
+msgstr "テーブルプレフィックスの長さ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:225
+msgid "Table Prefix Status"
+msgstr "テーブルプレフィックスの状態"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:225
+msgid "Too Long"
+msgstr "超過"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:225
+msgid "Acceptable"
+msgstr "使用可"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:227
+msgid "WP_CONTENT_DIR Writable"
+msgstr "WP_CONTENT_DIR 書き込み可"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:228
+msgid "Active Plugins"
+msgstr "有効になっているプラグイン"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:229
+msgid "Network Active Plugins"
+msgstr "ネットワークで有効なプラグイン"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:234
+msgid "Safe Mode"
+msgstr "セーフモード"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:236
+msgid "Upload Max Size"
+msgstr "アップロードの最大サイズ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:237
+msgid "Post Max Size"
+msgstr "投稿最大サイズ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:238
+msgid "Upload Max File Size"
+msgstr "アップロードファイルの最大サイズ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:239
+msgid "Max Execution Time"
+msgstr "最大実行時間"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:240
+msgid "Max Input Vars"
+msgstr "Input Vars 最大値"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:241
+msgid "Argument Separator"
+msgstr "アーギュメントセパレータ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:242
+msgid "Allow URL File Open"
+msgstr "URL File Open の許可"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:243
+msgid "Display Errors"
+msgstr "エラーを表示する"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:244
+msgid "Log Errors"
+msgstr "エラーを記録する"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:245
+msgid "Error log location"
+msgstr "エラーログパス"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:246
+msgid "Error Reporting Level"
+msgstr "エラーレポートレベル"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:247
+msgid "FSOCKOPEN"
+msgstr "FSOCKOPEN"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:248
+msgid "cURL"
+msgstr "cURL"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:249
+msgid "SOAP"
+msgstr "SOAP"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:250
+msgid "SUHOSIN"
+msgstr "SUHOSIN"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:258
+msgid "Web Server"
+msgstr "Webサーバ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:260
+msgid "Session"
+msgstr "セッション"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:261
+msgid "Session Name"
+msgstr "セッション名"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:262
+msgid "Session Cookie Path"
+msgstr "セッションクッキーパス"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:263
+msgid "Session Save Path"
+msgstr "セッション保存パス"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:264
+msgid "Session Use Cookies"
+msgstr "セッションはクッキーを使用するかどうか"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:265
+msgid "Session Use Only Cookies"
+msgstr "セッションはクッキーのみ使用するかどうか"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:306
+msgid "Yes"
+msgstr "はい"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:307
+msgid "No"
+msgstr "いいえ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:311
+msgid "Enabled"
+msgstr "有効"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:312
+msgid "Disabled"
+msgstr "無効"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:316
+msgid "On"
+msgstr "オン"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:317
+msgid "Off"
+msgstr "オフ"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:321
+msgid "Supported"
+msgstr "サポートされています"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:322
+msgid "Not supported"
+msgstr "サポートされていません"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:326
+msgid "Functional"
+msgstr "機能しています"
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:327
+msgid "Not functional"
+msgstr "機能していません"
+
+#~ msgid "Multiple Text Fields"
+#~ msgstr "複数のテキストフィールド"
+
+#~ msgid "First Item"
+#~ msgstr "最初の項目"
+
+#~ msgid "Second Item"
+#~ msgstr "2つ目の項目"
+
+#~ msgid "Repeatable Text Fields"
+#~ msgstr "リピータブルのテキストフィールド"
+
+#~ msgid "Sortable Text Fields"
+#~ msgstr "そーたブルのテキストフィールド"
+
+#~ msgid "Single Text Area"
+#~ msgstr "テキストエリア"
+
+#~ msgid "Repeatable Text Areas"
+#~ msgstr "リピータブルのテキストエリア"
+
+#~ msgid "Multiple Text Areas"
+#~ msgstr "複数のテキストエリア"
+
+#~ msgid "First Text Area: "
+#~ msgstr "１番目のテキストエリア"
+
+#~ msgid "Second Text Area: "
+#~ msgstr "２番目のテキストエリア"
+
+#~ msgid "Third Text Area: "
+#~ msgstr "三番目のテキストエリア"
+
+#~ msgid "Repeatable Rich Text Editor"
+#~ msgstr "リピータブルのリッチテキストエディタ"
+
+#~ msgid "Dropdown List with Groups"
+#~ msgstr "グループ別けされたドロップダウンリスト"
+
+#~ msgid "Multiple Dropdown Lists Fields"
+#~ msgstr "複数のドロップダウンリストフィールド"
+
+#~ msgid "Repeatable Dropdown List"
+#~ msgstr "リピータブルのドロップダウンリスト"
+
+#~ msgid "Repeatable Radio Buttons"
+#~ msgstr "リピータブルのラジオボタン"
+
+#~ msgid "Single Checkbox"
+#~ msgstr "シングルチェックボックス"
+
+#~ msgid "Multiple Checkbox Items"
+#~ msgstr "複数のチェックボックス項目"
+
+#~ msgid "Multiple Sets of Checkboxes"
+#~ msgstr "複数のチェックボックスセット"
+
+#~ msgid "Repeatable Checkboxes"
+#~ msgstr "リピータブルのチェックボックス"
+
+#~ msgid "Repeatable Size Fields"
+#~ msgstr "リピータブルのサイズフィールド"
+
+#~ msgid "First Image"
+#~ msgstr "1番目の画像"
+
+#~ msgid "Second Image"
+#~ msgstr "2番目の画像"
+
+#~ msgid "Third Image"
+#~ msgstr "3番目の画像"
+
+#~ msgid "Repeatable Image Fields"
+#~ msgstr "リピータブルのイメージフィールド"
+
+#~ msgid "Sortable Image Fields"
+#~ msgstr "ソータブルのイメージフィールド"
+
+#~ msgid "Repeatable & Sortable Images"
+#~ msgstr "リピータブル&ソータブルの画像"
+
+#~ msgid "Repeatable Media Files"
+#~ msgstr "リピータブルのメディアファイル"
+
+#~ msgid "Sortable Media Files"
+#~ msgstr "ソータブルなメディアファイル"
+
+#~ msgid "Single File Upload"
+#~ msgstr "ファイルアップロードのサンプル"
+
+#~ msgid "Multiple File Uploads"
+#~ msgstr "複数のファイルアップロード"
+
+#~ msgid "First File"
+#~ msgstr "最初のファイル"
+
+#~ msgid "Second File"
+#~ msgstr "2番目のファイル"
+
+#~ msgid "Third File"
+#~ msgstr "3番目のファイル"
+
+#~ msgid "Repeatable File Uploads"
+#~ msgstr "リピータブルのファイルアップロード"
+
+#~ msgid "Repeatable Post Type Fields"
+#~ msgstr "リピータブルポストタイプフィールド"
+
+#~ msgid "Multiple Taxonomy Fields"
+#~ msgstr "複数の分類フィールド"
+
+#~ msgid "Repeatable Taxonomy Fields"
+#~ msgstr "リピータブルの分類フィールド"
+
+#~ msgid "Multiple Color Pickers"
+#~ msgstr "フクスのカラーピッカー"
+
+#~ msgid "First Color"
+#~ msgstr "最初の色"
+
+#~ msgid "Second Color"
+#~ msgstr "2番目の色"
+
+#~ msgid "Third Color"
+#~ msgstr "3番目の色"
+
+#~ msgid "Single Hidden Field"
+#~ msgstr "一つの隠しィールド"
+
+#~ msgid "Repeatable Hidden Fields"
+#~ msgstr "リピータブルの隠しフィールド"
+
+#~ msgid "Hidden Field 1"
+#~ msgstr "隠しフィールド1"
+
+#~ msgid "Hidden Field 2"
+#~ msgstr "隠しフィールド2"
+
+#~ msgid "Hidden Field 3"
+#~ msgstr "隠しフィールド3"
+
+#~ msgid "Check me."
+#~ msgstr "チェックミー。"
+
+#~ msgid "Earth (this option is disabled.)"
+#~ msgstr "地球 (このオプションは無効化されています。)"
+
+#~ msgid "Repeatable Color Picker Fields"
+#~ msgstr "リピータブルのカラーピッカーフィルド"
+
+#~ msgid "Check box's label can be a string, not an array."
+#~ msgstr "チェックボックのラベルは配列に加え文字列も可能です。"
+
+#, fuzzy
+#~ msgid "The method is not defined: %1$s"
+#~ msgstr "次のメソッドは定義されていません: %1$s"
+
+#~ msgid "title"
+#~ msgstr "タイトル"
+
+#~ msgid "author"
+#~ msgstr "作成者"
+
+#~ msgid "date"
+#~ msgstr "日付"
+
+#~ msgid "show_all"
+#~ msgstr "全て表示"
+
+#~ msgid "import_error"
+#~ msgstr "インポートエラー"
+
+#~ msgid "uploaded_file_type_not_supported"
+#~ msgstr "uploaded_file_type_not_supported"
+
+#~ msgid "could_not_load_importing_data"
+#~ msgstr "could_not_load_importing_data"
+
+#~ msgid "not_imported_data"
+#~ msgstr "not_imported_data"
+
+#~ msgid "imported_data"
+#~ msgstr "データはインポートされました"
+
+#~ msgid "nonce_verification_failed"
+#~ msgstr "nonce_verification_failed"
+
+#~ msgid "option_cleared"
+#~ msgstr "option_cleared"
+
+#~ msgid "option_updated"
+#~ msgstr "option_updated"
+
+#~ msgid "reset_options"
+#~ msgstr "reset_options"
+
+#~ msgid "confirm_perform_task"
+#~ msgstr "confirm_perform_task"
+
+#~ msgid "specified_option_been_deleted"
+#~ msgstr "specified_option_been_deleted"
+
+#~ msgid "powered_by"
+#~ msgstr "Powered by"
+
+#~ msgid "use_this_image"
+#~ msgstr "この画像を使う"
+
+#~ msgid "add"
+#~ msgstr "追加"
+
+#~ msgid "remove"
+#~ msgstr "削除"
+
+#~ msgid "allowed_maximum_number_of_fields"
+#~ msgstr "allowed_maximum_number_of_fields"
+
+#~ msgid "allowed_minimum_number_of_fields"
+#~ msgstr "allowed_minimum_number_of_fields"
+
+#~ msgid "allowed_maximum_number_of_sections"
+#~ msgstr "allowed_maximum_number_of_sections"
+
+#, fuzzy
+#~ msgid "allowed_minimum_number_of_sections"
+#~ msgstr "最小( 0) 個 のセクションが使用できます。"
+
+#~ msgid "add_section"
+#~ msgstr "セクションの追加"
+
+#~ msgid "remove_section"
+#~ msgstr "セクションの削除"
+
+#~ msgid "settings"
+#~ msgstr "設定"
+
+#~ msgid "manage"
+#~ msgstr "編集"
+
+#~ msgid "upload_image"
+#~ msgstr "画像アップロード"
+
+#~ msgid "select_image"
+#~ msgstr "画像を選択"
+
+#~ msgid "submit"
+#~ msgstr "送信"
+
+#~ msgid "export"
+#~ msgstr "エクスポート"
+
+#~ msgid "import"
+#~ msgstr "インポート"
+
+#~ msgid "upload_file"
+#~ msgstr "ファイルをアップロード"
+
+#~ msgid "use_this_file"
+#~ msgstr "このファイルを使う"
+
+#~ msgid "select_file"
+#~ msgstr "ファイルを選択"
+
+#~ msgid "The options have been updated."
+#~ msgstr "オプションが更新されました。"
+
+#~ msgid "The options have been cleared."
+#~ msgstr "オプションが削除されました。"
+
+#~ msgid "Export"
+#~ msgstr "エクスポート"
+
+#~ msgid "Export Options"
+#~ msgstr "エクスポートオプション"
+
+#~ msgid "Import"
+#~ msgstr "インポート"
+
+#~ msgid "Submit"
+#~ msgstr "送信"
+
+#, fuzzy
+#~ msgid "An error occurred while uploading the import file."
+#~ msgstr "インポートファイルのアップロードの最中にエラーが生じました。"
+
+#, fuzzy
+#~ msgid "The uploaded file type is not supported: %1$s"
+#~ msgstr "アップロードされたファイルタイプはサポートされていません： %1$s"
+
+#~ msgid "Could not load the importing data."
+#~ msgstr "インポートデータが読み込めませんでした:"
+
+#, fuzzy
+#~ msgid "The uploaded file has been imported."
+#~ msgstr "アップロードされたファイルはインポートされました。"
+
+#~ msgid "No data could be imported."
+#~ msgstr "何もインポートできませんでした:"
+
+#~ msgid "Upload Image"
+#~ msgstr "画像のアップロード"
+
+#~ msgid "Use This Image"
+#~ msgstr "この画像を使う"
+
+#~ msgid "Are you sure you want to reset the options?"
+#~ msgstr "本当にオプションをリセットしますか？"
+
+#, fuzzy
+#~ msgid "Please confirm if you want to perform the specified task."
+#~ msgstr "指定されたタスクを実行することをご確認下さい。"
+
+#, fuzzy
+#~ msgid "The specified options have been deleted."
+#~ msgstr "指定された設定は消去されました。"
+
+#, fuzzy
+#~ msgid "A problem occurred while processing the form data. Please try again."
+#~ msgstr ""
+#~ "フォームの送信データを処理中に問題が発生しました。もう一度お試しください。"
+
+#~ msgid "Categories"
+#~ msgstr "カテゴリー"
+
+#~ msgid "Tags"
+#~ msgstr "タグ"
+
+#~ msgid "Comments"
+#~ msgstr "コメント"
+
+#~ msgid "Show All"
+#~ msgstr "全て表示"
+
+#~ msgid "Powered by"
+#~ msgstr "Powered by"
+
+#~ msgid "Settings"
+#~ msgstr "設定"
+
+#~ msgid "Manage"
+#~ msgstr "編集"
+
+#~ msgid "Select Image"
+#~ msgstr "画像を選択"
+
+#~ msgid "Upload File"
+#~ msgstr "ファイルのアップロード"
+
+#~ msgid "Use This File"
+#~ msgstr "このファイルを使う"
+
+#~ msgid "Select File"
+#~ msgstr "ファイルを選択"
+
+#, fuzzy
+#~ msgid "%s queries in %s seconds."
+#~ msgstr "queries_in_seconds"
+
+#, fuzzy
+#~ msgid "%s out of %s MB (%s) memory used."
+#~ msgstr "%2$s 中 %1$s (%3$s) メモリ使用。"
+
+#, fuzzy
+#~ msgid "Peak memory usage %s MB."
+#~ msgstr "%1$s ピークメモリ使用量。"
+
+#, fuzzy
+#~ msgid "Initial memory usage  %s MB."
+#~ msgstr "%1$s 初期メモリ使用量。"
+
+#~ msgid "The allowed maximum number of fields is {0}."
+#~ msgstr "最大{0}個 のフィールドが使用できます。"
+
+#~ msgid "The allowed minimum number of fields is {0}."
+#~ msgstr "最小{0}個 のフィールドが使用できます。"
+
+#~ msgid "Add"
+#~ msgstr "追加"
+
+#~ msgid "Remove"
+#~ msgstr "削除"
+
+#~ msgid "The allowed maximum number of sections is {0}"
+#~ msgstr "最大{0}個 のセクションが使用できます。"
+
+#~ msgid "The allowed minimum number of sections is {0}"
+#~ msgstr "最小{0}個 のセクションが使用できます。"
+
+#~ msgid "Add Section"
+#~ msgstr "セクションの追加"
+
+#~ msgid "Remove Section"
+#~ msgstr "セクションの削除"
+
+#~ msgid "queries_in_seconds"
+#~ msgstr "queries_in_seconds"
+
+#~ msgid "out_of_x_memory_used"
+#~ msgstr "out_of_x_memory_used"
+
+#~ msgid "peak_memory_usage"
+#~ msgstr "peak_memory_usage"
+
+#~ msgid "initial_memory_usage"
+#~ msgstr "initial_memory_usage"

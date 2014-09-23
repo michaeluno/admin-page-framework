@@ -49,7 +49,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
 
 		$_aGet = $_GET;
 		unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
-		$this->aDefaultKeys['settings']		= $this->getQueryAdminURL( array( 'request' => 'autocomplete' ) + $_aGet );
+		$this->aDefaultKeys['settings']		= $this->getQueryAdminURL( array( 'request' => 'autocomplete', 'post_type' => 'post' ) + $_aGet );
 		$this->aDefaultKeys['settings2']	= array(
 			'hintText'	=>	__( 'Type the title of posts.', 'admin-page-framework-demo' ),
 		);
@@ -146,7 +146,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
             }	
             $_aArgs['post_status']	= preg_split( "/[,]\s*/", trim( ( string ) $_aArgs['post_status'] ), 0, PREG_SPLIT_NO_EMPTY );
             $_aArgs['q'] = $_GET['q'] ;
-
+AdminPageFramework_Debug::log( $_aArgs );
             // Set the callback to modify the database query string.
             add_filter( 'posts_where', array( $this, '_replyToModifyMySQLWhereClauseToSearchPosts' ), 10, 2 );
             $_oResults = new WP_Query( $_aArgs );					

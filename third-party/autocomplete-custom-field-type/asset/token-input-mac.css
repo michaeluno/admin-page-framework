@@ -4,7 +4,7 @@ fieldset.token-input-mac {
   padding: 0;
   margin: 5px 0;
   background: #fff;
-  width: 400px;
+  /* width: 400px; */
   border: 1px solid #A4BDEC;
   border-radius: 10px;
   -moz-border-radius: 10px;

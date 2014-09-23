@@ -1,0 +1,2693 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Page Framework - Demo\n"
+"POT-Creation-Date: 2014-09-21 00:41+0900\n"
+"PO-Revision-Date: 2014-09-21 00:41+0900\n"
+"Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: third-party\n"
+"X-Poedit-SearchPath-1: example\n"
+
+#: third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php:54
+msgid "Type the title of posts."
+msgstr ""
+
+#: third-party/date-time-custom-field-types/DateRangeCustomFieldType.php:226
+#: third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php:228
+#: third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php:228
+msgid "From"
+msgstr ""
+
+#: third-party/date-time-custom-field-types/DateRangeCustomFieldType.php:227
+#: third-party/date-time-custom-field-types/DateTimeRangeCustomFieldType.php:229
+#: third-party/date-time-custom-field-types/TimeRangeCustomFieldType.php:229
+msgid "To"
+msgstr ""
+
+#: third-party/font-custom-field-type/FontCustomFieldType.php:72
+#: third-party/font-custom-field-type/FontCustomFieldType.php:106
+msgid "Upload Font"
+msgstr ""
+
+#: third-party/font-custom-field-type/FontCustomFieldType.php:73
+#: third-party/font-custom-field-type/FontCustomFieldType.php:107
+msgid "Use This Font"
+msgstr ""
+
+#: third-party/font-custom-field-type/FontCustomFieldType.php:564
+msgid "Select Font"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:143
+msgid "Google Maps"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:145
+msgid "Update Map"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:148
+msgid "Latitude"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:152
+msgid "Longitude"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:156
+msgid "Elevation"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:158
+msgid "metres"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:161
+msgid "Location Name"
+msgstr ""
+
+#: third-party/geometry-custom-field-type/GeometryCustomFieldType.php:165
+msgid "zoom"
+msgstr ""
+
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:270
+#, php-format
+msgid "Follow @%1$s"
+msgstr ""
+
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:272
+#: example/APF_Demo_CustomFieldTypes.php:895
+msgid "Watch"
+msgstr ""
+
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:274
+#: example/APF_Demo_CustomFieldTypes.php:870
+msgid "Star"
+msgstr ""
+
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:276
+#: example/APF_Demo_CustomFieldTypes.php:920
+msgid "Fork"
+msgstr ""
+
+#: third-party/github-custom-field-type/GitHubCustomFieldType.php:278
+#: example/APF_Demo_CustomFieldTypes.php:945
+msgid "Issue"
+msgstr ""
+
+#: third-party/grid-custom-field-type/GridCustomFieldType.php:149
+msgid "Add Widget"
+msgstr ""
+
+#: third-party/link-custom-field-type/LinkCustomFieldType.php:193
+msgid "Select Link"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:209
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:213
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:233
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:255
+msgid "Version"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:210
+msgid "Minified"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:214
+msgid "Language"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:215
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:235
+msgid "Memory Limit"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:216
+msgid "Multi-site"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:217
+msgid "Permalink Structure"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:218
+msgid "Active Theme"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:219
+msgid "Registered Post Statuses"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:223
+msgid "Table Prefix"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:224
+msgid "Table Prefix Length"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:225
+msgid "Table Prefix Status"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:225
+msgid "Too Long"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:225
+msgid "Acceptable"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:227
+msgid "WP_CONTENT_DIR Writable"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:228
+msgid "Active Plugins"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:229
+msgid "Network Active Plugins"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:234
+msgid "Safe Mode"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:236
+msgid "Upload Max Size"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:237
+msgid "Post Max Size"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:238
+msgid "Upload Max File Size"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:239
+msgid "Max Execution Time"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:240
+msgid "Max Input Vars"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:241
+msgid "Argument Separator"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:242
+msgid "Allow URL File Open"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:243
+msgid "Display Errors"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:244
+msgid "Log Errors"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:245
+msgid "Error log location"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:246
+msgid "Error Reporting Level"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:247
+msgid "FSOCKOPEN"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:248
+msgid "cURL"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:249
+msgid "SOAP"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:250
+msgid "SUHOSIN"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:258
+msgid "Web Server"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:260
+msgid "Session"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:261
+msgid "Session Name"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:262
+msgid "Session Cookie Path"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:263
+msgid "Session Save Path"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:264
+msgid "Session Use Cookies"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:265
+msgid "Session Use Only Cookies"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:306
+msgid "Yes"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:307
+msgid "No"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:311
+msgid "Enabled"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:312
+msgid "Disabled"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:316
+msgid "On"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:317
+msgid "Off"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:321
+msgid "Supported"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:322
+msgid "Not supported"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:326
+msgid "Functional"
+msgstr ""
+
+#: third-party/system-custom-field-type/SystemCustomFieldType.php:327
+msgid "Not functional"
+msgstr ""
+
+#: example/APF_BasicUsage.php:16
+msgid "First Page"
+msgstr ""
+
+#: example/APF_BasicUsage.php:20
+msgid "Second Page"
+msgstr ""
+
+#: example/APF_BasicUsage.php:46
+msgid "do_ + {...} Action Hooks"
+msgstr ""
+
+#: example/APF_BasicUsage.php:47
+msgid ""
+"Hi there! This text message is inserted by the <code>do_{page slug}</code> "
+"action hook and the callback method."
+msgstr ""
+
+#: example/APF_BasicUsage.php:58
+msgid "content_ + {...} Filter Hooks"
+msgstr ""
+
+#: example/APF_BasicUsage.php:60
+msgid ""
+"This message is inserted with the <code>content_{page slug}</code> filter."
+msgstr ""
+
+#: example/APF_BasicUsage.php:62
+msgid "Saved Options"
+msgstr ""
+
+#: example/APF_Demo.php:31 example/APF_Demo.php:70
+#: example/APF_NetworkAdmin.php:18
+msgid "Built-in Field Types"
+msgstr ""
+
+#: example/APF_Demo.php:52 example/APF_NetworkAdmin.php:91
+msgid ""
+"This contextual help text can be set with the <code>addHelpTab()</code> "
+"method."
+msgstr ""
+
+#: example/APF_Demo.php:53 example/APF_NetworkAdmin.php:92
+msgid "This is placed in the sidebar of the help pane."
+msgstr ""
+
+#: example/APF_Demo.php:102 example/APF_Demo_ManageOptions.php:150
+#: example/APF_Demo_ManageOptions.php:205
+#: example/APF_MetaBox_BuiltinFieldTypes.php:202
+#: example/APF_MetaBox_BuiltinFieldTypes.php:245
+#: example/APF_NetworkAdmin.php:42
+#: example/APF_NetworkAdmin_ManageOptions.php:140
+#: example/APF_NetworkAdmin_ManageOptions.php:195 example/APF_PostType.php:127
+#: example/builtin-field-examples.php:10
+#: example/builtin-field-examples.php:1072
+#: example/builtin-field-examples.php:1104
+#: example/builtin-field-examples.php:1146
+msgid "Text"
+msgstr ""
+
+#: example/APF_Demo.php:107 example/APF_MetaBox_BuiltinFieldTypes.php:23
+#: example/APF_NetworkAdmin.php:47
+msgid "Selectors"
+msgstr ""
+
+#: example/APF_Demo.php:111 example/APF_NetworkAdmin.php:51
+msgid "Files"
+msgstr ""
+
+#: example/APF_Demo.php:115 example/APF_NetworkAdmin.php:55
+msgid "Checklist"
+msgstr ""
+
+#: example/APF_Demo.php:119 example/APF_MetaBox_BuiltinFieldTypes.php:28
+#: example/APF_NetworkAdmin.php:59
+msgid "MISC"
+msgstr ""
+
+#: example/APF_Demo.php:123 example/APF_NetworkAdmin.php:63
+msgid "Verification"
+msgstr ""
+
+#: example/APF_Demo.php:127 example/APF_NetworkAdmin.php:67
+msgid "Mixed"
+msgstr ""
+
+#: example/APF_Demo.php:131 example/APF_NetworkAdmin.php:71
+msgid "Sections"
+msgstr ""
+
+#: example/APF_Demo.php:135
+msgid "Callbacks"
+msgstr ""
+
+#: example/APF_Demo.php:152 example/APF_NetworkAdmin.php:128
+msgid "Text Fields"
+msgstr ""
+
+#: example/APF_Demo.php:153 example/APF_NetworkAdmin.php:129
+msgid "These are text type fields."
+msgstr ""
+
+#: example/APF_Demo.php:159 example/APF_NetworkAdmin.php:135
+msgid "Selectors and Checkboxes"
+msgstr ""
+
+#: example/APF_Demo.php:160 example/APF_NetworkAdmin.php:136
+msgid ""
+"These are selector type options such as dropdown lists, radio buttons, and "
+"checkboxes."
+msgstr ""
+
+#: example/APF_Demo.php:165 example/APF_NetworkAdmin.php:141
+msgid "Sizes"
+msgstr ""
+
+#: example/APF_Demo.php:170 example/APF_NetworkAdmin.php:146
+msgid "Image Selector"
+msgstr ""
+
+#: example/APF_Demo.php:171 example/APF_NetworkAdmin.php:147
+msgid "Set an image url with jQuwey based image selector."
+msgstr ""
+
+#: example/APF_Demo.php:176 example/APF_NetworkAdmin.php:152
+msgid "Colors"
+msgstr ""
+
+#: example/APF_Demo.php:181 example/APF_NetworkAdmin.php:157
+msgid "Media Uploader"
+msgstr ""
+
+#: example/APF_Demo.php:182 example/APF_NetworkAdmin.php:158
+msgid "Upload binary files in addition to images."
+msgstr ""
+
+#: example/APF_Demo.php:187 example/APF_NetworkAdmin.php:163
+msgid "Checklists"
+msgstr ""
+
+#: example/APF_Demo.php:188 example/APF_NetworkAdmin.php:164
+msgid "Post type and taxonomy checklists ( custom checkbox )."
+msgstr ""
+
+#: example/APF_Demo.php:193 example/APF_NetworkAdmin.php:169
+msgid "Hidden Fields"
+msgstr ""
+
+#: example/APF_Demo.php:194 example/APF_NetworkAdmin.php:170
+msgid "These are hidden fields."
+msgstr ""
+
+#: example/APF_Demo.php:199 example/APF_NetworkAdmin.php:175
+msgid "File Uploads"
+msgstr ""
+
+#: example/APF_Demo.php:200 example/APF_NetworkAdmin.php:176
+msgid ""
+"These are upload fields. Check the <code>$_FILES</code> variable in the "
+"validation callback method that indicates the temporary location of the "
+"uploaded files."
+msgstr ""
+
+#: example/APF_Demo.php:205 example/APF_NetworkAdmin.php:181
+msgid "Submit Buttons"
+msgstr ""
+
+#: example/APF_Demo.php:206 example/APF_NetworkAdmin.php:182
+msgid "These are custom submit buttons."
+msgstr ""
+
+#: example/APF_Demo.php:211 example/APF_NetworkAdmin.php:187
+msgid "Verify Submitted Data"
+msgstr ""
+
+#: example/APF_Demo.php:212 example/APF_NetworkAdmin.php:188
+msgid "Show error messages when the user submits improper option value."
+msgstr ""
+
+#: example/APF_Demo.php:217
+msgid "Section Verification"
+msgstr ""
+
+#: example/APF_Demo.php:218
+msgid "Show error messages of the entire section."
+msgstr ""
+
+#: example/APF_Demo.php:223 example/APF_NetworkAdmin.php:193
+msgid "Mixed Field Types"
+msgstr ""
+
+#: example/APF_Demo.php:224 example/APF_NetworkAdmin.php:194
+msgid ""
+"As of v3, it is possible to mix field types in one field on a per-ID basis."
+msgstr ""
+
+#: example/APF_Demo.php:229 example/APF_NetworkAdmin.php:199
+msgid "Section Title"
+msgstr ""
+
+#: example/APF_Demo.php:230 example/APF_NetworkAdmin.php:200
+msgid ""
+"The <code>section_title</code> field type will be placed in the position of "
+"the section title if set. If not set, the set section title will be placed. "
+"Only one <code>section_title</code> field is allowed per section."
+msgstr ""
+
+#: example/APF_Demo.php:235 example/APF_NetworkAdmin.php:205
+msgid "Repeatable Sections"
+msgstr ""
+
+#: example/APF_Demo.php:236 example/APF_NetworkAdmin.php:206
+msgid "As of v3, it is possible to repeat sections."
+msgstr ""
+
+#: example/APF_Demo.php:242 example/APF_MetaBox_BuiltinFieldTypes.php:36
+#: example/APF_NetworkAdmin.php:212
+msgid "Section Tab A"
+msgstr ""
+
+#: example/APF_Demo.php:243 example/APF_MetaBox_BuiltinFieldTypes.php:37
+#: example/APF_NetworkAdmin.php:213
+msgid "This is the first item of the tabbed section."
+msgstr ""
+
+#: example/APF_Demo.php:247 example/APF_MetaBox_BuiltinFieldTypes.php:41
+#: example/APF_NetworkAdmin.php:217
+msgid "Section Tab B"
+msgstr ""
+
+#: example/APF_Demo.php:248 example/APF_MetaBox_BuiltinFieldTypes.php:42
+#: example/APF_NetworkAdmin.php:218
+msgid "This is the second item of the tabbed section."
+msgstr ""
+
+#: example/APF_Demo.php:254 example/APF_Demo_CustomFieldTypes.php:263
+#: example/APF_Demo_CustomFieldTypes.php:521
+#: example/APF_Demo_CustomFieldTypes.php:552
+#: example/APF_Demo_CustomFieldTypes.php:789
+#: example/APF_MetaBox_BuiltinFieldTypes.php:48
+#: example/APF_NetworkAdmin.php:224
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:195
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:341
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:372
+#: example/builtin-field-examples.php:79
+#: example/builtin-field-examples.php:134
+#: example/builtin-field-examples.php:206
+#: example/builtin-field-examples.php:317
+#: example/builtin-field-examples.php:404
+#: example/builtin-field-examples.php:509
+#: example/builtin-field-examples.php:626
+#: example/builtin-field-examples.php:686
+#: example/builtin-field-examples.php:737
+#: example/builtin-field-examples.php:771
+#: example/builtin-field-examples.php:807
+#: example/builtin-field-examples.php:841
+#: example/builtin-field-examples.php:874
+#: example/builtin-field-examples.php:900
+#: example/builtin-field-examples.php:1078
+#: example/builtin-field-examples.php:1110
+#: example/builtin-field-examples.php:1152
+msgid "Repeatable"
+msgstr ""
+
+#: example/APF_Demo.php:255 example/APF_MetaBox_BuiltinFieldTypes.php:49
+#: example/APF_NetworkAdmin.php:225
+msgid "It is possible to tab repeatable sections."
+msgstr ""
+
+#: example/APF_Demo.php:264
+msgid "Using Callbacks"
+msgstr ""
+
+#: example/APF_Demo.php:265
+msgid "These fields are (re)defined with callbacks."
+msgstr ""
+
+#: example/APF_Demo.php:288
+msgid "Post Titles"
+msgstr ""
+
+#: example/APF_Demo.php:289
+#, php-format
+msgid ""
+"This description is inserted with the callback method: <code>%1$s</code>."
+msgstr ""
+
+#: example/APF_Demo.php:296
+msgid "APF Custom Post Titles"
+msgstr ""
+
+#: example/APF_Demo.php:340 example/APF_NetworkAdmin.php:288
+msgid "The value must be numeric:"
+msgstr ""
+
+#: example/APF_Demo.php:350 example/APF_Demo.php:376
+#: example/APF_NetworkAdmin.php:298
+msgid "There was something wrong with your input."
+msgstr ""
+
+#: example/APF_Demo.php:370
+msgid "At least one item must be set"
+msgstr ""
+
+#: example/APF_Demo.php:401 example/APF_NetworkAdmin.php:318
+msgid "<h3>File(s) Uploaded</h3>"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:74
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:22
+msgid "Custom Field Types"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:114
+#: example/APF_MetaBox_CustomFieldTypes.php:52
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:35
+msgid "Geometry"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:118
+#: example/APF_Demo_CustomFieldTypes.php:318
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:39
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:229
+#: example/APF_Widget_CustomFieldTypes.php:65
+msgid "Date & Time"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:122
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:43
+msgid "Dials"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:126
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:47
+msgid "Fonts"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:130
+#: example/APF_Demo_CustomFieldTypes.php:571
+#: example/APF_Demo_CustomFieldTypes.php:588
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:51
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:391
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:408
+msgid "Sample"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:134
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:55
+msgid "Revealer"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:138
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:59
+msgid "Grid"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:142
+msgid "Autocomplete"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:146
+msgid "Links"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:150
+msgid "System"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:154
+msgid "GitHub"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:169
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:116
+msgid "Geometry Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:170
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:117
+msgid "This is a custom field type defined externally."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:175
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:122
+msgid "Date Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:176
+msgid "We have date and time pickers."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:181
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:128
+msgid "Dial Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:186
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:133
+msgid "Font Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:187
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:134
+msgid "This is still experimental."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:192
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:139
+msgid "Sample Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:193
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:140
+msgid ""
+"This is just an example of creating a custom field type with Admin Page "
+"Framework."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:198
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:145
+msgid "Revealer Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:199
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:146
+msgid ""
+"When the user selects an item from the selector, it reveals one of the "
+"predefined fields."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:204
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:151
+msgid "Grid Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:205
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:152
+msgid "This field will save the grid positions of the widgets."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:210
+msgid "Autocomplete Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:211
+msgid ""
+"This field will show predefined list when the user type something on the "
+"input field."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:216
+msgid "Link Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:217
+msgid "Allows to insert page and post links."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:222
+msgid "System Custom Field Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:223
+msgid "Displays the system information."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:228
+msgid "GitHub Buttons"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:242
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:165
+msgid "Geometrical Coordinates"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:244
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:167
+msgid "Get the coordinates from the map."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:257
+#: example/APF_MetaBox_CustomFieldTypes.php:57
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:178
+#: example/APF_PostType.php:113
+msgid "Date"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:269
+msgid "Notice that the multiple panels are shown."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:274
+#: example/APF_Demo_CustomFieldTypes.php:305
+#: example/APF_Demo_CustomFieldTypes.php:372
+#: example/APF_Demo_CustomFieldTypes.php:527
+#: example/APF_Demo_CustomFieldTypes.php:558
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:201
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:221
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:260
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:347
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:378
+#: example/builtin-field-examples.php:92
+#: example/builtin-field-examples.php:147
+#: example/builtin-field-examples.php:330
+#: example/builtin-field-examples.php:415
+#: example/builtin-field-examples.php:516
+#: example/builtin-field-examples.php:632
+#: example/builtin-field-examples.php:698
+#: example/builtin-field-examples.php:743
+#: example/builtin-field-examples.php:880
+msgid "Sortable"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:280
+msgid "The option can be passed as a string."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:287
+#: example/APF_MetaBox_CustomFieldTypes.php:79
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:209
+msgid "Time"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:293
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:215
+msgid "Repeatable Time Fields"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:300
+msgid "The grid option is set."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:311
+msgid "The maximum and minimum hours are set."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:325
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:236
+msgid "Multiple Date and Time"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:326
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:237
+msgid "With different time formats"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:327
+#: example/APF_Demo_CustomFieldTypes.php:453
+#: example/APF_Demo_CustomFieldTypes.php:725
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:238
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:273
+msgid "Default"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:335
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:243
+msgid "AM PM"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:339
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:247
+msgid "Time Zone"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:343
+msgid "Number Of Months"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:349
+msgid "Min & Max Dates"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:360
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:254
+msgid "Repeatable Date & Time Fields"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:382
+msgid "Eastern"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:386
+msgid "Central"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:390
+msgid "Mountain"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:394
+msgid "Pacific"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:403
+msgid "Date Range"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:408
+msgid "Repeatable Date Range"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:418
+msgid "Date Time Range"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:423
+msgid "Repeatable Date Time Range"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:434
+msgid "Time Range"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:439
+msgid "Repeatable Time Range"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:451
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:271
+msgid "Multiple Dials"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:460
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:280
+msgid "Disable display input"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:468
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:288
+msgid "Cursor mode"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:477
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:297
+msgid "Display previous value (effect)"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:485
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:305
+msgid "Angle offset"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:492
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:312
+msgid "Angle offset and arc"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:500
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:320
+msgid "5-digit values, step 1000"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:512
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:332
+msgid "Big"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:546
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:366
+msgid "Font Upload"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:548
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:368
+msgid "Set the URL of the font."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:572
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:392
+msgid ""
+"This sample custom field demonstrates how to display a certain element after "
+"selecting a radio button."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:575
+#: example/APF_Demo_CustomFieldTypes.php:591
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:395
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:411
+#: example/builtin-field-examples.php:226
+msgid "Red"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:576
+#: example/APF_Demo_CustomFieldTypes.php:592
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:396
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:412
+#: example/builtin-field-examples.php:227
+msgid "Blue"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:577
+#: example/APF_Demo_CustomFieldTypes.php:593
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:397
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:413
+msgid "Green"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:580
+#: example/APF_Demo_CustomFieldTypes.php:596
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:400
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:416
+msgid "You selected red!"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:581
+#: example/APF_Demo_CustomFieldTypes.php:597
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:401
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:417
+msgid "You selected blue!"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:582
+#: example/APF_Demo_CustomFieldTypes.php:598
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:402
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:418
+msgid "You selected green!"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:608
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:428
+msgid "Reveal Hidden Fields"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:611
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:431
+msgid "-- Select a Field --"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:612
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:432
+msgid "Option A"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:613
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:433
+msgid "Option B and C"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:615
+msgid ""
+"Specify the selectors to reveal in the <code>label</code> argument keys in "
+"the field definition array."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:620
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:441
+msgid "Hi there!"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:626
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:448
+msgid "Type a password."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:632
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:455
+msgid "Type text."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:641
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:464
+msgid "Move the widgets."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:665
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:488
+msgid "Widgets can be expanded."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:697
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:520
+msgid "The base size can be different."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:726
+msgid ""
+"By default, all the post titles will be fetched in the background and will "
+"pop up."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:731
+msgid "Local Data"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:748
+msgid "Type a programming language."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:754
+msgid ""
+"Predefined items are Ruby, Python, JavaScript, ActionScript, Scheme, Lisp, "
+"C#, Fortran, Vidual Basic, C, C++, Java."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:759
+msgid "Custom Post Type"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:767
+msgid ""
+"To set a custom post type, you need to construct the query url. This field "
+"is for the titles of this demo plugin's custom post type."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:772
+msgid "Mixed Post Types"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:784
+msgid ""
+"To search from multiple post types use the <code>post_types</code> argument "
+"(not <code>post_type</code>) and pass comma delimited post type slugs."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:795
+msgid "Search Users"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:805
+msgid "Type a user name."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:808
+msgid ""
+"To search users, pass the <code>user</code> to the <code>type</code> "
+"argument."
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:818
+msgid "Single Link"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:823
+msgid "Repeatable Links"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:834
+msgid "System Information"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:845
+msgid "Follow"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:846
+#: example/APF_Demo_CustomFieldTypes.php:871
+#: example/APF_Demo_CustomFieldTypes.php:896
+#: example/APF_Demo_CustomFieldTypes.php:921
+#: example/APF_Demo_CustomFieldTypes.php:946
+msgid "Small & Count"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:854
+#: example/APF_Demo_CustomFieldTypes.php:879
+#: example/APF_Demo_CustomFieldTypes.php:904
+#: example/APF_Demo_CustomFieldTypes.php:929
+#: example/APF_Demo_CustomFieldTypes.php:954
+msgid "Mega & Count"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:858
+#: example/APF_Demo_CustomFieldTypes.php:883
+#: example/APF_Demo_CustomFieldTypes.php:908
+#: example/APF_Demo_CustomFieldTypes.php:933
+#: example/APF_Demo_CustomFieldTypes.php:958
+msgid "Small"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:863
+#: example/APF_Demo_CustomFieldTypes.php:888
+#: example/APF_Demo_CustomFieldTypes.php:913
+#: example/APF_Demo_CustomFieldTypes.php:938
+#: example/APF_Demo_CustomFieldTypes.php:963
+msgid "Mega"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:970
+msgid "Custom Label"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:971
+msgid "Follow Me"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:983
+#: example/APF_Demo_CustomFieldTypes.php:990
+msgid "Download"
+msgstr ""
+
+#: example/APF_Demo_CustomFieldTypes.php:995
+msgid "Gist"
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:29
+msgid "Sample Page"
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:34
+msgid "Hidden Page"
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:50 example/APF_NetworkAdmin.php:252
+msgid ""
+"This is a sample page that has a link to a hidden page created by the "
+"framework."
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:52 example/APF_NetworkAdmin.php:254
+msgid "Go to Hidden Page"
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:57 example/APF_NetworkAdmin.php:259
+msgid "This is a hidden page."
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:58 example/APF_NetworkAdmin.php:260
+msgid ""
+"It is useful when you have a setting page that requires a proceeding page."
+msgstr ""
+
+#: example/APF_Demo_HiddenPage.php:60 example/APF_NetworkAdmin.php:262
+msgid "Go Back"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:20
+#: example/APF_NetworkAdmin_ManageOptions.php:16
+msgid "Manage Options"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:62
+#: example/APF_NetworkAdmin_ManageOptions.php:34
+msgid "Properties"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:66
+#: example/APF_NetworkAdmin_ManageOptions.php:38
+msgid "Messages"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:70
+#: example/APF_NetworkAdmin_ManageOptions.php:42
+msgid "Export / Import"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:74
+#: example/APF_NetworkAdmin_ManageOptions.php:46
+#: example/builtin-field-examples.php:989
+msgid "Reset"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:79
+#: example/APF_NetworkAdmin_ManageOptions.php:51
+msgid "Reset Confirmation"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:122
+#: example/APF_Demo_ManageOptions.php:124
+#: example/APF_Demo_ManageOptions.php:133
+#: example/APF_Demo_ManageOptions.php:135
+#: example/APF_NetworkAdmin_ManageOptions.php:112
+#: example/APF_NetworkAdmin_ManageOptions.php:114
+#: example/APF_NetworkAdmin_ManageOptions.php:123
+#: example/APF_NetworkAdmin_ManageOptions.php:125
+msgid "Delete Options"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:144
+#: example/APF_NetworkAdmin_ManageOptions.php:134
+msgid "Export Format Type"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:146
+#: example/APF_NetworkAdmin_ManageOptions.php:136
+msgid "Choose the file format. Array means the PHP serialized array."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:148
+#: example/APF_Demo_ManageOptions.php:174
+#: example/APF_Demo_ManageOptions.php:203
+#: example/APF_NetworkAdmin_ManageOptions.php:138
+#: example/APF_NetworkAdmin_ManageOptions.php:164
+#: example/APF_NetworkAdmin_ManageOptions.php:193
+msgid "JSON"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:149
+#: example/APF_Demo_ManageOptions.php:179
+#: example/APF_Demo_ManageOptions.php:204
+#: example/APF_NetworkAdmin_ManageOptions.php:139
+#: example/APF_NetworkAdmin_ManageOptions.php:169
+#: example/APF_NetworkAdmin_ManageOptions.php:194
+msgid "Serialized Array"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:158
+#: example/APF_NetworkAdmin_ManageOptions.php:148
+msgid "Download the saved option data."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:163
+#: example/APF_NetworkAdmin_ManageOptions.php:153
+msgid "Multiple Export Buttons"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:165
+#: example/APF_NetworkAdmin_ManageOptions.php:155
+msgid "Pain Text"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:183
+#: example/APF_NetworkAdmin_ManageOptions.php:173
+msgid ""
+"To set a file name, use the <code>file_name</code> argument in the field "
+"definition array."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:184
+#: example/APF_NetworkAdmin_ManageOptions.php:174
+msgid ""
+"To set the data format, use the <code>format</code> argument in the field "
+"definition array."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:189
+#: example/APF_NetworkAdmin_ManageOptions.php:179
+msgid "Custom Exporting Data"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:191
+#: example/APF_NetworkAdmin_ManageOptions.php:181
+msgid "Hello World! This is custom export data."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:193
+#: example/APF_NetworkAdmin_ManageOptions.php:183
+msgid "Export Custom Data"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:194
+#: example/APF_NetworkAdmin_ManageOptions.php:184
+msgid ""
+"It is possible to set custom data to be downloaded. For that, use the "
+"<code>data</code> argument in the field definition array."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:199
+#: example/APF_NetworkAdmin_ManageOptions.php:189
+msgid "Import Format Type"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:201
+#: example/APF_NetworkAdmin_ManageOptions.php:191
+msgid ""
+"The text format type will not set the option values properly. However, you "
+"can see that the text contents are directly saved in the database."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:212
+#: example/APF_NetworkAdmin_ManageOptions.php:202
+msgid "Single Import Field"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:214
+#: example/APF_NetworkAdmin_ManageOptions.php:204
+msgid "Upload the saved option data."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:215
+msgid "Import Options"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:227
+#: example/APF_NetworkAdmin_ManageOptions.php:218
+msgid "Saved Data"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:230
+#: example/APF_NetworkAdmin_ManageOptions.php:221
+#, php-format
+msgid ""
+"To retrieve the saved option values simply you can use the WordPress "
+"<code>get_option()</code> function. The key is the instantiated class name "
+"by default unless it is specified in the constructor. In this demo plugin, "
+"<code>%1$s</code>, is used as the option key."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:231
+#: example/APF_NetworkAdmin_ManageOptions.php:222
+#, php-format
+msgid ""
+"It is stored in the <code>$this->oProp-sOptionKey</code> class property so "
+"you may access it directly to confirm the value. So the required code would "
+"be <code>get_option( %1$s );</code>."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:232
+#: example/APF_NetworkAdmin_ManageOptions.php:223
+msgid ""
+"If you are retrieving them within the framework class, simply call <code>"
+"$this->oProp->aOptions</code>."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:237
+#: example/APF_NetworkAdmin_ManageOptions.php:228
+msgid ""
+"Alternatively, there is the <code>AdminPageFramework::getOption()</code> "
+"static method. This allows you to retrieve the array element by specifying "
+"the option key and the array key (field id or section id)."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:238
+#: example/APF_NetworkAdmin_ManageOptions.php:229
+msgid ""
+"Pass the option key to the first parameter and an array representing the "
+"dimensional keys to the second parameter"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:239
+msgid ""
+"<code>$aData = AdminPageFramework::getOption( 'APF_Demo', array"
+"( 'text_fields', 'text' ), 'default value' );</code> will retrieve the "
+"option array value of <code>$aArray['text_field']['text']</code>."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:240
+#: example/APF_NetworkAdmin_ManageOptions.php:231
+msgid ""
+"This method is merely to avoid multiple uses of <code>isset()</code> to "
+"prevent PHP warnings."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:241
+#: example/APF_NetworkAdmin_ManageOptions.php:232
+msgid ""
+"So if you already know how to retrieve a value of an array element, you "
+"don't have to use it."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:250
+#: example/APF_NetworkAdmin_ManageOptions.php:242
+msgid "Framework Properties"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:251
+#: example/APF_NetworkAdmin_ManageOptions.php:243
+msgid ""
+"These are the property values stored in the framework. Advanced users may "
+"change the property values by directly modifying the <code>$this->oProp</"
+"code> object."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:258
+#: example/APF_NetworkAdmin_ManageOptions.php:250
+msgid "Framework Messages"
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:259
+#: example/APF_NetworkAdmin_ManageOptions.php:251
+msgid ""
+"You can change the framework's defined internal messages by directly "
+"modifying the <code>$aMessages</code> array in the <code>oMsg</code> object."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:260
+#: example/APF_NetworkAdmin_ManageOptions.php:252
+msgid "The keys and the default values are listed below."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:312
+#: example/APF_NetworkAdmin_ManageOptions.php:304
+msgid "The text import type is not supported."
+msgstr ""
+
+#: example/APF_Demo_ManageOptions.php:316
+#: example/APF_NetworkAdmin_ManageOptions.php:308
+msgid "Importing options were validated."
+msgstr ""
+
+#: example/APF_Demo_Readme.php:20
+msgid "Read Me"
+msgstr ""
+
+#: example/APF_Demo_Readme.php:25
+msgid "Documentation"
+msgstr ""
+
+#: example/APF_Demo_Readme.php:81
+msgid "Description"
+msgstr ""
+
+#: example/APF_Demo_Readme.php:85
+msgid "Installation"
+msgstr ""
+
+#: example/APF_Demo_Readme.php:89
+msgid "FAQ"
+msgstr ""
+
+#: example/APF_Demo_Readme.php:93
+msgid "Other Notes"
+msgstr ""
+
+#: example/APF_Demo_Readme.php:97
+msgid "Change Log"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:13
+#: example/APF_MetaBox_For_Pages_Normal.php:13
+msgid "This text will appear in the contextual help pane."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:14
+#: example/APF_MetaBox_For_Pages_Normal.php:14
+msgid "This description goes to the sidebar of the help pane."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:24
+msgid "These are grouped in the <code>selectors</code> section."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:29
+msgid "These are grouped in the <code>misc</code> section."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:64
+#: example/APF_MetaBox_For_Pages_Normal.php:24
+#: example/APF_TaxonomyField.php:16
+msgid "Text Input"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:65
+msgid "Type more than two characters."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:66
+#: example/APF_MetaBox_For_Pages_Normal.php:26
+msgid "This is help text."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:67
+#: example/APF_MetaBox_For_Pages_Normal.php:27
+msgid ""
+"This is additional help text which goes to the side bar of the help pane."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:72
+#: example/APF_MetaBox_For_Pages_Normal.php:32
+#: example/APF_TaxonomyField.php:24 example/APF_Widget.php:42
+msgid "Text Repeatable"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:78
+#: example/APF_MetaBox_For_Pages_Normal.php:38
+#: example/APF_TaxonomyField.php:30 example/builtin-field-examples.php:122
+msgid "Text Area"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:79
+#: example/APF_MetaBox_BuiltinFieldTypes.php:100
+#: example/APF_MetaBox_BuiltinFieldTypes.php:107
+#: example/APF_MetaBox_BuiltinFieldTypes.php:119
+#: example/APF_MetaBox_BuiltinFieldTypes.php:131
+#: example/APF_MetaBox_BuiltinFieldTypes.php:152
+#: example/APF_MetaBox_For_Pages_Advanced.php:17
+#: example/APF_MetaBox_For_Pages_Advanced.php:24
+#: example/APF_MetaBox_For_Pages_Advanced.php:36
+#: example/APF_MetaBox_For_Pages_Advanced.php:48
+#: example/APF_MetaBox_For_Pages_Advanced.php:64
+#: example/APF_MetaBox_For_Pages_Normal.php:25
+#: example/APF_MetaBox_For_Pages_Normal.php:39
+#: example/APF_TaxonomyField.php:17 example/APF_TaxonomyField.php:31
+msgid "The description for the field."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:80
+#: example/APF_MetaBox_For_Pages_Normal.php:40
+#: example/APF_TaxonomyField.php:32
+msgid ""
+"This a <em>text area</em> input field, which is larger than the <em>text</"
+"em> input field."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:81
+#: example/APF_MetaBox_For_Pages_Normal.php:41
+#: example/APF_TaxonomyField.php:33
+msgid "This is a default text value."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:89
+msgid "Rich Text Editor"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:99
+#: example/APF_MetaBox_For_Pages_Advanced.php:16
+msgid "Checkbox Input"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:101
+#: example/APF_MetaBox_For_Pages_Advanced.php:18
+#: example/builtin-field-examples.php:433
+msgid "This is a check box."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:106
+#: example/APF_MetaBox_For_Pages_Advanced.php:23
+msgid "Select Box"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:110
+#: example/APF_MetaBox_For_Pages_Advanced.php:26 example/APF_Widget.php:62
+#: example/builtin-field-examples.php:418
+#: example/builtin-field-examples.php:1024
+msgid "One"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:111
+#: example/APF_MetaBox_For_Pages_Advanced.php:27 example/APF_Widget.php:63
+#: example/builtin-field-examples.php:419
+#: example/builtin-field-examples.php:1025
+msgid "Two"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:112
+#: example/APF_MetaBox_For_Pages_Advanced.php:28 example/APF_Widget.php:64
+#: example/builtin-field-examples.php:420
+#: example/builtin-field-examples.php:1026
+msgid "Three"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:118
+#: example/APF_MetaBox_For_Pages_Advanced.php:35
+msgid "Radio Group"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:122
+msgid ""
+"This option is the first item of the radio button example field and lets the "
+"user choose one from many."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:123
+#: example/APF_MetaBox_BuiltinFieldTypes.php:134
+msgid "This option is the second item of the radio button example field."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:124
+#: example/APF_MetaBox_BuiltinFieldTypes.php:135
+msgid "This option is the third item of the radio button example field."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:130
+#: example/APF_MetaBox_For_Pages_Advanced.php:47
+msgid "Checkbox Group"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:133
+msgid "This option is the first item of the checkbox button example field."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:151
+#: example/APF_MetaBox_For_Pages_Advanced.php:63 example/APF_Widget.php:80
+#: example/builtin-field-examples.php:1181
+msgid "Image"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:157
+#: example/builtin-field-examples.php:23
+msgid "Password"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:162
+#: example/APF_MetaBox_BuiltinFieldTypes.php:273
+#: example/APF_MetaBox_For_Pages_Side.php:16 example/APF_Widget.php:90
+#: example/builtin-field-examples.php:1084
+#: example/builtin-field-examples.php:1174
+msgid "Color"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:167
+#: example/APF_MetaBox_BuiltinFieldTypes.php:215
+#: example/APF_MetaBox_BuiltinFieldTypes.php:257
+#: example/APF_MetaBox_For_Pages_Side.php:21
+#: example/builtin-field-examples.php:527
+#: example/builtin-field-examples.php:1117
+#: example/builtin-field-examples.php:1158
+msgid "Size"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:173
+msgid "Multiple Sizes"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:174
+#: example/builtin-field-examples.php:609
+msgid "Weight"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:178
+#: example/builtin-field-examples.php:614
+msgid "Length"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:183
+#: example/builtin-field-examples.php:619
+msgid "File Size"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:192
+#: example/builtin-field-examples.php:814
+msgid "Taxonomy Checklist"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:208
+#: example/APF_MetaBox_BuiltinFieldTypes.php:251
+msgid "Repeatable Field"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:220
+#: example/APF_MetaBox_BuiltinFieldTypes.php:262
+#: example/builtin-field-examples.php:1122
+#: example/builtin-field-examples.php:1163
+msgid "Select"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:237
+#: example/builtin-field-examples.php:1138
+msgid "Name"
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:283
+#, php-format
+msgid "This text is inserted with the <code>%1$s</code> hook."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:299
+msgid "The entered text is too short! Type more than 2 characters."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:305
+msgid "The password cannot be empty."
+msgstr ""
+
+#: example/APF_MetaBox_BuiltinFieldTypes.php:313
+msgid "There was an error in your input in meta box form fields"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:62
+msgid "Date Repeatable"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:68
+msgid "Date Time"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:73
+msgid "Date Time Repeatable"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:84
+msgid "Time Repeatable"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:90
+#: example/APF_Widget_CustomFieldTypes.php:70
+msgid "Dial"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:95
+msgid "Dial Repeatable"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:101
+msgid "Font"
+msgstr ""
+
+#: example/APF_MetaBox_CustomFieldTypes.php:106
+msgid "Font Repeatable"
+msgstr ""
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:38
+#: example/APF_MetaBox_For_Pages_Advanced.php:50
+msgid "Option One"
+msgstr ""
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:39
+#: example/APF_MetaBox_For_Pages_Advanced.php:51
+msgid "Option Two"
+msgstr ""
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:40
+#: example/APF_MetaBox_For_Pages_Advanced.php:52
+msgid "Option Three"
+msgstr ""
+
+#: example/APF_MetaBox_For_Pages_Advanced.php:72
+msgid ""
+"This meta box is placed with the <code>advanced</code> context and this text "
+"is inserted with the <code>do_{instantiated class name}</code> hook."
+msgstr ""
+
+#: example/APF_MetaBox_For_Pages_Normal.php:55
+msgid ""
+"This meta box is placed with the <code>normal</code>context and this text is "
+"inserted with the <code>do_{instantiated class name}</code> hook."
+msgstr ""
+
+#: example/APF_MetaBox_For_Pages_Side.php:42
+msgid ""
+"This is a side meta box. This is inserted with the <code>do_{instantiated "
+"class name}</code> hook."
+msgstr ""
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:123
+msgid "These are date and time pickers."
+msgstr ""
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:183
+msgid "Dates"
+msgstr ""
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:185
+msgid "Start Date: "
+msgstr ""
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:189
+msgid "End Date: "
+msgstr ""
+
+#: example/APF_NetworkAdmin_CustomFieldTypes.php:435
+msgid ""
+"Specify the selectors to reveal in the label argument keys in the field "
+"definition array."
+msgstr ""
+
+#: example/APF_NetworkAdmin_ManageOptions.php:230
+msgid ""
+"<code>$aData = AdminPageFramework::getOption( 'APF_NetworkAdmin', array"
+"( 'text_fields', 'text' ), 'default value' );</code> will retrieve the "
+"option array value of <code>$aArray['text_field']['text']</code>."
+msgstr ""
+
+#: example/APF_PostType.php:18
+msgid "Sample Posts"
+msgstr ""
+
+#: example/APF_PostType.php:20
+msgid "Add New"
+msgstr ""
+
+#: example/APF_PostType.php:21
+msgid "Add New APF Post"
+msgstr ""
+
+#: example/APF_PostType.php:22
+msgid "Edit"
+msgstr ""
+
+#: example/APF_PostType.php:23
+msgid "Edit APF Post"
+msgstr ""
+
+#: example/APF_PostType.php:24
+msgid "New APF Post"
+msgstr ""
+
+#: example/APF_PostType.php:25
+msgid "View"
+msgstr ""
+
+#: example/APF_PostType.php:26
+msgid "View APF Post"
+msgstr ""
+
+#: example/APF_PostType.php:27
+msgid "Search APF Post"
+msgstr ""
+
+#: example/APF_PostType.php:28
+msgid "No APF Post found"
+msgstr ""
+
+#: example/APF_PostType.php:29
+msgid "No APF Post found in Trash"
+msgstr ""
+
+#: example/APF_PostType.php:30
+msgid "Parent APF Post"
+msgstr ""
+
+#: example/APF_PostType.php:31
+msgid "APF Posts"
+msgstr ""
+
+#: example/APF_PostType.php:108 example/APF_Widget.php:37
+#: example/APF_Widget_CustomFieldTypes.php:60
+#: example/APF_Widget_Example.php:37
+msgid "Title"
+msgstr ""
+
+#: example/APF_PostType.php:109
+msgid "Author"
+msgstr ""
+
+#: example/APF_PostType.php:114
+msgid "Sample Column"
+msgstr ""
+
+#: example/APF_PostType.php:126
+#, php-format
+msgid "Post ID: %1$s"
+msgstr ""
+
+#: example/APF_PostType.php:176
+msgid "Saved Meta Field Values"
+msgstr ""
+
+#: example/APF_PostType.php:178
+msgid "Saved Setting Options"
+msgstr ""
+
+#: example/APF_TaxonomyField.php:41
+msgid "Image Upload"
+msgstr ""
+
+#: example/APF_TaxonomyField.php:67
+msgid "Thumbnail"
+msgstr ""
+
+#: example/APF_TaxonomyField.php:68
+msgid "Custom Column"
+msgstr ""
+
+#: example/APF_TaxonomyField.php:102
+msgid ""
+"This text is inserted with the <code>do_{instantiated class name}</code> "
+"hook."
+msgstr ""
+
+#: example/APF_Widget.php:20
+msgid ""
+"This is a sample widget with built-in field types created by Admin Page "
+"Framework."
+msgstr ""
+
+#: example/APF_Widget.php:48
+msgid "TextArea"
+msgstr ""
+
+#: example/APF_Widget.php:54
+msgid "Check Box"
+msgstr ""
+
+#: example/APF_Widget.php:55
+msgid "This is a check box in a widget form."
+msgstr ""
+
+#: example/APF_Widget.php:60
+msgid "Radio Buttons"
+msgstr ""
+
+#: example/APF_Widget.php:70
+msgid "Dropdown"
+msgstr ""
+
+#: example/APF_Widget.php:72
+msgid "I"
+msgstr ""
+
+#: example/APF_Widget.php:73
+msgid "II"
+msgstr ""
+
+#: example/APF_Widget.php:74
+msgid "III"
+msgstr ""
+
+#: example/APF_Widget.php:85 example/builtin-field-examples.php:1191
+msgid "Media"
+msgstr ""
+
+#: example/APF_Widget.php:120
+msgid "Hello world! This is a widget created by Admin Page Framework."
+msgstr ""
+
+#: example/APF_Widget_CustomFieldTypes.php:20
+msgid ""
+"This is a sample widget of Admin Page Framework with custom field types."
+msgstr ""
+
+#: example/APF_Widget_CustomFieldTypes.php:75
+msgid "Post"
+msgstr ""
+
+#: example/APF_Widget_CustomFieldTypes.php:110
+msgid ""
+"Hello world! This is a widget created by Admin Page Framework with some "
+"custom field types."
+msgstr ""
+
+#: example/APF_Widget_Example.php:20
+msgid "Displays a GitHub button."
+msgstr ""
+
+#: example/APF_Widget_Example.php:42
+msgid "GitHub User Name"
+msgstr ""
+
+#: example/APF_Widget_Example.php:48
+msgid "Repository Name"
+msgstr ""
+
+#: example/APF_Widget_Example.php:54
+msgid "GitHub Repository"
+msgstr ""
+
+#: example/builtin-field-examples.php:11
+msgid ""
+"Type something here. This text is inserted with the <code>description</code> "
+"argument in the field definition array."
+msgstr ""
+
+#: example/builtin-field-examples.php:12
+msgid "This is a text field and typed text will be saved."
+msgstr ""
+
+#: example/builtin-field-examples.php:13
+msgid ""
+"This text is inserted with the <code>help</code> argument in the field "
+"definition array."
+msgstr ""
+
+#: example/builtin-field-examples.php:24
+msgid "This input will be masked."
+msgstr ""
+
+#: example/builtin-field-examples.php:26
+msgid "This is a password type field; the user's entered input will be masked."
+msgstr ""
+
+#: example/builtin-field-examples.php:30
+msgid "The entered characters will be masked."
+msgstr ""
+
+#: example/builtin-field-examples.php:34
+msgid "Read Only"
+msgstr ""
+
+#: example/builtin-field-examples.php:41
+msgid "This is a read-only value."
+msgstr ""
+
+#: example/builtin-field-examples.php:42
+msgid "The attribute can be set with the <code>attributes</code> argument."
+msgstr ""
+
+#: example/builtin-field-examples.php:46
+msgid "Number"
+msgstr ""
+
+#: example/builtin-field-examples.php:51
+#: example/builtin-field-examples.php:176
+#: example/builtin-field-examples.php:237
+#: example/builtin-field-examples.php:287
+#: example/builtin-field-examples.php:439
+#: example/builtin-field-examples.php:607
+#: example/builtin-field-examples.php:758
+#: example/builtin-field-examples.php:790
+#: example/builtin-field-examples.php:828
+#: example/builtin-field-examples.php:861
+#: example/builtin-field-examples.php:908
+msgid "Multiple"
+msgstr ""
+
+#: example/builtin-field-examples.php:52
+msgid ""
+"Multiple text fields can be set by passing an array to the <code>label</"
+"code> argument."
+msgstr ""
+
+#: example/builtin-field-examples.php:54
+#: example/builtin-field-examples.php:125
+msgid "Hello world!"
+msgstr ""
+
+#: example/builtin-field-examples.php:55
+#: example/builtin-field-examples.php:179
+#: example/builtin-field-examples.php:650
+#: example/builtin-field-examples.php:760
+#: example/builtin-field-examples.php:863
+#: example/builtin-field-examples.php:910
+msgid "First"
+msgstr ""
+
+#: example/builtin-field-examples.php:63
+#: example/builtin-field-examples.php:187
+#: example/builtin-field-examples.php:659
+#: example/builtin-field-examples.php:763
+#: example/builtin-field-examples.php:866
+#: example/builtin-field-examples.php:913
+msgid "Second"
+msgstr ""
+
+#: example/builtin-field-examples.php:69
+msgid "Yes, we can"
+msgstr ""
+
+#: example/builtin-field-examples.php:70
+#: example/builtin-field-examples.php:196
+#: example/builtin-field-examples.php:672
+#: example/builtin-field-examples.php:766
+#: example/builtin-field-examples.php:869
+#: example/builtin-field-examples.php:917
+msgid "Third"
+msgstr ""
+
+#: example/builtin-field-examples.php:75
+msgid ""
+"These are multiple text fields. To include multiple input fields associated "
+"with one field ID, use the numeric keys in the field definition array."
+msgstr ""
+
+#: example/builtin-field-examples.php:87
+msgid ""
+"Press + / - to add / remove the fields. To enable the repeatable fields "
+"functionality, set the <code>repeatable</code> argument to <code>true</code>."
+msgstr ""
+
+#: example/builtin-field-examples.php:88
+msgid ""
+"To set maximum and minimum numbers of fields, set the <code>max</code> and "
+"<code>min</code> arguments in the <code>repeatable<code> argument array in "
+"the field deifnition array."
+msgstr ""
+
+#: example/builtin-field-examples.php:95
+#: example/builtin-field-examples.php:150
+#: example/builtin-field-examples.php:336
+msgid "Sortable Item"
+msgstr ""
+
+#: example/builtin-field-examples.php:97
+msgid "Drag and drop the fields to change the order."
+msgstr ""
+
+#: example/builtin-field-examples.php:105
+msgid "Disabled Item"
+msgstr ""
+
+#: example/builtin-field-examples.php:115
+#: example/builtin-field-examples.php:712
+msgid "Repeatable & Sortable"
+msgstr ""
+
+#: example/builtin-field-examples.php:123
+msgid "Type a text string here."
+msgstr ""
+
+#: example/builtin-field-examples.php:126
+msgid "This is set as the default string."
+msgstr ""
+
+#: example/builtin-field-examples.php:156
+msgid "Rich Text Area"
+msgstr ""
+
+#: example/builtin-field-examples.php:164
+msgid "The arguments can be passed to the <code>rich</code> argument."
+msgstr ""
+
+#: example/builtin-field-examples.php:165
+#, php-format
+msgid "For more information see the <a href=\"%1$s\">Codex page</a>."
+msgstr ""
+
+#: example/builtin-field-examples.php:177
+msgid "These are multiple text areas."
+msgstr ""
+
+#: example/builtin-field-examples.php:180
+msgid "The first default text."
+msgstr ""
+
+#: example/builtin-field-examples.php:188
+msgid ""
+"The second default text. See the background color is different from the "
+"others. This is done with the <code>attributes</code> argument."
+msgstr ""
+
+#: example/builtin-field-examples.php:197
+msgid "The third default text."
+msgstr ""
+
+#: example/builtin-field-examples.php:210
+msgid ""
+"As of v3.1.6, repeatable TinyMCE editor fields are supported. However, Quick "
+"Tags are not supported."
+msgstr ""
+
+#: example/builtin-field-examples.php:221
+msgid "Dropdown List"
+msgstr ""
+
+#: example/builtin-field-examples.php:223
+msgid "This is the <em>select</em> field type."
+msgstr ""
+
+#: example/builtin-field-examples.php:228
+msgid "Yellow"
+msgstr ""
+
+#: example/builtin-field-examples.php:229
+msgid "Orange"
+msgstr ""
+
+#: example/builtin-field-examples.php:231
+msgid ""
+"The key of the array of the <code>label</code> argument serves as the value "
+"of the option tag which will be sent to the form and saved in the database."
+msgstr ""
+
+#: example/builtin-field-examples.php:232
+msgid ""
+"So when you specify the default value with the <code>default</code> or "
+"<code>value</code> argument, specify the <em>KEY</em>."
+msgstr ""
+
+#: example/builtin-field-examples.php:238
+msgid "This is the <em>select</em> field type with multiple elements."
+msgstr ""
+
+#: example/builtin-field-examples.php:243
+msgid "Use <code>is_multiple</code> argument to enable multiple selections."
+msgstr ""
+
+#: example/builtin-field-examples.php:252
+msgid "Grouping"
+msgstr ""
+
+#: example/builtin-field-examples.php:281
+msgid ""
+"To create grouped options, pass arrays with the key of the group label and "
+"pass the options as an array inside them."
+msgstr ""
+
+#: example/builtin-field-examples.php:282
+msgid ""
+"To style the pulldown (dropdown) list, use the <code>attributes</code> "
+"argument. For the <code>select</code> field type, it has three major keys, "
+"<code>select</code>, <code>option</code>, and <code>optgroup</code>, "
+"representing the tag names."
+msgstr ""
+
+#: example/builtin-field-examples.php:288
+msgid "These are multiple sets of drop down list."
+msgstr ""
+
+#: example/builtin-field-examples.php:320
+msgid ""
+"To enable repeatable fields, pass <code>true</code> to the <code>repeatable</"
+"code> argument."
+msgstr ""
+
+#: example/builtin-field-examples.php:350
+msgid "Radio Button"
+msgstr ""
+
+#: example/builtin-field-examples.php:364
+msgid ""
+"Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</"
+"code> after each sub-field."
+msgstr ""
+
+#: example/builtin-field-examples.php:365
+msgid ""
+"To disable elements (or apply different attributes) on an individual element "
+"basis, use the <code>attributes</code> argument and create the element whose "
+"key name is the radio input element value."
+msgstr ""
+
+#: example/builtin-field-examples.php:370
+#: example/builtin-field-examples.php:463
+msgid "Multiple Sets"
+msgstr ""
+
+#: example/builtin-field-examples.php:371
+msgid ""
+"Multiple sets of radio buttons. The horizontal line is set with the "
+"<code>delimiter</code> argument."
+msgstr ""
+
+#: example/builtin-field-examples.php:430
+msgid "Checkbox"
+msgstr ""
+
+#: example/builtin-field-examples.php:431
+msgid "The <code>description</code> argument can be omitted though."
+msgstr ""
+
+#: example/builtin-field-examples.php:434
+msgid ""
+"A string can be passed to the <code>label</code> argument for a single item."
+msgstr ""
+
+#: example/builtin-field-examples.php:442
+msgid "Moon"
+msgstr ""
+
+#: example/builtin-field-examples.php:443
+msgid "Earth"
+msgstr ""
+
+#: example/builtin-field-examples.php:443
+msgid "this option is disabled."
+msgstr ""
+
+#: example/builtin-field-examples.php:444
+msgid "Sun"
+msgstr ""
+
+#: example/builtin-field-examples.php:445
+msgid "Mars"
+msgstr ""
+
+#: example/builtin-field-examples.php:458
+msgid "It is possible to disable checkbox items on an individual basis."
+msgstr ""
+
+#: example/builtin-field-examples.php:505
+msgid ""
+"To create multiple fields for one field ID, use the numeric keys in the "
+"field definition array."
+msgstr ""
+
+#: example/builtin-field-examples.php:528
+msgid ""
+"In order to set a default value for the size field type, an array with the "
+"<code>size</code> and the <code>unit</code> arguments needs to be set."
+msgstr ""
+
+#: example/builtin-field-examples.php:529
+msgid "The default units and the lengths for CSS."
+msgstr ""
+
+#: example/builtin-field-examples.php:539
+msgid "Size with Custom Units"
+msgstr ""
+
+#: example/builtin-field-examples.php:540
+msgid ""
+"The units can be specified so it can be quantity, length, or capacity etc."
+msgstr ""
+
+#: example/builtin-field-examples.php:544
+msgid "grains"
+msgstr ""
+
+#: example/builtin-field-examples.php:545
+msgid "drams"
+msgstr ""
+
+#: example/builtin-field-examples.php:546
+msgid "ounces"
+msgstr ""
+
+#: example/builtin-field-examples.php:547
+msgid "pounds"
+msgstr ""
+
+#: example/builtin-field-examples.php:556
+msgid "Size with Custom Attributes"
+msgstr ""
+
+#: example/builtin-field-examples.php:559
+msgid "Metric Unit System"
+msgstr ""
+
+#: example/builtin-field-examples.php:560
+msgid "millimetre"
+msgstr ""
+
+#: example/builtin-field-examples.php:561
+msgid "centmeter"
+msgstr ""
+
+#: example/builtin-field-examples.php:562
+msgid "meter"
+msgstr ""
+
+#: example/builtin-field-examples.php:563
+msgid "kilometer"
+msgstr ""
+
+#: example/builtin-field-examples.php:565
+msgid "Imperial and US Unit System"
+msgstr ""
+
+#: example/builtin-field-examples.php:566
+msgid "inch"
+msgstr ""
+
+#: example/builtin-field-examples.php:567
+msgid "foot"
+msgstr ""
+
+#: example/builtin-field-examples.php:568
+msgid "yard"
+msgstr ""
+
+#: example/builtin-field-examples.php:569
+msgid "mile"
+msgstr ""
+
+#: example/builtin-field-examples.php:571
+#: example/builtin-field-examples.php:598
+msgid "Astronomical Units"
+msgstr ""
+
+#: example/builtin-field-examples.php:572
+msgid "astronomical unit"
+msgstr ""
+
+#: example/builtin-field-examples.php:573
+msgid "light year"
+msgstr ""
+
+#: example/builtin-field-examples.php:574
+msgid "parsec"
+msgstr ""
+
+#: example/builtin-field-examples.php:603
+msgid ""
+"The <code>size</code> field type has four initial keys in the "
+"<code>attributes</code> array element: <code>size</code>, <code>unit</code>, "
+"<code>optgroup</code>, and <code>option</code>."
+msgstr ""
+
+#: example/builtin-field-examples.php:648
+msgid "Select an Image"
+msgstr ""
+
+#: example/builtin-field-examples.php:675
+msgid ""
+"See the button and the input colors of the second item are different. This "
+"is done by setting the attributes individually."
+msgstr ""
+
+#: example/builtin-field-examples.php:680
+msgid "Save Image Attributes"
+msgstr ""
+
+#: example/builtin-field-examples.php:694
+msgid "In repeatable fields, you can select multiple items at once."
+msgstr ""
+
+#: example/builtin-field-examples.php:708
+msgid ""
+"Image fields can be sortable. This may be useful when you need to let the "
+"user set an order of images."
+msgstr ""
+
+#: example/builtin-field-examples.php:725
+msgid "Media File"
+msgstr ""
+
+#: example/builtin-field-examples.php:731
+msgid "Media File with Attributes"
+msgstr ""
+
+#: example/builtin-field-examples.php:752
+msgid "File"
+msgstr ""
+
+#: example/builtin-field-examples.php:754
+msgid "Select the file"
+msgstr ""
+
+#: example/builtin-field-examples.php:785
+msgid "Post Types"
+msgstr ""
+
+#: example/builtin-field-examples.php:792
+msgid "For A"
+msgstr ""
+
+#: example/builtin-field-examples.php:794
+msgid "For B"
+msgstr ""
+
+#: example/builtin-field-examples.php:797
+msgid "For C"
+msgstr ""
+
+#: example/builtin-field-examples.php:822
+msgid "All Taxonomies"
+msgstr ""
+
+#: example/builtin-field-examples.php:831
+msgid "For I"
+msgstr ""
+
+#: example/builtin-field-examples.php:833
+msgid "For II"
+msgstr ""
+
+#: example/builtin-field-examples.php:836
+msgid "For III"
+msgstr ""
+
+#: example/builtin-field-examples.php:856
+msgid "Color Picker"
+msgstr ""
+
+#: example/builtin-field-examples.php:892
+msgid "Hidden Field"
+msgstr ""
+
+#: example/builtin-field-examples.php:895
+msgid "Test value"
+msgstr ""
+
+#: example/builtin-field-examples.php:896
+msgid "Test label"
+msgstr ""
+
+#: example/builtin-field-examples.php:903
+msgid "Repeat Me"
+msgstr ""
+
+#: example/builtin-field-examples.php:927
+msgid "Submit Button"
+msgstr ""
+
+#: example/builtin-field-examples.php:929
+msgid "This is the default submit button."
+msgstr ""
+
+#: example/builtin-field-examples.php:934
+msgid "Link Button"
+msgstr ""
+
+#: example/builtin-field-examples.php:935
+msgid ""
+"These buttons serve as a hyper link. Set the url to the <code>href</code> "
+"argument to enable this option."
+msgstr ""
+
+#: example/builtin-field-examples.php:936
+msgid "Google"
+msgstr ""
+
+#: example/builtin-field-examples.php:940
+msgid "Go to Google!"
+msgstr ""
+
+#: example/builtin-field-examples.php:947
+msgid "Yahoo"
+msgstr ""
+
+#: example/builtin-field-examples.php:951
+msgid "Go to Yahoo!"
+msgstr ""
+
+#: example/builtin-field-examples.php:956
+msgid "Bing"
+msgstr ""
+
+#: example/builtin-field-examples.php:960
+msgid "Go to Bing!"
+msgstr ""
+
+#: example/builtin-field-examples.php:967
+msgid "Download Button"
+msgstr ""
+
+#: example/builtin-field-examples.php:969 example/example-bootstrap.php:13
+msgid "Admin Page Framework"
+msgstr ""
+
+#: example/builtin-field-examples.php:970
+msgid "Download the latest version of the Admin Page Framework Demo plugin."
+msgstr ""
+
+#: example/builtin-field-examples.php:975
+msgid "Redirect Button"
+msgstr ""
+
+#: example/builtin-field-examples.php:977
+#, php-format
+msgid ""
+"Unlike the above link buttons, this button saves the options and then "
+"redirects to: <code>%1$s</code>"
+msgstr ""
+
+#: example/builtin-field-examples.php:978
+msgid ""
+"To enable this functionality, set the url to the <code>redirect_url</code> "
+"argument in the field definition array."
+msgstr ""
+
+#: example/builtin-field-examples.php:979
+msgid "Dashboard"
+msgstr ""
+
+#: example/builtin-field-examples.php:987
+msgid "Reset Button"
+msgstr ""
+
+#: example/builtin-field-examples.php:994
+msgid ""
+"If you press this button, a confirmation message will appear and then if you "
+"press it again, it resets the option."
+msgstr ""
+
+#: example/builtin-field-examples.php:1006
+msgid "Verify Text Input"
+msgstr ""
+
+#: example/builtin-field-examples.php:1008
+msgid "Enter a non numeric value here."
+msgstr ""
+
+#: example/builtin-field-examples.php:1013
+msgid "Verify"
+msgstr ""
+
+#: example/builtin-field-examples.php:1020
+msgid "Choose Item"
+msgstr ""
+
+#: example/builtin-field-examples.php:1023
+msgid "Select Item"
+msgstr ""
+
+#: example/builtin-field-examples.php:1032
+msgid "Select one above or enter text here."
+msgstr ""
+
+#: example/builtin-field-examples.php:1039
+msgid "Text and Hidden"
+msgstr ""
+
+#: example/builtin-field-examples.php:1051
+msgid ""
+"A hidden field is embedded. This is useful when you need to embed extra "
+"information to be sent with the visible elements."
+msgstr ""
+
+#: example/builtin-field-examples.php:1061
+msgid "Section Name"
+msgstr ""
+
+#: example/builtin-field-examples.php:1089
+msgid "Radio"
+msgstr ""
+
+#: example/example-bootstrap.php:15
+msgid "APF - Advanced"
+msgstr ""
+
+#: example/example-bootstrap.php:17
+msgid "APF - GitHub Button"
+msgstr ""
+
+#: example/example-bootstrap.php:26
+msgid "Demo Meta Box with Built-in Field Types"
+msgstr ""
+
+#: example/example-bootstrap.php:35
+msgid "Demo Meta Box with Custom Field Types"
+msgstr ""
+
+#: example/example-bootstrap.php:54
+msgid "Sample Meta Box for Admin Pages Inserted in Normal Area"
+msgstr ""
+
+#: example/example-bootstrap.php:62 example/example-bootstrap.php:70
+#: example/example-bootstrap.php:112
+msgid "Sample Meta Box for Admin Pages Inserted in Advanced Area"
+msgstr ""

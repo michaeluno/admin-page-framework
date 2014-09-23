@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_media' ) ) :
 /**
  * Defines the media field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
@@ -28,17 +28,17 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'attributes_to_store' => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-        'show_preview' =>    true,
+        'attributes_to_store'   => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
+        'show_preview'          =>    true,
         'allow_external_source' =>    true, // ( boolean ) Indicates whether the media library box has the From URL tab.
-        'attributes' => array(
-            'input' => array(
-                'size' => 40,
+        'attributes'            => array(
+            'input'     => array(
+                'size'      => 40,
                 'maxlength' => 400,     
             ),
-            'button' => array(
+            'button'    => array(
             ),
-            'preview' => array(
+            'preview'   => array(
             ),     
         ),    
     );
@@ -57,8 +57,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL // defined in the parent class
             . $this->_getScript_MediaUploader(
                 "admin_page_framework", 
-                $this->oMsg->__( 'upload_file' ),
-                $this->oMsg->__( 'use_this_file' )
+                $this->oMsg->get( 'upload_file' ),
+                $this->oMsg->get( 'use_this_file' )
             ) . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
     }    
@@ -185,59 +185,55 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
             $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );            
             
             if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
-                return "
-                    jQuery( document ).ready( function(){
-                        
-                        /**
-                         * Bind/rebinds the thickbox script the given selector element.
-                         * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
-                         */
-                        setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
-                            jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
-                            jQuery( '#select_media_' + sInputID ).click( function() {
-                                var sPressedID = jQuery( this ).attr( 'id' );
-                                window.sInputID = sPressedID.substring( 13 ); // remove the select_media_ prefix and set a property to pass it to the editor callback method.
-                                window.original_send_to_editor = window.send_to_editor;
-                                window.send_to_editor = hfAPFSendToEditorMedia;
-                                var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-                                tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-                                return false; // do not click the button after the script by returning false.     
-                            });    
-                        }     
-                                                        
-                        var hfAPFSendToEditorMedia = function( sRawHTML, param ) {
+                return "                        
+                    /**
+                     * Bind/rebinds the thickbox script the given selector element.
+                     * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
+                     */
+                    setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
+                        jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
+                        jQuery( '#select_media_' + sInputID ).click( function() {
+                            var sPressedID = jQuery( this ).attr( 'id' );
+                            window.sInputID = sPressedID.substring( 13 ); // remove the select_media_ prefix and set a property to pass it to the editor callback method.
+                            window.original_send_to_editor = window.send_to_editor;
+                            window.send_to_editor = hfAPFSendToEditorMedia;
+                            var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
+                            tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+                            return false; // do not click the button after the script by returning false.     
+                        });    
+                    }     
+                                                    
+                    var hfAPFSendToEditorMedia = function( sRawHTML, param ) {
 
-                            var sHTML = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-                            var src = jQuery( 'a', sHTML ).attr( 'href' );
-                            var classes = jQuery( 'a', sHTML ).attr( 'class' );
-                            var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
-                        
-                            // If the user wants to save relavant attributes, set them.
-                            var sInputID = window.sInputID;
-                            jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-                            jQuery( '#' + sInputID + '_id' ).val( id );     
-                                
-                            // restore the original send_to_editor
-                            window.send_to_editor = window.original_send_to_editor;
+                        var sHTML = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+                        var src = jQuery( 'a', sHTML ).attr( 'href' );
+                        var classes = jQuery( 'a', sHTML ).attr( 'class' );
+                        var id = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
+                    
+                        // If the user wants to save relavant attributes, set them.
+                        var sInputID = window.sInputID;
+                        jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+                        jQuery( '#' + sInputID + '_id' ).val( id );     
                             
-                            // close the thickbox
-                            tb_remove();    
+                        // restore the original send_to_editor
+                        window.send_to_editor = window.original_send_to_editor;
+                        
+                        // close the thickbox
+                        tb_remove();    
 
-                        }
-                    });
+                    }
+
                 ";
                 
-            return "
-            jQuery( document ).ready( function(){     
-                
+            return "                
                 // Global Function Literal 
                 /**
                  * Binds/rebinds the uploader button script to the specified element with the given ID.
                  */     
                 setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-                    var fEscaped = false;
-                    var media_uploader;
+                    var _bEscaped = false;
+                    var _oMediaUploader;
                     
                     jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
                     jQuery( '#select_media_' + sInputID ).click( function( e ) {
@@ -249,8 +245,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         e.preventDefault();
                         
                         // If the uploader object has already been created, reopen the dialog
-                        if ( 'object' === typeof media_uploader ) {
-                            media_uploader.open();
+                        if ( 'object' === typeof _oMediaUploader ) {
+                            _oMediaUploader.open();
                             return;
                         }     
                         
@@ -259,7 +255,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
-                        media_uploader = wp.media({
+                        _oMediaUploader = wp.media({
                             title:      '{$sThickBoxTitle}',
                             button:     {
                                 text: '{$sThickBoxButtonUseThis}'
@@ -269,37 +265,38 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         });
             
                         // When the uploader window closes, 
-                        media_uploader.on( 'escape', function() {
-                            fEscaped = true;
+                        _oMediaUploader.on( 'escape', function() {
+                            _bEscaped = true;
                             return false;
                         });    
-                        media_uploader.on( 'close', function() {
+                        _oMediaUploader.on( 'close', function() {
 
-                            var state = media_uploader.state();
+                            var state = _oMediaUploader.state();
                             
                             // Check if it's an external URL
-                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
+                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
                                 var image = state.props.attributes;    
+                            }
                             
                             // If the image variable is not defined at this point, it's an attachment, not an external URL.
                             if ( typeof( image ) !== 'undefined'  ) {
-                                setPreviewElementWithDelay( sInputID, image );
+                                setMediaPreviewElementWithDelay( sInputID, image );
                             } else {
                                 
-                                var selection = media_uploader.state().get( 'selection' );
-                                selection.each( function( attachment, index ) {
+                                var _oNewField;
+                                _oMediaUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
                                     attachment = attachment.toJSON();
-                                    if( index == 0 ){    
+                                    if( 0 === iIndex ){    
                                         // place first attachment in field
-                                        setPreviewElementWithDelay( sInputID, attachment );
-                                    } else{
+                                        setMediaPreviewElementWithDelay( sInputID, attachment );
+                                        return true;
+                                    } 
                                         
-                                        var field_container = jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' );
-                                        var new_field = jQuery( this ).addAPFRepeatableField( field_container.attr( 'id' ) );
-                                        var sInputIDOfNewField = new_field.find( 'input' ).attr( 'id' );
-                                        setPreviewElementWithDelay( sInputIDOfNewField, attachment );
-            
-                                    }
+                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
+                                    var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
+                                    setMediaPreviewElementWithDelay( sInputIDOfNewField, attachment );
+                                
                                 });     
                                 
                             }
@@ -310,35 +307,61 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         });
                         
                         // Open the uploader dialog
-                        media_uploader.open();     
+                        _oMediaUploader.open();     
                         return false;       
                     });    
                 
                 
-                    var setPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+                    var setMediaPreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
                         
-                        iMilliSeconds = iMilliSeconds === undefined ? 100 : iMilliSeconds;
+                        iMilliSeconds = 'undefiend' === typeof iMilliSeconds ? 100 : iMilliSeconds;
                         setTimeout( function (){
-                            if ( ! fEscaped ) {
-                                setPreviewElement( sInputID, oImage );
+                            if ( ! _bEscaped ) {
+                                setMediaPreviewElement( sInputID, oImage );
                             }
-                            fEscaped = false;
+                            _bEscaped = false;
                         }, iMilliSeconds );
                         
                     }
                     
-                    var setPreviewElement = function( sInputID, image ) {
-                                    
-                        // If the user want the attributes to be saved, set them in the input tags.
-                        jQuery( '#' + sInputID ).val( image.url ); // the url field is mandatory so  it does not have the suffix.
-                        jQuery( '#' + sInputID + '_id' ).val( image.id );     
-                        jQuery( '#' + sInputID + '_caption' ).val( jQuery( '<div/>' ).text( image.caption ).html() );     
-                        jQuery( '#' + sInputID + '_description' ).val( jQuery( '<div/>' ).text( image.description ).html() );     
-                        
+                }   
+
+                /**
+                 * Removes the set values to the input tags.
+                 * 
+                 * @since   3.2.0
+                 */
+                removeInputValuesForMedia = function( oElem ) {
+
+                    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.media-field input' );                  
+                    if ( _oImageInput.length <= 0 )  {
+                        return;
                     }
-                }     
+                    
+                    // Find the input tag.
+                    var _sInputID = _oImageInput.first().attr( 'id' );
+                    
+                    // Remove the associated values.
+                    setMediaPreviewElement( _sInputID, {} );
+                    
+                }
                 
-            });";
+                /**
+                 * Sets the preview element.
+                 * 
+                 * @since   3.2.0   Changed the scope to global.
+                 */                
+                setMediaPreviewElement = function( sInputID, oSelectedFile ) {
+                                
+                    // If the user want the attributes to be saved, set them in the input tags.
+                    jQuery( '#' + sInputID ).val( oSelectedFile.url ); // the url field is mandatory so  it does not have the suffix.
+                    jQuery( '#' + sInputID + '_id' ).val( oSelectedFile.id );     
+                    jQuery( '#' + sInputID + '_caption' ).val( jQuery( '<div/>' ).text( oSelectedFile.caption ).html() );     
+                    jQuery( '#' + sInputID + '_description' ).val( jQuery( '<div/>' ).text( oSelectedFile.description ).html() );     
+                    
+                }                
+            
+            ";
         }
     /**
      * Returns the field type specific CSS rules.
@@ -354,9 +377,14 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                     margin: 0.5em 0.5em 0.5em 0;
                 }
             }     
-            .select_media.button.button-small {
-                vertical-align: middle;    
+            .select_media.button.button-small,
+            .remove_media.button.button-small
+            {     
+                vertical-align: middle;
             }
+            .remove_media.button.button-small {
+                margin-left: 0.2em;
+            }            
         ";
     }
     
@@ -378,35 +406,83 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         /**
          * A helper function for the above getImageInputTags() method to add a image button script.
          * 
-         * @since 2.1.3
-         * @since 2.1.5 Moved from AdminPageFramework_FormField.
+         * @since   2.1.3
+         * @since   2.1.5   Moved from AdminPageFramework_FormField.
+         * @since   3.2.0   Made it use dashicon for the select button.
          */     
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
-            
-            $sButton = 
+   
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : 'dashicons dashicons-portfolio';
+   
+            $_sButton                = 
                 "<a " . $this->generateAttributes( 
                     array(
-                        'id' => "select_media_{$sInputID}",
-                        'href' => '#',
-                        'class' => 'select_media button button-small ' . ( isset( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : '' ),
+                        'id'                 => "select_media_{$sInputID}",
+                        'title'              => $this->oMsg->get( 'select_file' ),
+                        'href'               => '#',
+                        'class'     => "select_media button button-small " 
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],                            
                         'data-uploader_type' => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
                         'data-enable_external_source' => $bExternalSource ? 1 : 0,
                     ) + $aButtonAttributes
                 ) . ">"
-                    . $this->oMsg->__( 'select_file' )
+                    . ( $_bDashiconSupported ? '' : $this->oMsg->get( 'select_file' ) )
                 ."</a>";
                 
-            $sScript = "
+            $_sScript                = "
                 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$sButton}\" );
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
                 }
                 jQuery( document ).ready( function(){     
                     setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
                 });" . PHP_EOL;    
                     
-            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $sScript . "</script>". PHP_EOL;
+            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
 
         }
+
+        /**
+         * Removes the set image values and attributes.
+         * 
+         * @since   3.2.0
+         */
+        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes ) {
+           
+            if ( ! function_exists( 'wp_enqueue_media' ) ) {
+                return '';
+            }
+           
+            $_bDashiconSupported    = version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
+            $_sButton               = 
+                "<a " . $this->generateAttributes( 
+                    array(
+                        'id'        => "remove_media_{$sInputID}",
+                        'href'      => '#',
+                        'class'     => 'remove_media button button-small '
+                            . $_sDashIconSelector . ' '
+                            . $aButtonAttributes['class'],                        
+                        'onclick'   => esc_js( "removeInputValuesForMedia( this ); return false;" ),
+                    ) + $aButtonAttributes
+                ) . ">"
+                    . ( $_bDashiconSupported ? '' : 'x' )
+                . "</a>";      
+                
+            $_sScript = "
+                if ( 0 === jQuery( 'a#remove_media_{$sInputID}' ).length ) {
+                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                }
+                " . PHP_EOL;    
+                    
+            return "<script type='text/javascript' class='admin-page-framework-media-remove-button'>" 
+                    . $_sScript 
+                . "</script>". PHP_EOL;
+           
+        }     
         
 }
 endif;

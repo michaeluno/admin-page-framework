@@ -10,127 +10,15 @@ if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
 /**
  * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
  * 
- * @since 2.1.5
- * @use AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage HeadTag
+ * @since       2.1.5
+ * @use         AdminPageFramework_Utility
+ * @package     AdminPageFramework
+ * @extends     AdminPageFramework_HeadTag_Base
+ * @subpackage  HeadTag
  * @internal
  */
 class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
-    
-    /**
-     * Stores the post type slug of the post id assigned to the currently loaded page with the %_GET['post'] element.
-     * @internal
-     */
-    private $_sPostTypeSlugOfCurrentPost = null;
-        
-    /**
-     * Appends the CSS rules of the framework in the head tag. 
-     * @since 2.0.0
-     * @since 2.1.5 Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to replyToAddStyle().
-     * @remark A callback for the <em>admin_head</em> hook.
-     * @internal
-     */     
-    public function _replyToAddStyle() {
-    
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return; // if it's not post (post edit) page nor the post type page,
-    
-        $this->_printCommonStyles( 'admin-page-framework-style-meta-box-common', get_class() );
-        $this->_printClassSpecificStyles( 'admin-page-framework-style-meta-box' );
-        $this->oProp->_bAddedStyle = true;
-            
-    }
-    /**
-     * Appends the JavaScript script of the framework in the head tag. 
-     * @since 2.0.0
-     * @since 2.1.5 Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to replyToAddScript().
-     * @remark A callback for the <em>admin_head</em> hook.
-     * @internal
-     */ 
-    public function _replyToAddScript() {
-
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return; // if it's not post (post edit) page nor the post type page,
-    
-        $this->_printCommonScripts( 'admin-page-framework-script-meta-box-common', get_class() );
-        $this->_printClassSpecificScripts( 'admin-page-framework-script-meta-box' );
-        $this->oProp->_bAddedScript = true;
-        
-    }    
-        /**
-         * Prints the inline stylesheet of this class stored in this class property.
-         * @since 3.0.0
-         */
-        protected function _printClassSpecificStyles( $sIDPrefix ) {
-                
-            $oCaller = $this->oProp->_getCallerObject();     
-
-            // Print out the filtered styles.
-            $sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
-            $sStyle = $this->oUtil->minifyCSS( $sStyle );
-            if ( $sStyle )
-                echo "<style type='text/css' id='{$sIDPrefix}-{$this->oProp->sClassName}'>{$sStyle}</style>";
-                
-            $sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
-            $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-            if ( $sStyleIE )
-                echo  "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie-{$this->oProp->sClassName}'>{$sStyleIE}</style><![endif]-->";
-        
-        }
-        /**
-         * Prints the inline stylesheet of the meta-box common CSS rules with the style tag.
-         * 
-         * @since 3.0.0
-         * @remark The meta box class may be instantiated multiple times so use a global flag.
-         * @parametr string $sIDPrefix The id selector embedded in the script tag.
-         * @parametr string $sClassName The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
-         */
-        protected function _printCommonStyles( $sIDPrefix, $sClassName ) {
-            
-            if ( isset( $GLOBALS[ "{$sClassName}_StyleLoaded" ] ) && $GLOBALS[ "{$sClassName}_StyleLoaded" ] ) return;
-            $GLOBALS[ "{$sClassName}_StyleLoaded" ] = true;     
-            
-            $oCaller = $this->oProp->_getCallerObject();     
-            $sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyle );
-            $sStyle = $this->oUtil->minifyCSS( $sStyle );
-            if ( $sStyle )
-                echo "<style type='text/css' id='{$sIDPrefix}'>{$sStyle}</style>";
-
-            $sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultStyleIE );
-            $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-            if ( $sStyleIE )
-                echo "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie'>{$sStyleIE}</style><![endif]-->";
-                
-        }     
-        /**
-         * Prints the inline scripts of this class stored in this class property.
-         * @since 3.0.0
-         */
-        protected function _printClassSpecificScripts( $sIDPrefix ) {
-                
-            $sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
-            if ( $sScript )
-                echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}'>{$sScript}</script>";     
-
-        }
-        /**
-         * Prints the inline scripts of the meta-box common scripts.
-         * 
-         * @remark The meta box class may be instantiated multiple times so use a global flag.
-         * @parametr string $sIDPrefix The id selector embedded in the script tag.
-         * @parametr string $sClassName The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
-         * @since 3.0.0
-         */
-        protected function _printCommonScripts( $sIDPrefix, $sClassName ) {
-            
-            if ( isset( $GLOBALS[ "{$sClassName}_ScriptLoaded" ] ) && $GLOBALS[ "{$sClassName}_ScriptLoaded" ] ) return;
-            $GLOBALS[ "{$sClassName}_ScriptLoaded" ] = true;
-            
-            $sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultScript );
-            if ( $sScript )
-                echo "<script type='text/javascript' id='{$sIDPrefix}'>{$sScript}</script>";
-        
-        }
-    
+             
     /**
      * Enqueues styles by post type slug.
      * 
@@ -140,8 +28,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC )
+        foreach( ( array ) $aSRCs as $sSRC ) {
             $aHandleIDs[] = $this->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );
+        }
         return $aHandleIDs;
         
     }
@@ -167,8 +56,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) return '';
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return ''; // if already set
+        if ( empty( $sSRC ) ) { return ''; }
+        if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
         $sSRC = $this->oUtil->resolveSRC( $sSRC );
         
@@ -176,10 +65,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
         $this->oProp->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
-                'sSRC' => $sSRC,
-                'aPostTypes' => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
-                'sType' => 'style',
-                'handle_id' => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
+                'sSRC'          => $sSRC,
+                'aPostTypes'    => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
+                'sType'         => 'style',
+                'handle_id'     => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
             ),
             self::$_aStructure_EnqueuingScriptsAndStyles
         );
@@ -196,8 +85,9 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC )
+        foreach( ( array ) $aSRCs as $sSRC ) {
             $aHandleIDs[] = $this->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
+        }
         return $aHandleIDs;
         
     }    
@@ -224,8 +114,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
     public function _enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) return '';
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) return ''; // if already set
+        if ( empty( $sSRC ) ) { return ''; }
+        
+        // if already set
+        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } 
         
         $sSRC = $this->oUtil->resolveSRC( $sSRC );
         
@@ -269,11 +161,11 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      * @internal
      */
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
-        
+       
         $sCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
-                
-        if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) )     
+        if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) ) {
             return $this->_enqueueSRC( $aEnqueueItem );
+        }
             
     }
 

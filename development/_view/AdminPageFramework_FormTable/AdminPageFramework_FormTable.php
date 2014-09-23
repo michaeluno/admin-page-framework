@@ -218,8 +218,8 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
             $aSettings = ( is_array( $aSettings ) ? $aSettings : array() ) + array( 'min' => 0, 'max' => 0 ); // do not cast array since it creates a zero key for an empty variable.
             
             
-            $_sAdd = $this->oMsg->__( 'add_section' );
-            $_sRemove = $this->oMsg->__( 'remove_section' );
+            $_sAdd = $this->oMsg->get( 'add_section' );
+            $_sRemove = $this->oMsg->get( 'remove_section' );
             $_sVisibility = $iSectionCount <= 1 ? " style='display:none;'" : "";
             $_sSettingsAttributes = $this->generateDataAttributes( $aSettings );
             $_sButtons = 

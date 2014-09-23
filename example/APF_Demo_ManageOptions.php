@@ -180,8 +180,8 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
                     'file_name' => 'serialized_array.txt', 
                     'format' => 'array',
                 ),
-                'description' => __( 'To set a file name, use the <code>file_name</code> key in the field definition array.', 'admin-page-framework-demo' )
-                    . ' ' . __( 'To set the data format, use the <code>format</code> key in the field definition array.', 'admin-page-framework-demo' ),    
+                'description' => __( 'To set a file name, use the <code>file_name</code> argument in the field definition array.', 'admin-page-framework-demo' )
+                    . ' ' . __( 'To set the data format, use the <code>format</code> argument in the field definition array.', 'admin-page-framework-demo' ),    
             ),    
             array( // Custom Data to Export
                 'field_id' => 'export_custom_data',
@@ -191,7 +191,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
                 'data' => __( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
                 'file_name' => 'hello_world.txt',
                 'label' => __( 'Export Custom Data', 'admin-page-framework-demo' ),
-                'description' => __( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> key in the field definition array.', 'admin-page-framework-demo' ),    
+                'description' => __( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> argument in the field definition array.', 'admin-page-framework-demo' ),    
             ),
             array(
                 'field_id' => 'import_format_type',     
@@ -227,7 +227,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
         <h3><?php _e( 'Saved Data', 'admin-page-framework-demo' ); ?></h3>
         <p>
         <?php 
-            echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the extended class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
+            echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the instantiated class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
             echo ' ' . sprintf( __( 'It is stored in the <code>$this->oProp-sOptionKey</code> class property so you may access it directly to confirm the value. So the required code would be <code>get_option( %1$s );</code>.', 'admin-page-framework-demo' ), $this->oProp->sOptionKey );
             echo ' ' . __( 'If you are retrieving them within the framework class, simply call <code>$this->oProp->aOptions</code>.', 'admin-page-framework-demo' );
         ?>
@@ -270,7 +270,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
     /*
      * Import and Export Callbacks
      * */
-    public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) { // export_name_{extended class name}_{export section id}_{export field id}
+    public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) { // export_name_{instantiated class name}_{export section id}_{export field id}
 
         // Change the exporting file name based on the selected format type in the other field.
         $sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
@@ -291,7 +291,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
         return $sReturnName;
         
     }
-    public function export_format_APF_Demo_exports_export_single( $sFormatType, $sFieldID ) { // export_format_{extended class name}_{export section id}_{export field id}
+    public function export_format_APF_Demo_exports_export_single( $sFormatType, $sFieldID ) { // export_format_{instantiated class name}_{export section id}_{export field id}
 
         // Set the internal formatting type based on the selected format type in the other field.
         return isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] ) 
@@ -306,7 +306,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
             : $sFormatType;
         
     }
-    public function import_APF_Demo_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) { // import_{extended class name}_{import section id}_{import field id}
+    public function import_APF_Demo_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) { // import_{instantiated class name}_{import section id}_{import field id}
 
         if ( $sImportFormat == 'text' ) {
             $this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
@@ -318,7 +318,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
         
     }
 
-    public function validation_APF_Demo_ManageOptions( $aInput, $aOldOptions ) { // validation_{extended class name}
+    public function validation_APF_Demo_ManageOptions( $aInput, $aOldOptions ) { // validation_{instantiated class name}
         
         /* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
         if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) return array();

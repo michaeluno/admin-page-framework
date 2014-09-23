@@ -67,10 +67,10 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
         return $sFooterHTML
             . "<div id='admin-page-framework-page-load-stats'>"
                 . "<ul>"
-                    . "<li>" . sprintf( $this->oMsg->__( 'queries_in_seconds' ), $_nQueryCount, $_nSeconds ) . "</li>"
-                    . "<li>" . sprintf( $this->oMsg->__( 'out_of_x_memory_used' ), $_nMemoryUsage, $_nMemoryLimit, round( ( $_nMemoryUsage / $_nMemoryLimit ), 2 ) * 100 . '%' ) . "</li>"
-                    . "<li>" . sprintf( $this->oMsg->__( 'peak_memory_usage' ), $_nMemoryPeakUsage ) . "</li>"
-                    . "<li>" . sprintf( $this->oMsg->__( 'initial_memory_usage' ), $_sInitialMemoryUsage ) . "</li>"
+                    . "<li>" . sprintf( $this->oMsg->get( 'queries_in_seconds' ), $_nQueryCount, $_nSeconds ) . "</li>"
+                    . "<li>" . sprintf( $this->oMsg->get( 'out_of_x_memory_used' ), $_nMemoryUsage, $_nMemoryLimit, round( ( $_nMemoryUsage / $_nMemoryLimit ), 2 ) * 100 . '%' ) . "</li>"
+                    . "<li>" . sprintf( $this->oMsg->get( 'peak_memory_usage' ), $_nMemoryPeakUsage ) . "</li>"
+                    . "<li>" . sprintf( $this->oMsg->get( 'initial_memory_usage' ), $_sInitialMemoryUsage ) . "</li>"
                 . "</ul>"
             . "</div>";
         

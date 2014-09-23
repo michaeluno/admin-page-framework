@@ -177,7 +177,6 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
         // If it is a pre callback method, call the redirecting method.     
         if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) ) == 'section_pre_' ) return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback - defined in AdminPageFramework_Setting
         if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) ) == 'field_pre_' ) return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
-        // if ( substr( $sMethodName, 0, strlen( 'validation_pre_' ) ) == 'validation_pre_' ) return $this->_doValidationCall( $aArgs[ 0 ] ); // register_setting() callback - defined in AdminPageFramework_Setting // deprecated as of 3.1.0
         if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) ) == 'load_pre_' ) {
             
             return substr( $sMethodName, strlen( 'load_pre_' ) ) === $sPageSlug
@@ -194,36 +193,11 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
         if ( has_filter( $sMethodName ) ) {
             return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
         }
-                
-        // If it's one of the framework's callback methods, do nothing.    
-        // if ( $this->_isFrameworkCallbackMethod( $sMethodName ) ) {
-            // return isset( $aArgs[0] ) ? $aArgs[0] : null; // if $aArgs[0] is set, it's a filter; otherwise, it's an action.     
-        // }
-        
+                        
         trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_ERROR );
         
     }    
-        /**
-         * Determines whether the method name matches the pre-defined hook prefixes.
-         * @access private
-         * @since 2.0.0
-         * @remark     the users do not need to call or extend this method unless they know what they are doing.
-         * @param string $sMethodName     the called method name
-         * @return boolean If it is a framework's callback method, returns true; otherwise, false.
-         * @internal
-         * @deprecated
-         */
-        private function _isFrameworkCallbackMethod( $sMethodName ) {
-                
-            foreach( self::$_aHookPrefixes as $sPrefix ) {
-                if ( substr( $sMethodName, 0, strlen( $sPrefix ) ) == $sPrefix  ) {
-                    return true;
-                }
-            }
-            return false;
-            
-        }
-
+ 
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
          * 
@@ -300,10 +274,11 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
     /**
      * Checks whether the currently loading page is of the given pages. 
      * 
-     * @since 3.0.2
+     * @since       3.0.2
+     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
      * @internal
      */
-    protected function _isInThePage( $aPageSlugs=array() ) {
+    public function _isInThePage( $aPageSlugs=array() ) {
 
         // Maybe called too early
         if ( ! isset( $this->oProp ) ) {

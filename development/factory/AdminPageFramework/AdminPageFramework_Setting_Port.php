@@ -36,7 +36,7 @@ abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Settin
     
         // Check if there is an upload error.
         if ( $oImport->getError() > 0 ) {
-            $this->setSettingNotice( $this->oMsg->__( 'import_error' ) );    
+            $this->setSettingNotice( $this->oMsg->get( 'import_error' ) );    
             return $aStoredOptions; // do not change the framework's options.
         }
 
@@ -58,14 +58,14 @@ abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Settin
         // Check the uploaded file MIME type.
         $_sType = $oImport->getType();
         if ( ! in_array( $oImport->getType(), $aMIMEType ) ) {        
-            $this->setSettingNotice( sprintf( $this->oMsg->__( 'uploaded_file_type_not_supported' ), $_sType ) );
+            $this->setSettingNotice( sprintf( $this->oMsg->get( 'uploaded_file_type_not_supported' ), $_sType ) );
             return $aStoredOptions;        // do not change the framework's options.
         }
 
         // Retrieve the importing data.
         $vData = $oImport->getImportData();
         if ( $vData === false ) {
-            $this->setSettingNotice( $this->oMsg->__( 'could_not_load_importing_data' ) );     
+            $this->setSettingNotice( $this->oMsg->get( 'could_not_load_importing_data' ) );     
             return $aStoredOptions; // do not change the framework's options.
         }
         
@@ -127,7 +127,7 @@ abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Settin
         // Set the update notice
         $bEmpty = empty( $vData );
         $this->setSettingNotice(  
-            $bEmpty ? $this->oMsg->__( 'not_imported_data' ) : $this->oMsg->__( 'imported_data' ), 
+            $bEmpty ? $this->oMsg->get( 'not_imported_data' ) : $this->oMsg->get( 'imported_data' ), 
             $bEmpty ? 'error' : 'updated',
             $this->oProp->sOptionKey, // message id
             false // do not override 

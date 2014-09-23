@@ -4,7 +4,7 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
     /**
      * Triggered at the end of the constructor.
      * 
-     * Alternatively you may use the start_{extended class name} predefined callback method.
+     * Alternatively you may use the start_{instantiated class name} predefined callback method.
      */
     public function start() {}
 
@@ -156,7 +156,7 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
                 
         /*
          * Custom Field Types - in order to use these types, those custom field types must be registered. 
-         * The way to register a field type is demonstrated in the start_{extended class name} callback function.
+         * The way to register a field type is demonstrated in the start_{instantiated class name} callback function.
          */
         $this->addSettingFields(     
             array(
@@ -432,7 +432,7 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
                     '#fieldrow-revealer_revealer_field_option_a' => __( 'Option A', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_b, #fieldrow-revealer_revealer_field_option_c' => __( 'Option B and C', 'admin-page-framework-demo' ),
                 ),
-                'description' => __( 'Specify the selectors to reveal in the label keys in the field definition array.', 'admin-page-framework-demo' ),
+                'description' => __( 'Specify the selectors to reveal in the label argument keys in the field definition array.', 'admin-page-framework-demo' ),
             ),
             array(
                 'field_id' => 'revealer_field_option_a',

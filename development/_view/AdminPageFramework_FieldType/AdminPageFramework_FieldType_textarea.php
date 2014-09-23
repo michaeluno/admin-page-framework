@@ -377,7 +377,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                                                                 
                         });
                         
-                    },   
+                    }
 					
 				});	        
             });

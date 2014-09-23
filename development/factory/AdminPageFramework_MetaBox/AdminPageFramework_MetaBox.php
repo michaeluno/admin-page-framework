@@ -95,10 +95,11 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
         /**
          * Determines whether the meta box belongs to the loading page.
          * 
-         * @since 3.0.3
+         * @since       3.0.3
+         * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
          * @internal
          */
-        protected function _isInThePage() {
+        public function _isInThePage() {
 
             if ( ! in_array( $this->oProp->sPageNow, array( 'post.php', 'post-new.php' ) ) ) {            
                 return false;
@@ -249,7 +250,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
         // Schedule to add head tag elements and help pane contents. 
         if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;
     
-        $this->_loadDefaultFieldTypeDefinitions();
+        $this->_loadDefaultFieldTypeDefinitions();  // defined in the factory class.
     
         // Format the fields array.
         $this->oForm->format();

@@ -26,6 +26,7 @@ class AdminPageFramework_Script_RegisterCallback {
             $.fn.aAPFRemoveRepeatableFieldCallbacks     = [];
             $.fn.aAPFSortedFieldsCallbacks              = [];            
             $.fn.aAPFStoppedSortingFieldsCallbacks      = [];
+            $.fn.aAPFAddedWidgetCallbacks               = [];
             
             /**
              * Gets triggered when a repeatable field add button is pressed.
@@ -77,6 +78,22 @@ class AdminPageFramework_Script_RegisterCallback {
             };            
             
             /**
+             * Gets triggered when a widget of the framework is saved.
+             * @since    3.2.0 
+             */
+            $( document ).bind( 'admin_page_framework_saved_widget', function( event, oWidget ){
+
+                $.each( $.fn.aAPFAddedWidgetCallbacks, function( iIndex, hfCallback ) {
+                    
+                    if ( ! $.isFunction( hfCallback ) ) { return true; }   // continue
+
+                    hfCallback( oWidget ); 
+                    
+                });            
+            
+            });            
+            
+            /**
              * Registers callbacks. This will be called in each field type definition class.
              */
             $.fn.registerAPFCallback = function( oOptions ) {
@@ -85,10 +102,11 @@ class AdminPageFramework_Script_RegisterCallback {
                 var oSettings = $.extend(
                     {
                         // The user specifies the settings with the following options.
-                        added_repeatable_field:     function() {},
-                        removed_repeatable_field:   function() {},
-                        sorted_fields:              function() {},
-                        stopped_sorting_fields:     function() {},
+                        added_repeatable_field:     null,
+                        removed_repeatable_field:   null,
+                        sorted_fields:              null,
+                        stopped_sorting_fields:     null,
+                        saved_widget:               null,
                     }, 
                     oOptions 
                 );
@@ -98,6 +116,7 @@ class AdminPageFramework_Script_RegisterCallback {
                 $.fn.aAPFRemoveRepeatableFieldCallbacks.push( oSettings.removed_repeatable_field );
                 $.fn.aAPFSortedFieldsCallbacks.push( oSettings.sorted_fields );
                 $.fn.aAPFStoppedSortingFieldsCallbacks.push( oSettings.stopped_sorting_fields );
+                $.fn.aAPFAddedWidgetCallbacks.push( oSettings.saved_widget );
                 
                 return;
 

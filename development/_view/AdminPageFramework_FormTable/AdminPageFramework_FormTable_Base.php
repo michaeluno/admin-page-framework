@@ -26,9 +26,9 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
      */
     public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) {
         
-        $this->aFieldTypeDefinitions = $aFieldTypeDefinitions; // used to merge the field definition array with the default field type definition. This is for the 'section_title' field type.
-        $this->aFieldErrors = $aFieldErrors;
-        $this->oMsg = $oMsg ? $oMsg: AdminPageFramework_Message::instantiate( '' );
+        $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions; // used to merge the field definition array with the default field type definition. This is for the 'section_title' field type.
+        $this->aFieldErrors             = $aFieldErrors;
+        $this->oMsg                     = $oMsg ? $oMsg: AdminPageFramework_Message::getInstance();
         
         $this->_loadScripts();
         
@@ -122,7 +122,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
         if ( $bIsCalled ) return;
         $bIsCalled = true;
         echo "<script type='text/javascript' class='admin-page-framework-repeatable-sections-plugin'>"
-                . AdminPageFramework_Script_RepeatableSection::getjQueryPlugin( $this->oMsg->__( 'allowed_maximum_number_of_sections' ), $this->oMsg->__( 'allowed_minimum_number_of_sections' ) )
+                . AdminPageFramework_Script_RepeatableSection::getjQueryPlugin( $this->oMsg->get( 'allowed_maximum_number_of_sections' ), $this->oMsg->get( 'allowed_minimum_number_of_sections' ) )
             . "</script>";
     
     }     

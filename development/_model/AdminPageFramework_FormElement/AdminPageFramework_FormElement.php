@@ -152,11 +152,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function addSection( array $aSection ) {
         
-        $aSection = $aSection + self::$_aStructure_Section;
+        $aSection               = $aSection + self::$_aStructure_Section;
         $aSection['section_id'] = $this->sanitizeSlug( $aSection['section_id'] );
         
         $this->aSections[ $aSection['section_id'] ] = $aSection;    
-        $this->aFields[ $aSection['section_id'] ] = isset( $this->aFields[ $aSection['section_id'] ] ) 
+        $this->aFields[ $aSection['section_id'] ]   = isset( $this->aFields[ $aSection['section_id'] ] ) 
             ? $this->aFields[ $aSection['section_id'] ] 
             : array();
 
@@ -169,7 +169,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function removeSection( $sSectionID ) {
         
-        if ( $sSectionID == '_default' ){  return; }
+        if ( '_default' === $sSectionID ){  return; }
         
         unset( $this->aSections[ $sSectionID ] );
         unset( $this->aFields[ $sSectionID ] );
@@ -200,8 +200,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         if ( ! isset( $aField['field_id'], $aField['type'] ) ) { return null; } // Check the required keys as these keys are necessary.
             
         // Sanitize the IDs since they are used as a callback method name.
-        $aField['field_id'] = $this->sanitizeSlug( $aField['field_id'] );
-        $aField['section_id'] = $this->sanitizeSlug( $aField['section_id'] );     
+        $aField['field_id']     = $this->sanitizeSlug( $aField['field_id'] );
+        $aField['section_id']   = $this->sanitizeSlug( $aField['section_id'] );     
         
         $this->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
         return $aField;
@@ -435,16 +435,20 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function getConditionedSections( $aSections=null ) {
         
-        $aSections = is_null( $aSections ) ? $this->aSections : $aSections;
-        $aNewSections = array();
+        $aSections      = is_null( $aSections ) ? $this->aSections : $aSections;
+        $_aNewSections   = array();
+AdminPageFramework_Debug::log( '$aSections' );
+AdminPageFramework_Debug::log( $aSections );
         foreach( $aSections as $_sSectionID => $_aSection ) {
             $_aSection = $this->getConditionedSection( $_aSection );
             if ( $_aSection ) {
-                $aNewSections[ $_sSectionID ] = $_aSection;
+                $_aNewSections[ $_sSectionID ] = $_aSection;
             }
-        }
-        $this->aConditionedSections = $aNewSections;
-        return $aNewSections;
+        }        
+        $this->aConditionedSections = $_aNewSections;
+AdminPageFramework_Debug::log( '$_aNewSections' );        
+AdminPageFramework_Debug::log( $_aNewSections );        
+        return $_aNewSections;
         
     }
         /**
@@ -457,8 +461,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         protected function getConditionedSection( array $aSection ) {
             
             // Check capability. If the access level is not sufficient, skip.
-            if ( ! current_user_can( $aSection['capability'] ) ) { return; }
-            if ( ! $aSection['if'] ) { return; }
+            if ( ! current_user_can( $aSection['capability'] ) ) { 
+AdminPageFramework_Debug::log( 'Insufficient capability: ' . $aSection['capability'] );
+                return; 
+            }
+            if ( ! $aSection['if'] ) { 
+AdminPageFramework_Debug::log( 'If is false.' );            
+                return; 
+            }
             
             return $aSection;
             
@@ -473,11 +483,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function getConditionedFields( $aFields=null, $aSections=null ) {
         
-        $aFields = is_null( $aFields ) ? $this->aFields : $aFields;
-        $aSections = is_null( $aSections ) ? $this->aSections : $aSections;
+        $aFields    = is_null( $aFields ) ? $this->aFields : $aFields;
+        $aSections  = is_null( $aSections ) ? $this->aSections : $aSections;
 
         // Drop keys of fields-array which do not exist in the sections-array. For this reasons, the sections-array should be conditioned first before applying this method.
-        $aFields = ( array ) $this->castArrayContents( $aSections, $aFields );
+        $aFields    = ( array ) $this->castArrayContents( $aSections, $aFields );
 
         $_aNewFields = array();
         foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
@@ -502,7 +512,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                     
                 }
                 
-                // Otherwise, insert the formatted field definiton array.
+                // Otherwise, insert the formatted field definition array.
                 $_aField = $_aSubSectionOrField;
                 $_aField = $this->getConditionedField( $_aField );
                 if ( $_aField ) {

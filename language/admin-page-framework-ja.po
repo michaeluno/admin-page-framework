@@ -1,0 +1,205 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Page Framework\n"
+"POT-Creation-Date: 2014-09-19 23:48+0900\n"
+"PO-Revision-Date: 2014-09-20 16:25+0900\n"
+"Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: ../development\n"
+
+#: ../development/factory/AdminPageFramework/AdminPageFramework_Base.php:197
+#: ../development/factory/AdminPageFramework_Factory/AdminPageFramework_Factory_Router.php:335
+#, php-format
+msgid "The method is not defined: %1$s"
+msgstr "次のメソッドは定義されていません: %1$s"
+
+#: ../development/_model/AdminPageFramework_Message.php:198
+msgid "The options have been updated."
+msgstr "設定は更新されました。"
+
+#: ../development/_model/AdminPageFramework_Message.php:200
+msgid "The options have been cleared."
+msgstr "設定が消去されました。"
+
+#: ../development/_model/AdminPageFramework_Message.php:202
+msgid "Export"
+msgstr "エクスポート"
+
+#: ../development/_model/AdminPageFramework_Message.php:204
+msgid "Export Options"
+msgstr "設定のエクスポート"
+
+#: ../development/_model/AdminPageFramework_Message.php:206
+msgid "Import"
+msgstr "インポート"
+
+#: ../development/_model/AdminPageFramework_Message.php:208
+msgid "Import Options"
+msgstr "設定のインポート"
+
+#: ../development/_model/AdminPageFramework_Message.php:210
+msgid "Submit"
+msgstr "送信"
+
+#: ../development/_model/AdminPageFramework_Message.php:212
+msgid "An error occurred while uploading the import file."
+msgstr "インポートファイルのアップロードの最中にエラーが生じました。"
+
+#: ../development/_model/AdminPageFramework_Message.php:214
+#, php-format
+msgid "The uploaded file type is not supported: %1$s"
+msgstr "アップロードされたファイルタイプはサポートされていません： %1$s"
+
+#: ../development/_model/AdminPageFramework_Message.php:216
+msgid "Could not load the importing data."
+msgstr "インポートデータが読み込めませんでした。"
+
+#: ../development/_model/AdminPageFramework_Message.php:218
+msgid "The uploaded file has been imported."
+msgstr "アップロードされたファイルはインポートされました。"
+
+#: ../development/_model/AdminPageFramework_Message.php:220
+msgid "No data could be imported."
+msgstr "インポートできませんでした。"
+
+#: ../development/_model/AdminPageFramework_Message.php:222
+msgid "Upload Image"
+msgstr "画像アップロード"
+
+#: ../development/_model/AdminPageFramework_Message.php:224
+msgid "Use This Image"
+msgstr "この画像を使う"
+
+#: ../development/_model/AdminPageFramework_Message.php:226
+msgid "Are you sure you want to reset the options?"
+msgstr "本当に設定をリセットしますか？"
+
+#: ../development/_model/AdminPageFramework_Message.php:228
+msgid "Please confirm if you want to perform the specified task."
+msgstr "指定されたタスクを実行することをご確認下さい。"
+
+#: ../development/_model/AdminPageFramework_Message.php:230
+msgid "The specified options have been deleted."
+msgstr "指定された設定は消去されました。"
+
+#: ../development/_model/AdminPageFramework_Message.php:232
+msgid "A problem occurred while processing the form data. Please try again."
+msgstr ""
+"フォームの送信データを処理中に問題が発生しました。もう一度お試しください。"
+
+#: ../development/_model/AdminPageFramework_Message.php:236
+msgid "Title"
+msgstr "タイトル"
+
+#: ../development/_model/AdminPageFramework_Message.php:238
+msgid "Author"
+msgstr "作成者"
+
+#: ../development/_model/AdminPageFramework_Message.php:240
+msgid "Categories"
+msgstr "カテゴリー"
+
+#: ../development/_model/AdminPageFramework_Message.php:242
+msgid "Tags"
+msgstr "タグ"
+
+#: ../development/_model/AdminPageFramework_Message.php:244
+msgid "Comments"
+msgstr "コメント"
+
+#: ../development/_model/AdminPageFramework_Message.php:246
+msgid "Date"
+msgstr "日付"
+
+#: ../development/_model/AdminPageFramework_Message.php:248
+msgid "Show All"
+msgstr "全て表示"
+
+#: ../development/_model/AdminPageFramework_Message.php:252
+msgid "Powered by"
+msgstr "Powered by"
+
+#: ../development/_model/AdminPageFramework_Message.php:256
+msgid "Settings"
+msgstr "設定"
+
+#: ../development/_model/AdminPageFramework_Message.php:260
+msgid "Manage"
+msgstr "編集"
+
+#: ../development/_model/AdminPageFramework_Message.php:264
+msgid "Select Image"
+msgstr "画像の選択"
+
+#: ../development/_model/AdminPageFramework_Message.php:266
+msgid "Upload File"
+msgstr "ファイルのアップロード"
+
+#: ../development/_model/AdminPageFramework_Message.php:268
+msgid "Use This File"
+msgstr "このファイルを使う"
+
+#: ../development/_model/AdminPageFramework_Message.php:270
+msgid "Select File"
+msgstr "ファイルの選択"
+
+#: ../development/_model/AdminPageFramework_Message.php:274
+#, php-format
+msgid "%1$s queries in %2$s seconds."
+msgstr "%2$s秒中%1$sクエリ。"
+
+#: ../development/_model/AdminPageFramework_Message.php:276
+#, php-format
+msgid "%1$s out of %2$s MB (%3$s) memory used."
+msgstr "%2$s 中 %1$s (%3$s) メモリ使用。"
+
+#: ../development/_model/AdminPageFramework_Message.php:278
+#, php-format
+msgid "Peak memory usage %1$s MB."
+msgstr "%1$s ピークメモリ使用量。"
+
+#: ../development/_model/AdminPageFramework_Message.php:280
+#, php-format
+msgid "Initial memory usage  %1$s MB."
+msgstr "%1$s 初期メモリ使用量。"
+
+#: ../development/_model/AdminPageFramework_Message.php:284
+msgid "The allowed maximum number of fields is {0}."
+msgstr "最大{0}個 のフィールドが使用できます。"
+
+#: ../development/_model/AdminPageFramework_Message.php:286
+msgid "The allowed minimum number of fields is {0}."
+msgstr "最小{0}個 のフィールドが使用できます。"
+
+#: ../development/_model/AdminPageFramework_Message.php:288
+msgid "Add"
+msgstr "追加"
+
+#: ../development/_model/AdminPageFramework_Message.php:290
+msgid "Remove"
+msgstr "削除"
+
+#: ../development/_model/AdminPageFramework_Message.php:294
+msgid "The allowed maximum number of sections is {0}"
+msgstr "最大{0}個 のセクションが使用できます。"
+
+#: ../development/_model/AdminPageFramework_Message.php:296
+msgid "The allowed minimum number of sections is {0}"
+msgstr "最小{0}個 のセクションが使用できます。"
+
+#: ../development/_model/AdminPageFramework_Message.php:298
+msgid "Add Section"
+msgstr "セクションの追加"
+
+#: ../development/_model/AdminPageFramework_Message.php:300
+msgid "Remove Section"
+msgstr "セクションの削除"

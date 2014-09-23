@@ -40,7 +40,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
         }     
         
         $this->oProp->sLabelPluginSettingsLink = null === $this->oProp->sLabelPluginSettingsLink
-            ? $this->oMsg->__( 'settings' )
+            ? $this->oMsg->get( 'settings' )
             : $this->oProp->sLabelPluginSettingsLink;
 
         add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );

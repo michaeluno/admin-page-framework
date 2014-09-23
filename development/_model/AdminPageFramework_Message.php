@@ -10,11 +10,12 @@ if ( ! class_exists( 'AdminPageFramework_Message' ) ) :
 /**
  * Provides methods for text messages.
  *
- * @since 2.0.0
- * @since 2.1.6 Multiple instances of this class are disallowed.
- * @extends n/a
- * @package AdminPageFramework
- * @subpackage Property
+ * @since       2.0.0
+ * @since       2.1.6   Multiple instances of this class are disallowed.
+ * @since       3.2.0   Multiple instances of this class are allowed by the instantiation is restricted to per text domain basis.
+ * @extends     n/a
+ * @package     AdminPageFramework
+ * @subpackage  Property
  * @internal
  */
 class AdminPageFramework_Message {
@@ -25,36 +26,38 @@ class AdminPageFramework_Message {
      * @remark     The user may modify this property directly.
      */ 
     public $aMessages = array();
-
-    /**
-     * Stores the self instance.
-     * @internal
-     */
-    static private $_oInstance;
     
     /**
-     * Stores the text domain used for the messages.
+     * Stores the self instance by text domain.
      * @internal
+     * @since       3.2.0
      */
-    protected $_sTextDomain = 'admin-page-framework';
-    
+    static private $_aInstancesByTextDomain = array();
+   
     /**
      * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
      * 
-     * @since   2.1.6
-     * @remark  This class should be instantiated via this method.
+     * @since       2.1.6
+     * @since       3.2.0       Changed it to create an instance per text domain basis.
+     * @remark      This class should be instantiated via this method.
      */
-    public static function instantiate( $sTextDomain='admin-page-framework' ) {
+    public static function getInstance( $sTextDomain='admin-page-framework' ) {
         
-        static $_sTextDomain;
-        $_sTextDomain = $sTextDomain ? $sTextDomain : ( $_sTextDomain ? $_sTextDomain : 'admin-page-framework' ) ;
-        if ( ! isset( self::$_oInstance ) && ! ( self::$_oInstance instanceof AdminPageFramework_Message ) ) {
-            self::$_oInstance = new AdminPageFramework_Message( $_sTextDomain );
-        }
-        return self::$_oInstance;
+        $_oInstance = isset( $_aInstancesByTextDomain[ $sTextDomain ] ) && ( $_aInstancesByTextDomain[ $sTextDomain ] instanceof AdminPageFramework_Message )
+            ? $_aInstancesByTextDomain[ $sTextDomain ]
+            : new AdminPageFramework_Message( $sTextDomain );
+        $_aInstancesByTextDomain[ $sTextDomain ] = $_oInstance;
+        return $_aInstancesByTextDomain[ $sTextDomain ];
         
     }    
-    
+        /**
+         * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
+         * @deprecated  3.2.0
+         */
+        public static function instantiate( $sTextDomain='admin-page-framework' ) {
+            return self::getInstantiate( $sTextDomain );
+        }
+        
     public function __construct( $sTextDomain='admin-page-framework' ) {
         
         $this->_sTextDomain = $sTextDomain;
@@ -127,23 +130,52 @@ class AdminPageFramework_Message {
         );     
         
     }
-    public function __( $sKey ) {
+    
+    /**
+     * Returns the framework system message by key.
+     * 
+     * @remark  An alias of the __() method.
+     * @since   3.2.0
+     */
+    public function get( $sKey ) {
         
         return isset( $this->aMessages[ $sKey ] )
             ? __( $this->aMessages[ $sKey ], $this->_sTextDomain )
-            : __( $this->{$sKey}, $this->_sTextDomain );
-            
+            : __( $this->{$sKey}, $this->_sTextDomain );        
+        
     }
-    
-    public function _e( $sKey ) {
+
+    /**
+     * Echoes the framework system message by key.
+     * @remark  An alias of the _e() method.
+     * @since   3.2.0
+     */    
+    public function output( $sKey ) {
         
         if ( isset( $this->aMessages[ $sKey ] ) ) {
             _e( $this->aMessages[ $sKey ], $this->_sTextDomain );
         } else {
             _e( $this->{$sKey}, $this->_sTextDomain );
         }
-            
-    }
+        
+    }   
+        
+        /**
+         * Returns the framework system message by key.
+         * @since       2.x
+         * @deprecated  3.2.0
+         */
+        public function __( $sKey ) {
+            return $this->get( $sKey );
+        }       
+        /**
+         * Echoes the framework system message by key.
+         * @since       2.x
+         * @deprecated  3.2.0
+         */    
+        public function _e( $sKey ) {
+            $this->output( $sKey );
+        }
     
     /**
      * Responds to a request to an undefined property.
@@ -241,13 +273,13 @@ class AdminPageFramework_Message {
 
                 // AdminPageFramework_PageLoadInfo_Base
                 case 'queries_in_seconds':
-                    return __( '%s queries in %s seconds.', 'admin-page-framework' );
+                    return __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );
                 case 'out_of_x_memory_used':
-                    return __( '%s out of %s MB (%s) memory used.', 'admin-page-framework' );
+                    return __( '%1$s out of %2$s MB (%3$s) memory used.', 'admin-page-framework' );
                 case 'peak_memory_usage':
-                    return __( 'Peak memory usage %s MB.', 'admin-page-framework' );
+                    return __( 'Peak memory usage %1$s MB.', 'admin-page-framework' );
                 case 'initial_memory_usage':
-                    return __( 'Initial memory usage  %s MB.', 'admin-page-framework' );
+                    return __( 'Initial memory usage  %1$s MB.', 'admin-page-framework' );
         
                 // AdminPageFramework_FormField
                 case 'allowed_maximum_number_of_fields':
