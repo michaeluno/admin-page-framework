@@ -437,6 +437,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.2.0 =
+- Added the option to set custom button labels via the `data-label` attribute for the `image`, `media`, and `font` field types.
 - Added the remove button for the `image`, `media`, and `font` field types.
 - Added the default and Japanese translation files.
 - Added the `show_post_count` argument for the `taxonomy` field type and made it enabled by default.
