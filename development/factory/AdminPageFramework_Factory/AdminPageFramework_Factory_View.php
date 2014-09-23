@@ -92,7 +92,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         $_oField = new AdminPageFramework_FormField( 
             $aField,                                // the field definition array
             $this->oProp->aOptions,                 // the stored form data
-            $this->_getFieldErrors(),               // the field error array. Not supported in meta boxes.
+            $this->_getFieldErrors(),               // the field error array.
             $this->oProp->aFieldTypeDefinitions,    // the field type definition array.
             $this->oMsg,                            // the system message object
             $this->oProp->aFieldCallbacks           // field output element callables.
