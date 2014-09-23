@@ -666,6 +666,9 @@ $this->addSettingFields(
                 'button'    => array(
                     'style' => 'background-color: #E1FCD2',
                 ),
+                'remove_button'    => array(
+                    'style' => 'background-color: #E1FCD2',
+                ),                
             ),     
         ),
         array(
