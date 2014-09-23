@@ -7,30 +7,30 @@ Admin Page Framework is an open source library for WordPress consisting of a set
 ## Screenshots ##
 
 <p align="center">
-	<a href="https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s0/admin_page_framework_v3.png" title="Admin Page Framework - Text, Password, and Textarea">
-		<img src="https://lh6.googleusercontent.com/-bR-r0LvjXOQ/UtDfGRngfGI/AAAAAAAABfQ/P3pWFDgJR30/s600/admin_page_framework_v3.png" alt="Admin Page Framework - Text, Password, and Textarea" />
+	<a href="https://lh6.googleusercontent.com/-U_29dZp26Yw/VCFc0cDPGSI/AAAAAAAABtM/0l9klA6JFcg/s0/built-in%2520field%2520types.png" title="Admin Page Framework - Text, Password, and Textarea">
+		<img src="https://lh6.googleusercontent.com/-U_29dZp26Yw/VCFc0cDPGSI/AAAAAAAABtM/0l9klA6JFcg/s600/built-in%2520field%2520types.png" alt="Admin Page Framework - Text, Password, and Textarea" />
 	</a>
 </p>
 
 <div style="margin:20px; float:left">
-	<a href="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s0/admin_page_framework_v3_selectors.png" title="Admin Page Framework - Selectors">
-		<img src="https://lh5.googleusercontent.com/-LWGuI2UbX2I/UtDfIzl9VjI/AAAAAAAABgA/7VQzt3ilB4g/s144/admin_page_framework_v3_selectors.png" alt="Admin Page Framework - Selectors" />
+	<a href="https://lh4.googleusercontent.com/-EuQbXCx4HhI/VCFc441vgCI/AAAAAAAABuE/KeKVd3t5PSc/s0/selectors.png" title="Admin Page Framework - Selectors">
+		<img src="https://lh4.googleusercontent.com/-EuQbXCx4HhI/VCFc441vgCI/AAAAAAAABuE/KeKVd3t5PSc/s144/selectors.png" alt="Admin Page Framework - Selectors" />
 	</a>
 	&nbsp;
-	<a href="https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s0/admin_page_framework_v3_files.png" title="Admin Page Framework - Image, Media Library, and File Uploads">
-		<img src="https://lh5.googleusercontent.com/-8AZyx8CRl0E/UtDfILtczJI/AAAAAAAABfw/ngiUiLKwnb8/s144/admin_page_framework_v3_files.png" alt="Admin Page Framework - Image, Media Library, and File Uploads" />
+	<a href="https://lh6.googleusercontent.com/-LjEY_hZLGX0/VCFc4Kh4BRI/AAAAAAAABt4/2ZOt-J3LpgM/s0/files.png" title="Admin Page Framework - Image, Media Library, and File Uploads">
+		<img src="https://lh6.googleusercontent.com/-LjEY_hZLGX0/VCFc4Kh4BRI/AAAAAAAABt4/2ZOt-J3LpgM/s144/files.png" alt="Admin Page Framework - Image, Media Library, and File Uploads" />
 	</a>
 	&nbsp;
-	<a href="https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s0/admin_page_framework_v3_checklist.png" title="Admin Page Framework - Taxonomies and Post Types Checklist">
-		<img src="https://lh4.googleusercontent.com/-D4EqxHNoZf8/UtDfHZbij7I/AAAAAAAABfg/SfAOl5WTKOU/s144/admin_page_framework_v3_checklist.png" alt="Admin Page Framework - Taxonomies and Post Types Checklist" />
+	<a href="https://lh3.googleusercontent.com/-fbuQOuBSSJ0/VCFc0CTx3rI/AAAAAAAABtI/jYYMxH07T-Q/s0/checklist.png" title="Admin Page Framework - Taxonomies and Post Types Checklist">
+		<img src="https://lh3.googleusercontent.com/-fbuQOuBSSJ0/VCFc0CTx3rI/AAAAAAAABtI/jYYMxH07T-Q/s144/checklist.png" alt="Admin Page Framework - Taxonomies and Post Types Checklist" />
 	</a>
 	&nbsp;
-	<a href="https://lh3.googleusercontent.com/-jhy50e9D6J0/UtDfIRoBq5I/AAAAAAAABf8/7Y4tRzZUSsc/s0/admin_page_framework_v3_misc.png" title="Admin Page Framework - Misc">
-		<img src="https://lh3.googleusercontent.com/-jhy50e9D6J0/UtDfIRoBq5I/AAAAAAAABf8/7Y4tRzZUSsc/s144/admin_page_framework_v3_misc.png" alt="Admin Page Framework - Misc" />
+	<a href="https://lh6.googleusercontent.com/-D2tssBl00fw/VCFc16XZ1CI/AAAAAAAABtY/uBBqQkWqG4w/s0/misc.png" title="Admin Page Framework - Misc">
+		<img src="https://lh6.googleusercontent.com/-D2tssBl00fw/VCFc16XZ1CI/AAAAAAAABtY/uBBqQkWqG4w/s144/misc.png" alt="Admin Page Framework - Misc" />
 	</a>
 	&nbsp;
-	<a href="https://lh4.googleusercontent.com/-MZUbpV_y9x8/UtDfI89MaWI/AAAAAAAABgI/Ji9ki25uHCU/s0/admin_page_framework_v3_verification.png" title="Admin Page Framework - Form Input Verification">
-		<img src="https://lh4.googleusercontent.com/-MZUbpV_y9x8/UtDfI89MaWI/AAAAAAAABgI/Ji9ki25uHCU/s144/admin_page_framework_v3_verification.png" alt="Admin Page Framework - Form Input Verification" />
+	<a href="https://lh5.googleusercontent.com/-gbd0VdjjKQQ/VCFc49JM_tI/AAAAAAAABuA/4FbHz_pMW2Y/s0/verification.png" title="Admin Page Framework - Form Input Verification">
+		<img src="https://lh5.googleusercontent.com/-gbd0VdjjKQQ/VCFc49JM_tI/AAAAAAAABuA/4FbHz_pMW2Y/s144/verification.png" alt="Admin Page Framework - Form Input Verification" />
 	</a>
 	&nbsp;
 	<a href="https://lh6.googleusercontent.com/-cmgLpnx3iIA/UtDfHZdsxvI/AAAAAAAABfk/BklgC-MnqWY/s0/admin_page_framework_v3_export_%2526_import.png" title="Admin Page Framework - Export and Import Options">
@@ -41,21 +41,25 @@ Admin Page Framework is an open source library for WordPress consisting of a set
 		<img src="https://lh5.googleusercontent.com/-YujIDW7LMdU/UtDfGcrDjrI/AAAAAAAABfM/EMA4NF3WgYU/s144/admin_page_framework_help_pane.png" alt="Admin Page Framework - Contextual Help Pane" />
 	</a>
 	&nbsp;
-	<a href="https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s0/admin_page_framework_meta_box_fields.png" title="Admin Page Framework - Custom Post Type and Meta Box">
-		<img src="https://lh4.googleusercontent.com/-aTHPHWneQ9k/UtDfG26gXiI/AAAAAAAABgQ/w5JOtmOJ-4s/s144/admin_page_framework_meta_box_fields.png" alt="Admin Page Framework - Custom Post Type and Meta Box" />
+	<a href="https://lh5.googleusercontent.com/-qYgg41nH2_s/VCFc2rSlOQI/AAAAAAAABtg/XQSLHSUX5yA/s0/meta_boxes.png" title="Admin Page Framework - Custom Post Type and Meta Box">
+		<img src="https://lh5.googleusercontent.com/-qYgg41nH2_s/VCFc2rSlOQI/AAAAAAAABtg/XQSLHSUX5yA/s144/meta_boxes.png" alt="Admin Page Framework - Custom Post Type and Meta Box" />
 	</a>
 	&nbsp;
-	<a href="https://lh4.googleusercontent.com/-AdR4hIv2Qz8/UtyrdfT-VYI/AAAAAAAABhE/3_rz0dVy7hw/s0/meta_boxes_in_pages.png" title="Admin Page Framework - Meta Boxes in Pages Added by the Framework">
-		<img src="https://lh4.googleusercontent.com/-AdR4hIv2Qz8/UtyrdfT-VYI/AAAAAAAABhE/3_rz0dVy7hw/s144/meta_boxes_in_pages.png" alt="Admin Page Framework - Meta Boxes in Pages Added by the Framework" />
+	<a href="https://lh3.googleusercontent.com/-omMuKSVYLPw/VCFc3Kg1okI/AAAAAAAABto/e51rB0qvlC8/s0/page_metabox.png" title="Admin Page Framework - Meta Boxes in Pages Added by the Framework">
+		<img src="https://lh3.googleusercontent.com/-omMuKSVYLPw/VCFc3Kg1okI/AAAAAAAABto/e51rB0qvlC8/s144/page_metabox.png" alt="Admin Page Framework - Meta Boxes in Pages Added by the Framework" />
 	</a>	
 	&nbsp;
 	<a href="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s0/form_fields_in_taxonomy_page.png" title="Admin Page Framework - Form Fields in Taxonomy Page">
 		<img src="https://lh6.googleusercontent.com/-FGum6Tjts9k/UtyrddRYdBI/AAAAAAAABhA/LvY_3wgkvyo/s144/form_fields_in_taxonomy_page.png" alt="Admin Page Framework - Form Fields in Taxonomy Page" />
 	</a>	
 	&nbsp;
-	<a href="https://lh4.googleusercontent.com/-cBhVw-zHoAQ/UwnaN0k3YZI/AAAAAAAABiM/XVU3Svs9T7k/s0/admin_page_framework_v3_sections.png" title="Admin Page Framework - Form Sections in Tabbed Boxes and Repeatable Option">
-		<img src="https://lh4.googleusercontent.com/-cBhVw-zHoAQ/UwnaN0k3YZI/AAAAAAAABiM/XVU3Svs9T7k/s144/admin_page_framework_v3_sections.png" alt="Admin Page Framework - Form Sections in Tabbed Boxes and Repeatable Option" />
+	<a href="https://lh3.googleusercontent.com/-g-JYTcEDTmQ/VCFc4dXs1_I/AAAAAAAABt8/occvS1fFTBM/s0/sections.png" title="Admin Page Framework - Form Sections in Tabbed Boxes and Repeatable Option">
+		<img src="https://lh3.googleusercontent.com/-g-JYTcEDTmQ/VCFc4dXs1_I/AAAAAAAABt8/occvS1fFTBM/s144/sections.png" alt="Admin Page Framework - Form Sections in Tabbed Boxes and Repeatable Option" />
 	</a>
+	&nbsp;
+	<a href="https://lh6.googleusercontent.com/-S8C4xm8BALg/VCFczgOWr6I/AAAAAAAABtE/RTdJuwLOdpI/s0/autocomplete.png" title="Admin Page Framework - Auto-complete Custom Field Type">
+		<img src="https://lh6.googleusercontent.com/-S8C4xm8BALg/VCFczgOWr6I/AAAAAAAABtE/RTdJuwLOdpI/s144/autocomplete.png" alt="Admin Page Framework - Auto-complete Custom Field Type" />
+	</a>    
 </div>
 
 ## Installation ##
@@ -187,11 +191,20 @@ Anyone is welcome to contribute to Admin Page Framework.
 
 There are various ways you can contribute:
 
-1. Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
-2. Send us a Pull Request with your bug fixes and/or new features.
-3. Provide feedback and suggestions on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
-4. Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
-5. Write a custom field type.
+If you have suggestions, 
+- Post the ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
+
+If you are a developer,
+- Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
+- Send us a Pull Request with your bug fixes and/or new features.
+- Write a custom field type. 
+- Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
+
+If you are a designer,
+- Tweak the styling of the framework by modifying the CSS rules.
+
+If you can speak different languages
+- Translate the language files in the `language` folder. 
 
 ## Supporting Future Development ##
 
