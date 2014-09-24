@@ -12,6 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_Factory_View' ) ) :
  * 
  * @abstract
  * @since       3.0.4
+ * @package     AdminPageFramework
  * @subpackage  Factory
  * @internal
  */

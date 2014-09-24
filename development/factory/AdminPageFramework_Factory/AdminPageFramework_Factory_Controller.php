@@ -12,6 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Controller' ) ) :
  * 
  * @abstract
  * @since       3.0.4
+ * @package     AdminPageFramework
  * @subpackage  Factory
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
