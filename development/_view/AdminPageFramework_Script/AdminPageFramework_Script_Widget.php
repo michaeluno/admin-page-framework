@@ -62,7 +62,7 @@ class AdminPageFramework_Script_Widget {
                         // we got an response, this could be either our request above,
                         // or a correct widget-save call, so fire an event on which we can hook our js                        
                         $( document ).trigger( 'admin_page_framework_saved_widget', _oWidget );
-console.log( 'saved widget' );
+
                     }
                 });           
            
