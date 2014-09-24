@@ -14,65 +14,65 @@ class APF_PostType extends AdminPageFramework_PostType {
         $this->setPostTypeArgs(
             array( // argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
                 'labels' => array(
-                    'name' => 'Admin Page Framework',
-                    'all_items'     => __( 'Sample Posts', 'admin-page-framework-demo' ),
-                    'singular_name' => 'Admin Page Framework',
-                    'add_new' => __( 'Add New', 'admin-page-framework-demo' ),
-                    'add_new_item' => __( 'Add New APF Post', 'admin-page-framework-demo' ),
-                    'edit' => __( 'Edit', 'admin-page-framework-demo' ),
-                    'edit_item' => __( 'Edit APF Post', 'admin-page-framework-demo' ),
-                    'new_item' => __( 'New APF Post', 'admin-page-framework-demo' ),
-                    'view' => __( 'View', 'admin-page-framework-demo' ),
-                    'view_item' => __( 'View APF Post', 'admin-page-framework-demo' ),
-                    'search_items' => __( 'Search APF Post', 'admin-page-framework-demo' ),
-                    'not_found' => __( 'No APF Post found', 'admin-page-framework-demo' ),
+                    'name'               => 'Admin Page Framework',
+                    'all_items'          => __( 'Sample Posts', 'admin-page-framework-demo' ),
+                    'singular_name'      => 'Admin Page Framework',
+                    'add_new'            => __( 'Add New', 'admin-page-framework-demo' ),
+                    'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-demo' ),
+                    'edit'               => __( 'Edit', 'admin-page-framework-demo' ),
+                    'edit_item'          => __( 'Edit APF Post', 'admin-page-framework-demo' ),
+                    'new_item'           => __( 'New APF Post', 'admin-page-framework-demo' ),
+                    'view'               => __( 'View', 'admin-page-framework-demo' ),
+                    'view_item'          => __( 'View APF Post', 'admin-page-framework-demo' ),
+                    'search_items'       => __( 'Search APF Post', 'admin-page-framework-demo' ),
+                    'not_found'          => __( 'No APF Post found', 'admin-page-framework-demo' ),
                     'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-demo' ),
-                    'parent' => __( 'Parent APF Post', 'admin-page-framework-demo' ),
+                    'parent'             => __( 'Parent APF Post', 'admin-page-framework-demo' ),
                     'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
                 ),
-                'public' =>    true,
+                'public'            =>    true,
                 'menu_position'     => 110,
-                'supports' => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail' ),    
-                'taxonomies' => array( '' ),
-                'has_archive' =>    true,
+                'supports'          => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail' ),    
+                'taxonomies'        => array( '' ),
+                'has_archive'       =>    true,
                 'show_admin_column' =>    true, // this is for custom taxonomies to automatically add the column in the listing table.
-                'menu_icon' => $this->oProp->bIsAdmin ? plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) : null, // do not call the function in the front-end.
+                'menu_icon'         => $this->oProp->bIsAdmin ? plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) : null, // do not call the function in the front-end.
                 // ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
                 'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
             )    
         );
         
         $this->addTaxonomy( 
-            'apf_sample_taxonomy', // taxonomy slug
-            array( // argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
-                'labels' => array(
-                    'name' => 'Sample Genre',
-                    'add_new_item' => 'Add New Genre',
+            'apf_sample_taxonomy',  // taxonomy slug
+            array(                  // argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
+                'labels'                => array(
+                    'name'          => 'Sample Genre',
+                    'add_new_item'  => 'Add New Genre',
                     'new_item_name' => "New Genre"
                 ),
-                'show_ui' =>    true,
-                'show_tagcloud' => false,
-                'hierarchical' =>    true,
-                'show_admin_column' =>    true,
-                'show_in_nav_menus' =>    true,
-                'show_table_filter' =>    true, // framework specific key
-                'show_in_sidebar_menus' =>    true, // framework specific key
+                'show_ui'               => true,
+                'show_tagcloud'         => false,
+                'hierarchical'          => true,
+                'show_admin_column'     => true,
+                'show_in_nav_menus'     => true,
+                'show_table_filter'     => true, // framework specific key
+                'show_in_sidebar_menus' => true, // framework specific key
             )
         );
         $this->addTaxonomy( 
-            'apf_second_taxonomy', 
+            'apf_second_taxonomy',
             array(
-                'labels' => array(
-                    'name' => 'Non Hierarchical',
-                    'add_new_item' => 'Add New Taxonomy',
+                'labels'                => array(
+                    'name'          => 'Non Hierarchical',
+                    'add_new_item'  => 'Add New Taxonomy',
                     'new_item_name' => "New Sample Taxonomy"
                 ),
-                'show_ui' => true,
-                'show_tagcloud' => false,
-                'hierarchical' => false,
-                'show_admin_column' => true,
-                'show_in_nav_menus' => false,
-                'show_table_filter' => true, // framework specific key
+                'show_ui'               => true,
+                'show_tagcloud'         => false,
+                'hierarchical'          => false,
+                'show_admin_column'     => true,
+                'show_in_nav_menus'     => false,
+                'show_table_filter'     => true, // framework specific key
                 'show_in_sidebar_menus' => false, // framework specific key
             )
         );
@@ -104,14 +104,14 @@ class APF_PostType extends AdminPageFramework_PostType {
         return array_merge( 
             $aHeaderColumns,
             array(
-                'cb' => '<input type="checkbox" />', // Checkbox for bulk actions. 
-                'title' => __( 'Title', 'admin-page-framework' ), // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-                'author' => __( 'Author', 'admin-page-framework' ), // Post author.
-                // 'categories' => __( 'Categories', 'admin-page-framework' ), // Categories the post belongs to. 
+                'cb'                => '<input type="checkbox" />', // Checkbox for bulk actions. 
+                'title'             => __( 'Title', 'admin-page-framework' ), // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+                'author'            => __( 'Author', 'admin-page-framework' ), // Post author.
+                // 'categories'     => __( 'Categories', 'admin-page-framework' ), // Categories the post belongs to. 
                 // 'tags' => __( 'Tags', 'admin-page-framework' ), // Tags for the post. 
-                'comments'         => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-                'date' => __( 'Date', 'admin-page-framework' ),     // The date and publish status of the post. 
-                'samplecolumn' => __( 'Sample Column' ),
+                'comments'          => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
+                'date'              => __( 'Date', 'admin-page-framework' ),     // The date and publish status of the post. 
+                'samplecolumn'      => __( 'Sample Column' ),
             )     
         );
         
@@ -143,8 +143,8 @@ class APF_PostType extends AdminPageFramework_PostType {
             $aVars = array_merge( 
                 $aVars, 
                 array(
-                    'meta_key' => 'metabox_text_field',
-                    'orderby' => 'meta_value',
+                    'meta_key'  => 'metabox_text_field',
+                    'orderby'   => 'meta_value',
                 )
             );
         }
