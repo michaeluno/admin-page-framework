@@ -213,18 +213,19 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         $aAdditionalObjectTypes = array_merge( $_aExistingObjectTypes, $aAdditionalObjectTypes );
         $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] = array_unique( $aAdditionalObjectTypes );
 
-        // Set up hooks.
-        if ( count( $this->oProp->aTaxonomyTableFilters ) == 1 ) {
-            if ( did_action( 'init' ) ) {
-                $this->_replyToRegisterTaxonomies();
-            } else {
+        // Set up hooks. If the 'init' hook is already done, register it now.
+        if ( did_action( 'init' ) ) {
+            $this->_registerTaxonomy( $sTaxonomySlug, $aAdditionalObjectTypes, $aArgs );
+        } else {
+            if ( 1 == count( $this->oProp->aTaxonomies ) ) {
                 add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) ); // the hook should not be admin_init because taxonomies need to be accessed in regular pages.
             }
         }
-        if ( count( $this->oProp->aTaxonomyRemoveSubmenuPages ) == 1 ) {
-            if ( did_action( 'admin_menu' ) ) {
-                $this->_replyToRemoveTexonomySubmenuPages();
-            } else {
+        
+        if ( did_action( 'admin_menu' ) ) {
+            $this->_replyToRemoveTexonomySubmenuPages();
+        } else {
+            if ( 1 == count( $this->oProp->aTaxonomyRemoveSubmenuPages ) ) {
                 add_action( 'admin_menu', array( $this, '_replyToRemoveTexonomySubmenuPages' ), 999 ); 
             }
         }

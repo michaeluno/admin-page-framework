@@ -154,15 +154,33 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
     public function _replyToRegisterTaxonomies() {
 
         foreach( $this->oProp->aTaxonomies as $_sTaxonomySlug => $_aArgs ) {
-            $_aObjectTypes = is_array( $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] ) ? $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] : array();
-            $_aObjectTypes[] = $this->oProp->sPostType;
-            register_taxonomy(
-                $_sTaxonomySlug,
-                array_unique( $_aObjectTypes ), // object types
+            $this->_registerTaxonomy( 
+                $_sTaxonomySlug,  
+                is_array( $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] ) 
+                    ? $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] 
+                    : array(), // object types
                 $_aArgs // for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
-            );    
+            );
         }
 
+    }
+    
+    /**
+     * Registers a taxonomy.
+     * @since       3.2.0
+     * @internal    
+     */
+    public function _registerTaxonomy( $sTaxonomySlug, array $aObjectTypes, array $aArguments ) {
+        
+        if ( ! in_array( $this->oProp->sPostType, $aObjectTypes ) ) {
+            $aObjectTypes[] = $this->oProp->sPostType;
+        }
+        register_taxonomy(
+            $sTaxonomySlug,
+            array_unique( $aObjectTypes ), // object types
+            $aArguments // for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
+        );            
+        
     }
 
     /**
@@ -173,7 +191,14 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
     public function _replyToRemoveTexonomySubmenuPages() {
     
         foreach( $this->oProp->aTaxonomyRemoveSubmenuPages as $sSubmenuPageSlug => $sTopLevelPageSlug ) {
+            
             remove_submenu_page( $sTopLevelPageSlug, $sSubmenuPageSlug );
+            
+            // This method is called directly without a hook if the admin_menu hook is already passed.
+            // In that case, when registering multiple taxonomies, this method can be called multiple times.
+            // For that, the removed item should be cleared to avoid multiple menu removals.
+            unset( $this->oProp->aTaxonomyRemoveSubmenuPages[ $sSubmenuPageSlug ] );
+            
         }
 
     }
