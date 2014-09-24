@@ -821,15 +821,15 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         $this->addSettingFields(
             'link', // the target section id
             array(
-                'field_id' => 'link_field',
-                'type' => 'link',     
-                'title' => __( 'Single Link' ),
+                'field_id'      => 'link_field',
+                'type'          => 'link',     
+                'title'         => __( 'Single Link' ),
             ),
             array(
-                'field_id' => 'link_repeatable_field',
-                'type' => 'link',     
-                'title' => __( 'Repeatable Links' ),
-                'repeatable' =>    true,
+                'field_id'      => 'link_repeatable_field',
+                'type'          => 'link',     
+                'title'         => __( 'Repeatable Links' ),
+                'repeatable'    =>    true,
             ),     
             array()
         );     
@@ -843,11 +843,24 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'data'          => array(
                     __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-demo' ),
                     __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
+                ),
+            ),
+            array(
+                'field_id'      => 'saved_options',
+                'type'          => 'system',     
+                'title'         => __( 'Saved Options', 'admin-page-framework-demo' ),
+                'data'          => array(
+                    // Removes the default data by passing an empty value below.
+                    'AdminPage Framework'   => '', 
+                    'WordPress'             => '', 
+                    'PHP'                   => '', 
+                    'MySQL'                 => '', 
+                    'Server'                => '',
                 ) 
                 + array(    
                     __( 'Plugin Options', 'admin-page-framework-demo' ) => $this->oProp->aOptions,
                 ),
-            ),
+            ),            
             array()
         );     
         
