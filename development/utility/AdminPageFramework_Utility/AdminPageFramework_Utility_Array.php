@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_Utility_Array' ) ) :
 /**
  * Provides utility methods dealing with PHP arrays which do not use WordPress functions.
  *
- * @since 2.0.0
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since       2.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_Array {
@@ -32,16 +32,16 @@ abstract class AdminPageFramework_Utility_Array {
     public static function getCorrespondingArrayValue( $vSubject, $sKey, $sDefault='', $bBlankToDefault=false ) {    
                 
         // If $vSubject is null,
-        if ( ! isset( $vSubject ) ) return $sDefault;    
+        if ( ! isset( $vSubject ) ) { return $sDefault; }
             
         // If the $bBlankToDefault flag is set and the subject value is a blank string, return the default value.
-        if ( $bBlankToDefault && $vSubject == '' ) return $sDefault;
+        if ( $bBlankToDefault && $vSubject == '' ) { return  $sDefault; }
             
         // If $vSubject is not an array, 
-        if ( ! is_array( $vSubject ) ) return ( string ) $vSubject; // consider it as string.
+        if ( ! is_array( $vSubject ) ) { return ( string ) $vSubject; } // consider it as string.
         
         // Consider $vSubject as array.
-        if ( isset( $vSubject[ $sKey ] ) ) return $vSubject[ $sKey ];
+        if ( isset( $vSubject[ $sKey ] ) ) { return $vSubject[ $sKey ]; }
         
         return $sDefault;
         
@@ -50,14 +50,15 @@ abstract class AdminPageFramework_Utility_Array {
     /**
      * Finds the dimension depth of the given array.
      * 
-     * @access protected
-     * @since 2.0.0
-     * @remark There is a limitation that this only checks the first element so if the second or other elements have deeper dimensions, it will not be caught.
-     * @param array $array     the subject array to check.
-     * @return integer returns the number of dimensions of the array.
+     * @since       2.0.0
+     * @remark      There is a limitation that this only checks the first element so if the second or other elements have deeper dimensions, it will not be caught.
+     * @param       array       $array     the subject array to check.
+     * @return      integer     returns the number of dimensions of the array.
      */
     public static function getArrayDimension( $array ) {
-        return ( is_array( reset( $array ) ) ) ? self::getArrayDimension( reset( $array ) ) + 1 : 1;
+        return ( is_array( reset( $array ) ) ) 
+            ? self::getArrayDimension( reset( $array ) ) + 1 
+            : 1;
     }
     
     /**
@@ -128,7 +129,7 @@ abstract class AdminPageFramework_Utility_Array {
      * An alternative to <em>array_replace_recursive()</em>; it is not supported PHP 5.2.x or below.
      * 
      * @since       2.0.0
-     * @since       2.1.5 Changed the scope to static. 
+     * @since       2.1.5       Changed the scope to static. 
      * @access      public
      * @remark      null values will be overwritten.     
      * @param       array     the array that overrides the same keys.
@@ -165,7 +166,7 @@ abstract class AdminPageFramework_Utility_Array {
     /**
      * Determines whether the key is the last element of an array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     static public function isLastElement( array $aArray, $sKey ) {
         end( $aArray );
@@ -200,7 +201,7 @@ abstract class AdminPageFramework_Utility_Array {
     /**
      * Removes integer keys from the array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     static public function getNonIntegerElements( $aParse ) {
         
@@ -311,7 +312,7 @@ abstract class AdminPageFramework_Utility_Array {
      * </code>
      * 
      * 
-     * @since 3.0.1
+     * @since       3.0.1
      */
     static public function getArrayValueByArrayKeys( $aArray, $aKeys, $vDefault=null ) {
         

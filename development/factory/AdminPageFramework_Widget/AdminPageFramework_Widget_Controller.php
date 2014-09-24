@@ -124,9 +124,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @return void
      */ 
     protected function setArguments( array $aArguments=array() ) {
-        $this->oProp->aWidgetArguments = $aArguments;
-AdminPageFramework_Debug::log( microtime( true ) );
-AdminPageFramework_Debug::log( $this->oProp->aWidgetArguments );        
+        $this->oProp->aWidgetArguments = $aArguments;  
     }  
     
 }

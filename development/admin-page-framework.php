@@ -14,9 +14,16 @@
  * @remarks     To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remarks     Requirements: WordPress 3.3 or above, PHP 5.2.4 or above.
  * @remarks     The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
- * @version     3.2.0b08
  */
 if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
+/**
+ * Provides the basic information about the framework.
+ * 
+ * @since       3.1.3
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @internal
+ */
 abstract class AdminPageFramework_Registry_Base {
     
     const Version       = '3.2.0b08'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
@@ -35,7 +42,10 @@ if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
 /**
  * Defines the framework common information.
  * 
- * @since 3.1.3
+ * @since       3.1.3
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @internal
  */
 final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
         

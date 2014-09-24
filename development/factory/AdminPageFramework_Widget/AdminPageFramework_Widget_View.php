@@ -52,8 +52,6 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
             array( $this, '_replyToGetSectionHeaderOutput' ),   // defined below
             array( $this, '_replyToGetFieldOutput' )            // defined in the factory view class.
         );
-        
-// AdminPageFramework_Debug::log( $this->oForm->aConditionedSections );        
         echo implode( PHP_EOL, $_aOutput );
         
     }

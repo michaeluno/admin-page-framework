@@ -437,8 +437,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         
         $aSections      = is_null( $aSections ) ? $this->aSections : $aSections;
         $_aNewSections   = array();
-AdminPageFramework_Debug::log( '$aSections' );
-AdminPageFramework_Debug::log( $aSections );
+
         foreach( $aSections as $_sSectionID => $_aSection ) {
             $_aSection = $this->getConditionedSection( $_aSection );
             if ( $_aSection ) {
@@ -446,8 +445,6 @@ AdminPageFramework_Debug::log( $aSections );
             }
         }        
         $this->aConditionedSections = $_aNewSections;
-AdminPageFramework_Debug::log( '$_aNewSections' );        
-AdminPageFramework_Debug::log( $_aNewSections );        
         return $_aNewSections;
         
     }
@@ -462,11 +459,9 @@ AdminPageFramework_Debug::log( $_aNewSections );
             
             // Check capability. If the access level is not sufficient, skip.
             if ( ! current_user_can( $aSection['capability'] ) ) { 
-AdminPageFramework_Debug::log( 'Insufficient capability: ' . $aSection['capability'] );
                 return; 
             }
             if ( ! $aSection['if'] ) { 
-AdminPageFramework_Debug::log( 'If is false.' );            
                 return; 
             }
             
