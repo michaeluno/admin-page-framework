@@ -13,7 +13,6 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Controller' ) ) :
  * @abstract
  * @since       3.0.4
  * @subpackage  Factory
- * @internal
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
             
@@ -29,9 +28,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Head Tag Methods - should be extended.
      * 
+     * @remark      the number of arguments depend on the extended class.
      * @internal
      */
-    public function enqueueStyles( $aSRCs, $_vArg2=null ) {} // the number of arguments depend on the extended class
+    public function enqueueStyles( $aSRCs, $_vArg2=null ) {} 
     public function enqueueStyle( $sSRC, $_vArg2=null ) {}
     public function enqueueScripts( $aSRCs, $_vArg2=null ) {}
     public function enqueueScript( $sSRC, $_vArg2=null ) {}    

@@ -11,11 +11,10 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Model' ) ) :
  * Provides methods for models.
  * 
  * @abstract
- * @since 3.0.4
- * @subpackage Factory
- * @internal
- * @transient apf_field_erros_{user id} stores the user-set fields error array.
- * @transient apf_notices_{user id} stores the user-set admin notification messages.
+ * @since       3.0.4
+ * @subpackage  Factory
+ * @transient   apf_field_erros_{user id}   stores the user-set fields error array.
+ * @transient   apf_notices_{user id}       stores the user-set admin notification messages.
  */
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
     
@@ -39,14 +38,15 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * Once they are set, it no longer needs to be done.
      * 
-     * @since 3.1.3
+     * @since       3.1.3
+     * @internal    
      */
     static private $_aFieldTypeDefinitions = array();
     
     /**
      * Loads the default field type definition.
      * 
-     * @since 2.1.5
+     * @since       2.1.5
      * @internal
      */
     public function _loadDefaultFieldTypeDefinitions() {
@@ -73,8 +73,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Registers the given fields.
      * 
-     * @remark $oHelpPane and $oHeadTab need to be set in the extended class.
-     * @since 3.0.0
+     * @remark      $oHelpPane and $oHeadTab need to be set in the extended class.
+     * @since       3.0.0
      * @internal
      */
     protected function _registerFields( array $aFields ) {
@@ -124,14 +124,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Retrieves the settings error array set by the user in the validation callback.
      * 
-     * @since 3.0.4     
-     * @access private
+     * @since       3.0.4     
+     * @access      private
      * @internal
-     * 
-     * @param string $sID deprecated
-     * @param boolean $bDelete whether or not the transient should be deleted after retrieving it. 
+     * @param       string      $sID        deprecated
+     * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      */
-    protected function _getFieldErrors( $sID='', $bDelete=true ) {
+    protected function _getFieldErrors( $sID='deprecated', $bDelete=true ) {
         
         static $_aFieldErrors;
         
@@ -154,26 +153,25 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Checks whether a validation error is set.
      * 
-     * @since 3.0.3
-     * @return mixed If the error is not set, returns false; otherwise, the stored error array.
+     * @since       3.0.3
+     * @internal
+     * @return      mixed If the error is not set, returns false; otherwise, the stored error array.
      */
     protected function _isValidationErrors() {
 
         if ( isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) && $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) {
             return true;
         }
-        
         return $this->oUtil->getTransient( "apf_field_erros_" . get_current_user_id() );
 
     }
-    
 
         /**
          * Deletes the field errors.
          * 
          * This should be called with the shutdown hook.
          * 
-         * @since 3.0.4
+         * @since       3.0.4
          * @internal
          */
         public function _replyToDeleteFieldErrors() {
@@ -183,12 +181,12 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Saves the field error array into the transient.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */ 
     public function _replyToSaveFieldErrors() {
         
-        if ( ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) return;
+        if ( ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) { return; }
 
         $this->oUtil->setTransient( 
             "apf_field_erros_" . get_current_user_id(),  
@@ -201,14 +199,14 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Saves the notification array set via the setSettingNotice() method.
      * 
-     * @remark This method will be triggered with the 'shutdown' hook.
-     * @since 3.0.4 
+     * @remark      This method will be triggered with the 'shutdown' hook.
+     * @since       3.0.4 
      * @internal
      */
     public function _replyToSaveNotices() {
         
-        if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
-        if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) return;
+        if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) { return; }
+        if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) { return; }
                 
         $this->oUtil->setTransient( 'apf_notices_' . get_current_user_id(), $GLOBALS['aAdminPageFramework']['aNotices'] );
         
