@@ -28,10 +28,10 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'redirect_url' => null,
-        'href' => null,
-        'reset' => null,     
-        'attributes' => array(
+        'redirect_url'  => null,
+        'href'          => null,
+        'reset'         => null,     
+        'attributes'    => array(
             'class' => 'button button-primary',
         ),    
     );    
@@ -67,18 +67,22 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
     public function _replyToGetField( $aField ) {
         
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'submit' );
-
+        
+        $_bIsImageButton  = isset( $aField['attributes']['src'] ) && filter_var( $aField['attributes']['src'] , FILTER_VALIDATE_URL );
         $aInputAttributes = array(
-            'type' => 'submit', // must be set because child class including export will use this method; in that case the export type will be assigned which input tag does not support
-            'value' => ( $sValue = $this->_getInputFieldValueFromLabel( $aField ) ),
-        ) + $aField['attributes']
-        + array(
-            'title' => $sValue,
-        );
+                // the type must be set because child class including export will use this method; in that case, the export type will be assigned which input tag does not support
+                'type'  => $_bIsImageButton ? 'image' : 'submit', 
+                'value' => ( $sValue = $this->_getInputFieldValueFromLabel( $aField ) ),
+            ) 
+            + $aField['attributes']
+            + array(
+                'title' => $sValue,
+                'alt'   => $_bIsImageButton ? 'submit' : '',
+            );
 
         $aLabelAttributes = array(
             'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
-            'for' => $aInputAttributes['id'],
+            'for'   => $aInputAttributes['id'],
             'class' => $aInputAttributes['disabled'] ? 'disabled' : '',     
         );
         $aLabelContainerAttributes = array(

@@ -438,6 +438,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.2.0 =
+- Added an example of using an image for a submit button.
 - Added the option to set custom button labels via the `data-label` attribute for the `image`, `media`, and `font` field types.
 - Added the remove button for the `image`, `media`, and `font` field types.
 - Added the default and Japanese translation files.
