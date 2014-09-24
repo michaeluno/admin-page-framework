@@ -275,7 +275,6 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
                     __( 'Session Use Cookies', 'admin-page-framework' )         => $this->_getOnOrOff( ini_get( 'session.use_cookies' ) ),
                     __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->_getOnOrOff( ini_get( 'session.use_only_cookies' ) ),                                    
                 ),
-                __( 'Current Time', 'admin-page-framework' )               => current_time( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ),
             );
 
             $_aData     = $this->getAsArray( $asCustomData );
