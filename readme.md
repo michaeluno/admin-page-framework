@@ -206,7 +206,7 @@ Anyone is welcome to contribute to Admin Page Framework. There are various ways 
 
 If you like the library, please rate and review it in the [WordPress Plugin Directory](http://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5). Also donation would be greatly appreciated. Thank you!
 
-[![Donate with PayPal](https://www.paypal.com/en_US/i/btn/x-click-but04.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J4UJHETVAZX34) 
+[![Donate with PayPal](https://www.paypal.com/en_US/i/btn/x-click-but04.gif)](http://en.michaeluno.jp/donate) 
 
 ## Copyright and License ##
 
