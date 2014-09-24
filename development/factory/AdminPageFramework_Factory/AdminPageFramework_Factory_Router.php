@@ -13,22 +13,22 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Router' ) ) :
  * This class mainly deals with routing function calls and instantiation of objects based on the type.
  * 
  * @abstract
- * @since 3.0.4
- * @subpackage Factory
+ * @since       3.0.4
+ * @subpackage  Factory
  * @internal
  */
 abstract class AdminPageFramework_Factory_Router {
     
     /**
      * Stores the property object.
-      * @internal
-     * @since 2.0.0
-     * @acess public The AdminPageFramework_Page_MetaBox class accesses it.
+     * 
+     * @since       2.0.0
+     * @access      public      The AdminPageFramework_Page_MetaBox class accesses it.
      */     
     public $oProp;    
     
     /**
-     * * The object that provides the debug methods. 
+     * The object that provides the debug methods. 
      * @internal
      * @remark Do not even declare the variable to allow to trigger the getter method.
      * @access public
@@ -107,6 +107,7 @@ abstract class AdminPageFramework_Factory_Router {
         
         /**
          * Determines whether the class component classes should be instantiated or not.
+         * @internal
          */
         public function _replyToLoadComponents( $oScreen ) {
 
@@ -135,7 +136,7 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * This method should be redefined in the extended class.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
      * @internal
      */ 
     protected function _isInstantiatable() { return true; }
@@ -157,7 +158,8 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Instantiate a form object based on the type.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
+     * @internal
      */
     protected function _getFormInstance( $oProp ) {
         
@@ -186,7 +188,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Instantiate a head tag object based on the type.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */
     protected function _getHeadTagInstance( $oProp ) {
@@ -213,7 +215,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Instantiates a help pane object based on the type.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */
     protected function _getHelpPaneInstance( $oProp ) {
@@ -238,7 +240,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Instantiates a link object based on the type.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */
     protected function _getLinkInstancce( $oProp, $oMsg ) {
@@ -290,6 +292,7 @@ abstract class AdminPageFramework_Factory_Router {
      * Responds to a request of an undefined property.
      * 
      * This is meant to instantiate classes only when necessary, rather than instantiating them all at once.
+     * @internal
      */
     function __get( $sPropertyName ) {
             
@@ -325,6 +328,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Redirects dynamic function calls to the pre-defined internal method.
      * 
+     * @internal
      */
     function __call( $sMethodName, $aArgs=null ) {    
          
