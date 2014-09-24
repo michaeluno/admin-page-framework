@@ -22,6 +22,8 @@ if ( ! class_exists( 'AdminPageFramework_MinifiedVersionHeader' ) ) :
  * Provides header information of the framework for the minifed version.
  * 
  * The minifier script will include this file ( but it does not include WordPress ) to use the reflection class to generate the header comment section.
+ * 
+ * @since       3.1.3
  * @package     AdminPageFramework
  * @subpackage  Property
  * @internal
