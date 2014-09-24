@@ -6,7 +6,35 @@ class APF_Widget_CustomFieldTypes extends AdminPageFramework_Widget {
      * 
      * Alternatively you may use start_{instantiated class name} method.
      */
-    public function start() {}
+    public function start() {
+        
+        if ( $this->oProp->bIsAdmin ) {
+                    
+            /*
+             * ( Optional ) Register custom field types.
+             */     
+            /* 1. Include the file that defines the custom field type. */
+            $_sPluginDirName = dirname( APFDEMO_FILE );
+            $_aFiles         = array(
+                $_sPluginDirName . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
+                $_sPluginDirName . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
+                $_sPluginDirName . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',     
+            );
+            foreach( $_aFiles as $_sFilePath ) {
+                if ( file_exists( $_sFilePath ) ) {     
+                    include_once( $_sFilePath );
+                }
+            }
+                        
+            /* 2. Instantiate the classes by passing the instantiated admin page class name. */
+            $_sClassName = get_class( $this );
+            new DateTimeCustomFieldType( $_sClassName );
+            new DialCustomFieldType( $_sClassName );
+            new AutocompleteCustomFieldType( $_sClassName );  
+            
+        }
+        
+    }
     
     /**
      * Sets up arguments.
@@ -30,28 +58,6 @@ class APF_Widget_CustomFieldTypes extends AdminPageFramework_Widget {
      * Alternatively you may use load_{instantiated class name} method.
      */
     public function load( $oAdminWidget ) {
-
-        /*
-         * ( Optional ) Register custom field types.
-         */     
-        /* 1. Include the file that defines the custom field type. */
-        $_sPluginDirName = dirname( APFDEMO_FILE );
-        $_aFiles         = array(
-            $_sPluginDirName . '/third-party/date-time-custom-field-types/DateTimeCustomFieldType.php',
-            $_sPluginDirName . '/third-party/dial-custom-field-type/DialCustomFieldType.php',
-            $_sPluginDirName . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',     
-        );
-        foreach( $_aFiles as $_sFilePath ) {
-            if ( file_exists( $_sFilePath ) ) {     
-                include_once( $_sFilePath );
-            }
-        }
-                    
-        /* 2. Instantiate the classes by passing the instantiated admin page class name. */
-        $_sClassName = get_class( $this );
-        new DateTimeCustomFieldType( $_sClassName );
-        new DialCustomFieldType( $_sClassName );
-        new AutocompleteCustomFieldType( $_sClassName );
     
         $this->addSettingFields(       
             array(
