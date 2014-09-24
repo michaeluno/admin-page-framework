@@ -59,7 +59,11 @@ Admin Page Framework is an open source library for WordPress consisting of a set
 	&nbsp;
 	<a href="https://lh6.googleusercontent.com/-S8C4xm8BALg/VCFczgOWr6I/AAAAAAAABtE/RTdJuwLOdpI/s0/autocomplete.png" title="Admin Page Framework - Auto-complete Custom Field Type">
 		<img src="https://lh6.googleusercontent.com/-S8C4xm8BALg/VCFczgOWr6I/AAAAAAAABtE/RTdJuwLOdpI/s144/autocomplete.png" alt="Admin Page Framework - Auto-complete Custom Field Type" />
-	</a>    
+	</a>
+	&nbsp;
+	<a href="https://lh5.googleusercontent.com/-LOY1iOGFSmY/VCMHVoQfwGI/AAAAAAAABuc/V9zdtpWvVbA/s0/widgets.png" title="Admin Page Framework - Widget Form Fields">
+		<img src="https://lh5.googleusercontent.com/-LOY1iOGFSmY/VCMHVoQfwGI/AAAAAAAABuc/V9zdtpWvVbA/s144/widgets.png" alt="Admin Page Framework - Widget Form Fields" />
+	</a>        
 </div>
 
 ## Installation ##
