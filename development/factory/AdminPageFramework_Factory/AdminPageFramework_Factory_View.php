@@ -17,6 +17,11 @@ if ( ! class_exists( 'AdminPageFramework_Factory_View' ) ) :
  */
 abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {
     
+    /**
+     * Sets up hooks and properties.
+     * 
+     * @internal
+     */
     function __construct( $oProp ) {
         
         parent::__construct( $oProp );
@@ -34,14 +39,16 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     /**
      * Stores a flag value indicating whether the setting notice method is called or not.
      * 
-     * @since 3.1.3
+     * @since       3.1.3
+     * @internal
      */
     static private $_bSettingNoticeLoaded = false;
     
     /**
      * Displays stored setting notification messages.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
+     * @internal
      */
     public function _replyToPrintSettingNotice() {
             
@@ -85,7 +92,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     /**
      * Returns the field output from the given field definition array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @internal
      */
     public function _replyToGetFieldOutput( $aField ) {
 
