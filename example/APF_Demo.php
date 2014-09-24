@@ -58,13 +58,11 @@ class APF_Demo extends AdminPageFramework {
          * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
          */
          $this->addLinkToPluginDescription( 
-            "<a href='http://www.google.com'>Google</a>",
-            "<a href='http://www.yahoo.com'>Yahoo!</a>",
-            "<a href='http://en.michaeluno.jp'>miunosoft</a>",
+            "<a href='http://en.michaeluno.jp/donate'>Donate</a>",
             "<a href='https://github.com/michaeluno/admin-page-framework' title='Contribute to the GitHub repository!' >Repository</a>"
         );
         $this->addLinkToPluginTitle(
-            "<a href='http://www.wordpress.org'>WordPress</a>"
+            "<a href='http://en.michaeluno.jp'>miunosoft</a>"
         );
         
         $this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-demo' ) );

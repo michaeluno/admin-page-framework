@@ -58,10 +58,13 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
                 ),
             ),
             array (
-                'field_id' => 'image_field',
-                'type' => 'image',
-                'title' => __( 'Image', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'field_id'      => 'image_field',
+                'type'          => 'image',
+                'title'         => __( 'Image', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'attributes'    => array(
+                    'style' => 'max-width:300px;',
+                ),                
             )     
         );
         
