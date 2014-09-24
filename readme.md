@@ -187,23 +187,15 @@ If you find an issue, let us know [here](https://github.com/michaeluno/admin-pag
 This is a developer's portal for Admin Page Framework and should _not_ be used for support. Please visit the [support forums](http://wordpress.org/support/plugin/admin-page-framework).
 
 ## Contributions ##
-Anyone is welcome to contribute to Admin Page Framework.
+Anyone is welcome to contribute to Admin Page Framework. There are various ways you can contribute:
 
-There are various ways you can contribute:
-
-If you have suggestions, 
+- Try the open [beta version](https://github.com/michaeluno/admin-page-framework/labels/Beta%20Stage) and notify the developer issues you encounter.
 - Post the ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
-
-If you are a developer,
 - Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
 - Send us a Pull Request with your bug fixes and/or new features.
 - Write a custom field type. 
 - Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
-
-If you are a designer,
 - Tweak the styling of the framework by modifying the CSS rules.
-
-If you can speak different languages
 - Translate the language files in the `language` folder. 
 
 ## Supporting Future Development ##

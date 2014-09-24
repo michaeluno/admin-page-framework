@@ -55,8 +55,8 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'hierarchical'          => true,
                 'show_admin_column'     => true,
                 'show_in_nav_menus'     => true,
-                'show_table_filter'     => true, // framework specific key
-                'show_in_sidebar_menus' => true, // framework specific key
+                'show_table_filter'     => true,    // framework specific key
+                'show_in_sidebar_menus' => true,    // framework specific key
             )
         );
         $this->addTaxonomy( 
@@ -72,8 +72,8 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'hierarchical'          => false,
                 'show_admin_column'     => true,
                 'show_in_nav_menus'     => false,
-                'show_table_filter'     => true, // framework specific key
-                'show_in_sidebar_menus' => false, // framework specific key
+                'show_table_filter'     => true,    // framework specific key
+                'show_in_sidebar_menus' => false,   // framework specific key
             )
         );
                 

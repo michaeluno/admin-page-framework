@@ -99,6 +99,7 @@ The HTML documentation is included in the distribution package and can be access
 10. **Taxonomy Field**
 11. **Meta Boxes in Pages Added by Framework**
 12. **Repeatable Sections, Section Tabs and Section Title Field**
+13. **Widget Form**
 
 == Installation ==
 
@@ -442,6 +443,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the default and Japanese translation files.
 - Added the `show_post_count` argument for the `taxonomy` field type and made it enabled by default.
 - Added the widget factory class and the examples of creating widgets with the framework in the demo plugin.
+- Fixed an issue that registering multiple taxonomies after the `init` hook failed registering second or later items.
 - Fixed a bug that a last item did not set when selecting multiple items in the fields of the `image`, `media`, `font` field types.
 - Fixed a bug in the `autocomplete` custom field type that the default post type slug was not set properly when the page that the field is displayed contains the `post_type` query key in the url.
 
