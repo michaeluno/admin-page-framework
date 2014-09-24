@@ -63,6 +63,7 @@ class APF_Widget extends AdminPageFramework_Widget {
                     'two'   =>  __( 'Two', 'admin-page-framework-demo' ),
                     'three' =>  __( 'Three', 'admin-page-framework-demo' ),
                 ),
+                'default'       => 'two',
             ),      
             array(
                 'field_id'      => 'select',
