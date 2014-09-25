@@ -40,9 +40,10 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
-        'width'         => 64,
-        'height'        => 64,
-		'attributes'	=>	array(),	
+        'label_min_width'   => '',
+        'width'             => 64,
+        'height'            => 64,
+		'attributes'	    =>	array(),	
 	);
 
 	/**
@@ -124,22 +125,27 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	protected function getStyles() {
 		return "
-.admin-page-framework-field-image_checkbox {}
 
 .admin-page-framework-field-image_checkbox input[type=checkbox] {
-    display:none;
-}
- 
-.admin-page-framework-field-image_checkbox input[type=checkbox] + label {
+    display: none;
+} 
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-string {
+    display: none;
+}   
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container label input[type=checkbox] {
     border: 2px solid #DDD;
     display:inline-block;
     padding: 0 0 0 0px;
 }
-.admin-page-framework-field-image_checkbox input[type=checkbox]:checked + label {
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container label input[type=checkbox]:checked {
     border: 2px solid #0080FF;
+    background: #0080FF;
     display:inline-block;
     padding: 0 0 0 0px;
-}                
+}        
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-container {
+    margin-bottom: 2em;
+}
         ";
         
 
@@ -177,10 +183,10 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
                 'name'      => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$_sKey}]" : $aField['attributes']['name'],
                 'style'     => $this->generateInlineCSS(
                     array(
-                        'width'               => ( $aField['width'] + 12 ) . 'px',
-                        'height'              => ( $aField['height'] + 12 ) . 'px',
+                        'width'               => $this->sanitizeLength( $aField['width'] + 8 ),
+                        'height'              => $this->sanitizeLength( $aField['height'] + 8 ),
                         'background-image'    => "url('{$_sLabel}')",
-                        'background-size'     => $aField['width']  . 'px ' . $aField['height']  . 'px',
+                        'background-size'     => $this->sanitizeLength( $aField['width'] ) . ' ' . $this->sanitizeLength( $aField['height'] ),
                         'background-repeat'   => 'no-repeat',                        
                         'background-position' => 'center',                        
                     )
@@ -192,31 +198,23 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
         
             $_aLabelAttributes = array(
                 'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',
-                'style'     => $this->generateInlineCSS(
-                    array(
-                        'width'               => ( $aField['width'] + 12 ) . 'px',
-                        'height'              => ( $aField['height'] + 12 ) . 'px',
-                        'background-image'    => "url('{$_sLabel}')",
-                        'background-size'     => $aField['width'] . 'px ' . $aField['height'] . 'px',
-                        'background-repeat'   => 'no-repeat',
-                        'background-position' => 'center',
-                    )
-                ),                
+                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',            
             );
             
             $_aOutput[] =
                 $this->getFieldElementByKey( $aField['before_label'], $_sKey )
-                . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    
-                    . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
-                    
-                    . "<input type='hidden' class='{$this->_sCheckboxClassSelector}' name='{$_aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
-                    . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class    
-                    . "<label " . $this->generateAttributes( $_aLabelAttributes ) . "></label>"
-                
-                    . $this->getFieldElementByKey( $aField['after_input'], $_sKey )
-                    
+                . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"         
+                    . "<label " . $this->generateAttributes( $_aLabelAttributes ) . ">"
+                        . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
+                        . "<span class='admin-page-framework-input-container'>"
+                            . "<input type='hidden' class='{$this->_sCheckboxClassSelector}' name='{$_aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
+                            . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class    
+                        . "</span>"
+                        . "<span class='admin-page-framework-input-label-string'>"
+                            . $_sLabel
+                        . "</span>"
+                        . $this->getFieldElementByKey( $aField['after_input'], $_sKey )
+                    . "</label>"                       
                 . "</div>"
                 . $this->getFieldElementByKey( $aField['after_label'], $_sKey );
                 
