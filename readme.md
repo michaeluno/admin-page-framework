@@ -68,9 +68,10 @@ Admin Page Framework is an open source library for WordPress consisting of a set
 
 ## Installation ##
 
-The latest development version can be downloaded [here](https://github.com/michaeluno/admin-page-framework/archive/master.zip).
+- The latest development version can be found [here](https://github.com/michaeluno/admin-page-framework/branches). 
+- The latest stable version can be downloaded [here](http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip).
 
-It includes the demo plugin which uses the framework and is ready to be installed as a WordPress plugin. Just upload the unpacked folder to the `...\wp-content\plugins` folder then activate it. The sample pages will be created.
+The distribution package includes the demo plugin which uses the framework and is ready to be installed as a WordPress plugin. Just upload the unpacked folder to the `...\wp-content\plugins` folder then activate it. The sample pages will be created.
 
 ## Example ##
 
