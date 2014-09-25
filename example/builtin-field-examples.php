@@ -799,12 +799,27 @@ $this->addSettingFields(
  * Check lists
  */
 $this->addSettingFields(     
+    'checklists',
     array(
         'field_id'              => 'post_type_checklist',
-        'section_id'            => 'checklists',
         'title'                 => __( 'Post Types', 'admin-page-framework-demo' ),
         'type'                  => 'posttype',
-    ),     
+    ),
+    array(
+        'field_id'              => 'post_type_checklist_custom_query',
+        'title'                 => __( 'Custom Query', 'admin-page-framework-demo' ),
+        'type'                  => 'posttype',
+        // Accepts query arguments. For the specification, see the arg parameter of get_post_types() function.
+        // See:  http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
+        'query'                 => array(
+            'public'   => true,
+            '_builtin' => false,
+        ),
+        'operator'              => 'and',   // can be 'or'
+        'slugs_to_remove'       => array(), // if not set, the following slugs will be automatically removed. 'revision',  'attachment',  'nav_menu_item'.
+        'description'           => __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-demo' )
+            . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ) ,
+    ),    
     array(
         'field_id'              => 'post_type_multiple_checklists',
         'title'                 => __( 'Multiple', 'admin-page-framework-demo' ),

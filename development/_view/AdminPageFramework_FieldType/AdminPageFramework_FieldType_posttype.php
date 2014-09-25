@@ -29,6 +29,12 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      */
     protected $aDefaultKeys = array(
         'slugs_to_remove'   => null, // the default array will be assigned in the rendering method.
+        /** 
+         * Accepts query arguments. For the specification, see the arg parameter of get_post_types() function.
+         * See: http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
+         */
+        'query'         => array(),  // 3.2.1+
+        'operator'      => 'and',    // [3.2.1+] either 'and' or 'or'
         'attributes'        => array(
             'size'      => 30,
             'maxlength' => 400,
@@ -79,7 +85,11 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
     public function _replyToGetField( $aField ) {
         
         $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
-        $aField['label'] = $this->_getPostTypeArrayForChecklist( isset( $aField['slugs_to_remove'] ) ? $aField['slugs_to_remove'] : $this->aDefaultRemovingPostTypeSlugs );
+        $aField['label'] = $this->_getPostTypeArrayForChecklist( 
+            isset( $aField['slugs_to_remove'] ) ? $this->getAsArray( $aField['slugs_to_remove'] ) : $this->aDefaultRemovingPostTypeSlugs,    // slugs to remove
+            $aField['query'],
+            $aField['operator']
+        );
         return parent::_replyToGetField( $aField );
             
     }    
@@ -87,20 +97,24 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
         /**
          * A helper function for the above getPosttypeChecklistField method.
          * 
-         * @since 2.0.0
-         * @since 2.1.1 Changed the returning array to have the labels in its element values.
-         * @since 2.1.5 Moved from AdminPageFramework_InputTag.
-         * @return array The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
+         * @since   2.0.0
+         * @since   2.1.1   Changed the returning array to have the labels in its element values.
+         * @since   2.1.5   Moved from AdminPageFramework_InputTag.
+         * @since   3.2.1   Added the $asQueryArgs and $sOperator parameters.
+         * @param   $aSlugsToRemove     array   The slugs to remove from the result.
+         * @param   $asQueryArgs        array   The query argument.
+         * @param   $sOperator          array   The query operator.
+         * @return  array   The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
          */ 
-        private function _getPostTypeArrayForChecklist( $aRemoveNames, $aPostTypes=array() ) {
+        private function _getPostTypeArrayForChecklist( $aSlugsToRemove, $asQueryArgs=array(), $sOperator='and' ) {
             
-            foreach( get_post_types( '','objects' ) as $oPostType ) {
-                if (  isset( $oPostType->name, $oPostType->label ) ) {
-                    $aPostTypes[ $oPostType->name ] = $oPostType->label;
+            $_aPostTypes = array();
+            foreach( get_post_types( $asQueryArgs, 'objects' ) as $_oPostType ) {
+                if (  isset( $_oPostType->name, $_oPostType->label ) ) {
+                    $_aPostTypes[ $_oPostType->name ] = $_oPostType->label;
                 }
             }
-
-            return array_diff_key( $aPostTypes, array_flip( $aRemoveNames ) );    
+            return array_diff_key( $_aPostTypes, array_flip( $aSlugsToRemove ) );    
 
         }     
     
