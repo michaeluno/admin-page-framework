@@ -851,7 +851,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'title'         => __( 'Saved Options', 'admin-page-framework-demo' ),
                 'data'          => array(
                     // Removes the default data by passing an empty value below.
-                    'AdminPage Framework'   => '', 
+                    'Admin Page Framework'   => '', 
                     'WordPress'             => '', 
                     'PHP'                   => '', 
                     'MySQL'                 => '', 
