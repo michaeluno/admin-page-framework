@@ -126,25 +126,25 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 	protected function getStyles() {
 		return "
 
-.admin-page-framework-field-image_checkbox input[type=checkbox] {
+.admin-page-framework-field-image_checkbox input[type='checkbox'] {
     display: none;
 } 
 .admin-page-framework-field-image_checkbox .admin-page-framework-input-label-string {
     display: none;
 }   
-.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container label input[type=checkbox] {
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container label input[type='checkbox'] + .image_checkbox_item {
     border: 2px solid #DDD;
     display:inline-block;
     padding: 0 0 0 0px;
 }
-.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container label input[type=checkbox]:checked {
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container label input[type='checkbox']:checked + .image_checkbox_item {
     border: 2px solid #0080FF;
     background: #0080FF;
     display:inline-block;
     padding: 0 0 0 0px;
 }        
-.admin-page-framework-field-image_checkbox .admin-page-framework-input-container {
-    margin-bottom: 2em;
+.admin-page-framework-field-image_checkbox .admin-page-framework-input-label-container {
+    margin-bottom: 1em;
 }
         ";
         
@@ -171,34 +171,57 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 			
         $_aOutput = array();
         $_asValue = $aField['attributes']['value'];
-// var_dump( $aField['label'] );
+
         foreach( ( array ) $aField['label'] as $_sKey => $_sLabel ) {
             
-            $_sLabel = $this->resolveSRC( $_sLabel );
-            $_aInputAttributes = array(
+            $_sLabel            = $this->resolveSRC( $_sLabel );
+            $_aInputAttributes  = array(
                 'type'      => 'checkbox', // needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
                 'id'        => $aField['input_id'] . '_' . $_sKey,
                 'checked'   => $this->getCorrespondingArrayValue( $_asValue, $_sKey, null ) == 1 ? 'checked' : '',
                 'value'     => 1, // must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
                 'name'      => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$_sKey}]" : $aField['attributes']['name'],
-                'style'     => $this->generateInlineCSS(
-                    array(
-                        'width'               => $this->sanitizeLength( $aField['width'] + 8 ),
-                        'height'              => $this->sanitizeLength( $aField['height'] + 8 ),
-                        'background-image'    => "url('{$_sLabel}')",
-                        'background-size'     => $this->sanitizeLength( $aField['width'] ) . ' ' . $this->sanitizeLength( $aField['height'] ),
-                        'background-repeat'   => 'no-repeat',                        
-                        'background-position' => 'center',                        
-                    )
-                ),
             ) 
                 + $this->getFieldElementByKey( $aField['attributes'], $_sKey, $aField['attributes'] )
                 + $aField['attributes'];
             $_aInputAttributes['class'] .= ' ' . $this->_sCheckboxClassSelector;
-        
+            $_aInputAttributesIE8OrBelow = $_aInputAttributes + array(
+                'style'     => $this->generateInlineCSS(
+                    array(
+                        'display'               => 'inline-block',
+                    )
+                ),       
+            );
+            
             $_aLabelAttributes = array(
                 'for'   => $_aInputAttributes['id'],
                 'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',            
+            );
+            
+            $_aImageAttributes = array(
+                'class'     => 'image_checkbox_item',
+                'style'     => $this->generateInlineCSS(
+                    array(
+                        'width'               => $this->sanitizeLength( $aField['width'] + 4 ),
+                        'height'              => $this->sanitizeLength( $aField['height'] + 4 ),
+                        'background-image'    => "url('{$_sLabel}')",
+                        'background-repeat'   => 'no-repeat',                        
+                        'background-position' => 'center',           
+                        'background-size'     => $this->sanitizeLength( $aField['width'] ) . ' ' . $this->sanitizeLength( $aField['height'] ),
+    
+                    )
+                ),               
+            );
+            $_aImageAttributesIE8OrBelow = array(
+                'class'     => 'image_checkbox_item',
+                'style'     => $this->generateInlineCSS(
+                    array(
+                        'width'               => $this->sanitizeLength( $aField['width'] + 4 ),
+                        'height'              => $this->sanitizeLength( $aField['height'] + 4 ),
+                        'background'          => 'no-repeat center center fixed',                        
+                        'filter'              => "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='{$_sLabel}', sizingMethod='scale')",    
+                    )
+                ),                           
             );
             
             $_aOutput[] =
@@ -208,7 +231,16 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
                         . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
                         . "<span class='admin-page-framework-input-container'>"
                             . "<input type='hidden' class='{$this->_sCheckboxClassSelector}' name='{$_aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
-                            . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class    
+                            // For IE 8 or below
+                            . "<!--[if lte IE 8]>"
+                                . "<input " . $this->generateAttributes( $_aInputAttributesIE8OrBelow ) . " />" 
+                                . "<span " . $this->generateAttributes( $_aImageAttributesIE8OrBelow )  . " ></span>"
+                            . "<!--<![endif]-->"
+                            // For IE 9 or greater and other browsers like Firefox and Chrome
+                            . "<!--[if gte IE 9]><!-->"
+                                . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" 
+                                . "<span " . $this->generateAttributes( $_aImageAttributes )  . " ></span>"
+                            . "<!--<![endif]-->"                            
                         . "</span>"
                         . "<span class='admin-page-framework-input-label-string'>"
                             . $_sLabel
