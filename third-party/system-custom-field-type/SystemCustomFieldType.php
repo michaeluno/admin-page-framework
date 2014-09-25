@@ -275,6 +275,7 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
                     __( 'Session Use Cookies', 'admin-page-framework' )         => $this->_getOnOrOff( ini_get( 'session.use_cookies' ) ),
                     __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->_getOnOrOff( ini_get( 'session.use_only_cookies' ) ),                                    
                 ),
+                'Browser'             => @get_browser( null, true ),
             );
 
             $_aData     = $this->getAsArray( $asCustomData );
@@ -291,15 +292,7 @@ class SystemCustomFieldType extends AdminPageFramework_FieldType {
             return implode( PHP_EOL, $_aOutput );
             
         }
-            /**
-             * 
-             * @since   3.2.0
-             */
-            private function _getItem( $asItem ) {
-                
-                
-            }
-        
+          
             private function _getSectionInfo( $sSection, $asInfo, $sLabelCharLengths=16, $iOffset=0 ) {
                 
                 $_aOutput   = array();
