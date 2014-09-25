@@ -1051,6 +1051,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'title'         => __( 'Image Checkbox', 'admin-page-framework-demo' ),
                 'width'         => 96,
                 'height'        => 64,  
+                'label_min_width'   => 200,
                 'label'         => array(
                     'a' => APFDEMO_DIRNAME . '/third-party/image_checkbox-custom-field-type/asset/image/a.jpg',
                     'b' => APFDEMO_DIRNAME . '/third-party/image_checkbox-custom-field-type/asset/image/b.jpg',
