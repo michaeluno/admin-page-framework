@@ -437,6 +437,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.2.1 =
+- Added the `image_checkbox` custom field type.
+
 = 3.2.0 - 2014/09/25 =
 - Added an example of using an image for a submit button.
 - Added the option to set custom button labels via the `data-label` attribute for the `image`, `media`, and `font` field types.
