@@ -100,47 +100,47 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
      */
     public function _replyToGetField( $aField ) {
         
-        $aOutput = array();
-        $sValue = $aField['attributes']['value'];
+        $_aOutput   = array();
+        $_sValue    = $aField['attributes']['value'];
         
-        foreach( $aField['label'] as $sKey =>$sLabel ) {
+        foreach( $aField['label'] as $_sKey => $_sLabel ) {
 
             /* Prepare attributes */
-            $aInputAttributes = array(
-                'type' => 'radio',
-                'checked' => $sValue == $sKey ? 'checked' : '',
-                'value' => $sKey,
-                'id' => $aField['input_id'] . '_' . $sKey,
-                'data-default' => $aField['default'],
+            $_aInputAttributes = array(
+                'type'          => 'radio',
+                'checked'       => $_sValue == $_sKey ? 'checked' : '',
+                'value'         => $_sKey,
+                'id'            => $aField['input_id'] . '_' . $_sKey,
+                'data-default'  => $aField['default'],
             ) 
-            + $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
+            + $this->getFieldElementByKey( $aField['attributes'], $_sKey, $aField['attributes'] )
             + $aField['attributes'];
-            $aLabelAttributes = array(
-                'for' => $aInputAttributes['id'],
-                'class' => $aInputAttributes['disabled'] ? 'disabled' : '',
+            $_aLabelAttributes = array(
+                'for'   => $_aInputAttributes['id'],
+                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',
             );
 
             /* Insert the output */
-            $aOutput[] = 
-                $this->getFieldElementByKey( $aField['before_label'], $sKey )
+            $_aOutput[] = 
+                $this->getFieldElementByKey( $aField['before_label'], $_sKey )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
-                        . $this->getFieldElementByKey( $aField['before_input'], $sKey )
+                    . "<label " . $this->generateAttributes( $_aLabelAttributes ) . ">"
+                        . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
                         . "<span class='admin-page-framework-input-container'>"
-                            . "<input " . $this->generateAttributes( $aInputAttributes ) . " />" // this method is defined in the utility class    
+                            . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the utility class    
                         . "</span>"
                         . "<span class='admin-page-framework-input-label-string'>"
-                            . $sLabel
+                            . $_sLabel
                         . "</span>"    
-                        . $this->getFieldElementByKey( $aField['after_input'], $sKey )
+                        . $this->getFieldElementByKey( $aField['after_input'], $_sKey )
                     . "</label>"
                 . "</div>"
-                . $this->getFieldElementByKey( $aField['after_label'], $sKey )
+                . $this->getFieldElementByKey( $aField['after_label'], $_sKey )
                 ;
                 
         }
-        $aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
-        return implode( PHP_EOL, $aOutput );
+        $_aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
+        return implode( PHP_EOL, $_aOutput );
             
     }
         /**
