@@ -1,7 +1,7 @@
 === Admin Page Framework ===
 Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
-Tags:               admin, administration, admin panel, admin page framework, option, options, option page, option pages, setting, settings, setting page, setting pages, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, meta box field, meta box fields, custom post type, utility, utilities, field, fields, custom field, custom fields, tool, tools, widget, widgets, factory
+Tags:               admin, administration, admin panel, admin page framework, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, custom post types, utility, utilities, field, fields, custom field, custom fields, tool, tools, widget, widgets, factory, form, forms
 Requires at least:  3.3
 Tested up to:       4.0
 Stable tag:         3.1.7
@@ -437,7 +437,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.2.0 =
+= 3.2.0 - 2014/09/25 =
 - Added an example of using an image for a submit button.
 - Added the option to set custom button labels via the `data-label` attribute for the `image`, `media`, and `font` field types.
 - Added the remove button for the `image`, `media`, and `font` field types.
@@ -448,7 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed a bug that a last item did not set when selecting multiple items in the fields of the `image`, `media`, `font` field types.
 - Fixed a bug in the `autocomplete` custom field type that the default post type slug was not set properly when the page that the field is displayed contains the `post_type` query key in the url.
 
-= 3.1.7 - 2014/0912 =
+= 3.1.7 - 2014/09/12 =
 - Added the `github` custom field type that displays GitHub buttons.
 - Fixed an incompatibility issue of the `grid` custom field type with Internet Explorer.
 - Fixed an incompatibility issue of the `link` custom field type with WordPress 3.8.x or below and Internet Explorer.
@@ -548,4 +548,4 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
 - Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
 
-= [Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md) =
+<h4>[Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)</h4>
