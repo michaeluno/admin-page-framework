@@ -439,6 +439,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.2.1 =
 - Added support for custom queries for the `posttype` field type.
+- Added the `radio_checkbox` custom field type.
 - Added the `image_checkbox` custom field type.
 
 = 3.2.0 - 2014/09/25 =
