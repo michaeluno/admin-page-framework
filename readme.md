@@ -193,14 +193,14 @@ This is a developer's portal for Admin Page Framework and should _not_ be used f
 ## Contributions ##
 Anyone is welcome to contribute to Admin Page Framework. There are various ways you can contribute:
 
-- Try the open [beta version](https://github.com/michaeluno/admin-page-framework/labels/Beta%20Stage) and notify the developer issues you encounter.
+- Try the open [beta version](https://github.com/michaeluno/admin-page-framework/labels/Beta%20Stage) and report issues you encounter.
 - Post the ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 - Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
 - Send us a Pull Request with your bug fixes and/or new features.
 - Write a custom field type. 
 - Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
-- Tweak the styling of the framework by modifying the CSS rules.
-- Translate the language files in the `language` folder. 
+- Tweak the styling of the framework by modifying the [CSS rules](https://github.com/michaeluno/admin-page-framework/blob/master/development/_model/AdminPageFramework_CSS.php).
+- Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory. 
 
 ## Supporting Future Development ##
 
