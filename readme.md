@@ -195,7 +195,7 @@ This is a developer's portal for Admin Page Framework and should _not_ be used f
 Anyone is welcome to contribute to Admin Page Framework. There are various ways you can contribute:
 
 - Try the open [beta version](https://github.com/michaeluno/admin-page-framework/labels/Beta%20Stage) and report issues you encounter.
-- Post the ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
+- Post ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 - Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
 - Send us a Pull Request with your bug fixes and/or new features.
 - Write a custom field type. 
