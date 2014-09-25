@@ -47,6 +47,29 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
     }
     
     /**
+     * Generates inline CSS rules from the given array.
+     * 
+     * For example,
+     * array(
+     *      'width' => '32px',
+     *      'height' => '32px',
+     * )
+     * will be
+     * 'width: 32px; height: 32px;'
+     * 
+     * @since       3.2.0
+     */
+    static public function generateInlineCSS( array $aCSSRules ) {
+        
+        $_sOutput = '';
+        foreach( $aCSSRules as $_sProperty => $_sValue ) {
+            $_sOutput .= $_sProperty . ': ' . $_sValue . '; ';
+        }
+        return trim( $_sOutput );
+        
+    }
+    
+    /**
      * Generates the string of class selectors for the class attribute value from multiple arguments.
      * 
      * Duplicated items will be single.
