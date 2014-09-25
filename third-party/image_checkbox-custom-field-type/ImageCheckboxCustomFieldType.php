@@ -1,5 +1,13 @@
 <?php
 if ( ! class_exists( 'ImageCheckboxCustomFieldType' ) ) :
+/**
+ * Defines the image_checkbox field type.
+ * 
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       3.2.1
+ * @internal
+ */
 class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 		
 	/**
@@ -8,10 +16,10 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 	 * The slug is used for the type key in a field definition array.
 	 * 	$this->addSettingFields(
 			array(
-				'section_id'	=>	'...',
-				'type'	=>	'image_checkbox',		// <--- THIS PART
-				'field_id'	=>	'...',
-				'title'		=>	'...',
+				'section_id'	=> ...,
+				'type'          => 'image_checkbox',		// <--- THIS PART
+				'field_id'      => ...,
+				'title'		    => ...,
 			)
 		);
 	 */
@@ -23,17 +31,17 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
 	 * The keys are used for the field definition array.
 	 * 	$this->addSettingFields(
 			array(
-				'section_id'	=>	'...',	
-				'type'	=>	'...',
-				'field_id'	=>	'...',
-				'my_custom_key' => '...',	// <-- THIS PART
+				'section_id'    => ...,
+				'type'          => ...,
+				'field_id'      => ...,
+				'my_custom_key' => ...,	// <-- THIS PART
 			)
 		);
 	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
 	 */
 	protected $aDefaultKeys = array(
-        'width'                     => 64,
-        'height'                    => 64,
+        'width'         => 64,
+        'height'        => 64,
 		'attributes'	=>	array(),	
 	);
 
