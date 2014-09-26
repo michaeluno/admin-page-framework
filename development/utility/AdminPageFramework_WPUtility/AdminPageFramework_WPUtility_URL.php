@@ -105,24 +105,28 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * 
      * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
      * 
-     * @since 2.1.5
-     * @since 2.1.6 Moved from the AdminPageFramework_HeadTag_Base class. Added the $bReturnNullIfNotExist parameter.
+     * @since       2.1.5
+     * @since       2.1.6       Moved from the AdminPageFramework_HeadTag_Base class. Added the $bReturnNullIfNotExist parameter.
      */
     static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
 
-        if ( ! $sSRC )    
+        if ( ! $sSRC ) {
             return $bReturnNullIfNotExist ? null : $sSRC;
+        }
             
         // It is a url
-        if ( filter_var( $sSRC, FILTER_VALIDATE_URL ) )
+        if ( filter_var( $sSRC, FILTER_VALIDATE_URL ) ) {
             return $sSRC;
+        }
 
         // If the file exists, it means it is an absolute path. If so, calculate the URL from the path.
-        if ( file_exists( realpath( $sSRC ) ) )
+        if ( file_exists( realpath( $sSRC ) ) ) {
             return self::getSRCFromPath( $sSRC );
+        }
         
-        if ( $bReturnNullIfNotExist )
+        if ( $bReturnNullIfNotExist ) {
             return null;
+        }
         
         // Otherwise, let's assume the string is a relative path 'to the WordPress installed absolute path'.
         return $sSRC;
