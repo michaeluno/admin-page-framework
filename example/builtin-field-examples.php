@@ -1034,7 +1034,8 @@ $this->addSettingFields(
         'type'              => 'submit',
         'href'              => 'http://en.michaeluno.jp/donate',
         'attributes'        =>  array(
-           'src'    => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif',
+           // 'src'    => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif',
+           'src'    => APFDEMO_DIRNAME . '/asset/image/donation.gif',
            'alt'    => __( 'Submit', 'admin-page-framework-demo' ),
            'class'  => '',
         ),
@@ -1116,28 +1117,28 @@ $this->addSettingFields(
 $this->addSettingFields(    
     'repeatable_sections', // the target section ID
     array(
-        'field_id' => 'text_field_in_repeatable_sections',
-        'title' => __( 'Text', 'admin-page-framework-demo' ),
-        'type' => 'text',
-        'default' => 'xyz',
+        'field_id'      => 'text_field_in_repeatable_sections',
+        'title'         => __( 'Text', 'admin-page-framework-demo' ),
+        'type'          => 'text',
+        'default'       => 'xyz',
     ),
     array(
-        'field_id' => 'repeatable_field_in_repeatable_sections',
-        'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-        'type' => 'text',
-        'repeatable' =>    true,
+        'field_id'      => 'repeatable_field_in_repeatable_sections',
+        'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
+        'type'          => 'text',
+        'repeatable'    =>    true,
     ),     
     array(
-        'field_id' => 'color_in_repeatable_sections',
-        'title' => __( 'Color', 'admin-page-framework-demo' ),
-        'type' => 'color',
+        'field_id'      => 'color_in_repeatable_sections',
+        'title'         => __( 'Color', 'admin-page-framework-demo' ),
+        'type'          => 'color',
     ),
     array(
-        'field_id' => 'radio_in_repeatable_sections',
-        'title' => __( 'Radio', 'admin-page-framework-demo' ),
-        'type' => 'radio',
-        'default' => 'b',
-        'label' => array(
+        'field_id'      => 'radio_in_repeatable_sections',
+        'title'         => __( 'Radio', 'admin-page-framework-demo' ),
+        'type'          => 'radio',
+        'default'       => 'b',
+        'label'         => array(
             'a' => 'A',
             'b' => 'B',
             'c' => 'c',     
