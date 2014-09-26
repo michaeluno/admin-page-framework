@@ -68,8 +68,11 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
         
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'submit' );
         
-        $_bIsImageButton  = isset( $aField['attributes']['src'] ) && filter_var( $aField['attributes']['src'] , FILTER_VALIDATE_URL );
-        $aInputAttributes = array(
+        if ( isset( $aField['attributes']['src'] ) ) {
+            $aField['attributes']['src'] = $this->resolveSRC( $aField['attributes']['src'] );
+        }
+        $_bIsImageButton    = isset( $aField['attributes']['src'] ) && filter_var( $aField['attributes']['src'], FILTER_VALIDATE_URL );
+        $_aInputAttributes  = array(
                 // the type must be set because child class including export will use this method; in that case, the export type will be assigned which input tag does not support
                 'type'  => $_bIsImageButton ? 'image' : 'submit', 
                 'value' => ( $sValue = $this->_getInputFieldValueFromLabel( $aField ) ),
@@ -80,24 +83,24 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
                 'alt'   => $_bIsImageButton ? 'submit' : '',
             );
 
-        $aLabelAttributes = array(
+        $_aLabelAttributes          = array(
             'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
-            'for'   => $aInputAttributes['id'],
-            'class' => $aInputAttributes['disabled'] ? 'disabled' : '',     
+            'for'   => $_aInputAttributes['id'],
+            'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',     
         );
-        $aLabelContainerAttributes = array(
+        $_aLabelContainerAttributes = array(
             'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
             'class' => 'admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container',
         );
 
         return 
             $aField['before_label']
-            . "<div " . $this->generateAttributes( $aLabelContainerAttributes ) . ">"
+            . "<div " . $this->generateAttributes( $_aLabelContainerAttributes ) . ">"
                 . $this->_getExtraFieldsBeforeLabel( $aField ) // this is for the import field type that cannot place file input tag inside the label tag.
-                . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
+                . "<label " . $this->generateAttributes( $_aLabelAttributes ) . ">"
                     . $aField['before_input']
                     . $this->_getExtraInputFields( $aField )
-                    . "<input " . $this->generateAttributes( $aInputAttributes ) . " />" // this method is defined in the base class
+                    . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class
                     . $aField['after_input']
                 . "</label>"
             . "</div>"
