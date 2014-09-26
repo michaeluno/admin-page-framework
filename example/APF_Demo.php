@@ -232,7 +232,11 @@ class APF_Demo extends AdminPageFramework {
                 'tab_slug'          => 'sections',
                 'title'             => __( 'Repeatable Sections', 'admin-page-framework-demo' ),
                 'description'       => __( 'As of v3, it is possible to repeat sections.', 'admin-page-framework-demo' ),
-                'repeatable'        =>    true, // this makes the section repeatable
+                // 'repeatable'        => true,     // this makes the section repeatable
+                'repeatable'    => array(   
+                    'max' => 5,
+                    // 'min' => 2,
+                ),  
             ),
             array(
                 'section_id'        => 'tabbed_sections_a',
