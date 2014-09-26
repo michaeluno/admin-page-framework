@@ -85,7 +85,7 @@ $this->addSettingFields(
             'min' => 3,
         ),
         'description'       => __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> argument to <code>true</code>.', 'admin-page-framework-demo' )
-            . __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable<code> argument array in the field deifnition array.' ),
+            . __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable</code> argument array in the field definition array.' ),
     ),     
     array( // Sortable text fields
         'field_id'          => 'text_sortable',
