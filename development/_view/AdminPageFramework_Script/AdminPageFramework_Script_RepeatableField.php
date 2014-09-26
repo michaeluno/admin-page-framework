@@ -90,7 +90,7 @@ class AdminPageFramework_Script_RepeatableField {
                 if ( sMaxNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length >= sMaxNumberOfFields ) {
                     var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
                     var sMessage = $( this ).formatPrintText( '{$sCannotAddMore}', sMaxNumberOfFields );
-                    var nodeMessage = $( '<span class=\"repeatable-error\" id=\"repeatable-error-' + sFieldsContainerID + '\" style=\"float:right;color:red;margin-left:1em;\">' + sMessage + '</span>' );
+                    var nodeMessage = $( '<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-' + sFieldsContainerID + '\" >' + sMessage + '</span>' );
                     if ( nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).length > 0 )
                         nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).replaceWith( nodeMessage );
                     else
@@ -146,7 +146,7 @@ class AdminPageFramework_Script_RepeatableField {
                 if ( sMinNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length <= sMinNumberOfFields ) {
                     var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
                     var sMessage = $( this ).formatPrintText( '{$sCannotRemoveMore}', sMinNumberOfFields );
-                    var nodeMessage = $( '<span class=\"repeatable-error\" id=\"repeatable-error-' + sFieldsContainerID + '\" style=\"float:right;color:red;margin-left:1em;\">' + sMessage + '</span>' );
+                    var nodeMessage = $( '<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-' + sFieldsContainerID + '\">' + sMessage + '</span>' );
                     if ( nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).length > 0 ) {
                         nodeFieldsContainer.find( '#repeatable-error-' + sFieldsContainerID ).replaceWith( nodeMessage );
                     } else {

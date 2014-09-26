@@ -281,7 +281,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                                 : ""
                             )
                             . ( $_sSectionError  
-                                ? "<div class='admin-page-framework-error'><span style='color:red;'>* " . $_sSectionError .  "</span></div>"
+                                ? "<div class='admin-page-framework-error'><span class='section-error'>* " . $_sSectionError .  "</span></div>"
                                 : ''
                             )
                         . "</caption>"

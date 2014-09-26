@@ -369,16 +369,16 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 && ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] )
                 
             ) {     
-                return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
+                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" 
                         . $aErrors[ $sSectionID ][ $sFieldID ]
-                    . "</span><br />";
+                    . "</span>";
             } 
             
             // if this field does not have a section and the error element is set,
             if ( isset( $aErrors[ $sFieldID ] ) && ! is_array( $aErrors[ $sFieldID ] ) ) {
-                return "<span style='color:red;'>*&nbsp;{$this->aField['error_message']}" 
+                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" 
                         . $aErrors[ $sFieldID ]
-                    . "</span><br />";
+                    . "</span>";
             }     
             
         }    

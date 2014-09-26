@@ -61,9 +61,11 @@ class AdminPageFramework_CSS {
 ";        
         return $_sCSS . PHP_EOL 
             . self::_getFormFieldRules() . PHP_EOL
+            . self::_getFieldErrorRules() . PHP_EOL
             . self::_getWidgetFormRules() . PHP_EOL
             . self::_getPageLoadStatsRules() . PHP_EOL
             . self::_getVersionSpecificRules( $GLOBALS['wp_version'] );
+            
     }
 
         /**
@@ -134,6 +136,7 @@ td.admin-page-framework-field-td-no-title {
 /* Repeatable Sections */
 .admin-page-framework-repeatable-section-buttons {
     float: right;
+    clear: right;
     margin-top: 1em;
 }
 /* Section Caption */
@@ -315,11 +318,34 @@ td.admin-page-framework-field-td-no-title {
     padding-right: 0.22em;
 
 }
-
-
-";
-            
+";            
         }   
+        /**
+         * Returns CSS rules for field errors.
+         * @since   3.2.1
+         */
+        static private function _getFieldErrorRules() {
+            
+return "
+
+.field-error, 
+.section-error
+{
+  color: red;
+  float: left;
+  clear: both;
+  margin-bottom: 0.5em;
+}
+.repeatable-section-error,
+.repeatable-field-error {
+  float: right;
+  clear: both;
+  color: red;
+  margin-left: 1em;
+}
+
+";    
+        }        
     
         /**
          * Returns the CSS rules for page load stats.
@@ -347,7 +373,7 @@ td.admin-page-framework-field-td-no-title {
 ";
             
         }
-        
+                
         /**
          * Returns the widget form specific CSS rules.
          * 
