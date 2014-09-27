@@ -2,7 +2,7 @@
 /**
  * Admin Page Framework
  * 
- * Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes.
+ * Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets..
  * 
  * @author      Michael Uno <michael@michaeluno.jp>
  * @copyright   2013-2014 (c) Michael Uno
@@ -28,7 +28,7 @@ abstract class AdminPageFramework_Registry_Base {
     
     const Version       = '3.2.1b05'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
-    const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, ant meta boxes.';
+    const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
     const Author        = 'Michael Uno';
     const AuthorURI     = 'http://en.michaeluno.jp/';
