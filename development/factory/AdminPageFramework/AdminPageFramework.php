@@ -45,9 +45,9 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- *     <li><strong>content_foot_{page slug}_{tab slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
- *     <li><strong>content_foot_{page slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
- *     <li><strong>content_foot_{instantiated class name}</strong> – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
+ *     <li><strong>content_top_{page slug}_{tab slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
+ *     <li><strong>content_top_{page slug}</strong> – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
+ *     <li><strong>content_top_{instantiated class name}</strong> – receives the output of the top part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
  *     <li><strong>content_{page slug}_{tab slug}</strong> – receives the output of the middle part of the page including form input fields.</li>
  *     <li><strong>content_{page slug}</strong> – receives the output of the middle part of the page including form input fields.</li>
  *     <li><strong>content_{instantiated class name}</strong> – receives the output of the middle part of the page, applied to all pages created by the instantiated class object.</li>
@@ -129,7 +129,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * <p>If the instantiated class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.</p>
  * <code>class Sample_Admin_Pages extends AdminPageFramework {
  * ...
- *     function content_foot_Sample_Admin_Pages( $sContent ) {
+ *     function content_top_Sample_Admin_Pages( $sContent ) {
  *         return '<div style="float:right;"><img src="' . plugins_url( 'img/banner468x60.gif', __FILE__ ) . '" /></div>' 
  *             . $sContent;
  *     }

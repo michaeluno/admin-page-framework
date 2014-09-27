@@ -11,9 +11,9 @@ if ( ! class_exists( 'AdminPageFramework_Base' ) ) :
  * Defines common properties and methods shared with the AdminPageFramework classes for pages.
  *
  * @abstract
- * @since 3.0.0     
- * @package AdminPageFramework
- * @subpackage Page
+ * @since           3.0.0     
+ * @package         AdminPageFramework
+ * @subpackage      Page
  * @internal
  */
 abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
@@ -23,51 +23,51 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * 
      * This must not use the private scope as the extended class accesses it, such as 'start_' and must use the public since another class uses this externally.
      * 
-     * @since 2.0.0
-     * @since 2.1.5 Made it public from protected since the HeadTag class accesses it.
-     * @since 3.0.0 Moved from AdminPageFramework_Page. Changed the scope to protected as the head tag class no longer access this property.
-     * @var array
+     * @since       2.0.0
+     * @since       2.1.5 Made it public from protected since the HeadTag class accesses it.
+     * @since       3.0.0 Moved from AdminPageFramework_Page. Changed the scope to protected as the head tag class no longer access this property.
+     * @var         array
      * @static
-     * @access protected
+     * @access      protected
      * @internal
      */ 
     protected static $_aHookPrefixes = array(    
-        'start_' => 'start_',
-        'set_up_' => 'set_up_', // 3.1.3+
-        'load_' => 'load_',     
-        'load_after_' => 'load_after_', // 3.1.3+
-        'do_before_' => 'do_before_',
-        'do_after_' => 'do_after_',
-        'do_form_' => 'do_form_',
-        'do_' => 'do_',
-        'submit_' => 'submit_', // 3.0.0+
-        'content_foot_' => 'content_foot_',
-        'content_bottom_' => 'content_bottom_',
-        'content_' => 'content_',
-        'validation_' => 'validation_',
-        'validation_saved_options_' => 'validation_saved_options_', // [3.0.0+]
-        'export_name' => 'export_name',
-        'export_format'     => 'export_format',
-        'export_' => 'export_',
-        'import_name' => 'import_name',
-        'import_format' => 'import_format',
-        'import_' => 'import_',
-        'style_common_ie_' => 'style_common_ie_',
-        'style_common_' => 'style_common_',
-        'style_ie_' => 'style_ie_',
-        'style_' => 'style_',
-        'script_' => 'script_',
+        'start_'                        => 'start_',
+        'set_up_'                       => 'set_up_', // 3.1.3+
+        'load_'                         => 'load_',     
+        'load_after_'                   => 'load_after_', // 3.1.3+
+        'do_before_'                    => 'do_before_',
+        'do_after_'                     => 'do_after_',
+        'do_form_'                      => 'do_form_',
+        'do_'                           => 'do_',
+        'submit_'                       => 'submit_', // 3.0.0+
+        'content_top_'                  => 'content_top_',         // 3.2.1+
+        'content_bottom_'               => 'content_bottom_',     // 3.0.0+
+        'content_'                      => 'content_',
+        'validation_'                   => 'validation_',
+        'validation_saved_options_'     => 'validation_saved_options_', // [3.0.0+]
+        'export_name'                   => 'export_name',
+        'export_format'                 => 'export_format',
+        'export_'                       => 'export_',
+        'import_name'                   => 'import_name',
+        'import_format'                 => 'import_format',
+        'import_'                       => 'import_',
+        'style_common_ie_'              => 'style_common_ie_',
+        'style_common_'                 => 'style_common_',
+        'style_ie_'                     => 'style_ie_',
+        'style_'                        => 'style_',
+        'script_'                       => 'script_',
         
-        'field_' => 'field_',
-        'section_head_' => 'section_head_', // 3.0.0+ Changed from 'section_'
-        'fields_' => 'fields_',
-        'sections_' => 'sections_',
-        'pages_' => 'pages_',
-        'tabs_' => 'tabs_',
+        'field_'                        => 'field_',
+        'section_head_'                 => 'section_head_', // 3.0.0+ Changed from 'section_'
+        'fields_'                       => 'fields_',
+        'sections_'                     => 'sections_',
+        'pages_'                        => 'pages_',
+        'tabs_'                         => 'tabs_',
         
-        'field_types_' => 'field_types_',
-        'field_definition_' => 'field_definition_', // 3.0.2+
-        'options_' => 'options_', // 3.1.0+
+        'field_types_'                  => 'field_types_',
+        'field_definition_'             => 'field_definition_', // 3.0.2+
+        'options_'                      => 'options_', // 3.1.0+
     );
     
     /**

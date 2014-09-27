@@ -318,7 +318,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 $sContentTop .= $this->_getInPageTabs( $sPageSlug, $this->oProp->sInPageTabTag );
 
                 // Apply filters in this order, in-page tab -> page -> global.
-                echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_foot_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContentTop );
+                echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_top_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContentTop );
 
             ?>
             <div class="admin-page-framework-container">    
