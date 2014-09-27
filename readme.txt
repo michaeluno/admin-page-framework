@@ -443,6 +443,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `radio_checkbox` custom field type.
 - Added the `image_checkbox` custom field type.
 - Tweaked the styling of field error messages.
+- Fixed the `content_top_{...}` hooks and the methods were not available.
 
 = 3.2.0 - 2014/09/25 =
 - Added an example of using an image for a submit button.
