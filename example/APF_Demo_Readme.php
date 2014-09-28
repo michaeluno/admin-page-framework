@@ -100,11 +100,6 @@ class APF_Demo_Readme extends AdminPageFramework {
                             
     }
             
-            
-    public function content_top_APF_Demo_Readme( $sContent )         {
-        return $sContent . "<h1>Admin Page Framework</h1>";
-    }
-            
     public function do_before_apf_read_me() { // do_before_ + page slug 
 
         include( dirname( APFDEMO_FILE ) . '/third-party/wordpress-plugin-readme-parser/parse-readme.php' );

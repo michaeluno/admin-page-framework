@@ -118,7 +118,10 @@ if ( is_admin() ) :
             'manage_options',           // the default capability
             'admin-page-framework-demo' // the text domain        
         );
-            
+        
+        // Modify the top part of the pages with a separate script
+        include( APFDEMO_DIRNAME . '/example/APF_Demo_AddPluginTitle.php' );
+        new APF_Demo_AddPluginTitle;
             
     if ( is_network_admin() ) :
     
