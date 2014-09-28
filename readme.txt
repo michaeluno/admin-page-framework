@@ -443,7 +443,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `radio_checkbox` custom field type.
 - Added the `image_checkbox` custom field type.
 - Tweaked the styling of field error messages.
-- Fixed an issue that sortable fields could not be rendered properly when being dragged in browser screen widths of less than 782px in Chrome.
+- Fixed an issue that sortable fields could not be rendered properly when being dragged in browser screen widths of less than 782px in Chrome in WordPress above v3.8.
 - Fixed the `content_top_{...}` hooks and the methods were not available.
 
 = 3.2.0 - 2014/09/25 =
