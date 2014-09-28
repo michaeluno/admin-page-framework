@@ -435,6 +435,15 @@ return "
 .admin-page-framework-repeatable-field-buttons {
     margin: 2px 0 0 0.3em;
 }
+
+/* Fix Sortable fields drag&drop problem in MP6 */ 
+    
+@media screen and ( max-width: 782px ) {
+	.admin-page-framework-fieldset {
+		overflow-x: hidden;
+	}
+}    
+
 ";        
                 
             }
