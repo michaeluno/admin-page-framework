@@ -266,7 +266,7 @@ abstract class AdminPageFramework_HeadTag_Base {
             $this->oProp->sScript 
         );
         if ( $_sScript ) {
-            echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}'>{$sScript}</script>";     
+            echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}'>{$_sScript}</script>";     
             $_iCallCount++;
         }
         
