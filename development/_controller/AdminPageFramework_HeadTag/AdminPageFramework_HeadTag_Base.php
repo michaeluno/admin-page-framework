@@ -139,13 +139,27 @@ abstract class AdminPageFramework_HeadTag_Base {
         self::$_bCommonStyleLoaded = true;
         
         $oCaller    = $this->oProp->_getCallerObject();     
-        $sStyle     = $this->oUtil->addAndApplyFilters( $oCaller, "style_common_{$this->oProp->sClassName}", AdminPageFramework_CSS::getDefaultCSS() );
+        $sStyle     = $this->oUtil->addAndApplyFilters( 
+            $oCaller, 
+            array(
+                "style_common_admin_page_framework",            // 3.2.1+
+                "style_common_{$this->oProp->sClassName}",
+            ), 
+            AdminPageFramework_CSS::getDefaultCSS() 
+        );
         $sStyle     = $this->oUtil->minifyCSS( $sStyle );
         if ( $sStyle ) {
             echo "<style type='text/css' id='{$sIDPrefix}'>{$sStyle}</style>";
         }
 
-        $sStyleIE   = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_common_{$this->oProp->sClassName}", AdminPageFramework_CSS::getDefaultCSSIE() );
+        $sStyleIE   = $this->oUtil->addAndApplyFilters( 
+            $oCaller, 
+            array(
+                "style_ie_common_admin_page_framework",         // 3.2.1+
+                "style_ie_common_{$this->oProp->sClassName}", 
+            ),
+            AdminPageFramework_CSS::getDefaultCSSIE() 
+        );
         $sStyleIE   = $this->oUtil->minifyCSS( $sStyleIE );
         if ( $sStyleIE ) {
             echo "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie'>{$sStyleIE}</style><![endif]-->";
@@ -176,7 +190,14 @@ abstract class AdminPageFramework_HeadTag_Base {
         if ( self::$_bCommonScriptLoaded ) { return; }
         self::$_bCommonScriptLoaded = true;
         
-        $_sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_common_{$this->oProp->sClassName}", AdminPageFramework_Property_Base::$_sDefaultScript );
+        $_sScript = $this->oUtil->addAndApplyFilters( 
+            $this->oProp->_getCallerObject(), 
+            array(
+                "script_common_admin_page_framework",       // 3.2.1+
+                "script_common_{$this->oProp->sClassName}", 
+            ),
+            AdminPageFramework_Property_Base::$_sDefaultScript 
+        );
         if ( $_sScript ) {
             echo "<script type='text/javascript' id='{$sIDPrefix}'>{$_sScript}</script>";
         }
@@ -198,14 +219,22 @@ abstract class AdminPageFramework_HeadTag_Base {
         $oCaller = $this->oProp->_getCallerObject();     
 
         // Print out the filtered styles.
-        $sStyle = $this->oUtil->addAndApplyFilters( $oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
+        $sStyle = $this->oUtil->addAndApplyFilters( 
+            $oCaller, 
+            "style_{$this->oProp->sClassName}", 
+            $this->oProp->sStyle 
+        );
         $sStyle = $this->oUtil->minifyCSS( $sStyle );
         if ( $sStyle ) {
             echo "<style type='text/css' id='{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}'>{$sStyle}</style>";
             $_iCallCount++;
         }
             
-        $sStyleIE = $this->oUtil->addAndApplyFilters( $oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE );
+        $sStyleIE = $this->oUtil->addAndApplyFilters( 
+            $oCaller,
+            "style_ie_{$this->oProp->sClassName}",
+            $this->oProp->sStyleIE 
+        );
         $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
         if ( $sStyleIE ) {
             echo  "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}'>{$sStyleIE}</style><![endif]-->";
@@ -229,8 +258,14 @@ abstract class AdminPageFramework_HeadTag_Base {
     protected function _printClassSpecificScripts( $sIDPrefix ) {
         
         static $_iCallCount = 1;
-        $sScript = $this->oUtil->addAndApplyFilters( $this->oProp->_getCallerObject(), "script_{$this->oProp->sClassName}", $this->oProp->sScript );
-        if ( $sScript ) {
+        $_sScript = $this->oUtil->addAndApplyFilters( 
+            $this->oProp->_getCallerObject(),
+            array(
+                "script_{$this->oProp->sClassName}", 
+            ),
+            $this->oProp->sScript 
+        );
+        if ( $_sScript ) {
             echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}'>{$sScript}</script>";     
             $_iCallCount++;
         }
