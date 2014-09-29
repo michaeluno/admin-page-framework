@@ -444,7 +444,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.2.1 =
+= 3.2.1 - 2014/09/29 =
 - Added an example of using the `content_top_{...}` and the `style_common_admin_page_framework` filters.
 - Added the `style_common_admin_page_framework` hook.
 - Added support for a file path to be passed for image submit buttons.
