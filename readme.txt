@@ -17,26 +17,27 @@ It provides plugin and theme developers with easier means of creating option pag
 
 = What you can do =
 
-with it, easily create:
+with it easily create:
 
 - **Root Page, Sub Pages, and Tabs** - where your users will access to operate your plugin or theme.
 - **Forms** - to let your users store their options.
 - **Custom Post Types** - and the custom columns in the post listing table.
-- **Meta Boxes and Fields** - which help to store meta data stored associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
+- **Custom Taxonomies and Fields** - to store options associated with a taxonomy in the taxonomy definition page.
+- **Meta Boxes and Fields** - which help to store meta data associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
 - **Widgets and Fields** - to display modular outputs based on the user's settings in the front end.
 - **Network Admin Pages and Forms** - for WordPress multi-sites.
 
 = What are useful about =
 - **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 - **Section Tabs** - form sections can be displayed in a tabbed box.
-- **Repeatability** - supports repeatable form sections and fields which means the user can dynamically add/remove form fields.
-- **Sortability** - supports sortable form fields which means the user can set the order of fields by moving the field with drag-and-drop.
+- **Repeatable Fields** - dynamically add/remove form sections and fields.
+- **Sortable Fields** - drag and drop fields to change the order.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 - **Reset Button** - lets the user to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
-- **Taxonomy Fields** - the framework provides methods to add fields in the taxonomy definition page.
 - **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
 - **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
+= **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin install. Therefore, your product will be perfectly portable.
 
 = Built-in Field Types =
 - `text` - a normal field to enter text input.
