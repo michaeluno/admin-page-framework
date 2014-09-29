@@ -15,16 +15,22 @@ It provides plugin and theme developers with easier means of creating option pag
 
 **Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
-= Features =
-- **Root Page, Sub Pages, and Tabs** - allows you to instantly create a top level page and the sub pages of it, plus tabs inside the sub pages.
-- **Custom Post Types** - helps to create custom post types and insert custom columns in the post listing table.
-- **Meta Boxes** - helps to create custom meta boxes with form fields, that means it enables to store additinal data associated with a post that your users create. 
-- **Widgets** - helps to create widgets with the form fields that the framework provides. 
-- **Network Admin Pages** - network admin pages for WordPress multi-sites can be created.
+= What you can do =
+
+with it, easily create:
+
+- **Root Page, Sub Pages, and Tabs** - where your users will access to operate your plugin or theme.
+- **Forms** - to let your users store their options.
+- **Custom Post Types** - and the custom columns in the post listing table.
+- **Meta Boxes and Fields** - which help to store meta data stored associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
+- **Widgets and Fields** - to display modular outputs based on the user's settings in the front end.
+- **Network Admin Pages and Forms** - for WordPress multi-sites.
+
+= What are useful about =
 - **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 - **Section Tabs** - form sections can be displayed in a tabbed box.
 - **Repeatability** - supports repeatable form sections and fields which means the user can dynamically add/remove form fields.
-- **Sotability** - supports sortable form fields which means the user can set the order of fields by moving the field with drag-and-drop.
+- **Sortability** - supports sortable form fields which means the user can set the order of fields by moving the field with drag-and-drop.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 - **Reset Button** - lets the user to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
@@ -52,8 +58,8 @@ It provides plugin and theme developers with easier means of creating option pag
 - `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
 - `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 
-= Custom Field Types = 
-You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The example custom field types are included in the demo plugin.
+= Bundled Custom Field Types = 
+You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The followings are example custom field types.
 
 - `geometry` - a location selector with the Google map.
 - `date`, `time`, `date_time`, `date_range`, `time_range`, `date_time_range` - date and time fields with the date picker.
@@ -65,6 +71,7 @@ You can include your own custom field types when they are necessary. The reason 
 - `link` - it lets pick a post and set the url.
 - `system` - displays the site system information.
 - `github` - displays GitHub buttons.
+- `image_checkbox`, `image_radio` - displays images instead of text labels to be selected.
 
 = Necessary Files =
 - **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
