@@ -1034,12 +1034,11 @@ $this->addSettingFields(
         'type'              => 'submit',
         'href'              => 'http://en.michaeluno.jp/donate',
         'attributes'        =>  array(
-           // 'src'    => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif',
            'src'    => APFDEMO_DIRNAME . '/asset/image/donation.gif',
            'alt'    => __( 'Submit', 'admin-page-framework-demo' ),
            'class'  => '',
         ),
-        'description'   => __( 'For a custom image to the button, set the image url in the <code>src</code> attribute with the <code>attributes</code> argument.', 'admin-page-framework-demo' )
+        'description'   => __( 'For a custom image submit button, set the image url in the <code>src</code> attribute with the <code>attributes</code> argument.', 'admin-page-framework-demo' )
             . ' ' . __( 'This button will take you to the donation page for the developer of this framework. If you like to donate, please do so to help the development!', 'admin-page-framework-demo' ),
     ),    
     array()
