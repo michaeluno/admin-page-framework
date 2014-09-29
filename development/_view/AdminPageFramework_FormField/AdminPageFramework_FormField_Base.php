@@ -119,12 +119,12 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
         $_sDashiconMinus        = $_bDashiconSupported ? 'dashicons dashicons-minus' : '';
         $_sButtons              = 
             "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
-                    . ( $_bDashiconSupported ? '' : '+' )
-                . "</a>"
                 . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
                   . ( $_bDashiconSupported ? '' : '-' )
                 . "</a>"
+                . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
+                    . ( $_bDashiconSupported ? '' : '+' )
+                . "</a>"                
             . "</div>";
         $_aJSArray              = json_encode( $aSettings );
         return

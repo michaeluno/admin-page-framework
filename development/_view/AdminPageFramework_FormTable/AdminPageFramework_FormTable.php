@@ -215,17 +215,16 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
             add_action( 'admin_footer', array( $this, '_replyToAddRepeatableSectionjQueryPlugin' ) );
             
             if ( empty( $aSettings ) ) return '';     
-            $aSettings = ( is_array( $aSettings ) ? $aSettings : array() ) + array( 'min' => 0, 'max' => 0 ); // do not cast array since it creates a zero key for an empty variable.
+            $aSettings              = ( is_array( $aSettings ) ? $aSettings : array() ) + array( 'min' => 0, 'max' => 0 ); // do not cast array since it creates a zero key for an empty variable.
             
-            
-            $_sAdd = $this->oMsg->get( 'add_section' );
-            $_sRemove = $this->oMsg->get( 'remove_section' );
-            $_sVisibility = $iSectionCount <= 1 ? " style='display:none;'" : "";
-            $_sSettingsAttributes = $this->generateDataAttributes( $aSettings );
-            $_sButtons = 
+            $_sAdd                  = $this->oMsg->get( 'add_section' );
+            $_sRemove               = $this->oMsg->get( 'remove_section' );
+            $_sVisibility           = $iSectionCount <= 1 ? " style='display:none;'" : "";
+            $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
+            $_sButtons              = 
                 "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-                    . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
                     . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
+                    . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
                 . "</div>";
             $aJSArray = json_encode( $aSettings );
             return
@@ -237,7 +236,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                 </script>";     
             
         }
-
         
     /**
      * Returns a single HTML table output of a set of fields generated from the given field definition arrays.
