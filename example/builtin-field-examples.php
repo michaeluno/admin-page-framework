@@ -1048,7 +1048,7 @@ $this->addSettingFields(
  * Verification Example
  * */
 $this->addSettingFields(     
-    'verification', // the target sectin ID
+    'verification', // the target section ID
     array(
         'field_id' => 'verify_text_field',
         'title' => __( 'Verify Text Input', 'admin-page-framework-demo' ),
