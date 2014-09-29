@@ -445,6 +445,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.2.2 =
+- Changed the positions of the + and - repeatable buttons.
+
 = 3.2.1 - 2014/09/29 =
 - Added an example of using the `content_top_{...}` and the `style_common_admin_page_framework` filters.
 - Added the `style_common_admin_page_framework` hook.
