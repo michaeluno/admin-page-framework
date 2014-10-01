@@ -395,7 +395,11 @@ return "
 {
     width: 100%;
 }
-
+.widget .sortable .admin-page-framework-field {
+    /* Sortable fields have paddings so the width need to be adjusted to fit to 100% */
+    padding: 4% 4.4% 3.2% 4.4%;
+    width: 91.2%;
+}
 /* Gives a slight margin between the input field and buttons */
 .widget .admin-page-framework-field input {
     margin-bottom: 0.3em;
@@ -423,10 +427,13 @@ return "
                 return
 "
 /* Widget Forms */
-.widget .form-table th {
+.widget .form-table th
+{
     font-size: 13px;
     font-weight: normal;
+    margin-bottom: 0.2em;
 }
+
 .widget .admin-page-framework-section .form-table {
     margin-top: 1em;
 }
