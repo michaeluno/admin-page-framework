@@ -407,8 +407,11 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 
                             // Retrieve the TinyMCE and Quick Tags settings from the initial widget form element. The initial widget is the one from which the user drags.
                             var oTextArea  = jQuery( this ).find( 'textarea.wp-editor-area' ).first(); // .show().removeAttr( 'aria-hidden' );
-                            var _sID = oTextArea.attr( 'id' );
-                            _sWidgetInitialTextareaID = _sWidgetInitialTextareaID ? _sWidgetInitialTextareaID : _sID.replace( /(widget-.+-)([0-9]+)(-)/i, '$1__i__$3' );
+                            var _sID                  = oTextArea.attr( 'id' );
+                            var _sInitialTextareaID   = _sID.replace( /(widget-.+-)([0-9]+)(-)/i, '$1__i__$3' );
+                            _sWidgetInitialTextareaID = 'undefined' === typeof  tinyMCEPreInit.mceInit[ _sInitialTextareaID ]
+                                ? _sWidgetInitialTextareaID 
+                                : _sInitialTextareaID;
                             if ( 'undefined' === typeof  tinyMCEPreInit.mceInit[ _sWidgetInitialTextareaID ] ) {
                                 return true;
                             }
