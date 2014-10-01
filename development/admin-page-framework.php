@@ -26,7 +26,7 @@ if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.2.2b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.2.2b02'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';

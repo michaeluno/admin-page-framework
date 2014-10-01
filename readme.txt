@@ -446,6 +446,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.2.2 =
+- Fixed an issue that values set to textarea tags were not escaped.
 - Changed the positions of the + and - repeatable buttons.
 
 = 3.2.1 - 2014/09/29 =
