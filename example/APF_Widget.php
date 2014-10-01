@@ -40,14 +40,14 @@ class APF_Widget extends AdminPageFramework_Widget {
                 'field_id'      => 'repeatable_text',
                 'type'          => 'text',
                 'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
-                'repeatable'    => true
+                'repeatable'    => true,
+                'sortable'      => true,
             ),
             array(
                 'field_id'      => 'textarea',
                 'type'          => 'textarea',
                 'title'         => __( 'TextArea', 'admin-page-framework-demo' ),
                 'rich'          => true,
-                'repeatable'    => true,
             ),
             array(
                 'field_id'      => 'checkbox',
