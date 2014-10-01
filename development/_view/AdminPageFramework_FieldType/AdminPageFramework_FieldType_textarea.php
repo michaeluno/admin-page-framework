@@ -138,7 +138,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                     
                      // Enable quick tags
                     quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
-                                          
+                    QTags._buttonsInit();                     
+                    
                     window.tinymce.dom.Event.domLoaded = true;   
                     tinyMCE.init( aTMCSettings );
                     jQuery( this ).find( '.wp-editor-wrap' ).first().on( 'click.wp-editor', function() {
@@ -146,8 +147,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             window.wpActiveEditor = this.id.slice( 3, -5 );
                         }
                     }); 
-                
-                    
+   
                 }
                 
                 /**
