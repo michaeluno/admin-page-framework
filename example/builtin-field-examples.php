@@ -207,7 +207,7 @@ $this->addSettingFields(
         'type'          => 'textarea',
         'rich'          => true,
         'repeatable'    => true,
-        'description'   => __( 'As of v3.1.6, repeatable TinyMCE editor fields are supported. However, Quick Tags are not supported.', 'admin-page-framework-demo' ),
+        'description'   => __( 'As of v3.1.6, repeatable TinyMCE editor fields are supported.', 'admin-page-framework-demo' ),
     )
 );
 
