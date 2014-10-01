@@ -103,7 +103,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                  * @param   string  sTextAreaID     The textarea element ID without the sharp mark(#).
                  */
                 var updateEditor = function( sTextAreaID, oTinyMCESettings, oQickTagSettings ) {
-                
+                    
+                    removeEditor( sTextAreaID );
                     var aTMCSettings    = jQuery.extend( 
                         {}, 
                         oTinyMCESettings, 
@@ -225,7 +226,6 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 .prepend( oToolBar );   
                                 
                             // Update the editor. For repeatable sections, remove the previously assigned editor.                        
-                            removeEditor( oTextArea.attr( 'id' ) );
                             updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
                                                   
                             // The ID attributes of sub-elements are not updated yet
@@ -299,7 +299,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             if ( 0 === iIndex ) {
                                 removeEditor( oTextAreaPrevious.attr( 'id' ) );
                             }
-                            removeEditor( oTextArea.attr( 'id' ) );
+
                             updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
                                                       
                             // The ID attributes of sub-elements are not updated yet
@@ -364,7 +364,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 .prepend( oEditorContainer.prepend( oTextArea.show() ) )
                                 .prepend( oToolBar );   
 
-                            removeEditor( oTextArea.attr( 'id' ) );
+                            
                             updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
 
                             // The ID attributes of sub-elements are not updated yet
@@ -413,7 +413,6 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                 return true;
                             }
                             
-                            removeEditor( oTextArea.attr( 'id' ) );
                             updateEditor( 
                                 oTextArea.attr( 'id' ), 
                                 tinyMCEPreInit.mceInit[ _sWidgetInitialTextareaID ],
