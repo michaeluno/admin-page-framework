@@ -12,14 +12,15 @@ if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) :
  * 
  * This base class mainly deals with setting properties in the constructor and internal methods. 
  * 
- * @package AdminPageFramework
- * @subpackage Form
- * @since 3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Form
+ * @since       3.0.0
  * @internal
  */
 class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
     
     /**
+     * Sets up properties and hooks.
      * 
      * @since 3.0.0
      * @since 3.0.4 The $aFieldErrors parameter was added.
@@ -62,9 +63,10 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
 
         $_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() );
         
-        if ( $aField['hidden'] ) // Prepend the visibility CSS property.
+        // Prepend the visibility CSS property.
+        if ( $aField['hidden'] ) { 
             $_aAttributes['style'] = 'display:none;' . ( isset( $_aAttributes['style'] ) ? $_aAttributes['style'] : '' );
-        
+        }
         return $this->generateAttributes( $_aAttributes );
         
     }
@@ -76,11 +78,12 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
      * @internal
      */
     protected function _getFieldTitle( $aField ) {
-        
+
         return "<label for='{$aField['field_id']}'>"
             . "<a id='{$aField['field_id']}'></a>"
-                . "<span title='" . ( strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) ) . "'>"
+                . "<span title='" . ( esc_attr( strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) ) ) . "'>"
                     . $aField['title'] 
+                    . ( 'widget' === $aField[ '_fields_type' ] ? ':' : '' )
                 . "</span>"
             . "</label>";
         
@@ -108,7 +111,10 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
         
     }
 
-    
+    /**
+     * Stores the flag that indicates whether the repeatable section jquery plugin script is loaded or not.
+     */
+    static private $_bLoadedRepeatableSectionPlugin = false;
     /**
      * Returns the framework's repeatable field jQuery plugin.
      * 
@@ -117,10 +123,8 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
      */
     public function _replyToAddRepeatableSectionjQueryPlugin() {
         
-        static $bIsCalled = false; // the static variable value will take effect even in other instances of the same class.
-        
-        if ( $bIsCalled ) return;
-        $bIsCalled = true;
+        if ( self::$_bLoadedRepeatableSectionPlugin ) return;
+        self::$_bLoadedRepeatableSectionPlugin = true;
         echo "<script type='text/javascript' class='admin-page-framework-repeatable-sections-plugin'>"
                 . AdminPageFramework_Script_RepeatableSection::getjQueryPlugin( $this->oMsg->get( 'allowed_maximum_number_of_sections' ), $this->oMsg->get( 'allowed_minimum_number_of_sections' ) )
             . "</script>";
