@@ -390,6 +390,7 @@ return "
     width: 100%;
     padding: 0;
 }
+
 .widget .admin-page-framework-field,
 .widget .admin-page-framework-input-label-container
 {
@@ -402,13 +403,29 @@ return "
 }
 /* Gives a slight margin between the input field and buttons */
 .widget .admin-page-framework-field input {
-    margin-bottom: 0.3em;
+    margin-bottom: 0.1em;
+    margin-top: 0.1em;
 }
 
 /* Input fields should have 100% width */
 .widget .admin-page-framework-field input[type=text],
 .widget .admin-page-framework-field textarea {
     width: 100%;
+}
+
+/* When the screen is less than 782px */ 
+@media screen and ( max-width: 782px ) {
+    
+    /* The framework render fields with table elements and those container border seems to affect the width of fields */
+    .widget .admin-page-framework-fields {
+        width: 99.4%;
+    }    
+    .widget .admin-page-framework-field input[type='checkbox'], 
+    .widget .admin-page-framework-field input[type='radio'] 
+    {
+        margin-top: 0;
+    }
+
 }
 ";
         }
