@@ -46,7 +46,8 @@ class APF_Widget extends AdminPageFramework_Widget {
                 'field_id'      => 'textarea',
                 'type'          => 'textarea',
                 'title'         => __( 'TextArea', 'admin-page-framework-demo' ),
-                // 'rich'          => true,
+                'rich'          => true,
+                'repeatable'    => true,
             ),
             array(
                 'field_id'      => 'checkbox',

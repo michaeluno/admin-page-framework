@@ -446,6 +446,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.2.2 =
+- Fixed an issue that the TinyMCE rich editor could not be enabled in widget forms.
 - Fixed an issue that Quick Tags of rich editors could not be repeated.
 - Fixed an issue that values set to textarea tags were not escaped.
 - Changed the positions of the + and - repeatable buttons.

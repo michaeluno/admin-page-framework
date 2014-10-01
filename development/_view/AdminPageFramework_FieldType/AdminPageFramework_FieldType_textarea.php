@@ -223,7 +223,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                             oWrap.empty()
                                 .prepend( oEditorContainer.prepend( oTextArea.show() ) )
                                 .prepend( oToolBar );   
-
+                                
                             // Update the editor. For repeatable sections, remove the previously assigned editor.                        
                             removeEditor( oTextArea.attr( 'id' ) );
                             updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
@@ -377,8 +377,60 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
                                                                                 
                         });
                         
-                    }
-					
+                    },
+                    /**
+                     * The saved widget callback.
+                     * 
+                     * It is called when a widget is saved.
+                     */
+					saved_widget : function( oWidget ) { 
+                    
+                         // If tinyMCE is not ready, return.
+                        if ( 'object' !== typeof tinyMCEPreInit ){
+                            return;
+                        }       
+ 
+                        var _sWidgetInitialTextareaID;
+                        jQuery( oWidget ).find( '.admin-page-framework-field' ).each( function( iIndex ) {
+                                                        
+                            /* If the textarea tag is not found, do nothing  */
+                            var oTextAreas = jQuery( this ).find( 'textarea.wp-editor-area' );
+                            if ( oTextAreas.length <= 0 ) {
+                                return true;
+                            }                    
+                            
+                            // Find the tinyMCE wrapper element
+                            var oWrap       = jQuery( this ).find( '.wp-editor-wrap' );
+                            if ( oWrap.length <= 0 ) {
+                                return true;
+                            }                                   
+
+                            // Retrieve the TinyMCE and Quick Tags settings from the initial widget form element. The initial widget is the one from which the user drags.
+                            var oTextArea  = jQuery( this ).find( 'textarea.wp-editor-area' ).first(); // .show().removeAttr( 'aria-hidden' );
+                            var _sID = oTextArea.attr( 'id' );
+                            _sWidgetInitialTextareaID = _sWidgetInitialTextareaID ? _sWidgetInitialTextareaID : _sID.replace( /(widget-.+-)([0-9]+)(-)/i, '$1__i__$3' );
+                            if ( 'undefined' === typeof  tinyMCEPreInit.mceInit[ _sWidgetInitialTextareaID ] ) {
+                                return true;
+                            }
+                            
+                            removeEditor( oTextArea.attr( 'id' ) );
+                            updateEditor( 
+                                oTextArea.attr( 'id' ), 
+                                tinyMCEPreInit.mceInit[ _sWidgetInitialTextareaID ],
+                                tinyMCEPreInit.qtInit[ _sWidgetInitialTextareaID ]
+                            );          
+
+                            // Store the settings.
+                            jQuery().storeAPFInputOptions( 
+                                oWrap.attr( 'data-id' ), 
+                                { 
+                                    TinyMCE:    tinyMCEPreInit.mceInit[ _sWidgetInitialTextareaID ],
+                                    QuickTags:  tinyMCEPreInit.qtInit[ _sWidgetInitialTextareaID ]
+                                } 
+                            );                            
+                        });                                          
+                    
+                    }   // end of 'saved_widget'
 				});	        
             });
         ";     
