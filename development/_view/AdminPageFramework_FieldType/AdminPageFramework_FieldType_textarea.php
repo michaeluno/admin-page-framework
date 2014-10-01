@@ -440,7 +440,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
             // For no TinyMCE
             if ( empty( $aField['rich'] ) || ! version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) || ! function_exists( 'wp_editor' ) ) {
                 return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" // this method is defined in the base class
-                            . $aField['value']
+                            . esc_textarea( $aField['value'] )
                         . "</textarea>";
             }
             
