@@ -34,9 +34,11 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'menu_position'     => 110,
                 'supports'          => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail' ),    
                 'taxonomies'        => array( '' ),
-                'has_archive'       =>    true,
-                'show_admin_column' =>    true, // this is for custom taxonomies to automatically add the column in the listing table.
-                'menu_icon'         => $this->oProp->bIsAdmin ? plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) : null, // do not call the function in the front-end.
+                'has_archive'       => true,
+                'show_admin_column' => true, // this is for custom taxonomies to automatically add the column in the listing table.
+                'menu_icon'         => $this->oProp->bIsAdmin 
+                    ? ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ? 'dashicons-wordpress' : plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) )
+                    : null, // do not call the function in the front-end.
                 // ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
                 'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
             )    
