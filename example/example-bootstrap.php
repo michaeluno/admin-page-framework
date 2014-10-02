@@ -115,9 +115,19 @@ if ( is_admin() ) :
         new APF_Demo_Readme(
             '',                         // passing an empty string will disable the form data to be saved.
             APFDEMO_FILE,               // the caller script path.
-            'manage_options',           // the default capability
+            'read',           // the default capability
             'admin-page-framework-demo' // the text domain        
         );
+
+        // Add the contact page
+        include( APFDEMO_DIRNAME . '/example/APF_Demo_Contact.php' );
+        new APF_Demo_Contact(
+            '',                         // passing an empty string will disable the form data to be saved.
+            APFDEMO_FILE,               // the caller script path.
+            'read',                     // the default capability
+            'admin-page-framework-demo' // the text domain        
+        );
+                
         
         // Modify the top part of the pages with a separate script
         include( APFDEMO_DIRNAME . '/example/APF_Demo_AddPluginTitle.php' );

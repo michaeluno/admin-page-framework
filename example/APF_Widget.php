@@ -1,4 +1,9 @@
 <?php
+/**
+ * Creates a widget.
+ * 
+ * @since   3.2.0
+ */
 class APF_Widget extends AdminPageFramework_Widget {
     
     /**
