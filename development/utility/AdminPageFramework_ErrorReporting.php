@@ -14,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_ErrorReporting' ) ) :
  */
 class AdminPageFramework_ErrorReporting {
     
-    protected $_aLevels = array(
+    private $_aLevels = array(
         1       => 'E_ERROR',
         2       => 'E_WARNING',
         4       => 'E_PARSE',
@@ -32,12 +32,13 @@ class AdminPageFramework_ErrorReporting {
         16384   => 'E_USER_DEPRECATED'
     );
 
-    protected $_iLevel;
+    private $_iLevel;
 
-    public function __construct( $iLevel='' ) {
-        $this->_iLevel = $iLevel;
+    public function __construct( $iLevel=null ) {
+        $this->_iLevel = null !== $iLevel 
+            ? $iLeevl
+            : error_reporting();
     }
-    
     
     /**
      * Returns the readable error level description.
@@ -53,10 +54,12 @@ class AdminPageFramework_ErrorReporting {
             
             $_aIncluded = array();
             foreach( $this->_aLevels as $_iLevel => $iLevelText ) {
+                
                 // This is where we check if a level was used or not
                 if ( $this->_iLevel & $_iLevel ) {
                     $_aIncluded[] = $_iLevel;
                 }
+                
             }
             return $_aIncluded;
             
@@ -64,9 +67,9 @@ class AdminPageFramework_ErrorReporting {
 
         private function _getErrorDescription( $aIncluded ) {
             
-            $_sDescription  = '';
             $_iAll          = count( $this->_aLevels );
             $_aValues       = array();
+            
             if ( count( $aIncluded ) > $_iAll / 2 ) {
                 $_aValues[] = 'E_ALL';
                 foreach( $this->_aLevels as $_iLevel => $iLevelText ) {
@@ -74,15 +77,14 @@ class AdminPageFramework_ErrorReporting {
                         $_aValues[] = $iLevelText;
                     }
                 }
-                $_sDescription = implode( ' & ~', $_aValues );
-            } else {
-                foreach( $aIncluded as $_iLevel ) {
-                    $_aValues[] = $this->_aLevels[ $_iLevel ];
-                }
-                $_sDescription = implode( ' | ', $_aValues );
+                return implode( ' & ~', $_aValues );
+            } 
+var_dump( $aIncluded );
+            foreach( $aIncluded as $_iLevel ) {
+                $_aValues[] = $this->_aLevels[ $_iLevel ];
             }
-            return $_sDescription;
-            
+            return implode( ' | ', $_aValues );
+
         }
 }
 endif;
