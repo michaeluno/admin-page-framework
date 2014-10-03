@@ -450,6 +450,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that Quick Tags of rich editors could not be repeated.
 - Fixed an issue that values set to textarea tags were not escaped.
 - Tweaked the styling of widget forms.
+- Changed the timing of finalizing in-page tabs.
 - Changed the positions of the + and - repeatable buttons.
 
 = 3.2.1 - 2014/09/29 =
