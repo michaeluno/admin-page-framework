@@ -68,7 +68,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         if ( $this->oProp->bIsAdminAjax ) {
             return;
         }     
-        add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToFinalizeInPageTabs' ), 19 ); // must be called before the _replyToRegisterSettings() method 
+        // @deprecated since 3.2.2, the timing of finalizing in-page tabs has changed to load_{page slug}
+        // add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToFinalizeInPageTabs' ), 19 ); // must be called before the _replyToRegisterSettings() method 
                 
     }
     
@@ -647,11 +648,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * Also this sorts the in-page tab property array.
      * This must be done before registering settings sections because the default tab needs to be determined in the process.
      * 
-     * @since 2.0.0
-     * @remark A callback for the <em>admin_menu</em> hook. It must be called earlier than _replyToRegisterSettings() method.
-     * @return void
+     * @since       2.0.0
+     * @since       3.2.2   Changed the name from _replyToFinalizeInPageTabs() and been no longer a callback.
+     * @remark      A callback for the <em>admin_menu</em> hook. It must be called earlier than _replyToRegisterSettings() method.
+     * @return      void
      */         
-    public function _replyToFinalizeInPageTabs() {
+    protected function _finalizeInPageTabs() {
 
         if ( ! $this->oProp->isPageAdded() ) { return; }
 
@@ -688,6 +690,13 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         }
 
     }     
+        /**
+         * An alias of _finalizeInPageTabs().
+         * @deprecated  3.2.2
+         */
+        public function _replyToFinalizeInPageTabs() {
+            $this->_finalizeInPageTabs();
+        }
     
 }
 endif;

@@ -164,10 +164,10 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
     public function __call( $sMethodName, $aArgs=null ) {     
 
         // The currently loading in-page tab slug. Be careful that not all cases $sMethodName have the page slug.
-        $sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;    
-        $sTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );    
+        $sPageSlug  = isset( $_GET['page'] ) ? $_GET['page'] : null;    
+        $sTabSlug   = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );    
 
-        if ( 'setup_pre' == $sMethodName ) {
+        if ( 'setup_pre' === $sMethodName ) {
             $this->_setUp();
             $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
             $this->oProp->_bSetupLoaded = true;
@@ -217,15 +217,21 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
             // Do actions, class ->  page -> in-page tab
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
-                $this->oUtil->getFilterArrayByPrefix( 
-                    "load_", 
-                    $this->oProp->sClassName, 
-                    $sPageSlug, 
-                    $sTabSlug,
-                    true
+                array( 
+                    "load_{$this->oProp->sClassName}",
+                    "load_{$sPageSlug}",
                 ),
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );
+            
+            // It is possible that a in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url. 
+            $this->_finalizeInPageTabs();
+            $this->oUtil->addAndDoActions( 
+                $this, // the caller object
+                array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTab() ),
+                $this // the admin page object - this lets third-party scripts use the framework methods.
+            );         
+            
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
                 array( "load_after_{$this->oProp->sClassName}" ),
