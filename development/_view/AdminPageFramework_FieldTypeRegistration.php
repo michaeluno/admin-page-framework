@@ -43,6 +43,7 @@ class AdminPageFramework_FieldTypeRegistration  {
         'posttype',
         'size',
         'section_title', // 3.0.0+
+        'system',        // 3.2.2+
     );    
         
     /**
@@ -52,12 +53,13 @@ class AdminPageFramework_FieldTypeRegistration  {
      */
     static public function register( $aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
 
-        foreach( self::$aDefaultFieldTypeSlugs as $sFieldTypeSlug ) {
+        foreach( self::$aDefaultFieldTypeSlugs as $_sFieldTypeSlug ) {
             
-            $_sInstantiatingClassName = "AdminPageFramework_FieldType_{$sFieldTypeSlug}";
+            $_sInstantiatingClassName = "AdminPageFramework_FieldType_{$_sFieldTypeSlug}";
             if ( ! class_exists( $_sInstantiatingClassName ) ) { 
                 continue; 
             }
+
             $_oFieldType = new $_sInstantiatingClassName( 
                 $sExtendedClassName, 
                 null, 
