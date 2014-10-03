@@ -91,8 +91,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         
         // This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
         if ( $bAutoRegister ) {
-            foreach( ( array ) $asClassName as $sClassName  ) {
-                add_filter( "field_types_{$sClassName}", array( $this, 'replyToRegisterInputFieldType' ) );
+            foreach( ( array ) $asClassName as $_sClassName  ) {
+                add_filter( "field_types_{$_sClassName}", array( $this, '_replyToRegisterInputFieldType' ) );
             }
         }
         
@@ -117,7 +117,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * A callback function for the field_types_{$sClassName} filter.
      * @since 2.1.5
      */
-    public function replyToRegisterInputFieldType( $aFieldDefinitions ) {
+    public function _replyToRegisterInputFieldType( $aFieldDefinitions ) {
         
         foreach ( $this->aFieldTypeSlugs as $sFieldTypeSlug ) {
             $aFieldDefinitions[ $sFieldTypeSlug ] = $this->getDefinitionArray( $sFieldTypeSlug );
