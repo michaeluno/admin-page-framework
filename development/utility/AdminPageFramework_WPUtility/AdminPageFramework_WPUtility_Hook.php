@@ -65,23 +65,23 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
      * <h4>Example</h4>
      * <code>$this->oUtil->addAndDoActions( $this, array( 'my_action1', 'my_action2', 'my_action3' ), 'argument_a', 'argument_b' );</code>
      * 
-     * @access public
-     * @since 2.0.0
-     * @remark Accepts variadic parameters.
-     * @param object $oCallerObject     the object that holds the callback method that matches the action hook name.
-     * @param array $aActionHooks a numerically index array consisting of action hook names that serve as the callback method names. 
-     * @param mixed $vArgs1     the argument to pass to the hook callback functions.
-     * @param mixed $vArgs2 another argument to pass to the hook callback functions.
-     * @param mixed $_and_more add as many arguments as necessary to the next parameters.
-     * @return void
+     * @access      public
+     * @since       2.0.0
+     * @remark      Accepts variadic parameters.
+     * @param       object      $oCallerObject     the object that holds the callback method that matches the action hook name.
+     * @param       array       $aActionHooks       a numerically index array consisting of action hook names that serve as the callback method names. 
+     * @param       mixed       $vArgs1             the argument to pass to the hook callback functions.
+     * @param       mixed       $vArgs2             another argument to pass to the hook callback functions.
+     * @param       mixed       $_and_more          add as many arguments as necessary to the next parameters.
+     * @return      void
      */ 
     static public function addAndDoActions( $oCallerObject, $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
     
-        $aArgs = func_get_args();    
-        $oCallerObject = $aArgs[ 0 ];
-        $aActionHooks = $aArgs[ 1 ];
+        $aArgs          = func_get_args();    
+        $oCallerObject  = $aArgs[ 0 ];
+        $aActionHooks   = $aArgs[ 1 ];
         foreach( ( array ) $aActionHooks as $sActionHook ) {
-            if ( ! $sActionHook ) continue;
+            if ( ! $sActionHook ) { continue; }
             $aArgs[ 1 ] = $sActionHook;    
             call_user_func_array( array( get_class(), 'addAndDoAction' ) , $aArgs );     
         }
@@ -102,7 +102,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         $aArgs = func_get_args();
         $oCallerObject = $aArgs[ 0 ];
         $sActionHook = $aArgs[ 1 ];
-        if ( ! $sActionHook ) return;
+        if ( ! $sActionHook ) { return; }
         add_action( $sActionHook, array( $oCallerObject, $sActionHook ), 10, $iArgs - 2 );
         unset( $aArgs[ 0 ] ); // remove the first element, the caller object
         call_user_func_array( 'do_action' , $aArgs );
@@ -116,7 +116,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         $vInput = $aArgs[ 2 ];
 
         foreach( ( array ) $aFilters as $sFilter ) {
-            if ( ! $sFilter ) continue;
+            if ( ! $sFilter ) { continue; }
             $aArgs[ 1 ] = $sFilter;
             $aArgs[ 2 ] = $vInput;
             $vInput = call_user_func_array( array( get_class(), 'addAndApplyFilter' ) , $aArgs );     
@@ -130,7 +130,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         $aArgs = func_get_args();
         $oCallerObject = $aArgs[ 0 ];
         $sFilter = $aArgs[ 1 ];
-        if ( ! $sFilter ) return $aArgs[ 2 ];
+        if ( ! $sFilter ) { return $aArgs[ 2 ]; }
         add_filter( $sFilter, array( $oCallerObject, $sFilter ), 10, $iArgs - 2 ); // this enables to trigger the method named $sFilter and the magic method __call() will be called
         unset( $aArgs[ 0 ] ); // remove the first element, the caller object // array_shift( $aArgs );     
         return call_user_func_array( 'apply_filters', $aArgs ); // $aArgs: $vInput, $vArgs...
