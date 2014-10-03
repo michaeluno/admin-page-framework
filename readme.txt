@@ -446,6 +446,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.2.2 =
+- Added the `system` field type (changed from a custom field type and became built-in).
+- Fixed an issue that when setting form elements with the `load_{page slug}_{tab}` hook, the fields could not be displayed if the user clicked on the sidebar menu and the tab is the default tab.
 - Fixed an issue that the TinyMCE rich editor could not be enabled in widget forms.
 - Fixed an issue that Quick Tags of rich editors could not be repeated.
 - Fixed an issue that values set to textarea tags were not escaped.
