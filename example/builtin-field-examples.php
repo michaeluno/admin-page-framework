@@ -1268,3 +1268,34 @@ $this->addSettingFields(
     ),     
     array()
 );     
+
+/**
+ * The 'system' field type examples.
+ */
+$this->addSettingFields(
+    'system', // the target section id
+    array(
+        'field_id'      => 'system_information',
+        'type'          => 'system',     
+        'title'         => __( 'System Information', 'admin-page-framework-demo' ),
+        'data'          => array(
+            __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-demo' ),
+            __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
+        ),
+    ),
+    array(
+        'field_id'      => 'saved_options',
+        'type'          => 'system',     
+        'title'         => __( 'Saved Options', 'admin-page-framework-demo' ),
+        'data'          => array(
+            // Removes the default data by passing an empty value below.
+            'Admin Page Framework'  => '', 
+            'WordPress'             => '', 
+            'PHP'                   => '', 
+            'MySQL'                 => '', 
+            'Server'                => '',
+        ) 
+        + $this->oProp->aOptions,
+    ),            
+    array()
+);     

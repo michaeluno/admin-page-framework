@@ -28,7 +28,6 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             $_sPluginDirName . '/third-party/grid-custom-field-type/GridCustomFieldType.php',
             $_sPluginDirName . '/third-party/autocomplete-custom-field-type/AutocompleteCustomFieldType.php',     
             $_sPluginDirName . '/third-party/link-custom-field-type/LinkCustomFieldType.php',     
-            $_sPluginDirName . '/third-party/system-custom-field-type/SystemCustomFieldType.php',
             $_sPluginDirName . '/third-party/github-custom-field-type/GitHubCustomFieldType.php',
             $_sPluginDirName . '/third-party/image_checkbox-custom-field-type/ImageCheckboxCustomFieldType.php',
             $_sPluginDirName . '/third-party/image_radio-custom-field-type/ImageRadioCustomFieldType.php',
@@ -53,8 +52,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         new RevealerCustomFieldType( $_sClassName );
         new GridCustomFieldType( $_sClassName );
         new AutocompleteCustomFieldType( $_sClassName );     
-        new LinkCustomFieldType( $_sClassName );     
-        new SystemCustomFieldType( $_sClassName );     
+        new LinkCustomFieldType( $_sClassName );       
         new GitHubCustomFieldType( $_sClassName );     
         new ImageCheckboxCustomFieldType( $_sClassName );     
         new ImageRadioCustomFieldType( $_sClassName );     
@@ -150,10 +148,6 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'title'     => __( 'Links', 'admin-page-framework-demo' ),    
             ),     
             array(
-                'tab_slug'  => 'system',
-                'title'     => __( 'System', 'admin-page-framework-demo' ),    
-            ),                 
-            array(
                 'tab_slug'  => 'github',
                 'title'     => __( 'GitHub', 'admin-page-framework-demo' ),    
             ),
@@ -223,13 +217,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'tab_slug'      => 'link',
                 'title'         => __( 'Link Custom Field Type', 'admin-page-framework-demo' ),
                 'description'   => __( 'Allows to insert page and post links.', 'admin-page-framework-demo' ),     
-            ),
-            array(
-                'section_id'    => 'system',
-                'tab_slug'      => 'system',
-                'title'         => __( 'System Custom Field Type', 'admin-page-framework-demo' ),
-                'description'   => __( 'Displays the system information.', 'admin-page-framework-demo' ),     
-            ),            
+            ),        
             array(
                 'section_id'    => 'github',
                 'tab_slug'      => 'github',
@@ -846,37 +834,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             ),     
             array()
         );     
-        
-        $this->addSettingFields(
-            'system', // the target section id
-            array(
-                'field_id'      => 'system_information',
-                'type'          => 'system',     
-                'title'         => __( 'System Information', 'admin-page-framework-demo' ),
-                'data'          => array(
-                    __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-demo' ),
-                    __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
-                ),
-            ),
-            array(
-                'field_id'      => 'saved_options',
-                'type'          => 'system',     
-                'title'         => __( 'Saved Options', 'admin-page-framework-demo' ),
-                'data'          => array(
-                    // Removes the default data by passing an empty value below.
-                    'Admin Page Framework'   => '', 
-                    'WordPress'             => '', 
-                    'PHP'                   => '', 
-                    'MySQL'                 => '', 
-                    'Server'                => '',
-                ) 
-                + array(    
-                    __( 'Plugin Options', 'admin-page-framework-demo' ) => $this->oProp->aOptions,
-                ),
-            ),            
-            array()
-        );     
-        
+                
         // Github buttons. For the arguments, see https://github.com/ntkme/github-buttons#syntax
         $this->addSettingFields(
             'github', // the target section id

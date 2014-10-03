@@ -28,9 +28,9 @@ class APF_Demo extends AdminPageFramework {
                 
             */
             array(
-                'title' => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
-                'page_slug' => 'apf_builtin_field_types',
-                'screen_icon' => 'options-general', // one of the screen type from the below can be used.
+                'title'         => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
+                'page_slug'     => 'apf_builtin_field_types',
+                'screen_icon'   => 'options-general', // one of the screen type from the below can be used.
                 /* Screen Types (for WordPress v3.7.x or below) :
                     'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
                     'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
@@ -96,42 +96,46 @@ class APF_Demo extends AdminPageFramework {
              * */
             'apf_builtin_field_types', // set the target page slug so that the 'page_slug' key can be omitted from the next continuing in-page tab arrays.
             array(
-                'tab_slug' => 'textfields', // avoid hyphen(dash), dots, and white spaces
-                'title' => __( 'Text', 'admin-page-framework-demo' ),
-                'order' => 1, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
+                'tab_slug'      => 'textfields', // avoid hyphen(dash), dots, and white spaces
+                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'order'         => 1, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
             ),     
             array(
-                'tab_slug' => 'selectors',
-                'title' => __( 'Selectors', 'admin-page-framework-demo' ),
+                'tab_slug'      => 'selectors',
+                'title'         => __( 'Selectors', 'admin-page-framework-demo' ),
             ),     
             array(
-                'tab_slug' => 'files',
-                'title' => __( 'Files', 'admin-page-framework-demo' ),
+                'tab_slug'      => 'files',
+                'title'         => __( 'Files', 'admin-page-framework-demo' ),
             ),
             array(
-                'tab_slug' => 'checklist',
-                'title' => __( 'Checklist', 'admin-page-framework-demo' ),
+                'tab_slug'      => 'checklist',
+                'title'         => __( 'Checklist', 'admin-page-framework-demo' ),
             ),     
             array(
-                'tab_slug' => 'misc',
-                'title' => __( 'MISC', 'admin-page-framework-demo' ),    
+                'tab_slug'      => 'misc',
+                'title'         => __( 'MISC', 'admin-page-framework-demo' ),    
             ),     
             array(
-                'tab_slug' => 'verification',
-                'title' => __( 'Verification', 'admin-page-framework-demo' ),    
+                'tab_slug'      => 'verification',
+                'title'         => __( 'Verification', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'mixed_types',
-                'title' => __( 'Mixed', 'admin-page-framework-demo' ),    
+                'tab_slug'      => 'mixed_types',
+                'title'         => __( 'Mixed', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'sections',
-                'title' => __( 'Sections', 'admin-page-framework-demo' ),    
+                'tab_slug'      => 'sections',
+                'title'         => __( 'Sections', 'admin-page-framework-demo' ),    
             ),
             array(
-                'tab_slug' => 'callbacks',
-                'title' => __( 'Callbacks', 'admin-page-framework-demo' ),    
+                'tab_slug'      => 'callbacks',
+                'title'         => __( 'Callbacks', 'admin-page-framework-demo' ),    
             ),     
+            array(
+                'tab_slug'      => 'system',
+                'title'         => __( 'System', 'admin-page-framework-demo' ),    
+            ),                             
             array()
         );
     
@@ -266,6 +270,12 @@ class APF_Demo extends AdminPageFramework {
                 'title'             => __( 'Using Callbacks', 'admin-page-framework-demo' ),
                 'description'       => __( 'These fields are (re)defined with callbacks.', 'admin-page-framework-demo' ),
             ),    
+            array(
+                'section_id'        => 'system',
+                'tab_slug'          => 'system',
+                'title'             => __( 'System Custom Field Type', 'admin-page-framework-demo' ),
+                'description'       => __( 'Displays the system information.', 'admin-page-framework-demo' ),     
+            ),                
             array()
         );
     
@@ -278,7 +288,11 @@ class APF_Demo extends AdminPageFramework {
      * Built-in Field Types Page
      * */
     public function do_apf_builtin_field_types() { // do_{page slug}
-        submit_button();
+    
+        if ( isset( $_GET ) && 'system' !== $_GET['tab'] ) {
+            submit_button();
+        }
+        
     }
     
     
