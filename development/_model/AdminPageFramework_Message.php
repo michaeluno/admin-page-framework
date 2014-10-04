@@ -119,8 +119,8 @@ class AdminPageFramework_Message {
             // AdminPageFramework_FormField
             'allowed_maximum_number_of_fields'      => null,
             'allowed_minimum_number_of_fields'      => null,
-            'add' => null,
-            'remove' => null,
+            'add'                                   => null,
+            'remove'                                => null,
             
             // AdminPageFramework_FormTable
             'allowed_maximum_number_of_sections'    => null,
@@ -128,6 +128,8 @@ class AdminPageFramework_Message {
             'add_section'                           => null,
             'remove_section'                        => null,
             
+            // AdminPageFramework_FieldType_reset   
+            'reset'                                 => null,    // 3.2.2+
         );     
         
     }
@@ -300,9 +302,13 @@ class AdminPageFramework_Message {
                 case 'allowed_minimum_number_of_sections':
                     return __( 'The allowed minimum number of sections is {0}', 'admin-page-framework' );
                 case 'add_section':
-                    return __( 'Add Section' );
+                    return __( 'Add Section', 'admin-page-framework' );
                 case 'remove_section':
-                    return __( 'Remove Section' );     
+                    return __( 'Remove Section', 'admin-page-framework' );
+                    
+                // AdminPageFramework_FieldType_reset          
+                case 'reset':   // 3.2.2+
+                    return __( 'Reset', 'admin-page-framework' );
                     
             }
     
