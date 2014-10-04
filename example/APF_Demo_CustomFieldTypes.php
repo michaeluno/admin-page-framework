@@ -31,6 +31,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             $_sPluginDirName . '/third-party/github-custom-field-type/GitHubCustomFieldType.php',
             $_sPluginDirName . '/third-party/image_checkbox-custom-field-type/ImageCheckboxCustomFieldType.php',
             $_sPluginDirName . '/third-party/image_radio-custom-field-type/ImageRadioCustomFieldType.php',
+            $_sPluginDirName . '/third-party/reset-custom-field-type/ResetCustomFieldType.php',
         );
         foreach( $_aFiles as $_sFilePath ) {
             if ( file_exists( $_sFilePath ) ) {     
@@ -56,6 +57,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         new GitHubCustomFieldType( $_sClassName );     
         new ImageCheckboxCustomFieldType( $_sClassName );     
         new ImageRadioCustomFieldType( $_sClassName );     
+        new ResetCustomFieldType( $_sClassName );     
         
     }    
 
@@ -247,7 +249,8 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'latitude' => 20,
                     'longitude' => 20,
                 ),
-            )
+            ),  
+            array()            
         );
         $this->addSettingFields(
             // To use advanced options, pass the options in the 'options' argument.
@@ -442,7 +445,33 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'time_format' => 'HH:mm:ss',
                 'repeatable' =>    true,
                 'sortable' =>    true,     
-            ),     
+            ),    
+            array(
+                'field_id'          => 'send',
+                'type'              => 'reset',
+                'label'             => __( 'Reset', 'admin-page-framework-demo' ),
+                'label_min_width'   => 0,
+                array(
+                    'type'  => 'submit',
+                    'label' => __( 'Save', 'admin-page-framework-demo' ),
+                    'email'             => array(
+                        'to'          => 'contact.michaeluno.jp@gmail.com',
+                        'subject'     => 'Reporting Issue',
+                        'message'     => '',
+                        'headers'     => '',
+                        'attachments' => '',
+                    ),                    
+                ),
+                'attributes'    => array(
+                    'style'    => 'float: right;',
+                    'fieldset' => array(
+                        'style' => 'float: right;'
+                    ),
+                    'field'     => array(
+                        'style' => 'float: none;'
+                    ),            
+                ),
+            ),               
             array()
         );
         $this->addSettingFields(     
@@ -720,7 +749,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                         'size_x' => 1,
                     ),     
                 ),
-            ),     
+            ),                
             array()
         );
         $this->addSettingFields(
@@ -1051,6 +1080,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
      * Custom Field Types Page
      * */
     public function do_apf_custom_field_types() { // do_{page slug}
+    
+        if ( isset( $_GET['tab'] ) && 'date' === $_GET['tab'] ) {
+            return;
+        }
         submit_button();
     }
     
