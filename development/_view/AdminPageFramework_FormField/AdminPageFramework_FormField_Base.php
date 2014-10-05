@@ -112,7 +112,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
 
         $_sAdd                  = $this->oMsg->get( 'add' );
         $_sRemove               = $this->oMsg->get( 'remove' );
-        $_sVisibility           = $iFieldCount <= 1 ? " style='display:none;'" : "";
+        $_sVisibility           = $iFieldCount <= 1 ? " style='visibility: hidden;'" : "";
         $_sSettingsAttributes   = $this->generateDataAttributes( ( array ) $aSettings );
         $_bDashiconSupported    = false;     // version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
         $_sDashiconPlus         = $_bDashiconSupported ? 'dashicons dashicons-plus' : '';
