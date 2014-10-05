@@ -303,50 +303,13 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
                 // Skipping an empty element allows the user to remove a section by passing an empty section.
                 if ( empty( $_aInfo ) ) { continue; }
             
-                $_aOutput[] = $this->_getSectionInfo( $_sSection, $_aInfo, 32 ) . PHP_EOL;
+                $_aOutput[] = $this->getReadableArrayContents( $_sSection, $_aInfo, 32 ) . PHP_EOL;
                 
             }
             return implode( PHP_EOL, $_aOutput );
             
         }
-          
-            private function _getSectionInfo( $sSection, $asInfo, $sLabelCharLengths=16, $iOffset=0 ) {
-                
-                $_aOutput   = array();
-                $_aOutput[] = ( $iOffset ? str_pad( ' ', $iOffset  ) : '' ) 
-                    . ( $sSection ? '[' . $sSection . ']' : '' );
-                
-                if ( ! is_array( $asInfo ) && ! is_object( $asInfo ) ) {
-                    $_aOutput[] = $asInfo;
-                    return implode( PHP_EOL, $_aOutput );    
-                }
-                
-                foreach ( $asInfo as $_sTitle => $_asDescription ) {
-                    if ( ! is_array( $_asDescription ) && ! is_object( $_asDescription ) ) {
-                        $_aOutput[] = str_pad( ' ', $iOffset )
-                            . $_sTitle 
-                            . str_pad( ':', $sLabelCharLengths - $this->_getStringLength( $_sTitle ) )
-                            . $_asDescription;
-                        continue;
-                    }
-                    $_aOutput[] = str_pad( ' ', $iOffset )
-                        . $_sTitle 
-                        . ": {" 
-                        // . str_pad( ':', $sLabelCharLengths - $this->_getStringLength( $_sTitle ) )
-                        . $this->_getSectionInfo( '', $_asDescription, 16, $iOffset + 4 )
-                        . PHP_EOL
-                        . str_pad( ' ', $iOffset ) . "}";
-                }
-                return implode( PHP_EOL, $_aOutput );    
-                
-            }
-            
-            private function _getStringLength( $sString ) {
-                return function_exists( 'mb_strlen' )
-                    ? mb_strlen( $sString )
-                    : strlen( $sString );
-            }
-                        
+        
             private function _getMySQLVersion() {
                 global $wpdb;
                 return $wpdb->use_mysqli
