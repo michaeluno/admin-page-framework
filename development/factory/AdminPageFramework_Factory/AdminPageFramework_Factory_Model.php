@@ -136,7 +136,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         static $_aFieldErrors;
         
         // Find the transient.
-        $_sTransientKey = "apf_field_erros_" . get_current_user_id();
+        $_sTransientKey = "apf_field_erros_" . $this->oProp->iCurrentUserID;
         $_sID           = md5( $this->oProp->sClassName );
 
         $_aFieldErrors = isset( $_aFieldErrors ) 
@@ -163,7 +163,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if ( isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) && $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) {
             return true;
         }
-        return $this->oUtil->getTransient( "apf_field_erros_" . get_current_user_id() );
+        return $this->oUtil->getTransient( "apf_field_erros_" . $this->oProp->iCurrentUserID );
 
     }
 
@@ -176,7 +176,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
          * @internal
          */
         public function _replyToDeleteFieldErrors() {
-            $this->oUtil->deleteTransient( "apf_field_erros_" . get_current_user_id() );
+            $this->oUtil->deleteTransient( "apf_field_erros_" . $this->oProp->iCurrentUserID );
         }
         
     /**
@@ -190,7 +190,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if ( ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) { return; }
 
         $this->oUtil->setTransient( 
-            "apf_field_erros_" . get_current_user_id(),  
+            "apf_field_erros_" . $this->oProp->iCurrentUserID,  
             $GLOBALS['aAdminPageFramework']['aFieldErrors'], 
             300     // store it for 5 minutes ( 60 seconds * 5 )
         );    
@@ -209,7 +209,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) { return; }
         if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) { return; }
                 
-        $this->oUtil->setTransient( 'apf_notices_' . get_current_user_id(), $GLOBALS['aAdminPageFramework']['aNotices'] );
+        $this->oUtil->setTransient( 'apf_notices_' . $this->oProp->iCurrentUserID, $GLOBALS['aAdminPageFramework']['aNotices'] );
         
     }
     
