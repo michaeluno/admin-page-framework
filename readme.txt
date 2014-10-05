@@ -59,6 +59,7 @@ with it easily create:
 - `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
 - `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
 - `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
+- `system` - displays the site system information.
 
 = Bundled Custom Field Types = 
 You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The followings are example custom field types.
@@ -71,9 +72,9 @@ You can include your own custom field types when they are necessary. The reason 
 - `grid` - a drag and drop grid composer.
 - `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
 - `link` - it lets pick a post and set the url.
-- `system` - displays the site system information.
 - `github` - displays GitHub buttons.
 - `image_checkbox`, `image_radio` - displays images instead of text labels to be selected.
+- `reset` - a custom submit button that initialize the text form inputs.
 
 = Necessary Files =
 - **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
@@ -448,6 +449,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.3.0 =
 - Added the ability to send emails with the `submit` field type.
+- Added the `reset` custom field type.
 - Added the `system` field type (changed from a custom field type and became built-in).
 - Fixed a bug that the `reset` argument of the `submit` field type caused a loss of stored options when the form fields are not added via the load_{...} hooks and have multiple pages are added.
 - Fixed an issue that when setting form elements with the `load_{page slug}_{tab}` hook, the fields could not be displayed if the user clicked on the sidebar menu and the tab is the default tab.
