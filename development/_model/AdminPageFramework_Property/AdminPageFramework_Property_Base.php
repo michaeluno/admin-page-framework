@@ -255,15 +255,7 @@ abstract class AdminPageFramework_Property_Base {
         'hfNameFlat'    => null,    // the flat input name attribute
         'hfClass'       => null,    // the class attribute
     );
-        
-    /**
-     * Stores the current user ID.
-     * 
-     * @internal
-     * @since       3.2.2
-     */
-    public $iCurrentUserID;
-        
+                
     /**
      * Sets up necessary property values.
      */
@@ -282,7 +274,6 @@ abstract class AdminPageFramework_Property_Base {
         $this->sPageNow         = AdminPageFramework_WPUtility::getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
-        $this->iCurrentUserID   = get_current_user_id();
         
     }
         
