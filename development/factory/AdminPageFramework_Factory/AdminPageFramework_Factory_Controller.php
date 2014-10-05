@@ -389,8 +389,17 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
             ? $this->oUtil->uniteArrays( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], $aErrors )
             : $aErrors;
     
-    }    
+    }   
     
+    /**
+     * Check whether a user has set a field error(s) or not.
+     * 
+     * @since   3.2.2
+     * @return  boolean Whether or not a field error exists or not.
+     */
+    public function hasFieldError() {
+        return isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ md5( $this->oProp->sClassName ) ] );
+    }
     
     /**
     * Sets the given message to be displayed in the next page load. 
