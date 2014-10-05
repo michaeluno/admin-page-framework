@@ -256,25 +256,33 @@ abstract class AdminPageFramework_Property_Base {
         'hfClass'       => null,    // the class attribute
     );
         
+    /**
+     * Stores the current user ID.
+     * 
+     * @internal
+     * @since       3.2.2
+     */
+    public $iCurrentUserID;
         
     /**
      * Sets up necessary property values.
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
         
-        $this->oCaller      = $oCaller;
-        $this->sCallerPath  = $sCallerPath ? $sCallerPath : null;
-        $this->sClassName   = $sClassName;     
-        $this->sClassHash   = md5( $sClassName );    
-        $this->sCapability  = empty( $sCapability ) ? 'manage_options' : $sCapability ;
-        $this->sTextDomain  = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
-        $this->sFieldsType  = $sFieldsType;
+        $this->oCaller          = $oCaller;
+        $this->sCallerPath      = $sCallerPath ? $sCallerPath : null;
+        $this->sClassName       = $sClassName;     
+        $this->sClassHash       = md5( $sClassName );    
+        $this->sCapability      = empty( $sCapability ) ? 'manage_options' : $sCapability ;
+        $this->sTextDomain      = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
+        $this->sFieldsType      = $sFieldsType;
         $GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
             ? $GLOBALS['aAdminPageFramework']
             : array( 'aFieldFlags' => array() );
-        $this->sPageNow     = AdminPageFramework_WPUtility::getPageNow();
-        $this->bIsAdmin     = is_admin();
-        $this->bIsAdminAjax = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
+        $this->sPageNow         = AdminPageFramework_WPUtility::getPageNow();
+        $this->bIsAdmin         = is_admin();
+        $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
+        $this->iCurrentUserID   = get_current_user_id();
         
     }
         
