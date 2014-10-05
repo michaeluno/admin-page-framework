@@ -291,7 +291,7 @@ abstract class AdminPageFramework_Utility_Array {
     }
     
     /**
-     * Retrieves an array element by given array representing the dimensional key structure.
+     * Retrieves an array element by the given array representing the dimensional key structure.
      * 
      * e.g. The following code will yield eee.
      * <code>
