@@ -12,10 +12,11 @@ if ( ! class_exists( 'AdminPageFramework_Utility_Array' ) ) :
  *
  * @since       2.0.0
  * @package     AdminPageFramework
+ * @extends     AdminPageFramework_Utility_String
  * @subpackage  Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_Array {
+abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
     
     /**
      * Retrieves a corresponding array value from the given array.
@@ -346,5 +347,57 @@ abstract class AdminPageFramework_Utility_Array {
         return ( array ) $asValue; // finally
         
     }
+    
+    /**
+     * Returns the readable list of the given array contents.
+     * 
+     * @remark  If the second dimension element is an array it will be enclosed in parenthesis.
+     * @since   3.2.2
+     */
+    static public function getReadableListOfArray( array $aArray ) {
+        
+        $_aOutput   = array();
+        foreach( $aArray as $_sKey => $_vValue ) {        
+            $_aOutput[] = self::getReadableArrayContents( $_sKey, $_vValue, 32 ) . PHP_EOL;
+        }
+        return implode( PHP_EOL, $_aOutput );
+        
+    }
+    /**
+     * Retuns the readable array contents.
+     * 
+     * @since   3.2.2
+     */
+    static public function getReadableArrayContents( $sKey, $vValue, $sLabelCharLengths=16, $iOffset=0 ) {
+        
+        $_aOutput   = array();
+        $_aOutput[] = ( $iOffset ? str_pad( ' ', $iOffset  ) : '' ) 
+            . ( $sKey ? '[' . $sKey . ']' : '' );
+        
+        if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) {
+            $_aOutput[] = $vValue;
+            return implode( PHP_EOL, $_aOutput );    
+        }
+        
+        foreach ( $vValue as $_sTitle => $_asDescription ) {
+            if ( ! is_array( $_asDescription ) && ! is_object( $_asDescription ) ) {
+                $_aOutput[] = str_pad( ' ', $iOffset )
+                    . $_sTitle 
+                    . str_pad( ':', $sLabelCharLengths - self::getStringLength( $_sTitle ) )
+                    . $_asDescription;
+                continue;
+            }
+            $_aOutput[] = str_pad( ' ', $iOffset )
+                . $_sTitle 
+                . ": {" 
+                . self::getReadableArrayContents( '', $_asDescription, 16, $iOffset + 4 )
+                . PHP_EOL
+                . str_pad( ' ', $iOffset ) . "}";
+        }
+        return implode( PHP_EOL, $_aOutput );    
+        
+    }        
+             
+    
 }
 endif;

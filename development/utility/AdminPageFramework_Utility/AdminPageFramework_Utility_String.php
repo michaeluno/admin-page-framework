@@ -11,12 +11,11 @@ if ( ! class_exists( 'AdminPageFramework_Utility_String' ) ) :
  * Provides utility methods dealing with strings which do not use WordPress functions.
  *
  * @since 2.0.0
- * @extends AdminPageFramework_Utility_Array
  * @package AdminPageFramework
  * @subpackage Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_Array {
+abstract class AdminPageFramework_Utility_String {
     
     /**
      * Converts non-alphabetic characters to underscore.
@@ -79,6 +78,16 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $sCSSRules ) // remove comments
         );
         
+    }    
+    
+    /**
+     * Returns the given string length.
+     * @since   3.2.2
+     */
+    static public function getStringLength( $sString ) {
+        return function_exists( 'mb_strlen' )
+            ? mb_strlen( $sString )
+            : strlen( $sString );
     }    
         
 }

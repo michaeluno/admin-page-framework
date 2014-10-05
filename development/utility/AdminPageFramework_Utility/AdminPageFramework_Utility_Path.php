@@ -16,7 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_Utility_Path' ) ) :
  * @subpackage Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_String {
+abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_Array {
     
     /**
      * Calculates the relative path from the given path.
