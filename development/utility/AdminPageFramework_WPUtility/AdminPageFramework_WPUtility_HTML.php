@@ -21,15 +21,25 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     /**
      * Enhances the parent method generateAttributes() by escaping the attribute values.
      * 
+     * For example, 
+     * 
+     *      array( 'id' => 'my_id', 'name' => 'my_name', 'class' => 'my_class' ) 
+     * 
+     * will become
+     * 
+     *      id="my_id" name="my_name" class="my_class"
+     * 
      * @since 3.0.0
      */
     static public function generateAttributes( array $aAttributes ) {
         
         foreach( $aAttributes as $sAttribute => &$asProperty ) {
-            if ( is_array( $asProperty ) || is_object( $asProperty ) )
+            if ( is_array( $asProperty ) || is_object( $asProperty ) ) {
                 unset( $aAttributes[ $sAttribute ] );
-            if ( is_string( $asProperty ) )
-                $asProperty = esc_attr( $asProperty );  // $aAttributes = array_map( 'esc_attr', $aAttributes ); // this also converts arrays into string value, Array.
+            }
+            if ( is_string( $asProperty ) ) {
+                $asProperty = esc_attr( $asProperty );  
+            }
         }     
         return parent::generateAttributes( $aAttributes );
         
@@ -41,11 +51,11 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      */
     static public function generateDataAttributes( array $aArray ) {
         
-        $aNewArray = array();
-        foreach( $aArray as $sKey => $v ) 
-            $aNewArray[ "data-{$sKey}" ] = $v;
-            
-        return self::generateAttributes( $aNewArray );
+        $_aNewArray = array();
+        foreach( $aArray as $sKey => $v ) {
+            $_aNewArray[ "data-{$sKey}" ] = $v;
+        }
+        return self::generateAttributes( $_aNewArray );
         
     }
     

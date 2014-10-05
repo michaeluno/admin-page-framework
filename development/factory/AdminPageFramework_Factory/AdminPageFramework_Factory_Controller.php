@@ -394,7 +394,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Check whether a user has set a field error(s) or not.
      * 
-     * @since   3.2.2
+     * @since   3.3.0
      * @return  boolean Whether or not a field error exists or not.
      */
     public function hasFieldError() {

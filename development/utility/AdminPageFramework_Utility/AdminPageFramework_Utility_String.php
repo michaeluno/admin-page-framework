@@ -82,7 +82,7 @@ abstract class AdminPageFramework_Utility_String {
     
     /**
      * Returns the given string length.
-     * @since   3.2.2
+     * @since   3.3.0
      */
     static public function getStringLength( $sString ) {
         return function_exists( 'mb_strlen' )

@@ -115,7 +115,7 @@ if ( is_admin() ) :
         new APF_Demo_Readme(
             '',                         // passing an empty string will disable the form data to be saved.
             APFDEMO_FILE,               // the caller script path.
-            'read',           // the default capability
+            'read',                     // the default capability
             'admin-page-framework-demo' // the text domain        
         );
 

@@ -43,7 +43,7 @@ class AdminPageFramework_FieldTypeRegistration  {
         'posttype',
         'size',
         'section_title', // 3.0.0+
-        'system',        // 3.2.2+
+        'system',        // 3.3.0+
     );    
         
     /**

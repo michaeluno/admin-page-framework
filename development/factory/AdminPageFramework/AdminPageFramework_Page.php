@@ -48,12 +48,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * @internal
      */     
     private static $_aStructure_InPageTabElements = array(
-        'page_slug' => null,
-        'tab_slug' => null,
-        'title' => null,
-        'order' => null,
-        'show_in_page_tab' => true,
-        'parent_tab_slug' => null, // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
+        'page_slug'         => null,
+        'tab_slug'          => null,
+        'title'             => null,
+        'order'             => null,
+        'show_in_page_tab'  => true,
+        'parent_tab_slug'   => null, // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
     );
         
     /**
@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         if ( $this->oProp->bIsAdminAjax ) {
             return;
         }     
-        // @deprecated since 3.2.2, the timing of finalizing in-page tabs has changed to load_{page slug}
+        // @deprecated since 3.3.0, the timing of finalizing in-page tabs has changed to load_{page slug}
         // add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToFinalizeInPageTabs' ), 19 ); // must be called before the _replyToRegisterSettings() method 
                 
     }
@@ -146,8 +146,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             return;
         }         
         
-        $aInPageTab = $this->oUtil->uniteArrays( $asInPageTab, self::$_aStructure_InPageTabElements, array( 'page_slug' => $__sTargetPageSlug ) ); // avoid undefined index warnings.     
-        $__sTargetPageSlug = $aInPageTab['page_slug']; // set the target page slug for next calls
+        $aInPageTab         = $this->oUtil->uniteArrays( $asInPageTab, self::$_aStructure_InPageTabElements, array( 'page_slug' => $__sTargetPageSlug ) ); // avoid undefined index warnings.     
+        $__sTargetPageSlug  = $aInPageTab['page_slug']; // set the target page slug for next calls
         if ( ! isset( $aInPageTab['page_slug'], $aInPageTab['tab_slug'] ) ) return; // check the required keys.
         
         $iCountElement = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) : 0;
@@ -181,8 +181,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             return;
         }
         $this->oProp->bShowPageTitle = $bShow;
-        foreach( $this->oProp->aPages as &$aPage ) 
+        foreach( $this->oProp->aPages as &$aPage ) {
             $aPage['show_page_title'] = $bShow;
+        }
         
     }    
     
@@ -208,8 +209,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             return;     
         }     
         $this->oProp->bShowPageHeadingTabs = $bShow;
-        foreach( $this->oProp->aPages as &$aPage ) 
+        foreach( $this->oProp->aPages as &$aPage ) {
             $aPage['show_page_heading_tabs'] = $bShow;
+        }
         
     }
     
@@ -232,8 +234,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             return;
         }
         $this->oProp->bShowInPageTabs = $bShow;
-        foreach( $this->oProp->aPages as &$aPage )
+        foreach( $this->oProp->aPages as &$aPage ) {
             $aPage['show_in_page_tabs'] = $bShow;
+        }
         
     }
     
@@ -258,8 +261,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             return;
         }
         $this->oProp->sInPageTabTag = $sTag;
-        foreach( $this->oProp->aPages as &$aPage )
+        foreach( $this->oProp->aPages as &$aPage ) {
             $aPage['in_page_tab_tag'] = $sTag;
+        }
         
     }
     
@@ -296,10 +300,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
     /**
      * Renders the admin page.
      * 
-     * @remark This is not intended for the users to use.
-     * @since 2.0.0
-     * @access protected
-     * @return void
+     * @remark      This is not intended for the users to use.
+     * @since       2.0.0
+     * @access      protected
+     * @return      void
      * @internal
      */ 
     protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
@@ -314,7 +318,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         <div class="wrap">
             <?php
                 // Screen icon, page heading tabs(page title), and in-page tabs.
-                $sContentTop = $this->_getScreenIcon( $sPageSlug );    
+                $sContentTop  = $this->_getScreenIcon( $sPageSlug );    
                 $sContentTop .= $this->_getPageHeadingTabs( $sPageSlug, $this->oProp->sPageHeadingTabTag );
                 $sContentTop .= $this->_getInPageTabs( $sPageSlug, $this->oProp->sInPageTabTag );
 
@@ -410,8 +414,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 $this // the argument 1
             );     
             
-            if ( $_bIsSideMetaboxExist )
+            if ( $_bIsSideMetaboxExist ) {
                 echo "</div><!-- #post-body-content -->";
+            }
             echo "</div><!-- .admin-page-framework-content -->";
         }
     
@@ -432,13 +437,15 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             echo "<form " 
                     . $this->oUtil->generateAttributes(
                         array(
-                            'method' => 'post',
-                            'enctype' => $this->oProp->sFormEncType,
-                            'id' => 'admin-page-framework-form',
-                            'action' => wp_unslash( remove_query_arg( 'settings-updated', $this->oProp->sTargetFormPage ) ),
+                            'method'    => 'post',
+                            'enctype'   => $this->oProp->sFormEncType,
+                            'id'        => 'admin-page-framework-form',
+                            'action'    => wp_unslash( remove_query_arg( 'settings-updated', $this->oProp->sTargetFormPage ) ),
                         )    
                     ) 
-                . ">";
+                . " >";
+                
+            // @todo: The framework no longer relies on WordPress Settings API so check if the followign line is necessary or not.
             settings_fields( $this->oProp->sOptionKey );
             
         }
@@ -475,23 +482,27 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         private function _getScreenIcon( $sPageSlug ) {
 
             // If the icon path is explicitly set, use it.
-            if ( isset( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) ) 
-                return '<div class="icon32" style="background-image: url(' . $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] . ');"><br /></div>';
+            if ( isset( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) ) {
+                return '<div class="icon32" style="background-image: url(' . esc_url( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) . ');"><br /></div>';
+            }
             
             // If the screen icon ID is explicitly set, use it.
-            if ( isset( $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] ) )
+            if ( isset( $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] ) ) {
                 return '<div class="icon32" id="icon-' . $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] . '"><br /></div>';
+            }
                 
             // Retrieve the screen object for the current page.
             $oScreen = get_current_screen();
             $sIconIDAttribute = $this->_getScreenIDAttribute( $oScreen );
 
             $sClass = 'icon32';
-            if ( empty( $sIconIDAttribute ) && $oScreen->post_type ) 
+            if ( empty( $sIconIDAttribute ) && $oScreen->post_type ) {
                 $sClass .= ' ' . sanitize_html_class( 'icon32-posts-' . $oScreen->post_type );
+            }
             
-            if ( empty( $sIconIDAttribute ) || $sIconIDAttribute == $this->oProp->sClassName )
+            if ( empty( $sIconIDAttribute ) || $sIconIDAttribute == $this->oProp->sClassName ) {
                 $sIconIDAttribute = 'generic'; // the default value
+            }
             
             return '<div id="icon-' . $sIconIDAttribute . '" class="' . $sClass . '"><br /></div>';
                 
@@ -503,11 +514,13 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
              */     
             private function _getScreenIDAttribute( $oScreen ) {
                 
-                if ( ! empty( $oScreen->parent_base ) )
+                if ( ! empty( $oScreen->parent_base ) ) {
                     return $oScreen->parent_base;
+                }
             
-                if ( 'page' == $oScreen->post_type )
+                if ( 'page' == $oScreen->post_type ) {
                     return 'edit-pages';     
+                }
                     
                 return esc_attr( $oScreen->base );
                 
@@ -522,15 +535,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         private function _getPageHeadingTabs( $sCurrentPageSlug, $sTag='h2', $aOutput=array() ) {
             
             // If the page title is disabled, return an empty string.
-            if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_title' ] ) return "";
+            if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_title' ] ) { return ""; }
 
             $sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
                 ? $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
                 : $sTag;
         
             // If the page heading tab visibility is disabled, or only one page is registered, return the title.
-            if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] || count( $this->oProp->aPages ) == 1 )
+            if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] || count( $this->oProp->aPages ) == 1 ) {
                 return "<{$sTag}>" . $this->oProp->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";     
+            }
 
             foreach( $this->oProp->aPages as $aSubPage ) {
                 
@@ -548,14 +562,15 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 // For added menu links
                 if ( 
                     isset( $aSubPage['href'] )
-                    && $aSubPage['type'] == 'link' 
+                    && 'link' === $aSubPage['type'] 
                     && $aSubPage['show_page_heading_tab']
-                ) 
+                ) {
                     $aOutput[] = 
                         "<a class='nav-tab link' "
                         . "href='{$aSubPage['href']}'>"
                             . $aSubPage['title']
                         . "</a>";     
+                }
                 
             }     
             return "<div class='admin-page-framework-page-heading-tab'><{$sTag} class='nav-tab-wrapper'>" 
@@ -649,8 +664,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * This must be done before registering settings sections because the default tab needs to be determined in the process.
      * 
      * @since       2.0.0
-     * @since       3.2.2   Changed the name from _replyToFinalizeInPageTabs() and been no longer a callback.
-     * @remark      A callback for the <em>admin_menu</em> hook. It must be called earlier than _replyToRegisterSettings() method.
+     * @since       3.3.0   Changed the name from _replyToFinalizeInPageTabs() and been no longer a callback.
      * @return      void
      */         
     protected function _finalizeInPageTabs() {
@@ -692,7 +706,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
     }     
         /**
          * An alias of _finalizeInPageTabs().
-         * @deprecated  3.2.2
+         * @deprecated  3.3.0
          */
         public function _replyToFinalizeInPageTabs() {
             $this->_finalizeInPageTabs();

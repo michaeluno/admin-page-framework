@@ -289,9 +289,10 @@ class APF_Demo extends AdminPageFramework {
      * */
     public function do_apf_builtin_field_types() { // do_{page slug}
     
-        if ( isset( $_GET ) && 'system' !== $_GET['tab'] ) {
-            submit_button();
+        if ( isset( $_GET['tab'] ) && 'system' === $_GET['tab'] ) {
+            return;
         }
+        submit_button();
         
     }
     
@@ -364,6 +365,7 @@ class APF_Demo extends AdminPageFramework {
             /* 4-1. Set the error array for the input fields. */
             $this->setFieldErrors( $_aErrors );     
             $this->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-demo' ) );
+
             return $sOldInput;
             
         }

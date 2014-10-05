@@ -62,7 +62,7 @@ class AdminPageFramework_Message {
         
         $this->_sTextDomain = $sTextDomain;
         
-        // As of v3.1.3, no item is defined by default. The below array structure is kept for backward compatibility.
+        // As of v3.1.3, no item is defined by default but done on the fly per request. The below array structure is kept for backward compatibility.
         $this->aMessages = array(    
     
             // AdminPageFramework
@@ -84,6 +84,9 @@ class AdminPageFramework_Message {
             'confirm_perform_task'                  => null,
             'specified_option_been_deleted'         => null,
             'nonce_verification_failed'             => null,
+            'send_email'                            => null,    // 3.3.0+
+            'email_sent'                            => null,    // 3.3.0+
+            'email_could_not_send'                  => null,    // 3.3.0+
             
             // AdminPageFramework_PostType
             'title'                                 => null,
@@ -129,7 +132,7 @@ class AdminPageFramework_Message {
             'remove_section'                        => null,
             
             // AdminPageFramework_FieldType_reset   
-            'reset'                                 => null,    // 3.2.2+
+            'reset'                                 => null,    // 3.3.0+
         );     
         
     }
@@ -235,6 +238,12 @@ class AdminPageFramework_Message {
                     return __( 'The specified options have been deleted.', 'admin-page-framework' );
                 case 'nonce_verification_failed':
                     return __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
+                case 'send_email':  // 3.3.0+
+                    return __( 'Are you sure you want to send the email?', 'admin-page-framewok' );
+                case 'email_sent':  // 3.3.0+
+                    return __( 'The email has been sent.', 'admin-page-framework' );
+                case 'email_could_not_send':  // 3.3.0+
+                    return __( 'There was a problem sending the email', 'admin-page-framework' );
                 
                 // AdminPageFramework_PostType
                 case 'title':
@@ -307,7 +316,7 @@ class AdminPageFramework_Message {
                     return __( 'Remove Section', 'admin-page-framework' );
                     
                 // AdminPageFramework_FieldType_reset          
-                case 'reset':   // 3.2.2+
+                case 'reset':   // 3.3.0+
                     return __( 'Reset', 'admin-page-framework' );
                     
             }

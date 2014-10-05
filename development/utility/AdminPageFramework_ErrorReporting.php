@@ -9,7 +9,7 @@
 if ( ! class_exists( 'AdminPageFramework_ErrorReporting' ) ) :
 /**
  * Retrieves the server set error reporting level.
- * @since   3.2.2
+ * @since   3.3.0
  * @see     http://www.efrag.gr/2013/01/how-to-get-your-error-reporting-constant-values/
  */
 class AdminPageFramework_ErrorReporting {

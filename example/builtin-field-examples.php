@@ -208,7 +208,8 @@ $this->addSettingFields(
         'rich'          => true,
         'repeatable'    => true,
         'description'   => __( 'As of v3.1.6, repeatable TinyMCE editor fields are supported.', 'admin-page-framework-demo' ),
-    )
+    ),
+    array()
 );
 
 /*
@@ -942,14 +943,14 @@ $this->addSettingFields(
         'field_id'      => 'hidden_miltiple',
         'title'         => __( 'Multiple', 'admin-page-framework-demo' ),
         'type'          => 'hidden',
-        'label'         => __( 'First', 'admin-page-framework-demo' ),
+        'label'         => __( 'First Item', 'admin-page-framework-demo' ),
         'default'       => 'a',
         array(
-            'label'     => __( 'Second', 'admin-page-framework-demo' ),
+            'label'     => __( 'Second Item', 'admin-page-framework-demo' ),
             'default'   => 'b',
         ),
         array(
-            'label'     => __( 'Third', 'admin-page-framework-demo' ),
+            'label'     => __( 'Third Item', 'admin-page-framework-demo' ),
             'default'   => 'c',
         ),
         'sortable'      => true,
@@ -1050,15 +1051,21 @@ $this->addSettingFields(
 $this->addSettingFields(     
     'verification', // the target section ID
     array(
-        'field_id' => 'verify_text_field',
-        'title' => __( 'Verify Text Input', 'admin-page-framework-demo' ),
-        'type' => 'text',
-        'description' => __( 'Enter a non numeric value here.', 'admin-page-framework-demo' ),
+        'field_id'      => 'verify_text_field',
+        'title'         => __( 'Verify Text Input', 'admin-page-framework-demo' ),
+        'type'          => 'text',
+        'description'   => __( 'Try setting a non numeric value here.', 'admin-page-framework-demo' ),
     ),
     array(
-        'field_id' => 'verify_text_field_submit', // this submit field ID can be used in a validation callback method
-        'type' => 'submit',     
-        'label' => __( 'Verify', 'admin-page-framework-demo' ),
+        'field_id'      => 'other_text_field',
+        'title'         => __( 'Other Field', 'admin-page-framework-demo' ),
+        'type'          => 'text',
+        'description'   => __( 'This field will not be validated.', 'admin-page-framework-demo' ),
+    ),    
+    array(
+        'field_id'      => 'verify_text_field_submit', // this submit field ID can be used in a validation callback method
+        'type'          => 'submit',     
+        'label'         => __( 'Verify', 'admin-page-framework-demo' ),
     )
 );    
 $this->addSettingFields(     
@@ -1279,8 +1286,11 @@ $this->addSettingFields(
         'type'          => 'system',     
         'title'         => __( 'System Information', 'admin-page-framework-demo' ),
         'data'          => array(
-            __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-demo' ),
+            __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'Her you can can isert own custom data with the data argument.', 'admin-page-framework-demo' ),
             __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
+        ),
+        'attributes'    => array(
+            'name'  => '',
         ),
     ),
     array(
@@ -1296,6 +1306,10 @@ $this->addSettingFields(
             'Server'                => '',
         ) 
         + $this->oProp->aOptions,
+        'attributes'    => array(
+            'name'  => '',
+            'rows'   => 20,
+        ),        
     ),            
     array()
 );     

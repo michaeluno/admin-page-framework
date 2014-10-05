@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_system' ) ) :
  * 
  * @package     AdminPageFramework
  * @subpackage  FieldType
- * @since       3.2.2
+ * @since       3.3.0
  * @internal
  */
 class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {

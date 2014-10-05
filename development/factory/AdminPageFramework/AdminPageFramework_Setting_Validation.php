@@ -12,10 +12,10 @@ if ( ! class_exists( 'AdminPageFramework_Setting_Validation' ) ) :
  * 
  * 
  * @abstract
- * @since 3.0.0
- * @extends AdminPageFramework_Setting_Port
- * @package AdminPageFramework
- * @subpackage Page
+ * @since       3.0.0
+ * @extends     AdminPageFramework_Setting_Port
+ * @package     AdminPageFramework
+ * @subpackage  Page
  * @internal
  */
 abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_Setting_Port {     
@@ -25,45 +25,40 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
      * 
      * If the form is submitted, it calls the validation callback method and reloads the page.
      * 
-     * @remark  This method is triggered when the page is about to be rendered.
-     * 
-     * @since   3.1.0
-     * @since   3.1.5   Moved from AdminPageFramework_Setting_Form.
+     * @since       3.1.0
+     * @since       3.1.5   Moved from AdminPageFramework_Setting_Form.
+     * @remark      This method is triggered after form elements are registered when the page is abut to be laoded with the <em>load_after_{instantiated class name}</em> hook.
+     * @remark      The $_POST array will look like this
+            array(
+                [option_page]       => APF_Demo
+                [action]            => update
+                [_wpnonce]          => d3f9bd2fbc
+                [_wp_http_referer]  => /wp39x/wp-admin/edit.php?post_type=apf_posts&page=apf_builtin_field_types&tab=textfields
+                [APF_Demo]          => Array (
+                    [text_fields] => Array( ...)
+                )
+                [page_slug]         => apf_builtin_field_types
+                [tab_slug]          => textfields
+                [_is_admin_page_framework] => ...
+            )
+     *        
      */
     protected function _handleSubmittedData() {
         
-        /*  The $_POST array will look like this:
-            array(
-                [option_page] => APF_Demo
-                [action] => update
-                [_wpnonce] => d3f9bd2fbc
-                [_wp_http_referer] => /wp39x/wp-admin/edit.php?post_type=apf_posts&page=apf_builtin_field_types&tab=textfields
-                [APF_Demo] => Array (
-                        [text_fields] => Array( ...)
-                    )
-
-                [page_slug] => apf_builtin_field_types
-                [tab_slug] => textfields
-                [_is_admin_page_framework] => ...
-            )
-        */
+        // 1. Verify the form submittion. 
         if ( 
             ! isset( 
                 // The framework specific keys
                 $_POST['_is_admin_page_framework'], // holds the form nonce
                 $_POST['page_slug'], 
                 $_POST['tab_slug'], 
-                // The settings API fields keys - deprecated
-                // $_POST['option_page'], 
-                // $_POST['action'], 
-                // $_POST['_wpnonce'], // deprecated
                 $_POST['_wp_http_referer']
             ) 
         ) {     
             return;
         }
-        $_sRequestURI   = remove_query_arg( array( 'settings-updated' ), wp_unslash( $_SERVER['REQUEST_URI'] ) );
-        $_sReffererURI  = remove_query_arg( array( 'settings-updated' ), $_POST['_wp_http_referer'] );
+        $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation' ), wp_unslash( $_SERVER['REQUEST_URI'] ) );
+        $_sReffererURI  = remove_query_arg( array( 'settings-updated', 'confirmation' ), $_POST['_wp_http_referer'] );
         if ( $_sRequestURI != $_sReffererURI ) { // see the function definition of wp_referer_field() in functions.php.
             return;     
         }
@@ -76,44 +71,53 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
         // Do not delete the nonce transient to let it vanish by itself. This allows the user to open multiple pages/tabs in their browser and save forms by switching pages/tabs.
         // $this->oUtil->deleteTransient( $_sNonceTransientKey );
         
+        // 2. Apply user validation callbacks to the submitted data.
         // If only page-meta-boxes are used, it's possible that the option key element does not exist.
-        $_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) ? $_POST[ $this->oProp->sOptionKey ] : array();
-        $_aInput = $this->_doValidationCall( stripslashes_deep( $_aInput ) );
-        if ( ! $this->oProp->_bDisableSavingOptions ) {    
+        $_aInput = isset( $_POST[ $this->oProp->sOptionKey ] ) 
+            ? stripslashes_deep( $_POST[ $this->oProp->sOptionKey ] )
+            : array();
+        $_aStatus = $this->_validateSubmittedData( $_aInput ); 
+        
+        // 3. Save the data.
+        if ( ! $this->oProp->_bDisableSavingOptions ) {  
             $this->oProp->updateOption( $_aInput );
         }
 
-        // Reload the page with the update notice.
-        exit( wp_redirect( add_query_arg( array( 'settings-updated' => true ) ) ) );
+        // 4. Reload the page with the update notice.
+        exit( wp_redirect( add_query_arg( $_aStatus ) ) );
         
     }
        
     /**
      * Validates the submitted user input.
      * 
-     * @since 2.0.0
-     * @access protected
-     * @remark This method is not intended for the users to use.
-     * @remark     the scope must be protected to be accessed from the extended class. The <em>AdminPageFramework</em> class uses this method in the overloading <em>__call()</em> method.
-     * @return array Return the input array merged with the original saved options so that other page's data will not be lost.
+     * @since       2.0.0
+     * @since       3.3.0       Changed the name from _doValidationCall(). The input array is passeed by reference and returns the satatus array.
+     * @access      protected
+     * @remark      This method is not intended for the users to use.
+     * @remark      the scope must be protected to be accessed from the extended class. The <em>AdminPageFramework</em> class uses this method in the overloading <em>__call()</em> method.
+     * @param       array       $aInput     The modifying submitted form data. It will be merged with the original saved options so that other page's data will not be lost.
+     * @return      array       Returns a status array that will be inserted in the url $_GET query array in next page load.
      * @internal
      */ 
-    protected function _doValidationCall( $aInput ) {
-
-        /* Check if this is called from the framework's page */
-        if ( ! isset( $_POST['_is_admin_page_framework'] ) ) { return $aInput; }
+    protected function _validateSubmittedData( &$aInput ) {
 
         /* 1-1. Set up local variables */
-        $_sTabSlug = isset( $_POST['tab_slug'] ) ? $_POST['tab_slug'] : ''; // no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
-        $_sPageSlug = isset( $_POST['page_slug'] ) ? $_POST['page_slug'] : '';
+        // no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
+        $_sTabSlug  = isset( $_POST['tab_slug'] )   ? $_POST['tab_slug']    : ''; 
+        $_sPageSlug = isset( $_POST['page_slug'] )  ? $_POST['page_slug']   : '';
+        $_aSubmit   = isset( $_POST['__submit'] ) ? $_POST['__submit'] : array();
+        $_aStatus   = array( 'settings-updated' => true );
         
         /* 1-2. Retrieve the pressed submit field data */
-        $_sPressedFieldID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'field_id' ) : '';
-        $_sPressedInputID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'input_id' ) : '';
-        $_sPressedInputName = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'name' ) : '';
-        $_bIsReset = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'is_reset' ) : ''; // if the 'reset' key in the field definition array is set, this value will be set.
-        $_sKeyToReset = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'reset_key' ) : ''; // this will be set if the user confirms the reset action.
-        $_sSubmitSectionID = isset( $_POST['__submit'] ) ? $this->_getPressedSubmitButtonData( $_POST['__submit'], 'section_id' ) : '';
+        $_sPressedFieldID           = $this->_getPressedSubmitButtonData( $_aSubmit, 'field_id' );
+        $_sPressedInputID           = $this->_getPressedSubmitButtonData( $_aSubmit, 'input_id' );
+        $_sPressedInputName         = $this->_getPressedSubmitButtonData( $_aSubmit, 'name' );
+        $_bIsReset                  = $this->_getPressedSubmitButtonData( $_aSubmit, 'is_reset' );  // if the 'reset' key in the field definition array is set, this value will be set.
+        $_sKeyToReset               = $this->_getPressedSubmitButtonData( $_aSubmit, 'reset_key' ); // this will be set if the user confirms the reset action.
+        $_sSubmitSectionID          = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
+        $_bConfirmingToSendEmail    = $this->_getPressedSubmitButtonData( $_aSubmit, 'confirming_sending_email' );
+        $_bConfirmedToSendEmail     = $this->_getPressedSubmitButtonData( $_aSubmit, 'confirmed_sending_email' );
         
         /* 1-3. Execute the submit_{...} actions. */
         $this->oUtil->addAndDoActions(
@@ -127,22 +131,33 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
                 "submit_{$this->oProp->sClassName}",
             )
         );                
+                
+        /* Check if the sending email is confirmed - this should be done before the redirect because the user may set a redirect and email. In that case, send the email first and redirect to the set page. */
+        if ( $_bConfirmedToSendEmail ) {
+            $this->_sendEmail( $aInput, $_sPressedInputName, $_sSubmitSectionID );
+            $this->oProp->_bDisableSavingOptions = true;
+            $this->oUtil->deleteTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ) );
+            return $_aStatus;
+        }                
         
         /* 2. Check if custom submit keys are set [part 1] */
         if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) {
-            return $this->_importOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug );
+            $aInput = $this->_importOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug );
+            return $_aStatus;
         } 
         if ( isset( $_POST['__export']['submit'] ) ) {
             exit( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );     
         }
         if ( $_bIsReset ) {
-            return $this->_askResetOptions( $_sPressedInputName, $_sPageSlug, $_sSubmitSectionID );
+            $aInput = $this->_confirmSubmitButtonAction( $_sPressedInputName, $_sSubmitSectionID, 'reset' );
+            return $_aStatus + array( 'confirmation' => 'reset' );
         }
-        if ( isset( $_POST['__submit'] ) && $_sLinkURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'link_url' ) ) {
+        if ( $_sLinkURL = $this->_getPressedSubmitButtonData( $_aSubmit, 'link_url' ) ) {
             exit( wp_redirect( $_sLinkURL ) ); // if the associated submit button for the link is pressed, it will be redirected.
         }
-        if ( isset( $_POST['__submit'] ) && $_sRedirectURL = $this->_getPressedSubmitButtonData( $_POST['__submit'], 'redirect_url' ) ) {
+        if ( $_sRedirectURL = $this->_getPressedSubmitButtonData( $_aSubmit, 'redirect_url' ) ) {
             $this->_setRedirectTransients( $_sRedirectURL, $_sPageSlug );
+            $_aStatus = $_aStatus + array( 'confirmation' => 'redirect' );
         }
 
         /* 3. Apply validation filters - validation_{page slug}_{tab slug}, validation_{page slug}, validation_{instantiated class name} */
@@ -152,6 +167,12 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
         if ( $_sKeyToReset ) {
             $aInput = $this->_resetOptions( $_sKeyToReset, $aInput );
         }
+        if ( ! $this->hasFieldError() && $_bConfirmingToSendEmail ) {
+            $this->oUtil->setTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ), $aInput, 60*60 );
+            $aInput     = $this->_confirmSubmitButtonAction( $_sPressedInputName, $_sSubmitSectionID, 'email' );            
+            $this->oProp->_bDisableSavingOptions = true;
+            return $_aStatus + array( 'confirmation' => 'email' );
+        }        
         
         /* 5. Set the admin notice */
         if ( ! $this->hasSettingNotice() ) {     
@@ -164,41 +185,165 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             );
         }
         
-        return $aInput;    
+        return $_aStatus;
         
     }
     
         /**
-         * Displays a confirmation message to the user when a reset button is pressed.
+         * Sends an email set via the form.
          * 
-         * @since 2.1.2
+         * The email contents should be set with the form fields. 
+         * 
+         * @since   3.3.0
          */
-        private function _askResetOptions( $sPressedInputName, $sPageSlug, $sSectionID ) {
+        private function _sendEmail( $aInput, $sPressedInputNameFlat, $sSubmitSectionID ) {
+            
+            $_aEmailOptions = $this->oUtil->getTransient( 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() ) );
+            $_aEmailOptions = $this->oUtil->getAsArray( $_aEmailOptions ) + array(
+                'to'            => '',
+                'subject'       => '',
+                'message'       => '',
+                'headers'       => '',
+                'attachments'   => '',
+                'is_html'       => '',
+                'from'          => '',
+                'name'          => '',
+            );
+// AdminPageFramework_Debug::log( 'email options' );
+// AdminPageFramework_Debug::log( $_aEmailOptions );
+// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'to', $sSubmitSectionID ) );
+// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'subject', $sSubmitSectionID ) );
+// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) );
+// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'headers', $sSubmitSectionID ) );
+// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'attachments', $sSubmitSectionID ) );
+
+            if ( $_bIsHTML = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'is_html', $sSubmitSectionID ) ) {
+                add_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
+            }
+            if ( $this->_sEmailSenderAddress = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'from', $sSubmitSectionID ) ) {
+                add_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
+            }
+            if ( $this->_sEmailSenderName = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'name', $sSubmitSectionID ) ) {
+                add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
+            }
+
+            $_bSent         = wp_mail( 
+                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'to', $sSubmitSectionID ),
+                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'subject', $sSubmitSectionID ),
+                $this->oUtil->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) ),
+                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'headers', $sSubmitSectionID ),
+                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'attachments', $sSubmitSectionID )
+            );         
+            remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
+            remove_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
+            remove_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
+            
+            $this->setSettingNotice( 
+                $this->oMsg->get( 
+                    $_bSent 
+                        ? 'email_sent' 
+                        : 'email_could_not_send'
+                ),
+                $_bSent ? 'updated' : 'error'
+            );
+        
+        }   
+            /**
+             * Sets the mail content type to HTML.
+             * @since   3.3.0
+             */
+            public function _replyToSetMailContentTypeToHTML( $sContentType ) {
+                return 'text/html';
+            }
+            /**
+             * Sets the email sender address.
+             * 
+             * @since   3.3.0
+             */            
+            function _replyToSetEmailSenderAddress( $sEmailSenderAddress ) {
+                return $this->_sEmailSenderAddress;
+            }            
+            /**
+             * Sets the email sender name.
+             * 
+             * @since   3.3.0
+             */            
+            function _replyToSetEmailSenderName( $sEmailSenderAddress ) {
+                return $this->_sEmailSenderName;
+            }            
+                        
+            
+            /**
+             * Returns the email argument value by the given key.
+             * 
+             * If the element is a string, pass it as it is. If it is an array representing the dimantional key structure, retrieve it from the input array.
+             * 
+             * @since   3.3.0
+             */
+            private function _getEmailArgument( $aInput, array $aEmailOptions, $sKey, $sSectionID ) {
+                
+                // If the dimensional key representation array is passed, find the value from the given input array.
+                if ( is_array( $aEmailOptions[ $sKey ] ) ) {
+                    return $this->oUtil->getArrayValueByArrayKeys( $aInput, $aEmailOptions[ $sKey ] );
+                }
+                
+                // If the key element is empty, search the corresponding item in the same section. 
+                if ( ! $aEmailOptions[ $sKey ] ) {
+                    return $this->oUtil->getArrayValueByArrayKeys( $aInput, array( $sSectionID, $sKey ) );
+                }
+                
+                // At this point, a string value should be set.
+                return $aEmailOptions[ $sKey ];
+                
+            }
+            
+        /**
+         * Confirms the given submit button action and sets a confirmation message as a field error message and admin notice.
+         * 
+         * @since   2.1.2
+         * @since   3.3.0       Changed the name from _askResetOptions(). Deprecated the page slug parameter. Added the $sType parameter.
+         * @return  array       The intact stored options.
+         */
+        private function _confirmSubmitButtonAction( $sPressedInputName, $sSectionID, $sType='reset' ) {
+            
+            switch( $sType ) {
+                default:
+                case 'reset':
+                    $_sFieldErrorMessage = $this->oMsg->get( 'reset_options' );
+                    $_sTransientKey      =  'apf_rc_' . md5( $sPressedInputName . get_current_user_id() );
+                    break;
+                case 'email':
+                    $_sFieldErrorMessage = $this->oMsg->get( 'send_email' );
+                    $_sTransientKey      =  'apf_ec_' . md5( $sPressedInputName . get_current_user_id() );
+                    break;                
+            }
             
             // Retrieve the pressed button's associated submit field ID.
-            $aNameKeys = explode( '|', $sPressedInputName );    
-            $sFieldID = $sSectionID 
-                ? $aNameKeys[ 2 ] // OptionKey|section_id|field_id
-                : $aNameKeys[ 1 ]; // OptionKey|field_id
+            $_aNameKeys = explode( '|', $sPressedInputName );    
+            $_sFieldID  = $sSectionID 
+                ? $_aNameKeys[ 2 ]  // OptionKey|section_id|field_id
+                : $_aNameKeys[ 1 ]; // OptionKey|field_id
             
-            // Set up the field error array.
-            $aErrors = array();
+            // Set up the field error array to show a confirmation message just above the field besides the admin notice at the top of the page.
+            $_aErrors = array();
             if ( $sSectionID ) {
-                $aErrors[ $sSectionID ][ $sFieldID ] = $this->oMsg->get( 'reset_options' );
+                $_aErrors[ $sSectionID ][ $_sFieldID ] = $_sFieldErrorMessage;
             } else {
-                $aErrors[ $sFieldID ] = $this->oMsg->get( 'reset_options' );
+                $_aErrors[ $_sFieldID ] = $_sFieldErrorMessage;
             }
-            $this->setFieldErrors( $aErrors );
+            $this->setFieldErrors( $_aErrors );
                 
             // Set a flag that the confirmation is displayed
-            $this->oUtil->setTransient( md5( "reset_confirm_" . $sPressedInputName ), $sPressedInputName, 60*2 );
+            $this->oUtil->setTransient( $_sTransientKey, $sPressedInputName, 60*2 );
             
-            $this->setSettingNotice( $this->oMsg->get( 'confirm_perform_task' ) );
+            // Set the admin notice
+            $this->setSettingNotice( $this->oMsg->get( 'confirm_perform_task' ) );            
             
-            return $this->oForm->getPageOptions( $this->oProp->aOptions, $sPageSlug );             
+            // Ther returned options will be saved so returned the saved options not to change anything.
+            return $this->oProp->aOptions;
             
         }
-        
+             
         /**
          * Performs reset options.
          * 
@@ -212,11 +357,14 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
                 return array();
             }
             
+            // The key to delete is not specified.
             if ( $sKeyToReset == 1 || $sKeyToReset === true ) {
                 delete_option( $this->oProp->sOptionKey );
                 return array();
             }
             
+            // The key to reset is specified.
+            // @todo: make it possiblt to specify a dimentilnal key.
             unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ], $aInput[ trim( $sKeyToReset ) ] );
             update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
             $this->setSettingNotice( $this->oMsg->get( 'specified_option_been_deleted' ) );
@@ -229,8 +377,8 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
          */
         private function _setRedirectTransients( $sURL, $sPageSlug ) {
             if ( empty( $sURL ) ) { return; }
-            $sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$sPageSlug}" ) );
-            return $this->oUtil->setTransient( $sTransient, $sURL , 60*2 );
+            $_sTransient = 'apf_rurl' . md5( trim( "redirect_{$this->oProp->sClassName}_{$sPageSlug}" ) );
+            return $this->oUtil->setTransient( $_sTransient, $sURL , 60*2 );
         }
         
         /**
@@ -238,43 +386,43 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
          * 
          * This method checks if the associated submit button is pressed with the input fields.
          * 
-         * @since 2.0.0
-         * @return null|string Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
+         * @since   2.0.0
+         * @return  null|string Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
+         * @remark  The structure of the $aPostElements array looks like this:
+            [submit_buttons_submit_button_field_0] => Array
+                (
+                    [input_id] => submit_buttons_submit_button_field_0
+                    [field_id] => submit_button_field
+                    [name] => APF_Demo|submit_buttons|submit_button_field
+                    [section_id] => submit_buttons
+                )
+
+            [submit_buttons_submit_button_link_0] => Array
+                (
+                    [input_id] => submit_buttons_submit_button_link_0
+                    [field_id] => submit_button_link
+                    [name] => APF_Demo|submit_buttons|submit_button_link|0
+                    [section_id] => submit_buttons
+                )
+         * The keys are the input id.
          */ 
         private function _getPressedSubmitButtonData( $aPostElements, $sTargetKey='field_id' ) {    
 
-            /* The structure of the $aPostElements array looks like this:
-                [submit_buttons_submit_button_field_0] => Array
-                    (
-                        [input_id] => submit_buttons_submit_button_field_0
-                        [field_id] => submit_button_field
-                        [name] => APF_Demo|submit_buttons|submit_button_field
-                        [section_id] => submit_buttons
-                    )
-
-                [submit_buttons_submit_button_link_0] => Array
-                    (
-                        [input_id] => submit_buttons_submit_button_link_0
-                        [field_id] => submit_button_link
-                        [name] => APF_Demo|submit_buttons|submit_button_link|0
-                        [section_id] => submit_buttons
-                    )
-             * The keys are the input id.
-             */
-            foreach( $aPostElements as $sInputID => $aSubElements ) {
+            foreach( $aPostElements as $_sInputID => $_aSubElements ) {
                 
-                $aNameKeys = explode( '|', $aSubElements[ 'name' ] ); // the 'name' key must be set.
+                // the 'name' key must be set.
+                $_aNameKeys = explode( '|', $_aSubElements[ 'name' ] ); 
                 
                 // The count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
                 // The isset() checks if the associated button is actually pressed or not.
-                if ( count( $aNameKeys ) == 2 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ] ) ) {
-                    return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
+                if ( count( $_aNameKeys ) == 2 && isset( $_POST[ $_aNameKeys[0] ][ $_aNameKeys[1] ] ) ) {
+                    return isset( $_aSubElements[ $sTargetKey ] ) ? $_aSubElements[ $sTargetKey ] :null;
                 }
-                if ( count( $aNameKeys ) == 3 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ] ) ) {
-                    return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
+                if ( count( $_aNameKeys ) == 3 && isset( $_POST[ $_aNameKeys[0] ][ $_aNameKeys[1] ][ $_aNameKeys[2] ] ) ) {
+                    return isset( $_aSubElements[ $sTargetKey ] ) ? $_aSubElements[ $sTargetKey ] :null;
                 }
-                if ( count( $aNameKeys ) == 4 && isset( $_POST[ $aNameKeys[0] ][ $aNameKeys[1] ][ $aNameKeys[2] ][ $aNameKeys[3] ] ) ) {
-                    return isset( $aSubElements[ $sTargetKey ] ) ? $aSubElements[ $sTargetKey ] :null;
+                if ( count( $_aNameKeys ) == 4 && isset( $_POST[ $_aNameKeys[0] ][ $_aNameKeys[1] ][ $_aNameKeys[2] ][ $_aNameKeys[3] ] ) ) {
+                    return isset( $_aSubElements[ $sTargetKey ] ) ? $_aSubElements[ $sTargetKey ] :null;
                 }
                     
             }
@@ -292,32 +440,59 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
          */
         private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug ) {
 
-            $aInput = is_array( $aInput ) ? $aInput : array();
+            $aInput         = is_array( $aInput ) ? $aInput : array();
             $_aInputToParse = $aInput; // copy one for parsing
             
             // Prepare the saved options 
-            $_aDefaultOptions = $this->oProp->getDefaultOptions( $this->oForm->aFields );     
-            $_aOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$this->oProp->sClassName}", $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions ), $this );
+            $_aDefaultOptions           = $this->oProp->getDefaultOptions( $this->oForm->aFields );     
+            $_aOptions                  = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$this->oProp->sClassName}", $this->oUtil->uniteArrays( $this->oProp->aOptions, $_aDefaultOptions ), $this );
             $_aOptionsWODynamicElements = $this->oForm->dropRepeatableElements( $_aOptions );
             $_aTabOptions = array(); // stores options of the belonging in-page tab.
             
             // Merge the user input with the user-set default values.
-            $_aDefaultOptions = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug ); // do not include the default values of the submitted page's elements as they merge recursively
-            $aInput = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
+            $_aDefaultOptions           = $this->_removePageElements( $_aDefaultOptions, $sPageSlug, $sTabSlug ); // do not include the default values of the submitted page's elements as they merge recursively
+            $aInput                     = $this->oUtil->uniteArrays( $aInput, $this->oUtil->castArrayContents( $aInput, $_aDefaultOptions ) );
             unset( $_aDefaultOptions ); // no longer used
 
             // For each submitted element
-            $aInput = $this->_validateEachField( $aInput, $_aOptions, $_aOptionsWODynamicElements, $_aInputToParse, $sPageSlug, $sTabSlug );
+            $aInput = $this->_validateEachField( 
+                $aInput, 
+                $_aOptions, 
+                $_aOptionsWODynamicElements, 
+                $_aInputToParse, 
+                $sPageSlug, 
+                $sTabSlug 
+            );
             unset( $_aInputToParse ); // no longer used
                 
             // For tabs     
-            $aInput = $this->_validateTabFields( $aInput, $_aOptions, $_aOptionsWODynamicElements, $_aTabOptions, $sPageSlug, $sTabSlug );
+            $aInput = $this->_validateTabFields( 
+                $aInput, 
+                $_aOptions, 
+                $_aOptionsWODynamicElements, 
+                $_aTabOptions,
+                $sPageSlug,
+                $sTabSlug 
+            );
 
             // For pages
-            $aInput = $this->_validatePageFields( $aInput, $_aOptions, $_aOptionsWODynamicElements, $_aTabOptions, $sPageSlug, $sTabSlug );
+            $aInput = $this->_validatePageFields( 
+                $aInput,
+                $_aOptions,
+                $_aOptionsWODynamicElements,
+                $_aTabOptions,
+                $sPageSlug,
+                $sTabSlug
+            );
         
             // For the class
-            return $this->oUtil->addAndApplyFilter( $this, "validation_{$this->oProp->sClassName}", $aInput, $_aOptions, $this );
+            return $this->oUtil->addAndApplyFilter( 
+                $this, 
+                "validation_{$this->oProp->sClassName}", 
+                $aInput, 
+                $_aOptions, 
+                $this 
+            );
         
         }    
             

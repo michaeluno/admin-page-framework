@@ -31,7 +31,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
         'redirect_url'  => null,
         'href'          => null,
         'reset'         => null, 
-        'email'         => null,    // 3.2.2+ or string of an email address to send to or can be an array with the following keys.
+        'email'         => null,    // [3.3.0+] string of an email address to send to or it can be an array with the following keys.
         /* 
             array(
                 'to'            => null,    // string|array     The email address to send to or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
@@ -134,9 +134,9 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
      * @since 3.0.0
      */
     protected function _getExtraInputFields( &$aField ) {
-
-        return    
-            "<input " 
+        
+        $_aOutput   = array();
+        $_aOutput[] = "<input " 
                 . $this->generateAttributes( 
                     array(
                         'type'  => 'hidden',
@@ -144,8 +144,8 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
                         'value' => $aField['input_id'],
                     ) 
                 )
-            . " />"
-            . "<input " 
+            . " />";
+        $_aOutput[] = "<input " 
                 . $this->generateAttributes( 
                     array(
                         'type'  => 'hidden',
@@ -153,8 +153,8 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
                         'value' => $aField['field_id'],
                     ) 
                 )
-            . " />"
-            . "<input " 
+            . " />";
+        $_aOutput[] = "<input " 
                 . $this->generateAttributes( 
                     array(
                         'type'  => 'hidden',
@@ -162,8 +162,8 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
                         'value' => $aField['_input_name_flat'],
                     ) 
                 )
-            . " />"
-            . "<input " 
+            . " />";
+        $_aOutput[] = "<input " 
                 . $this->generateAttributes( 
                     array(
                         'type'  => 'hidden',
@@ -173,36 +173,35 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
                             : '',
                     ) 
                 )
-            . " />"
-
-            /* for the redirect_url key */           
-            . ( $aField['redirect_url']
-                ? "<input " 
-                    . $this->generateAttributes( 
-                        array(
-                            'type'  => 'hidden',
-                            'name'  => "__submit[{$aField['input_id']}][redirect_url]",
-                            'value' => $aField['redirect_url'],
-                        ) 
-                    )
-                    . " />" 
-                : "" 
-            )            
-            /* for the href key */
-            . ( $aField['href']
-                ? "<input " 
-                    . $this->generateAttributes( 
-                        array(
-                            'type'  => 'hidden',
-                            'name'  => "__submit[{$aField['input_id']}][link_url]",
-                            'value' => $aField['href'],
-                        ) 
-                    )
-                    . " />" 
-                : ""
-            )
-            /* for the 'reset' key */
-            . ( $aField['reset'] && ( ! ( $bResetConfirmed = $this->_checkConfirmationDisplayed( $aField['reset'], $aField['_input_name_flat'] ) ) )
+            . " />";
+            
+        /* for the redirect_url key */
+        if ( $aField['redirect_url'] ) {
+            $_aOutput[] = "<input " 
+                . $this->generateAttributes( 
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][redirect_url]",
+                        'value' => $aField['redirect_url'],
+                    ) 
+                )
+                . " />";
+        }
+        /* for the href key */
+        if ( $aField['href'] ) {            
+            $_aOutput[] = "<input " 
+                . $this->generateAttributes( 
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][link_url]",
+                        'value' => $aField['href'],
+                    ) 
+                )
+                . " />";
+        }
+        /* for the 'reset' key */
+        if ( $aField['reset'] ) {            
+            $_aOutput[] = ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'reset' )
                 ? "<input "
                     . $this->generateAttributes( 
                         array(
@@ -212,20 +211,43 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
                         ) 
                     )
                 . " />"
-                : ""
-            )
-            . ( $aField['reset'] && $bResetConfirmed
-                ? "<input "
+                : "<input "
                     . $this->generateAttributes( 
                         array(
                             'type'  => 'hidden',
                             'name'  => "__submit[{$aField['input_id']}][reset_key]",
-                            'value' => $aField['reset'],    // set the option array key to delete.
+                            'value' => is_array( $aField['reset'] )   // set the option array key to delete.
+                                ? implode( '|', $aField['reset'] )
+                                : $aField['reset'],
+                        )
+                    )
+                . " />";    
+        }
+        /* for the 'email' key */
+        if ( ! empty( $aField['email'] ) ) {
+            
+            $this->setTransient( 'apf_em_' . md5( $aField['_input_name_flat'] . get_current_user_id() ), $aField['email'] );
+            $_aOutput[] = ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'email' )
+                ? "<input "
+                    . $this->generateAttributes( 
+                        array(
+                            'type'  => 'hidden',
+                            'name'  => "__submit[{$aField['input_id']}][confirming_sending_email]",
+                            'value' => '1',
                         ) 
                     )
-                . " />"
-                : ""            
-            );
+                    . " />" 
+                : "<input "
+                    . $this->generateAttributes( 
+                        array(
+                            'type'  => 'hidden',
+                            'name'  => "__submit[{$aField['input_id']}][confirmed_sending_email]",
+                            'value' => '1',
+                        ) 
+                    )
+                    . " />";
+        }
+        return implode( PHP_EOL, $_aOutput );  
         
     }
          
@@ -233,19 +255,27 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
          * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the 'reset' key is set.
          * 
          */
-        private function _checkConfirmationDisplayed( $sResetKey, $sFlatFieldName ) {
-                
-            if ( ! $sResetKey ) { return false; }
+        private function _checkConfirmationDisplayed( $sFlatFieldName, $sType='reset' ) {
+                            
+            switch( $sType ) {
+                default:
+                case 'reset':       // admin page framework _ reset confirmation
+                    $_sTransientKey = 'apf_rc_' . md5( $sFlatFieldName . get_current_user_id() );
+                    break;
+                case 'email':       // admin page framework _ email confirmation
+                    $_sTransientKey = 'apf_ec_' . md5( $sFlatFieldName . get_current_user_id() );   
+                    break;
+            }
             
-            $bResetConfirmed =  $this->getTransient( md5( "reset_confirm_" . $sFlatFieldName ) ) !== false 
-                ? true
-                : false;
+            $_bConfirmed        = false === $this->getTransient( $_sTransientKey ) 
+                ? false
+                : true;
             
-            if ( $bResetConfirmed ) {
-                $this->deleteTransient( md5( "reset_confirm_" . $sFlatFieldName ) );
+            if ( $_bConfirmed ) {
+                $this->deleteTransient( $_sTransientKey );
             }
                 
-            return $bResetConfirmed;
+            return $_bConfirmed;
             
         }
 

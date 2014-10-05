@@ -219,7 +219,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */
     public $aDisallowedQueryKeys = array( 
         'settings-updated', 
-        'confirmation',     // 3.2.2+
+        'confirmation',     // 3.3.0+
     );
         
         
@@ -323,7 +323,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * Returns the last user form input array.
      * 
      * @remark  This temporrary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
-     * @since   3.2.2
+     * @since   3.3.0
      * @internal
      * @return  array   The last input array.
      */
@@ -353,7 +353,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             return $this->aOptions;    
         }
         
-        // [3.2.2+] Sets and returns the last user form input data as an array.
+        // [3.3.0+] Sets and returns the last user form input data as an array.
         if ( 'aLastInput' === $sName ) {
             $this->aLastInput = $this->_getLastInput();
             return $this->aLastInput;

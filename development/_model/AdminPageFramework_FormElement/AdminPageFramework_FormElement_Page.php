@@ -260,9 +260,9 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * @return array     the stored options of the given page slug. If not found, an empty array will be returned.
      */ 
     public function getPageOptions( $aOptions, $sPageSlug ) {
-        
+
         $_aOtherPageOptions = $this->getOtherPageOptions( $aOptions, $sPageSlug );
-        return $this->invertCastArrayContents( $aOptions, $_aOtherPageOptions );
+        return $this->invertCastArrayContents( $aOptions, $_aOtherPageOptions );   
         
     }
     /**
@@ -327,19 +327,32 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
         foreach( $this->aFields as $_sSectionID => $_aFields ) {
             
             // Check the section
-            if ( isset( $this->aSections[ $_sSectionID ]['page_slug'] ) && $this->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug ) { continue; }
+            if ( 
+                isset( $this->aSections[ $_sSectionID ]['page_slug'] ) 
+                && $this->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug 
+            ) { 
+                continue; 
+            }
         
             // At this point, the parsing element does not belong to the given page slug as the section does not ( as it is checked above ).
             foreach( $_aFields as $_sFieldID => $_aField ) {
                 
-                if ( ! isset( $_aField['page_slug'] ) ) { continue; }
-                if ( $_aField['page_slug'] == $sPageSlug ) { continue; }
-                if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) { continue; } // it's a sub-section array. 
+                if ( ! isset( $_aField['page_slug'] ) ) { 
+                    continue; 
+                }
+                if ( $_aField['page_slug'] == $sPageSlug ) { 
+                    continue; 
+                }
+                // it's a sub-section array. 
+                if ( is_numeric( $_sFieldID ) && is_int( $_sFieldID + 0 ) ) { 
+                    continue; 
+                } 
                 
                 // If a section is set,
                 if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-                    if ( array_key_exists( $_aField['section_id'], $aOptions ) )
+                    if ( array_key_exists( $_aField['section_id'], $aOptions ) ) {
                         $_aStoredOptionsNotOfThePage[ $_aField['section_id'] ] = $aOptions[ $_aField['section_id'] ];
+                    } 
                     continue;
                 }
                 // It does not have a section
@@ -349,7 +362,8 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                     
             }
         
-        }     
+        }  
+
         return $_aStoredOptionsNotOfThePage;
         
     }

@@ -352,7 +352,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Returns the readable list of the given array contents.
      * 
      * @remark  If the second dimension element is an array it will be enclosed in parenthesis.
-     * @since   3.2.2
+     * @since   3.3.0
      */
     static public function getReadableListOfArray( array $aArray ) {
         
@@ -366,7 +366,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Retuns the readable array contents.
      * 
-     * @since   3.2.2
+     * @since   3.3.0
      */
     static public function getReadableArrayContents( $sKey, $vValue, $sLabelCharLengths=16, $iOffset=0 ) {
         

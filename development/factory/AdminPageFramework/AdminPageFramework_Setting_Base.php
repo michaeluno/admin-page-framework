@@ -74,7 +74,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
         
         if ( $this->oProp->bIsAdmin ) {
         
-            add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 ); // Have a low priority to let in-page finalization done earlier.
+            add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
             add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 ); // should be loaded after registering the settings.
             
         }
@@ -90,7 +90,6 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
     public function _replyToCheckRedirects() {
 
         // Check if it's one of the plugin's added page. If not, do nothing.
-        // if ( ! ( isset( $_GET['page'] ) ) || ! $this->oProp->isPageAdded( $_GET['page'] ) ) return; 
         if ( ! $this->_isInThePage() ) {
             return;
         }
@@ -100,8 +99,13 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
             return;
         }
         
+        // [3.3.0+] If the confirmation key does not hold the 'redirect' string value, do not process.
+        if ( ! isset( $_GET['confirmation'] ) || 'redirect' !== $_GET['confirmation'] ) {
+            return;
+        }
+        
         // The redirect transient key.
-        $_sTransient = md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
+        $_sTransient = 'apf_rurl' . md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
         
         // Check the settings error transient.
         $_aError = $this->_getFieldErrors( $_GET['page'], false );
@@ -120,7 +124,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
         $this->oUtil->deleteTransient( $_sTransient ); // we don't need it any more.
                     
         // Go to the page.
-        die( wp_redirect( $_sURL ) );
+        exit( wp_redirect( $_sURL ) );
         
     }
     
@@ -133,13 +137,13 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
      * The filters will be applied to the section and field arrays; that means that third-party scripts can modify the arrays.
      * Also they get sorted before being registered based on the set order.
      * 
-     * @since 2.0.0
-     * @since 2.1.5 Added the ability to define custom field types.
-     * @since 3.1.2 Changed the hook from the <em>admin_menu</em> to <em>current_screen</em> so that the user can add forms in <em>load_{...}</em> callback methods.
-     * @since 3.1.3 Removed the Settings API related functions entirely.
-     * @remark This method is not intended to be used by the user.
-     * @remark The callback method for the <em>admin_init</em> hook.
-     * @return void
+     * @since       2.0.0
+     * @since       2.1.5       Added the ability to define custom field types.
+     * @since       3.1.2       Changed the hook from the <em>admin_menu</em> to <em>current_screen</em> so that the user can add forms in <em>load_{...}</em> callback methods.
+     * @since       3.1.3       Removed the Settings API related functions entirely.
+     * @remark      This method is not intended to be used by the user.
+     * @remark      The callback method for the <em>load_after_{instantiated class name}</em> hook.
+     * @return      void
      * @internal
      */ 
     public function _replyToRegisterSettings() {
@@ -189,21 +193,25 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
             $this->oProp->aFieldTypeDefinitions
         );     
 
-        /* 4. Register settings sections */ 
+        /* 4. Set up the contextual help pane */ 
         foreach( $this->oForm->aConditionedSections as $_aSection ) {
                                     
-            /* For the contextual help pane */
-            if ( ! empty( $_aSection['help'] ) )
-                $this->addHelpTab( 
-                    array(
-                        'page_slug' => $_aSection['page_slug'],
-                        'page_tab_slug' => $_aSection['tab_slug'],
-                        'help_tab_title' => $_aSection['title'],
-                        'help_tab_id' => $_aSection['section_id'],
-                        'help_tab_content' => $_aSection['help'],
-                        'help_tab_sidebar_content' => $_aSection['help_aside'] ? $_aSection['help_aside'] : "",
-                    )
-                );
+            if ( empty( $_aSection['help'] ) ) {
+                continue;
+            }
+            
+            $this->addHelpTab( 
+                array(
+                    'page_slug'                 => $_aSection['page_slug'],
+                    'page_tab_slug'             => $_aSection['tab_slug'],
+                    'help_tab_title'            => $_aSection['title'],
+                    'help_tab_id'               => $_aSection['section_id'],
+                    'help_tab_content'          => $_aSection['help'],
+                    'help_tab_sidebar_content'  => $_aSection['help_aside'] 
+                        ? $_aSection['help_aside'] 
+                        : "",
+                )
+            );
                 
         }
 
@@ -215,8 +223,8 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
                 // If the iterating item is a sub-section array.
                 if ( is_numeric( $_sSubSectionIndexOrFieldID ) && is_int( $_sSubSectionIndexOrFieldID + 0 ) ) {
                     
-                    $_iSubSectionIndex = $_sSubSectionIndexOrFieldID;
-                    $_aSubSection = $_aSubSectionOrField;
+                    $_iSubSectionIndex  = $_sSubSectionIndexOrFieldID;
+                    $_aSubSection       = $_aSubSectionOrField;
                     foreach( $_aSubSection as $__sFieldID => $__aField ) {     
                         AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $__aField, $this->oProp, $this->oHeadTag ); // Set relevant scripts and styles for the input field.
                     }
@@ -234,13 +242,17 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
                 if ( ! empty( $aField['help'] ) ) {
                     $this->addHelpTab( 
                         array(
-                            'page_slug' => $aField['page_slug'],
-                            'page_tab_slug' => $aField['tab_slug'],
-                            'help_tab_title' => $aField['section_title'],
-                            'help_tab_id' => $aField['section_id'],
-                            'help_tab_content' => "<span class='contextual-help-tab-title'>" . $aField['title'] . "</span> - " . PHP_EOL
-                                                            . $aField['help'],
-                            'help_tab_sidebar_content' => $aField['help_aside'] ? $aField['help_aside'] : "",
+                            'page_slug'                 => $aField['page_slug'],
+                            'page_tab_slug'             => $aField['tab_slug'],
+                            'help_tab_title'            => $aField['section_title'],
+                            'help_tab_id'               => $aField['section_id'],
+                            'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
+                                    . $aField['title'] 
+                                . "</span> - " . PHP_EOL
+                                . $aField['help'],
+                            'help_tab_sidebar_content'  => $aField['help_aside'] 
+                                ? $aField['help_aside'] 
+                                : "",
                         )
                     );
                 }
@@ -266,11 +278,6 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
      */
     public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
 
-        // $_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;    
-        // $_sSectionID = $aSection['section_id'];
-        // if ( ! isset( $this->oForm->aSections[ $_sSectionID ] ) ) return ''; // if it is not added
-        // if ( ! $this->oForm->isPageAdded( $_sCurrentPageSlug ) ) return '';
-        
         return $this->oUtil->addAndApplyFilters(
             $this,
             array( 'section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id'] ), // section_{instantiated class name}_{section id}
@@ -287,12 +294,12 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
      */  
     public function _replyToGetFieldOutput( $aField ) {
 
-        $_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : null;    
-        $_sSectionID = isset( $aField['section_id'] ) ? $aField['section_id'] : '_default';
-        $_sFieldID = $aField['field_id'];
+        $_sCurrentPageSlug  = isset( $_GET['page'] ) ? $_GET['page'] : null;    
+        $_sSectionID        = isset( $aField['section_id'] ) ? $aField['section_id'] : '_default';
+        $_sFieldID          = $aField['field_id'];
         
         // If the specified field does not exist, do nothing.
-        if ( $aField['page_slug'] != $_sCurrentPageSlug ) return '';
+        if ( $aField['page_slug'] != $_sCurrentPageSlug ) { return ''; }
 
         // Retrieve the field error array.
         $this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $_sCurrentPageSlug ); 
@@ -302,7 +309,13 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
             ? $aField['type']
             : 'default'; // the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-        $_oField = new AdminPageFramework_FormField( $aField, $this->oProp->aOptions, $this->aFieldErrors, $this->oProp->aFieldTypeDefinitions, $this->oMsg );
+        $_oField = new AdminPageFramework_FormField( 
+            $aField, 
+            $this->_getSavedOptions(), 
+            $this->aFieldErrors, 
+            $this->oProp->aFieldTypeDefinitions, 
+            $this->oMsg 
+        );
         $_sFieldOutput = $_oField->_getFieldOutput(); // field output
         unset( $_oField ); // release the object for PHP 5.2.x or below.
 
@@ -318,5 +331,20 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
         );     
         
     }
+        /**
+         * Returns the saved options.
+         * 
+         * @since   3.3.0
+         */
+        private function _getSavedOptions() {
+            
+            $_aLastInput = isset( $_GET['confirmation'] )
+                ? $this->oProp->aLastInput
+                : array();
+
+            return $_aLastInput + $this->oProp->aOptions;
+            
+        }
+        
 }
 endif;

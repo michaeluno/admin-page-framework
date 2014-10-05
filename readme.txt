@@ -26,6 +26,7 @@ with it easily create:
 - **Meta Boxes and Fields** - which help to store meta data associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
 - **Widgets and Fields** - to display modular outputs based on the user's settings in the front end.
 - **Network Admin Pages and Forms** - for WordPress multi-sites.
+- **Email Form** - to let the user report issues or feedback via emails.
 
 = What are useful about =
 - **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
@@ -445,8 +446,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.2.2 =
+= 3.3.0 =
+- Added the ability to send emails with the `submit` field type.
 - Added the `system` field type (changed from a custom field type and became built-in).
+- Fixed a bug that the `reset` argument of the `submit` field type caused a loss of stored options when the form fields are not added via the load_{...} hooks and have multiple pages are added.
 - Fixed an issue that when setting form elements with the `load_{page slug}_{tab}` hook, the fields could not be displayed if the user clicked on the sidebar menu and the tab is the default tab.
 - Fixed an issue that the TinyMCE rich editor could not be enabled in widget forms.
 - Fixed an issue that Quick Tags of rich editors could not be repeated.
