@@ -117,6 +117,7 @@ class APF_MetaBox_CustomFieldTypes extends AdminPageFramework_MetaBox {
         
         // You can check the passed values and correct the data by modifying them.
         // $this->oDebug->log( $aInput );
+         
         return $aInput;
         
     }

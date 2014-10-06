@@ -39,6 +39,14 @@ if ( is_admin() ) :
         'default'                                           // priority
     ); 
     
+    include( APFDEMO_DIRNAME . '/example/APF_MetaBox_DateFields.php' );
+    new APF_MetaBox_DateFields(
+        'sample_metabox_data_fields',
+        __( 'Custom Data Fields', 'admin-page-framework-demo' ),
+        array( 'apf_posts' ),                             
+        'side'                                
+    );
+    
     // Add fields in the taxonomy page
     include( APFDEMO_DIRNAME . '/example/APF_TaxonomyField.php' );
     new APF_TaxonomyField( 'apf_sample_taxonomy' ); // taxonomy slug
