@@ -57,6 +57,11 @@ class AdminPageFramework_CSS {
     padding: 0;
     font-family: 'Open Sans', sans-serif;
 }
+
+/* In-page tabs */ 
+.admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
+    border-bottom-width: 2px;
+}
   
 ";        
         return $_sCSS . PHP_EOL 
