@@ -451,6 +451,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the ability to send emails with the `submit` field type.
 - Added the `reset` custom field type.
 - Added the `system` field type (changed from a custom field type and became built-in).
+- Fixed unescaped tags and attributes in tabs.
 - Fixed a bug that the `reset` argument of the `submit` field type caused a loss of stored options when the form fields are not added via the load_{...} hooks and have multiple pages are added.
 - Fixed an issue that when setting form elements with the `load_{page slug}_{tab}` hook, the fields could not be displayed if the user clicked on the sidebar menu and the tab is the default tab.
 - Fixed an issue that the TinyMCE rich editor could not be enabled in widget forms.
