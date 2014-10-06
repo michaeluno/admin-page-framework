@@ -26,14 +26,14 @@ class APF_Demo_HiddenPage {
         /* ( required ) Add sub-menu items (pages or links) */
         $oAdminPage->addSubMenuItems(     
             array(
-                'title' => __( 'Sample Page', 'admin-page-framework-demo' ),
-                'page_slug' => 'apf_sample_page',
-                'screen_icon' => dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png', // ( for WP v3.7.1 or below ) the icon _file path_ can be used
+                'title'         => __( 'Sample Page', 'admin-page-framework-demo' ),
+                'page_slug'     => 'apf_sample_page',
+                'screen_icon'   => dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png', // ( for WP v3.7.1 or below ) the icon _file path_ can be used
             ),     
             array(
-                'title' => __( 'Hidden Page', 'admin-page-framework-demo' ),
-                'page_slug' => 'apf_hidden_page',
-                'screen_icon' => version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
+                'title'         => __( 'Hidden Page', 'admin-page-framework-demo' ),
+                'page_slug'     => 'apf_hidden_page',
+                'screen_icon'   => version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
                     ? plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE )
                     : null, // ( for WP v3.7.1 or below ) 
                 'show_in_menu' => false,
@@ -48,7 +48,7 @@ class APF_Demo_HiddenPage {
     public function replyToModifySamplePage( $oAdminPage ) {
         
         echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-demo' ) . "</p>";
-        $_sLinkToHiddenPage = $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) );
+        $_sLinkToHiddenPage = esc_url( $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) ) );
         echo "<a href='{$_sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-demo' ). "</a>";
     
     }
@@ -56,7 +56,7 @@ class APF_Demo_HiddenPage {
         
         echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-demo' ) . "</p>";
         echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-demo' ) . "</p>";
-        $_sLinkToGoBack = $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
+        $_sLinkToGoBack = esc_url( $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) ) );
         echo "<a href='{$_sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
         
         // Let's do something here. 
@@ -65,7 +65,7 @@ class APF_Demo_HiddenPage {
         echo "<p>" . __( 'Here we are going to retrieve posts of the demo plugin\'s custom post type.', 'admin-page-framework-demo' ) . "</p>"; // 'syntax fixer
         $_aArgs = array(
             'post_type'         => 'apf_posts', // the post type slug used for the demo plugin
-            'posts_per_page'    => -1,          // retrieve all
+            'posts_per_page'    => 100,          // retrieve 100 posts. Set -1 for all.
             'post_status'       => 'publish',   // published post
             'meta_query' => array(
                 'relation' => 'AND',
