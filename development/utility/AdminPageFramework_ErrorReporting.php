@@ -9,8 +9,12 @@
 if ( ! class_exists( 'AdminPageFramework_ErrorReporting' ) ) :
 /**
  * Retrieves the server set error reporting level.
- * @since   3.3.0
- * @see     http://www.efrag.gr/2013/01/how-to-get-your-error-reporting-constant-values/
+ * 
+ * @since       3.3.0
+ * @see         http://www.efrag.gr/2013/01/how-to-get-your-error-reporting-constant-values/
+ * @package     AdminPageFramework
+ * @subpackage  Utility
+ * @internal    
  */
 class AdminPageFramework_ErrorReporting {
     
@@ -79,7 +83,6 @@ class AdminPageFramework_ErrorReporting {
                 }
                 return implode( ' & ~', $_aValues );
             } 
-var_dump( $aIncluded );
             foreach( $aIncluded as $_iLevel ) {
                 $_aValues[] = $this->_aLevels[ $_iLevel ];
             }
