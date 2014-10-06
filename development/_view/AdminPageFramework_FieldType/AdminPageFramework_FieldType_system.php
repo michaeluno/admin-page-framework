@@ -312,7 +312,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
         
             private function _getMySQLVersion() {
                 global $wpdb;
-                return $wpdb->use_mysqli
+                return isset( $wpdb->use_mysqli ) && $wpdb->use_mysqli
                     ? @mysqli_get_server_info( $wpdb->dbh )
                     : @mysql_get_server_info();
 
