@@ -321,7 +321,6 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
             private function _getMaxAllowedPacket() {
                 
                 global $wpdb;
-
                 $_aRow = $wpdb->get_row( 'SELECT @@global.max_allowed_packet', 'ARRAY_A' );
                 return isset( $_aRow[ '@@global.max_allowed_packet' ] )
                     ? $this->_convertBytesToHR( $_aRow[ '@@global.max_allowed_packet' ] )
