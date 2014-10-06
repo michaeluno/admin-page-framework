@@ -257,10 +257,20 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             // The argument keys are the same as the ones documented here : http://trentrichardson.com/examples/timepicker/#rest_examples     
             'date_pickers', // the target section ID.
             array( // Single date picker
-                'field_id' => 'date',
-                'title' => __( 'Date', 'admin-page-framework-demo' ),
-                'type' => 'date',
+                'field_id'      => 'date',
+                'title'         => __( 'Date', 'admin-page-framework-demo' ),
+                'type'          => 'date',
             ),     
+            array( // Custom date format - use a unix timestamp.
+                'field_id'      => 'date_custom_date_format',
+                'title'         => __( 'Date Format', 'admin-page-framework-demo' ),
+                'type'          => 'date',
+                'date_format'   => '@',
+                'description'   => __( 'Setting <code>@</code> to the <code>date_format</code> argument will save the date as a timestamp.', 'admin-page-framework-demo' ),
+                'attributes'    => array(
+                    'size'  => 16,
+                ),
+            ),                 
             array( // Repeatable date picker fields
                 'field_id' => 'date_repeatable',
                 'type' => 'date',
@@ -453,14 +463,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'label_min_width'   => 0,
                 array(
                     'type'  => 'submit',
-                    'label' => __( 'Save', 'admin-page-framework-demo' ),
-                    'email'             => array(
-                        'to'          => 'contact.michaeluno.jp@gmail.com',
-                        'subject'     => 'Reporting Issue',
-                        'message'     => '',
-                        'headers'     => '',
-                        'attachments' => '',
-                    ),                    
+                    'label' => __( 'Save', 'admin-page-framework-demo' ),                  
                 ),
                 'attributes'    => array(
                     'style'    => 'float: right;',
