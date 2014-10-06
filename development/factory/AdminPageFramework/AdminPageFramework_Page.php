@@ -80,40 +80,40 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * 
      * <h4>Example</h4>
      * <code>$this->addInPageTabs(
-     * array(
-     * 'page_slug' => 'myfirstpage'
-     * 'tab_slug' => 'firsttab',
-     * 'title' => __( 'Text Fields', 'my-text-domain' ),
-     * ),
-     * array(
-     * 'page_slug' => 'myfirstpage'
-     * 'tab_slug' => 'secondtab',
-     * 'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
-     * )
+     *      array(
+     *          'page_slug' => 'myfirstpage'
+     *          'tab_slug'  => 'firsttab',
+     *          'title'     => __( 'Text Fields', 'my-text-domain' ),
+     *      ),
+     *      array(
+     *          'page_slug' => 'myfirstpage'
+     *          'tab_slug'  => 'secondtab',
+     *          'title'     => __( 'Selectors and Checkboxes', 'my-text-domain' ),
+     *      )
      * );</code>
      *
      * <code>$this->addInPageTabs(
-     * 'myfirstpage', // sets the target page slug
-     * array(
-     * 'tab_slug' => 'firsttab',
-     * 'title' => __( 'Text Fields', 'my-text-domain' ),
-     * ),
-     * array(
-     * 'tab_slug' => 'secondtab',
-     * 'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
-     * )
+     *      'myfirstpage', // sets the target page slug
+     *      array(
+     *          'tab_slug' => 'firsttab',
+     *          'title' => __( 'Text Fields', 'my-text-domain' ),
+     *      ),
+     *      array(
+     *          'tab_slug' => 'secondtab',
+     *          'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
+     *      )
      * );</code>
      * @since 2.0.0
      * @since 3.0.0 Changed the scope to public. Added page slug target support. 
      * @param array $aTab1 The in-page tab array.
      * <h4>In-Page Tab Array</h4>
      * <ul>
-     *     <li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs to.</li>
-     *     <li><strong>tab_slug</strong> -  ( string ) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-     *     <li><strong>title</strong> - ( string ) the title of the tab.</li>
-     *     <li><strong>order</strong> - ( optional, integer ) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
-     *     <li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
-     *     <li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+     *     <li><strong>page_slug</strong> - (string) the page slug that the tab belongs to.</li>
+     *     <li><strong>tab_slug</strong> -  (string) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+     *     <li><strong>title</strong> - (string) the title of the tab.</li>
+     *     <li><strong>order</strong> - (optional, integer) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
+     *     <li><strong>show_in_page_tab</strong> - (optional, boolean) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
+     *     <li><strong>parent_tab_slug</strong> - (optional, string) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
      * </ul>
      * @param array $aTab2 Another in-page tab array.
      * @param array $_and_more Add in-page tab arrays as many as necessary to the next parameters.
@@ -150,11 +150,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         $__sTargetPageSlug  = $aInPageTab['page_slug']; // set the target page slug for next calls
         if ( ! isset( $aInPageTab['page_slug'], $aInPageTab['tab_slug'] ) ) return; // check the required keys.
         
-        $iCountElement = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) : 0;
-        $aInPageTab = array( // sanitize some elements
+        $iCountElement      = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) : 0;
+        $aInPageTab         = array( // sanitize some elements
             'page_slug' => $this->oUtil->sanitizeSlug( $aInPageTab['page_slug'] ),
-            'tab_slug' => $this->oUtil->sanitizeSlug( $aInPageTab['tab_slug'] ),
-            'order' => is_numeric( $aInPageTab['order'] ) ? $aInPageTab['order'] : $iCountElement + 10,
+            'tab_slug'  => $this->oUtil->sanitizeSlug( $aInPageTab['tab_slug'] ),
+            'order'     => is_numeric( $aInPageTab['order'] ) ? $aInPageTab['order'] : $iCountElement + 10,
         ) + $aInPageTab;
 
         $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ][ $aInPageTab['tab_slug'] ] = $aInPageTab;
@@ -288,8 +288,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             return;
         }
         $this->oProp->sPageHeadingTabTag = $sTag;
-        foreach( $this->oProp->aPages as &$aPage )
+        foreach( $this->oProp->aPages as &$aPage ) {
             $aPage[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
+        }
         
     }
     
@@ -482,29 +483,52 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         private function _getScreenIcon( $sPageSlug ) {
 
             // If the icon path is explicitly set, use it.
-            if ( isset( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) ) {
-                return '<div class="icon32" style="background-image: url(' . esc_url( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) . ');"><br /></div>';
+            if ( isset( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) ) { 
+                return "<div " . $this->oUtil->generateAttributes(
+                        array(
+                            'class'    => 'icon32',
+                            'style'    => $this->oUtil->generateInlineCSS(
+                                array(
+                                    'background-image' => "url('" . esc_url( $this->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) . "')"
+                                )
+                            )
+                        )    
+                    ) . ">" . PHP_EOL
+                        . "<br />" . PHP_EOL
+                    . "</div>" . PHP_EOL;
+                
             }
             
             // If the screen icon ID is explicitly set, use it.
             if ( isset( $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] ) ) {
-                return '<div class="icon32" id="icon-' . $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'] . '"><br /></div>';
+                return "<div " . $this->oUtil->generateAttributes(
+                        array(
+                            'class'    => 'icon32',
+                            'id'       => "icon-" . $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'],
+                        )    
+                    ) . ">" . PHP_EOL
+                        . "<br />" . PHP_EOL
+                    . "</div>" . PHP_EOL;                
             }
                 
             // Retrieve the screen object for the current page.
-            $oScreen = get_current_screen();
-            $sIconIDAttribute = $this->_getScreenIDAttribute( $oScreen );
-
-            $sClass = 'icon32';
-            if ( empty( $sIconIDAttribute ) && $oScreen->post_type ) {
-                $sClass .= ' ' . sanitize_html_class( 'icon32-posts-' . $oScreen->post_type );
+            $_oScreen           = get_current_screen();
+            $_sIconIDAttribute  = $this->_getScreenIDAttribute( $_oScreen );
+            $_sClass            = 'icon32';
+            if ( empty( $_sIconIDAttribute ) && $_oScreen->post_type ) {
+                $_sClass .= ' ' . sanitize_html_class( 'icon32-posts-' . $_oScreen->post_type );
             }
-            
-            if ( empty( $sIconIDAttribute ) || $sIconIDAttribute == $this->oProp->sClassName ) {
-                $sIconIDAttribute = 'generic'; // the default value
+            if ( empty( $_sIconIDAttribute ) || $_sIconIDAttribute == $this->oProp->sClassName ) {
+                $_sIconIDAttribute = 'generic'; // the default value
             }
-            
-            return '<div id="icon-' . $sIconIDAttribute . '" class="' . $sClass . '"><br /></div>';
+            return "<div " . $this->oUtil->generateAttributes(
+                    array(
+                        'class'    => $_sClass,
+                        'id'       => "icon-" . $_sIconIDAttribute,
+                    )    
+                ) . ">" . PHP_EOL
+                    . "<br />" . PHP_EOL
+                . "</div>" . PHP_EOL;   
                 
         }
             /**
@@ -517,11 +541,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 if ( ! empty( $oScreen->parent_base ) ) {
                     return $oScreen->parent_base;
                 }
-            
                 if ( 'page' == $oScreen->post_type ) {
                     return 'edit-pages';     
                 }
-                    
                 return esc_attr( $oScreen->base );
                 
             }
@@ -540,7 +562,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             $sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
                 ? $this->oProp->aPages[ $sCurrentPageSlug ][ 'page_heading_tab_tag' ]
                 : $sTag;
-        
+            $sTag = tag_escape( $sTag );
+            
             // If the page heading tab visibility is disabled, or only one page is registered, return the title.
             if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_page_heading_tabs' ] || count( $this->oProp->aPages ) == 1 ) {
                 return "<{$sTag}>" . $this->oProp->aPages[ $sCurrentPageSlug ]['title'] . "</{$sTag}>";     
@@ -550,13 +573,17 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 
                 // For added sub-pages
                 if ( isset( $aSubPage['page_slug'] ) && $aSubPage['show_page_heading_tab'] ) {
+                    
                     // Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
-                    $sClassActive =  $sCurrentPageSlug == $aSubPage['page_slug']  ? 'nav-tab-active' : '';     
-                    $aOutput[] = "<a class='nav-tab {$sClassActive}' "
-                        . "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['page_slug'], 'tab' => false ), $this->oProp->aDisallowedQueryKeys ) 
-                        . "'>"
-                        . $aSubPage['title']
-                        . "</a>";    
+                    $aOutput[] = "<a " . $this->oUtil->generateAttributes(
+                            array(
+                                'class' => 'nav-tab ' . ( $sCurrentPageSlug === $aSubPage['page_slug']  ? 'nav-tab-active' : '' ),
+                                'href'  => esc_url( $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['page_slug'], 'tab' => false ), $this->oProp->aDisallowedQueryKeys ) ),
+                            )    
+                        ) . ">" . PHP_EOL
+                            . $aSubPage['title'] . PHP_EOL
+                        . "</a>" . PHP_EOL;                           
+                        
                 }
                 
                 // For added menu links
@@ -565,17 +592,22 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                     && 'link' === $aSubPage['type'] 
                     && $aSubPage['show_page_heading_tab']
                 ) {
-                    $aOutput[] = 
-                        "<a class='nav-tab link' "
-                        . "href='{$aSubPage['href']}'>"
-                            . $aSubPage['title']
-                        . "</a>";     
+                    $aOutput[] = "<a " . $this->oUtil->generateAttributes(
+                            array(
+                                'class' => 'nav-tab link',
+                                'href'  => esc_url( $aSubPage['href'] ),
+                            )    
+                        ) . ">" . PHP_EOL
+                            . $aSubPage['title'] . PHP_EOL
+                        . "</a>" . PHP_EOL;                         
                 }
                 
             }     
-            return "<div class='admin-page-framework-page-heading-tab'><{$sTag} class='nav-tab-wrapper'>" 
-                .  implode( '', $aOutput ) 
-                . "</{$sTag}></div>";
+            return "<div class='admin-page-framework-page-heading-tab'>"
+                    ."<{$sTag} class='nav-tab-wrapper'>" 
+                        .  implode( '', $aOutput ) 
+                    . "</{$sTag}>"
+                . "</div>";
             
         }
 
@@ -599,7 +631,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             $sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
                 ? $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
                 : $sTag;
-        
+            $sTag = tag_escape( $sTag );
+            
             // If the in-page tabs' visibility is set to false, returns the title.
             if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_in_page_tabs' ] ) {
                 return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
@@ -631,9 +664,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             
             return empty( $aOutput )
                 ? ""
-                : "<div class='admin-page-framework-in-page-tab'><{$sTag} class='nav-tab-wrapper in-page-tab'>" 
-                        . implode( '', $aOutput )
-                    . "</{$sTag}></div>";
+                : "<div class='admin-page-framework-in-page-tab'>" . PHP_EOL
+                        . "<{$sTag} class='nav-tab-wrapper in-page-tab'>" . PHP_EOL
+                            . implode( '', $aOutput ) . PHP_EOL
+                        . "</{$sTag}>" . PHP_EOL
+                    . "</div>" . PHP_EOL;
                 
         }
 
