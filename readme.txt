@@ -458,6 +458,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that the TinyMCE rich editor could not be enabled in widget forms.
 - Fixed an issue that Quick Tags of rich editors could not be repeated.
 - Fixed an issue that values set to textarea tags were not escaped.
+- Tweaked the styling of remove buttons for `image`, `media`, `font` field types for WordPress 3.7.x or below.
+- Tweaked the styling of sortable fields.
 - Tweaked the styling of widget forms.
 - Changed the metabox factory class to accept an empty ID to be passed to let the factory class automatically generates an ID from the class name.
 - Changed the timing of finalizing in-page tabs.
