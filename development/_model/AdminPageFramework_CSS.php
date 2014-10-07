@@ -278,7 +278,7 @@ td.admin-page-framework-field-td-no-title {
     clear: both;
     float: left;
     display: inline-block;
-    padding: 1em 1.2em 0.72em;
+    padding: 1em 1.2em 0.76em;
     margin: 1px 0 0 0;
     border-top-width: 1px;
     border-bottom-width: 1px;
@@ -443,10 +443,20 @@ return "
          */    
         static private function _getVersionSpecificRules( $sWPVersion ) {
             
-            // If the WordPress version is greater than equal to 3.8, return MP6(the admin style introduced in 3.8) specific CSS rules.
+            $_sCSSRules = '';
+            if ( version_compare( $sWPVersion, '3.8', '<' ) ) {        
+                $_sCSSRules .= 
+"
+.admin-page-framework-field .remove_value.button.button-small {
+    line-height: 1.5em; 
+}
+";            
+            
+            }
+            // If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
             if ( version_compare( $sWPVersion, '3.8', '>=' ) ) {        
             
-                return
+                $_sCSSRules .= 
 "
 /* Widget Forms */
 .widget .form-table th
@@ -477,7 +487,7 @@ return "
                 
             }
             
-            return '';
+            return $_sCSSRules;
             
         }
     

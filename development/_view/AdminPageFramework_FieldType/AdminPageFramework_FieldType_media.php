@@ -480,7 +480,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                     'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
                 );
             $_aAttributes['class']  = $this->generateClassAttribute( 
-                'remove_media button button-small', 
+                'remove_value remove_media button button-small', 
                 trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
             );
             $_sButton               = 

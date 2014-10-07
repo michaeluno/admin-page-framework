@@ -707,7 +707,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
                 );
             $_aAttributes['class']  = $this->generateClassAttribute( 
-                'remove_image button button-small', 
+                'remove_value remove_image button button-small', 
                 trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
             );
             $_sButton               = 
