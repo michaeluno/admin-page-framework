@@ -311,9 +311,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 
         // Do actions before rendering the page. In this order, global -> page -> in-page tab
         $this->oUtil->addAndDoActions( 
-            $this,     // the caller object
+            $this,  // the caller object
             $this->oUtil->getFilterArrayByPrefix( 'do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ), // the action hooks
-            $this // the argument 1
+            $this   // the argument 1
         );
         ?>
         <div class="wrap">
@@ -340,7 +340,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                     <div id="post-body" class="metabox-holder columns-<?php echo $this->_getNumberOfColumns(); ?>">
                     <?php
                         $this->_printMainContent( $sPageSlug, $sTabSlug );
-                        $this->_printMetaBox( 'side', 1 ); // defined in the parrent class.
+                        $this->_printMetaBox( 'side', 1 );      // defined in the parent class.
                         $this->_printMetaBox( 'normal', 2 );
                         $this->_printMetaBox( 'advanced', 3 );
                     ?>     
@@ -358,9 +358,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         <?php
         // Do actions after rendering the page.
         $this->oUtil->addAndDoActions( 
-            $this, // the caller object
+            $this,  // the caller object
             $this->oUtil->getFilterArrayByPrefix( 'do_after_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true ), // the action hooks
-            $this // the argument 1
+            $this   // the argument 1
         );
         
     }
@@ -385,18 +385,17 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                                         
             // Render the form elements.
             if ( $this->oProp->bEnableForm ) {
-                
-                // do_settings_sections( $sPageSlug ); // deprecated     
+                  
                 if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
 
                     $this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
-                    $oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->aFieldErrors, $this->oMsg );
+                    $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->aFieldErrors, $this->oMsg );
                     $this->oForm->setCurrentPageSlug( $sPageSlug );
                     $this->oForm->setCurrentTabSlug( $sTabSlug );
                     $this->oForm->applyConditions();
                     $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName ); // applies filters to the conditioned field definition arrays.
                     $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-                    echo $oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+                    echo $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
                 } 
                 
@@ -446,7 +445,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                     ) 
                 . " >";
                 
-            // @todo: The framework no longer relies on WordPress Settings API so check if the followign line is necessary or not.
+            // @todo: The framework no longer relies on WordPress Settings API so check if the following line is necessary or not.
             settings_fields( $this->oProp->sOptionKey );
             
         }
@@ -493,9 +492,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                                 )
                             )
                         )    
-                    ) . ">" . PHP_EOL
-                        . "<br />" . PHP_EOL
-                    . "</div>" . PHP_EOL;
+                    ) . ">"
+                        . "<br />"
+                    . "</div>";
                 
             }
             
@@ -506,9 +505,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                             'class'    => 'icon32',
                             'id'       => "icon-" . $this->oProp->aPages[ $sPageSlug ]['screen_icon_id'],
                         )    
-                    ) . ">" . PHP_EOL
-                        . "<br />" . PHP_EOL
-                    . "</div>" . PHP_EOL;                
+                    ) . ">"
+                        . "<br />"
+                    . "</div>";
             }
                 
             // Retrieve the screen object for the current page.
@@ -526,9 +525,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                         'class'    => $_sClass,
                         'id'       => "icon-" . $_sIconIDAttribute,
                     )    
-                ) . ">" . PHP_EOL
-                    . "<br />" . PHP_EOL
-                . "</div>" . PHP_EOL;   
+                ) . ">"
+                    . "<br />"
+                . "</div>";
                 
         }
             /**
@@ -551,8 +550,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         /**
          * Retrieves the output of page heading tab navigation bar as HTML.
          * 
-         * @since 2.0.0
-         * @return string     the output of page heading tabs.
+         * @since   2.0.0
+         * @return  string     the output of page heading tabs.
          */         
         private function _getPageHeadingTabs( $sCurrentPageSlug, $sTag='h2', $aOutput=array() ) {
             
@@ -577,12 +576,16 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                     // Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
                     $aOutput[] = "<a " . $this->oUtil->generateAttributes(
                             array(
-                                'class' => 'nav-tab ' . ( $sCurrentPageSlug === $aSubPage['page_slug']  ? 'nav-tab-active' : '' ),
+                                // 'class' => 'nav-tab ' . ( $sCurrentPageSlug === $aSubPage['page_slug']  ? 'nav-tab-active' : '' ),
+                                'class' => $this->oUtil->generateClassAttribute(
+                                    'nav-tab',
+                                    $sCurrentPageSlug === $aSubPage['page_slug'] ? 'nav-tab-active' : ''
+                                ),                                
                                 'href'  => esc_url( $this->oUtil->getQueryAdminURL( array( 'page' => $aSubPage['page_slug'], 'tab' => false ), $this->oProp->aDisallowedQueryKeys ) ),
                             )    
-                        ) . ">" . PHP_EOL
-                            . $aSubPage['title'] . PHP_EOL
-                        . "</a>" . PHP_EOL;                           
+                        ) . ">"
+                            . $aSubPage['title']
+                        . "</a>";
                         
                 }
                 
@@ -597,9 +600,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                                 'class' => 'nav-tab link',
                                 'href'  => esc_url( $aSubPage['href'] ),
                             )    
-                        ) . ">" . PHP_EOL
-                            . $aSubPage['title'] . PHP_EOL
-                        . "</a>" . PHP_EOL;                         
+                        ) . ">" 
+                            . $aSubPage['title']
+                        . "</a>";
                 }
                 
             }     
@@ -650,25 +653,28 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 $sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
                     ? $aInPageTab['parent_tab_slug'] 
                     : $aInPageTab['tab_slug'];
-                    
-                // Check if the current tab slug matches the iteration slug. If not match, assign blank; otherwise, put the active class name.
-                $bIsActiveTab = ( $sCurrentTabSlug == $sInPageTabSlug );
-
-                $aOutput[ $sInPageTabSlug ] = "<a class='nav-tab " . ( $bIsActiveTab ? "nav-tab-active" : "" ) . "' "
-                    . "href='" . $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProp->aDisallowedQueryKeys ) 
-                    . "'>"
-                    . $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['title'] // "{$aInPageTab['title']}"
+                                        
+                $aOutput[ $sInPageTabSlug ] = "<a " . $this->oUtil->generateAttributes(
+                        array(
+                            'class' => $this->oUtil->generateClassAttribute(
+                                'nav-tab',
+                                $sCurrentTabSlug == $sInPageTabSlug ? "nav-tab-active" : "" // check whether the current tab is the active one
+                            ),
+                            'href'  => esc_url( $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProp->aDisallowedQueryKeys ) ),
+                        )    
+                    ) . ">"
+                        . $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['title']
                     . "</a>";
             
             }     
             
             return empty( $aOutput )
                 ? ""
-                : "<div class='admin-page-framework-in-page-tab'>" . PHP_EOL
-                        . "<{$sTag} class='nav-tab-wrapper in-page-tab'>" . PHP_EOL
-                            . implode( '', $aOutput ) . PHP_EOL
-                        . "</{$sTag}>" . PHP_EOL
-                    . "</div>" . PHP_EOL;
+                : "<div class='admin-page-framework-in-page-tab'>"
+                        . "<{$sTag} class='nav-tab-wrapper in-page-tab'>"
+                            . implode( '', $aOutput )
+                        . "</{$sTag}>"
+                    . "</div>";
                 
         }
 
