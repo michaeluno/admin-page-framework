@@ -7,9 +7,9 @@
 	<title>Class AdminPageFramework_Page | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?1941974846"></script>
+	<script type="text/javascript" src="elementlist.js?3059767791"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2754522461">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
 
 </head>
 
@@ -75,8 +75,6 @@
 				<li class="main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
 						</li>
 							</ul></li>
-				<li><a href="package-None.html">None</a>
-						</li>
 			</ul>
 		</div>
 
@@ -235,58 +233,58 @@ array keys.</p>
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addInPageTabs(
-<span
+     <span
 class="php-keyword1">array</span>(
-<span
+         <span
 class="php-quote">'page_slug'</span> =&gt; <span
 class="php-quote">'myfirstpage'</span>
-<span
-class="php-quote">'tab_slug'</span> =&gt; <span
+         <span
+class="php-quote">'tab_slug'</span>  =&gt; <span
 class="php-quote">'firsttab'</span>,
-<span
-class="php-quote">'title'</span> =&gt; __( <span
+         <span
+class="php-quote">'title'</span>     =&gt; __( <span
 class="php-quote">'Text Fields'</span>, <span
 class="php-quote">'my-text-domain'</span> ),
-),
-<span
+     ),
+     <span
 class="php-keyword1">array</span>(
-<span
+         <span
 class="php-quote">'page_slug'</span> =&gt; <span
 class="php-quote">'myfirstpage'</span>
-<span
-class="php-quote">'tab_slug'</span> =&gt; <span
+         <span
+class="php-quote">'tab_slug'</span>  =&gt; <span
 class="php-quote">'secondtab'</span>,
-<span
-class="php-quote">'title'</span> =&gt; __( <span
+         <span
+class="php-quote">'title'</span>     =&gt; __( <span
 class="php-quote">'Selectors and Checkboxes'</span>, <span
 class="php-quote">'my-text-domain'</span> ),
-)
+     )
 );</pre>
 
 <pre><span class="php-var">$this</span>-&gt;addInPageTabs(
-<span
+     <span
 class="php-quote">'myfirstpage'</span>, <span
 class="php-comment">// sets the target page slug</span>
-<span
+     <span
 class="php-keyword1">array</span>(
-<span
+         <span
 class="php-quote">'tab_slug'</span> =&gt; <span
 class="php-quote">'firsttab'</span>,
-<span
+         <span
 class="php-quote">'title'</span> =&gt; __( <span
 class="php-quote">'Text Fields'</span>, <span
 class="php-quote">'my-text-domain'</span> ),
-),
-<span
+     ),
+     <span
 class="php-keyword1">array</span>(
-<span
+         <span
 class="php-quote">'tab_slug'</span> =&gt; <span
 class="php-quote">'secondtab'</span>,
-<span
+         <span
 class="php-quote">'title'</span> =&gt; __( <span
 class="php-quote">'Selectors and Checkboxes'</span>, <span
 class="php-quote">'my-text-domain'</span> ),
-)
+     )
 );</pre>
 
 
@@ -298,22 +296,22 @@ class="php-quote">'my-text-domain'</span> ),
 <h4>In-Page Tab Array</h4>
 
 <ul>
-	<li><strong>page_slug</strong> - ( string ) the page slug that the tab belongs
+	<li><strong>page_slug</strong> - (string) the page slug that the tab belongs
 	to.</li>
 
-	<li><strong>tab_slug</strong> - ( string ) the tab slug. Non-alphabetical
+	<li><strong>tab_slug</strong> - (string) the tab slug. Non-alphabetical
 	characters should not be used including dots(.) and hyphens(-).</li>
 
-	<li><strong>title</strong> - ( string ) the title of the tab.</li>
+	<li><strong>title</strong> - (string) the title of the tab.</li>
 
-	<li><strong>order</strong> - ( optional, integer ) the order number of the tab.
+	<li><strong>order</strong> - (optional, integer) the order number of the tab.
 	The lager the number is, the lower the position it is placed in the menu.</li>
 
-	<li><strong>show_in_page_tab</strong> - ( optional, boolean ) default: false. If
+	<li><strong>show_in_page_tab</strong> - (optional, boolean) default: false. If
 	this is set to false, the tab title will not be displayed in the tab navigation
 	menu; however, it is still accessible from the direct URL.</li>
 
-	<li><strong>parent_tab_slug</strong> - ( optional, string ) this needs to be set
+	<li><strong>parent_tab_slug</strong> - (optional, string) this needs to be set
 	if the above show_in_page_tab is true so that the parent tab will be emphasized
 	as active when the hidden page is accessed.</li>
 </ul>
@@ -682,50 +680,6 @@ class="php-quote">'h2'</span> );
 
 					<h4>Overrides</h4>
 					<div class="list"><code>AdminPageFramework_Base::setPageHeadingTabTag</code></div>
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="_finalizeInPageTabs" id="__finalizeInPageTabs">
-
-			<td class="attributes"><code>
-				 protected 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#__finalizeInPageTabs">#</a>
-			<code>_finalizeInPageTabs( )</code>
-
-			<div class="description short" style="display:none;">
-				
-<p>Finalizes the in-page tab property array.</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Finalizes the in-page tab property array.</p>
-
-<p>This finalizes the added in-page tabs and sets the default in-page tab for
-each page. Also this sorts the in-page tab property array. This must be done
-before registering settings sections because the default tab needs to be
-determined in the process.</p>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							2.0.0<br>
-							3.3.0 Changed the name from _replyToFinalizeInPageTabs() and been no longer a
-callback.<br>
-					</div>
-
 
 			</div>
 			</div></td>
