@@ -647,7 +647,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'field_id'      => 'revealer_field_by_id',
                 'type'          => 'revealer',     
                 'title'         => __( 'Reveal Hidden Fields' ),
-                'value'         => 'undefined', // always set the 'Select a Field' label.
+                // 'value'         => 'undefined', // always set the 'Select a Field' label.
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
                     'undefined' => __( '-- Select a Field --', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_a' => __( 'Option A', 'admin-page-framework-demo' ),     
@@ -672,7 +672,47 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'type'          => 'text',     
                 'description'   => __( 'Type text.', 'admin-page-framework-demo' ),     
                 'hidden'        => true,
-            )
+            ),
+            array(
+                'field_id'      => 'another_revealer_field',
+                'type'          => 'revealer',     
+                'title'         => __( 'Another Hidden Fields' ),
+                'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
+                    '#fieldrow-revealer_revealer_field_option_d' => __( 'Option D', 'admin-page-framework-demo' ),     
+                    '#fieldrow-revealer_revealer_field_option_e' => __( 'Option E', 'admin-page-framework-demo' ),
+                    '#fieldrow-revealer_revealer_field_option_f' => __( 'Option F', 'admin-page-framework-demo' ),
+                ),
+                'default'       => '#fieldrow-revealer_revealer_field_option_e',
+            ),
+            array(
+                'field_id'      => 'revealer_field_option_d',
+                'type'          => 'textarea',     
+                'rich'          => true,
+                'hidden'        => true,
+            ),        
+            array(
+                'field_id'      => 'revealer_field_option_e',
+                'type'          => 'radio',
+                'hidden'        => true,
+                'label'         => array(
+                    'a' => __( 'A', 'admin-page-framework-demo' ),
+                    'b' => __( 'B', 'admin-page-framework-demo' ),
+                    'c' => __( 'C', 'admin-page-framework-demo' ),
+                ),
+                'default'       => 'c',
+            ),                        
+            array(
+                'field_id'      => 'revealer_field_option_f',
+                'type'          => 'select',     
+                'hidden'        => true,
+                'label'         => array(
+                    'i'     => __( 'i', 'admin-page-framework-demo' ),
+                    'ii'    => __( 'ii', 'admin-page-framework-demo' ),
+                    'iii'   => __( 'iii', 'admin-page-framework-demo' ),
+                ),                
+                'default'       => 'ii',
+            ),      
+            array()            
         );
         $this->addSettingFields(
             'grid', // the target section id

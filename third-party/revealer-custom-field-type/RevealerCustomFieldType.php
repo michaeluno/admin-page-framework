@@ -39,6 +39,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	public function setUp() {
 				
 		if ( ! self::$_bIsLoaded ) {
+            wp_enqueue_script( 'jquery' );
 			self::$_bIsLoaded = add_action( 'admin_footer', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
 		}
 		
@@ -89,10 +90,10 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	 * Returns the output of the field type.
 	 */
 	protected function getField( $aField ) { 
-				
+
 		$aSelectAttributes = array(
-			'id'	=>	$aField['input_id'],
-			'multiple'	=>	$aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
+			'id'	    => $aField['input_id'],
+			'multiple'	=> $aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
 		) + $aField['attributes']['select'];
 		$aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
 
@@ -111,8 +112,8 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 				. "</label>"					
 			. "</div>"
 			. $aField['after_label']
-			. $this->getRevealerScript( $aField['input_id'] )
-			. $this->getConcealerScript( $aField['label'] )
+            . $this->_getRevealerScript( $aField['input_id'] )
+			. $this->_getConcealerScript( $aField['input_id'], $aField['label'], $aField['value'] )
 			;
 		
 	}
@@ -162,25 +163,42 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 			
 		}
 		
-		private function getRevealerScript( $sInputID ) {
+		private function _getRevealerScript( $sInputID ) {
 			return 
 				"<script type='text/javascript' >
 					jQuery( document ).ready( function(){
-						jQuery( '#{$sInputID}' ).reveal();
+						jQuery( '#{$sInputID}' ).setRevealer();
 					});				
 				</script>";	
-		}
-		private function getConcealerScript( $aLabels ) {
+		}        
+		private function _getConcealerScript( $sSelectorID, $aLabels, $asCurrentSelection ) {
 			
-			unset( $aLabels['undefined'] );	// this is an internal reserved key	
-			
-			$aLabels = json_encode( array_keys( $aLabels ) );	// encode it to be usable in JavaScript
+            $_aCurrentSelection = $this->getAsArray( $asCurrentSelection );
+            unset( $_aCurrentSelection['undefined'] );	// an internal reserved key	
+            if( ( $_sKey = array_search( 'undefined' , $_aCurrentSelection) ) !== false ) {
+                unset( $_aCurrentSelection[ $_sKey ] );
+            }            
+            $_sCurrentSelection = json_encode( $_aCurrentSelection );            
+            
+            unset( $aLabels['undefined'] );
+            $aLabels    = array_keys( $aLabels );
+			$_sLabels   = json_encode( $aLabels );	// encode it to be usable in JavaScript
 			return 
 				"<script type='text/javascript' class='admin-page-framework-revealer-field-type-concealer-script'>
 					jQuery( document ).ready( function(){
-						jQuery.each( {$aLabels}, function( sKey, sValue ) {
+
+						jQuery.each( {$_sLabels}, function( iIndex, sValue ) {
+
+                            /* If it is a selected item, show it */
+                            if ( jQuery.inArray( sValue, {$_sCurrentSelection} ) !== -1 ) { 
+                                jQuery( sValue ).show();
+                                return true;    // continue
+                            }
+                                                     
 							jQuery( sValue ).hide();
+                            
 						});
+                        jQuery( {$sSelectorID} ).trigger( 'change' );
 					});				
 				</script>";
 				
@@ -191,27 +209,42 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 	 * @since			3.0.0
 	 */
 	public function _replyToAddRevealerjQueryPlugin() {
-		
+		        
 		$sScript = "
-		(function ( $ ) {
-		
-			$.fn.reveal = function() {
-				
-				var aSettings = [];
-				this.change( function() {
-					
-					var _sTargetSelector = jQuery( this ).val();
-					var nodeElementToReveal = jQuery( _sTargetSelector );
-					if ( _sTargetSelector == 'undefined' ) return;
-					
-					var sLastRevealedSelector = aSettings.hasOwnProperty( 'last_revealed_id' ) ? aSettings['last_revealed_id'] : undefined;
-					aSettings['last_revealed_id'] = _sTargetSelector;
-					$( sLastRevealedSelector ).hide();	// hide the previously hidden element.
-					nodeElementToReveal.show();
-				});
-				
-			};
+		( function ( $ ) {
+		    
+            /**
+             * Stores revealer settings
+             */ 
+            $.fn.aRevealerSettings = {};
+            
+            /**
+             * Binds the revealer event to the element.
+             */
+			$.fn.setRevealer = function() {
 
+                var _aSettings = {};
+				this.change( function() {
+                    
+                    var _sTargetSelector    = jQuery( this ).val();
+                    var _oElementToReveal   = jQuery( _sTargetSelector );                   
+                    var sLastRevealedSelector = _aSettings.hasOwnProperty( 'last_revealed_selector' ) 
+                        ? _aSettings['last_revealed_selector'] 
+                        : undefined;
+                    _aSettings['last_revealed_selector'] = _sTargetSelector;
+                    
+                    // Hide the previously hidden element.
+                    $( sLastRevealedSelector ).hide();	
+                    
+                    if ( 'undefined' === _sTargetSelector ) { 
+                        return; 
+                    }
+                    _oElementToReveal.show();                                       
+                    
+				});
+                
+			};
+                        
 		}( jQuery ));";
 		
 		echo "<script type='text/javascript' class='admin-page-framework-revealer-jQuery-plugin'>{$sScript}</script>";
