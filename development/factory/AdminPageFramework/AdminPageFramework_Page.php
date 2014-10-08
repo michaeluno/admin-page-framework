@@ -707,6 +707,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * @since       2.0.0
      * @since       3.3.0   Changed the name from _replyToFinalizeInPageTabs() and been no longer a callback.
      * @return      void
+     * @internal
      */         
     protected function _finalizeInPageTabs() {
 
