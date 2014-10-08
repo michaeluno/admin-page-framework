@@ -476,16 +476,30 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 margin-top: 0.4em;
                 margin-bottom: 0.8em;
                 display: block; 
-                
+                max-width: 100%;
+                height: auto;                
             }     
+
+            .admin-page-framework-field .image_preview img {     
+                height: auto; 
+                max-width: 100%;
+                display: block;         
+            }
+           
             @media only screen and ( max-width: 1200px ) {
                 .admin-page-framework-field .image_preview {
                     max-width: 600px;
                 }
+                .widget .admin-page-framework-field .image_preview {
+                    max-width: 400px;
+                }                
             } 
             @media only screen and ( max-width: 900px ) {
                 .admin-page-framework-field .image_preview {
                     max-width: 440px;
+                }
+                .widget .admin-page-framework-field .image_preview {
+                    max-width: 320px;
                 }
             }    
             @media only screen and ( max-width: 600px ) {
@@ -503,12 +517,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                     max-width: 600px;
                 }
             }  
-            .admin-page-framework-field .image_preview img {     
-                width: auto;
-                height: auto; 
-                max-width: 100%;
-                display: block;
-            }
+
             /* Image Uploader Input Field */
             .admin-page-framework-field-image input {
                 margin-right: 0.5em;
