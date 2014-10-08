@@ -113,7 +113,9 @@ class DialCustomFieldType extends AdminPageFramework_FieldType {
 			.admin-page-framework-field-dial .admin-page-framework-input-label-string {
 				vertical-align: top;
 			}
-			
+            .admin-page-framework-field-dial input[type='text'].knob {
+                display: inline-block;
+            }			
 		";
 	}
 
