@@ -423,7 +423,7 @@ return "
     
     /* The framework render fields with table elements and those container border seems to affect the width of fields */
     .widget .admin-page-framework-fields {
-        width: 99.4%;
+        width: 99.2%;
     }    
     .widget .admin-page-framework-field input[type='checkbox'], 
     .widget .admin-page-framework-field input[type='radio'] 
