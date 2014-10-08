@@ -20,6 +20,7 @@ the file LICENSE.md that was distributed with this source code.
 
 	{if $subpackages}
 	<h2>Packages summary</h2>
+    
 	<table class="summary table table-bordered table-striped" id="packages">
 	<tr n:foreach="$subpackages as $package">
 		<td class="name"><a href="{$package|packageUrl}">{$package}</a></td>

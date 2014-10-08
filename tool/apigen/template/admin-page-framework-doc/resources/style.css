@@ -525,3 +525,20 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
 .summary .description.detailed h4 {
 	margin-top: 8px;
 }
+#content ul, 
+#content ol
+{
+    margin: 1em;
+    margin-left: 1.5em;
+}
+#content li ul,
+#content li ol 
+{
+    margin-top: 0.2em;
+    margin-bottom: 0;
+}
+
+#content pre {
+    margin-top: 1em;
+    margin-left: 1.5em;
+}

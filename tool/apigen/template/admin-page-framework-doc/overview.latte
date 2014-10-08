@@ -38,6 +38,7 @@ the file LICENSE.md that was distributed with this source code.
 	{if $packages}
 	{if}
 	<h2>Packages summary</h2>
+
 	<table class="summary table table-bordered table-striped" id="packages">
 	{foreach $packages as $package}
 	{continueIf $config->main && 0 !== strpos($package, $config->main)}
