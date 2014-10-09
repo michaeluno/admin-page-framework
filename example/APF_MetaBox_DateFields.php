@@ -51,7 +51,7 @@ class APF_MetaBox_DateFields extends AdminPageFramework_MetaBox {
      */
     public function validation_APF_MetaBox_DateFields( $aInput, $aOldInput, $oAdminPage ) { // validation_{instantiated class name}
         
-        // Let's store the date set in the 'metabox_date' field as a timestamp so that we'll retrieve posts based on the set date later in the example hidden page.
+        // Let's store the date set in the 'my_custom_date' field as a timestamp so that we'll retrieve posts based on the set date later in the example hidden page.
         global $post;
         $_iTimestamp = isset( $aInput['my_custom_date'] ) ? strtotime( $aInput['my_custom_date'] ) : 0;
         update_post_meta( $post->ID, '_my_custom_date_timestamp', $_iTimestamp );
