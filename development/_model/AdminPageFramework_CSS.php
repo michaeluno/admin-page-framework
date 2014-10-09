@@ -178,6 +178,7 @@ td.admin-page-framework-field-td-no-title {
 .admin-page-framework-fields {
     display: table; /* the block property does not give the element the solid height */
     width: 100%;
+    table-layout: fixed;    /* in Firefox fixes the issue that preview images causes the container element to expand */
 }
 
 /* Number Input */
