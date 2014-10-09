@@ -9,97 +9,97 @@ if ( ! class_exists( 'ImageRadioCustomFieldType' ) ) :
  * @internal
  */
 class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
-		
-	/**
-	 * Defines the field type slugs used for this field type.
-	 * 
-	 * The slug is used for the type key in a field definition array.
-	 * 	$this->addSettingFields(
-			array(
-				'section_id'	=> ...,
-				'type'          => 'image_radio',		// <--- THIS PART
-				'field_id'      => ...,
-				'title'		    => ...,
-			)
-		);
-	 */
-	public $aFieldTypeSlugs = array( 'image_radio', );
-	
-	/**
-	 * Defines the default key-values of this field type. 
-	 * 
-	 * The keys are used for the field definition array.
-	 * 	$this->addSettingFields(
-			array(
-				'section_id'    => ...,
-				'type'          => ...,
-				'field_id'      => ...,
-				'my_custom_key' => ...,	// <-- THIS PART
-			)
-		);
-	 * @remark			$_aDefaultKeys holds shared default key-values defined in the base class.
-	 */
-	protected $aDefaultKeys = array(
+        
+    /**
+     * Defines the field type slugs used for this field type.
+     * 
+     * The slug is used for the type key in a field definition array.
+     * <code>$this->addSettingFields(
+     *       array(
+     *           'section_id'    => ...,
+     *           'type'          => 'image_radio',        // <--- THIS PART
+     *           'field_id'      => ...,
+     *           'title'         => ...,
+     *       )
+     *   );</code>
+     */
+    public $aFieldTypeSlugs = array( 'image_radio', );
+    
+    /**
+     * Defines the default key-values of this field type. 
+     * 
+     * The keys are used for the field definition array.
+     * <code>$this->addSettingFields(
+     *      array(
+     *          'section_id'    => ...,
+     *          'type'          => ...,
+     *          'field_id'      => ...,
+     *          'my_custom_key' => ...,    // <-- THIS PART
+     *      )
+     *  );</code>
+     * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
+     */
+    protected $aDefaultKeys = array(
         'label_min_width'   => '',
         'width'             => 64,
         'height'            => 64,
-		'attributes'	    =>	array(),	
-	);
+        'attributes'        => array(),    
+    );
 
-	/**
-	 * The user constructor.
-	 * 
-	 * Loaded at the end of the constructor.
-	 */
-	public function construct() {}
-		
-	/**
-	 * Loads the field type necessary components.
-	 * 
-	 * This method is triggered when a field definition array that calls this field type is parsed. 
-	 */ 
-	public function setUp() {}	
+    /**
+     * The user constructor.
+     * 
+     * Loaded at the end of the constructor.
+     */
+    public function construct() {}
+        
+    /**
+     * Loads the field type necessary components.
+     * 
+     * This method is triggered when a field definition array that calls this field type is parsed. 
+     */ 
+    public function setUp() {}    
 
-	/**
-	 * Returns an array holding the urls of enqueuing scripts.
-	 * 
-	 * The returning array should be composed with all numeric keys. Each element can be either a string( the url or the path of the source file) or an array of custom argument.
-	 * 
-	 * <h4>Custom Argument Array</h4>
-	 * <ul>
-	 * 	<li><strong>src</strong> - ( required, string ) The url or path of the target source file</li>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-	 * 	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
-	 * </ul>	 
-	 */
-	protected function getEnqueuingScripts() { 
-		return array();
-	}
-	
-	/**
-	 * Returns an array holding the urls of enqueuing styles.
-	 * 
-	 * <h4>Custom Argument Array</h4>
-	 * <ul>
-	 * 	<li><strong>src</strong> - ( required, string ) The url or path of the target source file</li>
-	 * 	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-	 * 	<li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-	 * 	<li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
-	 * 	<li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
-	 * </ul>
-	 */
-	protected function getEnqueuingStyles() { 
-		return array();
-	}			
+    /**
+     * Returns an array holding the urls of enqueuing scripts.
+     * 
+     * The returning array should be composed with all numeric keys. Each element can be either a string( the url or the path of the source file) or an array of custom argument.
+     * 
+     * <h4>Custom Argument Array</h4>
+     * <ul>
+     *     <li><strong>src</strong> - ( required, string ) The url or path of the target source file</li>
+     *     <li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
+     *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
+     *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
+     *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+     * </ul>     
+     */
+    protected function getEnqueuingScripts() { 
+        return array();
+    }
+    
+    /**
+     * Returns an array holding the urls of enqueuing styles.
+     * 
+     * <h4>Custom Argument Array</h4>
+     * <ul>
+     *     <li><strong>src</strong> - ( required, string ) The url or path of the target source file</li>
+     *     <li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
+     *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+     *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
+     *     <li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+     * </ul>
+     */
+    protected function getEnqueuingStyles() { 
+        return array();
+    }            
 
 
-	/**
-	 * Returns the field type specific JavaScript script.
-	 */ 
-	protected function getScripts() { 
+    /**
+     * Returns the field type specific JavaScript script.
+     */ 
+    protected function getScripts() { 
 
         /* The below JavaScript function will be triggered when a new repeatable field is added. Since the APF repeater script does not
             renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */    
@@ -130,21 +130,18 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
             });
         ";      
     
-	}
+    }
 
-	/**
-	 * Returns IE specific CSS rules.
-	 */
-	protected function getIEStyles() { return ''; }
+    /**
+     * Returns IE specific CSS rules.
+     */
+    protected function getIEStyles() { return ''; }
 
-	/**
-	 * Returns the field type specific CSS rules.
-	 */ 
-	protected function getStyles() {
-		return "
-
-
-
+    /**
+     * Returns the field type specific CSS rules.
+     */ 
+    protected function getStyles() {
+        return "
 .admin-page-framework-field-image_radio .admin-page-framework-input-label-string {
     display: none;
 }   
@@ -172,20 +169,17 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
     margin-bottom: 1em;
 }
         ";
-        
-
-        
-	}
-	
-	/**
-	 * Returns the output of the geometry custom field type.
-	 * 
-	 */
-	/**
-	 * Returns the output of the field type.
-	 */
-	protected function getField( $aField ) { 
-			
+    }
+    
+    /**
+     * Returns the output of the geometry custom field type.
+     * 
+     */
+    /**
+     * Returns the output of the field type.
+     */
+    protected function getField( $aField ) { 
+            
         $_aOutput   = array();
         $_sValue    = $aField['attributes']['value'];
         
@@ -206,7 +200,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
             $_aInputAttributesIE8OrBelow = $_aInputAttributes + array(
                 'style'     => $this->generateInlineCSS(
                     array(
-                        'display'               => 'inline-block',
+                        'display' => 'inline-block',
                     )
                 ),       
             );                
@@ -270,7 +264,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
         $_aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
         return implode( PHP_EOL, $_aOutput );
             
-	}	
+    }    
   
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
