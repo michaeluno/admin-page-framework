@@ -13,28 +13,28 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'date_format'       =>    'yy/mm/dd',
+        'date_format'       => 'yy/mm/dd',
         'label_min_width'   => 40, // in pixels
-        'label'             =>    array(
+        'label'             => array(
             'from'  =>    null,
             'to'    =>    null,
         ),
-        'attributes'        =>    array(
+        'attributes'        => array(
             'from'    =>    array(
-                'size'        =>    10,
-                'maxlength'   =>    400,
+                'size'        => 10,
+                'maxlength'   => 400,
             ),
             'to'    =>    array(
-                'size'        =>    10,
-                'maxlength'   =>    400,
+                'size'        => 10,
+                'maxlength'   => 400,
             ),            
         ),    
         'options'        =>    array(
             'from'  =>    array(
-                'showButtonPanel'    =>    false,
+                'showButtonPanel'    => false,
             ),
             'to'    =>    array(
-                'showButtonPanel'    =>    false,            
+                'showButtonPanel'    => false,            
             ),
         ),        
     );
@@ -208,27 +208,27 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
         
         // Attributes
         $_aInputAttributes_From = array(
-            'type'    =>    'text',
-            'id'    =>    $aField['input_id'] . '_from',
-            'name'    =>    $aField['_input_name'] . '[from]',
-            'value'    =>    isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
+            'type'     => 'text',
+            'id'       => $aField['input_id'] . '_from',
+            'name'     => $aField['_input_name'] . '[from]',
+            'value'    => isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
         ) + $aField['attributes']['from'] + $aField['attributes'];
-        $_aInputAttributes_From['class']    .= ' from datepicker';
+        $_aInputAttributes_From['class'] .= ' from datepicker';
         $_aInputAttributes_To = array(
-            'type'    =>    'text',
-            'id'    =>    $aField['input_id'] . '_to',
-            'name'    =>    $aField['_input_name'] . '[to]',
-            'value'    =>    isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : '',
+            'type'     => 'text',
+            'id'       => $aField['input_id'] . '_to',
+            'name'     => $aField['_input_name'] . '[to]',
+            'value'    => isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : '',
         ) + $aField['attributes']['to'] + $aField['attributes'];
-        $_aInputAttributes_To['class']    .= ' to datepicker';
+        $_aInputAttributes_To['class'] .= ' to datepicker';
     
         // Labels
         $aField['label']['from'] = isset( $aField['label']['from'] ) ? $aField['label']['from'] : __( 'From', 'admin-page-framework' ) . ':';
-        $aField['label']['to'] = isset( $aField['label']['to'] ) ? $aField['label']['to'] : __( 'To', 'admin-page-framework' ) . ':';
+        $aField['label']['to']   = isset( $aField['label']['to'] ) ? $aField['label']['to'] : __( 'To', 'admin-page-framework' ) . ':';
         
         // Options
         $_aOptions_From = $this->_getSubOptions( 'from', $aField['options'] );
-        $_aOptions_To = $this->_getSubOptions( 'to', $aField['options'] );
+        $_aOptions_To   = $this->_getSubOptions( 'to', $aField['options'] );
                 
         return 
             $aField['before_label']

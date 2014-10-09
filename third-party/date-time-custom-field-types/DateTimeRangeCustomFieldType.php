@@ -32,10 +32,10 @@ class DateTimeRangeCustomFieldType extends AdminPageFramework_FieldType {
         ),    
         'options'        =>    array(
             'from'    =>    array(
-                'showButtonPanel'    => false,
+                'showButtonPanel' => false,
             ),
             'to'    =>    array(
-                'showButtonPanel'    => false,            
+                'showButtonPanel' => false,            
             ),
         ),        
     );
@@ -55,7 +55,7 @@ class DateTimeRangeCustomFieldType extends AdminPageFramework_FieldType {
         return array(
             array( 'src' => dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),    
             array( 'src' => dirname( __FILE__ ) . '/js/apf_date_range.js', ),    
-            array( 'src' => dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies'    => array( 'jquery-ui-datepicker' ) ),
+            array( 'src' => dirname( __FILE__ ) . '/js/jquery-ui-timepicker-addon.min.js', 'dependencies' => array( 'jquery-ui-datepicker' ) ),
         );
     }    
 
@@ -210,19 +210,19 @@ class DateTimeRangeCustomFieldType extends AdminPageFramework_FieldType {
         
         // Attributes
         $_aInputAttributes_From = array(
-            'type'    =>    'text',
-            'id'    =>    $aField['input_id'] . '_from',
-            'name'    =>    $aField['_input_name'] . '[from]',
-            'value'    =>    isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
+            'type'    => 'text',
+            'id'      => $aField['input_id'] . '_from',
+            'name'    => $aField['_input_name'] . '[from]',
+            'value'   => isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
         ) + $aField['attributes']['from'] + $aField['attributes'];
-        $_aInputAttributes_From['class']    .= ' from datetimepicker';
+        $_aInputAttributes_From['class'] .= ' from datetimepicker';
         $_aInputAttributes_To = array(
-            'type'    =>    'text',
-            'id'    =>    $aField['input_id'] . '_to',
-            'name'    =>    $aField['_input_name'] . '[to]',
-            'value'    =>    isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : '',
+            'type'    => 'text',
+            'id'      => $aField['input_id'] . '_to',
+            'name'    => $aField['_input_name'] . '[to]',
+            'value'   => isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : '',
         ) + $aField['attributes']['to'] + $aField['attributes'];
-        $_aInputAttributes_To['class']    .= ' to datetimepicker';
+        $_aInputAttributes_To['class'] .= ' to datetimepicker';
     
         // Labels
         $aField['label']['from'] = isset( $aField['label']['from'] ) ? $aField['label']['from'] : __( 'From', 'admin-page-framework' ) . ':';
@@ -266,9 +266,9 @@ class DateTimeRangeCustomFieldType extends AdminPageFramework_FieldType {
         protected function _getDatePickerEnablerScript( $sInputID, $sDateFormat, $sTimeFormat, $asOptions_From, $asOptions_To ) {
             
             $_sInputID_From    = $sInputID . '_from';
-            $_sInputID_To    = $sInputID . '_to';
+            $_sInputID_To      = $sInputID . '_to';
             $_sOptions_From    = $this->_getEncodedOptions( $asOptions_From, $sDateFormat, $sTimeFormat );
-            $_sOptions_To     = $this->_getEncodedOptions( $asOptions_To, $sDateFormat, $sTimeFormat );
+            $_sOptions_To      = $this->_getEncodedOptions( $asOptions_To, $sDateFormat, $sTimeFormat );
             return     
                 "<script type='text/javascript' class='date-time-picker-enabler-script' >            
                     jQuery( document ).ready( function() {

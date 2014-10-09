@@ -210,9 +210,9 @@ class TimeCustomFieldType extends AdminPageFramework_FieldType {
                     jQuery( document ).ready( function() {
                         jQuery( document ).on( 'focus', 'input#{$sInputID}:not(.hasDatepicker)', function() {
                             jQuery( '#{$sInputID}' ).timepicker({$_sOptions});
-                            var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
-                            jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});    
                         });                                            
+                        var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
+                        jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});                            
                     });
                 </script>";
         }

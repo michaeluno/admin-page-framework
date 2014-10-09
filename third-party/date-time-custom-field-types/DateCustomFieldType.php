@@ -13,13 +13,13 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'date_format'    =>    'yy/mm/dd',
-        'attributes'    =>    array(
-            'size'    =>    10,
-            'maxlength'    =>    400,
+        'date_format'    => 'yy/mm/dd',
+        'attributes'     => array(
+            'size'      => 10,
+            'maxlength' => 400,
         ),    
-        'options'        =>    array(
-            'showButtonPanel'    =>    false,
+        'options'        => array(
+            'showButtonPanel'    => false,
         ),        
     );
         
@@ -36,7 +36,7 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
      */
     protected function getEnqueuingScripts() { 
         return array(
-            array( 'src'    => dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),    
+            array( 'src' => dirname( __FILE__ ) . '/js/datetimepicker-option-handler.js', ),
         );
     }    
 
@@ -177,10 +177,10 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
     protected function getField( $aField ) { 
             
         $aInputAttributes = array(
-            'type'    =>    'text',
-            'data-date_format'    => $aField['date_format'],
+            'type'              => 'text',
+            'data-date_format'  => $aField['date_format'],
         ) + $aField['attributes'];
-        $aInputAttributes['class']    .= ' datepicker';
+        $aInputAttributes['class'] .= ' datepicker';
         return 
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container'>"
@@ -217,9 +217,9 @@ class DateCustomFieldType extends AdminPageFramework_FieldType {
                     jQuery( document ).ready( function() {
                         jQuery( document ).on( 'focus', 'input#{$sInputID}:not(.hasDatepicker)', function() {
                             jQuery( this ).datepicker( {$_sOptions} );
-                            var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
-                            jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});        
                         });
+                        var sOptionID = jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-sections' ).attr( 'id' ) + '_' + jQuery( '#{$sInputID}' ).closest( '.admin-page-framework-fields' ).attr( 'id' );
+                        jQuery( '#{$sInputID}' ).setDateTimePickerOptions( sOptionID, {$_sOptions});                                
                     });
                 </script>";
         }
