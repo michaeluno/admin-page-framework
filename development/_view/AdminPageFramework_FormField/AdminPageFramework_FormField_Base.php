@@ -85,8 +85,9 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
          * @internal
          */
         private function _loadScripts( $sFieldsType='' ) {
-            
+
             if ( 'widget' === $sFieldsType && ! self::$_bIsLoadedSScripts_Widget ) {
+                add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddWidgetEventHanderjQueryScript' ) );
                 add_action( 'admin_footer', array( $this, '_replyToAddWidgetEventHanderjQueryScript' ) );
                 self::$_bIsLoadedSScripts_Widget = true;
             }
@@ -94,11 +95,17 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
             if ( self::$_bIsLoadedSScripts ) { return; }
             
             self::$_bIsLoadedSScripts = true;
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddUtilityPlugins' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddUtilityPlugins' ) );
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToOptionsStoragejQueryPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToOptionsStoragejQueryPlugin' ) );
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddAttributeUpdaterjQueryPlugin' ) );
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddRepeatableFieldjQueryPlugin' ) );
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddSortableFieldPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddSortableFieldPlugin' ) );
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddRegisterCallbackjQueryPlugin' ) );
                         
         }
@@ -158,13 +165,13 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
                 });
             </script>";
     }
-        
+    
     /**
      * Returns the framework's repeatable field jQuery plugin.
      * @since 3.0.0
      */
     public function _replyToAddRepeatableFieldjQueryPlugin() {
-        
+
         echo "<script type='text/javascript' class='admin-page-framework-repeatable-fields-plugin'>"
                 . AdminPageFramework_Script_RepeatableField::getjQueryPlugin( $this->oMsg->get( 'allowed_maximum_number_of_fields' ), $this->oMsg->get( 'allowed_minimum_number_of_fields' ) )
             . "</script>";
@@ -176,7 +183,7 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
      * @since   3.1.6
      */
     public function _replyToOptionsStoragejQueryPlugin() {
-
+ 
         echo "<script type='text/javascript' class='admin-page-framework-options-storage'>"
                 . AdminPageFramework_Script_OptionStorage::getjQueryPlugin()
             . "</script>";        
@@ -188,31 +195,31 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
      * @since 3.0.0
      */
     public function _replyToAddAttributeUpdaterjQueryPlugin() {
-        
+     
         echo "<script type='text/javascript' class='admin-page-framework-attribute-updater'>"
                 . AdminPageFramework_Script_AttributeUpdator::getjQueryPlugin()
             . "</script>";
         
     }
-    
+
     /**
      * Returns the JavaScript script that adds the methods to jQuery object that enables for the user to register framework specific callback methods.
      * @since 3.0.0
      */
     public function _replyToAddRegisterCallbackjQueryPlugin() {
-                
+               
         echo "<script type='text/javascript' class='admin-page-framework-register-callback'>"
                 . AdminPageFramework_Script_RegisterCallback::getjQueryPlugin()
             . "</script>";
 
     }
-    
+
     /**
      * Adds Admin Page Framework's jQuery utility plugins.
      * @since 3.0.0
      */
     public function _replyToAddUtilityPlugins() {
-        
+ 
         echo "<script type='text/javascript' class='admin-page-framework-utility-plugins'>"
                 . AdminPageFramework_Script_Utility::getjQueryPlugin()
             . "</script>";
@@ -227,8 +234,8 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
      * @see https://github.com/farhadi/
      */
     public function _replyToAddSortableFieldPlugin() {
-        
-        wp_enqueue_script( 'jquery-ui-sortable' );
+
+        wp_enqueue_script( 'jquery-ui-sortable' ); 
         echo "<script type='text/javascript' class='admin-page-framework-sortable-field-plugin'>"
                 . AdminPageFramework_Script_Sortable::getjQueryPlugin()
             . "</script>";
@@ -242,11 +249,6 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
     * @internal
     */   
     public function _replyToAddWidgetEventHanderjQueryScript() {
-        
-        // If the WordPress version is greater than or equal to 4.0, do not add the script.
-        // if ( version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
-            // return;
-        // }
         
         echo "<script type='text/javascript' class='admin-page-framework-widget-event-handler'>"
                 . AdminPageFramework_Script_Widget::getjQueryPlugin()
