@@ -477,29 +477,27 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
                 margin-bottom: 0.8em;
                 display: block; 
                 max-width: 100%;
-                height: auto;                
+                height: auto;   
+                width: inherit;                
             }     
 
             .admin-page-framework-field .image_preview img {     
                 height: auto; 
                 max-width: 100%;
+                width: inherit;
                 display: block;         
             }
-           
+            .widget .admin-page-framework-field .image_preview {
+                max-width: 100%;
+            }            
             @media only screen and ( max-width: 1200px ) {
                 .admin-page-framework-field .image_preview {
                     max-width: 600px;
-                }
-                .widget .admin-page-framework-field .image_preview {
-                    max-width: 400px;
-                }                
+                }             
             } 
             @media only screen and ( max-width: 900px ) {
                 .admin-page-framework-field .image_preview {
                     max-width: 440px;
-                }
-                .widget .admin-page-framework-field .image_preview {
-                    max-width: 320px;
                 }
             }    
             @media only screen and ( max-width: 600px ) {
