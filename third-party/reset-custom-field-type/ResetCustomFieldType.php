@@ -22,14 +22,14 @@ class ResetCustomFieldType extends AdminPageFramework_FieldType {
      * Defines the field type slugs used for this field type.
      * 
      * The slug is used for the type key in a field definition array.
-     *     $this->addSettingFields(
-            array(
-                'section_id'    => '...',
-                'type'          => 'reset',        // <--- THIS PART
-                'field_id'      => '...',
-                'title'         => '...',
-            )
-        );
+     * <code>$this->addSettingFields(
+     *      array(
+     *          'section_id'    => '...',
+     *          'type'          => 'reset',        // <--- THIS PART
+     *          'field_id'      => '...',
+     *          'title'         => '...',
+     *      )
+     *  );</code>
      */
     public $aFieldTypeSlugs = array( 'reset', );
     
@@ -37,14 +37,14 @@ class ResetCustomFieldType extends AdminPageFramework_FieldType {
      * Defines the default key-values of this field type. 
      * 
      * The keys are used for the field definition array.
-     *     $this->addSettingFields(
-            array(
-                'section_id'    => '...',    
-                'type'          => '...',
-                'field_id'      => '...',
-                'my_custom_key' => '...',    // <-- THIS PART
-            )
-        );
+     * <code>$this->addSettingFields(
+     *      array(
+     *          'section_id'    => '...',    
+     *          'type'          => '...',
+     *          'field_id'      => '...',
+     *          'my_custom_key' => '...',    // <-- THIS PART
+     *      )
+     *  );</code>
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
