@@ -61,7 +61,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( 'jquery-ui-core' );
 
-         wp_enqueue_script(
+        wp_enqueue_script(
             'getAPFFontUploaderSelectObject',
             $this->resolveSRC( dirname( __FILE__ ) . '/js/getAPFFontUploaderSelectObject.js' ),
             array( 'jquery' )    // dependency
