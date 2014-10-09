@@ -459,6 +459,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that the TinyMCE rich editor could not be enabled in widget forms.
 - Fixed an issue that Quick Tags of rich editors could not be repeated.
 - Fixed an issue that values set to textarea tags were not escaped.
+- Tweaked the timinig of jQuery event binding of the `date`, 'date_time', and 'time' custom field types.
 - Tweaked the styling of remove buttons for `image`, `media`, `font` field types for WordPress 3.7.x or below.
 - Tweaked the styling of sortable fields.
 - Tweaked the styling of widget forms.
