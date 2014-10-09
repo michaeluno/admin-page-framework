@@ -212,6 +212,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
          */
         private function getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
             
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddRepeatableSectionjQueryPlugin' ) );
             add_action( 'admin_footer', array( $this, '_replyToAddRepeatableSectionjQueryPlugin' ) );
             
             if ( empty( $aSettings ) ) return '';     

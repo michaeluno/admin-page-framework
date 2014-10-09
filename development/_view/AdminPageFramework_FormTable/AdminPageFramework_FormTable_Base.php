@@ -49,6 +49,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
             
             if ( self::$_bIsLoadedTabPlugin ) { return; }
             
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddTabPlugin' ) );
             self::$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) );
             
         }
