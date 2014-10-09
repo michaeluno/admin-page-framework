@@ -229,7 +229,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         wp_enqueue_style( 'thickbox' );
     
         if ( function_exists( 'wp_enqueue_media' ) ) {     // means the WordPress version is 3.5 or above
-            add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 ); // 
+            add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 ); 
+            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToEnqueueMedia' ), 1 );  
         } else {
             wp_enqueue_script( 'media-upload' );    
         }
