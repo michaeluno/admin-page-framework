@@ -649,7 +649,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'type'          => 'revealer',     
                 'title'         => __( 'Reveal Hidden Fields' ),
                 // 'value'         => 'undefined', // always set the 'Select a Field' label.
-                'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
+                'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{section id}_{field id}
                     'undefined' => __( '-- Select a Field --', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_a' => __( 'Option A', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_b, #fieldrow-revealer_revealer_field_option_c' => __( 'Option B and C', 'admin-page-framework-demo' ),
