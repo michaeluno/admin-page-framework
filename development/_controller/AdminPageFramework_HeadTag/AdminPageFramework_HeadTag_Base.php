@@ -76,17 +76,28 @@ abstract class AdminPageFramework_HeadTag_Base {
             return;
         }     
         
-        // Hook the admin header to insert custom admin stylesheet.
+        // Hook the admin header to insert custom admin stylesheets and scripts.
         add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ) );
         add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueStyles' ) );
-        add_action( did_action( 'admin_head' ) ? 'admin_footer' : 'admin_head', array( $this, '_replyToAddStyle' ), 999 );
-        add_action( did_action( 'admin_head' ) ? 'admin_footer' : 'admin_head', array( $this, '_replyToAddScript' ), 999 );     
+        
+        /// A low priority is required to let dependencies loaded fast especially in customizer.php.
+        add_action( did_action( 'admin_print_styles' ) ? 'admin_print_footer_scripts' : 'admin_print_styles', array( $this, '_replyToAddStyle' ), 999 );
+        add_action( did_action( 'admin_print_scripts' ) ? 'admin_print_footer_scripts' : 'admin_print_scripts', array( $this, '_replyToAddScript' ), 999 );     
 
+        
         // Take care of items that could not be added in the head tag.
-        add_action( 'admin_footer', array( $this, '_replyToEnqueueScripts' ) );
+        
+        /// For wp-admin/customizer.php 
+        add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToEnqueueScripts' ) );
+        add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToEnqueueStyles' ) );
+
+        /// For admin pages other than wp-admin/customizer.php 
+        add_action( 'admin_footer', array( $this, '_replyToEnqueueScripts' ) ); 
         add_action( 'admin_footer', array( $this, '_replyToEnqueueStyles' ) );        
-        add_action( 'admin_footer', array( $this, '_replyToAddStyle' ), 1 );
-        add_action( 'admin_footer', array( $this, '_replyToAddScript' ), 1 );  
+        
+        /// For all admin pages.
+        add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddStyle' ), 999 );
+        add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );  
         
     }    
     
@@ -343,6 +354,7 @@ abstract class AdminPageFramework_HeadTag_Base {
             $aEnqueueItem['version'], 
             did_action( 'admin_body_class' ) ? true : $aEnqueueItem['in_footer'] 
         );
+    
         if ( $aEnqueueItem['translation'] ) {
             wp_localize_script( $aEnqueueItem['handle_id'], $aEnqueueItem['handle_id'], $aEnqueueItem['translation'] );
         }
