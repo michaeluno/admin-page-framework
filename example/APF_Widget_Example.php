@@ -17,7 +17,7 @@ class APF_Widget_Example extends AdminPageFramework_Widget {
 
         $this->setArguments( 
             array(
-                'description'   =>  __( 'Displays a GitHub button.', 'admin-page-framework-demo' ),
+                'description' => sprintf( __( 'Displays a GitHub button which perform API calls to %1$s.', 'admin-page-framework-demo' ), 'https://api.github.com/' ),
             ) 
         );
     
