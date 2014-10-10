@@ -22,14 +22,14 @@ class APF_Demo_Contact extends AdminPageFramework {
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(     
             array(
-                'title'                 => __( 'Contact', 'admin-page-framework-demo' ),
-                'page_slug'             => 'apf_contact',
-                'screen_icon'           => 'page',
+                'title'        => __( 'Contact', 'admin-page-framework-demo' ),
+                'page_slug'    => 'apf_contact',
+                'screen_icon'  => 'page',
             )
         );
 
         /* ( optional ) Disable the automatic settings link in the plugin listing table. */    
-        // $this->setPluginSettingsLinkLabel( '' ); // pass an empty string.
+        $this->setPluginSettingsLinkLabel( '' ); // pass an empty string.
         
     }
     
@@ -42,30 +42,6 @@ class APF_Demo_Contact extends AdminPageFramework {
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false, 'apf_contact' ); // disable the page title of a specific page.
-        // $this->setInPageTabsVisibility( false, 'apf_read_me' ); // in-page tabs can be disabled like so.    
-    
-        /* 
-         * ( optional ) Enqueue styles  
-         * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-         * */
-        // $_sStyleHandle = $this->enqueueStyle( plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' ); // a url can be used as well    
-    
-        /*
-         * ( optional )Enqueue scripts
-         * $this->enqueueScript(  'script url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
-         */
-        // $this->enqueueScript(  
-            // plugins_url( 'asset/js/test.js' , APFDEMO_FILE ), // source url or path
-            // 'apf_read_me',     // page slug
-            // '',     // tab slug
-            // array(
-                // 'handle_id' => 'my_script', // this handle ID also is used as the object name for the translation array below.
-                // 'translation' => array( 
-                    // 'a' => 'hello world!',
-                    // 'style_handle_id' => $_sStyleHandle, // check the enqueued style handle ID here.
-                // ),
-            // )
-        // );     
 
     }
     
