@@ -270,7 +270,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
                         __( 'Display Errors', 'admin-page-framework' )          => $this->_getOnOrOff( ini_get( 'display_errors' ) ),
                         __( 'Log Errors', 'admin-page-framework' )              => $this->_getOnOrOff( ini_get( 'log_errors' ) ),
                         __( 'Error log location', 'admin-page-framework' )      => ini_get( 'error_log' ),
-                        __( 'Error Reporting Level', 'admin-page-framweork' )   => $_oErrorReporting->getErrorLevel(),
+                        __( 'Error Reporting Level', 'admin-page-framework' )   => $_oErrorReporting->getErrorLevel(),
                         __( 'FSOCKOPEN', 'admin-page-framework' )               => $this->_getSupportedOrNot( function_exists( 'fsockopen' ) ),
                         __( 'cURL', 'admin-page-framework' )                    => $this->_getSupportedOrNot( function_exists( 'curl_init' ) ),
                         __( 'SOAP', 'admin-page-framework' )                    => $this->_getSupportedOrNot( class_exists( 'SoapClient' ) ),
