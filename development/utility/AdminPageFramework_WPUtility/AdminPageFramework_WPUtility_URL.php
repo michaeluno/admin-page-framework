@@ -25,14 +25,14 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      */
     static public function getCurrentAdminURL() {
         
-        $sRequestURI = $GLOBALS['is_IIS'] ? $_SERVER['PATH_INFO'] : $_SERVER["REQUEST_URI"];
-        $sPageURL = ( @$_SERVER["HTTPS"] == "on" ) ? "https://" : "http://";
+        $sRequestURI    = $GLOBALS['is_IIS'] ? $_SERVER['PATH_INFO'] : $_SERVER["REQUEST_URI"];
+        $sPageURL       = 'on' == @$_SERVER["HTTPS"] ? "https://" : "http://";
         
-        if ( $_SERVER["SERVER_PORT"] != "80" ) 
+        if ( "80" != $_SERVER["SERVER_PORT"] ) {
             $sPageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $sRequestURI;
-        else 
+        } else {
             $sPageURL .= $_SERVER["SERVER_NAME"] . $sRequestURI;
-        
+        }
         return $sPageURL;
         
     }
@@ -101,7 +101,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     }    
 
     /**
-     * Resolves the given src.
+     * Resolves the given src and returns the url.
      * 
      * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
      * 
@@ -116,12 +116,12 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
             
         // It is a url
         if ( filter_var( $sSRC, FILTER_VALIDATE_URL ) ) {
-            return $sSRC;
+            return esc_url( $sSRC );
         }
 
         // If the file exists, it means it is an absolute path. If so, calculate the URL from the path.
         if ( file_exists( realpath( $sSRC ) ) ) {
-            return self::getSRCFromPath( $sSRC );
+            return self::getSRCFromPath( $sSRC );   // url escaping is done in the method
         }
         
         if ( $bReturnNullIfNotExist ) {
