@@ -10,10 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility_URL' ) ) :
 /**
  * Provides utility methods handing urls which use WordPress functions and classes.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since       2.0.0
+ * @extends     AdminPageFramework_Utility
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
  */
 class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
@@ -84,17 +84,17 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     /**
      * Calculates the URL from the given path.
      * 
-     * @since 2.1.5
+     * @since   2.1.5
      * @static
-     * @access public
-     * @return string The source url
+     * @access  public
+     * @return  string The source url
      */
     static public function getSRCFromPath( $sFilePath ) {
                         
-        $oWPStyles = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
-        $sRelativePath = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );     
-        $sRelativePath = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 ); // removes the heading ./ or .\ 
-        $sHref = trailingslashit( $oWPStyles->base_url ) . $sRelativePath;
+        $oWPStyles      = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
+        $sRelativePath  = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );     
+        $sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 ); // removes the heading ./ or .\ 
+        $sHref          = trailingslashit( $oWPStyles->base_url ) . $sRelativePath;
         unset( $oWPStyles ); // for PHP 5.2.x or below
         return esc_url( $sHref );     
         
