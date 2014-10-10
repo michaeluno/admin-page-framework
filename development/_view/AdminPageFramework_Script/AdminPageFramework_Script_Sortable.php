@@ -101,7 +101,7 @@ class AdminPageFramework_Script_Sortable {
             };
             
             $.fn.enableAPFSortable = function( sFieldsContainerID ) {
-                
+
                 var _oTarget    = typeof sFieldsContainerID === 'string' 
                     ? $( '#' + sFieldsContainerID + '.sortable' )
                     : this;
