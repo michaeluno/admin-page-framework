@@ -515,11 +515,11 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
             foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
                 $aOutputs[] = "<input " . $this->generateAttributes( 
                         array(
-                            'id'    =>    "{$aField['input_id']}_{$sAttribute}",
-                            'type'    =>    'hidden',
-                            'name'    =>    "{$aField['_input_name']}[{$sAttribute}]",
-                            'disabled'    =>    isset( $aField['attributes']['diabled'] ) && $aField['attributes']['diabled'] ? 'Disabled' : '',
-                            'value'    =>    isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
+                            'id'        => "{$aField['input_id']}_{$sAttribute}",
+                            'type'      => 'hidden',
+                            'name'      => "{$aField['_input_name']}[{$sAttribute}]",
+                            'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] ? 'disabled' : '',
+                            'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
                         )
                     ) . "/>";
             return implode( PHP_EOL, $aOutputs );
