@@ -484,7 +484,6 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             .admin-page-framework-field .image_preview img {     
                 height: auto; 
                 max-width: 100%;
-                width: inherit;
                 display: block;         
             }
             .widget .admin-page-framework-field .image_preview {
