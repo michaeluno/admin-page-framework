@@ -224,6 +224,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'section_id'    => 'github',
                 'tab_slug'      => 'github',
                 'title'         => __( 'GitHub Buttons', 'admin-page-framework-demo' ),
+                'description'   => sprintf( __( 'These buttons use GitHub API and perform asynchronomus external access to %1$s.', 'admin-paeg-framework-demo' ), 'https://api.github.com' ),
             ),     
             array(
                 'section_id'    => 'image_selectors',
