@@ -40,7 +40,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 				
 		if ( ! self::$_bIsLoaded ) {
             wp_enqueue_script( 'jquery' );
-			self::$_bIsLoaded = add_action( 'admin_footer', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
+			self::$_bIsLoaded = add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddRevealerjQueryPlugin' ) );
 		}
 		
 	}	
