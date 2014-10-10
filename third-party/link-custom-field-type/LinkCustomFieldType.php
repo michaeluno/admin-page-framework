@@ -66,7 +66,7 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
 	 */ 
 	protected function getScripts() { 
 		
-		add_action( 'admin_footer', array( $this, '_replyToAddLinkModalQueryPlugin' ) );
+		add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddLinkModalQueryPlugin' ) );
 		$_aJSArray = json_encode( $this->aFieldTypeSlugs );
 		return "jQuery( document ).ready( function(){	
         
