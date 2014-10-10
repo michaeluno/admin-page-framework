@@ -122,7 +122,7 @@ class AdminPageFramework_Script_RepeatableField {
                 nodeNewField.updateAPFRepeatableFields();
                 
                 /* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
-                nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );    
+                nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
                 
                 /* Call the registered callback functions */
                 nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ), 0, 0, 0 );     

@@ -83,7 +83,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'value'     => 1, // must be 1
             'type'      => 'checkbox',
             'name'      => "{$aArgs['name']}[{$_iID}]",
-            'checked'   => in_array( $_iID, ( array ) $aArgs['selected'] ) ? 'Checked' : '',
+            'checked'   => in_array( $_iID, ( array ) $aArgs['selected'] ) ? 'checked' : '',
         ) + $_aInputAttributes;
         $_aInputAttributes['class'] .= ' apf_checkbox';
         

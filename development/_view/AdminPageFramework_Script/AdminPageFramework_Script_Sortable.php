@@ -139,14 +139,14 @@ class AdminPageFramework_Script_Sortable {
                         $( this ).find( 'input[type=radio]' ).each( function() {    
                             var sAttr = $( this ).prop( 'checked' );
                             if ( 'undefined' !== typeof sAttr && false !== sAttr ) {
-                                $( this ).attr( 'checked', 'Checked' );
+                                $( this ).attr( 'checked', 'checked' );
                             } 
                         });
                             
                     });
                     
                     /* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
-                    $( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );    
+                    $( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
                     
                     /* Callback the registered functions */
                     $( this ).callBackSortedFields( 

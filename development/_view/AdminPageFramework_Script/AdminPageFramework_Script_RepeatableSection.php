@@ -101,7 +101,7 @@ class AdminPageFramework_Script_RepeatableSection {
                 nodeNewSection.insertAfter( nodeSectionContainer );    
 
                 /* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
-                nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );    
+                nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
                 
                 /* Iterate each section and increment the names and ids of the next following siblings. */
                 nodeSectionContainer.nextAll().each( function( iSectionIndex ) {

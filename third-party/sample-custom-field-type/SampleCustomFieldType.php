@@ -74,14 +74,14 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                             jQuery( this ).find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
                             
                             /* The checked states will be gone after updating the ID of radio buttons so re-check them again */    
-                            jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'Checked' );
+                            jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );
                             
                             /* Rebind the event */    
                             jQuery( this ).find( 'input[type=radio]' ).change( function() {
                                 jQuery( this ).closest( '.admin-page-framework-field' )
                                     .find( 'input[type=radio]' )
                                     .attr( 'checked', false );            
-                                jQuery( this ).attr( 'checked', 'Checked' );
+                                jQuery( this ).attr( 'checked', 'checked' );
                                 revealSelection( jQuery( this ).attr( 'id' ) );
                             });
                         });                                
@@ -109,7 +109,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                                 jQuery( this ).closest( '.admin-page-framework-field' )
                                     .find( 'input[type=radio]' )
                                     .attr( 'checked', false );            
-                                jQuery( this ).attr( 'checked', 'Checked' );
+                                jQuery( this ).attr( 'checked', 'checked' );
                                 revealSelection( jQuery( this ).attr( 'id' ) );
                             });
                         });                            
@@ -214,7 +214,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                             jQuery( this ).closest( '.admin-page-framework-field' )
                                 .find( 'input[type=radio]' )
                                 .attr( 'checked', false );
-                            jQuery( this ).attr( 'checked', 'Checked' );
+                            jQuery( this ).attr( 'checked', 'checked' );
                             revealSelection( jQuery( this ).attr( 'id' ) );
                         });
                         revealSelection( '{$sDefaultSelectionID}' );    // do it for the default one

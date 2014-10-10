@@ -122,7 +122,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
                             jQuery( this ).closest( '.admin-page-framework-field' )
                                 .find( 'input[type=radio]' )
                                 .attr( 'checked', false );
-                            jQuery( this ).attr( 'checked', 'Checked' );
+                            jQuery( this ).attr( 'checked', 'checked' );
                         });
 
                     }
@@ -277,7 +277,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
                     jQuery( document ).ready( function(){
                         jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
                             jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio]' ).attr( 'checked', false );
-                            jQuery( this ).attr( 'checked', 'Checked' );
+                            jQuery( this ).attr( 'checked', 'checked' );
                         });
                     });     
                 </script>";     
