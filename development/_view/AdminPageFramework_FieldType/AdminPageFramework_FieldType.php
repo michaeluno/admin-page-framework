@@ -84,13 +84,13 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * The slug is used for the type key in a field definition array.
      * 
      * <code>
-     *     $this->addSettingFields(
-     * array(
-     * 'section_id' => '...',
-     * 'type' => 'my_filed_type_slug', // <--- THIS PART
-     * 'field_id' => '...',
-     * 'title' => '...',
-     * )
+     * $this->addSettingFields(
+     *      array(
+     *          'section_id'    => '...',
+     *          'type'          => 'my_filed_type_slug', // <--- THIS PART
+     *          'field_id'      => '...',
+     *          'title'         => '...',
+     *      )
      * );
      * </code>
      */    
@@ -103,23 +103,23 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * 
      * <code>
      *  $this->addSettingFields(
-     * array(
-     * 'section_id' => '...',    
-     * 'type' => '...',
-     * 'field_id' => '...',
-     * 'my_custom_key' => '...', // <-- THIS PART
-     * )
-     * );
+     *      array(
+     *          'section_id'    => '...',    
+     *          'type'          => '...',
+     *          'field_id'      => '...',
+     *          'my_custom_key' => '...', // <-- THIS PART
+     *      )
+     *  );
      * </code>
      * 
      * <h4>Example</h4>
      * <code>
      * $aDefaultKeys = array(
      *      'my_custom_key' => 'my default value',
-     *      'attributes' => array(
-     * 'size' => 30,
-     * 'maxlength' => 400,
-     * ),
+     *      'attributes'    => array(
+     *          'size'      => 30,
+     *          'maxlength' => 400,
+     *      ),
      * );
      * </code>
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
@@ -157,18 +157,19 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
      *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
      *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+     *     <li><strong>arguments</strong> - ( optional, array ) [3.3.0+] argument array. <code>array( 'async' => '', 'data-id' => '...' )</code></li>
      * </ul>  
      * 
      * <h4>Examples</h4>
      * <code>
      * protected function getEnqueuingScripts() { 
-     * return array(
-     * array(     // if you need to set a dependency, pass as a custom argument array. 
-     * 'src' => dirname( __FILE__ ) . '/asset/my_script.js',     // path or url
-     * 'dependencies' => array( 'jquery' ) 
-     * ),
-     * dirname( __FILE__ ) . '/asset/my_another.js', // a string value of the target path or url will work as well.
-     * );
+     *      return array(
+     *          array(     // if you need to set a dependency, pass as a custom argument array. 
+     *              'src' => dirname( __FILE__ ) . '/asset/my_script.js',     // path or url
+     *              'dependencies' => array( 'jquery' ) 
+     *          ),
+     *          dirname( __FILE__ ) . '/asset/my_another.js', // a string value of the target path or url will work as well.
+     *      );
      * }
      * </code>
      */    
@@ -186,18 +187,19 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
      *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
      *     <li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+     *     <li><strong>arguments</strong> - ( optional, array ) [3.3.0+] argument array. <code>array( 'data-id' => '...' )</code></li>
      * </ul>
      * 
      * <h4>Examples</h4>
      * <code>
      * protected function getEnqueuingStyles() { 
-     * return array(
-     * dirname( __FILE__ ) . '/asset/my_style.css',
-     * array(
-     * 'src' => dirname( __FILE__ ) . '/asset/my_style2.css',
-     * 'handle_id' => 'my_style2',
-     * ),
-     * );
+     *      return array(
+     *          dirname( __FILE__ ) . '/asset/my_style.css',
+     *          array(
+     *              'src' => dirname( __FILE__ ) . '/asset/my_style2.css',
+     *              'handle_id' => 'my_style2',
+     *          ),
+     *      );
      * }     
      * </code>
      */    
