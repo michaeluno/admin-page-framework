@@ -56,11 +56,13 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
     public function _enqueueStyle( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) {  return ''; } // if already set
-        
+        if ( empty( $sSRC ) ) { return ''; }        
         $sSRC       = $this->oUtil->resolveSRC( $sSRC );
-        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        
+        // Setting the key based on the url prevents duplicate items
+        $_sSRCHash  = md5( $sSRC ); 
+        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) {  return ''; } 
+        
         $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
@@ -70,6 +72,10 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
             ),
             self::$_aStructure_EnqueuingResources
         );
+        
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['attributes'];
+        
         return $this->oProp->aEnqueuingStyles[ $_sSRCHash ][ 'handle_id' ];
         
     }
@@ -111,12 +117,14 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
      */
     public function _enqueueScript( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
         
-        $sSRC = trim( $sSRC );
+        $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
-        
         $sSRC       = $this->oUtil->resolveSRC( $sSRC );
-        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        
+        // Setting the key based on the url prevents duplicate items        
+        $_sSRCHash  = md5( $sSRC ); 
+        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { return ''; } 
+        
         $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
@@ -126,7 +134,12 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
             ),
             self::$_aStructure_EnqueuingResources
         );
+        
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['attributes'];
+        
         return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
+        
     }
 
     /**

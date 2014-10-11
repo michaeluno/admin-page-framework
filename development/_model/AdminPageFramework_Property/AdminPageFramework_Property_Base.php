@@ -150,17 +150,26 @@ abstract class AdminPageFramework_Property_Base {
         
 
     /**
-     * Stores enqueuing script URLs and their criteria.
+     * Stores enqueuing script URLs and their criteria by md5 hash of the source url.
      * @since 2.1.2
      * @since 2.1.5 Moved to the base class.
      */
     public $aEnqueuingScripts = array();
     /**    
-     * Stores enqueuing style URLs and their criteria.
+     * Stores enqueuing style URLs and their criteria by md5 hash of the source url.
      * @since 2.1.2
      * @since 2.1.5 Moved to the base class.
      */    
     public $aEnqueuingStyles = array();
+
+
+    /**
+     * Stores enqueued script/style argument array by its url.
+     * @since   3.3.0
+     */
+    public $aResourceAttributes = array();
+
+    
     /**
      * Stores the index of enqueued scripts.
      * 

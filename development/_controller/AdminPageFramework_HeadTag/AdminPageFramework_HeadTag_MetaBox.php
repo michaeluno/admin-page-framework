@@ -57,11 +57,13 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
-        
         $sSRC       = $this->oUtil->resolveSRC( $sSRC );
-        $sSRCHash   = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+
+        // Setting the key based on the url prevents duplicate items
+        $_sSRCHash  = md5( $sSRC ); 
+        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) { return ''; } 
+            
+        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
                 'sSRC'          => $sSRC,
@@ -71,7 +73,11 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
             ),
             self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
+        
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['attributes'];
+        
+        return $this->oProp->aEnqueuingStyles[ $_sSRCHash ][ 'handle_id' ];
         
     }
     
@@ -112,14 +118,14 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      */
     public function _enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         
-        $sSRC = trim( $sSRC );
+        $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        
-        // if already set
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } 
-        
         $sSRC       = $this->oUtil->resolveSRC( $sSRC );
-        $_sSRCHash   = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        
+        // Setting the key based on the url prevents duplicate items
+        $_sSRCHash  = md5( $sSRC ); 
+        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { return ''; } 
+        
         $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
@@ -130,6 +136,10 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
             ),
             self::$_aStructure_EnqueuingResources
         );
+        
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['attributes'];
+        
         return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
         
     }

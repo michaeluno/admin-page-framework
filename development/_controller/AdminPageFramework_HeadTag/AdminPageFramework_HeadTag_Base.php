@@ -44,6 +44,7 @@ abstract class AdminPageFramework_HeadTag_Base {
         'translation'   => array(),     // only for scripts
         'in_footer'     => false,       // only for scripts
         'media'         => 'all',       // only for styles     
+        'attributes'    => array(),     // 3.3.0+ - the attribute array
         
     );    
       
@@ -64,6 +65,13 @@ abstract class AdminPageFramework_HeadTag_Base {
      * @internal
      */    
     protected $_sClassSelector_Script   = 'admin-page-framework-script';
+      
+    /**
+     * Stores hand IDs by resource url to look up handle id and add custom arguments.
+     * @since       3.3.0
+     * @internal
+     */ 
+    protected $_aHandleIDs = array();
       
     /**
      * Sets up properties and hooks.
@@ -100,8 +108,15 @@ abstract class AdminPageFramework_HeadTag_Base {
         add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddStyle' ), 999 );
         add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );  
         
+        
+        // To add the custom attributes to the enqueued style and script tags.
+        add_filter( 'script_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
+        add_filter( 'style_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
+
+        
+        
     }    
-    
+                
     /*
      * Methods that should be overridden in extended classes.
      * @internal
@@ -125,7 +140,55 @@ abstract class AdminPageFramework_HeadTag_Base {
     /*
      * Shared methods
      */
+        /**
+         * Checks the src url of the enqueued script/style to determine whether or not to set up a attribute modification callback.
+         * 
+         * If it is one of the framework added item, the method sets up a hook to modify the url to add custom attributes.
+         * 
+         * @since   3.3.0
+         */
+        public function _replyToSetupArgumentCallback( $sSRC, $sHandleID ) {
 
+            if ( isset( $this->oProp->aResourceAttributes[ $sHandleID ] ) ) {
+                $this->_aHandleIDs[ $sSRC ] = $sHandleID;
+                add_filter( 'clean_url', array( $this, '_replyToModifyEnqueuedAttrbutes' ), 1, 3 );
+                remove_filter( current_filter(), array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
+            }
+            return $sSRC;
+            
+        }    
+            /**
+             * Modifies the attributes of the enqueued script tag.
+             * 
+             * @since   3.3.0
+             */
+            public function _replyToModifyEnqueuedAttrbutes( $sSanitizedURL, $sOriginalURL, $sContext ) {
+                
+                if ( 'display' !== $sContext ) {
+                    return $sSanitizedURL;
+                }
+            
+                // Returns the modified url which attributes are embedded at the end.
+                if ( isset( $this->_aHandleIDs[ $sOriginalURL ] ) ) {
+                    
+                    $_sHandleID     = $this->_aHandleIDs[ $sOriginalURL ];
+                    $_aAttributes   = $this->oProp->aResourceAttributes[ $_sHandleID ];
+                    
+                    if ( empty( $_aAttributes ) ) {
+                        return $sSanitizedURL;
+                    }
+                    
+                    $_sAttributes   = $this->oUtil->generateAttributes( $_aAttributes );
+                    $_sModifiedURL  = $sSanitizedURL . "' " . rtrim( $_sAttributes, "'\"" );    // '"
+
+                    return $_sModifiedURL;                    
+                    
+                }
+
+                return $sSanitizedURL;
+             
+            }
+     
      
     /**
      * Flags whether the common styles are loaded or not.
@@ -150,9 +213,9 @@ abstract class AdminPageFramework_HeadTag_Base {
         if ( self::$_bCommonStyleLoaded ) { return; }
         self::$_bCommonStyleLoaded = true;
         
-        $oCaller    = $this->oProp->_getCallerObject();     
+        $_oCaller    = $this->oProp->_getCallerObject();     
         $sStyle     = $this->oUtil->addAndApplyFilters( 
-            $oCaller, 
+            $_oCaller, 
             array(
                 "style_common_admin_page_framework",            // 3.2.1+
                 "style_common_{$this->oProp->sClassName}",
@@ -165,7 +228,7 @@ abstract class AdminPageFramework_HeadTag_Base {
         }
 
         $sStyleIE   = $this->oUtil->addAndApplyFilters( 
-            $oCaller, 
+            $_oCaller, 
             array(
                 "style_ie_common_admin_page_framework",         // 3.2.1+
                 "style_ie_common_{$this->oProp->sClassName}", 
@@ -228,11 +291,11 @@ abstract class AdminPageFramework_HeadTag_Base {
         static $_iCallCount     = 1;    
         static $_iCallCountIE   = 1;    
             
-        $oCaller = $this->oProp->_getCallerObject();     
+        $_oCaller = $this->oProp->_getCallerObject();     
 
         // Print out the filtered styles.
         $sStyle = $this->oUtil->addAndApplyFilters( 
-            $oCaller, 
+            $_oCaller, 
             "style_{$this->oProp->sClassName}", 
             $this->oProp->sStyle 
         );
@@ -243,7 +306,7 @@ abstract class AdminPageFramework_HeadTag_Base {
         }
             
         $sStyleIE = $this->oUtil->addAndApplyFilters( 
-            $oCaller,
+            $_oCaller,
             "style_ie_{$this->oProp->sClassName}",
             $this->oProp->sStyleIE 
         );
@@ -342,7 +405,7 @@ abstract class AdminPageFramework_HeadTag_Base {
                 $aEnqueueItem['sSRC'], 
                 $aEnqueueItem['dependencies'], 
                 $aEnqueueItem['version'], 
-                $aEnqueueItem['media'] 
+                $aEnqueueItem['media']
             );
             return;
         }

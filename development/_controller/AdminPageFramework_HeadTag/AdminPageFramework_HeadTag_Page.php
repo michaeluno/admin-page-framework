@@ -51,17 +51,19 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
      * @param       string  $sPageSlug      (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
      * @param       string  $sTabSlug       (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
      * @param       array   $aCustomArgs    (optional) The argument array for more advanced parameters.
-     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @return      string  The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */    
     public function _enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
-        
         $sSRC       = $this->oUtil->resolveSRC( $sSRC );
-        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        
+        // Setting the key based on the url prevents duplicate items
+        $_sSRCHash  = md5( $sSRC ); 
+        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) { return ''; } 
+
         $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
@@ -73,6 +75,10 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
             ),
             self::$_aStructure_EnqueuingResources
         );
+        
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['attributes'];
+        
         return $this->oProp->aEnqueuingStyles[ $_sSRCHash ][ 'handle_id' ];
         
     }
@@ -115,12 +121,14 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
      */
     public function _enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         
-        $sSRC = trim( $sSRC );
+        $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
-        
         $sSRC       = $this->oUtil->resolveSRC( $sSRC );
-        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+
+        // setting the key based on the url prevents duplicate items
+        $_sSRCHash  = md5( $sSRC );
+        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { return ''; } 
+        
         $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
@@ -132,7 +140,12 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
             ),
             self::$_aStructure_EnqueuingResources
         );
+
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['attributes'];
+        
         return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
+        
     }
 
     /**
