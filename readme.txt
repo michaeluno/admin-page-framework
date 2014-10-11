@@ -448,6 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.0 =
+- Added the ability to set custom arguments to enqueuing resource(style/script) tags.
 - Added an example of querying posts by custom meta key and value in the demo plugin.
 - Added the ability to send emails with the `submit` field type.
 - Added the `reset` custom field type.
