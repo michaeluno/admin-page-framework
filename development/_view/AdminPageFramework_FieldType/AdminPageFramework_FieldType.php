@@ -33,24 +33,24 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  *     <li>
  *         Define fields with the custom field type with the <em>addSettingFields()</em> method in the framework extending class.
  *         <code>
- * $this->addSettingFields(
- * array(  
- * 'field_id'  =>  'my_field_id',
- * 'section_id'    =>  'my_section_id',
- * 'type'  =>  'my_custom_field_type_slug',    // <-- here put the field type slug
- * '...' => '...'
- * )
- * );
+ *          $this->addSettingFields(
+ *               array(  
+ *                   'field_id'     =>  'my_field_id',
+ *                   'section_id'   =>  'my_section_id',
+ *                   'type'         =>  'my_custom_field_type_slug',    // <-- here put the field type slug
+ *                   '...'          => '...'
+ *               )
+ *          );
  *         </code>
  *     </li>
  * </ol>
  * 
  * @abstract
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
- * @since 3.0.0 Changed the name from AdminPageFramework_CustomFieldType to AdminPageFramework_FieldType.
- * @remark The user will extend this class to define their custom field types.
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
+ * @since       3.0.0       Changed the name from AdminPageFramework_CustomFieldType to AdminPageFramework_FieldType.
+ * @remark      The user will extend this class to define their custom field types.
  */
 abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base {
 
@@ -60,20 +60,15 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     /**#@+
      * @internal
      */
-    public function _replyToFieldLoader() { $this->setUp(); } // do stuff that should be done when the field type is loaded for the first time.    
-    public function _replyToGetScripts() { return $this->getScripts(); } // should return the script
-    public function _replyToGetInputIEStyles() { return $this->getIEStyles(); } // should return the style for IE
-    public function _replyToGetStyles() { return $this->getStyles(); } // should return the style
-    public function _replyToGetField( $aField ) {  return $this->getField( $aField ); } // should return the field output
+    public function _replyToFieldLoader() { $this->setUp(); }                               // do stuff that should be done when the field type is loaded for the first time.    
+    public function _replyToGetScripts() { return $this->getScripts(); }                    // should return the script
+    public function _replyToGetInputIEStyles() { return $this->getIEStyles(); }             // should return the style for IE
+    public function _replyToGetStyles() { return $this->getStyles(); }                      // should return the style
+    public function _replyToGetField( $aField ) {  return $this->getField( $aField ); }     // should return the field output
+   
+    protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }   // should return an array holding the urls of enqueuing items
+    protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); }     // should return an array holding the urls of enqueuing items
     /**#@-*/
-    /**
-     * @internal
-     */    
-    protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); } // should return an array holding the urls of enqueuing items
-    /**
-     * @internal
-     */    
-    protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); } // should return an array holding the urls of enqueuing items
     
     /*
      * Required Properties
@@ -128,7 +123,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     
     /*
      * Available Methods for Users - these methods should be overridden in extended classes.
-     */
+     */  
     /**#@+
      * @since 3.0.0
      * @remark The user will override this method in their class definition.

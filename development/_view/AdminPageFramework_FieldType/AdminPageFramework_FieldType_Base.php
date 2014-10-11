@@ -143,17 +143,17 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
             : self::$_aDefaultKeys['attributes'];
         
         return array(
-            'sFieldTypeSlug' => $sFieldTypeSlug,
-            'aFieldTypeSlugs' => $this->aFieldTypeSlugs,
-            'hfRenderField' => array( $this, "_replyToGetField" ),
-            'hfGetScripts' => array( $this, "_replyToGetScripts" ),
-            'hfGetStyles' => array( $this, "_replyToGetStyles" ),
-            'hfGetIEStyles' => array( $this, "_replyToGetInputIEStyles" ),
-            'hfFieldLoader' => array( $this, "_replyToFieldLoader" ),
-            'hfFieldSetTypeSetter' => array( $this, "_replyToFieldTypeSetter" ),
-            'aEnqueueScripts' => $this->_replyToGetEnqueuingScripts(), // urls of the scripts
-            'aEnqueueStyles' => $this->_replyToGetEnqueuingStyles(), // urls of the styles
-            'aDefaultKeys' => $_aDefaultKeys,         // 'aDefaultKeys' => $this->uniteArrays( $this->aDefaultKeys, self::$_aDefaultKeys ), 
+            'sFieldTypeSlug'        => $sFieldTypeSlug,
+            'aFieldTypeSlugs'       => $this->aFieldTypeSlugs,
+            'hfRenderField'         => array( $this, "_replyToGetField" ),
+            'hfGetScripts'          => array( $this, "_replyToGetScripts" ),
+            'hfGetStyles'           => array( $this, "_replyToGetStyles" ),
+            'hfGetIEStyles'         => array( $this, "_replyToGetInputIEStyles" ),
+            'hfFieldLoader'         => array( $this, "_replyToFieldLoader" ),
+            'hfFieldSetTypeSetter'  => array( $this, "_replyToFieldTypeSetter" ),
+            'aEnqueueScripts'       => $this->_replyToGetEnqueuingScripts(), // urls of the scripts
+            'aEnqueueStyles'        => $this->_replyToGetEnqueuingStyles(), // urls of the styles
+            'aDefaultKeys'          => $_aDefaultKeys,       
         );
         
     }
@@ -161,12 +161,11 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     /*
      * These methods should be overridden in the extended class.
      */
-    public function _replyToGetField( $aField ) { return ''; } // should return the field output
-    public function _replyToGetScripts() { return ''; } // should return the script
-    public function _replyToGetInputIEStyles() { return ''; } // should return the style for IE
-    public function _replyToGetStyles() { return ''; } // should return the style
-    public function _replyToFieldLoader() {} // do stuff that should be done when the field type is loaded for the first time.
-    
+    public function _replyToGetField( $aField ) { return ''; }          // should return the field output
+    public function _replyToGetScripts() { return ''; }                 // should return the script
+    public function _replyToGetInputIEStyles() { return ''; }           // should return the style for IE
+    public function _replyToGetStyles() { return ''; }                  // should return the style
+    public function _replyToFieldLoader() {}                            // do stuff that should be done when the field type is loaded for the first time.
     /**
      * Sets the field set type.
      * 
