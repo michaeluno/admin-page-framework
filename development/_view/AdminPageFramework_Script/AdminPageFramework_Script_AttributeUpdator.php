@@ -192,7 +192,6 @@ class AdminPageFramework_Script_AttributeUpdator {
                             var _sResult = sMatch0 + '[' + ( Number( sMatch1 ) - 1 );
                             break;
                         default:
-                            console.log( 'returning: ' +  sMatch0 + '[' + ( iIndex ) );                        
                             var _sResult = sMatch0 + '[' + ( iIndex );
                             break;
                     }                    
