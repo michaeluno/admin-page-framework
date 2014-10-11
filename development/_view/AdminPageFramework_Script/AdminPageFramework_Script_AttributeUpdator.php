@@ -25,7 +25,7 @@ class AdminPageFramework_Script_AttributeUpdator {
         return "(function ( $ ) {
         
             /**
-             * Increments a first/last found digit with the prefix of underscore in a specified attribute value.
+             * Increments a digit of the given occurrence(nth/-nth) with the prefix of underscore in a specified attribute value.
              * if the biOccurrence is false, the last found one will be replaced.
              */
             $.fn.incrementIDAttribute = function( sAttribute, biOccurrence ) {     
@@ -34,7 +34,7 @@ class AdminPageFramework_Script_AttributeUpdator {
                 }); 
             };
             /**
-             * Increments a first/last found digit enclosed in [] in a specified attribute value.
+             * Increments a digit of the given occurrence(nth/-nth) enclosed in [] in a specified attribute value.
              */
             $.fn.incrementNameAttribute = function( sAttribute, biOccurrence ) {     
                 return this.attr( sAttribute, function( iIndex, sValue ) {    
@@ -43,7 +43,7 @@ class AdminPageFramework_Script_AttributeUpdator {
             };
     
             /**
-             * Decrements a first/last found digit with the prefix of underscore in a specified attribute value.
+             * Decrements a digit of the given occurrence(nth/-nth) with the prefix of underscore in a specified attribute value.
              */
             $.fn.decrementIDAttribute = function( sAttribute, biOccurrence ) {
                 return this.attr( sAttribute, function( iIndex, sValue ) {
