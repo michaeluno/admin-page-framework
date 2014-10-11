@@ -27,11 +27,11 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
      */
     public function _enqueueStyles( $aSRCs, $aCustomArgs=array(), $_deprecated=null ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueStyle( $sSRC, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueStyle( $_sSRC, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }
     /**
@@ -59,19 +59,18 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
         if ( empty( $sSRC ) ) { return ''; }
         if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) {  return ''; } // if already set
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
-                'sSRC' => $sSRC,
-                'sType' => 'style',
+                'sSRC'      => $sSRC,
+                'sType'     => 'style',
                 'handle_id' => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
+        return $this->oProp->aEnqueuingStyles[ $_sSRCHash ][ 'handle_id' ];
         
     }
     
@@ -83,11 +82,11 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
      */
     public function _enqueueScripts( $aSRCs, $aCustomArgs=array(), $_deprecated=null ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueScript( $sSRC, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }    
     /**
@@ -116,19 +115,18 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
         if ( empty( $sSRC ) ) { return ''; }
         if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
-                'sSRC' => $sSRC,
-                'sType' => 'script',
+                'sSRC'      => $sSRC,
+                'sType'     => 'script',
                 'handle_id' => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
+        return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
     }
 
     /**
@@ -154,10 +152,10 @@ class AdminPageFramework_HeadTag_TaxonomyField extends AdminPageFramework_HeadTa
      * A helper function for the _replyToEnqueueScripts() and _replyToEnqueueStyle() methods.
      * 
      * @since       3.0.0
+     * @remark      the taxonomy page is checked in the constructor, so there is no need to apply a condition.
      * @internal
      */
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
-        // the taxonomy page is checked in the constructor, so there is no need to apply a condition.
         return $this->_enqueueSRC( $aEnqueueItem ); 
     }
     

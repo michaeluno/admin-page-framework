@@ -26,11 +26,11 @@ class AdminPageFramework_HeadTag_Widget extends AdminPageFramework_HeadTag_Base 
      */
     public function _enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueStyle( $sSRC, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueStyle( $_sSRC, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }
     /**
@@ -59,7 +59,7 @@ class AdminPageFramework_HeadTag_Widget extends AdminPageFramework_HeadTag_Base 
                 'sType'         => 'style',
                 'handle_id'     => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
         return $this->oProp->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
         
@@ -73,11 +73,11 @@ class AdminPageFramework_HeadTag_Widget extends AdminPageFramework_HeadTag_Base 
      */
     public function _enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueScript( $sSRC, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }    
     /**
@@ -98,19 +98,18 @@ class AdminPageFramework_HeadTag_Widget extends AdminPageFramework_HeadTag_Base 
         // if already set
         if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } 
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
-                'sSRC' => $sSRC,
-                'sType' => 'script',
+                'sSRC'      => $sSRC,
+                'sType'     => 'script',
                 'handle_id' => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
+        return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
         
     }
     

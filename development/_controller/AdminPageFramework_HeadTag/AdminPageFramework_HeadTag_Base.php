@@ -23,26 +23,27 @@ abstract class AdminPageFramework_HeadTag_Base {
      * Represents the structure of the array for enqueuing scripts and styles.
      * 
      * @since       2.1.2
-     * @since       2.1.5 Moved to the base class.
-     * @since       3.0.0 Moved from the property class.
+     * @since       2.1.5   Moved to the base class.
+     * @since       3.0.0   Moved from the property class.
+     * @since       3.3.0   Changed the name to $_aStructure_EnqueuingResources from $_aStructure_EnqueuingScriptsAndStyles.
      * @internal
      */
-    protected static $_aStructure_EnqueuingScriptsAndStyles = array(
+    protected static $_aStructure_EnqueuingResources = array(
     
         /* The system internal keys. */
         'sSRC'          => null,
-        'aPostTypes'    => array(), // for meta box class
+        'aPostTypes'    => array(),     // for meta box class
         'sPageSlug'     => null,    
         'sTabSlug'      => null,
-        'sType'         => null, // script or style
+        'sType'         => null,        // script or style
         
         /* The below keys are for users. */
         'handle_id'     => null,
         'dependencies'  => array(),
-        'version'       => false, // although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'translation'   => array(), // only for scripts
-        'in_footer'     => false, // only for scripts
-        'media'         => 'all', // only for styles     
+        'version'       => false,       // although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'translation'   => array(),     // only for scripts
+        'in_footer'     => false,       // only for scripts
+        'media'         => 'all',       // only for styles     
         
     );    
       
@@ -129,7 +130,7 @@ abstract class AdminPageFramework_HeadTag_Base {
     /**
      * Flags whether the common styles are loaded or not.
      * 
-     * @since   3.2.0
+     * @since       3.2.0
      * @internal
      */
     static private $_bCommonStyleLoaded = false;

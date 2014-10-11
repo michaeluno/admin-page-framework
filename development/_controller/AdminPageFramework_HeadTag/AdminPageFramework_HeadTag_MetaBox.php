@@ -27,11 +27,11 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      */
     public function _enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueStyle( $_sSRC, $aPostTypes, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }
     /**
@@ -59,9 +59,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
         if ( empty( $sSRC ) ) { return ''; }
         if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRCHash   = md5( $sSRC ); // setting the key based on the url prevents duplicate items
         $this->oProp->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
@@ -70,7 +69,7 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
                 'sType'         => 'style',
                 'handle_id'     => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
         return $this->oProp->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
         
@@ -84,11 +83,11 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      */
     public function _enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $aPostTypes, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }    
     /**
@@ -119,20 +118,20 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
         // if already set
         if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } 
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $_sSRCHash   = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
-                'sSRC' => $sSRC,
-                'aPostTypes' => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
-                'sType' => 'script',
-                'handle_id' => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
+                'sSRC'          => $sSRC,
+                'aPostTypes'    => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
+                'sType'         => 'script',
+                'handle_id'     => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
+        return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
+        
     }
     
     /**
@@ -162,8 +161,8 @@ class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base
      */
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
        
-        $sCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
-        if ( in_array( $sCurrentPostType, $aEnqueueItem['aPostTypes'] ) ) {
+        $_sCurrentPostType = isset( $_GET['post_type'] ) ? $_GET['post_type'] : ( isset( $GLOBALS['typenow'] ) ? $GLOBALS['typenow'] : null );
+        if ( in_array( $_sCurrentPostType, $aEnqueueItem['aPostTypes'] ) ) {
             return $this->_enqueueSRC( $aEnqueueItem );
         }
             

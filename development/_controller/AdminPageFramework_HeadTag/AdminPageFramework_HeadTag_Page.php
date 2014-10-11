@@ -26,11 +26,11 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
      */
     public function _enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueStyle( $_sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }
     /**
@@ -44,14 +44,14 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
      *     <li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
      * </ul>
      * 
-     * @since 2.1.2
-     * @since 2.1.5 Moved from the main class.
-     * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param string $sSRC The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-     * @param string $sPageSlug (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-     * @param string $sTabSlug (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param             array $aCustomArgs (optional) The argument array for more advanced parameters.
-     * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @since       2.1.2
+     * @since       2.1.5   Moved from the main class.
+     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+     * @param       string  $sSRC           The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+     * @param       string  $sPageSlug      (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+     * @param       string  $sTabSlug       (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+     * @param       array   $aCustomArgs    (optional) The argument array for more advanced parameters.
+     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */    
     public function _enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
@@ -60,21 +60,20 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
         if ( empty( $sSRC ) ) { return ''; }
         if ( isset( $this->oProp->aEnqueuingStyles[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingStyles[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
-                'sSRC' => $sSRC,
+                'sSRC'      => $sSRC,
                 'sPageSlug' => $sPageSlug,
-                'sTabSlug' => $sTabSlug,
-                'sType' => 'style',
+                'sTabSlug'  => $sTabSlug,
+                'sType'     => 'style',
                 'handle_id' => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingStyles[ $sSRCHash ][ 'handle_id' ];
+        return $this->oProp->aEnqueuingStyles[ $_sSRCHash ][ 'handle_id' ];
         
     }
     
@@ -85,11 +84,11 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
      */
     public function _enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         
-        $aHandleIDs = array();
-        foreach( ( array ) $aSRCs as $sSRC ) {
-            $aHandleIDs[] = $this->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+        $_aHandleIDs = array();
+        foreach( ( array ) $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
-        return $aHandleIDs;
+        return $_aHandleIDs;
         
     }    
     /**
@@ -104,14 +103,14 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
      *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
      * </ul>  
      * 
-     * @since 2.1.2
-     * @since 2.1.5 Moved from the main class.
-     * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-     * @param string $sSRC The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-     * @param string $sPageSlug (optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-     * @param string $sTabSlug (optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param             array $aCustomArgs (optional) The argument array for more advanced parameters.
-     * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @since       2.1.2
+     * @since       2.1.5       Moved from the main class.
+     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+     * @param       string      $sSRC           The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param       string      $sPageSlug      (optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+     * @param       string      $sTabSlug       (optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+     * @param       array       $aCustomArgs    (optional) The argument array for more advanced parameters.
+     * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
     public function _enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
@@ -120,27 +119,27 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
         if ( empty( $sSRC ) ) { return ''; }
         if ( isset( $this->oProp->aEnqueuingScripts[ md5( $sSRC ) ] ) ) { return ''; } // if already set
         
-        $sSRC = $this->oUtil->resolveSRC( $sSRC );
-        
-        $sSRCHash = md5( $sSRC ); // setting the key based on the url prevents duplicate items
-        $this->oProp->aEnqueuingScripts[ $sSRCHash ] = $this->oUtil->uniteArrays( 
+        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $_sSRCHash  = md5( $sSRC ); // setting the key based on the url prevents duplicate items
+        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
                 'sPageSlug' => $sPageSlug,
-                'sTabSlug' => $sTabSlug,
-                'sSRC' => $sSRC,
-                'sType' => 'script',
+                'sTabSlug'  => $sTabSlug,
+                'sSRC'      => $sSRC,
+                'sType'     => 'script',
                 'handle_id' => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
             ),
-            self::$_aStructure_EnqueuingScriptsAndStyles
+            self::$_aStructure_EnqueuingResources
         );
-        return $this->oProp->aEnqueuingScripts[ $sSRCHash ][ 'handle_id' ];
+        return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
     }
 
     /**
      * Enqueues a style source without conditions.
-     * @remark Used for inserting the input field head tag elements.
-     * @since 3.0.0
+     * 
+     * @remark      Used for inserting the input field head tag elements.
+     * @since       3.0.0
      * @internal
      */
     public function _forceToEnqueueStyle( $sSRC, $aCustomArgs=array() ) {
@@ -148,8 +147,9 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
     }
     /**
      * Enqueues a script source without conditions.
-     * @remark Used for inserting the input field head tag elements.
-     * @since 3.0.0
+     * 
+     * @remark      Used for inserting the input field head tag elements.
+     * @since       3.0.0
      * @internal
      */    
     public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {
@@ -160,16 +160,16 @@ class AdminPageFramework_HeadTag_Page extends AdminPageFramework_HeadTag_Base {
     /**
      * A helper function for the _replyToEnqueueScripts() and _replyToEnqueueStyle() methods.
      * 
-     * @since 2.1.2
-     * @since 2.1.5 Moved from the main class. Changed the name from enqueueSRCByPageConditoin.
+     * @since       2.1.2
+     * @since       2.1.5       Moved from the main class. Changed the name from enqueueSRCByPageConditoin.
      * @internal
      */
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
 
-        $sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
-        $sPageSlug = $aEnqueueItem['sPageSlug'];
-        $sTabSlug = $aEnqueueItem['sTabSlug'];
+        $sCurrentPageSlug   = isset( $_GET['page'] ) ? $_GET['page'] : '';
+        $sCurrentTabSlug    = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
+        $sPageSlug          = $aEnqueueItem['sPageSlug'];
+        $sTabSlug           = $aEnqueueItem['sTabSlug'];
         
         // If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
         if ( ! $sPageSlug && $this->oProp->isPageAdded( $sCurrentPageSlug ) ) { // means script-global(among pages added by the framework)
