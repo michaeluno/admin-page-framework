@@ -109,17 +109,27 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
      *     id="my_id" name="my_name" style="background-color:#fff"
      * 
      * This is mostly used by the method to output input fields.
+     * 
      * @since   3.0.0
+     * @since   3.3.0   Made it allow empty value.
      */
     static public function generateAttributes( array $aAttributes ) {
         
-        $aOutput = array();
+        $sQuoteCharactor    ="'";
+        $_aOutput           = array();
         foreach( $aAttributes as $sAttribute => $sProperty ) {
-            if ( empty( $sProperty ) && 0 !== $sProperty && '0' !== $sProperty ) { continue; } // drop non value elements except numeric 0.
-            if ( is_array( $sProperty ) || is_object( $sProperty ) ) { continue; }  // must be resolved as a string.
-            $aOutput[] = "{$sAttribute}='{$sProperty}'";
+            
+            // @deprecated 3.3.0 to allow custom arguments in enqueuing resource tags.
+            // Drop non value elements except numeric 0.
+            // if ( empty( $sProperty ) && 0 !== $sProperty && '0' !== $sProperty ) { continue; } 
+            
+            // Must be resolved as a string.
+            if ( is_array( $sProperty ) || is_object( $sProperty ) ) { continue; }  
+                        
+            $_aOutput[] = "{$sAttribute}={$sQuoteCharactor}{$sProperty}{$sQuoteCharactor}";
+            
         }
-        return implode( ' ', $aOutput );
+        return implode( ' ', $_aOutput );
         
     }    
     

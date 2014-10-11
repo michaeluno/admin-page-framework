@@ -29,16 +29,16 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      * 
      *      id="my_id" name="my_name" class="my_class"
      * 
-     * @since 3.0.0
+     * @since   3.0.0
      */
-    static public function generateAttributes( array $aAttributes ) {
+    static public function generateAttributes( array $aAttributes ) {    // '
         
-        foreach( $aAttributes as $sAttribute => &$asProperty ) {
-            if ( is_array( $asProperty ) || is_object( $asProperty ) ) {
-                unset( $aAttributes[ $sAttribute ] );
+        foreach( $aAttributes as $_sAttribute => &$_vProperty ) {
+            if ( is_array( $_vProperty ) || is_object( $_vProperty ) ) {
+                unset( $aAttributes[ $_sAttribute ] );
             }
-            if ( is_string( $asProperty ) ) {
-                $asProperty = esc_attr( $asProperty );  
+            if ( is_string( $_vProperty ) ) {
+                $_vProperty = esc_attr( $_vProperty );  
             }
         }     
         return parent::generateAttributes( $aAttributes );
