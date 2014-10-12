@@ -40,7 +40,7 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'label_min_width'   => '',
+        'label_min_width'   => null,
         'width'             => 64,
         'height'            => 64,
         'attributes'        => array(),    
@@ -174,7 +174,7 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
             $_aInputAttributes  = array(
                 'type'      => 'checkbox', // needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
                 'id'        => $aField['input_id'] . '_' . $_sKey,
-                'checked'   => $this->getCorrespondingArrayValue( $_asValue, $_sKey, null ) == 1 ? 'checked' : '',
+                'checked'   => $this->getCorrespondingArrayValue( $_asValue, $_sKey, null ) == 1 ? 'checked' : null,
                 'value'     => 1, // must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
                 'name'      => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$_sKey}]" : $aField['attributes']['name'],
             ) 
@@ -191,7 +191,7 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
             
             $_aLabelAttributes = array(
                 'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',            
+                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,            
             );
             
             $_aImageAttributes = array(
@@ -212,10 +212,10 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
                 'class'     => 'image_checkbox_item',
                 'style'     => $this->generateInlineCSS(
                     array(
-                        'width'               => $this->sanitizeLength( $aField['width'] + 4 ),
-                        'height'              => $this->sanitizeLength( $aField['height'] + 4 ),
-                        'background'          => 'no-repeat center center fixed',                        
-                        'filter'              => "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='{$_sLabel}', sizingMethod='scale')",    
+                        'width'      => $this->sanitizeLength( $aField['width'] + 4 ),
+                        'height'     => $this->sanitizeLength( $aField['height'] + 4 ),
+                        'background' => 'no-repeat center center fixed',                        
+                        'filter'     => "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='{$_sLabel}', sizingMethod='scale')",    
                     )
                 ),                           
             );

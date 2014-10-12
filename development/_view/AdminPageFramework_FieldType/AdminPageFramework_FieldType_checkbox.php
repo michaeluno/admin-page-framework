@@ -84,7 +84,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
             $_aInputAttributes = array(
                 'type'      => 'checkbox', // needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
                 'id'        => $aField['input_id'] . '_' . $_sKey,
-                'checked'   => $this->getCorrespondingArrayValue( $_asValue, $_sKey, null ) == 1 ? 'checked' : '',
+                'checked'   => $this->getCorrespondingArrayValue( $_asValue, $_sKey, null ) == 1 ? 'checked' : null,    // to not to set, pass null. AN empty value '' will still set the attribute.
                 'value'     => 1, // must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
                 'name'      => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$_sKey}]" : $aField['attributes']['name'],
             ) 
@@ -94,7 +94,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
         
             $_aLabelAttributes = array(
                 'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',
+                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
             );
             
             $_aOutput[] =

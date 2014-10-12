@@ -342,7 +342,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
     protected function getField( $aField ) { 
             
         $aInputAttributes = array(
-            'type'    =>    'text',
+            'type'    => 'text',
         ) + $aField['attributes'];
         $aInputAttributes['class'] .= ' autocomplete';
         $aInputAttributes['value']  = $this->_setPrepopulate( $aField['settings'], $aField['settings2'], $aInputAttributes['value'] );

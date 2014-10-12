@@ -175,7 +175,7 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
         $aInputAttributes = array(
             'type'  => 'text',
             'name'  => $aField['attributes']['name'].'[url]',
-            'value' => isset( $aField['attributes']['value']['url'] ) ? $aField['attributes']['value']['url'] : '',
+            'value' => isset( $aField['attributes']['value']['url'] ) ? $aField['attributes']['value']['url'] : null,
         ) + $aField['attributes'];
         $aInputAttributes['class'] .= ' link_modal_dialog';
         
@@ -208,7 +208,7 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
                     'id'    => "{$aField['input_id']}_title",
                     'type'  => 'hidden',
                     'name'  => "{$aField['_input_name']}[title]",
-                    'value' => isset( $aField['attributes']['value']['title'] ) ? $aField['attributes']['value']['title'] : '',
+                    'value' => isset( $aField['attributes']['value']['title'] ) ? $aField['attributes']['value']['title'] : null,
                 )
             ) . '/>' . PHP_EOL
             . '<input ' . $this->generateAttributes( 
@@ -216,7 +216,7 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
                     'id'    => "{$aField['input_id']}_target",
                     'type'  => 'hidden',
                     'name'  => "{$aField['_input_name']}[target]",
-                    'value' => isset( $aField['attributes']['value']['target'] ) ? $aField['attributes']['value']['target'] : '',
+                    'value' => isset( $aField['attributes']['value']['target'] ) ? $aField['attributes']['value']['target'] : null,
                 )
             ) . '/>' . PHP_EOL;
             

@@ -151,7 +151,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
             /* Prepare attributes */
             $aInputAttributes = array(
                 'type'          => 'radio',
-                'checked'       => $sValue == $sKey ? 'checked' : '',
+                'checked'       => $sValue == $sKey ? 'checked' : null,
                 'value'         => $sKey,
                 'id'            => $aField['input_id'] . '_' . $sKey,
                 'data-default'  => $aField['default'],
@@ -160,7 +160,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
             + $aField['attributes'];
             $aLabelAttributes = array(
                 'for'    => $aInputAttributes['id'],
-                'class'  => $aInputAttributes['disabled'] ? 'disabled' : '',
+                'class'  => $aInputAttributes['disabled'] ? 'disabled' : null,
             );
             
             /* Insert the output */
@@ -188,13 +188,13 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 
             if ( ! isset( $aField['label'][ $sKey ] ) ) continue;    // the hidden array key should correspond to the label array.
                         
-            $HiddenAttributes = array(    /* Prepare attributes */
+            $_aHiddenAttributes = array(    /* Prepare attributes */
                 'style'    => 'display:none;',
                 'class'    => 'sample_hidden_element',
                 'id'       => "hidden-" . $aField['input_id'] . '_' . $sKey,    // hidden- + {input id}
             );
             $aOutput[] =     /* Insert the output */
-                "<div " . $this->generateAttributes( $HiddenAttributes ) . ">"
+                "<div " . $this->generateAttributes( $_aHiddenAttributes ) . ">"
                     . $sHiddenOutput
                 . "</div>";
                 

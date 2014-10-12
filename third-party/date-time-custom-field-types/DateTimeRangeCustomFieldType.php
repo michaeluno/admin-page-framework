@@ -213,14 +213,14 @@ class DateTimeRangeCustomFieldType extends AdminPageFramework_FieldType {
             'type'    => 'text',
             'id'      => $aField['input_id'] . '_from',
             'name'    => $aField['_input_name'] . '[from]',
-            'value'   => isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
+            'value'   => isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : null,
         ) + $aField['attributes']['from'] + $aField['attributes'];
         $_aInputAttributes_From['class'] .= ' from datetimepicker';
         $_aInputAttributes_To = array(
             'type'    => 'text',
             'id'      => $aField['input_id'] . '_to',
             'name'    => $aField['_input_name'] . '[to]',
-            'value'   => isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : '',
+            'value'   => isset( $aField['attributes']['value'][ 'to' ] ) ? $aField['attributes']['value'][ 'to' ] : null,
         ) + $aField['attributes']['to'] + $aField['attributes'];
         $_aInputAttributes_To['class'] .= ' to datetimepicker';
     

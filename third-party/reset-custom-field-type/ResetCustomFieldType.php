@@ -149,7 +149,7 @@ class ResetCustomFieldType extends AdminPageFramework_FieldType {
         $_aButtonAttributes = array(
             'type'    => 'reset',
         ) + $aField['attributes'];
-        $_aButtonAttributes['class']    .= ' reset';
+        $_aButtonAttributes['class'] .= ' reset';
 
         $_aLabelContainerAttributes = array(
             'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,

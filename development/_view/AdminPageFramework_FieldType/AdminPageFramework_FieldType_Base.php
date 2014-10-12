@@ -44,41 +44,41 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * @internal
      */
     protected static $_aDefaultKeys = array(
-        'value' => null, // ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
-        'default' => null, // ( array or string )
-        'repeatable' => false,
-        'sortable' => false,
-        'label' => '', // ( string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
-        'delimiter' => '',
-        'before_input' => '',
-        'after_input' => '',     
-        'before_label' => null,
-        'after_label' => null,    
-        'before_field' => null,
-        'after_field' => null,
-        'label_min_width' => 140, // in pixel
-        'before_fieldset' => null, // 3.1.1+
-        'after_fieldset' => null, // 3.1.1+
+        'value'             => null, // ( array or string ) this suppresses the default key value. This is useful to display the value saved in a custom place other than the framework automatically saves.
+        'default'           => null, // ( array or string )
+        'repeatable'        => false,
+        'sortable'          => false,
+        'label'             => '', // ( string ) labels for some input fields. Do not set null here because it is casted as string in the field output methods, which creates an element of empty string so that it can be iterated with foreach().
+        'delimiter'         => '',
+        'before_input'      => '',
+        'after_input'       => '',     
+        'before_label'      => null,
+        'after_label'       => null,    
+        'before_field'      => null,
+        'after_field'       => null,
+        'label_min_width'   => 140, // in pixel
+        'before_fieldset'   => null, // 3.1.1+
+        'after_fieldset'    => null, // 3.1.1+
         
         /* Mandatory keys */
-        'field_id' => null,     
+        'field_id'          => null,     
         
         /* For the meta box class - it does not require the following keys; these are just to help to avoid undefined index warnings. */
-        'page_slug' => null,
-        'section_id' => null,
-        'before_fields' => null,
-        'after_fields' => null,    
+        'page_slug'         => null,
+        'section_id'        => null,
+        'before_fields'     => null,
+        'after_fields'      => null,    
         
-        'attributes' => array(
+        'attributes'        => array(
             /* Root Attributes - the root attributes are assumed to be for the input tag. */
-            'disabled' => '', // set 'Disabled' to make it disabled
-            'class' => '',
+            'disabled'  => null, // set 'Disabled' or an empty value '' to make it disabled. Null will not set the attribute.
+            'class'     => '',
             
             /* Component Attributes */
-            'fieldrow' => array(), // attributes applied to the field group container row tag that holds all the field components including descriptions and scripts and the title.
-            'fieldset' => array(), // attributes applied to the field group container tag that holds all the field components including descriptions and scripts.
-            'fields' => array(), // attributes applied to the fields container tag that holds all sub-fields.
-            'field' => array(), // attributes applied to each field container tag.
+            'fieldrow'  => array(), // attributes applied to the field group container row tag that holds all the field components including descriptions and scripts and the title.
+            'fieldset'  => array(), // attributes applied to the field group container tag that holds all the field components including descriptions and scripts.
+            'fields'    => array(), // attributes applied to the fields container tag that holds all sub-fields.
+            'field'     => array(), // attributes applied to each field container tag.
         ),
     );    
     
@@ -86,8 +86,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     
     function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
             
-        $this->aFieldTypeSlugs = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
-        $this->oMsg = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
+        $this->aFieldTypeSlugs  = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
+        $this->oMsg             = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
         
         // This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
         if ( $bAutoRegister ) {

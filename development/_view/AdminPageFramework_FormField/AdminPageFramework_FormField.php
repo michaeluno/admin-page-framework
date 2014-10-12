@@ -249,8 +249,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                     'id'        => $__aField['_field_container_id'],
                     'data-type' => "{$__aField['type']}", // this is referred by the repeatable field JavaScript script.
                     'class'     => "admin-page-framework-field admin-page-framework-field-{$__aField['type']}" 
-                        . ( $__aField['attributes']['disabled'] ? ' disabled' : '' )
-                        . ( $_bIsSubField ? ' admin-page-framework-subfield' : '' ),
+                        . ( $__aField['attributes']['disabled'] ? ' disabled' : null )
+                        . ( $_bIsSubField ? ' admin-page-framework-subfield' : null ),
                 ) + $__aField['attributes']['field'];    
                 $_aOutput[] = $__aField['before_field']
                     . "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">"

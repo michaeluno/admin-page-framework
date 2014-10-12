@@ -49,18 +49,16 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
     protected $aDefaultKeys = array(
         'data'          =>  array(),        // [3.2.0+] Stores the data to be displayed
         'attributes'    =>    array(
-            // 'size'    =>    10,
-            // 'cols'          =>  60,
-            'rows'          =>  60,
-            'autofocus'     => '',
-            'disabled'      => '',
-            'formNew'       => '',
-            'maxlength'     => '',
-            'placeholder'   => '',
-            'readonly'      => 'ReadOnly',
-            'required'      => '',
-            'wrap'          => '',  
-            'style'         => '',
+            'rows'          => 60,
+            'autofocus'     => null,
+            'disabled'      => null,
+            'formNew'       => null,
+            'maxlength'     => null,
+            'placeholder'   => null,
+            'readonly'      => 'readonly',
+            'required'      => null,
+            'wrap'          => null,  
+            'style'         => null,
             'onclick'       => 'this.focus();this.select()',
         ),    
     );

@@ -115,7 +115,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
      */
     static public function generateAttributes( array $aAttributes ) {
         
-        $sQuoteCharactor    ="'";
+        $_sQuoteCharactor   ="'";
         $_aOutput           = array();
         foreach( $aAttributes as $sAttribute => $sProperty ) {
             
@@ -126,7 +126,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
             // Must be resolved as a string.
             if ( is_array( $sProperty ) || is_object( $sProperty ) ) { continue; }  
                         
-            $_aOutput[] = "{$sAttribute}={$sQuoteCharactor}{$sProperty}{$sQuoteCharactor}";
+            $_aOutput[] = "{$sAttribute}={$_sQuoteCharactor}{$sProperty}{$_sQuoteCharactor}";
             
         }
         return implode( ' ', $_aOutput );

@@ -182,7 +182,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType_Ba
         $aField['attributes'] = array(
             'color' => $aField['value'],    
             'type' => 'text', // it must be text
-            'class' =>    trim( 'input_color ' . $aField['attributes']['class'] ),
+            'class' => trim( 'input_color ' . $aField['attributes']['class'] ),
         ) + $aField['attributes'];
 
         return 

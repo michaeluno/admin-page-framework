@@ -13,15 +13,13 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        
-        'is_multiple'   => '',
+        'is_multiple'   => false,
         'attributes'    => array(
             'select'    => array(
                 'size'          => 1,
-                'autofocusNew'  => '',
-                // 'form'          =>         // this is still work in progress
-                'multiple'      => '',    // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
-                'required'      => '',        
+                'autofocusNew'  => null,
+                'multiple'      => null,    // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
+                'required'      => null,        
             ),
             'optgroup'  => array(),
             'option'    => array(),
@@ -147,7 +145,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                 $aOptionAttributes = array(
                     'id'        => $sInputID . '_' . $sKey,
                     'value'     => $sKey,
-                    'selected'  => in_array( ( string ) $sKey, $aValue ) ? 'Selected' : '',
+                    'selected'  => in_array( ( string ) $sKey, $aValue ) ? 'selected' : null,
                 ) + ( isset( $aAttributes['option'][ $sKey ] ) && is_array( $aAttributes['option'][ $sKey ] )
                     ? $aAttributes['option'][ $sKey ] + $aAttributes['option']
                     : $aAttributes['option']

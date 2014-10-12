@@ -29,18 +29,18 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
      */
     protected $aDefaultKeys = array(
         'attributes' => array(
-            'size' => 30,
-            'maxlength' => 400,
-            'class' => '',    
-            'min' => '',
-            'max' => '',
-            'step'  => '',
-            'readonly' => '',
-            'required' => '',
-            'placeholder' => '',
-            'list' => '',
-            'autofocus' => '',
-            'autocomplete' => '',
+            'size'          => 30,
+            'maxlength'     => 400,
+            'class'         => null,    
+            'min'           => null,
+            'max'           => null,
+            'step'          => null,
+            'readonly'      => null,
+            'required'      => null,
+            'placeholder'   => null,
+            'list'          => null,
+            'autofocus'     => null,
+            'autocomplete'  => null,
         ),
     );
 

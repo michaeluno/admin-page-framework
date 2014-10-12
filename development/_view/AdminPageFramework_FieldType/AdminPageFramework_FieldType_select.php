@@ -26,18 +26,17 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
      * Defines the default key-values of this field type. 
      */
     protected $aDefaultKeys = array(
-        'label' => array(),
-        'is_multiple' => '',
-        'attributes' => array(
-            'select' => array(
-                'size' => 1,
-                'autofocusNew' => '',
-                // 'form' =>         // this is still work in progress
-                'multiple' => '', // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
-                'required' => '',     
+        'label'             => array(),
+        'is_multiple'       => false,
+        'attributes'        => array(
+            'select'    => array(
+                'size'          => 1,
+                'autofocusNew'  => null,
+                'multiple'      => null,    // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
+                'required'      => null,     
             ),
-            'optgroup' => array(),
-            'option' => array(),
+            'optgroup'  => array(),
+            'option'    => array(),
         ),
     );
 
@@ -79,8 +78,8 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
     public function _replyToGetField( $aField ) {
             
         $_aSelectAttributes = array(
-            'id' => $aField['input_id'],
-            'multiple' => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
+            'id'        => $aField['input_id'],
+            'multiple'  => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
         ) + $aField['attributes']['select'];
         $_aSelectAttributes['name'] = empty( $_aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
 
@@ -141,7 +140,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
                 $_aOptionAttributes = array(
                     'id' => $sInputID . '_' . $__sKey,
                     'value' => $__sKey,
-                    'selected' => in_array( ( string ) $__sKey, $_aValue ) ? 'Selected' : '',
+                    'selected' => in_array( ( string ) $__sKey, $_aValue ) ? 'selected' : null,
                 ) + ( isset( $aAttributes['option'][ $__sKey ] ) && is_array( $aAttributes['option'][ $__sKey ] )
                     ? $aAttributes['option'][ $__sKey ] + $aAttributes['option']
                     : $aAttributes['option']

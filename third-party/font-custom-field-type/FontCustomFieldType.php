@@ -471,7 +471,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         $aBaseAttributes    = $aField['attributes'] + array( 'class' => null );
         unset( $aBaseAttributes['input'], $aBaseAttributes['button'], $aBaseAttributes['preview'], $aBaseAttributes['name'], $aBaseAttributes['value'], $aBaseAttributes['type'] );
         $aInputAttributes   = array(
-            'name'    => $aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : "" ),
+            'name'    => $aField['attributes']['name'] . ( $iCountAttributes ? "[url]" : '' ),
             'value'   => $sFontURL,
             'type'    => 'text',
         ) + $aField['attributes']['input'] + $aBaseAttributes;
@@ -518,8 +518,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                             'id'        => "{$aField['input_id']}_{$sAttribute}",
                             'type'      => 'hidden',
                             'name'      => "{$aField['_input_name']}[{$sAttribute}]",
-                            'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] ? 'disabled' : '',
-                            'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
+                            'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] ? 'disabled' : null,
+                            'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : null,
                         )
                     ) . "/>";
             return implode( PHP_EOL, $aOutputs );
@@ -538,8 +538,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
             return 
                 "<div " . $this->generateAttributes( 
                         array(
-                            'id'        =>    "font_preview_container_{$aField['input_id']}",                            
-                            'class'     =>    'font_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ),
+                            'id'        => "font_preview_container_{$aField['input_id']}",                            
+                            'class'     => 'font_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : null ),
                             // 'style'     => ( $sFontURL ? '' : "display; none; "  ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ),
                         ) + $aPreviewAtrributes
                     )

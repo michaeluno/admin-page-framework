@@ -213,7 +213,7 @@ class TimeRangeCustomFieldType extends AdminPageFramework_FieldType {
             'type'    => 'text',
             'id'      => $aField['input_id'] . '_from',
             'name'    => $aField['_input_name'] . '[from]',
-            'value'   => isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : '',
+            'value'   => isset( $aField['attributes']['value'][ 'from' ] ) ? $aField['attributes']['value'][ 'from' ] : null,
         ) + $aField['attributes']['from'] + $aField['attributes'];
         $_aInputAttributes_From['class']    .= ' from timepicker';
         $_aInputAttributes_To = array(

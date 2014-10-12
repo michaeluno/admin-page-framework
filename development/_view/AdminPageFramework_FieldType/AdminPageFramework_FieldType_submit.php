@@ -96,7 +96,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType_B
         $_aLabelAttributes          = array(
             'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
             'for'   => $_aInputAttributes['id'],
-            'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',     
+            'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
         );
         $_aLabelContainerAttributes = array(
             'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,

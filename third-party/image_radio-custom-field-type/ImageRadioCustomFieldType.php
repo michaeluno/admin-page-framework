@@ -40,7 +40,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'label_min_width'   => '',
+        'label_min_width'   => null,
         'width'             => 64,
         'height'            => 64,
         'attributes'        => array(),    
@@ -190,7 +190,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
             /* Prepare attributes */
             $_aInputAttributes  = array(
                     'type'          => 'radio',
-                    'checked'       => $_sValue == $_sKey ? 'checked' : '',
+                    'checked'       => $_sValue == $_sKey ? 'checked' : null,
                     'value'         => $_sKey,
                     'id'            => $aField['input_id'] . '_' . $_sKey,
                     'data-default'  => $aField['default'],      
@@ -206,7 +206,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
             );                
             $_aLabelAttributes = array(
                 'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',          
+                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,          
             );
             $_aImageAttributes = array(
                 'class'     => 'image_radio_item',

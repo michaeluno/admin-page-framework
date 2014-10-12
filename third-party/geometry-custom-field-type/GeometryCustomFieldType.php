@@ -18,7 +18,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
                 'latitude'      => 20,
                 'longitude'     => 20,
                 'elevation'     => null,
-                'location_name' => '',
+                'location_name' => null,
             ),
             'latitude'      => array(),
             'longitude'     => array(),
@@ -124,7 +124,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
             $aElevationAttributes = array(
                 'type'    => 'text',
                 'id'      => "{$aField['input_id']}_elevation",
-                'value'   => isset( $aField['attributes']['value']['elevation'] ) ? $aField['attributes']['value']['elevation'] : '',
+                'value'   => isset( $aField['attributes']['value']['elevation'] ) ? $aField['attributes']['value']['elevation'] : null,
                 'name'    => "{$aField['_input_name']}[elevation]",
             ) + $aField['attributes']['elevation'] + $aBaseAttributes;            
             $aElevationAttributes['class'] .= ' gllpElevation';        
@@ -132,7 +132,7 @@ class GeometryCustomFieldType extends AdminPageFramework_FieldType {
             $aLocationNameAttributes = array(
                 'type'    => 'text',
                 'id'      => "{$aField['input_id']}_name",
-                'value'   => isset( $aField['attributes']['value']['localtion_name'] ) ? $aField['attributes']['value']['localtion_name'] : '',
+                'value'   => isset( $aField['attributes']['value']['localtion_name'] ) ? $aField['attributes']['value']['localtion_name'] : null,
                 'name'    => "{$aField['_input_name']}[localtion_name]",
             ) + $aField['attributes']['location_name'] + $aBaseAttributes;            
             $aLocationNameAttributes['class'] .= ' gllpLocationName';

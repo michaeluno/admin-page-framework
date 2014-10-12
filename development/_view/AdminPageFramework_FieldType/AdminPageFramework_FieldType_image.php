@@ -601,11 +601,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
                 $_aOutputs[] = "<input " . $this->generateAttributes( 
                         array(
-                            'id' => "{$aField['input_id']}_{$sAttribute}",
-                            'type' => 'hidden',
-                            'name' => "{$aField['_input_name']}[{$sAttribute}]",
-                            'disabled' => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] ? 'disabled' : '',
-                            'value' => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
+                            'id'        => "{$aField['input_id']}_{$sAttribute}",
+                            'type'      => 'hidden',
+                            'name'      => "{$aField['_input_name']}[{$sAttribute}]",
+                            'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] ? 'disabled' : null,
+                            'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
                         )
                     ) . "/>";
             return implode( PHP_EOL, $_aOutputs );

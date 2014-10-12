@@ -30,6 +30,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Post {
      * The method ensures it is done mo more than once in a page load.
      * 
      * @since       3.1.5
+     * @todo        Check if capitalizing the name is necessary or not.
      */
     static public function FlushRewriteRules() {
         

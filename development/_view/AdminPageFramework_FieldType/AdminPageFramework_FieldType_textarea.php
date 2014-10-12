@@ -30,16 +30,16 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
     protected $aDefaultKeys = array(
         'rich'          => false,
         'attributes'    => array(     
-            'autofocus'     => '',
+            'autofocus'     => null,
             'cols'          => 60,
-            'disabled'      => '',
-            'formNew'       => '',
-            'maxlength'     => '',
-            'placeholder'   => '',
-            'readonly'      => '',
-            'required'      => '',
+            'disabled'      => null,
+            'formNew'       => null,
+            'maxlength'     => null,
+            'placeholder'   => null,
+            'readonly'      => null,
+            'required'      => null,
             'rows'          => 4,
-            'wrap'          => '',     
+            'wrap'          => null,     
         ),
     );
 

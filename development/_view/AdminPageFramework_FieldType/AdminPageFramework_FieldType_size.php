@@ -29,26 +29,24 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'is_multiple' => false,    
-        'units' => null, // do not define units here since this will be merged with the user defined field array.
-        'attributes' => array(
-            'size' => array(
-                'size' => 10,
-                'maxlength' => 400,
-                'min' => '',
-                'max' => '',
+        'is_multiple'           => false,    
+        'units'                 => null, // do not define units here since this will be merged with the user defined field array.
+        'attributes'            => array(
+            'size'      => array(
+                'size'          => 10,
+                'maxlength'     => 400,
+                'min'           => null,
+                'max'           => null,
             ),
-            'unit' => array(
-                'multiple' => '',
-                
-                'size' => 1,
-                'autofocusNew' => '',
-                // 'form' =>         // this is still work in progress
-                'multiple' => '', // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
-                'required' => '',
+            'unit'      => array(
+                // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
+                'multiple'      => null,
+                'size'          => 1,
+                'autofocusNew'  => null,
+                'required'      => null,
             ),
-            'optgroup' => array(),
-            'option' => array(),     
+            'optgroup'  => array(),
+            'option'    => array(),     
         ),    
     );
     
@@ -60,15 +58,15 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * @since 3.0.0
      */
     protected $aDefaultUnits = array(
-        'px' => 'px', // pixel
-        '%' => '%', // percentage
-        'em' => 'em', // font size
-        'ex' => 'ex', // font height
-        'in' => 'in', // inch
-        'cm' => 'cm', // centimetre
-        'mm' => 'mm', // millimetre
-        'pt' => 'pt', // point
-        'pc' => 'pc', // pica
+        'px'    => 'px', // pixel
+        '%'     => '%',  // percentage
+        'em'    => 'em', // font size
+        'ex'    => 'ex', // font height
+        'in'    => 'in', // inch
+        'cm'    => 'cm', // centimetre
+        'mm'    => 'mm', // millimetre
+        'pt'    => 'pt', // point
+        'pc'    => 'pc', // pica
     );
         
     /**
@@ -130,9 +128,9 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         
         /* 2-2. Size attributes */     
         $aSizeAttributes = array(
-            'type' => 'number',
-            'id' => $aField['input_id'] . '_' . 'size',
-            'name' => $aField['_input_name'] . '[size]',
+            'type'  => 'number',
+            'id'    => $aField['input_id'] . '_' . 'size',
+            'name'  => $aField['_input_name'] . '[size]',
             'value' => isset( $aField['value']['size'] ) ? $aField['value']['size'] : '',
         ) 
         + $this->getFieldElementByKey( $aField['attributes'], 'size', $this->aDefaultKeys['attributes']['size'] )
@@ -140,16 +138,16 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         
         /* 2-3. Size label attributes */     
         $aSizeLabelAttributes = array(
-            'for' => $aSizeAttributes['id'],
-            'class' => $aSizeAttributes['disabled'] ? 'disabled' : '',
+            'for'   => $aSizeAttributes['id'],
+            'class' => $aSizeAttributes['disabled'] ? 'disabled' : null,
         );
         
         /* 2-4. Unit attributes */     
         $aUnitAttributes = array(
-            'type' => 'select',
-            'id' => $aField['input_id'] . '_' . 'unit',
-            'multiple' => $aField['is_multiple'] ? 'Multiple' : $aField['attributes']['unit']['multiple'],
-            'value' => isset( $aField['value']['unit'] ) ? $aField['value']['unit'] : '',
+            'type'      => 'select',
+            'id'        => $aField['input_id'] . '_' . 'unit',
+            'multiple'  => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['unit']['multiple'],
+            'value'     => isset( $aField['value']['unit'] ) ? $aField['value']['unit'] : '',
         )
         + $this->getFieldElementByKey( $aField['attributes'], 'unit', $this->aDefaultKeys['attributes']['unit'] )
         + $aBaseAttributes;
@@ -157,8 +155,8 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         
         /* 2-5. Unit label attributes */     
         $aUnitLabelAttributes = array(
-            'for' => $aUnitAttributes['id'],
-            'class' => $aUnitAttributes['disabled'] ? 'disabled' : '',
+            'for'       => $aUnitAttributes['id'],
+            'class'     => $aUnitAttributes['disabled'] ? 'disabled' : null,
         );
         
         /* 3. Return the output */

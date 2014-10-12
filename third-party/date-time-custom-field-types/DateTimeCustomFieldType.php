@@ -13,13 +13,13 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'date_format'    =>    'yy/mm/dd',
-        'time_format'    =>    'H:mm',
-        'attributes'    =>    array(
-            'size'        =>    16,
-            'maxlength'    =>    400,
+        'date_format'    => 'yy/mm/dd',
+        'time_format'    => 'H:mm',
+        'attributes'     => array(
+            'size'       => 16,
+            'maxlength'  => 400,
         ),
-        'options'        =>    array(
+        'options'        => array(
             'showButtonPanel'    =>    false,
         ),
     );
@@ -169,11 +169,11 @@ class DateTimeCustomFieldType extends AdminPageFramework_FieldType {
     protected function getField( $aField ) { 
             
         $aInputAttributes = array(
-            'type'    =>    'text',
-            'data-date_format'    => $aField['date_format'],
-            'data-time_format'    => $aField['time_format'],
+            'type'              =>    'text',
+            'data-date_format'  => $aField['date_format'],
+            'data-time_format'  => $aField['time_format'],
         ) + $aField['attributes'];
-        $aInputAttributes['class']    .= ' datetime_picker';
+        $aInputAttributes['class'] .= ' datetime_picker';
         return 
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container'>"

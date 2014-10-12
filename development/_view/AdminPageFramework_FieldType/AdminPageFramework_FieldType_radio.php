@@ -106,7 +106,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
             /* Prepare attributes */
             $_aInputAttributes = array(
                 'type'          => 'radio',
-                'checked'       => $_sValue == $_sKey ? 'checked' : '',
+                'checked'       => $_sValue == $_sKey ? 'checked' : null,
                 'value'         => $_sKey,
                 'id'            => $aField['input_id'] . '_' . $_sKey,
                 'data-default'  => $aField['default'],
@@ -115,7 +115,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
             + $aField['attributes'];
             $_aLabelAttributes = array(
                 'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : '',
+                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
             );
 
             /* Insert the output */
