@@ -443,17 +443,21 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
      */ 
     public function _replyToGetStyles() {
         return "/* Textarea Field Type */
-            .admin-page-framework-field-textarea .admin-page-framework-input-label-string {
-                vertical-align: top;
-                margin-top: 2px;
-            }     
-            /* Rich Text Editor */
-            .admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
-                margin-bottom: 0.5em;
-            }
-            .admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {
-                vertical-align: top; 
-            } 
+.admin-page-framework-field-textarea .admin-page-framework-input-label-string {
+    vertical-align: top;
+    margin-top: 2px;
+}     
+/* Rich Text Editor */
+.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
+    margin-bottom: 0.5em;
+}
+.admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {
+    vertical-align: top; 
+} 
+/* For meta-boxes */
+.postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {
+    width: 100%;
+}
         " . PHP_EOL;     
     }    
         
