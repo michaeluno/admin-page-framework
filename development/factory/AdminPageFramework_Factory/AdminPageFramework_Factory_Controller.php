@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Controller' ) ) :
  * @since       3.0.4
  * @package     AdminPageFramework
  * @subpackage  Factory
+ * @internal
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
             
@@ -202,8 +203,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       <li><strong>hidden</strong> - [3.0.0+] (optional, boolean) If true, the entire field row output will be invisible with the inline style attribute of <em>style="display:none"</em>.</li>
     * </ul>
     * 
-    * <h4>Field Type Specific Keys</h4>
-    * <p>Each field type uses specific array keys.</p>
+    * <h4>Field Type Specific Arguments</h4>
+    * <p>Each field type uses specific array arguments.</p>
     * <ul>
     *       <li><strong>text</strong> - a text input field which allows the user to type text.</li>
     *       <li><strong>password</strong> - a password input field which allows the user to type text.</li>
@@ -293,29 +294,29 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     }    
         
     /**
-    * Adds the given field array items into the field array property.
-    * 
-    * Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
-    * 
-    * <h4>Examples</h4>
-    * <code>
-    *         $this->addSettingField(
-    *             array(
-    *                 'field_id'    => 'metabox_text_field',
-    *                 'type'        => 'text',
-    *                 'title'       => __( 'Text Input', 'admin-page-framework-demo' ),
-    *                 'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-    *                 'help'        => 'This is help text.',
-    *                 'help_aside'  => 'This is additional help text which goes to the side bar of the help pane.',
-    *             )
-    *         );    
-    * </code>
-    * 
-    * @since        2.1.2
-    * @since        3.0.0   The scope changed to public to indicate the users will use.
-    * @return       void
-    * @remark       The $oForm property should be created in each extended class.
-    */     
+     * Adds the given field array items into the field array property.
+     * 
+     * Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+     * 
+     * <h4>Examples</h4>
+     * <code>
+     *         $this->addSettingField(
+     *             array(
+     *                 'field_id'    => 'metabox_text_field',
+     *                 'type'        => 'text',
+     *                 'title'       => __( 'Text Input', 'admin-page-framework-demo' ),
+     *                 'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
+     *                 'help'        => 'This is help text.',
+     *                 'help_aside'  => 'This is additional help text which goes to the side bar of the help pane.',
+     *             )
+     *         );    
+     * </code>
+     * 
+     * @since        2.1.2
+     * @since        3.0.0   The scope changed to public to indicate the users will use.
+     * @return       void
+     * @remark       The $oForm property should be created in each extended class.
+     */     
     public function addSettingField( $asField ) {
         if ( method_exists( $this->oForm, 'addField' ) ) {
             $this->oForm->addField( $asField );     
@@ -447,7 +448,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * If this method yields true, the framework discards the system message and displays the user set notification message.
      * 
      * @since       3.1.0
-     * 
      * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
      * @return      boolean     True if a setting notice is set; otherwise, false.
      */
