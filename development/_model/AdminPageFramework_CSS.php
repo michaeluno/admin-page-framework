@@ -319,6 +319,9 @@ td.admin-page-framework-field-td-no-title {
         static private function _getMetaBoxFormRules() {            
             return 
 "/* Meta-box form fields */
+.postbox .title-colon {
+    margin-left: 0.2em;
+}
 .postbox .admin-page-framework-section .form-table > tbody > tr > td,
 .postbox .admin-page-framework-section .form-table > tbody > tr > th
 {
