@@ -327,9 +327,7 @@ td.admin-page-framework-field-td-no-title {
     padding: 0;
 }
 
-.postbox .admin-page-framework-field,
-.postbox .admin-page-framework-input-label-container
-{
+.postbox .admin-page-framework-field {
     width: 100%;
 }            
             
