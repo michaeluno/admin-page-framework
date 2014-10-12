@@ -130,7 +130,7 @@ class APF_Demo_Contact extends AdminPageFramework {
                 'type'              => 'text',
                 'attributes'        => array(
                     'size' => 40,
-                    'placeholder'   =>  __( 'Type the title here.' )
+                    'placeholder'   =>  __( 'Type the title here.', 'admin-page-framework-demo' ),
                 ),
             ),    
             array( 
@@ -139,7 +139,7 @@ class APF_Demo_Contact extends AdminPageFramework {
                 'type'              => 'textarea',
                 'rich'              => true,
                 'attributes'        => array(
-                    'placeholder'   =>  __( 'Type the message here.' )
+                    'placeholder'   =>  __( 'Type the message here.', 'admin-page-framework-demo' ),
                 ),
             ),            
             array( 

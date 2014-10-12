@@ -35,8 +35,8 @@ $this->addSettingFields(
         'type'              => 'text',
         'attributes'        => array(
             'size'          => 20,
-            'readonly'      => 'ReadOnly',
-            // 'disabled' => 'Disabled', // disabled can be specified like so
+            'readonly'      => 'readonly',
+            // 'disabled' => 'disabled', // disabled can be specified like so
         ),
         'value'             => __( 'This is a read-only value.', 'admin-page-framework-demo' ),
         'description'       => __( 'The attribute can be set with the <code>attributes</code> argument.', 'admin-page-framework-demo' ),
@@ -105,7 +105,7 @@ $this->addSettingFields(
             'label'         => __( 'Disabled Item', 'admin-page-framework-demo' ),
             'default'       => 'd',
             'attributes'    => array(
-                'disabled' => 'Disabled',
+                'disabled' => 'disabled',
             ),
         ),     
         'delimiter'     => '<br />',
@@ -271,7 +271,7 @@ $this->addSettingFields(
             ),
             'option' => array(
                 1 => array(
-                    'disabled' => 'Disabled',
+                    'disabled' => 'disabled',
                     'style' => 'background-color: #ECECEC; color: #888;',
                 ),
             ),
@@ -359,7 +359,7 @@ $this->addSettingFields(
         'after_label'   => '<br />',
         'attributes'    => array(
             'b' => array(
-                'disabled' => 'Disabled',
+                'disabled' => 'disabled',
             ),
         ),
         'description'   => __( 'Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-demo' )
@@ -453,7 +453,7 @@ $this->addSettingFields(
         ),
         'attributes'    => array(
             'earth' => array(
-                'disabled' => 'Disabled',
+                'disabled' => 'disabled',
             ),
         ),
         'description'   => __( 'It is possible to disable checkbox items on an individual basis.', 'admin-page-framework-demo' ),
@@ -589,7 +589,7 @@ $this->addSettingFields(
             ),
             'option'    => array(
                 'cm' => array( // applies only to the 'cm' element of the option elements
-                    'disabled'  => 'Disabled',
+                    'disabled'  => 'disabled',
                     'class'     => 'disabled',
                 ),
                 'style' => 'background-color: #F7EFFF', // applies to all the option elements
@@ -597,7 +597,7 @@ $this->addSettingFields(
             'optgroup'  => array(
                 'style' => 'background-color: #EFEFEF',
                 __( 'Astronomical Units', 'admin-page-framework' ) => array(
-                    'disabled' => 'Disabled',
+                    'disabled' => 'disabled',
                 ),
             ),
         ),
