@@ -27,19 +27,19 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * @internal
      */     
     public static $_aStructure_Section = array(    
-        'section_id' => '_default', // 3.0.0+
-        'page_slug' => null,
-        'tab_slug' => null,
-        'section_tab_slug' => null, // 3.0.0+
-        'title' => null,
-        'description' => null,
-        'capability' => null,
-        'if' => true,    
-        'order' => null, // do not set the default number here because incremented numbers will be added when registering the sections.
-        'help' => null,
-        'help_aside' => null,
-        'repeatable' => null, // 3.0.0+
-        'section_tab_slug' => null, // 3,0,0+
+        'section_id'        => '_default', // 3.0.0+
+        'page_slug'         => null,
+        'tab_slug'          => null,
+        'section_tab_slug'  => null, // 3.0.0+
+        'title'             => null,
+        'description'       => null,
+        'capability'        => null,
+        'if'                => true,    
+        'order'             => null, // do not set the default number here because incremented numbers will be added when registering the sections.
+        'help'              => null,
+        'help_aside'        => null,
+        'repeatable'        => null, // 3.0.0+
+        'section_tab_slug'  => null, // 3,0,0+
     );    
     
     /**
@@ -52,34 +52,34 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * @internal
      */ 
     public static $_aStructure_Field = array(
-        'field_id' => null,         // ( required )
-        'type' => null, // ( required )
-        'section_id' => null, // ( optional )
-        'section_title' => null, // This will be assigned automatically in the formatting method.
-        'page_slug' => null, // This will be assigned automatically in the formatting method.
-        'tab_slug' => null, // This will be assigned automatically in the formatting method.
-        'option_key' => null, // This will be assigned automatically in the formatting method.
-        'class_name' => null, // used by the export field type
-        'capability' => null,     
-        'title' => null,
-        'tip' => null,
-        'description' => null,
-        'error_message' => null, // error message for the field
-        'before_label' => null,
-        'after_label' => null,
-        'if'                 => true,
-        'order' => null, // do not set the default number here for this key.     
-        'default' => null,
-        'value' => null,
-        'help' => null, // [2.1.0+]
-        'help_aside' => null, // [2.1.0+]
-        'repeatable' => null, // [2.1.3+]
-        'sortable' => null, // [2.1.3+]
-        'attributes' => null, // [3.0.0+] - the array represents the attributes of input tag
+        'field_id'          => null, // ( required )
+        'type'              => null, // ( required )
+        'section_id'        => null, // ( optional )
+        'section_title'     => null, // This will be assigned automatically in the formatting method.
+        'page_slug'         => null, // This will be assigned automatically in the formatting method.
+        'tab_slug'          => null, // This will be assigned automatically in the formatting method.
+        'option_key'        => null, // This will be assigned automatically in the formatting method.
+        'class_name'        => null, // used by the export field type
+        'capability'        => null,     
+        'title'             => null,
+        'tip'               => null,
+        'description'       => null,
+        'error_message'     => null, // error message for the field
+        'before_label'      => null,
+        'after_label'       => null,
+        'if'                => true,
+        'order'             => null, // do not set the default number here for this key.     
+        'default'           => null,
+        'value'             => null,
+        'help'              => null, // [2.1.0+]
+        'help_aside'        => null, // [2.1.0+]
+        'repeatable'        => null, // [2.1.3+]
+        'sortable'          => null, // [2.1.3+]
+        'attributes'        => null, // [3.0.0+] - the array represents the attributes of input tag
         'show_title_column' => true, // [3.0.0+]
-        'hidden' => null, // [3.0.0+]
-        '_fields_type' => null, // [3.0.0+] - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
-        '_section_index' => null, // [3.0.0+] - internally set to indicate the section index for repeatable sections.
+        'hidden'            => null, // [3.0.0+]
+        '_fields_type'      => null, // [3.0.0+] - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
+        '_section_index'    => null, // [3.0.0+] - internally set to indicate the section index for repeatable sections.
     );    
     
     /**
@@ -211,32 +211,31 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Removes a field definition array from the property array by the given field ID.
      * 
+     *  The structure of the aFields property array looks like this:
+     *  <code>    array( 
+     *          'my_sec_a' => array(
+     *              'my_field_a' => array( ... ),
+     *              'my_field_b' => array( ... ),
+     *              'my_field_c' => array( ... ),
+     *          ),
+     *          'my_sec_b' => array(
+     *              'my_field_a' => array( ... ),
+     *              'my_field_b' => array( ... ),
+     *              1 => array(
+     *                  'my_field_a' => array( ... ),
+     *                  'my_field_b' => array( ... ),
+     *              )
+     *              2 => array(
+     *                  'my_field_a' => array( ... ),
+     *                  'my_field_b' => array( ... ),
+     *              )     
+     *          )
+     *      )</code>
+     * 
      * @since 3.0.0
      */     
     public function removeField( $sFieldID ) {
-        
-        /* The structure of the aFields property array looks like this:
-            array( 
-                'my_sec_a' => array(
-                    'my_field_a' => array( ... ),
-                    'my_field_b' => array( ... ),
-                    'my_field_c' => array( ... ),
-                ),
-                'my_sec_b' => array(
-                    'my_field_a' => array( ... ),
-                    'my_field_b' => array( ... ),
-                    1 => array(
-                        'my_field_a' => array( ... ),
-                        'my_field_b' => array( ... ),
-                    )
-                    2 => array(
-                        'my_field_a' => array( ... ),
-                        'my_field_b' => array( ... ),
-                    )     
-                )
-
-            )
-         */
+               
         foreach( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
 
             if ( array_key_exists( $sFieldID, $_aSubSectionsOrFields ) ) {
@@ -267,8 +266,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function format() {
         
-        $this->aSections = $this->formatSections( $this->aSections, $this->sFieldsType, $this->sCapability );
-        $this->aFields = $this->formatFields( $this->aFields, $this->sFieldsType, $this->sCapability );
+        $this->aSections    = $this->formatSections( $this->aSections, $this->sFieldsType, $this->sCapability );
+        $this->aFields      = $this->formatFields( $this->aFields, $this->sFieldsType, $this->sCapability );
         
     }
     
