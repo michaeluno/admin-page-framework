@@ -6,18 +6,23 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HeadTag_MetaBox' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Resource_MetaBox' ) ) :
 /**
- * Provides methods to enqueue or insert head tag elements into the head tag for the post type class.
+ * {@inheritdoc}
+ * 
+ * {@inheritdoc}
+ * 
+ * This is for post definition pages that have meta box fields added by the framework.
  * 
  * @since       2.1.5
+ * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_MetaBox.
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
- * @extends     AdminPageFramework_HeadTag_Base
+ * @extends     AdminPageFramework_Resource_Base
  * @subpackage  HeadTag
  * @internal
  */
-class AdminPageFramework_HeadTag_MetaBox extends AdminPageFramework_HeadTag_Base {
+class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Base {
              
     /**
      * Enqueues styles by post type slug.

@@ -72,7 +72,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
                 return;
             }
             self::$_bAddedScriptToFooter = true;
-            echo "<script async defer id='github-bjs' src='" . $this->resolveSRC( dirname( __FILE__ ) . '/asset/github-buttons/buttons.js' ) . "'>"
+            echo "<script type='text/javascript' src='" . $this->resolveSRC( dirname( __FILE__ ) . '/asset/github-buttons/buttons.js' ) . "' async defer id='github-bjs' >"
                 . "</script>";
             
         }
@@ -90,10 +90,31 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
      *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
      *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+     *     <li><strong>arguments</strong> - ( optional, array ) [3.3.0+] argument array. <code>array( 'async' => '', 'data-id' => '...' )</code></li>
      * </ul>     
+     * <h4>Example</h4>
+     * <code>array( 
+     *     'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
+     *     'handle_id'     => 'github-bjs',
+     *     'in_footer'     => true,
+     *     'attributes'    => array(
+     *         'async'     => '',
+     *         'defer'     => '',
+     *     ),
+     * )</code>
      */
     protected function getEnqueuingScripts() { 
         return array(
+            // array( 
+                // 'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
+                // 'handle_id'     => 'github-bjs',
+                // 'in_footer'     => true,
+                // 'attributes'    => array(
+                    // 'async'     => '',
+                    // 'defer'     => '',
+                    // 'id'        => 'github-bjs',
+                // ),
+            // ),
         );
     }
     
@@ -107,12 +128,22 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
      *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
      *     <li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
+     *     <li><strong>arguments</strong> - ( optional, array ) [3.3.0+] argument array. <code>array( 'data-id' => '...' )</code></li>
      * </ul>
+     * <h4>Example</h4>
+     * <code>array(    
+     *      array( 
+     *          'src'       => dirname( __FILE__ ) . '/assets/css/main.css',
+     *          'handle_id' => 'custom_button_css',
+     *      ),
+     *  );</code>
      */
     protected function getEnqueuingStyles() { 
         return array(    
-            '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700',
-            dirname( __FILE__ ) . '/github-buttons/assets/css/main.css',        
+            array( 
+                'src'       => dirname( __FILE__ ) . '/asset/github-buttons/assets/css/main.css',
+                'handle_id' => 'github_button_css',
+            ),
         );
     }            
 

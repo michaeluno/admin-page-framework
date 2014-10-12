@@ -86,10 +86,11 @@ class AdminPageFramework_FieldTypeRegistration  {
      * 
      * A helper function for the above addSettingField() method.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Moved to the field type registration class and made it static to be used by different classes.
+     * @since       2.1.5
+     * @since       3.0.0   Moved to the field type registration class and made it static to be used by different classes.
+     * @since       3.3.0   Changed the name from _setFieldHeadTagElements.
      */
-    static public function _setFieldHeadTagElements( array $aField, $oProp, & $oHeadTag ) {
+    static public function _setFieldResources( array $aField, $oProp, &$oResource ) {
 
         $_sFieldType = $aField['type'];
 
@@ -124,18 +125,18 @@ class AdminPageFramework_FieldTypeRegistration  {
     
         foreach( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueStyles'] as $asSource ) { 
             if ( is_string( $asSource ) ) {
-                $oHeadTag->_forceToEnqueueStyle( $asSource );
+                $oResource->_forceToEnqueueStyle( $asSource );
             }
             else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
-                $oHeadTag->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
+                $oResource->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
             }
         }
         foreach( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueScripts'] as $asSource ) {
             if ( is_string( $asSource ) ) {
-                $oHeadTag->_forceToEnqueueScript( $asSource );
+                $oResource->_forceToEnqueueScript( $asSource );
             }
             else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
-                $oHeadTag->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );     
+                $oResource->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );     
             }
         }     
             

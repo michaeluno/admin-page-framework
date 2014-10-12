@@ -149,7 +149,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
      * @since 3.0.0
      */
     public function enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oHeadTag->_enqueueStyles( $aSRCs, $aPostTypes, $aCustomArgs );
+        return $this->oResource->_enqueueStyles( $aSRCs, $aPostTypes, $aCustomArgs );
     }
     /**
      * Enqueues a style by page slug and tab slug.
@@ -169,7 +169,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */    
     public function enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oHeadTag->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );     
+        return $this->oResource->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );     
     }
     /**
      * Enqueues scripts by page slug and tab slug.
@@ -177,7 +177,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
      * @since 3.0.0
      */
     public function enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oHeadTag->_enqueueScripts( $aSRCs, $aPostTypes, $aCustomArgs );
+        return $this->oResource->_enqueueScripts( $aSRCs, $aPostTypes, $aCustomArgs );
     }    
     /**
      * Enqueues a script by page slug and tab slug.
@@ -212,7 +212,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
     public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {    
-        return $this->oHeadTag->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
+        return $this->oResource->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
     }    
         
     /**

@@ -106,7 +106,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
      * 
      * @since       2.1.5
-     * @since       2.1.6       Moved from the AdminPageFramework_HeadTag_Base class. Added the $bReturnNullIfNotExist parameter.
+     * @since       2.1.6       Moved from the AdminPageFramework_Resource_Base class. Added the $bReturnNullIfNotExist parameter.
      */
     static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
 

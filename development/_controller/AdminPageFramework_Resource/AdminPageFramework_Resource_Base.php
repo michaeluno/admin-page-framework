@@ -6,18 +6,21 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HeadTag_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Resource_Base' ) ) :
 /**
- * Provides methods to enqueue or insert head tag elements into the head tag.
+ * Provides methods to enqueue or insert resource elements.
+ *  
+ * The class handles `<link>`, `<style>` and `<script>` tags to be inserted conditionally into the head tag or the footer of the page.
  * 
  * @abstract
  * @since       2.1.5
+ * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_Base.
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
  * @subpackage  HeadTag
  * @internal
  */
-abstract class AdminPageFramework_HeadTag_Base {
+abstract class AdminPageFramework_Resource_Base {
     
     /**
      * Represents the structure of the array for enqueuing scripts and styles.
@@ -113,8 +116,6 @@ abstract class AdminPageFramework_HeadTag_Base {
         add_filter( 'script_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
         add_filter( 'style_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
 
-        
-        
     }    
                 
     /*
@@ -375,7 +376,7 @@ abstract class AdminPageFramework_HeadTag_Base {
      * @remark      A callback for the <em>admin_head</em> hook.
      * @since       2.0.0
      * @since       2.1.5   Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to replyToAddScript().
-     * @since       3.2.0   Moved from AdminPageFramework_HeadTag_MetaBox. 
+     * @since       3.2.0   Moved from AdminPageFramework_Resource_MetaBox. 
      * @internal
      */ 
     public function _replyToAddScript() {

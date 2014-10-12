@@ -399,8 +399,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @return array The array holing the queued items.
      */
     public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        if ( method_exists( $this->oHeadTag, '_enqueueStyles' ) ) {
-            return $this->oHeadTag->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+        if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
+            return $this->oResource->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
     }
     /**
@@ -426,8 +426,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @return string The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */    
     public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        if ( method_exists( $this->oHeadTag, '_enqueueStyle' ) ) {
-            return $this->oHeadTag->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );     
+        if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
+            return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );     
         }
     }
     /**
@@ -452,8 +452,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @return array The array holding the queued items.
      */
     public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        if ( method_exists( $this->oHeadTag, '_enqueueScripts' ) ) {
-            return $this->oHeadTag->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+        if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
+            return $this->oResource->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
     }    
     /**
@@ -491,8 +491,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
     public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {    
-        if ( method_exists( $this->oHeadTag, '_enqueueScript' ) ) {
-            return $this->oHeadTag->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+        if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
+            return $this->oResource->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
     }
     

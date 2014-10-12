@@ -6,17 +6,22 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HeadTag_Widget' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Resource_Widget' ) ) :
 /**
- * Provides methods to enqueue or insert head tag elements into the head tag for the meta box class.
+ * {@inheritdoc}
+ * 
+ * {@inheritdoc}
+ * 
+ * This is for pages that have widget fields added by the framework.
  * 
  * @since       3.2.0
+ * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_Widget.
  * @package     AdminPageFramework
  * @subpackage  HeadTag
- * @extends     AdminPageFramework_HeadTag_Base
+ * @extends     AdminPageFramework_Resource_Base
  * @internal
  */
-class AdminPageFramework_HeadTag_Widget extends AdminPageFramework_HeadTag_Base {
+class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Base {
      
     /**
      * Enqueues styles by post type slug.

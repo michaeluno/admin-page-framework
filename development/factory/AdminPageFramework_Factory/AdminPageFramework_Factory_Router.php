@@ -8,7 +8,7 @@
  */
 if ( ! class_exists( 'AdminPageFramework_Factory_Router' ) ) :
 /**
- * Provides the routing functionality to the Admin Page Framework factory object based on the fields type.
+ * Provides routing functionality to the Admin Page Framework factory object based on the fields type.
  * 
  * This class mainly deals with routing function calls and instantiation of objects based on the type.
  * 
@@ -73,8 +73,9 @@ abstract class AdminPageFramework_Factory_Router {
      * Provides the methods to insert head tag elements.
      * 
      * @remark Do not even declare the variable to allow to trigger the getter method.
+     * @since   3.3.0   Changed the name from $oResource as it has become to deal with footer elements.
      */
-    // protected $oHeadTag;
+    // protected $oResource;
     
     /**
      * Provides methods to manipulate contextual help pane.
@@ -120,13 +121,14 @@ abstract class AdminPageFramework_Factory_Router {
     
             if ( ! $this->_isInThePage() ) { return; }
 
-            $this->oHeadTag         = isset( $this->oHeadTag ) // the user may have already accessed it
-                ? $this->oHeadTag
-                : $this->_getHeadTagInstance( $this->oProp );
-            $this->oLink = isset( $this->oLink ) // the user may have already accessed it
+            $this->oResource        = isset( $this->oResource ) // the user may have already accessed it
+                ? $this->oResource
+                : $this->_getResourceInstance( $this->oProp );
+            $this->oHeadTag         = $this->oResource; // backward compatibility
+            $this->oLink            = isset( $this->oLink ) // the user may have already accessed it
                 ? $this->oLink
                 : $this->_getLinkInstancce( $this->oProp, $this->oMsg );     
-            $this->oPageLoadInfo = isset( $this->oPageLoadInfo ) // the user may have already accessed it
+            $this->oPageLoadInfo    = isset( $this->oPageLoadInfo ) // the user may have already accessed it
                 ? $this->oPageLoadInfo
                 : $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
             
@@ -187,27 +189,27 @@ abstract class AdminPageFramework_Factory_Router {
     }
     
     /**
-     * Instantiate a head tag object based on the type.
+     * Instantiate a resource handler object based on the type.
      * 
      * @since       3.0.4
      * @internal
      */
-    protected function _getHeadTagInstance( $oProp ) {
+    protected function _getResourceInstance( $oProp ) {
         
         switch ( $oProp->sFieldsType ) {
             case 'page':
             case 'network_admin_page':
-                return new AdminPageFramework_HeadTag_Page( $oProp );
+                return new AdminPageFramework_Resource_Page( $oProp );
             case 'post_meta_box':
-                return new AdminPageFramework_HeadTag_MetaBox( $oProp );
+                return new AdminPageFramework_Resource_MetaBox( $oProp );
             case 'page_meta_box':
-                return new AdminPageFramework_HeadTag_MetaBox_Page( $oProp );     
+                return new AdminPageFramework_Resource_MetaBox_Page( $oProp );     
             case 'post_type':
-                return new AdminPageFramework_HeadTag_PostType( $oProp );
+                return new AdminPageFramework_Resource_PostType( $oProp );
             case 'taxonomy':
-                return new AdminPageFramework_HeadTag_TaxonomyField( $oProp );
+                return new AdminPageFramework_Resource_TaxonomyField( $oProp );
             case 'widget':  // 3.2.0+
-                return new AdminPageFramework_HeadTag_Widget( $oProp );
+                return new AdminPageFramework_Resource_Widget( $oProp );
     
         }
 
@@ -310,9 +312,11 @@ abstract class AdminPageFramework_Factory_Router {
             case 'oForm':
                 $this->oForm = $this->_getFormInstance( $this->oProp );
                 return $this->oForm;
-            case 'oHeadTag':
-                $this->oHeadTag = $this->_getHeadTagInstance( $this->oProp );
-                return $this->oHeadTag;
+            case 'oHeadTag':    // 3.3.0+ for backward compatibility
+                return $this->oResource;
+            case 'oResource':   // 3.3.0+
+                $this->oResource = $this->_getResourceInstance( $this->oProp );
+                return $this->oResource;
             case 'oHelpPane':
                 $this->oHelpPange = $this->_getHelpPaneInstance( $this->oProp );
                 return $this->oHelpPange;

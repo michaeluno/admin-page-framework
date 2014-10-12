@@ -112,7 +112,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         private function _registerField( array $aField ) {
             
             // Load head tag elements for fields.
-            AdminPageFramework_FieldTypeRegistration::_setFieldHeadTagElements( $aField, $this->oProp, $this->oHeadTag ); // Set relevant scripts and styles for the input field.
+            AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource ); // Set relevant scripts and styles for the input field.
 
             // For the contextual help pane,
             if ( $aField['help'] ) {
