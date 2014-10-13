@@ -11,7 +11,7 @@ class APF_PostType extends AdminPageFramework_PostType {
      */
     public function start() {    
 
-        $this->setPostTypeArgs(
+        $this->setArguments(
             array( // argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
                 'labels' => array(
                     'name'               => 'Admin Page Framework',
