@@ -242,14 +242,14 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
         
     /* Shared methods */
     /**
-     * Calculates the subtraction of two values with the array key of <em>order</em>
+     * Calculates the subtraction of two values with the array key of `order`.
      * 
      * This is used to sort arrays.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Moved from the property class.
-     * @remark a callback method for uasort().
-     * @return integer
+     * @since       2.0.0
+     * @since       3.0.0       Moved from the property class.
+     * @remark      a callback method for `uasort()`.
+     * @return      integer
      * @internal
      */ 
     public function _sortByOrder( $a, $b ) {

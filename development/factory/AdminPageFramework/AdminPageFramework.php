@@ -269,7 +269,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @see http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
      * @param string $sOptionKey ( optional ) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
      * @param string $sCallerPath ( optional ) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-     * @param string $sCapability ( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: <em>manage_options</em>
+     * @param string $sCapability ( optional ) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: `manage_options`
      * @param string $sTextDomain ( optional ) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
      * @return void returns nothing.
      */
@@ -328,8 +328,8 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * }</code>
      * @abstract
      * @since 2.0.0
-     * @remark This is a callback for the <em>wp_loaded</em> hook.
-     * @remark In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this is triggered with the <em>wp_loaded</em> hook.
+     * @remark This is a callback for the `wp_loaded` hook.
+     * @remark In v1, this is triggered with the `admin_menu` hook; however, in v2, this is triggered with the `wp_loaded` hook.
      * @access             public
      * @return void
      */    
@@ -345,12 +345,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * <h4>Example</h4>
      * <code> $this->addHelpTab( 
      * array(
-     * 'page_slug' => 'first_page', // ( mandatory )
-     * // 'page_tab_slug' => null, // ( optional )
-     * 'help_tab_title' => 'Admin Page Framework',
-     * 'help_tab_id' => 'admin_page_framework', // ( mandatory )
-     * 'help_tab_content' => __( 'This contextual help text can be set with the <em>addHelpTab()</em> method.', 'admin-page-framework' ),
-     * 'help_tab_sidebar_content' => __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+     *      'page_slug                  => 'first_page', // ( mandatory )
+     *      // 'page_tab_slug'          => null, // ( optional )
+     *      'help_tab_title'            => 'Admin Page Framework',
+     *      'help_tab_id'               => 'admin_page_framework', // ( mandatory )
+     *      'help_tab_content'          => __( 'This contextual help text can be set with the `addHelpTab()` method.', 'admin-page-framework' ),
+     *      'help_tab_sidebar_content'  => __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
      * )
      * );</code>
      * 
@@ -359,12 +359,12 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @param array The help tab array.
      * <h4>Contextual Help Tab Array Structure</h4>
      * <ul>
-     *     <li><strong>page_slug</strong> - ( required ) the page slug of the page that the contextual help tab and its contents are displayed.</li>
-     *     <li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
-     *     <li><strong>help_tab_title</strong> - ( required ) the title of the contextual help tab.</li>
-     *     <li><strong>help_tab_id</strong> - ( required ) the id of the contextual help tab.</li>
-     *     <li><strong>help_tab_content</strong> - ( optional ) the HTML string content of the the contextual help tab.</li>
-     *     <li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string content of the sidebar of the contextual help tab.</li>
+     *     <li><strong>page_slug</strong> - (required) the page slug of the page that the contextual help tab and its contents are displayed.</li>
+     *     <li><strong>page_tab_slug</strong> - (optional) the tab slug of the page that the contextual help tab and its contents are displayed.</li>
+     *     <li><strong>help_tab_title</strong> - (required) the title of the contextual help tab.</li>
+     *     <li><strong>help_tab_id</strong> - (required) the id of the contextual help tab.</li>
+     *     <li><strong>help_tab_content</strong> - (optional) the HTML string content of the the contextual help tab.</li>
+     *     <li><strong>help_tab_sidebar_content</strong> - (optional) the HTML string content of the sidebar of the contextual help tab.</li>
      * </ul>
      * @return void
      */ 
@@ -392,7 +392,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * );</code>
      * 
      * @since 3.0.0
-     * @param array The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: <em>array( '/css/mystyle.css', '/css/mystyle2.css' )</em>
+     * @param array The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
      * @param string (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
      * @param string (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
      * @param             array (optional) The argument array for more advanced parameters.
@@ -482,11 +482,11 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @param             array (optional) The argument array for more advanced parameters.
      * <h4>Argument Array</h4>
      * <ul>
-     *     <li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-     *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
-     *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-     *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head></code> or before<code></body></code> Default: <em>false</em>.</li>
+     *     <li><strong>handle_id</strong> - (optional, string) The handle ID of the script.</li>
+     *     <li><strong>dependencies</strong> - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li><strong>version</strong> - (optional, string) The stylesheet version number.</li>
+     *     <li><strong>translation</strong> - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the script before `</head>` or before`</body>` Default: `false`.</li>
      * </ul>
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
