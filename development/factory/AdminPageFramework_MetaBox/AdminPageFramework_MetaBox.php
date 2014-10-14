@@ -15,35 +15,35 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- *     <li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor. This receives the class object in the first parameter.</li>
- *     <li><strong>set_up_{instantiated class name}</strong> – triggered after the setUp() method is called. This receives the class object in the first parameter.</li>
- *     <li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered. The first parameter: the calss object[3.1.3+].</li>
+ *     <li>**start_{instantiated class name}** – triggered at the end of the class constructor. This receives the class object in the first parameter.</li>
+ *     <li>**set_up_{instantiated class name}** – triggered after the setUp() method is called. This receives the class object in the first parameter.</li>
+ *     <li>**do_{instantiated class name}** – triggered when the meta box gets rendered. The first parameter: the calss object[3.1.3+].</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- *     <li><strong>field_types_{instantiated class name}</strong> – receives the field type definition array. The first parameter: the field type definition array.</li>
- *     <li><strong>field_{instantiated class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- *     <li><strong>content_{instantiated class name}</strong> – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
- *     <li><strong>style_common_admin_page_framework</strong> –  [3.2.1+] receives the output of the base CSS rules applied to common CSS rules shared by the framework.</li>
- *     <li><strong>style_common_{instantiated class name}</strong> –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>style_ie_common_{instantiated class name}</strong> –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>style_{instantiated class name}</strong> –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>style_ie_{instantiated class name}</strong> –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>script_common_{instantiated class name}</strong> – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>script_{instantiated class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ *     <li>**field_types_{instantiated class name}** – receives the field type definition array. The first parameter: the field type definition array.</li>
+ *     <li>**field_{instantiated class name}_{field ID}** – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
+ *     <li>**content_{instantiated class name}** – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
+ *     <li>**style_common_admin_page_framework** –  [3.2.1+] receives the output of the base CSS rules applied to common CSS rules shared by the framework.</li>
+ *     <li>**style_common_{instantiated class name}** –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**style_ie_common_{instantiated class name}** –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**style_{instantiated class name}** –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**style_ie_{instantiated class name}** –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**script_common_{instantiated class name}** – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**script_{instantiated class name}** – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**validation_{instantiated class name}** – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p>  
  * 
  * @abstract
- * @since 2.0.0
- * @use AdminPageFramework_Utility
- * @use AdminPageFramework_Message
- * @use AdminPageFramework_Debug
- * @use AdminPageFramework_Property_MetaBox
- * @package AdminPageFramework
- * @subpackage MetaBox
+ * @since           2.0.0
+ * @use             AdminPageFramework_Utility
+ * @use             AdminPageFramework_Message
+ * @use             AdminPageFramework_Debug
+ * @use             AdminPageFramework_Property_MetaBox
+ * @package         AdminPageFramework
+ * @subpackage      MetaBox
  */
 abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Base {
 
@@ -121,25 +121,25 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
     * <code> public function setUp() {     
     *     $this->addSettingFields(
     *         array(
-    *             'field_id' => 'sample_metabox_text_field',
-    *             'title' => 'Text Input',
+    *             'field_id'    => 'sample_metabox_text_field',
+    *             'title'       => 'Text Input',
     *             'description' => 'The description for the field.',
-    *             'type' => 'text',
+    *             'type'        => 'text',
     *         ),
     *         array(
-    *             'field_id' => 'sample_metabox_textarea_field',
-    *             'title' => 'Textarea',
+    *             'field_id'    => 'sample_metabox_textarea_field',
+    *             'title'       => 'Textarea',
     *             'description' => 'The description for the field.',
-    *             'type' => 'textarea',
-    *             'default' => 'This is a default text value.',
+    *             'type'        => 'textarea',
+    *             'default'     => 'This is a default text value.',
     *         )
     *     );     
     * }</code>
     * 
     * @abstract
-    * @since 2.0.0
-    * @remark The user should override this method.
-    * @return void
+    * @since        2.0.0
+    * @remark       The user should override this method.
+    * @return       void
     */  
     public function setUp() {}    
 
@@ -154,19 +154,19 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
     /**
      * Enqueues a style by page slug and tab slug.
      * 
-     * @since 3.0.0
-     * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param string The source of the stylesheet to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+     * @since       3.0.0
+     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+     * @param       string      The source of the stylesheet to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
      * <h4>Custom Argument Array</h4>
      * <ul>
-     *     <li><strong>handle_id</strong> - ( optional, string ) The handle ID of the stylesheet.</li>
-     *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-     *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
-     *     <li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into after the input field tag.</li>
+     *     <li>**handle_id** - (optional, string) The handle ID of the stylesheet.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**media** - (optional, string) the description of the field which is inserted into after the input field tag.</li>
      * </ul>
-     * @param array (optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
-     * @param             array (optional) The argument array for more advanced parameters.
-     * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @param       array       (optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
+     * @param       array       (optional) The argument array for more advanced parameters.
+     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */    
     public function enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         return $this->oResource->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );     
@@ -184,32 +184,32 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
      *  
      * <h4>Example</h4>
      * <code>$this->enqueueScript(  
-     * plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
-     * array( 'my_post_type_slug' ),
-     * array(
-     * 'handle_id' => 'my_script', // this handle ID also is used as the object name for the translation array below.
-     * 'translation' => array( 
-     * 'a' => 'hello world!',
-     * 'style_handle_id' => $sStyleHandle, // check the enqueued style handle ID here.
-     * ),
-     * )
+     *      plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
+     *      array( 'my_post_type_slug' ),
+     *      array(
+     *          'handle_id'     => 'my_script', // this handle ID also is used as the object name for the translation array below.
+     *          'translation'   => array( 
+     *              'a'                 => 'hello world!',
+     *              'style_handle_id'   => $sStyleHandle, // check the enqueued style handle ID here.
+     *          ),
+     *      )
      * );</code>
      * 
-     * @since 2.1.2
-     * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-     * @param string The source of the stylesheet to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @since       2.1.2
+     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+     * @param       string The source of the stylesheet to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: `/js/myscript.js`.
      * <h4>Custom Argument Array</h4>
      * <ul>
-     *     <li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-     *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li><strong>version/strong> - ( optional, string ) The stylesheet version number.</li>
-     *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-     *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before </head > or before </body> Default: <em>false</em>.</li>
+     *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before </head > or before </body> Default: `false`.</li>
      * </ul>  
-     * @param string (optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-     * @param string (optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param             array (optional) The argument array for more advanced parameters.
-     * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @param       string      (optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+     * @param       string      (optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+     * @param       array       (optional) The argument array for more advanced parameters.
+     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
     public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {    
         return $this->oResource->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
@@ -218,23 +218,23 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
     /**
      * Adds the defined meta box.
      * 
-     * @since 2.0.0
+     * @since       2.0.0
      * @internal
-     * @remark uses <em>add_meta_box()</em>.
-     * @remark A callback for the <em>add_meta_boxes</em> hook.
-     * @return void
+     * @remark      uses `add_meta_box()`.
+     * @remark      A callback for the `add_meta_boxes` hook.
+     * @return      void
      */ 
     public function _replyToAddMetaBox() {
 
         foreach( $this->oProp->aPostTypes as $sPostType ) {
             add_meta_box( 
-                $this->oProp->sMetaBoxID,         // id
-                $this->oProp->sTitle,     // title
-                array( $this, '_replyToPrintMetaBoxContents' ),     // callback
-                $sPostType, // post type
-                $this->oProp->sContext,     // context
-                $this->oProp->sPriority, // priority
-                null // deprecated $this->oForm->aFields // argument
+                $this->oProp->sMetaBoxID,                       // id
+                $this->oProp->sTitle,                           // title
+                array( $this, '_replyToPrintMetaBoxContents' ), // callback
+                $sPostType,                                     // post type
+                $this->oProp->sContext,                         // context
+                $this->oProp->sPriority,                        // priority
+                null                                            // argument - deprecated $this->oForm->aFields
             );
         }
             
@@ -243,13 +243,13 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
     /**
      * Registers form fields and sections.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     public function _replyToRegisterFormElements( $oScreen ) {
                 
         // Schedule to add head tag elements and help pane contents. 
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) return;
+        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) { return; }
     
         $this->_loadDefaultFieldTypeDefinitions();  // defined in the factory class.
     
