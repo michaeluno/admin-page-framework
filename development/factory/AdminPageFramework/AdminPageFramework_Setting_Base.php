@@ -10,14 +10,14 @@ if ( ! class_exists( 'AdminPageFramework_Setting_Base' ) ) :
 /**
  * The base class of the setting class that deals with registering and rendering fields.
  * 
- * This class mainly deals with internal methods and the constructor setting the properties. 
+ * This class mainly deals with internal methods and the constructor setting the properties.
  * 
  * @abstract
- * @since 3.0.0
- * @extends AdminPageFramework_Menu
- * @package AdminPageFramework
- * @subpackage Page
- * @var array $aFieldErrors stores the settings field errors.
+ * @since       3.0.0
+ * @extends     AdminPageFramework_Menu
+ * @package     AdminPageFramework
+ * @subpackage  Page
+ * @var         array       $aFieldErrors       stores the settings field errors.
  * @internal
  */
 abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
@@ -25,35 +25,35 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
     /**
      * Stores the settings field errors. 
      * 
-     * @since 2.0.0
-     * @var array Stores field errors.
+     * @since       2.0.0
+     * @var         array       Stores field errors.
      * @internal
      */ 
     protected $aFieldErrors; // Do not set a value here since it is checked to see it's null.
     
     /**
      * Defines the fields type.
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     static protected $_sFieldsType = 'page';
     
     /**
-     * Stores the target page slug which will be applied when no page slug is specified for the addSettingSection() method.
+     * Stores the target page slug which will be applied when no page slug is specified for the `addSettingSection()` method.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     protected $_sTargetPageSlug = null;
     
     /**
-     * Stores the target tab slug which will be applied when no tab slug is specified for the addSettingSection() method.
+     * Stores the target tab slug which will be applied when no tab slug is specified for the `addSettingSection()` method.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */    
     protected $_sTargetTabSlug = null;
 
     /**
-     * Stores the target section tab slug which will be applied when no section tab slug is specified for the addSettingSection() method.
+     * Stores the target section tab slug which will be applied when no section tab slug is specified for the `addSettingSection()` method.
      * 
      * @since 3.0.0
      */    
@@ -131,18 +131,18 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
     /**
      * Registers the setting sections and fields.
      * 
-     * This methods passes the stored section and field array contents to the <em>add_settings_section()</em> and <em>add_settings_fields()</em> functions.
-     * Then perform <em>register_setting()</em>.
+     * This methods passes the stored section and field array contents to the `add_settings_section()` and `add_settings_fields()` functions.
+     * Then perform `register_setting()`.
      * 
      * The filters will be applied to the section and field arrays; that means that third-party scripts can modify the arrays.
      * Also they get sorted before being registered based on the set order.
      * 
      * @since       2.0.0
      * @since       2.1.5       Added the ability to define custom field types.
-     * @since       3.1.2       Changed the hook from the <em>admin_menu</em> to <em>current_screen</em> so that the user can add forms in <em>load_{...}</em> callback methods.
+     * @since       3.1.2       Changed the hook from the `admin_menu` to `current_screen` so that the user can add forms in `load_{...}` callback methods.
      * @since       3.1.3       Removed the Settings API related functions entirely.
      * @remark      This method is not intended to be used by the user.
-     * @remark      The callback method for the <em>load_after_{instantiated class name}</em> hook.
+     * @remark      The callback method for the `load_after_{instantiated class name}` hook.
      * @return      void
      * @internal
      */ 
@@ -272,8 +272,8 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
     /**
      * Returns the output of the filtered section description.
      * 
-     * @remark An alternative to _renderSectionDescription().
-     * @since 3.0.0
+     * @remark      An alternative to `_renderSectionDescription()`.
+     * @since       3.0.0
      * @internal
      */
     public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
@@ -289,7 +289,7 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
     /**
      * Returns the output of the given field.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */  
     public function _replyToGetFieldOutput( $aField ) {
@@ -309,8 +309,8 @@ abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {
             ? $aField['type']
             : 'default'; // the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-        $_aTemp = $this->_getSavedOptions();    // assigning a variable for the strict standard
-        $_oField = new AdminPageFramework_FormField( 
+        $_aTemp     = $this->_getSavedOptions();    // assigning a variable for the strict standard
+        $_oField    = new AdminPageFramework_FormField( 
             $aField, 
             $_aTemp,    // passed by reference. @todo: check if it is necessary to pass it as a reference.
             $this->aFieldErrors, 
