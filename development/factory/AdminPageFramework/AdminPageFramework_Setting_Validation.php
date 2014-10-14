@@ -26,21 +26,21 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
      * If the form is submitted, it calls the validation callback method and reloads the page.
      * 
      * @since       3.1.0
-     * @since       3.1.5   Moved from AdminPageFramework_Setting_Form.
-     * @remark      This method is triggered after form elements are registered when the page is abut to be laoded with the <em>load_after_{instantiated class name}</em> hook.
-     * @remark      The $_POST array will look like this
-            array(
-                [option_page]       => APF_Demo
-                [action]            => update
-                [_wpnonce]          => d3f9bd2fbc
-                [_wp_http_referer]  => /wp39x/wp-admin/edit.php?post_type=apf_posts&page=apf_builtin_field_types&tab=textfields
-                [APF_Demo]          => Array (
-                    [text_fields] => Array( ...)
-                )
-                [page_slug]         => apf_builtin_field_types
-                [tab_slug]          => textfields
-                [_is_admin_page_framework] => ...
-            )
+     * @since       3.1.5       Moved from AdminPageFramework_Setting_Form.
+     * @remark      This method is triggered after form elements are registered when the page is abut to be loaded with the `load_after_{instantiated class name}` hook.
+     * @remark      The $_POST array will look like the below.
+     *  <code>array(
+     *      [option_page]       => APF_Demo
+     *      [action]            => update
+     *      [_wpnonce]          => d3f9bd2fbc
+     *      [_wp_http_referer]  => /wp39x/wp-admin/edit.php?post_type=apf_posts&page=apf_builtin_field_types&tab=textfields
+     *      [APF_Demo]          => Array (
+     *          [text_fields] => Array( ...)
+     *      )
+     *      [page_slug]         => apf_builtin_field_types
+     *      [tab_slug]          => textfields
+     *      [_is_admin_page_framework] => ...
+     *  )</code>
      *        
      */
     protected function _handleSubmittedData() {
@@ -106,7 +106,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
         // no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
         $_sTabSlug  = isset( $_POST['tab_slug'] )   ? $_POST['tab_slug']    : ''; 
         $_sPageSlug = isset( $_POST['page_slug'] )  ? $_POST['page_slug']   : '';
-        $_aSubmit   = isset( $_POST['__submit'] ) ? $_POST['__submit'] : array();
+        $_aSubmit   = isset( $_POST['__submit'] )   ? $_POST['__submit']    : array();
         $_aStatus   = array( 'settings-updated' => true );
         
         /* 1-2. Retrieve the pressed submit field data */
@@ -209,13 +209,6 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
                 'from'          => '',
                 'name'          => '',
             );
-// AdminPageFramework_Debug::log( 'email options' );
-// AdminPageFramework_Debug::log( $_aEmailOptions );
-// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'to', $sSubmitSectionID ) );
-// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'subject', $sSubmitSectionID ) );
-// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) );
-// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'headers', $sSubmitSectionID ) );
-// AdminPageFramework_Debug::log( $this->_getEmailArgument( $aInput, $_aEmailOptions, 'attachments', $sSubmitSectionID ) );
 
             if ( $_bIsHTML = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'is_html', $sSubmitSectionID ) ) {
                 add_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
@@ -389,21 +382,22 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
          * @since   2.0.0
          * @return  null|string Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
          * @remark  The structure of the $aPostElements array looks like this:
-            [submit_buttons_submit_button_field_0] => Array
-                (
-                    [input_id] => submit_buttons_submit_button_field_0
-                    [field_id] => submit_button_field
-                    [name] => APF_Demo|submit_buttons|submit_button_field
-                    [section_id] => submit_buttons
-                )
-
-            [submit_buttons_submit_button_link_0] => Array
-                (
-                    [input_id] => submit_buttons_submit_button_link_0
-                    [field_id] => submit_button_link
-                    [name] => APF_Demo|submit_buttons|submit_button_link|0
-                    [section_id] => submit_buttons
-                )
+         * <code>[submit_buttons_submit_button_field_0] => Array
+         *      (
+         *          [input_id] => submit_buttons_submit_button_field_0
+         *          [field_id] => submit_button_field
+         *          [name] => APF_Demo|submit_buttons|submit_button_field
+         *          [section_id] => submit_buttons
+         *      )
+         *
+         *  [submit_buttons_submit_button_link_0] => Array
+         *      (
+         *          [input_id] => submit_buttons_submit_button_link_0
+         *          [field_id] => submit_button_link
+         *          [name] => APF_Demo|submit_buttons|submit_button_link|0
+         *          [section_id] => submit_buttons
+         *      )
+         * </code>
          * The keys are the input id.
          */ 
         private function _getPressedSubmitButtonData( $aPostElements, $sTargetKey='field_id' ) {    
@@ -433,10 +427,10 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
         /**
          * Applies validation filters to the submitted input data.
          * 
-         * @since 2.0.0
-         * @since 2.1.5 Added the $sPressedFieldID and $sPressedInputID parameters.
-         * @since 3.0.0 Removed the $sPressedFieldID and $sPressedInputID parameters.
-         * @return array The filtered input array.
+         * @since       2.0.0
+         * @since       2.1.5       Added the `$sPressedFieldID` and `$sPressedInputID` parameters.
+         * @since       3.0.0       Removed the `$sPressedFieldID` and `$sPressedInputID` parameters.
+         * @return      array       The filtered input array.
          */
         private function _getFilteredOptions( $aInput, $sPageSlug, $sTabSlug ) {
 
@@ -499,7 +493,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             /**
              * Validates each field or section.
              * 
-             * @since 3.0.2
+             * @since       3.0.2
              */
             private function _validateEachField( array $aInput, array $aOptions, array $aOptionsWODynamicElements, array $aInputToParse, $sPageSlug, $sTabSlug ) {
                 
@@ -569,7 +563,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             /**
              * Validates field options which belong to the given in-page tab.
              * 
-             * @since 3.0.2
+             * @since       3.0.2
              */
             private function _validateTabFields( array $aInput, array $aOptions, array $aOptionsWODynamicElements, & $aTabOptions, $sPageSlug, $sTabSlug ) {
                 
@@ -598,7 +592,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             /**
              * Validates field options which belong to the given page.
              * 
-             * @since 3.0.2
+             * @since       3.0.2
              */
             private function _validatePageFields( array $aInput, array $aOptions, array $aOptionsWODynamicElements, array $aTabOptions, $sPageSlug, $sTabSlug ) {
                 
@@ -639,7 +633,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
              * and if an option is not a string but an array, the default array of such a structure will merge with the user input of the corresponding structure. 
              * This problem will occur with the select field type with multiple attribute enabled. 
              * 
-             * @since 3.0.0
+             * @since       3.0.0
              */
             private function _removePageElements( $aOptions, $sPageSlug, $sTabSlug ) {
                 
