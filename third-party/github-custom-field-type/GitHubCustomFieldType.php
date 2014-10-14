@@ -60,22 +60,8 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      * 
      * This method is triggered when a field definition array that calls this field type is parsed. 
      */ 
-    public function setUp() {
-        
-        add_action( 'admin_print_footer_scripts', array( $this, '_replyToInsertScript' ) );
-        
-    }    
-        static public $_bAddedScriptToFooter;
-        public function _replyToInsertScript() {
-            
-            if ( isset( self::$_bAddedScriptToFooter ) && self::$_bAddedScriptToFooter ) {
-                return;
-            }
-            self::$_bAddedScriptToFooter = true;
-            echo "<script type='text/javascript' src='" . $this->resolveSRC( dirname( __FILE__ ) . '/asset/github-buttons/buttons.js' ) . "' async defer id='github-bjs' >"
-                . "</script>";
-            
-        }
+    public function setUp() {}    
+
 
     /**
      * Returns an array holding the urls of enqueuing scripts.
@@ -105,16 +91,16 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      */
     protected function getEnqueuingScripts() { 
         return array(
-            // array( 
-                // 'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
-                // 'handle_id'     => 'github-bjs',
-                // 'in_footer'     => true,
-                // 'attributes'    => array(
-                    // 'async'     => '',
-                    // 'defer'     => '',
-                    // 'id'        => 'github-bjs',
-                // ),
-            // ),
+            array( 
+                'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
+                'handle_id'     => 'github-bjs',
+                'in_footer'     => true,
+                'attributes'    => array(
+                    'async'     => '',
+                    'defer'     => '',
+                    'id'        => 'github-bjs',
+                ),
+            ),
         );
     }
     
