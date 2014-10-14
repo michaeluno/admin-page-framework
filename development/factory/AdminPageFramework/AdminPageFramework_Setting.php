@@ -8,18 +8,17 @@
  */
 if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
 /**
- * Provides public methods to add form elements with WordPress Settings API. 
+ * Provides public methods to add form elements. 
  *
  * @abstract
- * @since 2.0.0
- * @extends AdminPageFramework_Setting_Validation
- * @package AdminPageFramework
- * @subpackage Page
- * @var array $aFieldErrors stores the settings field errors.
+ * @since       2.0.0
+ * @extends     AdminPageFramework_Setting_Validation
+ * @package     AdminPageFramework
+ * @subpackage  Page
+ * @var         array       $aFieldErrors       stores the settings field errors.
  */
 abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Validation {
                                     
-
     /**
      * {@inheritdoc}
      * 
@@ -51,31 +50,33 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
      * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
      * @remark      The target section tab slug and the target tab slug will be reset once the method returns.
      * @param       array|string    the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
-     * <strong>Section Array</strong>
+     * <h4>Section Array</h4>
      * <ul>
-     * <li><strong>section_id</strong> - ( required, string ) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
-     * <li><strong>page_slug</strong> - ( optional, string ) the page slug that the section belongs to. If the target page slug is set, it can be omitted.</li>
-     * <li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the section belongs to. The tab here refers to in-page tabs.</li>
-     * <li><strong>section_tab_slug</strong> - ( optional, string ) [3.0.0+] the section tab slug that the section are grouped into. The tab here refers to section tabs.</li>
-     * <li><strong>title</strong> - ( optional, string ) the title of the section.</li>
-     * <li><strong>capability</strong> - ( optional, string ) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
-     * <li><strong>if</strong> - ( optional, boolean ) if the passed value is false, the section will not be registered.</li>
-     * <li><strong>order</strong> - ( optional, integer ) the order number of the section. The higher the number is, the lower the position it gets.</li>
-     * <li><strong>help</strong> - ( optional, string ) the help description added to the contextual help tab.</li>
-     * <li><strong>help_aside</strong> - ( optional, string ) the additional help description for the side bar of the contextual help tab.</li>
-     * <li><strong>repeatable</strong> - ( optional, boolean|array ) [3.0.0+] Indicates whether or not the section is repeatable. To set a minimum/maximum number of sections, pass an array with the key, <em>min</em>, and <em>max</em>. e.g. <em>array( 'min' => 3, 'max' => 10 )</em></li>
+     *      <li>**section_id** - (required, string) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
+     *      <li>**page_slug** - (optional, string) the page slug that the section belongs to. If the target page slug is set, it can be omitted.</li>
+     *      <li>**tab_slug** - (optional, string) the tab slug that the section belongs to. The tab here refers to in-page tabs.</li>
+     *      <li>**section_tab_slug** - (optional, string) [3.0.0+] the section tab slug that the section are grouped into. The tab here refers to section tabs.</li>
+     *      <li>**title** - (optional, string) the title of the section.</li>
+     *      <li>**capability** - (optional, string) the <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the section. If the page visitor does not have sufficient capability, the section will be invisible to them.</li>
+     *      <li>**if** - (optional, boolean) if the passed value is false, the section will not be registered.</li>
+     *      <li>**order** - (optional, integer) the order number of the section. The higher the number is, the lower the position it gets.</li>
+     *      <li>**help** - (optional, string) the help description added to the contextual help tab.</li>
+     *      <li>**help_aside** - (optional, string) the additional help description for the side bar of the contextual help tab.</li>
+     *      <li>**repeatable** - (optional, boolean|array) [3.0.0+] Indicates whether or not the section is repeatable. To set a minimum/maximum number of sections, pass an array with the key, `min`, and `max`. e.g. `array( 'min' => 3, 'max' => 10 )`</li>
      * </ul>
      * @param       array           (optional) another section array.
      * @param       array           (optional) add more section array to the next parameters as many as necessary.
-     * @return void
+     * @return      void
      */     
     public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
         
-        foreach( func_get_args() as $asSection ) $this->addSettingSection( $asSection );
+        foreach( func_get_args() as $asSection ) { 
+            $this->addSettingSection( $asSection ); 
+        }
         
         // reset the stored target tab slug and the target section tab slug
-        $this->_sTargetTabSlug = null;
-        $this->_sTargetSectionTabSlug = null;
+        $this->_sTargetTabSlug          = null;
+        $this->_sTargetSectionTabSlug   = null;
         
     }
     
@@ -84,12 +85,11 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
      * 
      * This is useful when adding section arrays in loops.
      * 
-     * @since 2.1.2
-     * @since 3.0.0 Changed the scope to public from protected.
-     * @access public
-     * @remark The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-     * @param array|string     the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be ommited.
-     * @return void
+     * @since       2.1.2
+     * @since       3.0.0           Changed the scope to public from protected.
+     * @access      public
+     * @param       array|string    the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
+     * @return      void
      */
     public function addSettingSection( $asSection ) {
                 
@@ -99,23 +99,24 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
         } 
         
         $aSection = $asSection;
-        $this->_sTargetPageSlug = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $this->_sTargetPageSlug;
-        $this->_sTargetTabSlug = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $this->_sTargetTabSlug;
-        $this->_sTargetSectionTabSlug = isset( $aSection['section_tab_slug'] ) ? $aSection['section_tab_slug'] : $this->_sTargetSectionTabSlug;
+        $this->_sTargetPageSlug         = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $this->_sTargetPageSlug;
+        $this->_sTargetTabSlug          = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $this->_sTargetTabSlug;
+        $this->_sTargetSectionTabSlug   = isset( $aSection['section_tab_slug'] ) ? $aSection['section_tab_slug'] : $this->_sTargetSectionTabSlug;
         $aSection = $this->oUtil->uniteArrays( 
             $aSection, 
             array( 
-                'page_slug' => $this->_sTargetPageSlug ? $this->_sTargetPageSlug : null, // checking the value allows the user to reset the internal target manually
-                'tab_slug' => $this->_sTargetTabSlug ? $this->_sTargetTabSlug : null,
-                'section_tab_slug' => $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null,
+                'page_slug'         => $this->_sTargetPageSlug ? $this->_sTargetPageSlug : null, // checking the value allows the user to reset the internal target manually
+                'tab_slug'          => $this->_sTargetTabSlug ? $this->_sTargetTabSlug : null,
+                'section_tab_slug'  => $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null,
             )
         ); // avoid undefined index warnings.
         
-        $aSection['page_slug'] = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : ( $this->oProp->sDefaultPageSlug ? $this->oProp->sDefaultPageSlug : null );
-        $aSection['tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
-        $aSection['section_tab_slug'] = $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] );
+        $aSection['page_slug']          = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : ( $this->oProp->sDefaultPageSlug ? $this->oProp->sDefaultPageSlug : null );
+        $aSection['tab_slug']           = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
+        $aSection['section_tab_slug']   = $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] );
         
-        if ( ! $aSection['page_slug'] ) return; // The page slug is necessary.
+        // The page slug is necessary.
+        if ( ! $aSection['page_slug'] ) { return; }
         $this->oForm->addSection( $aSection );
         
     }
@@ -129,20 +130,20 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
     * <code>$this->removeSettingSections( 'text_fields', 'selectors', 'another_section', 'yet_another_section' );
     * </code>
     * 
-    * @since 2.0.0
-    * @since 3.0.0 Changed the scope to public from protected.
-    * @access             public
-    * @remark Accepts variadic parameters; the number of accepted parameters are not limited to three.
-    * @remark The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-    * @param string     the section ID to remove.
-    * @param string ( optional ) another section ID to remove.
-    * @param string ( optional ) add more section IDs to the next parameters as many as necessary.
-    * @return void
+    * @since        2.0.0
+    * @since        3.0.0       Changed the scope to public from protected.
+    * @access       public
+    * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
+    * @param        string      $sSectionID1        the section ID to remove.
+    * @param        string      $sSectionID2        (optional) another section ID to remove.
+    * @param        string      $_and_more          (optional) add more section IDs to the next parameters as many as necessary.
+    * @return       void
     */    
     public function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {    
         
-        foreach( func_get_args() as $_sSectionID ) 
+        foreach( func_get_args() as $_sSectionID ) {
             $this->oForm->removeSection( $_sSectionID );
+        }
         
     }
     
@@ -202,13 +203,13 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
     /**
     * Adds the given field array items into the field array property.
     * 
-    * Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+    * Identical to the `addSettingFields()` method except that this method does not accept enumerated parameters. 
     * 
-    * @since 2.1.2
-    * @since 3.0.0 Changed the scope to public from protected.
-    * @access public
-    * @param array|string    the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
-    * @return void
+    * @since        2.1.2
+    * @since        3.0.0           Changed the scope to public from protected.
+    * @access       public
+    * @param        array|string    $asField        the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
+    * @return       void
     */    
     public function addSettingField( $asField ) {
         $this->oForm->addField( $asField );    
@@ -223,30 +224,30 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
     * <code>$this->removeSettingFields( 'fieldID_A', 'fieldID_B', 'fieldID_C', 'fieldID_D' );
     * </code>
     * 
-    * @since 2.0.0
-    * @since 3.0.0 Changed the scope to public from protected.
-    * @access             public
-    * @remark Accepts variadic parameters; the number of accepted parameters are not limited to three.
-    * @remark The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-    * @param string     the field ID to remove.
-    * @param string ( optional ) another field ID to remove.
-    * @param string ( optional ) add more field IDs to the next parameters as many as necessary.
+    * @since        2.0.0
+    * @since        3.0.0       Changed the scope to public from protected.
+    * @access       public
+    * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
+    * @param        string      $sFieldID1      the field ID to remove.
+    * @param        string      $sFieldID2      (optional) another field ID to remove.
+    * @param        string      $_and_more      (optional) add more field IDs to the next parameters as many as necessary.
     * @return void
     */    
     public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
-                
-        foreach( func_get_args() as $_sFieldID ) $this->oForm->removeField( $_sFieldID );
-
+        foreach( func_get_args() as $_sFieldID ) { 
+            $this->oForm->removeField( $_sFieldID ); 
+        }
     }    
             
     /**
      * Retrieves the specified field value stored in the options by field ID.
      *  
-     * @since 2.1.2
-     * @since 3.0.0 Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
-     * @access public
-     * @param string The field ID.
-     * @return array|string|null If the field ID is not set in the saved option array, it will return null. Otherwise, the set value. 
+     * @since       2.1.2
+     * @since       3.0.0     Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
+     * @access      public
+     * @param       string      $sFieldID         The field ID.
+     * @param       string      $sSectionID       The section ID.
+     * @return      array|string|null       If the field ID is not set in the saved option array, it will return null. Otherwise, the set value.
      * If the user has not submitted the form, the framework will try to return the default value set in the field definition array.
      */
     public function getFieldValue( $sFieldID, $sSectionID='' ) {
@@ -255,19 +256,23 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
         
         /* If it's saved, return it */
         if ( ! $sSectionID ) {
-            if ( array_key_exists( $sFieldID, $_aOptions ) )
+            if ( array_key_exists( $sFieldID, $_aOptions ) ) {
                 return $_aOptions[ $sFieldID ];
+            }
                 
             // loop through section elements
             foreach( $_aOptions as $aOptions ) {
-                if ( array_key_exists( $sFieldID, $aOptions ) )
+                if ( array_key_exists( $sFieldID, $aOptions ) ) {
                     return $aOptions[ $sFieldID ];
+                }
             }
                 
         }
-        if ( $sSectionID )
-            if ( array_key_exists( $sSectionID, $_aOptions ) && array_key_exists( $sFieldID, $_aOptions[ $sSectionID ] ) )
+        if ( $sSectionID ) {
+            if ( array_key_exists( $sSectionID, $_aOptions ) && array_key_exists( $sFieldID, $_aOptions[ $sSectionID ] ) ) {
                 return $_aOptions[ $sSectionID ][ $sFieldID ];
+            }
+        }
     
         return null;
                     
