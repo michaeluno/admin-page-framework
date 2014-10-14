@@ -11,25 +11,25 @@ if ( ! class_exists( 'AdminPageFramework_Page' ) ) :
  * Provides methods to render admin page elements.
  *
  * @abstract
- * @extends AdminPageFramework_Page_MetaBox
- * @since 2.0.0
- * @since 2.1.0 Extends AdminPageFramework_HelpPane_Page.
- * @since 3.0.0 No longer extends AdminPageFramework_HelpPane_Page.
- * @package AdminPageFramework
- * @subpackage Page
- * @staticvar array $_aScreenIconIDs stores the ID selector names for screen icons.
- * @staticvar array $_aHookPrefixes stores the prefix strings for filter and action hooks.
- * @staticvar array $_aStructure_InPageTabElements represents the array structure of an in-page tab array.
+ * @extends     AdminPageFramework_Page_MetaBox
+ * @since       2.0.0
+ * @since       2.1.0       Extends AdminPageFramework_HelpPane_Page.
+ * @since       3.0.0       No longer extends AdminPageFramework_HelpPane_Page.
+ * @package     AdminPageFramework
+ * @subpackage  Page
+ * @staticvar   array       $_aScreenIconIDs                stores the ID selector names for screen icons.
+ * @staticvar   array       $_aHookPrefixes                 stores the prefix strings for filter and action hooks.
+ * @staticvar   array       $_aStructure_InPageTabElements  represents the array structure of an in-page tab array.
  */
 abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 
     /**
-     * Stores the ID selector names for screen icons. <em>generic</em> is not available in WordPress v3.4.x.
+     * Stores the ID selector names for screen icons. `generic` is not available in WordPress v3.4.x.
      * 
-     * @since 2.0.0
-     * @var array
+     * @since       2.0.0
+     * @var         array
      * @static
-     * @access protected
+     * @access      protected
      * @internal
      */     
     protected static $_aScreenIconIDs = array(
@@ -41,10 +41,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
     /**
      * Represents the array structure of an in-page tab array.
      * 
-     * @since 2.0.0
-     * @var array
+     * @since       2.0.0
+     * @var         array
      * @static
-     * @access private
+     * @access      private
      * @internal
      */     
     private static $_aStructure_InPageTabElements = array(
@@ -95,48 +95,50 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * <code>$this->addInPageTabs(
      *      'myfirstpage', // sets the target page slug
      *      array(
-     *          'tab_slug' => 'firsttab',
-     *          'title' => __( 'Text Fields', 'my-text-domain' ),
+     *          'tab_slug'  => 'firsttab',
+     *          'title'     => __( 'Text Fields', 'my-text-domain' ),
      *      ),
      *      array(
-     *          'tab_slug' => 'secondtab',
-     *          'title' => __( 'Selectors and Checkboxes', 'my-text-domain' ),
+     *          'tab_slug'  => 'secondtab',
+     *          'title'     => __( 'Selectors and Checkboxes', 'my-text-domain' ),
      *      )
      * );</code>
-     * @since 2.0.0
-     * @since 3.0.0 Changed the scope to public. Added page slug target support. 
-     * @param array $aTab1 The in-page tab array.
+     * @since       2.0.0
+     * @since       3.0.0     Changed the scope to public. Added page slug target support. 
+     * @param       array     $aTab1 The in-page tab array.
      * <h4>In-Page Tab Array</h4>
      * <ul>
-     *     <li><strong>page_slug</strong> - (string) the page slug that the tab belongs to.</li>
-     *     <li><strong>tab_slug</strong> -  (string) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-     *     <li><strong>title</strong> - (string) the title of the tab.</li>
-     *     <li><strong>order</strong> - (optional, integer) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
-     *     <li><strong>show_in_page_tab</strong> - (optional, boolean) default: false. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
-     *     <li><strong>parent_tab_slug</strong> - (optional, string) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+     *     <li>**page_slug** - (string) the page slug that the tab belongs to.</li>
+     *     <li>**tab_slug** -  (string) the tab slug. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+     *     <li>**title** - (string) the title of the tab.</li>
+     *     <li>**order** - (optional, integer) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
+     *     <li>**show_in_page_tab** - (optional, boolean) default: `false`. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
+     *     <li>**parent_tab_slug** - (optional, string) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
      * </ul>
-     * @param array $aTab2 Another in-page tab array.
-     * @param array $_and_more Add in-page tab arrays as many as necessary to the next parameters.
-     * @param string (optional) $sPageSlug If the passed parameter item is a string, it will be stored as the target page slug so that it will be applied to the next passed tab arrays as the page_slug element.
-     * @remark Accepts variadic parameters; the number of accepted parameters are not limited to three.
-     * @remark In-page tabs are different from page-heading tabs which is automatically added with page titles.  
-     * @return void
+     * @param       array       $aTab2      Another in-page tab array.
+     * @param       array       $_and_more  (optional) Add in-page tab arrays as many as necessary to the next parameters.
+     * @param       string      $sPageSlug  (optional) If the passed parameter item is a string, it will be stored as the target page slug so that it will be applied to the next passed tab arrays as the page_slug element.
+     * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
+     * @remark      In-page tabs are different from page-heading tabs which is automatically added with page titles.  
+     * @return      void
      */             
     public function addInPageTabs( $aTab1, $aTab2=null, $_and_more=null ) {
-        foreach( func_get_args() as $asTab ) $this->addInPageTab( $asTab );
+        foreach( func_get_args() as $asTab ) { 
+            $this->addInPageTab( $asTab ); 
+        }
     }
     
     /**
      * Adds an in-page tab.
      * 
-     * The singular form of the addInPageTabs() method, which takes only one parameter.
+     * The singular form of the `addInPageTabs()` method, which takes only one parameter.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Changed the scope to public.
-     * @param array|string $asInPageTab The in-page tab array or the target page slug. If the target page slug is set, the page_slug key can be omitted from next calls.
-     * @remark Use this method to add in-page tabs to ensure the array holds all the necessary keys.
-     * @remark In-page tabs are different from page-heading tabs which are automatically added with page titles.
-     * @return void
+     * @since       2.0.0
+     * @since       3.0.0           Changed the scope to public.
+     * @param       array|string    $asInPageTab        The in-page tab array or the target page slug. If the target page slug is set, the page_slug key can be omitted from next calls.
+     * @remark      Use this method to add in-page tabs to ensure the array holds all the necessary keys.
+     * @remark      In-page tabs are different from page-heading tabs which are automatically added with page titles.
+     * @return      void
      */         
     public function addInPageTab( $asInPageTab ) {    
         
@@ -168,10 +170,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * <code>$this->setPageTitleVisibility( false );    // disables the page title.
      * </code>
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Changed the scope to public.
-     * @param boolean $bShow If false, the page title will not be displayed.
-     * @return void
+     * @since       2.0.0
+     * @since       3.0.0       Changed the scope to public.
+     * @param       boolean     $bShow If false, the page title will not be displayed.
+     * @return      void
      */ 
     public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
         
@@ -194,12 +196,12 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * <code>$this->setPageHeadingTabsVisibility( false );    // disables the page heading tabs by passing false.
      * </code>
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Changed the scope to public.
-     * @param boolean $bShow If false, page-heading tabs will be disabled; otherwise, enabled.
-     * @param string $sPageSlug The page to apply the visibility setting. If not set, it applies to all the pages.
-     * @remark Page-heading tabs and in-page tabs are different. The former displays page titles and the latter displays tab titles.
-     * @remark If the second parameter is omitted, it sets the default value.
+     * @since       2.0.0
+     * @since       3.0.0       Changed the scope to public.
+     * @param       boolean     $bShow      If false, page-heading tabs will be disabled; otherwise, enabled.
+     * @param       string      $sPageSlug  The page to apply the visibility setting. If not set, it applies to all the pages.
+     * @remark      Page-heading tabs and in-page tabs are different. The former displays page titles and the latter displays tab titles.
+     * @remark      If the second parameter is omitted, it sets the default value.
      */ 
     public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
         
@@ -220,11 +222,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * 
      * Sometimes, it is required to disable in-page tabs in certain pages. In that case, use the second parameter.
      * 
-     * @since 2.1.1
-     * @since 3.0.0 Changed the scope to public. Changed the name from showInPageTabs() to setInPageTabsVisibility().
-     * @param boolean $bShow If false, in-page tabs will be disabled.
-     * @param string $sPageSlug The page to apply the visibility setting. If not set, it applies to all the pages.
-     * @remark If the second parameter is omitted, it sets the default value.
+     * @since       2.1.1
+     * @since       3.0.0       Changed the scope to public. Changed the name from `showInPageTabs()` to `setInPageTabsVisibility()`.
+     * @param       boolean     $bShow      If false, in-page tabs will be disabled.
+     * @param       string      $sPageSlug  The page to apply the visibility setting. If not set, it applies to all the pages.
+     * @remark      If the second parameter is omitted, it sets the default value.
      */
     public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {
         
@@ -247,11 +249,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * <code>$this->setInPageTabTag( 'h2' );
      * </code>
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Changed the scope to public.
-     * @param string $sTag The HTML tag that encloses each in-page tab title. Default: h3.
-     * @param string $sPageSlug The page slug that applies the setting.    
-     * @remark If the second parameter is omitted, it sets the default value.
+     * @since       2.0.0
+     * @since       3.0.0       Changed the scope to public.
+     * @param       string      $sTag           The HTML tag that encloses each in-page tab title. Default: `h3`.
+     * @param       string      $sPageSlug      The page slug that applies the setting.    
+     * @remark      If the second parameter is omitted, it sets the default value.
      */     
     public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
         
@@ -274,11 +276,11 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * <code>$this->setPageHeadingTabTag( 'h2' );
      * </code>
      * 
-     * @since 2.1.2
-     * @since 3.0.0 Changed the scope to public.
-     * @param string $sTag The HTML tag that encloses the page-heading tab title. Default: h2.
-     * @param string $sPageSlug The page slug that applies the setting.    
-     * @remark If the second parameter is omitted, it sets the default value.
+     * @since       2.1.2
+     * @since       3.0.0       Changed the scope to public.
+     * @param       string      $sTag       The HTML tag that encloses the page-heading tab title. Default: `h2`.
+     * @param       string      $sPageSlug  The page slug that applies the setting.    
+     * @remark      If the second parameter is omitted, it sets the default value.
      */
     public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {
         
@@ -324,7 +326,17 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
                 $sContentTop .= $this->_getInPageTabs( $sPageSlug, $this->oProp->sInPageTabTag );
 
                 // Apply filters in this order, in-page tab -> page -> global.
-                echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_top_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $sContentTop );
+                echo $this->oUtil->addAndApplyFilters( 
+                    $this, 
+                    $this->oUtil->getFilterArrayByPrefix( 
+                        'content_top_', 
+                        $this->oProp->sClassName, 
+                        $sPageSlug, 
+                        $sTabSlug, 
+                        false 
+                    ), 
+                    $sContentTop 
+                );
 
             ?>
             <div class="admin-page-framework-container">    
@@ -367,7 +379,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
 
         /**
          * Renders the main content of the admin page.
-         * @since 3.0.0
+         * @since       3.0.0
          */
         private function _printMainContent( $sPageSlug, $sTabSlug ) {
             
@@ -423,10 +435,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         /**
          * Retrieves the form opening tag.
          * 
-         * @since 2.0.0
-         * @since 3.1.0 Changed to echo the output. Changed to remove disallowed query keys in the target action url.
+         * @since       2.0.0
+         * @since       3.1.0     Changed to echo the output. Changed to remove disallowed query keys in the target action url.
          * @internal
-         * @return void
+         * @return      void
          */ 
         private function _printFormOpeningTag( $fEnableForm=true ) {    
             
@@ -452,10 +464,10 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         /**
          * Retrieves the form closing tag.
          * 
-         * @since 2.0.0
-         * @since 3.1.0 Prints out the output.
+         * @since       2.0.0
+         * @since       3.1.0     Prints out the output.
          * @internal
-         * @return void
+         * @return      void
          */     
         private function _printFormClosingTag( $sPageSlug, $sTabSlug, $fEnableForm=true ) {
             
@@ -476,8 +488,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         /**
          * Retrieves the screen icon output as HTML.
          * 
-         * @remark     the screen object is supported in WordPress 3.3 or above.
-         * @since 2.0.0
+         * @remark      the screen object is supported in WordPress 3.3 or above.
+         * @since       2.0.0
          */     
         private function _getScreenIcon( $sPageSlug ) {
 
@@ -617,8 +629,8 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
         /**
          * Retrieves the output of in-page tab navigation bar as HTML.
          * 
-         * @since 2.0.0
-         * @return string     the output of in-page tabs.
+         * @since   2.0.0
+         * @return  string     the output of in-page tabs.
          */     
         private function _getInPageTabs( $sCurrentPageSlug, $sTag='h3', $aOutput=array() ) {
             
@@ -681,9 +693,9 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
             /**
              * Retrieves the parent tab slug from the given tab slug.
              * 
-             * @since 2.0.0
-             * @since 2.1.2 If the parent slug has the show_in_page_tab to be true, it returns an empty string.
-             * @return string     the parent tab slug.
+             * @since       2.0.0
+             * @since       2.1.2       If the parent slug has the show_in_page_tab to be true, it returns an empty string.
+             * @return      string      the parent tab slug.
              */     
             private function _getParentTabSlug( $sPageSlug, $sTabSlug ) {
                 
@@ -705,7 +717,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
      * This must be done before registering settings sections because the default tab needs to be determined in the process.
      * 
      * @since       2.0.0
-     * @since       3.3.0   Changed the name from _replyToFinalizeInPageTabs() and been no longer a callback.
+     * @since       3.3.0       Changed the name from `_replyToFinalizeInPageTabs()` and been no longer a callback.
      * @return      void
      * @internal
      */         
@@ -750,9 +762,7 @@ abstract class AdminPageFramework_Page extends AdminPageFramework_Page_MetaBox {
          * An alias of _finalizeInPageTabs().
          * @deprecated  3.3.0
          */
-        public function _replyToFinalizeInPageTabs() {
-            $this->_finalizeInPageTabs();
-        }
+        public function _replyToFinalizeInPageTabs() { $this->_finalizeInPageTabs(); }
     
 }
 endif;
