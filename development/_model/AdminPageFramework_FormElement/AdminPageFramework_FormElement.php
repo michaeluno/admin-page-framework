@@ -407,7 +407,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             );
             $_aField['field_id']    = $this->sanitizeSlug( $_aField['field_id'] );
             $_aField['section_id']  = $this->sanitizeSlug( $_aField['section_id'] );     
-            $_aField['tip']         = esc_attr( strip_tags( isset( $_aField['tip'] ) ? $_aField['tip'] : $_aField['description'] ) );
+            $_aField['tip']         = esc_attr( strip_tags( 
+                isset( $_aField['tip'] ) 
+                    ? $_aField['tip'] 
+                    : ( 
+                        is_array( $_aField['description'] ) 
+                            ? implode( '&#10;', $_aField['description'] ) 
+                            : $_aField['description'] 
+                    ) 
+            ) );
             $_aField['order']       = is_numeric( $_aField['order'] ) ? $_aField['order'] : $iCountOfElements + 10;
                         
             return $_aField;

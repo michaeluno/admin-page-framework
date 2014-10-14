@@ -8,7 +8,10 @@ $this->addSettingFields(
         'field_id'          => 'text',
         // 'section_id'     => 'text_fields', // can be omitted as it is set previously
         'title'             => __( 'Text', 'admin-page-framework-demo' ),
-        'description'       => __( 'Type something here. This text is inserted with the <code>description</code> argument in the field definition array.', 'admin-page-framework-demo' ),
+        'description'       => array(
+            __( 'Type something here. This text is inserted with the <code>description</code> argument in the field definition array.', 'admin-page-framework-demo' ),
+            __( 'The argument accepts as an array and each element will be treated as one paragraph.', 'admin-page-framework-demo' ),
+        ),
         'help'              => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-demo' )
             . ' ' . __( 'This text is inserted with the <code>help</code> argument in the field definition array.', 'admin-page-framework-demo' ),
         'type'              => 'text',
@@ -84,8 +87,10 @@ $this->addSettingFields(
             'max' => 10,
             'min' => 3,
         ),
-        'description'       => __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> argument to <code>true</code>.', 'admin-page-framework-demo' )
-            . __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable</code> argument array in the field definition array.' ),
+        'description'       => array( 
+            __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> argument to <code>true</code>.', 'admin-page-framework-demo' ),
+            __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable</code> argument array in the field definition array.' ),
+        ),
     ),     
     array( // Sortable text fields
         'field_id'          => 'text_sortable',

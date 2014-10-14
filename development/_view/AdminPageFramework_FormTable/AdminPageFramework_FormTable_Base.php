@@ -82,7 +82,18 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
         
         return "<label for='{$aField['field_id']}'>"
             . "<a id='{$aField['field_id']}'></a>"
-                . "<span title='" . ( esc_attr( strip_tags( isset( $aField['tip'] ) ? $aField['tip'] : $aField['description'] ) ) ) . "'>"
+                . "<span title='" 
+                        . esc_attr( strip_tags( 
+                            isset( $aField['tip'] ) 
+                                ? $aField['tip'] 
+                                : ( 
+                                    is_array( $aField['description'] 
+                                        ? implode( '&#10;', $aField['description'] )
+                                        : $aField['description'] 
+                                    ) 
+                                ) 
+                        ) ) 
+                    . "'>"
                     . $aField['title'] 
                     . ( in_array( $aField[ '_fields_type' ], array( 'widget', 'post_meta_box', 'page_meta_box' ) )  
                         ? "<span class='title-colon'>:</span>"

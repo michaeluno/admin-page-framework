@@ -275,7 +275,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                             )     
                             . ( is_callable( $hfSectionCallback )
                                 ? "<div class='admin-page-framework-section-description'>"     // admin-page-framework-section-description is referred by the repeatable section buttons
-                                        . call_user_func_array( $hfSectionCallback, array( '<p>' . $aSection['description'] . '</p>', $aSection ) )
+                                        . call_user_func_array( $hfSectionCallback, array( $this->_getDescription( $aSection['description'] ) , $aSection ) )
                                     . "</div>"
                                 : ""
                             )
@@ -301,7 +301,25 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
             . "</div>";
         
     }
-
+        /**
+         * Returns the HTML formatted description blocks by the given description definition.
+         * 
+         * @since   3.3.0
+         * @return  string      The description output.
+         */
+        private function _getDescription( $asDescription ) {
+            
+            if ( empty( $asDescription ) ) { return ''; }
+            
+            $_aOutput = array();
+            foreach( $this->getAsArray( $asDescription ) as $_sDescription ) {
+                $_aOutput[] = "<p class='admin-page-framework-section-description'>"
+                        . "<span class='description'>{$_sDescription}</span>"
+                    . "</p>";
+            }
+            return implode( PHP_EOL, $_aOutput );
+            
+        }    
     /**
      * Returns the output of a set of fields generated from the given field definition arrays enclosed in a table row tag for each.
      * 
