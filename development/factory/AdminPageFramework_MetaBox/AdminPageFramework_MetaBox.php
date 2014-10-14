@@ -49,7 +49,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
 
     /**
      * Defines the fields type.
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     static protected $_sFieldsType = 'post_meta_box';
@@ -69,16 +69,16 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Bas
      *         'default' // priority
      *     );
      * </code>
-     * @see http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
-     * @since 2.0.0
-     * @param string The meta box ID.
-     * @param string The meta box title.
-     * @param string|array ( optional ) The post type(s) or screen ID that the meta box is associated with.
-     * @param string ( optional ) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') Default: normal.
-     * @param string ( optional ) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low') Default: default.
-     * @param string ( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: edit_posts.
-     * @param string ( optional ) The text domain applied to the displayed text messages. Default: admin-page-framework.
-     * @return void
+     * @see         http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
+     * @since       2.0.0
+     * @param       string            The meta box ID.
+     * @param       string            The meta box title.
+     * @param       string|array      (optional) The post type(s) or screen ID that the meta box is associated with.
+     * @param       string            (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') Default: `normal`.
+     * @param       string            (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low') Default: `default`.
+     * @param       string            (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: `edit_posts`.
+     * @param       string            (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
+     * @return      void
      */ 
     function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
         
