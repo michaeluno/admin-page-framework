@@ -339,7 +339,7 @@ td.admin-page-framework-field-td-no-title {
     font-size: 13px;
     line-height: 1.5;
     margin: 1em 0px;    
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* Metabox Section Heading Info */
