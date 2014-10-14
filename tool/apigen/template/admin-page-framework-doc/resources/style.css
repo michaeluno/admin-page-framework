@@ -535,7 +535,7 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
 #content li ol 
 {
     margin-top: 0.2em;
-    margin-bottom: 0;
+    margin-bottom: 0.4em;
 }
 
 #content pre {
