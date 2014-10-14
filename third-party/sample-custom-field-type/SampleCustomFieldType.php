@@ -26,7 +26,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
     /**
      * Loads the field type necessary components.
      */ 
-    public function setUp() {}    
+    protected function setUp() {}    
 
     /**
      * Returns an array holding the urls of enqueuing scripts.

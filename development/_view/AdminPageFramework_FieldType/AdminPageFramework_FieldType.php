@@ -17,11 +17,11 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  *     <li>
  *         Define a custom field type with a class extending the <em>AdminPageFramework_FieldType</em> class.
  *         <ol>
- *             <li>Set the field type slug such as autocomplete with the <em>$aFieldTypeSlugs</em> property.</li>
- *             <li>Set the default field array definition keys with the <em>$aDefaultKeys</em> property.</li>
- *             <li>Write additional code in the <em>setUp()</em> method that will be performed when the field type definition is parsed.</li>
- *             <li>Add scripts and styles with <em>getEnqueuingScripts()</em>, <em>getEnqueuingStyles()</em>, <em>getScripts()</em>, <em>getStyles()</em> etc.</li>
- *             <li>Compose the output HTML structure with the passed <em>$aField</em> field definition array in the <em>getField()</em> method.</li>
+ *             <li>Set the field type slug such as `autocomplete` with the `$aFieldTypeSlugs` property.</li>
+ *             <li>Set the default field array definition keys with the `$aDefaultKeys` property.</li>
+ *             <li>Write additional code in the `setUp()` method that will be performed when the field type definition is parsed.</li>
+ *             <li>Add scripts and styles with `getEnqueuingScripts()`, `getEnqueuingStyles()`, `getScripts()`, `getStyles()` etc.</li>
+ *             <li>Compose the output HTML structure with the passed `$aField` field definition array in the `getField()` method.</li>
  *         </ol>
  *     </li>
  *     <li>
@@ -139,7 +139,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * 
      * @since 3.1.3
      */
-    public function construct() {}    
+    protected function construct() {}    
         
     /**
      * Loads the field type necessary components.

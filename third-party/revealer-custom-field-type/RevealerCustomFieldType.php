@@ -34,7 +34,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
     /**
      * Loads the field type necessary components.
      */ 
-    public function setUp() {
+    protected function setUp() {
                 
         if ( ! self::$_bIsLoaded ) {
             wp_enqueue_script( 'jquery' );

@@ -45,7 +45,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
      * 
      * Loaded at the end of the constructor.
      */
-    public function construct() {
+    protected function construct() {
 
         $_aGet = $_GET;
         unset( $_aGet['post_type'], $_aGet['request'], $_aGet['page'], $_aGet['tab'], $_aGet['settings-updated'] );
@@ -199,7 +199,7 @@ class AutoCompleteCustomFieldType extends AdminPageFramework_FieldType {
      * 
      * This method is triggered when a field definition array that calls this field type is parsed. 
      */ 
-    public function setUp() {}    
+    protected function setUp() {}    
 
     /**
      * Returns an array holding the urls of enqueuing scripts.

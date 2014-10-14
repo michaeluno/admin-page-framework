@@ -113,7 +113,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * 
      * @since 3.1.3
      */
-    public function construct() {}
+    protected function construct() {}
     
     /**
      * Registers the field type.

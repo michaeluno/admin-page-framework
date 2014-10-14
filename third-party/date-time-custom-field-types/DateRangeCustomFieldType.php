@@ -42,7 +42,7 @@ class DateRangeCustomFieldType extends AdminPageFramework_FieldType {
     /**
      * Loads the field type necessary components.
      */ 
-    public function setUp() {
+    protected function setUp() {
         wp_enqueue_script( 'jquery-ui-datepicker' );
     }    
 

@@ -30,7 +30,7 @@ class LinkCustomFieldType extends AdminPageFramework_FieldType {
     /**
      * Loads the field type necessary components.
      */ 
-    public function setUp() {
+    protected function setUp() {
         
         if ( isset( self::$_bLoaded ) ) {
             return;
