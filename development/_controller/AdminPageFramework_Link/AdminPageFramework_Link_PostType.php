@@ -110,7 +110,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     }
     
     /**
-     * Adds the <em>post_type</em> query key and value in the link url.
+     * Adds the `post_type` query key and value in the link url.
      * 
      * This is used to make it easier to detect if the linked page belongs to the post type created with this class.
      * So it can be used to embed footer links.
@@ -126,7 +126,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     /**
      * 
      * @since       2.0.0
-     * @remark      A callback for the filter hook, <em>admin_footer_text</em>.
+     * @remark      A callback for the filter hook, `admin_footer_text`.
      * @internal
      */ 
     public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
@@ -139,7 +139,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     /**
      * 
      * @since       2.0.0
-     * @remark      A callback for the filter hook, <em>admin_footer_text</em>.
+     * @remark      A callback for the filter hook, `admin_footer_text`.
      * @internal
      */     
     public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
