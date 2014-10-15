@@ -13,12 +13,17 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Model' ) ) :
  * Those methods are internal and deal with internal properties.
  * 
  * @abstract
- * @since 3.0.4
- * @package AdminPageFramework
- * @subpackage PostType
+ * @since           3.0.4
+ * @package         AdminPageFramework
+ * @subpackage      PostType
  */
 abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {    
 
+    /**
+     * Sets up hooks and properties.
+     * 
+     * @internal
+     */
     function __construct( $oProp ) {
         
         parent::__construct( $oProp );
@@ -32,13 +37,13 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
         
         // Properties
         $this->oProp->aColumnHeaders = array(
-            'cb' => '<input type="checkbox" />', // Checkbox for bulk actions. 
-            'title' => $this->oMsg->get( 'title' ), // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-            'author' => $this->oMsg->get( 'author' ),     // Post author.
+            'cb'        => '<input type="checkbox" />',     // Checkbox for bulk actions. 
+            'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+            'author'    => $this->oMsg->get( 'author' ),    // Post author.
             // 'categories' => $this->oMsg->get( 'categories' ), // Categories the post belongs to. 
-            // 'tags' => $this->oMsg->get( 'tags' ),         // Tags for the post. 
-            'comments'         => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-            'date' => $this->oMsg->get( 'date' ),         // The date and publish status of the post. 
+            // 'tags' => $this->oMsg->get( 'tags' ),        // Tags for the post. 
+            'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
+            'date'      => $this->oMsg->get( 'date' ),      // The date and publish status of the post. 
         );     
                             
         if ( $this->_isInThePage() ) :
@@ -60,7 +65,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * 
      * @internal
      * @since       3.0.4
-     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
+     * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
      */
     public function _isInThePage() {
         
@@ -82,8 +87,8 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * 
      * This method should be overridden by the user in their extended class.
      * 
-     * @since 2.0.0
-     * @remark A callback for the <em>manage_edit-{post type}_sortable_columns</em> hook.
+     * @since       2.0.0
+     * @remark      A callback for the `manage_edit-{post type}_sortable_columns` hook.
      * @internal
      */ 
     public function _replyToSetSortableColumns( $aColumns ) {
@@ -123,8 +128,8 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      */
     public function _replyToDisableAutoSave() {
         
-        if ( $this->oProp->bEnableAutoSave ) return;
-        if ( $this->oProp->sPostType != get_post_type() ) return;
+        if ( $this->oProp->bEnableAutoSave ) { return; }
+        if ( $this->oProp->sPostType != get_post_type() ) { return; }
         wp_dequeue_script( 'autosave' );
             
     }
@@ -135,21 +140,13 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @internal
      */
     public function _replyToRegisterPostType() {
-
         register_post_type( $this->oProp->sPostType, $this->oProp->aPostTypeArgs );
-
-        // if ( ! get_option( "post_type_rules_flased_{$this->oProp->sPostType}" ) ) {
-           // flush_rewrite_rules( false );
-           // update_option( "post_type_rules_flased_{$this->oProp->sPostType}", true );
-        // }
-
     }
 
     /**
      * Registers the set custom taxonomies.
      * 
      * @internal
-     * @remark 0.01 elapsed for this function call in the demo plugin which has two custom taxonomies.
      */
     public function _replyToRegisterTaxonomies() {
 
