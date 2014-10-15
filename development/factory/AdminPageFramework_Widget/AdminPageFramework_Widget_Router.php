@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Router' ) ) :
  * @since       3.2.0
  * @package     AdminPageFramework
  * @subpackage  Widget
+ * @internal
  */
 abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {    
         

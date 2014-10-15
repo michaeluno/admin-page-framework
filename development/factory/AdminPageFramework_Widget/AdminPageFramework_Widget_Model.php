@@ -19,6 +19,12 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Model' ) ) :
  */
 abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget_Router {    
 
+    /**
+     * Sets up hooks and properties.
+     * 
+     * @since       3.2.0
+     * @internal
+     */
     function __construct( $oProp ) {
         
         parent::__construct( $oProp );   
@@ -35,9 +41,22 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     /**
      * The predefined validation method. 
      * 
-     * This method should be overridden in an extended class.
+     * This method should be overridden in an extended class. Alternatively the user may use validation_{instantiated class name} method.
      * 
+     * <h4>Example</h4>
+     * <code>
+     * public function validate( $aSubmit, $aStored, $oAdminWidget ) {
+     *     
+     *     // Uncomment the following line to check the submitted value.
+     *     // AdminPageFramework_Debug::log( $aSubmit );
+     *     
+     *     return $aSubmit;
+     *     
+     * }    
+     * </code>
      * @since   3.2.0
+     * @remark  The user will extend this method and use it.
+     * @todo    Update the code example.
      */
     protected function validate( $aSubmit, $aStored, $oAdminWidget ) {
         return $aSubmit;
@@ -46,8 +65,9 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     /**
      * Determines whether the currently loaded page is of the post type page.
      * 
-     * @since 3.2.0
-     * @todo: complete this method        
+     * @since       3.2.0
+     * @remark      The available widget areas are widgets.php and customize.php. However, some plugins implements widgets form interface in post editing page.
+     * @internal
      */
     public function _isInThePage() {
         return true;

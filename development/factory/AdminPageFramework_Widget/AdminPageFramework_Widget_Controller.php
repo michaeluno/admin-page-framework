@@ -19,6 +19,10 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Controller' ) ) :
  */
 abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {    
 
+    /**
+     * Sets up hooks and properties.
+     * @since   3.2.0
+     */
     function __construct( $oProp ) {
         
         parent::__construct( $oProp );
@@ -71,9 +75,9 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * 
      * @since       3.2.0
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param       string The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-     * @param       array (optional) The argument array for more advanced parameters.
-     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+     * @param       array       (optional) The argument array for more advanced parameters.
+     * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */    
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
