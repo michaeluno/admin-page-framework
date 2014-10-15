@@ -15,47 +15,45 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField' ) ) :
  * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and actions.</p>
  * <h3>Methods and Action Hooks</h3>
  * <ul>
- *     <li><strong>start_{instantiated class name}</strong> – triggered at the end of the class constructor.</li>
- *     <li><strong>do_{instantiated class name}</strong> – triggered when the meta box gets rendered. The first parameter: the class object [3.1.3+]. </li>
+ *     <li>**start_{instantiated class name}** – triggered at the end of the class constructor.</li>
+ *     <li>**do_{instantiated class name}** – triggered when the meta box gets rendered. The first parameter: the class object [3.1.3+]. </li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- *     <li><strong>field_types_{instantiated class name}</strong> – receives the field type definition array. The first parameter: the field type definition array.</li>
- *     <li><strong>field_{instantiated class name}_{field ID}</strong> – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
- *     <li><strong>content_{instantiated class name}</strong> – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
- *     <li><strong>style_common_admin_page_framework</strong> –  [3.2.1+] receives the output of the base CSS rules applied to common CSS rules shared by the framework.</li>
- *     <li><strong>style_common_{instantiated class name}</strong> –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>style_ie_common_{instantiated class name}</strong> –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>style_{instantiated class name}</strong> –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>style_ie_{instantiated class name}</strong> –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>script_common_{instantiated class name}</strong> – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>script_{instantiated class name}</strong> – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
- *     <li><strong>validation_{instantiated class name}</strong> – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
- *     <li><strong>columns_{taxonomy slug}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
- *     <li><strong>columns_{instantiated class name}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
- *     <li><strong>sortable_columns_{taxonomy slug}</strong> – receives the header sortable columns array. The first parameter: the header columns array.</li>
- *     <li><strong>sortable_columns_{instantiated class name}</strong> – receives the header columns array. The first parameter: the header columns array.</li>
- *     <li><strong>cell_{taxonomy slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
- *     <li><strong>cell_{instantiated class name}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
- *     <li><strong>cell_{instantiated class name}_{column slug}</strong> – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the term ID.</li>
+ *     <li>**field_types_{instantiated class name}** – receives the field type definition array. The first parameter: the field type definition array.</li>
+ *     <li>**field_{instantiated class name}_{field ID}** – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
+ *     <li>**content_{instantiated class name}** – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
+ *     <li>**style_common_admin_page_framework** –  [3.2.1+] receives the output of the base CSS rules applied to common CSS rules shared by the framework.</li>
+ *     <li>**style_common_{instantiated class name}** –  receives the output of the base CSS rules applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**style_ie_common_{instantiated class name}** –  receives the output of the base CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**style_{instantiated class name}** –  receives the output of the CSS rules applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**style_ie_{instantiated class name}** –  receives the output of the CSS rules for Internet Explorer applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**script_common_{instantiated class name}** – receives the output of the base JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**script_{instantiated class name}** – receives the output of the JavaScript scripts applied to the pages of the associated post types with the meta box.</li>
+ *     <li>**validation_{instantiated class name}** – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database.</li>
+ *     <li>**columns_{taxonomy slug}** – receives the header columns array. The first parameter: the header columns array.</li>
+ *     <li>**columns_{instantiated class name}** – receives the header sortable columns array. The first parameter: the header columns array.</li>
+ *     <li>**sortable_columns_{taxonomy slug}** – receives the header sortable columns array. The first parameter: the header columns array.</li>
+ *     <li>**sortable_columns_{instantiated class name}** – receives the header columns array. The first parameter: the header columns array.</li>
+ *     <li>**cell_{taxonomy slug}** – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
+ *     <li>**cell_{instantiated class name}** – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
+ *     <li>**cell_{instantiated class name}_{column slug}** – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the term ID.</li>
  * </ul> 
  * @abstract
- * @since 3.0.0
- * @use AdminPageFramework_Utility
- * @use AdminPageFramework_Message
- * @use AdminPageFramework_Debug
- * @use AdminPageFramework_Property_MetaBox
- * @package AdminPageFramework
- * @subpackage TaxonomyField
- * @extends AdminPageFramework_Factory
- 
- * @todo Fix issues caused by extending the factory class and provide missing elements which were present in the meta box base class.
+ * @since       3.0.0
+ * @use         AdminPageFramework_Utility
+ * @use         AdminPageFramework_Message
+ * @use         AdminPageFramework_Debug
+ * @use         AdminPageFramework_Property_MetaBox
+ * @package     AdminPageFramework
+ * @subpackage  TaxonomyField
+ * @extends     AdminPageFramework_Factory
  */
 abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Factory {
     
     /**
      * Defines the fields type.
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     static protected $_sFieldsType = 'taxonomy';
@@ -70,21 +68,21 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * new APF_TaxonomyField( 'apf_sample_taxonomy' ); // taxonomy slug
      * </code>
      * 
-     * @since 3.0.0
-     * @param array|string The taxonomy slug(s). If multiple slugs need to be passed, enclose them in an array and pass the array.
-     * @param string The option key used for the options table to save the data. By default, the instantiated class name will be applied.
-     * @param string The access rights. Default: <em>manage_options</em>.
-     * @param string The text domain. Default: <em>admin-page-framework</em>.
-     * @return void
+     * @since       3.0.0
+     * @param       array|string    The taxonomy slug(s). If multiple slugs need to be passed, enclose them in an array and pass the array.
+     * @param       string          The option key used for the options table to save the data. By default, the instantiated class name will be applied.
+     * @param       string          The access rights. Default: `manage_options`.
+     * @param       string          The text domain. Default: `admin-page-framework`.
+     * @return      void
      */ 
     function __construct( $asTaxonomySlug, $sOptionKey='', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         if ( empty( $asTaxonomySlug ) ) return;
         
         /* Properties */
-        $this->oProp = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
-        $this->oProp->aTaxonomySlugs = ( array ) $asTaxonomySlug;
-        $this->oProp->sOptionKey = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
+        $this->oProp                    = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
+        $this->oProp->aTaxonomySlugs    = ( array ) $asTaxonomySlug;
+        $this->oProp->sOptionKey        = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
         
         parent::__construct( $this->oProp );
         
@@ -112,12 +110,12 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Determines whether the meta box should be loaded in the currently loading page.
      * 
-     * @since 3.0.3
+     * @since       3.0.3
      * @internal
      */
     public function _replyToDetermineToLoad() {
         
-        if ( ! $this->_isInThePage() ) return;
+        if ( ! $this->_isInThePage() ) { return; }
         
         $this->_setUp();
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
@@ -145,24 +143,24 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * The set up method.
      * 
-     * @remark should be overridden by the user definition class. 
-     * @since 3.0.0
+     * @remark      should be overridden by the user definition class. 
+     * @since       3.0.0
      */
     public function setUp() {}
         
     /**
-     * Sets the <var>$aOptions<var> property array in the property object. 
+     * Sets the <var>$aOptions</var> property array in the property object. 
      * 
-     * This array will be referred later in the getFieldOutput() method.
+     * This array will be referred later in the `getFieldOutput()` method.
      * 
-     * @since unknown
-     * @since 3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
+     * @since       unknown
+     * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
      * #internal
      */
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
                 
-        $aOptions = get_option( $sOptionKey, array() );
-        $this->oProp->aOptions = isset( $iTermID, $aOptions[ $iTermID ] ) ? $aOptions[ $iTermID ] : array();
+        $aOptions               = get_option( $sOptionKey, array() );
+        $this->oProp->aOptions  = isset( $iTermID, $aOptions[ $iTermID ] ) ? $aOptions[ $iTermID ] : array();
 
     }    
     
@@ -170,7 +168,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * Adds input fields
      * 
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      */    
     public function _replyToAddFieldsWOTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( isset( $oTerm->term_id ) ? $oTerm->term_id : null, false );
@@ -179,9 +177,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Adds input fields with table rows.
      * 
-     * @remark Used for the Edit Category(taxonomy) page.
+     * @remark      Used for the Edit Category(taxonomy) page.
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function _replyToAddFieldsWithTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( isset( $oTerm->term_id ) ? $oTerm->term_id : null, true );
@@ -191,7 +189,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * Modifies the columns of the term listing table in the edit-tags.php page.
      * 
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function _replyToManageColumns( $aColumns ) {
 
@@ -204,8 +202,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
                 [posts] => Admin Page Framework
             ) 
          */
-        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
+        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
             $aColumns = $this->oUtil->addAndApplyFilter( $this, "columns_{$_GET['taxonomy']}", $aColumns );
+        }
         $aColumns = $this->oUtil->addAndApplyFilter( $this, "columns_{$this->oProp->sClassName}", $aColumns );    
         return $aColumns;
         
@@ -218,8 +217,9 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      */
     public function _replyToSetSortableColumns( $aSortableColumns ) {
 
-        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
+        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
             $aSortableColumns = $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$_GET['taxonomy']}", $aSortableColumns );
+        }
         $aSortableColumns = $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$this->oProp->sClassName}", $aSortableColumns );
         return $aSortableColumns;
         
@@ -227,13 +227,14 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * 
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function _replyToSetColumnCell( $vValue, $sColumnSlug, $sTermID ) {
         
         $sCellHTML = '';
-        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] )
+        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
             $sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$_GET['taxonomy']}", $vValue, $sColumnSlug, $sTermID );
+        }
         $sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}", $sCellHTML, $sColumnSlug, $sTermID );
         $sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}_{$sColumnSlug}", $sCellHTML, $sTermID ); // 3.0.2+
         echo $sCellHTML;
@@ -243,7 +244,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Retrieves the fields output.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     private function _getFieldsOutput( $iTermID, $bRenderTableRow ) {
@@ -278,7 +279,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Validates the given option array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     public function _replyToValidateOptions( $iTermID ) {
@@ -286,18 +287,20 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
         if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { return; }
         if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) { return; }
         
-        $aTaxonomyFieldOptions = get_option( $this->oProp->sOptionKey, array() );
-        $aOldOptions = isset( $aTaxonomyFieldOptions[ $iTermID ] ) ? $aTaxonomyFieldOptions[ $iTermID ] : array();
-        $aSubmittedOptions = array();
-        foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) 
-            foreach( $_aFields as $_sFieldID => $_aField ) 
-                if ( isset( $_POST[ $_sFieldID ] ) ) 
+        $aTaxonomyFieldOptions  = get_option( $this->oProp->sOptionKey, array() );
+        $aOldOptions            = isset( $aTaxonomyFieldOptions[ $iTermID ] ) ? $aTaxonomyFieldOptions[ $iTermID ] : array();
+        $aSubmittedOptions      = array();
+        foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
+            foreach( $_aFields as $_sFieldID => $_aField ) {
+                if ( isset( $_POST[ $_sFieldID ] ) ) {
                     $aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];
+                }
+            }
+        }
             
         /* Apply validation filters to the submitted option array. */
-        $aSubmittedOptions = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions, $this );
-        
-        $aTaxonomyFieldOptions[ $iTermID ] = $this->oUtil->uniteArrays( $aSubmittedOptions, $aOldOptions );
+        $aSubmittedOptions                  = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions, $this );        
+        $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( $aSubmittedOptions, $aOldOptions );
         update_option( $this->oProp->sOptionKey, $aTaxonomyFieldOptions );
         
     }
@@ -305,7 +308,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Registers form fields and sections.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     public function _replyToRegisterFormElements( $oScreen ) {
@@ -319,7 +322,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
         $this->oForm->format();
         $this->oForm->applyConditions();
         
-        // not sure if setDynamicElements() should be performed or not...
+        // @todo    Examine whether setDynamicElements() should be performed or not...
         
         $this->_registerFields( $this->oForm->aConditionedFields );
         
@@ -328,22 +331,11 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     /**
      * Redirects undefined callback methods.
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      * @deprecated
      */
     function ___call( $sMethodName, $aArgs=null ) {     
     
-     /*     if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) :
-            if ( substr( $sMethodName, 0, strlen( 'columns_' . $_GET['taxonomy'] ) ) == 'columns_' . $_GET['taxonomy'] ) return $aArgs[ 0 ];
-            if ( substr( $sMethodName, 0, strlen( 'sortable_columns_' . $_GET['taxonomy'] ) ) == 'sortable_columns_' . $_GET['taxonomy'] ) return $aArgs[ 0 ];
-            if ( substr( $sMethodName, 0, strlen( 'cell_' . $_GET['taxonomy'] ) ) == 'cell_' . $_GET['taxonomy'] ) return $aArgs[ 0 ];
-        endif;
-    
-        if ( substr( $sMethodName, 0, strlen( 'columns_' . $this->oProp->sClassName ) ) == 'columns_' . $this->oProp->sClassName ) return $aArgs[ 0 ];
-        if ( substr( $sMethodName, 0, strlen( 'sortable_columns_' . $this->oProp->sClassName ) ) == 'sortable_columns_' . $this->oProp->sClassName ) return $aArgs[ 0 ];
-        if ( substr( $sMethodName, 0, strlen( 'cell_' . $this->oProp->sClassName ) ) == 'cell_' . $this->oProp->sClassName ) return $aArgs[ 0 ];
-    */
-
         if ( has_filter( $sMethodName ) ) {
             return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
         }  
