@@ -24,11 +24,11 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * When there are multiple arrays and they have similar index structures but it's not certain if one has the key and the others,
      * use this method to retrieve the corresponding key value. 
      * 
-     * @remark This is mainly used by the field array to insert user-defined key values.
-     * @return string|array If the key does not exist in the passed array, it will return the default. If the subject value is not an array, it will return the subject value itself.
-     * @since 2.0.0
-     * @since 2.1.3 Added the $bBlankToDefault parameter that sets the default value if the subject value is empty.
-     * @since 2.1.5 Changed the scope to public static from protected as converting all the utility methods to all public static.
+     * @remark      This is mainly used by the field array to insert user-defined key values.
+     * @return      string|array    If the key does not exist in the passed array, it will return the default. If the subject value is not an array, it will return the subject value itself.
+     * @since       2.0.0
+     * @since       2.1.3           Added the $bBlankToDefault parameter that sets the default value if the subject value is empty.
+     * @since       2.1.5           Changed the scope to public static from protected as converting all the utility methods to all public static.
      */
     public static function getCorrespondingArrayValue( $vSubject, $sKey, $sDefault='', $bBlankToDefault=false ) {    
                 
@@ -104,7 +104,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Merges multiple multi-dimensional arrays recursively.
      * 
-     * The advantage of using this method over the array unite operator or array_merge() is that it merges recursively and the null values of the preceding array will be overridden.
+     * The advantage of using this method over the array unite operator or `array_merge() is that it merges recursively and the null values of the preceding array will be overridden.
      * 
      * @since       2.1.2
      * @static
@@ -127,7 +127,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Merges two multi-dimensional arrays recursively.
      * 
      * The first parameter array takes its precedence. This is useful to merge default option values. 
-     * An alternative to <em>array_replace_recursive()</em>; it is not supported PHP 5.2.x or below.
+     * An alternative to `array_replace_recursive()` which is not available PHP 5.2.x or below.
      * 
      * @since       2.0.0
      * @since       2.1.5       Changed the scope to static. 
@@ -297,19 +297,19 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * e.g. The following code will yield eee.
      * <code>
      * $a = array(
-        'a' => array(
-            'b' => array(
-                'c' => array(
-                    'd' => array(
-                        'e' => 'eee',
-                    ),
-                ),
-            ),
-        ),
-        );
-        $aKeys = array( 'a', 'b', 'c', 'd', 'e' );
-        $v = getArrayValueByArrayKeys( $a, $aKeys, 'default value' );
-        var_dump( $v );
+     *  'a' => array(
+     *      'b' => array(
+     *          'c' => array(
+     *              'd' => array(
+     *                  'e' => 'eee',
+     *              ),
+     *          ),
+     *      ),
+     *  ),
+     *  );
+     *  $aKeys = array( 'a', 'b', 'c', 'd', 'e' );
+     *  $v = getArrayValueByArrayKeys( $a, $aKeys, 'default value' );
+     *  var_dump( $v );
      * </code>
      * 
      * 
@@ -364,7 +364,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         
     }
     /**
-     * Retuns the readable array contents.
+     * Returns the readable array contents.
      * 
      * @since   3.3.0
      */
