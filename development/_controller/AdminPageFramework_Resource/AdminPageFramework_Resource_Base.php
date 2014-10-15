@@ -14,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Resource_Base' ) ) :
  * 
  * @abstract
  * @since       2.1.5
- * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_Base.
+ * @since       3.3.0       Changed the name from `AdminPageFramework_HeadTag_Base`.
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
  * @subpackage  HeadTag
@@ -26,9 +26,9 @@ abstract class AdminPageFramework_Resource_Base {
      * Represents the structure of the array for enqueuing scripts and styles.
      * 
      * @since       2.1.2
-     * @since       2.1.5   Moved to the base class.
-     * @since       3.0.0   Moved from the property class.
-     * @since       3.3.0   Changed the name to $_aStructure_EnqueuingResources from $_aStructure_EnqueuingScriptsAndStyles.
+     * @since       2.1.5       Moved to the base class.
+     * @since       3.0.0       Moved from the property class.
+     * @since       3.3.0       Changed the name to `$_aStructure_EnqueuingResources` from `$_aStructure_EnqueuingScriptsAndStyles`.
      * @internal
      */
     protected static $_aStructure_EnqueuingResources = array(
@@ -78,6 +78,7 @@ abstract class AdminPageFramework_Resource_Base {
       
     /**
      * Sets up properties and hooks.
+     * @internal
      */
     function __construct( $oProp ) {
         
@@ -127,7 +128,7 @@ abstract class AdminPageFramework_Resource_Base {
     public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {}
     
     /**
-     * A helper function for the _replyToEnqueueScripts() and the _replyToEnqueueStyle() methods.
+     * A helper function for the _replyToEnqueueScripts() and the `_replyToEnqueueStyle()` methods.
      * 
      * @since       2.1.5
      * @internal
@@ -146,7 +147,8 @@ abstract class AdminPageFramework_Resource_Base {
          * 
          * If it is one of the framework added item, the method sets up a hook to modify the url to add custom attributes.
          * 
-         * @since   3.3.0
+         * @since       3.3.0
+         * @internal
          */
         public function _replyToSetupArgumentCallback( $sSRC, $sHandleID ) {
 
@@ -162,6 +164,7 @@ abstract class AdminPageFramework_Resource_Base {
              * Modifies the attributes of the enqueued script tag.
              * 
              * @since   3.3.0
+             * @internal
              */
             public function _replyToModifyEnqueuedAttrbutes( $sSanitizedURL, $sOriginalURL, $sContext ) {
                 
@@ -215,7 +218,7 @@ abstract class AdminPageFramework_Resource_Base {
         self::$_bCommonStyleLoaded = true;
         
         $_oCaller    = $this->oProp->_getCallerObject();     
-        $sStyle     = $this->oUtil->addAndApplyFilters( 
+        $sStyle      = $this->oUtil->addAndApplyFilters( 
             $_oCaller, 
             array(
                 "style_common_admin_page_framework",            // 3.2.1+
@@ -225,7 +228,9 @@ abstract class AdminPageFramework_Resource_Base {
         );
         $sStyle     = $this->oUtil->minifyCSS( $sStyle );
         if ( $sStyle ) {
-            echo "<style type='text/css' id='{$sIDPrefix}'>{$sStyle}</style>";
+            echo "<style type='text/css' id='" . esc_attr( $sIDPrefix ) . "'>"
+                    . $sStyle
+                . "</style>";
         }
 
         $sStyleIE   = $this->oUtil->addAndApplyFilters( 
@@ -238,7 +243,9 @@ abstract class AdminPageFramework_Resource_Base {
         );
         $sStyleIE   = $this->oUtil->minifyCSS( $sStyleIE );
         if ( $sStyleIE ) {
-            echo "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie'>{$sStyleIE}</style><![endif]-->";
+            echo "<!--[if IE]><style type='text/css' id='" . esc_attr( $sIDPrefix . "-ie" ) . "'>"
+                    . $sStyleIE
+                . "</style><![endif]-->";
         }
             
     }    
@@ -275,7 +282,9 @@ abstract class AdminPageFramework_Resource_Base {
             AdminPageFramework_Property_Base::$_sDefaultScript 
         );
         if ( $_sScript ) {
-            echo "<script type='text/javascript' id='{$sIDPrefix}'>{$_sScript}</script>";
+            echo "<script type='text/javascript' id='" . esc_attr( $sIDPrefix ) . "'>"
+                    . $_sScript
+                . "</script>";
         }
     
     }    
@@ -284,7 +293,7 @@ abstract class AdminPageFramework_Resource_Base {
      * Prints the inline stylesheet of this class stored in this class property.
      * 
      * @since       3.0.0
-     * @since       3.2.0   Made the properties storing styles empty. Moved to the base class.
+     * @since       3.2.0       Made the properties storing styles empty. Moved to the base class.
      * @internal
      */
     protected function _printClassSpecificStyles( $sIDPrefix ) {
@@ -292,17 +301,19 @@ abstract class AdminPageFramework_Resource_Base {
         static $_iCallCount     = 1;    
         static $_iCallCountIE   = 1;    
             
-        $_oCaller = $this->oProp->_getCallerObject();     
+        $_oCaller   = $this->oProp->_getCallerObject();     
 
         // Print out the filtered styles.
-        $sStyle = $this->oUtil->addAndApplyFilters( 
+        $sStyle     = $this->oUtil->addAndApplyFilters( 
             $_oCaller, 
             "style_{$this->oProp->sClassName}", 
             $this->oProp->sStyle 
         );
-        $sStyle = $this->oUtil->minifyCSS( $sStyle );
+        $sStyle     = $this->oUtil->minifyCSS( $sStyle );
         if ( $sStyle ) {
-            echo "<style type='text/css' id='{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}'>{$sStyle}</style>";
+            echo "<style type='text/css' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
+                    . $sStyle
+                . "</style>";
             $_iCallCount++;
         }
             
@@ -313,7 +324,9 @@ abstract class AdminPageFramework_Resource_Base {
         );
         $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
         if ( $sStyleIE ) {
-            echo  "<!--[if IE]><style type='text/css' id='{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}'>{$sStyleIE}</style><![endif]-->";
+            echo  "<!--[if IE]><style type='text/css' id='" . esc_attr( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" ) . "'>" 
+                    . $sStyleIE
+                . "</style><![endif]-->";
             $_iCallCountIE++;
         }
         
@@ -328,7 +341,7 @@ abstract class AdminPageFramework_Resource_Base {
      * Prints the inline scripts of this class stored in this class property.
      * 
      * @since       3.0.0
-     * @since       3.2.0   Made the property empty that stores scripts. Moved to the base class.
+     * @since       3.2.0       Made the property empty that stores scripts. Moved to the base class.
      * @internal
      */
     protected function _printClassSpecificScripts( $sIDPrefix ) {
@@ -342,7 +355,9 @@ abstract class AdminPageFramework_Resource_Base {
             $this->oProp->sScript 
         );
         if ( $_sScript ) {
-            echo "<script type='text/javascript' id='{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}'>{$_sScript}</script>";     
+            echo "<script type='text/javascript' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>" 
+                    . $_sScript
+                . "</script>"; 
             $_iCallCount++;
         }
         
@@ -357,8 +372,8 @@ abstract class AdminPageFramework_Resource_Base {
      * Appends the CSS rules of the framework in the head tag. 
      * 
      * @since       2.0.0
-     * @since       2.1.5 Moved from AdminPageFramework_MetaBox. Changed the name from addAtyle() to replyToAddStyle().
-     * @remark      A callback for the <em>admin_head</em> hook.
+     * @since       2.1.5       Moved from `AdminPageFramework_MetaBox`. Changed the name from `addAtyle()` to `replyToAddStyle()`.
+     * @remark      A callback for the `admin_head` hook.
      * @internal
      */     
     public function _replyToAddStyle() {
@@ -373,10 +388,10 @@ abstract class AdminPageFramework_Resource_Base {
     /**
      * Appends the JavaScript script of the framework in the head tag. 
      * 
-     * @remark      A callback for the <em>admin_head</em> hook.
+     * @remark      A callback for the `admin_head` hook.
      * @since       2.0.0
-     * @since       2.1.5   Moved from AdminPageFramework_MetaBox. Changed the name from addScript() to replyToAddScript().
-     * @since       3.2.0   Moved from AdminPageFramework_Resource_MetaBox. 
+     * @since       2.1.5       Moved from AdminPageFramework_MetaBox. Changed the name from `addScript()` to `replyToAddScript()`.
+     * @since       3.2.0       Moved from AdminPageFramework_Resource_MetaBox. 
      * @internal
      */ 
     public function _replyToAddScript() {
@@ -394,7 +409,7 @@ abstract class AdminPageFramework_Resource_Base {
      * Performs actual enqueuing items. 
      * 
      * @since       2.1.2
-     * @since       2.1.5 Moved from the main class.
+     * @since       2.1.5       Moved from the main class.
      * @internal
      */
     protected function _enqueueSRC( $aEnqueueItem ) {
@@ -431,8 +446,8 @@ abstract class AdminPageFramework_Resource_Base {
      * 
      * @remark      A callback for the admin_enqueue_scripts hook.
      * @since       2.1.2
-     * @since       2.1.5   Moved from the main class. Changed the name from enqueueStylesCalback to replyToEnqueueStyles().
-     * @since       3.0.0   Changed the name to _replyToEnqueueStyles().
+     * @since       2.1.5   Moved from the main class. Changed the name from `enqueueStylesCalback` to `replyToEnqueueStyles()`.
+     * @since       3.0.0   Changed the name to `_replyToEnqueueStyles()`.
      * @since       3.2.0   Changed it unset the enqueued item so that the method can be called multiple times.
      * @internal
      */    
@@ -448,8 +463,8 @@ abstract class AdminPageFramework_Resource_Base {
      * 
      * @remark      A callback for the admin_enqueue_scripts hook.
      * @since       2.1.2
-     * @since       2.1.5   Moved from the main class. Changed the name from enqueueScriptsCallback to callbackEnqueueScripts().
-     * @since       3.0.0   Changed the name to _replyToEnqueueScripts().
+     * @since       2.1.5   Moved from the main class. Changed the name from `enqueueScriptsCallback` to `callbackEnqueueScripts()`.
+     * @since       3.0.0   Changed the name to `_replyToEnqueueScripts()`.
      * @since       3.2.0   Changed it unset the enqueued item so that the method can be called multiple times.
      * @internal
      */
