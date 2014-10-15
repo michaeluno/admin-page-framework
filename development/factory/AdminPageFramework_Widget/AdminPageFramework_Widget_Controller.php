@@ -105,11 +105,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @param           array (optional) The argument array for more advanced parameters.
      * <h4>Custom Argument Array</h4>
      * <ul>
-     *     <li><strong>handle_id</strong> - (optional, string) The handle ID of the script.</li>
-     *     <li><strong>dependencies</strong> - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li><strong>version</strong> - (optional, string) The stylesheet version number.</li>
-     *     <li><strong>translation</strong> - (optional, array) The translation array. The handle ID will be used for the object name.</li>
-     *     <li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body>` Default: `false`.</li>
+     *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body>` Default: `false`.</li>
      * </ul>
      * @return          string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
