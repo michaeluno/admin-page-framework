@@ -11,20 +11,22 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Base' ) ) :
  * The base class of meta box classes.
  * 
  * @abstract
- * @since 2.0.0
- * @use AdminPageFramework_Utility
- * @use AdminPageFramework_Message
- * @use AdminPageFramework_Debug
- * @use AdminPageFramework_Property_MetaBox
- * @package AdminPageFramework
- * @subpackage MetaBox
+ * @since       2.0.0
+ * @use         AdminPageFramework_Utility
+ * @use         AdminPageFramework_Message
+ * @use         AdminPageFramework_Debug
+ * @use         AdminPageFramework_Property_MetaBox
+ * @package     AdminPageFramework
+ * @extends     AdminPageFramework_Factory
+ * @subpackage  MetaBox
  * @internal
  */
 abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factory {
     
     /**
      * Defines the fields type.
-     * @since 3.0.0
+     * 
+     * @since       3.0.0
      * @internal
      */
     static protected $_sFieldsType;
@@ -40,16 +42,16 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
      * 
      * Mainly sets up properties and hooks.
      * 
-     * @see http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
-     * @since 2.0.0
-     * @param string $sMetaBoxID The meta box ID.
-     * @param string $sTitle The meta box title.
-     * @param string|array $asPostTypeOrScreenID ( optional ) The post type(s) or screen ID that the meta box is associated with.
-     * @param string $sContext ( optional ) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') Default: normal.
-     * @param string $sPriority ( optional ) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low') Default: default.
-     * @param string $sCapability ( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: edit_posts.
-     * @param string $sTextDomain ( optional ) The text domain applied to the displayed text messages. Default: admin-page-framework.
-     * @return void
+     * @see         http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
+     * @since       2.0.0
+     * @param       string          $sMetaBoxID             The meta box ID.
+     * @param       string          $sTitle                 The meta box title.
+     * @param       string|array    $asPostTypeOrScreenID   (optional) The post type(s) or screen ID that the meta box is associated with.
+     * @param       string          $sContext               (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') Default: `normal`.
+     * @param       string          $sPriority              (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low') Default: `default`.
+     * @param       string          $sCapability            (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: `edit_posts`.
+     * @param       string          $sTextDomain            (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
+     * @return      void
      */ 
     function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
         
@@ -63,8 +65,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         
         $this->oProp->sMetaBoxID    = $sMetaBoxID ? $this->oUtil->sanitizeSlug( $sMetaBoxID ) : strtolower( $_sClassName );
         $this->oProp->sTitle        = $sTitle;
-        $this->oProp->sContext      = $sContext; //  'normal', 'advanced', or 'side' 
-        $this->oProp->sPriority     = $sPriority; //     'high', 'core', 'default' or 'low'    
+        $this->oProp->sContext      = $sContext;    // 'normal', 'advanced', or 'side' 
+        $this->oProp->sPriority     = $sPriority;   // 'high', 'core', 'default' or 'low'    
 
         if ( $this->oProp->bIsAdmin ) {
             add_action( 'current_screen', array( $this, '_replyToDetermineToLoad' ) );    
@@ -120,11 +122,11 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
     /**
      * Echoes the meta box contents.
      * 
-     * @since 2.0.0
-     * @remark A callback for the <em>add_meta_box()</em> method.
-     * @param object $oPost The object of the post associated with the meta box.
-     * @param array $vArgs The array of arguments.
-     * @return void
+     * @since       2.0.0
+     * @remark      A callback for the `add_meta_box()` method.
+     * @param       object      $oPost      The object of the post associated with the meta box.
+     * @param       array       $vArgs      The array of arguments.
+     * @return      void
      */ 
     public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {    
 
@@ -148,8 +150,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
                             
         // Get the fields output.
-        $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
-        $_aOutput[] = $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+        $_oFieldsTable  = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
+        $_aOutput[]     = $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
 
         /* Do action */
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
@@ -164,8 +166,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
      * 
      * This array will be referred later in the getFieldOutput() method.
      * 
-     * @since unknown
-     * @since 3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
+     * @since       unknown
+     * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
      */
     protected function _setOptionArray( $isPostIDOrPageSlug, $aFields ) {
         
@@ -195,7 +197,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
     /**
      * Returns the filtered section description output.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
             
@@ -210,8 +212,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
     /**
      * Saves the meta box field data to the associated post. 
      * 
-     * @since 2.0.0
-     * @remark A callback for the <em>save_post</em> hook
+     * @since       2.0.0
+     * @remark      A callback for the <em>save_post</em> hook
      * @internal
      */
     public function _replyToSaveMetaBoxFields( $iPostID ) {
@@ -227,13 +229,13 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         if ( in_array( $_POST['post_type'], $this->oProp->aPostTypes ) && ( ! current_user_can( $this->oProp->sCapability, $iPostID ) ) ) { return; }
 
         // Retrieve the submitted data.
-        $_aInput = $this->_getInputArray( $this->oForm->aFields, $this->oForm->aSections );
+        $_aInput        = $this->_getInputArray( $this->oForm->aFields, $this->oForm->aSections );
     
         // Prepare the saved data.
-        $_aSavedMeta = $this->oUtil->getSavedMetaArray( $iPostID, array_keys( $_aInput ) );
+        $_aSavedMeta    = $this->oUtil->getSavedMetaArray( $iPostID, array_keys( $_aInput ) );
                     
         // Apply filters to the array of the submitted values.
-        $_aInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aInput, $_aSavedMeta, $this );
+        $_aInput        = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aInput, $_aSavedMeta, $this );
 
         // If there are validation errors.
         if ( $this->_isValidationErrors() ) {
@@ -242,7 +244,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
             remove_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
 
             // Revert the post status.
-            // TODO: this does not do the job if it is a new post. (somehow it gets published)
+            // @todo: this does not do the job if it is a new post. (somehow it gets published)
             // $_oPost = get_post( $iPostID );    
             // $_sPreviousPostStatus = is_object( $_oPost ) && isset( $_oPost->post_status ) ? $_oPost->post_status : 'draft';
             $_sPreviousPostStatus = get_post_status( $iPostID );
@@ -265,9 +267,9 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         /**
          * Saves the post with the given data and the post ID.
          * 
-         * @since 3.0.4
+         * @since       3.0.4
          * @internal
-         * @return void
+         * @return      void
          */
         private function _updatePostMeta( $iPostID, array $aInput, array $aSavedMeta ) {
             
@@ -290,7 +292,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         /**
          * Retrieves the user submitted values.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
          * @internal
          */
         protected function _getInputArray( array $aFieldDefinitionArrays, array $aSectionDefinitionArrays ) {
@@ -343,18 +345,16 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         /**
          * Retrieves the saved meta data as an array.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
          * @internal
          * @deprecated
          */
         protected function _getSavedMetaArray( $iPostID, $aInputStructure ) {
-            
             $_aSavedMeta = array();
             foreach ( $aInputStructure as $_sSectionORFieldID => $_v ) {
                 $_aSavedMeta[ $_sSectionORFieldID ] = get_post_meta( $iPostID, $_sSectionORFieldID, true );
             }
             return $_aSavedMeta;
-            
         }
 
 }
