@@ -10,30 +10,30 @@ if ( ! class_exists( 'AdminPageFramework_Link_PostType' ) ) :
 /**
  * Provides methods for HTML link elements for custom post types.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage Link
+ * @since       2.0.0
+ * @extends     AdminPageFramework_Utility
+ * @package     AdminPageFramework
+ * @subpackage  Link
  * @internal
  */
 class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     
     /**
      * Stores the information to embed into the page footer.
-     * @since 2.0.0
-     * @remark This is accessed from the AdminPageFramework_PostType class.
+     * @since       2.0.0
+     * @remark      This is accessed from the AdminPageFramework_PostType class.
      */ 
     public $aFooterInfo = array(
-        'sLeft' => '',
-        'sRight' => '',
+        'sLeft'     => '',
+        'sRight'    => '',
     );
     
     public function __construct( $oProp, $oMsg=null ) {
         
-        if ( ! $oProp->bIsAdmin ) return;
+        if ( ! $oProp->bIsAdmin ) { return; }
                 
-        $this->oProp = $oProp;
-        $this->oMsg = $oMsg;
+        $this->oProp    = $oProp;
+        $this->oMsg     = $oMsg;
                 
         // The property object needs to be set as there are some public methods accesses the property object.
         if ( $oProp->bIsAdminAjax ) {
@@ -61,9 +61,9 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     /**
      * Adds the post type link in the title cell of the plugin listing table in plugins.php.
      * 
-     * @since 3.0.6 Moved from the link class.
-     * @since 3.1.0 Made it not insert the link if the user sets an empty string to the 'plugin_listing_table_title_cell_link' key of the label argument array.
-     * @since 3.1.3 Moved from the post type class.
+     * @since       3.0.6       Moved from the link class.
+     * @since       3.1.0       Made it not insert the link if the user sets an empty string to the 'plugin_listing_table_title_cell_link' key of the label argument array.
+     * @since       3.1.3       Moved from the post type class.
      */
     public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
         
@@ -115,9 +115,9 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
      * This is used to make it easier to detect if the linked page belongs to the post type created with this class.
      * So it can be used to embed footer links.
      * 
-     * @since 2.0.0
-     * @remark e.g. http://.../wp-admin/post.php?post=180&action=edit -> http://.../wp-admin/post.php?post=180&action=edit&post_type=[...]
-     * @remark A callback for the <em>get_edit_post_link</em> hook.
+     * @since       2.0.0
+     * @remark      e.g. `http://.../wp-admin/post.php?post=180&action=edit` -> `http://.../wp-admin/post.php?post=180&action=edit&post_type=[...]`
+     * @remark      A callback for the `get_edit_post_link` hook.
      */  
     public function _replyToAddPostTypeQueryInEditPostLink( $sURL, $iPostID=null, $sContext=null ) {
         return add_query_arg( array( 'post' => $iPostID, 'action' => 'edit', 'post_type' => $this->oProp->sPostType ), $sURL );    
@@ -125,27 +125,25 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
 
     /**
      * 
-     * @since 2.0.0
-     * @remark A callback for the filter hook, <em>admin_footer_text</em>.
+     * @since       2.0.0
+     * @remark      A callback for the filter hook, <em>admin_footer_text</em>.
      * @internal
      */ 
     public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
         
-        if ( empty( $this->oProp->aScriptInfo['sName'] ) ) return $sLinkHTML;
+        if ( empty( $this->oProp->aScriptInfo['sName'] ) ) { return $sLinkHTML; }
                     
         return $this->aFooterInfo['sLeft'];
         
     }
     /**
      * 
-     * @since 2.0.0
-     * @remark A callback for the filter hook, <em>admin_footer_text</em>.
+     * @since       2.0.0
+     * @remark      A callback for the filter hook, <em>admin_footer_text</em>.
      * @internal
      */     
     public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
-            
         return $this->aFooterInfo['sRight'];     
-            
     }
 }
 endif;
