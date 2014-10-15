@@ -15,7 +15,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  * <h3>Steps to Include a Custom Field Type</h3>
  * <ol>
  *     <li>
- *         Define a custom field type with a class extending the <em>AdminPageFramework_FieldType</em> class.
+ *         Define a custom field type with a class extending the `AdminPageFramework_FieldType` class.
  *         <ol>
  *             <li>Set the field type slug such as `autocomplete` with the `$aFieldTypeSlugs` property.</li>
  *             <li>Set the default field array definition keys with the `$aDefaultKeys` property.</li>
@@ -32,7 +32,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  *         </code>
  *     </li>
  *     <li>
- *         Define fields with the custom field type with the <em>addSettingFields()</em> method in the framework extending class.
+ *         Define fields with the custom field type with the `addSettingFields()` method in the framework extending class.
  *         <code>
  *          $this->addSettingFields(
  *               array(  
@@ -50,7 +50,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
  * @package     AdminPageFramework
  * @subpackage  FieldType
  * @since       2.1.5
- * @since       3.0.0       Changed the name from AdminPageFramework_CustomFieldType to AdminPageFramework_FieldType.
+ * @since       3.0.0       Changed the name from `AdminPageFramework_CustomFieldType` to `AdminPageFramework_FieldType`.
  * @remark      The user will extend this class to define their custom field types.
  */
 abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base {
@@ -100,7 +100,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     /**
      * Defines the default key-values of this field type. 
      * 
-     * The users will set the values to the defined keys and if not set, the value set in this property array will take effect. The merged array of the user's field definition array and this property array will be passed to the first parameter of the <em>getField()</em> method.
+     * The users will set the values to the defined keys and if not set, the value set in this property array will take effect. The merged array of the user's field definition array and this property array will be passed to the first parameter of the `getField()` method.
      * 
      * <code>
      *  $this->addSettingFields(
@@ -124,7 +124,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *      ),
      * );
      * </code>
-     * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
+     * @remark <var>$_aDefaultKeys</var> defined by the system internally holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array();
     
@@ -176,13 +176,13 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * 
      * <h4>Custom Argument Array</h4>
      * <ul>
-     *     <li><strong>src</strong> - (required, string) The url or path of the target source file</li>
-     *     <li><strong>handle_id</strong> - (optional, string) The handle ID of the script.</li>
-     *     <li><strong>dependencies</strong> - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li><strong>version</strong> - (optional, string) The stylesheet version number.</li>
-     *     <li><strong>translation</strong> - (optional, array) The translation array. The handle ID will be used for the object name.</li>
-     *     <li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the script before < / head > or before < / body > Default: `false`.</li>
-     *     <li><strong>arguments</strong> - (optional, array) [3.3.0+] argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
+     *     <li>**src** - (required, string) The url or path of the target source file</li>
+     *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body >` Default: `false`.</li>
+     *     <li>**arguments** - (optional, array) [3.3.0+] argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
      * </ul>  
      * 
      * <h4>Examples</h4>
@@ -207,12 +207,12 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * 
      * <h4>Custom Argument Array</h4>
      * <ul>
-     *     <li><strong>src</strong> - (required, string) The url or path of the target source file</li>
-     *     <li><strong>handle_id</strong> - (optional, string) The handle ID of the stylesheet.</li>
-     *     <li><strong>dependencies</strong> - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-     *     <li><strong>version</strong> - (optional, string) The stylesheet version number.</li>
-     *     <li><strong>media</strong> - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
-     *     <li><strong>arguments</strong> - (optional, array) [3.3.0+] argument array. `array( 'data-id' => '...' )`</li>
+     *     <li>**src** - (required, string) The url or path of the target source file.</li>
+     *     <li>**handle_id** - (optional, string) The handle ID of the stylesheet.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**media** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
+     *     <li>**arguments** - (optional, array) [3.3.0+] argument array. `array( 'data-id' => '...' )`</li>
      * </ul>
      * 
      * <h4>Examples</h4>
