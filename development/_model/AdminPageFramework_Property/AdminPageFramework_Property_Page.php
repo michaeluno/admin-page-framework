@@ -306,16 +306,21 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     /**
      * Returns the option array.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
+     * @since       3.3.0       Forced to return an array as it is possible that the options value get modified by third party scripts. 
      * @internal
+     * @return      array       The options array.
      */
     protected function _getOptions() {
     
-        return AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+        $_aOptions = AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
             $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
             'options_' . $this->sClassName, // options_{instantiated class name}
             $this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
         );
+        return empty( $_aOptions ) 
+            ? array()
+            : AdminPageFramework_WPUtility::getAsArray( $_aOptions );
             
     }
     
