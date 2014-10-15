@@ -23,16 +23,16 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
     
     /**
      * The property object, commonly shared.
-     * @since 2.0.0
+     * @since       2.0.0
      */ 
     private $oProp;
     
     public function __construct( &$oProp, $oMsg=null ) {
     
-        if ( ! $oProp->bIsAdmin ) return;
+        if ( ! $oProp->bIsAdmin ) { return; }
         
-        $this->oProp = $oProp;
-        $this->oMsg = $oMsg;
+        $this->oProp    = $oProp;
+        $this->oMsg     = $oMsg;
         
         // The property object needs to be set as there are some public methods accesses the property object.
         if ( $oProp->bIsAdminAjax ) {
@@ -78,20 +78,22 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
      */
     public function _addLinkToPluginDescription( $asLinks ) {
         
-        if ( ! is_array( $asLinks ) )
+        if ( ! is_array( $asLinks ) ) {
             $this->oProp->aPluginDescriptionLinks[] = $asLinks;
-        else
+        } else {
             $this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $asLinks );
+        }
     
         add_filter( 'plugin_row_meta', array( $this, '_replyToAddLinkToPluginDescription' ), 10, 2 );
 
     }
     public function _addLinkToPluginTitle( $asLinks ) {
         
-        if ( ! is_array( $asLinks ) )
+        if ( ! is_array( $asLinks ) ) {
             $this->oProp->aPluginTitleLinks[] = $asLinks;
-        else
+        } else {
             $this->oProp->aPluginTitleLinks = array_merge( $this->oProp->aPluginTitleLinks, $asLinks );
+        }
         
         add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, '_replyToAddLinkToPluginTitle' ) );
 
@@ -100,22 +102,24 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
     /**
      * 
      * @since 2.0.0
-     * @remark A callback for the filter hook, <em>admin_footer_text</em>.
+     * @remark A callback for the filter hook, `admin_footer_text`.
      */ 
     public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
 
-        if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) 
+        if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) {
             return $sLinkHTML; // $sLinkHTML is given by the hook.
+        }
         
-        if ( empty( $this->oProp->aScriptInfo['sName'] ) ) return $sLinkHTML;
+        if ( empty( $this->oProp->aScriptInfo['sName'] ) ) { return $sLinkHTML; }
         
         return $this->oProp->aFooterInfo['sLeft'];
 
     }
     public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
 
-        if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) 
+        if ( ! isset( $_GET['page'] ) || ! $this->oProp->isPageAdded( $_GET['page'] )  ) {
             return $sLinkHTML; // $sLinkTHML is given by the hook.
+        }
             
         return $this->oProp->aFooterInfo['sRight'];
             
@@ -140,7 +144,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
         
         array_unshift(    
             $aLinks,
-            '<a href="' . $_sLinkURL . '">' . $this->oProp->sLabelPluginSettingsLink . '</a>'
+            '<a href="' . esc_url( $_sLinkURL ) . '">' . $this->oProp->sLabelPluginSettingsLink . '</a>'
         ); 
         return $aLinks;
         
@@ -148,29 +152,32 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
     
     public function _replyToAddLinkToPluginDescription( $aLinks, $sFile ) {
 
-        if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) return $aLinks;
+        if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) { return $aLinks; }
         
-        // Backward compatibility sanitization.
+        // Backward compatibility sanitisation.
         $aAddingLinks = array();
-        foreach( $this->oProp->aPluginDescriptionLinks as $linksHTML )
-            if ( is_array( $linksHTML ) ) // should not be an array
+        foreach( $this->oProp->aPluginDescriptionLinks as $linksHTML ) {
+            if ( is_array( $linksHTML ) ) {  // should not be an array
                 $aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
-            else
+            } else {
                 $aAddingLinks[] = ( string ) $linksHTML;
+            }
+        }
         
         return array_merge( $aLinks, $aAddingLinks );
         
     }     
     public function _replyToAddLinkToPluginTitle( $aLinks ) {
 
-        // Backward compatibility sanitization.
+        // Backward compatibility sanitisation.
         $aAddingLinks = array();
-        foreach( $this->oProp->aPluginTitleLinks as $linksHTML )
-            if ( is_array( $linksHTML ) ) // should not be an array
+        foreach( $this->oProp->aPluginTitleLinks as $linksHTML ) {
+            if ( is_array( $linksHTML ) ) { // should not be an array
                 $aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
-            else
+            } else {
                 $aAddingLinks[] = ( string ) $linksHTML;
-        
+            }
+        }
         return array_merge( $aLinks, $aAddingLinks );
         
     }     
