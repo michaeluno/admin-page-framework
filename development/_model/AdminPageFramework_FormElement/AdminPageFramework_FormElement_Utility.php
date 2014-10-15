@@ -10,10 +10,11 @@ if ( ! class_exists( 'AdminPageFramework_FormElement_Utility' ) ) :
 /**
  * Provides public methods used outside the class definition.
  * 
- * @package AdminPageFramework
- * @subpackage Property
- * @since 3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @since       3.0.0
  * @internal
+ * @todo        Some internal methods still do not have an underscore prefixed and do not have the @internal tag.
  */
 class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtility {
             
@@ -24,12 +25,12 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
      * and the user removed some elements, then the corresponding elements also need to be removed from the options array. Otherwise, the user's removing element
      * remains in the saved option array as the framework performs recursive array merge.
      * 
-     * @remark The options array structure is slightly different from the fields array. An options array does not have '_default' section keys.
-     * @remark If the user capability is insufficient to display the element, it should not be removed because the element(field/section) itself is not submitted and
+     * @remark      The options array structure is slightly different from the fields array. An options array does not have '_default' section keys.
+     * @remark      If the user capability is insufficient to display the element, it should not be removed because the element(field/section) itself is not submitted and
      * if the merging saved options array misses the element(which this method is going to deal with), the element will be gone forever. 
-     * @remark This method MUST be called after formatting the form elements because this checks the set user capability.
-     * @since 3.0.0
-     * @since 3.1.1 Made it not remove if the user capability is insufficient.
+     * @remark      This method MUST be called after formatting the form elements because this checks the set user capability.
+     * @since       3.0.0
+     * @since       3.1.1       Made it not remove the repeatable elements if the user capability is insufficient.
      */
     public function dropRepeatableElements( array $aOptions ) {
 
@@ -38,8 +39,8 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
             // If it's a section
             if ( $this->isSection( $_sFieldOrSectionID ) ) {
                 
-                $_aFields = $_aSectionOrFieldValue;
-                $_sSectionID = $_sFieldOrSectionID;     
+                $_aFields       = $_aSectionOrFieldValue;
+                $_sSectionID    = $_sFieldOrSectionID;     
                 
                 // Check the capability - do not drop if the level is insufficient.
                 if ( ! $this->isCurrentUserCapable( $_sSectionID ) ) {
@@ -87,7 +88,9 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
         /**
          * Checks if the current user can have the sufficient capability level.
          * 
-         * @since 3.1.1
+         * @since       3.1.1
+         * @internal
+         * @todo        Examine whether the method name should have an underscore prefixed.
          */
         private function isCurrentUserCapable( $sSectionID, $sFieldID='' ) {
             
@@ -108,7 +111,9 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
         /**
          * Checks whether a section is repeatable from the given section ID.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @internal
+         * @todo        Examine whether the method name should have an underscore prefixed.
          */
         private function isRepeatableSection( $sSectionID ) {
             
@@ -119,7 +124,9 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
         /**
          * Checks whether a field is repeatable from the given field ID.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @internal
+         * @todo        Examine whether the method name should have an underscore prefixed.
          */     
         private function isRepeatableField( $sFieldID, $sSectionID ) {
             
@@ -166,7 +173,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
      * Returns a fields model array that represents the structure of the array of saving data from the given fields definition array.
      * 
      * The passed fields array should be structured like the following.
-     * 
+     * <code>
      *     array(  
      *         '_default' => array( // _default is reserved for the system.
      *             'my_field_id' => array( .... ),
@@ -183,8 +190,9 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
      *         ),
      *         ...
      * )
-     * 
+     * </code>
      * It will be converted to 
+     * <code>
      *     array(  
      *         'my_field_id' => array( .... ),
      *         'my_field_id2' => array( .... ),
@@ -199,14 +207,14 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
      *         ),
      *         ...
      * )
-     * 
+     * </code>
      * @remark Just the _default section elements get extracted to the upper dimension.
      * @since 3.0.0
      */
     public function getFieldsModel( array $aFields=array() )  {
         
-        $_aFieldsModel = array();
-        $aFields = empty( $aFields ) ? $this->aFields : $aFields;
+        $_aFieldsModel  = array();
+        $aFields        = empty( $aFields ) ? $this->aFields : $aFields;
         foreach ( $aFields as $_sSectionID => $_aFields ) {
 
             if ( $_sSectionID != '_default' ) {
@@ -224,13 +232,13 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
     }
     
         /**
-         * Calculates the subtraction of two values with the array key of <em>order</em>
+         * Calculates the subtraction of two values with the array key of `order`.
          * 
          * This is used to sort arrays.
          * 
-         * @since 3.0.0     
-         * @remark a callback method for uasort().
-         * @return integer
+         * @since       3.0.0     
+         * @remark      a callback method for `uasort()`.
+         * @return      integer
          * @internal
          */ 
         public function _sortByOrder( $a, $b ) {
@@ -242,8 +250,8 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
     /**
      * Applies filters to each conditioned field definition array.
      * 
-     * @since 3.0.2
-     * @since 3.1.1 Made it reformat the fields after applying filters.
+     * @since       3.0.2
+     * @since       3.1.1       Made it reformat the fields after applying filters.
      */
     public function applyFiltersToFields( $oCaller, $sClassName ) {
             
@@ -254,8 +262,8 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
                 
                 // If it is a sub-section array.
                 if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
-                    $_sSubSectionIndex = $_sIndexOrFieldID;
-                    $_aFields = $_aSubSectionOrField;
+                    $_sSubSectionIndex  = $_sIndexOrFieldID;
+                    $_aFields           = $_aSubSectionOrField;
                     $_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
                     foreach( $_aFields as $_aField ) {
                         $this->aConditionedFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
@@ -270,7 +278,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
                 }
                 
                 // Otherwise, insert the formatted field definition array.
-                $_aField = $_aSubSectionOrField;
+                $_aField            = $_aSubSectionOrField;
                 $_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
                 $this->aConditionedFields[ $_sSectionID ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
                     $oCaller,
