@@ -12,11 +12,11 @@ if ( ! class_exists( 'AdminPageFramework_Link_Page' ) ) :
  *
  * Embeds links in the footer and plugin's listing table etc.
  * 
- * @since 2.0.0
- * @since 3.0.0 Changed the name to AdminPageFramework_Link_Page_Page from AdminPageFramework_Link_Page.
- * @extends AdminPageFramework_Link_Base
- * @package AdminPageFramework
- * @subpackage Link
+ * @since           2.0.0
+ * @since           3.0.0       Changed the name to `AdminPageFramework_Link_Page_Page` from `AdminPageFramework_Link_Page`.
+ * @extends         AdminPageFramework_Link_Base
+ * @package         AdminPageFramework
+ * @subpackage      Link
  * @internal
  */
 class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
