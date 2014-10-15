@@ -531,6 +531,11 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
     margin: 1em;
     margin-left: 1.5em;
 }
+#content dd ul, 
+#content dd ol
+{
+    margin-top: 0;
+}
 #content li ul,
 #content li ol 
 {
@@ -541,4 +546,8 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
 #content pre {
     margin-top: 1em;
     margin-left: 1.5em;
+}
+
+#content .summary .description.detailed h4 {
+    margin-bottom: 0.4em;
 }
