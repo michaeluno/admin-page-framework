@@ -105,11 +105,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @param           array (optional) The argument array for more advanced parameters.
      * <h4>Custom Argument Array</h4>
      * <ul>
-     *     <li><strong>handle_id</strong> - ( optional, string ) The handle ID of the script.</li>
-     *     <li><strong>dependencies</strong> - ( optional, array ) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
-     *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
-     *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before <code></head ></code> or before <code></body></code> Default: <em>false</em>.</li>
+     *     <li><strong>handle_id</strong> - (optional, string) The handle ID of the script.</li>
+     *     <li><strong>dependencies</strong> - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li><strong>version</strong> - (optional, string) The stylesheet version number.</li>
+     *     <li><strong>translation</strong> - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body>` Default: `false`.</li>
      * </ul>
      * @return          string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
@@ -124,8 +124,8 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * 
      * This is only necessary if it is not set in the constructor.
      * 
-     * @since 3.2.0
-     * @return void
+     * @since       3.2.0
+     * @return      void
      */ 
     protected function setArguments( array $aArguments=array() ) {
         $this->oProp->aWidgetArguments = $aArguments;  
