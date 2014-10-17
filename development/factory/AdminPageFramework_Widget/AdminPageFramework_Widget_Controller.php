@@ -21,7 +21,9 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
 
     /**
      * Sets up hooks and properties.
-     * @since   3.2.0
+     * 
+     * @since       3.2.0
+     * @internal    
      */
     function __construct( $oProp ) {
         

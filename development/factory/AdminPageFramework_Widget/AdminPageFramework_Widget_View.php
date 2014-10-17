@@ -59,7 +59,8 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
         /**
          * Returns the filtered section description output.
          * 
-         * @since 3.2.0
+         * @since       3.2.0
+         * @internal
          */
         public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
             return $this->oUtil->addAndApplyFilters(
