@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AAdminPageFramework_MetaBox_Page_Documentation' ) ) :
+if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Documentation' ) ) :
 /**
  * Provides an abstract base class to create meta boxes in generic admin pages created by the framework.
  * 
@@ -39,5 +39,5 @@ if ( ! class_exists( 'AAdminPageFramework_MetaBox_Page_Documentation' ) ) :
  * @subpackage  PageMetaBox
  * @heading
  */
-abstract class AAdminPageFramework_MetaBox_Page_Documentation {}
+abstract class AdminPageFramework_MetaBox_Page_Documentation {}
 endif;
