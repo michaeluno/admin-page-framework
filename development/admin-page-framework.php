@@ -13,7 +13,7 @@ if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
 /**
  * Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets..
  * 
- * @name                Admin Page Framework
+ * @heading             Admin Page Framework
  * @author              Michael Uno <michael@michaeluno.jp>
  * @copyright           2013-2014 (c) Michael Uno
  * @license             http://opensource.org/licenses/MIT  MIT
@@ -30,7 +30,6 @@ if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
  * @version             3.3.0b13
- * @heading
  */
 abstract class AdminPageFramework_Registry_Base {
     

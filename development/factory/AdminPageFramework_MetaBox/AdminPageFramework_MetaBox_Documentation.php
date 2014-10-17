@@ -39,7 +39,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Documentation' ) ) :
  * @since           3.3.0
  * @package         AdminPageFramework
  * @subpackage      MetaBox
- * @heading
+ * @heading         Meta Box
  */
 abstract class AdminPageFramework_MetaBox_Documentation {}
 endif;

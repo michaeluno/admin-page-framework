@@ -14,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Documentation' ) ) :
  * @since       3.3.0
  * @package     AdminPageFramework
  * @subpackage  Widget
- * @heading     
+ * @heading     Widgets
  */
 abstract class AdminPageFramework_Widget_Documentation {}
 endif;

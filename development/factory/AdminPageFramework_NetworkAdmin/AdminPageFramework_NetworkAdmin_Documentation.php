@@ -14,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_NetworkAdmin_Documentation' ) ) :
  * @extends     AdminPageFramework
  * @package     AdminPageFramework
  * @subpackage  NetworkAdmin
- * @heading
+ * @heading     Network Admin Pages
  */
 abstract class AdminPageFramework_NetworkAdmin_Documentation {}
 endif;

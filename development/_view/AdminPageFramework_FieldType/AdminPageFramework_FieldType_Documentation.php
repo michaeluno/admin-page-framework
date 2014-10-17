@@ -48,7 +48,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
  * @package     AdminPageFramework
  * @subpackage  FieldType
  * @since       3.3.0      
- * @heading
+ * @heading     Field Types
  */
 abstract class AdminPageFramework_FieldType_Documentation {}
 endif;
