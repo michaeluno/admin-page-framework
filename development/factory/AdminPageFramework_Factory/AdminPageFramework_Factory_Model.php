@@ -16,6 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Model' ) ) :
  * @subpackage  Factory
  * @transient   apf_field_erros_{user id}   stores the user-set fields error array.
  * @transient   apf_notices_{user id}       stores the user-set admin notification messages.
+ * @internal
  */
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
     
