@@ -23,7 +23,7 @@ class APF_Demo_Readme extends AdminPageFramework {
             ),     
             array(
                 'title'                 => __( 'Documentation', 'admin-page-framework-demo' ),
-                'href'                  => plugins_url( 'document/class-AdminPageFramework.html', APFDEMO_FILE ),
+                'href'                  => plugins_url( 'document/package-AdminPageFramework.html', APFDEMO_FILE ),
                 'show_page_heading_tab' => false,
             )
         );
