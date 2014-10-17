@@ -14,8 +14,8 @@ if ( ! class_exists( 'AdminPageFramework_NetworkAdmin' ) ) :
  * @since       3.1.0
  * @remark      This class stems from several abstract classes.
  * @extends     AdminPageFramework
- * @package     AdminPageFramework_NetworkAdmin
- * @subpackage  Page
+ * @package     AdminPageFramework
+ * @subpackage  NetworkAdmin
  */
 abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         
