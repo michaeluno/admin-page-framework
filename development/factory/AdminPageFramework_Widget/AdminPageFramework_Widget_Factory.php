@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Factory' ) ) :
  * @since       3.2.0
  * @package     AdminPageFramework
  * @subpackage  Widget
+ * @internal
  */
 class AdminPageFramework_Widget_Factory extends WP_Widget {
     
