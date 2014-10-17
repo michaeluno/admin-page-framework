@@ -11,9 +11,9 @@ if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
  * Provides methods to insert meta box in pages added by the framework.
  *
  * @abstract
- * @since 3.0.0
- * @package AdminPageFramework
- * @subpackage Page
+ * @since           3.0.0
+ * @package         AdminPageFramework
+ * @subpackage      AdminPage
  * @internal
  */
 abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {

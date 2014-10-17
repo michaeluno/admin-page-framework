@@ -15,7 +15,7 @@ if ( ! class_exists( 'AdminPageFramework_Setting_Validation' ) ) :
  * @since       3.0.0
  * @extends     AdminPageFramework_Setting_Port
  * @package     AdminPageFramework
- * @subpackage  Page
+ * @subpackage  AdminPage
  * @internal
  */
 abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_Setting_Port {     

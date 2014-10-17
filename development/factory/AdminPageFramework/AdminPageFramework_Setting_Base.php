@@ -16,7 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_Setting_Base' ) ) :
  * @since       3.0.0
  * @extends     AdminPageFramework_Menu
  * @package     AdminPageFramework
- * @subpackage  Page
+ * @subpackage  AdminPage
  * @var         array       $aFieldErrors       stores the settings field errors.
  * @internal
  */

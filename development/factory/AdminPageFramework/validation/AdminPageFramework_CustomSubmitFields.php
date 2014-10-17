@@ -11,10 +11,10 @@ if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
  * Provides helper methods that deal with custom submit fields and retrieve custom key elements.
  *
  * @abstract
- * @since 2.0.0
- * @remark The classes that extend this include ExportOptions, ImportOptions, and Redirect.
- * @package AdminPageFramework
- * @subpackage Setting
+ * @since       2.0.0
+ * @remark      The classes that extend this include ExportOptions, ImportOptions, and Redirect.
+ * @package     AdminPageFramework
+ * @subpackage  Setting
  * @internal
  */
 abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_WPUtility {

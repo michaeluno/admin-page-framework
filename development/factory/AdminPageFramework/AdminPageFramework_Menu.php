@@ -14,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
  * @since           2.0.0
  * @extends         AdminPageFramework_Page
  * @package         AdminPageFramework
- * @subpackage      Page
+ * @subpackage      AdminPage
  * @staticvar       array       $_aStructure_SubMenuPageForUser represents the structure of the sub-menu page array.
  */
 abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {

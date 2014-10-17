@@ -13,7 +13,7 @@ if ( ! class_exists( 'AdminPageFramework_Base' ) ) :
  * @abstract
  * @since           3.0.0     
  * @package         AdminPageFramework
- * @subpackage      Page
+ * @subpackage      AdminPage
  * @internal
  */
 abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {

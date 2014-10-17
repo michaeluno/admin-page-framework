@@ -10,10 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_ExportOptions' ) ) :
 /**
  * Provides methods to export option data.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_CustomSubmitFields
- * @package AdminPageFramework
- * @subpackage Setting
+ * @since           2.0.0
+ * @extends         AdminPageFramework_CustomSubmitFields
+ * @package         AdminPageFramework
+ * @subpackage      Setting
  * @internal
  */
 class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {

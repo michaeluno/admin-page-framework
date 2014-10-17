@@ -19,7 +19,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * @remark      This class stems from several abstract classes.
  * @extends     AdminPageFramework_Setting
  * @package     AdminPageFramework
- * @subpackage  Page
+ * @subpackage  AdminPage
  */
 abstract class AdminPageFramework extends AdminPageFramework_Setting {
         

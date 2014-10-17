@@ -243,7 +243,7 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  * 
  * @since       3.3.0
  * @package     AdminPageFramework
- * @subpackage  Page
+ * @subpackage  AdminPage
  * @heading
  */
 class AdminPageFramework_Documentaiton {}

@@ -14,7 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
  * @since       2.0.0
  * @extends     AdminPageFramework_Setting_Validation
  * @package     AdminPageFramework
- * @subpackage  Page
+ * @subpackage  AdminPage
  * @var         array       $aFieldErrors       stores the settings field errors.
  */
 abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Validation {

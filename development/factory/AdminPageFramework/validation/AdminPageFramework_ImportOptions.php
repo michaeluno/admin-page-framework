@@ -10,10 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_ImportOptions' ) ) :
 /**
  * Provides methods to import option data.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_CustomSubmitFields
- * @package AdminPageFramework
- * @subpackage Setting
+ * @since           2.0.0
+ * @extends         AdminPageFramework_CustomSubmitFields
+ * @package         AdminPageFramework
+ * @subpackage      Setting
  * @internal
  */
 class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
