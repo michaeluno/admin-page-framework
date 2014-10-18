@@ -26,7 +26,7 @@ with it easily create:
 - **Meta Boxes and Fields** - which help to store meta data associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
 - **Widgets and Fields** - to display modular outputs based on the user's settings in the front end.
 - **Network Admin Pages and Forms** - for WordPress multi-sites.
-- **Email Form** - to let the user report issues or feedback via emails.
+- **Contact Form** - to let the user report issues or feedback via emails.
 
 = What are useful about =
 - **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
