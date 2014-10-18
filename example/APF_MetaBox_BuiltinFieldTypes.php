@@ -19,38 +19,37 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
          */
         $this->addSettingSections(
             array(
-                'section_id' => 'selectors',
-                'title' => __( 'Selectors', 'admin-page-framework-demo' ),
-                'description' => __( 'These are grouped in the <code>selectors</code> section.', 'admin-page-framework-demo' ),
+                'section_id'        => 'selectors',
+                'title'             => __( 'Selectors', 'admin-page-framework-demo' ),
+                'description'       => __( 'These are grouped in the <code>selectors</code> section.', 'admin-page-framework-demo' ),
             ),
             array(
-                'section_id' => 'misc',
-                'title' => __( 'MISC', 'admin-page-framework-demo' ),
-                'description' => __( 'These are grouped in the <code>misc</code> section.', 'admin-page-framework-demo' ),
+                'section_id'        => 'misc',
+                'title'             => __( 'MISC', 'admin-page-framework-demo' ),
+                'description'       => __( 'These are grouped in the <code>misc</code> section.', 'admin-page-framework-demo' ),
             )    
         );
         $this->addSettingSections(
             array(
-                'section_id' => 'tabbed_sections_a',
-                'section_tab_slug' => 'tabbed_sections',
-                'title' => __( 'Section Tab A', 'admin-page-framework-demo' ),
-                'description' => __( 'This is the first item of the tabbed section.', 'admin-page-framework-demo' ),
+                'section_id'        => 'tabbed_sections_a',
+                'section_tab_slug'  => 'tabbed_sections',
+                'title'             => __( 'Section Tab A', 'admin-page-framework-demo' ),
+                'description'       => __( 'This is the first item of the tabbed section.', 'admin-page-framework-demo' ),
             ),
             array(
-                'section_id' => 'tabbed_sections_b',
-                'title' => __( 'Section Tab B', 'admin-page-framework-demo' ),
-                'description' => __( 'This is the second item of the tabbed section.', 'admin-page-framework-demo' ),
+                'section_id'        => 'tabbed_sections_b',
+                'title'             => __( 'Section Tab B', 'admin-page-framework-demo' ),
+                'description'       => __( 'This is the second item of the tabbed section.', 'admin-page-framework-demo' ),
             ),     
             array(
-                'section_id' => 'repeatable_tabbed_sections',
-                'tab_slug' => 'sections',
-                'section_tab_slug' => 'repeatable_tabbes_sections',
-                'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'description' => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
-                'repeatable' =>    true, // this makes the section repeatable
+                'section_id'        => 'repeatable_tabbed_sections',
+                'section_tab_slug'  => 'repeatable_tabbes_sections',
+                'title'             => __( 'Repeatable', 'admin-page-framework-demo' ),
+                'description'       => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
+                'repeatable'        => true, // this makes the section repeatable
             ),
             array( 
-                'section_tab_slug' => '', // reset the target tab slug  for the next use.
+                'section_tab_slug'  => '', // reset the target tab slug  for the next use.
             )
         );
         
