@@ -19,7 +19,7 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
        
     /**
      * Defines the fields type.
-     * @since 3.2.0
+     * @since       3.2.0
      * @internal
      */
     static protected $_sFieldsType = 'widget';
@@ -28,6 +28,13 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
     * The constructor of the class object.
     * 
     * Registers necessary hooks and sets up internal properties.
+    * 
+    * <h4>Example</h4>
+    * <code>
+    *   new APF_Widget( __( 'Admin Page Framework', 'admin-page-framework-demo' ) );  // the widget title
+    *   new APF_Widget_CustomFieldTypes( __( 'APF - Advanced', 'admin-page-framework-demo' ) );
+    *   new APF_Widget_Example( __( 'APF - GitHub Button', 'admin-page-framework-demo' ) );
+    * </code>
     * 
     * @return void
     */

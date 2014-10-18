@@ -46,6 +46,17 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
     /**
     * The method for all necessary set-ups.
     * 
+    * <h4>Example</h4>
+    * <code>
+    *   public function setUp() {
+    *       $this->setArguments( 
+    *           array(
+    *               'description'   =>  __( 'This is a sample widget with built-in field types created by Admin Page Framework.', 'admin-page-framework-demo' ),
+    *           ) 
+    *       );
+    *   }  
+    * </code>
+    * 
     * @abstract
     * @since        3.2.0
     */
@@ -64,8 +75,9 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
     /**
      * Enqueues styles by page slug and tab slug.
      * 
-     * @since 3.2.0
+     * @since       3.2.0
      * @return array An array holding the handle IDs of queued items.
+     * @internal    Temporarily marked internal
      */
     public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {     
         if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
@@ -80,6 +92,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
      * @param       array       (optional) The argument array for more advanced parameters.
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @internal    Temporarily marked internal
      */    
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
@@ -91,6 +104,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * 
      * @since       3.2.0
      * @return      array An array holding the handle IDs of queued items.
+     * @internal    Temporarily marked internal
      */
     public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
@@ -114,6 +128,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body>` Default: `false`.</li>
      * </ul>
      * @return          string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @internal    Temporarily marked internal
      */
     public function enqueueScript( $sSRC, $aCustomArgs=array() ) {    
         if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
