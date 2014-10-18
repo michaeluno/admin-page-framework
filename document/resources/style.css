@@ -78,7 +78,7 @@ pre code {
 }
 
 .hidden {
-	/*display: none;*/
+	display: none;
 }
 
 /* Left side */
@@ -531,14 +531,58 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
     margin: 1em;
     margin-left: 1.5em;
 }
+#content dd ul, 
+#content dd ol
+{
+    margin-top: 0;
+}
 #content li ul,
 #content li ol 
 {
     margin-top: 0.2em;
-    margin-bottom: 0;
+    margin-bottom: 0.4em;
 }
 
 #content pre {
     margin-top: 1em;
     margin-left: 1.5em;
 }
+
+#content .summary .description.detailed h4 {
+    margin-bottom: 0.4em;
+}
+
+/* The layout fixess */
+#left, #right, #splitter {
+    height: 100% !important;
+}
+#right {
+    margin-left: 280px !important;
+}
+
+
+/* The package summary page */
+.catchcopy {
+    font-style: italic;
+    font-weight: normal;
+}
+/* Download buttons */
+.download-button {
+    float: right;
+    clear: right;
+    margin-bottom: 0.5em;
+}
+.download-button .annotation-label {
+    text-align: right;
+    margin-right: 1em;
+    vertical-align: middle;
+}
+
+/* Annotation listing container */
+.annotation-label {
+    font-weight: bold;
+    min-width: 15em;
+    display: inline-block;
+}
+
+

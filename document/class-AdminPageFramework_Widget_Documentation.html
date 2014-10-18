@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<title>Package AdminPageFramework\NetworkAdmin | Admin Page Framework Documentation</title>
+	<title>Class AdminPageFramework_Widget_Documentation | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
 	<script type="text/javascript" src="elementlist.js?2863173960"></script>
@@ -19,9 +19,10 @@
 				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="active">
-<span>Package</span>						</li>
 						<li>
+							<a href="package-AdminPageFramework.Widget.html" title="Summary of AdminPageFramework\Widget"><span>Package</span></a>
+						</li>
+						<li class="active">
 <span>Class</span>						</li>
 
 						<li class="divider-vertical"></li>
@@ -57,7 +58,7 @@
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="active main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -65,7 +66,7 @@
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.TaxonomyField.html">TaxonomyField</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
+				<li class="active main"><a href="package-AdminPageFramework.Widget.html">Widget</a>
 						</li>
 							</ul></li>
 			</ul>
@@ -78,12 +79,33 @@
 				<li>
                     
                     
-                    <a href="class-AdminPageFramework_NetworkAdmin.html">
-                        AdminPageFramework_NetworkAdmin
+                    <a href="class-AdminPageFramework_Widget.html">
+                        AdminPageFramework_Widget
                     </a>
                 </li>
 				<li>
                     
+                    
+                    <a href="class-AdminPageFramework_Widget_Controller.html">
+                        AdminPageFramework_Widget_Controller
+                    </a>
+                </li>
+				<li class="active">
+                    
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_Model.html">
+                        AdminPageFramework_Widget_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_View.html">
+                        AdminPageFramework_Widget_View
+                    </a>
+                </li>
 			</ul>
 
 
@@ -98,41 +120,55 @@
 
 <div id="right">
 	<div id="rightInner">
-<div id="content" class="package">
-    
-        
-    
-    <div>
-                
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_Widget_Documentation</h1>
 
 
-        
-    </div>
-    
+	<div class="description">
+	
+<p>Provides an abstract base to create widgets and their forms.</p>
 
-    
-    
-    
-    
-    <div class="subpackage-summary">
-        <h1>Network Admin Pages</h1>
-        <p>
-<p>Provides an abstract base to create admin pages in the network admin
-area.</p>
-</p>
+<h4>Usage</h4>
 
-    </div>
-    <h2 class="classes-summary">Classes</h2>
-    <table class="summary table table-bordered table-striped" id="classes">
-<tr>
-    
+<ol>
+	<li>Extend the AdminPageFramework_Widget factory class.</li>
 
-    <td class="name"><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></td>
-    <td>The factory class that creates network admin pages.</td>
-</tr>
-<tr>
-    
-    </table>
+	<li>Define the form in <code>load()</code> method.</li>
+
+	<li>Define the front-end output of the widget in <code>content()</code>
+	method.</li>
+
+	<li>Instantiate the class by passing the widget title in the first
+	parameter.</li>
+</ol>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		<b>Abstract</b><br>
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Widget.html">Widget</a><br>
+
+				<b>Since:</b>
+				3.3.0<br>
+				<b>Example:</b>
+				../../../example/APF_Widget.php<br>
+				<b>Heading:</b>
+				Widgets<br>
+		<b>Located at</b> factory/AdminPageFramework_Widget/AdminPageFramework_Widget_Documentation.php<br>
+	</div>
+
+
+
 
 
 

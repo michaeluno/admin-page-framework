@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Class AdminPageFramework_Setting | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -21,7 +20,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li>
-							<a href="package-AdminPageFramework.Page.html" title="Summary of AdminPageFramework\Page"><span>Package</span></a>
+							<a href="package-AdminPageFramework.AdminPage.html" title="Summary of AdminPageFramework\AdminPage"><span>Package</span></a>
 						</li>
 						<li class="active">
 <span>Class</span>						</li>
@@ -53,18 +52,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="active main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -82,10 +76,36 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-AdminPageFramework.html">AdminPageFramework</a></li>
-				<li><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></li>
-				<li><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></li>
-				<li class="active"><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework.html">
+                        AdminPageFramework
+                    </a>
+                </li>
+				<li>
+                    
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu.html">
+                        AdminPageFramework_Menu
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page.html">
+                        AdminPageFramework_Page
+                    </a>
+                </li>
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework_Setting.html">
+                        AdminPageFramework_Setting
+                    </a>
+                </li>
 			</ul>
 
 
@@ -106,7 +126,7 @@
 
 	<div class="description">
 	
-<p>Provides public methods to add form elements with WordPress Settings API.</p>
+<p>Provides public methods to add form elements.</p>
 
 	</div>
 
@@ -118,8 +138,7 @@ AdminPageFramework_Factory_Router
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Model.html"><span>AdminPageFramework_Factory_Model</span></a>
-			
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
@@ -131,8 +150,7 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
-			
+AdminPageFramework_Factory_Controller
 			
 			
 		</dd>
@@ -217,7 +235,7 @@ AdminPageFramework_Setting_Validation
 		<b>Abstract</b><br>
 		
 		
-		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Page.html">Page</a><br>
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.AdminPage.html">AdminPage</a><br>
 
 				<b>Since:</b>
 				2.0.0<br>
@@ -245,13 +263,8 @@ AdminPageFramework_Setting_Validation
 			<a class="anchor" href="#_addSettingSections">#</a>
 			<code>addSettingSections( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds sections.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds sections.</p>
 
@@ -309,44 +322,46 @@ class="php-quote">'These are selector type options such as dropdown lists, radio
 					<div class="list"><dl>
 						<dt><var>$aSection1</var></dt>
 						<dd><code>array|string</code><br>the section array or the target page slug. If the target page slug is set, the
-next section array can omit the page slug key. <strong>Section Array</strong>
-<ul>
-	<li><strong>section_id</strong> - ( required, string ) the section ID. Avoid
-	using non-alphabetic characters except underscore and numbers.</li>
+next section array can omit the page slug key.
+<h4>Section Array</h4>
 
-	<li><strong>page_slug</strong> - ( optional, string ) the page slug that the
+<ul>
+	<li><strong>section_id</strong> - (required, string) the section ID. Avoid using
+	non-alphabetic characters except underscore and numbers.</li>
+
+	<li><strong>page_slug</strong> - (optional, string) the page slug that the
 	section belongs to. If the target page slug is set, it can be omitted.</li>
 
-	<li><strong>tab_slug</strong> - ( optional, string ) the tab slug that the
-	section belongs to. The tab here refers to in-page tabs.</li>
+	<li><strong>tab_slug</strong> - (optional, string) the tab slug that the section
+	belongs to. The tab here refers to in-page tabs.</li>
 
-	<li><strong>section_tab_slug</strong> - ( optional, string ) [3.0.0+] the
-	section tab slug that the section are grouped into. The tab here refers to
-	section tabs.</li>
+	<li><strong>section_tab_slug</strong> - (optional, string) [3.0.0+] the section
+	tab slug that the section are grouped into. The tab here refers to section
+	tabs.</li>
 
-	<li><strong>title</strong> - ( optional, string ) the title of the section.</li>
+	<li><strong>title</strong> - (optional, string) the title of the section.</li>
 
-	<li><strong>capability</strong> - ( optional, string ) the <a
+	<li><strong>capability</strong> - (optional, string) the <a
 	href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> of the
 	section. If the page visitor does not have sufficient capability, the section
 	will be invisible to them.</li>
 
-	<li><strong>if</strong> - ( optional, boolean ) if the passed value is false,
-	the section will not be registered.</li>
+	<li><strong>if</strong> - (optional, boolean) if the passed value is false, the
+	section will not be registered.</li>
 
-	<li><strong>order</strong> - ( optional, integer ) the order number of the
+	<li><strong>order</strong> - (optional, integer) the order number of the
 	section. The higher the number is, the lower the position it gets.</li>
 
-	<li><strong>help</strong> - ( optional, string ) the help description added to
-	the contextual help tab.</li>
+	<li><strong>help</strong> - (optional, string) the help description added to the
+	contextual help tab.</li>
 
-	<li><strong>help_aside</strong> - ( optional, string ) the additional help
+	<li><strong>help_aside</strong> - (optional, string) the additional help
 	description for the side bar of the contextual help tab.</li>
 
-	<li><strong>repeatable</strong> - ( optional, boolean|array ) [3.0.0+] Indicates
+	<li><strong>repeatable</strong> - (optional, boolean|array) [3.0.0+] Indicates
 	whether or not the section is repeatable. To set a minimum/maximum number of
-	sections, pass an array with the key, <em>min</em>, and <em>max</em>. e.g.
-	<em>array( 'min' =&gt; 3, 'max' =&gt; 10 )</em></li>
+	sections, pass an array with the key, <code>min</code>, and <code>max</code>.
+	e.g. <code>array( 'min' =&gt; 3, 'max' =&gt; 10 )</code></li>
 </ul>
 </dd>
 						<dt><var>$aSection2</var></dt>
@@ -391,14 +406,8 @@ method returns.<br>
 			<a class="anchor" href="#_addSettingSection">#</a>
 			<code>addSettingSection( <span>array|string <var>$asSection</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>A singular form of the adSettingSections() method which takes only a single
-parameter.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>A singular form of the adSettingSections() method which takes only a single
 parameter.</p>
@@ -412,7 +421,7 @@ parameter.</p>
 						<dt><var>$asSection</var></dt>
 						<dd><code>array|string</code><br>the section array. If a string is passed, it is considered as a target page slug
 that will be used as a page slug element from the next call so that the element
-can be ommited.</dd>
+can be omitted.</dd>
 					</dl></div>
 
 
@@ -421,11 +430,6 @@ can be ommited.</dd>
 					<div class="list">
 							2.1.2<br>
 							3.0.0 Changed the scope to public from protected.<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The actual registration will be performed in the
-<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
 					<h4>Overrides</h4>
@@ -447,13 +451,8 @@ can be ommited.</dd>
 			<a class="anchor" href="#_removeSettingSections">#</a>
 			<code>removeSettingSections( <span>string <var>$sSectionID1</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sSectionID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Removes the given section(s) by section ID.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Removes the given section(s) by section ID.</p>
 
@@ -474,11 +473,12 @@ class="php-quote">'yet_another_section'</span> );
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sSectionID1</var></dt>
-						<dd><code>string</code><br>the section ID to remove.</dd>
+						<dd><code>string</code><br>$sSectionID1 the section ID to remove.</dd>
 						<dt><var>$sSectionID2</var></dt>
-						<dd><code>string</code><br>( optional ) another section ID to remove.</dd>
+						<dd><code>string</code><br>$sSectionID2 (optional) another section ID to remove.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>( optional ) add more section IDs to the next parameters as many as necessary.</dd>
+						<dd><code>string</code><br>$_and_more (optional) add more section IDs to the next parameters as many as
+necessary.</dd>
 					</dl></div>
 
 
@@ -492,8 +492,6 @@ class="php-quote">'yet_another_section'</span> );
 					<div class="list">
 							Accepts variadic parameters; the number of accepted parameters are not limited
 to three.<br>
-							The actual registration will be performed in the
-<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
 					<h4>Overrides</h4>
@@ -515,13 +513,8 @@ to three.<br>
 			<a class="anchor" href="#_addSettingFields">#</a>
 			<code>addSettingFields( <span>array <var>$aField1</var></span>, <span>array <var>$aField2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds form fields.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds form fields.</p>
 
@@ -606,8 +599,8 @@ requires specific keys. Refer to the parameter section of this method.</p>
 	supported types are listed below.</li>
 
 	<li><strong>section_id</strong> - (optional, string) the section ID that the
-	field belongs to. If not set, the internal <em>_default</em> section ID will be
-	assigned.</li>
+	field belongs to. If not set, the internal <code>_default</code> section ID will
+	be assigned.</li>
 
 	<li><strong>title</strong> - (optional, string) the title of the section.</li>
 
@@ -645,8 +638,8 @@ requires specific keys. Refer to the parameter section of this method.</p>
 	assigned to the input tag's value attribute.</li>
 
 	<li><strong>value</strong> - (optional, string|array) the value(s) assigned to
-	the input tag's <em>value</em> attribute to override the default and the stored
-	value.</li>
+	the input tag's <code>value</code> attribute to override the default and the
+	stored value.</li>
 
 	<li><strong>delimiter</strong> - (optional, string) the HTML string that
 	delimits multiple elements. This is available if the <var>label</var> key is
@@ -662,9 +655,9 @@ requires specific keys. Refer to the parameter section of this method.</p>
 	the passed HTML string should not contain block elements.</li>
 
 	<li><strong>label_min_width</strong> - (optional, string) the inline style
-	property of the <em>min-width</em> of the label tag for the field. If the unit
-	is not specified, 'px' is applied. Default: <em>120</em>. e.g.
-	<em>100%</em></li>
+	property of the <code>min-width</code> of the label tag for the field. If the
+	unit is not specified, 'px' is applied. Default: <code>120</code>. e.g.
+	<code>100%</code></li>
 
 	<li><strong>help</strong> - (optional, string) the help description added to the
 	contextual help tab.</li>
@@ -716,12 +709,12 @@ requires specific keys. Refer to the parameter section of this method.</p>
 
 	<li><strong>hidden</strong> - [3.0.0+] (optional, boolean) If true, the entire
 	field row output will be invisible with the inline style attribute of
-	<em>style="display:none"</em>.</li>
+	<code>style="display:none"</code>.</li>
 </ul>
 
-<h4>Field Type Specific Keys</h4>
+<h4>Field Type Specific Arguments</h4>
 
-<p>Each field type uses specific array keys.</p>
+<p>Each field type uses specific array arguments.</p>
 
 <ul>
 	<li><strong>text</strong> - a text input field which allows the user to type
@@ -752,8 +745,8 @@ requires specific keys. Refer to the parameter section of this method.</p>
 	<li><strong>select</strong> - a drop-down input field.
 		<ul>
 			<li><strong>is_multiple</strong> - (optional, boolean) if this is set to true,
-			the <em>multiple</em> attribute will be inserted into the field input tag, which
-			enables the multiple selections for the user.</li>
+			the <code>multiple</code> attribute will be inserted into the field input tag,
+			which enables the multiple selections for the user.</li>
 		</ul>
 	</li>
 
@@ -761,14 +754,14 @@ requires specific keys. Refer to the parameter section of this method.</p>
 	and select fields.
 		<ul>
 			<li><strong>units</strong> - (optional, array) defines the units to show. e.g.
-			<em>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em' )</em> Default:
-			<em>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em', 'ex' =&gt; 'ex',
+			<code>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em' )</code> Default:
+			<code>array( 'px' =&gt; 'px', '%' =&gt; '%', 'em' =&gt; 'em', 'ex' =&gt; 'ex',
 			'in' =&gt; 'in', 'cm' =&gt; 'cm', 'mm' =&gt; 'mm', 'pt' =&gt; 'pt', 'pc' =&gt;
-			'pc' )</em></li>
+			'pc' )</code></li>
 
 			<li><strong>is_multiple</strong> - (optional, boolean) if this is set to true,
-			the <em>multiple</em> attribute will be inserted into the field input tag, which
-			enables the multiple selections for the user.</li>
+			the <code>multiple</code> attribute will be inserted into the field input tag,
+			which enables the multiple selections for the user.</li>
 
 			<li><strong>attributes</strong> - [3.0.0+] (optional, array) The attributes
 			array of this field type has four initial keys: size, unit, optgroup, and option
@@ -833,8 +826,8 @@ requires specific keys. Refer to the parameter section of this method.</p>
 			of the attribute names of the image to save. If this is set, the field will be
 			an array with the specified attributes. The supported attributes are, 'title',
 			'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for
-			external URLs, ID will not be captured. e.g. <em>'attributes_to_store' =&gt;
-			array( 'id', 'caption', 'description' )</em></li>
+			external URLs, ID will not be captured. e.g. <code>'attributes_to_store' =&gt;
+			array( 'id', 'caption', 'description' )</code></li>
 
 			<li><strong>allow_external_source</strong> - [2.1.3+] (optional, boolean)
 			whether external URL can be set via the uploader.</li>
@@ -852,8 +845,8 @@ requires specific keys. Refer to the parameter section of this method.</p>
 			of the attribute names of the image to save. If this is set, the field will be
 			an array with the specified attributes. The supported attributes are, 'id',
 			'caption', and 'description'. Note that for external URLs, ID will not be
-			captured. e.g. <em>'attributes_to_store' =&gt; array( 'id', 'caption',
-			'description' )</em></li>
+			captured. e.g. <code>'attributes_to_store' =&gt; array( 'id', 'caption',
+			'description' )</code></li>
 
 			<li><strong>allow_external_source</strong> - [2.1.3+] (optional, boolean)
 			whether external URL can be set via the uploader.</li>
@@ -871,11 +864,11 @@ requires specific keys. Refer to the parameter section of this method.</p>
 			list.</li>
 
 			<li><strong>max_width</strong> - (optional, string) the inline style property
-			value of <em>max-width</em> of this element. Include the unit such as px, %.
+			value of <code>max-width</code> of this element. Include the unit such as px, %.
 			Default: 100%</li>
 
 			<li><strong>height</strong> - (optional, string) the inline style property value
-			of <em>height</em> of this element. Include the unit such as px, %. Default:
+			of <code>height</code> of this element. Include the unit such as px, %. Default:
 			250px</li>
 		</ul>
 	</li>
@@ -884,8 +877,8 @@ requires specific keys. Refer to the parameter section of this method.</p>
 	boxes listing post type slugs.
 		<ul>
 			<li><strong>slugs_to_remove</strong> - (optional, array) the post type slugs not
-			to be listed. e.g.<em>array( 'revision', 'attachment', 'nav_menu_item'
-			)</em></li>
+			to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item'
+			)</code></li>
 		</ul>
 	</li>
 </ul>
@@ -973,26 +966,21 @@ to three.<br>
 			<a class="anchor" href="#_addSettingField">#</a>
 			<code>addSettingField( <span>array|string <var>$asField</var></span> )</code>
 
-			<div class="description short" style="display:none;">
+
+			<div class="description detailed">
 				
 <p>Adds the given field array items into the field array property.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Adds the given field array items into the field array property.</p>
-
-<p>Identical to the addSettingFields() method except that this method does not
-accept enumerated parameters.</p>
+<p>Identical to the <code>addSettingFields()</code> method except that this
+method does not accept enumerated parameters.</p>
 
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$asField</var></dt>
-						<dd><code>array|string</code><br>the field array or the target section ID. If the target section ID is set, the
-section_id key can be omitted from the next passing field array.</dd>
+						<dd><code>array|string</code><br>$asField the field array or the target section ID. If the target section ID is
+set, the section_id key can be omitted from the next passing field array.</dd>
 					</dl></div>
 
 
@@ -1022,13 +1010,8 @@ section_id key can be omitted from the next passing field array.</dd>
 			<a class="anchor" href="#_removeSettingFields">#</a>
 			<code>removeSettingFields( <span>string <var>$sFieldID1</var></span>, <span>string <var>$sFieldID2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Removes the given field(s) by field ID.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Removes the given field(s) by field ID.</p>
 
@@ -1049,11 +1032,12 @@ class="php-quote">'fieldID_D'</span> );
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sFieldID1</var></dt>
-						<dd><code>string</code><br>the field ID to remove.</dd>
+						<dd><code>string</code><br>$sFieldID1 the field ID to remove.</dd>
 						<dt><var>$sFieldID2</var></dt>
-						<dd><code>string</code><br>( optional ) another field ID to remove.</dd>
+						<dd><code>string</code><br>$sFieldID2 (optional) another field ID to remove.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>( optional ) add more field IDs to the next parameters as many as necessary.</dd>
+						<dd><code>string</code><br>$_and_more (optional) add more field IDs to the next parameters as many as
+necessary.</dd>
 					</dl></div>
 
 
@@ -1067,8 +1051,6 @@ class="php-quote">'fieldID_D'</span> );
 					<div class="list">
 							Accepts variadic parameters; the number of accepted parameters are not limited
 to three.<br>
-							The actual registration will be performed in the
-<em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.<br>
 					</div>
 
 					<h4>Overrides</h4>
@@ -1088,15 +1070,10 @@ to three.<br>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getFieldValue">#</a>
-			<code>getFieldValue( <span>string <var>$sFieldID</var></span>, <span>mixed <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
+			<code>getFieldValue( <span>string <var>$sFieldID</var></span>, <span>string <var>$sSectionID</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Retrieves the specified field value stored in the options by field ID.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Retrieves the specified field value stored in the options by field ID.</p>
 
@@ -1105,9 +1082,9 @@ to three.<br>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sFieldID</var></dt>
-						<dd><code>string</code><br>The field ID.</dd>
+						<dd><code>string</code><br>$sFieldID The field ID.</dd>
 						<dt><var>$sSectionID</var></dt>
-						<dd></dd>
+						<dd><code>string</code><br>$sSectionID The section ID.</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -1204,30 +1181,38 @@ return a default value even if it's not saved in the database.<br>
 			<code>setFooterInfoRight()</code>, 
 			<code>setUp()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code>addHelpText()</code>, 
+			<code>hasFieldError()</code>, 
+			<code>hasSettingNotice()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>, 
+			<code>start()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Model.html#methods">AdminPageFramework_Factory_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Model.html#__setUp">_setUp()</a></code>
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>, 
+			<code>_setUp()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
 			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
-			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_getResourceInstance()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
 
@@ -1265,7 +1250,7 @@ return a default value even if it's not saved in the database.<br>
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>

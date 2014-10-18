@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Class AdminPageFramework_Page | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -21,7 +20,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li>
-							<a href="package-AdminPageFramework.Page.html" title="Summary of AdminPageFramework\Page"><span>Package</span></a>
+							<a href="package-AdminPageFramework.AdminPage.html" title="Summary of AdminPageFramework\AdminPage"><span>Package</span></a>
 						</li>
 						<li class="active">
 <span>Class</span>						</li>
@@ -53,18 +52,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="active main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -82,10 +76,36 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-AdminPageFramework.html">AdminPageFramework</a></li>
-				<li><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></li>
-				<li class="active"><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></li>
-				<li><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework.html">
+                        AdminPageFramework
+                    </a>
+                </li>
+				<li>
+                    
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu.html">
+                        AdminPageFramework_Menu
+                    </a>
+                </li>
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework_Page.html">
+                        AdminPageFramework_Page
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Setting.html">
+                        AdminPageFramework_Setting
+                    </a>
+                </li>
 			</ul>
 
 
@@ -118,8 +138,7 @@ AdminPageFramework_Factory_Router
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Model.html"><span>AdminPageFramework_Factory_Model</span></a>
-			
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
@@ -131,8 +150,7 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
-			
+AdminPageFramework_Factory_Controller
 			
 			
 		</dd>
@@ -187,7 +205,7 @@ AdminPageFramework_Page_MetaBox
 		<b>Abstract</b><br>
 		
 		
-		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Page.html">Page</a><br>
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.AdminPage.html">AdminPage</a><br>
 
 				<b>Since:</b>
 				2.0.0<br>
@@ -217,13 +235,8 @@ AdminPageFramework_Page_MetaBox
 			<a class="anchor" href="#_addInPageTabs">#</a>
 			<code>addInPageTabs( <span>array <var>$aTab1</var></span>, <span>array <var>$aTab2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds in-page tabs.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds in-page tabs.</p>
 
@@ -268,20 +281,20 @@ class="php-comment">// sets the target page slug</span>
      <span
 class="php-keyword1">array</span>(
          <span
-class="php-quote">'tab_slug'</span> =&gt; <span
+class="php-quote">'tab_slug'</span>  =&gt; <span
 class="php-quote">'firsttab'</span>,
          <span
-class="php-quote">'title'</span> =&gt; __( <span
+class="php-quote">'title'</span>     =&gt; __( <span
 class="php-quote">'Text Fields'</span>, <span
 class="php-quote">'my-text-domain'</span> ),
      ),
      <span
 class="php-keyword1">array</span>(
          <span
-class="php-quote">'tab_slug'</span> =&gt; <span
+class="php-quote">'tab_slug'</span>  =&gt; <span
 class="php-quote">'secondtab'</span>,
          <span
-class="php-quote">'title'</span> =&gt; __( <span
+class="php-quote">'title'</span>     =&gt; __( <span
 class="php-quote">'Selectors and Checkboxes'</span>, <span
 class="php-quote">'my-text-domain'</span> ),
      )
@@ -307,9 +320,10 @@ class="php-quote">'my-text-domain'</span> ),
 	<li><strong>order</strong> - (optional, integer) the order number of the tab.
 	The lager the number is, the lower the position it is placed in the menu.</li>
 
-	<li><strong>show_in_page_tab</strong> - (optional, boolean) default: false. If
-	this is set to false, the tab title will not be displayed in the tab navigation
-	menu; however, it is still accessible from the direct URL.</li>
+	<li><strong>show_in_page_tab</strong> - (optional, boolean) default:
+	<code>false</code>. If this is set to false, the tab title will not be displayed
+	in the tab navigation menu; however, it is still accessible from the direct
+	URL.</li>
 
 	<li><strong>parent_tab_slug</strong> - (optional, string) this needs to be set
 	if the above show_in_page_tab is true so that the parent tab will be emphasized
@@ -319,7 +333,8 @@ class="php-quote">'my-text-domain'</span> ),
 						<dt><var>$aTab2</var></dt>
 						<dd><code>array</code><br>$aTab2 Another in-page tab array.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>array</code><br>$_and_more Add in-page tab arrays as many as necessary to the next parameters.</dd>
+						<dd><code>array</code><br>$_and_more (optional) Add in-page tab arrays as many as necessary to the next
+parameters.</dd>
 					</dl></div>
 
 
@@ -356,18 +371,13 @@ with page titles.<br>
 			<a class="anchor" href="#_addInPageTab">#</a>
 			<code>addInPageTab( <span>array|string <var>$asInPageTab</var></span> )</code>
 
-			<div class="description short" style="display:none;">
+
+			<div class="description detailed">
 				
 <p>Adds an in-page tab.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>Adds an in-page tab.</p>
-
-<p>The singular form of the addInPageTabs() method, which takes only one
-parameter.</p>
+<p>The singular form of the <code>addInPageTabs()</code> method, which takes
+only one parameter.</p>
 
 
 
@@ -412,13 +422,8 @@ with page titles.<br>
 			<a class="anchor" href="#_setPageTitleVisibility">#</a>
 			<code>setPageTitleVisibility( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets whether the page title is displayed or not.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets whether the page title is displayed or not.</p>
 
@@ -466,13 +471,8 @@ class="php-comment">// disables the page title.</span>
 			<a class="anchor" href="#_setPageHeadingTabsVisibility">#</a>
 			<code>setPageHeadingTabsVisibility( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets whether page-heading tabs are displayed or not.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets whether page-heading tabs are displayed or not.</p>
 
@@ -527,13 +527,8 @@ titles and the latter displays tab titles.<br>
 			<a class="anchor" href="#_setInPageTabsVisibility">#</a>
 			<code>setInPageTabsVisibility( <span>boolean <var>$bShow</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets whether in-page tabs are displayed or not.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets whether in-page tabs are displayed or not.</p>
 
@@ -556,8 +551,8 @@ all the pages.</dd>
 					<h4>Since</h4>
 					<div class="list">
 							2.1.1<br>
-							3.0.0 Changed the scope to public. Changed the name from showInPageTabs() to
-setInPageTabsVisibility().<br>
+							3.0.0 Changed the scope to public. Changed the name from
+<code>showInPageTabs()</code> to <code>setInPageTabsVisibility()</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
@@ -583,13 +578,8 @@ setInPageTabsVisibility().<br>
 			<a class="anchor" href="#_setInPageTabTag">#</a>
 			<code>setInPageTabTag( <span>string <var>$sTag</var> = <span class="php-quote">'h3'</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets in-page tab's HTML tag.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets in-page tab's HTML tag.</p>
 
@@ -604,7 +594,8 @@ class="php-quote">'h2'</span> );
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sTag</var></dt>
-						<dd><code>string</code><br>$sTag The HTML tag that encloses each in-page tab title. Default: h3.</dd>
+						<dd><code>string</code><br>$sTag The HTML tag that encloses each in-page tab title. Default:
+<code>h3</code>.</dd>
 						<dt><var>$sPageSlug</var></dt>
 						<dd><code>string</code><br>$sPageSlug The page slug that applies the setting.</dd>
 					</dl></div>
@@ -640,13 +631,8 @@ class="php-quote">'h2'</span> );
 			<a class="anchor" href="#_setPageHeadingTabTag">#</a>
 			<code>setPageHeadingTabTag( <span>string <var>$sTag</var> = <span class="php-quote">'h2'</span></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets page-heading tab's HTML tag.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets page-heading tab's HTML tag.</p>
 
@@ -661,7 +647,8 @@ class="php-quote">'h2'</span> );
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sTag</var></dt>
-						<dd><code>string</code><br>$sTag The HTML tag that encloses the page-heading tab title. Default: h2.</dd>
+						<dd><code>string</code><br>$sTag The HTML tag that encloses the page-heading tab title. Default:
+<code>h2</code>.</dd>
 						<dt><var>$sPageSlug</var></dt>
 						<dd><code>string</code><br>$sPageSlug The page slug that applies the setting.</dd>
 					</dl></div>
@@ -731,31 +718,39 @@ class="php-quote">'h2'</span> );
 			<code>setRootMenuPageBySlug()</code>, 
 			<code>setUp()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code>addHelpText()</code>, 
+			<code>hasFieldError()</code>, 
+			<code>hasSettingNotice()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>, 
+			<code>start()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Model.html#methods">AdminPageFramework_Factory_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Model.html#__setUp">_setUp()</a></code>
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>, 
+			<code>_setUp()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
 			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
-			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_getResourceInstance()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
 
@@ -785,7 +780,7 @@ class="php-quote">'h2'</span> );
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>

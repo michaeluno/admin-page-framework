@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Package AdminPageFramework\Widget | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -52,18 +51,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -81,12 +75,36 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Factory.html">AdminPageFramework_Widget_Factory</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Router.html">AdminPageFramework_Widget_Router</a></li>
-				<li><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget.html">
+                        AdminPageFramework_Widget
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_Controller.html">
+                        AdminPageFramework_Widget_Controller
+                    </a>
+                </li>
+				<li>
+                    
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_Model.html">
+                        AdminPageFramework_Widget_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_View.html">
+                        AdminPageFramework_Widget_View
+                    </a>
+                </li>
 			</ul>
 
 
@@ -102,38 +120,77 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="package">
-	<h1>Package <a href="package-AdminPageFramework.html">AdminPageFramework</a>\Widget</h1>
+    
+        
+    
+    <div>
+                
 
 
 
-<h2>Classes summary</h2>
-<table class="summary table table-bordered table-striped" id="classes">
+
+
+        
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <div class="subpackage-summary">
+        <h1>Widgets</h1>
+        <p>
+<p>Provides an abstract base to create widgets and their forms.</p>
+
+<h4>Usage</h4>
+
+<ol>
+	<li>Extend the AdminPageFramework_Widget factory class.</li>
+
+	<li>Define the form in <code>load()</code> method.</li>
+
+	<li>Define the front-end output of the widget in <code>content()</code>
+	method.</li>
+
+	<li>Instantiate the class by passing the widget title in the first
+	parameter.</li>
+</ol>
+</p>
+
+    </div>
+    
+    
+    <h2 class="classes-summary">Classes</h2>
+    <table class="summary table table-bordered table-striped" id="classes">
 <tr>
-	<td class="name"><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></td>
-	<td>Provides methods for creating widgets.</td>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></td>
+    <td>Provides methods for creating widgets.</td>
 </tr>
 <tr>
-	<td class="name"><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></td>
-	<td>Provides methods of views for the widget factory class.</td>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></td>
+    <td>Provides methods of views for the widget factory class.</td>
 </tr>
 <tr>
-	<td class="name"><a href="class-AdminPageFramework_Widget_Factory.html">AdminPageFramework_Widget_Factory</a></td>
-	<td>A back-end factory class that redirects callback methods to the main widget
-class.</td>
+    
+<tr>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></td>
+    <td>Provides methods of models for the widget factory class.</td>
 </tr>
 <tr>
-	<td class="name"><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></td>
-	<td>Provides methods of models for the widget factory class.</td>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></td>
+    <td>Provides methods of views for the widget factory class.</td>
 </tr>
-<tr>
-	<td class="name"><a href="class-AdminPageFramework_Widget_Router.html">AdminPageFramework_Widget_Router</a></td>
-	<td>Provides routing methods for the widget factory class.</td>
-</tr>
-<tr>
-	<td class="name"><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></td>
-	<td>Provides methods of views for the widget factory class.</td>
-</tr>
-</table>
+    </table>
 
 
 
@@ -143,7 +200,7 @@ class.</td>
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>

@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Class AdminPageFramework | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -21,7 +20,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li>
-							<a href="package-AdminPageFramework.Page.html" title="Summary of AdminPageFramework\Page"><span>Package</span></a>
+							<a href="package-AdminPageFramework.AdminPage.html" title="Summary of AdminPageFramework\AdminPage"><span>Package</span></a>
 						</li>
 						<li class="active">
 <span>Class</span>						</li>
@@ -53,18 +52,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="active main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -82,10 +76,36 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active"><a href="class-AdminPageFramework.html">AdminPageFramework</a></li>
-				<li><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></li>
-				<li><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></li>
-				<li><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></li>
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework.html">
+                        AdminPageFramework
+                    </a>
+                </li>
+				<li>
+                    
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu.html">
+                        AdminPageFramework_Menu
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page.html">
+                        AdminPageFramework_Page
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Setting.html">
+                        AdminPageFramework_Setting
+                    </a>
+                </li>
 			</ul>
 
 
@@ -108,594 +128,11 @@
 	
 <p>The main class of the framework to create admin pages and forms.</p>
 
-<p>This class should be extended and the setUp() method should be overridden to
-define how pages are composed. Most of the internal methods are prefixed with
-the underscore like <code>_getSomething()</code> and callback methods are
-prefixed with <code>_reply</code>. The methods for the users are public and do
-not have those prefixes.</p>
-
-<h2>Hooks</h2>
-
-<p>The class automatically creates WordPress action and filter hooks associated
-with the class methods. The class methods corresponding to the name of the below
-actions and filters can be extended to modify the page output. Those methods are
-the callbacks of the filters and the actions.</p>
-
-<h3>Methods and Action Hooks</h3>
-
-<ul>
-	<li><strong>start_{instantiated class name}</strong> – triggered at the end of
-	the class constructor. This will be triggered in any admin page except
-	admin-ajax.php. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>set_up_{instantiated class name}</strong> – [3.1.3+] triggered
-	after the setUp() method is called. The class object will be passed to the first
-	parameter.</li>
-
-	<li><strong>load_{instantiated class name}</strong> – [2.1.0+] triggered when
-	the framework's page is loaded before the header gets sent. This will not be
-	triggered in the admin pages that are not registered by the framework. The first
-	parameter: class object [3.1.2+].</li>
-
-	<li><strong>load_{page slug}</strong> – [2.1.0+] triggered when the
-	framework's page is loaded before the header gets sent. This will not be
-	triggered in the admin pages that are not registered by the framework. The first
-	parameter: class object [3.1.2+].</li>
-
-	<li><strong>load_{page slug}_{tab slug}</strong> – [2.1.0+] triggered when the
-	framework's page is loaded before the header gets sent. This will not be
-	triggered in the admin pages that are not registered by the framework. The first
-	parameter: class object [3.1.2+].</li>
-
-	<li><strong>load_after_{instantiated class name}</strong> – [3.1.3+] triggered
-	when one of the framework's pages is loaded before the header gets sent. This
-	will not be triggered in the admin pages that are not registered by the
-	framework. The first parameter: class object.</li>
-
-	<li><strong>do_before_{instantiated class name}</strong> – triggered before
-	rendering the page. It applies to all the pages created by the instantiated
-	class object. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_before_{page slug}</strong> – triggered before rendering the
-	page. The class object will be passed to the first parameter [3.1.3+].</li>
-
-	<li><strong>do_before_{page slug}_{tab slug}</strong> – triggered before
-	rendering the page. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_form_{instantiated class name}</strong> – triggered right after
-	the form opening tag. It applies to all the pages created by the instantiated
-	class object. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_form_{page slug}</strong> – triggered right after the form
-	opening tag. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_form_{page slug}_{tab slug}</strong> – triggered right after
-	the form opening tag. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_{instantiated class name}</strong> – triggered in the middle of
-	rendering the page. It applies to all the pages created by the instantiated
-	class object. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_{page slug}</strong> – triggered in the middle of rendering the
-	page. The class object will be passed to the first parameter [3.1.3+].</li>
-
-	<li><strong>do_{page slug}_{tab slug}</strong> – triggered in the middle of
-	rendering the page. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_after_{instantiated class name}</strong> – triggered after
-	rendering the page. It applies to all the pages created by the instantiated
-	class object. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>do_after_{page slug}</strong> – triggered after rendering the
-	page. The class object will be passed to the first parameter [3.1.3+].</li>
-
-	<li><strong>do_after_{page slug}_{tab slug}</strong> – triggered after
-	rendering the page. The class object will be passed to the first parameter
-	[3.1.3+].</li>
-
-	<li><strong>submit_{instantiated class name}_{submit input id}</strong> –
-	[3.0.0+] triggered after the form is submitted with the submit button of the
-	specified input id.</li>
-
-	<li><strong>submit_{instantiated class name}_{submit field id}</strong> –
-	[3.0.0+] triggered after the form is submitted with the submit button of the
-	specified field that does not hava section is submitted.</li>
-
-	<li><strong>submit_{instantiated class name}_{submit section id}_{submit field
-	id}</strong> – [3.0.0+] triggered after the form is submitted with the submit
-	button of the specified section and field is submitted.</li>
-
-	<li><strong>submit_{instantiated class name}_{submit section id}</strong> –
-	[3.0.0+] triggered after the form is submitted with the submit button of the
-	specified section.</li>
-
-	<li><strong>submit_{instantiated class name}</strong> – [3.0.0+] triggered
-	after the form is submitted.</li>
-</ul>
-
-<h3>Methods and Filter Hooks</h3>
-
-<ul>
-	<li><strong>content_top_{page slug}_{tab slug}</strong> – receives the output
-	of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
-
-	<li><strong>content_top_{page slug}</strong> – receives the output of the top
-	part of the page. [3.0.0+] Changed the name from head_{...}.</li>
-
-	<li><strong>content_top_{instantiated class name}</strong> – receives the
-	output of the top part of the page, applied to all pages created by the
-	instantiated class object. [3.0.0+] Changed the name from head_{...}.</li>
-
-	<li><strong>content_{page slug}_{tab slug}</strong> – receives the output of
-	the middle part of the page including form input fields.</li>
-
-	<li><strong>content_{page slug}</strong> – receives the output of the middle
-	part of the page including form input fields.</li>
-
-	<li><strong>content_{instantiated class name}</strong> – receives the output
-	of the middle part of the page, applied to all pages created by the instantiated
-	class object.</li>
-
-	<li><strong>content_bottom_{page slug}_{tab slug}</strong> – receives the
-	output of the bottom part of the page. [3.0.0+] Changed the name from
-	foot_{...}.</li>
-
-	<li><strong>content_bottom_{page slug}</strong> – receives the output of the
-	bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
-
-	<li><strong>content_bottom_{instantiated class name}</strong> – receives the
-	output of the bottom part of the page, applied to all pages created by the
-	instantiated class object. [3.0.0+] Changed the name from foot_{...}.</li>
-
-	<li><strong>section_head_{instantiated class name}_{section ID}</strong> –
-	receives the title and the description output of the given form section ID. The
-	first parameter: the output string.</li>
-
-	<li><strong>field_{instantiated class name}_{field ID}</strong> – receives the
-	form input field output of the given input field ID that does not have a
-	section. The first parameter: output string. The second parameter: the array of
-	option.</li>
-
-	<li><strong>field_{instantiated class name}_{section id}_{field ID}</strong> –
-	[3.0.0+] receives the form input field output of the given input field ID that
-	has a section. The first parameter: output string. The second parameter: the
-	array of option.</li>
-
-	<li><strong>sections_{instantiated class name}</strong> – receives the
-	registered section arrays. The first parameter: sections container array.</li>
-
-	<li><strong>fields_{instantiated class name}</strong> – receives the
-	registered field arrays. The first parameter: fields container array.</li>
-
-	<li><strong>fields_{instantiated class name}_{section id}</strong> – [3.0.0+]
-	receives the registered field arrays which belong to the specified section. The
-	first parameter: fields container array.</li>
-
-	<li><strong>field_definition_{instantiated class name}_{field ID}</strong> –
-	[3.0.2+] receives the form field definition array of the given input field ID
-	that does not have a section. The first parameter: the field definition
-	array.</li>
-
-	<li><strong>field_definition_{instantiated class name}_{section id}_{field
-	ID}</strong> – [3.0.2+] receives the form field definition array of the given
-	input field ID that has a section. The first parameter: the field definition
-	array. The second parameter: the integer representing sub-section index if the
-	field belongs to a sub-section.</li>
-
-	<li><strong>pages_{instantiated class name}</strong> – receives the registered
-	page arrays. The first parameter: pages container array.</li>
-
-	<li><strong>tabs_{instantiated class name}_{page slug}</strong> – receives the
-	registered in-page tab arrays. The first parameter: tabs container array.</li>
-
-	<li><strong>validation_{instantiated class name}_{field id}</strong> –
-	[3.0.0+] receives the form submission value of the field that does not have a
-	section. The first parameter: ( string|array ) submitted input value. The second
-	parameter: ( string|array ) the old value stored in the database. The third
-	parameter: ( object ) [3.1.0+] the caller object.</li>
-
-	<li><strong>validation_{instantiated class name}_{section_id}_{field
-	id}</strong> – [3.0.0+] receives the form submission value of the field that
-	has a section. The first parameter: ( string|array ) submitted input value. The
-	second parameter: ( string|array ) the old value stored in the database. The
-	third parameter: ( object ) [3.1.0+] the caller object.</li>
-
-	<li><strong>validation_{instantiated class name}_{section id}</strong> –
-	[3.0.0+] receives the form submission values that belongs to the section.. The
-	first parameter: ( array ) the array of submitted input values that belong to
-	the section. The second parameter: ( array ) the array of the old values stored
-	in the database. The third parameter: ( object ) [3.1.0+] the caller
-	object.</li>
-
-	<li><strong>validation_{page slug}_{tab slug}</strong> – receives the form
-	submission values as array. The first parameter: submitted input array. The
-	second parameter: the original array stored in the database. The third
-	parameter: ( object ) [3.1.0+] the caller object.</li>
-
-	<li><strong>validation_{page slug}</strong> – receives the form submission
-	values as array. The first parameter: submitted input array. The second
-	parameter: the original array stored in the database. The third parameter: (
-	object ) [3.1.0+] the caller object.</li>
-
-	<li><strong>validation_{instantiated class name}</strong> – receives the form
-	submission values as array. The first parameter: submitted input array. The
-	second parameter: the original array stored in the database. The third
-	parameter: ( object ) [3.1.0+] the caller object.</li>
-
-	<li><strong>validation_saved_options_{instantiated class name}</strong> –
-	[3.1.2+] receives the saved form options as an array. The first parameter: the
-	stored options array. The second parameter: the caller object.</li>
-
-	<li><strong>validation_saved_options_{page slug}</strong> – [3.0.0+] receives
-	the saved form options as an array of the page. The first parameter: the stored
-	options array of the page. The second parameter: the caller object.</li>
-
-	<li><strong>validation_saved_options_{page slug}_{tab slug}</strong> –
-	[3.0.0+] receives the saved form options as an array of the tab. The first
-	parameter: the stored options array of the tab. The second parameter: the caller
-	object.</li>
-
-	<li><strong>style_{page slug}_{tab slug}</strong> – receives the output of the
-	CSS rules applied to the tab page of the slug.</li>
-
-	<li><strong>style_{page slug}</strong> – receives the output of the CSS rules
-	applied to the page of the slug.</li>
-
-	<li><strong>style_{instantiated class name}</strong> – receives the output of
-	the CSS rules applied to the pages added by the instantiated class object.</li>
-
-	<li><strong>script_{page slug}_{tab slug}</strong> – receives the output of
-	the JavaScript script applied to the tab page of the slug.</li>
-
-	<li><strong>script_{page slug}</strong> – receives the output of the
-	JavaScript script applied to the page of the slug.</li>
-
-	<li><strong>script_{instantiated class name}</strong> – receives the output of
-	the JavaScript script applied to the pages added by the instantiated class
-	object.</li>
-
-	<li><strong>export_{instantiated class name}_{input id}</strong> – [2.1.5+]
-	receives the exporting array submitted from the specific export button.</li>
-
-	<li><strong>export_{instantiated class name}_{field id}</strong> – [2.1.5+]
-	receives the exporting array submitted from the specific field that does not
-	have a section.</li>
-
-	<li><strong>export_{instantiated class name}_{section id}_{field id}</strong>
-	– [3.0.0+] receives the exporting array submitted from the specific field that
-	has a section.</li>
-
-	<li><strong>export_{page slug}_{tab slug}</strong> – receives the exporting
-	array sent from the tab page.</li>
-
-	<li><strong>export_{page slug}</strong> – receives the exporting array
-	submitted from the page.</li>
-
-	<li><strong>export_{instantiated class name}</strong> – receives the exporting
-	array submitted from the plugin.</li>
-
-	<li><strong>export_name_{instantiated class name}_{input id}</strong> –
-	receives the exporting file name submitted the specified input id.</li>
-
-	<li><strong>export_name_{instantiated class name}_{field id}</strong> –
-	receives the exporting file name submitted from the specific field that does not
-	have a section.</li>
-
-	<li><strong>export_name_{instantiated class name}_{section id}_{field
-	id}</strong> – [3.0.0+] receives the exporting file name submitted from the
-	specific field that has a section.</li>
-
-	<li><strong>export_name_{page slug}_{tab slug}</strong> – receives the
-	exporting file name submitted from the tab page.</li>
-
-	<li><strong>export_name_{page slug}</strong> – receives the exporting file
-	name submitted from the page.</li>
-
-	<li><strong>export_name_{instantiated class name}</strong> – receives the
-	exporting file name submitted from the script.</li>
-
-	<li><strong>export_format_{instantiated class name}_{input id}</strong> –
-	receives the exporting file format submitted from the specific export
-	button.</li>
-
-	<li><strong>export_format_{instantiated class name}_{field id}</strong> –
-	receives the exporting file format submitted from the specific field that does
-	not have a section.</li>
-
-	<li><strong>export_format_{instantiated class name}_{section id}_{field
-	id}</strong> – [3.0.0+] receives the exporting file format submitted from the
-	specific field that has a section.</li>
-
-	<li><strong>export_format_{page slug}_{tab slug}</strong> – receives the
-	exporting file format sent from the tab page.</li>
-
-	<li><strong>export_format_{page slug}</strong> – receives the exporting file
-	format submitted from the page.</li>
-
-	<li><strong>export_format_{instantiated class name}</strong> – receives the
-	exporting file format submitted from the plugin.</li>
-
-	<li><strong>import_{instantiated class name}_{input id}</strong> – [2.1.5+]
-	receives the importing array submitted from the specific import button.</li>
-
-	<li><strong>import_{instantiated class name}_{field id}</strong> – [2.1.5+]
-	receives the importing array submitted from the specific import field that does
-	not have a section.</li>
-
-	<li><strong>import_{instantiated class name}_{section id}_{field id}</strong>
-	– [3.0.0+] receives the importing array submitted from the specific import
-	field that has a section.</li>
-
-	<li><strong>import_{page slug}_{tab slug}</strong> – receives the importing
-	array submitted from the tab page.</li>
-
-	<li><strong>import_{page slug}</strong> – receives the importing array
-	submitted from the page.</li>
-
-	<li><strong>import_{instantiated class name}</strong> – receives the importing
-	array submitted from the plugin.</li>
-
-	<li><strong>import_mime_types_{instantiated class name}_{input id}</strong> –
-	[2.1.5+] receives the mime types of the import data submitted from the specific
-	import button.</li>
-
-	<li><strong>import_mime_types_{instantiated class name}_{field id}</strong> –
-	[2.1.5+] receives the mime types of the import data submitted from the specific
-	import field that does not have a section.</li>
-
-	<li><strong>import_mime_types_{instantiated class name}_{section id}_{field
-	id}</strong> – [3.0.0+] receives the mime types of the import data submitted
-	from the specific import field that has a section.</li>
-
-	<li><strong>import_mime_types_{page slug}_{tab slug}</strong> – receives the
-	mime types of the import data submitted from the tab page.</li>
-
-	<li><strong>import_mime_types_{page slug}</strong> – receives the mime types
-	of the import data submitted from the page.</li>
-
-	<li><strong>import_mime_types_{instantiated class name}</strong> – receives
-	the mime types of the import data submitted from the plugin.</li>
-
-	<li><strong>import_format_{instantiated class name}_{input id}</strong> –
-	[2.1.5+] receives the import data format submitted from the specific import
-	button.</li>
-
-	<li><strong>import_format_{instantiated class name}_{field id}</strong> –
-	[2.1.5+] receives the import data format submitted from the specific import
-	field that does not have a section.</li>
-
-	<li><strong>import_format_{instantiated class name}_{section id}_{field
-	id}</strong> – [3.0.0+] receives the import data format submitted from the
-	specific import field that has a section.</li>
-
-	<li><strong>import_format_{page slug}_{tab slug}</strong> – receives the
-	import data format submitted from the tab page.</li>
-
-	<li><strong>import_format_{page slug}</strong> – receives the import data
-	format submitted from the page.</li>
-
-	<li><strong>import_format_{instantiated class name}</strong> – receives the
-	import data format submitted from the plugin.</li>
-
-	<li><strong>import_option_key_{instantiated class name}_{input id}</strong> –
-	[2.1.5+] receives the option array key of the importing array submitted from the
-	specific import button.</li>
-
-	<li><strong>import_option_key_{instantiated class name}_{field id}</strong> –
-	[2.1.5+] receives the option array key of the importing array submitted from the
-	specific import field that does not have a section.</li>
-
-	<li><strong>import_option_key_{instantiated class name}_{section id}_{field
-	id}</strong> – [3.0.0+] receives the option array key of the importing array
-	submitted from the specific import field that has a section.</li>
-
-	<li><strong>import_option_key_{page slug}_{tab slug}</strong> – receives the
-	option array key of the importing array submitted from the tab page.</li>
-
-	<li><strong>import_option_key_{page slug}</strong> – receives the option array
-	key of the importing array submitted from the page.</li>
-
-	<li><strong>import_option_key_{instantiated class name}</strong> – receives
-	the option array key of the importing array submitted from the plugin.</li>
-
-	<li><strong>options_{instantiated class name}</strong> – [3.1.0+] receives the
-	option array.</li>
-</ul>
-
-<h3>Remarks</h3>
-
-<p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the
-callback method name.</p>
-
-<h3>Examples</h3>
-
-<p>If the instantiated class name is Sample_Admin_Pages, defining the following
-class method will embed a banner image in all pages created by the class.</p>
-
-<pre><span class="php-keyword1">class</span> Sample_Admin_Pages <span
-class="php-keyword1">extends</span> AdminPageFramework {
-...
-    <span
-class="php-keyword1">function</span> content_top_Sample_Admin_Pages( <span
-class="php-var">$sContent</span> ) {
-        <span
-class="php-keyword1">return</span> <span
-class="php-quote">'&lt;div style=&quot;float:right;&quot;&gt;&lt;img src=&quot;'</span> . plugins_url( <span
-class="php-quote">'img/banner468x60.gif'</span>, __FILE__ ) . <span
-class="php-quote">'&quot; /&gt;&lt;/div&gt;'</span>
-            . <span
-class="php-var">$sContent</span>;
-    }
-...
-}</pre>
-
-<p>If the created page slug is my_first_setting_page, defining the following
-class method will filter the middle part of the page output.</p>
-
-<pre><span class="php-keyword1">class</span> Sample_Admin_Pages <span
-class="php-keyword1">extends</span> AdminPageFramework {
-...
-    <span
-class="php-keyword1">function</span> content_my_first_setting_page( <span
-class="php-var">$sContent</span> ) {
-        <span
-class="php-keyword1">return</span> <span
-class="php-var">$sContent</span> . <span
-class="php-quote">'&lt;p&gt;Hello world!&lt;/p&gt;'</span>;
-    }
-...
-}</pre>
-
-<h3>Timing of Hooks</h3>
-
-<pre>------ After the <span
-class="php-keyword1">class</span> is instantiated ------
-
- start_{instantiated <span
-class="php-keyword1">class</span> name}
-
------- When the page starts loading  ------
-
- load_{instantiated <span
-class="php-keyword1">class</span> name}
- load_{page slug}
- load_{page slug}_{tab slug}
- load_after_{instantiated <span
-class="php-keyword1">class</span> name}
-
- sections_{instantiated <span
-class="php-keyword1">class</span> name}
- fields_{instantiated <span
-class="php-keyword1">class</span> name}
- pages_{instantiated <span
-class="php-keyword1">class</span> name}
- tabs_{instantiated <span
-class="php-keyword1">class</span> name}_{page slug}
-
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{pressed submit field id}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{section id}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{section id}_{field id}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{page slug}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}_{page slug}_{tab slug}
- submit_{instantiated <span
-class="php-keyword1">class</span> name}
- validation_saved_options_{instantiated <span
-class="php-keyword1">class</span> name}
- validation_saved_options_{page slug}_{tab slug}
- validation_saved_options_{page slug}
- validation_{instantiated <span
-class="php-keyword1">class</span> name}_{field id (which does not have a section)}
- validation_{instantiated <span
-class="php-keyword1">class</span> name}_{section_id}
- validation_{instantiated <span
-class="php-keyword1">class</span> name}_{section id}_{field id}
- validation_{page slug}_{tab slug}
- validation_{page slug }
- validation_{instantiated <span
-class="php-keyword1">class</span> name }
- export_{page slug}_{tab slug}
- export_{page slug}
- export_{instantiated <span
-class="php-keyword1">class</span> name}
- import_{page slug}_{tab slug}
- import_{page slug}
- import_{instantiated <span
-class="php-keyword1">class</span> name}
-
- ------ Start Rendering HTML - after HTML <span
-class="php-keyword2">header</span> is sent ------
-
- &lt;head&gt;
-     &lt;style type=<span
-class="php-quote">&quot;text/css&quot;</span> name=<span
-class="php-quote">&quot;admin-page-framework&quot;</span>&gt;
-         style_{page slug}_{tab slug}
-         style_{page slug}
-         style_{instantiated <span
-class="php-keyword1">class</span> name}
-         script_{page slug}_{tab slug}
-         script_{page slug}
-         script_{instantiated <span
-class="php-keyword1">class</span> name}
-     &lt;/style&gt;
-
- &lt;head/&gt;
-
- do_before_{instantiated <span
-class="php-keyword1">class</span> name}
- do_before_{page slug}
- do_before_{page slug}_{tab slug}
-
- &lt;div <span
-class="php-keyword1">class</span>=<span
-class="php-quote">&quot;wrap&quot;</span>&gt;
-
-     content_top_{page slug}_{tab slug}
-     content_top_{page slug}
-     content_top_{instantiated <span
-class="php-keyword1">class</span> name}
-
-     &lt;div <span
-class="php-keyword1">class</span>=<span
-class="php-quote">&quot;admin-page-framework-container&quot;</span>&gt;
-         &lt;form action=<span
-class="php-quote">&quot;current page&quot;</span> method=<span
-class="php-quote">&quot;post&quot;</span>&gt;
-
-             do_form_{instantiated <span
-class="php-keyword1">class</span> name}
-             do_form_{page slug}
-             do_form_{page slug}_{tab slug}
-
-             field_definition_{instantiated <span
-class="php-keyword1">class</span> name}_{section ID}_{field ID}
-             field_definition_{instantiated <span
-class="php-keyword1">class</span> name}_{field ID (which does not have a section)}
-             section_head_{instantiated <span
-class="php-keyword1">class</span> name}_{section ID}
-             field_{instantiated <span
-class="php-keyword1">class</span> name}_{field ID}
-
-             content_{page slug}_{tab slug}
-             content_{page slug}
-             content_{instantiated <span
-class="php-keyword1">class</span> name}
-
-             do_{instantiated <span
-class="php-keyword1">class</span> name}
-             do_{page slug}
-             do_{page slug}_{tab slug}
-
-         &lt;/form&gt;
-     &lt;/div&gt;
-
-         content_bottom_{page slug}_{tab slug}
-         content_bottom_{page slug}
-         content_bottom_{instantiated <span
-class="php-keyword1">class</span> name}
-
- &lt;/div&gt;
-
- do_after_{instantiated <span
-class="php-keyword1">class</span> name}
- do_after_{page slug}
- do_after_{page slug}_{tab slug}
-
-</pre>
+<p>This class should be extended and the <code>setUp()</code> method should be
+overridden to define how pages are composed. Most of the internal methods are
+prefixed with the underscore like <code>_getSomething()</code> and callback
+methods are prefixed with <code>_reply</code>. The methods for the users are
+public and do not have those prefixes.</p>
 
 	</div>
 
@@ -707,8 +144,7 @@ AdminPageFramework_Factory_Router
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Model.html"><span>AdminPageFramework_Factory_Model</span></a>
-			
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
@@ -720,8 +156,7 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
-			
+AdminPageFramework_Factory_Controller
 			
 			
 		</dd>
@@ -807,26 +242,12 @@ AdminPageFramework_Setting_Validation
 		<b>Abstract</b><br>
 		
 		
-		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Page.html">Page</a><br>
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.AdminPage.html">AdminPage</a><br>
 
 				<b>Since:</b>
 				2.0.0<br>
 				<b>Extends:</b>
 				AdminPageFramework_Setting<br>
-				<b>Remark:</b>
-				This class stems from several abstract classes.<br>
-				<b>Use:</b>
-				AdminPageFramework_Property_Page<br>
-				<b>Use:</b>
-				AdminPageFramework_Debug<br>
-				<b>Use:</b>
-				AdminPageFramework_Property_Page<br>
-				<b>Use:</b>
-				AdminPageFramework_Message<br>
-				<b>Use:</b>
-				AdminPageFramework_Link_Page<br>
-				<b>Use:</b>
-				AdminPageFramework_Utility<br>
 		<b>Located at</b> factory/AdminPageFramework/AdminPageFramework.php<br>
 	</div>
 
@@ -847,14 +268,8 @@ AdminPageFramework_Setting_Validation
 			<a class="anchor" href="#___construct">#</a>
 			<code>__construct( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Registers necessary callbacks ans sets up internal components including
-properties.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Registers necessary callbacks ans sets up internal components including
 properties.</p>
@@ -872,19 +287,19 @@ class="php-quote">'my_custom_option_key'</span>, __FILE__ );
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$sOptionKey</var></dt>
-						<dd><code>string</code><br>$sOptionKey ( optional ) specifies the option key name to store in the options
+						<dd><code>string</code><br>$sOptionKey (optional) specifies the option key name to store in the options
 table. If this is not set, the instantiated class name will be used.</dd>
 						<dt><var>$sCallerPath</var></dt>
-						<dd><code>string</code><br>$sCallerPath ( optional ) used to retrieve the plugin/theme details to
-auto-insert the information into the page footer.</dd>
+						<dd><code>string</code><br>$sCallerPath (optional) used to retrieve the plugin/theme details to auto-insert
+the information into the page footer.</dd>
 						<dt><var>$sCapability</var></dt>
-						<dd><code>string</code><br>$sCapability ( optional ) sets the overall access level to the admin pages
-created by the framework. The used capabilities are listed <a
+						<dd><code>string</code><br>$sCapability (optional) sets the overall access level to the admin pages created
+by the framework. The used capabilities are listed <a
 href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The
 capability can be set per page, tab, setting section, setting field. Default:
-<em>manage_options</em></dd>
+<code>manage_options</code></dd>
 						<dt><var>$sTextDomain</var></dt>
-						<dd><code>string</code><br>$sTextDomain ( optional ) the <a
+						<dd><code>string</code><br>$sTextDomain (optional) the <a
 href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains"
 target="_blank">text domain</a> used for the framework's system messages.
 Default: admin-page-framework.</dd>
@@ -925,19 +340,14 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 			<a class="anchor" href="#_setUp">#</a>
 			<code>setUp( )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>The method for all the necessary set-ups.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>The method for all the necessary set-ups.</p>
 
 <p>The users should override this method to set-up necessary settings. To
-perform certain tasks prior to this method, use the <strong>start_{instantiated
-class name}</strong> hook that is triggered at the end of the class
+perform certain tasks prior to this method, use the <code>start_{instantiated
+class name}</code> hook that is triggered at the end of the class
 constructor.</p>
 
 <h4>Example</h4>
@@ -1008,9 +418,9 @@ class="php-quote">'text'</span>,
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
-							This is a callback for the <em>wp_loaded</em> hook.<br>
-							In v1, this is triggered with the <em>admin_menu</em> hook; however, in v2, this
-is triggered with the <em>wp_loaded</em> hook.<br>
+							This is a callback for the <code>wp_loaded</code> hook.<br>
+							In v1, this is triggered with the <code>admin_menu</code> hook; however, in v2,
+this is triggered with the <code>wp_loaded</code> hook.<br>
 					</div>
 
 
@@ -1030,13 +440,8 @@ is triggered with the <em>wp_loaded</em> hook.<br>
 			<a class="anchor" href="#_addHelpTab">#</a>
 			<code>addHelpTab( <span>array <var>$aHelpTab</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds the given contextual help tab contents into the property.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds the given contextual help tab contents into the property.</p>
 
@@ -1045,29 +450,27 @@ is triggered with the <em>wp_loaded</em> hook.<br>
 <pre> <span class="php-var">$this</span>-&gt;addHelpTab(
 <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'page_slug'</span> =&gt; <span
-class="php-quote">'first_page'</span>, <span
-class="php-comment">// ( mandatory )</span>
-<span
-class="php-comment">// 'page_tab_slug' =&gt; null, // ( optional )</span>
-<span
-class="php-quote">'help_tab_title'</span> =&gt; <span
-class="php-quote">'Admin Page Framework'</span>,
-<span
-class="php-quote">'help_tab_id'</span> =&gt; <span
-class="php-quote">'admin_page_framework'</span>, <span
-class="php-comment">// ( mandatory )</span>
-<span
-class="php-quote">'help_tab_content'</span> =&gt; __( <span
-class="php-quote">'This contextual help text can be set with the &lt;em&gt;addHelpTab()&lt;/em&gt; method.'</span>, <span
-class="php-quote">'admin-page-framework'</span> ),
-<span
-class="php-quote">'help_tab_sidebar_content'</span> =&gt; __( <span
-class="php-quote">'This is placed in the sidebar of the help pane.'</span>, <span
-class="php-quote">'admin-page-framework'</span> ),
+     <span
+class="php-quote">'page_slug                  =&gt; '</span>first_page<span
+class="php-quote">', // (required)
+     // '</span>page_tab_slug<span
+class="php-quote">'          =&gt; null, // (optional)
+     '</span>help_tab_title<span
+class="php-quote">'            =&gt; '</span>Admin Page Framework<span
+class="php-quote">',
+     '</span>help_tab_id<span
+class="php-quote">'               =&gt; '</span>admin_page_framework<span
+class="php-quote">', // (required)
+     '</span>help_tab_content<span
+class="php-quote">'          =&gt; __( '</span>This contextual help text can be set with the `addHelpTab()` method.<span
+class="php-quote">', '</span>admin-page-framework<span
+class="php-quote">' ),
+     '</span>help_tab_sidebar_content<span
+class="php-quote">'  =&gt; __( '</span>This is placed in the sidebar of the help pane.<span
+class="php-quote">', '</span>admin-page-framework<span
+class="php-quote">' ),
 )
-);</pre>
+);</span></pre>
 
 
 
@@ -1078,22 +481,22 @@ class="php-quote">'admin-page-framework'</span> ),
 <h4>Contextual Help Tab Array Structure</h4>
 
 <ul>
-	<li><strong>page_slug</strong> - ( required ) the page slug of the page that the
+	<li><strong>page_slug</strong> - (required) the page slug of the page that the
 	contextual help tab and its contents are displayed.</li>
 
-	<li><strong>page_tab_slug</strong> - ( optional ) the tab slug of the page that
+	<li><strong>page_tab_slug</strong> - (optional) the tab slug of the page that
 	the contextual help tab and its contents are displayed.</li>
 
-	<li><strong>help_tab_title</strong> - ( required ) the title of the contextual
+	<li><strong>help_tab_title</strong> - (required) the title of the contextual
 	help tab.</li>
 
-	<li><strong>help_tab_id</strong> - ( required ) the id of the contextual help
+	<li><strong>help_tab_id</strong> - (required) the id of the contextual help
 	tab.</li>
 
-	<li><strong>help_tab_content</strong> - ( optional ) the HTML string content of
+	<li><strong>help_tab_content</strong> - (optional) the HTML string content of
 	the the contextual help tab.</li>
 
-	<li><strong>help_tab_sidebar_content</strong> - ( optional ) the HTML string
+	<li><strong>help_tab_sidebar_content</strong> - (optional) the HTML string
 	content of the sidebar of the contextual help tab.</li>
 </ul>
 </dd>
@@ -1127,13 +530,8 @@ class="php-quote">'admin-page-framework'</span> ),
 			<a class="anchor" href="#_enqueueStyles">#</a>
 			<code>enqueueStyles( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues styles by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues styles by page slug and tab slug.</p>
 
@@ -1161,8 +559,8 @@ class="php-quote">'apf_manage_options'</span>
 					<div class="list"><dl>
 						<dt><var>$aSRCs</var></dt>
 						<dd><code>array</code><br>The sources of the stylesheet to enqueue: the url, the absolute file path, or
-the relative path to the root directory of WordPress. Example: <em>array(
-'/css/mystyle.css', '/css/mystyle2.css' )</em></dd>
+the relative path to the root directory of WordPress. Example: <code>array(
+'/css/mystyle.css', '/css/mystyle2.css' )</code></dd>
 						<dt><var>$sPageSlug</var></dt>
 						<dd><code>string</code><br>(optional) The page slug that the stylesheet should be added to. If not set, it
 applies to all the pages created by the framework.</dd>
@@ -1201,13 +599,8 @@ applies to all the in-page tabs in the page.</dd>
 			<a class="anchor" href="#_enqueueStyle">#</a>
 			<code>enqueueStyle( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues a style by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues a style by page slug and tab slug.</p>
 
@@ -1240,17 +633,17 @@ applies to all the in-page tabs in the page.</dd>
 <h4>Argument Array</h4>
 
 <ul>
-	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
 	stylesheet.</li>
 
-	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
-	For more information, see <a
+	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
+	more information, see <a
 	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 
-	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	<li><strong>version</strong> - (optional, string) The stylesheet version
 	number.</li>
 
-	<li><strong>media</strong> - ( optional, string ) the description of the field
+	<li><strong>media</strong> - (optional, string) the description of the field
 	which is inserted into the after the input field tag.</li>
 </ul>
 </dd>
@@ -1290,13 +683,8 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 			<a class="anchor" href="#_enqueueScripts">#</a>
 			<code>enqueueScripts( <span>array <var>$aSRCs</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues scripts by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues scripts by page slug and tab slug.</p>
 
@@ -1306,10 +694,10 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 <span class="php-var">$this</span>-&gt;enqueueScripts(
     <span
 class="php-keyword1">array</span>(
-plugins_url( <span
+         plugins_url( <span
 class="php-quote">'asset/js/test.js'</span> , __FILE__ ), <span
 class="php-comment">// source url or path</span>
-plugins_url( <span
+         plugins_url( <span
 class="php-quote">'asset/js/test2.js'</span> , __FILE__ ),
     )
     <span
@@ -1364,46 +752,42 @@ applies to all the in-page tabs in the page.</dd>
 			<a class="anchor" href="#_enqueueScript">#</a>
 			<code>enqueueScript( <span>string <var>$sSRC</var></span>, <span>string <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>string <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues a script by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues a script by page slug and tab slug.</p>
 
 <h4>Example</h4>
 
-<pre><span class="php-var">$this</span>-&gt;enqueueScript(
-plugins_url( <span
+<pre><span
+class="php-var">$this</span>-&gt;enqueueScript(
+     plugins_url( <span
 class="php-quote">'asset/js/test.js'</span> , __FILE__ ), <span
 class="php-comment">// source url or path</span>
-<span
+     <span
 class="php-quote">'apf_read_me'</span>,     <span
 class="php-comment">// page slug</span>
-<span
+     <span
 class="php-quote">''</span>,     <span
 class="php-comment">// tab slug</span>
-<span
+     <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'handle_id'</span> =&gt; <span
+         <span
+class="php-quote">'handle_id'</span>     =&gt; <span
 class="php-quote">'my_script'</span>, <span
 class="php-comment">// this handle ID also is used as the object name for the translation array below.</span>
-<span
-class="php-quote">'translation'</span> =&gt; <span
+         <span
+class="php-quote">'translation'</span>   =&gt; <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'a'</span> =&gt; <span
+             <span
+class="php-quote">'a'</span>                 =&gt; <span
 class="php-quote">'hello world!'</span>,
-<span
-class="php-quote">'style_handle_id'</span> =&gt; <span
+             <span
+class="php-quote">'style_handle_id'</span>   =&gt; <span
 class="php-var">$sStyleHandle</span>, <span
 class="php-comment">// check the enqueued style handle ID here.</span>
-),
-)
+         ),
+     )
 );</pre>
 
 
@@ -1424,22 +808,22 @@ applies to all the in-page tabs in the page.</dd>
 <h4>Argument Array</h4>
 
 <ul>
-	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
 	script.</li>
 
-	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
-	For more information, see <a
+	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
+	more information, see <a
 	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 
-	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	<li><strong>version</strong> - (optional, string) The stylesheet version
 	number.</li>
 
-	<li><strong>translation</strong> - ( optional, array ) The translation array.
-	The handle ID will be used for the object name.</li>
+	<li><strong>translation</strong> - (optional, array) The translation array. The
+	handle ID will be used for the object name.</li>
 
-	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the
+	<li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the
 	script before <code>&lt;/head&gt;</code> or before<code>&lt;/body&gt;</code>
-	Default: <em>false</em>.</li>
+	Default: <code>false</code>.</li>
 </ul>
 </dd>
 					</dl></div>
@@ -1479,24 +863,19 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 			<a class="anchor" href="#_addLinkToPluginDescription">#</a>
 			<code>addLinkToPluginDescription( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds the given link(s) into the description cell of the plugin listing
-table.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds the given link(s) into the description cell of the plugin listing
 table.</p>
 
 <h4>Example</h4>
 
-<pre><span class="php-var">$this</span>-&gt;addLinkToPluginDescription(
-<span
+<pre><span
+class="php-var">$this</span>-&gt;addLinkToPluginDescription(
+      <span
 class="php-quote">&quot;&lt;a href='http://www.google.com'&gt;Google&lt;/a&gt;&quot;</span>,
-<span
+      <span
 class="php-quote">&quot;&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;&quot;</span>
 );</pre>
 
@@ -1507,9 +886,9 @@ class="php-quote">&quot;&lt;a href='http://www.yahoo.com'&gt;Yahoo!&lt;/a&gt;&qu
 						<dt><var>$sTaggedLinkHTML1</var></dt>
 						<dd><code>string</code><br>the tagged HTML link text.</dd>
 						<dt><var>$sTaggedLinkHTML2</var></dt>
-						<dd><code>string</code><br>( optional ) another tagged HTML link text.</dd>
+						<dd><code>string</code><br>(optional) another tagged HTML link text.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>( optional ) add more as many as want by adding items to the next parameters.</dd>
+						<dd><code>string</code><br>(optional) add more as many as want by adding items to the next parameters.</dd>
 					</dl></div>
 
 
@@ -1542,20 +921,15 @@ to three.<br>
 			<a class="anchor" href="#_addLinkToPluginTitle">#</a>
 			<code>addLinkToPluginTitle( <span>string <var>$sTaggedLinkHTML1</var></span>, <span>string <var>$sTaggedLinkHTML2</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds the given link(s) into the title cell of the plugin listing table.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds the given link(s) into the title cell of the plugin listing table.</p>
 
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addLinkToPluginTitle(
-<span
+      <span
 class="php-quote">&quot;&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a&gt;&quot;</span>
 );</pre>
 
@@ -1566,9 +940,9 @@ class="php-quote">&quot;&lt;a href='http://www.wordpress.org'&gt;WordPress&lt;/a
 						<dt><var>$sTaggedLinkHTML1</var></dt>
 						<dd><code>string</code><br>the tagged HTML link text.</dd>
 						<dt><var>$sTaggedLinkHTML2</var></dt>
-						<dd><code>string</code><br>( optional ) another tagged HTML link text.</dd>
+						<dd><code>string</code><br>(optional) another tagged HTML link text.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>string</code><br>( optional ) add more as many as want by adding items to the next parameters.</dd>
+						<dd><code>string</code><br>(optional) add more as many as want by adding items to the next parameters.</dd>
 					</dl></div>
 
 
@@ -1601,14 +975,8 @@ to three.<br>
 			<a class="anchor" href="#_setPluginSettingsLinkLabel">#</a>
 			<code>setPluginSettingsLinkLabel( <span>mixed <var>$sLabel</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the label applied to the settings link which automatically embedded to
-the plugin listing table of the plugin title cell.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the label applied to the settings link which automatically embedded to
 the plugin listing table of the plugin title cell.</p>
@@ -1642,13 +1010,8 @@ the plugin listing table of the plugin title cell.</p>
 			<a class="anchor" href="#_setCapability">#</a>
 			<code>setCapability( <span>string <var>$sCapability</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the overall capability.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the overall capability.</p>
 
@@ -1698,13 +1061,8 @@ href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.
 			<a class="anchor" href="#_setFooterInfoLeft">#</a>
 			<code>setFooterInfoLeft( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the given HTML text into the footer on the left hand side.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the given HTML text into the footer on the left hand side.</p>
 
@@ -1749,13 +1107,8 @@ class="php-quote">'&lt;br /&gt;Custom Text on the left hand side.'</span> );
 			<a class="anchor" href="#_setFooterInfoRight">#</a>
 			<code>setFooterInfoRight( <span>string <var>$sHTML</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the given HTML text into the footer on the right hand side.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the given HTML text into the footer on the right hand side.</p>
 
@@ -1800,13 +1153,8 @@ class="php-quote">'&lt;br /&gt;Custom Text on the right hand side.'</span> );
 			<a class="anchor" href="#_setAdminNotice">#</a>
 			<code>setAdminNotice( <span>string <var>$sMessage</var></span>, <span>string <var>$sClassSelector</var> = <span class="php-quote">'error'</span></span>, <span>string <var>$sID</var> = <span class="php-quote">''</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets an admin notice.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets an admin notice.</p>
 
@@ -1826,11 +1174,11 @@ class="php-quote">'updated'</span> );
 						<dt><var>$sMessage</var></dt>
 						<dd><code>string</code><br>The message to display</dd>
 						<dt><var>$sClassSelector</var></dt>
-						<dd><code>string</code><br>( optional ) The class selector used in the message HTML element. 'error' and
+						<dd><code>string</code><br>(optional) The class selector used in the message HTML element. 'error' and
 'updated' are prepared by WordPress but it's not limited to them and can pass a
-custom name. Default: 'error'</dd>
+custom name. Default: 'error'.</dd>
 						<dt><var>$sID</var></dt>
-						<dd><code>string</code><br>( optional ) The ID of the message. If not set, the hash of the message will be
+						<dd><code>string</code><br>(optional) The ID of the message. If not set, the hash of the message will be
 used.</dd>
 					</dl></div>
 
@@ -1863,13 +1211,8 @@ used.</dd>
 			<a class="anchor" href="#_setDisallowedQueryKeys">#</a>
 			<code>setDisallowedQueryKeys( <span>array|string <var>$asQueryKeys</var></span>, <span>boolean <var>$bAppend</var> = <span class="php-keyword1">true</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the disallowed query keys in the links that the framework generates.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the disallowed query keys in the links that the framework generates.</p>
 
@@ -1915,14 +1258,8 @@ override the property.</dd>
 			<a class="anchor" href="#_getOption">#</a>
 			<code>getOption( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Retrieves the saved option value from the given option key and the
-dimensional array key representation.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Retrieves the saved option value from the given option key and the
 dimensional array key representation.</p>
@@ -1930,20 +1267,21 @@ dimensional array key representation.</p>
 <h4>Example</h4>
 
 <pre>
-<span class="php-var">$aData</span> = AdminPageFramework::getOption( <span
+<span
+class="php-var">$aData</span>       = AdminPageFramework::getOption( <span
 class="php-quote">'APF'</span> );
 <span
-class="php-var">$aSection</span> = AdminPageFramework::getOption( <span
+class="php-var">$aSection</span>    = AdminPageFramework::getOption( <span
 class="php-quote">'APF'</span>, <span
 class="php-quote">'my_section'</span> );
 <span
-class="php-var">$sText</span> = AdminPageFramework::getOption( <span
+class="php-var">$sText</span>       = AdminPageFramework::getOption( <span
 class="php-quote">'APF'</span>, <span class="php-keyword1">array</span>( <span
 class="php-quote">'my_section'</span>, <span
 class="php-quote">'my_text_field'</span> ), <span
 class="php-quote">'foo'</span> );
 <span
-class="php-var">$sColor</span> = AdminPageFramework::getOption( <span
+class="php-var">$sColor</span>      = AdminPageFramework::getOption( <span
 class="php-quote">'APF'</span>, <span
 class="php-quote">'my_color_field'</span>, <span
 class="php-quote">'#FFF'</span> );
@@ -2048,30 +1386,38 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 			<code>addSubMenuPage()</code>, 
 			<code>addSubMenuPages()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code>addHelpText()</code>, 
+			<code>hasFieldError()</code>, 
+			<code>hasSettingNotice()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>, 
+			<code>start()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Model.html#methods">AdminPageFramework_Factory_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Model.html#__setUp">_setUp()</a></code>
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>, 
+			<code>_setUp()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
 			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
-			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_getResourceInstance()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
 
@@ -2109,7 +1455,7 @@ key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>

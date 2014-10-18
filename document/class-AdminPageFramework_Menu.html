@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Class AdminPageFramework_Menu | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -21,7 +20,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li>
-							<a href="package-AdminPageFramework.Page.html" title="Summary of AdminPageFramework\Page"><span>Package</span></a>
+							<a href="package-AdminPageFramework.AdminPage.html" title="Summary of AdminPageFramework\AdminPage"><span>Package</span></a>
 						</li>
 						<li class="active">
 <span>Class</span>						</li>
@@ -53,18 +52,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="active main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="active main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -82,10 +76,36 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-AdminPageFramework.html">AdminPageFramework</a></li>
-				<li class="active"><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></li>
-				<li><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></li>
-				<li><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework.html">
+                        AdminPageFramework
+                    </a>
+                </li>
+				<li>
+                    
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu.html">
+                        AdminPageFramework_Menu
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page.html">
+                        AdminPageFramework_Page
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Setting.html">
+                        AdminPageFramework_Setting
+                    </a>
+                </li>
 			</ul>
 
 
@@ -118,8 +138,7 @@ AdminPageFramework_Factory_Router
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Model.html"><span>AdminPageFramework_Factory_Model</span></a>
-			
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
@@ -131,8 +150,7 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
-			
+AdminPageFramework_Factory_Controller
 			
 			
 		</dd>
@@ -188,7 +206,7 @@ AdminPageFramework_Page_MetaBox
 		<b>Abstract</b><br>
 		
 		
-		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Page.html">Page</a><br>
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.AdminPage.html">AdminPage</a><br>
 
 				<b>Since:</b>
 				2.0.0<br>
@@ -214,19 +232,15 @@ AdminPageFramework_Page_MetaBox
 			<a class="anchor" href="#_setRootMenuPage">#</a>
 			<code>setRootMenuPage( <span>string <var>$sRootMenuLabel</var></span>, <span>string <var>$sIcon16x16</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$iMenuPosition</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets to which top level page is going to be adding sub-pages.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets to which top level page is going to be adding sub-pages.</p>
 
 <h4>Example</h4>
 
-<pre><span class="php-var">$this</span>-&gt;setRootMenuPage( <span
+<pre>
+<span class="php-var">$this</span>-&gt;setRootMenuPage( <span
 class="php-quote">'Settings'</span> );
 </pre>
 
@@ -248,7 +262,7 @@ will create a top level menu item with the passed string. ( case insensitive )
 Plugins, Users, Tools, Settings, Network Admin</blockquote>
 </dd>
 						<dt><var>$sIcon16x16</var></dt>
-						<dd><code>string</code><br>( optional ) the source of menu icon with either of the following forms:
+						<dd><code>string</code><br>(optional) the source of menu icon with either of the following forms:
 <ul>
 	<li>the URL of the menu icon with the size of 16 by 16 in pixel.</li>
 
@@ -265,7 +279,7 @@ Plugins, Users, Tools, Settings, Network Admin</blockquote>
 </ul>
 </dd>
 						<dt><var>$iMenuPosition</var></dt>
-						<dd><code>string</code><br>( optional ) the position number that is passed to the <var>$position</var>
+						<dd><code>string</code><br>(optional) the position number that is passed to the <var>$position</var>
 parameter of the <a
 href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a>
 function.</dd>
@@ -305,13 +319,8 @@ function.</dd>
 			<a class="anchor" href="#_setRootMenuPageBySlug">#</a>
 			<code>setRootMenuPageBySlug( <span>string <var>$sRootMenuSlug</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the top level menu page by page slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the top level menu page by page slug.</p>
 
@@ -319,7 +328,8 @@ function.</dd>
 
 <h4>Example</h4>
 
-<pre><span class="php-var">$this</span>-&gt;setRootMenuPageBySlug( <span
+<pre>
+<span class="php-var">$this</span>-&gt;setRootMenuPageBySlug( <span
 class="php-quote">'edit.php?post_type=apf_posts'</span> );
 </pre>
 
@@ -356,13 +366,8 @@ class="php-quote">'edit.php?post_type=apf_posts'</span> );
 			<a class="anchor" href="#_addSubMenuItems">#</a>
 			<code>addSubMenuItems( <span>array <var>$aSubMenuItem1</var></span>, <span>array <var>$aSubMenuItem2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds sub-menu items on the left sidebar menu of the administration panel.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds sub-menu items on the left sidebar menu of the administration panel.</p>
 
@@ -372,43 +377,43 @@ structure.</p>
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addSubMenuItems(
-<span
+      <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'title'</span> =&gt; <span
+          <span
+class="php-quote">'title'</span>         =&gt; <span
 class="php-quote">'Various Form Fields'</span>,
-<span
-class="php-quote">'page_slug'</span> =&gt; <span
+          <span
+class="php-quote">'page_slug'</span>     =&gt; <span
 class="php-quote">'first_page'</span>,
-<span
-class="php-quote">'screen_icon'</span> =&gt; <span
+          <span
+class="php-quote">'screen_icon'</span>   =&gt; <span
 class="php-quote">'options-general'</span>,
-),
-<span
+      ),
+      <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'title'</span> =&gt; <span
+          <span
+class="php-quote">'title'</span>         =&gt; <span
 class="php-quote">'Manage Options'</span>,
-<span
-class="php-quote">'page_slug'</span> =&gt; <span
+          <span
+class="php-quote">'page_slug'</span>     =&gt; <span
 class="php-quote">'second_page'</span>,
-<span
-class="php-quote">'screen_icon'</span> =&gt; <span
+          <span
+class="php-quote">'screen_icon'</span>   =&gt; <span
 class="php-quote">'link-manager'</span>,
-),
-<span
+      ),
+      <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'title'</span> =&gt; <span
+          <span
+class="php-quote">'title'</span>         =&gt; <span
 class="php-quote">'Google'</span>,
-<span
-class="php-quote">'href'</span> =&gt; <span
+          <span
+class="php-quote">'href'</span>          =&gt; <span
 class="php-quote">'http://www.google.com'</span>,
-<span
+          <span
 class="php-quote">'show_page_heading_tab'</span> =&gt; <span
 class="php-keyword1">false</span>, <span
 class="php-comment">// this removes the title from the page heading tabs.</span>
-),
+      ),
 );</pre>
 
 
@@ -421,13 +426,13 @@ structures are as follows:
 <h4>Sub-menu Page Array</h4>
 
 <ul>
-	<li><strong>title</strong> - ( string ) the page title of the page.</li>
+	<li><strong>title</strong> - (string) the page title of the page.</li>
 
-	<li><strong>page_slug</strong> - ( string ) the page slug of the page.
+	<li><strong>page_slug</strong> - (string) the page slug of the page.
 	Non-alphabetical characters should not be used including dots(.) and
 	hyphens(-).</li>
 
-	<li><strong>screen_icon</strong> - ( optional, string ) either the ID selector
+	<li><strong>screen_icon</strong> - (optional, string) either the ID selector
 	name from the following list or the icon URL. The size of the icon should be 32
 	by 32 in pixel. This is for WordPress 3.7.x or below.
 		<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
@@ -436,45 +441,45 @@ structures are as follows:
 		above.)</p>
 	</li>
 
-	<li><strong>capability</strong> - ( optional, string ) the access level to the
+	<li><strong>capability</strong> - (optional, string) the access level to the
 	created admin pages defined <a
 	href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set,
 	the overall capability assigned in the class constructor, which is
 	<em>manage_options</em> by default, will be used.</li>
 
-	<li><strong>order</strong> - ( optional, integer ) the order number of the page.
+	<li><strong>order</strong> - (optional, integer) the order number of the page.
 	The lager the number is, the lower the position it is placed in the menu.</li>
 
-	<li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is
-	set to false, the page title won't be displayed in the page heading tab.
-	Default: true.</li>
+	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
+	to false, the page title won't be displayed in the page heading tab. Default:
+	<code>true</code>.</li>
 </ul>
 
 <h4>Sub-menu Link Array</h4>
 
 <ul>
-	<li><strong>title</strong> - ( string ) the link title.</li>
+	<li><strong>title</strong> - (string) the link title.</li>
 
-	<li><strong>href</strong> - ( string ) the URL of the target link.</li>
+	<li><strong>href</strong> - (string) the URL of the target link.</li>
 
-	<li><strong>capability</strong> - ( optional, string ) the access level to show
+	<li><strong>capability</strong> - (optional, string) the access level to show
 	the item, defined <a
 	href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set,
 	the overall capability assigned in the class constructor, which is
-	<em>manage_options</em> by default, will be used.</li>
+	<code>manage_options</code> by default, will be used.</li>
 
-	<li><strong>order</strong> - ( optional, integer ) the order number of the page.
+	<li><strong>order</strong> - (optional, integer) the order number of the page.
 	The lager the number is, the lower the position it is placed in the menu.</li>
 
-	<li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is
-	set to false, the page title won't be displayed in the page heading tab.
-	Default: true.</li>
+	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
+	to false, the page title won't be displayed in the page heading tab. Default:
+	<code>true</code>.</li>
 </ul>
 </dd>
 						<dt><var>$aSubMenuItem2</var></dt>
-						<dd><code>array</code><br>( optional ) a second sub-menu array.</dd>
+						<dd><code>array</code><br>(optional) a second sub-menu array.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>array</code><br>( optional ) a third and add items as many as necessary with next parameters.</dd>
+						<dd><code>array</code><br>(optional) a third and add items as many as necessary with next parameters.</dd>
 					</dl></div>
 
 
@@ -509,14 +514,8 @@ to three.<br>
 			<a class="anchor" href="#_addSubMenuItem">#</a>
 			<code>addSubMenuItem( <span>array <var>$aSubMenuItem</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Adds the given sub-menu item on the left sidebar menu of the administration
-panel.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Adds the given sub-menu item on the left sidebar menu of the administration
 panel.</p>
@@ -534,54 +533,54 @@ follows:
 <h4>Sub-menu Page Array</h4>
 
 <ul>
-	<li><strong>title</strong> - ( string ) the page title of the page.</li>
+	<li><strong>title</strong> - (string) the page title of the page.</li>
 
-	<li><strong>page_slug</strong> - ( string ) the page slug of the page.
+	<li><strong>page_slug</strong> - (string) the page slug of the page.
 	Non-alphabetical characters should not be used including dots(.) and
 	hyphens(-).</li>
 
-	<li><strong>screen_icon</strong> - ( optional, string ) either the ID selector
+	<li><strong>screen_icon</strong> - (optional, string) either the ID selector
 	name from the following list or the icon URL. The size of the icon should be 32
 	by 32 in pixel. This is for WordPress 3.7.x or below.
 		<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
 
-		<p>( Notes: the <em>generic</em> icon is available WordPress version 3.5 or
+		<p>( Notes: the <code>generic</code> icon is available WordPress version 3.5 or
 		above.)</p>
 	</li>
 
-	<li><strong>capability</strong> - ( optional, string ) the access level to the
+	<li><strong>capability</strong> - (optional, string) the access level to the
 	created admin pages defined <a
 	href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set,
 	the overall capability assigned in the class constructor, which is
-	<em>manage_options</em> by default, will be used.</li>
+	<code>manage_options</code> by default, will be used.</li>
 
-	<li><strong>order</strong> - ( optional, integer ) the order number of the page.
+	<li><strong>order</strong> - (optional, integer) the order number of the page.
 	The lager the number is, the lower the position it is placed in the menu.</li>
 
-	<li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is
-	set to false, the page title won't be displayed in the page heading tab.
-	Default: true.</li>
+	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
+	to false, the page title won't be displayed in the page heading tab. Default:
+	<code>true</code>.</li>
 </ul>
 
 <h4>Sub-menu Link Array</h4>
 
 <ul>
-	<li><strong>title</strong> - ( string ) the link title.</li>
+	<li><strong>title</strong> - (string) the link title.</li>
 
-	<li><strong>href</strong> - ( string ) the URL of the target link.</li>
+	<li><strong>href</strong> - (string) the URL of the target link.</li>
 
-	<li><strong>capability</strong> - ( optional, string ) the access level to show
+	<li><strong>capability</strong> - (optional, string) the access level to show
 	the item, defined <a
 	href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set,
 	the overall capability assigned in the class constructor, which is
-	<em>manage_options</em> by default, will be used.</li>
+	<code>manage_options</code> by default, will be used.</li>
 
-	<li><strong>order</strong> - ( optional, integer ) the order number of the page.
+	<li><strong>order</strong> - (optional, integer) the order number of the page.
 	The lager the number is, the lower the position it is placed in the menu.</li>
 
-	<li><strong>show_page_heading_tab</strong> - ( optional, boolean ) if this is
-	set to false, the page title won't be displayed in the page heading tab.
-	Default: true.</li>
+	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
+	to false, the page title won't be displayed in the page heading tab. Default:
+	<code>true</code>.</li>
 </ul>
 </dd>
 					</dl></div>
@@ -656,31 +655,39 @@ callback per page slug.<br>
 			<code>setFooterInfoRight()</code>, 
 			<code>setUp()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code>addHelpText()</code>, 
+			<code>hasFieldError()</code>, 
+			<code>hasSettingNotice()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>, 
+			<code>start()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Model.html#methods">AdminPageFramework_Factory_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Model.html#__setUp">_setUp()</a></code>
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>, 
+			<code>_setUp()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
 			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
-			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_getResourceInstance()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
 
@@ -710,7 +717,7 @@ callback per page slug.<br>
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>

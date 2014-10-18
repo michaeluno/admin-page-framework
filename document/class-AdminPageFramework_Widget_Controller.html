@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Class AdminPageFramework_Widget_Controller | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -53,18 +52,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -82,12 +76,36 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></li>
-				<li class="active"><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Factory.html">AdminPageFramework_Widget_Factory</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></li>
-				<li><a href="class-AdminPageFramework_Widget_Router.html">AdminPageFramework_Widget_Router</a></li>
-				<li><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget.html">
+                        AdminPageFramework_Widget
+                    </a>
+                </li>
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_Controller.html">
+                        AdminPageFramework_Widget_Controller
+                    </a>
+                </li>
+				<li>
+                    
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_Model.html">
+                        AdminPageFramework_Widget_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Widget_View.html">
+                        AdminPageFramework_Widget_View
+                    </a>
+                </li>
 			</ul>
 
 
@@ -123,8 +141,7 @@ AdminPageFramework_Factory_Router
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Model.html"><span>AdminPageFramework_Factory_Model</span></a>
-			
+AdminPageFramework_Factory_Model
 			
 			
 		</dd>
@@ -136,8 +153,7 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
-			
+AdminPageFramework_Factory_Controller
 			
 			
 		</dd>
@@ -149,8 +165,7 @@ AdminPageFramework_Factory
 		</dd>
 		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Widget_Router.html"><span>AdminPageFramework_Widget_Router</span></a>
-			
+AdminPageFramework_Widget_Router
 			
 			
 		</dd>
@@ -217,15 +232,28 @@ AdminPageFramework_Factory
 			<a class="anchor" href="#_setUp">#</a>
 			<code>setUp( )</code>
 
-			<div class="description short" style="display:none;">
+
+			<div class="description detailed">
 				
 <p>The method for all necessary set-ups.</p>
 
-			</div>
+<h4>Example</h4>
 
-			<div class="description detailed hidden">
-				
-<p>The method for all necessary set-ups.</p>
+<pre>
+<span class="php-keyword1">public</span> <span
+class="php-keyword1">function</span> setUp() {
+    <span
+class="php-var">$this</span>-&gt;setArguments(
+        <span
+class="php-keyword1">array</span>(
+            <span
+class="php-quote">'description'</span>   =&gt;  __( <span
+class="php-quote">'This is a sample widget with built-in field types created by Admin Page Framework.'</span>, <span
+class="php-quote">'admin-page-framework-demo'</span> ),
+        )
+    );
+}
+</pre>
 
 
 
@@ -238,7 +266,7 @@ AdminPageFramework_Factory
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_setUp">AdminPageFramework_Factory_Controller::setUp</a></code></div>
+					<div class="list"><code>AdminPageFramework_Factory_Controller::setUp</code></div>
 
 			</div>
 			</div></td>
@@ -256,13 +284,8 @@ AdminPageFramework_Factory
 			<a class="anchor" href="#_load">#</a>
 			<code>load( <span>mixed <var>$oAdminWidget</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>The method for setting up form elements.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>The method for setting up form elements.</p>
 
@@ -293,13 +316,8 @@ AdminPageFramework_Factory
 			<a class="anchor" href="#_enqueueStyles">#</a>
 			<code>enqueueStyles( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues styles by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues styles by page slug and tab slug.</p>
 
@@ -334,13 +352,8 @@ AdminPageFramework_Factory
 			<a class="anchor" href="#_enqueueStyle">#</a>
 			<code>enqueueStyle( <span>string <var>$sSRC</var></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues a style by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues a style by page slug and tab slug.</p>
 
@@ -373,7 +386,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueStyle">AdminPageFramework_Factory_Controller::enqueueStyle</a></code></div>
+					<div class="list"><code>AdminPageFramework_Factory_Controller::enqueueStyle</code></div>
 
 			</div>
 			</div></td>
@@ -391,13 +404,8 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 			<a class="anchor" href="#_enqueueScripts">#</a>
 			<code>enqueueScripts( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues scripts by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues scripts by page slug and tab slug.</p>
 
@@ -416,7 +424,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueScripts">AdminPageFramework_Factory_Controller::enqueueScripts</a></code></div>
+					<div class="list"><code>AdminPageFramework_Factory_Controller::enqueueScripts</code></div>
 
 			</div>
 			</div></td>
@@ -434,13 +442,8 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 			<a class="anchor" href="#_enqueueScript">#</a>
 			<code>enqueueScript( <span>string <var>$sSRC</var></span>, <span>array <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Enqueues a script by page slug and tab slug.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Enqueues a script by page slug and tab slug.</p>
 
@@ -456,22 +459,22 @@ path to the root directory of WordPress. Example: '/js/myscript.js'.</dd>
 <h4>Custom Argument Array</h4>
 
 <ul>
-	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
 	script.</li>
 
-	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
-	For more information, see <a
+	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
+	more information, see <a
 	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 
-	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	<li><strong>version</strong> - (optional, string) The stylesheet version
 	number.</li>
 
-	<li><strong>translation</strong> - ( optional, array ) The translation array.
-	The handle ID will be used for the object name.</li>
+	<li><strong>translation</strong> - (optional, array) The translation array. The
+	handle ID will be used for the object name.</li>
 
-	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the
-	script before <code>&lt;/head &gt;</code> or before <code>&lt;/body&gt;</code>
-	Default: <em>false</em>.</li>
+	<li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the
+	script before <code>&lt;/head&gt;</code> or before <code>&lt;/body&gt;</code>
+	Default: <code>false</code>.</li>
 </ul>
 </dd>
 					</dl></div>
@@ -494,7 +497,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueScript">AdminPageFramework_Factory_Controller::enqueueScript</a></code></div>
+					<div class="list"><code>AdminPageFramework_Factory_Controller::enqueueScript</code></div>
 
 			</div>
 			</div></td>
@@ -512,13 +515,8 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 			<a class="anchor" href="#_setArguments">#</a>
 			<code>setArguments( <span>array <var>$aArguments</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Sets the widget arguments.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Sets the widget arguments.</p>
 
@@ -542,25 +540,28 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Widget_View.html#methods">AdminPageFramework_Widget_View</a></h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Widget_View.html#__replyToGetSectionHeaderOutput">_replyToGetSectionHeaderOutput()</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget_View.html#_content">content()</a></code>
 		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Widget_Model.html#methods">AdminPageFramework_Widget_Model</a></h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Widget_Model.html#__isInThePage">_isInThePage()</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget_Model.html#_validate">validate()</a></code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Widget_Router</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingField">addSettingField()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingFields">addSettingFields()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSection">addSettingSection()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSections">addSettingSections()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code>__call()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<p class="elementList">
+			<code>addHelpText()</code>, 
+			<code>addSettingField()</code>, 
+			<code>addSettingFields()</code>, 
+			<code>addSettingSection()</code>, 
+			<code>addSettingSections()</code>, 
+			<code>hasFieldError()</code>, 
+			<code>hasSettingNotice()</code>, 
+			<code>setFieldErrors()</code>, 
+			<code>setSettingNotice()</code>, 
+			<code>start()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
@@ -568,19 +569,26 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Model.html#methods">AdminPageFramework_Factory_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Factory_Model.html#__setUp">_setUp()</a></code>
+			<code>_getFieldErrors()</code>, 
+			<code>_isValidationErrors()</code>, 
+			<code>_loadDefaultFieldTypeDefinitions()</code>, 
+			<code>_registerFields()</code>, 
+			<code>_replyToDeleteFieldErrors()</code>, 
+			<code>_replyToSaveFieldErrors()</code>, 
+			<code>_replyToSaveNotices()</code>, 
+			<code>_setUp()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
-			<code>__call()</code>, 
 			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
-			<code>_getHeadTagInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
+			<code>_getResourceInstance()</code>, 
+			<code>_isInThePage()</code>, 
 			<code>_isInstantiatable()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
@@ -610,7 +618,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>

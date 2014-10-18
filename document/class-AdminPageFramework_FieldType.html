@@ -2,14 +2,13 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="generator" content="ApiGen 2.8.0">
 
 	<title>Class AdminPageFramework_FieldType | Admin Page Framework Documentation</title>
 
-	<script type="text/javascript" src="resources/combined.js?1723033208"></script>
-	<script type="text/javascript" src="elementlist.js?3059767791"></script>
+	<script type="text/javascript" src="resources/combined.js?361344329"></script>
+	<script type="text/javascript" src="elementlist.js?2863173960"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3603823177">
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?100539744">
 
 </head>
 
@@ -53,18 +52,13 @@
 			<ul>
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
-				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
 				<li class="active main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
 						</li>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin<span></span></a>
-						<ul>
-				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.Page.html">Page</a>
-						</li>
-							</ul></li>
-				<li class="main"><a href="package-AdminPageFramework.Page.html">Page</a>
+				<li class="main"><a href="package-AdminPageFramework.NetworkAdmin.html">NetworkAdmin</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.PageMetaBox.html">PageMetaBox</a>
 						</li>
@@ -82,7 +76,15 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active"><a href="class-AdminPageFramework_FieldType.html">AdminPageFramework_FieldType</a></li>
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework_FieldType.html">
+                        AdminPageFramework_FieldType
+                    </a>
+                </li>
+				<li>
+                    
 			</ul>
 
 
@@ -107,64 +109,6 @@
 
 <p>When a framework user implements a custom field type into his/her work, this
 class may be extended to create a field definition class.</p>
-
-<h3>Steps to Include a Custom Field Type</h3>
-
-<ol>
-	<li>Define a custom field type with a class extending the
-	<em>AdminPageFramework_FieldType</em> class.
-		<ol>
-			<li>Set the field type slug such as autocomplete with the
-			<em>$aFieldTypeSlugs</em> property.</li>
-
-			<li>Set the default field array definition keys with the <em>$aDefaultKeys</em>
-			property.</li>
-
-			<li>Write additional code in the <em>setUp()</em> method that will be performed
-			when the field type definition is parsed.</li>
-
-			<li>Add scripts and styles with <em>getEnqueuingScripts()</em>,
-			<em>getEnqueuingStyles()</em>, <em>getScripts()</em>, <em>getStyles()</em>
-			etc.</li>
-
-			<li>Compose the output HTML structure with the passed <em>$aField</em> field
-			definition array in the <em>getField()</em> method.</li>
-		</ol>
-	</li>
-
-	<li>Include the definition file and instantiate the class in the
-	script(plugin,theme etc.).
-		<pre>
-<span class="php-keyword1">new</span> MyCustomFieldTypeClass( <span
-		class="php-quote">'MY_CLASS_NAME'</span> );   <span
-		class="php-comment">// pass the PHP class name that extends the framework's class to the first parameter.</span>
-</pre>
-	</li>
-
-	<li>Define fields with the custom field type with the
-	<em>addSettingFields()</em> method in the framework extending class.
-		<pre>
-<span class="php-var">$this</span>-&gt;addSettingFields(
-<span
-		class="php-keyword1">array</span>(
-<span
-		class="php-quote">'field_id'</span>  =&gt;  <span
-		class="php-quote">'my_field_id'</span>,
-<span
-		class="php-quote">'section_id'</span>    =&gt;  <span
-		class="php-quote">'my_section_id'</span>,
-<span
-		class="php-quote">'type'</span>  =&gt;  <span
-		class="php-quote">'my_custom_field_type_slug'</span>,    <span
-		class="php-comment">// &lt;-- here put the field type slug</span>
-<span
-		class="php-quote">'...'</span> =&gt; <span
-		class="php-quote">'...'</span>
-)
-);
-        </pre>
-	</li>
-</ol>
 
 	</div>
 
@@ -276,8 +220,8 @@ AdminPageFramework_FieldType_Base
 				<b>Since:</b>
 				2.1.5<br>
 				<b>Since:</b>
-				3.0.0 Changed the name from AdminPageFramework_CustomFieldType to
-AdminPageFramework_FieldType.<br>
+				3.0.0 Changed the name from <code>AdminPageFramework_CustomFieldType</code> to
+<code>AdminPageFramework_FieldType</code>.<br>
 				<b>Remark:</b>
 				The user will extend this class to define their custom field types.<br>
 		<b>Located at</b> _view/AdminPageFramework_FieldType/AdminPageFramework_FieldType.php<br>
@@ -287,6 +231,47 @@ AdminPageFramework_FieldType.<br>
 
 		<h2>Methods summary</h2>
 		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="construct" id="_construct">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_construct">#</a>
+			<code>construct( )</code>
+
+
+			<div class="description detailed">
+				
+<p>The user constructor.</p>
+
+<p>When the user defines a field type, they may use this instead of the real
+constructor so that they don't have to care about the internal parameters.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.1.3<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							The user will override this method in their class definition.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code>AdminPageFramework_FieldType_Base::construct</code></div>
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="setUp" id="_setUp">
 
 			<td class="attributes"><code>
@@ -300,13 +285,8 @@ AdminPageFramework_FieldType.<br>
 			<a class="anchor" href="#_setUp">#</a>
 			<code>setUp( )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Loads the field type necessary components.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Loads the field type necessary components.</p>
 
@@ -344,12 +324,12 @@ type is parsed.</p>
 			<a class="anchor" href="#_getScripts">#</a>
 			<code>getScripts( )</code>
 
-			<div class="description short" style="display:none;">
-				
-			</div>
 
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
+<p>Returns the JavaScript output inside the
+<code>&lt;script&gt;&lt;/script&gt;</code> tags.</p>
+
 
 
 
@@ -381,12 +361,12 @@ type is parsed.</p>
 			<a class="anchor" href="#_getIEStyles">#</a>
 			<code>getIEStyles( )</code>
 
-			<div class="description short" style="display:none;">
-				
-			</div>
 
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
+<p>Returns the CSS output specific to Internet Explorer inside the
+<code>&lt;style&gt;&lt;/style&gt;</code> tags.</p>
+
 
 
 
@@ -418,12 +398,12 @@ type is parsed.</p>
 			<a class="anchor" href="#_getStyles">#</a>
 			<code>getStyles( )</code>
 
-			<div class="description short" style="display:none;">
-				
-			</div>
 
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
+<p>Returns the CSS output inside the <code>&lt;style&gt;&lt;/style&gt;</code>
+tags.</p>
+
 
 
 
@@ -455,12 +435,11 @@ type is parsed.</p>
 			<a class="anchor" href="#_getField">#</a>
 			<code>getField( <span>mixed <var>$aField</var></span> )</code>
 
-			<div class="description short" style="display:none;">
-				
-			</div>
 
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
+<p>Returns the field output.</p>
+
 
 
 
@@ -492,13 +471,8 @@ type is parsed.</p>
 			<a class="anchor" href="#_getEnqueuingScripts">#</a>
 			<code>getEnqueuingScripts( )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Returns an array holding the urls of enqueuing scripts.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Returns an array holding the urls of enqueuing scripts.</p>
 
@@ -509,25 +483,28 @@ argument.</p>
 <h4>Custom Argument Array</h4>
 
 <ul>
-	<li><strong>src</strong> - ( required, string ) The url or path of the target
+	<li><strong>src</strong> - (required, string) The url or path of the target
 	source file</li>
 
-	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
 	script.</li>
 
-	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
-	For more information, see <a
+	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
+	more information, see <a
 	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
 
-	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	<li><strong>version</strong> - (optional, string) The stylesheet version
 	number.</li>
 
-	<li><strong>translation</strong> - ( optional, array ) The translation array.
-	The handle ID will be used for the object name.</li>
+	<li><strong>translation</strong> - (optional, array) The translation array. The
+	handle ID will be used for the object name.</li>
 
-	<li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the
-	script before &lt; / head &gt; or before &lt; / body &gt; Default:
-	<code>&lt;span class="php-keyword1"&gt;false&lt;/span&gt;</code>.</li>
+	<li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the
+	script before <code>&lt;/head&gt;</code> or before <code>&lt;/body &gt;</code>
+	Default: <code>false</code>.</li>
+
+	<li><strong>arguments</strong> - (optional, array) [3.3.0+] argument array.
+	<code>array( 'async' =&gt; '', 'data-id' =&gt; '...' )</code></li>
 </ul>
 
 <h4>Examples</h4>
@@ -535,27 +512,27 @@ argument.</p>
 <pre>
 <span class="php-keyword1">protected</span> <span
 class="php-keyword1">function</span> getEnqueuingScripts() {
-<span
+     <span
 class="php-keyword1">return</span> <span
 class="php-keyword1">array</span>(
-<span
+         <span
 class="php-keyword1">array</span>(     <span
 class="php-comment">// if you need to set a dependency, pass as a custom argument array.</span>
-<span
+             <span
 class="php-quote">'src'</span> =&gt; <span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
 class="php-quote">'/asset/my_script.js'</span>,     <span
 class="php-comment">// path or url</span>
-<span
+             <span
 class="php-quote">'dependencies'</span> =&gt; <span
 class="php-keyword1">array</span>( <span
 class="php-quote">'jquery'</span> )
-),
-<span
+         ),
+         <span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
 class="php-quote">'/asset/my_another.js'</span>, <span
 class="php-comment">// a string value of the target path or url will work as well.</span>
-);
+     );
 }
 </pre>
 
@@ -564,10 +541,6 @@ class="php-comment">// a string value of the target path or url will work as wel
 
 
 
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0<br>
-					</div>
 					<h4>Remark</h4>
 					<div class="list">
 							The user will override this method in their class definition.<br>
@@ -590,13 +563,8 @@ class="php-comment">// a string value of the target path or url will work as wel
 			<a class="anchor" href="#_getEnqueuingStyles">#</a>
 			<code>getEnqueuingStyles( )</code>
 
-			<div class="description short" style="display:none;">
-				
-<p>Returns an array holding the urls of enqueuing styles.</p>
 
-			</div>
-
-			<div class="description detailed hidden">
+			<div class="description detailed">
 				
 <p>Returns an array holding the urls of enqueuing styles.</p>
 
@@ -607,21 +575,24 @@ argument.</p>
 <h4>Custom Argument Array</h4>
 
 <ul>
-	<li><strong>src</strong> - ( required, string ) The url or path of the target
-	source file</li>
+	<li><strong>src</strong> - (required, string) The url or path of the target
+	source file.</li>
 
-	<li><strong>handle_id</strong> - ( optional, string ) The handle ID of the
+	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
 	stylesheet.</li>
 
-	<li><strong>dependencies</strong> - ( optional, array ) The dependency array.
-	For more information, see <a
+	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
+	more information, see <a
 	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
 
-	<li><strong>version</strong> - ( optional, string ) The stylesheet version
+	<li><strong>version</strong> - (optional, string) The stylesheet version
 	number.</li>
 
-	<li><strong>media</strong> - ( optional, string ) the description of the field
+	<li><strong>media</strong> - (optional, string) the description of the field
 	which is inserted into the after the input field tag.</li>
+
+	<li><strong>arguments</strong> - (optional, array) [3.3.0+] argument array.
+	<code>array( 'data-id' =&gt; '...' )</code></li>
 </ul>
 
 <h4>Examples</h4>
@@ -629,23 +600,23 @@ argument.</p>
 <pre>
 <span class="php-keyword1">protected</span> <span
 class="php-keyword1">function</span> getEnqueuingStyles() {
-<span
+     <span
 class="php-keyword1">return</span> <span
 class="php-keyword1">array</span>(
-<span
+         <span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
 class="php-quote">'/asset/my_style.css'</span>,
-<span
+         <span
 class="php-keyword1">array</span>(
-<span
+             <span
 class="php-quote">'src'</span> =&gt; <span
 class="php-keyword2">dirname</span>( __FILE__ ) . <span
 class="php-quote">'/asset/my_style2.css'</span>,
-<span
+             <span
 class="php-quote">'handle_id'</span> =&gt; <span
 class="php-quote">'my_style2'</span>,
-),
-);
+         ),
+     );
 }
 </pre>
 
@@ -654,10 +625,6 @@ class="php-quote">'my_style2'</span>,
 
 
 
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0<br>
-					</div>
 					<h4>Remark</h4>
 					<div class="list">
 							The user will override this method in their class definition.<br>
@@ -685,7 +652,6 @@ class="php-quote">'my_style2'</span>,
 			<code>_replyToRegisterInputFieldType()</code>, 
 			<code>_replyToRemovingMediaLibraryTab()</code>, 
 			<code>_replyToReplaceThickBoxText()</code>, 
-			<code>construct()</code>, 
 			<code>enqueueMediaUploader()</code>, 
 			<code>getDefinitionArray()</code>, 
 			<code>getFieldElementByKey()</code>
@@ -808,37 +774,42 @@ class="php-quote">'my_style2'</span>,
 			<td class="description"><div>
 				<a href="#$aFieldTypeSlugs" class="anchor">#</a>
 
-				<div class="description short" style="display:none;">
-					
-<p>Defines the field type slugs used for this field type.</p>
 
-				</div>
-
-				<div class="description detailed hidden">
+				<div class="description detailed">
 					
 <p>Defines the field type slugs used for this field type.</p>
 
 <p>The slug is used for the type key in a field definition array.</p>
 
 <pre>
-    <span class="php-var">$this</span>-&gt;addSettingFields(
-<span
+<span class="php-var">$this</span>-&gt;addSettingFields(
+     <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'section_id'</span> =&gt; <span
+         <span
+class="php-quote">'section_id'</span>    =&gt; <span
 class="php-quote">'...'</span>,
-<span
-class="php-quote">'type'</span> =&gt; <span
+         <span
+class="php-quote">'type'</span>          =&gt; <span
 class="php-quote">'my_filed_type_slug'</span>, <span
 class="php-comment">// &lt;--- THIS PART</span>
-<span
-class="php-quote">'field_id'</span> =&gt; <span
+         <span
+class="php-quote">'field_id'</span>      =&gt; <span
 class="php-quote">'...'</span>,
-<span
-class="php-quote">'title'</span> =&gt; <span
+         <span
+class="php-quote">'title'</span>         =&gt; <span
 class="php-quote">'...'</span>,
-)
+     )
 );
+</pre>
+
+<h4>Example</h4>
+
+<pre>
+<span class="php-keyword1">public</span> <span
+class="php-var">$aFieldTypeSlugs</span> = <span
+class="php-keyword1">array</span>( <span
+class="php-quote">'my_field_type_slug'</span>, <span
+class="php-quote">'alternative_field_type_slug'</span> );
 </pre>
 
 
@@ -856,39 +827,41 @@ class="php-quote">'...'</span>,
 			<td class="description"><div>
 				<a href="#$aDefaultKeys" class="anchor">#</a>
 
-				<div class="description short" style="display:none;">
-					
-<p>Defines the default key-values of this field type.</p>
 
-				</div>
-
-				<div class="description detailed hidden">
+				<div class="description detailed">
 					
 <p>Defines the default key-values of this field type.</p>
 
 <p>The users will set the values to the defined keys and if not set, the value
 set in this property array will take effect. The merged array of the user's
 field definition array and this property array will be passed to the first
-parameter of the <em>getField()</em> method.</p>
+parameter of the <code>getField()</code> method.</p>
 
 <pre>
- <span class="php-var">$this</span>-&gt;addSettingFields(
-<span
+<span class="php-var">$this</span>-&gt;addSettingFields(
+    <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'section_id'</span> =&gt; <span
-class="php-quote">'...'</span>,
-<span
-class="php-quote">'type'</span> =&gt; <span
-class="php-quote">'...'</span>,
-<span
-class="php-quote">'field_id'</span> =&gt; <span
-class="php-quote">'...'</span>,
-<span
-class="php-quote">'my_custom_key'</span> =&gt; <span
+        <span
+class="php-quote">'section_id'</span>         =&gt; <span
 class="php-quote">'...'</span>, <span
+class="php-comment">// built-in key</span>
+        <span
+class="php-quote">'type'</span>               =&gt; <span
+class="php-quote">'...'</span>, <span
+class="php-comment">// built-in key</span>
+        <span
+class="php-quote">'field_id'</span>           =&gt; <span
+class="php-quote">'...'</span>, <span
+class="php-comment">// built-in key</span>
+        <span
+class="php-quote">'my_custom_key'</span>      =&gt; <span
+class="php-quote">'the default value for this key'</span>, <span
 class="php-comment">// &lt;-- THIS PART</span>
-)
+        <span
+class="php-quote">'another_custom)key'</span> =&gt; <span
+class="php-quote">'the default value for this key'</span>, <span
+class="php-comment">// &lt;-- THIS PART</span>
+    )
 );
 </pre>
 
@@ -901,21 +874,23 @@ class="php-keyword1">array</span>(
 class="php-quote">'my_custom_key'</span> =&gt; <span
 class="php-quote">'my default value'</span>,
      <span
-class="php-quote">'attributes'</span> =&gt; <span
+class="php-quote">'attributes'</span>    =&gt; <span
 class="php-keyword1">array</span>(
-<span
-class="php-quote">'size'</span> =&gt; <span class="php-num">30</span>,
-<span
+         <span
+class="php-quote">'size'</span>      =&gt; <span
+class="php-num">30</span>,
+         <span
 class="php-quote">'maxlength'</span> =&gt; <span
 class="php-num">400</span>,
-),
+     ),
 );
 </pre>
 
 
 						<h4>Remark</h4>
 						<div class="list">
-								$_aDefaultKeys holds shared default key-values defined in the base class.<br>
+								<var>$_aDefaultKeys</var> defined by the system internally holds shared default
+key-values defined in the base class.<br>
 						</div>
 				</div>
 			</div></td>
@@ -937,7 +912,7 @@ class="php-num">400</span>,
 	</div>
 
 	<div id="footer">
-		Admin Page Framework Documentation API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+		<a href="http://en.michaeluno.jp/admin-page-framework">Admin Page Framework Documentation</a> generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
 	</div>
 </div>
 </body>
