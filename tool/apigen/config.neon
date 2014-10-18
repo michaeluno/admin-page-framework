@@ -30,7 +30,7 @@ templateConfig: './template/admin-page-framework-doc/config.neon'
 # Grouping of classes
 groups: packages
 # List of allowed HTML tags in documentation
-allowedHtml: [b, i, a, ul, ol, li, p, br, var, samp, kbd, tt, code, blockquote, pre, h5, h4, h3, h2, h1, strong, em, span]
+allowedHtml: [b, i, a, ul, ol, li, p, br, var, samp, kbd, tt, code, blockquote, pre, h5, h4, h3, h2, h1, strong, em, span, img]
 # Element types for search input autocomplete
 autocomplete: [classes, constants, functions]
 

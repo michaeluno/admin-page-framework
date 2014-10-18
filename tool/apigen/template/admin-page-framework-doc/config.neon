@@ -52,5 +52,5 @@ templates:
 			template: robots.txt.latte
 
 options:
-	elementDetailsCollapsed: Yes
+	elementDetailsCollapsed: No
 	elementsOrder: natural # alphabetical
