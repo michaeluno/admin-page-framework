@@ -38,7 +38,7 @@ with it easily create:
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
 - **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
 - **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
-= **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin install. Therefore, your product will be perfectly portable.
+- **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin install. Therefore, your product will be perfectly portable.
 
 = Built-in Field Types =
 - `text` - a normal field to enter text input.
