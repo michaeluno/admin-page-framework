@@ -23,7 +23,7 @@ if ( is_admin() ) :
     // Create meta boxes with form fields that appear in post definition pages (where you create a post) of the given post type.
     include( APFDEMO_DIRNAME . '/example/APF_MetaBox_BuiltinFieldTypes.php' );    
     new APF_MetaBox_BuiltinFieldTypes(
-        '',  // meta box ID - can be empty. In that case, the class name with all lower case characters will be applied.
+        null,  // meta box ID - can be null. If null is passed, the ID gets automatically generated and the class name with all lower case characters will be applied.
         __( 'Demo Meta Box with Built-in Field Types', 'admin-page-framework-demo' ), // title
         array( 'apf_posts' ),                               // post type slugs: post, page, etc.
         'normal',                                           // context (what kind of metabox this is)
@@ -32,7 +32,7 @@ if ( is_admin() ) :
     
     include( APFDEMO_DIRNAME . '/example/APF_MetaBox_CustomFieldTypes.php' );    
     new APF_MetaBox_CustomFieldTypes(
-        '',   // meta box ID - can be empty.
+        null,   // meta box ID - can be null.
         __( 'Demo Meta Box with Custom Field Types', 'admin-page-framework-demo' ), // title
         array( 'apf_posts' ),                               // post type slugs: post, page, etc.
         'normal',                                           // context
@@ -63,7 +63,7 @@ if ( is_admin() ) :
         // Create meta boxes that belongs to the 'apf_first_page' page.
         include( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Normal.php' );
         new APF_MetaBox_For_Pages_Normal(
-            '',                                             // meta box id
+            null,                                           // meta box id - passing null will make it auto generate
             __( 'Sample Meta Box for Admin Pages Inserted in Normal Area', 'admin-page-framework-demo' ), // title
             'apf_first_page',                               // page slugs
             'normal',                                       // context
@@ -71,7 +71,7 @@ if ( is_admin() ) :
         );
         include( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Advanced.php' );
         new APF_MetaBox_For_Pages_Advanced(    
-            '',                                             // meta box id
+            null,                                           // meta box id - passing null will make it auto generate
             __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ), // title
             'apf_first_page',                               // page slugs
             'advanced',                                     // context
@@ -79,7 +79,7 @@ if ( is_admin() ) :
         );    
         include( APFDEMO_DIRNAME . '/example/APF_MetaBox_For_Pages_Side.php' );    
         new APF_MetaBox_For_Pages_Side(    
-            '',                                             // meta box id
+            null,                                           // meta box id - passing null will make it auto generate
             __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ), // title
             array( 'apf_first_page', 'apf_second_page' ),   // page slugs - setting multiple slugs is possible
             'side',                                         // context
