@@ -543,11 +543,6 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
     margin-bottom: 0.4em;
 }
 
-#content pre {
-    margin-top: 1em;
-    margin-left: 1.5em;
-}
-
 #content .summary .description.detailed h4 {
     margin-bottom: 0.4em;
 }
@@ -585,4 +580,8 @@ span.l a.l:hover, span.l a.l:active, span.l a.l:focus {
     display: inline-block;
 }
 
-
+/* Example code blocks in the content block */
+#content pre {
+    margin-top: 1em;
+    margin-left: 1.5em;
+}
