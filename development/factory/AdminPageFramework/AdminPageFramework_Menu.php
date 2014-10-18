@@ -583,10 +583,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
                 
                 $_sPageHook = add_submenu_page( 
                     $sRootPageSlug,         // the root(parent) page slug
-                    $sPageTitle,            // page_title
-                    $sMenuTitle,            // menu_title
+                    $sPageTitle,            // page title
+                    $sMenuTitle,            // menu title
                     $sCapability,           // capability
-                    $sPageSlug,             // menu_slug
+                    $sPageSlug,             // menu slug
                     // In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $_sPageHook )
                     // will be executed and it triggers the __call() magic method with the method name of "md5 class hash + _page_ + this page slug".
                     array( $this, $this->oProp->sClassHash . '_page_' . $sPageSlug )
@@ -605,7 +605,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
                 }
                 
                 // If the visibility option is false, remove the one just added from the sub-menu array
-                $this->_removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageSlug );
+                $this->_removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug );
                 return $_sPageHook;
             
             }
@@ -613,14 +613,14 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
                  * Removes a page sub-menu item.
                  * @sicne       3.3.0
                  */
-                private function _removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageSlug ){
-                        
+                private function _removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug ){
+
                     foreach( ( array ) $GLOBALS['submenu'][ $sMenuSlug ] as $_iIndex => $_aSubMenu ) {
-                        
+                      
                         if ( ! isset( $_aSubMenu[ 3 ] ) ) { continue; }
-                        
+                                               
                         // the array structure is defined in plugin.php - $submenu[$parent_slug][] = array ( $menu_title, $capability, $menu_slug, $page_title ) 
-                        if ( $_aSubMenu[0] == $sMenuTitle && $_aSubMenu[3] == $sMenuTitle && $_aSubMenu[2] == $sPageSlug ) {
+                        if ( $_aSubMenu[0] == $sMenuTitle && $_aSubMenu[3] == $sPageTitle && $_aSubMenu[2] == $sPageSlug ) {
 
                             // Remove from the menu. If the current page is being accessed, do not remove it from the menu.
                             // If it is in the network admin area, do not remove the menu; otherwise, it gets not accessible. 
@@ -633,10 +633,11 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
                             // The page title in the browser window title bar will miss the page title as this is left as it is.
                             $this->oProp->aHiddenPages[ $sPageSlug ] = $sMenuTitle;
                             add_filter( 'admin_title', array( $this, '_replyToFixPageTitleForHiddenPages' ), 10, 2 );
-                            
+
                             break;
                             
-                        }
+                        }                                                                                                
+                        
                     }                    
                     
                 }
