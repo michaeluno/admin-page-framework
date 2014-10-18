@@ -50,6 +50,12 @@ new PHP_Class_Files_Minifier(
 			'AdminPageFramework_InclusionClassFilesHeader',
 			'admin-page-framework-include-class-list',
 		),
+		'search'			=>	array(
+			'allowed_extensions'	=>	array( 'php' ),	// e.g. array( 'php', 'inc' )
+			// 'exclude_dir_paths'		=>	array( $sTargetBaseDir . '/include/class/admin' ),
+			'exclude_dir_names'		=>	array( '_document' ),
+			'is_recursive'			=>	true,
+		),			        
 	)
 );
 
