@@ -11,11 +11,11 @@ if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
  * Provides public methods to add form elements. 
  *
  * @abstract
- * @since       2.0.0
- * @extends     AdminPageFramework_Setting_Validation
- * @package     AdminPageFramework
- * @subpackage  AdminPage
- * @var         array       $aFieldErrors       stores the settings field errors.
+ * @since           2.0.0
+ * @extends         AdminPageFramework_Setting_Validation
+ * @package         AdminPageFramework
+ * @subpackage      AdminPage
+ * @var             array       $aFieldErrors       stores the settings field errors.
  */
 abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Validation {
                                     

@@ -13,11 +13,11 @@ if ( ! class_exists( 'AdminPageFramework_Setting_Base' ) ) :
  * This class mainly deals with internal methods and the constructor setting the properties.
  * 
  * @abstract
- * @since       3.0.0
- * @extends     AdminPageFramework_Menu
- * @package     AdminPageFramework
- * @subpackage  AdminPage
- * @var         array       $aFieldErrors       stores the settings field errors.
+ * @since           3.0.0
+ * @extends         AdminPageFramework_Menu
+ * @package         AdminPageFramework
+ * @subpackage      AdminPage
+ * @var             array       $aFieldErrors       stores the settings field errors.
  * @internal
  */
 abstract class AdminPageFramework_Setting_Base extends AdminPageFramework_Menu {

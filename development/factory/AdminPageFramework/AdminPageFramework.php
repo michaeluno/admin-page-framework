@@ -16,7 +16,6 @@ if ( ! class_exists( 'AdminPageFramework' ) ) :
  * 
  * @abstract
  * @since       2.0.0
- * @remark      This class stems from several abstract classes.
  * @extends     AdminPageFramework_Setting
  * @package     AdminPageFramework
  * @subpackage  AdminPage

@@ -24,8 +24,8 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * This must not use the private scope as the extended class accesses it, such as 'start_' and must use the public since another class uses this externally.
      * 
      * @since       2.0.0
-     * @since       2.1.5 Made it public from protected since the HeadTag class accesses it.
-     * @since       3.0.0 Moved from AdminPageFramework_Page. Changed the scope to protected as the head tag class no longer access this property.
+     * @since       2.1.5       Made it public from protected since the HeadTag class accesses it.
+     * @since       3.0.0       Moved from AdminPageFramework_Page. Changed the scope to protected as the head tag class no longer access this property.
      * @var         array
      * @static
      * @access      protected
@@ -153,12 +153,12 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
     /**
      * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
      * 
-     * @access public
-     * @remark     the users do not need to call or extend this method unless they know what they are doing.
-     * @param string     the called method name. 
-     * @param array     the argument array. The first element holds the parameters passed to the called method.
-     * @return mixed depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
-     * @since 2.0.0
+     * @access      public
+     * @remark      the users do not need to call or extend this method unless they know what they are doing.
+     * @param       string      the called method name. 
+     * @param       array       the argument array. The first element holds the parameters passed to the called method.
+     * @return      mixed       depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
+     * @since       2.0.0
      * @internal
      */
     public function __call( $sMethodName, $aArgs=null ) {     
@@ -201,11 +201,11 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
          * 
-         * @since 2.1.0
-         * @access protected
+         * @since       2.1.0
+         * @access      protected
          * @internal
-         * @remark This method will be triggered before the header gets sent.
-         * @return void
+         * @remark      This method will be triggered before the header gets sent.
+         * @return      void
          * @internal
          */ 
         protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $oScreen ) {
@@ -262,7 +262,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
     /**
      * Checks whether the class should be instantiated.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
      * @internal
      */
     protected function _isInstantiatable() {
@@ -281,7 +281,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * Checks whether the currently loading page is of the given pages. 
      * 
      * @since       3.0.2
-     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
+     * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
      * @internal
      */
     public function _isInThePage( $aPageSlugs=array() ) {

@@ -8,7 +8,7 @@
  */
 if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
 /**
- * Provides methods to insert meta box in pages added by the framework.
+ * Provides methods to insert meta boxes in pages added by the framework.
  *
  * @abstract
  * @since           3.0.0
@@ -17,7 +17,10 @@ if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
  * @internal
  */
 abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
-
+    
+    /**
+     * Sets up hooks and properties.
+     */
     function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
                         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
@@ -34,9 +37,9 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
     /**
      * Renders the registered meta boxes.
      * 
-     * @remark Called in the _renderPage() method.
-     * @remark If no meta box is registered, nothing will be printed.
-     * @param string $sContext 'side', 'normal', or 'advanced'
+     * @remark      Called in the _renderPage() method.
+     * @remark      If no meta box is registered, nothing will be printed.
+     * @param       string $sContext `side`, `normal`, or `advanced`.
      * @since 3.0.0
      * @internal
      */
@@ -60,6 +63,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
     
     /**
      * Returns the number of columns in the page.
+     * 
      * @since 3.0.0
      * @internal
      */
@@ -83,9 +87,9 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
      */
     public function _replyToSetNumberOfScreenLayoutColumns( $aColumns, $sScreenID ) { //for WordPress 2.8 we have to tell, that we support 2 columns !
         
-        if ( ! isset( $GLOBALS['page_hook'] ) ) return;
-        if ( ! $this->_isMetaBoxAdded() ) return;
-        if ( ! $this->oProp->isPageAdded() ) return;
+        if ( ! isset( $GLOBALS['page_hook'] ) ) { return; }
+        if ( ! $this->_isMetaBoxAdded() ) { return; }
+        if ( ! $this->oProp->isPageAdded() ) { return; }
         
         $_sCurrentScreenID = $this->oUtil->getCurrentScreenID();
         
@@ -102,8 +106,8 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
         /**
          * Checks if there are meta boxes added to the given slug of the page.
          * @internal
-         * @since 3.0.0 
-         * @return boolean
+         * @since       3.0.0 
+         * @return      boolean
          */
         private function _isMetaBoxAdded( $sPageSlug='' ) {
             
@@ -130,8 +134,8 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
         /**
          * Checks if the given page slug belongs to the meta box of the given meta box object.
          * @internal
-         * @remark Checks the tab array in the aPageSlugs array and if the loading page tab does not match the tab elements, it yields false.
-         * @since 3.0.0
+         * @remark      Checks the tab array in the aPageSlugs array and if the loading page tab does not match the tab elements, it yields false.
+         * @since       3.0.0
          */
         private function _isPageOfMetaBox( $sPageSlug, $oMetaBox ) {
             
@@ -158,7 +162,7 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
         
     /**
      * Returns the default number of screen columns
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function _replyToReturnDefaultNumberOfScreenColumns( $vStoredData, $sOptionKey, $oUser ) {
 
@@ -174,8 +178,8 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
     /**
      * Enables meta boxes for the currently loading page 
      * 
-     * @remark In order to enable the Screen Option tab, this must be called at earlier point of the page load. The admin_head hooks seems to be sufficient.
-     * @since 3.0.0
+     * @remark      In order to enable the Screen Option tab, this must be called at earlier point of the page load. The admin_head hooks seems to be sufficient.
+     * @since       3.0.0
      * @internal
      */
     public function _replyToEnableMetaBox() {
@@ -202,8 +206,8 @@ abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
     }
         /**
          * Adds meta box script.
-         * @remark This method may be called multiple times if the main class is instantiated multiple times. But it is only enough to perform once.
-         * @since 3.0.0
+         * @remark      This method may be called multiple times if the main class is instantiated multiple times. But it is only enough to perform once.
+         * @since       3.0.0
          * @internal
          */
         public function _replyToAddMetaboxScript() {
