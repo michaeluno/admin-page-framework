@@ -15,7 +15,6 @@ if ( ! class_exists( 'AdminPageFramework_Menu' ) ) :
  * @extends         AdminPageFramework_Page
  * @package         AdminPageFramework
  * @subpackage      AdminPage
- * @staticvar       array       $_aStructure_SubMenuPageForUser represents the structure of the sub-menu page array.
  */
 abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
     
@@ -75,6 +74,8 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
     protected static $_aStructure_SubMenuPageForUser = array(
         'type'                      => 'page', // this is used to compare with the link type.
         'title'                     => null, 
+        'page_title'                => null,    // (optional) 3.3.0+ When the page title is different from the above 'title' argument, set this.
+        'menu_title'                => null,    // (optional) 3.3.0+ When the menu title is different from the above 'title' argument, set this.
         'page_slug'                 => null, 
         'screen_icon'               => null, // this will become either href_icon_32x32 or screen_icon_id
         'capability'                => null, 
@@ -209,7 +210,7 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
     *           'title'         => 'Google',
     *           'href'          => 'http://www.google.com',    
     *           'show_page_heading_tab' => false, // this removes the title from the page heading tabs.
-    *       ),
+    *       )
     * );</code>
     * 
     * @since        2.0.0
@@ -528,34 +529,62 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
          * @remark      Within the `admin_menu` hook callback process.
          * @remark      The sub menu page slug should be unique because `add_submenu_page()` can add one callback per page slug.
          * @internal
+         * @return      string      The page hook if the page is added.
          */ 
         private function _registerSubMenuItem( $aArgs ) {
 
-            if ( ! isset( $aArgs['type'] ) ) { return; }
-
-            // Local variables
-            $sType          = $aArgs['type']; // page or link
-            $sTitle         = $sType == 'page' ? $aArgs['title'] : $aArgs['title'];
-            $sCapability    = isset( $aArgs['capability'] ) ? $aArgs['capability'] : $this->oProp->sCapability;
-            $_sPageHook     = '';
+            if ( ! isset( $aArgs['type'] ) ) { return ''; }
 
             // Check the capability
-            if ( ! current_user_can( $sCapability ) ) {     
-                return;     
+            $_sCapability    = isset( $aArgs['capability'] ) ? $aArgs['capability'] : $this->oProp->sCapability;
+            if ( ! current_user_can( $_sCapability ) ) {     
+                return '';
             }
+
+            // Local variables                    
+            $_sRootPageSlug = $this->oProp->aRootMenu['sPageSlug'];
+            $_sMenuSlug     = plugin_basename( $_sRootPageSlug ); // Make it compatible with the add_submenu_page() function.
             
-            // Add the sub-page to the sub-menu     
-            $sRootPageSlug  = $this->oProp->aRootMenu['sPageSlug'];
-            $sMenuLabel     = plugin_basename( $sRootPageSlug ); // Make it compatible with the add_submenu_page() function.
+            // There are two types, page or link.
+            switch( $aArgs['type'] ) {
+                case 'page':
+                    // it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
+                    return isset( $aArgs['page_slug'] )
+                        ? $this->_addPageSubmenuItem(
+                            $_sRootPageSlug,
+                            $_sMenuSlug,
+                            $aArgs['page_slug'],
+                            isset( $aArgs['page_title'] ) ? $aArgs['page_title'] : $aArgs['title'],
+                            isset( $aArgs['menu_title'] ) ? $aArgs['menu_title'] : $aArgs['title'],
+                            $_sCapability,
+                            $aArgs['show_in_menu']
+                        )
+                        : '';
+                case 'link':
+                    return $aArgs['show_in_menu']
+                        ? $this->_addLinkSubmenuItem( 
+                            $_sMenuSlug, 
+                            $aArgs['title'], 
+                            $_sCapability,
+                            $aArgs['href'] 
+                        )
+                        : '';
+            }
+            return '';
             
-            // If it's a page - it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
-            if ( 'page' == $sType && isset( $aArgs['page_slug'] ) ) {     
+        }     
+            /**
+             * Adds a page sub-menu item.
+             * 
+             * @since       3.3.0
+             * @return      string The page hook of the added page.
+             */
+            private function _addPageSubmenuItem( $sRootPageSlug, $sMenuSlug, $sPageSlug, $sPageTitle, $sMenuTitle, $sCapability, $bShowInMenu ) {
                 
-                $sPageSlug  = $aArgs['page_slug'];
                 $_sPageHook = add_submenu_page( 
                     $sRootPageSlug,         // the root(parent) page slug
-                    $sTitle,                // page_title
-                    $sTitle,                // menu_title
+                    $sPageTitle,            // page_title
+                    $sMenuTitle,            // menu_title
                     $sCapability,           // capability
                     $sPageSlug,             // menu_slug
                     // In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $_sPageHook )
@@ -567,55 +596,64 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
                 if ( ! isset( $this->oProp->aPageHooks[ $_sPageHook ] ) ) {
                     add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ) );    
                 }
-                $this->oProp->aPageHooks[ $sPageSlug ] = is_network_admin() ? $_sPageHook . '-network' : $_sPageHook;
+                $this->oProp->aPageHooks[ $sPageSlug ] = is_network_admin() 
+                    ? $_sPageHook . '-network' 
+                    : $_sPageHook;
 
+                if ( $bShowInMenu ) {
+                    return $_sPageHook;
+                }
+                
                 // If the visibility option is false, remove the one just added from the sub-menu array
-                if ( ! $aArgs['show_in_menu'] ) {
-
-                    foreach( ( array ) $GLOBALS['submenu'][ $sMenuLabel ] as $iIndex => $aSubMenu ) {
+                $this->_removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageSlug );
+                return $_sPageHook;
+            
+            }
+                /**
+                 * Removes a page sub-menu item.
+                 * @sicne       3.3.0
+                 */
+                private function _removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageSlug ){
                         
-                        if ( ! isset( $aSubMenu[ 3 ] ) ) { continue; }
+                    foreach( ( array ) $GLOBALS['submenu'][ $sMenuSlug ] as $_iIndex => $_aSubMenu ) {
+                        
+                        if ( ! isset( $_aSubMenu[ 3 ] ) ) { continue; }
                         
                         // the array structure is defined in plugin.php - $submenu[$parent_slug][] = array ( $menu_title, $capability, $menu_slug, $page_title ) 
-                        if ( $aSubMenu[0] == $sTitle && $aSubMenu[3] == $sTitle && $aSubMenu[2] == $sPageSlug ) {
+                        if ( $_aSubMenu[0] == $sMenuTitle && $_aSubMenu[3] == $sMenuTitle && $_aSubMenu[2] == $sPageSlug ) {
 
                             // Remove from the menu. If the current page is being accessed, do not remove it from the menu.
                             // If it is in the network admin area, do not remove the menu; otherwise, it gets not accessible. 
                             if ( is_network_admin() ) {
-                                unset( $GLOBALS['submenu'][ $sMenuLabel ][ $iIndex ] );
+                                unset( $GLOBALS['submenu'][ $sMenuSlug ][ $_iIndex ] );
                             } else if ( ! isset( $_GET['page'] ) || isset( $_GET['page'] ) && $sPageSlug != $_GET['page'] ) {
-                                unset( $GLOBALS['submenu'][ $sMenuLabel ][ $iIndex ] );
+                                unset( $GLOBALS['submenu'][ $sMenuSlug ][ $_iIndex ] );
                             }
 
                             // The page title in the browser window title bar will miss the page title as this is left as it is.
-                            $this->oProp->aHiddenPages[ $sPageSlug ] = $sTitle;
+                            $this->oProp->aHiddenPages[ $sPageSlug ] = $sMenuTitle;
                             add_filter( 'admin_title', array( $this, '_replyToFixPageTitleForHiddenPages' ), 10, 2 );
                             
                             break;
+                            
                         }
-                    }
-                } 
+                    }                    
                     
-            } 
-            // If it's a link,
-            if ( 'link' == $sType && $aArgs['show_in_menu'] ) {
-                
-                if ( ! isset( $GLOBALS['submenu'][ $sMenuLabel ] ) ) {
-                    $GLOBALS['submenu'][ $sMenuLabel ] = array();
                 }
-                
-                $GLOBALS['submenu'][ $sMenuLabel ][] = array ( 
+            /**
+             * Adds a link sub-menu item.
+             * @since       3.3.0
+             */
+            private function _addLinkSubmenuItem( $sMenuSlug, $sTitle, $sCapability, $sHref ) {
+               if ( ! isset( $GLOBALS['submenu'][ $sMenuSlug ] ) ) {
+                    $GLOBALS['submenu'][ $sMenuSlug ] = array();
+                }
+                $GLOBALS['submenu'][ $sMenuSlug ][] = array ( 
                     $sTitle, 
                     $sCapability, 
-                    $aArgs['href'],
+                    $sHref,
                 );   
-                
             }
-        
-            // will be stored in the $this->oProp->aPages property.
-            return $_sPageHook; 
-
-        }     
         
         /**
          * A callback function for the admin_title filter to fix the page title for hidden pages.
@@ -624,13 +662,10 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
          * @internal
          */
         public function _replyToFixPageTitleForHiddenPages( $sAdminTitle, $sPageTitle ) {
-
             if ( isset( $_GET['page'], $this->oProp->aHiddenPages[ $_GET['page'] ] ) ) {
                 return $this->oProp->aHiddenPages[ $_GET['page'] ] . $sAdminTitle;
-            }
-                
-            return $sAdminTitle;
-            
+            }    
+            return $sAdminTitle;     
         }     
 }
 endif;

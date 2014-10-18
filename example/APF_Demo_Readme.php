@@ -17,15 +17,18 @@ class APF_Demo_Readme extends AdminPageFramework {
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(     
             array(
-                'title'                 => __( 'Read Me', 'admin-page-framework-demo' ),
+                'title'                 => __( 'Read Me', 'admin-page-framework-demo' ),    // the page title
+                'menu_title'            => __( 'About', 'admin-page-framework' ),           // (optional) to make it different from the page title.
                 'page_slug'             => 'apf_read_me',
                 'screen_icon'           => 'page',
+                'show_in_menu'          => false, // hide it
             ),     
             array(
                 'title'                 => __( 'Documentation', 'admin-page-framework-demo' ),
                 'href'                  => plugins_url( 'document/package-AdminPageFramework.html', APFDEMO_FILE ),
                 'show_page_heading_tab' => false,
-            )
+            ),            
+            array()
         );
 
         /* ( optional ) Disable the automatic settings link in the plugin listing table. */    

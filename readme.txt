@@ -448,6 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.0 =
+- Added the ability to have different menu title from the page title with the `page_title` and `menu_title` argument pass to the `addSubMenuItems()` method.
 - Added the ability for the `description` field/section definition argument to accept an array to process elements as multiple paragraphs.
 - Added the ability to set custom arguments to enqueuing resource(style/script) tags.
 - Added an example of querying posts by custom meta key and value in the demo plugin.
