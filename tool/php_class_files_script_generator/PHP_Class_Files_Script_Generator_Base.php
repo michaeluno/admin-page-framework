@@ -10,7 +10,7 @@
 /**
  * The base class of script creator.
  * 
- * @version		1.0.2
+ * @version		1.0.3
  */
 abstract class PHP_Class_Files_Script_Generator_Base {
 
@@ -26,7 +26,7 @@ abstract class PHP_Class_Files_Script_Generator_Base {
 		'search'	=>	array(
 			'allowed_extensions'    => array( 'php' ),	// e.g. array( 'php', 'inc' )
 			'exclude_dir_paths'     => array(),
-			'exclude_dir_names'     => array(),
+			'exclude_dir_names'     => array(),         // the directory 'base' name
 			'is_recursive'          => true,
 		),		
 		
@@ -125,8 +125,7 @@ abstract class PHP_Class_Files_Script_Generator_Base {
 				foreach ( $_aDirs as $_sDirPath ) {
 					$_sDirPath  = str_replace( '\\', '/', $_sDirPath );
 					if ( in_array( $_sDirPath, $aExcludeDirPaths ) ) { continue; }
-					if ( in_array( pathinfo( $_sDirPath, PATHINFO_DIRNAME ), $aExcludeDirNames ) ) { continue; }
-					
+					if ( in_array( pathinfo( $_sDirPath, PATHINFO_BASENAME ), $aExcludeDirNames ) ) { continue; }					
 					$_aFiles    = array_merge( $_aFiles, $this->doRecursiveGlob( $_sDirPath . DIRECTORY_SEPARATOR . basename( $sPathPatten ), $nFlags, $aExcludeDirPaths ) );
 					
 				}

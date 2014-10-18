@@ -1,5 +1,8 @@
 ## CHange Log
 
+### 1.0.3 - 2014/10/18
+- Made the 'exclude_dir_names' argument check the directory base name.
+
 ### 1.0.2 - 2014/08/14
 - Fixed white spaces.
 - Changed the class name.
