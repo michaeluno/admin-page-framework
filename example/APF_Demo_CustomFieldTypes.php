@@ -32,6 +32,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             $_sPluginDirName . '/third-party/image_checkbox-custom-field-type/ImageCheckboxCustomFieldType.php',
             $_sPluginDirName . '/third-party/image_radio-custom-field-type/ImageRadioCustomFieldType.php',
             $_sPluginDirName . '/third-party/reset-custom-field-type/ResetCustomFieldType.php',
+            $_sPluginDirName . '/third-party/ace-custom-field-type/AceCustomFieldType.php',
         );
         foreach( $_aFiles as $_sFilePath ) {
             if ( file_exists( $_sFilePath ) ) {     
@@ -58,6 +59,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
         new ImageCheckboxCustomFieldType( $_sClassName );     
         new ImageRadioCustomFieldType( $_sClassName );     
         new ResetCustomFieldType( $_sClassName );     
+        new AceCustomFieldType( $_sClassName );     
         
     }    
 
@@ -157,6 +159,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'tab_slug'  => 'image_selectors',
                 'title'     => __( 'Image Selectors', 'admin-page-framework-demo' ),    
             ),            
+            array(
+                'tab_slug'  => 'ace',
+                'title'     => __( 'Code', 'admin-page-framework-demo' ),    
+            ),                  
             array()     
         );    
                 
@@ -231,6 +237,11 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'tab_slug'      => 'image_selectors',
                 'title'         => __( 'Image Selectors', 'admin-page-framework-demo' ),
             ),                 
+            array(
+                'section_id'    => 'ace',
+                'tab_slug'      => 'ace',
+                'title'         => __( 'ACE Code Editors', 'admin-page-framework-demo' ),
+            ),                
             array()
         );
 
@@ -241,13 +252,13 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
          */
         $this->addSettingFields(     
             array(
-                'field_id' => 'geometrical_coordinates',
-                'section_id' => 'geometry',
-                'title' => __( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
-                'type' => 'geometry',
-                'description' => __( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
-                'default' => array(
-                    'latitude' => 20,
+                'field_id'      => 'geometrical_coordinates',
+                'section_id'    => 'geometry',
+                'title'         => __( 'Geometrical Coordinates', 'admin-page-framework-demo' ),
+                'type'          => 'geometry',
+                'description'   => __( 'Get the coordinates from the map.', 'admin-page-framework-demo' ),
+                'default'       => array(
+                    'latitude'  => 20,
                     'longitude' => 20,
                 ),
             ),  
@@ -1117,7 +1128,45 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             ),            
             array()
         );     
+     
+        // Image Checkbox
+        $this->addSettingFields(
+            'ace', // the target section id
+            array(
+                'field_id'      => 'ace_css',
+                'type'          => 'ace',     
+                'title'         => __( 'CSS', 'admin-page-framework-demo' ),
+                'default'       => AdminPageFramework_CSS::getDefaultCSS(),
+                'attributes'    =>  array(
+                    'cols'        => 80,
+                    'rows'        => 20,
+                ),                
+                'options'   => array(
+                    'language'              => 'css',
+                    'theme'                 => 'chrome',
+                    'gutter'                => false,
+                    'readonly'              => false,
+                    'fontsize'              => 12,
+                ),                
+            ),
+            array(
+                'field_id'      => 'ace_php',
+                'type'          => 'ace',     
+                'title'         => __( 'PHP', 'admin-page-framework-demo' ),
+                'default'       => 'echo "hello world!";',
+                'attributes'    =>  array(
+                    'cols'        => 80,
+                    'rows'        => 10,
+                ),                
+                'options'   => array(
+                    'language'              => 'php',
+                ),           
+                'repeatable'    => true,
+            ),            
+            array()
+        );     
         
+     
     }
     
     /*
