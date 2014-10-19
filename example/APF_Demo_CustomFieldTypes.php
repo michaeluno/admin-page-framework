@@ -241,6 +241,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'section_id'    => 'ace',
                 'tab_slug'      => 'ace',
                 'title'         => __( 'ACE Code Editors', 'admin-page-framework-demo' ),
+                'description'   => sprintf( 
+                    __( 'This field type uses the external script located at %1$s.', 'admin-page-framework-demo' ),
+                   ( is_ssl() ? 'https:' : 'http:' ) . '//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js' 
+                ),
             ),                
             array()
         );
