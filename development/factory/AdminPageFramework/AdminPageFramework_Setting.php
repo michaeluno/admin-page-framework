@@ -152,13 +152,8 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
      * 
      * {@inheritdoc}
      * 
-     * @since       2.0.0
-     * @since       3.0.0 Changed the scope to public from protected.
-     * @access      public
-     * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
-     * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-     * @example
-     * <pre><code>$this->addSettingFields(
+     * <h4>Example</h4>
+     * <code>$this->addSettingFields(
      *      array(
      *          'field_id'      => 'text',
      *          'section_id'    => 'text_fields',
@@ -195,10 +190,18 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
      *              ),
      *          ),
      *      )
-     * );</code></pre>
+     * );</code>
+     * 
+     * @since       2.0.0
+     * @since       3.0.0 Changed the scope to public from protected.
+     * @access      public
+     * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
+     * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
      */     
     public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {    
-        foreach( func_get_args() as $aField ) $this->addSettingField( $aField );
+        foreach( func_get_args() as $aField ) { 
+            $this->addSettingField( $aField ); 
+        }
     }
     /**
     * Adds the given field array items into the field array property.
@@ -241,17 +244,60 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
             
     /**
      * Retrieves the specified field value stored in the options by field ID.
+     * 
+     * <h4>Example</h4>
+     * <code>
+     *  $this->addSettingFields(
+     *      'number_section',  // section id
+     *      array( 
+     *          'field_id'          => 'preset_field',
+     *          'title'             => __( 'Preset', 'admin-page-framework-demo' ),
+     *          'type'              => 'number',
+     *          'default'           => $this->getValue( 'number_section', 'text_field' ),
+     *      ),
+     *      array( 
+     *          'field_id'          => 'value_based_on_preset',
+     *          'title'             => __( 'Value Based on Preset', 'admin-page-framework-demo' ),
+     *          'type'              => 'number',
+     *          'default'           => 10 + ( int ) $this->getValue( 
+     *              'number_section',   // section id
+     *              'preset_field'      // field id
+     *          ),
+     *      ),    
+     *  );
+     * </code>
+     * 
+     * @since       3.3.0
+     * @param       The key that points the dimensional array key of the options array.
+     */
+    public function getValue() {
+        
+        $_aParams = func_get_args();
+        return AdminPageFramework_WPUtility::getOption( 
+            $this->oProp->sOptionKey, 
+            $_aParams, 
+            null,            // default
+            $this->oProp->getDefaultOptions( $this->oForm->aFields )
+        );
+        
+    }
+            
+    /**
+     * Retrieves the specified field value stored in the options by field ID.
      *  
      * @since       2.1.2
-     * @since       3.0.0     Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
+     * @since       3.0.0       Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
      * @access      public
      * @param       string      $sFieldID         The field ID.
      * @param       string      $sSectionID       The section ID.
      * @return      array|string|null       If the field ID is not set in the saved option array, it will return null. Otherwise, the set value.
      * If the user has not submitted the form, the framework will try to return the default value set in the field definition array.
+     * @deprecated  3.3.0
      */
     public function getFieldValue( $sFieldID, $sSectionID='' ) {
-        
+                               
+        trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain ), __METHOD__, 'getValue()' ), E_USER_NOTICE );
+    
         $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions( $this->oForm->aFields ) );
         
         /* If it's saved, return it */
