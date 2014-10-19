@@ -75,6 +75,7 @@ You can include your own custom field types when they are necessary. The reason 
 - `github` - displays GitHub buttons.
 - `image_checkbox`, `image_radio` - displays images instead of text labels to be selected.
 - `reset` - a custom submit button that initialize the text form inputs.
+- `ace` - a rich code editor.
 
 = Necessary Files =
 - **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
@@ -448,6 +449,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.0 =
+- Added the <code>[ace](https://github.com/soderlind/AceCustomFieldType)</code> custom field type.
 - Added the ability to have different menu title from the page title with the `page_title` and `menu_title` argument pass to the `addSubMenuItems()` method.
 - Added the ability for the `description` field/section definition argument to accept an array to process elements as multiple paragraphs.
 - Added the ability to set custom arguments to enqueuing resource(style/script) tags.
