@@ -26,11 +26,13 @@ class AdminPageFramework_CSS {
     static public function getDefaultCSS() {
         $_sCSS = 
 "/* Settings Notice */
-.wrap div.updated, 
-.wrap div.settings-error { 
-    clear: both; 
+.wrap div.updated.admin-page-framework-settings-notice-container, 
+.wrap div.error.admin-page-framework-settings-notice-container, 
+.media-upload-form div.error.admin-page-framework-settings-notice-container
+{
+    clear: both;
     margin-top: 16px;
-}         
+}
         
 /* Contextual Help Page */
 .contextual-help-description {
