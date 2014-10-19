@@ -351,8 +351,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Returns the readable list of the given array contents.
      * 
-     * @remark  If the second dimension element is an array it will be enclosed in parenthesis.
-     * @since   3.3.0
+     * @remark      If the second dimension element is an array it will be enclosed in parenthesis.
+     * @since       3.3.0
      */
     static public function getReadableListOfArray( array $aArray ) {
         
@@ -397,7 +397,55 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         return implode( PHP_EOL, $_aOutput );    
         
     }        
-             
+    /**
+     * Returns the readable list of the given array contents as HTML.
+     * 
+     * @since       3.3.0
+     */
+    static public function getReadableListOfArrayAsHTML( array $aArray ) {
+
+        $_aOutput   = array();
+        foreach( $aArray as $_sKey => $_vValue ) {        
+            $_aOutput[] = "<ul class='array-contents'>" 
+                    .  self::getReadableArrayContentsHTML( $_sKey, $_vValue )
+                . "</ul>". PHP_EOL;
+        }
+        return implode( PHP_EOL, $_aOutput );    
+        
+    } 
+    /**
+     * Returns the readable array contents.
+     * 
+     * @since   3.3.0
+     */    
+    static public function getReadableArrayContentsHTML( $sKey, $vValue ) {
+        
+        // Output container.
+        $_aOutput   = array();
+        
+        // Title - array key
+        $_aOutput[] = $sKey 
+            ? "<h3 class='array-key'>" . $sKey . "</h3>"
+            : "";
+            
+        // If it does not have a nested array or object, 
+        if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) {
+            $_aOutput[] = "<div class='array-value'>" 
+                    . html_entity_decode( nl2br( str_replace( ' ', '&nbsp;', $vValue ) ), ENT_QUOTES )
+                . "</div>";
+            return "<li>" . implode( PHP_EOL, $_aOutput ) . "</li>";    
+        }
+        
+        // Now it is a nested item.
+        foreach ( $vValue as $_sKey => $_vValue ) {   
+            $_aOutput[] =  "<ul class='array-contents'>" 
+                    . self::getReadableArrayContentsHTML( $_sKey, $_vValue ) 
+                . "</ul>";
+        }
+        return implode( PHP_EOL, $_aOutput ) ;
+        
+    }
+    
     
 }
 endif;
