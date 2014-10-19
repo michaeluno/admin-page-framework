@@ -10,14 +10,21 @@ if ( ! class_exists( 'AdminPageFramework_Script_Widget' ) ) :
 /**
  * Provides JavaScript scripts to handle widget events.
  * 
- * @since       3.2.0
- * @package     AdminPageFramework
- * @subpackage  JavaScript
+ * @since           3.2.0
+ * @since           3.3.0       Extends `AdminPageFramework_Script_Base`.
+ * @package         AdminPageFramework
+ * @subpackage      JavaScript
  * @internal
  */
-class AdminPageFramework_Script_Widget {
-
-    static public function getjQueryPlugin() {
+class AdminPageFramework_Script_Widget extends AdminPageFramework_Script_Base {
+    
+    /**
+     * Returns the script.
+     * 
+     * @since       3.2.0
+     * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
+     */
+    static public function getScript( $oMsg=null ) {
         
         /**
          * Triggers the 'admin_page_framework_saved_widget' event when a widget is dropped.

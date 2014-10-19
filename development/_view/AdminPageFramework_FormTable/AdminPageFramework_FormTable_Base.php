@@ -43,21 +43,21 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
         /**
          * Inserts necessary JavaScript scripts for fields.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @internal
          */ 
         private function _loadScripts() {
             
             if ( self::$_bIsLoadedTabPlugin ) { return; }
-            
-            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddTabPlugin' ) );
-            self::$_bIsLoadedTabPlugin = add_action( 'admin_footer', array( $this, '_replyToAddTabPlugin' ) );
+            self::$_bIsLoadedTabPlugin = true;
+            new AdminPageFramework_Script_Tab;
             
         }
         
     /**
      * Generates attributes of the field container tag.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     protected function _getAttributes( $aField, $aAttributes=array() ) {
@@ -75,7 +75,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
     /**
      * Returns the title part of the field output.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     protected function _getFieldTitle( $aField ) {
@@ -111,8 +111,8 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
      * which affects the way of rendering the row that contains the field output (by the field output callback).
      * 
      * @internal
-     * @since 3.0.0
-     * @remark The returning merged field definition array does not respect sub-fields so when passing the field definition to the callback,
+     * @since       3.0.0
+     * @remark      The returning merged field definition array does not respect sub-fields so when passing the field definition to the callback,
      * do not use the array returned from this method but the raw (non-merged) array.
      */
     protected function _mergeDefault( $aField ) {
@@ -124,39 +124,6 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
                 : array()
         );
         
-    }
-
-    /**
-     * Stores the flag that indicates whether the repeatable section jquery plugin script is loaded or not.
-     */
-    static private $_bLoadedRepeatableSectionPlugin = false;
-    /**
-     * Returns the framework's repeatable field jQuery plugin.
-     * 
-     * @since 3.0.0
-     * @internal
-     */
-    public function _replyToAddRepeatableSectionjQueryPlugin() {
-        
-        if ( self::$_bLoadedRepeatableSectionPlugin ) return;
-        self::$_bLoadedRepeatableSectionPlugin = true;
-        echo "<script type='text/javascript' class='admin-page-framework-repeatable-sections-plugin'>"
-                . AdminPageFramework_Script_RepeatableSection::getjQueryPlugin( $this->oMsg->get( 'allowed_maximum_number_of_sections' ), $this->oMsg->get( 'allowed_minimum_number_of_sections' ) )
-            . "</script>";
-    
-    }     
-
-    /**
-     * Returns the tab JavaScript script.
-     * 
-     * @since 3.0.0
-     */
-    public function _replyToAddTabPlugin() {
-        
-        echo "<script type='text/javascript' class='admin-page-framework-tab-plugin'>"
-                . AdminPageFramework_Script_Tab::getjQueryPlugin()
-            . "</script>";
-            
     }
     
 }

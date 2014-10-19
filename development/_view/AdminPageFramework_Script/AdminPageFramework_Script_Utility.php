@@ -10,14 +10,21 @@ if ( ! class_exists( 'AdminPageFramework_Script_Utility' ) ) :
 /**
  * Provides JavaScript utility scripts.
  * 
- * @since 3.0.0     
- * @package AdminPageFramework
- * @subpackage JavaScript
+ * @since       3.0.0     
+ * @since       3.2.0       Extends `AdminPageFramework_Script_Base`.
+ * @package     AdminPageFramework
+ * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_Utility {
+class AdminPageFramework_Script_Utility extends AdminPageFramework_Script_Base {
 
-    static public function getjQueryPlugin() {
+    /**
+     * Returns the script.
+     * 
+     * @since   3.0.0
+     * @since   3.3.0   Changed the name from `getjQueryPlugin()`.
+     */
+    static public function getScript( $oMsg=null ) {
         
         return "( function( $ ) {
             $.fn.reverse = [].reverse;

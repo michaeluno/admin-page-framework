@@ -106,12 +106,14 @@ class AdminPageFramework_Message {
             // AdminPageFramework_Link_PostType
             'manage'                                => null,
             
-            // AdminPageFramework_FieldType_Base
+            // AdminPageFramework_FieldType_{...}
             'select_image'                          => null,
             'upload_file'                           => null,
             'use_this_file'                         => null,
             'select_file'                           => null,
             'remove_value'                          => null,    // 3.2.0+
+            'select_all'                            => null,    // 3.3.0+
+            'select_none'                           => null,    // 3.3.0+
             
             // AdminPageFramework_PageLoadInfo_Base
             'queries_in_seconds'                    => null,
@@ -273,7 +275,7 @@ class AdminPageFramework_Message {
                 case 'manage':
                     return __( 'Manage', 'admin-page-framework' );
 
-                // AdminPageFramework_FieldType_Base
+                // AdminPageFramework_FieldType_{...}
                 case 'select_image':
                     return __( 'Select Image', 'admin-page-framework' );
                 case 'upload_file':
@@ -284,7 +286,11 @@ class AdminPageFramework_Message {
                     return __( 'Select File', 'admin-page-framework' );
                 case 'remove_value':    // 3.2.0+
                     return __( 'Remove Value', 'admin-page-framework' );
-
+                case 'select_all':      // 3.3.0+
+                    return __( 'Select All', 'admin-page-framework' );
+                case 'select_none':     // 3.3.0+
+                    return __( 'Select None', 'admin-page-framework' );                    
+                    
                 // AdminPageFramework_PageLoadInfo_Base
                 case 'queries_in_seconds':
                     return __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );

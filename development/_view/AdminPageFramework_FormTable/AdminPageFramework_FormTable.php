@@ -212,8 +212,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
          */
         private function getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
             
-            add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToAddRepeatableSectionjQueryPlugin' ) );
-            add_action( 'admin_footer', array( $this, '_replyToAddRepeatableSectionjQueryPlugin' ) );
+            new AdminPageFramework_Script_RepeatableSection( $this->oMsg );            
             
             if ( empty( $aSettings ) ) return '';     
             $aSettings              = ( is_array( $aSettings ) ? $aSettings : array() ) + array( 'min' => 0, 'max' => 0 ); // do not cast array since it creates a zero key for an empty variable.

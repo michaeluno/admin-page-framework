@@ -39,6 +39,8 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
             'size'      => 30,
             'maxlength' => 400,
         ),    
+        'select_all_button'     => true,        // 3.3.0+   to change the label, set the label here
+        'select_none_button'    => true,        // 3.3.0+   to change the label, set the label here        
     );
     protected $aDefaultRemovingPostTypeSlugs = array(
         'revision', 
@@ -55,13 +57,15 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * Returns the field type specific JavaScript script.
      */ 
     public function _replyToGetScripts() {
-        return "";     
+        $_sParentScripts = parent::_replyToGetScripts();
+        return $_sParentScripts;
     }    
 
     /**
      * Returns the field type specific CSS rules.
      */ 
     public function _replyToGetStyles() {
+        $_sParentStyles = parent::_replyToGetStyles();
         return "/* Posttype Field Type */
             .admin-page-framework-field input[type='checkbox'] {
                 margin-right: 0.5em;
@@ -69,7 +73,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
             .admin-page-framework-field-posttype .admin-page-framework-input-label-container {
                 padding-right: 1em;
             }    
-        ";     
+        " . $_sParentStyles;
     }
     
     /**

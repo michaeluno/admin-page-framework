@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_Script_MediaUploader' ) ) :
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
+ * @deprecated  Not implemented yet.
  */
 class AdminPageFramework_Script_MediaUploader {
 

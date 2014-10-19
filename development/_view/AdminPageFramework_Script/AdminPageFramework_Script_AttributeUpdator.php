@@ -10,14 +10,21 @@ if ( ! class_exists( 'AdminPageFramework_Script_AttributeUpdator' ) ) :
 /**
  * Provides JavaScript scripts to update attribute values.
  * 
- * @since 3.0.0     
+ * @since       3.0.0     
+ * @since       3.3.0       Extends `AdminPageFramework_Script_Base`.
  * @package AdminPageFramework
  * @subpackage JavaScript
  * @internal
  */
-class AdminPageFramework_Script_AttributeUpdator {
-
-    static public function getjQueryPlugin() {
+class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Script_Base {
+    
+    /**
+     * Returns the script.
+     * 
+     * @since       3.0.0   
+     * @since       3.3.0   Changed the name from `getjQueryPlugin()`.
+     */
+    static public function getScript( $oMsg=null ) {
         
         /**
          * Attribute increment/decrement jQuery Plugin

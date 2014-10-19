@@ -10,15 +10,24 @@ if ( ! class_exists( 'AdminPageFramework_Script_RepeatableSection' ) ) :
 /**
  * Provides JavaScript utility scripts.
  * 
- * @since 3.0.0     
- * @package AdminPageFramework
- * @subpackage JavaScript
+ * @since       3.0.0     
+ * @since       3.3.0      Extends `AdminPageFramework_Script_Base`.
+ * @package     AdminPageFramework
+ * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_RepeatableSection {
+class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Script_Base {
 
-    static public function getjQueryPlugin( $sCannotAddMore, $sCannotRemoveMore ) {
-
+    /**
+     * Returns the script.
+     * 
+     * @since       3.0.0
+     * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
+     */
+    static public function getScript( $oMsg ) {
+        
+        $sCannotAddMore    = $oMsg->get( 'allowed_maximum_number_of_sections' );
+        $sCannotRemoveMore = $oMsg->get( 'allowed_minimum_number_of_sections' );
         return "( function( $ ) {
 
             $.fn.updateAPFRepeatableSections = function( aSettings ) {

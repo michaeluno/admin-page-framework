@@ -28,17 +28,21 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @remark  $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'taxonomy_slugs'    => 'category',  // ( array|string ) This is for the taxonomy field type.
-        'height'            => '250px',     // 
-        'max_width'         => '100%',      // for the taxonomy checklist field type, since 2.1.1.     
-        'show_post_count'   => true,       // (boolean) 3.2.0+ whether or not the post count associated with the term should be displayed or not.
-        'attributes'        => array(),    
+        'taxonomy_slugs'        => 'category',      // (array|string) This is for the taxonomy field type.
+        'height'                => '250px',         // 
+        'max_width'             => '100%',          // for the taxonomy checklist field type, since 2.1.1.     
+        'show_post_count'       => true,            // (boolean) 3.2.0+ whether or not the post count associated with the term should be displayed or not.
+        'attributes'            => array(),    
+        'select_all_button'     => true,            // (boolean|string) 3.3.0+ to change the label, set the label here
+        'select_none_button'    => true,            // (boolean|string) 3.3.0+ to change the label, set the label here                
     );
     
     /**
      * Loads the field type necessary components.
      */ 
-    public function _replyToFieldLoader() {}
+    public function _replyToFieldLoader() {
+        new AdminPageFramework_Script_CheckboxSelector;
+    }
     
     /**
      * Returns the field type specific JavaScript script.
@@ -214,7 +218,13 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
             .admin-page-framework-field .tab-box-content:target, 
             .admin-page-framework-field .tab-box-content:target { 
                 display: block; 
-            }     
+            }  
+        /* tab-box-content */
+        .admin-page-framework-field .tab-box-content .select_all_button_container, 
+        .admin-page-framework-field .tab-box-content .select_none_button_container
+        {
+            margin-top: 0.8em;
+        }
         " . PHP_EOL;
     }
     
@@ -244,6 +254,16 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
 
         $aTabs          = array();
         $aCheckboxes    = array();
+        
+        $_aCheckboxContainerAttributes = array(
+            'class'                     => 'admin-page-framework-checkbox-container',
+            'data-select_all_button'    => $aField['select_all_button'] 
+                ? ( ! is_string( $aField['select_all_button'] ) ? $this->oMsg->get( 'select_all' ) : $aField['select_all_button'] )
+                : null,
+            'data-select_none_button'   => $aField['select_none_button'] 
+                ? ( ! is_string( $aField['select_none_button'] ) ? $this->oMsg->get( 'select_none' ) : $aField['select_none_button'] )
+                : null,
+        );        
         foreach( ( array ) $aField['taxonomy_slugs'] as $sKey => $sTaxonomySlug ) {
             
             $aInputAttributes = isset( $aField['attributes'][ $sKey ] ) && is_array( $aField['attributes'][ $sKey ] )
@@ -261,6 +281,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
             $aCheckboxes[] = 
                 "<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
                     . $this->getFieldElementByKey( $aField['before_label'], $sKey )
+                    . "<div " . $this->generateAttributes( $_aCheckboxContainerAttributes ) . "></div>"
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
                         . wp_list_categories( 
                             array(

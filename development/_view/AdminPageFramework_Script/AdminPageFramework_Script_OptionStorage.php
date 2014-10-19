@@ -11,13 +11,20 @@ if ( ! class_exists( 'AdminPageFramework_Script_OptionStorage' ) ) :
  * Provides JavaScript scripts to store temporary option data.
  * 
  * @since       3.1.6
+ * @sicne       3.3.0       Extends `AdminPageFramework_Script_Base`.
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_OptionStorage {
-
-    static public function getjQueryPlugin() {
+class AdminPageFramework_Script_OptionStorage extends  AdminPageFramework_Script_Base {
+    
+    /**
+     * Returns the script.
+     * 
+     * @since   3.1.6
+     * @since   3.3.0   Changed the name from `getjQueryPlugin()`;
+     */
+    static public function getScript( $oMsg=null ) {
         
         /**
          * Stores framework JavaScript script options.

@@ -10,14 +10,30 @@ if ( ! class_exists( 'AdminPageFramework_Script_Sortable' ) ) :
 /**
  * Provides JavaScript scripts for the sortable method.
  * 
- * @since 3.0.0     
- * @package AdminPageFramework
- * @subpackage JavaScript
+ * @since           3.0.0     
+ * @since           3.3.0       Extends `AdminPageFramework_Script_Base`.
+ * @package         AdminPageFramework
+ * @subpackage      JavaScript
  * @internal
  */
-class AdminPageFramework_Script_Sortable {
-
-    static public function getjQueryPlugin() {
+class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base {
+    
+    /**
+     * The user constructor.
+     * 
+     * @since       3.3.0
+     */
+    protected function construct() {
+        wp_enqueue_script( 'jquery-ui-sortable' ); 
+    }
+    
+    /**
+     * Returns the script.
+     * 
+     * @since       3.0.0
+     * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
+     */
+    static public function getScript( $oMsg=null ) {
 
         /**
          * HTML5 Sortable jQuery Plugin
