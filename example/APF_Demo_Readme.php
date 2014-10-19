@@ -21,7 +21,6 @@ class APF_Demo_Readme extends AdminPageFramework {
                 'menu_title'            => __( 'About', 'admin-page-framework' ),           // (optional) to make it different from the page title.
                 'page_slug'             => 'apf_read_me',
                 'screen_icon'           => 'page',
-                'show_in_menu'          => false, // hide it
             ),     
             array(
                 'title'                 => __( 'Documentation', 'admin-page-framework-demo' ),
