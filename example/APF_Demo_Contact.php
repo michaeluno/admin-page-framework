@@ -83,7 +83,7 @@ class APF_Demo_Contact extends AdminPageFramework {
             'contact',
             array( 
                 'field_id'          => 'name',
-                'title'             => __( 'Name', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Name', 'admin-page-framework-demo' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname 
                     ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname 
@@ -95,7 +95,7 @@ class APF_Demo_Contact extends AdminPageFramework {
             ),    
             array( 
                 'field_id'          => 'from',
-                'title'             => __( 'Email Address', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Email Address', 'admin-page-framework-demo' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_email,
                 'attributes'        => array(
@@ -191,7 +191,7 @@ class APF_Demo_Contact extends AdminPageFramework {
             'report',
             array( 
                 'field_id'          => 'name',
-                'title'             => __( 'Name', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Name', 'admin-page-framework-demo' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname 
                     ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname 
@@ -203,7 +203,7 @@ class APF_Demo_Contact extends AdminPageFramework {
             ),    
             array( 
                 'field_id'          => 'from',
-                'title'             => __( 'Email Address', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Email Address', 'admin-page-framework-demo' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_email,
                 'attributes'        => array(
@@ -215,7 +215,6 @@ class APF_Demo_Contact extends AdminPageFramework {
                 'field_id'          => 'expected_result',
                 'title'             => __( 'Expected Behavior', 'admin-page-framework-demo' ),
                 'type'              => 'textarea',
-                'rich'              => true,
                 'description'       => __( 'Tell how the framework should work.', 'admin-page-framework-demo' ),
                 'attributes'        => array(
                     'required'  => 'required',
@@ -225,7 +224,6 @@ class APF_Demo_Contact extends AdminPageFramework {
                 'field_id'          => 'actual_result',
                 'title'             => __( 'Actual Behavior', 'admin-page-framework-demo' ),
                 'type'              => 'textarea',
-                'rich'              => true,
                 'description'      => __( 'Describe the behavior of the framework.', 'admin-page-framework-demo' ),
                 'attributes'        => array(
                     'required'  => 'required',
@@ -272,13 +270,14 @@ class APF_Demo_Contact extends AdminPageFramework {
                 'email'             => array(
                     // Each argument can accept a string or an array representing the dimensional array key.
                     // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
-                    'to'          => 'admin-page-framework@michaeluno.jp',
-                    'subject'     => 'Reporting Issue',
-                    'message'     => array( 'report' ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
-                    'headers'     => '',
-                    'attachments' => '', // the file path
-                    'name'        => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
-                    'from'        => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
+                    'to'            => 'admin-page-framework@michaeluno.jp',
+                    'subject'       => 'Reporting Issue',
+                    'message'       => array( 'report' ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
+                    'headers'       => '',
+                    'attachments'   => '', // the file path
+                    'name'          => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
+                    'from'          => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
+                    // 'is_html'       => true,
                 ),
             ),     
             array()
