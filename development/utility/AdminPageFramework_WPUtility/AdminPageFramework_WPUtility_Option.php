@@ -98,11 +98,13 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
      * @since   3.0.1
-     * @param   string        $sOptionKey   the option key of the options table.
-     * @param   string|array  $asKey        the field id or the array that represents the key structure consisting of the section ID and the field ID.
-     * @param   mixed         $vDefault     the default value that will be returned if nothing is stored.
+     * @since   3.3.0           Added the <var>$aOptions</var> parameter.
+     * @param   string          $sOptionKey   the option key of the options table.
+     * @param   string|array    $asKey        the field id or the array that represents the key structure consisting of the section ID and the field ID.
+     * @param   mixed           $vDefault     the default value that will be returned if nothing is stored.
+     * @param   array           $aOptions     an additional options array to merge with the options array. 
      */
-    static public function getOption( $sOptionKey, $asKey=null, $vDefault=null ) {
+    static public function getOption( $sOptionKey, $asKey=null, $vDefault=null, $aOptions=array() ) {
         
         // If only the option key is given, the default value is treated as the entire option data.
         if ( ! $asKey ) {
@@ -113,7 +115,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_aOptions  = get_option( $sOptionKey, array() );
         $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey ) );
 
-        return self::getArrayValueByArrayKeys( $_aOptions, $_aKeys, $vDefault );
+        return self::getArrayValueByArrayKeys( self::uniteArrays( $_aOptions, $aOptions ), $_aKeys, $vDefault );
         
     }
     
