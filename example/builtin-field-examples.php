@@ -465,21 +465,23 @@ $this->addSettingFields(
         'after_label'   => '<br />',
     ),
     array( // Multiple sets of checkbox fields
-        'field_id'      => 'checkbox_multiple_fields',
-        'title'         => __( 'Multiple Sets', 'admin-page-framework-demo' ),
-        'type'          => 'checkbox',
-        'label'         => array( 
+        'field_id'              => 'checkbox_multiple_fields',
+        'title'                 => __( 'Multiple Sets', 'admin-page-framework-demo' ),
+        'type'                  => 'checkbox',
+        'select_all_button'     => true,        // 3.3.0+   to change the label, set the label here
+        'select_none_button'    => true,        // 3.3.0+   to change the label, set the label here                
+        'label'                 => array( 
             'a' => 'A',
             'b' => 'B',
             'c' => 'C' 
         ),
-        'default'       => array( 
+        'default'               => array( 
             'a' => false,
             'b' => true,
             'c' => false 
         ),
-        'delimiter'     => '<hr />',
-        'attributes'    => array(
+        'delimiter'             => '<hr />',
+        'attributes'            => array(
             'field' => array(
                 'style' => 'width: 100%;',
             ),
@@ -516,13 +518,15 @@ $this->addSettingFields(
         'type'          => 'checkbox',
         'label'         => array( 'x', 'y', 'z' ),
         'repeatable'    =>    true,
+        'select_all_button'     => __( 'Check All', 'admin-page-framework-demo' ),        // 3.3.0+   to change the label, set the label here
+        'select_none_button'    => __( 'Uncheck All', 'admin=page-framework-demo' ),      // 3.3.0+   to change the label, set the label here                        
     ),
     array( // sortable check boxes
         'field_id'      => 'checkbox_sortable_fields',
         'title'         => __( 'Sortable', 'admin-page-framework-demo' ),
         'type'          => 'checkbox',
         'label'         => array( 'x', 'y', 'z' ),
-        'sortable'      =>    true,
+        'sortable'      => true,
         array(), // the second item
         array(), // the third item
         array(), // the fourth item
@@ -821,28 +825,13 @@ $this->addSettingFields(
             'public'   => true,
             '_builtin' => false,
         ),
+        'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
+        'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
         'operator'              => 'and',   // can be 'or'
         'slugs_to_remove'       => array(), // if not set, the following slugs will be automatically removed. 'revision',  'attachment',  'nav_menu_item'.
         'description'           => __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-demo' )
             . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ) ,
     ),    
-    array(
-        'field_id'              => 'post_type_multiple_checklists',
-        'title'                 => __( 'Multiple', 'admin-page-framework-demo' ),
-        'type'                  => 'posttype',
-        'before_field'          => '<p style="clear: both; font-weight: bold;">' . __( 'For A', 'admin-page-framework-demo' ) . '</p>',
-        array(
-            'before_field' => '<p style="clear: both; font-weight: bold;">' . __( 'For B', 'admin-page-framework-demo' ) . '</p>',
-        ),
-        array(
-            'before_field' => '<p style="clear: both; font-weight: bold;">' . __( 'For C', 'admin-page-framework-demo' ) . '</p>',
-        ),
-        'attributes'            => array(
-            'field' => array(
-                'style' => 'margin-bottom: 1em;',
-            )
-        ),
-    ),     
     array(
         'field_id'              => 'post_type_checklist_repeatable',
         'title'                 => __( 'Repeatable', 'admin-page-framework-demo' ),
@@ -857,6 +846,8 @@ $this->addSettingFields(
         'height'                => '200px', // (optional)
         'show_post_count'       => true,    // (optional) whether to show the post count. Default: false.
         'taxonomy_slugs'        => array( 'category', 'post_tag' ),
+        'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
+        'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
     ),      
     array(  
         'field_id'              => 'taxonomy_checklist_all',
