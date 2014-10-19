@@ -205,7 +205,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
                 'message'       => '',
                 'headers'       => '',
                 'attachments'   => '',
-                'is_html'       => '',
+                'is_html'       => false,
                 'from'          => '',
                 'name'          => '',
             );
@@ -219,11 +219,13 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             if ( $this->_sEmailSenderName = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'name', $sSubmitSectionID ) ) {
                 add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
             }
-
+            
             $_bSent         = wp_mail( 
                 $this->_getEmailArgument( $aInput, $_aEmailOptions, 'to', $sSubmitSectionID ),
                 $this->_getEmailArgument( $aInput, $_aEmailOptions, 'subject', $sSubmitSectionID ),
-                $this->oUtil->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) ),
+                $_bIsHTML 
+                    ? $this->oUtil->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) )
+                    : $this->oUtil->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) ),
                 $this->_getEmailArgument( $aInput, $_aEmailOptions, 'headers', $sSubmitSectionID ),
                 $this->_getEmailArgument( $aInput, $_aEmailOptions, 'attachments', $sSubmitSectionID )
             );         
@@ -269,7 +271,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             /**
              * Returns the email argument value by the given key.
              * 
-             * If the element is a string, pass it as it is. If it is an array representing the dimantional key structure, retrieve it from the input array.
+             * If the element is a string, pass it as it is. If it is an array representing the dimensional key structure, retrieve it from the input array.
              * 
              * @since   3.3.0
              */
@@ -332,7 +334,7 @@ abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_
             // Set the admin notice
             $this->setSettingNotice( $this->oMsg->get( 'confirm_perform_task' ) );            
             
-            // Ther returned options will be saved so returned the saved options not to change anything.
+            // Their returned options will be saved so returned the saved options not to change anything.
             return $this->oProp->aOptions;
             
         }
