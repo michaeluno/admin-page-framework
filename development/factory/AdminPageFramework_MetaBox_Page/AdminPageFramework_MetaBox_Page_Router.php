@@ -11,9 +11,10 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Router' ) ) :
  * Provides routing methods for creating meta boxes in pages added by the framework.
  * 
  * @abstract
- * @since 3.0.4
- * @package AdminPageFramework
- * @subpackage PageMetaBox
+ * @since           3.0.4
+ * @package         AdminPageFramework
+ * @subpackage      PageMetaBox
+ * @internal
  */
 abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_Base {
     
@@ -21,6 +22,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
      * Triggers the start_{...} action hook.
      *
      * @since 3.0.4
+     * @internal
      */
     function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                         
@@ -32,7 +34,9 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
             
     /**
      * Determines whether the meta box class components should be loaded in the currently loading page.
-     * @since 3.1.3    
+     * 
+     * @since       3.1.3    
+     * @internal
      */
     protected  function _isInstantiatable() {
         

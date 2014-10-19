@@ -77,7 +77,9 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * Head Tag Methods
      */
     /**
-     * Enqueues styles by page slug and tab slug.
+     * {@inheritdoc}
+     * 
+     * {@inheritdoc}
      * 
      * @since       3.0.0
      * @return      array       An array holding the handle IDs of queued items.
@@ -88,20 +90,10 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         }
     }
     /**
-     * Enqueues a style by page slug and tab slug.
+     * {@inheritdoc}
      * 
-     * @since       3.0.0
-     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param       string The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: `/css/mystyle.css`.
-     * @param       array           $sSRC           (optional) The argument array for more advanced parameters.
-     * <h4>Custom Argument Array</h4>
-     * <ul>
-     *     <li>**handle_id** - (optional, string) The handle ID of the stylesheet.</li>
-     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-     *     <li>**version** - (optional, string) The stylesheet version number.</li>
-     *     <li>**media** - (optional, string) the description of the field which is inserted into after the input field tag.</li>
-     * </ul>
-     * @return      string          The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * {@inheritdoc}
+     * 
      */    
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
@@ -109,9 +101,10 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         }
     }
     /**
-     * Enqueues scripts by page slug and tab slug.
+     * {@inheritdoc}
      * 
-     * @since       3.0.0
+     * {@inheritdoc}
+     * 
      * @return      array       An array holding the handle IDs of queued items.
      */
     public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
@@ -120,33 +113,11 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         }
     }    
     /**
-     * Enqueues a script by page slug and tab slug.
-     *  
-     * <h4>Example</h4>
-     * <code>$this->enqueueScript(  
-     *      plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
-     *      array(
-     *          'handle_id'     => 'my_script', // this handle ID also is used as the object name for the translation array below.
-     *          'translation'   => array( 
-     *              'a'                 => 'hello world!',
-     *              'style_handle_id'   => $sStyleHandle, // check the enqueued style handle ID here.
-     *          ),
-     *      )
-     * );</code>
+     * {@inheritdoc}
      * 
+     * {@inheritdoc}
+     *  
      * @since       3.0.0
-     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-     * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: `/js/myscript.js`.
-     * @param       array       (optional) The argument array for more advanced parameters.
-     * <h4>Custom Argument Array</h4>
-     * <ul>
-     *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
-     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li>**version** - (optional, string) The stylesheet version number.</li>
-     *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
-     *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head >` or before `</body>` Default: `false`.</li>
-     * </ul>
-     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
     public function enqueueScript( $sSRC, $aCustomArgs=array() ) {    
         if ( method_exists( $this->oResource, '_enqueueScript' ) ) {

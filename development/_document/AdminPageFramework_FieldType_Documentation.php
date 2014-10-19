@@ -97,32 +97,32 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
  *                          return 
  *                              $aField['before_label']
  *                              . $aField['before_input']
- *                              . "<div class='repeatable-field-buttons'></div>"	// the repeatable field buttons
+ *                              . "<div class='repeatable-field-buttons'></div>"    // the repeatable field buttons
  *                              . $this->_getInputs( $aField )
  *                              . $aField['after_input']
  *                              . $aField['after_label'];      
- *                      }	
+ *                      }    
  *                          private function _getInputs( $aField ) {
  *                              $_aOutput = array();
  *                              foreach( ( array ) $aField['label'] as $_sSlug => $_sLabel ) {
- *                                  
  *                                  $_aAttributes = isset( $aField['attributes'][ $_sSlug ] ) && is_array( $aField['attributes'][ $_sSlug ] )
  *                                      ? $aField['attributes'][ $_sSlug ] + $aField['attributes']
  *                                      : $aField['attributes'];
  *                                  $_aAttributes = array(
- *                                      'name'	=>	"{$_aAttributes['name']}[{$_sSlug}]",
- *                                      'id'	=>	"{$aField['input_id']}_{$_sSlug}",
- *                                      'value'	=>	isset( $aField['attributes']['value'][ $_sSlug ] ) ? $aField['attributes']['value'][ $_sSlug ] : '',
+ *                                      'tyle'  => 'text',
+ *                                      'name'  => "{$_aAttributes['name']}[{$_sSlug}]",
+ *                                      'id'    => "{$aField['input_id']}_{$_sSlug}",
+ *                                      'value' => isset( $aField['attributes']['value'][ $_sSlug ] ) ? $aField['attributes']['value'][ $_sSlug ] : '',
  *                                  ) + $_aAttributes;
  *                                  $_aOutput[] = 
  *                                      "<div class='admin-page-framework-input-label-container my_custom_field_type'>"
  *                                          . "<label for='{$aField['input_id']}_{$_sSlug}'>"
- *                                              . "<span class='admin-page-framework-input-label-string' style='min-width:" .  $aField['label_min_width'] . "px;'>" 
+ *                                              . "<span class='admin-page-framework-input-label-string' style='min-width:" . $aField['label_min_width'] . "px;'>" 
  *                                                  . $_sLabel
- *                                              . "</span>" . PHP_EOL					
+ *                                              . "</span>" . PHP_EOL                    
  *                                              . "<input " . $this->generateAttributes( $_aAttributes ) . " />"
  *                                          . "</label>"
- *                                      . "</div>";				
+ *                                      . "</div>";                
  *                              }
  *                              return implode( PHP_EOL, $_aOutput );
  *                          }
@@ -139,7 +139,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
  *         Include the definition file and instantiate the class in the script (plugin,theme etc.).
  *         <code>
  *          // pass the PHP class name that extends the framework's class to the first parameter.
- *         new MyCustomFieldTypeClass( 'MY_CLASS_NAME' );   
+ *         new MyCustomFieldType( 'MY_FRAMEWORK_CLASS_NAME' );   
  *         </code>
  *     </li>
  *     <li>
@@ -149,7 +149,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
  *              array(  
  *                  'field_id'     =>  'my_field_id',
  *                  'section_id'   =>  'my_section_id',
- *                  'type'         =>  'my_custom_field_type_slug',    // <-- here put the field type slug
+ *                  'type'         =>  'my_custom_field_type',    // <-- here put the field type slug
  *                  '...'          => '...'
  *              )
  *         );
@@ -160,7 +160,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
  * @package     AdminPageFramework
  * @subpackage  FieldType
  * @since       3.3.0      
- * @heading     Field Types
+ * @heading     Field Type
  */
 abstract class AdminPageFramework_FieldType_Documentation {}
 endif;

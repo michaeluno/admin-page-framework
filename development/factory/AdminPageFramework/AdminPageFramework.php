@@ -34,10 +34,10 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * @since       2.0.0
      * @see         http://codex.wordpress.org/Roles_and_Capabilities
      * @see         http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-     * @param       string      $sOptionKey (optional) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
-     * @param       string      $sCallerPath (optional) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-     * @param       string      $sCapability (optional) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: `manage_options`
-     * @param       string      $sTextDomain (optional) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
+     * @param       string      $sOptionKey         (optional) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
+     * @param       string      $sCallerPath        (optional) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+     * @param       string      $sCapability        (optional) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: `manage_options`
+     * @param       string      $sTextDomain        (optional) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
      * @return      void        returns nothing.
      */
     public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
@@ -155,14 +155,14 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      *             dirname( APFDEMO_FILE ) . '/asset/css/code.css',
      *             dirname( APFDEMO_FILE ) . '/asset/css/code2.css',
      *         ),
-     *         'apf_manage_options' 
+     *         'apf_manage_options'     // page slug
      * );</code>
      * 
      * @since       3.0.0
-     * @param       array       The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
-     * @param       string      (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-     * @param       string      (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param       array       (optional) The argument array for more advanced parameters.
+     * @param       array       $aSRCs          The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
+     * @param       string      $sPageSlug      (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+     * @param       string      $sTabSlug       (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+     * @param       array       $aCustomArgs    (optional) The argument array for more advanced parameters.
      * @return      array       The array holing the queued items.
      */
     public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
@@ -174,21 +174,30 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      * Enqueues a style by page slug and tab slug.
      * 
      * <h4>Example</h4>
-     * <code>$this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' );
-     * $this->enqueueStyle(  plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ) , 'apf_read_me' );</code>
+     * <code>
+     * $this->enqueueStyle(  
+     *      dirname( APFDEMO_FILE ) . '/asset/css/code.css', 
+     *      'apf_manage_options'    // page slug
+     * );
+     * $this->enqueueStyle(
+     *      plugins_url( 'asset/css/readme.css' , APFDEMO_FILE ),
+     *      'apf_read_me'           // page slug
+     * );
+     * </code>
      * 
      * @since       2.1.2
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
      * @param       string      The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-     * @param       string      (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
-     * @param       string      (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param       array       (optional) The argument array for more advanced parameters.
+     * @param       string      $sPageSlug          (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
+     * @param       string      $sTabSlug           (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
+     * @param       array       $aCustomArgs        (optional) The argument array for more advanced parameters.
      * <h4>Argument Array</h4>
      * <ul>
      *     <li>**handle_id** - (optional, string) The handle ID of the stylesheet.</li>
      *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**media** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      * </ul>
      * @return      string      The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */    
@@ -254,6 +263,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Setting {
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
      *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before`</body>` Default: `false`.</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */

@@ -16,6 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Model' ) ) :
  * @since           3.0.4
  * @package         AdminPageFramework
  * @subpackage      PostType
+ * @internal
  */
 abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {    
 

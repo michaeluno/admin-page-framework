@@ -253,7 +253,6 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
      *          'field_id'          => 'preset_field',
      *          'title'             => __( 'Preset', 'admin-page-framework-demo' ),
      *          'type'              => 'number',
-     *          'default'           => $this->getValue( 'number_section', 'text_field' ),
      *      ),
      *      array( 
      *          'field_id'          => 'value_based_on_preset',
@@ -299,27 +298,23 @@ abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Val
         trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain ), __METHOD__, 'getValue()' ), E_USER_NOTICE );
     
         $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions( $this->oForm->aFields ) );
-        
         /* If it's saved, return it */
         if ( ! $sSectionID ) {
             if ( array_key_exists( $sFieldID, $_aOptions ) ) {
                 return $_aOptions[ $sFieldID ];
-            }
-                
+            }    
             // loop through section elements
             foreach( $_aOptions as $aOptions ) {
                 if ( array_key_exists( $sFieldID, $aOptions ) ) {
                     return $aOptions[ $sFieldID ];
                 }
             }
-                
         }
         if ( $sSectionID ) {
             if ( array_key_exists( $sSectionID, $_aOptions ) && array_key_exists( $sFieldID, $_aOptions[ $sSectionID ] ) ) {
                 return $_aOptions[ $sSectionID ][ $sFieldID ];
             }
         }
-    
         return null;
                     
     }

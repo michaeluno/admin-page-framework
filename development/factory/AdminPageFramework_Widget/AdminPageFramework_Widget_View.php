@@ -22,7 +22,7 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
     /**
      * Filters the post type post content.
      * 
-     * This method is called in the same timing of the content_{instantiated class name.}. This is shorthand for it.
+     * This method is called in the same timing of the `content_{instantiated class name}`. This is shorthand for it.
      * 
      * <h4>Example</h4>
      * <code>

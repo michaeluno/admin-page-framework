@@ -148,7 +148,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
      *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body >` Default: `false`.</li>
-     *     <li>**arguments** - (optional, array) [3.3.0+] argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attribute argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
      * </ul>  
      * 
      * <h4>Examples</h4>
@@ -178,7 +178,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**media** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
-     *     <li>**arguments** - (optional, array) [3.3.0+] argument array. `array( 'data-id' => '...' )`</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      * </ul>
      * 
      * <h4>Examples</h4>

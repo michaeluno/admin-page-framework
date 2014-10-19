@@ -43,7 +43,7 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField_Documentaion' ) ) :
  * @since       3.3.0
  * @package     AdminPageFramework
  * @subpackage  TaxonomyField
- * @heading     Taxonomy Fields
+ * @heading     Taxonomy Field
  */
 abstract class AdminPageFramework_TaxonomyField_Documentaion {}
 endif;

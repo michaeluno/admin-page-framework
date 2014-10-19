@@ -30,7 +30,7 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Documentation' ) ) :
  * @since       3.3.0
  * @package     AdminPageFramework
  * @subpackage  PostType
- * @heading     Post Types
+ * @heading     Post Type
  */
 abstract class AdminPageFramework_PostType_Documentation {}
 endif;

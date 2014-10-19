@@ -217,29 +217,9 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
     * @since        3.0.0       Changed the scope to public.
     * @remark       The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
     * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
-    * @param        array       a first sub-menu array. A sub-menu array can be a link or a page. The array structures are as follows:
-    * <h4>Sub-menu Page Array</h4>
-    * <ul>
-    * <li><strong>title</strong> - (string) the page title of the page.</li>
-    * <li><strong>page_slug</strong> - (string) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-    * <li><strong>screen_icon</strong> - (optional, string) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
-    * <pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
-    * <p>( Notes: the <em>generic</em> icon is available WordPress version 3.5 or above.)</p> 
-    * </li>
-    * <li><strong>capability</strong> - (optional, string) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is *manage_options* by default, will be used.</li>
-    * <li><strong>order</strong> - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-    * <li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
-    * </ul>
-    * <h4>Sub-menu Link Array</h4>
-    * <ul>
-    * <li><strong>title</strong> - (string) the link title.</li>
-    * <li><strong>href</strong> - (string) the URL of the target link.</li>
-    * <li><strong>capability</strong> - (optional, string) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
-    * <li><strong>order</strong> - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-    * <li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
-    * </ul>
-    * @param        array       (optional) a second sub-menu array.
-    * @param        array       (optional) a third and add items as many as necessary with next parameters.
+    * @param        array       $aSubMenuItem1      a first sub-menu array. A sub-menu array can be a link or a page. For the specifications of the array structures and its arguments, refer to the parameter section of the `addSubMenuItem()` method.
+    * @param        array       $aSubMenuItem2      (optional) a second sub-menu array.
+    * @param        array       $_and_more          (optional) a third and add items as many as necessary with next parameters.
     * @access       public
     * @return       void
     */     
@@ -254,29 +234,42 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
     * 
     * It supports pages and links. Each of them has the specific array structure.
     * 
+    * <h4>Example</h4>
+    * <code>$this->addSubMenuItem(
+    *       array(
+    *           'title'         => 'Read Me',
+    *           'menu_title'    => 'About'
+    *           'page_slug'     => 'my_plugin_readme',
+    *       )
+    * );</code>
+    * 
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public.
     * @remark       The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
     * @param        array       a sub-menu array. It can be a page or a link. The array structures are as follows:
     * <h4>Sub-menu Page Array</h4>
     * <ul>
-    *   <li><strong>title</strong> - (string) the page title of the page.</li>
-    *   <li><strong>page_slug</strong> - (string) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-    *   <li><strong>screen_icon</strong> - (optional, string) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
+    *   <li>**title** - (string) the page title of the page.</li>
+    *   <li>**page_slug** - (string) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+    *   <li>**screen_icon** - (optional, string) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
     *       <pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
     *       <p>( Notes: the `generic` icon is available WordPress version 3.5 or above.)</p> 
     *   </li>
-    *   <li><strong>capability</strong> - (optional, string) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
-    *   <li><strong>order</strong> - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-    *   <li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
+    *   <li>**capability** - (optional, string) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
+    *   <li>**order** - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+    *   <li>**show_page_heading_tab** - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
+    *   <li>**show_in_menu** - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
+    *   <li>**page_title** - (optional) [3.3.0+] When the page title differs from the menu title, use this argument.</li>
+    *   <li>**menu_title** - (optional) [3.3.0+] When the menu title differs from the menu title, use this argument.</li>
     * </ul>
     * <h4>Sub-menu Link Array</h4>
     * <ul>
-    *   <li><strong>title</strong> - (string) the link title.</li>
-    *   <li><strong>href</strong> - (string) the URL of the target link.</li>
-    *   <li><strong>capability</strong> - (optional, string) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
-    *   <li><strong>order</strong> - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-    *   <li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
+    *   <li>**title** - (string) the link title.</li>
+    *   <li>**href** - (string) the URL of the target link.</li>
+    *   <li>**capability** - (optional, string) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
+    *   <li>**order** - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+    *   <li>**show_page_heading_tab** - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
+    *   <li>**show_in_menu** - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
     * </ul>
     * @access       public
     * @return       void
@@ -358,15 +351,15 @@ abstract class AdminPageFramework_Menu extends AdminPageFramework_Page {
      * @param       array       The sub menu page array.
      * <h4>Sub Menu Page Array</h4>
      * <ul>
-     *     <li>title - ( required ) the title of the page.</li>
-     *     <li>page_slug - ( required ) the slug of the page. Do not use hyphens as it serves as the callback method name.</li>
-     *     <li>screen icon - ( optional ) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.</li>
+     *     <li>title - (required) the title of the page.</li>
+     *     <li>page_slug - (required) the slug of the page. Do not use hyphens as it serves as the callback method name.</li>
+     *     <li>screen icon - (optional) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.</li>
      * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
      * ( Note: the <em>generic</em> ID is available since WordPress 3.5. )
-     *     <li>capability - ( optional ) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.</li>
-     *     <li>order - ( optional ) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-     *     <li>show_page_heading_tab - ( optional ) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-     *     <li>show_in_menu - ( optional ) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
+     *     <li>capability - (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.</li>
+     *     <li>order - (optional) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+     *     <li>show_page_heading_tab - (optional) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
+     *     <li>show_in_menu - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
      * </ul>
      * @return      void
      * @internal

@@ -73,10 +73,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * Head Tag Methods
      */
     /**
-     * Enqueues styles by page slug and tab slug.
+     * {@inheritdoc}
+     * 
+     * {@inheritdoc}
      * 
      * @since       3.2.0
-     * @return array An array holding the handle IDs of queued items.
      * @internal    Temporarily marked internal
      */
     public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {     
@@ -85,13 +86,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
         }
     }
     /**
-     * Enqueues a style by page slug and tab slug.
+     * {@inheritdoc}
+     * 
+     * {@inheritdoc}
      * 
      * @since       3.2.0
-     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-     * @param       array       (optional) The argument array for more advanced parameters.
-     * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal    Temporarily marked internal
      */    
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
@@ -100,10 +99,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
         }
     }
     /**
-     * Enqueues scripts by page slug and tab slug.
+     * {@inheritdoc}
+     * 
+     * {@inheritdoc}
      * 
      * @since       3.2.0
-     * @return      array An array holding the handle IDs of queued items.
      * @internal    Temporarily marked internal
      */
     public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
@@ -112,22 +112,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
         }
     }    
     /**
-     * Enqueues a script by page slug and tab slug.
-     *  
+     * {@inheritdoc}
+     * 
+     * {@inheritdoc}
      * 
      * @since           3.2.0
-     * @see             http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-     * @param           string The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-     * @param           array (optional) The argument array for more advanced parameters.
-     * <h4>Custom Argument Array</h4>
-     * <ul>
-     *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
-     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-     *     <li>**version** - (optional, string) The stylesheet version number.</li>
-     *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
-     *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before `</body>` Default: `false`.</li>
-     * </ul>
-     * @return          string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal    Temporarily marked internal
      */
     public function enqueueScript( $sSRC, $aCustomArgs=array() ) {    

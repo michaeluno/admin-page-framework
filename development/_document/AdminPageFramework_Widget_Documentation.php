@@ -20,7 +20,7 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Documentation' ) ) :
  * @since       3.3.0
  * @package     AdminPageFramework
  * @subpackage  Widget
- * @heading     Widgets
+ * @heading     Widget
  * @example     ../../../example/APF_Widget.php
  */
 abstract class AdminPageFramework_Widget_Documentation {}

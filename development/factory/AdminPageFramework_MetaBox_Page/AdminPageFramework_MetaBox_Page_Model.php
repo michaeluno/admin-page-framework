@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Model' ) ) :
  * @since           3.0.4
  * @package         AdminPageFramework
  * @subpackage      PageMetaBox
+ * @internal
  */
 abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
 

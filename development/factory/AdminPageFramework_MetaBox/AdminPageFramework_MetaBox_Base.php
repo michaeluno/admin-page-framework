@@ -12,10 +12,6 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Base' ) ) :
  * 
  * @abstract
  * @since       2.0.0
- * @use         AdminPageFramework_Utility
- * @use         AdminPageFramework_Message
- * @use         AdminPageFramework_Debug
- * @use         AdminPageFramework_Property_MetaBox
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Factory
  * @subpackage  MetaBox
@@ -44,7 +40,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
      * 
      * @see         http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
      * @since       2.0.0
-     * @param       string          $sMetaBoxID             The meta box ID.
+     * @param       string          $sMetaBoxID             The meta box ID. [3.3.0+] If an empty value is passed, the ID will be automatically generated and the lower-cased class name will be used.
      * @param       string          $sTitle                 The meta box title.
      * @param       string|array    $asPostTypeOrScreenID   (optional) The post type(s) or screen ID that the meta box is associated with.
      * @param       string          $sContext               (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') Default: `normal`.
@@ -82,7 +78,8 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
 
     /**
      * Determines whether the meta box class components should be loaded in the currently loading page.
-     * @since 3.1.3    
+     * @since       3.1.3    
+     * @internal
      */
     protected  function _isInstantiatable() {
         
@@ -96,9 +93,9 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
     /**
      * Determines whether the meta box should be loaded in the currently loading page.
      * 
-     * 
-     * @since   3.0.3
-     * @since   3.1.5   Changed the hook to 'current_screen' from 'wp_loaded'.
+     * @since       3.0.3
+     * @since       3.1.5      Changed the hook to 'current_screen' from 'wp_loaded'.
+     * @internal    
      */
     public function _replyToDetermineToLoad( $oScreen ) {
  
@@ -127,6 +124,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
      * @param       object      $oPost      The object of the post associated with the meta box.
      * @param       array       $vArgs      The array of arguments.
      * @return      void
+     * @internal    
      */ 
     public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {    
 
@@ -168,6 +166,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
      * 
      * @since       unknown
      * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
+     * @internal    
      */
     protected function _setOptionArray( $isPostIDOrPageSlug, $aFields ) {
         
@@ -197,6 +196,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
     /**
      * Returns the filtered section description output.
      * 
+     * @internal
      * @since       3.0.0
      */
     public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {

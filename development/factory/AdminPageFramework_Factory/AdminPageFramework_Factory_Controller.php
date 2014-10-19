@@ -14,7 +14,6 @@ if ( ! class_exists( 'AdminPageFramework_Factory_Controller' ) ) :
  * @since       3.0.4
  * @package     AdminPageFramework
  * @subpackage  Factory
- * @internal
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
             
@@ -33,9 +32,89 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @remark      the number of arguments depend on the extended class.
      * @internal
      */
+    
+    /**
+     * Enqueues styles of the given sources.
+     * 
+     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
+     * @param       array       The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
+     * @param       array       (optional) The another source argument array.
+     * @return      array       The array holing the queued items.
+     * @internal
+     */
     public function enqueueStyles( $aSRCs, $_vArg2=null ) {} 
+    
+    /**
+     * Enqueues a style of the given source.
+     * 
+     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
+     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+     * @param       string      The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+     * @param       array       (optional) The argument array for more advanced parameters.
+     * <h4>Argument Array</h4>
+     * <ul>
+     *     <li>**handle_id** - (optional, string) The handle ID of the stylesheet.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**media** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
+     * </ul>
+     * @return      string      The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @internal
+     */
     public function enqueueStyle( $sSRC, $_vArg2=null ) {}
+    
+    /**
+     * Enqueues scripts by the given sources.
+     * 
+     * <h4>Example</h4>
+     * <code>
+     * $this->enqueueScripts(  
+     *     array( 
+     *          plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
+     *          plugins_url( 'asset/js/test2.js' , __FILE__ ),    
+     *     )
+     * );
+     * </code>
+     *
+     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
+     * @param       array       The sources of the stylesheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param       array       (optional) Ad additional source list array.
+     * @return      array        The array holding the queued items.
+     * @internal
+     */    
     public function enqueueScripts( $aSRCs, $_vArg2=null ) {}
+    /**
+     * Enqueues a script by the given source.
+     *  
+     * <h4>Example</h4>
+     * <code>$this->enqueueScript(  
+     *      plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
+     *      array(
+     *          'handle_id'     => 'my_script', // this handle ID also is used as the object name for the translation array below.
+     *          'translation'   => array( 
+     *              'a'                 => 'hello world!',
+     *              'style_handle_id'   => $sStyleHandle, // check the enqueued style handle ID here.
+     *          ),
+     *      )
+     * );</code>
+     * 
+     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
+     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+     * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param       array       (optional) The argument array for more advanced parameters.
+     * <h4>Argument Array</h4>
+     * <ul>
+     *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
+     *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
+     *     <li>**version** - (optional, string) The stylesheet version number.</li>
+     *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before`</body>` Default: `false`.</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
+     * </ul>
+     * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @internal
+     */    
     public function enqueueScript( $sSRC, $_vArg2=null ) {}    
     
     /*
@@ -94,8 +173,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      <li>**help** - (optional, string) the help description added to the contextual help tab.</li>
      *      <li>**help_aside** - (optional, string) the additional help description for the side bar of the contextual help tab.</li>
      * </ul>
-     * @param       array       (optional)      another section array.
-     * @param       array       (optional)      add more section array to the next parameters as many as necessary.
+     * @param       array       (optional) another section array.
+     * @param       array       (optional)  add more section array to the next parameters as many as necessary.
      * @return      void
      */    
     public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
@@ -240,7 +319,17 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *               <li>**href** - (optional, string) the url(s) linked to the submit button.</li>
     *               <li>**redirect_url** - (optional, string) the url(s) redirected to after submitting the input form.</li>
     *               <li>**reset** - [2.1.2+] (optional, boolean) the option key to delete. Set 1 for the entire option.</li>
-    *               <li>**email** - [3.3.0+] (optional, array) Coming soon...</li>
+    *               <li>**email** - [3.3.0+] (optional, array) Coming soon...
+    *                   <ul>
+    *                       <li>**to** - (string|array) the email address to send the email to. For multiple email addressed, set comma delimited items.</li>
+    *                       <li>**subject** - (string|array) the email title.</li>
+    *                       <li>**message** - (string|array) the email body text.</li>
+    *                       <li>**attachments** - (string|array) the file path.</li>
+    *                       <li>**name** - (string|array) the sender name.</li>
+    *                       <li>**from** - (string|array) the sender email.</li>
+    *                       <li>**is_html** - (boolean|array) indicates whether the message should be sent as an html or plain text.</li>
+    *                   </ul>
+    *               </li>
     *           </ul>
     *       </li>
     *       <li>**import** - an import input field. This is a custom file and submit field.

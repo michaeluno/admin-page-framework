@@ -11,9 +11,10 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Router' ) ) :
  * Provides routing methods for the post type factory class.
  * 
  * @abstract
- * @since 3.0.4
- * @package AdminPageFramework
- * @subpackage PostType
+ * @since           3.0.4
+ * @package         AdminPageFramework
+ * @subpackage      PostType
+ * @internal
  */
 abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {    
         

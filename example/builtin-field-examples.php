@@ -48,7 +48,7 @@ $this->addSettingFields(
         'field_id'          => 'number',
         'title'             => __( 'Number', 'admin-page-framework-demo' ),
         'type'              => 'number',
-    ),     
+    ),         
     array( // Multiple text fields
         'field_id'          => 'text_multiple',
         'title'             => __( 'Multiple', 'admin-page-framework-demo' ),

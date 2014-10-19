@@ -11,9 +11,9 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Controller' ) ) :
  * Provides controller methods for creating meta boxes in pages added by the framework.
  * 
  * @abstract
- * @since 3.0.4
- * @package AdminPageFramework
- * @subpackage PageMetaBox
+ * @since       3.0.4
+ * @package     AdminPageFramework
+ * @subpackage  PageMetaBox
  */
 abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFramework_MetaBox_Page_View {
     
@@ -35,7 +35,7 @@ abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFrame
      * @param string The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
      * @param string (optional) The page slug that the stylesheet should be added to. If not set, it applies to all the pages created by the framework.
      * @param string (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param             array (optional) The argument array for more advanced parameters.
+     * @param array (optional) The argument array for more advanced parameters.
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */    
     public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
