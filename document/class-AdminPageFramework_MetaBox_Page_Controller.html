@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_MetaBox_Page_Controller | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?2863173960"></script>
+	<script type="text/javascript" src="elementlist.js?937050935"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -54,6 +54,8 @@
 						<ul>
 				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
+				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
@@ -92,27 +94,6 @@
                 </li>
 				<li>
                     
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_MetaBox_Page_Model.html">
-                        AdminPageFramework_MetaBox_Page_Model
-                    </a>
-                </li>
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_MetaBox_Page_Router.html">
-                        AdminPageFramework_MetaBox_Page_Router
-                    </a>
-                </li>
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_MetaBox_Page_View.html">
-                        AdminPageFramework_MetaBox_Page_View
-                    </a>
-                </li>
 			</ul>
 
 
@@ -158,7 +139,8 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Factory_Controller
+			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
+			
 			
 			
 		</dd>
@@ -176,22 +158,19 @@ AdminPageFramework_MetaBox_Base
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_MetaBox_Page_Router.html"><span>AdminPageFramework_MetaBox_Page_Router</span></a>
-			
+AdminPageFramework_MetaBox_Page_Router
 			
 			
 		</dd>
 		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_MetaBox_Page_Model.html"><span>AdminPageFramework_MetaBox_Page_Model</span></a>
-			
+AdminPageFramework_MetaBox_Page_Model
 			
 			
 		</dd>
 		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_MetaBox_Page_View.html"><span>AdminPageFramework_MetaBox_Page_View</span></a>
-			
+AdminPageFramework_MetaBox_Page_View
 			
 			
 		</dd>
@@ -235,14 +214,14 @@ AdminPageFramework_MetaBox_Base
 
 			<td class="attributes"><code>
 				 public 
-				
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueStyles">#</a>
-			<code>enqueueStyles( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code>enqueueStyles( <span>array <var>$aSRCs</var></span>, <span>array <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 
 			<div class="description detailed">
@@ -251,7 +230,24 @@ AdminPageFramework_MetaBox_Base
 
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aSRCs</var></dt>
+						<dd><code>array</code><br>The sources of the stylesheet to enqueue: the url, the absolute file path, or
+the relative path to the root directory of WordPress. Example: <code>array(
+'/css/mystyle.css', '/css/mystyle2.css' )</code></dd>
+						<dt><var>$sPageSlug</var></dt>
+						<dd><code>array</code><br>(optional) The another source argument array.</dd>
+						<dt><var>$sTabSlug</var></dt>
+						<dd></dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd></dd>
+					</dl></div>
 
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>The array holing the queued items.<br>
+					</div>
 
 
 					<h4>Since</h4>
@@ -259,6 +255,8 @@ AdminPageFramework_MetaBox_Base
 							3.0.0<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueStyles">AdminPageFramework_Factory_Controller::enqueueStyles</a></code></div>
 
 			</div>
 			</div></td>
@@ -316,7 +314,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Factory_Controller::enqueueStyle</code></div>
+					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueStyle">AdminPageFramework_Factory_Controller::enqueueStyle</a></code></div>
 
 			</div>
 			</div></td>
@@ -325,14 +323,14 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 			<td class="attributes"><code>
 				 public 
-				
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_enqueueScripts">#</a>
-			<code>enqueueScripts( <span>mixed <var>$aSRCs</var></span>, <span>mixed <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
+			<code>enqueueScripts( <span>array <var>$aSRCs</var></span>, <span>array <var>$sPageSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$sTabSlug</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$aCustomArgs</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 
 			<div class="description detailed">
@@ -341,7 +339,24 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$aSRCs</var></dt>
+						<dd><code>array</code><br>The sources of the stylesheets to enqueue: the URL, the absolute file path, or
+the relative path to the root directory of WordPress. Example:
+'/js/myscript.js'.</dd>
+						<dt><var>$sPageSlug</var></dt>
+						<dd><code>array</code><br>(optional) Ad additional source list array.</dd>
+						<dt><var>$sTabSlug</var></dt>
+						<dd></dd>
+						<dt><var>$aCustomArgs</var></dt>
+						<dd></dd>
+					</dl></div>
 
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>The array holding the queued items.<br>
+					</div>
 
 
 					<h4>Since</h4>
@@ -350,7 +365,7 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">http://cod
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Factory_Controller::enqueueScripts</code></div>
+					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueScripts">AdminPageFramework_Factory_Controller::enqueueScripts</a></code></div>
 
 			</div>
 			</div></td>
@@ -408,47 +423,49 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Factory_Controller::enqueueScript</code></div>
+					<div class="list"><code><a href="class-AdminPageFramework_Factory_Controller.html#_enqueueScript">AdminPageFramework_Factory_Controller::enqueueScript</a></code></div>
 
 			</div>
 			</div></td>
 		</tr>
 		</table>
 
-		<h3>Methods inherited from <a href="class-AdminPageFramework_MetaBox_Page_Model.html#methods">AdminPageFramework_MetaBox_Page_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_MetaBox_Page_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_MetaBox_Page_Model.html#___construct">__construct()</a></code>, 
-			<code><a href="class-AdminPageFramework_MetaBox_Page_Model.html#__replyToFilterPageOptions">_replyToFilterPageOptions()</a></code>
+			<code>__construct()</code>, 
+			<code>_replyToAddMetaBox()</code>, 
+			<code>_replyToFilterPageOptions()</code>, 
+			<code>_replyToRegisterFormElements()</code>, 
+			<code>_replyToValidateOptions()</code>, 
+			<code>getFieldOutput()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_MetaBox_Page_Router.html#methods">AdminPageFramework_MetaBox_Page_Router</a></h3>
+		<h3>Methods inherited from AdminPageFramework_MetaBox_Page_Router</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_MetaBox_Page_Router.html#__isInstantiatable">_isInstantiatable()</a></code>
+			<code>_isInThePage()</code>, 
+			<code>_isInstantiatable()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
 		<p class="elementList">
 			<code>_getInputArray()</code>, 
 			<code><span class="deprecated">_getSavedMetaArray()</span></code>, 
-			<code>_replyToAddMetaBox()</code>, 
 			<code>_replyToDetermineToLoad()</code>, 
 			<code>_replyToGetSectionHeaderOutput()</code>, 
 			<code>_replyToPrintMetaBoxContents()</code>, 
-			<code>_replyToRegisterFormElements()</code>, 
 			<code>_replyToSaveMetaBoxFields()</code>, 
 			<code>_setOptionArray()</code>
 		</p>
-		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
 		<p class="elementList">
-			<code>addHelpText()</code>, 
-			<code>addSettingField()</code>, 
-			<code>addSettingFields()</code>, 
-			<code>addSettingSection()</code>, 
-			<code>addSettingSections()</code>, 
-			<code>hasFieldError()</code>, 
-			<code>hasSettingNotice()</code>, 
-			<code>setFieldErrors()</code>, 
-			<code>setSettingNotice()</code>, 
-			<code>setUp()</code>, 
-			<code>start()</code>
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingField">addSettingField()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingFields">addSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSection">addSettingSection()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSections">addSettingSections()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setUp">setUp()</a></code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
@@ -475,7 +492,6 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
 			<code>_getResourceInstance()</code>, 
-			<code>_isInThePage()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
 
@@ -491,9 +507,12 @@ href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">http://co
 
 		<h2>Properties summary</h2>
 
+		<h3>Properties inherited from AdminPageFramework_MetaBox_Page_Model</h3>
+		<p class="elementList">
+			<code><var>$_sFieldsType</var></code>
+		</p>
 		<h3>Properties inherited from AdminPageFramework_MetaBox_Base</h3>
 		<p class="elementList">
-			<code><var>$_sFieldsType</var></code>, 
 			<code><var>$_sTargetSectionTabSlug</var></code>
 		</p>
 		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>

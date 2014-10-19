@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_Menu | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?2863173960"></script>
+	<script type="text/javascript" src="elementlist.js?937050935"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -53,6 +53,8 @@
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
 				<li class="active main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
@@ -150,7 +152,8 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Factory_Controller
+			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
+			
 			
 			
 		</dd>
@@ -413,7 +416,7 @@ class="php-quote">'http://www.google.com'</span>,
 class="php-quote">'show_page_heading_tab'</span> =&gt; <span
 class="php-keyword1">false</span>, <span
 class="php-comment">// this removes the title from the page heading tabs.</span>
-      ),
+      )
 );</pre>
 
 
@@ -421,65 +424,14 @@ class="php-comment">// this removes the title from the page heading tabs.</span>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aSubMenuItem1</var></dt>
-						<dd><code>array</code><br>a first sub-menu array. A sub-menu array can be a link or a page. The array
-structures are as follows:
-<h4>Sub-menu Page Array</h4>
-
-<ul>
-	<li><strong>title</strong> - (string) the page title of the page.</li>
-
-	<li><strong>page_slug</strong> - (string) the page slug of the page.
-	Non-alphabetical characters should not be used including dots(.) and
-	hyphens(-).</li>
-
-	<li><strong>screen_icon</strong> - (optional, string) either the ID selector
-	name from the following list or the icon URL. The size of the icon should be 32
-	by 32 in pixel. This is for WordPress 3.7.x or below.
-		<pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
-
-		<p>( Notes: the <em>generic</em> icon is available WordPress version 3.5 or
-		above.)</p>
-	</li>
-
-	<li><strong>capability</strong> - (optional, string) the access level to the
-	created admin pages defined <a
-	href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set,
-	the overall capability assigned in the class constructor, which is
-	<em>manage_options</em> by default, will be used.</li>
-
-	<li><strong>order</strong> - (optional, integer) the order number of the page.
-	The lager the number is, the lower the position it is placed in the menu.</li>
-
-	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
-	to false, the page title won't be displayed in the page heading tab. Default:
-	<code>true</code>.</li>
-</ul>
-
-<h4>Sub-menu Link Array</h4>
-
-<ul>
-	<li><strong>title</strong> - (string) the link title.</li>
-
-	<li><strong>href</strong> - (string) the URL of the target link.</li>
-
-	<li><strong>capability</strong> - (optional, string) the access level to show
-	the item, defined <a
-	href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set,
-	the overall capability assigned in the class constructor, which is
-	<code>manage_options</code> by default, will be used.</li>
-
-	<li><strong>order</strong> - (optional, integer) the order number of the page.
-	The lager the number is, the lower the position it is placed in the menu.</li>
-
-	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
-	to false, the page title won't be displayed in the page heading tab. Default:
-	<code>true</code>.</li>
-</ul>
-</dd>
+						<dd><code>array</code><br>$aSubMenuItem1 a first sub-menu array. A sub-menu array can be a link or a page.
+For the specifications of the array structures and its arguments, refer to the
+parameter section of the <code>addSubMenuItem()</code> method.</dd>
 						<dt><var>$aSubMenuItem2</var></dt>
-						<dd><code>array</code><br>(optional) a second sub-menu array.</dd>
+						<dd><code>array</code><br>$aSubMenuItem2 (optional) a second sub-menu array.</dd>
 						<dt><var>$_and_more</var></dt>
-						<dd><code>array</code><br>(optional) a third and add items as many as necessary with next parameters.</dd>
+						<dd><code>array</code><br>$_and_more (optional) a third and add items as many as necessary with next
+parameters.</dd>
 					</dl></div>
 
 
@@ -523,6 +475,23 @@ panel.</p>
 <p>It supports pages and links. Each of them has the specific array
 structure.</p>
 
+<h4>Example</h4>
+
+<pre><span class="php-var">$this</span>-&gt;addSubMenuItem(
+      <span
+class="php-keyword1">array</span>(
+          <span
+class="php-quote">'title'</span>         =&gt; <span
+class="php-quote">'Read Me'</span>,
+          <span
+class="php-quote">'menu_title'</span>    =&gt; <span
+class="php-quote">'About'</span>
+          <span
+class="php-quote">'page_slug'</span>     =&gt; <span
+class="php-quote">'my_plugin_readme'</span>,
+      )
+);</pre>
+
 
 
 					<h4>Parameters</h4>
@@ -560,6 +529,16 @@ follows:
 	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
 	to false, the page title won't be displayed in the page heading tab. Default:
 	<code>true</code>.</li>
+
+	<li><strong>show_in_menu</strong> - (optional) If this is set to false, the page
+	title won't be displayed in the sidebar menu while the page is still accessible.
+	Default: true.</li>
+
+	<li><strong>page_title</strong> - (optional) [3.3.0+] When the page title
+	differs from the menu title, use this argument.</li>
+
+	<li><strong>menu_title</strong> - (optional) [3.3.0+] When the menu title
+	differs from the menu title, use this argument.</li>
 </ul>
 
 <h4>Sub-menu Link Array</h4>
@@ -581,6 +560,10 @@ follows:
 	<li><strong>show_page_heading_tab</strong> - (optional, boolean) if this is set
 	to false, the page title won't be displayed in the page heading tab. Default:
 	<code>true</code>.</li>
+
+	<li><strong>show_in_menu</strong> - (optional) If this is set to false, the page
+	title won't be displayed in the sidebar menu while the page is still accessible.
+	Default: true.</li>
 </ul>
 </dd>
 					</dl></div>
@@ -655,14 +638,13 @@ callback per page slug.<br>
 			<code>setFooterInfoRight()</code>, 
 			<code>setUp()</code>
 		</p>
-		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
 		<p class="elementList">
-			<code>addHelpText()</code>, 
-			<code>hasFieldError()</code>, 
-			<code>hasSettingNotice()</code>, 
-			<code>setFieldErrors()</code>, 
-			<code>setSettingNotice()</code>, 
-			<code>start()</code>
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">

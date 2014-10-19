@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_MetaBox_Page | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?2863173960"></script>
+	<script type="text/javascript" src="elementlist.js?937050935"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -54,6 +54,8 @@
 						<ul>
 				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
+				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
@@ -92,27 +94,6 @@
                 </li>
 				<li>
                     
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_MetaBox_Page_Model.html">
-                        AdminPageFramework_MetaBox_Page_Model
-                    </a>
-                </li>
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_MetaBox_Page_Router.html">
-                        AdminPageFramework_MetaBox_Page_Router
-                    </a>
-                </li>
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_MetaBox_Page_View.html">
-                        AdminPageFramework_MetaBox_Page_View
-                    </a>
-                </li>
 			</ul>
 
 
@@ -157,7 +138,8 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Factory_Controller
+			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
+			
 			
 			
 		</dd>
@@ -175,22 +157,19 @@ AdminPageFramework_MetaBox_Base
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_MetaBox_Page_Router.html"><span>AdminPageFramework_MetaBox_Page_Router</span></a>
-			
+AdminPageFramework_MetaBox_Page_Router
 			
 			
 		</dd>
 		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_MetaBox_Page_Model.html"><span>AdminPageFramework_MetaBox_Page_Model</span></a>
-			
+AdminPageFramework_MetaBox_Page_Model
 			
 			
 		</dd>
 		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_MetaBox_Page_View.html"><span>AdminPageFramework_MetaBox_Page_View</span></a>
-			
+AdminPageFramework_MetaBox_Page_View
 			
 			
 		</dd>
@@ -358,7 +337,7 @@ Default: <code>admin-page-framework</code>.</dd>
 					</div>
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_MetaBox_Page_Model.html#___construct">AdminPageFramework_MetaBox_Page_Model::__construct</a></code></div>
+					<div class="list"><code>AdminPageFramework_MetaBox_Page_Model::__construct</code></div>
 
 			</div>
 			</div></td>
@@ -372,39 +351,41 @@ Default: <code>admin-page-framework</code>.</dd>
 			<code><a href="class-AdminPageFramework_MetaBox_Page_Controller.html#_enqueueStyle">enqueueStyle()</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox_Page_Controller.html#_enqueueStyles">enqueueStyles()</a></code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_MetaBox_Page_Model.html#methods">AdminPageFramework_MetaBox_Page_Model</a></h3>
+		<h3>Methods inherited from AdminPageFramework_MetaBox_Page_Model</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_MetaBox_Page_Model.html#__replyToFilterPageOptions">_replyToFilterPageOptions()</a></code>
+			<code>_replyToAddMetaBox()</code>, 
+			<code>_replyToFilterPageOptions()</code>, 
+			<code>_replyToRegisterFormElements()</code>, 
+			<code>_replyToValidateOptions()</code>, 
+			<code>getFieldOutput()</code>
 		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_MetaBox_Page_Router.html#methods">AdminPageFramework_MetaBox_Page_Router</a></h3>
+		<h3>Methods inherited from AdminPageFramework_MetaBox_Page_Router</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_MetaBox_Page_Router.html#__isInstantiatable">_isInstantiatable()</a></code>
+			<code>_isInThePage()</code>, 
+			<code>_isInstantiatable()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
 		<p class="elementList">
 			<code>_getInputArray()</code>, 
 			<code><span class="deprecated">_getSavedMetaArray()</span></code>, 
-			<code>_replyToAddMetaBox()</code>, 
 			<code>_replyToDetermineToLoad()</code>, 
 			<code>_replyToGetSectionHeaderOutput()</code>, 
 			<code>_replyToPrintMetaBoxContents()</code>, 
-			<code>_replyToRegisterFormElements()</code>, 
 			<code>_replyToSaveMetaBoxFields()</code>, 
 			<code>_setOptionArray()</code>
 		</p>
-		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
 		<p class="elementList">
-			<code>addHelpText()</code>, 
-			<code>addSettingField()</code>, 
-			<code>addSettingFields()</code>, 
-			<code>addSettingSection()</code>, 
-			<code>addSettingSections()</code>, 
-			<code>hasFieldError()</code>, 
-			<code>hasSettingNotice()</code>, 
-			<code>setFieldErrors()</code>, 
-			<code>setSettingNotice()</code>, 
-			<code>setUp()</code>, 
-			<code>start()</code>
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingField">addSettingField()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingFields">addSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSection">addSettingSection()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSections">addSettingSections()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setUp">setUp()</a></code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
@@ -431,7 +412,6 @@ Default: <code>admin-page-framework</code>.</dd>
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
 			<code>_getResourceInstance()</code>, 
-			<code>_isInThePage()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
 
@@ -447,9 +427,12 @@ Default: <code>admin-page-framework</code>.</dd>
 
 		<h2>Properties summary</h2>
 
+		<h3>Properties inherited from AdminPageFramework_MetaBox_Page_Model</h3>
+		<p class="elementList">
+			<code><var>$_sFieldsType</var></code>
+		</p>
 		<h3>Properties inherited from AdminPageFramework_MetaBox_Base</h3>
 		<p class="elementList">
-			<code><var>$_sFieldsType</var></code>, 
 			<code><var>$_sTargetSectionTabSlug</var></code>
 		</p>
 		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>

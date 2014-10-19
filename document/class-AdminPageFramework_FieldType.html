@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_FieldType | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?2863173960"></script>
+	<script type="text/javascript" src="elementlist.js?937050935"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -53,6 +53,8 @@
 				<li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
 						<ul>
 				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
+						</li>
+				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
 						</li>
 				<li class="active main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
@@ -503,8 +505,8 @@ argument.</p>
 	script before <code>&lt;/head&gt;</code> or before <code>&lt;/body &gt;</code>
 	Default: <code>false</code>.</li>
 
-	<li><strong>arguments</strong> - (optional, array) [3.3.0+] argument array.
-	<code>array( 'async' =&gt; '', 'data-id' =&gt; '...' )</code></li>
+	<li><strong>attributes</strong> - (optional, array) [3.3.0+] attribute argument
+	array. <code>array( 'async' =&gt; '', 'data-id' =&gt; '...' )</code></li>
 </ul>
 
 <h4>Examples</h4>
@@ -591,7 +593,7 @@ argument.</p>
 	<li><strong>media</strong> - (optional, string) the description of the field
 	which is inserted into the after the input field tag.</li>
 
-	<li><strong>arguments</strong> - (optional, array) [3.3.0+] argument array.
+	<li><strong>attributes</strong> - (optional, array) [3.3.0+] attributes array.
 	<code>array( 'data-id' =&gt; '...' )</code></li>
 </ul>
 
@@ -733,7 +735,9 @@ class="php-quote">'my_style2'</span>,
 			<code>getIntegerElements()</code>, 
 			<code>getNonIntegerElements()</code>, 
 			<code>getReadableArrayContents()</code>, 
+			<code>getReadableArrayContentsHTML()</code>, 
 			<code>getReadableListOfArray()</code>, 
+			<code>getReadableListOfArrayAsHTML()</code>, 
 			<code>invertCastArrayContents()</code>, 
 			<code>isAssociativeArray()</code>, 
 			<code>isLastElement()</code>, 

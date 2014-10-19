@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_PostType_View | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?2863173960"></script>
+	<script type="text/javascript" src="elementlist.js?937050935"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -54,6 +54,8 @@
 						<ul>
 				<li class="main"><a href="package-AdminPageFramework.AdminPage.html">AdminPage</a>
 						</li>
+				<li class="main"><a href="package-AdminPageFramework.Factory.html">Factory</a>
+						</li>
 				<li class="main"><a href="package-AdminPageFramework.FieldType.html">FieldType</a>
 						</li>
 				<li class="main"><a href="package-AdminPageFramework.MetaBox.html">MetaBox</a>
@@ -92,20 +94,6 @@
                 </li>
 				<li>
                     
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_PostType_Model.html">
-                        AdminPageFramework_PostType_Model
-                    </a>
-                </li>
-				<li>
-                    
-                    
-                    <a href="class-AdminPageFramework_PostType_Router.html">
-                        AdminPageFramework_PostType_Router
-                    </a>
-                </li>
 				<li class="active">
                     
                     
@@ -159,7 +147,8 @@ AdminPageFramework_Factory_View
 		</dd>
 		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Factory_Controller
+			<a href="class-AdminPageFramework_Factory_Controller.html"><span>AdminPageFramework_Factory_Controller</span></a>
+			
 			
 			
 		</dd>
@@ -171,15 +160,13 @@ AdminPageFramework_Factory
 		</dd>
 		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_PostType_Router.html"><span>AdminPageFramework_PostType_Router</span></a>
-			
+AdminPageFramework_PostType_Router
 			
 			
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_PostType_Model.html"><span>AdminPageFramework_PostType_Model</span></a>
-			
+AdminPageFramework_PostType_Model
 			
 			
 		</dd>
@@ -298,27 +285,38 @@ name.}. This is shorthand for it.</p>
 		</tr>
 		</table>
 
-		<h3>Methods inherited from AdminPageFramework_Factory_Controller</h3>
+		<h3>Methods inherited from AdminPageFramework_PostType_Model</h3>
 		<p class="elementList">
-			<code>addHelpText()</code>, 
-			<code>addSettingField()</code>, 
-			<code>addSettingFields()</code>, 
-			<code>addSettingSection()</code>, 
-			<code>addSettingSections()</code>, 
-			<code>enqueueScript()</code>, 
-			<code>enqueueScripts()</code>, 
-			<code>enqueueStyle()</code>, 
-			<code>enqueueStyles()</code>, 
-			<code>hasFieldError()</code>, 
-			<code>hasSettingNotice()</code>, 
-			<code>setFieldErrors()</code>, 
-			<code>setSettingNotice()</code>, 
-			<code>setUp()</code>, 
-			<code>start()</code>
+			<code>__construct()</code>, 
+			<code>_isInThePage()</code>, 
+			<code>_registerTaxonomy()</code>, 
+			<code>_replyToDisableAutoSave()</code>, 
+			<code>_replyToRegisterPostType()</code>, 
+			<code>_replyToRegisterTaxonomies()</code>, 
+			<code>_replyToRemoveTexonomySubmenuPages()</code>, 
+			<code>_replyToSetColumnCell()</code>, 
+			<code>_replyToSetColumnHeader()</code>, 
+			<code>_replyToSetSortableColumns()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_PostType_Router</h3>
+		<p class="elementList">
+			<code>__call()</code>
+		</p>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addHelpText">addHelpText()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingField">addSettingField()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingFields">addSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSection">addSettingSection()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSections">addSettingSections()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setUp">setUp()</a></code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
-			<code>__construct()</code>, 
 			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
@@ -335,14 +333,12 @@ name.}. This is shorthand for it.</p>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
-			<code>__call()</code>, 
 			<code>__get()</code>, 
 			<code>_getFormInstance()</code>, 
 			<code>_getHelpPaneInstance()</code>, 
 			<code>_getLinkInstancce()</code>, 
 			<code>_getPageLoadInfoInstance()</code>, 
 			<code>_getResourceInstance()</code>, 
-			<code>_isInThePage()</code>, 
 			<code>_isInstantiatable()</code>, 
 			<code>_replyToLoadComponents()</code>
 		</p>
