@@ -29,11 +29,11 @@ if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.3.0b20
+ * @version             3.3.0b21
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.3.0b20'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.3.0b21'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
