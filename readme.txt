@@ -449,6 +449,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.0 =
+- Added the 'Select All' and 'Select None' buttons for check boxes.
 - Added the <code>[ace](https://github.com/soderlind/AceCustomFieldType)</code> custom field type.
 - Added the ability to have different menu title from the page title with the `page_title` and `menu_title` argument pass to the `addSubMenuItems()` method.
 - Added the ability for the `description` field/section definition argument to accept an array to process elements as multiple paragraphs.
