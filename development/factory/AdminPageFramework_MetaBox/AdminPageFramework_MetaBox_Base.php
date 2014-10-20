@@ -238,7 +238,7 @@ abstract class AdminPageFramework_MetaBox_Base extends AdminPageFramework_Factor
         $_aInput        = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aInput, $_aSavedMeta, $this );
 
         // If there are validation errors.
-        if ( $this->_isValidationErrors() ) {
+        if ( $this->hasFieldError() ) {
             
             // unhook this function to prevent indefinite loops.
             remove_action( 'save_post', array( $this, '_replyToSaveMetaBoxFields' ) );
