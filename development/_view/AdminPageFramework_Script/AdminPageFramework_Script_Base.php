@@ -8,7 +8,7 @@
  */
 if ( ! class_exists( 'AdminPageFramework_Script_Base' ) ) :
 /**
- * Provides JavaScript scripts to store temporary option data.
+ * Provides an abstract base to create an automatic script insertion class.
  * 
  * @since       3.3.0
  * @package     AdminPageFramework
@@ -51,6 +51,8 @@ class AdminPageFramework_Script_Base {
     /**
      * The user constructor.
      * 
+     * Enqueue dependencies which this method.
+     *
      * @remark      This should be overridden in extended classes.
      * @since       3.3.0
      */
