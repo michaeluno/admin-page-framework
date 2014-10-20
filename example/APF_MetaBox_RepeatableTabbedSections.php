@@ -22,7 +22,6 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
         /*
          * Add form fields into the meta box.
          */ 
-
         $this->addSettingFields(    
             'repeatable_tabbed_sections',   // section id
             array(
@@ -71,6 +70,5 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
         );      
       
     }
- 
-}
-    
+  
+}   

@@ -65,6 +65,6 @@ class APF_MetaBox_TabbedSections extends AdminPageFramework_MetaBox {
         );    
       
     }
- 
+     
 }
     
