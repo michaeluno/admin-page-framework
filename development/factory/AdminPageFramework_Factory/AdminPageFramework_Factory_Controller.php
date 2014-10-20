@@ -220,7 +220,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * <h4>Built-in Field Types</h4>
     * <ul>
     *       <li>**text** - a normal field to enter text input.</li>
-    *       <li>**text** - a masked text input field.</li>
+    *       <li>**password** - a masked text input field.</li>
     *       <li>**textarea** - a text input field with multiple lines. It supports rich text editor.</li>
     *       <li>**radio** - a set of radio buttons that lets the user pick an option.</li>
     *       <li>**checkbox** - a check box that lets the user enable/disable an item.</li>
@@ -297,6 +297,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       </li>
     *       <li>**radio** - a radio button input field.</li>
     *       <li>**checkbox** - a check box input field.</li>
+    *           <ul>
+    *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+    *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+    *           </ul>
     *       <li>**select** - a drop-down input field.
     *           <ul>
     *               <li>**is_multiple** - (optional, boolean) if this is set to true, the `multiple` attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
@@ -366,11 +370,15 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *               <li>**taxonomy_slugs** - (optional, array) the taxonomy slug to list.</li>
     *               <li>**max_width** - (optional, string) the inline style property value of `max-width` of this element. Include the unit such as px, %. Default: 100%</li>
     *               <li>**height** - (optional, string) the inline style property value of `height` of this element. Include the unit such as px, %. Default: 250px</li>
+    *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+    *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
     *           </ul>
     *       </li>
     *       <li>**posttype** - a post-type check list. This is a set of check boxes listing post type slugs.
     *           <ul>
     *               <li>**slugs_to_remove** - (optional, array) the post type slugs not to be listed. e.g.`array( 'revision', 'attachment', 'nav_menu_item' )`</li>
+    *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+    *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
     *           </ul>
     *       </li>
     * </ul>    
