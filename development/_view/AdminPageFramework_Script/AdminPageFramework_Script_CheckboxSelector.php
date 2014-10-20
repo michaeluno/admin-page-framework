@@ -22,7 +22,10 @@ class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Scri
      * 
      * @since       3.3.0
      */
-    static public function getScript( $oMsg=null ) {
+    static public function getScript() {
+        
+        $_aParams   = func_get_args() + array( null );
+        $_oMsg       = $_aParams[ 0 ];                
         
         /**
          * Checks checkboxes in siblings.

@@ -24,7 +24,10 @@ class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Scri
      * @since       3.0.0   
      * @since       3.3.0   Changed the name from `getjQueryPlugin()`.
      */
-    static public function getScript( $oMsg=null ) {
+    static public function getScript() {
+        
+        $_aParams   = func_get_args() + array( null );
+        $_oMsg      = $_aParams[ 0 ];         
         
         /**
          * Attribute increment/decrement jQuery Plugin

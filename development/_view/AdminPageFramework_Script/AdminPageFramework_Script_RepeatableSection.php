@@ -24,10 +24,12 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
      * @since       3.0.0
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      */
-    static public function getScript( $oMsg ) {
+    static public function getScript() {
         
-        $sCannotAddMore    = $oMsg->get( 'allowed_maximum_number_of_sections' );
-        $sCannotRemoveMore = $oMsg->get( 'allowed_minimum_number_of_sections' );
+        $_aParams           = func_get_args() + array( null );
+        $_oMsg              = $_aParams[ 0 ];        
+        $sCannotAddMore     = $_oMsg->get( 'allowed_maximum_number_of_sections' );
+        $sCannotRemoveMore  = $_oMsg->get( 'allowed_minimum_number_of_sections' );
         return "( function( $ ) {
 
             $.fn.updateAPFRepeatableSections = function( aSettings ) {

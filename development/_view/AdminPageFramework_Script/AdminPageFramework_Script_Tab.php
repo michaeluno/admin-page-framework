@@ -24,8 +24,10 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
      * @since       3.0.0
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      */
-    static public function getScript( $oMsg ) {
+    static public function getScript() {
         
+        $_aParams   = func_get_args() + array( null );
+        $_oMsg      = $_aParams[ 0 ];                 
         return "( function( $ ) {
             
             $.fn.createTabs = function( asOptions ) {

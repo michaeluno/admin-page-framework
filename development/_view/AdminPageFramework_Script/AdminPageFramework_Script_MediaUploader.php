@@ -20,6 +20,9 @@ class AdminPageFramework_Script_MediaUploader {
 
     static public function getjQueryPlugin() {
         
+        $_aParams   = func_get_args() + array( null );
+        $_oMsg      = $_aParams[ 0 ];                
+        
         // means the WordPress version is 3.4.x or below
         if ( ! function_exists( 'wp_enqueue_media' ) ) { return ""; } 
  
