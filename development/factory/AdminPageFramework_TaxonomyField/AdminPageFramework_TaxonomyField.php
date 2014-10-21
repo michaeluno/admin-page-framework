@@ -44,7 +44,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      */ 
     function __construct( $asTaxonomySlug, $sOptionKey='', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $asTaxonomySlug ) ) return;
+        if ( empty( $asTaxonomySlug ) ) { return; }
         
         /* Properties */
         $this->oProp                    = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
@@ -64,7 +64,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     }
     
     /**
-     * Determines whether the meta box belongs to the loading page.
+     * Determines whether the taxonomy fields belong to the loading page.
      * 
      * @internal
      * @since       3.0.3
@@ -80,15 +80,17 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * @since       3.0.3
      * @internal
      */
-    public function _replyToDetermineToLoad() {
+    public function _replyToDetermineToLoad( $oScreen ) {
         
         if ( ! $this->_isInThePage() ) { return; }
         
         $this->_setUp();
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
         $this->oProp->_bSetupLoaded = true;
+        
+        // todo: remove the below line
         add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 ); // the screen object should be established to detect the loaded page. 
-    
+        
         foreach( $this->oProp->aTaxonomySlugs as $__sTaxonomySlug ) {     
             
             /* Validation callbacks need to be set regardless of whether the current page is edit-tags.php or not */
@@ -123,6 +125,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * @since       unknown
      * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
      * #internal
+     * @todo        Add the `options_{instantiated class name}` filter.
      */
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
                 
@@ -281,7 +284,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
     public function _replyToRegisterFormElements( $oScreen ) {
     
         // Schedule to add head tag elements and help pane contents.
-        if ( 'edit-tags.php' != $this->oProp->sPageNow ) return;
+        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { return; }
         
         $this->_loadDefaultFieldTypeDefinitions();
         
