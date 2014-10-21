@@ -15,13 +15,14 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Router' ) ) :
  * @package         AdminPageFramework
  * @subpackage      PageMetaBox
  * @internal
+ * @todo            Examine the proper class to extend.
  */
-abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_Base {
+abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_View {
     
     /**
      * Triggers the start_{...} action hook.
      *
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */
     function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     

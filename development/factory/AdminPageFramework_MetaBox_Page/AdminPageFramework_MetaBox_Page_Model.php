@@ -37,33 +37,37 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         $this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs; // must be set before the isInThePage() method is used.
         
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
-        
-        if ( $this->_isInThePage() ) :
-                
-            /* Validation hooks */
-            foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {
-                
-                if ( is_string( $_asTabArrayOrPageSlug ) ) {     
-                    $_sPageSlug = $_asTabArrayOrPageSlug;
-                    add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
-                    add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
-                    continue;
-                }
-                
-                // At this point, the array key is the page slug.
-                $_sPageSlug = $_sIndexOrPageSlug;
-                $_aTabs     = $_asTabArrayOrPageSlug;
-                add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
-                foreach( $_aTabs as $_sTabSlug ) {
-                    add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
-                }
-                
-            }
-        
-        endif;
-    
-    }
             
+    }
+        
+    /**
+     * Sets up validation hooks.
+     * 
+     * @since       3.3.0
+     */
+    protected function _setUpValidationHooks( $oScreen ) {
+
+        /* Validation hooks */
+        foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {
+            
+            if ( is_string( $_asTabArrayOrPageSlug ) ) {     
+                $_sPageSlug = $_asTabArrayOrPageSlug;
+                add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
+                add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+                continue;
+            }
+            
+            // At this point, the array key is the page slug.
+            $_sPageSlug = $_sIndexOrPageSlug;
+            $_aTabs     = $_asTabArrayOrPageSlug;
+            add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+            foreach( $_aTabs as $_sTabSlug ) {
+                add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
+            }
+            
+        }
+    
+    }        
 
     /**
      * Returns the field output.
@@ -188,9 +192,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * Registers form fields and sections.
      * 
      * @since       3.0.0
+     * @since       3.3.0       Changed the name from `_replyToRegisterFormElements()`. Changed the scope to `protected`.
      * @internal
      */
-    public function _replyToRegisterFormElements( $oScreen ) {
+    public function _registerFormElements( $oScreen ) {
                 
         // Schedule to add head tag elements and help pane contents.     
         if ( ! $this->_isInThePage() ) return;
