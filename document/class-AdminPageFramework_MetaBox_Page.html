@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_MetaBox_Page | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?937050935"></script>
+	<script type="text/javascript" src="elementlist.js?3454352893"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -151,36 +151,51 @@ AdminPageFramework_Factory
 		</dd>
 		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_MetaBox_Base
+			<a href="class-AdminPageFramework_MetaBox_Router.html"><span>AdminPageFramework_MetaBox_Router</span></a>
+			
 			
 			
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_MetaBox_Page_Router
+			<a href="class-AdminPageFramework_MetaBox_Model.html"><span>AdminPageFramework_MetaBox_Model</span></a>
+			
 			
 			
 		</dd>
 		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_MetaBox_Page_Model
+			<a href="class-AdminPageFramework_MetaBox_View.html"><span>AdminPageFramework_MetaBox_View</span></a>
+			
 			
 			
 		</dd>
 		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_MetaBox_Page_View
+AdminPageFramework_MetaBox_Page_Router
 			
 			
 		</dd>
 		<dd style="padding-left:270px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_MetaBox_Page_Model
+			
+			
+		</dd>
+		<dd style="padding-left:300px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_MetaBox_Page_View
+			
+			
+		</dd>
+		<dd style="padding-left:330px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-AdminPageFramework_MetaBox_Page_Controller.html"><span>AdminPageFramework_MetaBox_Page_Controller</span></a>
 			
 			
 			
 		</dd>
-		<dd style="padding-left:300px">
+		<dd style="padding-left:360px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_MetaBox_Page</span></b>			
 			
@@ -353,10 +368,11 @@ Default: <code>admin-page-framework</code>.</dd>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Page_Model</h3>
 		<p class="elementList">
+			<code>_registerFormElements()</code>, 
 			<code>_replyToAddMetaBox()</code>, 
 			<code>_replyToFilterPageOptions()</code>, 
-			<code>_replyToRegisterFormElements()</code>, 
 			<code>_replyToValidateOptions()</code>, 
+			<code>_setUpValidationHooks()</code>, 
 			<code>getFieldOutput()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_MetaBox_Page_Router</h3>
@@ -364,15 +380,10 @@ Default: <code>admin-page-framework</code>.</dd>
 			<code>_isInThePage()</code>, 
 			<code>_isInstantiatable()</code>
 		</p>
-		<h3>Methods inherited from AdminPageFramework_MetaBox_Base</h3>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_MetaBox_Model.html#methods">AdminPageFramework_MetaBox_Model</a></h3>
 		<p class="elementList">
-			<code>_getInputArray()</code>, 
-			<code><span class="deprecated">_getSavedMetaArray()</span></code>, 
-			<code>_replyToDetermineToLoad()</code>, 
-			<code>_replyToGetSectionHeaderOutput()</code>, 
-			<code>_replyToPrintMetaBoxContents()</code>, 
-			<code>_replyToSaveMetaBoxFields()</code>, 
-			<code>_setOptionArray()</code>
+			<code><a href="class-AdminPageFramework_MetaBox_Model.html#__replyToFilterSavingData">_replyToFilterSavingData()</a></code>, 
+			<code><a href="class-AdminPageFramework_MetaBox_Model.html#__replyToModifyRedirectPostLocation">_replyToModifyRedirectPostLocation()</a></code>
 		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
 		<p class="elementList">
@@ -430,10 +441,6 @@ Default: <code>admin-page-framework</code>.</dd>
 		<h3>Properties inherited from AdminPageFramework_MetaBox_Page_Model</h3>
 		<p class="elementList">
 			<code><var>$_sFieldsType</var></code>
-		</p>
-		<h3>Properties inherited from AdminPageFramework_MetaBox_Base</h3>
-		<p class="elementList">
-			<code><var>$_sTargetSectionTabSlug</var></code>
 		</p>
 		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">

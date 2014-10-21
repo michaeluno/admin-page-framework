@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_Factory_Controller | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?937050935"></script>
+	<script type="text/javascript" src="elementlist.js?3454352893"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -144,6 +144,10 @@ AdminPageFramework_Factory_View
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>, 
 			<code><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></code>, 
+			<code><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></code>, 
+			<code><a href="class-AdminPageFramework_PostType.html">AdminPageFramework_PostType</a></code>, 
+			<code><a href="class-AdminPageFramework_PostType_Controller.html">AdminPageFramework_PostType_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_PostType_View.html">AdminPageFramework_PostType_View</a></code>, 
 			<code><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></code>, 
 			<code><a href="class-AdminPageFramework_TaxonomyField.html">AdminPageFramework_TaxonomyField</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></code>, 
@@ -151,13 +155,13 @@ AdminPageFramework_Factory_View
 			<code><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox.html">AdminPageFramework_MetaBox</a></code>, 
+			<code><a href="class-AdminPageFramework_MetaBox_Controller.html">AdminPageFramework_MetaBox_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_MetaBox_Model.html">AdminPageFramework_MetaBox_Model</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox_Page.html">AdminPageFramework_MetaBox_Page</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox_Page_Controller.html">AdminPageFramework_MetaBox_Page_Controller</a></code>, 
-			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>, 
-			<code><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></code>, 
-			<code><a href="class-AdminPageFramework_PostType.html">AdminPageFramework_PostType</a></code>, 
-			<code><a href="class-AdminPageFramework_PostType_Controller.html">AdminPageFramework_PostType_Controller</a></code>, 
-			<code><a href="class-AdminPageFramework_PostType_View.html">AdminPageFramework_PostType_View</a></code>
+			<code><a href="class-AdminPageFramework_MetaBox_Router.html">AdminPageFramework_MetaBox_Router</a></code>, 
+			<code><a href="class-AdminPageFramework_MetaBox_View.html">AdminPageFramework_MetaBox_View</a></code>, 
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>
 		</p>
 	</div>
 
@@ -431,7 +435,7 @@ requires specific keys. Refer to the parameter section of this method.</p>
 <ul>
 	<li><strong>text</strong> - a normal field to enter text input.</li>
 
-	<li><strong>text</strong> - a masked text input field.</li>
+	<li><strong>password</strong> - a masked text input field.</li>
 
 	<li><strong>textarea</strong> - a text input field with multiple lines. It
 	supports rich text editor.</li>
@@ -640,6 +644,16 @@ requires specific keys. Refer to the parameter section of this method.</p>
 
 	<li><strong>checkbox</strong> - a check box input field.</li>
 
+	<li><strong>select_all_button</strong> - [3.3.0+] (optional, array) pass
+	<code>true</code> to enable the <code>Select All</code> button. To set a custom
+	label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+	Default: <code>true</code>.</li>
+
+	<li><strong>select_none_button</strong> - [3.3.0+] (optional, array) pass
+	<code>true</code> to enable the <code>Select None</code> button. To set a custom
+	label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+	Default: <code>true</code>.</li>
+
 	<li><strong>select</strong> - a drop-down input field.
 		<ul>
 			<li><strong>is_multiple</strong> - (optional, boolean) if this is set to true,
@@ -786,6 +800,16 @@ requires specific keys. Refer to the parameter section of this method.</p>
 			<li><strong>height</strong> - (optional, string) the inline style property value
 			of <code>height</code> of this element. Include the unit such as px, %. Default:
 			250px</li>
+
+			<li><strong>select_all_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select All</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
+
+			<li><strong>select_none_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select None</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
 		</ul>
 	</li>
 
@@ -795,6 +819,16 @@ requires specific keys. Refer to the parameter section of this method.</p>
 			<li><strong>slugs_to_remove</strong> - (optional, array) the post type slugs not
 			to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item'
 			)</code></li>
+
+			<li><strong>select_all_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select All</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
+
+			<li><strong>select_none_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select None</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
 		</ul>
 	</li>
 </ul>

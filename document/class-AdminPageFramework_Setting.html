@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_Setting | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?937050935"></script>
+	<script type="text/javascript" src="elementlist.js?3454352893"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -641,7 +641,7 @@ class="php-num">90</span>,
 <ul>
 	<li><strong>text</strong> - a normal field to enter text input.</li>
 
-	<li><strong>text</strong> - a masked text input field.</li>
+	<li><strong>password</strong> - a masked text input field.</li>
 
 	<li><strong>textarea</strong> - a text input field with multiple lines. It
 	supports rich text editor.</li>
@@ -850,6 +850,16 @@ class="php-num">90</span>,
 
 	<li><strong>checkbox</strong> - a check box input field.</li>
 
+	<li><strong>select_all_button</strong> - [3.3.0+] (optional, array) pass
+	<code>true</code> to enable the <code>Select All</code> button. To set a custom
+	label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+	Default: <code>true</code>.</li>
+
+	<li><strong>select_none_button</strong> - [3.3.0+] (optional, array) pass
+	<code>true</code> to enable the <code>Select None</code> button. To set a custom
+	label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+	Default: <code>true</code>.</li>
+
 	<li><strong>select</strong> - a drop-down input field.
 		<ul>
 			<li><strong>is_multiple</strong> - (optional, boolean) if this is set to true,
@@ -996,6 +1006,16 @@ class="php-num">90</span>,
 			<li><strong>height</strong> - (optional, string) the inline style property value
 			of <code>height</code> of this element. Include the unit such as px, %. Default:
 			250px</li>
+
+			<li><strong>select_all_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select All</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
+
+			<li><strong>select_none_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select None</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
 		</ul>
 	</li>
 
@@ -1005,6 +1025,16 @@ class="php-num">90</span>,
 			<li><strong>slugs_to_remove</strong> - (optional, array) the post type slugs not
 			to be listed. e.g.<code>array( 'revision', 'attachment', 'nav_menu_item'
 			)</code></li>
+
+			<li><strong>select_all_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select All</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
+
+			<li><strong>select_none_button</strong> - [3.3.0+] (optional, array) pass
+			<code>true</code> to enable the <code>Select None</code> button. To set a custom
+			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
+			Default: <code>true</code>.</li>
 		</ul>
 	</li>
 </ul>
