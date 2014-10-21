@@ -32,7 +32,7 @@ class APF_PostType extends AdminPageFramework_PostType {
                 ),
                 'public'            =>    true,
                 'menu_position'     => 110,
-                'supports'          => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail' ),    
+                'supports'          => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail', 'excerpt' ),    
                 'taxonomies'        => array( '' ),
                 'has_archive'       => true,
                 'show_admin_column' => true, // this is for custom taxonomies to automatically add the column in the listing table.
@@ -170,6 +170,9 @@ class APF_PostType extends AdminPageFramework_PostType {
             $_aPostData[ $sKey ] = get_post_meta( $_iPostID, $sKey, true );
         }    
         
+        // Or you may do this but the nested elements will be a serialized array.
+        // $_aPostData = get_post_custom( $_iPostID ) ;
+        
         // 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
         // The key name is the class name by default. The key can be changed by passing an arbitrary string 
         // to the first parameter of the constructor of the AdminPageFramework class.     
@@ -178,7 +181,8 @@ class APF_PostType extends AdminPageFramework_PostType {
         return "<h3>" . __( 'Saved Meta Field Values', 'admin-page-framework-demo' ) . "</h3>" 
             . $this->oDebug->getArray( $_aPostData )
             . "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
-            . $this->oDebug->getArray( $_aSavedOptions );
+            . $this->oDebug->getArray( $_aSavedOptions )
+            ;
 
     }    
     
