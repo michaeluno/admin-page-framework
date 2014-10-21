@@ -17,7 +17,28 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Router' ) ) :
  * @internal
  */
 abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {    
+  
+    /**
+     * Determines whether the currently loaded page is of the post type page.
+     * 
+     * @internal
+     * @since       3.0.4
+     * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
+     */
+    public function _isInThePage() {
         
+        // If it's not in one of the post type's pages
+        if ( ! $this->oProp->bIsAdmin ) {
+            return false;
+        }
+        if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
+            return false;
+        }
+                
+        return ( $this->oUtil->getCurrentPostType() == $this->oProp->sPostType );
+
+    }
+  
     /**
      * Redirects undefined callback methods or to the appropriate methods.
      * 
