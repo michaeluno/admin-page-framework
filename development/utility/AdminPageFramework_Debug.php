@@ -78,6 +78,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
      * @since       3.1.0
      * @since       3.1.3       Made it leave milliseconds and elapsed time from the last call of the method.
      * @since       3.3.0       Made it indicate the data type.
+     * @since       3.3.1       Made it indicate the data length.
      **/
     static public function log( $vValue, $sFilePath=null ) {
                 
@@ -109,10 +110,18 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
             . "{$_iPageLoadID} {$_sCallerClasss}::{$_sCallerFunction} " 
             . current_filter() . ' '
             . self::getCurrentURL();
+        $_sType                 = gettype( $vValue );
+        $_iLengths              = is_string( $vValue ) || is_integer( $vValue )
+            ? strlen( $vValue  )
+            : ( is_array( $vValue )
+                ? count( $vValue )
+                : null
+            );
         file_put_contents( 
             $sFilePath, 
             $_sHeading . PHP_EOL 
-                . '(' . gettype( $vValue ) . ') ' 
+                . '(' . $_sType . ') ' 
+                . ( null !== $_iLengths ? 'length: ' . $_iLengths .' ' : '' )
                 . print_r( $vValue, true ) . PHP_EOL . PHP_EOL,
             FILE_APPEND 
         );     
