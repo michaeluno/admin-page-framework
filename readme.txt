@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, admin panel, admin page framework, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, custom post types, utility, utilities, field, fields, custom field, custom fields, tool, tools, widget, widgets, factory, form, forms
 Requires at least:  3.3
 Tested up to:       4.0
-Stable tag:         3.1.7
+Stable tag:         3.2.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -448,7 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.3.0 =
+= 3.3.0 - 2014/10/22 =
 - Added the 'Select All' and 'Select None' buttons for check boxes.
 - Added the <code>[ace](https://github.com/soderlind/AceCustomFieldType)</code> custom field type.
 - Added the ability to have different menu title from the page title with the `page_title` and `menu_title` argument pass to the `addSubMenuItems()` method.
