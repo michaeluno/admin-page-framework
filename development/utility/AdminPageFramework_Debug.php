@@ -106,10 +106,12 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
         $_sElapsed              = isset( $_aElapsedParts[ 0 ] ) ? $_aElapsedParts[ 0 ] : 0;
         $_sElapsed              = strlen( $_sElapsed ) > 1 ? '+' . substr( $_sElapsed, -1, 2 ) : ' ' . $_sElapsed;
         $_sHeading              = date( "Y/m/d H:i:s", $_nNow ) . '.' . $_nMicroseconds . ' ' 
-            . $_sElapsed . '.' . $_sElapsedFloat . ' '    
-            . "{$_iPageLoadID} {$_sCallerClasss}::{$_sCallerFunction} " 
+            . $_sElapsed . '.' . $_sElapsedFloat . ' ' . $_iPageLoadID . ' '  
+            . AdminPageFramework_Registry::Version . ( AdminPageFramework_Registry::$bIsMinifiedVersion ? 'min' : '' ) . ' '
+            . "{$_sCallerClasss}::{$_sCallerFunction} " 
             . current_filter() . ' '
-            . self::getCurrentURL();
+            . self::getCurrentURL() . ' '            
+            ;
         $_sType                 = gettype( $vValue );
         $_iLengths              = is_string( $vValue ) || is_integer( $vValue )
             ? strlen( $vValue  )
