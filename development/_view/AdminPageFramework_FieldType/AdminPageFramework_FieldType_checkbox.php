@@ -10,12 +10,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_checkbox' ) ) :
 /**
  * Defines the checkbox field type.
  * 
- * @package     AdminPageFramework
- * @subpackage  FieldType
- * @since       2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -29,16 +30,14 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
         'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
         'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here
     );
-    
-    /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {}    
-    
+        
     /**
      * Returns the field type specific JavaScript script.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
-    public function _replyToGetScripts() {
+    protected function getScripts() {
         new AdminPageFramework_Script_CheckboxSelector;
         return "     
             jQuery( document ).ready( function(){
@@ -55,8 +54,11 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return "/* Checkbox field type */
             .select_all_button_container, 
             .select_none_button_container
@@ -90,10 +92,11 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
     /**
      * Returns the output of the field type.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed unnecessary parameters.
+     * @since       2.1.5
+     * @since       3.0.0     Removed unnecessary parameters.
+     * @since       3.3.0     Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
 
         $_aOutput = array();
         $_asValue = $aField['attributes']['value'];
@@ -151,7 +154,6 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
             . "</div>";
             
     }    
-    
     
 }
 endif;

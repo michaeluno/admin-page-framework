@@ -126,7 +126,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      */    
     protected function getIEStyles() { return ''; }
     /**
-     * Returns the CSS output inside the `<style></style>` tags.
+     * Returns the field type specific CSS output inside the `<style></style>` tags.
      * @since   3.0.0
      */    
     protected function getStyles() { return ''; }

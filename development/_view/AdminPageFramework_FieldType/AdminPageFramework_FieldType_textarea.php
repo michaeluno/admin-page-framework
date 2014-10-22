@@ -10,12 +10,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_textarea' ) ) :
 /**
  * Defines the 'textarea' field type.
  * 
- * @package     AdminPageFramework
- * @subpackage  FieldType
- * @since       2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -45,10 +46,11 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 
     /**
      * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
-     * @since   3.1.4
+     * @since       3.1.4
+     * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @internal
      */ 
-    public function _replyToGetScripts() {
+    public function getScripts() {
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return "
             jQuery( document ).ready( function(){
@@ -440,8 +442,11 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
     
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return "/* Textarea Field Type */
 .admin-page-framework-field-textarea .admin-page-framework-input-label-string {
     vertical-align: top;
@@ -464,10 +469,11 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
     /**
      * Returns the output of the 'textarea' input field.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed redundant elements including parameters.
+     * @since       2.1.5
+     * @since       3.0.0       Removed redundant elements including parameters.
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
 
         return 
             "<div class='admin-page-framework-input-label-container'>"

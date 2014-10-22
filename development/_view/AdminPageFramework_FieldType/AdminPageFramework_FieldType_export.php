@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_export' ) ) :
 /**
  * Defines the export field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
@@ -28,39 +28,47 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'data' => null, // ( array|string|object ) This is for the export field type. Do not set a value here.     
-        'format' => 'json', // ( string ) for the export field type. Do not set a default value here. Currently array, json, and text are supported.
-        'file_name' => null, // ( string ) for the export field type. Do not set a default value here.    
-        'attributes' => array(
+        'data'          => null,        // ( array|string|object ) This is for the export field type. Do not set a value here.     
+        'format'        => 'json',      // ( string ) for the export field type. Do not set a default value here. Currently array, json, and text are supported.
+        'file_name'     => null,        // ( string ) for the export field type. Do not set a default value here.    
+        'attributes'    => array(
             'class' => 'button button-primary',
         ),    
     );    
 
     /**
      * Loads the field type necessary components.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from changed from `_replyToFieldLoader()`.
      */ 
-    public function _replyToFieldLoader() {
-    }    
+    protected function setUp() {}
     
     /**
      * Returns the field type specific JavaScript script.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from changed from `_replyToGetScripts()`.
      */ 
-    public function _replyToGetScripts() {
+    protected function getScripts() {
         return "";     
     }    
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
-        return "";     
-    }
+    protected function getStyles() { return ""; }
     
     /**
      * Returns the output of the field type.
-     * @since 2.1.5 Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
+     * 
+     * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
             
         /* Set the transient data to export - If the value is not an array and the export data is set. */
         if ( isset( $aField['data'] ) ) {
@@ -68,16 +76,17 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
         } 
         
         /* Set some required values */
-        $aField['attributes']['name'] = "__export[submit][{$aField['input_id']}]";
-        $aField['file_name'] = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
-        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'export' );
+        $aField['attributes']['name']   = "__export[submit][{$aField['input_id']}]";
+        $aField['file_name']            = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
+        $aField['label']                = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'export' );
         
-        return parent::_replyToGetField( $aField );
+        return parent::getField( $aField );
         
     }
     
     /**
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
+     * 
      * @since 3.0.0
      */
     protected function _getExtraInputFields( &$aField ) {

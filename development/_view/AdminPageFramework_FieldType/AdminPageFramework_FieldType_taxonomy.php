@@ -10,12 +10,12 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_taxonomy' ) ) :
 /**
  * Defines the taxonomy field type.
  * 
- * @package     AdminPageFramework
- * @subpackage  FieldType
- * @since       2.1.5
- * @internal
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  */
-class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -39,8 +39,11 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     
     /**
      * Loads the field type necessary components.
+     * 
+     * @since       2.1.5  
+     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      */ 
-    public function _replyToFieldLoader() {
+    protected function setUp() {
         new AdminPageFramework_Script_CheckboxSelector;
     }
     
@@ -49,10 +52,11 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * 
      * Returns the JavaScript script of the taxonomy field type.
      * 
-     * @since   2.1.1
-     * @since   2.1.5   Moved from AdminPageFramework_Property_Base().
+     * @since       2.1.1
+     * @since       2.1.5       Moved from `AdminPageFramework_Property_Base()`.
+     * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
-    public function _replyToGetScripts() {
+    protected function getScripts() {
         
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
         return "
@@ -138,8 +142,11 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return 
         "/* Taxonomy Field Type */
             .admin-page-framework-field .taxonomy-checklist li { 
@@ -230,8 +237,11 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetInputIEStyles()`.
      */ 
-    public function _replyToGetInputIEStyles() {
+    protected function getIEStyles() {
         return     ".tab-box-content { display: block; }
             .tab-box-contents { overflow: hidden;position: relative; }
             b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
@@ -244,13 +254,14 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * 
      * Returns the output of taxonomy checklist check boxes.
      * 
-     * @remark  Multiple fields are not supported.
-     * @remark  Repeater fields are not supported.
-     * @since   2.0.0
-     * @since   2.1.1   The checklist boxes are rendered in a tabbed single box.
-     * @since   2.1.5   Moved from AdminPageFramework_FormField.
+     * @remark      Multiple fields are not supported.
+     * @remark      Repeater fields are not supported.
+     * @since       2.0.0
+     * @since       2.1.1       The checklist boxes are rendered in a tabbed single box.
+     * @since       2.1.5       Moved from AdminPageFramework_FormField.
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
 
         $aTabs          = array();
         $aCheckboxes    = array();

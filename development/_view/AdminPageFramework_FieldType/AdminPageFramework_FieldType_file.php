@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_file' ) ) :
 /**
  * Defines the file field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text {
@@ -29,38 +29,43 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
      */
     protected $aDefaultKeys = array(
         'attributes' => array(
-            'accept' => 'audio/*|video/*|image/*|MIME_type',
+            'accept'    => 'audio/*|video/*|image/*|MIME_type',
         ),    
     );
     
     /**
      * Loads the field type necessary components.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      */ 
-    public function _replyToFieldLoader() {
-    }    
+    protected function setUp() {}
     
     /**
      * Returns the field type specific JavaScript script.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
-    public function _replyToGetScripts() {
-        return "";     
-    }    
+    protected function getScripts() { return ""; }    
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
-        return "";     
-    }
+    protected function getStyles() { return ""; }
     
     /**
      * Returns the output of the field type.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Reconstructed entirely.
+     * @since       2.0.0
+     * @since       3.0.0     Reconstructed entirely.
+     * @since       3.3.1     Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
-        return parent::_replyToGetField( $aField );
+    protected function getField( $aField ) {
+        return parent::getField( $aField );
     }    
 
 }

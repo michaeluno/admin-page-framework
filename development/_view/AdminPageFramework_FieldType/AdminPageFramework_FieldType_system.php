@@ -90,6 +90,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
      *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
      *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
+     *     <li>**attributes** - (optional, array) [3.3.0+] attribute argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
      * </ul>     
      */
     protected function getEnqueuingScripts() { 

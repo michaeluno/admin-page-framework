@@ -12,12 +12,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_section_title' ) ) :
  * 
  * When a field is defined with this field type, the section title will be replaced with this field. This is used for repeatable tabbed sections.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       3.0.0
+ * @since       3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -30,17 +31,20 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'label_min_width' => 30,
-        'attributes' => array(
-            'size' => 20,
+        'label_min_width'   => 30,
+        'attributes'        => array(
+            'size'      => 20,
             'maxlength' => 100,
         ),    
     );
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       3.0.0
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return "/* Section Tab Field Type */
             .admin-page-framework-section-tab .admin-page-framework-field-section_title {
                 padding: 0.5em;
@@ -70,10 +74,11 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
     /**
      * Returns the output of the text input field.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed unnecessary parameters.
+     * @since       2.1.5
+     * @since       3.0.0     Removed unnecessary parameters.
+     * @since       3.3.1     Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
 
         return 
             $aField['before_label']

@@ -10,12 +10,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_radio' ) ) :
 /**
  * Defines the radio field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -26,21 +27,17 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
      * Defines the default key-values of this field type. 
      */
     protected $aDefaultKeys = array(
-        'label' => array(),
-        'attributes' => array(
-        ),
+        'label'         => array(),
+        'attributes'    => array(),
     );
-
-    /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {
-    }    
-    
+ 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return "/* Radio Field Type */
             .admin-page-framework-field input[type='radio'] {
                 margin-right: 0.5em;
@@ -59,8 +56,11 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
 
     /**
      * Returns the field type specific JavaScript script.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
-    public function _replyToGetScripts() {
+    protected function getScripts() {
 
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
         return "     
@@ -93,10 +93,11 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
     /**
      * Returns the output of the field type.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed unnecessary parameters.
+     * @since       2.1.5
+     * @since       3.0.0     Removed unnecessary parameters.
+     * @since       3.3.1     Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
         
         $_aOutput   = array();
         $_sValue    = $aField['attributes']['value'];
@@ -144,7 +145,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType_Ba
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
          * This helps repeatable field script that duplicate the last checked item.
-         * @sinec 3.0.0
+         * @sinec       3.0.0
          */
         private function _getUpdateCheckedScript( $sFieldContainerID ) {
             return 

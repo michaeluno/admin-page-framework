@@ -10,9 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) :
 /**
  * Defines the number, and range field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
 class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text {
@@ -45,34 +46,14 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
     );
 
     /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {
-    }    
-    
-    /**
-     * Returns the field type specific JavaScript script.
-     */ 
-    public function _replyToGetScripts() {
-        return "";     
-    }    
-
-    /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return "";     
     }
     
-    /**
-     * Returns the output of the text input field.
-     * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed unnecessary parameters.
-     */
-    public function _replyToGetField( $aField ) {
-        return parent::_replyToGetField( $aField );
-    }
-        
 }
 endif;

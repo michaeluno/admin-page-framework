@@ -10,10 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_size' ) ) :
 /**
  * Defines the size field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @extends AdminPageFramework_FieldType_select
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
 class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
@@ -55,7 +55,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * 
      * This goes to the 'units' element of the field definition array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     protected $aDefaultUnits = array(
         'px'    => 'px', // pixel
@@ -68,24 +68,14 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         'pt'    => 'pt', // point
         'pc'    => 'pc', // pica
     );
-        
-    /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {
-    }    
-    
-    /**
-     * Returns the field type specific JavaScript script.
-     */ 
-    public function _replyToGetScripts() {
-        return "";     
-    }    
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return
         "/* Size Field Type */
         .admin-page-framework-field-size input {
@@ -109,11 +99,12 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * Returns the size input fields. This enables for the user to set a size with a unit. This is made up of a text input field and a drop-down selector field. 
      * Useful for theme developers.
      * 
-     * @since 2.0.1
-     * @since 2.1.5 Moved from AdminPageFramework_FormField. Changed the name from getSizeField().
-     * @since 3.0.0 Reconstructed entirely which involves dropping unnecessary parameters and renaming keys in the field definition array.
+     * @since       2.0.1
+     * @since       2.1.5       Moved from AdminPageFramework_FormField. Changed the name from getSizeField().
+     * @since       3.0.0       Reconstructed entirely which involves dropping unnecessary parameters and renaming keys in the field definition array.
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
     
         /* 1. Initial set-up of the field definition array */
         $aField['units'] = isset( $aField['units'] ) 

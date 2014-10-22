@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_posttype' ) ) :
 /**
  * Defines the posttype field type.
  * 
- * @package     AdminPageFramework
- * @subpackage  FieldType
- * @since       2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
@@ -28,19 +28,19 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'slugs_to_remove'   => null, // the default array will be assigned in the rendering method.
+        'slugs_to_remove'       => null,    // the default array will be assigned in the rendering method.
         /** 
          * Accepts query arguments. For the specification, see the arg parameter of get_post_types() function.
          * See: http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
          */
-        'query'         => array(),  // 3.2.1+
-        'operator'      => 'and',    // [3.2.1+] either 'and' or 'or'
-        'attributes'        => array(
+        'query'                 => array(),  // 3.2.1+
+        'operator'              => 'and',    // 3.2.1+ either 'and' or 'or'
+        'attributes'            => array(
             'size'      => 30,
             'maxlength' => 400,
         ),    
-        'select_all_button'     => true,        // 3.3.0+   to change the label, set the label here
-        'select_none_button'    => true,        // 3.3.0+   to change the label, set the label here        
+        'select_all_button'     => true,     // 3.3.0+   to change the label, set the label here
+        'select_none_button'    => true,     // 3.3.0+   to change the label, set the label here        
     );
     protected $aDefaultRemovingPostTypeSlugs = array(
         'revision', 
@@ -48,24 +48,13 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
         'nav_menu_item',
     );
     /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {
-    }    
-    
-    /**
-     * Returns the field type specific JavaScript script.
-     */ 
-    public function _replyToGetScripts() {
-        $_sParentScripts = parent::_replyToGetScripts();
-        return $_sParentScripts;
-    }    
-
-    /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
-        $_sParentStyles = parent::_replyToGetStyles();
+    protected function getStyles() {
+        $_sParentStyles = parent::getStyles();
         return "/* Posttype Field Type */
             .admin-page-framework-field input[type='checkbox'] {
                 margin-right: 0.5em;
@@ -81,12 +70,13 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * 
      * Returns the output of post type checklist check boxes.
      * 
-     * @remark  the posttype checklist field does not support multiple elements by passing an array of labels.
-     * @since   2.0.0
-     * @since   2.1.5 Moved from AdminPageFramework_FormField.
-     * @since   3.0.0 Reconstructed entirely.
+     * @remark      the posttype checklist field does not support multiple elements by passing an array of labels.
+     * @since       2.0.0
+     * @since       2.1.5       Moved from AdminPageFramework_FormField.
+     * @since       3.0.0       Reconstructed entirely.
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
         
         $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
         $aField['label'] = $this->_getPostTypeArrayForChecklist( 
@@ -94,7 +84,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
             $aField['query'],
             $aField['operator']
         );
-        return parent::_replyToGetField( $aField );
+        return parent::getField( $aField );
             
     }    
     

@@ -10,12 +10,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_select' ) ) :
 /**
  * Defines the select field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -40,23 +41,14 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
         ),
     );
 
-    /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {
-    }    
-    
-    /**
-     * Returns the field type specific JavaScript script.
-     */ 
-    public function _replyToGetScripts() {
-        return "";     
-    }    
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         return "/* Select Field Type */
             .admin-page-framework-field-select .admin-page-framework-input-label-container {
                 vertical-align: top; 
@@ -72,10 +64,11 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType_B
     /**
      * Returns the output of the field type.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed unnecessary parameters.
+     * @since       2.1.5
+     * @since       3.0.0       Removed unnecessary parameters.
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
             
         $_aSelectAttributes = array(
             'id'        => $aField['input_id'],

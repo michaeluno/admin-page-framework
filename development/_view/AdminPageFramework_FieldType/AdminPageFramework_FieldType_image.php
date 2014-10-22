@@ -55,8 +55,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
      * Returns the field type specific JavaScript script.
      */ 
     public function _replyToGetScripts() {     
-        return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL    
-            . $this->_getScript_ImageSelector( 
+        return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL    
+            $this->_getScript_ImageSelector( 
                 "admin_page_framework", 
                 $this->oMsg->get( 'upload_image' ),
                 $this->oMsg->get( 'use_this_image' )

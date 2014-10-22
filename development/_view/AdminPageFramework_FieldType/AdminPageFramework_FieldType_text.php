@@ -12,12 +12,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_text' ) ) :
  * 
  * Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', and 'week' are defeined.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
+ * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -35,10 +36,14 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
         ),    
     );
 
+    
     /**
-     * Returns the field type specific CSS rules.
-     */ 
-    public function _replyToGetStyles() {
+     * Returns the field type specific CSS output inside the `<style></style>` tags.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     */        
+    protected function getStyles() {
         return "/* Text Field Type */
                 .admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
                     vertical-align: top; 
@@ -49,10 +54,11 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType_Bas
     /**
      * Returns the output of the text input field.
      * 
-     * @since 2.1.5
-     * @since 3.0.0 Removed unnecessary parameters.
+     * @since       2.1.5
+     * @since       3.0.0       Removed unnecessary parameters.
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
 
         return 
             $aField['before_label']

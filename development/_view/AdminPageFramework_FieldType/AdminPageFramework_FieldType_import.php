@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_import' ) ) :
 /**
  * Defines the import field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package         AdminPageFramework
+ * @subpackage      FieldType
+ * @since           2.1.5
  * @internal
  */
 class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
@@ -28,40 +28,48 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'option_key' => null,
-        'format' => 'json',
-        'is_merge' => false,
-        'attributes' => array(
-            'class' => 'button button-primary',
-            'file' => array(
-                'accept' => 'audio/*|video/*|image/*|MIME_type',
-                'class' => 'import',
-                'type' => 'file',
+        'option_key'        => null,
+        'format'            => 'json',
+        'is_merge'          => false,
+        'attributes'        => array(
+            'class'     => 'button button-primary',
+            'file'      => array(
+                'accept'    => 'audio/*|video/*|image/*|MIME_type',
+                'class'     => 'import',
+                'type'      => 'file',
             ),
-            'submit' => array(    
+            'submit'    => array(    
                 'class' => 'import button button-primary',
-                'type' => 'submit',
+                'type'  => 'submit',
             ),
         ),    
     );
     
     /**
      * Loads the field type necessary components.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from changed from `_replyToFieldLoader()`.
      */ 
-    public function _replyToFieldLoader() {
-    }    
+    protected function setUp() {}
     
     /**
      * Returns the field type specific JavaScript script.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from changed from `_replyToGetScripts()`.
      */ 
-    public function _replyToGetScripts() {
+    protected function getScripts() {
         return "";     
     }    
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @since       2.1.5
+     * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() { 
         return "/* Import Field */
         .admin-page-framework-field-import input {
             margin-right: 0.5em;
@@ -74,14 +82,18 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
     
     /**
      * Returns the output of the field type.
-     * @since 2.1.5 Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
+     * 
+     * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
+     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
         
         /* Set some required values */
-        $aField['attributes']['name'] = "__import[submit][{$aField['input_id']}]";
-        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'import' );
-        return parent::_replyToGetField( $aField );     
+        $aField['attributes']['name']   = "__import[submit][{$aField['input_id']}]";
+        $aField['label']                = $aField['label'] 
+            ? $aField['label'] 
+            : $this->oMsg->get( 'import' );
+        return parent::getField( $aField );     
     }    
     
     /**

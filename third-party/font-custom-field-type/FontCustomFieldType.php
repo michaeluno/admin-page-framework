@@ -101,8 +101,8 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
      * Returns the field type specific JavaScript script.
      */ 
     protected function getScripts() { 
-        return $this->_getScript_CustomMediaUploaderObject() . PHP_EOL
-            . $this->getScript_FontSelector(
+        return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL
+            $this->getScript_FontSelector(
                 "admin_page_framework", 
                 __( 'Upload Font', 'admin-page-framework-demo' ),
                 __( 'Use This Font', 'admin-page-framework-demo' )
