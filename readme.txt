@@ -1,7 +1,7 @@
 === Admin Page Framework ===
 Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
-Tags:               admin, administration, admin panel, admin page framework, option, options, setting, settings, Settings API, API, framework, library, class, classes, developers, developer tool, meta box, custom post type, custom post types, utility, utilities, field, fields, custom field, custom fields, tool, tools, widget, widgets, factory, form, forms
+Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms
 Requires at least:  3.3
 Tested up to:       4.0
 Stable tag:         3.2.1
@@ -448,9 +448,13 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.3.1 =
+- Added the value length to be indicated in the log file created with the log method of the debug class.
+- Changed the built-in field types to extend the same base class to custom field types.
+
 = 3.3.0 - 2014/10/22 =
-- Added the 'Select All' and 'Select None' buttons for check boxes.
-- Added the <code>[ace](https://github.com/soderlind/AceCustomFieldType)</code> custom field type.
+- Added the `Select All` and `Select None` buttons for check boxes.
+- Added the [ace](https://github.com/soderlind/AceCustomFieldType) custom field type.
 - Added the ability to have different menu title from the page title with the `page_title` and `menu_title` argument pass to the `addSubMenuItems()` method.
 - Added the ability for the `description` field/section definition argument to accept an array to process elements as multiple paragraphs.
 - Added the ability to set custom arguments to enqueuing resource(style/script) tags.
@@ -599,4 +603,4 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
 - Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
 
-<h4>[Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)</h4>
+[Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)
