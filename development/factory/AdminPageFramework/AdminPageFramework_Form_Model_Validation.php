@@ -6,19 +6,20 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Setting_Validation' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Form_Model_Validation' ) ) :
 /**
  * Deals with validating submitted options.
  * 
  * 
  * @abstract
  * @since           3.0.0
+ * @since           3.3.1       Changed the name from `AdminPageFramework_Setting_Validation`.
  * @extends         AdminPageFramework_Setting_Port
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Setting_Validation extends AdminPageFramework_Setting_Port {     
+abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Port {     
        
     /**
      * Handles the form submitted data.

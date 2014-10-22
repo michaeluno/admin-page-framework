@@ -6,25 +6,27 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Setting_Port' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Form_Model_Port' ) ) :
 /**
- * Deals with importing/exporting options called from the validation method.
+ * Deals with exporting and importing options.
  * 
  * 
  * @abstract
  * @since           3.0.0
- * @extends         AdminPageFramework_Setting_Base
+ * @since           3.3.1       Changed the name from `AdminPageFramework_Setting_Port`.
+ * @extends         AdminPageFramework_Router
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Setting_Base {     
-            
-    /**
+abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Router {     
+       
+     /**
      * Processes importing data.
      * 
-     * @since 2.0.0
-     * @since 2.1.5 Added additional filters with field id and input id.
+     * @since       2.0.0
+     * @since       2.1.5       Added additional filters with field id and input id.
+     * @since       3.3.1       Moved from `AdminPageFramework_Setting_Port`.
      */
     protected function _importOptions( $aStoredOptions, $sPageSlug, $sTabSlug ) {
         
@@ -148,8 +150,9 @@ abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Settin
     /**
      * Processes exporting data.
      * 
-     * @since 2.0.0
-     * @since 2.1.5 Added additional filters with field id and input id.
+     * @since       2.0.0
+     * @since       2.1.5       Added additional filters with field id and input id.
+     * @since       3.3.1       Moved from `AdminPageFramework_Setting_Port`.
      */
     protected function _exportOptions( $vData, $sPageSlug, $sTabSlug ) {
 
@@ -209,6 +212,7 @@ abstract class AdminPageFramework_Setting_Port extends AdminPageFramework_Settin
         $oExport->doExport( $vData, $sFileName, $sFormatType );
         exit;
         
-    }
+    }         
+            
 }
 endif;

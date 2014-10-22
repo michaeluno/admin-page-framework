@@ -6,17 +6,18 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Page_MetaBox' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Page_View_MetaBox' ) ) :
 /**
  * Provides methods to insert meta boxes in pages added by the framework.
  *
  * @abstract
  * @since           3.0.0
+ * @since           3.3.1       Changed the name from `AdminPageFramework_Page_MetaBox`.
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Page_MetaBox extends AdminPageFramework_Base {
+abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_Page_Model {
     
     /**
      * Sets up hooks and properties.

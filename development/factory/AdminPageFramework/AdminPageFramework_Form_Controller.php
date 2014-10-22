@@ -6,18 +6,18 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Setting' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Form_Controller' ) ) :
 /**
  * Provides public methods to add form elements. 
  *
  * @abstract
  * @since           2.0.0
+ * @since           3.3.1       Changed the name from `AdminPageFramework_Setting`.
  * @extends         AdminPageFramework_Setting_Validation
  * @package         AdminPageFramework
  * @subpackage      AdminPage
- * @var             array       $aFieldErrors       stores the settings field errors.
  */
-abstract class AdminPageFramework_Setting extends AdminPageFramework_Setting_Validation {
+abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
                                     
     /**
      * {@inheritdoc}

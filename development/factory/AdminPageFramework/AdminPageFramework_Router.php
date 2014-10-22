@@ -6,17 +6,18 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Base' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Router' ) ) :
 /**
- * Defines common properties and methods shared with the AdminPageFramework classes for pages.
+ * Deals with redirecting function calls and instantiating classes.
  *
  * @abstract
  * @since           3.0.0     
+ * @since           3.3.1       Changed from `AdminPageFramework_Base`.
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
+abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     
     /**
      * Stores the prefixes of the filters used by this framework.
@@ -25,11 +26,13 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * 
      * @since       2.0.0
      * @since       2.1.5       Made it public from protected since the HeadTag class accesses it.
-     * @since       3.0.0       Moved from AdminPageFramework_Page. Changed the scope to protected as the head tag class no longer access this property.
+     * @since       3.0.0       Moved from `AdminPageFramework_Page`. Changed the scope to protected as the head tag class no longer access this property.
+     * @since       3.3.1       Moved from `AdminPageFramework_Base`. Deprecated
      * @var         array
      * @static
      * @access      protected
      * @internal
+     * @deprecated  3.3.1
      */ 
     protected static $_aHookPrefixes = array(    
         'start_'                        => 'start_',
@@ -68,18 +71,13 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
         'field_types_'                  => 'field_types_',
         'field_definition_'             => 'field_definition_', // 3.0.2+
         'options_'                      => 'options_', // 3.1.0+
-    );
+    );    
     
-    /**
-    * The common properties shared among sub-classes. 
-    * 
-    * @since        2.0.0
-    * @since        3.0.0      Changed the name from $oProps and moved from the main class. Changed the scope to public as all instantiated class became to be stored in the global <var>aAdminPageFramework</var> variable.
-    * @access       protected
-    * @var          object an instance of `AdminPageFramework_Property_Page` will be assigned in the constructor.
-    */     
-    public $oProp;
-    
+    /**'
+     * Sets up hooks and properties.
+     * 
+     * @since       3.3.0
+     */
     function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
                 
         // Objects
@@ -97,58 +95,6 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
         }
         
     }
-
-
-    /**#@+
-     *@internal
-     */  
-    
-    /* Methods that should be defined in the user's class. */
-    public function setUp() {}
-
-    /* Defined in AdminPageFramework */
-    public function addHelpTab( $aHelpTab ) {}
-    public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
-    public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
-    public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
-    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {}
-    public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {}
-    public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {}
-    public function setCapability( $sCapability ) {}
-    public function setFooterInfoLeft( $sHTML, $bAppend=true ) {}
-    public function setFooterInfoRight( $sHTML, $bAppend=true ) {}
-    public function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {}
-    public function setDisallowedQueryKeys( $asQueryKeys, $bAppend=true ) {}
-    
-    /* Defined in AdminPageFramework_Page */
-    public function addInPageTabs( $aTab1, $aTab2=null, $_and_more=null ) {}
-    public function addInPageTab( $asInPageTab ) {}
-    public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {}
-    public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {}
-    public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {}
-    public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {}
-    public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {}
-    
-    /* Defined in AdminPageFramework_Menu */
-    public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {}
-    public function setRootMenuPageBySlug( $sRootMenuSlug ) {}
-    public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {}
-    public function addSubMenuItem( array $aSubMenuItem ) {}
-    protected function addSubMenuLink( array $aSubMenuLink ) {}    
-    protected function addSubMenuPages() {} // no parameter
-    protected function addSubMenuPage( array $aSubMenuPage ) {}
-    
-    /* Defined in AdminPageFramework_Setting */
-    // public function setSettingNotice( $sMsg, $sType='error', $sID=null, $bOverride=true ) {} // deprecated as of 3.1.0 and uses the definition defined in the factory class
-    public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {}
-    public function addSettingSection( $asSection ) {}
-    public function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {}    
-    public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {}
-    public function addSettingField( $asField ) {}
-    public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {}
-    // public function setFieldErrors( $aErrors, $sID=null, $iLifeSpan=300 ) {} // deprecated as of 3.1.0 and uses the definition defined in the factory class
-    public function getFieldValue( $sFieldID ) {}
-    /**#@-*/    
     
     /**
      * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
@@ -159,6 +105,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * @param       array       the argument array. The first element holds the parameters passed to the called method.
      * @return      mixed       depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
      * @since       2.0.0
+     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @internal
      */
     public function __call( $sMethodName, $aArgs=null ) {     
@@ -202,6 +149,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
          * Redirects the callback of the load-{page} action hook to the framework's callback.
          * 
          * @since       2.1.0
+         * @since       3.3.1       Moved from `AdminPageFramework_Base`.
          * @access      protected
          * @internal
          * @remark      This method will be triggered before the header gets sent.
@@ -248,6 +196,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * 
      * @since       2.0.0
      * @since       3.0.0       Moved from the property class.
+     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @remark      a callback method for `uasort()`.
      * @return      integer
      * @internal
@@ -263,6 +212,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * Checks whether the class should be instantiated.
      * 
      * @since       3.1.0
+     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @internal
      */
     protected function _isInstantiatable() {
@@ -282,6 +232,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
      * 
      * @since       3.0.2
      * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
+     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @internal
      */
     public function _isInThePage( $aPageSlugs=array() ) {
@@ -309,6 +260,7 @@ abstract class AdminPageFramework_Base extends AdminPageFramework_Factory {
                 
         return in_array( $_GET['page'], $aPageSlugs );
         
-    }
+    }    
+    
 }
 endif;
