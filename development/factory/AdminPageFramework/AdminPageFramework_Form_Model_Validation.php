@@ -45,8 +45,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
      *        
      */
     protected function _handleSubmittedData() {
-        
-        // 1. Verify the form submittion. 
+
+        // 1. Verify the form submission. 
         if ( 
             ! isset( 
                 // The framework specific keys
