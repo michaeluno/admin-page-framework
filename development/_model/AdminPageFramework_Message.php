@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_Message' ) ) :
  *
  * @since       2.0.0
  * @since       2.1.6   Multiple instances of this class are disallowed.
- * @since       3.2.0   Multiple instances of this class are allowed by the instantiation is restricted to per text domain basis.
+ * @since       3.2.0   Multiple instances of this class are allowed but the instantiation is restricted to per text domain basis.
  * @extends     n/a
  * @package     AdminPageFramework
  * @subpackage  Property
