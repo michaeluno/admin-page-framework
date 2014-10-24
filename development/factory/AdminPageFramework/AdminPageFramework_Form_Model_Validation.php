@@ -93,7 +93,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
      * Validates the submitted user input.
      * 
      * @since       2.0.0
-     * @since       3.3.0       Changed the name from _doValidationCall(). The input array is passeed by reference and returns the satatus array.
+     * @since       3.3.0       Changed the name from _doValidationCall(). The input array is passed by reference and returns the status array.
      * @access      protected
      * @remark      This method is not intended for the users to use.
      * @remark      the scope must be protected to be accessed from the extended class. The <em>AdminPageFramework</em> class uses this method in the overloading <em>__call()</em> method.
