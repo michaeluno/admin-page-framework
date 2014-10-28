@@ -376,14 +376,16 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     /**
      * Saves the options into the database.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
+     * @since       3.1.1       Made it return a value.
+     * @return      boolean     True if saved; otherwise, false.
      */
     public function updateOption( $aOptions=null ) {
 
         if ( $this->_bDisableSavingOptions ) {
             return;
         }
-        update_option( $this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions );
+        return update_option( $this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions );
         
     }
     
