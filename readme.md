@@ -198,7 +198,8 @@ Anyone is welcome to contribute to Admin Page Framework. There are various ways 
 - Post ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 - Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
 - Send us a Pull Request with your bug fixes and/or new features.
-- Write a custom field type. 
+- Write a [custom field type](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.FieldType.html). 
+- Write [test cases](test/readme.md).
 - Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
 - Tweak the styling of the framework by modifying the [CSS rules](https://github.com/michaeluno/admin-page-framework/blob/master/development/_model/AdminPageFramework_CSS.php).
 - Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory. 
