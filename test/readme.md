@@ -15,18 +15,18 @@ Employes [Codecception](http://codeception.com/). In order to run the tests. con
 1. **Important** Set up necessary paths, database user name password, and host, plugin slug, test site location etc. in `test/codeception/settings.cfg`.
 2. cd to `test/codeception/` and run `install.sh` by typing the following command in the console program.
 
-```
-bash install.sh
-```
+    ```
+    bash install.sh
+    ```
 
 3. Run the test by typing the following. 
 
-```
-bash run.sh
-```
+    ```
+    bash run.sh
+    ```
 
 4. When tests are done, to uninstall the test site, run the uninstaller script by tying the following.
 
-```
-bash uninstall.sh
-```
+    ```
+    bash uninstall.sh
+    ```
