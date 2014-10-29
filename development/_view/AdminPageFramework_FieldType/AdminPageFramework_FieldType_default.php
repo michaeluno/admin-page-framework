@@ -17,12 +17,13 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_default' ) ) :
  * @since       2.1.5
  * @internal
  */
-class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType {
     
     /**
      * Defines the default key-values of this field type. 
      * 
-     * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
+     * @access      public      This must be public as accessed from outside.
+     * @remark      <var>$_aDefaultKeys</var> holds shared default key-values defined in the base class.
      */
     public $aDefaultKeys = array();
     

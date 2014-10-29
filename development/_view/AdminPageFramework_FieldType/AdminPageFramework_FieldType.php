@@ -60,6 +60,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * <code>
      * public $aFieldTypeSlugs = array( 'my_field_type_slug', 'alternative_field_type_slug' );
      * </code>
+     * @access       public      This must be public as accessed from outside.
      */    
     public $aFieldTypeSlugs = array();
     

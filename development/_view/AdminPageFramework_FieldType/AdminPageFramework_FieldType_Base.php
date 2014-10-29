@@ -27,8 +27,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     
     /**
      * Defines the slugs used for this field type.
+     * 
      * This should be overridden in the extended class.
-     * @access public
+     * 
+     * @access       public      This must be public as accessed from outside.
      */
     public $aFieldTypeSlugs = array( 'default' );
     
