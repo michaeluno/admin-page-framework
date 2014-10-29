@@ -62,7 +62,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * </code>
      * @access       public      This must be public as accessed from outside.
      */    
-    public $aFieldTypeSlugs = array();
+    public $aFieldTypeSlugs = array( 'default', );
     
     /**
      * Defines the default key-values of this field type. 
