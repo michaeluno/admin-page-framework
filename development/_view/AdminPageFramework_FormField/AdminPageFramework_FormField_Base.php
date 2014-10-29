@@ -38,7 +38,9 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
     public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
 
         /* 1. Set up the properties that will be accessed later in the methods. */
-        $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) ? $aFieldTypeDefinitions[ $aField['type'] ] : $aFieldTypeDefinitions['default'];
+        $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) 
+            ? $aFieldTypeDefinitions[ $aField['type'] ] 
+            : $aFieldTypeDefinitions['default'];
         
         /* 
          * 1-1. Set up the 'attributes' array - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
