@@ -29,7 +29,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
      */
     private function _getInputName( $aField=null, $sKey='', $hfFilterCallback=null ) {
         
-        $sKey           = ( string ) $sKey; // casting string is important as 0 value may have been interpreted as false.
+        $sKey           = ( string ) $sKey; // casting string is required as 0 value may have been interpreted as false.
         $aField         = isset( $aField ) ? $aField : $this->aField;
         $_sKey          = '0' !== $sKey && empty( $sKey ) ? '' : "[{$sKey}]";
         $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) ? "[{$aField['_section_index']}]" : "";
@@ -70,7 +70,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
             : $_sResult . $_sResultTail;
             
     }
-    
+        
     /**
      * Retrieves the field name attribute whose dimensional elements are delimited by the pile character.
      * 
@@ -132,8 +132,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
      * e.g. "{$aField['field_id']}_{$sKey}";
      * 
      * @remark The keys are prefixed with double-underscores.
-     * @since   2.0.0
-     * @since   3.2.0       Added the $hfFilterCallback parameter.
+     * @since       2.0.0
+     * @since       3.2.0       Added the $hfFilterCallback parameter.
      */
     private function _getInputID( $aField, $sIndex, $hfFilterCallback=null ) {
         
@@ -148,6 +148,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
             
     }
     
+
     /**
      * Returns the tag ID.
      * 
@@ -219,23 +220,29 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 }     
 
                 /* Set some internal keys */ 
-                $_bIsSubField                       = is_numeric( $__sKey ) && 0 < $__sKey;
-                $__aField['_index']                 = $__sKey;
-                $__aField['input_id']               = $this->_getInputID( $__aField, $__sKey, $aCallbacks['hfID'] ); //  ({section id}_){field_id}_{index}
-                $__aField['_input_name']            = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '', $aCallbacks['hfName'] );    
-                $__aField['_input_name_flat']       = $this->_getFlatInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '', $aCallbacks['hfNameFlat'] ); // used for submit, export, import field types     
-                $__aField['_field_container_id']    = "field-{$__aField['input_id']}"; // used in the attribute below plus it is also used in the sample custom field type.
-                $__aField['_fields_container_id']   = "fields-{$this->aField['tag_id']}";
-                $__aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}";
-                $__aField                           = $this->uniteArrays(
+                $_bIsSubField                           = is_numeric( $__sKey ) && 0 < $__sKey;
+                $__aField['_index']                     = $__sKey;
+                $__aField['input_id']                   = $this->_getInputID( $__aField, $__sKey, $aCallbacks['hfID'] ); //  ({section id}_){field_id}_{index}
+                $__aField['_input_name']                = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '', $aCallbacks['hfName'] );    
+                $__aField['_input_name_flat']           = $this->_getFlatInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '', $aCallbacks['hfNameFlat'] ); // used for submit, export, import field types     
+                $__aField['_field_container_id']        = "field-{$__aField['input_id']}"; // used in the attribute below plus it is also used in the sample custom field type.
+// These models are for generating ids and names dynamically.
+$__aField['_input_id_model']            = $this->_getInputID( $__aField, '-fi-',  $aCallbacks['hfID'] ); // 3.3.1+ referred by the repeatable field script
+$__aField['_input_name_model']          = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? '-fi-': '', $aCallbacks['hfName'] );      // 3.3.1+ referred by the repeatable field script
+$__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"; // [3.3.1+] referred by the repeatable field script
+                $__aField['_fields_container_id']       = "fields-{$this->aField['tag_id']}";
+                $__aField['_fieldset_container_id']     = "fieldset-{$this->aField['tag_id']}";
+                $__aField                               = $this->uniteArrays(
                     $__aField, // includes the user-set values.
                     array( // the automatically generated values.
                         'attributes' => array(
-                            'id'        => $__aField['input_id'],
-                            'name'      => $__aField['_input_name'],
-                            'value'     => $__aField['value'],
-                            'type'      => $__aField['type'], // text, password, etc.
-                            'disabled'  => null,     
+                            'id'                => $__aField['input_id'],
+                            'name'              => $__aField['_input_name'],
+                            'value'             => $__aField['value'],
+                            'type'              => $__aField['type'], // text, password, etc.
+                            'disabled'          => null,
+                            'data-id_model'     => $__aField['_input_id_model'],    // 3.3.1+
+                            'data-name_model'   => $__aField['_input_name_model'],  // 3.3.1+
                         ),
                     ),
                     ( array ) $_aFieldTypeDefinition['aDefaultKeys'] // this allows sub-fields with different field types to set the default key-values for the sub-field.
@@ -246,11 +253,13 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 
                 /* Callback the registered function to output the field */     
                 $_aFieldAttributes = array(
-                    'id'        => $__aField['_field_container_id'],
-                    'data-type' => "{$__aField['type']}", // this is referred by the repeatable field JavaScript script.
-                    'class'     => "admin-page-framework-field admin-page-framework-field-{$__aField['type']}" 
+                    'id'            => $__aField['_field_container_id'],
+                    'data-type'     => "{$__aField['type']}",   // this is referred by the repeatable field JavaScript script.
+                    'data-id_model' => $__aField['_fields_container_id_model'], // 3.3.1+
+                    'class'         => "admin-page-framework-field admin-page-framework-field-{$__aField['type']}" 
                         . ( $__aField['attributes']['disabled'] ? ' disabled' : null )
                         . ( $_bIsSubField ? ' admin-page-framework-subfield' : null ),
+                    
                 ) + $__aField['attributes']['field'];    
                 $_aOutput[] = $__aField['before_field']
                     . "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">"
