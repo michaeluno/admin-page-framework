@@ -36,7 +36,7 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *     <li>**do_after_{instantiated class name}** – triggered after rendering the page. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
  *     <li>**do_after_{page slug}** – triggered after rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
  *     <li>**do_after_{page slug}_{tab slug}** – triggered after rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
- *     <li>**submit_{instantiated class name}_{submit input id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified input id.</li>
+ *     <li>**submit_{instantiated class name}_{submit input id}** – [3.0.0+] **Deprecated**[3.3.1+] triggered after the form is submitted with the submit button of the specified input id.</li>
  *     <li>**submit_{instantiated class name}_{submit field id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified field that does not hava section is submitted.</li>
  *     <li>**submit_{instantiated class name}_{submit section id}_{submit field id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified section and field is submitted.</li>
  *     <li>**submit_{instantiated class name}_{submit section id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified section.</li>
@@ -78,43 +78,43 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *     <li>**script_{page slug}_{tab slug}** – receives the output of the JavaScript script applied to the tab page of the slug.</li>
  *     <li>**script_{page slug}** – receives the output of the JavaScript script applied to the page of the slug.</li>
  *     <li>**script_{instantiated class name}** – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
- *     <li>**export_{instantiated class name}_{input id}** – [2.1.5+] receives the exporting array submitted from the specific export button.</li>
+ *     <li>**export_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+]  receives the exporting array submitted from the specific export button.</li>
  *     <li>**export_{instantiated class name}_{field id}** – [2.1.5+] receives the exporting array submitted from the specific field that does not have a section.</li>
  *     <li>**export_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the exporting array submitted from the specific field that has a section.</li>
  *     <li>**export_{page slug}_{tab slug}** – receives the exporting array sent from the tab page.</li>
  *     <li>**export_{page slug}** – receives the exporting array submitted from the page.</li>
  *     <li>**export_{instantiated class name}** – receives the exporting array submitted from the plugin.</li>
- *     <li>**export_name_{instantiated class name}_{input id}** – receives the exporting file name submitted the specified input id.</li>
+ *     <li>**export_name_{instantiated class name}_{input id}** – **Deprecated**[3.3.1+] receives the exporting file name submitted the specified input id.</li>
  *     <li>**export_name_{instantiated class name}_{field id}** – receives the exporting file name submitted from the specific field that does not have a section.</li>
  *     <li>**export_name_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the exporting file name submitted from the specific field that has a section.</li>
  *     <li>**export_name_{page slug}_{tab slug}** – receives the exporting file name submitted from the tab page.</li>
  *     <li>**export_name_{page slug}** – receives the exporting file name submitted from the page.</li>
  *     <li>**export_name_{instantiated class name}** – receives the exporting file name submitted from the script.</li>
- *     <li>**export_format_{instantiated class name}_{input id}** – receives the exporting file format submitted from the specific export button.</li>
+ *     <li>**export_format_{instantiated class name}_{input id}** – **Deprecated**[3.3.1+] receives the exporting file format submitted from the specific export button.</li>
  *     <li>**export_format_{instantiated class name}_{field id}** – receives the exporting file format submitted from the specific field that does not have a section.</li>
  *     <li>**export_format_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the exporting file format submitted from the specific field that has a section.</li>
  *     <li>**export_format_{page slug}_{tab slug}** – receives the exporting file format sent from the tab page.</li>
  *     <li>**export_format_{page slug}** – receives the exporting file format submitted from the page.</li>
  *     <li>**export_format_{instantiated class name}** – receives the exporting file format submitted from the plugin.</li> 
- *     <li>**import_{instantiated class name}_{input id}** – [2.1.5+] receives the importing array submitted from the specific import button.</li>
+ *     <li>**import_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+] receives the importing array submitted from the specific import button.</li>
  *     <li>**import_{instantiated class name}_{field id}** – [2.1.5+] receives the importing array submitted from the specific import field that does not have a section.</li>
  *     <li>**import_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the importing array submitted from the specific import field that has a section.</li>
  *     <li>**import_{page slug}_{tab slug}** – receives the importing array submitted from the tab page.</li>
  *     <li>**import_{page slug}** – receives the importing array submitted from the page.</li>
  *     <li>**import_{instantiated class name}** – receives the importing array submitted from the plugin.</li>
- *     <li>**import_mime_types_{instantiated class name}_{input id}** – [2.1.5+] receives the mime types of the import data submitted from the specific import button.</li>
+ *     <li>**import_mime_types_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+] receives the mime types of the import data submitted from the specific import button.</li>
  *     <li>**import_mime_types_{instantiated class name}_{field id}** – [2.1.5+] receives the mime types of the import data submitted from the specific import field that does not have a section.</li>
  *     <li>**import_mime_types_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the mime types of the import data submitted from the specific import field that has a section.</li>
  *     <li>**import_mime_types_{page slug}_{tab slug}** – receives the mime types of the import data submitted from the tab page.</li>
  *     <li>**import_mime_types_{page slug}** – receives the mime types of the import data submitted from the page.</li>
  *     <li>**import_mime_types_{instantiated class name}** – receives the mime types of the import data submitted from the plugin.</li>
- *     <li>**import_format_{instantiated class name}_{input id}** – [2.1.5+] receives the import data format submitted from the specific import button.</li>
+ *     <li>**import_format_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+] receives the import data format submitted from the specific import button.</li>
  *     <li>**import_format_{instantiated class name}_{field id}** – [2.1.5+] receives the import data format submitted from the specific import field that does not have a section.</li>
  *     <li>**import_format_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the import data format submitted from the specific import field that has a section.</li>
  *     <li>**import_format_{page slug}_{tab slug}** – receives the import data format submitted from the tab page.</li>
  *     <li>**import_format_{page slug}** – receives the import data format submitted from the page.</li>
  *     <li>**import_format_{instantiated class name}** – receives the import data format submitted from the plugin.</li>
- *     <li>**import_option_key_{instantiated class name}_{input id}** – [2.1.5+] receives the option array key of the importing array submitted from the specific import button.</li>
+ *     <li>**import_option_key_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+] receives the option array key of the importing array submitted from the specific import button.</li>
  *     <li>**import_option_key_{instantiated class name}_{field id}** – [2.1.5+] receives the option array key of the importing array submitted from the specific import field that does not have a section.</li>
  *     <li>**import_option_key_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the option array key of the importing array submitted from the specific import field that has a section.</li>
  *     <li>**import_option_key_{page slug}_{tab slug}** – receives the option array key of the importing array submitted from the tab page.</li>
