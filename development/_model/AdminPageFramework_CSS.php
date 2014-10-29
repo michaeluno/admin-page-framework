@@ -264,7 +264,7 @@ td.admin-page-framework-field-td-no-title {
     clear: both;
     float: left;
     display: inline-block;
-    padding: 1em 1.2em 0.76em;
+    padding: 1em 1.2em 0.78em;
     margin: 1px 0 0 0;
     border-top-width: 1px;
     border-bottom-width: 1px;
@@ -333,8 +333,13 @@ td.admin-page-framework-field-td-no-title {
 }
 
 .postbox .admin-page-framework-field {
-    width: 100%;
+    width: 96%; /* Not 100% because it will stick out */
 }            
+
+/* Sortable fields do not look well if the width is fully expanded  */
+.postbox .sortable .admin-page-framework-field {
+    width: auto;
+}
             
 /* Field Titles */             
 .postbox .admin-page-framework-section .form-table > tbody > tr > th {
