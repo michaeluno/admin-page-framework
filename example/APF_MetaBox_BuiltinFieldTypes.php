@@ -35,18 +35,19 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
          */
         $this->addSettingFields(
             array(
-                'field_id' => 'metabox_text_field',
-                'type' => 'text',
-                'title' => __( 'Text Input', 'admin-page-framework-demo' ),
-                'description' => __( 'Type more than two characters.', 'admin-page-framework-demo' ),
-                'help' => __( 'This is help text.', 'admin-page-framework-demo' ),
-                'help_aside' => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
+                'field_id'      => 'metabox_text_field',
+                'type'          => 'text',
+                'title'         => __( 'Text Input', 'admin-page-framework-demo' ),
+                'description'   => __( 'Type more than two characters.', 'admin-page-framework-demo' ),
+                'help'          => __( 'This is help text.', 'admin-page-framework-demo' ),
+                'help_aside'    => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
             ),
             array(
-                'field_id' => 'metabox_text_field_repeatable',
-                'type' => 'text',
-                'title' => __( 'Text Repeatable', 'admin-page-framework-demo' ),
-                'repeatable' =>    true
+                'field_id'      => 'metabox_text_field_repeatable',
+                'type'          => 'text',
+                'title'         => __( 'Text Repeatable & Sortable', 'admin-page-framework-demo' ),
+                'repeatable'    => true,
+                'sortable'      => true,
             ),     
             array(
                 'field_id' => 'metabox_textarea_field',
