@@ -15,10 +15,9 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_default' ) ) :
  * @package     AdminPageFramework
  * @subpackage  FieldType
  * @since       2.1.5
- * @since       3.3.1           Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldTypea_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType {
+class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType_Base {
     
     /**
      * Defines the default key-values of this field type. 
@@ -34,9 +33,8 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType 
      * 
      * @since       2.1.5     
      * @since       3.0.0       Removed unnecessary elements as well as parameters.
-     * @since       3.3.1       Changed from `_replyToGetField()`.
      */
-    protected function getField( $aField ) {
+    public function _replyToGetField( $aField ) {
         return 
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container'>"
