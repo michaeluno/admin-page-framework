@@ -450,6 +450,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.3.1 =
 - Added the value length to be indicated in the log file created with the log method of the debug class.
+- Tweaked the styling of sortable fields in meta boxes.
+- Tweaked the styling of form fields in meta boxes.
 - Changed the built-in field types to extend the same base class to custom field types.
 
 = 3.3.0 - 2014/10/22 =
