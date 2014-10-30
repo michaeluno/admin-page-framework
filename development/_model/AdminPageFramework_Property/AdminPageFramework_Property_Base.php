@@ -308,24 +308,23 @@ abstract class AdminPageFramework_Property_Base {
     static public function _setLibraryData() {
 
         self::$_aLibraryData = array(
-            'sName' => AdminPageFramework_Registry::Name,
-            'sURI' => AdminPageFramework_Registry::URI,
-            'sScriptName' => AdminPageFramework_Registry::Name,
-            'sLibraryName' => AdminPageFramework_Registry::Name,
-            'sLibraryURI' => AdminPageFramework_Registry::URI,
-            'sPluginName' => '',
-            'sPluginURI' => '',
-            'sThemeName' => '',
-            'sThemeURI' => '',
-            'sVersion' => AdminPageFramework_Registry::Version 
-                . ( AdminPageFramework_Registry::$bIsMinifiedVersion ? '.min' : '' ),
-            'sDescription' => AdminPageFramework_Registry::Description,
-            'sAuthor' => AdminPageFramework_Registry::Author,
-            'sAuthorURI' => AdminPageFramework_Registry::AuthorURI,
-            'sTextDomain' => AdminPageFramework_Registry::TextDomain,
-            'sDomainPath' => AdminPageFramework_Registry::TextDomainPath,
-            'sNetwork' => '',
-            '_sitewide' => '',
+            'sName'         => AdminPageFramework_Registry::Name,
+            'sURI'          => AdminPageFramework_Registry::URI,
+            'sScriptName'   => AdminPageFramework_Registry::Name,
+            'sLibraryName'  => AdminPageFramework_Registry::Name,
+            'sLibraryURI'   => AdminPageFramework_Registry::URI,
+            'sPluginName'   => '',
+            'sPluginURI'    => '',
+            'sThemeName'    => '',
+            'sThemeURI'     => '',
+            'sVersion'      => AdminPageFramework_Registry::getVersion(),
+            'sDescription'  => AdminPageFramework_Registry::Description,
+            'sAuthor'       => AdminPageFramework_Registry::Author,
+            'sAuthorURI'    => AdminPageFramework_Registry::AuthorURI,
+            'sTextDomain'   => AdminPageFramework_Registry::TextDomain,
+            'sDomainPath'   => AdminPageFramework_Registry::TextDomainPath,
+            'sNetwork'      => '',
+            '_sitewide'     => '',
         );
         return self::$_aLibraryData;
         
@@ -339,7 +338,7 @@ abstract class AdminPageFramework_Property_Base {
     static public function _getLibraryData() {
         return isset( self::$_aLibraryData ) ? self::$_aLibraryData : self::_setLibraryData();     
     }
-
+    
     /*
      * Methods for getting script info.
      */      
