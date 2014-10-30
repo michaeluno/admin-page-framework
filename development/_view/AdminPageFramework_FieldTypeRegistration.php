@@ -8,20 +8,20 @@
  */
 if ( ! class_exists( 'AdminPageFramework_FieldTypeRegistration' ) ) :
 /**
- * Provides means to define custom input fields not only by the framework but also by the user.
+ * Provides means to define field types.
  * 
- * @package AdminPageFramework
- * @subpackage Form
- * @since 2.1.5
- * @since 2.1.6 Changed the name from AdminPageFramework_FieldTypeDefinitions
+ * @package     AdminPageFramework
+ * @subpackage  Form
+ * @since       2.1.5
+ * @since       2.1.6     Changed the name from AdminPageFramework_FieldTypeDefinitions
  * @internal
  */
 class AdminPageFramework_FieldTypeRegistration  {
     
     /**
-     * Holds the default input field labels
+     * Holds the built-in filed type slugs.
      * 
-     * @since 2.1.5
+     * @since   2.1.5
      */
     protected static $aDefaultFieldTypeSlugs = array(
         'default', // undefined ones will be applied 
@@ -49,18 +49,18 @@ class AdminPageFramework_FieldTypeRegistration  {
     /**
      * Registers field types.
      * 
-     * @since 3.1.3 Moved from the constructor.
+     * @since       3.1.3       Moved from the constructor.
      */
     static public function register( $aFieldTypeDefinitions, $sExtendedClassName, $oMsg ) {
 
         foreach( self::$aDefaultFieldTypeSlugs as $_sFieldTypeSlug ) {
             
-            $_sInstantiatingClassName = "AdminPageFramework_FieldType_{$_sFieldTypeSlug}";
-            if ( ! class_exists( $_sInstantiatingClassName ) ) { 
+            $_sFieldTypeClassName = "AdminPageFramework_FieldType_{$_sFieldTypeSlug}";
+            if ( ! class_exists( $_sFieldTypeClassName ) ) { 
                 continue; 
             }
 
-            $_oFieldType = new $_sInstantiatingClassName( 
+            $_oFieldType = new $_sFieldTypeClassName( 
                 $sExtendedClassName, 
                 null, 
                 $oMsg, 
