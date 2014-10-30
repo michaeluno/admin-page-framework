@@ -361,9 +361,9 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
          */
         private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
             
-            $oTaxonomy = get_taxonomy( $sTaxonomySlug );
-            return isset( $oTaxonomy->label )
-                ? $oTaxonomy->label
+            $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
+            return isset( $_oTaxonomy->label )
+                ? $_oTaxonomy->label
                 : null;
             
         }
