@@ -74,7 +74,8 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
          */
         private function _getFormTablesBySectionTab( $sSectionTabSlug, $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 
-            if ( empty( $aSections ) ) return ''; // if empty, return a blank string.
+            // if empty, return a blank string.
+            if ( empty( $aSections ) ) { return ''; } 
         
             /* <ul>
                 <li><a href="#tabs-1">Nunc tincidunt</a></li>
@@ -89,7 +90,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                 if ( ! isset( $aSections[ $_sSectionID ] ) ) { continue; }
                 
                 $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; // will be referred outside the loop.
-                                                    
+                $_aTabAttributes    = $aSections[ $_sSectionID ]['attributes']['tab'] + array( 'style' => null );
+                $_sExtraClasses     = $aSections[ $_sSectionID ]['class']['tab'];
+                
                 // For repeatable sections
                 $_aSubSections      = $aSubSectionsOrFields;
                 $_aSubSections      = $this->getIntegerElements( $_aSubSections );
@@ -108,9 +111,20 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                         
                         // For tabbed sections,
                         if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
-                            $_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>"
-                                    . $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )
-                                ."</a></li>";
+
+                            $__aTabAttributes = $_aTabAttributes    // note that this attribute array is defined outside the loop.
+                                + array(
+                                    'class' => 'admin-page-framework-section-tab nav-tab',
+                                    'id'    => "section_tab-{$_sSectionTagID}",
+                                );
+                            $__aTabAttributes['class'] = $this->generateClassAttribute( $__aTabAttributes['class'], $_sExtraClasses );  // 3.3.1+
+                            $__aTabAttributes['style'] = $this->generateStyleAttribute( $__aTabAttributes['style'], $aSections[ $_sSectionID ]['hidden'] ? 'display:none' : null );  // 3.3.1+        
+                            $_aSectionTabList[] = "<li " . $this->generateAttributes( $__aTabAttributes ) . ">"
+                                    . "<a href='#{$_sSectionTagID}'>"
+                                        . $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )
+                                    ."</a>"
+                                . "</li>";
+                                
                         }
                     
                         $aOutput[] = $this->getFormTable( $_sSectionID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
@@ -118,29 +132,39 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                     }
                     
                 } else {
-                // The normal section
+                    // The normal section
                     $_sSectionTagID = 'section-' . $_sSectionID . '__' . '0';
                     $_aFields       = $aSubSectionsOrFields;
                     
                     // For tabbed sections,
                     if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
-                        $_aSectionTabList[] = "<li class='admin-page-framework-section-tab nav-tab' id='section_tab-{$_sSectionTagID}'><a href='#{$_sSectionTagID}'>"
-                                . $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )    
-                            . "</a></li>";
+
+                        $__aTabAttributes = $_aTabAttributes + array(
+                            'class' => 'admin-page-framework-section-tab nav-tab',
+                            'id'    => "section_tab-{$_sSectionTagID}",
+                        );         
+                        $__aTabAttributes['class'] = $this->generateClassAttribute( $__aTabAttributes['class'], $_sExtraClasses );
+                        $__aTabAttributes['style'] = $this->generateStyleAttribute( $__aTabAttributes['style'], $aSections[ $_sSectionID ]['hidden'] ? 'display:none' : null );  // 3.3.1+        
+                        $_aSectionTabList[] = "<li " . $this->generateAttributes( $__aTabAttributes ) . ">"
+                                . "<a href='#{$_sSectionTagID}'>"
+                                    . $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )    
+                                . "</a>"
+                            . "</li>";
+                            
                     }
                     
                     $aOutput[] = $this->getFormTable( $_sSectionID, 0, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
                 }
                     
             }
-
+            
             return empty( $aOutput )
                 ? ''
                 : "<div " . $this->generateAttributes(
                         array(
-                            'class'             => 'admin-page-framework-sections'
+                            'class' => 'admin-page-framework-sections'
                                 . ( ! $_sSectionTabSlug || $_sSectionTabSlug == '_default' ? null : ' admin-page-framework-section-tabs-contents' ),
-                            'id'                => "sections-" . md5( serialize( $aSections ) ), 
+                            'id'    => "sections-" . md5( serialize( $aSections ) ), 
                         )
                     ) . ">"                 
                     . ( $_sSectionTabSlug // if the section tab slug yields true, insert the section tab list
@@ -247,12 +271,12 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
      * 
      * @since       3.0.0
      * @since       3.3.1       Now the first parameter is for the section ID not the tag ID.
-     * @param       string      $sSectionID         The section ID specified by the user.
-     * @param       integer     $iSectionIndex      The section index. Zero based.
-     * @param       array      $aSection            The section definition array,
-     * @param       array      $sFields             The array holding field definition arrays.
-     * @param       callable   $hfSectionCallback   The callback for the section header output.
-     * @param       callable   $hfFieldCallback     The callback for the field output.
+     * @param       string      $sSectionID          The section ID specified by the user.
+     * @param       integer     $iSectionIndex       The section index. Zero based.
+     * @param       array       $aSection            The section definition array,
+     * @param       array       $sFields             The array holding field definition arrays.
+     * @param       callable    $hfSectionCallback   The callback for the section header output.
+     * @param       callable    $hfFieldCallback     The callback for the field output.
      */
     public function getFormTable( $sSectionID, $iSectionIndex, $aSection, $aFields, $hfSectionCallback, $hfFieldCallback ) {
 
@@ -301,16 +325,22 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                 )
                 . $this->getFieldRows( $aFields, $hfFieldCallback )
             . "</table>";
+            
+        $_aSectionAttributes    = $this->uniteArrays(
+            $this->dropElementsByType( $aSection['attributes'] ),   // remove elements of an array.
+            array( 
+                'id'            => $_sSectionTagID, // section-{section id}__{index}
+                'class'         => 'admin-page-framework-section'
+                    . ( $aSection['section_tab_slug'] ? ' admin-page-framework-tab-content' : null ),
+                // [3.3.1+] The repeatable script refers to this model value to generate new IDs.
+                'data-id_model' => 'section-' . $sSectionID . '__' . '-si-',
+            )     
+        );
+        $_aSectionAttributes['class']   = $this->generateClassAttribute( $_aSectionAttributes['class'], $this->dropElementsByType( $aSection['class'] ) );  // 3.3.1+
+        $_aSectionAttributes['style']   = $this->generateStyleAttribute( $_aSectionAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+        
+
         return "<div "
-            . $this->generateAttributes(
-                    array( 
-                        'id'            => $_sSectionTagID, // section-{section id}__{index}
-                        'class'         => 'admin-page-framework-section'
-                            . ( $aSection['section_tab_slug'] ? ' admin-page-framework-tab-content' : null ),
-                        // [3.3.1+] The repeatable script refers to this model value to generate new IDs.
-                        'data-id_model' => 'section-' . $sSectionID . '__' . '-si-',
-                    )     
-                )
+                . $this->generateAttributes( $_aSectionAttributes )
             . ">"
                 . implode( PHP_EOL, $_aOutput )
             . "</div>";

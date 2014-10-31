@@ -40,6 +40,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         'help_aside'        => null,
         'repeatable'        => null, // 3.0.0+
         'section_tab_slug'  => null, // 3,0,0+
+        'attributes'        => array(       // 3.3.1+
+            'class'         => null,    // set null to avoid undefined index warnings.
+            'style'         => null,    // set null to avoid undefined index warnings.
+            'tab'           => array(),
+        ),
+        'class'             => array(       // 3.3.1+
+            'tab'           => array(),
+        ),
+        'hidden'            => false,       // 3.3.1+
     );    
     
     /**
@@ -80,6 +89,13 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         'hidden'            => null, // [3.0.0+]
         '_fields_type'      => null, // [3.0.0+] - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
         '_section_index'    => null, // [3.0.0+] - internally set to indicate the section index for repeatable sections.
+// @todo Give the ability to add custom class selectors. Examine if this item cannot be an array or not.
+        'class'             => array(   // 3.3.1+
+            'fieldrow'  =>  array(),
+            'fieldset'  =>  array(),
+            'fields'    =>  array(),
+            'field'     =>  array(),
+        ), 
     );    
     
     /**
@@ -308,8 +324,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 array( 
                     '_fields_type' => $sFieldsType,
                     'capability' => $sCapability,
-                )
-                + self::$_aStructure_Section
+                ),
+                self::$_aStructure_Section
             );
                 
             $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;

@@ -32,23 +32,27 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
             
             $.fn.createTabs = function( asOptions ) {
                 
-                bIsRefresh = ( typeof asOptions === 'string' && asOptions === 'refresh' );
+                var _bIsRefresh = ( typeof asOptions === 'string' && asOptions === 'refresh' );
                 if ( typeof asOptions === 'object' )
                     var aOptions = $.extend( {
                     }, asOptions );
                 
                 this.children( 'ul' ).each( function () {
-                
+                    
+                    var bSetActive = false;
                     $( this ).children( 'li' ).each( function( i ) {     
                         
                         var sTabContentID = $( this ).children( 'a' ).attr( 'href' );
-                        if ( ! bIsRefresh && i == 0 ) 
+                        if ( ! _bIsRefresh && ! bSetActive && $( this ).is( ':visible' ) ) {
                             $( this ).addClass( 'active' );
+                            bSetActive = true;
+                        }
                         
-                        if ( $( this ).hasClass( 'active' ) ) 
+                        if ( $( this ).hasClass( 'active' ) ) {
                             $( sTabContentID ).show();
-                        else
+                        } else {                            
                             $( sTabContentID ).css( 'display', 'none' );
+                        }
                         
                         $( this ).addClass( 'nav-tab' );
                         $( this ).children( 'a' ).addClass( 'anchor' );
@@ -64,8 +68,8 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
                             
                             // Find the element id and select the content element with it.
                             var sTabContentID = $( this ).find( 'a' ).attr( 'href' );
-                            oActiveContent = $( this ).parent().parent().find( sTabContentID ).css( 'display', 'block' ); 
-                            oActiveContent.siblings( ':not( ul )' ).css( 'display', 'none' );
+                            var _oActiveContent = $( this ).parent().parent().find( sTabContentID ).css( 'display', 'block' ); 
+                            _oActiveContent.siblings( ':not( ul )' ).css( 'display', 'none' );
                             
                         });
                     });
