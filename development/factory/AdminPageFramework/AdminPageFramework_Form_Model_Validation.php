@@ -87,6 +87,17 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_sPressedFieldID   = $this->_getPressedSubmitButtonData( $_aSubmit, 'field_id' );
         $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmit, 'input_id' );        
         $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
+        if ( has_action( "submit_{$this->oProp->sClassName}_{$_sPressedInputID}" ) ) {
+            trigger_error( 
+                'Admin Page Framework: ' . ' : ' 
+                    . sprintf( 
+                        __( 'The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oProp->sTextDomain ), 
+                        "submit_{instantiated class name}_{pressed input id}", 
+                        "submit_{instantiated class name}_{pressed field id}"
+                    ), 
+                E_USER_NOTICE 
+            );
+        }
         $this->oUtil->addAndDoActions(
             $this,
             array( 
