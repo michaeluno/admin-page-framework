@@ -70,9 +70,45 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
     }
     
     /**
+     * Generates the string of inline styles for the style attribute value from multiple arguments.
+     * 
+     * Duplicated items will be merged.
+     * 
+     * For example,
+     * <code>generateStyleAttribute( array( 'margin-top' => '10px', 'display: inline-block' ), 'float:right; display: none;' )</code>
+     * will generate
+     * <code>margin-top: 10px; display: inline-block; float:right;</code>
+     * @since       3.3.1
+     */
+    static public function generateStyleAttribute( $asInlineCSSes ) {
+        
+        $_aCSSRules = array();
+        foreach( array_reverse( func_get_args() ) as $_asCSSRules ) {
+            
+            // For array, store in the container.
+            if ( is_array( $_asCSSRules ) ) {
+                $_aCSSRules = $_aCSSRules + $_asCSSRules;
+            }
+            
+            // At this point, it is a string. Break them down to array elements.
+            $__aCSSRules = explode( ';', $_asCSSRules );
+            foreach( $__aCSSRules as $_sPair ) {
+                $_aCSSPair = explode( ':', $_sPair );
+                if ( ! isset( $_aCSSPair[ 0 ], $_aCSSPair[ 1 ] ) ) {
+                    continue;
+                }
+                $_aCSSRules[ $_aCSSPair[ 0 ] ] = $_aCSSPair[ 1 ];
+            }
+            
+        }
+        return self::generateInlineCSS( $_aCSSRules );
+        
+    }
+    
+    /**
      * Generates the string of class selectors for the class attribute value from multiple arguments.
      * 
-     * Duplicated items will be single.
+     * Duplicated items will be merged.
      * 
      * For example, 
      * <code>$sClasses = generateClassAttribute( array( 'button, button-primary' ), 'remove_button button' );</code>

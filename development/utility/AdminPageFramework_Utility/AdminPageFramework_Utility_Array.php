@@ -446,6 +446,29 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         
     }
     
-    
+    /**
+     * Removes array elements by the specified type.
+     * 
+     * @since       3.3.1
+     * @param       array       $aArray     The subject array to parse.
+     * @param       array       $aTypes     The value types to drop. The supported types are the followings.
+     *  - boolean
+     *  - integer
+     *  - double
+     *  - string
+     *  - array 
+     *  - object
+     *  - resource
+     *  - NULL
+     */
+    static public function dropElementsByType( array $aArray, $aTypes=array( 'array' ) ) {
+        
+        foreach( $aArray as $isKey => $vValue ) {
+            if ( in_array( gettype( $vValue ), $aTypes ) ) {
+                unset( $aArray[ $isKey ] );
+            }
+        }
+        return $aArray;
+    }
 }
 endif;
