@@ -449,7 +449,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.1 =
+- Added the `submit_after_{...}` action hooks that are triggered when the submitted form data are saved.
 - Added the value length to be indicated in the log file created with the log method of the debug class.
+- Fixed a jQuery method conflict of the `sortable()` plugin.
 - Tweaked the styling of sortable fields in meta boxes.
 - Tweaked the styling of form fields in meta boxes.
 - Changed the built-in field types to extend the same base class to custom field types.

@@ -37,10 +37,14 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *     <li>**do_after_{page slug}** – triggered after rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
  *     <li>**do_after_{page slug}_{tab slug}** – triggered after rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
  *     <li>**submit_{instantiated class name}_{submit input id}** – [3.0.0+] **Deprecated**[3.3.1+] triggered after the form is submitted with the submit button of the specified input id.</li>
- *     <li>**submit_{instantiated class name}_{submit field id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified field that does not hava section is submitted.</li>
- *     <li>**submit_{instantiated class name}_{submit section id}_{submit field id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified section and field is submitted.</li>
- *     <li>**submit_{instantiated class name}_{submit section id}** – [3.0.0+] triggered after the form is submitted with the submit button of the specified section.</li>
- *     <li>**submit_{instantiated class name}** – [3.0.0+] triggered after the form is submitted.</li>
+ *     <li>**submit_{instantiated class name}_{submit field id}** – [3.0.0+] triggered after the form is submitted and before the options are saved when the submit button of the specified field without a section</li>
+ *     <li>**submit_{instantiated class name}_{submit section id}_{submit field id}** – [3.0.0+] triggered after the form is submitted and before the options are saved with the submit button of the specified section and field.</li>
+ *     <li>**submit_{instantiated class name}_{submit section id}** – [3.0.0+] triggered after the form is submitted and before the options are saved with the submit button of the specified section.</li>
+ *     <li>**submit_{instantiated class name}** – [3.0.0+] triggered after the form is submitted and before the options are saved.</li>
+ *     <li>**submit_after_{instantiated class name}_{submit field id}** – [3.3.1+] triggered after the form is submitted and the options are saved in the database with the submit button of the specified field without a section.</li>
+ *     <li>**submit_after_{instantiated class name}_{submit section id}_{submit field id}** – [3.3.1+] triggered after the form is submitted and the options are saved with the submit button of the specified section and field.</li>
+ *     <li>**submit_after_{instantiated class name}_{submit section id}** – [3.3.1+] triggered after the form is submitted and the options are saved with the submit button of the specified section.</li>
+ *     <li>**submit_after_{instantiated class name}** – [3.3.1+] triggered after the form is submitted and after the options are saved.</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
