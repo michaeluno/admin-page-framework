@@ -79,7 +79,7 @@ class APF_Demo extends AdminPageFramework {
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
     
     }
-    
+        
     /**
      * The pre-defined callback method that is triggered when the page loads.
      */
