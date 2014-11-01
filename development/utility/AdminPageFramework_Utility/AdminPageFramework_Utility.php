@@ -70,7 +70,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
     }
     
     /**
-     * Generates the string of inline styles for the style attribute value from multiple arguments.
+     * Generates a string of inline styles for the style attribute value from multiple arguments.
      * 
      * Duplicated items will be merged.
      * 
@@ -87,7 +87,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
             
             // For array, store in the container.
             if ( is_array( $_asCSSRules ) ) {
-                $_aCSSRules = $_aCSSRules + $_asCSSRules;
+                $_aCSSRules = array_merge( $_asCSSRules, $_aCSSRules );
             }
             
             // At this point, it is a string. Break them down to array elements.
@@ -101,12 +101,12 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
             }
             
         }
-        return self::generateInlineCSS( $_aCSSRules );
+        return self::generateInlineCSS( array_unique( $_aCSSRules ) );
         
     }
     
     /**
-     * Generates the string of class selectors for the class attribute value from multiple arguments.
+     * Generates a string of class selectors for the class attribute value from multiple arguments.
      * 
      * Duplicated items will be merged.
      * 
@@ -137,7 +137,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
     }
     
     /**
-     * Generates the string of attributes to be embedded in an HTML tag from an associative array.
+     * Generates a string of attributes to be embedded in an HTML tag from an associative array.
      * 
      * For example, 
      *     array( 'id' => 'my_id', 'name' => 'my_name', 'style' => 'background-color:#fff' )
