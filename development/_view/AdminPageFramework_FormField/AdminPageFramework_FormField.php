@@ -259,10 +259,10 @@ $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"
                     'class'         => "admin-page-framework-field admin-page-framework-field-{$__aField['type']}" 
                         . ( $__aField['attributes']['disabled'] ? ' disabled' : null )
                         . ( $_bIsSubField ? ' admin-page-framework-subfield' : null ),
-                    
-                ) + $__aField['attributes']['field'];    
+                );
+                
                 $_aOutput[] = $__aField['before_field']
-                    . "<div " . $this->generateAttributes( $_aFieldAttributes ) . ">"
+                    . "<div " . $this->_getFieldContainerAttributes( $__aField, $_aFieldAttributes, 'field' ) . ">"
                         . call_user_func_array(
                             $_aFieldTypeDefinition['hfRenderField'],
                             array( $__aField )
@@ -292,22 +292,26 @@ $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"
         private function _getFinalOutput( array $aField, array $aFieldsOutput, $iFieldsCount ) {
                             
             // Construct attribute arrays.
+            
+            // the 'fieldset' container attributes
             $_aFieldsSetAttributes = array(
                 'id'            => 'fieldset-' . $aField['tag_id'],
                 'class'         => 'admin-page-framework-fieldset',
                 'data-field_id' => $aField['tag_id'], // <-- don't remember what this was for...
-            ) + $aField['attributes']['fieldset'];
+            );
+            
+            // the 'fields' container attributes
             $_aFieldsContainerAttributes = array(
                 'id'            => 'fields-' . $aField['tag_id'],
                 'class'         => 'admin-page-framework-fields'
                     . ( $aField['repeatable'] ? ' repeatable' : '' )
                     . ( $aField['sortable'] ? ' sortable' : '' ),
                 'data-type'     => $aField['type'], // this is referred by the sortable field JavaScript script.
-            ) + $aField['attributes']['fields'];
+            );
             
             return $aField['before_fieldset']
-                . "<fieldset " . $this->generateAttributes( $_aFieldsSetAttributes ) . ">"
-                    . "<div " . $this->generateAttributes( $_aFieldsContainerAttributes ) . ">"
+                . "<fieldset " . $this->_getFieldContainerAttributes( $aField, $_aFieldsSetAttributes, 'fieldset' ) . ">"
+                    . "<div " . $this->_getFieldContainerAttributes( $aField, $_aFieldsContainerAttributes, 'fields' ) . ">"
                         . $aField['before_fields']
                             . implode( PHP_EOL, $aFieldsOutput )
                         . $aField['after_fields']

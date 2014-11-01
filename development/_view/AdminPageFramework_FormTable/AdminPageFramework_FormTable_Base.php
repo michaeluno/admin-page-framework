@@ -17,7 +17,7 @@ if ( ! class_exists( 'AdminPageFramework_FormTable_Base' ) ) :
  * @since       3.0.0
  * @internal
  */
-class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
     
     /**
      * Sets up properties and hooks.
@@ -53,24 +53,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
             new AdminPageFramework_Script_Tab;
             
         }
-        
-    /**
-     * Generates attributes of the field container tag.
-     * 
-     * @since       3.0.0
-     * @internal
-     */
-    protected function _getAttributes( $aField, $aAttributes=array() ) {
-
-        $_aAttributes = $aAttributes + ( isset( $aField['attributes']['fieldrow'] ) ? $aField['attributes']['fieldrow'] : array() );
-        
-        // Prepend the visibility CSS property.
-        if ( $aField['hidden'] ) { 
-            $_aAttributes['style'] = 'display:none;' . ( isset( $_aAttributes['style'] ) ? $_aAttributes['style'] : '' );
-        }
-        return $this->generateAttributes( $_aAttributes );
-        
-    }
+       
     
     /**
      * Returns the title part of the field output.

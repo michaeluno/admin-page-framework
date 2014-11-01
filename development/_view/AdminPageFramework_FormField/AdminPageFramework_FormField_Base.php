@@ -12,13 +12,14 @@ if ( ! class_exists( 'AdminPageFramework_FormField_Base' ) ) :
  * 
  * This class mainly handles JavaScript scripts and the constructor setting class properties.
  * 
- * @since       3.0.0      Separated the methods that defines field types to different classes.
- * @extends     AdminPageFramework_WPUtility
+ * @since       3.0.0       Separated the methods that defines field types to different classes.
+ * @since       3.3.1       Extends `AdminPageFramework_FormOutput`.
+ * @extends     AdminPageFramework_FormOutput
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
  */
-class AdminPageFramework_FormField_Base extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
             
     /**
      * Sets up properties and load necessary scripts.

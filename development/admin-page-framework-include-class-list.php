@@ -124,6 +124,7 @@ $aClassFiles = array(
 	"AdminPageFramework_WalkerTaxonomyChecklist"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FieldType/AdminPageFramework_WalkerTaxonomyChecklist.php", 
 	"AdminPageFramework_FormField"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormField/AdminPageFramework_FormField.php", 
 	"AdminPageFramework_FormField_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormField/AdminPageFramework_FormField_Base.php", 
+	"AdminPageFramework_FormOutput"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormOutput/AdminPageFramework_FormOutput.php", 
 	"AdminPageFramework_FormTable"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormTable/AdminPageFramework_FormTable.php", 
 	"AdminPageFramework_FormTable_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormTable/AdminPageFramework_FormTable_Base.php", 
 	"AdminPageFramework_PageLoadInfo_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_PageLoadInfo/AdminPageFramework_PageLoadInfo_Base.php", 

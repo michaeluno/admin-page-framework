@@ -55,7 +55,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
          */
         private function _getSectionTabsEnablerScript() {
             
-            if ( self::$_bLoadedTabEnablerScript ) return '';
+            if ( self::$_bLoadedTabEnablerScript ) { return ''; }
             self::$_bLoadedTabEnablerScript = true;
             
             return "<script type='text/javascript'>
@@ -392,13 +392,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
             
             $_aOutput           = array();
             $_aField            = $this->_mergeDefault( $aField );
-            $_sAttributes_TR    = $this->_getAttributes( 
+            $_sAttributes_TR    = $this->_getFieldContainerAttributes( 
                 $_aField,
                 array( 
                     'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagID( $_aField ),
                     'valign'    => 'top',
                     'class'     => 'admin-page-framework-fieldrow',
-                )
+                ),
+                'fieldrow'
             );
             $_sAttributes_TD    = $this->generateAttributes( 
                 array(
@@ -446,7 +447,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
             if ( 'section_title' === $aField['type'] ) { return ''; }
             $_aOutput   = array();
             $_aField    = $this->_mergeDefault( $aField );
-            $_aOutput[] = "<div " . $this->_getAttributes( $_aField ) . ">";
+            $_aOutput[] = "<div " . $this->_getFieldContainerAttributes( $_aField, array(), 'fieldrow' ) . ">";
             if ( $_aField['show_title_column'] ) {
                 $_aOutput[] = $this->_getFieldTitle( $_aField );
             }

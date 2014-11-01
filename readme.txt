@@ -455,6 +455,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed a jQuery method conflict of the `sortable()` plugin.
 - Tweaked the styling of sortable fields in meta boxes.
 - Tweaked the styling of form fields in meta boxes.
+- Changed the `attributes` field definition argument to be able to override the system set attributes.
 - Changed the built-in field types to extend the same base class to custom field types.
 
 = 3.3.0 - 2014/10/22 =
