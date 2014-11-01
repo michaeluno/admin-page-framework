@@ -47,6 +47,14 @@ abstract class AdminPageFramework_Property_Base {
     static public $_aLibraryData;
 
     /**
+     * Defines the property type.
+     * 
+     * @since       3.3.1   This was defined in each extended classes.
+     * @internal
+     */
+    public $_sPropertyType = '';    
+    
+    /**
      * Stores the main (caller) object.
      * 
      * @since 2.1.5

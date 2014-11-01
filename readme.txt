@@ -453,6 +453,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `class`, `attributes`, `hidden` arguments for sections.
 - Added the `submit_after_{...}` action hooks that are triggered when the submitted form data are saved.
 - Added the value length to be indicated in the log file created with the log method of the debug class.
+- Fixed an issue that resources of widgets registered by the framework were loaded in all admin pages.
 - Fixed a jQuery method conflict of the `sortable()` plugin.
 - Tweaked the styling of sortable fields in meta boxes.
 - Tweaked the styling of form fields in meta boxes.
