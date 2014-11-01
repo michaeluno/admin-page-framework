@@ -172,6 +172,17 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      <li>**order** - (optional, integer) the order number of the section. The higher the number is, the lower the position it gets.</li>
      *      <li>**help** - (optional, string) the help description added to the contextual help tab.</li>
      *      <li>**help_aside** - (optional, string) the additional help description for the side bar of the contextual help tab.</li>
+     *      <li>**hidden** - (optional, boolean) [3.3.1+] whether or not the section should be hidden. Default: <code>false</code>.</li>
+     *      <li>**attributes** - (optional, string) [3.3.1+] An attribute array that applies to the section container element. e.g. `array( 'data-custom_data' => 'my_custom_data' )` The following sub-elements are supported.
+     *          <ul>
+     *              <li>**tab** - (optional, array) An sub-attribute array that applies to the section tab `<li>` tag element.</li>
+     *          </ul>
+     *      </li>
+     *      <li>**class** - (optional, string|array) [3.3.1+] class selector(s) appended to the section container element. The following sub-elements are supported.
+     *          <ul>
+     *              <li>**tab** - (optional, array) An sub-class array that applies to the section tab `<li>` tag element.</li>
+     *          </ul>
+     *      </li>
      * </ul>
      * @param       array       (optional) another section array.
      * @param       array       (optional)  add more section array to the next parameters as many as necessary.
