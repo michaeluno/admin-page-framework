@@ -132,6 +132,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         ); 
         
         // 5. Save the data.
+        $_bUpdated = false;
         if ( ! $this->oProp->_bDisableSavingOptions ) {  
             $_bUpdated = $this->oProp->updateOption( $_aInput );
         }
