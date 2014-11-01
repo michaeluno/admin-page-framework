@@ -109,9 +109,10 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
     public function load_apf_custom_field_types( $oAdminPage ) { // load_{page slug}
         
         /*
-         * ( optional ) Add in-page tabs - In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
+         * ( optional ) Add in-page tabs - In Admin Page Framework, there are three kinds of tabs: page-heading tabs, in-page tabs, section tabs.
          * Page-heading tabs show the titles of sub-page items which belong to the set root page. 
          * In-page tabs show tabs that you define to be embedded within an individual page.
+         * Section tabs show form sections in tabs.
          */
         $this->addInPageTabs(    
             'apf_custom_field_types', // target page slug
@@ -208,6 +209,24 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'title'         => __( 'Revealer Custom Field Type', 'admin-page-framework-demo' ),
                 'description'   => __( 'When the user selects an item from the selector, it reveals one of the predefined fields.', 'admin-page-framework-demo' ),     
             ),    
+            array(
+                'section_id'    => 'revealer_section_a',
+                'tab_slug'      => 'revealer',
+                'title'         => __( 'Section A', 'admin-page-framework-demo' ),
+                'hidden'        => true,
+                'class'         => array(
+                    'revealer_section_class_a',
+                ),
+            ),
+            array(
+                'section_id'    => 'revealer_section_b',
+                'tab_slug'      => 'revealer',
+                'title'         => __( 'Section B', 'admin-page-framework-demo' ),
+                'hidden'        => true,
+                'class'         => array(
+                    'revealer_section_class_b',
+                ),
+            ),            
             array(
                 'section_id'    => 'grid',
                 'tab_slug'      => 'grid',
@@ -657,12 +676,12 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'repeatable' => true,
             )    
         );
-        $this->addSettingFields(
+         $this->addSettingFields(
             'revealer', // the target section id
             array(
                 'field_id'      => 'revealer_field_by_id',
                 'type'          => 'revealer',     
-                'title'         => __( 'Reveal Hidden Fields' ),
+                'title'         => __( 'Reveal Hidden Fields', 'admin-page-framework-demo' ),
                 // 'value'         => 'undefined', // always set the 'Select a Field' label.
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{section id}_{field id}
                     'undefined' => __( '-- Select a Field --', 'admin-page-framework-demo' ),     
@@ -692,7 +711,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             array(
                 'field_id'      => 'another_revealer_field',
                 'type'          => 'revealer',     
-                'title'         => __( 'Another Hidden Fields' ),
+                'title'         => __( 'Another Hidden Fields', 'admin-page-framework-demo' ),
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
                     '#fieldrow-revealer_revealer_field_option_d' => __( 'Option D', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_e' => __( 'Option E', 'admin-page-framework-demo' ),
@@ -727,9 +746,60 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'iii'   => __( 'iii', 'admin-page-framework-demo' ),
                 ),                
                 'default'       => 'ii',
-            ),      
+            ),                  
             array()            
+        ); 
+        $this->addSettingFields(
+            'revealer', // the target section id
+            array(
+                'field_id'      => 'reveal_section',
+                'type'          => 'revealer',     
+                'title'         => __( 'Reveal Hidden Sections', 'admin-page-framework-demo' ),
+                'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{section id}_{field id}
+                    '.revealer_section_class_a' => __( 'Section A', 'admin-page-framework-demo' ),     
+                    '.revealer_section_class_b' => __( 'Section B', 'admin-page-framework-demo' ),     
+                ),
+                'default'       => '.revealer_section_class_a',
+                'description'   => __( 'Specify the selectors to reveal in the <code>label</code> argument keys in the field definition array.', 'admin-page-framework-demo' ),
+            ),
+            array()
         );
+            $this->addSettingFields(
+                'revealer_section_a', // the target section id
+                array(
+                    'field_id'      => 'checkbox_in_revealer_section_a',
+                    'type'          => 'radio',
+                    'title'         => __( 'Radio Buttons', 'admin-page-framework-demo' ),
+                    'label'         => array(
+                        'a' => __( 'Option A', 'admin-page-framework-demo' ),
+                        'b' => __( 'Option B', 'admin-page-framework-demo' ),
+                    ),
+                    'default'   => 'a',
+                ),    
+                array(
+                    'field_id'      => 'color_in_revealer_section_a',
+                    'title'         => __( 'Color', 'admin-page-framework-demo' ),
+                    'type'          => 'color',
+                ),
+                array()            
+            );
+            $this->addSettingFields(
+                'revealer_section_b', // the target section id
+                array(
+                    'field_id'      => 'checkbox_in_revealer_section_b',
+                    'type'          => 'checkbox',
+                    'title'         => __( 'Checkbox', 'admin-page-framework-demo' ),
+                    'label'         => __( 'Check me', 'admin-page-framework-demo' ),
+                ),      
+                array(
+                    'field_id'      => 'text_in_revealer_section_a',
+                    'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                    'type'          => 'text',
+                    'repeatable'    => true,
+                ),                
+                array()
+            );    
+        
         $this->addSettingFields(
             'grid', // the target section id
             array(
