@@ -88,6 +88,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
             // For array, store in the container.
             if ( is_array( $_asCSSRules ) ) {
                 $_aCSSRules = array_merge( $_asCSSRules, $_aCSSRules );
+                continue;
             }
             
             // At this point, it is a string. Break them down to array elements.
