@@ -24,8 +24,8 @@ class AdminPageFramework_CSS {
      * @internal
      */
     static public function getDefaultCSS() {
-        $_sCSS = 
-"/* Settings Notice */
+        $_sCSS = <<<CSSRULES
+/* Settings Notice */
 .wrap div.updated.admin-page-framework-settings-notice-container, 
 .wrap div.error.admin-page-framework-settings-notice-container, 
 .media-upload-form div.error.admin-page-framework-settings-notice-container
@@ -64,8 +64,8 @@ class AdminPageFramework_CSS {
 .admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
     border-bottom-width: 2px;
 }
-  
-";        
+CSSRULES;
+
         return $_sCSS . PHP_EOL 
             . self::_getFormFieldRules() . PHP_EOL
             . self::_getFieldErrorRules() . PHP_EOL
@@ -83,7 +83,7 @@ class AdminPageFramework_CSS {
          * @internal
          */    
         static private function _getFormFieldRules() {
-            return "
+            return <<<CSSRULES
 /* Form Elements */
 /* TD paddings when the field title is disabled */
 td.admin-page-framework-field-td-no-title {
@@ -309,7 +309,7 @@ td.admin-page-framework-field-td-no-title {
     padding-right: 0.22em;
 
 }
-";            
+CSSRULES;
         }   
 
         /**
@@ -319,8 +319,8 @@ td.admin-page-framework-field-td-no-title {
          * @internal
          */
         static private function _getMetaBoxFormRules() {            
-            return 
-"/* Meta-box form fields */
+            return <<<CSSRULES
+/* Meta-box form fields */
 .postbox .title-colon {
     margin-left: 0.2em;
 }
@@ -368,7 +368,7 @@ td.admin-page-framework-field-td-no-title {
     box-shadow: none;
     background: none;
 }         
-";
+CSSRULES;
         }
         /**
          * Returns the widget form specific CSS rules.
@@ -377,8 +377,8 @@ td.admin-page-framework-field-td-no-title {
          * @internal
          */
         static private function _getWidgetFormRules() {            
-            return
-"/* Widget Forms [3.2.0+] */
+            return <<<CSSRULES
+/* Widget Forms [3.2.0+] */
 .widget .admin-page-framework-section .form-table > tbody > tr > td,
 .widget .admin-page-framework-section .form-table > tbody > tr > th
 {
@@ -423,16 +423,14 @@ td.admin-page-framework-field-td-no-title {
     }
 
 }
-";
+CSSRULES;
         }
         /**
          * Returns CSS rules for field errors.
          * @since   3.2.1
          */
         static private function _getFieldErrorRules() {
-            
-return "
-
+            return <<<CSSRULES
 .field-error, 
 .section-error
 {
@@ -448,8 +446,7 @@ return "
   color: red;
   margin-left: 1em;
 }
-
-";    
+CSSRULES;
         }        
     
         /**
@@ -459,8 +456,8 @@ return "
          * @internal
          */    
         static private function _getPageLoadStatsRules() {
-            return 
-"/* Page Load Stats */
+            return <<<CSSRULES
+/* Page Load Stats */
 #admin-page-framework-page-load-stats {
     clear: both;
     display: inline-block;
@@ -475,8 +472,7 @@ return "
 #wpbody-content {
     padding-bottom: 140px;
 }            
-";
-            
+CSSRULES;
         }
         
         /**
@@ -490,8 +486,7 @@ return "
             $_sCSSRules = '';
             if ( version_compare( $sWPVersion, '3.8', '<' ) ) {        
 
-                $_sCSSRules .= 
-"
+                $_sCSSRules .= <<<CSSRULES
 .admin-page-framework-field .remove_value.button.button-small {
     line-height: 1.5em; 
 }
@@ -500,14 +495,13 @@ return "
 .widget .admin-page-framework-section table.mceLayout {
     table-layout: fixed;
 }
-";            
+CSSRULES;     
             
             }
             // If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
             if ( version_compare( $sWPVersion, '3.8', '>=' ) ) {        
             
-                $_sCSSRules .= 
-"
+                $_sCSSRules .= <<<CSSRULES
 /* Widget Forms */
 .widget .admin-page-framework-section .form-table th
 {
@@ -532,9 +526,8 @@ return "
 		overflow-x: hidden;
 	}
 }    
-
-";        
-                
+CSSRULES;
+   
             }
             
             return $_sCSSRules;
