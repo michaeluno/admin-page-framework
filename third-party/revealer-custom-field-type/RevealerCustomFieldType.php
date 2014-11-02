@@ -89,11 +89,19 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
      */
     protected function getField( $aField ) { 
 
-        $aSelectAttributes = array(
-            'id'        => $aField['input_id'],
-            'multiple'  => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
-        ) + $aField['attributes']['select'];
-        $aSelectAttributes['name'] = empty( $aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
+        $_aSelectAttributes = $this->uniteArrays(
+            $this->dropElementsByType( $aField['attributes'] ), // drops array elements
+            array(
+                'id'        => $aField['input_id'],
+                'multiple'  => $aField['is_multiple'] 
+                    ? 'multiple' 
+                    : $aField['attributes']['select']['multiple'],
+            ) 
+            + $aField['attributes']['select'] 
+        );
+        $_aSelectAttributes['name'] = empty( $_aSelectAttributes['multiple'] ) 
+            ? $aField['_input_name'] 
+            : "{$aField['_input_name']}[]";
 
         return
             $aField['before_label']
@@ -101,7 +109,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                 . "<label for='{$aField['input_id']}'>"
                     . $aField['before_input']
                     . "<span class='admin-page-framework-input-container'>"
-                        . "<select " . $this->generateAttributes( $aSelectAttributes ) . " >"
+                        . "<select " . $this->generateAttributes( $_aSelectAttributes ) . " >"
                             . $this->_getOptionTags( $aField['input_id'], $aField['attributes'], $aField['label'] )
                         . "</select>"
                     . "</span>"
@@ -187,7 +195,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
 
                         jQuery.each( {$_sLabels}, function( iIndex, sValue ) {
 
-                            /* If it is a selected item, show it */
+                            /* If it is the selected item, show it */
                             if ( jQuery.inArray( sValue, {$_sCurrentSelection} ) !== -1 ) { 
                                 jQuery( sValue ).show();
                                 return true;    // continue
@@ -212,27 +220,24 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
         ( function ( $ ) {
             
             /**
-             * Stores revealer settings
-             */ 
-            $.fn.aRevealerSettings = {};
-            
-            /**
              * Binds the revealer event to the element.
              */
             $.fn.setRevealer = function() {
 
-                var _aSettings = {};
+                var _sLastRevealedSelector;
+                var _sThisID = this.attr( 'id' );
                 this.change( function() {
-                    
-                    var _sTargetSelector    = jQuery( this ).val();
-                    var _oElementToReveal   = jQuery( _sTargetSelector );                   
-                    var sLastRevealedSelector = _aSettings.hasOwnProperty( 'last_revealed_selector' ) 
-                        ? _aSettings['last_revealed_selector'] 
-                        : undefined;
-                    _aSettings['last_revealed_selector'] = _sTargetSelector;
-                    
+
+                    var _sTargetSelector        = jQuery( this ).val();
+                    var _oElementToReveal       = jQuery( _sTargetSelector );
+                
                     // Hide the previously hidden element.
-                    $( sLastRevealedSelector ).hide();    
+                    $( _sLastRevealedSelector ).hide();    
+                    
+                    // Hide the nested revealer elements. 
+                    
+                    // Store the last revealed item in the local and the outer local variables.
+                    _sLastRevealedSelector = _sTargetSelector;
                     
                     if ( 'undefined' === _sTargetSelector ) { 
                         return; 
@@ -240,6 +245,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                     _oElementToReveal.show();                                       
                     
                 });
+         
                 
             };
                         
