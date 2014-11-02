@@ -395,7 +395,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
             $_sAttributes_TR    = $this->_getFieldContainerAttributes( 
                 $_aField,
                 array( 
-                    'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagID( $_aField ),
+                    'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagBaseID( $_aField ),
                     'valign'    => 'top',
                     'class'     => 'admin-page-framework-fieldrow',
                 ),

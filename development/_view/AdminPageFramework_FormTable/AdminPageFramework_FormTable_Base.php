@@ -63,7 +63,8 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      */
     protected function _getFieldTitle( $aField ) {
         
-        return "<label for='{$aField['field_id']}'>"
+        $_sInputTagID = AdminPageFramework_FormField::_getInputID( $aField );
+        return "<label for='{$_sInputTagID}'>"
             . "<a id='{$aField['field_id']}'></a>"
                 . "<span title='" 
                         . esc_attr( strip_tags( 
@@ -77,7 +78,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
                                 ) 
                         ) ) 
                     . "'>"
-                    . $aField['title'] 
+                        . $aField['title'] 
                     . ( in_array( $aField[ '_fields_type' ], array( 'widget', 'post_meta_box', 'page_meta_box' ) )  
                         ? "<span class='title-colon'>:</span>"
                         : ''

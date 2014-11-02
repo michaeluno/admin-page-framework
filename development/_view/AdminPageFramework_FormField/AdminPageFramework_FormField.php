@@ -127,21 +127,22 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
     }
         
     /**
-     * Returns the input ID
+     * Returns the input tag ID.
      * 
-     * e.g. "{$aField['field_id']}_{$sKey}";
+     * e.g. "{$aField['field_id']}__{$isIndex}";
      * 
-     * @remark The keys are prefixed with double-underscores.
+     * @remark      The index keys are prefixed with double-underscores.
      * @since       2.0.0
      * @since       3.2.0       Added the $hfFilterCallback parameter.
+     * @since       3.3.2       Made it static public because the `<for>` tag needs to refer to it and it is called from another class that renders the form table. Added a default value for the <var>$isIndex</var> parameter.
      */
-    private function _getInputID( $aField, $sIndex, $hfFilterCallback=null ) {
+    static public function _getInputID( $aField, $isIndex=0, $hfFilterCallback=null ) {
         
         $_sSectionIndex  = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : ''; // double underscore
-        $_sFieldIndex    = '__' . $sIndex; // double underscore
+        $_isFieldIndex   = '__' . $isIndex; // double underscore
         $_sResult        = isset( $aField['section_id'] ) && '_default' != $aField['section_id']
-            ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] . $_sFieldIndex
-            : $aField['field_id'] . $_sFieldIndex;
+            ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] . $_isFieldIndex
+            : $aField['field_id'] . $_isFieldIndex;
         return is_callable( $hfFilterCallback )
             ? call_user_func_array( $hfFilterCallback, array( $_sResult ) )
             : $_sResult;            
@@ -150,13 +151,17 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
     
 
     /**
-     * Returns the tag ID.
+     * Returns the field input base ID used for field container elements.
+     * 
+     * The returning value does not represent the exact ID of the field input tag. 
+     * This is because each input tag has an index for sub-fields.
      * 
      * @remark  This is called from the fields table class to insert the row id.
      * @since   2.0.0
      * @since   3.2.0       Added the $hfFilterCallback parameter.
+     * @since   3.3.2       Changed the name from `_getInputTagID()`.
      */
-    static public function _getInputTagID( $aField, $hfFilterCallback=null )  {
+    static public function _getInputTagBaseID( $aField, $hfFilterCallback=null )  {
         
         $_sSectionIndex = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : '';
         $_sResult       = isset( $aField['section_id'] ) && '_default' != $aField['section_id']
@@ -184,7 +189,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
         }
                     
         /* 2. Set the tag ID used for the field container HTML tags. */
-        $this->aField['tag_id'] = $this->_getInputTagID( $this->aField, $this->aCallbacks['hfTagID'] );
+        $this->aField['tag_id'] = $this->_getInputTagBaseID( $this->aField, $this->aCallbacks['hfTagID'] );
             
         /* 3. Construct fields array for sub-fields */
         $aFields = $this->_constructFieldsArray( $this->aField, $this->aOptions );
