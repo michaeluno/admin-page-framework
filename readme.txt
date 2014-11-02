@@ -448,7 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.3.1 =
+= 3.3.1 - 2014/11/02 =
 - Added the `class` argument for fields.
 - Added the `class`, `attributes`, `hidden` arguments for sections.
 - Added the `submit_after_{...}` action hooks that are triggered when the submitted form data are saved.
