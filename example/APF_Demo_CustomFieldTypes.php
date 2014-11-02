@@ -682,11 +682,12 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'field_id'      => 'revealer_field_by_id',
                 'type'          => 'revealer',     
                 'title'         => __( 'Reveal Hidden Fields', 'admin-page-framework-demo' ),
-                // 'value'         => 'undefined', // always set the 'Select a Field' label.
+                'default'       => 'undefined',
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{section id}_{field id}
                     'undefined' => __( '-- Select a Field --', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_a' => __( 'Option A', 'admin-page-framework-demo' ),     
                     '#fieldrow-revealer_revealer_field_option_b, #fieldrow-revealer_revealer_field_option_c' => __( 'Option B and C', 'admin-page-framework-demo' ),
+                    '#fieldrow-revealer_another_revealer_field' => __( 'Another Revealer', 'admin-page-framework-demo' ),
                 ),
                 'description'   => __( 'Specify the selectors to reveal in the <code>label</code> argument keys in the field definition array.', 'admin-page-framework-demo' ),
             ),
@@ -713,40 +714,47 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'type'          => 'revealer',     
                 'title'         => __( 'Another Hidden Fields', 'admin-page-framework-demo' ),
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
-                    '#fieldrow-revealer_revealer_field_option_d' => __( 'Option D', 'admin-page-framework-demo' ),     
-                    '#fieldrow-revealer_revealer_field_option_e' => __( 'Option E', 'admin-page-framework-demo' ),
-                    '#fieldrow-revealer_revealer_field_option_f' => __( 'Option F', 'admin-page-framework-demo' ),
+                    '.revealer_field_option_d' => __( 'Option D', 'admin-page-framework-demo' ),     
+                    '.revealer_field_option_e' => __( 'Option E', 'admin-page-framework-demo' ),
+                    '.revealer_field_option_f' => __( 'Option F', 'admin-page-framework-demo' ),
                 ),
-                'default'       => '#fieldrow-revealer_revealer_field_option_e',
-            ),
-            array(
-                'field_id'      => 'revealer_field_option_d',
-                'type'          => 'textarea',     
-                'rich'          => true,
                 'hidden'        => true,
-            ),        
-            array(
-                'field_id'      => 'revealer_field_option_e',
-                'type'          => 'radio',
-                'hidden'        => true,
-                'label'         => array(
-                    'a' => __( 'A', 'admin-page-framework-demo' ),
-                    'b' => __( 'B', 'admin-page-framework-demo' ),
-                    'c' => __( 'C', 'admin-page-framework-demo' ),
-                ),
-                'default'       => 'c',
-            ),                        
-            array(
-                'field_id'      => 'revealer_field_option_f',
-                'type'          => 'select',     
-                'hidden'        => true,
-                'label'         => array(
-                    'i'     => __( 'i', 'admin-page-framework-demo' ),
-                    'ii'    => __( 'ii', 'admin-page-framework-demo' ),
-                    'iii'   => __( 'iii', 'admin-page-framework-demo' ),
-                ),                
-                'default'       => 'ii',
-            ),                  
+                'default'       => '.revealer_field_option_e',
+                'delimiter'     => '<br />',
+                // Sub-fields
+                array(
+                    'type'          => 'textarea',     
+                    'class'         => array(
+                        'field' => 'revealer_field_option_d',
+                    ),
+                    'label'         => '',
+                ),        
+                array(
+                    'type'          => 'radio',
+                    'label'         => array(
+                        'a' => __( 'A', 'admin-page-framework-demo' ),
+                        'b' => __( 'B', 'admin-page-framework-demo' ),
+                        'c' => __( 'C', 'admin-page-framework-demo' ),
+                    ),
+                    'default'       => 'c',
+                    'class'         => array(
+                        'field' => 'revealer_field_option_e',
+                    ),
+                ),                        
+                array(
+                    'type'          => 'select',     
+                    'label'         => array(
+                        'i'     => __( 'i', 'admin-page-framework-demo' ),
+                        'ii'    => __( 'ii', 'admin-page-framework-demo' ),
+                        'iii'   => __( 'iii', 'admin-page-framework-demo' ),
+                    ),                
+                    'default'       => 'ii',
+                    'class'         => array(
+                        'field' => 'revealer_field_option_f',
+                    ),
+                ),   
+                
+            ),     
             array()            
         ); 
         $this->addSettingFields(
@@ -792,7 +800,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'label'         => __( 'Check me', 'admin-page-framework-demo' ),
                 ),      
                 array(
-                    'field_id'      => 'text_in_revealer_section_a',
+                    'field_id'      => 'text_in_revealer_section_b',
                     'title'         => __( 'Text', 'admin-page-framework-demo' ),
                     'type'          => 'text',
                     'repeatable'    => true,
