@@ -4,6 +4,7 @@ if [ ! -f settings.cfg ]; then
     echo The setting file could not be loaded.
     exit 1
 fi
+
 source settings.cfg
 
 WORKINGDIR=$(pwd)
