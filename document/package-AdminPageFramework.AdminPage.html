@@ -6,7 +6,7 @@
 	<title>Package AdminPageFramework\AdminPage | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?3454352893"></script>
+	<script type="text/javascript" src="elementlist.js?3095268003"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -89,22 +89,50 @@
 				<li>
                     
                     
-                    <a href="class-AdminPageFramework_Menu.html">
-                        AdminPageFramework_Menu
+                    <a href="class-AdminPageFramework_Form_Controller.html">
+                        AdminPageFramework_Form_Controller
                     </a>
                 </li>
 				<li>
                     
                     
-                    <a href="class-AdminPageFramework_Page.html">
-                        AdminPageFramework_Page
+                    <a href="class-AdminPageFramework_Menu_Controller.html">
+                        AdminPageFramework_Menu_Controller
                     </a>
                 </li>
 				<li>
                     
                     
-                    <a href="class-AdminPageFramework_Setting.html">
-                        AdminPageFramework_Setting
+                    <a href="class-AdminPageFramework_Menu_Model.html">
+                        AdminPageFramework_Menu_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu_View.html">
+                        AdminPageFramework_Menu_View
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page_Controller.html">
+                        AdminPageFramework_Page_Controller
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page_Model.html">
+                        AdminPageFramework_Page_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page_View.html">
+                        AdminPageFramework_Page_View
                     </a>
                 </li>
 			</ul>
@@ -127,6 +155,10 @@
     
     <div>
                 
+
+
+
+
 
 
 
@@ -240,23 +272,41 @@ the callbacks of the filters and the actions.</p>
 	[3.1.3+].</li>
 
 	<li><strong>submit_{instantiated class name}_{submit input id}</strong> –
-	[3.0.0+] triggered after the form is submitted with the submit button of the
-	specified input id.</li>
+	[3.0.0+] <strong>Deprecated</strong>[3.3.1+] triggered after the form is
+	submitted with the submit button of the specified input id.</li>
 
 	<li><strong>submit_{instantiated class name}_{submit field id}</strong> –
-	[3.0.0+] triggered after the form is submitted with the submit button of the
-	specified field that does not hava section is submitted.</li>
+	[3.0.0+] triggered after the form is submitted and before the options are saved
+	when the submit button of the specified field without a section</li>
 
 	<li><strong>submit_{instantiated class name}_{submit section id}_{submit field
-	id}</strong> – [3.0.0+] triggered after the form is submitted with the submit
-	button of the specified section and field is submitted.</li>
+	id}</strong> – [3.0.0+] triggered after the form is submitted and before the
+	options are saved with the submit button of the specified section and
+	field.</li>
 
 	<li><strong>submit_{instantiated class name}_{submit section id}</strong> –
-	[3.0.0+] triggered after the form is submitted with the submit button of the
-	specified section.</li>
+	[3.0.0+] triggered after the form is submitted and before the options are saved
+	with the submit button of the specified section.</li>
 
 	<li><strong>submit_{instantiated class name}</strong> – [3.0.0+] triggered
-	after the form is submitted.</li>
+	after the form is submitted and before the options are saved.</li>
+
+	<li><strong>submit_after_{instantiated class name}_{submit field id}</strong>
+	– [3.3.1+] triggered after the form is submitted and the options are saved in
+	the database with the submit button of the specified field without a
+	section.</li>
+
+	<li><strong>submit_after_{instantiated class name}_{submit section id}_{submit
+	field id}</strong> – [3.3.1+] triggered after the form is submitted and the
+	options are saved with the submit button of the specified section and
+	field.</li>
+
+	<li><strong>submit_after_{instantiated class name}_{submit section id}</strong>
+	– [3.3.1+] triggered after the form is submitted and the options are saved
+	with the submit button of the specified section.</li>
+
+	<li><strong>submit_after_{instantiated class name}</strong> – [3.3.1+]
+	triggered after the form is submitted and after the options are saved.</li>
 </ul>
 
 <h3>Methods and Filter Hooks</h3>
@@ -401,7 +451,8 @@ the callbacks of the filters and the actions.</p>
 	object.</li>
 
 	<li><strong>export_{instantiated class name}_{input id}</strong> – [2.1.5+]
-	receives the exporting array submitted from the specific export button.</li>
+	<strong>Deprecated</strong>[3.3.1+] receives the exporting array submitted from
+	the specific export button.</li>
 
 	<li><strong>export_{instantiated class name}_{field id}</strong> – [2.1.5+]
 	receives the exporting array submitted from the specific field that does not
@@ -421,7 +472,8 @@ the callbacks of the filters and the actions.</p>
 	array submitted from the plugin.</li>
 
 	<li><strong>export_name_{instantiated class name}_{input id}</strong> –
-	receives the exporting file name submitted the specified input id.</li>
+	<strong>Deprecated</strong>[3.3.1+] receives the exporting file name submitted
+	the specified input id.</li>
 
 	<li><strong>export_name_{instantiated class name}_{field id}</strong> –
 	receives the exporting file name submitted from the specific field that does not
@@ -441,8 +493,8 @@ the callbacks of the filters and the actions.</p>
 	exporting file name submitted from the script.</li>
 
 	<li><strong>export_format_{instantiated class name}_{input id}</strong> –
-	receives the exporting file format submitted from the specific export
-	button.</li>
+	<strong>Deprecated</strong>[3.3.1+] receives the exporting file format submitted
+	from the specific export button.</li>
 
 	<li><strong>export_format_{instantiated class name}_{field id}</strong> –
 	receives the exporting file format submitted from the specific field that does
@@ -462,7 +514,8 @@ the callbacks of the filters and the actions.</p>
 	exporting file format submitted from the plugin.</li>
 
 	<li><strong>import_{instantiated class name}_{input id}</strong> – [2.1.5+]
-	receives the importing array submitted from the specific import button.</li>
+	<strong>Deprecated</strong>[3.3.1+] receives the importing array submitted from
+	the specific import button.</li>
 
 	<li><strong>import_{instantiated class name}_{field id}</strong> – [2.1.5+]
 	receives the importing array submitted from the specific import field that does
@@ -482,8 +535,8 @@ the callbacks of the filters and the actions.</p>
 	array submitted from the plugin.</li>
 
 	<li><strong>import_mime_types_{instantiated class name}_{input id}</strong> –
-	[2.1.5+] receives the mime types of the import data submitted from the specific
-	import button.</li>
+	[2.1.5+] <strong>Deprecated</strong>[3.3.1+] receives the mime types of the
+	import data submitted from the specific import button.</li>
 
 	<li><strong>import_mime_types_{instantiated class name}_{field id}</strong> –
 	[2.1.5+] receives the mime types of the import data submitted from the specific
@@ -503,8 +556,8 @@ the callbacks of the filters and the actions.</p>
 	the mime types of the import data submitted from the plugin.</li>
 
 	<li><strong>import_format_{instantiated class name}_{input id}</strong> –
-	[2.1.5+] receives the import data format submitted from the specific import
-	button.</li>
+	[2.1.5+] <strong>Deprecated</strong>[3.3.1+] receives the import data format
+	submitted from the specific import button.</li>
 
 	<li><strong>import_format_{instantiated class name}_{field id}</strong> –
 	[2.1.5+] receives the import data format submitted from the specific import
@@ -524,8 +577,8 @@ the callbacks of the filters and the actions.</p>
 	import data format submitted from the plugin.</li>
 
 	<li><strong>import_option_key_{instantiated class name}_{input id}</strong> –
-	[2.1.5+] receives the option array key of the importing array submitted from the
-	specific import button.</li>
+	[2.1.5+] <strong>Deprecated</strong>[3.3.1+] receives the option array key of
+	the importing array submitted from the specific import button.</li>
 
 	<li><strong>import_option_key_{instantiated class name}_{field id}</strong> –
 	[2.1.5+] receives the option array key of the importing array submitted from the
@@ -739,6 +792,10 @@ class="php-keyword1">class</span> name}
     
     
     
+    
+    
+    
+    
     <h2 class="classes-summary">Classes</h2>
     <table class="summary table table-bordered table-striped" id="classes">
 <tr>
@@ -752,20 +809,44 @@ class="php-keyword1">class</span> name}
 <tr>
     
 
-    <td class="name"><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></td>
+    <td class="name"><a href="class-AdminPageFramework_Form_Controller.html">AdminPageFramework_Form_Controller</a></td>
+    <td>Provides public methods to add form elements.</td>
+</tr>
+<tr>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Menu_Controller.html">AdminPageFramework_Menu_Controller</a></td>
     <td>Provides methods to manipulate menu items.</td>
 </tr>
 <tr>
     
 
-    <td class="name"><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></td>
-    <td>Provides methods to render admin page elements.</td>
+    <td class="name"><a href="class-AdminPageFramework_Menu_Model.html">AdminPageFramework_Menu_Model</a></td>
+    <td>Provides methods to manipulate menu items.</td>
 </tr>
 <tr>
     
 
-    <td class="name"><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></td>
-    <td>Provides public methods to add form elements.</td>
+    <td class="name"><a href="class-AdminPageFramework_Menu_View.html">AdminPageFramework_Menu_View</a></td>
+    <td>Provides methods to manipulate menu items.</td>
+</tr>
+<tr>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Page_Controller.html">AdminPageFramework_Page_Controller</a></td>
+    <td>Provides methods to manipulate how admin pages are displayed.</td>
+</tr>
+<tr>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Page_Model.html">AdminPageFramework_Page_Model</a></td>
+    <td>Provides methods to manipulate menu items.</td>
+</tr>
+<tr>
+    
+
+    <td class="name"><a href="class-AdminPageFramework_Page_View.html">AdminPageFramework_Page_View</a></td>
+    <td>Provides methods to manipulate menu items.</td>
 </tr>
     </table>
 

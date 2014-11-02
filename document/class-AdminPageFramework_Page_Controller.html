@@ -3,10 +3,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<title>Class AdminPageFramework_Page | Admin Page Framework Documentation</title>
+	<title>Class AdminPageFramework_Page_Controller | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?3454352893"></script>
+	<script type="text/javascript" src="elementlist.js?3095268003"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -90,22 +90,50 @@
 				<li>
                     
                     
-                    <a href="class-AdminPageFramework_Menu.html">
-                        AdminPageFramework_Menu
-                    </a>
-                </li>
-				<li class="active">
-                    
-                    
-                    <a href="class-AdminPageFramework_Page.html">
-                        AdminPageFramework_Page
+                    <a href="class-AdminPageFramework_Form_Controller.html">
+                        AdminPageFramework_Form_Controller
                     </a>
                 </li>
 				<li>
                     
                     
-                    <a href="class-AdminPageFramework_Setting.html">
-                        AdminPageFramework_Setting
+                    <a href="class-AdminPageFramework_Menu_Controller.html">
+                        AdminPageFramework_Menu_Controller
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu_Model.html">
+                        AdminPageFramework_Menu_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Menu_View.html">
+                        AdminPageFramework_Menu_View
+                    </a>
+                </li>
+				<li class="active">
+                    
+                    
+                    <a href="class-AdminPageFramework_Page_Controller.html">
+                        AdminPageFramework_Page_Controller
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page_Model.html">
+                        AdminPageFramework_Page_Model
+                    </a>
+                </li>
+				<li>
+                    
+                    
+                    <a href="class-AdminPageFramework_Page_View.html">
+                        AdminPageFramework_Page_View
                     </a>
                 </li>
 			</ul>
@@ -123,12 +151,12 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class AdminPageFramework_Page</h1>
+	<h1>Class AdminPageFramework_Page_Controller</h1>
 
 
 	<div class="description">
 	
-<p>Provides methods to render admin page elements.</p>
+<p>Provides methods to manipulate how admin pages are displayed.</p>
 
 	</div>
 
@@ -165,19 +193,64 @@ AdminPageFramework_Factory
 		</dd>
 		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Base
+AdminPageFramework_Router
 			
 			
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Page_MetaBox
+AdminPageFramework_Form_Model_Port
 			
 			
 		</dd>
 		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>AdminPageFramework_Page</span></b>			
+AdminPageFramework_Form_Model_Validation
+			
+			
+		</dd>
+		<dd style="padding-left:240px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Form_Model
+			
+			
+		</dd>
+		<dd style="padding-left:270px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Form_View
+			
+			
+		</dd>
+		<dd style="padding-left:300px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-AdminPageFramework_Form_Controller.html"><span>AdminPageFramework_Form_Controller</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:330px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-AdminPageFramework_Page_Model.html"><span>AdminPageFramework_Page_Model</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:360px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_Page_View_MetaBox
+			
+			
+		</dd>
+		<dd style="padding-left:390px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-AdminPageFramework_Page_View.html"><span>AdminPageFramework_Page_View</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:420px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>AdminPageFramework_Page_Controller</span></b>			
 			
 			
 		</dd>
@@ -187,7 +260,7 @@ AdminPageFramework_Page_MetaBox
 	<div>
 		<h3>Direct known subclasses</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></code>
+			<code><a href="class-AdminPageFramework_Menu_Model.html">AdminPageFramework_Menu_Model</a></code>
 		</p>
 	</div>
 
@@ -195,8 +268,9 @@ AdminPageFramework_Page_MetaBox
 		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>, 
-			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></code>
+			<code><a href="class-AdminPageFramework_Menu_Controller.html">AdminPageFramework_Menu_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_View.html">AdminPageFramework_Menu_View</a></code>, 
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>
 		</p>
 	</div>
 
@@ -211,14 +285,10 @@ AdminPageFramework_Page_MetaBox
 		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.AdminPage.html">AdminPage</a><br>
 
 				<b>Since:</b>
-				2.0.0<br>
-				<b>Since:</b>
-				2.1.0 Extends AdminPageFramework_HelpPane_Page.<br>
-				<b>Since:</b>
-				3.0.0 No longer extends AdminPageFramework_HelpPane_Page.<br>
+				3.3.1<br>
 				<b>Extends:</b>
-				AdminPageFramework_Page_MetaBox<br>
-		<b>Located at</b> factory/AdminPageFramework/AdminPageFramework_Page.php<br>
+				AdminPageFramework_Page_View<br>
+		<b>Located at</b> factory/AdminPageFramework/AdminPageFramework_Page_Controller.php<br>
 	</div>
 
 
@@ -346,6 +416,7 @@ parameters.</dd>
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public. Added page slug target support.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
@@ -355,8 +426,6 @@ to three.<br>
 with page titles.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::addInPageTabs</code></div>
 
 			</div>
 			</div></td>
@@ -397,6 +466,7 @@ slug is set, the page_slug key can be omitted from next calls.</dd>
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
@@ -406,8 +476,6 @@ keys.<br>
 with page titles.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::addInPageTab</code></div>
 
 			</div>
 			</div></td>
@@ -453,10 +521,9 @@ class="php-comment">// disables the page title.</span>
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setPageTitleVisibility</code></div>
 
 			</div>
 			</div></td>
@@ -503,6 +570,7 @@ all the pages.</dd>
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
@@ -511,8 +579,6 @@ titles and the latter displays tab titles.<br>
 							If the second parameter is omitted, it sets the default value.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setPageHeadingTabsVisibility</code></div>
 
 			</div>
 			</div></td>
@@ -556,14 +622,13 @@ all the pages.</dd>
 							2.1.1<br>
 							3.0.0 Changed the scope to public. Changed the name from
 <code>showInPageTabs()</code> to <code>setInPageTabsVisibility()</code>.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
 							If the second parameter is omitted, it sets the default value.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setInPageTabsVisibility</code></div>
 
 			</div>
 			</div></td>
@@ -609,14 +674,13 @@ class="php-quote">'h2'</span> );
 					<div class="list">
 							2.0.0<br>
 							3.0.0 Changed the scope to public.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
 							If the second parameter is omitted, it sets the default value.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setInPageTabTag</code></div>
 
 			</div>
 			</div></td>
@@ -662,21 +726,20 @@ class="php-quote">'h2'</span> );
 					<div class="list">
 							2.1.2<br>
 							3.0.0 Changed the scope to public.<br>
+							3.3.1 Moved from <code>AdminPageFramework_Page</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
 							If the second parameter is omitted, it sets the default value.<br>
 					</div>
 
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_Base::setPageHeadingTabTag</code></div>
 
 			</div>
 			</div></td>
 		</tr>
 		</table>
 
-		<h3>Methods inherited from AdminPageFramework_Page_MetaBox</h3>
+		<h3>Methods inherited from AdminPageFramework_Page_View_MetaBox</h3>
 		<p class="elementList">
 			<code>__construct()</code>, 
 			<code>_getNumberOfColumns()</code>, 
@@ -686,40 +749,47 @@ class="php-quote">'h2'</span> );
 			<code>_replyToReturnDefaultNumberOfScreenColumns()</code>, 
 			<code>_replyToSetNumberOfScreenLayoutColumns()</code>
 		</p>
-		<h3>Methods inherited from AdminPageFramework_Base</h3>
+		<h3>Methods inherited from <a href="class-AdminPageFramework_Form_Controller.html#methods">AdminPageFramework_Form_Controller</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_addSettingField">addSettingField()</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_addSettingFields">addSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_addSettingSection">addSettingSection()</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_addSettingSections">addSettingSections()</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_getValue">getValue()</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_removeSettingFields">removeSettingFields()</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html#_removeSettingSections">removeSettingSections()</a></code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Form_View</h3>
+		<p class="elementList">
+			<code>_replyToGetFieldOutput()</code>, 
+			<code>_replyToGetSectionHeaderOutput()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Form_Model</h3>
+		<p class="elementList">
+			<code>_getSavedOptions()</code>, 
+			<code>_replyToCheckRedirects()</code>, 
+			<code>_replyToRegisterSettings()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Form_Model_Validation</h3>
+		<p class="elementList">
+			<code>_handleSubmittedData()</code>, 
+			<code>_replyToSetEmailSenderAddress()</code>, 
+			<code>_replyToSetEmailSenderName()</code>, 
+			<code>_replyToSetMailContentTypeToHTML()</code>, 
+			<code>_validateSubmittedData()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Form_Model_Port</h3>
+		<p class="elementList">
+			<code>_exportOptions()</code>, 
+			<code>_importOptions()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Router</h3>
 		<p class="elementList">
 			<code>__call()</code>, 
 			<code>_doPageLoadCall()</code>, 
 			<code>_isInThePage()</code>, 
 			<code>_isInstantiatable()</code>, 
-			<code>_sortByOrder()</code>, 
-			<code>addHelpTab()</code>, 
-			<code>addLinkToPluginDescription()</code>, 
-			<code>addLinkToPluginTitle()</code>, 
-			<code>addSettingField()</code>, 
-			<code>addSettingFields()</code>, 
-			<code>addSettingSection()</code>, 
-			<code>addSettingSections()</code>, 
-			<code>addSubMenuItem()</code>, 
-			<code>addSubMenuItems()</code>, 
-			<code>addSubMenuLink()</code>, 
-			<code>addSubMenuPage()</code>, 
-			<code>addSubMenuPages()</code>, 
-			<code>enqueueScript()</code>, 
-			<code>enqueueScripts()</code>, 
-			<code>enqueueStyle()</code>, 
-			<code>enqueueStyles()</code>, 
-			<code>getFieldValue()</code>, 
-			<code>removeSettingFields()</code>, 
-			<code>removeSettingSections()</code>, 
-			<code>setAdminNotice()</code>, 
-			<code>setCapability()</code>, 
-			<code>setDisallowedQueryKeys()</code>, 
-			<code>setFooterInfoLeft()</code>, 
-			<code>setFooterInfoRight()</code>, 
-			<code>setRootMenuPage()</code>, 
-			<code>setRootMenuPageBySlug()</code>, 
-			<code>setUp()</code>
+			<code>_sortByOrder()</code>
 		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Factory_Controller.html#methods">AdminPageFramework_Factory_Controller</a></h3>
 		<p class="elementList">
@@ -727,11 +797,11 @@ class="php-quote">'h2'</span> );
 			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
 			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
 			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setUp">setUp()</a></code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">
-			<code>_replyToGetFieldOutput()</code>, 
 			<code>_replyToPrintSettingNotice()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
@@ -768,9 +838,20 @@ class="php-quote">'h2'</span> );
 
 		<h2>Properties summary</h2>
 
-		<h3>Properties inherited from AdminPageFramework_Base</h3>
+		<h3>Properties inherited from AdminPageFramework_Form_Model</h3>
 		<p class="elementList">
-			<code><var>$_aHookPrefixes</var></code>, 
+			<code><var>$_sFieldsType</var></code>, 
+			<code><var>$_sTargetPageSlug</var></code>, 
+			<code><var>$_sTargetSectionTabSlug</var></code>, 
+			<code><var>$_sTargetTabSlug</var></code>, 
+			<code><var>$aFieldErrors</var></code>
+		</p>
+		<h3>Properties inherited from AdminPageFramework_Router</h3>
+		<p class="elementList">
+			<code><var><span class="deprecated">$_aHookPrefixes</span></var></code>
+		</p>
+		<h3>Properties inherited from AdminPageFramework_Factory_Router</h3>
+		<p class="elementList">
 			<code><var>$oProp</var></code>
 		</p>
 

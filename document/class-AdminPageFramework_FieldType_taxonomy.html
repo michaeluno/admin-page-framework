@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<title>Class AdminPageFramework_FieldType | Admin Page Framework Documentation</title>
+	<title>Class AdminPageFramework_FieldType_taxonomy | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
 	<script type="text/javascript" src="elementlist.js?3095268003"></script>
@@ -78,7 +78,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active">
+				<li>
                     
                     
                     <a href="class-AdminPageFramework_FieldType.html">
@@ -87,7 +87,7 @@
                 </li>
 				<li>
                     
-				<li>
+				<li class="active">
                     
                     
                     <a href="class-AdminPageFramework_FieldType_taxonomy.html">
@@ -109,15 +109,12 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class AdminPageFramework_FieldType</h1>
+	<h1>Class AdminPageFramework_FieldType_taxonomy</h1>
 
 
 	<div class="description">
 	
-<p>The base class for the users to create their custom field types.</p>
-
-<p>When a framework user implements a custom field type into his/her work, this
-class may be extended to create a field definition class.</p>
+<p>Defines the taxonomy field type.</p>
 
 	</div>
 
@@ -207,19 +204,20 @@ AdminPageFramework_FieldType_Base
 		</dd>
 		<dd style="padding-left:420px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>AdminPageFramework_FieldType</span></b>			
+			<a href="class-AdminPageFramework_FieldType.html"><span>AdminPageFramework_FieldType</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:450px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>AdminPageFramework_FieldType_taxonomy</span></b>			
 			
 			
 		</dd>
 	</dl>
 
 
-	<div>
-		<h3>Direct known subclasses</h3>
-		<p class="elementList">
-			<code><a href="class-AdminPageFramework_FieldType_taxonomy.html">AdminPageFramework_FieldType_taxonomy</a></code>
-		</p>
-	</div>
 
 
 
@@ -227,7 +225,7 @@ AdminPageFramework_FieldType_Base
 
 
 	<div class="alert alert-info">
-		<b>Abstract</b><br>
+		
 		
 		
 		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.FieldType.html">FieldType</a><br>
@@ -235,58 +233,15 @@ AdminPageFramework_FieldType_Base
 				<b>Since:</b>
 				2.1.5<br>
 				<b>Since:</b>
-				3.0.0 Changed the name from <code>AdminPageFramework_CustomFieldType</code> to
-<code>AdminPageFramework_FieldType</code>.<br>
-				<b>Remark:</b>
-				The user will extend this class to define their custom field types.<br>
-		<b>Located at</b> _view/AdminPageFramework_FieldType/AdminPageFramework_FieldType.php<br>
+				3.3.1 Changed to extend <code>AdminPageFramework_FieldType</code> from
+<code>AdminPageFramework_FieldType_Base</code>.<br>
+		<b>Located at</b> _view/AdminPageFramework_FieldType/AdminPageFramework_FieldType_taxonomy.php<br>
 	</div>
 
 
 
 		<h2>Methods summary</h2>
 		<table class="summary table table-bordered table-striped" id="methods">
-		<tr data-order="construct" id="_construct">
-
-			<td class="attributes"><code>
-				 protected 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_construct">#</a>
-			<code>construct( )</code>
-
-
-			<div class="description detailed">
-				
-<p>The user constructor.</p>
-
-<p>When the user defines a field type, they may use this instead of the real
-constructor so that they don't have to care about the internal parameters.</p>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.1.3<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
-					</div>
-
-					<h4>Overrides</h4>
-					<div class="list"><code>AdminPageFramework_FieldType_Base::construct</code></div>
-
-			</div>
-			</div></td>
-		</tr>
 		<tr data-order="setUp" id="_setUp">
 
 			<td class="attributes"><code>
@@ -305,9 +260,6 @@ constructor so that they don't have to care about the internal parameters.</p>
 				
 <p>Loads the field type necessary components.</p>
 
-<p>This method is triggered when a field definition array that calls this field
-type is parsed.</p>
-
 
 
 
@@ -315,13 +267,12 @@ type is parsed.</p>
 
 					<h4>Since</h4>
 					<div class="list">
-							3.0.0<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
+							2.1.5<br>
+							3.3.1 Changed from <code>_replyToFieldLoader()</code>.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_FieldType.html#_setUp">AdminPageFramework_FieldType::setUp</a></code></div>
 
 			</div>
 			</div></td>
@@ -342,8 +293,9 @@ type is parsed.</p>
 
 			<div class="description detailed">
 				
-<p>Returns the JavaScript output inside the
-<code>&lt;script&gt;&lt;/script&gt;</code> tags.</p>
+<p>Returns the field type specific JavaScript script.</p>
+
+<p>Returns the JavaScript script of the taxonomy field type.</p>
 
 
 
@@ -352,50 +304,13 @@ type is parsed.</p>
 
 					<h4>Since</h4>
 					<div class="list">
-							3.0.0<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
+							2.1.1<br>
+							2.1.5 Moved from <code>AdminPageFramework_Property_Base()</code>.<br>
+							3.3.1 Changed from <code>_replyToGetScripts()</code>.<br>
 					</div>
 
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getIEStyles" id="_getIEStyles">
-
-			<td class="attributes"><code>
-				 protected 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getIEStyles">#</a>
-			<code>getIEStyles( )</code>
-
-
-			<div class="description detailed">
-				
-<p>Returns the CSS output specific to Internet Explorer inside the
-<code>&lt;style&gt;&lt;/style&gt;</code> tags.</p>
-
-
-
-
-
-
-					<h4>Since</h4>
-					<div class="list">
-							3.0.0<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
-					</div>
-
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_FieldType.html#_getScripts">AdminPageFramework_FieldType::getScripts</a></code></div>
 
 			</div>
 			</div></td>
@@ -416,8 +331,7 @@ type is parsed.</p>
 
 			<div class="description detailed">
 				
-<p>Returns the field type specific CSS output inside the
-<code>&lt;style&gt;&lt;/style&gt;</code> tags.</p>
+<p>Returns the field type specific CSS rules.</p>
 
 
 
@@ -426,13 +340,47 @@ type is parsed.</p>
 
 					<h4>Since</h4>
 					<div class="list">
-							3.0.0<br>
-					</div>
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
+							2.1.5<br>
+							3.3.1 Changed from <code>_replyToGetStyles()</code>.<br>
 					</div>
 
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_FieldType.html#_getStyles">AdminPageFramework_FieldType::getStyles</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getIEStyles" id="_getIEStyles">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getIEStyles">#</a>
+			<code>getIEStyles( )</code>
+
+
+			<div class="description detailed">
+				
+<p>Returns the field type specific CSS rules.</p>
+
+
+
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.1.5<br>
+							3.3.1 Changed from <code>_replyToGetInputIEStyles()</code>.<br>
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_FieldType.html#_getIEStyles">AdminPageFramework_FieldType::getIEStyles</a></code></div>
 
 			</div>
 			</div></td>
@@ -453,7 +401,9 @@ type is parsed.</p>
 
 			<div class="description detailed">
 				
-<p>Returns the field output.</p>
+<p>Returns the output of the field type.</p>
+
+<p>Returns the output of taxonomy checklist check boxes.</p>
 
 
 
@@ -462,195 +412,31 @@ type is parsed.</p>
 
 					<h4>Since</h4>
 					<div class="list">
-							3.0.0<br>
+							2.0.0<br>
+							2.1.1 The checklist boxes are rendered in a tabbed single box.<br>
+							2.1.5 Moved from AdminPageFramework_FormField.<br>
+							3.3.1 Changed from <code>_replyToGetField()</code>.<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
-							The user will override this method in their class definition.<br>
+							Multiple fields are not supported.<br>
+							Repeater fields are not supported.<br>
 					</div>
 
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getEnqueuingScripts" id="_getEnqueuingScripts">
-
-			<td class="attributes"><code>
-				 protected 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getEnqueuingScripts">#</a>
-			<code>getEnqueuingScripts( )</code>
-
-
-			<div class="description detailed">
-				
-<p>Returns an array holding the urls of enqueuing scripts.</p>
-
-<p>The returning array should consist of all numeric keys. Each element can be
-either a string( the url or the path of the source file) or an array of custom
-argument.</p>
-
-<h4>Custom Argument Array</h4>
-
-<ul>
-	<li><strong>src</strong> - (required, string) The url or path of the target
-	source file</li>
-
-	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
-	script.</li>
-
-	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
-	more information, see <a
-	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
-
-	<li><strong>version</strong> - (optional, string) The stylesheet version
-	number.</li>
-
-	<li><strong>translation</strong> - (optional, array) The translation array. The
-	handle ID will be used for the object name.</li>
-
-	<li><strong>in_footer</strong> - (optional, boolean) Whether to enqueue the
-	script before <code>&lt;/head&gt;</code> or before <code>&lt;/body &gt;</code>
-	Default: <code>false</code>.</li>
-
-	<li><strong>attributes</strong> - (optional, array) [3.3.0+] attribute argument
-	array. <code>array( 'async' =&gt; '', 'data-id' =&gt; '...' )</code></li>
-</ul>
-
-<h4>Examples</h4>
-
-<pre>
-<span class="php-keyword1">protected</span> <span
-class="php-keyword1">function</span> getEnqueuingScripts() {
-     <span
-class="php-keyword1">return</span> <span
-class="php-keyword1">array</span>(
-         <span
-class="php-keyword1">array</span>(     <span
-class="php-comment">// if you need to set a dependency, pass as a custom argument array.</span>
-             <span
-class="php-quote">'src'</span> =&gt; <span
-class="php-keyword2">dirname</span>( __FILE__ ) . <span
-class="php-quote">'/asset/my_script.js'</span>,     <span
-class="php-comment">// path or url</span>
-             <span
-class="php-quote">'dependencies'</span> =&gt; <span
-class="php-keyword1">array</span>( <span
-class="php-quote">'jquery'</span> )
-         ),
-         <span
-class="php-keyword2">dirname</span>( __FILE__ ) . <span
-class="php-quote">'/asset/my_another.js'</span>, <span
-class="php-comment">// a string value of the target path or url will work as well.</span>
-     );
-}
-</pre>
-
-
-
-
-
-
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
-					</div>
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getEnqueuingStyles" id="_getEnqueuingStyles">
-
-			<td class="attributes"><code>
-				 protected 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getEnqueuingStyles">#</a>
-			<code>getEnqueuingStyles( )</code>
-
-
-			<div class="description detailed">
-				
-<p>Returns an array holding the urls of enqueuing styles.</p>
-
-<p>The returning array should consist of all numeric keys. Each element can be
-either a string( the url or the path of the source file) or an array of custom
-argument.</p>
-
-<h4>Custom Argument Array</h4>
-
-<ul>
-	<li><strong>src</strong> - (required, string) The url or path of the target
-	source file.</li>
-
-	<li><strong>handle_id</strong> - (optional, string) The handle ID of the
-	stylesheet.</li>
-
-	<li><strong>dependencies</strong> - (optional, array) The dependency array. For
-	more information, see <a
-	href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
-
-	<li><strong>version</strong> - (optional, string) The stylesheet version
-	number.</li>
-
-	<li><strong>media</strong> - (optional, string) the description of the field
-	which is inserted into the after the input field tag.</li>
-
-	<li><strong>attributes</strong> - (optional, array) [3.3.0+] attributes array.
-	<code>array( 'data-id' =&gt; '...' )</code></li>
-</ul>
-
-<h4>Examples</h4>
-
-<pre>
-<span class="php-keyword1">protected</span> <span
-class="php-keyword1">function</span> getEnqueuingStyles() {
-     <span
-class="php-keyword1">return</span> <span
-class="php-keyword1">array</span>(
-         <span
-class="php-keyword2">dirname</span>( __FILE__ ) . <span
-class="php-quote">'/asset/my_style.css'</span>,
-         <span
-class="php-keyword1">array</span>(
-             <span
-class="php-quote">'src'</span> =&gt; <span
-class="php-keyword2">dirname</span>( __FILE__ ) . <span
-class="php-quote">'/asset/my_style2.css'</span>,
-             <span
-class="php-quote">'handle_id'</span> =&gt; <span
-class="php-quote">'my_style2'</span>,
-         ),
-     );
-}
-</pre>
-
-
-
-
-
-
-					<h4>Remark</h4>
-					<div class="list">
-							The user will override this method in their class definition.<br>
-					</div>
-
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_FieldType.html#_getField">AdminPageFramework_FieldType::getField</a></code></div>
 
 			</div>
 			</div></td>
 		</tr>
 		</table>
 
+		<h3>Methods inherited from <a href="class-AdminPageFramework_FieldType.html#methods">AdminPageFramework_FieldType</a></h3>
+		<p class="elementList">
+			<code><a href="class-AdminPageFramework_FieldType.html#_construct">construct()</a></code>, 
+			<code><a href="class-AdminPageFramework_FieldType.html#_getEnqueuingScripts">getEnqueuingScripts()</a></code>, 
+			<code><a href="class-AdminPageFramework_FieldType.html#_getEnqueuingStyles">getEnqueuingStyles()</a></code>
+		</p>
 		<h3>Methods inherited from AdminPageFramework_FieldType_Base</h3>
 		<p class="elementList">
 			<code>__construct()</code>, 
@@ -796,39 +582,6 @@ class="php-quote">'my_style2'</span>,
 					
 <p>Defines the field type slugs used for this field type.</p>
 
-<p>The slug is used for the type key in a field definition array.</p>
-
-<pre>
-<span class="php-var">$this</span>-&gt;addSettingFields(
-     <span
-class="php-keyword1">array</span>(
-         <span
-class="php-quote">'section_id'</span>    =&gt; <span
-class="php-quote">'...'</span>,
-         <span
-class="php-quote">'type'</span>          =&gt; <span
-class="php-quote">'my_filed_type_slug'</span>, <span
-class="php-comment">// &lt;--- THIS PART</span>
-         <span
-class="php-quote">'field_id'</span>      =&gt; <span
-class="php-quote">'...'</span>,
-         <span
-class="php-quote">'title'</span>         =&gt; <span
-class="php-quote">'...'</span>,
-     )
-);
-</pre>
-
-<h4>Example</h4>
-
-<pre>
-<span class="php-keyword1">public</span> <span
-class="php-var">$aFieldTypeSlugs</span> = <span
-class="php-keyword1">array</span>( <span
-class="php-quote">'my_field_type_slug'</span>, <span
-class="php-quote">'alternative_field_type_slug'</span> );
-</pre>
-
 
 				</div>
 			</div></td>
@@ -849,65 +602,10 @@ class="php-quote">'alternative_field_type_slug'</span> );
 					
 <p>Defines the default key-values of this field type.</p>
 
-<p>The users will set the values to the defined keys and if not set, the value
-set in this property array will take effect. The merged array of the user's
-field definition array and this property array will be passed to the first
-parameter of the <code>getField()</code> method.</p>
-
-<pre>
-<span class="php-var">$this</span>-&gt;addSettingFields(
-    <span
-class="php-keyword1">array</span>(
-        <span
-class="php-quote">'section_id'</span>         =&gt; <span
-class="php-quote">'...'</span>, <span
-class="php-comment">// built-in key</span>
-        <span
-class="php-quote">'type'</span>               =&gt; <span
-class="php-quote">'...'</span>, <span
-class="php-comment">// built-in key</span>
-        <span
-class="php-quote">'field_id'</span>           =&gt; <span
-class="php-quote">'...'</span>, <span
-class="php-comment">// built-in key</span>
-        <span
-class="php-quote">'my_custom_key'</span>      =&gt; <span
-class="php-quote">'the default value for this key'</span>, <span
-class="php-comment">// &lt;-- THIS PART</span>
-        <span
-class="php-quote">'another_custom)key'</span> =&gt; <span
-class="php-quote">'the default value for this key'</span>, <span
-class="php-comment">// &lt;-- THIS PART</span>
-    )
-);
-</pre>
-
-<h4>Example</h4>
-
-<pre>
-<span class="php-var">$aDefaultKeys</span> = <span
-class="php-keyword1">array</span>(
-     <span
-class="php-quote">'my_custom_key'</span> =&gt; <span
-class="php-quote">'my default value'</span>,
-     <span
-class="php-quote">'attributes'</span>    =&gt; <span
-class="php-keyword1">array</span>(
-         <span
-class="php-quote">'size'</span>      =&gt; <span
-class="php-num">30</span>,
-         <span
-class="php-quote">'maxlength'</span> =&gt; <span
-class="php-num">400</span>,
-     ),
-);
-</pre>
-
 
 						<h4>Remark</h4>
 						<div class="list">
-								<var>$_aDefaultKeys</var> defined by the system internally holds shared default
-key-values defined in the base class.<br>
+								$_aDefaultKeys holds shared default key-values defined in the base class.<br>
 						</div>
 				</div>
 			</div></td>

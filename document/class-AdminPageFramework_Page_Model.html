@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-	<title>Class AdminPageFramework | Admin Page Framework Documentation</title>
+	<title>Class AdminPageFramework_Page_Model | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
 	<script type="text/javascript" src="elementlist.js?3095268003"></script>
@@ -78,7 +78,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active">
+				<li>
                     
                     
                     <a href="class-AdminPageFramework.html">
@@ -122,7 +122,7 @@
                         AdminPageFramework_Page_Controller
                     </a>
                 </li>
-				<li>
+				<li class="active">
                     
                     
                     <a href="class-AdminPageFramework_Page_Model.html">
@@ -151,18 +151,12 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class AdminPageFramework</h1>
+	<h1>Class AdminPageFramework_Page_Model</h1>
 
 
 	<div class="description">
 	
-<p>The main class of the framework to create admin pages and forms.</p>
-
-<p>This class should be extended and the <code>setUp()</code> method should be
-overridden to define how pages are composed. Most of the internal methods are
-prefixed with the underscore like <code>_getSomething()</code> and callback
-methods are prefixed with <code>_reply</code>. The methods for the users are
-public and do not have those prefixes.</p>
+<p>Provides methods to manipulate menu items.</p>
 
 	</div>
 
@@ -236,86 +230,26 @@ AdminPageFramework_Form_View
 		</dd>
 		<dd style="padding-left:330px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Page_Model.html"><span>AdminPageFramework_Page_Model</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:360px">
-			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Page_View_MetaBox
-			
-			
-		</dd>
-		<dd style="padding-left:390px">
-			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Page_View.html"><span>AdminPageFramework_Page_View</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:420px">
-			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Page_Controller.html"><span>AdminPageFramework_Page_Controller</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:450px">
-			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Menu_Model.html"><span>AdminPageFramework_Menu_Model</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:480px">
-			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Menu_View.html"><span>AdminPageFramework_Menu_View</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:510px">
-			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-AdminPageFramework_Menu_Controller.html"><span>AdminPageFramework_Menu_Controller</span></a>
-			
-			
-			
-		</dd>
-		<dd style="padding-left:540px">
-			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Model
-			
-			
-		</dd>
-		<dd style="padding-left:570px">
-			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_View
-			
-			
-		</dd>
-		<dd style="padding-left:600px">
-			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Controller
-			
-			
-		</dd>
-		<dd style="padding-left:630px">
-			<img src="resources/inherit.png" alt="Extended by">
-<b><span>AdminPageFramework</span></b>			
+<b><span>AdminPageFramework_Page_Model</span></b>			
 			
 			
 		</dd>
 	</dl>
 
 
+
 	<div>
-		<h3>Direct known subclasses</h3>
+		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
-			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>
+			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_Controller.html">AdminPageFramework_Menu_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_Model.html">AdminPageFramework_Menu_Model</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_View.html">AdminPageFramework_Menu_View</a></code>, 
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>, 
+			<code><a href="class-AdminPageFramework_Page_Controller.html">AdminPageFramework_Page_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_Page_View.html">AdminPageFramework_Page_View</a></code>
 		</p>
 	</div>
-
 
 
 
@@ -328,140 +262,16 @@ AdminPageFramework_Controller
 		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.AdminPage.html">AdminPage</a><br>
 
 				<b>Since:</b>
-				2.0.0<br>
+				3.3.1<br>
 				<b>Extends:</b>
-				AdminPageFramework_Controller<br>
-		<b>Located at</b> factory/AdminPageFramework/AdminPageFramework.php<br>
+				AdminPageFramework_Form_Controller<br>
+		<b>Located at</b> factory/AdminPageFramework/AdminPageFramework_Page_Model.php<br>
 	</div>
 
 
 
 		<h2>Methods summary</h2>
-		<table class="summary table table-bordered table-striped" id="methods">
-		<tr data-order="__construct" id="___construct">
 
-			<td class="attributes"><code>
-				 public 
-				
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#___construct">#</a>
-			<code>__construct( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_options'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
-
-
-			<div class="description detailed">
-				
-<p>Registers necessary callbacks ans sets up internal components including
-properties.</p>
-
-<h4>Example</h4>
-
-<pre><span class="php-keyword1">if</span> ( is_admin() ) {
-    <span
-class="php-keyword1">new</span> MyAdminPageClass( <span
-class="php-quote">'my_custom_option_key'</span>, __FILE__ );
-}</pre>
-
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$sOptionKey</var></dt>
-						<dd><code>string</code><br>$sOptionKey (optional) specifies the option key name to store in the options
-table. If this is not set, the instantiated class name will be used.</dd>
-						<dt><var>$sCallerPath</var></dt>
-						<dd><code>string</code><br>$sCallerPath (optional) used to retrieve the plugin/theme details to auto-insert
-the information into the page footer.</dd>
-						<dt><var>$sCapability</var></dt>
-						<dd><code>string</code><br>$sCapability (optional) sets the overall access level to the admin pages created
-by the framework. The used capabilities are listed <a
-href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The
-capability can be set per page, tab, setting section, setting field. Default:
-<code>manage_options</code></dd>
-						<dt><var>$sTextDomain</var></dt>
-						<dd><code>string</code><br>$sTextDomain (optional) the <a
-href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains"
-target="_blank">text domain</a> used for the framework's system messages.
-Default: admin-page-framework.</dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code></code><br>returns nothing.<br>
-					</div>
-
-
-					<h4>Since</h4>
-					<div class="list">
-							2.0.0<br>
-					</div>
-					<h4>See</h4>
-					<div class="list">
-							<a
-href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a><br>
-							<a
-href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains</a><br>
-					</div>
-
-					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-AdminPageFramework_Menu_Controller.html#___construct">AdminPageFramework_Menu_Controller::__construct</a></code></div>
-
-			</div>
-			</div></td>
-		</tr>
-		</table>
-
-		<h3>Methods inherited from AdminPageFramework_Controller</h3>
-		<p class="elementList">
-			<code>addHelpTab()</code>, 
-			<code>addLinkToPluginDescription()</code>, 
-			<code>addLinkToPluginTitle()</code>, 
-			<code>enqueueScript()</code>, 
-			<code>enqueueScripts()</code>, 
-			<code>enqueueStyle()</code>, 
-			<code>enqueueStyles()</code>, 
-			<code>getOption()</code>, 
-			<code>setAdminNotice()</code>, 
-			<code>setCapability()</code>, 
-			<code>setDisallowedQueryKeys()</code>, 
-			<code>setFooterInfoLeft()</code>, 
-			<code>setFooterInfoRight()</code>, 
-			<code>setPluginSettingsLinkLabel()</code>, 
-			<code>setUp()</code>
-		</p>
-		<h3>Methods inherited from AdminPageFramework_View</h3>
-		<p class="elementList">
-			<code>_replyToPrintAdminNotices()</code>
-		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Menu_Controller.html#methods">AdminPageFramework_Menu_Controller</a></h3>
-		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Menu_Controller.html#_addSubMenuItem">addSubMenuItem()</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu_Controller.html#_addSubMenuItems">addSubMenuItems()</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu_Controller.html#_setRootMenuPage">setRootMenuPage()</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu_Controller.html#_setRootMenuPageBySlug">setRootMenuPageBySlug()</a></code>
-		</p>
-		<h3>Methods inherited from <a href="class-AdminPageFramework_Page_Controller.html#methods">AdminPageFramework_Page_Controller</a></h3>
-		<p class="elementList">
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_addInPageTab">addInPageTab()</a></code>, 
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_addInPageTabs">addInPageTabs()</a></code>, 
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_setInPageTabTag">setInPageTabTag()</a></code>, 
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_setInPageTabsVisibility">setInPageTabsVisibility()</a></code>, 
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_setPageHeadingTabTag">setPageHeadingTabTag()</a></code>, 
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_setPageHeadingTabsVisibility">setPageHeadingTabsVisibility()</a></code>, 
-			<code><a href="class-AdminPageFramework_Page_Controller.html#_setPageTitleVisibility">setPageTitleVisibility()</a></code>
-		</p>
-		<h3>Methods inherited from AdminPageFramework_Page_View_MetaBox</h3>
-		<p class="elementList">
-			<code>_getNumberOfColumns()</code>, 
-			<code>_printMetaBox()</code>, 
-			<code>_replyToAddMetaboxScript()</code>, 
-			<code>_replyToEnableMetaBox()</code>, 
-			<code>_replyToReturnDefaultNumberOfScreenColumns()</code>, 
-			<code>_replyToSetNumberOfScreenLayoutColumns()</code>
-		</p>
 		<h3>Methods inherited from <a href="class-AdminPageFramework_Form_Controller.html#methods">AdminPageFramework_Form_Controller</a></h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework_Form_Controller.html#_addSettingField">addSettingField()</a></code>, 
@@ -479,6 +289,7 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Form_Model</h3>
 		<p class="elementList">
+			<code>__construct()</code>, 
 			<code>_getSavedOptions()</code>, 
 			<code>_replyToCheckRedirects()</code>, 
 			<code>_replyToRegisterSettings()</code>
@@ -510,7 +321,8 @@ href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">htt
 			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasFieldError">hasFieldError()</a></code>, 
 			<code><a href="class-AdminPageFramework_Factory_Controller.html#_hasSettingNotice">hasSettingNotice()</a></code>, 
 			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setFieldErrors">setFieldErrors()</a></code>, 
-			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setSettingNotice">setSettingNotice()</a></code>, 
+			<code><a href="class-AdminPageFramework_Factory_Controller.html#_setUp">setUp()</a></code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_View</h3>
 		<p class="elementList">

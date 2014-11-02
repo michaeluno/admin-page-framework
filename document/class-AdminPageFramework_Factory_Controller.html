@@ -6,7 +6,7 @@
 	<title>Class AdminPageFramework_Factory_Controller | Admin Page Framework Documentation</title>
 
 	<script type="text/javascript" src="resources/combined.js?361344329"></script>
-	<script type="text/javascript" src="elementlist.js?3454352893"></script>
+	<script type="text/javascript" src="elementlist.js?3095268003"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104">
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2195379744">
 
@@ -143,25 +143,29 @@ AdminPageFramework_Factory_View
 		<h3>Indirect known subclasses</h3>
 		<p class="elementList">
 			<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>, 
-			<code><a href="class-AdminPageFramework_Menu.html">AdminPageFramework_Menu</a></code>, 
-			<code><a href="class-AdminPageFramework_Page.html">AdminPageFramework_Page</a></code>, 
+			<code><a href="class-AdminPageFramework_Form_Controller.html">AdminPageFramework_Form_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_MetaBox_Router.html">AdminPageFramework_MetaBox_Router</a></code>, 
+			<code><a href="class-AdminPageFramework_MetaBox_View.html">AdminPageFramework_MetaBox_View</a></code>, 
+			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>, 
+			<code><a href="class-AdminPageFramework_Page_Controller.html">AdminPageFramework_Page_Controller</a></code>, 
+			<code><a href="class-AdminPageFramework_Page_Model.html">AdminPageFramework_Page_Model</a></code>, 
+			<code><a href="class-AdminPageFramework_Page_View.html">AdminPageFramework_Page_View</a></code>, 
 			<code><a href="class-AdminPageFramework_PostType.html">AdminPageFramework_PostType</a></code>, 
 			<code><a href="class-AdminPageFramework_PostType_Controller.html">AdminPageFramework_PostType_Controller</a></code>, 
 			<code><a href="class-AdminPageFramework_PostType_View.html">AdminPageFramework_PostType_View</a></code>, 
-			<code><a href="class-AdminPageFramework_Setting.html">AdminPageFramework_Setting</a></code>, 
 			<code><a href="class-AdminPageFramework_TaxonomyField.html">AdminPageFramework_TaxonomyField</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_Controller.html">AdminPageFramework_Menu_Controller</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget.html">AdminPageFramework_Widget</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget_Controller.html">AdminPageFramework_Widget_Controller</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget_Model.html">AdminPageFramework_Widget_Model</a></code>, 
 			<code><a href="class-AdminPageFramework_Widget_View.html">AdminPageFramework_Widget_View</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_Model.html">AdminPageFramework_Menu_Model</a></code>, 
+			<code><a href="class-AdminPageFramework_Menu_View.html">AdminPageFramework_Menu_View</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox.html">AdminPageFramework_MetaBox</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox_Controller.html">AdminPageFramework_MetaBox_Controller</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox_Model.html">AdminPageFramework_MetaBox_Model</a></code>, 
 			<code><a href="class-AdminPageFramework_MetaBox_Page.html">AdminPageFramework_MetaBox_Page</a></code>, 
-			<code><a href="class-AdminPageFramework_MetaBox_Page_Controller.html">AdminPageFramework_MetaBox_Page_Controller</a></code>, 
-			<code><a href="class-AdminPageFramework_MetaBox_Router.html">AdminPageFramework_MetaBox_Router</a></code>, 
-			<code><a href="class-AdminPageFramework_MetaBox_View.html">AdminPageFramework_MetaBox_View</a></code>, 
-			<code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code>
+			<code><a href="class-AdminPageFramework_MetaBox_Page_Controller.html">AdminPageFramework_MetaBox_Page_Controller</a></code>
 		</p>
 	</div>
 
@@ -311,6 +315,29 @@ next section array can omit the page slug key. <strong>Section Array</strong>
 
 	<li><strong>help_aside</strong> - (optional, string) the additional help
 	description for the side bar of the contextual help tab.</li>
+
+	<li><strong>hidden</strong> - (optional, boolean) [3.3.1+] whether or not the
+	section should be hidden. Default: <code>&lt;span
+	class="php-keyword1"&gt;false&lt;/span&gt;</code>.</li>
+
+	<li><strong>attributes</strong> - (optional, string) [3.3.1+] An attribute array
+	that applies to the section container element. e.g. <code>array(
+	'data-custom_data' =&gt; 'my_custom_data' )</code> The following sub-elements
+	are supported.
+		<ul>
+			<li><strong>tab</strong> - (optional, array) An sub-attribute array that applies
+			to the section tab <code>&lt;li&gt;</code> tag element.</li>
+		</ul>
+	</li>
+
+	<li><strong>class</strong> - (optional, string|array) [3.3.1+] class selector(s)
+	appended to the section container element. The following sub-elements are
+	supported.
+		<ul>
+			<li><strong>tab</strong> - (optional, array) An sub-class array that applies to
+			the section tab <code>&lt;li&gt;</code> tag element.</li>
+		</ul>
+	</li>
 </ul>
 </dd>
 						<dt><var>$aSection2</var></dt>
