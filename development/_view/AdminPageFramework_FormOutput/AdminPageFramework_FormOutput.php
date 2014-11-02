@@ -34,11 +34,14 @@ abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtilit
                 : array(),
             $aAttributes
         );
+        
         $_aAttributes['class']   = $this->generateClassAttribute( 
             isset( $_aAttributes['class'] ) 
                 ? $_aAttributes['class'] 
                 : array(), 
-            $this->dropElementsByType( $aField['class'] ) 
+            isset( $aField['class'][ $sContext ] )
+                ? $aField['class'][ $sContext ]
+                : array()
         );  
         
         // Set the visibility CSS property for the outermost container element.

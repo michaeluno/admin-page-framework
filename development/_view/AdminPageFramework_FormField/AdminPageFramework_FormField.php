@@ -248,14 +248,19 @@ $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"
                             'disabled'          => null,
                             'data-id_model'     => $__aField['_input_id_model'],    // 3.3.1+
                             'data-name_model'   => $__aField['_input_name_model'],  // 3.3.1+
-                        ),
+                        )
                     ),
                     ( array ) $_aFieldTypeDefinition['aDefaultKeys'] // this allows sub-fields with different field types to set the default key-values for the sub-field.
                 );
+                
                 $__aField['attributes']['class'] = 'widget' === $__aField['_fields_type'] && is_callable( $aCallbacks['hfClass'] )
                     ? call_user_func_array( $aCallbacks['hfClass'], array( $__aField['attributes']['class'] ) )
                     : $__aField['attributes']['class'];
-                
+                $__aField['attributes']['class'] = $this->generateClassAttribute(
+                    $__aField['attributes']['class'],  
+                    $this->dropElementsByType( $__aField['class'] )
+                );
+
                 /* Callback the registered function to output the field */     
                 $_aFieldAttributes = array(
                     'id'            => $__aField['_field_container_id'],
