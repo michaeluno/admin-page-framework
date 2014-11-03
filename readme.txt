@@ -451,6 +451,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.3.2 =
 - Fixed a bug that meta box field values defined via the `field_definition_{...}` filter hooks were not saved.
 - Fixed a bug that setting sections for page meta box fields caused an error after submitting the form.
+- Fixed a bug that class selectors set in the top level of the `class` argument for fields got inserted in all type of field containers including `fieldrow`, `fieldset`, `fields`, `field`.
 - Fixed the `for` attribute value of label tags for fields to the focus input.
 
 = 3.3.1 - 2014/11/02 =
