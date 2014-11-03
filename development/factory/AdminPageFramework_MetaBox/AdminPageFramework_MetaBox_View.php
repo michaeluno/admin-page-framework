@@ -33,9 +33,11 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
         $_aOutput   = array();
         $_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
         
+        
+        // @deprecated 3.3.2+ Moved to _registerFormElements() method.
         // Condition the sections and fields definition arrays.
-        $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields internally
-        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
+        // $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields internally
+        // $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
         
         // Set the option array - the framework will refer to this data when displaying the fields.
         if ( isset( $this->oProp->aOptions ) ) {

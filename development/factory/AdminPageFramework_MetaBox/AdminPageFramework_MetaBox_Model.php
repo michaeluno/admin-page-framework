@@ -82,6 +82,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         // Format the fields array.
         $this->oForm->format();
         $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields
+        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
         
         // Set the option array - the framework will refer to this data when displaying the fields.
         if ( isset( $this->oProp->aOptions ) ) {
@@ -146,7 +147,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             }
                             
         }
-        
+    
         return $aInput;
         
     }
@@ -243,7 +244,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         }
         
         // Retrieve the submitted data. 
-        $_aInput        = $this->_getInputArray( $this->oForm->aFields, $this->oForm->aSections );
+        $_aInput        = $this->_getInputArray( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
         
         // Prepare the saved data. For a new post, the id is set to 0.
         $_aSavedMeta    = $_iPostID 
