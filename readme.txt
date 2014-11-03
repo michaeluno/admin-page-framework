@@ -449,6 +449,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.2 =
+- Fixed a bug that setting sections for page meta box fields caused an error after submitting the form.
 - Fixed the `for` attribute value of label tags for fields to the focus input.
 
 = 3.3.1 - 2014/11/02 =

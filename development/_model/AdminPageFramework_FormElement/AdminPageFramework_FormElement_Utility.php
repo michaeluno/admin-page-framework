@@ -172,7 +172,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
     /**
      * Returns a fields model array that represents the structure of the array of saving data from the given fields definition array.
      * 
-     * The passed fields array should be structured like the following.
+     * The passed fields array should be structured like the following. This is used for page meta boxes.
      * <code>
      *     array(  
      *         '_default' => array( // _default is reserved for the system.
@@ -214,11 +214,17 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
     public function getFieldsModel( array $aFields=array() )  {
         
         $_aFieldsModel  = array();
-        $aFields        = empty( $aFields ) ? $this->aFields : $aFields;
+        $aFields        = empty( $aFields ) 
+            // @todo examine whether it should be the $this->aConditionedFields property rather than $this->aFields
+            ? $this->aFields 
+            : $aFields;
+            
         foreach ( $aFields as $_sSectionID => $_aFields ) {
 
             if ( $_sSectionID != '_default' ) {
-                $_aFieldsModel[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;    
+                
+                $_aFieldsModel[ $_sSectionID ] = $_aFields;    
+                // $_aFieldsModel[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;    
                 continue;
             }
             
@@ -229,6 +235,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
 
         }
         return $_aFieldsModel;
+        
     }
     
         /**
