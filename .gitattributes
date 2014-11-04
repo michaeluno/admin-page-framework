@@ -1,3 +1,4 @@
 /test export-ignore  
+/tool export-ignore  
 .gitattributes export-ignore  
 .gitignore export-ignore
