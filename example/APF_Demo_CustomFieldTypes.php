@@ -720,7 +720,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 ),
                 'hidden'        => true,
                 'default'       => '.revealer_field_option_e',
-                'delimiter'     => '<br />',
+                'delimiter'     => '<br /><br />',
                 // Sub-fields
                 array(
                     'type'          => 'textarea',     
@@ -728,6 +728,8 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                         'field' => 'revealer_field_option_d',
                     ),
                     'label'         => '',
+                    'default'       => '',
+                    'delimiter'     => '',
                 ),        
                 array(
                     'type'          => 'radio',
@@ -740,6 +742,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'class'         => array(
                         'field' => 'revealer_field_option_e',
                     ),
+                    'delimiter'     => '',
                 ),                        
                 array(
                     'type'          => 'select',     
@@ -752,6 +755,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                     'class'         => array(
                         'field' => 'revealer_field_option_f',
                     ),
+                    'delimiter'     => '',
                 ),   
                 
             ),     
