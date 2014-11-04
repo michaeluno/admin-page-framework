@@ -147,92 +147,93 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return 
-        "/* Taxonomy Field Type */
-            .admin-page-framework-field .taxonomy-checklist li { 
-                margin: 8px 0 8px 20px; 
-            }
-            .admin-page-framework-field div.taxonomy-checklist {
-                padding: 8px 0 8px 10px;
-                margin-bottom: 20px;
-            }
-            .admin-page-framework-field .taxonomy-checklist ul {
-                list-style-type: none;
-                margin: 0;
-            }
-            .admin-page-framework-field .taxonomy-checklist ul ul {
-                margin-left: 1em;
-            }
-            .admin-page-framework-field .taxonomy-checklist-label {
-                /* margin-left: 0.5em; */
-                white-space: nowrap;     
-            }    
-        /* Tabbed box */
-            .admin-page-framework-field .tab-box-container.categorydiv {
-                max-height: none;
-            }
-            .admin-page-framework-field .tab-box-tab-text {
-                display: inline-block;
-            }
-            .admin-page-framework-field .tab-box-tabs {
-                line-height: 12px;
-                margin-bottom: 0;
-            }
-            /* .admin-page-framework-field .tab-box-tab {     
-                vertical-align: top;
-            } */
-            .admin-page-framework-field .tab-box-tabs .tab-box-tab.active {
-                display: inline;
-                border-color: #dfdfdf #dfdfdf #fff;
-                margin-bottom: 0px;
-                padding-bottom: 2px;
-                background-color: #fff;
-                
-            }
-            .admin-page-framework-field .tab-box-container { 
-                position: relative; 
-                width: 100%; 
-                clear: both;
-                margin-bottom: 1em;
-            }
-            .admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
-            .admin-page-framework-field .tab-box-contents-container {  
-                padding: 0 0 0 1.8em;
-                padding: 0.55em 0.5em 0.55em 1.8em;
-                border: 1px solid #dfdfdf; 
-                background-color: #fff;
-            }
-            .admin-page-framework-field .tab-box-contents { 
-                overflow: hidden; 
-                overflow-x: hidden; 
-                position: relative; 
-                top: -1px; 
-                height: 300px;  
-            }
-            .admin-page-framework-field .tab-box-content { 
+        return <<<CSSRULES
+/* Taxonomy Field Type */
+.admin-page-framework-field .taxonomy-checklist li { 
+    margin: 8px 0 8px 20px; 
+}
+.admin-page-framework-field div.taxonomy-checklist {
+    padding: 8px 0 8px 10px;
+    margin-bottom: 20px;
+}
+.admin-page-framework-field .taxonomy-checklist ul {
+    list-style-type: none;
+    margin: 0;
+}
+.admin-page-framework-field .taxonomy-checklist ul ul {
+    margin-left: 1em;
+}
+.admin-page-framework-field .taxonomy-checklist-label {
+    /* margin-left: 0.5em; */
+    white-space: nowrap;     
+}    
+/* Tabbed box */
+.admin-page-framework-field .tab-box-container.categorydiv {
+    max-height: none;
+}
+.admin-page-framework-field .tab-box-tab-text {
+    display: inline-block;
+}
+.admin-page-framework-field .tab-box-tabs {
+    line-height: 12px;
+    margin-bottom: 0;
+}
+/* .admin-page-framework-field .tab-box-tab {     
+    vertical-align: top;
+} */
+.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {
+    display: inline;
+    border-color: #dfdfdf #dfdfdf #fff;
+    margin-bottom: 0px;
+    padding-bottom: 2px;
+    background-color: #fff;
+    
+}
+.admin-page-framework-field .tab-box-container { 
+    position: relative; 
+    width: 100%; 
+    clear: both;
+    margin-bottom: 1em;
+}
+.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
+.admin-page-framework-field .tab-box-contents-container {  
+    padding: 0 0 0 1.8em;
+    padding: 0.55em 0.5em 0.55em 1.8em;
+    border: 1px solid #dfdfdf; 
+    background-color: #fff;
+}
+.admin-page-framework-field .tab-box-contents { 
+    overflow: hidden; 
+    overflow-x: hidden; 
+    position: relative; 
+    top: -1px; 
+    height: 300px;  
+}
+.admin-page-framework-field .tab-box-content { 
 
-                /* height: 300px; */
-                display: none; 
-                overflow: auto; 
-                display: block; 
-                position: relative; 
-                overflow-x: hidden;
-            }
-            .admin-page-framework-field .tab-box-content .taxonomychecklist {
-                margin-right: 3.2em;
-            }
-            .admin-page-framework-field .tab-box-content:target, 
-            .admin-page-framework-field .tab-box-content:target, 
-            .admin-page-framework-field .tab-box-content:target { 
-                display: block; 
-            }  
-        /* tab-box-content */
-        .admin-page-framework-field .tab-box-content .select_all_button_container, 
-        .admin-page-framework-field .tab-box-content .select_none_button_container
-        {
-            margin-top: 0.8em;
-        }
-        " . PHP_EOL;
+    /* height: 300px; */
+    display: none; 
+    overflow: auto; 
+    display: block; 
+    position: relative; 
+    overflow-x: hidden;
+}
+.admin-page-framework-field .tab-box-content .taxonomychecklist {
+    margin-right: 3.2em;
+}
+.admin-page-framework-field .tab-box-content:target, 
+.admin-page-framework-field .tab-box-content:target, 
+.admin-page-framework-field .tab-box-content:target { 
+    display: block; 
+}  
+/* tab-box-content */
+.admin-page-framework-field .tab-box-content .select_all_button_container, 
+.admin-page-framework-field .tab-box-content .select_none_button_container
+{
+    margin-top: 0.8em;
+}
+CSSRULES;
+
     }
     
     /**

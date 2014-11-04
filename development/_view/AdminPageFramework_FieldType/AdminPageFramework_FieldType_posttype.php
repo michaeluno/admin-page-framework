@@ -55,14 +55,16 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      */ 
     protected function getStyles() {
         $_sParentStyles = parent::getStyles();
-        return "/* Posttype Field Type */
-            .admin-page-framework-field input[type='checkbox'] {
-                margin-right: 0.5em;
-            }     
-            .admin-page-framework-field-posttype .admin-page-framework-input-label-container {
-                padding-right: 1em;
-            }    
-        " . $_sParentStyles;
+        return $_sParentStyles . <<<CSSRULES
+/* Posttype Field Type */
+.admin-page-framework-field input[type='checkbox'] {
+    margin-right: 0.5em;
+}     
+.admin-page-framework-field-posttype .admin-page-framework-input-label-container {
+    padding-right: 1em;
+}    
+CSSRULES;
+
     }
     
     /**

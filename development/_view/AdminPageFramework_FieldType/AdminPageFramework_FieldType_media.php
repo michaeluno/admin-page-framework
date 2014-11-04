@@ -369,25 +369,27 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
      * Returns the field type specific CSS rules.
      */ 
     public function _replyToGetStyles() {
-        return "/* Media Uploader Button */
-            .admin-page-framework-field-media input {
-                margin-right: 0.5em;
-                vertical-align: middle;    
-            }
-            @media screen and (max-width: 782px) {
-                .admin-page-framework-field-media input {
-                    margin: 0.5em 0.5em 0.5em 0;
-                }
-            }     
-            .select_media.button.button-small,
-            .remove_media.button.button-small
-            {     
-                vertical-align: middle;
-            }
-            .remove_media.button.button-small {
-                margin-left: 0.2em;
-            }            
-        ";
+        
+        return <<<CSSRULES
+/* Media Uploader Button */
+.admin-page-framework-field-media input {
+    margin-right: 0.5em;
+    vertical-align: middle;    
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field-media input {
+        margin: 0.5em 0.5em 0.5em 0;
+    }
+}     
+.select_media.button.button-small,
+.remove_media.button.button-small
+{     
+    vertical-align: middle;
+}
+.remove_media.button.button-small {
+    margin-left: 0.2em;
+}            
+CSSRULES;
     }
     
     /**

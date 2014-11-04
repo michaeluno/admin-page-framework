@@ -54,11 +54,12 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
      * @since           3.3.1           Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return         
-        "/* Submit Buttons */
-        .admin-page-framework-field input[type='submit'] {
-            margin-bottom: 0.5em;
-        }" . PHP_EOL;     
+        return <<<CSSRULES
+/* Submit Buttons */
+.admin-page-framework-field input[type='submit'] {
+    margin-bottom: 0.5em;
+}
+CSSRULES;
     }
     
     /**

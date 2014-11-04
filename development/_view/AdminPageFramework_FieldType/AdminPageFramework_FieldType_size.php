@@ -76,21 +76,21 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return
-        "/* Size Field Type */
-        .admin-page-framework-field-size input {
-            text-align: right;
-        }
-        .admin-page-framework-field-size select.size-field-select {
-            vertical-align: 0px;     
-        }
-        .admin-page-framework-field-size label {
-            width: auto;     
-        } 
-        .form-table td fieldset .admin-page-framework-field-size label {
-            display: inline;
-        }
-        " . PHP_EOL;
+        return <<<CSSRULES
+/* Size Field Type */
+.admin-page-framework-field-size input {
+    text-align: right;
+}
+.admin-page-framework-field-size select.size-field-select {
+    vertical-align: 0px;     
+}
+.admin-page-framework-field-size label {
+    width: auto;     
+} 
+.form-table td fieldset .admin-page-framework-field-size label {
+    display: inline;
+}
+CSSRULES;
     }
     
     /**

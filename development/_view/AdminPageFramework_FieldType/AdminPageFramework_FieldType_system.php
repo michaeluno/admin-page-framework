@@ -167,23 +167,23 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * Returns the field type specific CSS rules.
      */ 
     protected function getStyles() {
-        return "
-        .admin-page-framework-field-system {
-            width: 100%;
-        }
-        .admin-page-framework-field-system .admin-page-framework-input-label-container {
-            width: 100%;
-        }
-        .admin-page-framework-field-system textarea {
-            background-color: #f9f9f9; 
-            width: 97%; 
-            outline: 0; 
-            font-family: Consolas, Monaco, monospace;
-            white-space: pre;
-            word-wrap: normal;
-            overflow-x: scroll;            
-        }
-        ";
+        return <<<CSSRULES
+.admin-page-framework-field-system {
+    width: 100%;
+}
+.admin-page-framework-field-system .admin-page-framework-input-label-container {
+    width: 100%;
+}
+.admin-page-framework-field-system textarea {
+    background-color: #f9f9f9; 
+    width: 97%; 
+    outline: 0; 
+    font-family: Consolas, Monaco, monospace;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-x: scroll;            
+}
+CSSRULES;
         
     }
 

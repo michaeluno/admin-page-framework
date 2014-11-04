@@ -67,31 +67,32 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return 
-            "/* Color Picker */
-            .repeatable .colorpicker {
-                display: inline;
-            }
-            .admin-page-framework-field-color .wp-picker-container {
-                vertical-align: middle;
-            }
-            .admin-page-framework-field-color .ui-widget-content {
-                border: none;
-                background: none;
-                color: transparent;
-            }
-            .admin-page-framework-field-color .ui-slider-vertical {
-                width: inherit;
-                height: auto;
-                margin-top: -11px;
-            }
-            .admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {
-                vertical-align: top; 
-            }
-            .admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {
-                margin-top: 0;
-            }
-            " . PHP_EOL;     
+        return <<<CSSRULES
+/* Color Picker */
+.repeatable .colorpicker {
+    display: inline;
+}
+.admin-page-framework-field-color .wp-picker-container {
+    vertical-align: middle;
+}
+.admin-page-framework-field-color .ui-widget-content {
+    border: none;
+    background: none;
+    color: transparent;
+}
+.admin-page-framework-field-color .ui-slider-vertical {
+    width: inherit;
+    height: auto;
+    margin-top: -11px;
+}
+.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {
+    vertical-align: top; 
+}
+.admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {
+    margin-top: 0;
+}
+CSSRULES;
+
     }    
     
     /**

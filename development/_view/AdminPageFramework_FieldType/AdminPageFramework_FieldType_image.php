@@ -468,73 +468,74 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
      * Returns the field type specific CSS rules.
      */ 
     public function _replyToGetStyles() {
-        return 
-            "/* Image Field Preview Container */
-            .admin-page-framework-field .image_preview {
-                border: none; 
-                clear:both; 
-                margin-top: 0.4em;
-                margin-bottom: 0.8em;
-                display: block; 
-                max-width: 100%;
-                height: auto;   
-                width: inherit;                
-            }     
+        return <<<CSSRULES
+/* Image Field Preview Container */
+.admin-page-framework-field .image_preview {
+    border: none; 
+    clear:both; 
+    margin-top: 0.4em;
+    margin-bottom: 0.8em;
+    display: block; 
+    max-width: 100%;
+    height: auto;   
+    width: inherit;                
+}     
 
-            .admin-page-framework-field .image_preview img {     
-                height: auto; 
-                max-width: 100%;
-                display: block;         
-            }
-            .widget .admin-page-framework-field .image_preview {
-                max-width: 100%;
-            }            
-            @media only screen and ( max-width: 1200px ) {
-                .admin-page-framework-field .image_preview {
-                    max-width: 600px;
-                }             
-            } 
-            @media only screen and ( max-width: 900px ) {
-                .admin-page-framework-field .image_preview {
-                    max-width: 440px;
-                }
-            }    
-            @media only screen and ( max-width: 600px ) {
-                .admin-page-framework-field .image_preview {
-                    max-width: 300px;
-                }
-            }     
-            @media only screen and ( max-width: 480px ) {
-                .admin-page-framework-field .image_preview {
-                    max-width: 240px;
-                }
-            }
-            @media only screen and ( min-width: 1200px ) {
-                .admin-page-framework-field .image_preview {
-                    max-width: 600px;
-                }
-            }  
+.admin-page-framework-field .image_preview img {     
+    height: auto; 
+    max-width: 100%;
+    display: block;         
+}
+.widget .admin-page-framework-field .image_preview {
+    max-width: 100%;
+}            
+@media only screen and ( max-width: 1200px ) {
+    .admin-page-framework-field .image_preview {
+        max-width: 600px;
+    }             
+} 
+@media only screen and ( max-width: 900px ) {
+    .admin-page-framework-field .image_preview {
+        max-width: 440px;
+    }
+}    
+@media only screen and ( max-width: 600px ) {
+    .admin-page-framework-field .image_preview {
+        max-width: 300px;
+    }
+}     
+@media only screen and ( max-width: 480px ) {
+    .admin-page-framework-field .image_preview {
+        max-width: 240px;
+    }
+}
+@media only screen and ( min-width: 1200px ) {
+    .admin-page-framework-field .image_preview {
+        max-width: 600px;
+    }
+}  
 
-            /* Image Uploader Input Field */
-            .admin-page-framework-field-image input {
-                margin-right: 0.5em;
-                vertical-align: middle;    
-            }
-            /* Image Uploader Button */
-            .select_image.button.button-small,
-            .remove_image.button.button-small
-            {     
-                vertical-align: middle;
-            }
-            .remove_image.button.button-small {
-                margin-left: 0.2em;
-            }
-            @media screen and (max-width: 782px) {
-                .admin-page-framework-field-image input {
-                    margin: 0.5em 0.5em 0.5em 0;
-                }
-            }     
-        " . PHP_EOL;    
+/* Image Uploader Input Field */
+.admin-page-framework-field-image input {
+    margin-right: 0.5em;
+    vertical-align: middle;    
+}
+/* Image Uploader Button */
+.select_image.button.button-small,
+.remove_image.button.button-small
+{     
+    vertical-align: middle;
+}
+.remove_image.button.button-small {
+    margin-left: 0.2em;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field-image input {
+        margin: 0.5em 0.5em 0.5em 0;
+    }
+}     
+CSSRULES;
+
     }
     
     /**

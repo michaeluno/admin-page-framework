@@ -70,14 +70,16 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() { 
-        return "/* Import Field */
-        .admin-page-framework-field-import input {
-            margin-right: 0.5em;
-        }
-        .admin-page-framework-field-import label,
-        .form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label { /* for Wordpress 3.8 or above */
-            display: inline; /* to display the submit button in the same line to the file input tag */
-        }" . PHP_EOL;
+        return <<<CSSRULES
+/* Import Field */
+.admin-page-framework-field-import input {
+    margin-right: 0.5em;
+}
+.admin-page-framework-field-import label,
+.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label { /* for Wordpress 3.8 or above */
+    display: inline; /* to display the submit button in the same line to the file input tag */
+}
+CSSRULES;
     }
     
     /**

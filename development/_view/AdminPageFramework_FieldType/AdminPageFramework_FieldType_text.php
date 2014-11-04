@@ -44,11 +44,13 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */        
     protected function getStyles() {
-        return "/* Text Field Type */
-                .admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
-                    vertical-align: top; 
-                }
-            " . PHP_EOL;     
+        return <<<CSSRULES
+/* Text Field Type */
+.admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {
+    vertical-align: top; 
+}
+CSSRULES;
+
     }    
     
     /**

@@ -49,14 +49,15 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return "/* Select Field Type */
-            .admin-page-framework-field-select .admin-page-framework-input-label-container {
-                vertical-align: top; 
-            }
-            .admin-page-framework-field-select .admin-page-framework-input-label-container {
-                padding-right: 1em;
-            }     
-        ";
+        return <<<CSSRULES
+/* Select Field Type */
+.admin-page-framework-field-select .admin-page-framework-input-label-container {
+    vertical-align: top; 
+}
+.admin-page-framework-field-select .admin-page-framework-input-label-container {
+    padding-right: 1em;
+}
+CSSRULES;
     }
     
     

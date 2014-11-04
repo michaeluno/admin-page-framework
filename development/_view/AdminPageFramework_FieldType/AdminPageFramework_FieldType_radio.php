@@ -38,20 +38,21 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return "/* Radio Field Type */
-            .admin-page-framework-field input[type='radio'] {
-                margin-right: 0.5em;
-            }     
-            .admin-page-framework-field-radio .admin-page-framework-input-label-container {
-                padding-right: 1em;
-            }     
-            .admin-page-framework-field-radio .admin-page-framework-input-container {
-                display: inline;
-            }     
-            .admin-page-framework-field-radio .admin-page-framework-input-label-string  {
-                display: inline; /* radio labels should not fold(wrap) after the check box */
-            }     
-        ";
+        return <<<CSSRULES
+/* Radio Field Type */
+.admin-page-framework-field input[type='radio'] {
+    margin-right: 0.5em;
+}     
+.admin-page-framework-field-radio .admin-page-framework-input-label-container {
+    padding-right: 1em;
+}     
+.admin-page-framework-field-radio .admin-page-framework-input-container {
+    display: inline;
+}     
+.admin-page-framework-field-radio .admin-page-framework-input-label-string  {
+    display: inline; /* radio labels should not fold(wrap) after the check box */
+}
+CSSRULES;
     }
 
     /**

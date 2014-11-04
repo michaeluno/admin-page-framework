@@ -59,26 +59,28 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return "/* Checkbox field type */
-            .select_all_button_container, 
-            .select_none_button_container
-            {
-                display: inline-block;
-                margin-bottom: 0.4em;
-            }
-            .admin-page-framework-checkbox-label {
-                margin-top: 0.1em;
-            }
-            .admin-page-framework-field input[type='checkbox'] {
-                margin-right: 0.5em;
-            }     
-            .admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
-                padding-right: 1em;
-            }
-            .admin-page-framework-field-checkbox .admin-page-framework-input-label-string  {
-                display: inline; /* Checkbox labels should not fold(wrap) after the check box */
-            }
-        ";
+        return <<<CSSRULES
+/* Checkbox field type */
+.select_all_button_container, 
+.select_none_button_container
+{
+    display: inline-block;
+    margin-bottom: 0.4em;
+}
+.admin-page-framework-checkbox-label {
+    margin-top: 0.1em;
+}
+.admin-page-framework-field input[type='checkbox'] {
+    margin-right: 0.5em;
+}     
+.admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
+    padding-right: 1em;
+}
+.admin-page-framework-field-checkbox .admin-page-framework-input-label-string  {
+    display: inline; /* Checkbox labels should not fold(wrap) after the check box */
+}
+CSSRULES;
+
     }
     
     /**

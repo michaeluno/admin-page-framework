@@ -447,7 +447,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      */ 
     protected function getStyles() {
-        return "/* Textarea Field Type */
+        return <<<CSSRULES
+/* Textarea Field Type */
 .admin-page-framework-field-textarea .admin-page-framework-input-label-string {
     vertical-align: top;
     margin-top: 2px;
@@ -463,7 +464,8 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
 .postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {
     width: 100%;
 }
-        " . PHP_EOL;     
+CSSRULES;
+
     }    
         
     /**
