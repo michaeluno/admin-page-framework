@@ -107,7 +107,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
         $_sElapsed              = strlen( $_sElapsed ) > 1 ? '+' . substr( $_sElapsed, -1, 2 ) : ' ' . $_sElapsed;
         $_sHeading              = date( "Y/m/d H:i:s", $_nNow ) . '.' . $_nMicroseconds . ' ' 
             . $_sElapsed . '.' . $_sElapsedFloat . ' ' . $_iPageLoadID . ' '  
-            . AdminPageFramework_Registry::Version . ( AdminPageFramework_Registry::$bIsMinifiedVersion ? 'min' : '' ) . ' '
+            . AdminPageFramework_Registry::Version . ( AdminPageFramework_Registry::$bIsMinifiedVersion ? '.min' : '' ) . ' '
             . "{$_sCallerClasss}::{$_sCallerFunction} " 
             . current_filter() . ' '
             . self::getCurrentURL() . ' '            
@@ -122,8 +122,10 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
         file_put_contents( 
             $sFilePath, 
             $_sHeading . PHP_EOL 
-                . '(' . $_sType . ') ' 
-                . ( null !== $_iLengths ? 'length: ' . $_iLengths .' ' : '' )
+                . '(' 
+                    . $_sType 
+                    . ( null !== $_iLengths ? ', length: ' . $_iLengths : '' )
+                . ') '
                 . print_r( $vValue, true ) . PHP_EOL . PHP_EOL,
             FILE_APPEND 
         );     
