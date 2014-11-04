@@ -495,7 +495,7 @@ CSSRULES;
 .widget .admin-page-framework-section table.mceLayout {
     table-layout: fixed;
 }
-CSSRULES;     
+CSSRULES;
             
             }
             // If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
