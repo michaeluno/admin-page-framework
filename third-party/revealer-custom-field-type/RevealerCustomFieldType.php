@@ -225,7 +225,6 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
             $.fn.setRevealer = function() {
 
                 var _sLastRevealedSelector;
-                var _sThisID = this.attr( 'id' );
                 this.change( function() {
 
                     var _sTargetSelector        = jQuery( this ).val();
@@ -233,9 +232,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                 
                     // Hide the previously hidden element.
                     $( _sLastRevealedSelector ).hide();    
-                    
-                    // Hide the nested revealer elements. 
-                    
+                                        
                     // Store the last revealed item in the local and the outer local variables.
                     _sLastRevealedSelector = _sTargetSelector;
                     
@@ -245,7 +242,6 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                     _oElementToReveal.show();                                       
                     
                 });
-         
                 
             };
                         
