@@ -29,18 +29,20 @@ class AdminPageFramework_Script_Utility extends AdminPageFramework_Script_Base {
         $_aParams   = func_get_args() + array( null );
         $_oMsg      = $_aParams[ 0 ];                   
         
-        return "( function( $ ) {
-            $.fn.reverse = [].reverse;
-        
-            $.fn.formatPrintText = function() {
-                var aArgs = arguments;     
-                return aArgs[ 0 ].replace( /{(\d+)}/g, function( match, number ) {
-                    return typeof aArgs[ parseInt( number ) + 1 ] != 'undefined'
-                        ? aArgs[ parseInt( number ) + 1 ]
-                        : match;
-                });
-            };
-        }( jQuery ));";
+        return <<<JAVASCRIPTS
+( function( $ ) {
+    $.fn.reverse = [].reverse;
+
+    $.fn.formatPrintText = function() {
+        var aArgs = arguments;     
+        return aArgs[ 0 ].replace( /{(\d+)}/g, function( match, number ) {
+            return typeof aArgs[ parseInt( number ) + 1 ] != 'undefined'
+                ? aArgs[ parseInt( number ) + 1 ]
+                : match;
+        });
+    };
+}( jQuery ));
+JAVASCRIPTS;
         
     }
 

@@ -26,30 +26,32 @@ class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Scri
         
         $_aParams   = func_get_args() + array( null );
         $_oMsg       = $_aParams[ 0 ];                
-        
+            
         /**
          * Checks checkboxes in siblings.
-         */     
-        return "(function ( $ ) {
-        
-            /**
-             * Checks all the checkboxes in siblings.
-             */        
-            $.fn.selectALLAPFCheckboxes = function() {
-                jQuery( this ).parent()
-                    .find( 'input[type=checkbox]' )
-                    .attr( 'checked', true );                
-            }
-            /**
-             * Unchecks all the checkboxes in siblings.
-             */
-            $.fn.deselectAllAPFCheckboxes = function() {
-                jQuery( this ).parent()
-                    .find( 'input[type=checkbox]' )
-                    .attr( 'checked', false );                             
-            }          
-  
-        }( jQuery ));";     
+         */
+        return <<<JAVASCRIPTS
+(function ( $ ) {
+
+    /**
+     * Checks all the checkboxes in siblings.
+     */        
+    $.fn.selectALLAPFCheckboxes = function() {
+        jQuery( this ).parent()
+            .find( 'input[type=checkbox]' )
+            .attr( 'checked', true );                
+    }
+    /**
+     * Unchecks all the checkboxes in siblings.
+     */
+    $.fn.deselectAllAPFCheckboxes = function() {
+        jQuery( this ).parent()
+            .find( 'input[type=checkbox]' )
+            .attr( 'checked', false );                             
+    }          
+
+}( jQuery ));
+JAVASCRIPTS;
         
     }
 

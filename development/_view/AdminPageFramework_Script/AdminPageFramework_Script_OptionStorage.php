@@ -32,23 +32,25 @@ class AdminPageFramework_Script_OptionStorage extends  AdminPageFramework_Script
         /**
          * Stores framework JavaScript script options.
          */     
-        return "(function ( $ ) {
+        return <<<JAVASCRIPTS
+(function ( $ ) {
             
-            $.fn.aAPFInputOptions = {}; 
-                                    
-            $.fn.storeAPFInputOptions = function( sID, vOptions ) {
-                var sID = sID.replace( /__\d+_/, '___' );	// remove the section index. The g modifier is not used so it will replace only the first occurrence.
-                $.fn.aAPFInputOptions[ sID ] = vOptions;
-            };	
-            $.fn.getAPFInputOptions = function( sID ) {
-                var sID = sID.replace( /__\d+_/, '___' ); // remove the section index
-                return ( 'undefined' === typeof $.fn.aAPFInputOptions[ sID ] )
-                    ? null
-                    : $.fn.aAPFInputOptions[ sID ];
-            }
-  
-        }( jQuery ));";     
-        
+    $.fn.aAPFInputOptions = {}; 
+                            
+    $.fn.storeAPFInputOptions = function( sID, vOptions ) {
+        var sID = sID.replace( /__\d+_/, '___' );	// remove the section index. The g modifier is not used so it will replace only the first occurrence.
+        $.fn.aAPFInputOptions[ sID ] = vOptions;
+    };	
+    $.fn.getAPFInputOptions = function( sID ) {
+        var sID = sID.replace( /__\d+_/, '___' ); // remove the section index
+        return ( 'undefined' === typeof $.fn.aAPFInputOptions[ sID ] )
+            ? null
+            : $.fn.aAPFInputOptions[ sID ];
+    }
+
+}( jQuery ));
+JJAVASCRIPTS;
+
     }
 
 }
