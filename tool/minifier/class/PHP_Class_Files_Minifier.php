@@ -29,7 +29,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 		'output_buffer'     => true,
 		'header_type'       => 'DOCBLOCK',	
 		'exclude_classes'   => array(),
-		
+		'css_heredoc_keys'  => array( 'CSSRULES' ),     // 1.1.0+
 		// Search options
 		'search'	=>	array(
 			'allowed_extensions' => array( 'php' ),	// e.g. array( 'php', 'inc' )
@@ -50,6 +50,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 	 *  - 'output_buffer'       : boolean	whether or not output buffer should be printed.
 	 *  - 'header_type'         : string	whether or not to use the docBlock of the header class; otherwise, it will parse the constants of the class. 
 	 *  - 'exclude_classes'     : array		an array holding class names to exclude.
+     *  - 'css_heredoc_keys'    : array     [1.1.0+] (optional) an array holding heredoc keywords used to assign CSS rules to a variable.
 	 *  - 'search'              : array		the arguments for the directory search options.
 	 * 	The accepted values are 'CONSTANTS' or 'DOCBLOCK'.
 	 * <h3>Example</h3>
@@ -97,7 +98,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 					// echo implode( ', ', $_aFile['defined_classes'] ) . $_sCarriageReturn;
 				}
 			}			
-	
+	   
 		/* Generate the output script header comment */
 		$_sHeaderComment = $this->_getHeaderComment( $_aFiles, $aOptions );
 			if ( $aOptions['output_buffer'] ) {
@@ -110,12 +111,71 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 			if ( $aOptions['output_buffer'] ) {
 				echo sprintf( 'Sorted %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;			
 			}		
+            
+        /* Minify CSS Rules in variables defined with the heredoc syntax [1.1.0+] */
+        $_aFiles = $this->minifyCSS( $_aFiles, $aOptions['css_heredoc_keys'], $aOptions['output_buffer'] ? $_sCarriageReturn : false );
+             
 		
 		/* Write to a file */
 		$this->write( $_aFiles, $sOutputFilePath, $_sHeaderComment );
 		
 	}
-				
+		
+    /**
+     * Minify CSS Rules in variables defined with the heredoc syntax. 
+     * @since       1.1.0
+     * 
+     * @param   array           $aFiles
+     * @param   array           $aHereDocKeys
+     * @param   boolean|string  $bsCarriageReturns      If the output buffer is enabled, the carriage return value; otherwise, false.
+     */ 
+    public function minifyCSS( array $aFiles, array $aHereDocKeys=array(), $bsCarriageReturn=false ) {
+
+        $_iMinified = $_iCount = 0;
+        foreach( $aFiles as $_sClassName => &$_aFile ) {
+          
+            foreach( $aHereDocKeys as $_sHereDocKey ) {
+
+                $_aFile['code'] = preg_replace_callback( 
+                    "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
+                    array( $this, '_replyToMinifyCSSRules' ),                               // callback
+                    $_aFile['code'],                                                         // haystack
+                    -1,  // limit -1 for no limit
+                    $_iCount
+                );
+                $_iMinified = $_iCount ? $_iMinified + $_iCount : $_iMinified;
+                
+            }
+            
+        }
+        
+        if ( $bsCarriageReturn ) {
+            echo sprintf( 'Minified CSS Rules in %1$s of heredoc variable(s).', $_iMinified ) . $bsCarriageReturn;			
+        }
+        
+        return $aFiles;
+        
+    }
+        /**
+         * The callback function to modify the CSS rules defined in heredoc variable assignments.
+         * 
+         * @since       1.1.1
+         */
+        public function _replyToMinifyCSSRules( $aMatch ) {
+ 
+            if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
+                return $aMatch[ 0 ];
+            }                   
+            $_sCSSRules = $aMatch[ 2 ];
+            $_sCSSRules = str_replace( 
+                array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),  // needle - remove tabs, spaces, newlines, etc.
+                '',     // replace
+                preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $_sCSSRules )  // haystack - comments removed
+            );
+            return '"' . $_sCSSRules . '"; '; 
+            
+        }
+            
 	public function sort( array $aFiles, array $aExcludingClassNames ) {
 		
 		foreach( $aFiles as $_sClassName => $_aFile ) {
