@@ -459,7 +459,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     public function getConditionedSections( $aSections=null ) {
         
         $aSections      = is_null( $aSections ) ? $this->aSections : $aSections;
-        $_aNewSections   = array();
+        $_aNewSections  = array();
 
         foreach( $aSections as $_sSectionID => $_aSection ) {
             $_aSection = $this->getConditionedSection( $_aSection );
