@@ -18,7 +18,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
  * It collects PHP class files and make them into one and removes PHP comments except the specified class docBlock.
  * 
  * @remark     The parsed class file must have a name of the class defined in the file.
- * @version    1.0.1
+ * @version    1.1.0
  */
 class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 	
@@ -30,6 +30,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 		'header_type'       => 'DOCBLOCK',	
 		'exclude_classes'   => array(),
 		'css_heredoc_keys'  => array( 'CSSRULES' ),     // 1.1.0+
+		'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  // 1.1.0+
 		// Search options
 		'search'	=>	array(
 			'allowed_extensions' => array( 'php' ),	// e.g. array( 'php', 'inc' )
@@ -40,6 +41,15 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 		
 	);
 	
+    /**
+     * Stores current iterated class name.
+     * 
+     * Currently only used in the loop of the JavaScript minifier.
+     * 
+     * @since       1.1.0
+     */
+    private $_sCurrentIterationClassName;
+    
 	/**
 	 * 
 	 * @param string    $sSourceDirPath     The target directory path.
@@ -51,6 +61,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 	 *  - 'header_type'         : string	whether or not to use the docBlock of the header class; otherwise, it will parse the constants of the class. 
 	 *  - 'exclude_classes'     : array		an array holding class names to exclude.
      *  - 'css_heredoc_keys'    : array     [1.1.0+] (optional) an array holding heredoc keywords used to assign CSS rules to a variable.
+     *  - 'js_heredoc_keys'     : array     [1.1.0+] (optional) an array holding heredoc keywords used to assign JavaScript scripts to a variable.
 	 *  - 'search'              : array		the arguments for the directory search options.
 	 * 	The accepted values are 'CONSTANTS' or 'DOCBLOCK'.
 	 * <h3>Example</h3>
@@ -99,6 +110,16 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 				}
 			}			
 	   
+        /* Minify CSS Rules in variables defined with the heredoc syntax [1.1.0+] */
+        $_aFiles = $this->minifyCSS( $_aFiles, $aOptions['css_heredoc_keys'], $aOptions['output_buffer'] ? $_sCarriageReturn : false );
+        
+        /* Minify JavaScript scripts in variables defined with the heredoc syntax [1.1.0+] */
+        $_sPathJSMinPlus = dirname( __FILE__ ) . '/library/JSMinPlus.php';
+        if ( file_exists( $_sPathJSMinPlus ) ) {
+            include( $_sPathJSMinPlus );
+            $_aFiles = $this->minifyJS( $_aFiles, $aOptions['js_heredoc_keys'], $aOptions['output_buffer'] ? $_sCarriageReturn : false );
+        }       
+       
 		/* Generate the output script header comment */
 		$_sHeaderComment = $this->_getHeaderComment( $_aFiles, $aOptions );
 			if ( $aOptions['output_buffer'] ) {
@@ -109,20 +130,71 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 		$_aFiles = $this->sort( $_aFiles, $aOptions['exclude_classes'] );
 		
 			if ( $aOptions['output_buffer'] ) {
-				echo sprintf( 'Sorted %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;			
+				echo sprintf( 'Sorted %1$s file(s).', count( $_aFiles ) ) . $_sCarriageReturn;			
 			}		
-            
-        /* Minify CSS Rules in variables defined with the heredoc syntax [1.1.0+] */
-        $_aFiles = $this->minifyCSS( $_aFiles, $aOptions['css_heredoc_keys'], $aOptions['output_buffer'] ? $_sCarriageReturn : false );
-             
-		
+                    
 		/* Write to a file */
 		$this->write( $_aFiles, $sOutputFilePath, $_sHeaderComment );
 		
 	}
-		
+
     /**
-     * Minify CSS Rules in variables defined with the heredoc syntax. 
+     * Minifies JavaScript scripts in variables defined with the heredoc syntax. 
+     * @since       1.1.0
+     * 
+     * @param   array           $aFiles
+     * @param   array           $aHereDocKeys
+     * @param   boolean|string  $bsCarriageReturns      If the output buffer is enabled, the carriage return value; otherwise, false.
+     */     
+    public function minifyJS( array $aFiles, array $aHereDocKeys=array(), $bsCarriageReturn=false ) {
+     
+        $_iMinified = $_iCount = 0;
+        foreach( $aFiles as $_sClassName => &$_aFile ) {
+          
+            $this->_sCurrentIterationClassName = $_sClassName;
+            foreach( $aHereDocKeys as $_sHereDocKey ) {
+
+                $_aFile['code'] = preg_replace_callback( 
+                    "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
+                    array( $this, '_replyToMinifyJavaScripts' ),                               // callback
+                    $_aFile['code'],                                                         // haystack
+                    -1,  // limit -1 for no limit
+                    $_iCount
+                );
+                $_iMinified = $_iCount ? $_iMinified + $_iCount : $_iMinified;
+                
+            }
+            
+        }
+        
+        if ( $bsCarriageReturn ) {
+            echo sprintf( 'Minified JavaScript scripts in %1$s of heredoc variable(s).', $_iMinified ) . $bsCarriageReturn;
+        }
+        
+        return $aFiles;
+        
+     
+    }
+        /**
+         * The callback function to minify the JavaScript scripts defined in heredoc variable assignments.
+         * 
+         * @since       1.1.0
+         */    
+        public function _replyToMinifyJavaScripts( $aMatch ) {
+            
+            if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
+                return $aMatch[ 0 ];
+            }                   
+            if ( ! class_exists( 'JSMinPlus' ) ) {
+                return $aMatch[ 0 ];
+            }
+            $_sJavaScript = $aMatch[ 2 ];
+            return JSMinPlus::minify( $_sJavaScript, $this->_sCurrentIterationClassName );
+            
+        }
+        
+    /**
+     * Minifies CSS Rules in variables defined with the heredoc syntax. 
      * @since       1.1.0
      * 
      * @param   array           $aFiles
@@ -159,7 +231,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         /**
          * The callback function to modify the CSS rules defined in heredoc variable assignments.
          * 
-         * @since       1.1.1
+         * @since       1.1.0
          */
         public function _replyToMinifyCSSRules( $aMatch ) {
  
