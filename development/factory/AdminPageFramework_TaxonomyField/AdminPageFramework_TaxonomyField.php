@@ -71,7 +71,22 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
      */
     public function _isInThePage() {
-        return ( in_array( $this->oProp->sPageNow, array( 'edit-tags.php', 'admin-ajax.php' ) ) );
+
+        if ( 'admin-ajax.php' == $this->oProp->sPageNow ) {
+            return true;
+        }    
+        
+        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { 
+            return false; 
+        }
+        
+        if ( isset( $_GET['taxonomy'] ) && ! in_array( $_GET['taxonomy'], $this->oProp->aTaxonomySlugs ) ) {
+            return false;
+        }        
+        
+        return true;
+  
+
     }    
     
     /**
@@ -89,6 +104,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
         $this->oProp->_bSetupLoaded = true;
         
         // todo: remove the below line
+        // $this->_replyToRegisterFormElements( $oScreen );
         add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 ); // the screen object should be established to detect the loaded page. 
         
         foreach( $this->oProp->aTaxonomySlugs as $__sTaxonomySlug ) {     
@@ -282,10 +298,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
      * @internal
      */
     public function _replyToRegisterFormElements( $oScreen ) {
-    
-        // Schedule to add head tag elements and help pane contents.
-        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { return; }
-        
+              
         $this->_loadDefaultFieldTypeDefinitions();
         
         // Format the fields array.
