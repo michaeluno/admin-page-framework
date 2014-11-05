@@ -1222,7 +1222,7 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
                 'field_id'      => 'ace_css',
                 'type'          => 'ace',     
                 'title'         => __( 'CSS', 'admin-page-framework-demo' ),
-                'default'       => AdminPageFramework_CSS::getDefaultCSS(),
+                'default'       => '.abc { color: #fff; }',
                 'attributes'    =>  array(
                     'cols'        => 80,
                     'rows'        => 20,
