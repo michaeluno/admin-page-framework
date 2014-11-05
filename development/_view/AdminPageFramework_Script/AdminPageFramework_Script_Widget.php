@@ -34,7 +34,7 @@ class AdminPageFramework_Script_Widget extends AdminPageFramework_Script_Base {
          * 
          * @since   3.2.0
          */     
-        return <<<JAVASCRIPTS        
+        return <<<JAVASCRIPTS
 (function ( $ ) {         
 
     $( document ).ready( function() {
