@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * JSMinPlus version 1.4.mod
+ * 
+ * Modified version of JSMinPlus 1.4.
+ * 
+ * This script is a utilized version of JSMinPlus to support compress inline JavaScripts declared in heredoc variable declarations.
+ * Since PHP allows PHP variables to be inserted in the heredoc variable assignments, such as {$variable}, 
+ * it causes an issue with the minified JavaScript syntax such as jQuery(){$.();}.
+ * So a white space is embedded in every blanket characters ({}).
+ * 
+ * Michael Uno <http://michaeluno.jp>
+ */
 /**
  * JSMinPlus version 1.4
  *
@@ -275,7 +286,7 @@ class JSMinPlus
 
 				if ($c > 1 && !$noBlockGrouping)
 				{
-					$s = '{' . $s . '}';
+					$s = '{ ' . $s . ' }';
 				}
 			break;
 
@@ -284,7 +295,7 @@ class JSMinPlus
 				$params = $n->params;
 				for ($i = 0, $j = count($params); $i < $j; $i++)
 					$s .= ($i ? ',' : '') . $params[$i];
-				$s .= '){' . $this->parseTree($n->body, true) . '}';
+				$s .= '){ ' . $this->parseTree($n->body, true) . ' }';
 			break;
 
 			case KEYWORD_IF:
@@ -299,13 +310,13 @@ class JSMinPlus
 				if ($elsePart)
 				{
 					// be carefull and always make a block out of the thenPart; could be more optimized but is a lot of trouble
-					if ($thenPart != ';' && $thenPart[0] != '{')
-						$thenPart = '{' . $thenPart . '}';
+					if ($thenPart != ';' && $thenPart[0] != '{ ')
+						$thenPart = '{ ' . $thenPart . ' }';
 
 					$s .= $thenPart . 'else';
 
 					// we could check for more, but that hardly ever applies so go for performance
-					if ($elsePart[0] != '{')
+					if ($elsePart[0] != '{ ')
 						$s .= ' ';
 
 					$s .= $elsePart;
@@ -591,7 +602,7 @@ class JSMinPlus
 			break;
 
 			case JS_OBJECT_INIT:
-				$s = '{';
+				$s = '{ ';
 				$childs = $n->treeNodes;
 				for ($i = 0, $j = count($childs); $i < $j; $i++)
 				{
