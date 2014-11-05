@@ -19,7 +19,7 @@ install_wordpress() {
         
         # Remove the destination folder if exists
         rm -rf $WP_TEST_DIR
-      
+
         # We use wp-cli command
         wp core download --force --path=$WP_TEST_DIR         
       

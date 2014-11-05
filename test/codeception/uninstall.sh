@@ -8,7 +8,7 @@ uninstall_wordpress() {
     if [ -d "$WP_TEST_DIR" ]; then
         mv -f $WP_TEST_DIR /tmp/test-$PLUGIN_SLUG
         rm -rf /tmp/test-$PLUGIN_SLUG
-    fi   
+    fi
 }
 uninstall_database_table(){
 
