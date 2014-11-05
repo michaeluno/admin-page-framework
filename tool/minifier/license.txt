@@ -1,5 +1,6 @@
-Admin Page Framework Demp Plugin - A demo plugin that demonstrates the use of the Admin Page Framework library.
-Copyright (C) 2014 Michael Uno
+PHP Class Files Minifier 
+
+Copyright 2014 by Michael Uno
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -11,108 +12,17 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-The demo plugin incorporates work covered by the following copyright:
+This program incorporates work covered by the following copyright and
+permission notices:
 
-Admin Page Framework
-Copyright (c) 2004-2013 Michael Uno
-Licensed MIT
-<http://en.michaeluno.jp/admin-page-framework>
-
-PHP Markdown Lib 
-Copyright (c) 2004-2013 Michel Fortin
-http://michelf.ca/
-All rights reserved.
-
-Based on Markdown
-Copyright (c) 2003-2005 John Gruber
-http://daringfireball.net/
-All rights reserved.
-
-The above two are licensed under GPL v2 or later. http://michelf.ca/projects/php-markdown/license/
-
-WordPress Plugin Readme Parser 
-Copyright (c) Mark Jaquith
-<https://github.com/markjaquith/WordPress-Plugin-Readme-Parser>
-
-jQuery
-Copyright 2013 jQuery Foundation and other contributors,
-<http://jqueryui.com/>
-
-A JQUERY GOOGLE MAPS LATITUDE AND LONGITUDE LOCATION PICKER
-Copyright (c) Richard Dancsi; Licensed 'Do with the code whatever you please.'
-<http://www.wimagguc.com/>
-<https://github.com/wimagguc/jquery-latitude-longitude-picker-gmaps>
-
-jQuery noUiSlider
-Coyright (c) Leon Gersen; Licensed WTFPL
-<https://twitter.com/LeonGersen>
-
-jQuery Knob
-Copyright (c) 2013 Anthony Terrien; Licensed MIT and GPL
-<https://github.com/aterrien/jQuery-Knob>
-
-jQuery Timepicker Addon 
-Copyright (c) 2013 Trent Richardson; Licensed MIT
-<http://trentrichardson.com/examples/timepicker>
- 
-jQuery UI Slider Access
-Copyright (c) Trent Richardson; Licensed MIT and GPL
-<http://trentrichardson.com>
-
-Gridster
-Copyright (c) 2012 Ducksboard
-Licensed MIT
-<https://github.com/ducksboard/gridster.js>
-
-Tokenizing Autocomplete Text Entry
-Copyright (c) 2009 James Smith (http://loopj.com)
-Licensed MIT 
-<https://github.com/loopj>
-
-github-buttons
-Copyright (c) 2014, なつき  
-All rights reserved.
-Licensed The BSD 2-Clause License
-<https://github.com/ntkme/github-buttons>
-
-Octicons
-(c) 2012-2014 GitHub
-Font License: SIL OFL 1.1 (http://scripts.sil.org/OFL)
-Applies to all font files
-
-Code License: MIT (http://choosealicense.com/licenses/mit/)
-Applies to all other files
-<https://octicons.github.com/>
-
-AceCustomFieldType
-Copyright (c) 2014 Per Søderlind
-The MIT License (MIT)
-https://github.com/soderlind/AceCustomFieldType
-
-
-As a special exception, if you create a document which uses the above font files, and embed those fonts or unaltered portions of the fonts into the document, these fonts do not by themself cause the resulting document to be covered by the GNU General Public License v2 or later. This exception does not however invalidate any other reasons why the document might be covered by the GNU General Public License v2 or later. If you modify these fonts, you may extend this exception to your version of the font, but you are not obligated to do so. If you do not wish to do so, delete this exception statement from your version.
-
-The documentation component of the demo plugin incorporates work covered by the following copyright:
-
-ApiGen
-Copyright © 2010-2011 David Grudl
-Copyright © 2011-2012 Jaroslav Hanslík
-Copyright © 2011-2012 Ondřej Nešpor
-All rights reserved.
-Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
-<http://apigen.org/>
-
-The tool component of the demo plugin incorporates work covered by the following copyright:
-
-JSMinPlus version 1.4  
-Tino Zijdel <crisp@tweakers.net>
-<http://crisp.tweakblogs.net/blog/cat/716>
-
-
+  JSMinPlus version 1.4  
+  Tino Zijdel <crisp@tweakers.net>
+  <http://crisp.tweakblogs.net/blog/cat/716>
+  
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
                     GNU GENERAL PUBLIC LICENSE
@@ -454,3 +364,10 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
+
+WRITTEN OFFER
+
+The source code for any program binaries or compressed scripts that are
+included with WordPress can be freely obtained at the following URL:
+
+	https://wordpress.org/download/source/
