@@ -63,14 +63,14 @@ CSSRULES;
      */ 
     protected function getScripts() {
 
-        $aJSArray = json_encode( $this->aFieldTypeSlugs );
+        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     jQuery().registerAPFCallback( {     
         added_repeatable_field: function( nodeField, sFieldType, sFieldTagID, sCallType ) {
 
             /* If it is not the field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) return;
                                         
             /* the checked state of radio buttons somehow lose their values so re-check them again */    
             nodeField.closest( '.admin-page-framework-fields' )

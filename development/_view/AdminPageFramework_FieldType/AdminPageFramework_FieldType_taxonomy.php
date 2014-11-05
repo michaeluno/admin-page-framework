@@ -58,7 +58,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      */ 
     protected function getScripts() {
         
-        $aJSArray = json_encode( $this->aFieldTypeSlugs );
+        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return <<<JAVASCRIPTS
 /* For tabs */
 var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
@@ -105,7 +105,7 @@ jQuery( document ).ready( function() {
         added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, iCallType ) {
 
             /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
 
             oClonedField.nextAll().andSelf().each( function() {     
                 jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
@@ -126,7 +126,7 @@ jQuery( document ).ready( function() {
         removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
 
             /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
 
             oNextFieldConainer.nextAll().andSelf().each( function() {
                 jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );

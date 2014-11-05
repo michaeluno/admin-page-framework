@@ -144,7 +144,7 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
 
             /* If it is not this field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+            if ( jQuery.inArray( sFieldType, $aJSArray ) <= -1 ) { return; }
 
             /* If the input tag is not found, do nothing  */
             var nodeNewAutoComplete = oCopiedNode.find( 'input.autocomplete' );

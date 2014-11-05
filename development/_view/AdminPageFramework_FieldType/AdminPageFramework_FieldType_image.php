@@ -70,7 +70,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
          */
         protected function _getScript_RegisterCallbacks() {
 
-            $aJSArray = json_encode( $this->aFieldTypeSlugs );
+            $_aJSArray = json_encode( $this->aFieldTypeSlugs );
             /* The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
                 renew the upload button and the preview elements (while it does on the input tag value), the renewal task must be dealt here separately. */
             return <<<JAVASCRIPTS
@@ -88,7 +88,7 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
             
             /* If it is not the image field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
                                 
             /* If the uploader buttons are not found, do nothing */
             if ( node.find( '.select_image' ).length <= 0 ) { return; }
@@ -137,7 +137,7 @@ jQuery( document ).ready( function(){
         removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
             
             /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
                                 
             /* If the uploader buttons are not found, do nothing */
             if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
@@ -169,7 +169,7 @@ jQuery( document ).ready( function(){
         sorted_fields : function( node, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
             /* 1. Return if it is not the type. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
             if ( node.find( '.select_image' ).length <= 0 ) { return; } /* If the uploader buttons are not found, do nothing */
             
             /* 2. Update the Select File button */
@@ -191,7 +191,7 @@ jQuery( document ).ready( function(){
 
                 iCount++;
             });
-        },     
+        }
     });
 });
 JAVASCRIPTS;
@@ -672,9 +672,13 @@ CSSRULES;
                         )
                     )                    
                 ."</a>";
+            // Do not include the escaping character (backslash) in the heredoc variable declaration 
+            // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
+            // which causes the PHP syntax error.                
+            $_sButtonHTML = '"' . $_sButton . '"';
             $_sScript = <<<JAVASCRIPTS
 if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
-    jQuery( 'input#{$sInputID}' ).after( "{$_sButton}" );
+    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
 }
 jQuery( document ).ready( function(){     
     setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
@@ -724,15 +728,13 @@ JAVASCRIPTS;
                         )
                     )
                 . "</a>";     
-            $_sButtonHTML = str_replace( 
-                "'",        // search, needle
-                '"',        // replacement
-                $_sButtonHTML   // haystack
-            );
-            $_sDoubleQuote = '"';
+            // Do not include the escaping character (backslash) in the heredoc variable declaration 
+            // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
+            // which causes the PHP syntax error.                
+            $_sButtonHTML  = '"' . $_sButtonHTML . '"';
             $_sScript = <<<JAVASCRIPTS
                 if ( 0 === jQuery( 'a#remove_image_{$sInputID}' ).length ) {
-                    jQuery( 'input#{$sInputID}' ).after( '{$_sButtonHTML}' );
+                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
                 }
 JAVASCRIPTS;
                     

@@ -257,14 +257,14 @@ JAVASCRIPTS;
                     . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
                     . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
                 . "</div>";
-            $_sDoulbeQuote = '"';
-            $_aJSArray = json_encode( $aSettings );
-            $_sScript = <<<JAVASCRIPTS
+            $_sButtonsHTML  = '"' . $_sButtons . '"';
+            $_aJSArray      = json_encode( $aSettings );
+            $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
     // Adds the buttons
-    jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).show().prepend( {$_sDoulbeQuote}{$_sButtons}{$_sDoulbeQuote} );
+    jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).show().prepend( $_sButtonsHTML );
     // Update the fields     
-    jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( {$_aJSArray} ); 
+    jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
             return

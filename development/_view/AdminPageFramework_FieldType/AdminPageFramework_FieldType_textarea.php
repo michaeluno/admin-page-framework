@@ -63,7 +63,7 @@ jQuery( document ).ready( function(){
      */
     var isHandleable = function( oField, sFieldType ) {
      
-        if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) {
+        if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) {
             return false
         }
                     

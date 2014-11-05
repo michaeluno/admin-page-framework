@@ -107,7 +107,8 @@ CSSRULES;
      * @see         https://github.com/Automattic/Iris
      */ 
     protected function getScripts() {
-        $aJSArray = json_encode( $this->aFieldTypeSlugs );
+        $_aJSArray      = json_encode( $this->aFieldTypeSlugs );
+        $_sDoubleQuote  = '\"';
         return <<<JAVASCRIPTS
 registerAPFColorPickerField = function( osTragetInput ) {
     
@@ -141,7 +142,7 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( node, sFieldType, sFieldTagID, sCallType ) {
 
             /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { 
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
                 return; 
             }
             
@@ -170,7 +171,7 @@ jQuery( document ).ready( function(){
             } 
             // WP 3.4.x -     
             else { 
-                node.find( '.colorpicker' ).replaceWith( '<div class="colorpicker" id="color_' + sInputID + '"></div>' );    
+                node.find( '.colorpicker' ).replaceWith( '<div class=\"colorpicker\" id=\"color_' + sInputID + '\"></div>' );    
             }
 
             /* Bind the color picker script */     

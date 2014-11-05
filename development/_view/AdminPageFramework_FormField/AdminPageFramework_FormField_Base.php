@@ -130,22 +130,22 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
                 . "</a>"                
             . "</div>";
         $_aJSArray              = json_encode( $aSettings );
-        $_sDoubleQuote          = '"';
+        $_sButtonsHTML          = '"' . $_sButtons . '"';
         $_sScript               = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
     var _nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
     /* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
     if ( _nodePositionIndicators.length > 0 ) {
-        _nodePositionIndicators.replaceWith( {$_sDoubleQuote}{$_sButtons}{$_sDoubleQuote} );     
+        _nodePositionIndicators.replaceWith( $_sButtonsHTML );
     } else { 
     /* Otherwise, insert the button element at the beginning of the field tag */
         // check the button container already exists for WordPress 3.5.1 or below
         if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) { 
             // Adds the buttons
-            jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( {$_sDoubleQuote}{$_sButtons}{$_sDoubleQuote} ); 
+            jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( $_sButtonsHTML ); 
         }
     }     
-    jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$_aJSArray} ); // Update the fields     
+    jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( $_aJSArray ); // Update the fields     
 });
 JAVASCRIPTS;
         return "<script type='text/javascript'>" . $_sScript . "</script>";
@@ -161,7 +161,7 @@ JAVASCRIPTS;
     
         $_sScript = <<<JAVASCRIPTS
     jQuery( document ).ready( function() {
-        jQuery( this ).enableAPFSortable( '{$sFieldsContainerID}' );
+        jQuery( this ).enableAPFSortable( '$sFieldsContainerID' );
     });
 JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>"

@@ -90,7 +90,7 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
             
             /* 1. Return if it is not the type. */     
-            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) return; /* If it is not the media field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) return; /* If it is not the media field type, do nothing. */
             if ( node.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
             
             /* 2. Increment the ids of the next all (including this one) uploader buttons  */
@@ -125,7 +125,7 @@ jQuery( document ).ready( function(){
         removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
             
             /* 1. Return if it is not the type. */
-            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) return; /* If it is not the color field type, do nothing. */
             if ( oNextFieldConainer.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
             
             /* 2. Decrement the ids of the next all (including this one) uploader buttons. ( the input values are already dealt by the framework repeater script ) */
@@ -149,7 +149,7 @@ jQuery( document ).ready( function(){
         sorted_fields : function( node, sFieldType, sFieldsTagID ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
             /* 1. Return if it is not the type. */
-            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */     
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) return; /* If it is not the color field type, do nothing. */     
             if ( node.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
             
             /* 2. Update the Select File button */
@@ -443,10 +443,13 @@ CSSRULES;
                         )
                     )                    
                 ."</a>";
-                
+            // Do not include the escaping character (backslash) in the heredoc variable declaration 
+            // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
+            // which causes the PHP syntax error.
+            $_sButtonHTML = '"' . $_sButton . '"';
             $_sScript                = <<<JAVASCRIPTS
                 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( "{$_sButton}" );
+                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTNL );
                 }
                 jQuery( document ).ready( function(){     
                     setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
@@ -496,9 +499,13 @@ JAVASCRIPTS;
                         )
                     )
                 . "</a>";
+            // Do not include the escaping character (backslash) in the heredoc variable declaration 
+            // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
+            // which causes the PHP syntax error.
+            $_sButtonHTML = '"' . $_sButton . '"';
             $_sScript = <<<JAVASCRIPTS
                 if ( 0 === jQuery( 'a#remove_media_{$sInputID}' ).length ) {
-                    jQuery( 'input#{$sInputID}' ).after( "{$_sButton}" );
+                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
                 }
 JAVASCRIPTS;
                     
