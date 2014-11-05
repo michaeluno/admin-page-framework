@@ -172,18 +172,18 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             $sNone = 'none';
             
             $sSRC = $this->oUtil->resolveSRC( $sSRC );
-            
-            return "#post-body-content {
-                    margin-bottom: 10px;
-                }
-                #edit-slug-box {
-                    display: {$sNone};
-                }
-                #icon-edit.icon32.icon32-posts-" . $this->oProp->sPostType . " {
-                    background: url('" . $sSRC . "') no-repeat;
-                    background-size: 32px 32px;
-                }     
-            ";     
+            return <<<CSSRULES
+#post-body-content {
+    margin-bottom: 10px;
+}
+#edit-slug-box {
+    display: {$sNone};
+}
+#icon-edit.icon32.icon32-posts-{$this->oProp->sPostType} {
+    background: url('{$sSRC}') no-repeat;
+    background-size: 32px 32px;
+}     
+CSSRULES;
             
         }    
     
