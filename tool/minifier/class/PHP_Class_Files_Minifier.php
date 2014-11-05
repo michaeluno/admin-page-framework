@@ -189,7 +189,10 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 return $aMatch[ 0 ];
             }
             $_sJavaScript = $aMatch[ 2 ];
-            return JSMinPlus::minify( $_sJavaScript, $this->_sCurrentIterationClassName );
+            
+            return '"' 
+                . JSMinPlus::minify( $_sJavaScript, $this->_sCurrentIterationClassName )
+                . ';"; ';
             
         }
         
