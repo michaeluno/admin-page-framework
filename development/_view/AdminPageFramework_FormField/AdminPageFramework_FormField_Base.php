@@ -130,20 +130,25 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
                 . "</a>"                
             . "</div>";
         $_aJSArray              = json_encode( $aSettings );
-        return
-            "<script type='text/javascript'>
-                jQuery( document ).ready( function() {
-                    var nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
-                    if ( nodePositionIndicators.length > 0 ) { /* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
-                        nodePositionIndicators.replaceWith( \"{$_sButtons}\" );     
-                    } else { /* Otherwise, insert the button element at the beginning of the field tag */
-                        if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) { // check the button container already exists for WordPress 3.5.1 or below
-                            jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( \"{$_sButtons}\" ); // Adds the buttons
-                        }
-                    }     
-                    jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$_aJSArray} ); // Update the fields     
-                });
-            </script>";
+        $_sDoubleQuote          = '"';
+        $_sScript               = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {
+    var _nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
+    /* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
+    if ( _nodePositionIndicators.length > 0 ) {
+        _nodePositionIndicators.replaceWith( {$_sDoubleQuote}{$_sButtons}{$_sDoubleQuote} );     
+    } else { 
+    /* Otherwise, insert the button element at the beginning of the field tag */
+        // check the button container already exists for WordPress 3.5.1 or below
+        if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) { 
+            // Adds the buttons
+            jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( {$_sDoubleQuote}{$_sButtons}{$_sDoubleQuote} ); 
+        }
+    }     
+    jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( {$_aJSArray} ); // Update the fields     
+});
+JAVASCRIPTS;
+        return "<script type='text/javascript'>" . $_sScript . "</script>";
         
     }
     
@@ -152,14 +157,17 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
      * 
      * @since 3.0.0
      */    
-    protected function _getSortableFieldEnablerScript( $sFieldsContainerID ) {
-        
-        return 
-            "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>
-                jQuery( document ).ready( function() {
-                    jQuery( this ).enableAPFSortable( '{$sFieldsContainerID}' );
-                });
-            </script>";
+    protected function _getSortableFieldEnablerScript( $sFieldsContainerID ) {        
+    
+        $_sScript = <<<JAVASCRIPTS
+    jQuery( document ).ready( function() {
+        jQuery( this ).enableAPFSortable( '{$sFieldsContainerID}' );
+    });
+JAVASCRIPTS;
+        return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>"
+                . $_sScript
+            . "</script>";
+            
     }
     
   

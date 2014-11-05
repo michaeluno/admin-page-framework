@@ -64,31 +64,32 @@ CSSRULES;
     protected function getScripts() {
 
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return "     
-            jQuery( document ).ready( function(){
-                jQuery().registerAPFCallback( {     
-                    added_repeatable_field: function( nodeField, sFieldType, sFieldTagID, sCallType ) {
-         
-                        /* If it is not the field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
-                                                    
-                        /* the checked state of radio buttons somehow lose their values so re-check them again */    
-                        nodeField.closest( '.admin-page-framework-fields' )
-                            .find( 'input[type=radio][checked=checked]' )
-                            .attr( 'checked', 'checked' );
-                            
-                        /* Rebind the checked attribute updater */
-                        nodeField.find( 'input[type=radio]' ).change( function() {
-                            jQuery( this ).closest( '.admin-page-framework-field' )
-                                .find( 'input[type=radio]' )
-                                .attr( 'checked', false );
-                            jQuery( this ).attr( 'checked', 'checked' );
-                        });
+        return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+    jQuery().registerAPFCallback( {     
+        added_repeatable_field: function( nodeField, sFieldType, sFieldTagID, sCallType ) {
 
-                    }
-                });
+            /* If it is not the field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
+                                        
+            /* the checked state of radio buttons somehow lose their values so re-check them again */    
+            nodeField.closest( '.admin-page-framework-fields' )
+                .find( 'input[type=radio][checked=checked]' )
+                .attr( 'checked', 'checked' );
+                
+            /* Rebind the checked attribute updater */
+            nodeField.find( 'input[type=radio]' ).change( function() {
+                jQuery( this ).closest( '.admin-page-framework-field' )
+                    .find( 'input[type=radio]' )
+                    .attr( 'checked', false );
+                jQuery( this ).attr( 'checked', 'checked' );
             });
-        ";     
+
+        }
+    });
+});
+JAVASCRIPTS;
+
     }     
     
     /**
@@ -149,15 +150,18 @@ CSSRULES;
          * @sinec       3.0.0
          */
         private function _getUpdateCheckedScript( $sFieldContainerID ) {
+            $_sScript = <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+    jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
+        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio]' ).attr( 'checked', false );
+        jQuery( this ).attr( 'checked', 'checked' );
+    });
+});                 
+JAVASCRIPTS;
             return 
-                "<script type='text/javascript' class='radio-button-checked-attribute-updater'>
-                    jQuery( document ).ready( function(){
-                        jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
-                            jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio]' ).attr( 'checked', false );
-                            jQuery( this ).attr( 'checked', 'checked' );
-                        });
-                    });     
-                </script>";     
+                "<script type='text/javascript' class='radio-button-checked-attribute-updater'>"
+                    . $_sScript
+                . "</script>";
             
         }    
 }

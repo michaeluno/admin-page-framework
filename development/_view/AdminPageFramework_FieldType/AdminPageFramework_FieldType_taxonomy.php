@@ -59,85 +59,86 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     protected function getScripts() {
         
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return "
-            /* For tabs */
-            var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
-                jQuery( nodeTabBoxContainer ).each( function() {
-                    jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
-                        
-                        if ( 0 === i ) {
-                            jQuery( this ).addClass( 'active' );
-                        }
-                            
-                        jQuery( this ).click( function( e ){
-                                 
-                            // Prevents jumping to the anchor which moves the scroll bar.
-                            e.preventDefault();
-                            
-                            // Remove the active tab and set the clicked tab to be active.
-                            jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
-                            jQuery( this ).addClass( 'active' );
-                            
-                            // Find the element id and select the content element with it.
-                            var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
-                            active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
-                            active_content.siblings().css( 'display', 'none' );
-                            
-                        });
-                    });     
-                });
-            };        
+        return <<<JAVASCRIPTS
+/* For tabs */
+var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
+    jQuery( nodeTabBoxContainer ).each( function() {
+        jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
             
-            jQuery( document ).ready( function() {
+            if ( 0 === i ) {
+                jQuery( this ).addClass( 'active' );
+            }
+                
+            jQuery( this ).click( function( e ){
                      
-                enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
+                // Prevents jumping to the anchor which moves the scroll bar.
+                e.preventDefault();
+                
+                // Remove the active tab and set the clicked tab to be active.
+                jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
+                jQuery( this ).addClass( 'active' );
+                
+                // Find the element id and select the content element with it.
+                var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
+                active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
+                active_content.siblings().css( 'display', 'none' );
+                
+            });
+        });     
+    });
+};        
 
-                /* The repeatable event */
-                jQuery().registerAPFCallback( {     
-                    /**
-                     * The repeatable field callback for the add event.
-                     * 
-                     * @param object node
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */     
-                    added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, iCallType ) {
-            
-                        /* If it is not the color field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+jQuery( document ).ready( function() {
+         
+    enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
 
-                        oClonedField.nextAll().andSelf().each( function() {     
-                            jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
-                            jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
-                            jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
-                            enableAPFTabbedBox( jQuery( this ).find( '.tab-box-container' ) );
-                        });     
-                        
-                    },
-                    /**
-                     * The repeatable field callback for the remove event.
-                     * 
-                     * @param object    the field container element next to the removed field container.
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */     
-                    removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
-            
-                        /* If it is not the color field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
-    
-                        oNextFieldConainer.nextAll().andSelf().each( function() {
-                            jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );
-                            jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
-                            jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
-                        });    
-                                                
-                    },     
-                });
+    /* The repeatable event */
+    jQuery().registerAPFCallback( {     
+        /**
+         * The repeatable field callback for the add event.
+         * 
+         * @param object node
+         * @param string    the field type slug
+         * @param string    the field container tag ID
+         * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */     
+        added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, iCallType ) {
+
+            /* If it is not the color field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+
+            oClonedField.nextAll().andSelf().each( function() {     
+                jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
+                jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
+                jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
+                enableAPFTabbedBox( jQuery( this ).find( '.tab-box-container' ) );
             });     
-        ";
+            
+        },
+        /**
+         * The repeatable field callback for the remove event.
+         * 
+         * @param object    the field container element next to the removed field container.
+         * @param string    the field type slug
+         * @param string    the field container tag ID
+         * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */     
+        removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
+
+            /* If it is not the color field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+
+            oNextFieldConainer.nextAll().andSelf().each( function() {
+                jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );
+                jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
+                jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
+            });    
+                                    
+        },     
+    });
+});     
+JAVASCRIPTS;
+
     }
     
     /**
@@ -243,10 +244,11 @@ CSSRULES;
      * @since       3.3.1       Changed from `_replyToGetInputIEStyles()`.
      */ 
     protected function getIEStyles() {
-        return     ".tab-box-content { display: block; }
-            .tab-box-contents { overflow: hidden;position: relative; }
-            b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
-        ";    
+        return <<<CSSRULES
+.tab-box-content { display: block; }
+.tab-box-contents { overflow: hidden;position: relative; }
+b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
+CSSRULES;
 
     }    
     

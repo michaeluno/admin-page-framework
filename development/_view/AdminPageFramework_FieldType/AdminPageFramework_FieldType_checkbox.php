@@ -39,17 +39,18 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      */ 
     protected function getScripts() {
         new AdminPageFramework_Script_CheckboxSelector;
-        return "     
-            jQuery( document ).ready( function(){
-                // Add the buttons.
-                jQuery( '.admin-page-framework-checkbox-container[data-select_all_button]' ).each( function(){
-                    jQuery( this ).before( '<div class=\"select_all_button_container\" onclick=\"jQuery( this ).selectALLAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_all_button' ) + '</a></div>' );
-                });            
-                jQuery( '.admin-page-framework-checkbox-container[data-select_none_button]' ).each( function(){
-                    jQuery( this ).before( '<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_none_button' ) + '</a></div>' );
-                });
-            });
-        ";       
+        return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+    // Add the buttons.
+    jQuery( '.admin-page-framework-checkbox-container[data-select_all_button]' ).each( function(){
+        jQuery( this ).before( '<div class=\"select_all_button_container\" onclick=\"jQuery( this ).selectALLAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_all_button' ) + '</a></div>' );
+    });            
+    jQuery( '.admin-page-framework-checkbox-container[data-select_none_button]' ).each( function(){
+        jQuery( this ).before( '<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_none_button' ) + '</a></div>' );
+    });
+});
+JAVASCRIPTS;
+
     }    
 
     /**

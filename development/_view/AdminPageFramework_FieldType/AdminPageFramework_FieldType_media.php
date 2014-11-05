@@ -72,106 +72,107 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
          */
         protected function _getScript_RegisterCallbacks() {
 
-            $aJSArray = json_encode( $this->aFieldTypeSlugs );
+            $_aJSArray = json_encode( $this->aFieldTypeSlugs );
             /* The below JavaScript functions are a callback triggered when a new repeatable field is added and removed. Since the APF repeater script does not
                 renew the upload button (while it does on the input tag value), the renewal task must be dealt here separately. */
-            return"
-            jQuery( document ).ready( function(){
-                        
-                jQuery().registerAPFCallback( {    
-                    /**
-                     * The repeatable field callback for the add event.
-                     * 
-                     * @param object node
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */     
-                    added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
-                        
-                        /* 1. Return if it is not the type. */     
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return; /* If it is not the media field type, do nothing. */
-                        if ( node.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
-                        
-                        /* 2. Increment the ids of the next all (including this one) uploader buttons  */
-                        var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-                        var iOccurence = iCallType === 1 ? 1 : 0;
-                        nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+            return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+            
+    jQuery().registerAPFCallback( {    
+        /**
+         * The repeatable field callback for the add event.
+         * 
+         * @param object node
+         * @param string    the field type slug
+         * @param string    the field container tag ID
+         * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */     
+        added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+            
+            /* 1. Return if it is not the type. */     
+            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) return; /* If it is not the media field type, do nothing. */
+            if ( node.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
+            
+            /* 2. Increment the ids of the next all (including this one) uploader buttons  */
+            var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
+            var iOccurence = iCallType === 1 ? 1 : 0;
+            nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
-                            /* 2-1. Increment the button ID */
-                            nodeButton = jQuery( this ).find( '.select_media' );
-                            
-                            // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {
-                                nodeButton.incrementIDAttribute( 'id', iOccurence );
-                            }
-                            
-                            /* 2-2. Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-                             * otherwise, the script sets the preview image in the wrong place. */     
-                            var nodeMediaInput = jQuery( this ).find( '.media-field input' );
-                            if ( nodeMediaInput.length <= 0 ) return true;
-                            setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
-                            
-                        });     
-                    },
-                    /**
-                     * The repeatable field callback for the remove event.
-                     * 
-                     * @param object    the field container element next to the removed field container.
-                     * @param string    the field type slug
-                     * @param string    the field container tag ID
-                     * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */     
-                    removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
-                        
-                        /* 1. Return if it is not the type. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */
-                        if ( oNextFieldConainer.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
-                        
-                        /* 2. Decrement the ids of the next all (including this one) uploader buttons. ( the input values are already dealt by the framework repeater script ) */
-                        var iOccurence = iCallType === 1 ? 1 : 0; // the occurrence value indicates which part of digit to change 
-                        oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
-                            
-                            /* 2-1. Decrement the button ID */
-                            nodeButton = jQuery( this ).find( '.select_media' );     
+                /* 2-1. Increment the button ID */
+                nodeButton = jQuery( this ).find( '.select_media' );
+                
+                // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
+                if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {
+                    nodeButton.incrementIDAttribute( 'id', iOccurence );
+                }
+                
+                /* 2-2. Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+                 * otherwise, the script sets the preview image in the wrong place. */     
+                var nodeMediaInput = jQuery( this ).find( '.media-field input' );
+                if ( nodeMediaInput.length <= 0 ) return true;
+                setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+                
+            });     
+        },
+        /**
+         * The repeatable field callback for the remove event.
+         * 
+         * @param object    the field container element next to the removed field container.
+         * @param string    the field type slug
+         * @param string    the field container tag ID
+         * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */     
+        removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
+            
+            /* 1. Return if it is not the type. */
+            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */
+            if ( oNextFieldConainer.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
+            
+            /* 2. Decrement the ids of the next all (including this one) uploader buttons. ( the input values are already dealt by the framework repeater script ) */
+            var iOccurence = iCallType === 1 ? 1 : 0; // the occurrence value indicates which part of digit to change 
+            oNextFieldConainer.nextAll().andSelf().each( function( iIndex ) {
+                
+                /* 2-1. Decrement the button ID */
+                nodeButton = jQuery( this ).find( '.select_media' );     
 
-                            // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {     
-                                nodeButton.decrementIDAttribute( 'id', iOccurence );
-                            }
-                                                        
-                            /* 2-2. Rebind the uploader script to each button. */
-                            var nodeMediaInput = jQuery( this ).find( '.media-field input' );
-                            if ( nodeMediaInput.length <= 0 ) return true;
-                            setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
-                        });
-                    },    
-                    sorted_fields : function( node, sFieldType, sFieldsTagID ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+                // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
+                if ( ! ( iCallType === 1 && iIndex !== 0 ) ) {     
+                    nodeButton.decrementIDAttribute( 'id', iOccurence );
+                }
+                                            
+                /* 2-2. Rebind the uploader script to each button. */
+                var nodeMediaInput = jQuery( this ).find( '.media-field input' );
+                if ( nodeMediaInput.length <= 0 ) return true;
+                setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+            });
+        },    
+        sorted_fields : function( node, sFieldType, sFieldsTagID ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
 
-                        /* 1. Return if it is not the type. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */     
-                        if ( node.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
-                        
-                        /* 2. Update the Select File button */
-                        var iCount = 0;
-                        node.children( '.admin-page-framework-field' ).each( function() {
-                            
-                            nodeButton = jQuery( this ).find( '.select_media' );
-                            
-                            /* 2-1. Set the current iteration index to the button ID */
-                            nodeButton.setIndexIDAttribute( 'id', iCount );    
-                            
-                            /* 2-2. Rebuind the uploader script to the button */
-                            var nodeMediaInput = jQuery( this ).find( '.media-field input' );
-                            if ( nodeMediaInput.length <= 0 ) return true;
-                            setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
-    
-                            iCount++;
-                        });
-                    },
-                    
-                });
-            });" . PHP_EOL;    
+            /* 1. Return if it is not the type. */
+            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) return; /* If it is not the color field type, do nothing. */     
+            if ( node.find( '.select_media' ).length <= 0 )  return; /* If the uploader buttons are not found, do nothing */
+            
+            /* 2. Update the Select File button */
+            var iCount = 0;
+            node.children( '.admin-page-framework-field' ).each( function() {
+                
+                nodeButton = jQuery( this ).find( '.select_media' );
+                
+                /* 2-1. Set the current iteration index to the button ID */
+                nodeButton.setIndexIDAttribute( 'id', iCount );    
+                
+                /* 2-2. Rebuind the uploader script to the button */
+                var nodeMediaInput = jQuery( this ).find( '.media-field input' );
+                if ( nodeMediaInput.length <= 0 ) return true;
+                setAPFMediaUploader( nodeMediaInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+
+                iCount++;
+            });
+        }
+        
+    });
+});
+JAVASCRIPTS;
             
         }
         
@@ -187,7 +188,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
             $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );            
             
             if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
-                return "                        
+                return <<<JAVASCRIPTS
                     /**
                      * Bind/rebinds the thickbox script the given selector element.
                      * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
@@ -224,10 +225,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                         tb_remove();    
 
                     }
-
-                ";
+JAVASCRIPTS;
                 
-            return "                
+            return <<<JAVASCRIPTS
                 // Global Function Literal 
                 /**
                  * Binds/rebinds the uploader button script to the specified element with the given ID.
@@ -361,9 +361,9 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
                     jQuery( '#' + sInputID + '_caption' ).val( jQuery( '<div/>' ).text( oSelectedFile.caption ).html() );     
                     jQuery( '#' + sInputID + '_description' ).val( jQuery( '<div/>' ).text( oSelectedFile.description ).html() );     
                     
-                }                
-            
-            ";
+                }                 
+JAVASCRIPTS;
+
         }
     /**
      * Returns the field type specific CSS rules.
@@ -444,13 +444,14 @@ CSSRULES;
                     )                    
                 ."</a>";
                 
-            $_sScript                = "
+            $_sScript                = <<<JAVASCRIPTS
                 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                    jQuery( 'input#{$sInputID}' ).after( "{$_sButton}" );
                 }
                 jQuery( document ).ready( function(){     
                     setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
-                });" . PHP_EOL;    
+                });
+JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
                     . $_sScript 
@@ -494,12 +495,12 @@ CSSRULES;
                             : 'x'
                         )
                     )
-                . "</a>";                 
-            $_sScript = "
+                . "</a>";
+            $_sScript = <<<JAVASCRIPTS
                 if ( 0 === jQuery( 'a#remove_media_{$sInputID}' ).length ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                    jQuery( 'input#{$sInputID}' ).after( "{$_sButton}" );
                 }
-                " . PHP_EOL;    
+JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-media-remove-button'>" 
                     . $_sScript 

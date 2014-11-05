@@ -73,127 +73,128 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             $aJSArray = json_encode( $this->aFieldTypeSlugs );
             /* The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
                 renew the upload button and the preview elements (while it does on the input tag value), the renewal task must be dealt here separately. */
-            return"
-            jQuery( document ).ready( function(){
-        
-                jQuery().registerAPFCallback( {     
-                    /**
-                     * The repeatable field callback for the add event.
-                     * 
-                     * @param object    node
-                     * @param string    sFieldType      the field type slug
-                     * @param string    sFieldTagID     the field container tag ID
-                     * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */
-                    added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
-                        
-                        /* If it is not the image field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
-                                            
-                        /* If the uploader buttons are not found, do nothing */
-                        if ( node.find( '.select_image' ).length <= 0 ) { return; }
-                        
-                        /* Remove the value of the cloned preview element - check the value for repeatable sections */
-                        var sValue = node.find( 'input' ).first().val();
-                        if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
-                            node.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
-                            node.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
-                        }
-                        
-                        /* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
-                        var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-                        var iOccurrence = 1 === iCallType ? 1 : 0;
-                        nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+            return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
 
-                            var nodeButton = jQuery( this ).find( '.select_image' );     
-                            
-                            // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {
-                                    
-                                nodeButton.incrementIDAttribute( 'id', iOccurrence );
-                                jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurrence );
-                                jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurrence );
+    jQuery().registerAPFCallback( {     
+        /**
+         * The repeatable field callback for the add event.
+         * 
+         * @param object    node
+         * @param string    sFieldType      the field type slug
+         * @param string    sFieldTagID     the field container tag ID
+         * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */
+        added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+            
+            /* If it is not the image field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
                                 
-                            }
-                            
-                            /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-                             * otherwise, the script sets the preview image in the wrong place. */     
-                            var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) return true;
-                            
-                            var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-                            setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
+            /* If the uploader buttons are not found, do nothing */
+            if ( node.find( '.select_image' ).length <= 0 ) { return; }
+            
+            /* Remove the value of the cloned preview element - check the value for repeatable sections */
+            var sValue = node.find( 'input' ).first().val();
+            if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
+                node.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
+                node.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
+            }
+            
+            /* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
+            var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
+            var iOccurrence = 1 === iCallType ? 1 : 0;
+            nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
 
-                        });
-                    },
-                    /**
-                     * The repeatable field callback for the remove event.
-                     * 
-                     * @param object    oNextFieldContainer     the field container element next to the removed field container.
-                     * @param string    sFieldType              the field type slug
-                     * @param string    sFieldTagID             the field container tag ID
-                     * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */     
-                    removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
+                var nodeButton = jQuery( this ).find( '.select_image' );     
+                
+                // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
+                if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {
                         
-                        /* If it is not the color field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
-                                            
-                        /* If the uploader buttons are not found, do nothing */
-                        if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
-                        
-                        /* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
-                        oNextFieldContainer.nextAll().andSelf().each( function( iIndex ) {
-                            
-                            var nodeButton = jQuery( this ).find( '.select_image' );     
-                            
-                            // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                            if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {     
-                                nodeButton.decrementIDAttribute( 'id', iOccurrence );
-                                jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurrence );
-                                jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurrence );
-                            }
-                            
-                            /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-                             * otherwise, the script sets the preview image in the wrong place. */     
-                            var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) { return true; }
-                            
-                            var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-                            setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
-                        
-                        });
-                        
-                    },
-                    sorted_fields : function( node, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+                    nodeButton.incrementIDAttribute( 'id', iOccurrence );
+                    jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurrence );
+                    jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurrence );
+                    
+                }
+                
+                /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+                 * otherwise, the script sets the preview image in the wrong place. */     
+                var nodeImageInput = jQuery( this ).find( '.image-field input' );
+                if ( nodeImageInput.length <= 0 ) return true;
+                
+                var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+                setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
 
-                        /* 1. Return if it is not the type. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
-                        if ( node.find( '.select_image' ).length <= 0 ) { return; } /* If the uploader buttons are not found, do nothing */
-                        
-                        /* 2. Update the Select File button */
-                        var iCount = 0;
-                        var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
-                        node.children( '.admin-page-framework-field' ).each( function() {
-                            
-                            var nodeButton = jQuery( this ).find( '.select_image' );
-                            
-                            /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
-                            nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
-                            jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
-                            jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
-                            
-                            /* 2-2. Rebind the uploader script to the button */
-                            var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                            if ( nodeImageInput.length <= 0 ) { return true; }
-                            setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
-    
-                            iCount++;
-                        });
-                    },     
-                });
-            });" . PHP_EOL;    
+            });
+        },
+        /**
+         * The repeatable field callback for the remove event.
+         * 
+         * @param object    oNextFieldContainer     the field container element next to the removed field container.
+         * @param string    sFieldType              the field type slug
+         * @param string    sFieldTagID             the field container tag ID
+         * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */     
+        removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
+            
+            /* If it is not the color field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+                                
+            /* If the uploader buttons are not found, do nothing */
+            if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
+            
+            /* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
+            var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
+            oNextFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+                
+                var nodeButton = jQuery( this ).find( '.select_image' );     
+                
+                // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
+                if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {     
+                    nodeButton.decrementIDAttribute( 'id', iOccurrence );
+                    jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurrence );
+                    jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurrence );
+                }
+                
+                /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
+                 * otherwise, the script sets the preview image in the wrong place. */     
+                var nodeImageInput = jQuery( this ).find( '.image-field input' );
+                if ( nodeImageInput.length <= 0 ) { return true; }
+                
+                var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
+                setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
+            
+            });
+            
+        },
+        sorted_fields : function( node, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
+
+            /* 1. Return if it is not the type. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
+            if ( node.find( '.select_image' ).length <= 0 ) { return; } /* If the uploader buttons are not found, do nothing */
+            
+            /* 2. Update the Select File button */
+            var iCount = 0;
+            var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
+            node.children( '.admin-page-framework-field' ).each( function() {
+                
+                var nodeButton = jQuery( this ).find( '.select_image' );
+                
+                /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
+                nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
+                jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
+                jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
+                
+                /* 2-2. Rebind the uploader script to the button */
+                var nodeImageInput = jQuery( this ).find( '.image-field input' );
+                if ( nodeImageInput.length <= 0 ) { return true; }
+                setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
+
+                iCount++;
+            });
+        },     
+    });
+});
+JAVASCRIPTS;
             
         }
         
@@ -214,254 +215,250 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
             $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );
              
             if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
-                return "
-                    
-                    /**
-                     * Bind/rebinds the thickbox script the given selector element.
-                     * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
-                     */
-                    setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
-                        jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
-                        jQuery( '#select_image_' + sInputID ).click( function() {
-                            var sPressedID                  = jQuery( this ).attr( 'id' );     
-                            window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-                            window.original_send_to_editor  = window.send_to_editor;
-                            window.send_to_editor           = hfAPFSendToEditorImage;
-                            var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
-                            tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-                            return false; // do not click the button after the script by returning false.     
-                        });    
-                    }     
-                    
-                    var hfAPFSendToEditorImage = function( sRawHTML ) {
+                return <<<JAVASCRIPTS
+/**
+ * Bind/rebinds the thickbox script the given selector element.
+ * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
+ */
+setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+    jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
+    jQuery( '#select_image_' + sInputID ).click( function() {
+        var sPressedID                  = jQuery( this ).attr( 'id' );     
+        window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+        window.original_send_to_editor  = window.send_to_editor;
+        window.send_to_editor           = hfAPFSendToEditorImage;
+        var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
+        tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+        return false; // do not click the button after the script by returning false.     
+    });    
+}     
 
-                        var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-                        var src         = jQuery( 'img', sHTML ).attr( 'src' );
-                        var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
-                        var title       = jQuery( 'img', sHTML ).attr( 'title' );
-                        var width       = jQuery( 'img', sHTML ).attr( 'width' );
-                        var height      = jQuery( 'img', sHTML ).attr( 'height' );
-                        var classes     = jQuery( 'img', sHTML ).attr( 'class' );
-                        var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
-                        var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
-                            .replace( /<a.*?>(.*?)<\/a>/m, '' );
-                        var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
-                        var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
+var hfAPFSendToEditorImage = function( sRawHTML ) {
 
-                        // Escape the strings of some of the attributes.
-                        var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
-                        var sAlt        = jQuery( '<div/>' ).text( alt ).html();
-                        var title       = jQuery( '<div/>' ).text( title ).html();     
+    var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
+    var src         = jQuery( 'img', sHTML ).attr( 'src' );
+    var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
+    var title       = jQuery( 'img', sHTML ).attr( 'title' );
+    var width       = jQuery( 'img', sHTML ).attr( 'width' );
+    var height      = jQuery( 'img', sHTML ).attr( 'height' );
+    var classes     = jQuery( 'img', sHTML ).attr( 'class' );
+    var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
+    var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
+        .replace( /<a.*?>(.*?)<\/a>/m, '' );
+    var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
+    var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
+
+    // Escape the strings of some of the attributes.
+    var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
+    var sAlt        = jQuery( '<div/>' ).text( alt ).html();
+    var title       = jQuery( '<div/>' ).text( title ).html();     
+
+    // If the user wants to save relevant attributes, set them.
+    var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
+
+    jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
+    jQuery( '#' + sInputID + '_id' ).val( id );
+    jQuery( '#' + sInputID + '_width' ).val( width );
+    jQuery( '#' + sInputID + '_height' ).val( height );
+    jQuery( '#' + sInputID + '_caption' ).val( sCaption );
+    jQuery( '#' + sInputID + '_alt' ).val( sAlt );
+    jQuery( '#' + sInputID + '_title' ).val( title );     
+    jQuery( '#' + sInputID + '_align' ).val( align );     
+    jQuery( '#' + sInputID + '_link' ).val( link );     
+    
+    // Update the preview
+    jQuery( '#image_preview_' + sInputID ).attr( 'alt', alt );
+    jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
+    jQuery( '#image_preview_' + sInputID ).attr( 'data-classes', classes );
+    jQuery( '#image_preview_' + sInputID ).attr( 'data-id', id );
+    jQuery( '#image_preview_' + sInputID ).attr( 'src', src ); // updates the preview image
+    jQuery( '#image_preview_container_' + sInputID ).css( 'display', '' ); // updates the visibility
+    jQuery( '#image_preview_' + sInputID ).show() // updates the visibility
+    
+    // restore the original send_to_editor
+    window.send_to_editor = window.original_send_to_editor;
+
+    // close the thickbox
+    tb_remove();    
+
+}
+JAVASCRIPTS;
+            return <<<JAVASCRIPTS
+// Global Function Literal 
+/**
+ * Binds/rebinds the uploader button script to the specified element with the given ID.
+ */
+setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+
+    var _bEscaped = false; // indicates whether the frame is escaped/canceled.
+    var _oCustomImageUploader;
+    
+    jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
+    jQuery( '#select_image_' + sInputID ).click( function( e ) {
+     
+        // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
+        var sInputID = jQuery( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+        
+        window.wpActiveEditor = null;     
+        e.preventDefault();
+        
+        // If the uploader object has already been created, reopen the dialog
+        if ( 'object' === typeof _oCustomImageUploader ) {
+            _oCustomImageUploader.open();
+            return;
+        }     
+
+        // Store the original select object in a global variable
+        oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
+        
+        // Assign a custom select object.
+        wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
+        _oCustomImageUploader = wp.media({
+            title:      '{$sThickBoxTitle}',
+            button:     {
+                text: '{$sThickBoxButtonUseThis}'
+            },
+            library:    { type : 'image' },
+            multiple:   fMultiple,  // Set this to true to allow multiple files to be selected
+            metadata:   { test : 'testing' },
+        });
+
+        // When the uploader window closes, 
+        _oCustomImageUploader.on( 'escape', function() {
+            _bEscaped = true;
+            return false;
+        });
+        _oCustomImageUploader.on( 'close', function() {
+
+            var state = _oCustomImageUploader.state();     
+            // Check if it's an external URL
+            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
+                var image = state.props.attributes;    
+            }
             
-                        // If the user wants to save relevant attributes, set them.
-                        var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
+            // If the image variable is not defined at this point, it's an attachment, not an external URL.
+            if ( typeof( image ) !== 'undefined'  ) {
+                setImagePreviewElementWithDelay( sInputID, image );
+            } else {
+                
+                var _oNewField;
+                _oCustomImageUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
+
+                    attachment = attachment.toJSON();
+                    if ( 0 === iIndex ){    
+                        // place first attachment in the field
+                        setImagePreviewElementWithDelay( sInputID, attachment );
+                        return true;
+                    } 
+
+                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
+                    var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
+                    setImagePreviewElementWithDelay( sInputIDOfNewField, attachment );
+                    
+                });     
+                
+            }
             
-                        jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-                        jQuery( '#' + sInputID + '_id' ).val( id );
-                        jQuery( '#' + sInputID + '_width' ).val( width );
-                        jQuery( '#' + sInputID + '_height' ).val( height );
-                        jQuery( '#' + sInputID + '_caption' ).val( sCaption );
-                        jQuery( '#' + sInputID + '_alt' ).val( sAlt );
-                        jQuery( '#' + sInputID + '_title' ).val( title );     
-                        jQuery( '#' + sInputID + '_align' ).val( align );     
-                        jQuery( '#' + sInputID + '_link' ).val( link );     
-                        
-                        // Update the preview
-                        jQuery( '#image_preview_' + sInputID ).attr( 'alt', alt );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'data-classes', classes );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'data-id', id );
-                        jQuery( '#image_preview_' + sInputID ).attr( 'src', src ); // updates the preview image
-                        jQuery( '#image_preview_container_' + sInputID ).css( 'display', '' ); // updates the visibility
-                        jQuery( '#image_preview_' + sInputID ).show() // updates the visibility
-                        
-                        // restore the original send_to_editor
-                        window.send_to_editor = window.original_send_to_editor;
-
-                        // close the thickbox
-                        tb_remove();    
-
-                    }
-                    
-                ";
-
-            return "
-                
-                // Global Function Literal 
-                /**
-                 * Binds/rebinds the uploader button script to the specified element with the given ID.
-                 */
-                setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
-
-                    var _bEscaped = false; // indicates whether the frame is escaped/canceled.
-                    var _oCustomImageUploader;
-                    
-                    jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
-                    jQuery( '#select_image_' + sInputID ).click( function( e ) {
-                     
-                        // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
-                        var sInputID = jQuery( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-                        
-                        window.wpActiveEditor = null;     
-                        e.preventDefault();
-                        
-                        // If the uploader object has already been created, reopen the dialog
-                        if ( 'object' === typeof _oCustomImageUploader ) {
-                            _oCustomImageUploader.open();
-                            return;
-                        }     
-
-                        // Store the original select object in a global variable
-                        oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
-                        
-                        // Assign a custom select object.
-                        wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
-                        _oCustomImageUploader = wp.media({
-                            title:      '{$sThickBoxTitle}',
-                            button:     {
-                                text: '{$sThickBoxButtonUseThis}'
-                            },
-                            library:    { type : 'image' },
-                            multiple:   fMultiple,  // Set this to true to allow multiple files to be selected
-                            metadata:   { test : 'testing' },
-                        });
-
-                        // When the uploader window closes, 
-                        _oCustomImageUploader.on( 'escape', function() {
-                            _bEscaped = true;
-                            return false;
-                        });
-                        _oCustomImageUploader.on( 'close', function() {
-
-                            var state = _oCustomImageUploader.state();     
-                            // Check if it's an external URL
-                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
-                                var image = state.props.attributes;    
-                            }
+            // Restore the original select object.
+            wp.media.view.MediaFrame.Select = oAPFOriginalImageUploaderSelectObject;
                             
-                            // If the image variable is not defined at this point, it's an attachment, not an external URL.
-                            if ( typeof( image ) !== 'undefined'  ) {
-                                setImagePreviewElementWithDelay( sInputID, image );
-                            } else {
-                                
-                                var _oNewField;
-                                _oCustomImageUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
+        });
+        
+        // Open the uploader dialog
+        _oCustomImageUploader.open();     
+        return false;       
+    });    
 
-                                    attachment = attachment.toJSON();
-                                    if ( 0 === iIndex ){    
-                                        // place first attachment in the field
-                                        setImagePreviewElementWithDelay( sInputID, attachment );
-                                        return true;
-                                    } 
+    var setImagePreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
+    
+        iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
+        setTimeout( function (){
+            if ( ! _bEscaped ) {
+                setImagePreviewElement( sInputID, oImage );
+            }
+            _bEscaped = false;
+        }, iMilliSeconds );
+        
+    }
 
-                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
-                                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
-                                    var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
-                                    setImagePreviewElementWithDelay( sInputIDOfNewField, attachment );
-                                    
-                                });     
-                                
-                            }
-                            
-                            // Restore the original select object.
-                            wp.media.view.MediaFrame.Select = oAPFOriginalImageUploaderSelectObject;
-                                            
-                        });
-                        
-                        // Open the uploader dialog
-                        _oCustomImageUploader.open();     
-                        return false;       
-                    });    
-                
-                    var setImagePreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
-                    
-                        iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
-                        setTimeout( function (){
-                            if ( ! _bEscaped ) {
-                                setImagePreviewElement( sInputID, oImage );
-                            }
-                            _bEscaped = false;
-                        }, iMilliSeconds );
-                        
-                    }
-                
-                }    
-                /**
-                 * Removes the set values to the input tags.
-                 * 
-                 * @since   3.2.0
-                 */
-                removeInputValuesForImage = function( oElem ) {
+}    
+/**
+ * Removes the set values to the input tags.
+ * 
+ * @since   3.2.0
+ */
+removeInputValuesForImage = function( oElem ) {
 
-                    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.image-field input' );                  
-                    if ( _oImageInput.length <= 0 )  {
-                        return;
-                    }
-                    
-                    // Find the input tag.
-                    var _sInputID = _oImageInput.first().attr( 'id' );
-                    
-                    // Remove the associated values.
-                    setImagePreviewElement( _sInputID, {} );
-                    
-                }
-                
-                /**
-                 * Sets the preview element.
-                 * 
-                 * @since   3.2.0   Changed the scope to global.
-                 */
-                setImagePreviewElement = function( sInputID, oImage ) {
+    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.image-field input' );                  
+    if ( _oImageInput.length <= 0 )  {
+        return;
+    }
+    
+    // Find the input tag.
+    var _sInputID = _oImageInput.first().attr( 'id' );
+    
+    // Remove the associated values.
+    setImagePreviewElement( _sInputID, {} );
+    
+}
 
-                    var oImage      = jQuery.extend( 
-                        // {}, 
-                        { 
-                            caption:    '',  
-                            alt:        '',
-                            title:      '',
-                            url:        '',
-                            id:         '',
-                            width:      '',
-                            height:     '',
-                            align:      '',
-                            link:       '',
-                        },
-                        oImage
-                    );    
+/**
+ * Sets the preview element.
+ * 
+ * @since   3.2.0   Changed the scope to global.
+ */
+setImagePreviewElement = function( sInputID, oImage ) {
 
-                    // Escape the strings of some of the attributes.
-                    var _sCaption   = jQuery( '<div/>' ).text( oImage.caption ).html();
-                    var _sAlt       = jQuery( '<div/>' ).text( oImage.alt ).html();
-                    var _sTitle     = jQuery( '<div/>' ).text( oImage.title ).html();
-                    
-                    // If the user wants the attributes to be saved, set them in the input tags.
-                    jQuery( 'input#' + sInputID ).val( oImage.url ); // the url field is mandatory so it does not have the suffix.
-                    jQuery( 'input#' + sInputID + '_id' ).val( oImage.id );
-                    jQuery( 'input#' + sInputID + '_width' ).val( oImage.width );
-                    jQuery( 'input#' + sInputID + '_height' ).val( oImage.height );
-                    jQuery( 'input#' + sInputID + '_caption' ).val( _sCaption );
-                    jQuery( 'input#' + sInputID + '_alt' ).val( _sAlt );
-                    jQuery( 'input#' + sInputID + '_title' ).val( _sTitle );
-                    jQuery( 'input#' + sInputID + '_align' ).val( oImage.align );
-                    jQuery( 'input#' + sInputID + '_link' ).val( oImage.link );
-                    
-                    // Update up the preview
-                    jQuery( '#image_preview_' + sInputID ).attr( 'data-id', oImage.id );
-                    jQuery( '#image_preview_' + sInputID ).attr( 'data-width', oImage.width );
-                    jQuery( '#image_preview_' + sInputID ).attr( 'data-height', oImage.height );
-                    jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', _sCaption );
-                    jQuery( '#image_preview_' + sInputID ).attr( 'alt', _sAlt );
-                    jQuery( '#image_preview_' + sInputID ).attr( 'title', _sTitle );
-                    jQuery( '#image_preview_' + sInputID ).attr( 'src', oImage.url );
-                    if ( oImage.url ) {
-                        jQuery( '#image_preview_container_' + sInputID ).show();     
-                    } else {
-                        jQuery( '#image_preview_container_' + sInputID ).hide();     
-                    }
-                    
-                }                
-                
-            ";
+    var oImage      = jQuery.extend( 
+        // {}, 
+        { 
+            caption:    '',  
+            alt:        '',
+            title:      '',
+            url:        '',
+            id:         '',
+            width:      '',
+            height:     '',
+            align:      '',
+            link:       '',
+        },
+        oImage
+    );    
+
+    // Escape the strings of some of the attributes.
+    var _sCaption   = jQuery( '<div/>' ).text( oImage.caption ).html();
+    var _sAlt       = jQuery( '<div/>' ).text( oImage.alt ).html();
+    var _sTitle     = jQuery( '<div/>' ).text( oImage.title ).html();
+    
+    // If the user wants the attributes to be saved, set them in the input tags.
+    jQuery( 'input#' + sInputID ).val( oImage.url ); // the url field is mandatory so it does not have the suffix.
+    jQuery( 'input#' + sInputID + '_id' ).val( oImage.id );
+    jQuery( 'input#' + sInputID + '_width' ).val( oImage.width );
+    jQuery( 'input#' + sInputID + '_height' ).val( oImage.height );
+    jQuery( 'input#' + sInputID + '_caption' ).val( _sCaption );
+    jQuery( 'input#' + sInputID + '_alt' ).val( _sAlt );
+    jQuery( 'input#' + sInputID + '_title' ).val( _sTitle );
+    jQuery( 'input#' + sInputID + '_align' ).val( oImage.align );
+    jQuery( 'input#' + sInputID + '_link' ).val( oImage.link );
+    
+    // Update up the preview
+    jQuery( '#image_preview_' + sInputID ).attr( 'data-id', oImage.id );
+    jQuery( '#image_preview_' + sInputID ).attr( 'data-width', oImage.width );
+    jQuery( '#image_preview_' + sInputID ).attr( 'data-height', oImage.height );
+    jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', _sCaption );
+    jQuery( '#image_preview_' + sInputID ).attr( 'alt', _sAlt );
+    jQuery( '#image_preview_' + sInputID ).attr( 'title', _sTitle );
+    jQuery( '#image_preview_' + sInputID ).attr( 'src', oImage.url );
+    if ( oImage.url ) {
+        jQuery( '#image_preview_container_' + sInputID ).show();     
+    } else {
+        jQuery( '#image_preview_container_' + sInputID ).hide();     
+    }
+    
+}                
+JAVASCRIPTS;
+
         }
     
     /**
@@ -675,14 +672,14 @@ CSSRULES;
                         )
                     )                    
                 ."</a>";
-                
-            $_sScript = "
-                if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
-                }
-                jQuery( document ).ready( function(){     
-                    setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
-                });" . PHP_EOL;    
+            $_sScript = <<<JAVASCRIPTS
+if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
+    jQuery( 'input#{$sInputID}' ).after( "{$_sButton}" );
+}
+jQuery( document ).ready( function(){     
+    setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+});
+JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" 
                     . $_sScript 
@@ -717,7 +714,7 @@ CSSRULES;
                 'remove_value remove_image button button-small', 
                 trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
             );
-            $_sButton               = 
+            $_sButtonHTML               = 
                 "<a " . $this->generateAttributes( $_aAttributes ) . ">"
                     . ( $_bIsLabelSet
                         ? $_aAttributes['data-label'] 
@@ -726,13 +723,18 @@ CSSRULES;
                             : 'x'
                         )
                     )
-                . "</a>";      
-                
-            $_sScript = "
+                . "</a>";     
+            $_sButtonHTML = str_replace( 
+                "'",        // search, needle
+                '"',        // replacement
+                $_sButtonHTML   // haystack
+            );
+            $_sDoubleQuote = '"';
+            $_sScript = <<<JAVASCRIPTS
                 if ( 0 === jQuery( 'a#remove_image_{$sInputID}' ).length ) {
-                    jQuery( 'input#{$sInputID}' ).after( \"{$_sButton}\" );
+                    jQuery( 'input#{$sInputID}' ).after( '{$_sButtonHTML}' );
                 }
-                " . PHP_EOL;    
+JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-image-remove-button'>" 
                     . $_sScript 

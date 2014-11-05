@@ -218,11 +218,13 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
             }
             $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] = true;
 
-            ?>
-            <script class="admin-page-framework-insert-metabox-script">
-                jQuery( document).ready( function(){ postboxes.add_postbox_toggles( pagenow ); });
-            </script>
-            <?php
+            $_sScript = <<<JAVASCRIPTS
+jQuery( document).ready( function(){ postboxes.add_postbox_toggles( pagenow ); });            
+JAVASCRIPTS;
+            echo '<script class="admin-page-framework-insert-metabox-script">'
+                    . $_sScript
+                . '</script>';
+
         }
     
 }

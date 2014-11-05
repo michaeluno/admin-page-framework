@@ -129,32 +129,31 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
          *     removed_repeatable_field - triggered when a repeatable field gets removed. Parameters 1. (object) the jQuery element object. 2. (string) the field type slug. 3. (string) the field tag id.
          *     sorted_fields - triggered when a sortable field gets sorted. Parameters 1. (object) the jQuery element object. 2. (string) the field type slug. 3. (string) the field tag id.
          * */
-        return "
-            jQuery( document ).ready( function(){
-                jQuery().registerAPFCallback( {                
-                
-                    /**
-                     * The repeatable field callback.
-                     * 
-                     * @param    object    oCopiedNode
-                     * @param    string    the field type slug
-                     * @param    string    the field container tag ID
-                     * @param    integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */
-                    added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
-            
-                        /* If it is not this field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
+        return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+    jQuery().registerAPFCallback( {                
+    
+        /**
+         * The repeatable field callback.
+         * 
+         * @param    object    oCopiedNode
+         * @param    string    the field type slug
+         * @param    string    the field container tag ID
+         * @param    integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         */
+        added_repeatable_field: function( oCopiedNode, sFieldType, sFieldTagID, iCallType ) {
 
-                        /* If the input tag is not found, do nothing  */
-                        var nodeNewAutoComplete = oCopiedNode.find( 'input.autocomplete' );
-                        if ( nodeNewAutoComplete.length <= 0 ) { return; }
+            /* If it is not this field type, do nothing. */
+            if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) { return; }
 
-                    },                    
-                });
-            });        
-        
-        " . PHP_EOL;
+            /* If the input tag is not found, do nothing  */
+            var nodeNewAutoComplete = oCopiedNode.find( 'input.autocomplete' );
+            if ( nodeNewAutoComplete.length <= 0 ) { return; }
+
+        },                    
+    });
+});        
+JAVASCRIPTS;
         
     }
 
