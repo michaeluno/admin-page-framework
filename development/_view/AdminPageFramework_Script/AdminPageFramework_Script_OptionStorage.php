@@ -49,7 +49,7 @@ class AdminPageFramework_Script_OptionStorage extends  AdminPageFramework_Script
     }
 
 }( jQuery ));
-JJAVASCRIPTS;
+JAVASCRIPTS;
 
     }
 
