@@ -449,7 +449,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.2 =
-- Added the ability to compress CSS rules and JavaScript scritps defined in PHP variables for the minified version.
+- Added the `max_depth` argument for the `taxonomy` field type that limit the hierarchical depth of displaying taxonomy terms.
+- Added the ability to compress CSS rules and JavaScript scripts defined in PHP variables for the minified version.
+- Tweaked the styling of the `taxonomy` field type to reflect the hierarchical depths.
 - Fixed a bug that resources of taxonomy fields added by the framework were loaded in other taxonomy pages that caused JavaScript errors.
 - Fixed a bug that meta box field values defined via the `field_definition_{...}` filter hooks were not saved.
 - Fixed a bug that setting sections for page meta box fields caused an error after submitting the form.

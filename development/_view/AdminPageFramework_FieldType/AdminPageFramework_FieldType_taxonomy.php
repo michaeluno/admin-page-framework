@@ -35,6 +35,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
         'attributes'            => array(),    
         'select_all_button'     => true,            // (boolean|string) 3.3.0+ to change the label, set the label here
         'select_none_button'    => true,            // (boolean|string) 3.3.0+ to change the label, set the label here                
+        'max_depth'             => 0,               // (integer) 3.3.2+ the maximum depth of the taxonomy terms hierarchical level. 0 for unlimited. Default: 0.
     );
     
     /**
@@ -134,7 +135,7 @@ jQuery( document ).ready( function() {
                 jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
             });    
                                     
-        },     
+        }
     });
 });     
 JAVASCRIPTS;
@@ -233,6 +234,11 @@ JAVASCRIPTS;
 {
     margin-top: 0.8em;
 }
+/* Nested Checkbox Items */
+.admin-page-framework-field .taxonomychecklist .children {
+    margin-top: 6px;
+    margin-left: 1em;
+}
 CSSRULES;
 
     }
@@ -309,6 +315,7 @@ CSSRULES;
                                 'input_id'          => $aField['input_id'],
                                 'attributes'        => $aInputAttributes,
                                 'show_post_count'   => $aField['show_post_count'],  // 3.2.0+
+                                'depth'             => $aField['max_depth'],        // 3.3.2+
                             ) 
                         )     
                     . "</ul>"     

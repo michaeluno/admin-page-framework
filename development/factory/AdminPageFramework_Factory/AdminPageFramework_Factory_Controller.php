@@ -383,6 +383,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *               <li>**height** - (optional, string) the inline style property value of `height` of this element. Include the unit such as px, %. Default: 250px</li>
     *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
     *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+    *               <li>**max_depth** - [3.3.2+] (optional, integer) the maximum depth of the taxonomy terms hierarchical level. `0` for unlimited. Default: `0`.</li>
     *           </ul>
     *       </li>
     *       <li>**posttype** - a post-type check list. This is a set of check boxes listing post type slugs.

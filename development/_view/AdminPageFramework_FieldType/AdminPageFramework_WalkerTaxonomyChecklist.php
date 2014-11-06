@@ -91,8 +91,8 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         ) + $_aInputAttributes;
         $_aInputAttributes['class'] .= ' apf_checkbox';
         
-        // Output
-        $sOutput .= "\n" // the variable is by reference so the modification takes effect
+        // Output - the variable is by reference so the modification takes effect
+        $sOutput .= "\n"
             . "<li id='list-{$_sID}' class='category-list'>" 
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
                     . "<input value='0' type='hidden' name='{$aArgs['name']}[{$_iID}]' class='apf_checkbox' />"
