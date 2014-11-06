@@ -114,6 +114,7 @@ class AdminPageFramework_Message {
             'remove_value'                          => null,    // 3.2.0+
             'select_all'                            => null,    // 3.3.0+
             'select_none'                           => null,    // 3.3.0+
+            'no_term_found'                         => null,    // 3.3.2+
             
             // AdminPageFramework_PageLoadInfo_Base
             'queries_in_seconds'                    => null,
@@ -289,7 +290,9 @@ class AdminPageFramework_Message {
                 case 'select_all':      // 3.3.0+
                     return __( 'Select All', 'admin-page-framework' );
                 case 'select_none':     // 3.3.0+
-                    return __( 'Select None', 'admin-page-framework' );                    
+                    return __( 'Select None', 'admin-page-framework' );          
+                case 'no_term_found':   // 3.3.2+
+                    return __( 'No term found.', 'admin-page-framework' );
                     
                 // AdminPageFramework_PageLoadInfo_Base
                 case 'queries_in_seconds':
