@@ -851,11 +851,19 @@ $this->addSettingFields(
     ),      
     array(  
         'field_id'              => 'taxonomy_checklist_all',
-        'title'                 => __( 'All Taxonomies', 'admin-page-framework-demo' ),
+        'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-demo' ),
         'type'                  => 'taxonomy',
         'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),
-        'max_depth'             => 1,       // 3.3.2+
-        'description'           => __( 'With the <code>max_depth</code> argument, you can limit how much hierarchical depth to be displayed.', 'admin-page-framework-demo' ),
+        'description'           => __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-demo' ),
+        'query'                 => array(
+            'depth'     => 2,
+            'orderby'   => 'term_id',
+            'order'     => 'DESC',
+            'exclude'   => '1', // removes the 'Uncategorized' category.
+            // 'search' => 'PHP',
+            // 'parent'    => 9,    // only show terms whose direct parent ID is 9.
+            // 'child_of'  => 8,    // only show child terms of the term ID of 8.
+        ),
     ),
     array(
         'field_id'              => 'taxonomy_multiple_checklists',

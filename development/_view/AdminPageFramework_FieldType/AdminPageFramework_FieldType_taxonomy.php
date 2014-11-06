@@ -35,7 +35,31 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
         'attributes'            => array(),    
         'select_all_button'     => true,            // (boolean|string) 3.3.0+ to change the label, set the label here
         'select_none_button'    => true,            // (boolean|string) 3.3.0+ to change the label, set the label here                
-        'max_depth'             => 0,               // (integer) 3.3.2+ the maximum depth of the taxonomy terms hierarchical level. 0 for unlimited. Default: 0.
+        'label_no_term_found'   => 'No Term Found', // (string) 3.3.2+  The label to display when no term is found.
+        'label_list_title'      => '',              // (string) 3.3.2+ The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.         
+        'query'                 => array(       // (array)  3.3.2+
+            // see the arguments of the get_category() function: http://codex.wordpress.org/Function_Reference/get_categories
+            // see the argument of the get_terms() function: http://codex.wordpress.org/Function_Reference/get_terms        
+            'child_of'          => 0,
+            'parent'            => '',
+            'orderby'           => 'name',      // (string) 'ID' or 'term_id' or 'name'
+            'order'             => 'ASC',       // (string) 'ASC' or 'DESC'
+            'hide_empty'        => true,        // (boolean) whether to show the terms with no post associated.
+            'hierarchical'      => true,        // (boolean) whether to show the terms as a hierarchical tree.
+            'number'            => '',          // (integer) The maximum number of the terms to show.
+            'pad_counts'        => false,       // (boolean) whether to sum up the post counts with the child post counts.
+            'exclude'           => array(),     // (string) Comma separated term IDs to exclude from the list. for example `1` will remove the 'Uncategorized' category from the list.
+            'exclude_tree'      => array(), 
+            'include'           => array(),     // (string) Comma separated term IDs to include in the list.
+            'fields'            => 'all', 
+            'slug'              => '', 
+            'get'               => '', 
+            'name__like'        => '',
+            'description__like' => '',
+            'offset'            => '', 
+            'search'            => '',          // (string) The search keyword to get the term with.
+            'cache_domain'      => 'core'
+        ),
     );
     
     /**
@@ -271,7 +295,7 @@ CSSRULES;
      * @since       3.3.1       Changed from `_replyToGetField()`.
      */
     protected function getField( $aField ) {
-
+// var_dump( $aField );
         $aTabs          = array();
         $aCheckboxes    = array();
         
@@ -305,18 +329,18 @@ CSSRULES;
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
                         . wp_list_categories( 
                             array(
-                                'walker'            => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
-                                'name'              => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
-                                'selected'          => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
-                                'title_li'          => '',                          // disable the Categories heading string 
-                                'hide_empty'        => 0,    
-                                'echo'              => false,                       // returns the output
-                                'taxonomy'          => $sTaxonomySlug,              // the taxonomy slug (id) such as category and post_tag 
-                                'input_id'          => $aField['input_id'],
-                                'attributes'        => $aInputAttributes,
-                                'show_post_count'   => $aField['show_post_count'],  // 3.2.0+
-                                'depth'             => $aField['max_depth'],        // 3.3.2+
+                                'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
+                                'name'                  => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
+                                'selected'              => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
+                                'echo'                  => false,                       // returns the output
+                                'taxonomy'              => $sTaxonomySlug,              // the taxonomy slug (id) such as category and post_tag 
+                                'input_id'              => $aField['input_id'],
+                                'attributes'            => $aInputAttributes,
+                                'show_post_count'       => $aField['show_post_count'],      // 3.2.0+
+                                'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
+                                'title_li'              => $aField['label_list_title'],     // 3.3.2+
                             ) 
+                            + $aField['query']                             
                         )     
                     . "</ul>"     
                     . "<!--[if IE]><b>.</b><![endif]-->"
