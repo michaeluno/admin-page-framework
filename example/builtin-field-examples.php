@@ -854,6 +854,8 @@ $this->addSettingFields(
         'title'                 => __( 'All Taxonomies', 'admin-page-framework-demo' ),
         'type'                  => 'taxonomy',
         'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),
+        'max_depth'             => 1,       // 3.3.2+
+        'description'           => __( 'With the <code>max_depth</code> argument, you can limit how much hierarchical depth to be displayed.', 'admin-page-framework-demo' ),
     ),
     array(
         'field_id'              => 'taxonomy_multiple_checklists',
