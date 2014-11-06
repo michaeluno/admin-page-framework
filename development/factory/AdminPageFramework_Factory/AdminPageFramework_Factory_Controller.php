@@ -383,8 +383,76 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *               <li>**height** - (optional, string) the inline style property value of `height` of this element. Include the unit such as px, %. Default: 250px</li>
     *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
     *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *               <li>**max_depth** - [3.3.2+] (optional, integer) the maximum depth of the taxonomy terms hierarchical level. `0` for unlimited. Default: `0`.</li>
+    *               <li>**label_no_term_found** - [3.3.2+] (optional, string) The label to display when no term is found. Default: `No Term Found`.</li>
+    *               <li>**label_list_title** - [3.3.2+] (optional, string) The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.</li>
+    *               <li>**query** - [3.3.2+] (optional, array) the query array to search terms. For more details, see the argument of the [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters) function.
+    *                   <ul>
+    *                       <li>child_of - (integer) The parent term ID. All the descendant terms such as child's child term will be listed. default: `0`</li>
+    *                       <li>parent   - (integer) The direct parent term ID. Only the first level children will be listed. default: ``</li>
+    *                       <li>orderby - (string) The type of how the term list should be ordered by. Either `ID`, `term_id`, or `name` can be accepted. Default: `name`.</li>
+    *                       <li>order - (string) The order of the list. `ASC` or `DESC`. Default: `ASC`.</li>
+    *                       <li>hide_empty - (boolean) whether to show the terms with no post associated. Default: `true`.</li>
+    *                       <li>hierarchical - (boolean) whether to show the terms as a hierarchical tree. Default: `true`</li>
+    *                       <li>number - (integer) The maximum number of the terms to show. 0 for no limit. Default: `0`.</li>
+    *                       <li>pad_counts - (boolean) whether to sum up the post counts with the child post counts. Default: `false`</li>
+    *                       <li>exclude - (string|array) Comma separated term IDs or an array to exclude from the list. for example `1` will remove the 'Uncategorized' category from the list. </li>
+    *                       <li>exclude_tree - (integer) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters)..</li>
+    *                       <li>include - (string|array) Comma separated term IDs to include in the list.</li>
+    *                       <li>fields - (string) Default: `all`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                       <li>slug - (string) Default: ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                       <li>get - (string) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                       <li>name__like - (string) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                       <li>description__like - (string) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                       <li>offset - (integer) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                       <li>search - (string) The search keyword to get the term with. Default ``.</li>
+    *                       <li>cache_domain - (string) Default:`core`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+    *                   </ul>
+    *               </li>
+    *               <li>**queries** - [3.3.2+] (optional, array) Allows to set a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.</li>
     *           </ul>
+    *           <h4>Example</h4>
+    * <pre><code>array(  
+    *     'field_id'              => 'taxonomy_custom_queries',
+    *     'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-demo' ),
+    *     'type'                  => 'taxonomy',
+    *     'description'           => 
+    *         array(
+    *             __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-demo' ),
+    *             sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
+    *         ),
+    *     
+    *     // (required)   Determines which taxonomies should be listed
+    *     'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),    
+    *         
+    *     // (optional) This defines the default query argument. For the structure and supported arguments, see http://codex.wordpress.org/Function_Reference/get_terms#Parameters
+    *     'query'                 => array(
+    *         'depth'     => 2,
+    *         'orderby'   => 'term_id',       // accepts 'ID', 'term_id', or 'name'
+    *         'order'     => 'DESC',
+    *         // 'exclude'   => '1', // removes the 'Uncategorized' category.
+    *         // 'search' => 'PHP',   // the search keyward
+    *         // 'parent'    => 9,    // only show terms whose direct parent ID is 9.
+    *         // 'child_of'  => 8,    // only show child terms of the term ID of 8.
+    *     ),
+    *     // (optional) This allows to set a query argument for each taxonomy. 
+    *     // Note that each element will be merged with the above default 'query' argument array. 
+    *     // So unset keys here will be overridden by the default argument array above. 
+    *     'queries'               => array(
+    *         // taxonomy slug => query argument array
+    *         'category'  =>  array(
+    *             'depth'     => 2,
+    *             'orderby'   => 'term_id',  
+    *             'order'     => 'DESC',
+    *             'exclude'   => array( 1 ), 
+    *         ),
+    *         'post_tag'  => array(
+    *             'orderby'   => 'name',
+    *             'order'     => 'ASC',
+    *             // 'include'   => array( 4, ), // term ids
+    *         ),
+    *     ), 
+    * ),
+    * </code></pre>
     *       </li>
     *       <li>**posttype** - a post-type check list. This is a set of check boxes listing post type slugs.
     *           <ul>

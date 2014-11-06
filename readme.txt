@@ -449,7 +449,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.2 =
-- Added the `label_no_term_found`, `label_list_title`, and `query` arguments for the `taxonomy` field type.
+- Added the `label_no_term_found`, `label_list_title`, `query`, and `queries` arguments for the `taxonomy` field type.
 - Added the ability to compress CSS rules and JavaScript scripts defined in PHP variables for the minified version.
 - Tweaked the styling of the `taxonomy` field type to reflect the hierarchical depths.
 - Fixed a bug that resources of taxonomy fields added by the framework were loaded in other taxonomy pages that caused JavaScript errors.

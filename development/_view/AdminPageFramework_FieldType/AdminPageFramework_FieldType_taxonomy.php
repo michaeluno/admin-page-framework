@@ -35,9 +35,9 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
         'attributes'            => array(),    
         'select_all_button'     => true,            // (boolean|string) 3.3.0+ to change the label, set the label here
         'select_none_button'    => true,            // (boolean|string) 3.3.0+ to change the label, set the label here                
-        'label_no_term_found'   => 'No Term Found', // (string) 3.3.2+  The label to display when no term is found.
-        'label_list_title'      => '',              // (string) 3.3.2+ The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.         
-        'query'                 => array(       // (array)  3.3.2+
+        'label_no_term_found'   => null,            // (string) 3.3.2+  The label to display when no term is found. null needs to be set here as the default value will be assigned in the field output method.
+        'label_list_title'      => '',              // (string) 3.3.2+ The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.
+        'query'                 => array(       // (array)  3.3.2+ Defines the default query argument.
             // see the arguments of the get_category() function: http://codex.wordpress.org/Function_Reference/get_categories
             // see the argument of the get_terms() function: http://codex.wordpress.org/Function_Reference/get_terms        
             'child_of'          => 0,
@@ -58,8 +58,9 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
             'description__like' => '',
             'offset'            => '', 
             'search'            => '',          // (string) The search keyword to get the term with.
-            'cache_domain'      => 'core'
+            'cache_domain'      => 'core',
         ),
+        'queries'   => array(),         // (optional, array) 3.3.2+  Allows to set a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.
     );
     
     /**
@@ -295,9 +296,13 @@ CSSRULES;
      * @since       3.3.1       Changed from `_replyToGetField()`.
      */
     protected function getField( $aField ) {
-// var_dump( $aField );
+
         $aTabs          = array();
         $aCheckboxes    = array();
+        
+        $aField['label_no_term_found'] = isset( $aField['label_no_term_found'] )
+            ? $aField['label_no_term_found']
+            : $this->oMsg->get( 'no_term_found' );
         
         $_aCheckboxContainerAttributes = array(
             'class'                     => 'admin-page-framework-checkbox-container',
@@ -340,6 +345,7 @@ CSSRULES;
                                 'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
                                 'title_li'              => $aField['label_list_title'],     // 3.3.2+
                             ) 
+                            + ( isset( $aField['queries'][ $sTaxonomySlug ] ) ? $aField['queries'][ $sTaxonomySlug ] : array() )
                             + $aField['query']                             
                         )     
                     . "</ul>"     

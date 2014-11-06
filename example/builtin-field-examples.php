@@ -850,20 +850,45 @@ $this->addSettingFields(
         'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
     ),      
     array(  
-        'field_id'              => 'taxonomy_checklist_all',
+        'field_id'              => 'taxonomy_custom_queries',
         'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-demo' ),
         'type'                  => 'taxonomy',
-        'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),
-        'description'           => __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-demo' ),
+        'description'           => 
+            array(
+                __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-demo' ),
+                sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
+            ),
+        
+        // (required)   Determines which taxonomies should be listed
+        'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),    
+            
+        // (optional) This defines the default query argument. For the structure and supported arguments, see http://codex.wordpress.org/Function_Reference/get_terms#Parameters
         'query'                 => array(
             'depth'     => 2,
-            'orderby'   => 'term_id',
+            'orderby'   => 'term_id',       // accepts 'ID', 'term_id', or 'name'
             'order'     => 'DESC',
-            'exclude'   => '1', // removes the 'Uncategorized' category.
-            // 'search' => 'PHP',
+            // 'exclude'   => '1', // removes the 'Uncategorized' category.
+            // 'search' => 'PHP',   // the search keyward
             // 'parent'    => 9,    // only show terms whose direct parent ID is 9.
             // 'child_of'  => 8,    // only show child terms of the term ID of 8.
         ),
+        // (optional) This allows to set a query argument for each taxonomy. 
+        // Note that each element will be merged with the above default 'query' argument array. 
+        // So unset keys here will be overridden by the default argument array above. 
+        'queries'               => array(
+            // taxonomy slug => query argument array
+            'category'  =>  array(
+                'depth'     => 2,
+                'orderby'   => 'term_id',  
+                'order'     => 'DESC',
+                'exclude'   => array( 1 ), 
+            ),
+            'post_tag'  => array(
+                'orderby'   => 'name',
+                'order'     => 'ASC',
+                // 'include'   => array( 4, ), // term ids
+            ),
+        ), 
     ),
     array(
         'field_id'              => 'taxonomy_multiple_checklists',
