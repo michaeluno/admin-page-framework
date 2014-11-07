@@ -449,7 +449,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.2.1 =
-- Fixed a bug that caused the uploader button of the `media` field type not appear.
+- Fixed a bug that a gray blank image was inserted in the featured image's image uploader when the framework media uploader is loaded, introduced in v3.3.1.
+- Fixed a bug that caused the uploader button of the `media` field type not appear, introduced in v3.3.2.
 
 = 3.3.2 - 2014/11/07 =
 - Added the `label_no_term_found`, `label_list_title`, `query`, and `queries` arguments for the `taxonomy` field type.
