@@ -448,6 +448,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.3.2.1 =
+- Fixed a bug that caused the uploader button of the `media` field type not appear.
+
 = 3.3.2 - 2014/11/07 =
 - Added the `label_no_term_found`, `label_list_title`, `query`, and `queries` arguments for the `taxonomy` field type.
 - Added the ability to compress CSS rules and JavaScript scripts defined in PHP variables for the minified version.
