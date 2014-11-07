@@ -141,10 +141,21 @@ class AdminPageFramework_Message {
     }
     
     /**
+     * Returns the set text domain string.
+     * 
+     * This is used from field type and input classes to display deprecated admin errors/
+     * 
+     * @since       3.3.3
+     */
+    public function getTextDomain() {
+        return $this->_sTextDomain;
+    }
+    
+    /**
      * Returns the framework system message by key.
      * 
-     * @remark  An alias of the __() method.
-     * @since   3.2.0
+     * @remark      An alias of the __() method.
+     * @since       3.2.0
      */
     public function get( $sKey ) {
         
