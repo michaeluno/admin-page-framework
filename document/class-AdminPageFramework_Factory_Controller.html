@@ -837,7 +837,131 @@ requires specific keys. Refer to the parameter section of this method.</p>
 			<code>true</code> to enable the <code>Select None</code> button. To set a custom
 			label, set the text such as <code>__( 'Check All', 'test-domain' )</code>.
 			Default: <code>true</code>.</li>
+
+			<li><strong>label_no_term_found</strong> - [3.3.2+] (optional, string) The label
+			to display when no term is found. Default: <code>No Term Found</code>.</li>
+
+			<li><strong>label_list_title</strong> - [3.3.2+] (optional, string) The heading
+			title string for a term list. Default: <code>''</code>. Insert an HTML custom
+			string right before the list starts.</li>
+
+			<li><strong>query</strong> - [3.3.2+] (optional, array) the query array to
+			search terms. For more details, see the argument of the <a
+			href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>
+			function.
+				<ul>
+					<li>child_of - (integer) The parent term ID. All the descendant terms such as
+					child's child term will be listed. default: <code>0</code></li>
+
+					<li>parent - (integer) The direct parent term ID. Only the first level children
+					will be listed. default: ``</li>
+
+					<li>orderby - (string) The type of how the term list should be ordered by.
+					Either <code>ID</code>, <code>term_id</code>, or <code>name</code> can be
+					accepted. Default: <code>name</code>.</li>
+
+					<li>order - (string) The order of the list. <code>ASC</code> or
+					<code>DESC</code>. Default: <code>ASC</code>.</li>
+
+					<li>hide_empty - (boolean) whether to show the terms with no post associated.
+					Default: <code>false</code>.</li>
+
+					<li>hierarchical - (boolean) whether to show the terms as a hierarchical tree.
+					Default: <code>true</code></li>
+
+					<li>number - (integer) The maximum number of the terms to show. 0 for no limit.
+					Default: <code>0</code>.</li>
+
+					<li>pad_counts - (boolean) whether to sum up the post counts with the child post
+					counts. Default: <code>false</code></li>
+
+					<li>exclude - (string|array) Comma separated term IDs or an array to exclude
+					from the list. for example <code>1</code> will remove the 'Uncategorized'
+					category from the list.</li>
+
+					<li>exclude_tree - (integer) For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>..</li>
+
+					<li>include - (string|array) Comma separated term IDs to include in the
+					list.</li>
+
+					<li>fields - (string) Default: <code>all</code>. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+
+					<li>slug - (string) Default: ``. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+
+					<li>get - (string) Default ``. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+
+					<li>name__like - (string) Default ``. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+
+					<li>description__like - (string) Default ``. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+
+					<li>offset - (integer) Default ``. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+
+					<li>search - (string) The search keyword to get the term with. Default ``.</li>
+
+					<li>cache_domain - (string) Default:<code>core</code>. For more details see <a
+					href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">get_terms()</a>.</li>
+				</ul>
+			</li>
+
+			<li><strong>queries</strong> - [3.3.2+] (optional, array) Allows to set a query
+			argument for each taxonomy. The array key must be the taxonomy slug and the
+			value is the query argument array.</li>
 		</ul>
+
+		<h4>Example</h4>
+
+		<pre><code>array(
+    'field_id'              =&gt; 'taxonomy_custom_queries',
+    'title'                 =&gt; __( 'Custom Taxonomy Queries', 'admin-page-framework-demo' ),
+    'type'                  =&gt; 'taxonomy',
+    'description'           =&gt;
+        array(
+            __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-demo' ),
+            sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a
+		href="%1$s"
+		target="_blank">get_term()</a> function.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
+        ),
+
+    // (required)   Determines which taxonomies should be listed
+    'taxonomy_slugs'        =&gt; $aTaxnomies = get_taxonomies( '', 'names' ),
+
+    // (optional) This defines the default query argument. For the structure and supported arguments, see <a
+		href="http://codex.wordpress.org/Function_Reference/get_terms#Parameters">http://codex.wordpress.org/Function_Reference/get_terms#Parameters</a>
+    'query'                 =&gt; array(
+        'depth'     =&gt; 2,
+        'orderby'   =&gt; 'term_id',       // accepts 'ID', 'term_id', or 'name'
+        'order'     =&gt; 'DESC',
+        // 'exclude'   =&gt; '1', // removes the 'Uncategorized' category.
+        // 'search' =&gt; 'PHP',   // the search keyward
+        // 'parent'    =&gt; 9,    // only show terms whose direct parent ID is 9.
+        // 'child_of'  =&gt; 8,    // only show child terms of the term ID of 8.
+    ),
+    // (optional) This allows to set a query argument for each taxonomy.
+    // Note that each element will be merged with the above default 'query' argument array.
+    // So unset keys here will be overridden by the default argument array above.
+    'queries'               =&gt; array(
+        // taxonomy slug =&gt; query argument array
+        'category'  =&gt;  array(
+            'depth'     =&gt; 2,
+            'orderby'   =&gt; 'term_id',
+            'order'     =&gt; 'DESC',
+            'exclude'   =&gt; array( 1 ),
+        ),
+        'post_tag'  =&gt; array(
+            'orderby'   =&gt; 'name',
+            'order'     =&gt; 'ASC',
+            // 'include'   =&gt; array( 4, ), // term ids
+        ),
+    ),
+),
+</code></pre>
 	</li>
 
 	<li><strong>posttype</strong> - a post-type check list. This is a set of check
