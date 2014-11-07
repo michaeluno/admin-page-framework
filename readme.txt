@@ -448,7 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.3.2.1 - 2014/11/08 =
+= 3.3.3 - 2014/11/08 =
 - Added the framework version indication at the bottom of form sections in meta-boxes and widgets when `WP_Debug` is true.
 - Changed not to display colon(:) after the field title if the title is empty in meta-boxes, taxonomy fields, and widgets.
 - Fixed a bug that a gray blank image was inserted in the featured image's image uploader when the framework media uploader is loaded, introduced in v3.3.1.
