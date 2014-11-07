@@ -449,7 +449,7 @@ CSSRULES;
             $_sButtonHTML = '"' . $_sButton . '"';
             $_sScript                = <<<JAVASCRIPTS
                 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTNL );
+                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
                 }
                 jQuery( document ).ready( function(){     
                     setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
