@@ -391,7 +391,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *                       <li>parent   - (integer) The direct parent term ID. Only the first level children will be listed. default: ``</li>
     *                       <li>orderby - (string) The type of how the term list should be ordered by. Either `ID`, `term_id`, or `name` can be accepted. Default: `name`.</li>
     *                       <li>order - (string) The order of the list. `ASC` or `DESC`. Default: `ASC`.</li>
-    *                       <li>hide_empty - (boolean) whether to show the terms with no post associated. Default: `true`.</li>
+    *                       <li>hide_empty - (boolean) whether to show the terms with no post associated. Default: `false`.</li>
     *                       <li>hierarchical - (boolean) whether to show the terms as a hierarchical tree. Default: `true`</li>
     *                       <li>number - (integer) The maximum number of the terms to show. 0 for no limit. Default: `0`.</li>
     *                       <li>pad_counts - (boolean) whether to sum up the post counts with the child post counts. Default: `false`</li>

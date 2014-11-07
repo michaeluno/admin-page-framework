@@ -44,7 +44,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
             'parent'            => '',
             'orderby'           => 'name',      // (string) 'ID' or 'term_id' or 'name'
             'order'             => 'ASC',       // (string) 'ASC' or 'DESC'
-            'hide_empty'        => true,        // (boolean) whether to show the terms with no post associated.
+            'hide_empty'        => false,       // (boolean) whether to show the terms with no post associated. Default: false
             'hierarchical'      => true,        // (boolean) whether to show the terms as a hierarchical tree.
             'number'            => '',          // (integer) The maximum number of the terms to show.
             'pad_counts'        => false,       // (boolean) whether to sum up the post counts with the child post counts.
