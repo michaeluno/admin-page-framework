@@ -38,10 +38,29 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                     . "</div>";
             }
         }
+
         return implode( PHP_EOL, $_aOutput ) 
-            . $this->_getSectionTabsEnablerScript();
+            . $this->_getSectionTabsEnablerScript()
+            . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $this->_getSectionsFieldsType( $aSections ), array( 'widget', 'post_meta_box', 'page_meta_box', ) )
+                ? "<div class='admin-page-framework-info'>" 
+                        . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' '. AdminPageFramework_Registry::getVersion() 
+                    . "</div>"
+                : ''
+            );
             
     }
+    
+        /**
+         * Returns the fields type of the given sections.
+         * 
+         * @since   3.3.3
+         */
+        private function _getSectionsFieldsType( array $aSections=array() ) {
+            // Only the first iteration item is needed
+            foreach( $aSections as $_aSection ) {
+                return $_aSection['_fields_type'];
+            }
+        }
         
         /**
          * Indicates whether the tab enabler script is loaded or not.

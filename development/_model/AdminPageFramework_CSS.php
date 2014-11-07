@@ -64,6 +64,13 @@ class AdminPageFramework_CSS {
 .admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
     border-bottom-width: 2px;
 }
+
+/* Framework System Information */
+.admin-page-framework-info {
+    font-size: 0.8em;
+    font-weight: lighter;
+    text-align: right;
+}
 CSSRULES;
 
         return $_sCSS . PHP_EOL 
