@@ -79,8 +79,8 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
                         ) ) 
                     . "'>"
                         . $aField['title'] 
-                    . ( in_array( $aField[ '_fields_type' ], array( 'widget', 'post_meta_box', 'page_meta_box' ) )  
-                        ? "<span class='title-colon'>:</span>"
+                    . ( in_array( $aField[ '_fields_type' ], array( 'widget', 'post_meta_box', 'page_meta_box' ) ) && isset( $aField['title'] ) && '' !== $aField['title']
+                        ? "<span class='title-colon'>:</span>" 
                         : ''
                     )
                 . "</span>"
