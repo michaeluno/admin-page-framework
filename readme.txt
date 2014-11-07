@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms
 Requires at least:  3.3
 Tested up to:       4.0
-Stable tag:         3.3.1
+Stable tag:         3.3.2.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -448,7 +448,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.3.2.1 =
+= 3.3.2.1 - 2014/11/08 =
 - Fixed a bug that a gray blank image was inserted in the featured image's image uploader when the framework media uploader is loaded, introduced in v3.3.1.
 - Fixed a bug that caused the uploader button of the `media` field type not appear, introduced in v3.3.2.
 
